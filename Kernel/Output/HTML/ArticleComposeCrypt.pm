@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.15 2009-07-23 21:24:02 martin Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.16 2009-08-18 12:52:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,7 +53,7 @@ sub Run {
     # check if pgp or smime is disabled
     return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
 
-    my %KeyList = $Self->Data( %Param );
+    my %KeyList = $Self->Data(%Param);
 
     # find recipient list
     my $Recipient = '';
@@ -121,6 +121,7 @@ sub Data {
     $KeyList{''} = '-none-';
 
     if (@SearchAddress) {
+
         # check pgp backend
         my $CryptObjectPGP = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
         if ($CryptObjectPGP) {

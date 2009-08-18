@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.pm,v 1.62 2009-07-23 09:29:24 martin Exp $
+# $Id: AgentTicketOwner.pm,v 1.63 2009-08-18 12:52:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -164,8 +164,8 @@ sub Run {
 
     # get ticket free text params
     for my $Count ( 1 .. 16 ) {
-        my $Key           = 'TicketFreeKey' . $Count;
-        my $Value         = 'TicketFreeText' . $Count;
+        my $Key   = 'TicketFreeKey' . $Count;
+        my $Value = 'TicketFreeText' . $Count;
         $GetParam{$Key}   = $Self->{ParamObject}->GetParam( Param => $Key );
         $GetParam{$Value} = $Self->{ParamObject}->GetParam( Param => $Value );
     }
@@ -229,8 +229,8 @@ sub Run {
 
     # get article free text params
     for my $Count ( 1 .. 3 ) {
-        my $Key           = 'ArticleFreeKey' . $Count;
-        my $Value         = 'ArticleFreeText' . $Count;
+        my $Key   = 'ArticleFreeKey' . $Count;
+        my $Value = 'ArticleFreeText' . $Count;
         $GetParam{$Key}   = $Self->{ParamObject}->GetParam( Param => $Key );
         $GetParam{$Value} = $Self->{ParamObject}->GetParam( Param => $Value );
     }
@@ -353,8 +353,8 @@ sub Run {
             # ticket free text
             my %TicketFreeText = ();
             for my $Count ( 1 .. 16 ) {
-                my $Key               = 'TicketFreeKey' . $Count;
-                my $Value             = 'TicketFreeText' . $Count;
+                my $Key   = 'TicketFreeKey' . $Count;
+                my $Value = 'TicketFreeText' . $Count;
                 $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type     => $Key,
@@ -379,8 +379,8 @@ sub Run {
             # article free text
             my %ArticleFreeText = ();
             for my $Count ( 1 .. 3 ) {
-                my $Key           = 'ArticleFreeKey' . $Count;
-                my $Value         = 'ArticleFreeText' . $Count;
+                my $Key   = 'ArticleFreeKey' . $Count;
+                my $Value = 'ArticleFreeText' . $Count;
                 $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type     => $Key,
@@ -531,7 +531,7 @@ sub Run {
                 );
             }
 
-            my $From          = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
+            my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
             my @NotifyUserIDs = ( @{ $Self->{InformUserID} }, @{ $Self->{InvolvedUserID} } );
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID                        => $Self->{TicketID},

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.228 2009-08-12 06:52:15 martin Exp $
+# $Id: Article.pm,v 1.229 2009-08-18 12:52:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.228 $) [1];
+$VERSION = qw($Revision: 1.229 $) [1];
 
 =head1 NAME
 
@@ -347,7 +347,8 @@ sub ArticleCreate {
 
     # remember agent to exclude notifications
     my %DoNotSend = ();
-    if ( $Param{ExcludeNotificationToUserID} && ref $Param{ExcludeNotificationToUserID} eq 'ARRAY' ) {
+    if ( $Param{ExcludeNotificationToUserID} && ref $Param{ExcludeNotificationToUserID} eq 'ARRAY' )
+    {
         for my $UserID ( @{ $Param{ExcludeNotificationToUserID} } ) {
             $DoNotSend{$UserID} = 1;
         }
@@ -355,7 +356,11 @@ sub ArticleCreate {
 
     # remember agent to exclude notifications / already sent
     my %DoNotSendMute = ();
-    if ( $Param{ExcludeMuteNotificationToUserID} && ref $Param{ExcludeMuteNotificationToUserID} eq 'ARRAY' ) {
+    if (
+        $Param{ExcludeMuteNotificationToUserID}
+        && ref $Param{ExcludeMuteNotificationToUserID} eq 'ARRAY'
+        )
+    {
         for my $UserID ( @{ $Param{ExcludeMuteNotificationToUserID} } ) {
             $DoNotSendMute{$UserID} = 1;
         }
@@ -3015,6 +3020,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.228 $ $Date: 2009-08-12 06:52:15 $
+$Revision: 1.229 $ $Date: 2009-08-18 12:52:54 $
 
 =cut

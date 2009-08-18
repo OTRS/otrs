@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.22 2009-08-10 04:05:36 martin Exp $
+# $Id: Package.t,v 1.23 2009-08-18 12:52:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -234,6 +234,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   </Filelist>
 </otrs_package>
 ';
+
 # reinstall
 my $PackageReinstall = $Self->{PackageObject}->PackageReinstall(
     String => $String,

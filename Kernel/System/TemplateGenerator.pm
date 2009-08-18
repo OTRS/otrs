@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.32 2009-08-18 10:43:18 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.33 2009-08-18 12:52:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -133,7 +133,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject TicketObject CustomerUserObject QueueObject UserObject EncodeObject))
+    for (
+        qw(DBObject ConfigObject LogObject TicketObject CustomerUserObject QueueObject UserObject EncodeObject)
+        )
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
@@ -1057,7 +1059,7 @@ sub _Replace {
                 if ( $Param{RichText} && $NewOldBody ) {
 
                     # remove tailing new lines
-                    for (1..10) {
+                    for ( 1 .. 10 ) {
                         $NewOldBody =~ s/(<br\/>)\s{0,20}$//gs;
                     }
 
@@ -1107,7 +1109,7 @@ sub _Replace {
             if ( $Param{RichText} && $NewOldBody ) {
 
                 # remove tailing new lines
-                for (1..10) {
+                for ( 1 .. 10 ) {
                     $NewOldBody =~ s/(<br\/>)\s{0,20}$//gs;
                 }
 
@@ -1221,6 +1223,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2009-08-18 10:43:18 $
+$Revision: 1.33 $ $Date: 2009-08-18 12:52:54 $
 
 =cut

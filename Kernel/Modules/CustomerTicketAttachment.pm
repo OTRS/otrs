@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketAttachment.pm,v 1.16 2009-07-26 14:58:49 martin Exp $
+# $Id: CustomerTicketAttachment.pm,v 1.17 2009-08-18 12:52:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,7 +131,7 @@ sub Run {
                 );
 
                 # replace charset in content
-                $Data{Content} =~ s/$Charset/utf8/gi;
+                $Data{Content}     =~ s/$Charset/utf8/gi;
                 $Data{ContentType} =~ s/$Charset/utf8/gi;
             }
         }

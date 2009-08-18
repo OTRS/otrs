@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.6 2009-07-30 15:37:23 martin Exp $
+# $Id: DashboardUserOnline.pm,v 1.7 2009-08-18 12:52:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -200,9 +200,9 @@ sub Run {
     );
 
     # add page nav bar
-    my $Total = $Online->{UserCount}->{ $Self->{Filter} } || 0;
+    my $Total    = $Online->{UserCount}->{ $Self->{Filter} } || 0;
     my $LinkPage = 'Subaction=Element&Name=' . $Self->{Name} . '&Filter=' . $Self->{Filter} . '&';
-    my %PageNav = $Self->{LayoutObject}->PageNavBar(
+    my %PageNav  = $Self->{LayoutObject}->PageNavBar(
         StartHit    => $Self->{StartHit},
         PageShown   => $Self->{PageShown},
         AllHits     => $Total || 1,

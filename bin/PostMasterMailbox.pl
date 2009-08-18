@@ -3,7 +3,7 @@
 # bin/PostMasterMailbox.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMasterMailbox.pl,v 1.9 2009-08-12 08:14:17 martin Exp $
+# $Id: PostMasterMailbox.pl,v 1.10 2009-08-18 12:52:55 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -75,10 +75,10 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-PMAccount',
     %CommonObject,
 );
-$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
-$CommonObject{PIDObject}   = Kernel::System::PID->new(%CommonObject);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+$CommonObject{PIDObject}  = Kernel::System::PID->new(%CommonObject);
 
 # create pid lock
 if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'PostMasterMailbox' ) ) {
@@ -92,7 +92,7 @@ elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'PostMasterMai
 
 # fetch mails -b is not used
 if ( !$Opts{b} ) {
-    Fetch( %CommonObject );
+    Fetch(%CommonObject);
 }
 
 # while to run several times if -b is used
@@ -106,7 +106,7 @@ else {
         );
 
         # fetch mails
-        Fetch( %CommonObject );
+        Fetch(%CommonObject);
 
         # sleep till next interval
         print "NOTICE: Waiting for next interval ($Opts{b} min)...\n";
@@ -119,9 +119,10 @@ $CommonObject{PIDObject}->PIDDelete( Name => 'PostMasterMailbox' );
 exit(0);
 
 sub Fetch {
-    my %CommonObject = @_;
+    my (%CommonObject) = @_;
 
     my $MailAccount = Kernel::System::MailAccount->new(%CommonObject);
+
     # debug info
 
     if ( $Opts{d} > 1 ) {

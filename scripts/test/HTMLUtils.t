@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.11 2009-08-10 01:09:14 martin Exp $
+# $Id: HTMLUtils.t,v 1.12 2009-08-18 12:52:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,13 +53,13 @@ More Text',
         Name => 'ToAscii - simple'
     },
     {
-        Input  => '&gt; This is the first test.<br/>
+        Input => '&gt; This is the first test.<br/>
 &gt; <br/>
 &gt; Buenas noches,<br/>
 &gt; <br/>',
         Result => "> This is the first test.
  > \n > Buenas noches,\n > \n",
-        Name   => 'ToAscii - simple'
+        Name => 'ToAscii - simple'
     },
     {
         Input => '<div>Martin,</div>
@@ -103,7 +103,8 @@ More Text',
         Name   => 'ToAscii - <code>'
     },
     {
-        Input  => "<blockquote>Some Text<br/><br/>With new Lines  </blockquote><br />Some Other Text",
+        Input =>
+            "<blockquote>Some Text<br/><br/>With new Lines  </blockquote><br />Some Other Text",
         Result => "> Some Text\n> \n> With new Lines \n\nSome Other Text",
         Name   => 'ToAscii - <blockquote>'
     },
@@ -260,7 +261,8 @@ for my $Test (@Tests) {
         Name   => 'DocumentStyleCleanup - MSHTML'
     },
     {
-        Input  => "<p\n class=\"MsoNormal\">Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass=\"MsoNormal\"><o:p>&nbsp;</o:p></p>",
+        Input =>
+            "<p\n class=\"MsoNormal\">Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass=\"MsoNormal\"><o:p>&nbsp;</o:p></p>",
         Result => "Sehr geehrte Damen und Herren,<o:p></o:p><br/>\n<o:p>&nbsp;</o:p><br/>",
         Name   => 'DocumentStyleCleanup - MSHTML'
     },
@@ -275,12 +277,14 @@ for my $Test (@Tests) {
         Name   => 'DocumentStyleCleanup - MSHTML'
     },
     {
-        Input  => "<p\n class='MsoNormal'>Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass='MsoNormal'><o:p>&nbsp;</o:p></p>",
+        Input =>
+            "<p\n class='MsoNormal'>Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass='MsoNormal'><o:p>&nbsp;</o:p></p>",
         Result => "Sehr geehrte Damen und Herren,<o:p></o:p><br/>\n<o:p>&nbsp;</o:p><br/>",
         Name   => 'DocumentStyleCleanup - MSHTML'
     },
     {
-        Input  => "<p class=MsoNormal>Sehr geehrte Damen und Herren,<o:p></o:p></p>Some Other Text... ",
+        Input =>
+            "<p class=MsoNormal>Sehr geehrte Damen und Herren,<o:p></o:p></p>Some Other Text... ",
         Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>Some Other Text... ',
         Name   => 'DocumentStyleCleanup - MSHTML'
     },
@@ -290,17 +294,20 @@ for my $Test (@Tests) {
         Name   => 'DocumentStyleCleanup - MSHTML'
     },
     {
-        Input  => "<p\n class=MsoNormal>Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass='MsoNormal'><o:p>&nbsp;</o:p></p>",
+        Input =>
+            "<p\n class=MsoNormal>Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass='MsoNormal'><o:p>&nbsp;</o:p></p>",
         Result => "Sehr geehrte Damen und Herren,<o:p></o:p><br/>\n<o:p>&nbsp;</o:p><br/>",
         Name   => 'DocumentStyleCleanup - MSHTML'
     },
     {
-        Input  => "<div\n class=MsoNormal>Sehr geehrte Damen und Herren,<o:div></o:div></div>\n<div\nclass='MsoNormal'><o:div>&nbsp;</o:div></div>",
+        Input =>
+            "<div\n class=MsoNormal>Sehr geehrte Damen und Herren,<o:div></o:div></div>\n<div\nclass='MsoNormal'><o:div>&nbsp;</o:div></div>",
         Result => "Sehr geehrte Damen und Herren,<o:div></o:div><br/>\n<o:div>&nbsp;</o:div><br/>",
         Name   => 'DocumentStyleCleanup - MSHTML'
     },
     {
-        Input  => "<div\r class=MsoNormal>Sehr geehrte Damen und Herren,<o:div></o:div></div>\n<div class='MsoNormal' type=\"cite\"><o:div>&nbsp;</o:div></div>",
+        Input =>
+            "<div\r class=MsoNormal>Sehr geehrte Damen und Herren,<o:div></o:div></div>\n<div class='MsoNormal' type=\"cite\"><o:div>&nbsp;</o:div></div>",
         Result => "Sehr geehrte Damen und Herren,<o:div></o:div><br/>\n<o:div>&nbsp;</o:div><br/>",
         Name   => 'DocumentStyleCleanup - MSHTML'
     },
@@ -310,14 +317,16 @@ for my $Test (@Tests) {
         Name   => 'DocumentStyleCleanup - blockquote'
     },
     {
-        Input  => '<blockquote>Some Tex<b>t</b></blockquote>',
-        Result => '<div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Some Tex<b>t</b></div>',
-        Name   => 'DocumentStyleCleanup - blockquote'
+        Input => '<blockquote>Some Tex<b>t</b></blockquote>',
+        Result =>
+            '<div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Some Tex<b>t</b></div>',
+        Name => 'DocumentStyleCleanup - blockquote'
     },
     {
-        Input  => '<blockquote>Some Tex<b>t</b><blockquote>test</blockquote> </blockquote>',
-        Result => '<div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Some Tex<b>t</b><div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">test</div> </div>',
-        Name   => 'DocumentStyleCleanup - blockquote'
+        Input => '<blockquote>Some Tex<b>t</b><blockquote>test</blockquote> </blockquote>',
+        Result =>
+            '<div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Some Tex<b>t</b><div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">test</div> </div>',
+        Name => 'DocumentStyleCleanup - blockquote'
     },
 );
 
@@ -347,8 +356,9 @@ for my $Test (@Tests) {
         Target => '',
     },
     {
-        Input  => 'Some Text with url http://example.com',
-        Result => 'Some Text with url <a href="http://example.com" title="http://example.com">http://example.com</a>',
+        Input => 'Some Text with url http://example.com',
+        Result =>
+            'Some Text with url <a href="http://example.com" title="http://example.com">http://example.com</a>',
         Name   => 'LinkQuote - simple',
         Target => '',
     },
@@ -371,48 +381,59 @@ for my $Test (@Tests) {
         Target => '',
     },
     {
-        Input  => 'Some Text with url <a href="http://example.com">http://example.com</a> and not quoted url http://example.com/?q=123',
-        Result => 'Some Text with url <a href="http://example.com">http://example.com</a> and not quoted url <a href="http://example.com/?q=123" title="http://example.com/?q=123">http://example.com/?q=123</a>',
+        Input =>
+            'Some Text with url <a href="http://example.com">http://example.com</a> and not quoted url http://example.com/?q=123',
+        Result =>
+            'Some Text with url <a href="http://example.com">http://example.com</a> and not quoted url <a href="http://example.com/?q=123" title="http://example.com/?q=123">http://example.com/?q=123</a>',
         Name   => 'LinkQuote - simple',
         Target => '',
     },
     {
-        Input  => 'Some Text with url <a href="http://example.com">http://example.com</a>',
-        Result => 'Some Text with url <a href="http://example.com" target="_blank">http://example.com</a>',
-        Name   => 'LinkQuote - simple',
+        Input => 'Some Text with url <a href="http://example.com">http://example.com</a>',
+        Result =>
+            'Some Text with url <a href="http://example.com" target="_blank">http://example.com</a>',
+        Name      => 'LinkQuote - simple',
         TargetAdd => 1,
-        Target => '_blank',
+        Target    => '_blank',
     },
     {
-        Input  => 'Some Text with url <a href="http://example.com">http://example.com</a> and not quoted url http://example.com/?q=123',
-        Result => 'Some Text with url <a href="http://example.com" target="new_window">http://example.com</a> and not quoted url <a href="http://example.com/?q=123" target="new_window" title="http://example.com/?q=123">http://example.com/?q=123</a>',
-        Name   => 'LinkQuote - simple',
+        Input =>
+            'Some Text with url <a href="http://example.com">http://example.com</a> and not quoted url http://example.com/?q=123',
+        Result =>
+            'Some Text with url <a href="http://example.com" target="new_window">http://example.com</a> and not quoted url <a href="http://example.com/?q=123" target="new_window" title="http://example.com/?q=123">http://example.com/?q=123</a>',
+        Name      => 'LinkQuote - simple',
         TargetAdd => 1,
-        Target => 'new_window',
+        Target    => 'new_window',
     },
     {
-        Input  => "<html xmlns:Z=\"urn:schemas-com:\" xmlns:st=\"&#1;\" xmlns=\"http://www.w3.org/TR/REC-html40\">Some Text with url <a \nhref=\"http://example.com\">http://example.com</a></html>",
-        Result => "<html xmlns:Z=\"urn:schemas-com:\" xmlns:st=\"&#1;\" xmlns=\"http://www.w3.org/TR/REC-html40\">Some Text with url <a \nhref=\"http://example.com\">http://example.com</a></html>",
+        Input =>
+            "<html xmlns:Z=\"urn:schemas-com:\" xmlns:st=\"&#1;\" xmlns=\"http://www.w3.org/TR/REC-html40\">Some Text with url <a \nhref=\"http://example.com\">http://example.com</a></html>",
+        Result =>
+            "<html xmlns:Z=\"urn:schemas-com:\" xmlns:st=\"&#1;\" xmlns=\"http://www.w3.org/TR/REC-html40\">Some Text with url <a \nhref=\"http://example.com\">http://example.com</a></html>",
         Name   => 'LinkQuote - simple',
         Target => '',
     },
     {
-        Input  => '<html>Some Text with url http://example.com</html>',
-        Result => '<html>Some Text with url <a href="http://example.com" title="http://example.com">http://example.com</a></html>',
+        Input => '<html>Some Text with url http://example.com</html>',
+        Result =>
+            '<html>Some Text with url <a href="http://example.com" title="http://example.com">http://example.com</a></html>',
         Name   => 'LinkQuote - simple',
         Target => '',
     },
     {
-        Input  => '<html>Some Text with url http://example.com </html>',
-        Result => '<html>Some Text with url <a href="http://example.com" title="http://example.com">http://example.com</a> </html>',
+        Input => '<html>Some Text with url http://example.com </html>',
+        Result =>
+            '<html>Some Text with url <a href="http://example.com" title="http://example.com">http://example.com</a> </html>',
         Name   => 'LinkQuote - simple',
         Target => '',
     },
     {
-        Input  => "<FONT face=Arial size=2><A title=http://www.example.com/\n href=\"http://www.example.com/\">http://www.example.com</A></FONT>",
-        Result => "<FONT face=Arial size=2><A title=http://www.example.com/\n href=\"http://www.example.com/\" target=\"_blank\">http://www.example.com</A></FONT>",
-        Name   => 'LinkQuote - simple',
-        Target => '',
+        Input =>
+            "<FONT face=Arial size=2><A title=http://www.example.com/\n href=\"http://www.example.com/\">http://www.example.com</A></FONT>",
+        Result =>
+            "<FONT face=Arial size=2><A title=http://www.example.com/\n href=\"http://www.example.com/\" target=\"_blank\">http://www.example.com</A></FONT>",
+        Name      => 'LinkQuote - simple',
+        Target    => '',
         TargetAdd => 1,
     },
 );

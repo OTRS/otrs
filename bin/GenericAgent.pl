@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.58 2009-08-05 14:18:07 martin Exp $
+# $Id: GenericAgent.pl,v 1.59 2009-08-18 12:52:55 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -140,12 +140,12 @@ while (1) {
 
     # process all db jobs
     if ( $Opts{c} eq 'db' ) {
-        ExecuteDBJobs( %CommonObject );
+        ExecuteDBJobs(%CommonObject);
     }
 
     # process all config file jobs
     else {
-        ExecuteConfigJobs( %CommonObject );
+        ExecuteConfigJobs(%CommonObject);
     }
 
     # return if no interval is set
@@ -161,7 +161,7 @@ $CommonObject{PIDObject}->PIDDelete( Name => 'GenericAgent' );
 exit(0);
 
 sub ExecuteConfigJobs {
-    my %CommonObject = @_;
+    my (%CommonObject) = @_;
 
     for my $Job ( sort keys %Jobs ) {
 
@@ -176,7 +176,7 @@ sub ExecuteConfigJobs {
 }
 
 sub ExecuteDBJobs {
-    my %CommonObject = @_;
+    my (%CommonObject) = @_;
 
     # process all jobs
 

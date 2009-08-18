@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.164 2009-08-15 19:00:47 martin Exp $
+# $Id: Layout.pm,v 1.165 2009-08-18 12:52:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.164 $) [1];
+$VERSION = qw($Revision: 1.165 $) [1];
 
 =head1 NAME
 
@@ -3180,18 +3180,23 @@ sub PageNavBar {
     $WindowStart = int( ( $WindowStart / $WindowSize ) ) + 1;
     $WindowStart = ( $WindowStart * $WindowSize ) - ($WindowSize);
     my $Baselink = "$Self->{Baselink}$Param{Action}&$Param{Link}";
-    my $i = 0;
+    my $i        = 0;
     while ( $i <= ( $Pages - 1 ) ) {
         $i++;
 
         # show normal page 1,2,3,...
         if ( $i <= ( $WindowStart + $WindowSize ) && $i > $WindowStart ) {
-            my $BaselinkAll = $Baselink . "StartWindow=$WindowStart&StartHit=" . ( ( ( $i - 1 ) * $Param{PageShown} ) + 1 );
+            my $BaselinkAll
+                = $Baselink
+                . "StartWindow=$WindowStart&StartHit="
+                . ( ( ( $i - 1 ) * $Param{PageShown} ) + 1 );
             my $AJAXReplace = '';
             if ( $Param{AJAXReplace} ) {
-                $AJAXReplace = "onclick=\"AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAll'); return false;\" ";
+                $AJAXReplace
+                    = "onclick=\"AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAll'); return false;\" ";
             }
-            $Param{SearchNavBar} .= " <a name=\"OverviewControl\" href=\"$BaselinkAll\" $AJAXReplace";
+            $Param{SearchNavBar}
+                .= " <a name=\"OverviewControl\" href=\"$BaselinkAll\" $AJAXReplace";
             if ( $Page == $i ) {
                 $Param{SearchNavBar} .= 'style="text-decoration:none"><b>' . $i . '</b>';
             }
@@ -3208,13 +3213,17 @@ sub PageNavBar {
             my $BaselinkAllBack = $Baselink . "StartHit=" . $i * $Param{PageShown};
             my $AJAXReplaceBack = '';
             if ( $Param{AJAXReplace} ) {
-                $AJAXReplaceBack = "onclick=\"AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllBack'); return false;\" ";
+                $AJAXReplaceBack
+                    = "onclick=\"AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllBack'); return false;\" ";
             }
-            $Param{SearchNavBar} .= "&nbsp;<a href=\"$BaselinkAllBack\" $AJAXReplaceBack>&gt;&gt;</a>&nbsp;";
-            my $BaselinkAllNext = $Baselink . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
+            $Param{SearchNavBar}
+                .= "&nbsp;<a href=\"$BaselinkAllBack\" $AJAXReplaceBack>&gt;&gt;</a>&nbsp;";
+            my $BaselinkAllNext
+                = $Baselink . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
             my $AJAXReplaceNext = '';
             if ( $Param{AJAXReplace} ) {
-                $AJAXReplaceNext = "onclick=\"AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllNext'); return false;\" ";
+                $AJAXReplaceNext
+                    = "onclick=\"AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllNext'); return false;\" ";
             }
             $Param{SearchNavBar} .= " <a href=\"$BaselinkAllNext\" $AJAXReplaceNext>&gt;|</a> ";
             $i = 99999999;
@@ -3222,19 +3231,24 @@ sub PageNavBar {
 
         # over window "<<" and "|<"
         elsif ( $i < $WindowStart && ( $i - 1 ) < $Pages ) {
-            my $StartWindow = $WindowStart - $WindowSize - 1;
+            my $StartWindow     = $WindowStart - $WindowSize - 1;
             my $BaselinkAllBack = $Baselink . "StartHit=1&StartWindow=1";
             my $AJAXReplaceBack = '';
             if ( $Param{AJAXReplace} ) {
-                $AJAXReplaceBack = "onclick=\"AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllBack'); return false;\" ";
+                $AJAXReplaceBack
+                    = "onclick=\"AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllBack'); return false;\" ";
             }
-            $Param{SearchNavBar} .= " <a href=\"$BaselinkAllBack\" $AJAXReplaceBack>|&lt;</a>&nbsp;";
-            my $BaselinkAllNext = $Baselink . "StartHit=" . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
+            $Param{SearchNavBar}
+                .= " <a href=\"$BaselinkAllBack\" $AJAXReplaceBack>|&lt;</a>&nbsp;";
+            my $BaselinkAllNext
+                = $Baselink . "StartHit=" . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
             my $AJAXReplaceNext = '';
             if ( $Param{AJAXReplace} ) {
-                $AJAXReplaceNext = "onclick=\"AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllNext'); return false;\" ";
+                $AJAXReplaceNext
+                    = "onclick=\"AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllNext'); return false;\" ";
             }
-            $Param{SearchNavBar} .= " <a href=\"$BaselinkAllNext\" $AJAXReplaceNext>&lt;&lt;</a>&nbsp;";
+            $Param{SearchNavBar}
+                .= " <a href=\"$BaselinkAllNext\" $AJAXReplaceNext>&lt;&lt;</a>&nbsp;";
             $i = $WindowStart - 1;
         }
     }
@@ -4310,6 +4324,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.164 $ $Date: 2009-08-15 19:00:47 $
+$Revision: 1.165 $ $Date: 2009-08-18 12:52:53 $
 
 =cut

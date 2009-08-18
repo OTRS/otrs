@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCalendar.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.11 2009-07-23 07:26:05 martin Exp $
+# $Id: DashboardCalendar.pm,v 1.12 2009-08-18 12:52:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,7 +63,7 @@ sub Run {
             {
 
                 # where escalation time reached
-                TicketEscalationTimeNewerMinutes => ( 15 ),
+                TicketEscalationTimeNewerMinutes => (15),
 
                 # sort
                 SortBy  => 'EscalationTime',
@@ -79,10 +79,10 @@ sub Run {
             {
 
                 # only pending reminder tickets
-                StateType                     => [ 'pending reminder' ],
+                StateType => ['pending reminder'],
 
                 # where pending time reached in
-                TicketPendingTimeNewerMinutes =>  ( 15 ),
+                TicketPendingTimeNewerMinutes => (15),
 
                 # sort
                 SortBy  => 'PendingTime',
@@ -97,7 +97,7 @@ sub Run {
         my @TicketIDs = $Self->{TicketObject}->TicketSearch(
 
             # add search attributes
-            %{ $Map{$Type}->[1]},
+            %{ $Map{$Type}->[1] },
 
             Result     => 'ARRAY',
             Permission => $Self->{Config}->{Permission} || 'ro',

@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.10 2009-08-10 01:09:14 martin Exp $
+# $Id: HTMLUtils.pm,v 1.11 2009-08-18 12:52:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -107,7 +107,7 @@ sub ToAscii {
 
     # pre process <blockquote> and <div style=\"cite\"
     my %Cite;
-    $Counter  = 0;
+    $Counter = 0;
     $Param{String} =~ s{
         <blockquote(.*?)>(.+?)</blockquote>
     }
@@ -145,7 +145,7 @@ sub ToAscii {
 
     # remember <pre> and <code> tags
     my %One2One;
-    $Counter  = 0;
+    $Counter = 0;
     $Param{String} =~ s{
         <(pre|code)(.*?)>(.+?)</(pre|code)(.*?)>
     }
@@ -606,7 +606,8 @@ sub DocumentComplete {
         || 'font-size: 12px; font-family:Courier,monospace,fixed;';
 
     my $Body = '<html><head>';
-    $Body .= '<meta http-equiv="Content-Type" content="text/html; charset=' . $Param{Charset} . '"/>';
+    $Body
+        .= '<meta http-equiv="Content-Type" content="text/html; charset=' . $Param{Charset} . '"/>';
     $Body .= '</head><body style="' . $Css . '">' . $Param{String} . '</body></html>';
     return $Body;
 }
@@ -686,7 +687,7 @@ sub DocumentStyleCleanup {
     # "<div style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt" type="cite">"
     # because of cross mail client and browser compatability
     my $Style = "border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt";
-    for (1..10) {
+    for ( 1 .. 10 ) {
         $Param{String} =~ s{
             <blockquote(.*?)>(.+?)</blockquote>
         }
@@ -756,7 +757,7 @@ sub LinkQuote {
     # remove existing "<a href" an all other tags (to find not linked urls) and remember it
     my $Counter = 0;
     my %LinkHash;
-    ${ $String } =~ s{
+    ${$String} =~ s{
         (<a\s.+?>.+?</a>|<.+?>)
     }
     {
@@ -772,7 +773,7 @@ sub LinkQuote {
     if ( $Param{Target} ) {
         $Target = " target=\"$Param{Target}\"";
     }
-    ${ $String } =~ s{
+    ${$String} =~ s{
         ( > | < | &gt; | &lt; | )  # $1 greater-than and less-than sign
 
         (                                              #2
@@ -814,7 +815,7 @@ sub LinkQuote {
 
     # add already existing "<a href" again
     for my $Key ( keys %LinkHash ) {
-        ${ $String } =~ s/$Key/$LinkHash{$Key}/g;
+        ${$String} =~ s/$Key/$LinkHash{$Key}/g;
     }
 
     # check ref && return result like called
@@ -838,6 +839,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2009-08-10 01:09:14 $
+$Revision: 1.11 $ $Date: 2009-08-18 12:52:54 $
 
 =cut
