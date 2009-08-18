@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.956 2009-08-18 12:08:10 mb Exp $
+# $Id: CHANGES,v 1.957 2009-08-18 19:58:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,12 +11,15 @@
 
 2.4.4 (2009/08/??)
  - (2009/08/18) Fixed bug#4049 - SetPermissions.sh fails if .fetchmailrc does
-    not exist
+    not exist.
+ - (2009/08/18) Added attachment support of ArticleCreate event in event based
+    notification feature.
  - (2009/08/18) Fixed bug#4149 - TicketCreate event does not have access to
-    Article attributes
+    Article attributes.
  - (2009/08/18) Fixed bug#4155 - Typo in German translation of
-    AdminSystemAddressForm.dtl
- - (2009/08/17) Fixed bug#3872 - CustomerFrontend::CommonParam###Action issue
+    AdminSystemAddressForm.dtl.
+ - (2009/08/17) Fixed bug#3872 - Typo in CustomerFrontend::CommonParam###Action
+    issue.
  - (2009/08/17) Fixed bug#4154 - Signature seperator is wrong.
  - (2009/08/14) Fixed bug#4150 - US/English Date Format not available.
  - (2009/08/13) Fixed bug#4092 - Junk tickets shown as New tickets in Dashboard.
