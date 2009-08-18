@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.202 2009-08-18 09:15:18 mb Exp $
+# $Id: de.pm,v 1.203 2009-08-18 19:35:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.202 $) [1];
+$VERSION = qw($Revision: 1.203 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -836,11 +836,11 @@ sub Data {
         'Subject match' => 'Betreff treffer',
         'Body match' => 'Body treffer',
         'Notifications are sent to an agent or a customer.' => 'Benachrichtigungen werden an Agenten und Kunden gesendet.',
-        'To get the first 20 character of the subject (of the latest agent article).' => '',
-        'To get the first 5 lines of the body (of the latest agent article).' => '',
-        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
-        'To get the first 20 character of the subject (of the latest customer article).' => '',
-        'To get the first 5 lines of the body (of the latest customer article).' => '',
+        'To get the first 20 character of the subject (of the latest agent article).' => 'Die ersten 20 Zeichen des Betreffs (des letzten Agenten-Artikel).',
+        'To get the first 5 lines of the body (of the latest agent article).' => 'Die ersten fünf Zeilen der Nachricht (des letzten Agenten-Artikel).',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => 'Die Artikel Attribute (z. B. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> und <OTRS_AGENT_Body>).',
+        'To get the first 20 character of the subject (of the latest customer article).' => 'Die ersten 20 Zeichen des Betreffs (des letzten Kunden-Artikel)',
+        'To get the first 5 lines of the body (of the latest customer article).' => 'Die ersten fünf Zeilen der Nachricht (des letzten Kunden-Artikel).',
 
         # Template: AdminNotificationForm
         'Notification' => 'Benachrichtigung',
