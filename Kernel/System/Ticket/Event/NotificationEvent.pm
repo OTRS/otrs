@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.7 2009-08-18 12:52:54 mh Exp $
+# $Id: NotificationEvent.pm,v 1.8 2009-08-18 19:54:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,19 +46,6 @@ sub Run {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
-        }
-    }
-
-    # ignore TicketCreate event, take action on ArticleCreate with first article
-    return 1 if !$Param{Force} && $Param{Event} eq 'TicketCreate';
-    if ( $Param{Event} eq 'ArticleCreate' ) {
-        my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $Param{TicketID} );
-        if ( $#Index == 0 ) {
-            $Self->Run(
-                %Param,
-                Event => 'TicketCreate',
-                Force => 1,
-            );
         }
     }
 
@@ -93,6 +80,7 @@ sub Run {
             next if $Key eq 'ArticleTypeID';
             next if $Key eq 'ArticleSubjectMatch';
             next if $Key eq 'ArticleBodyMatch';
+            next if $Key eq 'ArticleAttachmentInclude';
 
             # check ticket attributes
             next if !$Notification{Data}->{$Key};
@@ -111,6 +99,7 @@ sub Run {
         }
 
         # match article types only on ArticleCreate event
+        my @Attachments;
         if ( $Param{Event} eq 'ArticleCreate' && $Param{ArticleID} ) {
             my %Article = $Self->{TicketObject}->ArticleGet(
                 ArticleID => $Param{ArticleID},
@@ -145,6 +134,25 @@ sub Run {
                 }
                 next NOTIFICATION if !$Match;
             }
+
+            # add attachments to notification
+            if ( $Notification{Data}->{ArticleAttachmentInclude} ) {
+                my %Index = $Self->{TicketObject}->ArticleAttachmentIndex(
+                    ArticleID => $Param{ArticleID},
+                    UserID    => $Param{UserID},
+                );
+                if (%Index) {
+                    for my $FileID ( sort keys %Index ) {
+                        my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+                            ArticleID => $Param{ArticleID},
+                            FileID    => $FileID,
+                            UserID    => $Param{UserID},
+                        );
+                        next if !%Attachment;
+                        push @Attachments, \%Attachment;
+                    }
+                }
+            }
         }
 
         # send notification
@@ -154,6 +162,7 @@ sub Run {
             Notification          => \%Notification,
             CustomerMessageParams => {},
             Event                 => $Param{Event},
+            Attachments           => \@Attachments,
         );
     }
 
@@ -320,6 +329,7 @@ sub SendCustomerNotification {
             CustomerMessageParams => {},
             Recipient             => $Recipient,
             Event                 => $Param{Event},
+            Attachments           => $Param{Attachments},
         );
     }
     return 1;
@@ -518,14 +528,15 @@ sub _SendCustomerNotification {
         my $From = $Self->{ConfigObject}->Get('NotificationSenderName') . ' <'
             . $Self->{ConfigObject}->Get('NotificationSenderEmail') . '>';
         $Self->{SendmailObject}->Send(
-            From     => $From,
-            To       => $Recipient{Email},
-            Subject  => $Notification{Subject},
-            MimeType => 'text/plain',
-            Type     => 'text/plain',
-            Charset  => $Notification{Charset},
-            Body     => $Notification{Body},
-            Loop     => 1,
+            From       => $From,
+            To         => $Recipient{Email},
+            Subject    => $Notification{Subject},
+            MimeType   => 'text/plain',
+            Type       => 'text/plain',
+            Charset    => $Notification{Charset},
+            Body       => $Notification{Body},
+            Loop       => 1,
+            Attachment => $Param{Attachments},
         );
 
         # write history
@@ -566,6 +577,7 @@ sub _SendCustomerNotification {
             Charset        => $Notification{Charset},
             UserID         => $Param{UserID},
             Loop           => 1,
+            Attachment     => $Param{Attachments},
         );
 
         # log event
