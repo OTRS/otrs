@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.959 2009-08-19 06:55:26 mb Exp $
+# $Id: CHANGES,v 1.960 2009-08-19 07:46:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 2.4.4 (2009/08/??)
  - (2009/08/18) Fixed bug#4102 - otrs.addUser2Group: "Use of uninitialized
-    value" message
+    value" message.
  - (2009/08/18) Replaced a Die() call in Kernel/System/Package.pm with an normal
     return for a better error handling.
  - (2009/08/18) Fixed bug#4049 - SetPermissions.sh fails if .fetchmailrc does
@@ -25,6 +25,8 @@
  - (2009/08/17) Fixed bug#3872 - Typo in CustomerFrontend::CommonParam###Action
     issue.
  - (2009/08/17) Fixed bug#4154 - Signature seperator is wrong.
+ - (2009/08/16) Fixed bug#4011 - Kernel/System/PostMaster/Filter/Match.pm
+    global symbol $Prefix not declared.
  - (2009/08/14) Fixed bug#4150 - US/English Date Format not available.
  - (2009/08/13) Fixed bug#4092 - Junk tickets shown as New tickets in Dashboard.
  - (2009/08/13) Fixed bug#4129 - Watched Tickets in Dashboard.
