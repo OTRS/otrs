@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.961 2009-08-19 10:28:11 martin Exp $
+# $Id: CHANGES,v 1.962 2009-08-19 11:36:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.4 (2009/08/??)
+ - (2009/08/18) Fixed bug#4161 - System takes about 20sec to get edit screen
+    like note or compose answer.
  - (2009/08/18) Fixed bug#4073 - Forward form does not add attachment.
  - (2009/08/18) Fixed bug#4102 - otrs.addUser2Group: "Use of uninitialized
     value" message.

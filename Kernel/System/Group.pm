@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.69 2009-04-17 08:36:44 tr Exp $
+# $Id: Group.pm,v 1.70 2009-08-19 11:36:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 =head1 NAME
 
@@ -520,9 +520,9 @@ sub GroupMemberList {
     $CacheKey .= $Param{UserID} ? "UserID::$Param{UserID}" : "GroupID::$Param{GroupID}";
 
     # check cache
-    $Param{Cached} = $Self->{ForceCache} || '';
+    $Param{Cached} = $Param{Cached} || $Self->{ForceCache} || '';
 
-    if ( $Param{Cached} && exists( $Self->{$CacheKey} ) ) {
+    if ( $Param{Cached} && $Self->{$CacheKey} ) {
         return @{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'ARRAY';
         return %{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'HASH';
     }
@@ -569,7 +569,6 @@ sub GroupMemberList {
     }
 
     # get group member list as hash
-
     my %Result = $Self->GroupGroupMemberList(%Param);
 
     # get roles of user
@@ -790,7 +789,7 @@ sub GroupGroupMemberList {
     # check cache
     if ( $Param{UserID} || $Param{GroupID} ) {
 
-        $Param{Cached} = $Self->{ForceCache} || '';
+        $Param{Cached} = $Param{Cached} || $Self->{ForceCache} || '';
         if ( $Param{Cached} && $Self->{$CacheKey} ) {
             return @{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'ARRAY';
             return %{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'HASH';
@@ -950,7 +949,7 @@ sub GroupRoleMemberList {
     # check cache
     if ( $Param{RoleID} || $Param{GroupID} ) {
 
-        $Param{Cached} = $Self->{ForceCache} || '';
+        $Param{Cached} = $Param{Cached} || $Self->{ForceCache} || '';
 
         if ( $Param{Cached} && $Self->{$CacheKey} ) {
             return @{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'ARRAY';
@@ -1208,7 +1207,7 @@ sub GroupUserRoleMemberList {
 
     # check cache
     if ( $Param{RoleID} || $Param{UserID} ) {
-        $Param{Cached} = $Self->{ForceCache} || '';
+        $Param{Cached} = $Param{Cached} || $Self->{ForceCache} || '';
 
         if ( $Param{Cached} && $Self->{$CacheKey} ) {
             return @{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'ARRAY';
@@ -1517,6 +1516,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.70 $ $Date: 2009-08-19 11:36:56 $
 
 =cut
