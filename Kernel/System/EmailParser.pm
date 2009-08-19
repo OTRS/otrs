@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.87 2009-07-18 09:19:06 martin Exp $
+# $Id: EmailParser.pm,v 1.88 2009-08-19 11:48:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 =head1 NAME
 
@@ -57,11 +57,31 @@ create an object
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
     );
+
+    # as array ref
     my $ParserObject = Kernel::System::EmailParser->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         EncodeObject => $EncodeObject,
         Email        => \@ArrayOfEmail,
+        Debug        => 0,
+    );
+
+    # as scalar ref
+    my $ParserObject = Kernel::System::EmailParser->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        EncodeObject => $EncodeObject,
+        Email        => \$ScalarOfEmail,
+        Debug        => 0,
+    );
+
+    # as string (takes more memory!)
+    my $ParserObject = Kernel::System::EmailParser->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        EncodeObject => $EncodeObject,
+        Email        => $EmailString,
         Debug        => 0,
     );
 
@@ -89,7 +109,26 @@ sub new {
         die "Need Email or Entity!";
     }
 
+    # if email is given
     if ( $Param{Email} ) {
+
+        # check if Email is an array ref
+        if ( ref $Param{Email} eq 'SCALAR' ) {
+            my @Content = split /\n/, ${ $Param{Email} };
+            for my $Line (@Content) {
+                $Line .= "\n";
+            }
+            $Param{Email} = \@Content;
+        }
+
+        # check if Email is an array ref
+        if ( ref $Param{Email} eq '' ) {
+            my @Content = split /\n/, $Param{Email};
+            for my $Line (@Content) {
+                $Line .= "\n";
+            }
+            $Param{Email} = \@Content;
+        }
 
         # create Mail::Internet object
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
@@ -97,7 +136,7 @@ sub new {
         # create a Mail::Header object with email
         $Self->{HeaderObject} = $Self->{Email}->head();
 
-        # create MIME::Parser object and get message body or body of first attachemnt
+        # create MIME::Parser object and get message body or body of first attachment
         my $Parser = MIME::Parser->new();
         $Parser->output_to_core('ALL');
         $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string() );
@@ -849,6 +888,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.87 $ $Date: 2009-07-18 09:19:06 $
+$Revision: 1.88 $ $Date: 2009-08-19 11:48:55 $
 
 =cut
