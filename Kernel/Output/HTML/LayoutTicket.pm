@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.48 2009-07-26 15:10:13 martin Exp $
+# $Id: LayoutTicket.pm,v 1.49 2009-08-19 10:28:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -704,10 +704,10 @@ sub ArticleQuote {
         }
     }
 
-    my $Body = '';
-
     # body preparation for plain text processing
     if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+
+        my $Body = '';
 
         # check for html body
         my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
@@ -719,7 +719,7 @@ sub ArticleQuote {
         ARTICLE:
         for my $ArticleTmp (@ArticleBox) {
 
-            # search for article to answer
+            # search for article to answer (reply article)
             next ARTICLE if $ArticleTmp->{ArticleID} ne $Param{ArticleID};
 
             # check if no html body exists
@@ -764,7 +764,7 @@ sub ArticleQuote {
                 . $SessionID
                 . '&ContentID=';
 
-            # search inline documents in body
+            # search inline documents in body and add it to upload cache
             $Body =~ s{
                 "cid:(.*?)"
             }
@@ -808,10 +808,22 @@ sub ArticleQuote {
                 # return link
                 '"' . $ContentID . '"';
             }egxi;
+
+            # attach also other attachments (add all if no "cid:" was in html reply)
+            my @Attachments = $Param{UploadCachObject}->FormIDGetAllFilesMeta(
+                FormID => $Param{FormID},
+            );
+            if ( !@Attachments ) {
+                for my $Index ( keys %Attachments ) {
+                    push @NotInlineAttachments, $Index;
+                }
+            }
+
+            # do no more article
             last ARTICLE;
         }
 
-        # attach also other attachments
+        # attach also other attachments on article forward
         if ( $Body && $Param{AttachmentsInclude} ) {
             for my $AttachmentID (@NotInlineAttachments) {
                 my %Attachment = $Self->{TicketObject}->ArticleAttachment(
@@ -836,11 +848,11 @@ sub ArticleQuote {
 
     # check if original content isn't text/plain or text/html, don't use it
     if ( !$Article{ContentType} || $Article{ContentType} !~ /text\/(plain|html)/i ) {
-        $Article{Body}        = "-> no quotable message <-";
+        $Article{Body}        = '-> no quotable message <-';
         $Article{ContentType} = 'text/plain';
     }
     else {
-        my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
+        my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 82;
         $Article{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
     }
 
@@ -868,12 +880,11 @@ sub ArticleQuote {
     # return body as html
     if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
 
-        my $Body = $Self->Ascii2Html(
+        $Article{Body} = $Self->Ascii2Html(
             Text           => $Article{Body},
             HTMLResultMode => 1,
             LinkFeature    => 1,
         );
-        return $Body;
     }
 
     # return body as plain text

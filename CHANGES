@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.960 2009-08-19 07:46:13 martin Exp $
+# $Id: CHANGES,v 1.961 2009-08-19 10:28:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.4 (2009/08/??)
+ - (2009/08/18) Fixed bug#4073 - Forward form does not add attachment.
  - (2009/08/18) Fixed bug#4102 - otrs.addUser2Group: "Use of uninitialized
     value" message.
  - (2009/08/18) Replaced a Die() call in Kernel/System/Package.pm with an normal
