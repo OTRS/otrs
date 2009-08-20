@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.93 2009-04-17 08:36:44 tr Exp $
+# $Id: User.pm,v 1.94 2009-08-20 11:09:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 =head1 NAME
 
@@ -221,7 +221,7 @@ sub GetUserData {
     }
 
     # out of office check
-    if ( !defined( $Param{NoOutOfOffice} ) && !$Param{NoOutOfOffice} ) {
+    if ( !defined $Param{NoOutOfOffice} && !$Param{NoOutOfOffice} ) {
         if ( $Preferences{OutOfOffice} ) {
             my $Time = $Self->{TimeObject}->SystemTime();
             my $Start
@@ -246,6 +246,22 @@ sub GetUserData {
 
     # merge hash
     %Data = ( %Data, %Preferences );
+
+    # add preferences defaults
+    my $Config = $Self->{ConfigObject}->Get('PreferencesGroups');
+    if ($Config) {
+        for my $Key ( keys %{$Config} ) {
+
+            # next if no default data exists
+            next if !defined $Config->{$Key}->{DataSelected};
+
+            # check if data is defined
+            next if defined $Data{ $Config->{$Key}->{PrefKey} };
+
+            # set default data
+            $Data{ $Config->{$Key}->{PrefKey} } = $Config->{$Key}->{DataSelected};
+        }
+    }
 
     # cache user result
     if ( $Param{User} ) {
@@ -984,6 +1000,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.93 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.94 $ $Date: 2009-08-20 11:09:43 $
 
 =cut

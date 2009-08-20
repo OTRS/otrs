@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.49 2009-02-16 11:20:53 tr Exp $
+# $Id: CustomerTicketOverView.pm,v 1.50 2009-08-20 11:09:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,9 +48,7 @@ sub new {
     $Self->{Order}             = $Self->{ParamObject}->GetParam( Param => 'Order' ) || 'Down';
     $Self->{StartHit}          = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
     $Self->{Type}              = $Self->{ParamObject}->GetParam( Param => 'Type' ) || 'MyTickets';
-    $Self->{PageShown} = $Self->{UserShowTickets}
-        || $Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ShownTickets}->{DataSelected}
-        || 1;
+    $Self->{PageShown} = $Self->{UserShowTickets} || 1;
 
     return $Self;
 }
@@ -84,14 +82,8 @@ sub Run {
     # check if just open tickets should be shown
     my $SQLExt     = '';
     my $ShowClosed = 0;
-    if ( !defined( $Self->{ShowClosedTickets} ) ) {
-        if ( defined( $Self->{UserShowClosedTickets} ) ) {
-            $ShowClosed = $Self->{UserShowClosedTickets};
-        }
-        else {
-            $ShowClosed = $Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}
-                ->{DataSelected};
-        }
+    if ( !defined $Self->{ShowClosedTickets} ) {
+        $ShowClosed = $Self->{UserShowClosedTickets};
     }
     else {
         $ShowClosed = $Self->{ShowClosedTickets};

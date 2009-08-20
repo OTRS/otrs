@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.54 2009-04-17 08:36:44 tr Exp $
+# $Id: CustomerUser.pm,v 1.55 2009-08-20 11:09:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -282,6 +282,22 @@ sub CustomerUserDataGet {
         # next if no customer got found
         my %Customer = $Self->{"CustomerUser$_"}->CustomerUserDataGet( %Param, );
         next if !%Customer;
+
+        # add preferences defaults
+        my $Config = $Self->{ConfigObject}->Get('CustomerPreferencesGroups');
+        if ($Config) {
+            for my $Key ( keys %{$Config} ) {
+
+                # next if no default data exists
+                next if !defined $Config->{$Key}->{DataSelected};
+
+                # check if data is defined
+                next if defined $Customer{ $Config->{$Key}->{PrefKey} };
+
+                # set default data
+                $Customer{ $Config->{$Key}->{PrefKey} } = $Config->{$Key}->{DataSelected};
+            }
+        }
 
         # check if customer company support is enabled and get company data
         my %Company = ();
@@ -602,6 +618,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.55 $ $Date: 2009-08-20 11:09:43 $
 
 =cut
