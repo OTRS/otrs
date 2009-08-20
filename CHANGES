@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.962 2009-08-19 11:36:56 martin Exp $
+# $Id: CHANGES,v 1.963 2009-08-20 11:26:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.4 (2009/08/??)
+ - (2009/08/19) Fixed bug#4070 - No refresh in CPanel activated by default /
+    default values of preferences sys config not taken over.
  - (2009/08/18) Fixed bug#4161 - System takes about 20sec to get edit screen
     like note or compose answer.
  - (2009/08/18) Fixed bug#4073 - Forward form does not add attachment.
