@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.203 2009-08-18 19:35:10 martin Exp $
+# $Id: de.pm,v 1.204 2009-08-21 07:41:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.203 $) [1];
+$VERSION = qw($Revision: 1.204 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -930,7 +930,7 @@ sub Data {
         'Sub-Queue of' => 'Unterqueue von',
         'Unlock timeout' => 'Freigabe-Zeitintervall',
         '0 = no unlock' => '0 = keine Freigabe',
-        'Only business hours are counted.' => 'Nur geschäftszeiten werden berücksichtigt.',
+        'Only business hours are counted.' => 'Nur Geschäftszeiten werden berücksichtigt.',
         '0 = no escalation' => '0 = keine Eskalation',
         'Notify by' => 'Benachrichtigt von',
         'Follow up Option' => 'Nachfrage Option',
