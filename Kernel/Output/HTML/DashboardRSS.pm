@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardRSS.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.11 2009-07-17 15:51:22 martin Exp $
+# $Id: DashboardRSS.pm,v 1.12 2009-08-24 19:31:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use XML::FeedPP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,7 +63,11 @@ sub Run {
     }
 
     # get content
-    my $Feed = eval { XML::FeedPP->new( $Self->{Config}->{URL} ) };
+    my %Options;
+    if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+        $Options{utf8_flag} = 1;
+    }
+    my $Feed = eval { XML::FeedPP->new( $Self->{Config}->{URL}, %Options ) };
 
     if ( !$Feed ) {
         my $Content = "Can't connect to " . $Self->{Config}->{URL};
@@ -75,7 +79,7 @@ sub Run {
         $Count++;
         last if $Count > $Self->{Config}->{Limit};
         my $Time = $Item->pubDate();
-        my $Ago;
+        my $Ago  = '-';
         if ($Time) {
             my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Time,
