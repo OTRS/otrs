@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.965 2009-08-21 12:05:24 mb Exp $
+# $Id: CHANGES,v 1.966 2009-08-24 15:45:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.4 (2009/08/??)
+ - (2009/08/24) Added COPYING-Third-Party - a list of all included party
+    libraries.
  - (2009/08/21) Fixed bug#4178 - Bundle Apache2::Reload in otrs/Kernel/cpan-lib
  - (2009/08/21) Fixed bug#4170 - Typos in AgentTicketQueue and Sysconfig:MOTD
  - (2009/08/19) Fixed bug#4070 - No refresh in CPanel activated by default /
