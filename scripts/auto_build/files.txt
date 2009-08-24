@@ -53,6 +53,7 @@
 %doc /opt/otrs/UPGRADING
 %doc /opt/otrs/TODO
 %doc /opt/otrs/COPYING
+%doc /opt/otrs/COPYING-Third-Party
 %doc /opt/otrs/CHANGES
 %doc /opt/otrs/READM*
 %doc /opt/otrs/doc*
