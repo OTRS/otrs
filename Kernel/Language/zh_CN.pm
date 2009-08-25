@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_CN.pm,v 1.68 2009-07-28 10:38:35 martin Exp $
+# $Id: zh_CN.pm,v 1.69 2009-08-25 12:25:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -329,6 +329,7 @@ sub Data {
         'February' => '二月',
         'March' => '三月',
         'April' => '四月',
+        'May_long' => '五月',
         'June' => '六月',
         'July' => '七月',
         'August' => '八月',

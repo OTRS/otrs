@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.28 2009-07-13 09:49:47 martin Exp $
+# $Id: vi_VN.pm,v 1.29 2009-08-25 12:25:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -319,6 +319,7 @@ sub Data {
         'February' => 'Tháng Hai',
         'March' => 'Tháng Ba',
         'April' => 'Tháng Tß',
+        'May_long' => 'Tháng Nåm',
         'June' => 'Tháng Sáu',
         'July' => 'Tháng Bäy',
         'August' => 'Tháng Tám',
@@ -713,7 +714,6 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Tin nh¡n ðßþc gØi t¾i',
         'A message should have a subject!' => 'Thß nên có tiêu ð«!',
-        'Recipents' => 'Ngß¶i nh§n',
         'Recipients' => 'Ngß¶i nh§n',
         'Body' => 'Nµi dung',
         'Send' => 'GØi',

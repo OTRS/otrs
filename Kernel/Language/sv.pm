@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.71 2009-07-28 08:27:23 martin Exp $
+# $Id: sv.pm,v 1.72 2009-08-25 12:25:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -321,7 +321,7 @@ sub Data {
         'February' => 'Februari',
         'March' => 'Mars',
         'April' => 'April',
-        'May' => 'Maj',
+        'May_long' => 'Maj',
         'June' => 'Juni',
         'July' => 'Juli',
         'August' => 'Augusti',
