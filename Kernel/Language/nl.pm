@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.100 2009-08-25 12:19:24 mb Exp $
+# $Id: nl.pm,v 1.101 2009-08-25 12:29:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -173,8 +173,8 @@ sub Data {
         'Description' => 'Omschrijving',
         'description' => 'omschrijving',
         'Theme' => 'Thema',
-        'Created' => 'Gemaakt',
-        'Created by' => 'Gemaakt door',
+        'Created' => 'Aangemaakt',
+        'Created by' => 'Aangemaakt door',
         'Changed' => 'Gewijzigd',
         'Changed by' => 'Gewijzigd door',
         'Search' => 'Zoeken',
@@ -295,7 +295,9 @@ sub Data {
         'News' => 'Nieuws',
         'Product News' => 'Productnieuws',
         'OTRS News' => 'OTRS News',
-        '7 Day Stats' => '7 Dag Statistieken',
+        '7 Day Stats' => 'Afgelopen 7 dagen',
+        'Online' => 'Ingelogd',
+        'Shown' => 'Tonen',
         'Bold' => 'Vet',
         'Italic' => 'Cursief',
         'Underline' => 'Onderstreep',
@@ -446,12 +448,12 @@ sub Data {
         'Ticket Min Time' => 'Minimumtijd voor ticket',
         'Ticket Max Time' => 'Maximumtijd voor ticket',
         'Number of Tickets' => 'Aantal tickets',
-        'Article Average' => 'Gemiddelde per artikel',
-        'Article Min Time' => 'Minimumtijd voor artikel',
-        'Article Max Time' => 'Maximumtijd voor artikel',
-        'Number of Articles' => 'Aantal artikelen',
+        'Article Average' => 'Gemiddelde per interactie',
+        'Article Min Time' => 'Minimumtijd voor interactie',
+        'Article Max Time' => 'Maximumtijd voor interactie',
+        'Number of Articles' => 'Aantal interacties',
         'Accounted time by Agent' => 'Bestede tijd per behandelaar',
-        'Ticket/Article Accounted Time' => 'Bestede tijd voor ticket en artikelen',
+        'Ticket/Article Accounted Time' => 'Bestede tijd voor ticket en interacties',
         'TicketAccountedTime' => 'Bestede tijd voor ticket',
         'Ticket Create Time' => 'Aanmaaktijd ticket',
         'Ticket Close Time' => 'Sluittijd ticket',
@@ -472,7 +474,7 @@ sub Data {
         'Move' => 'Verplaatsen',
         'Queue' => 'Wachtrij',
         'Priority' => 'Prioriteit',
-        'Priority Update' => 'Prioriteit wijzigen',
+        'Priority Update' => 'Prioriteit wijziging',
         'State' => 'Status',
         'Compose' => 'Maken',
         'Pending' => 'Wachten',
@@ -481,9 +483,10 @@ sub Data {
         'Responsible' => 'Verantwoordelijke',
         'Responsible Update' => 'Verantwoordelijke gewijzigd',
         'Sender' => 'Afzender',
-        'Article' => 'Artikel',
+        'Article' => 'Interactie',
+        'Articles' => 'Interacties',
         'Ticket' => 'Ticket',
-        'Createtime' => 'Gemaakt op',
+        'Createtime' => 'Aangemaakt op',
         'plain' => 'zonder opmaak',
         'Email' => 'E-mail',
         'email' => 'e-mail',
@@ -537,7 +540,7 @@ sub Data {
         'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" niet gevonden! Kan dus geen koppeling worden gemaakt!',
         'Don\'t show closed Tickets' => 'Gesloten tickets niet tonen',
         'Show closed Tickets' => 'Gesloten tickets wel tonen',
-        'New Article' => 'Nieuw artikel',
+        'New Article' => 'Nieuwe interactie',
         'Email-Ticket' => 'E-mail ticket',
         'Create new Email Ticket' => 'Maak nieuw E-mail ticket aan',
         'Phone-Ticket' => 'Telefoon ticket',
@@ -608,7 +611,7 @@ sub Data {
         'Customer called' => 'Klant gebeld',
         'phone call' => 'telefoongesprek',
         'Reminder Reached' => 'Herinnermoment bereikt',
-        'Reminder Tickets' => 'Tickets met herinnermoment',
+        'Reminder Tickets' => 'Tickets met herinnering',
         'Escalated Tickets' => 'Geëscaleerde tickets',
         'New Tickets' => 'Nieuwe tickets',
         'Open Tickets / Need to be answered' => 'Open tickets / wachtend op antwoord',
@@ -679,7 +682,7 @@ sub Data {
         'To get the first 20 character of the subject.' => 'Voor de eerste 20 tekens van het onderwerp',
         'To get the first 5 lines of the email.' => 'Voor de eerste vijf regels van het e-mail bericht',
         'To get the realname of the sender (if given).' => 'Voor de echte naam van de afzender (indien beschikbaar)',
-        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Voor de eigenscaheppen van het artikel (bijvoorbeeld <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
+        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Voor de eigenschappen van de interactie (bijvoorbeeld <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Gegevens van de huidige klant (bijvoorbeeld <OTRS_CUSTOMER_DATA_UserFirstname>).',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Ticket eigenaar mogelijkheden (bijvoorbeeld <OTRS_OWNER_UserFirstname>).',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Ticket verantwoordelijke mogelijkheden (bijvoorbeeld <OTRS_RESPONSIBLE_UserFirstname).',
@@ -730,7 +733,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Bericht verstuurd naar',
-        'A message should have a subject!' => 'Een bericht moet een onderwerp hebben!',
+        'A message should have a subject!' => 'Geef een onderwerp op voor dit bericht',
         'Recipients' => 'Ontvangers',
         'Body' => 'Bericht tekst',
         'Send' => 'Verstuur',
@@ -847,16 +850,16 @@ sub Data {
         'Group based' => 'Gebaseerd op groep',
         'Agent based' => 'Gebaseerd op behandelaar',
         'Email based' => 'Gebaseerd op e-mail',
-        'Article Type' => 'Artikel-type',
+        'Article Type' => 'Soort interactie',
         'Only for ArticleCreate Event.' => 'Alleen voor ArticleCreate',
         'Subject match' => 'Onderwerp',
         'Body match' => 'Bericht tekst',
         'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een behandelaar of een klant',
-        'To get the first 20 character of the subject (of the latest agent article).' => 'Om de eerste 20 karakters van het onderwerp van het nieuwste behandelaar-artikel te tonen',
-        'To get the first 5 lines of the body (of the latest agent article).' => 'Om de eerste vijf regels van de tekst van het nieuwste behandelaar-artikel te tonen',
-        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => 'Om attributen van het artikel te gebruiken (bijvoorbeeld <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>)',
-        'To get the first 20 character of the subject (of the latest customer article).' => 'Om de eerste 20 karakters van het onderwerp van het nieuwste klant-artikel te tonen',
-        'To get the first 5 lines of the body (of the latest customer article).' => 'Om de eerste vijf regels van de tekst van het nieuwste klant-artikel te tonen',
+        'To get the first 20 character of the subject (of the latest agent article).' => 'Om de eerste 20 karakters van het onderwerp van de nieuwste behandelaar-interactie te tonen',
+        'To get the first 5 lines of the body (of the latest agent article).' => 'Om de eerste vijf regels van de tekst van de nieuwste behandelaar-interactie te tonen',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => 'Om attributen van de interactie te gebruiken (bijvoorbeeld <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>)',
+        'To get the first 20 character of the subject (of the latest customer article).' => 'Om de eerste 20 karakters van het onderwerp van de nieuwste klant-interactie te tonen',
+        'To get the first 5 lines of the body (of the latest customer article).' => 'Om de eerste vijf regels van de tekst van de nieuwste klant-interactie te tonen',
 
         # Template: AdminNotificationForm
         'Notification' => 'Melding',
@@ -1268,11 +1271,11 @@ sub Data {
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Met de invoer- en selectievelden is de statistiek aanpasbaar. Welke elementen precies aan te passen zijn verschilt per statistiek.',
 
         # Template: AgentTicketBounce
-        'A message should have a To: recipient!' => 'Een bericht moet een ontvanger (aan:) hebben!',
+        'A message should have a To: recipient!' => 'Geef teminste één ontvanger (aan:) op',
         'You need a email address (e. g. customer@example.com) in To:!' => 'In het Aan-veld is een e-mailadres nodig',
         'Bounce ticket' => 'Bounce Ticket',
-        'Ticket locked!' => 'Ticket vergrendeld!',
-        'Ticket unlock!' => 'Ticket ontgrendeld!',
+        'Ticket locked!' => 'Ticket vergrendeld',
+        'Ticket unlock!' => 'Ontgrendelen',
         'Bounce to' => 'Bounce naar',
         'Next ticket state' => 'Status',
         'Inform sender' => 'Informeer afzender',
@@ -1326,7 +1329,7 @@ sub Data {
         # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
-        'Article type' => 'Artikel-type',
+        'Article type' => 'Soort interactie',
 
         # Template: AgentTicketFreeText
         'Change free text of ticket' => 'Verander de vrije tekstvelden van een ticket.',
@@ -1417,9 +1420,9 @@ sub Data {
         'Search-Template' => 'Template',
         'TicketFreeText' => 'Vrije invulvelden van het ticket',
         'Created in Queue' => 'Aangemaakt in wachtrij',
-        'Article Create Times' => 'Aanmaakdatum artikelen',
-        'Article created' => 'Artikel aangemaakt op',
-        'Article created between' => 'Artikel aangemaakt tussen',
+        'Article Create Times' => 'Aanmaakdatum interacties',
+        'Article created' => 'Interactie aangemaakt op',
+        'Article created between' => 'Interactie aangemaakt tussen',
         'Change Times' => 'Zoek op wijzigingen',
         'No change time settings.' => 'Alle',
         'Ticket changed' => 'Ticket gewijzigd',
@@ -1582,7 +1585,7 @@ sub Data {
         # Template: Warning
 
         # Misc
-        'Edit Article' => 'Bewerk artikel',
+        'Edit Article' => 'Bewerk interactie',
         'Create new Phone Ticket' => 'Maak nieuw telefoon ticket aan',
         'Symptom' => 'Symptoom',
         'U' => 'U',
@@ -1621,7 +1624,7 @@ sub Data {
         'Admin-Email' => 'Admin e-mailadres',
         'PostMaster Mail Account' => 'E-mail accounts',
         'Stat#' => 'Statistiek#',
-        'ArticleID' => 'Artikel ID',
+        'ArticleID' => 'Interactie ID',
         'Go' => 'Uitvoeren',
         'Types' => 'Typen',
         'Keywords' => 'Trefwoorden',
@@ -1675,7 +1678,7 @@ sub Data {
         'All messages' => 'Alle berichten',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Gegevens van het ticket (bijvoorbeeld <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objecten al gekoppeld als %s.',
-        'A article should have a title!' => 'Een artikel moet een titel hebben!',
+        'A article should have a title!' => 'Geef een titel op voor de interactie',
         'Customer Users <-> Services' => 'Klanten <-> Services',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Configuratiegegevens (bijvoorbeeld &lt;OTRS_CONFIG_HttpType&gt;)',
         'A web mail client' => 'Webmail gebruiker',
