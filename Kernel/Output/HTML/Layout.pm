@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.165 2009-08-18 12:52:53 mh Exp $
+# $Id: Layout.pm,v 1.166 2009-08-25 14:32:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.165 $) [1];
+$VERSION = qw($Revision: 1.166 $) [1];
 
 =head1 NAME
 
@@ -206,8 +206,8 @@ sub new {
 
         # msie
         if (
-            $ENV{HTTP_USER_AGENT} =~ /MSIE ([0-9.]+)/i
-            || $ENV{HTTP_USER_AGENT} =~ /Internet Explorer\/([0-9.]+)/i
+            $ENV{HTTP_USER_AGENT} =~ /MSIE\s([0-9.]+)/i
+            || $ENV{HTTP_USER_AGENT} =~ /Internet\sExplorer\/([0-9.]+)/i
             )
         {
             $Self->{Browser}     = 'MSIE';
@@ -224,6 +224,20 @@ sub new {
             }
         }
 
+        # safari
+        elsif ( $ENV{HTTP_USER_AGENT} =~ /safari/i ) {
+            $Self->{Browser}     = 'Safari';
+            $Self->{BrowserWrap} = 'hard';
+
+            # on iphone disable rich text editor
+            if ( $ENV{HTTP_USER_AGENT} =~ /iPhone\sOS/i ) {
+                $Self->{ConfigObject}->Set(
+                    Key   => 'Frontend::RichText',
+                    Value => 0,
+                );
+            }
+        }
+
         # mozilla
         elsif ( $ENV{HTTP_USER_AGENT} =~ /^mozilla/i ) {
             $Self->{Browser}     = 'Mozilla';
@@ -233,12 +247,6 @@ sub new {
         # opera
         elsif ( $ENV{HTTP_USER_AGENT} =~ /^opera.*/i ) {
             $Self->{Browser}     = 'Opera';
-            $Self->{BrowserWrap} = 'hard';
-        }
-
-        # safari
-        elsif ( $ENV{HTTP_USER_AGENT} =~ /safari/i ) {
-            $Self->{Browser}     = 'Safari';
             $Self->{BrowserWrap} = 'hard';
         }
 
@@ -272,6 +280,24 @@ sub new {
         }
         else {
             $Self->{Browser} = 'Unknown - ' . $ENV{'HTTP_USER_AGENT'};
+        }
+    }
+
+    # check if rich text can be active
+    if ( !$Self->{BrowserJavaScriptSupport} ) {
+        $Self->{ConfigObject}->Set(
+            Key   => 'Frontend::RichText',
+            Value => 0,
+        );
+    }
+
+    # check if spell check should be active
+    if ( $Self->{BrowserJavaScriptSupport} && $Self->{ConfigObject}->Get('SpellChecker') ) {
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $Self->{BrowserSpellCheckerInline} = 1;
+        }
+        else {
+            $Self->{BrowserSpellChecker} = 1;
         }
     }
 
@@ -4324,6 +4350,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.165 $ $Date: 2009-08-18 12:52:53 $
+$Revision: 1.166 $ $Date: 2009-08-25 14:32:55 $
 
 =cut

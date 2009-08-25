@@ -24,7 +24,7 @@
  * http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide/Configuration/Configuration_Options
  */
 
-// $Id: fckconfig.js,v 1.1 2009-07-19 20:17:04 martin Exp $
+// $Id: fckconfig.js,v 1.2 2009-08-25 14:30:00 martin Exp $
 
 FCKConfig.CustomConfigurationsPath = '' ;
 
@@ -109,8 +109,20 @@ FCKConfig.ToolbarSets["Full"] = [
 	['FontFormat','FontName','FontSize','-','TextColor','BGColor','RemoveFormat','-','Source'],
 ] ;
 
+FCKConfig.ToolbarSets["FullSpell"] = [
+    ['Bold','Italic','Underline','StrikeThrough','-','OrderedList','UnorderedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyFull','-','Link','Unlink','-','Image','Rule','-','Undo','Redo','-','Find','SpellCheck'],
+    '/',
+    ['FontFormat','FontName','FontSize','-','TextColor','BGColor','RemoveFormat','-','Source'],
+] ;
+
 FCKConfig.ToolbarSets["Simple"] = [
 	['Bold','Italic','Underline','StrikeThrough','-','OrderedList','UnorderedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyFull','-','Link','Unlink','-','Rule','-','Undo','Redo','-','Find'],
+	'/',
+	['FontFormat','FontName','FontSize','-','TextColor','BGColor','RemoveFormat','-','Source'],
+] ;
+
+FCKConfig.ToolbarSets["SimpleSpell"] = [
+	['Bold','Italic','Underline','StrikeThrough','-','OrderedList','UnorderedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyFull','-','Link','Unlink','-','Rule','-','Undo','Redo','-','Find','SpellCheck'],
 	'/',
 	['FontFormat','FontName','FontSize','-','TextColor','BGColor','RemoveFormat','-','Source'],
 ] ;

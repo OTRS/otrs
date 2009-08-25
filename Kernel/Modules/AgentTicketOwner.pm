@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.pm,v 1.63 2009-08-18 12:52:53 mh Exp $
+# $Id: AgentTicketOwner.pm,v 1.64 2009-08-25 14:32:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1147,11 +1147,7 @@ sub _Mask {
         }
 
         # show spell check
-        if (
-            $Self->{ConfigObject}->Get('SpellChecker')
-            && $Self->{LayoutObject}->{BrowserJavaScriptSupport}
-            )
-        {
+        if ( $Self->{LayoutObject}->{BrowserSpellChecker} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'SpellCheck',
                 Data => {},

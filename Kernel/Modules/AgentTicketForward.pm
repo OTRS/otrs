@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.53 2009-07-23 21:24:02 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.54 2009-08-25 14:32:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -851,11 +851,7 @@ sub _Mask {
     }
 
     # show spell check
-    if (
-        $Self->{ConfigObject}->Get('SpellChecker')
-        && $Self->{LayoutObject}->{BrowserJavaScriptSupport}
-        )
-    {
+    if ( $Self->{LayoutObject}->{BrowserSpellChecker} ) {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
             Data => {},
