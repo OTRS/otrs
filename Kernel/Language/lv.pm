@@ -1,8 +1,8 @@
 # --
-# Kernel/Language/lv.pm - provides de language translation
+# Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.5 2009-07-13 09:55:06 martin Exp $
+# $Id: lv.pm,v 1.6 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -322,7 +322,7 @@ sub Data {
         'February' => 'Februāris',
         'March' => 'Marts',
         'April' => 'Aprīlis',
-        'May' => 'Maijs',
+        'May_long' => 'Maijs',
         'June' => 'Jūnijs',
         'July' => 'Jūlijs',
         'August' => 'Augusts',

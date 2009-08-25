@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.116 2009-07-24 05:12:01 martin Exp $
+# $Id: fr.pm,v 1.117 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -331,6 +331,7 @@ sub Data {
         'February' => 'Février',
         'March' => 'Mars',
         'April' => 'Avril',
+        'May_long' => 'Mai',
         'June' => 'Juin',
         'July' => 'Juillet',
         'August' => 'Août',

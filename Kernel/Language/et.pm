@@ -1,8 +1,8 @@
 # --
-# Kernel/Language/et.pm - provides et language translation
+# Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.26 2009-07-13 09:49:46 martin Exp $
+# $Id: et.pm,v 1.27 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -319,6 +319,7 @@ sub Data {
         'February' => 'Veebruar',
         'March' => 'Märts',
         'April' => 'Aprill',
+        'May_long' => 'Mai',
         'June' => 'Juuni',
         'July' => 'Juuli',
         'August' => 'August',
@@ -713,7 +714,6 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Kiri saadetud',
         'A message should have a subject!' => 'Sõnumil peaks olema teema!',
-        'Recipents' => 'Saajad',
         'Recipients' => 'Saajad',
         'Body' => 'Text',
         'Send' => 'Saada',

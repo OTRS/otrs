@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.80 2009-06-27 12:12:14 martin Exp $
+# $Id: pt.pm,v 1.81 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -308,7 +308,7 @@ sub Data {
         'Feb' => 'Fev',
         'Mar' => 'Mar',
         'Apr' => 'Abr',
-        'May' => 'Maio',
+        'May' => 'Mai',
         'Jun' => 'Jun',
         'Jul' => 'Jul',
         'Aug' => 'Ago',
@@ -320,6 +320,7 @@ sub Data {
         'February' => 'Fevereiro',
         'March' => 'Março',
         'April' => 'Abril',
+        'May_long' => 'Maio',
         'June' => 'Junho',
         'July' => 'Julho',
         'August' => 'Agosto',
@@ -714,7 +715,7 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Mensagem enviada para',
         'A message should have a subject!' => 'A mensagem deve conter um assunto!',
-        'Recipents' => 'Destinatários',
+        'Recipients' => 'Destinatários',
         'Body' => 'Corpo',
         'Send' => 'Enviar',
 

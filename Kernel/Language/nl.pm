@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.99 2009-07-22 01:33:43 martin Exp $
+# $Id: nl.pm,v 1.100 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -336,6 +336,7 @@ sub Data {
         'February' => 'februari',
         'March' => 'maart',
         'April' => 'april',
+        'May_long' => 'mei',
         'June' => 'juni',
         'July' => 'juli',
         'August' => 'augustus',

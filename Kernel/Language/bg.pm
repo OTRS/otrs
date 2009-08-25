@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.93 2009-07-13 09:49:46 martin Exp $
+# $Id: bg.pm,v 1.94 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -321,6 +321,7 @@ sub Data {
         'February' => 'Февруари',
         'March' => 'Март',
         'April' => 'Април',
+        'May_long' => 'Май',
         'June' => 'Юни',
         'July' => 'Юли',
         'August' => 'Август',
@@ -715,7 +716,6 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Съобщението е изпратено до',
         'A message should have a subject!' => 'Съобщението трябва да има текст в поле "относно"!',
-        'Recipents' => 'Получатели',
         'Recipients' => 'Получатели',
         'Body' => 'Тяло на писмото',
         'Send' => 'Изпращане',

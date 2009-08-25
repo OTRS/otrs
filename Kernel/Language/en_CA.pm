@@ -2,7 +2,7 @@
 # Kernel/Language/en_CA.pm - provides en_CA language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: en_CA.pm,v 1.1 2009-07-02 23:06:20 martin Exp $
+# $Id: en_CA.pm,v 1.2 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -84,6 +84,8 @@ sub Data {
         'History::Subscribe' => 'Added subscription for user "%s".',
         'History::Unsubscribe' => 'Removed subscription for user "%s".',
         'History::SystemRequest' => 'System Request (%s).',
+        # There's a difference between May (short) and May (long) in some languages, not in en
+        'May_long' => 'May',
     };
     # $$STOP$$
     return;

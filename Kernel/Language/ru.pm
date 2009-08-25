@@ -5,7 +5,7 @@
 # Copyright (C) 2008-2009 Egor Tsilenko <bg8s at symlink.ru>
 # Copyright (C) 2009 Andrey Cherepanov <cas at altlinux.ru>
 # --
-# $Id: ru.pm,v 1.86 2009-07-17 16:04:33 martin Exp $
+# $Id: ru.pm,v 1.87 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -327,6 +327,7 @@ sub Data {
         'February' => 'Февраль',
         'March' => 'Март',
         'April' => 'Апрель',
+        'May_long' => 'Май',
         'June' => 'Июнь',
         'July' => 'Июль',
         'August' => 'Август',

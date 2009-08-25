@@ -1,9 +1,9 @@
 # --
-# Kernel/Language/pl.pm - provides pl language translation
+# Kernel/Language/pl.pm - provides Polish language translation
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.82 2009-07-13 09:49:47 martin Exp $
+# $Id: pl.pm,v 1.83 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -323,6 +323,7 @@ sub Data {
         'February' => 'Luty',
         'March' => 'Marzec',
         'April' => 'Kwiecieñ',
+        'May_long' => 'Maj',
         'June' => 'Czerwiec',
         'July' => 'Lipiec',
         'August' => 'Sierpieñ',
@@ -717,7 +718,6 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Wiadomo¶æ wys³ana do',
         'A message should have a subject!' => 'Wiadomosc powinna posiadaæ temat!',
-        'Recipents' => 'Adresaci',
         'Recipients' => 'Adresaci',
         'Body' => 'Tre¶æ',
         'Send' => 'Wy¶lij',

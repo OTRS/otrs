@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.88 2009-07-13 09:49:47 martin Exp $
+# $Id: pt_BR.pm,v 1.89 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -310,7 +310,7 @@ sub Data {
         'Feb' => 'Fev',
         'Mar' => '',
         'Apr' => 'Abr',
-        'May' => 'Maio',
+        'May' => 'Mai',
         'Jun' => '',
         'Jul' => '',
         'Aug' => 'Ago',
@@ -322,6 +322,7 @@ sub Data {
         'February' => 'Fevereiro',
         'March' => 'Março',
         'April' => 'Abril',
+        'May_long' => 'Maio',
         'June' => 'Junho',
         'July' => 'Julho',
         'August' => 'Agosto',
@@ -716,7 +717,6 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Mensagem enviada para',
         'A message should have a subject!' => 'Uma mensagem deve conter um assunto!',
-        'Recipents' => 'Destinatários',
         'Recipients' => 'Destinatários',
         'Body' => 'Corpo',
         'Send' => '',

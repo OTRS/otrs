@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # --
-# $Id: cz.pm,v 1.77 2009-07-13 09:49:46 martin Exp $
+# $Id: cz.pm,v 1.78 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -317,17 +317,18 @@ sub Data {
         'Oct' => 'Øíj',
         'Nov' => 'Lis',
         'Dec' => 'Pro',
-        'January' => '',
-        'February' => '',
-        'March' => '',
-        'April' => '',
-        'June' => '',
-        'July' => '',
-        'August' => '',
-        'September' => '',
-        'October' => '',
-        'November' => '',
-        'December' => '',
+        'January' => 'leden',
+        'February' => 'únor',
+        'March' => 'b¿ezen',
+        'April' => 'duben',
+        'May_long' => 'kv¿ten',
+        'June' => '¿erven',
+        'July' => '¿ervenec',
+        'August' => 'srpen',
+        'September' => 'zá¿í',
+        'October' => '¿íjen',
+        'November' => 'listopad',
+        'December' => 'prosinec',
 
         # Template: AAANavBar
         'Admin-Area' => 'Administraèní zóna',
@@ -715,7 +716,6 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Zpráva odeslána',
         'A message should have a subject!' => 'Zpráva by mìla mít pøedmìt!',
-        'Recipents' => 'Adresáti',
         'Recipients' => 'Adresáti',
         'Body' => 'Tìlo',
         'Send' => '',

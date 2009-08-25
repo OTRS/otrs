@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.82 2009-07-13 09:49:47 martin Exp $
+# $Id: nb_NO.pm,v 1.83 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.82 $;
+$VERSION = q$Revision: 1.83 $;
 
 sub Data {
     my $Self = shift;
@@ -323,6 +323,7 @@ sub Data {
         'February' => 'februar',
         'March' => 'mars',
         'April' => 'april',
+        'May_long' => 'mai',
         'June' => 'juni',
         'July' => 'juli',
         'August' => 'august',
@@ -716,8 +717,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Melding sendt til',
-        'A message should have a subject!' => 'En melding må ha en emnebeskrivelse!',
-        'Recipents' => 'Mottager(e)',
+        'A message should have a subject!' => 'En melding må ha en emnebeskrivelse!',,
         'Recipients' => 'Mottager(e)',
         'Body' => 'Meldingstekst',
         'Send' => 'Send',

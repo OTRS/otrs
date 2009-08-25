@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.58 2009-07-13 09:49:46 martin Exp $
+# $Id: da.pm,v 1.59 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -321,6 +321,7 @@ sub Data {
         'February' => 'Februar',
         'March' => 'Marts',
         'April' => 'April',
+        'May_long' => 'Maj',
         'June' => 'Juni',
         'July' => 'Juli',
         'August' => 'August',
@@ -715,7 +716,6 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Meddelelse sendt til',
         'A message should have a subject!' => 'En meddelelse skal have et emne!',
-        'Recipents' => 'Modtagere',
         'Recipients' => 'Modtagere',
         'Body' => 'Hovedtekst',
         'Send' => 'Afsend',

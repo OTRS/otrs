@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.93 2009-07-13 09:49:47 martin Exp $
+# $Id: fi.pm,v 1.94 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -321,6 +321,7 @@ sub Data {
         'February' => 'Helmikuu',
         'March' => 'Maaliskuu',
         'April' => 'Huhtikuu',
+        'May_long' => 'Toukokuu',
         'June' => 'Kesäkuu',
         'July' => 'Heinäkuu',
         'August' => 'Elokuu',
@@ -715,7 +716,6 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Viesti lähetetty, vastaanottaja: ',
         'A message should have a subject!' => 'Viestissä pitää olla otsikko!',
-        'Recipents' => 'Vastaanottajat',
         'Recipients' => 'Vastaanottajat',
         'Body' => 'Runko-osa',
         'Send' => 'Lähetä',

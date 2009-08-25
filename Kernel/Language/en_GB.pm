@@ -2,7 +2,7 @@
 # Kernel/Language/en_GB.pm - provides en_GB languag translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: en_GB.pm,v 1.1 2009-07-02 23:06:20 martin Exp $
+# $Id: en_GB.pm,v 1.2 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -38,6 +38,7 @@ sub Data {
 
     # maybe nothing ... or help texts
     $Self->{Translation} = {
+        'May_long' => 'May',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
         'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',

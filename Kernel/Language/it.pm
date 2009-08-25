@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Emiliano Coletti <e.coletti at gmail.com>
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # --
-# $Id: it.pm,v 1.87 2009-07-15 16:27:44 martin Exp $
+# $Id: it.pm,v 1.88 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -328,6 +328,7 @@ sub Data {
         'March' => 'Marzo',
         'April' => 'Aprile',
         'June' => 'Giugno',
+        'May_long' => 'Maggio',
         'July' => 'Luglio',
         'August' => 'Agosto',
         'September' => 'Settembre',

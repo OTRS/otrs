@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.204 2009-08-21 07:41:00 mb Exp $
+# $Id: de.pm,v 1.205 2009-08-25 12:19:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.204 $) [1];
+$VERSION = qw($Revision: 1.205 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -321,6 +321,7 @@ sub Data {
         'February' => 'Februar',
         'March' => 'März',
         'April' => 'April',
+        'May_long' => 'Mai',
         'June' => 'Juni',
         'July' => 'Juli',
         'August' => 'August',
