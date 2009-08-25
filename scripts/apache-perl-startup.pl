@@ -3,7 +3,7 @@
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: apache-perl-startup.pl,v 1.28 2009-04-03 14:32:50 tr Exp $
+# $Id: apache-perl-startup.pl,v 1.29 2009-08-25 14:45:27 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -119,6 +119,9 @@ use Kernel::System::Main;
 # web agent middle ware modules
 use Kernel::Modules::AgentTicketQueue;
 use Kernel::Modules::AgentTicketStatusView;
+use Kernel::Modules::AgentTicketLockedView;
+use Kernel::Modules::AgentTicketEscalationView;
+use Kernel::Modules::AgentTicketWatchView;
 use Kernel::Modules::AgentTicketMove;
 use Kernel::Modules::AgentTicketZoom;
 use Kernel::Modules::AgentTicketAttachment;
