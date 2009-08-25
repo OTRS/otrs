@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCalendarSmall.pm - small calender lookup
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCalendarSmall.pm,v 1.16 2009-02-16 11:20:52 tr Exp $
+# $Id: AgentCalendarSmall.pm,v 1.17 2009-08-25 13:05:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Date::Pcalc qw(Today Days_in_Month Day_of_Week);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,7 +56,7 @@ sub Run {
     my ( $CYear, $CMonth, $CDay ) = Today;
     $TimeVacationDaysOneTime->{$CYear}->{$CMonth}->{$CDay} = 'Today';
     my @MonthArray = (
-        '',     'January', 'February', 'March',     'April',   'May',
+        '',     'January', 'February', 'March',     'April',   'May_long',
         'June', 'July',    'August',   'September', 'October', 'November',
         'December',
     );
