@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.968 2009-08-26 13:09:11 martin Exp $
+# $Id: CHANGES,v 1.969 2009-08-26 17:53:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.4 (2009/08/??)
+ - (2009/08/25) Fixed bug#2676 - Translation issue for May
  - (2009/08/26) Fixed bug#4122 - META: spell checker issues with Rich Text
     Editor.
  - (2009/08/25) Added prio color in dashboard ticket overview like in ticket
