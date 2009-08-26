@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.101 2009-08-25 12:29:42 mb Exp $
+# $Id: nl.pm,v 1.102 2009-08-26 22:00:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -623,12 +623,12 @@ sub Data {
         'Responses <-> Queue' => 'Standaard antwoorden <-> Wachtrijen',
         'Auto Responses' => 'Automatische replies',
         'Auto Responses <-> Queue' => 'Automatische replies <-> Wachtrijen',
-        'Attachments <-> Responses' => 'Bijlagen <-> Automatische replies',
+        'Attachments <-> Responses' => 'Bijlagen <-> Standaard antwoorden',
         'History::Move' => 'Ticket verplaatst naar wachtrij "%s" (%s) van wachtrij "%s" (%s).',
         'History::TypeUpdate' => 'Type gewijzigd naar %s (ID=%s).',
         'History::ServiceUpdate' => 'Service gewijzigd naar %s (ID=%s).',
         'History::SLAUpdate' => 'SLA gewijzigd naar %s (ID=%s).',
-        'History::NewTicket' => 'Nieuw Ticket [%s] aangemaakt (Q=%s;P=%s;S=%s).',
+        'History::NewTicket' => 'Nieuw ticket [%s] aangemaakt (Q=%s;P=%s;S=%s).',
         'History::FollowUp' => 'Vervolg vraag voor [%s]. %s',
         'History::SendAutoReject' => 'Automatische afwijzing verstuurd aan "%s".',
         'History::SendAutoReply' => 'Automatische beantwoording verstuurd aan "%s".',
@@ -662,19 +662,19 @@ sub Data {
         'History::Unsubscribe' => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
-        'Sun' => 'zondag',
-        'Mon' => 'maandag',
-        'Tue' => 'dinsdag',
-        'Wed' => 'woensdag',
-        'Thu' => 'donderdag',
-        'Fri' => 'vrijdag',
-        'Sat' => 'zaterdag',
+        'Sun' => 'zo',
+        'Mon' => 'ma',
+        'Tue' => 'di',
+        'Wed' => 'wo',
+        'Thu' => 'do',
+        'Fri' => 'vr',
+        'Sat' => 'za',
 
         # Template: AdminAttachmentForm
-        'Attachment Management' => 'Bijlage beheer',
+        'Attachment Management' => 'Beheer bijlagen',
 
         # Template: AdminAutoResponseForm
-        'Auto Response Management' => 'Automatische beantwoordingen beheer',
+        'Auto Response Management' => 'Beheer automatische replies',
         'Response' => 'Antwoord',
         'Auto Response From' => 'E-mailadres',
         'Note' => 'Notitie',
@@ -941,11 +941,11 @@ sub Data {
         'Add a new Priority.' => 'Nieuwe prioriteit toevoegen',
 
         # Template: AdminQueueAutoResponseForm
-        'Queue <-> Auto Responses Management' => 'Wachtrij <-> Automatische beantwoordingen',
+        'Queue <-> Auto Responses Management' => 'Wachtrij <-> Automatische replies',
         'settings' => 'Instellingen',
 
         # Template: AdminQueueForm
-        'Queue Management' => 'Wachtrij beheer',
+        'Queue Management' => 'Beheer wachtrijen',
         'Sub-Queue of' => 'Subwachtrij van',
         'Unlock timeout' => 'Ontgrendel tijdsoverschrijding',
         '0 = no unlock' => '0 = geen ontgrendeling',
@@ -970,13 +970,13 @@ sub Data {
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'Het systeem stuurt een notificatie naar de klant wanneer de eigenaar is veranderd',
 
         # Template: AdminQueueResponsesChangeForm
-        'Responses <-> Queue Management' => 'Beantwoordingen <-> Wachtrij beheer',
+        'Responses <-> Queue Management' => 'Beheer Standaard Antwoorden <-> Wachtrijen',
 
         # Template: AdminQueueResponsesForm
         'Answer' => 'Antwoord',
 
         # Template: AdminResponseAttachmentChangeForm
-        'Responses <-> Attachments Management' => 'Beantwoordingen <-> Bijlagen beheer',
+        'Responses <-> Attachments Management' => 'Beheer Standaard Antwoorden <-> Bijlagen',
 
         # Template: AdminResponseAttachmentForm
 
@@ -988,14 +988,14 @@ sub Data {
         'Your email address is new' => 'Uw e-mailadres is nieuw.',
 
         # Template: AdminRoleForm
-        'Role Management' => 'Rollenbeheer',
+        'Role Management' => 'Beheer Rollen',
         'Add Role' => 'Voeg rol toe',
         'Add a new Role.' => 'Voeg een nieuwe rol toe',
         'Create a role and put groups in it. Then add the role to the users.' => 'Maak een nieuwe rol en koppel deze aan groepen. Vervolgens kunt u rollen toewijzen aan gebruikers.',
         'It\'s useful for a lot of users and groups.' => 'Dit is nuttig bij grote hoeveelheden gebruikers en/of groepen.',
 
         # Template: AdminRoleGroupChangeForm
-        'Roles <-> Groups Management' => 'Rollen <-> Groepen beheer',
+        'Roles <-> Groups Management' => 'Beheer Rollen <-> Groepen',
         'move_into' => 'verplaats naar',
         'Permissions to move tickets into this group/queue.' => 'Rechten om Tickets naar deze groep/wachtrij te verplaatsen.',
         'create' => 'aanmaken',
@@ -1009,7 +1009,7 @@ sub Data {
         'Role' => 'Rol',
 
         # Template: AdminRoleUserChangeForm
-        'Roles <-> Users Management' => 'Rollen <-> Gebruikers beheer',
+        'Roles <-> Users Management' => 'Beheer Rollen <-> Gebruikers',
         'Select the role:user relations.' => 'Selecteer de rol : gebruiker relatie',
 
         # Template: AdminRoleUserForm
