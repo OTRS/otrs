@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.967 2009-08-25 19:32:11 martin Exp $
+# $Id: CHANGES,v 1.968 2009-08-26 13:09:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,11 +10,16 @@
 # --
 
 2.4.4 (2009/08/??)
+ - (2009/08/26) Fixed bug#4122 - META: spell checker issues with Rich Text
+    Editor.
  - (2009/08/25) Added prio color in dashboard ticket overview like in ticket
     overview "s" mode.
+ - (2009/08/24) Fixed bug#4090 - RSS feeds have broken umlauts.
+ - (2009/08/24) Fixed bug#4177 - ArticleFilterDialog does not work in IE
+    Javascript.
  - (2009/08/24) Added COPYING-Third-Party - a list of all included party
     libraries.
- - (2009/08/21) Fixed bug#4178 - Bundle Apache2::Reload in otrs/Kernel/cpan-lib
+ - (2009/08/21) Fixed bug#4178 - Bundle Apache2::Reload in Kernel/cpan-lib/.
  - (2009/08/21) Fixed bug#4170 - Typos in AgentTicketQueue and Sysconfig:MOTD
  - (2009/08/19) Fixed bug#4070 - No refresh in CPanel activated by default /
     default values of preferences sys config not taken over.
