@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.16 2009-08-18 12:52:53 mh Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.17 2009-08-26 13:33:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -129,10 +129,14 @@ sub Data {
                 Search => $SearchAddress[0]->address(),
             );
             for my $DataRef (@PublicKeys) {
+                my $Expires = '';
+                if ( $DataRef->{Expires} ) {
+                    $Expires = "[$DataRef->{Expires}]";
+                }
                 $KeyList{"PGP::Detached::$DataRef->{Key}"}
-                    = "PGP-Detached: $DataRef->{Key} - $DataRef->{Identifier}";
+                    = "PGP-Detached: $DataRef->{Key} $Expires $DataRef->{Identifier}";
                 $KeyList{"PGP::Inline::$DataRef->{Key}"}
-                    = "PGP-Inline: $DataRef->{Key} - $DataRef->{Identifier}";
+                    = "PGP-Inline: $DataRef->{Key} $Expires $DataRef->{Identifier}";
             }
         }
 
@@ -143,8 +147,12 @@ sub Data {
                 Search => $SearchAddress[0]->address(),
             );
             for my $DataRef (@PublicKeys) {
+                my $EndDate = '';
+                if ( $DataRef->{EndDate} ) {
+                    $EndDate = "[$DataRef->{EndDate}]";
+                }
                 $KeyList{"SMIME::Detached::$DataRef->{Hash}"}
-                    = "SMIME-Detached: $DataRef->{Hash} - $DataRef->{Email}";
+                    = "SMIME-Detached: $DataRef->{Hash} $EndDate $DataRef->{Email}";
             }
         }
 
