@@ -2,7 +2,7 @@
 # Kernel/System/Spelling.pm - the global spelling module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.pm,v 1.26 2009-04-17 08:36:44 tr Exp $
+# $Id: Spelling.pm,v 1.27 2009-08-26 13:05:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -67,7 +67,7 @@ sub new {
     $Self->{Debug} = 0;
 
     # get needed objects
-    for (qw(ConfigObject LogObject)) {
+    for (qw(ConfigObject LogObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -76,7 +76,6 @@ sub new {
 
     # spell checker config options
     $Self->{SpellChecker} = $Self->{ConfigObject}->Get('SpellCheckerBin') || 'ispell';
-    $Self->{SpellChecker} .= ' -a ';
 
     return $Self;
 }
@@ -113,11 +112,6 @@ sub Check {
         }
     }
 
-    # get needed dict
-    if ( $Param{SpellLanguage} ) {
-        $Self->{SpellChecker} .= " -d $Param{SpellLanguage}";
-    }
-
     # default ignored words
     my @Ignore
         = qw(com org de net Cc www Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec Sun Mon Tue Wed Thu Fri
@@ -126,9 +120,9 @@ sub Check {
     );
 
     # add configured ignored words
-    if ( ref( $Self->{ConfigObject}->Get('SpellCheckerIgnore') ) eq 'ARRAY' ) {
+    if ( ref $Self->{ConfigObject}->Get('SpellCheckerIgnore') eq 'ARRAY' ) {
         for ( @{ $Self->{ConfigObject}->Get('SpellCheckerIgnore') } ) {
-            push( @Ignore, $_ );
+            push @Ignore, $_;
         }
     }
 
@@ -139,7 +133,7 @@ sub Check {
     # don't correct quoted text
     $Param{Text} =~ s/^>.*$//gm;
 
-    # ÄÖÜäöü? (just do encoding for ispell)
+    # ispell encoding: # ÄÖÜäöü
     if ( $Self->{SpellChecker} =~ /ispell/ ) {
         $Param{Text} =~ s/ä/a"/g;
         $Param{Text} =~ s/ö/o"/g;
@@ -161,15 +155,20 @@ sub Check {
         return;
     }
 
+    # add -a
+    $Self->{SpellChecker} .= ' -a ';
+
+    # set dict
+    if ( $Param{SpellLanguage} ) {
+        $Self->{SpellChecker} .= " -d $Param{SpellLanguage}";
+    }
+
     # get spell output
 
     # write text to file and read it with (i|a)spell
     # - can't use IPC::Open* because it's not working with mod_perl* :-/
     my ( $FH, $TmpFile ) = $Self->{FileTempObject}->TempFile();
-    if ($FH) {
-        print $FH $Param{Text};
-    }
-    else {
+    if ( !$FH ) {
         $Self->{Error} = 1;
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -177,68 +176,18 @@ sub Check {
         );
         return;
     }
-    if ( open( SPELL, "$Self->{SpellChecker} < $TmpFile |" ) ) {
-        my $Output      = '';
-        my %Data        = ();
-        my $Lines       = 1;
-        my $CurrentLine = 0;
-        while ( my $Line = <SPELL> ) {
-            $CurrentLine++;
+    print $FH $Param{Text};
 
-            # ÄÖÜäöü? (just do encoding for ispell)
-            if ( $Self->{SpellChecker} =~ /ispell/ ) {
-                $Line =~ s/a"/ä/g;
-                $Line =~ s/o"/ö/g;
-                $Line =~ s/u"/ü/g;
-                $Line =~ s/A"/Ä/g;
-                $Line =~ s/O"/Ö/g;
-                $Line =~ s/U"/Ü/g;
-                $Line =~ s/sS/ß/g;
-            }
-            if ( $Line =~ /^# (.+?) .+?$/ ) {
-                $Data{$CurrentLine} = {
-                    Word    => $1,
-                    Replace => '',
-                    Line    => $Lines,
-                };
-            }
-            elsif ( $Line =~ /^& (.+?) .+?: (.*)$/ ) {
-                my @Replace = split( /, /, $2 );
-                $Data{$CurrentLine} = {
-                    Word    => $1,
-                    Replace => \@Replace,
-                    Line    => $Lines,
-                };
-            }
-            elsif ( $Line =~ /^\n$/ ) {
-                $Lines++;
-            }
+    # aspell encoding
+    if ( $Self->{SpellChecker} =~ /aspell/ ) {
+        if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+            $Self->{SpellChecker} .= ' --encoding=utf-8';
         }
-
-        # drop double words and add line of double word
-        my %DoubleWords;
-        for ( sort { $a <=> $b } keys %Data ) {
-            if ( $DoubleWords{ $Data{$_}->{Word} } ) {
-                $DoubleWords{ $Data{$_}->{Word} }->{Line} .= "/" . $Data{$_}->{Line};
-                delete $Data{$_};
-            }
-            else {
-                $DoubleWords{ $Data{$_}->{Word} } = $Data{$_};
-            }
-        }
-
-        # remove ignored words
-        for ( sort keys %Data ) {
-            for my $IgnoreWord (@Ignore) {
-                if ( $Data{$_}->{Word} && $Data{$_}->{Word} =~ /^$IgnoreWord$/i ) {
-                    delete $Data{$_};
-                }
-            }
-        }
-        close(SPELL);
-        return %Data;
     }
-    else {
+
+    # open spell checker
+    my $Spell;
+    if ( !open( $Spell, "$Self->{SpellChecker} < $TmpFile |" ) ) {
         $Self->{Error} = 1;
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -246,6 +195,75 @@ sub Check {
         );
         return;
     }
+
+    my $Output      = '';
+    my %Data        = ();
+    my $Lines       = 1;
+    my $CurrentLine = 0;
+    while ( my $Line = <$Spell> ) {
+        $CurrentLine++;
+
+        # set utf8 stamp if running in utf8 mode
+        $Self->{EncodeObject}->Encode( \$Line );
+
+        # ispell encoding: # ÄÖÜäöü
+        if ( $Self->{SpellChecker} =~ /ispell/ ) {
+            $Line =~ s/a"/ä/g;
+            $Line =~ s/o"/ö/g;
+            $Line =~ s/u"/ü/g;
+            $Line =~ s/A"/Ä/g;
+            $Line =~ s/O"/Ö/g;
+            $Line =~ s/U"/Ü/g;
+            $Line =~ s/sS/ß/g;
+        }
+
+        # '#' words with no suggestions
+        if ( $Line =~ /^# (.+?) .+?$/ ) {
+            $Data{$CurrentLine} = {
+                Word    => $1,
+                Replace => '',
+                Line    => $Lines,
+            };
+        }
+
+        # '&' words with suggestions
+        elsif ( $Line =~ /^& (.+?) .+?: (.*)$/ ) {
+            my @Replace = split /, /, $2;
+            $Data{$CurrentLine} = {
+                Word    => $1,
+                Replace => \@Replace,
+                Line    => $Lines,
+            };
+        }
+
+        # increase line count
+        elsif ( $Line =~ /^\n$/ ) {
+            $Lines++;
+        }
+    }
+
+    # drop double words and add line of double word
+    my %DoubleWords;
+    for ( sort { $a <=> $b } keys %Data ) {
+        if ( $DoubleWords{ $Data{$_}->{Word} } ) {
+            $DoubleWords{ $Data{$_}->{Word} }->{Line} .= "/" . $Data{$_}->{Line};
+            delete $Data{$_};
+        }
+        else {
+            $DoubleWords{ $Data{$_}->{Word} } = $Data{$_};
+        }
+    }
+
+    # remove ignored words
+    for ( sort keys %Data ) {
+        for my $IgnoreWord (@Ignore) {
+            if ( $Data{$_}->{Word} && $Data{$_}->{Word} =~ /^$IgnoreWord$/i ) {
+                delete $Data{$_};
+            }
+        }
+    }
+    close($Spell);
+    return %Data;
 }
 
 =item Error()
@@ -276,6 +294,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.27 $ $Date: 2009-08-26 13:05:05 $
 
 =cut

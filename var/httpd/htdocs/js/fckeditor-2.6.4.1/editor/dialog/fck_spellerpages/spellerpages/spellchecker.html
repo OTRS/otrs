@@ -44,6 +44,10 @@ function postWords() {
 		bodyDoc.write('<body class="normalText" onLoad="document.forms[0].submit();">');
 		bodyDoc.write('<p>' + window.parent.FCKLang.DlgSpellProgress + '<\/p>');		// by FredCK
 		bodyDoc.write('<form action="'+speller.spellCheckScript+'" method="post">');
+// OTRS
+		bodyDoc.write('<input type="hidden" name="Action" value="AgentSpelling">');
+		bodyDoc.write('<input type="hidden" name="Subaction" value="Inline">');
+// /OTRS
 		for( var i = 0; i < speller.textInputs.length; i++ ) {
 			bodyDoc.write('<input type="hidden" name="textinputs[]" value="'+encodeForPost(speller.textInputs[i].value)+'">');
 		}

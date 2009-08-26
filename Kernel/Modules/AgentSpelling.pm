@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentSpelling.pm - spelling module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.pm,v 1.23 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentSpelling.pm,v 1.24 2009-08-26 13:05:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,61 +33,126 @@ sub new {
         }
     }
 
-    $Self->{SpellingObject} = Kernel::System::Spelling->new(%Param);
-
-    # get params
-    for (qw(Body)) {
-        my $Value = $Self->{ParamObject}->GetParam( Param => $_ );
-        $Self->{$_} = defined $Value ? $Value : '';
-    }
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-
-    $Param{Body}          = $Self->{ParamObject}->GetParam( Param => 'Body' );
-    $Param{Field}         = $Self->{ParamObject}->GetParam( Param => 'Field' ) || 'Body';
-    $Param{SpellLanguage} = $Self->{ParamObject}->GetParam( Param => 'SpellLanguage' )
+    # get params
+    my $SpellLanguage = $Self->{ParamObject}->GetParam( Param => 'SpellLanguage' )
         || $Self->{UserSpellDict}
         || $Self->{ConfigObject}->Get('SpellCheckerDictDefault');
+
+    # inline spell checker of richt text
+    if ( $Self->{Subaction} eq 'Inline' ) {
+
+        my $JSData = '';
+        my @Text = $Self->{ParamObject}->GetArray( Param => 'textinputs[]' );
+
+        my $TextAll = '';
+        for ( my $i = 0; $i <= $#Text; $i++ ) {
+            my $Line = $Self->{LayoutObject}->JSONQuote(
+                Data => $Text[$i],
+            );
+            $JSData .= "textinputs[$i] = decodeURIComponent('$Line')\n";
+
+            # change hex escapes to the proper characters
+            $Text[$i] =~ s/%([a-fA-F0-9]{2})/pack "H2", $1/eg;
+
+            my @Lines = split( /\n/, $Text[$i] );
+            for my $Line (@Lines) {
+                $TextAll .= $Line;
+            }
+        }
+
+        # do spell check
+        my $SpellingObject = Kernel::System::Spelling->new( %{$Self} );
+        $TextAll = $Self->{LayoutObject}->RichText2Ascii(
+            String => $TextAll,
+        );
+
+        my %SpellCheck = $SpellingObject->Check(
+            Text          => $TextAll,
+            SpellLanguage => $SpellLanguage,
+        );
+
+        $JSData .= "words[0] = [];\n";
+        $JSData .= "suggs[0] = [];\n";
+        my $Count = 0;
+        for ( sort { $a <=> $b } keys %SpellCheck ) {
+            my $Word = $Self->{LayoutObject}->Ascii2Html(
+                Text => $SpellCheck{$_}->{Word},
+                Type => 'JSText',
+            );
+            my $JS = $Self->{LayoutObject}->JSON(
+                Data => $SpellCheck{$_}->{Replace},
+            );
+
+            $JSData .= "words[0][$Count] = '$Word';\n";
+            $JSData .= "suggs[0][$Count] = $JS;\n";
+            $JSData .= "\n";
+            $Count++;
+        }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'SpellCheckerInline',
+            Data => {
+                JSData => $JSData,
+            },
+        );
+
+        my $Output = $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentSpelling',
+            Data         => \%Param,
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $Output,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # get params
+    $Param{Body} = $Self->{ParamObject}->GetParam( Param => 'Body' );
+    $Param{Field} = $Self->{ParamObject}->GetParam( Param => 'Field' ) || 'Body';
 
     # get and replace all wrong words
     my %Words = ();
     for ( 0 .. 300 ) {
         my $Replace = $Self->{ParamObject}->GetParam( Param => "SpellCheck::Replace::$_" );
-        if ($Replace) {
-            my $Old = $Self->{ParamObject}->GetParam( Param => "SpellCheckOld::$_" );
-            my $New = $Self->{ParamObject}->GetParam( Param => "SpellCheckOrReplace::$_" )
-                || $Self->{ParamObject}->GetParam( Param => "SpellCheckOption::$_" );
-            if ( $Old && $New ) {
-                $Param{Body} =~ s/^$Old$/$New/g;
-                $Param{Body} =~ s/^$Old( |\n|\r|\s)/$New$1/g;
-                $Param{Body} =~ s/ $Old$/ $New/g;
-                $Param{Body} =~ s/(\s)$Old(\n|\r)/$1$New$2/g;
-                $Param{Body} =~ s/(\s)$Old(\s|:|;|<|>|\/|\\|\.|\!|%|&|\?)/$1$New$2/gs;
-                $Param{Body} =~ s/(\W)$Old(\W)/$1$New$2/g;
-            }
+        next if !$Replace;
+        my $Old = $Self->{ParamObject}->GetParam( Param => "SpellCheckOld::$_" );
+        my $New = $Self->{ParamObject}->GetParam( Param => "SpellCheckOrReplace::$_" )
+            || $Self->{ParamObject}->GetParam( Param => "SpellCheckOption::$_" );
+        if ( $Old && $New ) {
+            $Param{Body} =~ s/^$Old$/$New/g;
+            $Param{Body} =~ s/^$Old( |\n|\r|\s)/$New$1/g;
+            $Param{Body} =~ s/ $Old$/ $New/g;
+            $Param{Body} =~ s/(\s)$Old(\n|\r)/$1$New$2/g;
+            $Param{Body} =~ s/(\s)$Old(\s|:|;|<|>|\/|\\|\.|\!|%|&|\?)/$1$New$2/gs;
+            $Param{Body} =~ s/(\W)$Old(\W)/$1$New$2/g;
         }
     }
 
     # do spell check
-    my %SpellCheck = $Self->{SpellingObject}->Check(
+    my $SpellingObject = Kernel::System::Spelling->new( %{$Self} );
+    my %SpellCheck     = $SpellingObject->Check(
         Text          => $Param{Body},
-        SpellLanguage => $Param{SpellLanguage},
+        SpellLanguage => $SpellLanguage,
     );
 
     # check error
-    if ( $Self->{SpellingObject}->Error() ) {
+    if ( $SpellingObject->Error() ) {
         return $Self->{LayoutObject}->ErrorScreen();
     }
 
     # start with page ...
-    $Output .= $Self->{LayoutObject}->Header( Type => 'Small' );
+    my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
     $Output .= $Self->_Mask(
-        SpellCheck => \%SpellCheck,
+        SpellCheck    => \%SpellCheck,
+        SpellLanguage => $SpellLanguage,
         %Param,
     );
     $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
@@ -97,10 +162,17 @@ sub Run {
 sub _Mask {
     my ( $Self, %Param ) = @_;
 
-    # do html quoteing
-    for (qw(Body)) {
-        $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{$_} );
-    }
+    # dict language selection
+    $Param{SpellLanguageString} .= $Self->{LayoutObject}->OptionStrgHashRef(
+        Data       => $Self->{ConfigObject}->Get('PreferencesGroups')->{SpellDict}->{Data},
+        Name       => 'SpellLanguage',
+        SelectedID => $Param{SpellLanguage},
+    );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'SpellCheckerExtern',
+        Data => \%Param,
+    );
 
     # spellcheck
     if ( $Param{SpellCheck} ) {
@@ -133,13 +205,6 @@ sub _Mask {
             }
         }
     }
-
-    # dict language selection
-    $Param{SpellLanguageString} .= $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => $Self->{ConfigObject}->Get('PreferencesGroups')->{SpellDict}->{Data},
-        Name       => "SpellLanguage",
-        SelectedID => $Param{SpellLanguage},
-    );
 
     # create & return output
     return $Self->{LayoutObject}->Output( TemplateFile => 'AgentSpelling', Data => \%Param );

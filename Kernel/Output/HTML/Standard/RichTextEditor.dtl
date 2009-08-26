@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.19 2009-07-26 10:18:31 martin Exp $
+# $Id: RichTextEditor.dtl,v 1.20 2009-08-26 13:05:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,27 +15,38 @@
 <script type="text/javascript">
 window.onload = function() {
     var oFCKeditor = new FCKeditor( 'RichText' );
-    oFCKeditor.Height = 320;
-    oFCKeditor.Width  = 620;
-    oFCKeditor.BasePath = "$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/";
-    oFCKeditor.Config["ForcePasteAsPlainText"] = false;
-    oFCKeditor.Config["EditorAreaStyles"]      = 'body { $Config{"Frontend::RichText::DefaultCSS"} }';
-    oFCKeditor.Config["AutoDetectLanguage"]    = false;
-    oFCKeditor.Config["DefaultLanguage"]       = '$Env{"UserLanguage"}';
-    oFCKeditor.Config["ImageUploadURL"]        = "$Env{"Baselink"}";
-    oFCKeditor.Config["FirefoxSpellChecker"]   = true;
-    oFCKeditor.Config["BrowserContextMenu"]    = true;
+    oFCKeditor.Height                             = 320;
+    oFCKeditor.Width                              = 620;
+    oFCKeditor.BasePath                           = "$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/";
+    oFCKeditor.Config["ForcePasteAsPlainText"]    = false;
+    oFCKeditor.Config["EditorAreaStyles"]         = 'body { $Config{"Frontend::RichText::DefaultCSS"} }';
+    oFCKeditor.Config["AutoDetectLanguage"]       = false;
+    oFCKeditor.Config["DefaultLanguage"]          = '$Env{"UserLanguage"}';
+    oFCKeditor.Config["ImageUploadURL"]           = '$Env{"Baselink"}';
+    oFCKeditor.Config["FirefoxSpellChecker"]      = true;
+    oFCKeditor.Config["BrowserContextMenu"]       = true;
+    oFCKeditor.Config["SpellChecker"]             = 'SpellerPages';
+    oFCKeditor.Config["SpellerPagesServerScript"] = '$Env{"Baselink"}';
+    oFCKeditor.Config["FontSizes"]                = '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;';
     if ( '$Env{"TextDirection"}' ) {
-        oFCKeditor.Config["ContentLangDirection"]  = '$Env{"TextDirection"}';
+        oFCKeditor.Config["ContentLangDirection"] = '$Env{"TextDirection"}';
     }
+    var ToolbarSet = '';
     if ( document.compose && document.compose.FormID ) {
-        oFCKeditor.Config["Action"] = "PictureUpload";
+        oFCKeditor.Config["Action"] = 'PictureUpload';
         oFCKeditor.Config["FormID"] = document.compose.FormID.value;
-        oFCKeditor.ToolbarSet = 'Full';
+        ToolbarSet = 'Full';
+        if ( '$Env{"BrowserSpellCheckerInline"}' ) {
+            ToolbarSet = 'FullSpell';
+        }
     }
     else {
-        oFCKeditor.ToolbarSet = 'Simple';
+        ToolbarSet = 'Simple';
+        if ( '$Env{"BrowserSpellCheckerInline"}' ) {
+            ToolbarSet = 'SimpleSpell';
+        }
     }
+    oFCKeditor.ToolbarSet = ToolbarSet;
 
     oFCKeditor.ReplaceTextarea();
 }
