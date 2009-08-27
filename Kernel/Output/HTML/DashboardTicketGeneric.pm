@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.19 2009-08-18 12:52:53 mh Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.20 2009-08-27 23:35:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -156,7 +156,10 @@ sub Run {
     # define filter attributes
     my @MyQueues = $Self->{QueueObject}->GetAllCustomQueues(
         UserID => $Self->{UserID},
-    ) || (999_999);
+    );
+    if ( !@MyQueues ) {
+        @MyQueues = (999_999);
+    }
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => [ $Self->{UserID}, ],
