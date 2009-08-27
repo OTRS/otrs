@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.167 2009-08-27 12:33:51 martin Exp $
+# $Id: Layout.pm,v 1.168 2009-08-27 16:00:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.167 $) [1];
+$VERSION = qw($Revision: 1.168 $) [1];
 
 =head1 NAME
 
@@ -3117,7 +3117,25 @@ sub Attachment {
 
     # clean filename to get no problems with some browsers
     if ( $Param{Filename} ) {
-        $Output .= " filename=\"$Param{Filename}\"";
+
+        # detect if IE workaround is used (solution for IE problem with multi byte filename)
+        # to solve this kind of problems use the following in dtl for attachment downloads:
+        # <a href="$Env{"CGIHandle"}/$QData{"Filename"}?Action=...">xxx</a>
+        my $FilenameInHeader = 1;
+
+        # check if browser is broken
+        if ( $Self->{BrowserBreakDispositionHeader} && $ENV{REQUEST_URI} ) {
+
+            # check if IE workaround is used
+            if ( $ENV{REQUEST_URI} =~ /\Q$Self->{CGIHandle}\E\/.+?\?Action=/ ) {
+                $FilenameInHeader = 0;
+            }
+        }
+
+        # only deliver filename if needed
+        if ($FilenameInHeader) {
+            $Output .= " filename=\"$Param{Filename}\"";
+        }
     }
     $Output .= "\n";
 
@@ -4350,6 +4368,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.167 $ $Date: 2009-08-27 12:33:51 $
+$Revision: 1.168 $ $Date: 2009-08-27 16:00:23 $
 
 =cut
