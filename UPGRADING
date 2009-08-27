@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.35 2009-05-15 09:43:30 martin Exp $
+# $Id: UPGRADING,v 1.36 2009-08-27 17:32:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,41 +15,111 @@ If you are running a lower version of OTRS you need to follow the upgrade path
 to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4 ...).
 
 
-*) Stop all your services (e. g. rcotrs stop-force)
+1) Stop all your services
+   ----------------------
 
-*) Backup everything (database, Kernel/Config.pm, Kernel/Config/GenericAgent.pm, var/*)
+    e. g. (depends on used services):
+    shell> /etc/init.d/cron stop
+    shell> /etc/init.d/postfix stop
+    shell> /etc/init.d/apache stop
+    shell> /etc/init.d/mysql stop
 
-*) Make sure that you have backed up everything ;-)
 
-*) If possible try this install on a separate machine, althoug
+2) Backup everything below $OTRS_HOME (default: OTRS_HOME=/opt/otrs)
+   -----------------------------------------------------------------
+
+    o Kernel/Config.pm
+    o Kernel/Config/GenericAgent.pm
+    o Kernel/Config/Files/ZZZAuto.pm
+    o var/*
+    o as well as the database
+
+
+3) Make sure that you have backed up everything ;-)
+   ------------------------------------------------
+
+4) Setup new system
+   ----------------
+
+   If possible try this install on a separate machine, although
    I had always only production machines to upgrade
 
-*) Install the new release (tar or RPM)
 
-*) If you use the tar:
+5) Install the new release (tar or RPM)
+   ------------------------------------
 
-    a) the OTRS themes between 2.3 and 2.4 are _not_ compatible
-       (don't use the old themes)!
+   With the tarball:
 
-*) Update the database changes with (part 1):
+    shell> cd /opt
+    shell> tar -xzf otrs-x.x.x.tar.gz
+    shell> ln -s otrs-x.x.x otrs
+
+    Restore old config files.
+    o Kernel/Config.pm
+    o Kernel/Config/GenericAgent.pm
+    o Kernel/Config/Files/ZZZAuto.pm
+
+
+   With the RPM:
+
+    shell> rpm -Uvh otrs-x.x.x.-01.rpm
+
+    Restore old config files not needed, done by RPM.
+
+6) Own themes:
+   -----------
+
+   The OTRS themes from 2.3 and 2.4 are _not_ compatible (don't use the old themes)!
+
+   Themes are located under $OTRS_HOME/Kernel/Output/HTML/*/*.dtl (default: OTRS_HOME=/opt/otrs)
+
+
+7) Update the database changes with (part 1/2):
+   --------------------------------------------
+
+     shell> cd /opt/otrs/
+
     MySQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.4.mysql.sql | mysql -p -f -u root otrs
+     shell> cat scripts/DBUpdate-to-2.4.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.4.postgresql.sql | psql otrs
+     shell> cat scripts/DBUpdate-to-2.4.postgresql.sql | psql otrs
 
-*) Run the migration script (as OTRS user, _not_ as root):
+
+8) Run the migration script (as OTRS user, _not_ as root):
+   -------------------------------------------------------
+
    You must execute the migration script to migrate some data from the old database
-   structure to the new one. Please run $OTRS_HOME/scripts/DBUpdate-to-2.4.pl!
+   structure to the new one. Please run
 
-*) Update the database changes with (part 2):
+     shell> scripts/DBUpdate-to-2.4.pl
+
+
+9) Update the database changes with (part 2/2):
+   --------------------------------------------
+
     MySQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.4-post.mysql.sql | mysql -p -f -u root otrs
+     shell> cat scripts/DBUpdate-to-2.4-post.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.4-post.postgresql.sql | psql otrs
+     shell> cat scripts/DBUpdate-to-2.4-post.postgresql.sql | psql otrs
 
-*) If _no_ RPM is used, execute $OTRS_HOME/bin/SetPermissions.pl!
 
-*) Restart your services (e. g. rcotrs restart-force or each service manually)
+10) If the tarball is used, execute:
+    --------------------------------
 
-*) Log in as 'root@localhost' and select Admin -> SysConfig to make sure that
-   OTRS updates the configuration files.
+     shell> bin/SetPermissions.pl!
+
+
+11) Restart your services
+    ---------------------
+
+    e. g. (depends on used services):
+    shell> /etc/init.d/mysql start
+    shell> /etc/init.d/apache start
+    shell> /etc/init.d/postfix start
+    shell> /etc/init.d/cron start
+
+
+12) Well done!
+    ----------
+    Log in as 'root@localhost' and select Admin -> SysConfig to make
+    sure that OTRS updates the configuration files.

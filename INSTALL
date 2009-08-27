@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.49 2009-04-20 08:16:21 martin Exp $
+# $Id: INSTALL,v 1.50 2009-08-27 17:32:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@ Software requirements?
 ======================
 
   On all Perl-Platforms! You need:
-    * min. Perl5
+    * min. Perl 5.8.8
     * Database (e. g. MySQL, PostgreSQL)
     * Webserver (mod_perl isn't required but "very nice" to have)
     * LDAPv2 compliant server (OpenLDAP for works fine, however LDAP isn't required)
@@ -29,13 +29,13 @@ This few steps describe an OTRS installation incl. webserver and database
 settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 (of course you can choose an other directory or/and OTRS user).
 
-1. Install tar.gz:
+1) Install tar.gz:
    ---------------
-   $shell: cd /opt/
-   $shell: tar -xzvf otrs-x.x.x.tar.gz
-   $shell: mv otrs-x.x.x otrs
+   shell> cd /opt/
+   shell> tar -xzvf otrs-x.x.x.tar.gz
+   shell> mv otrs-x.x.x otrs
 
-2. Install CPAN Modules (if needed):
+2) Install CPAN Modules (if needed):
    ---------------------------------
    Note: use "bin/otrs.checkModules" to get an overview of all installed and
    required cpan modules.
@@ -44,7 +44,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
       the required CPAN modules.
 
    b) Install the required modules via CPAN shell (http://www.cpan.org/)
-      perl -MCPAN -e shell;
+      shell> perl -MCPAN -e shell;
       ...
       install Digest::MD5
       install Crypt::PasswdMD5
@@ -70,27 +70,27 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
       install Compress::Zlib
       ...
 
-3. Create user:
+3) Create user:
    ------------
     Add user:
     ---------
-    $shell: useradd -d /opt/otrs/ -c 'OTRS user' otrs
+    shell> useradd -d /opt/otrs/ -c 'OTRS user' otrs
 
     Add user to webserver group (if the webserver is not running with OTRS user):
     -----------------------------------------------------------------------------
-    $shell: usermod -G www otrs
+    shell> usermod -G www otrs
 
     (SuSE=www, Red Hat/Fedora=apache)
 
-4. Demo config files:
+4) Demo config files:
    ------------------
     There are several OTRS demo config files in $OTRS_HOME/Kernel/*.dist
     and $OTRS_HOME/Kernel/Config/*.dist. Make copies of all demo config files:
 
-      cp Kernel/Config.pm.dist Kernel/Config.pm
+      shell> cp Kernel/Config.pm.dist Kernel/Config.pm
 
-      cd Kernel/Config/
-      for foo in *.dist; do cp $foo `basename $foo .dist`; done
+      shell> cd Kernel/Config/
+      shell> for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
     Or if you are installing OTRS an a Windows system:
 
@@ -99,21 +99,21 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
       cd Kernel/Config/
       copy *.dist *.
 
-5. Check if all needed modules are installed:
+5) Check if all needed modules are installed:
    ------------------------------------------
-      $shell:~> perl -cw /opt/otrs/bin/cgi-bin/index.pl
+      shell> perl -cw /opt/otrs/bin/cgi-bin/index.pl
       /opt/otrs/bin/cgi-bin/index.pl syntax OK
-      $shell:~> perl -cw /opt/otrs/bin/PostMaster.pl
+
+      shell> perl -cw /opt/otrs/bin/PostMaster.pl
       /opt/otrs/bin/PostMaster.pl syntax OK
-      $shell:~>
 
     If you get "syntax OK" it seems to be Ok. Go ahead.
 
-6. Webserver:
+6) Webserver:
    ----------
    [follow README.webserver]
 
-7. File Permissions:
+7) File Permissions:
    -----------------
    To set the file permissions with a functional package manager:
    "bin/SetPermissions.pl --otrs-user=<OTRS_USER> --web-user=<WEBSERVER_USER> [--otrs-group=<OTRS_GROUP>] [--web-group=<WEB_GROUP>] <OTRS_HOME>"
@@ -125,18 +125,18 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
      Webserver with apache user (e. g. Redhat):
         "bin/SetPermissions.pl --otrs-user=otrs --web-user=apache --otrs-group=apache --web-group=apache /opt/otrs"
 
-8. Database setup:
+8) Database setup:
    ---------------
    If you use MySQL, you can use the Web-Installer (http://yourhost/otrs/installer.pl).
    Else follow README.database --> "DB - Setup Example".
 
-9. Config file ($HOME/Kernel/Config.pm):
+9) Config file ($HOME/Kernel/Config.pm):
    -------------------------------------
    If you used the Web-Installer, you can skip this point. If not,
    set some Kernel::Config ($HOME/Kernel/Config.pm) Options (FQDN, SystemID, Ticket::Hook,
    Home, ...)
 
-10. First Login:
+10) First Login:
    ------------
    http://yourhost/otrs/index.pl
    User: root@localhost
@@ -146,18 +146,18 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
    Finished.
 
-11. First Email:
-   ------------
+11) First Email:
+    ------------
    pipe an email directly into $OTRS_HOME/bin/Postmaster.pl
     (e. g. 'cat /opt/otrs/doc/test-email-1.box | /opt/otrs/bin/PostMaster.pl').
 
-12. Cronjobs for the OTRS user:
+12) Cronjobs for the OTRS user:
     ---------------------------
     There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist.
     Make copies of all of the default cronjobs:
 
-      cd var/cron
-      for foo in *.dist; do cp $foo `basename $foo .dist`; done
+      shell> cd var/cron
+      shell> for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
     Or if you are installing OTRS an a Windows system:
 

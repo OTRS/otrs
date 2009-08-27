@@ -2,14 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.970 2009-08-27 16:01:04 martin Exp $
+# $Id: CHANGES,v 1.971 2009-08-27 17:32:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-2.4.4 (2009/08/??)
+2.4.4 (2009/08/31)
+ - (2009/08/27) Fixed bug#4085 - The UPGRADING document is incorrect and
+    misleading.
  - (2009/08/27) Fixed bug#2768 - AttachmentsContent-Disposition header
     downloading a with non-ASCII filename.
  - (2009/08/27) Fixed bug#3974 - Missing template stats in the 2.4.0 beta 5.
