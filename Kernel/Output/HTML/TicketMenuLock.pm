@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuLock.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuLock.pm,v 1.13 2009-02-16 11:16:22 tr Exp $
+# $Id: TicketMenuLock.pm,v 1.14 2009-08-27 11:32:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,6 +41,12 @@ sub Run {
         return;
     }
 
+    # check if frontend module registered, if not, do not show action
+    if ( $Param{Config}->{Action} ) {
+        my $Module = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Param{Config}->{Action} };
+        return $Param{Counter} if !$Module;
+    }
+
     # check permission
     my $AccessOk = $Self->{TicketObject}->Permission(
         Type     => 'rw',
@@ -61,7 +67,7 @@ sub Run {
 
     # check acl
     if (
-        !defined( $Param{ACL}->{ $Param{Config}->{Action} } )
+        !defined $Param{ACL}->{ $Param{Config}->{Action} }
         || $Param{ACL}->{ $Param{Config}->{Action} }
         )
     {

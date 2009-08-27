@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuGeneric.pm,v 1.11 2009-02-16 11:16:22 tr Exp $
+# $Id: TicketMenuGeneric.pm,v 1.12 2009-08-27 11:32:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,9 +41,15 @@ sub Run {
         return;
     }
 
+    # check if frontend module registered, if not, do not show action
+    if ( $Param{Config}->{Action} ) {
+        my $Module = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Param{Config}->{Action} };
+        return $Param{Counter} if !$Module;
+    }
+
     # check permission
-    if ( $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Config}->{Action}") ) {
-        my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Config}->{Action}");
+    my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Config}->{Action}");
+    if ($Config) {
         if ( $Config->{Permission} ) {
             my $AccessOk = $Self->{TicketObject}->Permission(
                 Type     => $Config->{Permission},
@@ -96,7 +102,7 @@ sub Run {
 
     # check acl
     if (
-        !defined( $Param{ACL}->{ $Param{Config}->{Action} } )
+        !defined $Param{ACL}->{ $Param{Config}->{Action} }
         || $Param{ACL}->{ $Param{Config}->{Action} }
         )
     {
