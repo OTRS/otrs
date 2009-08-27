@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.168 2009-08-27 16:00:23 martin Exp $
+# $Id: Layout.pm,v 1.169 2009-08-27 21:56:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 package Kernel::Output::HTML::Layout;
 
-use lib "../../";
+use lib '../../';
 
 use strict;
 use warnings;
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.168 $) [1];
+$VERSION = qw($Revision: 1.169 $) [1];
 
 =head1 NAME
 
@@ -2829,7 +2829,7 @@ sub _BuildSelectionDataRefCreate {
     if ( $OptionRef->{DisabledBranch} ) {
         for my $Row ( @{$DataRef} ) {
             for my $Branch ( keys %{ $OptionRef->{DisabledBranch} } ) {
-                if ( $Row->{Value} =~ /^($Branch)$/ || $Row->{Value} =~ /^($Branch)::/ ) {
+                if ( $Row->{Value} =~ /^(\Q$Branch\E)$/ || $Row->{Value} =~ /^(\Q$Branch\E)::/ ) {
                     $Row->{Disabled} = 1;
                 }
             }
@@ -4368,6 +4368,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.168 $ $Date: 2009-08-27 16:00:23 $
+$Revision: 1.169 $ $Date: 2009-08-27 21:56:48 $
 
 =cut
