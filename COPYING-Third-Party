@@ -1,12 +1,12 @@
 # --
-# $Id: COPYING-Third-Party,v 1.1 2009-08-24 15:34:39 martin Exp $
+# $Id: COPYING-Third-Party,v 1.2 2009-08-27 19:14:16 mb Exp $
 # --
 # A list of all included third party libraries.
 # --
 
 o Name:    Prototype JavaScript framework
   Web:     http://www.prototypejs.org/
-  License: MIT License - http://en.wikipedia.org/wiki/MIT_License
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    YUI - Yahoo User Interface
   Web:     http://developer.yahoo.net/yui/
@@ -15,8 +15,6 @@ o Name:    YUI - Yahoo User Interface
 o Name:    fckeditor
   Web:     http://www.fckeditor.net/
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  License: LGPL - http://www.gnu.org/licenses/lgpl.html
-  License: MPL - http://www.mozilla.org/MPL/MPL-1.1.html
 
 o Name:    CPAN CGI
   Web:     http://stein.cshl.org/WWW/software/CGI/
@@ -26,124 +24,102 @@ o Name:    CPAN CGI
            # wish, but if you redistribute a modified version, please attach a note
            # listing the modifications you have made.
 
+o Name:    CPAN Apache::Reload
+  Web:     n/a
+  License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
+
 o Name:    CPAN Algorithm::Diff
   Web:     n/a
   License: # Parts Copyright (c) 2000-2004 Ned Konz. All rights reserved. Parts
            # by Tye McQueen.
-           # This program is free software; you can redistribute it and/or
-           # modify it under the same terms as Perl.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN Authen::SASL
   Web:     n/a
-  License: # Copyright (c) 1998-2005 Graham Barr. All rights reserved. This
-           # program is free software; you can redistribute it and/or modify
-           # it under the same terms as Perl itself.
+  License: # Copyright (c) 1998-2005 Graham Barr. All rights reserved. 
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN Crypt::PasswdMD5
   Web:     n/a
   License: # Copyright Luis E. Muñoz <luismunoz@cpan.org>
-           # This code and all accompanying software comes with NO WARRANTY.
-           # You use it at your own risk.
-           # This code and all accompanying software can be used freely under
-           # the same terms as Perl itself.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN Date::Pcalc
   Web:     n/a
   License: # Copyright (c) 1999-2001 by J. David Eisenberg; portions Copyright
            # (c) 1993-2001 by Steffen Beyer. All rights reserved.
-           # This package is free software; you can redistribute it and/or
-           # modify it under the same terms as Perl itself, i.e., under the
-           # terms of the "Artistic License" or the "GNU General Public
-           # License".
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN File::Temp
   Web:     n/a
   License: # Copyright (C) 2007-2009 Tim Jenness. Copyright (C) 1999-2007 Tim
            # Jenness and the UK Particle Physics and Astronomy Research Council.
-           # All Rights Reserved. This program is free software; you can
-           # redistribute it and/or modify it under the same terms as Perl
-           # itself.
+           # All Rights Reserved. 
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
+           
 
 o Name:    CPAN IO::Lines
   Web:     n/a
   License: # Copyright (c) 1996 by Eryq.  All rights reserved.
            # Copyright (c) 1999,2001 by ZeeGee Software Inc. All rights reserved.
-           #
-           # This program is free software; you can redistribute it and/or
-           # modify it under the same terms as Perl itself.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN MIME::Tools
   Web:     n/a
   License: # Copyright (c) 1996 by Eryq.  All rights reserved.
            # Copyright (c) 1999 by ZeeGee Software Inc. All rights reserved.
-           #
-           # This program is free software; you can redistribute it and/or
-           # modify it under the same terms as Perl itself.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN MIME::EncWords
   Web:     n/a
-  License: # All rights reserved.  This program is free software; you can
-           # redistribute it and/or modify it under the same terms as Perl
-           # itself.
+  License: # All rights reserved.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN MailTools
   Web:     n/a
   License: # Copyrights 1995-2000 Graham Barr <gbarr@pobox.com> and 2001-2007
            # Mark Overmeer <perl@overmeer.net>.
-           #
-           # This program is free software; you can redistribute it and/or
-           # modify it under the same terms as Perl itself.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN Net::IMAP::Simple
   Web:     n/a
   License: # Copyright (c) 2005 Colin Faber.
            # Copyright (c) 2004 Casey West.
            # Copyright (c) 1999 Joao Fonseca.
-           #
-           # All rights reserved. This program is free software; you can
-           # redistribute it and/or modify it under the same terms as Perl
-           # itself.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN Net::POP3::SSLWrapper
   Web:     n/a
-  License: # This library is free software; you can redistribute it and/or
-           # modify it under the same terms as Perl itself.
-
+  License: # GNU v2 - http://www.gnu.org/licenses/gpl.html
+  
 o Name:    CPAN Net::SMTP::SSL
   Web:     n/a
            # Copyright (c) 2004 Casey West.  All rights reserved.
-           # This library is free software; you can redistribute it and/or
-           #  modify it under the same terms as Perl itself.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN Text::CSV
   Web:     n/a
-  License: # This library is free software; you can redistribute it and/or
-           # modify it under the same terms as Perl itself.
-
+  License: # GNU v2 - http://www.gnu.org/licenses/gpl.html
+  
 o Name:    CPAN Text::CSV_PP
   Web:     n/a
-  License: # This library is free software; you can redistribute it and/or
-           # modify it under the same terms as Perl itself.
-
+  License: # GNU v2 - http://www.gnu.org/licenses/gpl.html
+  
 o Name:    CPAN Text::Diff
   Web:     n/a
-  License: # You may use this under the terms of either the Artistic License
-           # or GNU Public License v 2.0 or greater.
-
+  License: # GNU v2 - http://www.gnu.org/licenses/gpl.html
+  
 o Name:    CPAN XML::FeedPP
   Web:     n/a
   License: # Copyright (c) 2006-2009 Yusuke Kawasaki.
-           # This library is free software; you can redistribute it and/or
-           # modify it under the same terms as Perl itself.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN XML::TreePP
   Web:     n/a
   License: # Copyright (c) 2006-2009 Yusuke Kawasaki.
-           # This library is free software; you can redistribute it and/or
-           # modify it under the same terms as Perl itself.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN XML::Parser::Lite
   Web:     n/a
-  License: # This library is free software; you can redistribute it and/or
-           # modify it under the same terms as Perl itself.
-
+  License: # GNU v2 - http://www.gnu.org/licenses/gpl.html
+  
