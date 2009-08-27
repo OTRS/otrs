@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.79 2009-07-01 20:36:44 martin Exp $
+# $Id: Stats.pm,v 1.80 2009-08-27 12:32:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 =head1 SYNOPSIS
 
@@ -108,8 +108,7 @@ sub new {
     # check objects list for completeness
     for my $Object (
         qw(
-        ConfigObject LogObject UserID GroupObject
-        UserObject TimeObject MainObject CSVObject
+        ConfigObject LogObject UserID GroupObject UserObject TimeObject MainObject CSVObject
         DBObject EncodeObject
         )
         )
@@ -2290,7 +2289,6 @@ sub _WriteResultCache {
     }
 
     # write cache file
-
     my $Filename = $Self->_CreateStaticResultCacheFilename(
         GetParam => $Param{GetParam},
         StatID   => $Param{StatID},
@@ -2979,11 +2977,7 @@ sub _AutomaticSampleImport {
     my ( $Self, %Param ) = @_;
 
     my $Language  = $Self->{ConfigObject}->Get('DefaultLanguage');
-    my $Directory = $Self->{ConfigObject}->Get('Home');
-    if ( $Directory !~ m{^.*\/$}x ) {
-        $Directory .= '/';
-    }
-    $Directory .= 'scripts/test/sample/';
+    my $Directory = $Self->{StatsTempDir};
 
     if ( !opendir( DIRE, $Directory ) ) {
         $Self->{LogObject}->Log(
@@ -2996,9 +2990,8 @@ sub _AutomaticSampleImport {
     # check if stats in the default language available, if not use en
     my $Flag = 0;
     while ( defined( my $Filename = readdir DIRE ) ) {
-        if ( $Filename =~ m{^Stats.*\.$Language\.xml$}x ) {
+        if ( $Filename =~ m{^.*\.$Language\.xml$}x ) {
             $Flag = 1;
-
         }
     }
 
@@ -3008,7 +3001,7 @@ sub _AutomaticSampleImport {
     }
 
     while ( defined( my $Filename = readdir DIRE ) ) {
-        if ( $Filename =~ m{^Stats.*\.$Language\.xml$}x ) {
+        if ( $Filename =~ m{^.*\.$Language\.xml$}x ) {
 
             # check filesize
             #            my $Filesize = -s $Directory.$Filename;
@@ -3229,6 +3222,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.79 $ $Date: 2009-07-01 20:36:44 $
+$Revision: 1.80 $ $Date: 2009-08-27 12:32:21 $
 
 =cut

@@ -44,6 +44,8 @@
 %dir /opt/otrs/var/spool/
 %dir /opt/otrs/var/cron/
 %dir /opt/otrs/var/tmp/
+%dir /opt/otrs/var/stats/
+/opt/otrs/var/stats/*.xml
 %dir /opt/otrs/var/tmp/Cache
 %dir /opt/otrs/var/pics/stats/
 
