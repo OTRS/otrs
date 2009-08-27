@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.205 2009-08-25 12:19:24 mb Exp $
+# $Id: de.pm,v 1.206 2009-08-27 11:41:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.205 $) [1];
+$VERSION = qw($Revision: 1.206 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1267,9 +1267,9 @@ sub Data {
         'Next state' => 'Nächster Status',
         'Pending date' => 'Warten bis',
         'Merge to' => 'Zusammenfassen zu',
-        'Merge to oldest' => 'Zusammenfassen zu ältesten',
+        'Merge to oldest' => 'Zusammenfassen zu Ältesten',
         'Link together' => 'Zusammen verlinken',
-        'Link to Parent' => 'Verlinken mit ältesten',
+        'Link to Parent' => 'Verlinken mit Eltern-Ticket',
         'Unlock Tickets' => 'Freigeben der Tickets',
 
         # Template: AgentTicketClose
