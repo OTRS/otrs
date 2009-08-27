@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.49 2009-08-19 10:28:11 martin Exp $
+# $Id: LayoutTicket.pm,v 1.50 2009-08-27 12:34:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -775,7 +775,7 @@ sub ArticleQuote {
                 ATMCOUNT:
                 for my $AttachmentID ( keys %Attachments ) {
 
-                    # remember not included attachments
+                    # remember not included real attachments
                     if ( $Attachments{$AttachmentID}->{ContentID} !~ /^<$ContentID>$/i ) {
                         push @NotInlineAttachments, $AttachmentID;
                         next ATMCOUNT;
