@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.969 2009-08-26 17:53:34 mb Exp $
+# $Id: CHANGES,v 1.970 2009-08-27 16:01:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,13 @@
 # --
 
 2.4.4 (2009/08/??)
- - (2009/08/25) Fixed bug#2676 - Translation issue for May
+ - (2009/08/27) Fixed bug#2768 - AttachmentsContent-Disposition header
+    downloading a with non-ASCII filename.
+ - (2009/08/27) Fixed bug#3974 - Missing template stats in the 2.4.0 beta 5.
+ - (2009/08/27) Fixed bug#3297 - Disabling of AgentTicketMerge does not remove
+    merge link.
+ - (2009/08/26) Fixed bug#3746 - Show expiration date for PGP or S/MIME keys.
+ - (2009/08/25) Fixed bug#2676 - Translation issue for May.
  - (2009/08/26) Fixed bug#4122 - META: spell checker issues with Rich Text
     Editor.
  - (2009/08/25) Added prio color in dashboard ticket overview like in ticket
@@ -20,7 +26,8 @@
     Javascript.
  - (2009/08/24) Added COPYING-Third-Party - a list of all included party
     libraries.
- - (2009/08/21) Fixed bug#4178 - Bundle Apache2::Reload in Kernel/cpan-lib/.
+ - (2009/08/21) Fixed bug#4178 - Added bundle of Apache2::Reload in
+    Kernel/cpan-lib/, becuase it's not longer distributed with mod_perl.
  - (2009/08/21) Fixed bug#4170 - Typos in AgentTicketQueue and Sysconfig:MOTD
  - (2009/08/19) Fixed bug#4070 - No refresh in CPanel activated by default /
     default values of preferences sys config not taken over.
