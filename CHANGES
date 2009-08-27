@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.971 2009-08-27 17:32:25 martin Exp $
+# $Id: CHANGES,v 1.972 2009-08-27 22:47:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.4 (2009/08/31)
+ - (2009/08/27) Fixed bug#4198 - Error with services with one bracket in the
+    name.
  - (2009/08/27) Fixed bug#4085 - The UPGRADING document is incorrect and
     misleading.
  - (2009/08/27) Fixed bug#2768 - AttachmentsContent-Disposition header
