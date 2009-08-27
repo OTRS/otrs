@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.38 2009-07-01 14:03:11 ub Exp $
+# $Id: Service.pm,v 1.39 2009-08-27 19:27:31 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -66,6 +66,7 @@ create an object
     );
     my $ServiceObject = Kernel::System::Service->new(
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
         MainObject   => $MainObject,
@@ -908,6 +909,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2009-07-01 14:03:11 $
+$Revision: 1.39 $ $Date: 2009-08-27 19:27:31 $
 
 =cut
