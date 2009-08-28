@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.972 2009-08-27 22:47:00 martin Exp $
+# $Id: CHANGES,v 1.973 2009-08-28 11:20:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.4.4 (2009/08/31)
+ - (2009/08/28) Fixed bug#4203 - No German translation for "My Locked Tickets"
+ - (2009/08/28) Fixed bug#1245 - Queues and responses are sorted descending
+    instead of ascending in AdminQueueResponses.
  - (2009/08/27) Fixed bug#4198 - Error with services with one bracket in the
     name.
  - (2009/08/27) Fixed bug#4085 - The UPGRADING document is incorrect and
