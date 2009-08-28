@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.25 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminQueueResponses.pm,v 1.26 2009-08-28 08:45:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -195,7 +195,7 @@ sub _Mask {
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
     }
     $Param{OptionStrg0} .= "<B>$NeType:</B><BR> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
-    for my $ID ( sort { $SecondDataTmp{$b} cmp $SecondDataTmp{$a} } keys %SecondDataTmp ) {
+    for my $ID ( sort { $SecondDataTmp{$a} cmp $SecondDataTmp{$b} } keys %SecondDataTmp ) {
         $SecondDataTmp{$ID} = $Self->{LayoutObject}->Ascii2Html(
             Text                => $SecondDataTmp{$ID},
             HTMLQuote           => 1,
