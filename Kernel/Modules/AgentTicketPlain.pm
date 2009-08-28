@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPlain.pm - to get a plain view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPlain.pm,v 1.12 2009-08-18 12:52:53 mh Exp $
+# $Id: AgentTicketPlain.pm,v 1.13 2009-08-28 12:13:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -77,7 +77,7 @@ sub Run {
             . "ArticleID-$Article{ArticleID}.eml";
         return $Self->{LayoutObject}->Attachment(
             Filename    => $Filename,
-            ContentType => 'text/plain',
+            ContentType => 'message/rfc822',
             Content     => $Plain,
             Type        => 'attachment',
         );
