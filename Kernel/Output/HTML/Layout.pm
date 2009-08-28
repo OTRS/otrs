@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.169 2009-08-27 21:56:48 martin Exp $
+# $Id: Layout.pm,v 1.170 2009-08-28 16:39:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.169 $) [1];
+$VERSION = qw($Revision: 1.170 $) [1];
 
 =head1 NAME
 
@@ -198,6 +198,7 @@ sub new {
     $Self->{Browser}     = 'Unknown';
 
     $Self->{BrowserJavaScriptSupport} = 1;
+    $Self->{BrowserRichText}          = 1;
 
     if ( !$ENV{HTTP_USER_AGENT} ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
@@ -231,10 +232,7 @@ sub new {
 
             # on iphone disable rich text editor
             if ( $ENV{HTTP_USER_AGENT} =~ /iPhone\sOS/i ) {
-                $Self->{ConfigObject}->Set(
-                    Key   => 'Frontend::RichText',
-                    Value => 0,
-                );
+                $Self->{BrowserRichText} = 0;
             }
         }
 
@@ -260,6 +258,9 @@ sub new {
         elsif ( $ENV{HTTP_USER_AGENT} =~ /konqueror/i ) {
             $Self->{Browser}     = 'Konqueror';
             $Self->{BrowserWrap} = 'hard';
+
+            # on konquerer disable rich text editor
+            $Self->{BrowserRichText} = 0;
         }
 
         # w3m
@@ -284,7 +285,7 @@ sub new {
     }
 
     # check if rich text can be active
-    if ( !$Self->{BrowserJavaScriptSupport} ) {
+    if ( !$Self->{BrowserJavaScriptSupport} || !$Self->{BrowserRichText} ) {
         $Self->{ConfigObject}->Set(
             Key   => 'Frontend::RichText',
             Value => 0,
@@ -3120,7 +3121,7 @@ sub Attachment {
 
         # detect if IE workaround is used (solution for IE problem with multi byte filename)
         # to solve this kind of problems use the following in dtl for attachment downloads:
-        # <a href="$Env{"CGIHandle"}/$QData{"Filename"}?Action=...">xxx</a>
+        # <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=...">xxx</a>
         my $FilenameInHeader = 1;
 
         # check if browser is broken
@@ -4368,6 +4369,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.169 $ $Date: 2009-08-27 21:56:48 $
+$Revision: 1.170 $ $Date: 2009-08-28 16:39:47 $
 
 =cut
