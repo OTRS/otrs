@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.36 2009-08-27 17:32:09 martin Exp $
+# $Id: UPGRADING,v 1.37 2009-08-28 14:52:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,7 +74,13 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4 ...).
    Themes are located under $OTRS_HOME/Kernel/Output/HTML/*/*.dtl (default: OTRS_HOME=/opt/otrs)
 
 
-7) Update the database changes with (part 1/2):
+7) If the tarball is used, execute:
+   --------------------------------
+
+     shell> bin/SetPermissions.pl!
+
+
+8) Update the database changes with (part 1/2):
    --------------------------------------------
 
      shell> cd /opt/otrs/
@@ -85,7 +91,7 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4 ...).
      shell> cat scripts/DBUpdate-to-2.4.postgresql.sql | psql otrs
 
 
-8) Run the migration script (as OTRS user, _not_ as root):
+9) Run the migration script (as OTRS user, _not_ as root):
    -------------------------------------------------------
 
    You must execute the migration script to migrate some data from the old database
@@ -94,19 +100,13 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4 ...).
      shell> scripts/DBUpdate-to-2.4.pl
 
 
-9) Update the database changes with (part 2/2):
-   --------------------------------------------
+10) Update the database changes with (part 2/2):
+    --------------------------------------------
 
     MySQL:
      shell> cat scripts/DBUpdate-to-2.4-post.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
      shell> cat scripts/DBUpdate-to-2.4-post.postgresql.sql | psql otrs
-
-
-10) If the tarball is used, execute:
-    --------------------------------
-
-     shell> bin/SetPermissions.pl!
 
 
 11) Restart your services
