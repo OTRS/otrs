@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.170 2009-08-28 16:39:47 martin Exp $
+# $Id: Layout.pm,v 1.171 2009-08-28 16:51:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.170 $) [1];
+$VERSION = qw($Revision: 1.171 $) [1];
 
 =head1 NAME
 
@@ -200,15 +200,16 @@ sub new {
     $Self->{BrowserJavaScriptSupport} = 1;
     $Self->{BrowserRichText}          = 1;
 
-    if ( !$ENV{HTTP_USER_AGENT} ) {
+    my $HttpUserAgent = lc $ENV{HTTP_USER_AGENT};
+    if ( !$HttpUserAgent ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
     }
-    elsif ( $ENV{HTTP_USER_AGENT} ) {
+    elsif ($HttpUserAgent) {
 
         # msie
         if (
-            $ENV{HTTP_USER_AGENT} =~ /MSIE\s([0-9.]+)/i
-            || $ENV{HTTP_USER_AGENT} =~ /Internet\sExplorer\/([0-9.]+)/i
+            $HttpUserAgent =~ /msie\s([0-9.]+)/
+            || $HttpUserAgent =~ /internet\sexplorer\/([0-9.]+)/
             )
         {
             $Self->{Browser}     = 'MSIE';
@@ -226,36 +227,18 @@ sub new {
         }
 
         # safari
-        elsif ( $ENV{HTTP_USER_AGENT} =~ /safari/i ) {
+        elsif ( $HttpUserAgent =~ /safari/ ) {
             $Self->{Browser}     = 'Safari';
             $Self->{BrowserWrap} = 'hard';
 
             # on iphone disable rich text editor
-            if ( $ENV{HTTP_USER_AGENT} =~ /iPhone\sOS/i ) {
+            if ( $HttpUserAgent =~ /iphone\sos/ ) {
                 $Self->{BrowserRichText} = 0;
             }
         }
 
-        # mozilla
-        elsif ( $ENV{HTTP_USER_AGENT} =~ /^mozilla/i ) {
-            $Self->{Browser}     = 'Mozilla';
-            $Self->{BrowserWrap} = 'hard';
-        }
-
-        # opera
-        elsif ( $ENV{HTTP_USER_AGENT} =~ /^opera.*/i ) {
-            $Self->{Browser}     = 'Opera';
-            $Self->{BrowserWrap} = 'hard';
-        }
-
-        # netscape
-        elsif ( $ENV{HTTP_USER_AGENT} =~ /netscape/i ) {
-            $Self->{Browser}     = 'Netscape';
-            $Self->{BrowserWrap} = 'hard';
-        }
-
         # konqueror
-        elsif ( $ENV{HTTP_USER_AGENT} =~ /konqueror/i ) {
+        elsif ( $HttpUserAgent =~ /konqueror/ ) {
             $Self->{Browser}     = 'Konqueror';
             $Self->{BrowserWrap} = 'hard';
 
@@ -263,24 +246,42 @@ sub new {
             $Self->{BrowserRichText} = 0;
         }
 
+        # mozilla
+        elsif ( $HttpUserAgent =~ /^mozilla/ ) {
+            $Self->{Browser}     = 'Mozilla';
+            $Self->{BrowserWrap} = 'hard';
+        }
+
+        # opera
+        elsif ( $HttpUserAgent =~ /^opera.*/ ) {
+            $Self->{Browser}     = 'Opera';
+            $Self->{BrowserWrap} = 'hard';
+        }
+
+        # netscape
+        elsif ( $HttpUserAgent =~ /netscape/ ) {
+            $Self->{Browser}     = 'Netscape';
+            $Self->{BrowserWrap} = 'hard';
+        }
+
         # w3m
-        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /^w3m.*/i ) {
+        elsif ( $HttpUserAgent =~ /^w3m.*/ ) {
             $Self->{Browser}                  = 'w3m';
             $Self->{BrowserJavaScriptSupport} = 0;
         }
 
         # lynx
-        elsif ( $ENV{HTTP_USER_AGENT} =~ /^lynx.*/i ) {
+        elsif ( $HttpUserAgent =~ /^lynx.*/ ) {
             $Self->{Browser}                  = 'Lynx';
             $Self->{BrowserJavaScriptSupport} = 0;
         }
 
         # links
-        elsif ( $ENV{HTTP_USER_AGENT} =~ /^links.*/i ) {
+        elsif ( $HttpUserAgent =~ /^links.*/ ) {
             $Self->{Browser} = 'Links';
         }
         else {
-            $Self->{Browser} = 'Unknown - ' . $ENV{'HTTP_USER_AGENT'};
+            $Self->{Browser} = 'Unknown - ' . $HttpUserAgent;
         }
     }
 
@@ -4369,6 +4370,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.170 $ $Date: 2009-08-28 16:39:47 $
+$Revision: 1.171 $ $Date: 2009-08-28 16:51:29 $
 
 =cut
