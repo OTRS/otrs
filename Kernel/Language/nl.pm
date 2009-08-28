@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.102 2009-08-26 22:00:05 mb Exp $
+# $Id: nl.pm,v 1.103 2009-08-28 11:22:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -678,17 +678,17 @@ sub Data {
         'Response' => 'Antwoord',
         'Auto Response From' => 'E-mailadres',
         'Note' => 'Notitie',
-        'Useable options' => 'Mogelijkheden',
+        'Useable options' => 'Variabelen',
         'To get the first 20 character of the subject.' => 'Voor de eerste 20 tekens van het onderwerp',
         'To get the first 5 lines of the email.' => 'Voor de eerste vijf regels van het e-mail bericht',
         'To get the realname of the sender (if given).' => 'Voor de echte naam van de afzender (indien beschikbaar)',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Voor de eigenschappen van de interactie (bijvoorbeeld <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Gegevens van de huidige klant (bijvoorbeeld <OTRS_CUSTOMER_DATA_UserFirstname>).',
-        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Ticket eigenaar mogelijkheden (bijvoorbeeld <OTRS_OWNER_UserFirstname>).',
-        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Ticket verantwoordelijke mogelijkheden (bijvoorbeeld <OTRS_RESPONSIBLE_UserFirstname).',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Mogelijkheden van de huidige gebruiker die deze actie heeft verzocht (bijvoorbeeld <OTRS_CURRENT_UserFirstname>).',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => 'Mogelijkheden van de ticket gegevens (bijvoorbeeld <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
-        'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Configuratie mogelijkheden (bijvoorbeeld <OTRS_CONFIG_HttpType>).',
+        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Gegevens van de ticket eigenaar (bijvoorbeeld <OTRS_OWNER_UserFirstname>).',
+        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Gegevens van de ticket verantwoordelijke (bijvoorbeeld <OTRS_RESPONSIBLE_UserFirstname).',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Gegevens van de huidige gebruiker die deze actie heeft verzocht (bijvoorbeeld <OTRS_CURRENT_UserFirstname>).',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => 'Gegevens van het ticket (bijvoorbeeld <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
+        'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Configuratie-gegevens (bijvoorbeeld <OTRS_CONFIG_HttpType>).',
 
         # Template: AdminCustomerCompanyForm
         'Customer Company Management' => 'Beheer bedrijven',
@@ -983,7 +983,7 @@ sub Data {
         # Template: AdminResponseForm
         'Response Management' => 'Beheer standaard antwoorden',
         'A response is default text to write faster answer (with default text) to customers.' => 'Een antwoord is een standaard-tekst om sneller antwoorden te kunnen opstellen.',
-        'Don\'t forget to add a new response a queue!' => 'Vergeet niet om een antwoord aan de wachtrij te koppelen!',
+        'Don\'t forget to add a new response a queue!' => 'Vergeet niet om een antwoord aan een wachtrij te koppelen!',
         'The current ticket state is' => 'De huidige ticketstatus is.',
         'Your email address is new' => 'Uw e-mailadres is nieuw.',
 
@@ -1338,6 +1338,7 @@ sub Data {
         'History of' => 'Geschiedenis van',
 
         # Template: AgentTicketLocked
+        'My Locked Tickets' => 'Mijn vergrendelde tickets',
 
         # Template: AgentTicketMerge
         'You need to use a ticket number!' => 'Gebruik een ticketnummer.',
@@ -1600,7 +1601,7 @@ sub Data {
         'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
         'Notification (Customer)' => 'Notificatie (klant)',
         'Select Source (for add)' => 'Selecteer bron (voor toevoegen)',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Mogelijkheden van de ticket gegevens (bijvoorbeeld &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Ticketgegevens (bijvoorbeeld &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
         'Child-Object' => 'Subitem',
         'Days' => 'Dagen',
         'Queue ID' => 'Wachtrij ID',
@@ -1632,7 +1633,7 @@ sub Data {
         'Today' => 'Vandaag',
         'No * possible!' => 'Geen * mogelijk!',
         'PostMaster Filter' => 'E-mail filters',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Mogelijkheden van de huidige gebruiker die deze bewerking heeft aangevraagd (bijvoorbeeld &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Gegevens van de huidige gebruiker (bijvoorbeeld &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
         'Message for new Owner' => 'Bericht voor nieuwe eigenaar',
         'to get the first 5 lines of the email' => 'voor de eerste vijf regels van het e-mail bericht',
         'Sort by' => 'Sorteer op',
