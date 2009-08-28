@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.974 2009-08-28 11:49:09 mh Exp $
+# $Id: CHANGES,v 1.975 2009-08-28 12:28:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,11 @@
 # --
 
 2.4.4 (2009/08/31)
+ - (2009/08/28) Fixed bug#1917 - Wrong Content-Type in downloaded message
+    from ArticlePlain.
  - (2009/08/28) Fixed wrong quoting in links in AgentTicketZoom.dtl and
     CustomerTicketZoom.dtl.
- - (2009/08/28) Fixed bug#4203 - No German translation for "My Locked Tickets"
+ - (2009/08/28) Fixed bug#4203 - No German translation for "My Locked Tickets".
  - (2009/08/28) Fixed bug#1245 - Queues and responses are sorted descending
     instead of ascending in AdminQueueResponses.
  - (2009/08/27) Fixed bug#4198 - Error with services with one bracket in the
@@ -36,8 +38,8 @@
  - (2009/08/24) Added COPYING-Third-Party - a list of all included party
     libraries.
  - (2009/08/21) Fixed bug#4178 - Added bundle of Apache2::Reload in
-    Kernel/cpan-lib/, becuase it's not longer distributed with mod_perl.
- - (2009/08/21) Fixed bug#4170 - Typos in AgentTicketQueue and Sysconfig:MOTD
+    Kernel/cpan-lib/, because it's no longer distributed with mod_perl.
+ - (2009/08/21) Fixed bug#4170 - Typos in AgentTicketQueue and Sysconfig:MOTD.
  - (2009/08/19) Fixed bug#4070 - No refresh in CPanel activated by default /
     default values of preferences sys config not taken over.
  - (2009/08/18) Fixed bug#4161 - System takes about 20sec to get edit screen
