@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.171 2009-08-28 16:51:29 martin Exp $
+# $Id: Layout.pm,v 1.172 2009-08-29 13:23:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.171 $) [1];
+$VERSION = qw($Revision: 1.172 $) [1];
 
 =head1 NAME
 
@@ -711,7 +711,7 @@ sub Output {
     }egx;
 
     # rewrite forms, add challenge token : <form action="index.pl" method="get">
-    if ( $Self->{SessionID} ) {
+    if ( $Self->{SessionID} && $Self->{UserChallengeToken} ) {
         my $UserChallengeToken = $Self->Ascii2Html( Text => $Self->{UserChallengeToken} );
         $Output =~ s{
             (<form.+?action=".*?".*?>)
@@ -4370,6 +4370,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.171 $ $Date: 2009-08-28 16:51:29 $
+$Revision: 1.172 $ $Date: 2009-08-29 13:23:09 $
 
 =cut
