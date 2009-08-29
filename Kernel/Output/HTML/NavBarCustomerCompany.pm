@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarCustomerCompany.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarCustomerCompany.pm,v 1.3 2009-02-16 11:16:22 tr Exp $
+# $Id: NavBarCustomerCompany.pm,v 1.4 2009-08-29 12:20:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,9 +46,10 @@ sub Run {
         return if $CustomerMap->{CustomerCompanySupport};
     }
 
-    # reset nav bar item
+    # reset nav bar item, remove customer company feature
     my %Return = ();
-    $Return{'0009100'} = {};
+    $Return{'ItemArea0009100'} = {};
+    $Return{'ItemPre0009100'}  = {};
     return %Return;
 }
 
