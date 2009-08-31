@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.976 2009-08-28 18:54:53 mb Exp $
+# $Id: CHANGES,v 1.977 2009-08-31 08:45:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.4.4 (2009/08/31)
+ - (2009/08/29) Fixed bug#4018 - CustomerCompany in ModuleAction section while
+    CustomerUser in Module section.
+ - (2009/08/28) Fixed bug#4159 - Text Editor does not work with Konqueror.
  - (2009/08/28) Fixed bug#4117 - UPGRADING: SetPermission.sh has to be run
     before the update script is started.
  - (2009/08/28) Fixed bug#1917 - Wrong Content-Type in downloaded message
