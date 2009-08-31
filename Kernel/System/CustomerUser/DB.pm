@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.77 2009-07-01 20:36:44 martin Exp $
+# $Id: DB.pm,v 1.78 2009-08-31 16:32:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -339,8 +339,6 @@ sub CustomerUserList {
 sub CustomerIDs {
     my ( $Self, %Param ) = @_;
 
-    my @CustomerIDs = ();
-
     # check needed stuff
     if ( !$Param{User} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need User!" );
@@ -362,27 +360,36 @@ sub CustomerIDs {
     my %Data = $Self->CustomerUserDataGet( User => $Param{User} );
 
     # there are multi customer ids
+    my @CustomerIDs;
     if ( $Data{UserCustomerIDs} ) {
+
+        # used seperators
         for my $Split ( ';', ',', '|' ) {
-            if ( $Data{UserCustomerIDs} =~ /$Split/ ) {
-                my @IDs = split( /$Split/, $Data{UserCustomerIDs} );
-                for my $ID (@IDs) {
-                    $ID =~ s/^\s+//g;
-                    $ID =~ s/\s+$//g;
-                    push( @CustomerIDs, $ID );
-                }
+
+            # next if seperator is not there
+            next if $Data{UserCustomerIDs} !~ /\Q$Split\E/;
+
+            # split it
+            my @IDs = split /\Q$Split\E/, $Data{UserCustomerIDs};
+            for my $ID (@IDs) {
+                $ID =~ s/^\s+//g;
+                $ID =~ s/\s+$//g;
+                push @CustomerIDs, $ID;
             }
-            else {
-                $Data{UserCustomerIDs} =~ s/^\s+//g;
-                $Data{UserCustomerIDs} =~ s/\s+$//g;
-                push( @CustomerIDs, $Data{UserCustomerIDs} );
-            }
+            last;
+        }
+
+        # fallback if no seperator got found
+        if ( !@CustomerIDs ) {
+            $Data{UserCustomerIDs} =~ s/^\s+//g;
+            $Data{UserCustomerIDs} =~ s/\s+$//g;
+            push @CustomerIDs, $Data{UserCustomerIDs};
         }
     }
 
     # use also the primary customer id
     if ( $Data{UserCustomerID} && !$Self->{ExcludePrimaryCustomerID} ) {
-        push( @CustomerIDs, $Data{UserCustomerID} );
+        push @CustomerIDs, $Data{UserCustomerID};
     }
 
     # cache request

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.52 2009-05-08 12:16:13 mh Exp $
+# $Id: LDAP.pm,v 1.53 2009-08-31 16:32:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,7 +40,7 @@ sub new {
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{CustomerUserSearchListLimit} || 200;
 
     # get ldap preferences
-    if ( defined( $Self->{CustomerUserMap}->{Params}->{Die} ) ) {
+    if ( defined $Self->{CustomerUserMap}->{Params}->{Die} ) {
         $Self->{Die} = $Self->{CustomerUserMap}->{Params}->{Die};
     }
     else {
@@ -208,7 +208,7 @@ sub CustomerName {
             Type => $Self->{CacheType},
             Key  => 'CustomerName::' . $Filter,
         );
-        if ( defined($Name) ) {
+        if ( defined $Name ) {
             return $Name;
         }
     }
@@ -467,8 +467,6 @@ sub CustomerUserList {
 sub CustomerIDs {
     my ( $Self, %Param ) = @_;
 
-    my @CustomerIDs = ();
-
     # check needed stuff
     if ( !$Param{User} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
@@ -490,27 +488,36 @@ sub CustomerIDs {
     my %Data = $Self->CustomerUserDataGet( User => $Param{User}, );
 
     # there are multi customer ids
+    my @CustomerIDs;
     if ( $Data{UserCustomerIDs} ) {
+
+        # used seperators
         for my $Split ( ';', ',', '|' ) {
-            if ( $Data{UserCustomerIDs} =~ /$Split/ ) {
-                my @IDs = split( /$Split/, $Data{UserCustomerIDs} );
-                for my $ID (@IDs) {
-                    $ID =~ s/^\s+//g;
-                    $ID =~ s/\s+$//g;
-                    push( @CustomerIDs, $ID );
-                }
+
+            # next if seperator is not there
+            next if $Data{UserCustomerIDs} !~ /\Q$Split\E/;
+
+            # split it
+            my @IDs = split /\Q$Split\E/, $Data{UserCustomerIDs};
+            for my $ID (@IDs) {
+                $ID =~ s/^\s+//g;
+                $ID =~ s/\s+$//g;
+                push @CustomerIDs, $ID;
             }
-            else {
-                $Data{UserCustomerIDs} =~ s/^\s+//g;
-                $Data{UserCustomerIDs} =~ s/\s+$//g;
-                push( @CustomerIDs, $Data{UserCustomerIDs} );
-            }
+            last;
+        }
+
+        # fallback if no seperator got found
+        if ( !@CustomerIDs ) {
+            $Data{UserCustomerIDs} =~ s/^\s+//g;
+            $Data{UserCustomerIDs} =~ s/\s+$//g;
+            push @CustomerIDs, $Data{UserCustomerIDs};
         }
     }
 
     # use also the primary customer id
     if ( $Data{UserCustomerID} && !$Self->{ExcludePrimaryCustomerID} ) {
-        push( @CustomerIDs, $Data{UserCustomerID} );
+        push @CustomerIDs, $Data{UserCustomerID};
     }
 
     # cache request
@@ -685,16 +692,12 @@ sub _Convert {
     if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
         return $Text;
     }
-    if ( !defined($Text) ) {
-        return;
-    }
-    else {
-        return $Self->{EncodeObject}->Convert(
-            Text => $Text,
-            From => $Self->{SourceCharset},
-            To   => $Self->{DestCharset},
-        );
-    }
+    return if !defined $Text;
+    return $Self->{EncodeObject}->Convert(
+        Text => $Text,
+        From => $Self->{SourceCharset},
+        To   => $Self->{DestCharset},
+    );
 }
 
 sub _ConvertTo {
@@ -704,16 +707,12 @@ sub _ConvertTo {
         $Self->{EncodeObject}->Encode( \$Text );
         return $Text;
     }
-    if ( !defined($Text) ) {
-        return;
-    }
-    else {
-        return $Self->{EncodeObject}->Convert(
-            Text => $Text,
-            To   => $Self->{SourceCharset},
-            From => $Self->{DestCharset},
-        );
-    }
+    return if !defined $Text;
+    return $Self->{EncodeObject}->Convert(
+        Text => $Text,
+        To   => $Self->{SourceCharset},
+        From => $Self->{DestCharset},
+    );
 }
 
 sub DESTROY {
