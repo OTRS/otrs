@@ -2,7 +2,7 @@
 # AgentCustomerSearch.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.dtl,v 1.9 2009-04-02 12:12:40 ub Exp $
+# $Id: AgentCustomerSearch.dtl,v 1.10 2009-09-01 21:28:33 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,6 +94,12 @@ function GetCustomerInfo( CustomerUserID ) {
 }
 
 function GetCustomerTickets( CustomerUserID, CustomerID ) {
+
+    // check if customer tickets should be shown
+    if ( !$Config{"Ticket::Frontend::ShowCustomerTickets"} ) {
+        return;
+    }
+
     var sURL = "?Action=AgentCustomerSearch&Subaction=CustomerTickets&CustomerUserID=" + CustomerUserID + "&CustomerID=" + CustomerID;
     var AjaxRequestCustomerTickets = YAHOO.util.Connect.asyncRequest('GET', sURL, {
         success: function(o){
