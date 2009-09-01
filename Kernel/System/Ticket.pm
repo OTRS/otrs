@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.412 2009-08-18 21:32:15 martin Exp $
+# $Id: Ticket.pm,v 1.413 2009-09-01 11:08:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.412 $) [1];
+$VERSION = qw($Revision: 1.413 $) [1];
 
 =head1 NAME
 
@@ -1439,18 +1439,15 @@ sub MoveList {
     }
 
     # workflow
-    if (
-        $Self->TicketAcl(
-            %Param,
-            ReturnType    => 'Ticket',
-            ReturnSubType => 'Queue',
-            Data          => \%Queues,
-        )
-        )
-    {
+    my $ACL = $Self->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'Queue',
+        Data          => \%Queues,
+    );
+    if ($ACL) {
         return $Self->TicketAclData();
     }
-
     return %Queues;
 }
 
@@ -1690,15 +1687,13 @@ sub TicketTypeList {
     my %Types = $Self->{TypeObject}->TypeList( Valid => 1 );
 
     # workflow
-    if (
-        $Self->TicketAcl(
-            %Param,
-            ReturnType    => 'Ticket',
-            ReturnSubType => 'Type',
-            Data          => \%Types,
-        )
-        )
-    {
+    my $ACL = $Self->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'Type',
+        Data          => \%Types,
+    );
+    if ($ACL) {
         return $Self->TicketAclData();
     }
     return %Types;
@@ -1841,15 +1836,13 @@ sub TicketServiceList {
     }
 
     # workflow
-    if (
-        $Self->TicketAcl(
-            %Param,
-            ReturnType    => 'Ticket',
-            ReturnSubType => 'Service',
-            Data          => \%Services,
-        )
-        )
-    {
+    my $ACL = $Self->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'Service',
+        Data          => \%Services,
+    );
+    if ($ACL) {
         return $Self->TicketAclData();
     }
     return %Services;
@@ -2466,15 +2459,13 @@ sub TicketSLAList {
     );
 
     # workflow
-    if (
-        $Self->TicketAcl(
-            %Param,
-            ReturnType    => 'Ticket',
-            ReturnSubType => 'SLA',
-            Data          => \%SLAs,
-        )
-        )
-    {
+    my $ACL = $Self->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'SLA',
+        Data          => \%SLAs,
+    );
+    if ($ACL) {
         return $Self->TicketAclData();
     }
     return %SLAs;
@@ -2705,6 +2696,7 @@ sub TicketFreeTextGet {
 
     # check existing
     if ( $Param{FillUp} && %Data ) {
+
         my $TimeStart = $Self->{TimeObject}->SystemTime();
         my $Counter   = $Param{Type};
         $Counter =~ s/^.+?(\d+?)$/$1/;
@@ -2766,21 +2758,17 @@ sub TicketFreeTextGet {
     }
 
     # workflow
-    if (
-        $Self->TicketAcl(
-            %Param,
-            ReturnType    => 'Ticket',
-            ReturnSubType => $Param{Type},
-            Data          => \%Data,
-        )
-        )
-    {
+    my $ACL = $Self->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => $Param{Type},
+        Data          => \%Data,
+    );
+    if ($ACL) {
         my %Hash = $Self->TicketAclData();
         return \%Hash;
     }
-    if ( !%Data ) {
-        return;
-    }
+    return if !%Data;
     return \%Data;
 }
 
@@ -3497,7 +3485,7 @@ To find tickets in your system.
 
         # OrderBy and SortBy (optional)
         OrderBy => 'Down',  # Down|Up
-        SortBy  => 'Age',   # Owner|Responsible|CustomerID|State|Ticket|Queue|Priority|Age|Type|Lock
+        SortBy  => 'Age',   # Owner|Responsible|CustomerID|State|TicketNumber|Queue|Priority|Age|Type|Lock
                             # Title|Service|SLA|PendingTime|EscalationTime
                             # EscalationUpdateTime|EscalationResponseTime|EscalationSolutionTime
                             # TicketFreeTime1-6|TicketFreeKey1-16|TicketFreeText1-16
@@ -3534,6 +3522,7 @@ sub TicketSearch {
         State                  => 'st.ticket_state_id',
         Lock                   => 'st.ticket_lock_id',
         Ticket                 => 'st.tn',
+        TicketNumber           => 'st.tn',
         Title                  => 'st.title',
         Queue                  => 'sq.name',
         Type                   => 'st.type_id',
@@ -3700,16 +3689,13 @@ sub TicketSearch {
 
     # current type lookup
     if ( $Param{Types} ) {
-
         for my $Type ( @{ $Param{Types} } ) {
 
             # lookup type id
             my $TypeID = $Self->{TypeObject}->TypeLookup(
                 Type => $Type,
             );
-
             return if !$TypeID;
-
             push @{ $Param{TypeIDs} }, $TypeID;
         }
     }
@@ -3724,16 +3710,13 @@ sub TicketSearch {
 
     # created types lookup
     if ( $Param{CreatedTypes} ) {
-
         for my $Type ( @{ $Param{CreatedTypes} } ) {
 
             # lookup type id
             my $TypeID = $Self->{TypeObject}->TypeLookup(
                 Type => $Type,
             );
-
             return if !$TypeID;
-
             push @{ $Param{CreatedTypeIDs} }, $TypeID;
         }
     }
@@ -3753,23 +3736,19 @@ sub TicketSearch {
                 TableColumn => 'th.type_id',
                 IDRef       => $Param{CreatedTypeIDs},
             );
-
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
 
     # current state lookup
     if ( $Param{States} ) {
-
         for my $State ( @{ $Param{States} } ) {
 
             # get state data
             my %StateData = $Self->{StateObject}->StateGet(
                 Name => $State,
             );
-
             return if !%StateData;
-
             push @{ $Param{StateIDs} }, $StateData{ID};
         }
     }
@@ -3784,16 +3763,13 @@ sub TicketSearch {
 
     # created states lookup
     if ( $Param{CreatedStates} ) {
-
         for my $State ( @{ $Param{CreatedStates} } ) {
 
             # get state data
             my %StateData = $Self->{StateObject}->StateGet(
                 Name => $State,
             );
-
             return if !%StateData;
-
             push @{ $Param{CreatedStateIDs} }, $StateData{ID};
         }
     }
@@ -3813,7 +3789,6 @@ sub TicketSearch {
                 TableColumn => 'th.state_id',
                 IDRef       => $Param{CreatedStateIDs},
             );
-
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
@@ -3842,13 +3817,10 @@ sub TicketSearch {
     }
 
     if ( $Param{StateTypeIDs} ) {
-
         my %StateTypeList = $Self->{StateObject}->StateTypeList(
             UserID => $Param{UserID} || 1,
         );
-
         my @StateTypes = map { $StateTypeList{$_} } @{ $Param{StateTypeIDs} };
-
         my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
             StateType => \@StateTypes,
             Result    => 'ID',
@@ -3858,16 +3830,13 @@ sub TicketSearch {
 
     # current lock lookup
     if ( $Param{Locks} ) {
-
         for my $Lock ( @{ $Param{Locks} } ) {
 
             # lookup lock id
             my $LockID = $Self->{LockObject}->LockLookup(
                 Lock => $Lock,
             );
-
             return if !$LockID;
-
             push @{ $Param{LockIDs} }, $LockID;
         }
     }
@@ -3911,23 +3880,19 @@ sub TicketSearch {
                 TableColumn => 'th.create_by',
                 IDRef       => $Param{CreatedUserIDs},
             );
-
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
 
     # current queue lookup
     if ( $Param{Queues} ) {
-
         for my $Queue ( @{ $Param{Queues} } ) {
 
             # lookup queue id
             my $QueueID = $Self->{QueueObject}->QueueLookup(
                 Queue => $Queue,
             );
-
             return if !$QueueID;
-
             push @{ $Param{QueueIDs} }, $QueueID;
         }
     }
@@ -3957,16 +3922,13 @@ sub TicketSearch {
 
     # created queue lookup
     if ( $Param{CreatedQueues} ) {
-
         for my $Queue ( @{ $Param{CreatedQueues} } ) {
 
             # lookup queue id
             my $QueueID = $Self->{QueueObject}->QueueLookup(
                 Queue => $Queue,
             );
-
             return if !$QueueID;
-
             push @{ $Param{CreatedQueueIDs} }, $QueueID;
         }
     }
@@ -3986,7 +3948,6 @@ sub TicketSearch {
                 TableColumn => 'th.queue_id',
                 IDRef       => $Param{CreatedQueueIDs},
             );
-
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
@@ -4055,16 +4016,13 @@ sub TicketSearch {
 
     # current priority lookup
     if ( $Param{Priorities} ) {
-
         for my $Priority ( @{ $Param{Priorities} } ) {
 
             # lookup priority id
             my $PriorityID = $Self->{PriorityObject}->PriorityLookup(
                 Priority => $Priority,
             );
-
             return if !$PriorityID;
-
             push @{ $Param{PriorityIDs} }, $PriorityID;
         }
     }
@@ -4079,16 +4037,13 @@ sub TicketSearch {
 
     # created priority lookup
     if ( $Param{CreatedPriorities} ) {
-
         for my $Priority ( @{ $Param{CreatedPriorities} } ) {
 
             # lookup priority id
             my $PriorityID = $Self->{PriorityObject}->PriorityLookup(
                 Priority => $Priority,
             );
-
             return if !$PriorityID;
-
             push @{ $Param{CreatedPriorityIDs} }, $PriorityID;
         }
     }
@@ -4108,23 +4063,19 @@ sub TicketSearch {
                 TableColumn => 'th.priority_id',
                 IDRef       => $Param{CreatedPriorityIDs},
             );
-
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
 
     # current service lookup
     if ( $Param{Services} ) {
-
         for my $Service ( @{ $Param{Services} } ) {
 
             # lookup service id
             my $ServiceID = $Self->{ServiceObject}->ServiceLookup(
                 Name => $Service,
             );
-
             return if !$ServiceID;
-
             push @{ $Param{ServiceIDs} }, $ServiceID;
         }
     }
@@ -4139,16 +4090,13 @@ sub TicketSearch {
 
     # current sla lookup
     if ( $Param{SLAs} ) {
-
         for my $SLA ( @{ $Param{SLAs} } ) {
 
             # lookup sla id
             my $SLAID = $Self->{SLAObject}->SLALookup(
                 Name => $SLA,
             );
-
             return if !$SLAID;
-
             push @{ $Param{SLAIDs} }, $SLAID;
         }
     }
@@ -4177,48 +4125,51 @@ sub TicketSearch {
         CustomerUserLogin => 'st.customer_user_id',
     );
     for my $Key ( sort keys %FieldSQLMap ) {
-        if ( ref $Param{$Key} eq 'ARRAY' ) {
-            $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) IN (";
-            my $Exists = 0;
-            for my $Key ( @{ $Param{$Key} } ) {
-                $Key =~ s/\*/%/gi;
 
-                # check search attribute, we do not need to search for *
-                next if $Key =~ /^\%{1,3}$/;
+        # next if attribute is not used
+        next if !defined $Param{$Key};
 
-                if ($Exists) {
-                    $SQLExt .= ',';
-                }
-                else {
-                    $Exists = 1;
-                }
-                $SQLExt .= "LOWER('" . $Self->{DBObject}->Quote($Key) . "')";
-            }
-            $SQLExt .= ' )';
+        # if it's no ref, put it to array ref
+        if ( ref $Param{$Key} eq '' ) {
+            $Param{$Key} = [ $Param{$Key} ];
         }
-        elsif ( $Param{$Key} ) {
-            $Param{$Key} =~ s/\*/%/gi;
+
+        # proccess array ref
+        my $Used = 0;
+        for my $Value ( @{ $Param{$Key} } ) {
+            $Value =~ s/\*/%/gi;
 
             # check search attribute, we do not need to search for *
-            next if $Param{$Key} =~ /^\%{1,3}$/;
+            next if $Value =~ /^\%{1,3}$/;
+
+            if ( !$Used ) {
+                $SQLExt .= ' AND (';
+                $Used = 1;
+            }
+            else {
+                $SQLExt .= ' OR ';
+            }
 
             # check if search condition extention is used
-            if ( $Param{ConditionInline} && $Param{$Key} =~ /(&&|\|\||\!|\+|AND|OR)/ ) {
-                $SQLExt .= ' AND ' . $Self->{DBObject}->QueryCondition(
+            if ( $Param{ConditionInline} && $Value =~ /(&&|\|\||\!|\+|AND|OR)/ ) {
+                $SQLExt .= $Self->{DBObject}->QueryCondition(
                     Key          => $FieldSQLMap{$Key},
-                    Value        => $Param{$Key},
+                    Value        => $Value,
                     SearchPrefix => '*',
                     SearchSuffix => '*',
                 );
             }
-            elsif ( $Param{$Key} !~ /%/ ) {
-                $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) = LOWER('"
-                    . $Self->{DBObject}->Quote( $Param{$Key} ) . "')";
+            elsif ( $Value !~ /%/ ) {
+                $SQLExt .= " LOWER($FieldSQLMap{$Key}) = LOWER('"
+                    . $Self->{DBObject}->Quote($Value) . "')";
             }
             else {
-                $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) LIKE LOWER('"
-                    . $Self->{DBObject}->Quote( $Param{$Key}, 'Like' ) . "')";
+                $SQLExt .= " LOWER($FieldSQLMap{$Key}) LIKE LOWER('"
+                    . $Self->{DBObject}->Quote( $Value, 'Like' ) . "')";
             }
+        }
+        if ($Used) {
+            $SQLExt .= ')';
         }
     }
 
@@ -4778,7 +4729,6 @@ sub TicketSearch {
     my @TicketIDs;
     my $Count;
     return if !$Self->{DBObject}->Prepare( SQL => $SQL . $SQLExt, Limit => $Limit );
-
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Count = $Row[0];
         $Tickets{ $Row[0] } = $Row[1];
@@ -5205,15 +5155,13 @@ sub StateList {
     }
 
     # workflow
-    if (
-        $Self->TicketAcl(
-            %Param,
-            ReturnType    => 'Ticket',
-            ReturnSubType => 'State',
-            Data          => \%States,
-        )
-        )
-    {
+    my $ACL = $Self->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'State',
+        Data          => \%States,
+    );
+    if ($ACL) {
         return $Self->TicketAclData();
     }
     return %States;
@@ -5808,15 +5756,13 @@ sub PriorityList {
     my %Data = $Self->{PriorityObject}->PriorityList(%Param);
 
     # workflow
-    if (
-        $Self->TicketAcl(
-            %Param,
-            ReturnType    => 'Ticket',
-            ReturnSubType => 'Priority',
-            Data          => \%Data,
-        )
-        )
-    {
+    my $ACL = $Self->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'Priority',
+        Data          => \%Data,
+    );
+    if ($ACL) {
         return $Self->TicketAclData();
     }
     return %Data;
@@ -7421,6 +7367,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.412 $ $Date: 2009-08-18 21:32:15 $
+$Revision: 1.413 $ $Date: 2009-09-01 11:08:42 $
 
 =cut
