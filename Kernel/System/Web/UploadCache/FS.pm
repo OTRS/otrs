@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.16 2009-03-25 13:35:24 sb Exp $
+# $Id: FS.pm,v 1.17 2009-09-01 11:01:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,7 +29,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{TempDir} = $Self->{ConfigObject}->Get('TempDir') . "/upload_cache/";
+    $Self->{TempDir} = $Self->{ConfigObject}->Get('TempDir') . '/upload_cache/';
     if ( !-d $Self->{TempDir} ) {
         mkdir $Self->{TempDir};
     }
@@ -75,10 +75,13 @@ sub FormIDAddFile {
     }
 
     # create content id
-    my $Random      = rand 999999;
-    my $FQDN        = $Self->{ConfigObject}->Get('FQDN');
-    my $Disposition = $Param{Disposition} || '';
-    my $ContentID   = "$Disposition$Random.$Param{FormID}\@$FQDN";
+    my $ContentID = $Param{ContentID};
+    if ( !$ContentID ) {
+        my $Random      = rand 999999;
+        my $FQDN        = $Self->{ConfigObject}->Get('FQDN');
+        my $Disposition = $Param{Disposition} || '';
+        $ContentID = "$Disposition$Random.$Param{FormID}\@$FQDN";
+    }
 
     # files must readable for creater
     return if !$Self->{MainObject}->FileWrite(
@@ -144,63 +147,66 @@ sub FormIDGetAllFilesData {
     my $Counter = 0;
     my @Data    = ();
     for my $File (@List) {
-        if ( $File !~ /\.ContentType$/ ) {
-            $Counter++;
-            my $FileSize = -s $File;
 
-            # convert the file name in utf-8 if utf-8 is used
-            $File = $Self->{EncodeObject}->Decode(
-                Text => $File,
-                From => 'utf-8',
-            );
+        # ignore meta files
+        next if $File =~ /\.ContentType$/;
+        next if $File =~ /\.ContentID$/;
 
-            # human readable file size
-            if ($FileSize) {
+        $Counter++;
+        my $FileSize = -s $File;
 
-                # remove meta data in files
-                $FileSize = $FileSize - 30 if ( $FileSize > 30 );
-                if ( $FileSize > 1048576 ) {    # 1024 * 1024
-                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 );    # 1024 * 1024
-                }
-                elsif ( $FileSize > 1024 ) {
-                    $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
-                }
-                else {
-                    $FileSize = $FileSize . ' Bytes';
-                }
+        # convert the file name in utf-8 if utf-8 is used
+        $File = $Self->{EncodeObject}->Decode(
+            Text => $File,
+            From => 'utf-8',
+        );
+
+        # human readable file size
+        if ($FileSize) {
+
+            # remove meta data in files
+            $FileSize = $FileSize - 30 if ( $FileSize > 30 );
+            if ( $FileSize > 1048576 ) {    # 1024 * 1024
+                $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 );    # 1024 * 1024
             }
-            my $Content = $Self->{MainObject}->FileRead(
-                Location => $File,
-                Mode     => 'binmode',    # optional - binmode|utf8
-            );
-            next if !$Content;
-
-            my $ContentType = $Self->{MainObject}->FileRead(
-                Location => "$File.ContentType",
-                Mode     => 'binmode',             # optional - binmode|utf8
-            );
-            next if !$ContentType;
-
-            my $ContentID = $Self->{MainObject}->FileRead(
-                Location => "$File.ContentID",
-                Mode     => 'binmode',             # optional - binmode|utf8
-            );
-            next if !$ContentID;
-
-            # strip filename
-            $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
-            push(
-                @Data,
-                {
-                    Content     => ${$Content},
-                    ContentID   => ${$ContentID},
-                    ContentType => ${$ContentType},
-                    Filename    => $File,
-                    Filesize    => $FileSize,
-                    FileID      => $Counter,
-                }
-            );
+            elsif ( $FileSize > 1024 ) {
+                $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
+            }
+            else {
+                $FileSize = $FileSize . ' Bytes';
+            }
         }
+        my $Content = $Self->{MainObject}->FileRead(
+            Location => $File,
+            Mode     => 'binmode',    # optional - binmode|utf8
+        );
+        next if !$Content;
+
+        my $ContentType = $Self->{MainObject}->FileRead(
+            Location => "$File.ContentType",
+            Mode     => 'binmode',             # optional - binmode|utf8
+        );
+        next if !$ContentType;
+
+        my $ContentID = $Self->{MainObject}->FileRead(
+            Location => "$File.ContentID",
+            Mode     => 'binmode',             # optional - binmode|utf8
+        );
+        next if !$ContentID;
+
+        # strip filename
+        $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
+        push(
+            @Data,
+            {
+                Content     => ${$Content},
+                ContentID   => ${$ContentID},
+                ContentType => ${$ContentType},
+                Filename    => $File,
+                Filesize    => $FileSize,
+                FileID      => $Counter,
+            },
+        );
     }
     return \@Data;
 
@@ -218,43 +224,60 @@ sub FormIDGetAllFilesMeta {
     my $Counter = 0;
     my @Data    = ();
     for my $File (@List) {
-        if ( $File !~ /\.ContentType$/ ) {
-            $Counter++;
-            my $FileSize = -s $File;
 
-            # convert the file name in utf-8 if utf-8 is used
-            $File = $Self->{EncodeObject}->Decode(
-                Text => $File,
-                From => 'utf-8',
-            );
+        # ignore meta files
+        next if $File =~ /\.ContentType$/;
+        next if $File =~ /\.ContentID$/;
 
-            # human readable file size
-            if ($FileSize) {
+        $Counter++;
+        my $FileSize = -s $File;
 
-                # remove meta data in files
-                $FileSize = $FileSize - 30 if ( $FileSize > 30 );
-                if ( $FileSize > 1048576 ) {    # 1024 * 1024
-                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 );    # 1024 * 1024
-                }
-                elsif ( $FileSize > 1024 ) {
-                    $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
-                }
-                else {
-                    $FileSize = $FileSize . ' Bytes';
-                }
+        # convert the file name in utf-8 if utf-8 is used
+        $File = $Self->{EncodeObject}->Decode(
+            Text => $File,
+            From => 'utf-8',
+        );
+
+        # human readable file size
+        if ($FileSize) {
+
+            # remove meta data in files
+            $FileSize = $FileSize - 30 if ( $FileSize > 30 );
+            if ( $FileSize > 1048576 ) {    # 1024 * 1024
+                $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 );    # 1024 * 1024
             }
-
-            # strip filename
-            $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
-            push(
-                @Data,
-                {
-                    Filename => $File,
-                    Filesize => $FileSize,
-                    FileID   => $Counter,
-                }
-            );
+            elsif ( $FileSize > 1024 ) {
+                $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
+            }
+            else {
+                $FileSize = $FileSize . ' Bytes';
+            }
         }
+
+        my $ContentType = $Self->{MainObject}->FileRead(
+            Location => "$File.ContentType",
+            Mode     => 'binmode',             # optional - binmode|utf8
+        );
+        next if !$ContentType;
+
+        my $ContentID = $Self->{MainObject}->FileRead(
+            Location => "$File.ContentID",
+            Mode     => 'binmode',             # optional - binmode|utf8
+        );
+        next if !$ContentID;
+
+        # strip filename
+        $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
+        push(
+            @Data,
+            {
+                ContentID   => ${$ContentID},
+                ContentType => ${$ContentType},
+                Filename    => $File,
+                Filesize    => $FileSize,
+                FileID      => $Counter,
+            },
+        );
     }
     return \@Data;
 }

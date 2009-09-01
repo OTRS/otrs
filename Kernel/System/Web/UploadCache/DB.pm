@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.19 2009-04-03 13:56:51 mh Exp $
+# $Id: DB.pm,v 1.20 2009-09-01 11:01:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,17 +76,20 @@ sub FormIDAddFile {
         no bytes;
     }
 
-    # encode attachemnt if it's a postgresql backend!!!
+    # encode attachment if it's a postgresql backend!!!
     if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
         $Param{Content} = encode_base64( $Param{Content} );
     }
 
     # create content id
-    my $Random      = rand 999999;
-    my $FQDN        = $Self->{ConfigObject}->Get('FQDN');
-    my $Disposition = $Param{Disposition} || '';
-    my $ContentID   = "$Disposition$Random.$Param{FormID}\@$FQDN";
+    my $ContentID = $Param{ContentID};
+    if ( !$ContentID ) {
+        my $Random      = rand 999999;
+        my $FQDN        = $Self->{ConfigObject}->Get('FQDN');
+        my $Disposition = $Param{Disposition} || '';
+        $ContentID = "$Disposition$Random.$Param{FormID}\@$FQDN";
+    }
 
     # write attachment to db
     my $Time = time();
@@ -155,7 +158,7 @@ sub FormIDGetAllFilesData {
             }
         }
 
-        # encode attachemnt if it's a postgresql backend!!!
+        # encode attachment if it's a postgresql backend!!!
         if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
             $Row[3] = decode_base64( $Row[3] );
         }

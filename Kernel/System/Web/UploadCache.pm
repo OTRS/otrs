@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: UploadCache.pm,v 1.18 2009-04-17 08:36:45 tr Exp $
+# $Id: UploadCache.pm,v 1.19 2009-09-01 11:01:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -112,7 +112,7 @@ sub FormIDCreate {
 
 remove all data with form id
 
-    $UploadCacheObject->FormIDRemove(FormID => 123456);
+    $UploadCacheObject->FormIDRemove( FormID => 123456 );
 
 =cut
 
@@ -127,9 +127,20 @@ sub FormIDRemove {
 add a file to the form id
 
     $UploadCacheObject->FormIDAddFile(
-        FormID => 12345,
-        Filename => 'somefile.html',
-        Content => $FileInSting,
+        FormID      => 12345,
+        Filename    => 'somefile.html',
+        Content     => $FileInSting,
+        ContentType => 'text/html',
+        Disposition => 'inline', # optional
+    );
+
+ContentID is optional (automatically generated if not given)
+
+    $UploadCacheObject->FormIDAddFile(
+        FormID      => 12345,
+        Filename    => 'somefile.html',
+        Content     => $FileInSting,
+        CententID   => 'some_id@example.com',
         ContentType => 'text/html',
         Disposition => 'inline', # optional
     );
@@ -167,7 +178,7 @@ returns a array with hash ref of all form id files
         FormID => 12345,
     );
 
-    Return data of on hash is Content, ContentType, Filename, Filesize, FileID;
+    Return data of on hash is Content, ContentType, ContentID, Filename, Filesize, FileID;
 
 =cut
 
@@ -187,7 +198,7 @@ Note: No Content will be returned, just meta data.
         FormID => 12345,
     );
 
-    Return data of on hash is Filename, Filesize, FileID;
+    Return data of on hash is ContentType, ContentID, Filename, Filesize, FileID;
 
 =cut
 
@@ -229,6 +240,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2009-04-17 08:36:45 $
+$Revision: 1.19 $ $Date: 2009-09-01 11:01:47 $
 
 =cut
