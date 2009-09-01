@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.413 2009-09-01 11:08:42 martin Exp $
+# $Id: Ticket.pm,v 1.414 2009-09-01 11:20:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.413 $) [1];
+$VERSION = qw($Revision: 1.414 $) [1];
 
 =head1 NAME
 
@@ -4137,6 +4137,11 @@ sub TicketSearch {
         # proccess array ref
         my $Used = 0;
         for my $Value ( @{ $Param{$Key} } ) {
+
+            # next if no search attribute is given
+            next if !$Value;
+
+            # replace wild card search
             $Value =~ s/\*/%/gi;
 
             # check search attribute, we do not need to search for *
@@ -7367,6 +7372,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.413 $ $Date: 2009-09-01 11:08:42 $
+$Revision: 1.414 $ $Date: 2009-09-01 11:20:37 $
 
 =cut
