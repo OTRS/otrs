@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.46 2009-09-01 08:56:43 martin Exp $
+# $Id: Ticket.t,v 1.47 2009-09-01 10:31:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3166,6 +3166,7 @@ for my $Backend (qw(DB FS)) {
     }
 }
 
+my $TicketSearchTicketNumber = substr $Ticket{TicketNumber}, 0, 10;
 my %TicketIDs = $Self->{TicketObject}->TicketSearch(
 
     # result (required)
@@ -3173,7 +3174,7 @@ my %TicketIDs = $Self->{TicketObject}->TicketSearch(
 
     # result limit
     Limit        => 100,
-    TicketNumber => [ $Ticket{TicketNumber}, '%not exisiting%' ],
+    TicketNumber => [ $TicketSearchTicketNumber . '%', '%not exisiting%' ],
     UserID       => 1,
     Permission   => 'rw',
 );
