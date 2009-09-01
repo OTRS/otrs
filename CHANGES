@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.981 2009-09-01 11:08:42 martin Exp $
+# $Id: CHANGES,v 1.982 2009-09-01 11:34:29 jb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 2.4.5 (2009/??/??)
+ - (2009/09/01) Added Options for FirstResponseTime,UpdateTime,SolutionTime and CalendarID to bin/otrs.addQueue
  - (2009/09/01) Fixed bug#4214 - TicketSearch on TicketID with ArrayRef doesn't
     give results.
 
@@ -17,7 +18,7 @@
     tickets than defined in CustomerIDs.
  - (2009/08/31) Fixed Android browser support.
  - (2009/08/31) Added SOAP::Lite, which is needed for the XML-RPC Interface,
-    to otrs/bin/otrs.checkModules.
+    to bin/otrs.checkModules.
  - (2009/08/29) Fixed bug#4018 - CustomerCompany in ModuleAction section while
     CustomerUser in Module section.
  - (2009/08/28) Fixed bug#4159 - Text Editor does not work with Konqueror.
