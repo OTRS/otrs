@@ -1,10 +1,9 @@
-root@CVS:/opt# less otrs/bin/otrs.addUser2Role
 #!/usr/bin/perl -w
 # --
 # otrs.addUser2Role - Assign users to Roles from CLI
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addUser2Role,v 1.1 2009-09-01 14:30:29 jb Exp $
+# $Id: otrs.addUser2Role,v 1.2 2009-09-01 14:34:14 jb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -32,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -43,6 +42,7 @@ use Kernel::System::Log;
 use Kernel::System::Queue;
 use Kernel::System::Group;
 use Kernel::System::Main;
+use Kernel::System::User;
 
 # get options
 my %Opts = ();
