@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.45 2009-08-01 11:56:59 martin Exp $
+# $Id: Ticket.t,v 1.46 2009-09-01 08:56:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3167,6 +3167,22 @@ for my $Backend (qw(DB FS)) {
 }
 
 my %TicketIDs = $Self->{TicketObject}->TicketSearch(
+
+    # result (required)
+    Result => 'HASH',
+
+    # result limit
+    Limit        => 100,
+    TicketNumber => [ $Ticket{TicketNumber}, '%not exisiting%' ],
+    UserID       => 1,
+    Permission   => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketNumber as HASHREF)',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
 
     # result (required)
     Result => 'HASH',
