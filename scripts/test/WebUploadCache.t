@@ -2,7 +2,7 @@
 # WebUploadCache.t - test of the web upload cache mechanism
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUploadCache.t,v 1.11 2009-08-25 14:42:08 martin Exp $
+# $Id: WebUploadCache.t,v 1.12 2009-09-01 10:54:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,6 +85,22 @@ for my $Module (qw(DB FS)) {
                 $MD5New || '',
                 $MD5    || '',
                 "#$Module - md5 check",
+            );
+        }
+        @Data = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
+            FormID => $FormID,
+        );
+        if (@Data) {
+            my %File = %{ $Data[$#Data] };
+            $Self->Is(
+                $File{ContentID},
+                $ContentID,
+                "#$Module - FormIDGetAllFilesMeta() - ContentID ." . $File,
+            );
+            $Self->Is(
+                $File{Filename},
+                "UploadCache Test1äöüß.$File",
+                "#$Module - FormIDGetAllFilesMeta() - Filename ." . $File,
             );
         }
         my $Delete = $Self->{UploadCacheObject}->FormIDRemoveFile(
