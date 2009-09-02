@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.207 2009-08-28 11:18:59 mb Exp $
+# $Id: de.pm,v 1.208 2009-09-02 14:23:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.207 $) [1];
+$VERSION = qw($Revision: 1.208 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -761,8 +761,8 @@ sub Data {
         'Ticket first response time reached' => 'Ticket Reaktionszeit erreicht',
         'Ticket first response time reached between' => 'Ticket Reaktionszeit erreicht zwischen',
         'Escalation - Update Time' => 'Eskalation - Aktualisierungszeit',
-        'Ticket update time reached' => 'Ticket Aktuallisierungszeit erreicht',
-        'Ticket update time reached between' => 'Ticket Aktuallisierungszeit erreicht zwischen',
+        'Ticket update time reached' => 'Ticket Aktualisierungszeit erreicht',
+        'Ticket update time reached between' => 'Ticket Aktualisierungszeit erreicht zwischen',
         'Escalation - Solution Time' => 'Eskalation - Lösungszeit',
         'Ticket solution time reached' => 'Ticket Lösungszeit erreicht',
         'Ticket solution time reached between' => 'Ticket Lösungszeit erreicht zwischen',
@@ -1130,7 +1130,7 @@ sub Data {
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s ist nun verfügbar!',
-        'Please update now.' => 'Bitte nun aktuallisieren.',
+        'Please update now.' => 'Bitte nun aktualisieren.',
         'Release Note' => 'Versionsbeschreibung',
         'Level' => 'Level',
 
