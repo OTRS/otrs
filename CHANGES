@@ -2,14 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.986 2009-09-02 14:26:41 mb Exp $
+# $Id: CHANGES,v 1.987 2009-09-02 16:28:37 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 2.4.5 (2009/??/??)
--  (2009/09/02) Fixed bug#4234 - Typo in german update message.
+ - (2009/09/02) Fixed bug#4186 - Customer search autocomplete result field is
+    sometimes too small to show complete customer entry.
+ - (2009/09/02) Fixed bug#4234 - Typo in german update message.
  - (2009/09/01) Fixed bug#4139 - Missing config option to show or hide customer
     history tickets.
  - (2009/09/01) Fixed bug#4160 - Toolbar icons not correct in AdminCustomerUser.

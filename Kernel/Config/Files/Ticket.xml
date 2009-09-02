@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.267 2009-09-02 14:30:20 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.268 2009-09-02 16:27:17 ub Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1646,6 +1646,18 @@
         <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
         <Setting>
             <String>20</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete::DynamicWidth" Required="1" Valid="1">
+        <Description Lang="en">Should the search results container for the autocomplete feature dynamically adjust its width?</Description>
+        <Description Lang="de">Soll der Container für die Suchergebnisse der Autocomplete-Funktionalitaet dynamisch seine Breite anpassen?.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PendingDiffTime" Required="1" Valid="1">
