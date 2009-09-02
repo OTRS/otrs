@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.266 2009-09-01 21:28:33 ub Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.267 2009-09-02 14:30:20 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1412,7 +1412,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###1-AcceleratorUpdate" Required="0" Valid="1">
         <Description Lang="en">Ticket event module updates the ticket accelerator index.</Description>
-        <Description Lang="de">Ticket Event Modul aktuallisiert den Ticket Übersichts-Index.</Description>
+        <Description Lang="de">Ticket Event Modul aktualisiert den Ticket Übersichts-Index.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -1449,7 +1449,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###1-ResponsibleAutoSet" Required="0" Valid="1">
         <Description Lang="en">Ticket event module to set the responsible (if not already set) automatically on owner update after first owner update.</Description>
-        <Description Lang="de">Ticket Event Modul um den Verantwortlichen (wenn noch nicht gesetzt) automatisch nach dem ersten Besitzer Update zu aktuallisieren.</Description>
+        <Description Lang="de">Ticket Event Modul um den Verantwortlichen (wenn noch nicht gesetzt) automatisch nach dem ersten Besitzer Update zu aktualisieren.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -1486,7 +1486,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###99-EscalationIndex" Required="0" Valid="1">
         <Description Lang="en">Ticket event module updates the ticket escalation index.</Description>
-        <Description Lang="de">Ticket Event Modul aktuallisiert den Ticket Eskalations-Index.</Description>
+        <Description Lang="de">Ticket Event Modul aktualisiert den Ticket Eskalations-Index.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
