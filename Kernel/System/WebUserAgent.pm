@@ -2,7 +2,7 @@
 # Kernel/System/WebUserAgent.pm - a web user agent
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUserAgent.pm,v 1.2 2009-06-13 16:21:06 mh Exp $
+# $Id: WebUserAgent.pm,v 1.3 2009-09-03 16:12:13 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use LWP::UserAgent;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -41,6 +41,7 @@ create an object
     use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
+    use Kernel::System::DB;
     use Kernel::System::WebUserAgent;
 
     my $ConfigObject = Kernel::Config->new();
@@ -56,11 +57,18 @@ create an object
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
     );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+    );
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
         MainObject   => $MainObject,
+        DBObject     => $DBObject,
         Timeout      => 15,                  # optional, timeout
         Proxy        => 'proxy.example.com', # optional, proxy
     );
@@ -156,6 +164,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2009-06-13 16:21:06 $
+$Revision: 1.3 $ $Date: 2009-09-03 16:12:13 $
 
 =cut
