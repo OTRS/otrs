@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.103 2009-08-28 11:22:03 mb Exp $
+# $Id: nl.pm,v 1.104 2009-09-04 12:20:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -997,13 +997,13 @@ sub Data {
         # Template: AdminRoleGroupChangeForm
         'Roles <-> Groups Management' => 'Beheer Rollen <-> Groepen',
         'move_into' => 'verplaats naar',
-        'Permissions to move tickets into this group/queue.' => 'Rechten om Tickets naar deze groep/wachtrij te verplaatsen.',
+        'Permissions to move tickets into this group/queue.' => 'Rechten om tickets naar deze groep/wachtrij te verplaatsen.',
         'create' => 'aanmaken',
-        'Permissions to create tickets in this group/queue.' => 'Rechten om Tickets in deze groep/wachtrij aan te maken.',
+        'Permissions to create tickets in this group/queue.' => 'Rechten om tickets in deze groep/wachtrij aan te maken.',
         'owner' => 'eigenaar',
-        'Permissions to change the ticket owner in this group/queue.' => 'Rechten om de eigenaar van het Ticket in deze groep / wachtrij te wijzigen.',
+        'Permissions to change the ticket owner in this group/queue.' => 'Rechten om de eigenaar van het ticket in deze groep / wachtrij te wijzigen.',
         'priority' => 'prioriteit',
-        'Permissions to change the ticket priority in this group/queue.' => 'Rechten om de prioriteit van een Ticket in deze groep / wachtrij te wijzigen.',
+        'Permissions to change the ticket priority in this group/queue.' => 'Rechten om de prioriteit van een ticket in deze groep / wachtrij te wijzigen.',
 
         # Template: AdminRoleGroupForm
         'Role' => 'Rol',
@@ -1718,7 +1718,7 @@ sub Data {
         'POP3' => 'POP3',
         'POP3S' => 'POP3S',
         'Agent sessions' => 'Behandelaarsessies',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Uw e-mail met ticketnummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
         'CustomerGroupSupport needs to be active in Kernel/Config.pm, read more about this feature in the documentation. Take care!' => 'Ondersteuning voor klantgroepen moet worden geactiveerd in de Configuratie. Lees meer hierover in de documentatie: zoek op \'CustomerGroupSupport\'.',
         'Ticket Status View' => 'Overzicht Ticketstatussen',
         'Modified' => 'Gewijzigd',
