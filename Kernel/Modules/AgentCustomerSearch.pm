@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.13 2009-04-01 14:39:12 ub Exp $
+# $Id: AgentCustomerSearch.pm,v 1.14 2009-09-07 11:15:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,6 +52,16 @@ sub Run {
 
         # get needed params
         my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' ) || '';
+
+        # workaround, all auto completion requests get posted by utf8 anyway
+        # convert any to 8bit string if application is not running in utf8
+        if ( !$Self->{EncodeObject}->EncodeInternalUsed() ) {
+            $Search = $Self->{EncodeObject}->Convert(
+                Text => $Search,
+                From => 'utf-8',
+                To   => $Self->{LayoutObject}->{UserCharset},
+            );
+        }
 
         # get customer list
         my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
