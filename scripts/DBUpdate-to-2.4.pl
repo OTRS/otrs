@@ -3,7 +3,7 @@
 # DBUpdate-to-2.4.pl - update script to migrate OTRS 2.3.x to 2.4.x
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.4.pl,v 1.7 2009-07-26 17:16:49 martin Exp $
+# $Id: DBUpdate-to-2.4.pl,v 1.8 2009-09-08 08:51:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -176,12 +176,12 @@ sub MigrateCustomerNotification {
     my %Queues = $CommonObject{QueueObject}->GetAllQueues();
 
     # move enabled notification to new event notitfication
+    my %Events;
     for my $QueueID ( keys %Queues ) {
         $CommonObject{DBObject}->Prepare(
             SQL  => 'SELECT state_notify, move_notify, owner_notify FROM queue WHERE id =  ?',
             Bind => [ \$QueueID ],
         );
-        my %Events;
         while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
             if ( $Row[0] ) {
                 push @{ $Events{TicketStateUpdate} }, $QueueID,
@@ -193,40 +193,41 @@ sub MigrateCustomerNotification {
                 push @{ $Events{TicketOwnerUpdate} }, $QueueID,
             }
         }
-        if (%Events) {
-            my %Map = (
-                TicketStateUpdate => 'Customer::StateUpdate',
-                TicketQueueUpdate => 'Customer::QueueUpdate',
-                TicketOwnerUpdate => 'Customer::OwnerUpdate',
+    }
+    if (%Events) {
+        my %Map = (
+            TicketStateUpdate => 'Customer::StateUpdate',
+            TicketQueueUpdate => 'Customer::QueueUpdate',
+            TicketOwnerUpdate => 'Customer::OwnerUpdate',
+        );
+        for my $Type ( sort keys %Map ) {
+            next if !$Events{$Type};
+            $CommonObject{DBObject}->Prepare(
+                SQL => 'SELECT notification_charset, subject, text, content_type '
+                    . 'FROM notifications WHERE '
+                    . 'notification_type = ? AND notification_language = \'en\'',
+                Bind => [ \$Map{$Type} ],
             );
-            for my $Type ( sort keys %Map ) {
-                next if !$Events{$Type};
-                $CommonObject{DBObject}->Prepare(
-                    SQL => 'SELECT notification_charset, subject, text, content_type '
-                        . 'FROM notifications WHERE '
-                        . 'notification_type = ? AND notification_language = \'en\'',
-                    Bind => [ \$Map{$Type} ],
-                );
-                my %Notification;
-                while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
-                    %Notification = (
-                        Subject => $Row[1],
-                        Body    => $Row[2],
-                        Type    => $Row[3],
-                        Charset => $Row[0],
-                    );
-                }
-                $CommonObject{NotificationEventObject}->NotificationAdd(
-                    Name => "customer-$Type",
-                    %Notification,
-                    Data => {
-                        Events  => [$Type],
-                        QueueID => $Events{$Type},
-                    },
-                    ValidID => 1,
-                    UserID  => 1,
+            my %Notification;
+            while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+                %Notification = (
+                    Subject => $Row[1],
+                    Body    => $Row[2],
+                    Type    => $Row[3],
+                    Charset => $Row[0],
                 );
             }
+            $CommonObject{NotificationEventObject}->NotificationAdd(
+                Name => "customer-$Type",
+                %Notification,
+                Data => {
+                    Recipients => ['Customer'],
+                    Events     => [$Type],
+                    QueueID    => $Events{$Type},
+                },
+                ValidID => 1,
+                UserID  => 1,
+            );
         }
     }
 
