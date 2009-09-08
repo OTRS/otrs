@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.240 2009-08-31 08:42:28 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.241 2009-09-08 08:15:08 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -3995,9 +3995,35 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###PictureUpload" Required="1" Valid="1">
+        <Description Lang="en">Frontend module registration for the PictureUpload object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des PictureUpload-Objekts im Agent-Interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Picture upload module</Description>
+                <Title>Picture-Upload</Title>
+                <NavBarName>Ticket</NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentSpelling" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentSpelling object in the agent interface.</Description>
         <Description Lang="de">Frontendmodul-Registration des AgentSpelling-Objekts im Agent-Interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Spell checker</Description>
+                <Title>Spell Checker</Title>
+                <NavBarName></NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###SpellingInline" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the SpellingInline object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des SpellingInline-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4622,6 +4648,32 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Description>To accept login infos</Description>
                 <Title>Info</Title>
+                <NavBarName></NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::Module###PictureUpload" Required="1" Valid="1">
+        <Description Lang="en">Customer frontend module registration for the PictureUpload object in the agent interface.</Description>
+        <Description Lang="de">Kunden Frontendmodul-Registration des PictureUpload-Objekts im Agent-Interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Picture upload module</Description>
+                <Title>Picture-Upload</Title>
+                <NavBarName>Ticket</NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::Module###SpellingInline" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the SpellingInline object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des SpellingInline-Objekts im Agent-Interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Spell checker</Description>
+                <Title>Spell Checker</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>

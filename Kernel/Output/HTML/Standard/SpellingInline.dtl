@@ -1,0 +1,60 @@
+# --
+# SpellingInline.dtl - provides HTML form for SpellingInline
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: SpellingInline.dtl,v 1.1 2009-09-08 08:15:08 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:SpellCheckerInline -->
+<html>
+<head>
+
+  <link rel="stylesheet" type="text/css" href="$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/editor/dialog/fck_spellerpages/spellerpages/spellerStyle.css"/>
+<script src="$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/editor/dialog/fck_spellerpages/spellerpages/wordWindow.js" type="text/javascript"></script>
+<script type="text/javascript">
+var suggs = new Array();
+var words = new Array();
+var textinputs = new Array();
+var error;
+
+
+$Data{"JSData"}
+
+
+var wordWindowObj = new wordWindow();
+wordWindowObj.originalSpellings = words;
+wordWindowObj.suggestions = suggs;
+wordWindowObj.textInputs = textinputs;
+
+
+function init_spell() {
+    // check if any error occured during server-side processing
+    if( error ) {
+        alert( error );
+    } else {
+        // call the init_spell() function in the parent frameset
+        if (parent.frames.length) {
+            parent.init_spell( wordWindowObj );
+        } else {
+            error = "This page was loaded outside of a frameset. ";
+            error += "It might not display properly";
+            alert( error );
+        }
+    }
+}
+
+</script>
+
+</head>
+<body onLoad="init_spell();">
+
+<script type="text/javascript">
+wordWindowObj.writeBody();
+</script>
+</body>
+</html>
+<!-- dtl:block:SpellCheckerInline -->
