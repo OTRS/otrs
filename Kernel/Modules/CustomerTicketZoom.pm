@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.46 2009-08-27 16:00:23 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.47 2009-09-08 16:24:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -187,7 +187,7 @@ sub Run {
             my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
 
             my $MimeType = 'text/plain';
-            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
                 $MimeType = 'text/html';
 
                 # verify html document
@@ -293,12 +293,20 @@ sub Run {
     # set priority from ticket as fallback
     $GetParam{PriorityID} ||= $Ticket{PriorityID};
 
+    # strip html and ascii attachments of content
+    my $StripPlainBodyAsAttachment = 1;
+
+    # check if rich text is enabled, if not only stip ascii attachments
+    if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
+        $StripPlainBodyAsAttachment = 2;
+    }
+
     # get all article of this ticket
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         ArticleType                => \@CustomerArticleTypes,
-        StripPlainBodyAsAttachment => 1,
+        StripPlainBodyAsAttachment => $StripPlainBodyAsAttachment,
     );
 
     # generate output
@@ -348,9 +356,8 @@ sub _Mask {
     my $BaseLink          = $Self->{LayoutObject}->{Baselink} . "TicketID=$Self->{TicketID}&";
     my @ArticleBox        = @{ $Param{ArticleBox} };
 
+    # error screen, don't show ticket
     if ( !@ArticleBox ) {
-
-        # error screen, don't show ticket
         return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'no' );
     }
 
@@ -580,7 +587,7 @@ sub _Mask {
 
     # show plain or html body
     my $ViewType = 'Plain';
-    if ( $Article{AttachmentIDOfHTMLBody} ) {
+    if ( $Self->{LayoutObject}->{BrowserRichText} && $Article{AttachmentIDOfHTMLBody} ) {
         $ViewType = 'HTML';
     }
     $Self->{LayoutObject}->Block(
@@ -630,7 +637,7 @@ sub _Mask {
         );
 
         # add rich text editor
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'RichText',
                 Data => \%Param,
@@ -651,7 +658,7 @@ sub _Mask {
             else {
                 $StateSelected{Selected} = $Self->{Config}->{StateDefault};
             }
-            $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
                 Data => \%NextStates,
                 Name => 'StateID',
                 %StateSelected,
@@ -675,7 +682,7 @@ sub _Mask {
             else {
                 $PrioritySelected{Selected} = $Self->{Config}->{PriorityDefault} || '3 normal';
             }
-            $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Param{PriorityStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
                 Data => \%Priorities,
                 Name => 'PriorityID',
                 %PrioritySelected,
