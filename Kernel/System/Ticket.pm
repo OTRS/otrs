@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.415 2009-09-08 07:47:46 martin Exp $
+# $Id: Ticket.pm,v 1.416 2009-09-08 10:10:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.415 $) [1];
+$VERSION = qw($Revision: 1.416 $) [1];
 
 =head1 NAME
 
@@ -7303,51 +7303,35 @@ sub TicketEventHandlerPost {
 
     # COMPAT: compat to 2.0
     if ( !$Param{CompatOff} ) {
-        if ( $Param{Event} eq 'TicketStateUpdate' ) {
-            $Param{Event} = 'StateSet';
-        }
-        elsif ( $Param{Event} eq 'TicketPriorityUpdate' ) {
-            $Param{Event} = 'PrioritySet';
-        }
-        elsif ( $Param{Event} eq 'TicketLockUpdate' ) {
-            $Param{Event} = 'LockSet';
-        }
-        elsif ( $Param{Event} eq 'TicketOwnerUpdate' ) {
-            $Param{Event} = 'OwnerSet';
-        }
-        elsif ( $Param{Event} eq 'TicketQueueUpdate' ) {
-            $Param{Event} = 'MoveTicket';
-        }
-        elsif ( $Param{Event} eq 'TicketCustomerUpdate' ) {
-            $Param{Event} = 'SetCustomerData';
-        }
-        elsif ( $Param{Event} eq 'TicketFreeTextUpdate' ) {
-            $Param{Event} = 'TicketFreeTextSet';
-        }
-        elsif ( $Param{Event} eq 'TicketFreeTimeUpdate' ) {
-            $Param{Event} = 'TicketFreeTimeSet';
-        }
-        elsif ( $Param{Event} eq 'TicketPendingTimeUpdate' ) {
-            $Param{Event} = 'TicketPendingTimeSet';
-        }
-        elsif ( $Param{Event} eq 'ArticleFreeTextUpdate' ) {
-            $Param{Event} = 'ArticleFreeTextSet';
-        }
-        elsif ( $Param{Event} eq 'ArticleAgentNotification' ) {
-            $Param{Event} = 'SendAgentNotification';
-        }
-        elsif ( $Param{Event} eq 'ArticleCustomerNotification' ) {
-            $Param{Event} = 'SendCustomerNotification';
-        }
-        elsif ( $Param{Event} eq 'ArticleAutoResponse' ) {
-            $Param{Event} = 'SendAutoResponse';
-        }
-        else {
-            return 1;
-        }
 
-        return $Self->TicketEventHandlerPost( %Param, CompatOff => 1 );
+        # map for old events
+        my %Map = (
 
+            # new event name            => old event name
+            TicketStateUpdate           => 'StateSet',
+            TicketPriorityUpdate        => 'PrioritySet',
+            TicketLockUpdate            => 'LockSet',
+            TicketOwnerUpdate           => 'OwnerSet',
+            TicketQueueUpdate           => 'MoveTicket',
+            TicketCustomerUpdate        => 'SetCustomerData',
+            TicketFreeTextUpdate        => 'TicketFreeTextSet',
+            TicketFreeTimeUpdate        => 'TicketFreeTimeSet',
+            TicketPendingTimeUpdate     => 'TicketPendingTimeSet',
+            ArticleFreeTextUpdate       => 'ArticleFreeTextSet',
+            ArticleAgentNotification    => 'SendAgentNotification',
+            ArticleCustomerNotification => 'SendCustomerNotification',
+            ArticleAutoResponse         => 'SendAutoResponse',
+        );
+
+        # return if no map exists
+        return 1 if !$Map{ $Param{Event} };
+
+        # execute event with old event name again
+        return $Self->TicketEventHandlerPost(
+            %Param,
+            Event     => $Map{ $Param{Event} },
+            CompatOff => 1,
+        );
     }
     return 1;
 }
@@ -7384,6 +7368,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.415 $ $Date: 2009-09-08 07:47:46 $
+$Revision: 1.416 $ $Date: 2009-09-08 10:10:50 $
 
 =cut
