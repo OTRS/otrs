@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.241 2009-09-08 08:15:08 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.242 2009-09-08 16:14:48 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -214,8 +214,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichText" Required="1" Valid="1">
-        <Description Lang="en">Use richtext editor for article, salutation, signature, standard_response, auto_response, notification.</Description>
-        <Description Lang="de">Benutze Richtext-Editor für Artikel, Anrede, Signatur Antwort, Auto Antwort, Benachrichtung.</Description>
+        <Description Lang="en">Use richtext for viewing and editor for article, salutation, signature, standard_response, auto_response, notification.</Description>
+        <Description Lang="de">Benutze Richtext-Editor für die Anzeige und die Bearbeitung von Artikel, Anrede, Signatur Antwort, Auto Antwort und Benachrichtung.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>

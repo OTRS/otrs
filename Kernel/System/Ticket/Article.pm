@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.231 2009-09-08 07:47:46 martin Exp $
+# $Id: Article.pm,v 1.232 2009-09-08 16:14:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.231 $) [1];
+$VERSION = qw($Revision: 1.232 $) [1];
 
 =head1 NAME
 
@@ -1291,12 +1291,20 @@ returns an array with hash ref (hash contains result of ArticleGet())
         TicketID => 123,
     );
 
-or with StripPlainBodyAsAttachment feature to not include
-first attachment / body as attachment
+or with "StripPlainBodyAsAttachment => 1" feature to not include first
+attachment / body and html body as attachment
 
     my @ArticleBox = $TicketObject->ArticleContentIndex(
         TicketID                   => 123,
         StripPlainBodyAsAttachment => 1,
+    );
+
+or with "StripPlainBodyAsAttachment => 2" feature to not include first
+attachment / body as attachment (html body will be shown as attachment)
+
+    my @ArticleBox = $TicketObject->ArticleContentIndex(
+        TicketID                   => 123,
+        StripPlainBodyAsAttachment => 2,
     );
 
 returns an array with hash ref (hash contains result of ArticleGet())
@@ -1366,7 +1374,11 @@ sub ArticleContentIndex {
             }
             if ($AttachmentIDHTML) {
                 delete $AtmIndex{$AttachmentIDPlain};
-                delete $AtmIndex{$AttachmentIDHTML};
+
+                # only strip html body attachment by "1"
+                if ( $Param{StripPlainBodyAsAttachment} eq 1 ) {
+                    delete $AtmIndex{$AttachmentIDHTML};
+                }
                 $Article->{AttachmentIDOfHTMLBody} = $AttachmentIDHTML;
             }
 
@@ -3041,6 +3053,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.231 $ $Date: 2009-09-08 07:47:46 $
+$Revision: 1.232 $ $Date: 2009-09-08 16:14:48 $
 
 =cut
