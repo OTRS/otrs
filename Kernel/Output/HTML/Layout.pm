@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.175 2009-09-01 20:25:15 ub Exp $
+# $Id: Layout.pm,v 1.176 2009-09-08 15:08:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.175 $) [1];
+$VERSION = qw($Revision: 1.176 $) [1];
 
 =head1 NAME
 
@@ -312,10 +312,18 @@ sub new {
     my $Theme = $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme') || 'Standard';
 
     # force a theme based on host name
-    if ( $Self->{ConfigObject}->Get('DefaultTheme::HostBased') && $ENV{HTTP_HOST} ) {
-        for ( sort keys %{ $Self->{ConfigObject}->Get('DefaultTheme::HostBased') } ) {
-            if ( $ENV{HTTP_HOST} =~ /$_/i ) {
-                $Theme = $Self->{ConfigObject}->Get('DefaultTheme::HostBased')->{$_};
+    my $DefaultThemeHostBased = $Self->{ConfigObject}->Get('DefaultTheme::HostBased');
+    if ( $DefaultThemeHostBased && $ENV{HTTP_HOST} ) {
+        for my $RegExp ( sort keys %{$DefaultThemeHostBased} ) {
+
+            # do not use empty regexp or theme directories
+            next if !$RegExp;
+            next if $RegExp eq '';
+            next if !$DefaultThemeHostBased->{$RegExp};
+
+            # check if regexp is matching
+            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+                $Theme = $DefaultThemeHostBased->{$RegExp};
             }
         }
     }
@@ -4369,6 +4377,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.175 $ $Date: 2009-09-01 20:25:15 $
+$Revision: 1.176 $ $Date: 2009-09-08 15:08:34 $
 
 =cut
