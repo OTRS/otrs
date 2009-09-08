@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.74 2009-09-08 16:14:48 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.75 2009-09-08 17:02:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -216,7 +216,7 @@ sub Run {
     my $StripPlainBodyAsAttachment = 1;
 
     # check if rich text is enabled, if not only stip ascii attachments
-    if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
+    if ( !$Self->{ConfigObject}->Get('Frontend::RichText') ) {
         $StripPlainBodyAsAttachment = 2;
     }
 
@@ -535,8 +535,10 @@ sub MaskAgentZoom {
         # show body as html or plain text
         my $ViewMode = 'BodyHTML';
 
-# in case show plain article body (if no html body as attachment exists of if rich text is not enabled)
-        if ( !$Self->{LayoutObject}->{BrowserRichText} || !$Article{AttachmentIDOfHTMLBody} ) {
+        # in case show plain article body (if no html body as attachment exists of if rich
+        # text is not enabled)
+        my $RichText = $Self->{ConfigObject}->Get('Frontend::RichText');
+        if ( !$RichText || !$Article{AttachmentIDOfHTMLBody} ) {
             $ViewMode = 'BodyPlain';
 
             # html quoting

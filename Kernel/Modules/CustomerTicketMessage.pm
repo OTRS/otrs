@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.46 2009-07-22 13:08:51 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.47 2009-09-08 17:02:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -367,76 +367,72 @@ sub Run {
         }
 
         # create article
-        my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
-        if (
-            my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                TicketID         => $TicketID,
-                ArticleType      => $Self->{Config}->{ArticleType},
-                SenderType       => $Self->{Config}->{SenderType},
-                From             => $From,
-                To               => $To,
-                Subject          => $GetParam{Subject},
-                Body             => $GetParam{Body},
-                MimeType         => $MimeType,
-                Charset          => $Self->{LayoutObject}->{UserCharset},
-                UserID           => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                HistoryType      => $Self->{Config}->{HistoryType},
-                HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
-                AutoResponseType => 'auto reply',
-                OrigHeader       => {
-                    From    => $From,
-                    To      => $Self->{UserLogin},
-                    Subject => $GetParam{Subject},
-                    Body    => $Self->{LayoutObject}->RichText2Ascii( String => $GetParam{Body} ),
-                },
-                Queue => $Self->{QueueObject}->QueueLookup( QueueID => $NewQueueID ),
-            )
-            )
-        {
-
-            # get pre loaded attachment
-            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-                FormID => $Self->{FormID},
-            );
-
-            # get submit attachment
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
-                Source => 'String',
-            );
-            if (%UploadStuff) {
-                push( @AttachmentData, \%UploadStuff );
-            }
-
-            # write attachments
-            WRITEATTACHMENT:
-            for my $Ref (@AttachmentData) {
-
-                # skip deleted inline images
-                next WRITEATTACHMENT if $Ref->{ContentID}
-                        && $Ref->{ContentID} =~ /^inline/
-                        && $GetParam{Body} !~ /$Ref->{ContentID}/;
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %{$Ref},
-                    ArticleID => $ArticleID,
-                    UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                );
-            }
-
-            # remove pre submitted attachments
-            $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
-
-            # redirect
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=$NextScreen&TicketID=$TicketID",
-            );
-        }
-        else {
+        my $From      = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
+        my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+            TicketID         => $TicketID,
+            ArticleType      => $Self->{Config}->{ArticleType},
+            SenderType       => $Self->{Config}->{SenderType},
+            From             => $From,
+            To               => $To,
+            Subject          => $GetParam{Subject},
+            Body             => $GetParam{Body},
+            MimeType         => $MimeType,
+            Charset          => $Self->{LayoutObject}->{UserCharset},
+            UserID           => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            HistoryType      => $Self->{Config}->{HistoryType},
+            HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
+            AutoResponseType => 'auto reply',
+            OrigHeader       => {
+                From    => $From,
+                To      => $Self->{UserLogin},
+                Subject => $GetParam{Subject},
+                Body    => $Self->{LayoutObject}->RichText2Ascii( String => $GetParam{Body} ),
+            },
+            Queue => $Self->{QueueObject}->QueueLookup( QueueID => $NewQueueID ),
+        );
+        if ( !$ArticleID ) {
             my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
             $Output .= $Self->{LayoutObject}->CustomerError();
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
         }
+
+        # get pre loaded attachment
+        my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+            FormID => $Self->{FormID},
+        );
+
+        # get submit attachment
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param  => 'file_upload',
+            Source => 'String',
+        );
+        if (%UploadStuff) {
+            push @AttachmentData, \%UploadStuff;
+        }
+
+        # write attachments
+        WRITEATTACHMENT:
+        for my $Ref (@AttachmentData) {
+
+            # skip deleted inline images
+            next WRITEATTACHMENT if $Ref->{ContentID}
+                    && $Ref->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$Ref->{ContentID}/;
+            $Self->{TicketObject}->ArticleWriteAttachment(
+                %{$Ref},
+                ArticleID => $ArticleID,
+                UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            );
+        }
+
+        # remove pre submitted attachments
+        $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
+
+        # redirect
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=$NextScreen&TicketID=$TicketID",
+        );
     }
     else {
         my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );

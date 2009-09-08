@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.47 2009-09-08 16:24:12 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.48 2009-09-08 17:02:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -187,7 +187,7 @@ sub Run {
             my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
 
             my $MimeType = 'text/plain';
-            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
                 $MimeType = 'text/html';
 
                 # verify html document
@@ -297,7 +297,7 @@ sub Run {
     my $StripPlainBodyAsAttachment = 1;
 
     # check if rich text is enabled, if not only stip ascii attachments
-    if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
+    if ( !$Self->{ConfigObject}->Get('Frontend::RichText') ) {
         $StripPlainBodyAsAttachment = 2;
     }
 
@@ -587,7 +587,11 @@ sub _Mask {
 
     # show plain or html body
     my $ViewType = 'Plain';
-    if ( $Self->{LayoutObject}->{BrowserRichText} && $Article{AttachmentIDOfHTMLBody} ) {
+
+    # in case show plain article body (if no html body as attachment exists of if rich
+    # text is not enabled)
+    my $RichText = $Self->{ConfigObject}->Get('Frontend::RichText');
+    if ( $RichText && $Article{AttachmentIDOfHTMLBody} ) {
         $ViewType = 'HTML';
     }
     $Self->{LayoutObject}->Block(
@@ -637,7 +641,7 @@ sub _Mask {
         );
 
         # add rich text editor
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
             $Self->{LayoutObject}->Block(
                 Name => 'RichText',
                 Data => \%Param,
