@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.230 2009-08-18 19:25:40 martin Exp $
+# $Id: Article.pm,v 1.231 2009-09-08 07:47:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.230 $) [1];
+$VERSION = qw($Revision: 1.231 $) [1];
 
 =head1 NAME
 
@@ -2546,6 +2546,10 @@ sub SendAutoResponse {
         }
     }
 
+    # get orig email header
+    my %OrigHeader = %{ $Param{OrigHeader} };
+
+    # get ticket
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
 
     # get auto default responses
@@ -2566,8 +2570,10 @@ sub SendAutoResponse {
         UserID           => $Param{UserID},
     );
 
-    return
-        if !$AutoResponse{Text} || !$AutoResponse{SenderRealname} || !$AutoResponse{SenderAddress};
+    # return if no valid auto response exists
+    return if !$AutoResponse{Text};
+    return if !$AutoResponse{SenderRealname};
+    return if !$AutoResponse{SenderAddress};
 
     # send if notification should be sent (not for closed tickets)!?
     my %State = $Self->{StateObject}->StateGet( ID => $Ticket{StateID} );
@@ -2589,9 +2595,6 @@ sub SendAutoResponse {
         # return
         return;
     }
-
-    # get orig email header
-    my %OrigHeader = %{ $Param{OrigHeader} };
 
     # log that no auto response was sent!
     if ( $OrigHeader{'X-OTRS-Loop'} ) {
@@ -3038,6 +3041,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.230 $ $Date: 2009-08-18 19:25:40 $
+$Revision: 1.231 $ $Date: 2009-09-08 07:47:46 $
 
 =cut

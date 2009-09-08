@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.33 2009-08-18 12:52:54 mh Exp $
+# $Id: TemplateGenerator.pm,v 1.34 2009-09-08 07:47:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -557,15 +557,21 @@ sub AutoResponse {
     );
 
     # prepare subject (insert old subject)
+    my $Subject = $Param{OrigHeader}->{Subject} || '';
+    $Subject = $Self->{TicketObject}->TicketSubjectClean(
+        TicketNumber => $Ticket{TicketNumber},
+        Subject      => $Subject,
+    );
     if ( $AutoResponse{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
         my $SubjectChar = $1;
-        $Param{OrigHeader}->{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-        $AutoResponse{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Param{OrigHeader}->{Subject}/g;
+        $Subject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+        $AutoResponse{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Subject/g;
     }
     $AutoResponse{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
         TicketNumber => $Ticket{TicketNumber},
-        Subject      => $AutoResponse{Subject} || '',
+        Subject      => $AutoResponse{Subject},
         Type         => 'New',
+        NoCleanup    => 1,
     );
 
     # get sender attributes
@@ -1223,6 +1229,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2009-08-18 12:52:54 $
+$Revision: 1.34 $ $Date: 2009-09-08 07:47:46 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.414 2009-09-01 11:20:37 martin Exp $
+# $Id: Ticket.pm,v 1.415 2009-09-08 07:47:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.414 $) [1];
+$VERSION = qw($Revision: 1.415 $) [1];
 
 =head1 NAME
 
@@ -669,6 +669,16 @@ rebuild a new ticket subject
     a new subject like "[Ticket# 2004040510440485] Some subject" (without RE: )
     will be generated
 
+    my $NewSubject = $TicketObject->TicketSubjectBuild(
+        TicketNumber => '2004040510440485',
+        Subject      => $OldSubject,
+        Type         => 'New',
+        NoCleanup    => 1,
+    );
+
+    a new subject like "[Ticket# 2004040510440485] Re: Some subject" (without clean up of subject)
+    will be generated
+
 =cut
 
 sub TicketSubjectBuild {
@@ -685,7 +695,9 @@ sub TicketSubjectBuild {
     my $Subject = $Param{Subject} || '';
 
     # cleanup of subject, remove existing ticket numbers and reply indentifier
-    $Subject = $Self->TicketSubjectClean(%Param);
+    if ( !$Param{NoCleanup} ) {
+        $Subject = $Self->TicketSubjectClean(%Param);
+    }
 
     # get config options
     my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
@@ -7372,6 +7384,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.414 $ $Date: 2009-09-01 11:20:37 $
+$Revision: 1.415 $ $Date: 2009-09-08 07:47:46 $
 
 =cut

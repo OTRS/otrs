@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.988 2009-09-07 11:15:47 martin Exp $
+# $Id: CHANGES,v 1.989 2009-09-08 07:47:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 2.4.5 (2009/??/??)
+ - (2009/09/08) Fixed bug#4248 - follow up email contains the ticket number two
+    times.
  - (2009/09/07) Fixed bug#4253 - No customer get found by using german umlaut
     "e. g. müller".
  - (2009/09/02) Fixed bug#4186 - Customer search autocomplete result field is
