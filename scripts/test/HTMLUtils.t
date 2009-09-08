@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.12 2009-08-18 12:52:55 mh Exp $
+# $Id: HTMLUtils.t,v 1.13 2009-09-08 16:28:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -107,6 +107,12 @@ More Text',
             "<blockquote>Some Text<br/><br/>With new Lines  </blockquote><br />Some Other Text",
         Result => "> Some Text\n> \n> With new Lines \n\nSome Other Text",
         Name   => 'ToAscii - <blockquote>'
+    },
+    {
+        Input =>
+            "<pre><a class=\"moz-txt-link-freetext\"\rhref=\"mailto:html\@example.com\">mailto:html\@example.com</a></pre>",
+        Result => "\n[1]mailto:html\@example.com\n\n\n\n[1] mailto:html\@example.com\n",
+        Name   => 'ToAscii - <a class ... href ..>'
     },
 );
 
