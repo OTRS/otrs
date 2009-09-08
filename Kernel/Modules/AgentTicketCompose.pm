@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.80 2009-08-25 14:32:55 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.81 2009-09-08 09:04:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -223,7 +223,7 @@ sub Run {
         if ( $GetParam{AttachmentUpload} ) {
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => "file_upload",
+                Param  => 'file_upload',
                 Source => 'string',
             );
             $Self->{UploadCachObject}->FormIDAddFile(
@@ -978,10 +978,17 @@ sub _Mask {
     if ( !$Self->{Config}->{StateDefault} ) {
         $Param{NextStates}->{''} = '-';
     }
+    my %State;
+    if ( $Param{StateID} ) {
+        $State{SelectedID} = $Param{StateID};
+    }
+    else {
+        $State{Selected} = $Param{NextState} || $Self->{Config}->{StateDefault};
+    }
     $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data     => $Param{NextStates},
-        Name     => 'StateID',
-        Selected => $Param{NextState} || $Self->{Config}->{StateDefault},
+        Data => $Param{NextStates},
+        Name => 'StateID',
+        %State,
     );
 
     # prepare errors!
