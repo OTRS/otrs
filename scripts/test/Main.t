@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.9 2009-02-16 12:41:12 tr Exp $
+# $Id: Main.t,v 1.10 2009-09-11 07:11:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -275,6 +275,25 @@ my $Success = $Self->{MainObject}->FileDelete(
 $Self->True(
     $Success || '',
     "FileDelete() - $FileLocation",
+);
+
+# check if the file have the correct charset
+my $ContentSCALARRef = $Self->{MainObject}->FileRead(
+    Location => $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF-test2-utf-8.txt',
+    Mode     => 'utf8',
+    Result   => 'SCALAR',
+);
+
+my $Text = ${$ContentSCALARRef};
+
+$Self->True(
+    Encode::is_utf8($Text),
+    "FileRead() - Check a utf8 file - exists the utf8 flag ( $Text )",
+);
+
+$Self->True(
+    Encode::is_utf8( $Text, 1 ),
+    "FileRead() - Check a utf8 file - is the utf8 content wellformed ( $Text )",
 );
 
 1;
