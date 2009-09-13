@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.105 2009-07-20 04:05:18 martin Exp $
+# $Id: DB.pm,v 1.106 2009-09-13 22:40:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 =head1 NAME
 
@@ -168,7 +168,7 @@ sub new {
     # check/get extra database config options
     # (overwrite auto detection with config options)
     for (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode)) {
-        if ( defined( $Self->{ConfigObject}->Get("Database::$_") ) ) {
+        if ( defined $Self->{ConfigObject}->Get("Database::$_") ) {
             $Self->{Backend}->{"DB::$_"} = $Self->{ConfigObject}->Get("Database::$_");
         }
     }
@@ -179,7 +179,7 @@ sub new {
         qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode NoLowerInLargeText LcaseLikeInLargeText)
         )
     {
-        if ( defined( $Param{$_} ) ) {
+        if ( defined $Param{$_} ) {
             $Self->{Backend}->{"DB::$_"} = $Param{$_};
         }
     }
@@ -485,7 +485,7 @@ sub Prepare {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SQL!' );
         return;
     }
-    if ( defined( $Param{Encode} ) ) {
+    if ( defined $Param{Encode} ) {
         $Self->{Encode} = $Param{Encode};
     }
     else {
@@ -633,7 +633,7 @@ sub FetchrowArray {
             next ELEMENT;
         }
 
-        if ( !defined( $Self->{Encode} ) || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
+        if ( !defined $Self->{Encode} || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
             $Self->{EncodeObject}->Encode( \$Element );
         }
     }
@@ -1164,6 +1164,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.105 $ $Date: 2009-07-20 04:05:18 $
+$Revision: 1.106 $ $Date: 2009-09-13 22:40:28 $
 
 =cut
