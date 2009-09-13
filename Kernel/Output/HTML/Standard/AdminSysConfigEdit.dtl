@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.41 2009-03-05 13:40:12 tr Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.42 2009-09-13 22:28:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,55 +11,55 @@
 
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"SysConfig"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" class="menu">
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=SelectGroup&SysConfigGroup=$LQData{"Group"}">$Text{"Back"}</a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" class="mainbody">
-      <br/>
-      <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action"            value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction"         value="Update"/>
-        <input type="hidden" name="SysConfigGroup"    value="$QData{"Group"}"/>
-        <input type="hidden" name="SysConfigSubGroup" value="$QData{"SubGroup"}"/>
-        <input type="hidden" name="DontWriteDefault"  value="1"/>
-        <input type="image" src="$Config{"Frontend::ImagePath"}empty.png" alt=" "/>
-        <table cellspacing="0" cellpadding="4" border="0" width="790">
-          <tr>
-            <td colspan="3" class="contenthead">$Text{"Config Options"}: $Data{"Group"} -&gt; $Data{"SubGroup"}</td>
-          </tr>
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"SysConfig"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="menu">
+            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=SelectGroup&SysConfigGroup=$LQData{"Group"}">$Text{"Back"}</a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="mainbody">
+            <br/>
+            <form action="$Env{"CGIHandle"}" method="post">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Update"/>
+                <input type="hidden" name="SysConfigGroup" value="$QData{"Group"}"/>
+                <input type="hidden" name="SysConfigSubGroup" value="$QData{"SubGroup"}"/>
+                <input type="hidden" name="DontWriteDefault" value="1"/>
+                <input type="image" src="$Config{"Frontend::ImagePath"}empty.png" alt=" "/>
+                <table cellspacing="0" cellpadding="4" border="0" width="790">
+                    <tr>
+                        <td colspan="3" class="contenthead">$Text{"Config Options"}: $Data{"Group"} -&gt; $Data{"SubGroup"}</td>
+                    </tr>
 <!-- dtl:block:ConfigElementBlock -->
-          <tr class="contentbody">
-            <td class="contentvalue">
-              <a name="$QData{"Name"}"></a>
-              <input type="checkbox" value="1" name="$QData{"ItemKey"}ItemAktiv" $QData{"Valid"} $QData{"Required"}/>
+                    <tr class="contentbody">
+                        <td class="contentvalue">
+                            <a name="$QData{"Name"}"></a>
+                            <input type="checkbox" value="1" name="$QData{"ItemKey"}ItemAktiv" $QData{"Valid"} $QData{"Required"}/>
 <!-- dtl:block:ConfigElementBlockReset -->
-              <br/>
-              <input type="image" src="$Config{"Frontend::ImagePath"}edit.png" name="Reset$QData{"ItemKey"}" alt="$Text{"Reset"}" title="$Text{"Reset"}"/>
+                            <br/>
+                            <input type="image" src="$Config{"Frontend::ImagePath"}edit.png" name="Reset$QData{"ItemKey"}" alt="$Text{"Reset"}" title="$Text{"Reset"}"/>
 <!-- dtl:block:ConfigElementBlockReset -->
-            </td>
-            <td width="50%">
-              <span class="contentkey$Data{"Validstyle"}">$QData{"ItemKey"}:</span>
-              <br/>
-              <span class="contentvalue$Data{"Validstyle"}">$QData{"Description"}</span>
-            </td>
+                        </td>
+                        <td width="50%">
+                            <span class="contentkey$Data{"Validstyle"}">$QData{"ItemKey"}:</span>
+                            <br/>
+                            <span class="contentvalue$Data{"Validstyle"}">$QData{"Description"}</span>
+                        </td>
 <!-- dtl:block:ConfigElementString -->
-            <td width="50%" class="contentvalue">
-              <input name="$QData{"ElementKey"}" size="55" value="$QData{"Content"}"/>
-              <br/>
-              <font color="red">$Text{"$QData{"Valid"}"}</font>
-              <span class="contentvalue" title="$QData{"Default"}">($Text{"Default"}: $QData{"Default","45"})</span>
-            </td>
+                        <td width="50%" class="contentvalue">
+                            <input name="$QData{"ElementKey"}" size="55" value="$QData{"Content"}"/>
+                            <br/>
+                            <font color="red">$Text{"$QData{"Valid"}"}</font>
+                            <span class="contentvalue" title="$QData{"Default"}">($Text{"Default"}: $QData{"Default","45"})</span>
+                        </td>
 <!-- dtl:block:ConfigElementString -->
 <!-- dtl:block:ConfigElementTextArea -->
-            <td width="50%" class="contentvalue">
+                        <td width="50%" class="contentvalue">
               <textarea name="$QData{"ElementKey"}" rows="7" cols="50">$QData{"Content"}</textarea>
             </td>
 <!-- dtl:block:ConfigElementTextArea -->
@@ -94,7 +94,7 @@
                 </tr>
 <!-- dtl:block:ConfigElementHashContent -->
 <!-- dtl:block:ConfigElementHashContent2 -->
-                <tr><td colspan="5"><hr></td></tr>
+                <tr><td colspan="5"><hr/></td></tr>
                 <tr>
                   <td class="contentkey">
                     $QData{"Key"} =><input type="hidden" name="$QData{"ElementKey"}Key[]" value="$QData{"Key"}" size="20"/>
@@ -141,7 +141,7 @@
                     </table>
                   </td>
                 </tr>
-                <tr><td colspan="5"><hr></td></tr>
+                <tr><td colspan="5"><hr/></td></tr>
 <!-- dtl:block:ConfigElementHashContent2 -->
 <!-- dtl:block:ConfigElementHashContent3 -->
                 <tr>
@@ -257,7 +257,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="5"><hr></td>
+                  <td colspan="5"><hr/></td>
                 </tr>
                 <tr>
                   <td colspan="5" class="contentkey">$Text{"NavBar"} =&gt;</td>
@@ -403,7 +403,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="5"><hr></td>
+                  <td colspan="5"><hr/></td>
                 </tr>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBar -->
                 <tr>
@@ -413,7 +413,7 @@
                 </tr>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarModule -->
                 <tr>
-                  <td colspan="5"><hr></td>
+                  <td colspan="5"><hr/></td>
                 </tr>
                 <tr>
                   <td colspan="5" class="contentkey" width="100">NavBarModule&nbsp;=></td>
@@ -457,7 +457,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="5"><hr></td>
+                  <td colspan="5"><hr/></td>
                 </tr>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarModule -->
               </table>
@@ -575,7 +575,7 @@
 <!-- dtl:block:ConfigElementTimeWorkingHours -->
           </tr>
           <tr class="contentbody">
-            <td class="contentvalue" colspan="3"><hr></td>
+            <td class="contentvalue" colspan="3"><hr/></td>
           </tr>
 <!-- dtl:block:ConfigElementBlock -->
           <tr>

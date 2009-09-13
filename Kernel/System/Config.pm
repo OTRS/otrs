@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.85 2009-05-15 09:56:40 martin Exp $
+# $Id: Config.pm,v 1.86 2009-09-13 22:28:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 =head1 NAME
 
@@ -458,13 +458,13 @@ sub CreateConfig {
                 my ( $A1, $A2 );
                 eval "\$A1 = $C";
                 eval "\$A2 = $D";
-                if ( !defined($A1) && !defined($A2) ) {
+                if ( !defined $A1 && !defined $A2 ) {
 
                     # do nothing
                 }
                 elsif (
-                    ( defined($A1) && !defined($A2) )
-                    || ( !defined($A1) && defined($A2) )
+                    ( defined $A1 && !defined $A2 )
+                    || ( !defined $A1 && defined $A2 )
                     || $Self->DataDiff( Data1 => $A1, Data2 => $A2 )
                     || ( $Config{Valid} && !$ConfigDefault{Valid} )
                     )
@@ -974,12 +974,12 @@ sub ConfigItemGet {
         if ( $ConfigItemDefault{Valid} ne $ConfigItem->{Valid} ) {
             $ConfigItem->{Diff} = 1;
         }
-        elsif ( !defined($A1) && !defined($A2) ) {
+        elsif ( !defined $A1 && !defined $A2 ) {
             $ConfigItem->{Diff} = 0;
         }
         elsif (
-            ( defined($A1) && !defined($A2) )
-            || ( !defined($A1) && defined($A2) )
+            ( defined $A1 && !defined $A2 )
+            || ( !defined $A1 && defined $A2 )
             || $Self->DataDiff( Data1 => $A1, Data2 => $A2 )
             )
         {
@@ -1097,7 +1097,7 @@ sub ConfigSubGroupList {
     }
     my %List = ();
     for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
-        if ( $ConfigItem->{Group} && ref( $ConfigItem->{Group} ) eq 'ARRAY' ) {
+        if ( $ConfigItem->{Group} && ref $ConfigItem->{Group} eq 'ARRAY' ) {
             my $Hit = 0;
             for my $Group ( @{ $ConfigItem->{Group} } ) {
                 if ( $Group->{Content} && $Group->{Content} eq $Param{Name} ) {
@@ -1151,12 +1151,12 @@ sub ConfigSubGroupConfigItemList {
         my %Used = ();
         for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
             my $Name = $ConfigItem->{Name};
-            if ( $ConfigItem->{Group} && ref( $ConfigItem->{Group} ) eq 'ARRAY' ) {
+            if ( $ConfigItem->{Group} && ref $ConfigItem->{Group} eq 'ARRAY' ) {
                 for my $Group ( @{ $ConfigItem->{Group} } ) {
                     if (
                         $Group
                         && $ConfigItem->{SubGroup}
-                        && ref( $ConfigItem->{SubGroup} ) eq 'ARRAY'
+                        && ref $ConfigItem->{SubGroup} eq 'ARRAY'
                         )
                     {
                         for my $SubGroup ( @{ $ConfigItem->{SubGroup} } ) {
@@ -1184,9 +1184,7 @@ sub ConfigSubGroupConfigItemList {
     if ( $Data{ $Param{Group} . '::' . $Param{SubGroup} } ) {
         return reverse @{ $Data{ $Param{Group} . '::' . $Param{SubGroup} } };
     }
-    else {
-        return ();
-    }
+    return ();
 }
 
 =item ConfigItemSearch()
@@ -1224,7 +1222,7 @@ sub ConfigItemSearch {
             for my $Item (@Items) {
                 my $Config = $Self->_ModGet( ConfigName => $Item );
                 if ( $Config && !$Used{ $Group . '::' . $SubGroup } ) {
-                    if ( ref($Config) eq 'ARRAY' ) {
+                    if ( ref $Config eq 'ARRAY' ) {
                         for ( @{$Config} ) {
                             if ( !$Used{ $Group . '::' . $SubGroup } ) {
                                 if ( $_ && $_ =~ /\Q$Param{Search}\E/i ) {
@@ -1327,17 +1325,17 @@ sub _ModGet {
         $ConfigObject = $Self->{ConfigObject};
     }
     if ( $Param{ConfigName} =~ /^(.*)###(.*)###(.*)$/ ) {
-        if ( defined( $ConfigObject->Get($1) ) ) {
+        if ( defined $ConfigObject->Get($1) ) {
             $Content = $ConfigObject->Get($1)->{$2}->{$3};
         }
     }
     elsif ( $Param{ConfigName} =~ /^(.*)###(.*)$/ ) {
-        if ( defined( $ConfigObject->Get($1) ) ) {
+        if ( defined $ConfigObject->Get($1) ) {
             $Content = $ConfigObject->Get($1)->{$2};
         }
     }
     else {
-        if ( defined( $ConfigObject->Get( $Param{ConfigName} ) ) ) {
+        if ( defined $ConfigObject->Get( $Param{ConfigName} ) ) {
             $Content = $ConfigObject->Get( $Param{ConfigName} );
         }
     }
@@ -1349,20 +1347,20 @@ sub DataDiff {
 
     # check needed stuff
     for (qw(Data1 Data2)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # ''
-    if ( ref( $Param{Data1} ) eq '' && ref( $Param{Data2} ) eq '' ) {
-        if ( !defined( $Param{Data1} ) && !defined( $Param{Data2} ) ) {
+    if ( ref $Param{Data1} eq '' && ref $Param{Data2} eq '' ) {
+        if ( !defined $Param{Data1} && !defined $Param{Data2} ) {
 
             # do noting, it's ok
-            return 0;
+            return;
         }
-        elsif ( !defined( $Param{Data1} ) || !defined( $Param{Data2} ) ) {
+        elsif ( !defined $Param{Data1} || !defined $Param{Data2} ) {
 
             # return diff, because its different
             return 1;
@@ -1374,19 +1372,19 @@ sub DataDiff {
         }
         else {
 
-            # return 0, because its not different
-            return 0;
+            # return, because its not different
+            return;
         }
     }
 
     # SCALAR
-    if ( ref( $Param{Data1} ) eq 'SCALAR' && ref( $Param{Data2} ) eq 'SCALAR' ) {
-        if ( !defined( ${ $Param{Data1} } ) && !defined( ${ $Param{Data2} } ) ) {
+    if ( ref $Param{Data1} eq 'SCALAR' && ref $Param{Data2} eq 'SCALAR' ) {
+        if ( !defined ${ $Param{Data1} } && !defined ${ $Param{Data2} } ) {
 
             # do noting, it's ok
-            return 0;
+            return;
         }
-        elsif ( !defined( ${ $Param{Data1} } ) || !defined( ${ $Param{Data2} } ) ) {
+        elsif ( !defined ${ $Param{Data1} } || !defined ${ $Param{Data2} } ) {
 
             # return diff, because its different
             return 1;
@@ -1398,13 +1396,13 @@ sub DataDiff {
         }
         else {
 
-            # return 0, because its not different
-            return 0;
+            # return, because its not different
+            return;
         }
     }
 
     # ARRAY
-    if ( ref( $Param{Data1} ) eq 'ARRAY' && ref( $Param{Data2} ) eq 'ARRAY' ) {
+    if ( ref $Param{Data1} eq 'ARRAY' && ref $Param{Data2} eq 'ARRAY' ) {
         my @A = @{ $Param{Data1} };
         my @B = @{ $Param{Data2} };
 
@@ -1415,17 +1413,17 @@ sub DataDiff {
 
         # compare array
         for my $Count ( 0 .. $#A ) {
-            if ( !defined( $A[$Count] ) && !defined( $B[$Count] ) ) {
+            if ( !defined $A[$Count] && !defined $B[$Count] ) {
 
                 # do noting, it's ok
             }
-            elsif ( !defined( $A[$Count] ) || !defined( $B[$Count] ) ) {
+            elsif ( !defined $A[$Count] || !defined $B[$Count] ) {
 
                 # return diff, because its different
                 return 1;
             }
             elsif ( $A[$Count] ne $B[$Count] ) {
-                if ( ref( $A[$Count] ) eq 'ARRAY' || ref( $A[$Count] ) eq 'HASH' ) {
+                if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
                     if ( $Self->DataDiff( Data1 => $A[$Count], Data2 => $B[$Count] ) ) {
                         return 1;
                     }
@@ -1435,21 +1433,21 @@ sub DataDiff {
                 }
             }
         }
-        return 0;
+        return;
     }
 
     # HASH
-    if ( ref( $Param{Data1} ) eq 'HASH' && ref( $Param{Data2} ) eq 'HASH' ) {
+    if ( ref $Param{Data1} eq 'HASH' && ref $Param{Data2} eq 'HASH' ) {
         my %A = %{ $Param{Data1} };
         my %B = %{ $Param{Data2} };
 
         # compare %A with %B and remove it if checked
         for my $Key ( keys %A ) {
-            if ( !defined( $A{$Key} ) && !defined( $B{$Key} ) ) {
+            if ( !defined $A{$Key} && !defined $B{$Key} ) {
 
                 # do noting, it's ok
             }
-            elsif ( !defined( $A{$Key} ) || !defined( $B{$Key} ) ) {
+            elsif ( !defined $A{$Key} || !defined $B{$Key} ) {
 
                 # return diff, because its different
                 return 1;
@@ -1461,7 +1459,7 @@ sub DataDiff {
 
             # return if values are different
             else {
-                if ( ref( $A{$Key} ) eq 'ARRAY' || ref( $A{$Key} ) eq 'HASH' ) {
+                if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
                     if ( $Self->DataDiff( Data1 => $A{$Key}, Data2 => $B{$Key} ) ) {
                         return 1;
                     }
@@ -1481,7 +1479,7 @@ sub DataDiff {
             return 1;
         }
         else {
-            return 0;
+            return;
         }
     }
     return 1;
@@ -1497,9 +1495,10 @@ sub _XML2Perl {
             return;
         }
     }
+    my $ConfigItem = $Param{Data}->{Setting}->[1];
     my $Data;
-    if ( $Param{Data}->{Setting}->[1]->{String} ) {
-        $Data = $Param{Data}->{Setting}->[1]->{String}->[1]->{Content};
+    if ( $ConfigItem->{String} ) {
+        $Data = $ConfigItem->{String}->[1]->{Content};
         my $D = $Data;
         $Data = $D;
 
@@ -1508,8 +1507,8 @@ sub _XML2Perl {
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
-    if ( $Param{Data}->{Setting}->[1]->{Option} ) {
-        $Data = $Param{Data}->{Setting}->[1]->{Option}->[1]->{SelectedID};
+    if ( $ConfigItem->{Option} ) {
+        $Data = $ConfigItem->{Option}->[1]->{SelectedID};
         my $D = $Data;
         $Data = $D;
 
@@ -1518,8 +1517,8 @@ sub _XML2Perl {
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
-    if ( $Param{Data}->{Setting}->[1]->{TextArea} ) {
-        $Data = $Param{Data}->{Setting}->[1]->{TextArea}->[1]->{Content};
+    if ( $ConfigItem->{TextArea} ) {
+        $Data = $ConfigItem->{TextArea}->[1]->{Content};
         $Data =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
         my $D = $Data;
         $Data = $D;
@@ -1529,44 +1528,38 @@ sub _XML2Perl {
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
-    if ( $Param{Data}->{Setting}->[1]->{Hash} ) {
+    if ( $ConfigItem->{Hash} ) {
         my %Hash  = ();
         my @Array = ();
-        if ( ref( $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item} ) eq 'ARRAY' ) {
-            @Array = @{ $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item} };
+        if ( ref $ConfigItem->{Hash}->[1]->{Item} eq 'ARRAY' ) {
+            @Array = @{ $ConfigItem->{Hash}->[1]->{Item} };
         }
         for my $Item ( 1 .. $#Array ) {
-            if ( defined( $Array[$Item]->{Hash} ) ) {
+            if ( defined $Array[$Item]->{Hash} ) {
                 my %SubHash = ();
                 for my $Index (
-                    1 .. $#{
-                        $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]
-                            ->{Item}
-                    }
+                    1 .. $#{ $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item} }
                     )
                 {
                     $SubHash{
-                        $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}
-                            ->[1]->{Item}->[$Index]->{Key}
+                        $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]
+                            ->{Key}
                         }
-                        = $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]
-                        ->{Item}->[$Index]->{Content};
+                        = $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]
+                        ->{Content};
                 }
                 $Hash{ $Array[$Item]->{Key} } = \%SubHash;
             }
-            elsif ( defined( $Array[$Item]->{Array} ) ) {
+            elsif ( defined $Array[$Item]->{Array} ) {
                 my @SubArray = ();
                 for my $Index (
-                    1 .. $#{
-                        $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]
-                            ->{Item}
-                    }
+                    1 .. $#{ $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item} }
                     )
                 {
                     push(
                         @SubArray,
-                        $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]
-                            ->{Item}->[$Index]->{Content}
+                        $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}->[$Index]
+                            ->{Content}
                     );
                 }
                 $Hash{ $Array[$Item]->{Key} } = \@SubArray;
@@ -1581,14 +1574,14 @@ sub _XML2Perl {
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
-    if ( $Param{Data}->{Setting}->[1]->{Array} ) {
+    if ( $ConfigItem->{Array} ) {
         my @ArrayNew = ();
         my @Array    = ();
-        if ( ref( $Param{Data}->{Setting}->[1]->{Array}->[1]->{Item} ) eq 'ARRAY' ) {
-            @Array = @{ $Param{Data}->{Setting}->[1]->{Array}->[1]->{Item} };
+        if ( ref $ConfigItem->{Array}->[1]->{Item} eq 'ARRAY' ) {
+            @Array = @{ $ConfigItem->{Array}->[1]->{Item} };
         }
         for my $Item ( 1 .. $#Array ) {
-            push( @ArrayNew, $Array[$Item]->{Content} );
+            push @ArrayNew, $Array[$Item]->{Content};
         }
 
         # store in config
@@ -1596,41 +1589,29 @@ sub _XML2Perl {
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
-    if ( $Param{Data}->{Setting}->[1]->{FrontendModuleReg} ) {
+    if ( $ConfigItem->{FrontendModuleReg} ) {
         my %Hash = ();
-        for my $Key ( sort keys %{ $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1] } ) {
+        for my $Key ( sort keys %{ $ConfigItem->{FrontendModuleReg}->[1] } ) {
             if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
                 my @Array = ();
-                for my $Index (
-                    1 .. $#{ $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} }
-                    )
-                {
+                for my $Index ( 1 .. $#{ $ConfigItem->{FrontendModuleReg}->[1]->{$Key} } ) {
                     push(
                         @Array,
-                        $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index]
-                            ->{Content}
+                        $ConfigItem->{FrontendModuleReg}->[1]->{$Key}->[$Index]->{Content}
                     );
                 }
                 $Hash{$Key} = \@Array;
             }
             elsif ( $Key eq 'NavBar' || $Key eq 'NavBarModule' ) {
-                if (
-                    ref( $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} ) eq
-                    'ARRAY'
-                    )
-                {
-                    for my $Index (
-                        1 .. $#{ $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} }
-                        )
-                    {
-                        my $Content = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
-                            ->[$Index];
-                        my %NavBar = ();
+                if ( ref $ConfigItem->{FrontendModuleReg}->[1]->{$Key} eq 'ARRAY' ) {
+                    for my $Index ( 1 .. $#{ $ConfigItem->{FrontendModuleReg}->[1]->{$Key} } ) {
+                        my $Content = $ConfigItem->{FrontendModuleReg}->[1]->{$Key}->[$Index];
+                        my %NavBar  = ();
                         for my $Key ( sort keys %{$Content} ) {
                             if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
                                 my @Array = ();
                                 for my $Index ( 1 .. $#{ $Content->{$Key} } ) {
-                                    push( @Array, $Content->{$Key}->[$Index]->{Content} );
+                                    push @Array, $Content->{$Key}->[$Index]->{Content};
                                 }
                                 $NavBar{$Key} = \@Array;
                             }
@@ -1641,7 +1622,7 @@ sub _XML2Perl {
                             }
                         }
                         if ( $Key eq 'NavBar' ) {
-                            push( @{ $Hash{$Key} }, \%NavBar );
+                            push @{ $Hash{$Key} }, \%NavBar;
                         }
                         else {
                             $Hash{$Key} = \%NavBar;
@@ -1649,13 +1630,13 @@ sub _XML2Perl {
                     }
                 }
                 else {
-                    my $Content = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key};
+                    my $Content = $ConfigItem->{FrontendModuleReg}->[1]->{$Key};
                     my %NavBar  = ();
                     for my $Key ( sort keys %{$Content} ) {
                         if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
                             my @Array = ();
                             for my $Index ( 1 .. $#{ $Content->{$Key} } ) {
-                                push( @Array, $Content->{$Key}->[1]->{Content} );
+                                push @Array, $Content->{$Key}->[1]->{Content};
                             }
                             $NavBar{$Key} = \@Array;
                         }
@@ -1670,9 +1651,7 @@ sub _XML2Perl {
             }
             else {
                 if ( $Key ne 'Content' ) {
-                    $Hash{$Key}
-                        = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]
-                        ->{Content};
+                    $Hash{$Key} = $ConfigItem->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content};
                 }
             }
         }
@@ -1682,15 +1661,15 @@ sub _XML2Perl {
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
-    if ( $Param{Data}->{Setting}->[1]->{TimeWorkingHours} ) {
+    if ( $ConfigItem->{TimeWorkingHours} ) {
         my %Days  = ();
-        my @Array = @{ $Param{Data}->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day} };
+        my @Array = @{ $ConfigItem->{TimeWorkingHours}->[1]->{Day} };
         for my $Day ( 1 .. $#Array ) {
             my @Array2 = ();
             if ( $Array[$Day]->{Hour} ) {
                 my @Hours = @{ $Array[$Day]->{Hour} };
                 for my $Hour ( 1 .. $#Hours ) {
-                    push( @Array2, $Hours[$Hour]->{Content} );
+                    push @Array2, $Hours[$Hour]->{Content};
                 }
             }
             $Days{ $Array[$Day]->{Name} } = \@Array2;
@@ -1701,9 +1680,9 @@ sub _XML2Perl {
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
-    if ( $Param{Data}->{Setting}->[1]->{TimeVacationDays} ) {
+    if ( $ConfigItem->{TimeVacationDays} ) {
         my %Hash  = ();
-        my @Array = @{ $Param{Data}->{Setting}->[1]->{TimeVacationDays}->[1]->{Item} };
+        my @Array = @{ $ConfigItem->{TimeVacationDays}->[1]->{Item} };
         for my $Item ( 1 .. $#Array ) {
             $Hash{ $Array[$Item]->{Month} }->{ $Array[$Item]->{Day} } = $Array[$Item]->{Content};
         }
@@ -1713,9 +1692,9 @@ sub _XML2Perl {
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
-    if ( $Param{Data}->{Setting}->[1]->{TimeVacationDaysOneTime} ) {
+    if ( $ConfigItem->{TimeVacationDaysOneTime} ) {
         my %Hash  = ();
-        my @Array = @{ $Param{Data}->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item} };
+        my @Array = @{ $ConfigItem->{TimeVacationDaysOneTime}->[1]->{Item} };
         for my $Item ( 1 .. $#Array ) {
             $Hash{ $Array[$Item]->{Year} }->{ $Array[$Item]->{Month} }->{ $Array[$Item]->{Day} }
                 = $Array[$Item]->{Content};
@@ -1757,6 +1736,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2009-05-15 09:56:40 $
+$Revision: 1.86 $ $Date: 2009-09-13 22:28:08 $
 
 =cut

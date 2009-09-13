@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.77 2009-04-23 13:47:27 mh Exp $
+# $Id: AdminSysConfig.pm,v 1.78 2009-09-13 22:28:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,10 +56,9 @@ sub Run {
     # download
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Download' ) {
-        my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst )
-            = $Self->{TimeObject}->SystemTime2Date(
+        my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $Self->{TimeObject}->SystemTime(),
-            );
+        );
         $M = sprintf( "%02d", $M );
         $D = sprintf( "%02d", $D );
         $h = sprintf( "%02d", $h );
@@ -94,9 +93,7 @@ sub Run {
             return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
 
         }
-        else {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
+        return $Self->{LayoutObject}->ErrorScreen();
     }
 
     # ------------------------------------------------------------ #
@@ -121,7 +118,7 @@ sub Run {
             my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet( Name => $_ );
 
             # Reset Item
-            if ( defined( $Self->{ParamObject}->GetParam( Param => "Reset$_.x" ) ) ) {
+            if ( defined $Self->{ParamObject}->GetParam( Param => "Reset$_.x" ) ) {
                 $Self->{SysConfigObject}->ConfigItemReset( Name => $_ );
                 $Anker = $ItemHash{Name};
                 next;
@@ -141,62 +138,56 @@ sub Run {
             }
 
             # ConfigElement String
-            if ( defined( $ItemHash{Setting}[1]{String} ) ) {
+            if ( defined $ItemHash{Setting}->[1]->{String} ) {
 
                 # Get Value (Content)
                 my $Content = $Self->{ParamObject}->GetParam( Param => $_ );
 
                 # write ConfigItem
-                if (
-                    !$Self->{SysConfigObject}->ConfigItemUpdate(
-                        Key   => $_,
-                        Value => $Content,
-                        Valid => $Aktiv
-                    )
-                    )
-                {
-                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
+                my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
+                    Key   => $_,
+                    Value => $Content,
+                    Valid => $Aktiv
+                );
+                if ( !$Update ) {
+                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
                 }
             }
 
             # ConfigElement TextArea
-            if ( defined( $ItemHash{Setting}[1]{TextArea} ) ) {
+            if ( defined $ItemHash{Setting}->[1]->{TextArea} ) {
 
                 # Get Value (Content)
                 my $Content = $Self->{ParamObject}->GetParam( Param => $_ );
 
                 # write ConfigItem
-                if (
-                    !$Self->{SysConfigObject}->ConfigItemUpdate(
-                        Key   => $_,
-                        Value => $Content,
-                        Valid => $Aktiv
-                    )
-                    )
-                {
-                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
+                my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
+                    Key   => $_,
+                    Value => $Content,
+                    Valid => $Aktiv
+                );
+                if ( !$Update ) {
+                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
                 }
             }
 
             # ConfigElement PulldownMenue
-            elsif ( defined( $ItemHash{Setting}[1]{Option} ) ) {
+            elsif ( defined $ItemHash{Setting}->[1]->{Option} ) {
                 my $Content = $Self->{ParamObject}->GetParam( Param => $_ );
 
                 # write ConfigItem
-                if (
-                    !$Self->{SysConfigObject}->ConfigItemUpdate(
-                        Key   => $_,
-                        Value => $Content,
-                        Valid => $Aktiv
-                    )
-                    )
-                {
-                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
+                my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
+                    Key   => $_,
+                    Value => $Content,
+                    Valid => $Aktiv
+                );
+                if ( !$Update ) {
+                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
                 }
             }
 
             # ConfigElement Hash
-            elsif ( defined( $ItemHash{Setting}[1]{Hash} ) ) {
+            elsif ( defined $ItemHash{Setting}->[1]->{Hash} ) {
                 my @Keys         = $Self->{ParamObject}->GetArray( Param => $_ . 'Key[]' );
                 my @Values       = $Self->{ParamObject}->GetArray( Param => $_ . 'Content[]' );
                 my @DeleteNumber = $Self->{ParamObject}->GetArray( Param => $_ . 'DeleteNumber[]' );
@@ -215,16 +206,14 @@ sub Run {
                         for my $Index2 ( 0 .. $#SubHashKeys ) {
 
                             # Delete SubHash Element?
-                            if (
-                                !$Self->{ParamObject}->GetParam(
-                                    Param => $ItemHash{Name}
-                                        . '##SubHash##'
-                                        . $Keys[$Index]
-                                        . '#DeleteSubHashElement'
-                                        . ( $Index2 + 1 )
-                                )
-                                )
-                            {
+                            my $Delete = $Self->{ParamObject}->GetParam(
+                                Param => $ItemHash{Name}
+                                    . '##SubHash##'
+                                    . $Keys[$Index]
+                                    . '#DeleteSubHashElement'
+                                    . ( $Index2 + 1 )
+                            );
+                            if ( !$Delete ) {
                                 $SubHash{ $SubHashKeys[$Index2] } = $SubHashValues[$Index2];
                             }
                             else {
@@ -233,12 +222,10 @@ sub Run {
                         }
 
                         # New SubHashElement
-                        if (
-                            $Self->{ParamObject}->GetParam(
-                                Param => $ItemHash{Name} . '#' . $Keys[$Index] . '#NewSubElement'
-                            )
-                            )
-                        {
+                        my $New = $Self->{ParamObject}->GetParam(
+                            Param => $ItemHash{Name} . '#' . $Keys[$Index] . '#NewSubElement'
+                        );
+                        if ($New) {
                             $SubHash{''} = '';
                             $Anker = $ItemHash{Name};
                         }
@@ -252,28 +239,24 @@ sub Run {
                         );
 
                         # New SubArrayElement
-                        if (
-                            $Self->{ParamObject}->GetParam(
-                                Param => $ItemHash{Name} . '#' . $Keys[$Index] . '#NewSubElement'
-                            )
-                            )
-                        {
-                            push( @SubArray, '' );
+                        my $New = $Self->{ParamObject}->GetParam(
+                            Param => $ItemHash{Name} . '#' . $Keys[$Index] . '#NewSubElement'
+                        );
+                        if ($New) {
+                            push @SubArray, '';
                             $Anker = $ItemHash{Name};
                         }
 
                         #Delete SubArray Element?
                         for my $Index2 ( 0 .. $#SubArray ) {
-                            if (
-                                $Self->{ParamObject}->GetParam(
-                                    Param => $ItemHash{Name}
-                                        . '##SubArray##'
-                                        . $Keys[$Index]
-                                        . '#DeleteSubArrayElement'
-                                        . ( $Index2 + 1 )
-                                )
-                                )
-                            {
+                            my $Delete = $Self->{ParamObject}->GetParam(
+                                Param => $ItemHash{Name}
+                                    . '##SubArray##'
+                                    . $Keys[$Index]
+                                    . '#DeleteSubArrayElement'
+                                    . ( $Index2 + 1 )
+                            );
+                            if ($Delete) {
                                 splice( @SubArray, $Index2, 1 );
                                 $Anker = $ItemHash{Name};
                             }
@@ -296,68 +279,60 @@ sub Run {
                 }
 
                 # New HashElement
-                if (
-                    $Self->{ParamObject}->GetParam( Param => $ItemHash{Name} . '#NewHashElement' )
-                    )
-                {
+                my $New = $Self->{ParamObject}
+                    ->GetParam( Param => $ItemHash{Name} . '#NewHashElement' );
+                if ($New) {
                     $Anker = $ItemHash{Name};
                     $Content{''} = '';
                 }
 
                 # write ConfigItem
-                if (
-                    !$Self->{SysConfigObject}->ConfigItemUpdate(
-                        Key   => $_,
-                        Value => \%Content,
-                        Valid => $Aktiv
-                    )
-                    )
-                {
-                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
+                my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
+                    Key   => $_,
+                    Value => \%Content,
+                    Valid => $Aktiv
+                );
+                if ( !$Update ) {
+                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
                 }
             }
 
             # ConfigElement Array
-            elsif ( defined( $ItemHash{Setting}[1]{Array} ) ) {
+            elsif ( defined $ItemHash{Setting}->[1]->{Array} ) {
                 my @Content = $Self->{ParamObject}->GetArray( Param => $_ . 'Content[]' );
 
                 # New ArrayElement
-                if (
-                    $Self->{ParamObject}->GetParam( Param => $ItemHash{Name} . '#NewArrayElement' )
-                    )
-                {
-                    push( @Content, '' );
+                my $New = $Self->{ParamObject}
+                    ->GetParam( Param => $ItemHash{Name} . '#NewArrayElement' );
+                if ($New) {
+                    push @Content, '';
                     $Anker = $ItemHash{Name};
                 }
 
-                #Delete Array Element
+                # Delete Array Element
                 for my $Index ( 0 .. $#Content ) {
-                    if (
-                        $Self->{ParamObject}->GetParam(
-                            Param => $ItemHash{Name} . '#DeleteArrayElement' . ( $Index + 1 )
-                        )
-                        )
-                    {
+                    my $Delete = $Self->{ParamObject}->GetParam(
+                        Param => $ItemHash{Name} . '#DeleteArrayElement' . ( $Index + 1 )
+                    );
+                    if ($Delete) {
                         splice( @Content, $Index, 1 );
                         $Anker = $ItemHash{Name};
                     }
                 }
 
                 # write ConfigItem
-                if (
-                    !$Self->{SysConfigObject}->ConfigItemUpdate(
-                        Key   => $_,
-                        Value => \@Content,
-                        Valid => $Aktiv
-                    )
-                    )
-                {
-                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
+                my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
+                    Key   => $_,
+                    Value => \@Content,
+                    Valid => $Aktiv
+                );
+                if ( !$Update ) {
+                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
                 }
             }
 
             # ConfigElement FrontendModuleReg
-            elsif ( defined( $ItemHash{Setting}[1]{FrontendModuleReg} ) ) {
+            elsif ( defined $ItemHash{Setting}->[1]->{FrontendModuleReg} ) {
                 my $ElementKey = $_;
                 my %Content;
 
@@ -372,28 +347,24 @@ sub Run {
                     );
 
                     # New Group(Ro)Element
-                    if (
-                        $Self->{ParamObject}->GetParam(
-                            Param => $ItemHash{Name} . '#New' . $Type . 'Element'
-                        )
-                        )
-                    {
-                        push( @Group, '' );
+                    my $New = $Self->{ParamObject}->GetParam(
+                        Param => $ItemHash{Name} . '#New' . $Type . 'Element'
+                    );
+                    if ($New) {
+                        push @Group, '';
                         $Anker = $ItemHash{Name};
                     }
 
                     # Delete Group Element
                     for my $Index ( 0 .. $#Group ) {
-                        if (
-                            $Self->{ParamObject}->GetParam(
-                                Param => $ItemHash{Name}
-                                    . '#Delete'
-                                    . $Type
-                                    . 'Element'
-                                    . ( $Index + 1 )
-                            )
-                            )
-                        {
+                        my $Delete = $Self->{ParamObject}->GetParam(
+                            Param => $ItemHash{Name}
+                                . '#Delete'
+                                . $Type
+                                . 'Element'
+                                . ( $Index + 1 )
+                        );
+                        if ($Delete) {
                             splice( @Group, $Index, 1 );
                             $Anker = $ItemHash{Name};
                         }
@@ -413,95 +384,81 @@ sub Run {
                 }
 
                 # Add NavBar Element
-                if (
-                    $Self->{ParamObject}->GetParam(
-                        Param => $ItemHash{Name} . '#NavBar#AddElement'
-                    )
-                    )
-                {
-                    push( @{ $NavBarParams{Description} }, '' );
+                my $NewNavBar = $Self->{ParamObject}->GetParam(
+                    Param => $ItemHash{Name} . '#NavBar#AddElement'
+                );
+                if ($NewNavBar) {
+                    push @{ $NavBarParams{Description} }, '';
                     $Anker = $ItemHash{Name};
                 }
 
                 # Create Hash
                 for my $Index ( 0 .. $#{ $NavBarParams{Description} } ) {
                     for my $Type (qw(Group GroupRo)) {
-                        my @Group
-                            = $Self->{ParamObject}->GetArray(
+                        my @Group = $Self->{ParamObject}->GetArray(
                             Param => $ElementKey
                                 . '#NavBar'
                                 . ( $Index + 1 ) . '#'
                                 . $Type
                                 . '[]'
-                            );
+                        );
 
                         # New Group(Ro)Element
-                        if (
-                            $Self->{ParamObject}->GetParam(
-                                Param => $ItemHash{Name}
-                                    . '#NavBar'
-                                    . ( $Index + 1 ) . '#New'
-                                    . $Type
-                                    . 'Element'
-                            )
-                            )
-                        {
-                            push( @Group, '' );
+                        my $New = $Self->{ParamObject}->GetParam(
+                            Param => $ItemHash{Name}
+                                . '#NavBar'
+                                . ( $Index + 1 ) . '#New'
+                                . $Type
+                                . 'Element'
+                        );
+                        if ($New) {
+                            push @Group, '';
                             $Anker = $ItemHash{Name};
                         }
 
                         # Delete Group Element
                         for my $Index2 ( 0 .. $#Group ) {
-                            if (
-                                $Self->{ParamObject}->GetParam(
-                                    Param => $ItemHash{Name}
-                                        . '#NavBar'
-                                        . ( $Index + 1 )
-                                        . '#Delete'
-                                        . $Type
-                                        . 'Element'
-                                        . ( $Index2 + 1 )
-                                )
-                                )
-                            {
+                            my $Delete = $Self->{ParamObject}->GetParam(
+                                Param => $ItemHash{Name}
+                                    . '#NavBar'
+                                    . ( $Index + 1 )
+                                    . '#Delete'
+                                    . $Type
+                                    . 'Element'
+                                    . ( $Index2 + 1 )
+                            );
+                            if ($Delete) {
                                 splice( @Group, $Index2, 1 );
                                 $Anker = $ItemHash{Name};
                             }
                         }
                         if ( $#Group > -1 ) {
-                            $Content{NavBar}[$Index]{$Type} = \@Group;
+                            $Content{NavBar}->[$Index]->{$Type} = \@Group;
                         }
                     }
                     for (qw(Description Name Image Link Type Prio Block NavBar AccessKey)) {
-                        if ( defined( $NavBarParams{$_}[$Index] ) ) {
-                            $Content{NavBar}[$Index]{$_} = $NavBarParams{$_}[$Index];
+                        if ( defined $NavBarParams{$_}->[$Index] ) {
+                            $Content{NavBar}->[$Index]->{$_} = $NavBarParams{$_}->[$Index];
                         }
                     }
                 }
 
                 # Delete NavBar Element
                 for my $Index ( 0 .. $#{ $NavBarParams{Description} } ) {
-                    if (
-                        $Self->{ParamObject}->GetParam(
-                            Param => $ItemHash{Name}
-                                . '#NavBar#'
-                                . ( $Index + 1 )
-                                . '#DeleteElement'
-                        )
-                        )
-                    {
+                    my $Delete = $Self->{ParamObject}->GetParam(
+                        Param => $ItemHash{Name} . '#NavBar#' . ( $Index + 1 ) . '#DeleteElement'
+                    );
+                    if ($Delete) {
                         splice( @{ $Content{NavBar} }, $Index, 1 );
                         $Anker = $ItemHash{Name};
                     }
                 }
 
                 # NavBarModule
-                if (
-                    $Self->{ParamObject}->GetArray(
-                        Param => $ElementKey . '#NavBarModule#Module[]'
-                    )
-                    )
-                {
+                my $NavBarModule = $Self->{ParamObject}->GetArray(
+                    Param => $ElementKey . '#NavBarModule#Module[]'
+                );
+                if ($NavBarModule) {
 
                     # get Params
                     my %NavBarModuleParams;
@@ -515,30 +472,28 @@ sub Run {
                     # Create Hash
                     for (qw(Group GroupRo Module Name Block Prio)) {
                         if (
-                            defined( $NavBarModuleParams{$_}[0] )
-                            && $NavBarModuleParams{$_}[0] ne ''
+                            defined $NavBarModuleParams{$_}->[0]
+                            && $NavBarModuleParams{$_}->[0] ne ''
                             )
                         {
-                            $Content{NavBarModule}{$_} = $NavBarModuleParams{$_}[0];
+                            $Content{NavBarModule}->{$_} = $NavBarModuleParams{$_}->[0];
                         }
                     }
                 }
 
                 # write ConfigItem
-                if (
-                    !$Self->{SysConfigObject}->ConfigItemUpdate(
-                        Key   => $_,
-                        Value => \%Content,
-                        Valid => $Aktiv
-                    )
-                    )
-                {
-                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
+                my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
+                    Key   => $_,
+                    Value => \%Content,
+                    Valid => $Aktiv
+                );
+                if ( !$Update ) {
+                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
                 }
             }
 
             # ConfigElement TimeVacationDaysOneTime
-            elsif ( defined( $ItemHash{Setting}[1]{TimeVacationDaysOneTime} ) ) {
+            elsif ( defined $ItemHash{Setting}->[1]->{TimeVacationDaysOneTime} ) {
                 my @Year   = $Self->{ParamObject}->GetArray( Param => $_ . 'year[]' );
                 my @Month  = $Self->{ParamObject}->GetArray( Param => $_ . 'month[]' );
                 my @Day    = $Self->{ParamObject}->GetArray( Param => $_ . 'day[]' );
@@ -547,15 +502,14 @@ sub Run {
                 for my $Index ( 0 .. $#Year ) {
 
                     # Delete TimeVacationDaysOneTime Element?
-                    if (
-                        !$Self->{ParamObject}->GetParam(
-                            Param => $ItemHash{Name}
-                                . '#DeleteTimeVacationDaysOneTimeElement'
-                                . ( $Index + 1 )
-                        )
-                        )
-                    {
-                        $Content{ $Year[$Index] }{ int( $Month[$Index] ) }{ int( $Day[$Index] ) }
+                    my $Delete = $Self->{ParamObject}->GetParam(
+                        Param => $ItemHash{Name}
+                            . '#DeleteTimeVacationDaysOneTimeElement'
+                            . ( $Index + 1 )
+                    );
+                    if ( !$Delete ) {
+                        $Content{ $Year[$Index] }->{ int( $Month[$Index] ) }
+                            ->{ int( $Day[$Index] ) }
                             = $Values[$Index];
                     }
                     else {
@@ -564,35 +518,30 @@ sub Run {
                 }
 
                 # New TimeVacationDaysOneTimeElement
-                if (
-                    $Self->{ParamObject}->GetParam(
-                        Param => $ItemHash{Name} . '#NewTimeVacationDaysOneTimeElement'
-                    )
-                    )
-                {
-                    my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst )
-                        = $Self->{TimeObject}->SystemTime2Date(
+                my $New = $Self->{ParamObject}->GetParam(
+                    Param => $ItemHash{Name} . '#NewTimeVacationDaysOneTimeElement'
+                );
+                if ($New) {
+                    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
                         SystemTime => $Self->{TimeObject}->SystemTime(),
-                        );
+                    );
                     $Content{$Y}->{''}->{''} = '-new-';
                     $Anker = $ItemHash{Name};
                 }
 
                 # write ConfigItem
-                if (
-                    !$Self->{SysConfigObject}->ConfigItemUpdate(
-                        Key   => $_,
-                        Value => \%Content,
-                        Valid => $Aktiv
-                    )
-                    )
-                {
-                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
+                my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
+                    Key   => $_,
+                    Value => \%Content,
+                    Valid => $Aktiv
+                );
+                if ( !$Update ) {
+                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
                 }
             }
 
             # ConfigElement TimeVacationDays
-            elsif ( defined( $ItemHash{Setting}[1]{TimeVacationDays} ) ) {
+            elsif ( defined $ItemHash{Setting}->[1]->{TimeVacationDays} ) {
                 my @Month  = $Self->{ParamObject}->GetArray( Param => $_ . 'month[]' );
                 my @Day    = $Self->{ParamObject}->GetArray( Param => $_ . 'day[]' );
                 my @Values = $Self->{ParamObject}->GetArray( Param => $_ . 'Content[]' );
@@ -600,15 +549,14 @@ sub Run {
                 for my $Index ( 0 .. $#Month ) {
 
                     # Delete TimeVacationDays Element?
-                    if (
-                        !$Self->{ParamObject}->GetParam(
-                            Param => $ItemHash{Name}
-                                . '#DeleteTimeVacationDaysElement'
-                                . ( $Index + 1 )
-                        )
-                        )
-                    {
-                        $Content{ int( $Month[$Index] ) }{ int( $Day[$Index] ) } = $Values[$Index];
+                    my $Delete = $Self->{ParamObject}->GetParam(
+                        Param => $ItemHash{Name}
+                            . '#DeleteTimeVacationDaysElement'
+                            . ( $Index + 1 )
+                    );
+                    if ( !$Delete ) {
+                        $Content{ int( $Month[$Index] ) }->{ int( $Day[$Index] ) }
+                            = $Values[$Index];
                     }
                     else {
                         $Anker = $ItemHash{Name};
@@ -616,53 +564,49 @@ sub Run {
                 }
 
                 # New TimeVacationDaysElement
-                if (
-                    $Self->{ParamObject}->GetParam(
-                        Param => $ItemHash{Name} . '#NewTimeVacationDaysElement'
-                    )
-                    )
-                {
-                    my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst )
-                        = $Self->{TimeObject}->SystemTime2Date(
+                my $New = $Self->{ParamObject}->GetParam(
+                    Param => $ItemHash{Name} . '#NewTimeVacationDaysElement'
+                );
+                if ($New) {
+                    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
                         SystemTime => $Self->{TimeObject}->SystemTime(),
-                        );
+                    );
 
                     $Content{$M}->{''} = '-new-';
                     $Anker = $ItemHash{Name};
                 }
 
                 # write ConfigItem
-                if (
-                    !$Self->{SysConfigObject}->ConfigItemUpdate(
-                        Key   => $_,
-                        Value => \%Content,
-                        Valid => $Aktiv
-                    )
-                    )
-                {
-                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
+                my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
+                    Key   => $_,
+                    Value => \%Content,
+                    Valid => $Aktiv
+                );
+
+                if ( !$Update ) {
+                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
                 }
             }
 
             # ConfigElement TimeWorkingHours
-            elsif ( defined( $ItemHash{Setting}[1]{TimeWorkingHours} ) ) {
+            elsif ( defined $ItemHash{Setting}->[1]->{TimeWorkingHours} ) {
                 my %Content;
-                for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day} } ) {
-                    my $Weekday = $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Name};
+                for my $Index ( 1 .. $#{ $ItemHash{Setting}->[1]->{TimeWorkingHours}->[1]->{Day} } )
+                {
+                    my $Weekday
+                        = $ItemHash{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}->[$Index]->{Name};
                     my @Hours = $Self->{ParamObject}->GetArray( Param => $_ . $Weekday . '[]' );
                     $Content{$Weekday} = \@Hours;
                 }
 
                 # write ConfigItem
-                if (
-                    !$Self->{SysConfigObject}->ConfigItemUpdate(
-                        Key   => $_,
-                        Value => \%Content,
-                        Valid => $Aktiv
-                    )
-                    )
-                {
-                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
+                my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
+                    Key   => $_,
+                    Value => \%Content,
+                    Valid => $Aktiv
+                );
+                if ( !$Update ) {
+                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
                 }
             }
         }
@@ -726,7 +670,7 @@ sub Run {
 
             # Description in Default Language
             else {
-                $Description = $HashLang{'en'};
+                $Description = $HashLang{en};
             }
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementBlock',
@@ -775,7 +719,9 @@ sub Run {
         }
     }
 
+    # ------------------------------------------------------------ #
     # list subgroups
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'SelectGroup' ) {
         $Group = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
         my %List = $Self->{SysConfigObject}->ConfigSubGroupList( Name => $Group );
@@ -796,7 +742,9 @@ sub Run {
         $Self->{LayoutObject}->SecureMode();
     }
 
+    # ------------------------------------------------------------ #
     # list Groups
+    # ------------------------------------------------------------ #
     my %List = $Self->{SysConfigObject}->ConfigGroupList();
 
     # create select Box
@@ -831,83 +779,77 @@ sub ListConfigItem {
     my %ItemHash = %{ $Param{Hash} };
     my $Valid    = '';
     my $Default  = '';
+    my $Item     = $ItemHash{Setting}->[1];
 
     # ConfigElement String
-    if ( defined( $ItemHash{Setting}[1]{String} ) ) {
+    if ( defined $Item->{String} ) {
 
-        # file check
-        if (
-            $ItemHash{Setting}[1]{String}[1]{Check}
-            && $ItemHash{Setting}[1]{String}[1]{Check} eq 'File'
-            && !-f $ItemHash{Setting}[1]{String}[1]{Content}
-            )
-        {
-            $Valid = 'file not found';
-        }
+        # check
+        my $Check = $Item->{String}->[1]->{Check};
+        if ($Check) {
 
-        # file check
-        if (
-            $ItemHash{Setting}[1]{String}[1]{Check}
-            && $ItemHash{Setting}[1]{String}[1]{Check} eq 'Directory'
-            && !-d $ItemHash{Setting}[1]{String}[1]{Content}
-            )
-        {
-            $Valid = 'directory not found';
+            # file
+            if ( $Check eq 'File' && !-f $Item->{String}->[1]->{Content} ) {
+                $Valid = 'file not found';
+            }
+
+            # directory
+            if ( $Check eq 'Directory' && !-d $Item->{String}->[1]->{Content} ) {
+                $Valid = 'directory not found';
+            }
         }
 
         # Regex check
-        if (
-            $ItemHash{Setting}[1]{String}[1]{Regex}
-            && $ItemHash{Setting}[1]{String}[1]{Content}
-            !~ /$ItemHash{Setting}[1]{String}[1]{Regex}/
-            )
-        {
+        my $RegExp = $Item->{String}->[1]->{Regex};
+        if ( $RegExp && $Item->{String}->[1]->{Content} !~ /$Item->{String}->[1]->{Regex}/ ) {
             $Valid = 'invalid';
         }
-        if ( $ItemHash{Setting}[1]{String}[1]{Default} ) {
-            $Default = $ItemHash{Setting}[1]{String}[1]{Default};
+
+        # get default
+        if ( $Item->{String}->[1]->{Default} ) {
+            $Default = $Item->{String}->[1]->{Default};
         }
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementString',
             Data => {
                 ElementKey => $ItemHash{Name},
-                Content    => $ItemHash{Setting}[1]{String}[1]{Content},
+                Content    => $Item->{String}->[1]->{Content},
                 Valid      => $Valid,
                 Default    => $Default,
             },
         );
+        return 1;
     }
 
     # ConfigElement TextArea
-    elsif ( defined( $ItemHash{Setting}[1]{TextArea} ) ) {
+    if ( defined $Item->{TextArea} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTextArea',
             Data => {
                 ElementKey => $ItemHash{Name},
-                Content    => $ItemHash{Setting}[1]{TextArea}[1]{Content},
+                Content    => $Item->{TextArea}->[1]->{Content},
                 Valid      => $Valid,
             },
         );
+        return 1;
     }
 
     # ConfigElement PulldownMenue
-    elsif ( defined( $ItemHash{Setting}[1]{Option} ) ) {
+    if ( defined $Item->{Option} ) {
         my %Hash;
         my $Default = '';
-        for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{Option}[1]{Item} } ) {
-            $Hash{ $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Key} }
-                = $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Content};
-            if (
-                $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Key} eq
-                $ItemHash{Setting}[1]{Option}[1]{Default}
-                )
-            {
-                $Default = $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Content};
+
+        # build option list
+        my $Option = $Item->{Option}->[1];
+        for my $Index ( 1 .. $#{ $Option->{Item} } ) {
+            $Hash{ $Option->{Item}->[$Index]->{Key} } = $Option->{Item}->[$Index]->{Content};
+            if ( $Option->{Item}->[$Index]->{Key} eq $Option->{Default} ) {
+                $Default = $Option->{Item}->[$Index]->{Content};
             }
         }
         my $PulldownMenue = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => \%Hash,
-            SelectedID => $ItemHash{Setting}[1]{Option}[1]{SelectedID},
+            SelectedID => $Option->{SelectedID},
             Name       => $ItemHash{Name},
         );
         $Self->{LayoutObject}->Block(
@@ -918,51 +860,48 @@ sub ListConfigItem {
                 Default => $Default,
             },
         );
+        return 1;
     }
 
     # ConfigElement Hash
-    elsif ( defined( $ItemHash{Setting}[1]{Hash} ) ) {
+    if ( defined $Item->{Hash} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementHash',
             Data => { ElementKey => $ItemHash{Name}, },
         );
 
         # Hashelements
+        my $Hash          = $Item->{Hash}->[1];
         my %SortContainer = ();
-        for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{Hash}[1]{Item} } ) {
-            $SortContainer{$Index} = $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key};
+        for my $Index ( 1 .. $#{ $Hash->{Item} } ) {
+            $SortContainer{$Index} = $Hash->{Item}->[$Index]->{Key};
         }
         for my $Index ( sort { $SortContainer{$a} cmp $SortContainer{$b} } keys %SortContainer ) {
 
             # SubHash
-            if ( defined( $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash} ) ) {
+            if ( defined $Hash->{Item}->[$Index]->{Hash} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementHashContent2',
                     Data => {
                         ElementKey => $ItemHash{Name},
-                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Key        => $Hash->{Item}->[$Index]->{Key},
                         Content    => '##SubHash##',
                         Index      => $Index,
                     },
                 );
 
                 # SubHashElements
-                for my $Index2 (
-                    1 .. $#{ $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item} }
-                    )
-                {
+                for my $Index2 ( 1 .. $#{ ${Hash}->{Item}->[$Index]->{Hash}->[1]->{Item} } ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementSubHashContent',
                         Data => {
                             ElementKey => $ItemHash{Name}
                                 . '##SubHash##'
-                                . $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                                . $Hash->{Item}->[$Index]->{Key},
                             Key =>
-                                $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]
-                                {Key},
+                                $Hash->{Item}->[$Index]->{Hash}->[1]->{Item}->[$Index2]->{Key},
                             Content =>
-                                $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]
-                                {Content},
+                                $Hash->{Item}->[$Index]->{Hash}->[1]->{Item}->[$Index2]->{Content},
                             Index  => $Index,
                             Index2 => $Index2,
                         },
@@ -971,30 +910,27 @@ sub ListConfigItem {
             }
 
             # SubArray
-            elsif ( defined( $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array} ) ) {
+            elsif ( defined $Hash->{Item}->[$Index]->{Array} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementHashContent2',
                     Data => {
                         ElementKey => $ItemHash{Name},
-                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Key        => $Hash->{Item}->[$Index]->{Key},
                         Content    => '##SubArray##',
                         Index      => $Index,
                     },
                 );
 
                 # SubArrayElements
-                for my $Index2 (
-                    1 .. $#{ $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item} }
-                    )
-                {
+                for my $Index2 ( 1 .. $#{ $Hash->{Item}->[$Index]->{Array}->[1]->{Item} } ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementSubArrayContent',
                         Data => {
                             ElementKey => $ItemHash{Name}
                                 . '##SubArray##'
-                                . $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                            Content => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}
-                                [$Index2]{Content},
+                                . $Hash->{Item}->[$Index]->{Key},
+                            Content =>
+                                $Hash->{Item}->[$Index]->{Array}->[1]->{Item}->[$Index2]->{Content},
                             Index  => $Index,
                             Index2 => $Index2,
                         },
@@ -1004,32 +940,24 @@ sub ListConfigItem {
 
             #SubOption
             # REMARK: The SubOptionHandling does not work any more
-            elsif ( defined( $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option} ) ) {
+            elsif ( defined $Hash->{Item}->[$Index]->{Option} ) {
 
                 # Pulldownmenue
                 my %Hash;
-                for my $Index2 (
-                    1 .. $#{ $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item} }
-                    )
-                {
-                    $Hash{
-                        $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item}[$Index2]
-                            {Key}
-                        }
-                        = $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item}[$Index2]
-                        {Content};
+                for my $Index2 ( 1 .. $#{ $Hash->{Item}->[$Index]->{Option}->[1]->{Item} } ) {
+                    $Hash{ $Hash->{Item}->[$Index]->{Option}->[1]->{Item}->[$Index2]->{Key} }
+                        = $Hash->{Item}->[$Index]->{Option}->[1]->{Item}->[$Index2]->{Content};
                 }
                 my $PulldownMenue = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data => \%Hash,
-                    SelectedID =>
-                        $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{SelectedID},
-                    Name => $ItemHash{Name} . 'Content[]',
+                    Data       => \%Hash,
+                    SelectedID => $Hash->{Item}->[$Index]->{Option}->[1]->{SelectedID},
+                    Name       => $ItemHash{Name} . 'Content[]',
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementHashContent3',
                     Data => {
                         ElementKey => $ItemHash{Name},
-                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Key        => $Hash->{Item}->[$Index]->{Key},
                         Liste      => $PulldownMenue,
                         Index      => $Index,
                     },
@@ -1042,44 +970,47 @@ sub ListConfigItem {
                     Name => 'ConfigElementHashContent',
                     Data => {
                         ElementKey => $ItemHash{Name},
-                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                        Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Content},
+                        Key        => $Hash->{Item}->[$Index]->{Key},
+                        Content    => $Hash->{Item}->[$Index]->{Content},
                         Index      => $Index,
                     },
                 );
             }
         }
+        return 1;
     }
 
     # ConfigElement Array
-    elsif ( defined( $ItemHash{Setting}[1]{Array} ) ) {
+    if ( defined $Item->{Array} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementArray',
             Data => { ElementKey => $ItemHash{Name}, },
         );
 
         # ArrayElements
-        for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{Array}[1]{Item} } ) {
+        my $Array = $Item->{Array}->[1];
+        for my $Index ( 1 .. $#{ $Array->{Item} } ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementArrayContent',
                 Data => {
                     ElementKey => $ItemHash{Name},
-                    Content    => $ItemHash{Setting}[1]{Array}[1]{Item}[$Index]{Content},
+                    Content    => $Array->{Item}->[$Index]->{Content},
                     Index      => $Index,
                 },
             );
         }
+        return 1;
     }
 
     # ConfigElement FrontendModuleReg
-    elsif ( defined( $ItemHash{Setting}[1]{FrontendModuleReg} ) ) {
-        my %Data = ();
+    if ( defined $Item->{FrontendModuleReg} ) {
+        my $FrontendModuleReg = $Item->{FrontendModuleReg}->[1];
+        my %Data              = ();
         for my $Key (qw(Title Description NavBarName)) {
             $Data{ 'Key' . $Key }     = $Key;
             $Data{ 'Content' . $Key } = '';
-            if ( defined( $ItemHash{Setting}[1]{FrontendModuleReg}[1]{$Key} ) ) {
-                $Data{ 'Content' . $Key }
-                    = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{$Key}[1]{Content};
+            if ( defined $FrontendModuleReg->{$Key} ) {
+                $Data{ 'Content' . $Key } = $FrontendModuleReg->{$Key}->[1]->{Content};
             }
         }
         $Data{ElementKey} = $ItemHash{Name};
@@ -1090,36 +1021,27 @@ sub ListConfigItem {
 
         # Array Element Group
         for my $ArrayElement qw(Group GroupRo) {
-            for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement} } )
-            {
+            for my $Index ( 1 .. $#{ $FrontendModuleReg->{$ArrayElement} } ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementFrontendModuleRegContent' . $ArrayElement,
                     Data => {
                         Index      => $Index,
                         ElementKey => $ItemHash{Name},
-                        Content =>
-                            $ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}[$Index]
-                            {Content},
+                        Content    => $FrontendModuleReg->{$ArrayElement}->[$Index]->{Content},
                     },
                 );
             }
         }
 
         # NavBar
-        for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar} } ) {
+        for my $Index ( 1 .. $#{ $FrontendModuleReg->{NavBar} } ) {
             my %Data = ();
             for my $Key (qw(Description Name Image Link Type Prio Block NavBar AccessKey)) {
                 $Data{ 'Key' . $Key }     = $Key;
                 $Data{ 'Content' . $Key } = '';
-                if (
-                    defined(
-                        $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[1]{$Key}[1]{Content}
-                    )
-                    )
-                {
+                if ( defined $FrontendModuleReg->{NavBar}->[1]->{$Key}->[1]->{Content} ) {
                     $Data{ 'Content' . $Key }
-                        = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$Key}[1]
-                        {Content};
+                        = $FrontendModuleReg->{NavBar}->[$Index]->{$Key}->[1]->{Content};
                 }
             }
             $Data{ElementKey} = $ItemHash{Name} . '#NavBar';
@@ -1131,19 +1053,16 @@ sub ListConfigItem {
 
             # Array Element Group
             for my $ArrayElement qw(Group GroupRo) {
-                for my $Index2 (
-                    1 ..
-                    $#{ $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement} }
-                    )
-                {
+                for my $Index2 ( 1 .. $#{ $FrontendModuleReg->{NavBar}[$Index]{$ArrayElement} } ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementFrontendModuleRegContentNavBar' . $ArrayElement,
                         Data => {
                             Index      => $Index,
                             ArrayIndex => $Index2,
                             ElementKey => $ItemHash{Name},
-                            Content => $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]
-                                {$ArrayElement}[$Index2]{Content},
+                            Content =>
+                                $FrontendModuleReg->{NavBar}->[$Index]->{$ArrayElement}->[$Index2]
+                                ->{Content},
                         },
                     );
                 }
@@ -1151,23 +1070,15 @@ sub ListConfigItem {
         }
 
         # NavBarModule
-        if ( ref( $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule} ) eq 'ARRAY' ) {
-            for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule} } )
-            {
+        if ( ref $FrontendModuleReg->{NavBarModule} eq 'ARRAY' ) {
+            for my $Index ( 1 .. $#{ $FrontendModuleReg->{NavBarModule} } ) {
                 my %Data = ();
                 for my $Key qw (Module Name Block Prio) {
                     $Data{ 'Key' . $Key }     = $Key;
                     $Data{ 'Content' . $Key } = '';
-                    if (
-                        defined(
-                            $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}[1]{$Key}[1]
-                                {Content}
-                        )
-                        )
-                    {
+                    if ( defined $FrontendModuleReg->{NavBarModule}->[1]->{$Key}->[1]->{Content} ) {
                         $Data{ 'Content' . $Key }
-                            = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}[1]{$Key}[1]
-                            {Content};
+                            = $FrontendModuleReg->{NavBarModule}->[1]->{$Key}->[1]->{Content};
                     }
                 }
                 $Data{ElementKey} = $ItemHash{Name} . '#NavBarModule';
@@ -1177,20 +1088,14 @@ sub ListConfigItem {
                 );
             }
         }
-        elsif ( defined( $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule} ) ) {
+        elsif ( defined $FrontendModuleReg->{NavBarModule} ) {
             my %Data = ();
             for my $Key qw (Module Name Block Prio) {
                 $Data{ 'Key' . $Key }     = $Key;
                 $Data{ 'Content' . $Key } = '';
-                if (
-                    defined(
-                        $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}{$Key}[1]{Content}
-                    )
-                    )
-                {
+                if ( defined $FrontendModuleReg->{NavBarModule}->{$Key}->[1]->{Content} ) {
                     $Data{ 'Content' . $Key }
-                        = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}{$Key}[1]
-                        {Content};
+                        = $FrontendModuleReg->{NavBarModule}->{$Key}->[1]->{Content};
                 }
             }
             $Data{ElementKey} = $ItemHash{Name} . '#NavBarModule';
@@ -1199,50 +1104,46 @@ sub ListConfigItem {
                 Data => \%Data,
             );
         }
+        return 1;
     }
 
     # ConfigElement TimeVacationDaysOneTime
-    elsif ( defined( $ItemHash{Setting}[1]{TimeVacationDaysOneTime} ) ) {
+    if ( defined $Item->{TimeVacationDaysOneTime} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTimeVacationDaysOneTime',
             Data => { ElementKey => $ItemHash{Name}, },
         );
 
         # New TimeVacationDaysOneTimeElement
-        if (
-            $Self->{ParamObject}->GetParam(
-                Param => $ItemHash{Name} . '#NewTimeVacationDaysOneTimeElement'
-            )
-            )
-        {
-            push(
-                @{ $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item} },
-                { Key => '', Content => '' }
-            );
+        my $New = $Self->{ParamObject}->GetParam(
+            Param => $ItemHash{Name} . '#NewTimeVacationDaysOneTimeElement'
+        );
+        if ($New) {
+            push( @{ $Item->{TimeVacationDaysOneTime}[1]{Item} }, { Key => '', Content => '' } );
         }
 
         # TimeVacationDaysOneTimeElements
-        for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item} } ) {
+        for my $Index ( 1 .. $#{ $Item->{TimeVacationDaysOneTime}->[1]->{Item} } ) {
             my %Valid = ();
             if (
-                $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year}
-                && $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year}
+                $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year}
+                && $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year}
                 !~ /^\d\d\d\d$/
                 )
             {
                 $Valid{ValidYear} = 'invalid';
             }
             if (
-                $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
-                && $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
+                $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
+                && $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
                 !~ /^(1[0-2]|[1-9])$/
                 )
             {
                 $Valid{ValidMonth} = 'invalid';
             }
             if (
-                $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
-                && $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
+                $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
+                && $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
                 !~ /^([1-3][0-9]|[1-9])$/
                 )
             {
@@ -1252,52 +1153,48 @@ sub ListConfigItem {
                 Name => 'ConfigElementTimeVacationDaysOneTimeContent',
                 Data => {
                     ElementKey => $ItemHash{Name},
-                    Year  => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year},
-                    Month => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month},
-                    Day   => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day},
+                    Year       => $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year},
+                    Month      => $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month},
+                    Day        => $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day},
                     Content =>
-                        $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Content},
+                        $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Content},
                     Index => $Index,
                     %Valid,
                 },
             );
         }
+        return 1;
     }
 
     # ConfigElement TimeVacationDays
-    elsif ( defined( $ItemHash{Setting}[1]{TimeVacationDays} ) ) {
+    if ( defined $Item->{TimeVacationDays} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTimeVacationDays',
             Data => { ElementKey => $ItemHash{Name}, },
         );
 
         # New TimeVacationDaysElement
-        if (
-            $Self->{ParamObject}->GetParam(
-                Param => $ItemHash{Name} . '#NewTimeVacationDaysElement'
-            )
-            )
-        {
-            push(
-                @{ $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item} },
-                { Key => '', Content => '' }
-            );
+        my $New = $Self->{ParamObject}->GetParam(
+            Param => $ItemHash{Name} . '#NewTimeVacationDaysElement'
+        );
+        if ($New) {
+            push( @{ $Item->{TimeVacationDays}[1]{Item} }, { Key => '', Content => '' } );
         }
 
         # TimeVacationDaysElements
-        for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item} } ) {
+        for my $Index ( 1 .. $#{ $Item->{TimeVacationDays}->[1]->{Item} } ) {
             my %Valid = ();
             if (
-                $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month}
-                && $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month}
+                $Item->{TimeVacationDays}[1]{Item}[$Index]{Month}
+                && $Item->{TimeVacationDays}[1]{Item}[$Index]{Month}
                 !~ /^(1[0-2]|[1-9])$/
                 )
             {
                 $Valid{ValidMonth} = 'invalid';
             }
             if (
-                $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day}
-                && $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day}
+                $Item->{TimeVacationDays}[1]{Item}[$Index]{Day}
+                && $Item->{TimeVacationDays}[1]{Item}[$Index]{Day}
                 !~ /^([1-3][0-9]|[1-9])$/
                 )
             {
@@ -1307,18 +1204,19 @@ sub ListConfigItem {
                 Name => 'ConfigElementTimeVacationDaysContent',
                 Data => {
                     ElementKey => $ItemHash{Name},
-                    Month      => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month},
-                    Day        => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day},
-                    Content    => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Content},
+                    Month      => $Item->{TimeVacationDays}[1]{Item}[$Index]{Month},
+                    Day        => $Item->{TimeVacationDays}[1]{Item}[$Index]{Day},
+                    Content    => $Item->{TimeVacationDays}[1]{Item}[$Index]{Content},
                     Index      => $Index,
                     %Valid,
                 },
             );
         }
+        return 1;
     }
 
     # ConfigElement TimeWorkingHours
-    elsif ( defined( $ItemHash{Setting}[1]{TimeWorkingHours} ) ) {
+    if ( defined $Item->{TimeWorkingHours} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTimeWorkingHours',
             Data => { ElementKey => $ItemHash{Name}, },
@@ -1337,15 +1235,10 @@ sub ListConfigItem {
             Sun => 7,
         );
         my %SortWeekdays;
-        for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day} } ) {
+        for my $Index ( 1 .. $#{ $Item->{TimeWorkingHours}->[1]->{Day} } ) {
 
             # assign index id to day id for sorting
-            $SortWeekdays{
-                $WeekdayLookup{
-                    $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]
-                        {Name}
-                    }
-                }
+            $SortWeekdays{ $WeekdayLookup{ $Item->{TimeWorkingHours}[1]{Day}[$Index]{Name} } }
                 = $Index;
         }
 
@@ -1356,7 +1249,7 @@ sub ListConfigItem {
                 Name => 'ConfigElementTimeWorkingHoursContent',
                 Data => {
                     ElementKey => $ItemHash{Name},
-                    Weekday    => $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Name},
+                    Weekday    => $Item->{TimeWorkingHours}[1]{Day}[$Index]{Name},
                     Index      => $Index,
                 },
             );
@@ -1368,15 +1261,9 @@ sub ListConfigItem {
             );
 
             # Aktiv Hours
-            if ( defined( $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour} ) ) {
-                for my $Index2 (
-                    1 .. $#{ $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour} }
-                    )
-                {
-                    $ArrayHours[
-                        $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour}
-                        [$Index2]{Content}
-                        ]
+            if ( defined $Item->{TimeWorkingHours}[1]{Day}[$Index]{Hour} ) {
+                for my $Index2 ( 1 .. $#{ $Item->{TimeWorkingHours}[1]{Day}[$Index]{Hour} } ) {
+                    $ArrayHours[ $Item->{TimeWorkingHours}[1]{Day}[$Index]{Hour}[$Index2]{Content} ]
                         = 'checked';
                 }
             }
@@ -1385,14 +1272,17 @@ sub ListConfigItem {
                     Name => 'ConfigElementTimeWorkingHoursHours',
                     Data => {
                         ElementKey => $ItemHash{Name}
-                            . $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Name},
+                            . $Item->{TimeWorkingHours}[1]{Day}[$Index]{Name},
                         Hour  => $Z,
                         Aktiv => $ArrayHours[$Z],
                     },
                 );
             }
         }
+        return 1;
     }
+
+    return;
 }
 
 1;
