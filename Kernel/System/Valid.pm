@@ -2,7 +2,7 @@
 # Kernel/System/Valid.pm - all valid functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Valid.pm,v 1.13 2009-06-22 23:41:50 martin Exp $
+# $Id: Valid.pm,v 1.14 2009-09-13 22:31:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -99,7 +99,7 @@ sub ValidList {
     return %{ $Self->{'Cache::ValidList'} } if $Self->{'Cache::ValidList'};
 
     # get list from database
-    $Self->{DBObject}->Prepare( SQL => 'SELECT id, name FROM valid' );
+    return if !$Self->{DBObject}->Prepare( SQL => 'SELECT id, name FROM valid' );
 
     # fetch the result
     my %Data;
@@ -132,7 +132,7 @@ sub ValidLookup {
 
     # check needed stuff
     if ( !$Param{Valid} && !$Param{ValidID} ) {
-        $Self->{LogObject}->Log( Valid => 'error', Message => 'Need Valid or ValidID!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Valid or ValidID!' );
         return;
     }
 
@@ -192,7 +192,7 @@ sub ValidIDsGet {
     return @{ $Self->{'Cache::ValidIDsGet'} } if $Self->{'Cache::ValidIDsGet'};
 
     # get valid ids
-    $Self->{DBObject}->Prepare( SQL => "SELECT id FROM valid WHERE name = 'valid'" );
+    return if !$Self->{DBObject}->Prepare( SQL => "SELECT id FROM valid WHERE name = 'valid'" );
 
     # fetch the results
     my @ValidIDs;
@@ -222,6 +222,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2009-06-22 23:41:50 $
+$Revision: 1.14 $ $Date: 2009-09-13 22:31:54 $
 
 =cut
