@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.176 2009-09-08 15:08:34 martin Exp $
+# $Id: Layout.pm,v 1.177 2009-09-13 22:23:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.176 $) [1];
+$VERSION = qw($Revision: 1.177 $) [1];
 
 =head1 NAME
 
@@ -664,7 +664,7 @@ sub Output {
 
     # do time translation (with seconds)
     $Output =~ s{
-        \$TimeLong{"(.*?)"}
+        \$TimeLong{"(.+?)"}
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1);
@@ -672,7 +672,7 @@ sub Output {
 
     # do time translation (without seconds)
     $Output =~ s{
-        \$TimeShort{"(.*?)"}
+        \$TimeShort{"(.+?)"}
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1, undef, 'NoSeconds');
@@ -680,7 +680,7 @@ sub Output {
 
     # do date translation
     $Output =~ s{
-        \$Date{"(.*?)"}
+        \$Date{"(.+?)"}
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1, 'DateFormatShort');
@@ -727,7 +727,7 @@ sub Output {
     if ( $Self->{SessionID} && $Self->{UserChallengeToken} ) {
         my $UserChallengeToken = $Self->Ascii2Html( Text => $Self->{UserChallengeToken} );
         $Output =~ s{
-            (<form.+?action=".*?".*?>)
+            (<form.+?action=".+?".+?>)
         }
         {
             my $Form = $1;
@@ -746,7 +746,7 @@ sub Output {
 
         # rewrite a hrefs
         $Output =~ s{
-            (<a.+?href=")(.+?)(\#.+?|)(".*?>)
+            (<a.+?href=")(.+?)(\#.+?|)(".+?>)
         }
         {
             my $AHref   = $1;
@@ -765,7 +765,7 @@ sub Output {
 
         # rewrite img and iframe src
         $Output =~ s{
-            (<(?:img|iframe).+?src=")(.+?)(".*?>)
+            (<(?:img|iframe).+?src=")(.+?)(".+?>)
         }
         {
             my $AHref = $1;
@@ -784,7 +784,7 @@ sub Output {
         # rewrite forms: <form action="index.pl" method="get">
         my $SessionID = $Self->Ascii2Html( Text => $Self->{SessionID} );
         $Output =~ s{
-            (<form.+?action=".*?".*?>)
+            (<form.+?action=".+?".+?>)
         }
         {
             my $Form = $1;
@@ -1896,7 +1896,7 @@ sub LinkQuote {
     }
 
     # do mail to quote
-    ${$Text} =~ s/(mailto:.*?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
+    ${$Text} =~ s/(mailto:.+?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
 
     # check ref && return result like called
     if ($TextScalar) {
@@ -3339,12 +3339,7 @@ sub NavigationBar {
             next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
-                ConfigObject => $Self->{ConfigObject},
-                LogObject    => $Self->{LogObject},
-                DBObject     => $Self->{DBObject},
                 LayoutObject => $Self,
-                UserID       => $Self->{UserID},
-                Debug        => $Self->{Debug},
             );
 
             # run module
@@ -3353,7 +3348,7 @@ sub NavigationBar {
     }
 
     # create menu items
-    my %NavBarModule         = ();
+    my %NavBarModule;
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
 
     MODULE:
@@ -3427,7 +3422,6 @@ sub NavigationBar {
                     $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
                 }
                 $NavBarModule{$Key} = $Item;
-
             }
         }
     }
@@ -3441,12 +3435,7 @@ sub NavigationBar {
             next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
-                ConfigObject => $Self->{ConfigObject},
-                LogObject    => $Self->{LogObject},
-                DBObject     => $Self->{DBObject},
                 LayoutObject => $Self,
-                UserID       => $Self->{UserID},
-                Debug        => $Self->{Debug},
             );
 
             # run module
@@ -3478,12 +3467,7 @@ sub NavigationBar {
         next if !$Self->{MainObject}->Require( $Jobs{Module} );
         my $Object = $Jobs{Module}->new(
             %{$Self},
-            ConfigObject => $Self->{ConfigObject},
-            LogObject    => $Self->{LogObject},
-            DBObject     => $Self->{DBObject},
             LayoutObject => $Self,
-            UserID       => $Self->{UserID},
-            Debug        => $Self->{Debug},
         );
 
         # run module
@@ -4377,6 +4361,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.176 $ $Date: 2009-09-08 15:08:34 $
+$Revision: 1.177 $ $Date: 2009-09-13 22:23:12 $
 
 =cut
