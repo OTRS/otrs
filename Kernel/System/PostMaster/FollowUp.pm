@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.65 2009-03-24 12:14:34 martin Exp $
+# $Id: FollowUp.pm,v 1.66 2009-09-13 22:53:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -134,16 +134,14 @@ sub Run {
 
     # set pending time
     if ( $GetParam{'X-OTRS-FollowUp-State-PendingTime'} ) {
-        if (
-            $Self->{TicketObject}->TicketPendingTimeSet(
-                String   => $GetParam{'X-OTRS-FollowUp-State-PendingTime'},
-                TicketID => $Param{TicketID},
-                UserID   => $Param{InmailUserID},
-            )
-            )
-        {
+        my $Updated = $Self->{TicketObject}->TicketPendingTimeSet(
+            String   => $GetParam{'X-OTRS-FollowUp-State-PendingTime'},
+            TicketID => $Param{TicketID},
+            UserID   => $Param{InmailUserID},
+        );
 
-            # debug
+        # debug
+        if ($Updated) {
             if ( $Self->{Debug} > 0 ) {
                 print "State-PendingTime: $GetParam{'X-OTRS-FollowUp-State-PendingTime'}\n";
             }
@@ -290,9 +288,7 @@ sub Run {
         AutoResponseType => $AutoResponseType,
         OrigHeader       => \%GetParam,
     );
-    if ( !$ArticleID ) {
-        return;
-    }
+    return if !$ArticleID;
 
     # debug
     if ( $Self->{Debug} > 0 ) {
