@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.34 2009-09-13 22:31:10 martin Exp $
+# $Id: Main.pm,v 1.35 2009-09-13 22:47:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Data::Dumper;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -357,7 +357,7 @@ sub FileRead {
 
         my @Array;
         while ( my $Line = <$FH> ) {
-            push( @Array, $Line );
+            push @Array, $Line;
         }
         close $FH;
 
@@ -686,9 +686,7 @@ sub Dump {
     }
 
     # fallback if Storable can not be loaded
-    else {
-        return Data::Dumper::Dumper($Data);
-    }
+    return Data::Dumper::Dumper($Data);
 
 }
 
@@ -761,6 +759,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2009-09-13 22:31:10 $
+$Revision: 1.35 $ $Date: 2009-09-13 22:47:52 $
 
 =cut
