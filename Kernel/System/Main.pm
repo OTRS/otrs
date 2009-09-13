@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.33 2009-04-17 08:36:44 tr Exp $
+# $Id: Main.pm,v 1.34 2009-09-13 22:31:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Data::Dumper;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -477,6 +477,7 @@ to delete a file from file system
         # or Location
         Location        => 'c:\some\location\me_to\alal.xml'
 
+        Type            => 'Local',   # optional - Local|Attachment|MD5
         DisableWarnings => 1, # optional
     );
 
@@ -760,6 +761,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.34 $ $Date: 2009-09-13 22:31:10 $
 
 =cut
