@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.94 2009-08-20 11:09:43 martin Exp $
+# $Id: User.pm,v 1.95 2009-09-13 23:08:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 =head1 NAME
 
@@ -207,9 +207,7 @@ sub GetUserData {
                 $Hit = 1;
             }
         }
-        if ( !$Hit ) {
-            return;
-        }
+        return if !$Hit;
     }
 
     # get preferences
@@ -1000,6 +998,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.94 $ $Date: 2009-08-20 11:09:43 $
+$Revision: 1.95 $ $Date: 2009-09-13 23:08:41 $
 
 =cut
