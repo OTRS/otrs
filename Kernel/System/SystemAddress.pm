@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.25 2009-04-17 08:36:44 tr Exp $
+# $Id: SystemAddress.pm,v 1.26 2009-09-13 23:06:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -233,7 +233,7 @@ sub SystemAddressList {
     my ( $Self, %Param ) = @_;
 
     my $Valid = 1;
-    if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
+    if ( !$Param{Valid} && defined $Param{Valid} ) {
         $Valid = 0;
     }
     return $Self->{DBObject}->GetTableData(
@@ -298,6 +298,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.26 $ $Date: 2009-09-13 23:06:23 $
 
 =cut

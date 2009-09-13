@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.84 2009-09-13 22:39:38 martin Exp $
+# $Id: XML.pm,v 1.85 2009-09-13 23:04:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 =head1 NAME
 
@@ -327,7 +327,7 @@ sub XMLHashDelete {
 
     # check needed stuff
     for (qw(Type Key)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -554,9 +554,9 @@ sub _ElementBuild {
         $Output .= "<$Param{Key}";
     }
     for ( sort keys %Param ) {
-        if ( ref( $Param{$_} ) eq 'ARRAY' ) {
-            push( @Tag, $_ );
-            push( @Sub, $Param{$_} );
+        if ( ref $Param{$_} eq 'ARRAY' ) {
+            push @Tag, $_;
+            push @Sub, $Param{$_};
         }
         elsif ( $_ ne 'Content' && $_ ne 'Key' && $_ !~ /^Tag/ ) {
             if ( defined $Param{$_} ) {
@@ -1353,7 +1353,7 @@ sub _HS {
     my ( $Expat, $Element, %Attr ) = @_;
 
     if ( $S->{LastTag} ) {
-        push( @{ $S->{XMLARRAY} }, { %{ $S->{LastTag} }, Content => $S->{C} } );
+        push @{ $S->{XMLARRAY} }, { %{ $S->{LastTag} }, Content => $S->{C} };
     }
     undef $S->{LastTag};
     undef $S->{C};
@@ -1407,7 +1407,7 @@ sub _ES {
 
     $S->{XMLTagCount}++;
     if ( $S->{LastTag} ) {
-        push( @{ $S->{XMLARRAY} }, { %{ $S->{LastTag} }, Content => $S->{C} } );
+        push @{ $S->{XMLARRAY} }, { %{ $S->{LastTag} }, Content => $S->{C} };
     }
     undef $S->{LastTag};
     undef $S->{C};
@@ -1440,6 +1440,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.84 $ $Date: 2009-09-13 22:39:38 $
+$Revision: 1.85 $ $Date: 2009-09-13 23:04:24 $
 
 =cut
