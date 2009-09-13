@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.24 2009-04-03 13:57:50 mh Exp $
+# $Id: InterfacePublic.pm,v 1.25 2009-09-13 22:13:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -180,79 +180,81 @@ sub Run {
     $Param{Action} =~ s/\W//g;
 
     # run modules if exists a version value
-    if ( $Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
+    if ( !$Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
+        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your admin' );
+        return 1;
+    }
 
-        # module registry
-        my $ModuleReg = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Param{Action} };
-        if ( !$ModuleReg ) {
+    # module registry
+    my $ModuleReg = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Param{Action} };
+    if ( !$ModuleReg ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message =>
+                "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
+        );
+        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your admin' );
+        return;
+    }
+
+    # debug info
+    if ( $Self->{Debug} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'debug',
+            Message  => 'Kernel::Modules::' . $Param{Action} . '->new',
+        );
+    }
+
+    # prove of concept! - create $GenericObject
+    my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
+        UserID => 1,
+        %{$Self},
+        %Param,
+    );
+
+    # debug info
+    if ( $Self->{Debug} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'debug',
+            Message  => 'Kernel::Modules::' . $Param{Action} . '->run',
+        );
+    }
+
+    # ->Run $Action with $GenericObject
+    $Self->{LayoutObject}->Print( Output => \$GenericObject->Run() );
+
+    # log request time
+    if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
+        if ( ( !$QueryString && $Param{Action} ) || $QueryString !~ /Action=/ ) {
+            $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
+        }
+        my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
+        if ( open my $Out, '>>', $File ) {
+            print $Out time()
+                . '::Public::'
+                . ( time() - $Self->{PerformanceLogStart} )
+                . "::-::$QueryString\n";
+            close $Out;
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => 'Response::Public: '
+                    . ( time() - $Self->{PerformanceLogStart} )
+                    . "s taken (URL:$QueryString)",
+            );
+        }
+        else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message =>
-                    "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
+                Message  => "Can't write $File: $!",
             );
-            $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your admin' );
-        }
-
-        # debug info
-        if ( $Self->{Debug} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => 'Kernel::Modules::' . $Param{Action} . '->new',
-            );
-        }
-
-        # prove of concept! - create $GenericObject
-        my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
-            UserID => 1,
-            %{$Self},
-            %Param,
-        );
-
-        # debug info
-        if ( $Self->{Debug} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => 'Kernel::Modules::' . $Param{Action} . '->run',
-            );
-        }
-
-        # ->Run $Action with $GenericObject
-        $Self->{LayoutObject}->Print( Output => \$GenericObject->Run() );
-
-        # log request time
-        if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
-            if ( ( !$QueryString && $Param{Action} ) || ( $QueryString !~ /Action=/ ) ) {
-                $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
-            }
-            my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
-            if ( open my $Out, '>>', $File ) {
-                print $Out time()
-                    . '::Public::'
-                    . ( time() - $Self->{PerformanceLogStart} )
-                    . "::-::$QueryString\n";
-                close $Out;
-                $Self->{LogObject}->Log(
-                    Priority => 'notice',
-                    Message  => 'Response::Public: '
-                        . ( time() - $Self->{PerformanceLogStart} )
-                        . "s taken (URL:$QueryString)",
-                );
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Can't write $File: $!",
-                );
-            }
         }
     }
 
-    # else print an error screen
-    else {
+    return 1;
+}
 
-        # print error
-        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your admin' );
-    }
+sub DESTROY {
+    my $Self = shift;
 
     # debug info
     if ( $Self->{Debug} ) {
@@ -262,9 +264,6 @@ sub Run {
         );
     }
 
-    # db disconnect && undef %Param
-    $Self->{DBObject}->Disconnect();
-    undef %Param;
     return 1;
 }
 
@@ -284,6 +283,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2009-04-03 13:57:50 $
+$Revision: 1.25 $ $Date: 2009-09-13 22:13:29 $
 
 =cut
