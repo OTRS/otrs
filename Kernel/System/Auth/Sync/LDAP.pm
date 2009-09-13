@@ -2,7 +2,7 @@
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.5 2009-03-20 18:20:58 martin Exp $
+# $Id: LDAP.pm,v 1.6 2009-09-13 22:38:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -692,7 +692,7 @@ sub _ConvertTo {
         $Self->{EncodeObject}->Encode( \$Text );
         return $Text;
     }
-    if ( !defined($Text) ) {
+    if ( !defined $Text ) {
         return;
     }
     else {
@@ -711,14 +711,15 @@ sub _ConvertFrom {
         $Self->{EncodeObject}->Encode( \$Text );
         return $Text;
     }
-    if ( !defined($Text) ) {
+    if ( !defined $Text ) {
         return;
     }
     else {
         return $Self->{EncodeObject}->Convert(
-            Text => $Text,
-            From => $Self->{DestCharset},
-            To   => $Charset,
+            Text  => $Text,
+            From  => $Self->{DestCharset},
+            To    => $Charset,
+            Force => 1,
         );
     }
 }

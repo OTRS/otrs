@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.83 2009-04-23 13:47:08 mh Exp $
+# $Id: XML.pm,v 1.84 2009-09-13 22:39:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 =head1 NAME
 
@@ -186,7 +186,7 @@ sub _XMLHashAddAutoIncrement {
     );
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Data[0] ) {
-            push( @KeysExists, $Data[0] );
+            push @KeysExists, $Data[0];
         }
     }
     for my $Key (@KeysExists) {
@@ -263,7 +263,7 @@ sub XMLHashGet {
             return;
         }
     }
-    if ( !defined( $Param{Cache} ) ) {
+    if ( !defined $Param{Cache} ) {
         $Param{Cache} = 1;
     }
 
@@ -286,7 +286,7 @@ sub XMLHashGet {
 
     );
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        if ( defined( $Data[1] ) ) {
+        if ( defined $Data[1] ) {
             $Data[1] =~ s/\\/\\\\/g;
             $Data[1] =~ s/'/\\'/g;
         }
@@ -441,14 +441,14 @@ sub XMLHashSearch {
         $Hash{ $Data[0] } = 1;
     }
 
-    if ( $Param{What} && ref( $Param{What} ) eq 'ARRAY' ) {
+    if ( $Param{What} && ref $Param{What} eq 'ARRAY' ) {
         for my $And ( @{ $Param{What} } ) {
             my %HashNew = ();
             my $SQL     = '';
             for my $Key ( sort keys %{$And} ) {
                 my $Value = $Self->{DBObject}->Quote( $And->{$Key} );
                 $Key = $Self->{DBObject}->Quote( $Key, 'Like' );
-                if ( $Value && ref($Value) eq 'ARRAY' ) {
+                if ( $Value && ref $Value eq 'ARRAY' ) {
                     for my $Element ( @{$Value} ) {
                         $Element = $Self->{DBObject}->Quote( $Element, 'Like' );
                         if ($SQL) {
@@ -559,7 +559,7 @@ sub _ElementBuild {
             push( @Sub, $Param{$_} );
         }
         elsif ( $_ ne 'Content' && $_ ne 'Key' && $_ !~ /^Tag/ ) {
-            if ( defined( $Param{$_} ) ) {
+            if ( defined $Param{$_} ) {
                 $Param{$_} =~ s/&/&amp;/g;
                 $Param{$_} =~ s/</&lt;/g;
                 $Param{$_} =~ s/>/&gt;/g;
@@ -571,7 +571,7 @@ sub _ElementBuild {
     if ( $Param{Key} ) {
         $Output .= '>';
     }
-    if ( defined( $Param{Content} ) ) {
+    if ( defined $Param{Content} ) {
 
         # encode
         $Param{Content} =~ s/&/&amp;/g;
@@ -585,7 +585,7 @@ sub _ElementBuild {
     }
     for ( 0 .. $#Sub ) {
         for my $K ( @{ $Sub[$_] } ) {
-            if ( defined($K) ) {
+            if ( defined $K ) {
                 $Output .= $Self->_ElementBuild( %{$K}, Key => $Tag[$_], );
             }
         }
@@ -723,7 +723,7 @@ sub XMLHash2D {
     undef $Self->{XMLLevelCount};
     my $Count = 0;
     for my $Item ( @{ $Param{XMLHash} } ) {
-        if ( ref($Item) eq 'HASH' ) {
+        if ( ref $Item eq 'HASH' ) {
             for ( keys %{$Item} ) {
                 $Self->_XMLHash2D( Key => $Item->{Tag}, Item => $Item, Counter => $Count );
             }
@@ -737,10 +737,10 @@ sub XMLHash2D {
 sub _XMLHash2D {
     my ( $Self, %Param ) = @_;
 
-    if ( !defined( $Param{Item} ) ) {
+    if ( !defined $Param{Item} ) {
         return '';
     }
-    elsif ( ref( $Param{Item} ) eq 'HASH' ) {
+    elsif ( ref $Param{Item} eq 'HASH' ) {
         $S->{XMLLevel}++;
         $S->{XMLTagCount}++;
         $S->{XMLLevelTag}->{ $S->{XMLLevel} } = $Param{Key};
@@ -761,14 +761,14 @@ sub _XMLHash2D {
         }
         $Param{Item}->{TagKey} = $Key;
         for ( keys %{ $Param{Item} } ) {
-            if ( defined( $Param{Item}->{$_} ) && ref( $Param{Item}->{$_} ) ne 'ARRAY' ) {
+            if ( defined $Param{Item}->{$_} && ref $Param{Item}->{$_} ne 'ARRAY' ) {
                 $Self->{XMLHash}->{ $Key . "{'$_'}" } = $Param{Item}->{$_};
             }
             $Self->_XMLHash2D( Key => $_, Item => $Param{Item}->{$_}, Counter => $Param{Counter} );
         }
         $S->{XMLLevel} = $S->{XMLLevel} - 1;
     }
-    elsif ( ref( $Param{Item} ) eq 'ARRAY' ) {
+    elsif ( ref $Param{Item} eq 'ARRAY' ) {
         for ( @{ $Param{Item} } ) {
             $Self->_XMLHash2D( Key => $Param{Key}, Item => $_, Counter => $Param{Counter} );
         }
@@ -804,7 +804,7 @@ sub XMLStructure2XMLHash {
     undef $Self->{XMLLevelCount};
 
     for my $Item ( @{ $Param{XMLStructure} } ) {
-        if ( ref($Item) eq 'HASH' ) {
+        if ( ref $Item eq 'HASH' ) {
             $Self->_XMLStructure2XMLHash( Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY' );
         }
     }
@@ -817,10 +817,10 @@ sub _XMLStructure2XMLHash {
 
     my $Output = '';
 
-    if ( !defined( $Param{Item} ) ) {
+    if ( !defined $Param{Item} ) {
         return;
     }
-    elsif ( ref( $Param{Item} ) eq 'HASH' ) {
+    elsif ( ref $Param{Item} eq 'HASH' ) {
         if ( $Param{Item}->{TagType} eq 'End' ) {
             return '';
         }
@@ -838,7 +838,7 @@ sub _XMLStructure2XMLHash {
 
         if ( $Param{Item}->{TagLevel} == 1 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -850,7 +850,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 2 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -864,7 +864,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 3 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -880,7 +880,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 4 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -898,7 +898,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 5 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -918,7 +918,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 6 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -940,7 +940,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 7 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -964,7 +964,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 8 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -990,7 +990,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 9 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -1018,7 +1018,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 10 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -1048,7 +1048,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 11 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -1080,7 +1080,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 12 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -1114,7 +1114,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 13 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -1150,7 +1150,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 14 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -1188,7 +1188,7 @@ sub _XMLStructure2XMLHash {
         }
         elsif ( $Param{Item}->{TagLevel} == 15 ) {
             for ( keys %{ $Param{Item} } ) {
-                if ( !defined( $Param{Item}->{$_} ) ) {
+                if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
@@ -1310,7 +1310,7 @@ sub XMLParse {
                 Char  => \&_CS,
             },
         );
-        $Parser->parse( $Param{String} );
+        return if !eval { $Parser->parse( $Param{String} ) };
     }
 
     # quote
@@ -1324,7 +1324,7 @@ sub _Decode {
     my ( $Self, $A ) = @_;
 
     for ( keys %{$A} ) {
-        if ( ref( $A->{$_} ) eq 'ARRAY' ) {
+        if ( ref $A->{$_} eq 'ARRAY' ) {
             for my $B ( @{ $A->{$_} } ) {
                 $Self->_Decode($B);
             }
@@ -1440,6 +1440,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.83 $ $Date: 2009-04-23 13:47:08 $
+$Revision: 1.84 $ $Date: 2009-09-13 22:39:38 $
 
 =cut
