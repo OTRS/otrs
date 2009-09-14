@@ -2,7 +2,7 @@
 # PDF.t - PDF tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.t,v 1.16 2009-02-20 12:05:54 mh Exp $
+# $Id: PDF.t,v 1.17 2009-09-14 22:52:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,8 +17,9 @@ die "PDF output inPDF support is disabled in sysconfig or CPAN module PDF::API2 
 
 # create a pdf document
 my $DocumentNew1 = $Self->{PDFObject}->DocumentNew(
-    Title  => 'The Title',
-    Encode => 'latin1',
+    Title     => 'The Title',
+    Encode    => 'latin1',
+    Testfonts => 1,
 );
 
 $Self->True(
@@ -2691,8 +2692,9 @@ $Self->{PDFObject2} = Kernel::System::PDF->new( %{$Self} );
 
 # create a pdf document
 my $DocumentNew2 = $Self->{PDFObject2}->DocumentNew(
-    Title  => 'The Title',
-    Encode => 'latin1',
+    Title     => 'The Title',
+    Encode    => 'latin1',
+    Testfonts => 1,
 );
 
 $Self->True(
@@ -2776,8 +2778,9 @@ $Self->{PDFObject3} = Kernel::System::PDF->new( %{$Self} );
 
 # create a pdf document
 my $DocumentNew3 = $Self->{PDFObject3}->DocumentNew(
-    Title  => 'The Title',
-    Encode => 'utf-8',
+    Title     => 'The Title',
+    Encode    => 'utf-8',
+    Testfonts => 1,
 );
 
 $Self->True(
@@ -2859,8 +2862,9 @@ $Self->{PDFObject4} = Kernel::System::PDF->new( %{$Self} );
 
 # create a pdf document
 my $DocumentNew4 = $Self->{PDFObject4}->DocumentNew(
-    Title  => 'The Title',
-    Encode => 'utf-8',
+    Title     => 'The Title',
+    Encode    => 'utf-8',
+    Testfonts => 1,
 );
 
 $Self->True(

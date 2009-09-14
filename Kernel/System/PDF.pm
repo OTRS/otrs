@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.33 2009-02-16 11:58:56 tr Exp $
+# $Id: PDF.pm,v 1.34 2009-09-14 22:52:17 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -39,14 +39,13 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ConfigObject LogObject TimeObject MainObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Object (qw(ConfigObject LogObject TimeObject MainObject)) {
+        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
     # load PDF::API2
-    if ( !$Self->{ConfigObject}->Get('PDF') ) {
-        return;
-    }
+    return if !$Self->{ConfigObject}->Get('PDF');
+
     if ( !$Self->{MainObject}->Require('PDF::API2') ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -86,8 +85,9 @@ Create a new PDF Document
         MonospacedBoldItalic
 
     $True = $PDFObject->DocumentNew(
-        Title => 'The Document Title',  # Title of PDF Document
-        Encode => 'utf-8',              # Charset of Document
+        Title     => 'The Document Title',  # Title of PDF Document
+        Encode    => 'utf-8',               # Charset of Document
+        Testfonts => 1,                     # (optional) default 0
     );
 
 =cut
@@ -95,85 +95,99 @@ Create a new PDF Document
 sub DocumentNew {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    # check pdf object
+    if ( $Self->{PDF} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Can not create new Document!',
+        );
+        return;
     }
 
-    if ( !defined( $Self->{PDF} ) ) {
+    # get Product and Version
+    $Self->{Config}->{Project} = $Self->{ConfigObject}->Get('Product');
+    $Self->{Config}->{Version} = $Self->{ConfigObject}->Get('Version');
+    my $ProjectVersion = $Self->{Config}->{Project} . ' ' . $Self->{Config}->{Version};
 
-        # get Product and Version
-        $Self->{Config}->{Project} = $Self->{ConfigObject}->Get('Product');
-        $Self->{Config}->{Version} = $Self->{ConfigObject}->Get('Version');
-        my $ProjectVersion = $Self->{Config}->{Project} . ' ' . $Self->{Config}->{Version};
+    # set document title
+    $Self->{Document}->{Title} = $Param{Title} || $ProjectVersion;
 
-        # set document title
-        $Self->{Document}->{Title} = $Param{Title} || $ProjectVersion;
+    # set document encode
+    $Self->{Document}->{Encode} = $Param{Encode} || 'utf-8';
 
-        # set document encode
-        if ( !$Param{Encode} ) {
-            $Param{Encode} = 'latin1';
-        }
-        $Self->{Document}->{Encode} = $Param{Encode};
+    # set logo file
+    $Self->{Document}->{LogoFile} = $Self->{ConfigObject}->Get('PDF::LogoFile');
 
-        # set logo file
-        $Self->{Document}->{LogoFile} = $Self->{ConfigObject}->Get('PDF::LogoFile');
+    # create a new document
+    $Self->{PDF} = PDF::API2->new();
 
-        # create a new document
-        $Self->{PDF} = PDF::API2->new();
-
-        if ( $Self->{PDF} ) {
-
-            # today
-            my ( $NowSec, $NowMin, $NowHour, $NowDay, $NowMonth, $NowYear )
-                = $Self->{TimeObject}->SystemTime2Date(
-                SystemTime => $Self->{TimeObject}->SystemTime(),
-                );
-
-            # set document infos
-            $Self->{PDF}->info(
-                'Author'       => $ProjectVersion,
-                'CreationDate' => "D:"
-                    . $NowYear
-                    . $NowMonth
-                    . $NowDay
-                    . $NowHour
-                    . $NowMin
-                    . $NowSec
-                    . "+01'00'",
-                'Creator'  => $ProjectVersion,
-                'Producer' => "OTRS PDF Creator",
-                'Title'    => $Self->{Document}->{Title},
-                'Subject'  => $Self->{Document}->{Title},
-            );
-
-            # set testfont (only used in unitests)
-            $Self->{Font}->{Testfont1}
-                = $Self->{PDF}->corefont( 'Helvetica', -encode => $Self->{Document}->{Encode}, );
-            $Self->{Font}->{Testfont2}
-                = $Self->{PDF}->ttfont( 'DejaVuSans.ttf', -encode => $Self->{Document}->{Encode}, );
-
-            # get font config
-            my %FontFiles = %{ $Self->{ConfigObject}->Get('PDF::TTFontFile') };
-
-            # set fonts
-            for my $FontType ( keys %FontFiles ) {
-                $Self->{Font}->{$FontType} = $Self->{PDF}->ttfont(
-                    $FontFiles{$FontType}, -encode => $Self->{Document}->{Encode},
-                );
-            }
-            return 1;
-        }
+    # check pdf object
+    if ( !$Self->{PDF} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Can not create new Document!',
+        );
+        return;
     }
 
-    $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message  => "Can not create new Document!"
+    # today
+    my ( $NowSec, $NowMin, $NowHour, $NowDay, $NowMonth, $NowYear )
+        = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+        );
+
+    # set document infos
+    $Self->{PDF}->info(
+        'Author'       => $ProjectVersion,
+        'CreationDate' => "D:"
+            . $NowYear
+            . $NowMonth
+            . $NowDay
+            . $NowHour
+            . $NowMin
+            . $NowSec
+            . "+01'00'",
+        'Creator'  => $ProjectVersion,
+        'Producer' => "OTRS PDF Creator",
+        'Title'    => $Self->{Document}->{Title},
+        'Subject'  => $Self->{Document}->{Title},
     );
-    return;
+
+    if ( !$Param{Testfonts} ) {
+
+        # get font config
+        my %FontFiles = %{ $Self->{ConfigObject}->Get('PDF::TTFontFile') };
+
+        # set fonts
+        for my $FontType ( keys %FontFiles ) {
+            $Self->{Font}->{$FontType} = $Self->{PDF}->ttfont(
+                $FontFiles{$FontType},
+                -encode => $Self->{Document}->{Encode},
+            );
+        }
+    }
+    else {
+
+        # set testfont (only used in unitests)
+        $Self->{Font}->{Testfont1} = $Self->{PDF}->corefont(
+            'Helvetica',
+            -encode => $Self->{Document}->{Encode},
+        );
+        $Self->{Font}->{Testfont2} = $Self->{PDF}->ttfont(
+            'DejaVuSans.ttf',
+            -encode => $Self->{Document}->{Encode},
+        );
+
+        # get font config
+        my %FontFiles = %{ $Self->{ConfigObject}->Get('PDF::TTFontFile') };
+
+        # set fonts
+        for my $FontType ( keys %FontFiles ) {
+            $Self->{Font}->{$FontType} = $Self->{Font}->{Testfont1};
+        }
+    }
+
+    return 1;
 }
 
 =item PageBlankNew()
@@ -196,13 +210,6 @@ Create a new, blank Page
 sub PageBlankNew {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Object!" );
         return;
@@ -259,6 +266,7 @@ sub PageBlankNew {
         Priority => 'error',
         Message  => "Can not create new blank Page!"
     );
+
     return;
 }
 
@@ -288,13 +296,6 @@ Create a new Page
 sub PageNew {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Object!" );
         return;
@@ -542,13 +543,6 @@ Return the PDF as string
 sub DocumentOutput {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Object!" );
         return;
@@ -1316,13 +1310,6 @@ Output a horizontal line
 sub HLine {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -1441,13 +1428,6 @@ Set new position on current page
 sub PositionSet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -1573,13 +1553,6 @@ Get position on current page
 sub PositionGet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -1607,13 +1580,6 @@ Set active dimension
 sub DimSet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -1644,13 +1610,6 @@ Get active dimension (printable or content)
 sub DimGet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -2109,12 +2068,12 @@ sub _TableBlockNextCalculate {
 
     # check needed stuff
     for (qw(CellData ColumnData)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    if ( ref( $Param{CellData} ) ne 'ARRAY' || ref( $Param{ColumnData} ) ne 'ARRAY' ) {
+    if ( ref $Param{CellData} ne 'ARRAY' || ref $Param{ColumnData} ne 'ARRAY' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Need array references of CellData and ColumnData!"
@@ -2147,7 +2106,7 @@ sub _TableBlockNextCalculate {
         }
 
         # now calculate, what cells can output (what cells are aktive)
-        for ( my $ColumnCounter = 0; $ColumnCounter < scalar(@$Row); $ColumnCounter++ ) {
+        for ( my $ColumnCounter = 0; $ColumnCounter < scalar @$Row; $ColumnCounter++ ) {
 
             # calculate RowStart and ColumnStart
             if (
@@ -2743,50 +2702,41 @@ sub _TextCalculate {
 sub _StringWidth {
     my ( $Self, %Param ) = @_;
 
-    my $StringWidth;
-
     # check needed stuff
     for (qw(Text Font FontSize)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
+    # check document
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
     }
+
+    # check page
     if ( !$Self->{Page} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
         return;
     }
 
-    if (
-        !defined(
-            $Self->{Cache}->{StringWidth}->{ $Param{Font} }->{ $Param{FontSize} }->{ $Param{Text} }
-        )
-        )
-    {
+    return $Self->{Cache}->{StringWidth}->{ $Param{Font} }->{ $Param{FontSize} }->{ $Param{Text} }
+        if $Self->{Cache}->{StringWidth}->{ $Param{Font} }->{ $Param{FontSize} }->{ $Param{Text} };
 
-        # create a text object
-        my $Text = $Self->{Page}->text;
+    # create a text object
+    $Self->{TextWidthObject} ||= $Self->{Page}->text;
 
-        # set font and fontsize
-        $Text->font( $Self->{Font}->{ $Param{Font} }, $Param{FontSize} );
+    # set font and fontsize
+    $Self->{TextWidthObject}->font( $Self->{Font}->{ $Param{Font} }, $Param{FontSize} );
 
-        # calculate width of given text
-        $StringWidth = $Text->advancewidth( $Param{Text} );
+    # calculate width of given text
+    my $StringWidth = $Self->{TextWidthObject}->advancewidth( $Param{Text} );
 
-        # write width to cache
-        $Self->{Cache}->{StringWidth}->{ $Param{Font} }->{ $Param{FontSize} }->{ $Param{Text} }
-            = $StringWidth;
-    }
-    else {
-
-        # get width from cache
-        $StringWidth = $Self->{Cache}->{StringWidth}->{ $Param{Font} }->{ $Param{FontSize} }
-            ->{ $Param{Text} };
-    }
+    # write width to cache
+    $Self->{Cache}->{StringWidth}->{ $Param{Font} }->{ $Param{FontSize} }->{ $Param{Text} }
+        = $StringWidth;
 
     return $StringWidth;
 }
@@ -2846,13 +2796,6 @@ sub _PrepareText {
 sub _CurPageNumberSet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -2903,13 +2846,6 @@ sub _CurPageNumberSet {
 sub _CurPageDimSet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -3000,13 +2936,6 @@ sub _CurPageDimSet {
 sub _CurPageDimGet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -3043,13 +2972,6 @@ sub _CurPageDimGet {
 sub _CurPageDimCheck {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -3093,13 +3015,6 @@ sub _CurPageDimCheck {
 sub _CurPrintableDimSet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -3205,13 +3120,6 @@ sub _CurPrintableDimSet {
 sub _CurPrintableDimGet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -3248,13 +3156,6 @@ sub _CurPrintableDimGet {
 sub _CurPrintableDimCheck {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -3306,13 +3207,6 @@ sub _CurPrintableDimCheck {
 sub _CurContentDimSet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -3410,13 +3304,6 @@ sub _CurContentDimSet {
 sub _CurContentDimGet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -3453,13 +3340,6 @@ sub _CurContentDimGet {
 sub _CurContentDimCheck {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -3502,13 +3382,6 @@ sub _CurContentDimCheck {
 sub _CurPositionSet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -3575,13 +3448,6 @@ sub _CurPositionSet {
 sub _CurPositionGet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     if ( !$Self->{PDF} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
         return;
@@ -3614,6 +3480,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.34 $ $Date: 2009-09-14 22:52:17 $
 
 =cut
