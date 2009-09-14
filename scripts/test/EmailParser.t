@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.23 2009-09-14 11:00:58 martin Exp $
+# $Id: EmailParser.t,v 1.24 2009-09-14 11:04:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -750,6 +750,11 @@ my @Tests = (
     },
     {
         ContentType => 'Content-Type: text/plain; charset=\'iso-8859-1\'',
+        Charset     => 'iso-8859-1',
+        MimeType    => 'text/plain',
+    },
+    {
+        ContentType => 'Content-Type:text/plain; charset=\'iso-8859-1\'',
         Charset     => 'iso-8859-1',
         MimeType    => 'text/plain',
     },
