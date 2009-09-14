@@ -2,7 +2,7 @@
 # SysConfig.t - SysConfig tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.t,v 1.5 2009-02-16 12:40:23 tr Exp $
+# $Id: SysConfig.t,v 1.6 2009-09-14 07:42:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,157 +24,157 @@ $Self->Is(
     '_XML2Perl() SCALAR',
 );
 
-my $A = 'Test';
-my $B = 'Test';
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \$A,
-        Data2 => \$B,
-    ),
-    0,
+my $A    = 'Test';
+my $B    = 'Test';
+my $Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \$A,
+    Data2 => \$B,
+);
+$Self->False(
+    $Diff,
     'DataDiff() SCALAR',
 );
 
-$A = 'Test';
-$B = 'Test2';
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \$A,
-        Data2 => \$B,
-    ),
-    1,
+$A    = 'Test';
+$B    = 'Test2';
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \$A,
+    Data2 => \$B,
+);
+$Self->True(
+    $Diff,
     'DataDiff() SCALAR',
 );
 
 my @Ar = ('Test');
 my @Br = ('Test');
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \@Ar,
-        Data2 => \@Br,
-    ),
-    0,
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \@Ar,
+    Data2 => \@Br,
+);
+$Self->False(
+    $Diff,
     'DataDiff() ARRAY',
 );
 
-@Ar = ('Test2');
-@Br = ('Test');
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \@Ar,
-        Data2 => \@Br,
-    ),
-    1,
+@Ar   = ('Test2');
+@Br   = ('Test');
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \@Ar,
+    Data2 => \@Br,
+);
+$Self->True(
+    $Diff,
     'DataDiff() ARRAY',
 );
 
 my %Ah = ( 'Test' => 123 );
 my %Bh = ( 'Test' => 123 );
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \%Ah,
-        Data2 => \%Bh,
-    ),
-    0,
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \%Ah,
+    Data2 => \%Bh,
+);
+$Self->False(
+    $Diff,
     'DataDiff() HASH',
 );
 
 %Ah = ( 'Test' => 123 );
 %Bh = ( 'Test' => 123, '' => '' );
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \%Ah,
-        Data2 => \%Bh,
-    ),
-    1,
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \%Ah,
+    Data2 => \%Bh,
+);
+$Self->True(
+    $Diff,
     'DataDiff() HASH',
 );
 
 %Ah = ( 'Test' => 123, A => [ 1, 3, 4 ] );
 %Bh = ( 'Test' => 123, A => [ 1, 3, 4 ] );
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \%Ah,
-        Data2 => \%Bh,
-    ),
-    0,
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \%Ah,
+    Data2 => \%Bh,
+);
+$Self->False(
+    $Diff,
     'DataDiff() HASH',
 );
 
 %Ah = ( 'Test' => 123, A => [ 1, 3, 4 ] );
 %Bh = ( 'Test' => 123, A => [ 1, 4, 4 ] );
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \%Ah,
-        Data2 => \%Bh,
-    ),
-    1,
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \%Ah,
+    Data2 => \%Bh,
+);
+$Self->True(
+    $Diff,
     'DataDiff() HASH',
 );
 
 %Ah = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, );
 %Bh = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, );
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \%Ah,
-        Data2 => \%Bh,
-    ),
-    0,
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \%Ah,
+    Data2 => \%Bh,
+);
+$Self->False(
+    $Diff,
     'DataDiff() HASH',
 );
 
 %Ah = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, );
 %Bh = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1, '' => undef, }, );
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \%Ah,
-        Data2 => \%Bh,
-    ),
-    1,
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \%Ah,
+    Data2 => \%Bh,
+);
+$Self->True(
+    $Diff,
     'DataDiff() HASH',
 );
 
 @Ar = ( 'Test', { a => 1 } );
 @Br = ( 'Test', { a => 1 } );
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \@Ar,
-        Data2 => \@Br,
-    ),
-    0,
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \@Ar,
+    Data2 => \@Br,
+);
+$Self->False(
+    $Diff,
     'DataDiff() ARRAY',
 );
 
 @Ar = ( 'Test', { a => 2 } );
 @Br = ( 'Test', { a => 1 } );
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \@Ar,
-        Data2 => \@Br,
-    ),
-    1,
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \@Ar,
+    Data2 => \@Br,
+);
+$Self->True(
+    $Diff,
     'DataDiff() ARRAY',
 );
 
 @Ar = ( 'Test', { a => 1 }, [ 1, 3 ] );
 @Br = ( 'Test', { a => 1 }, [ 1, 3 ] );
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \@Ar,
-        Data2 => \@Br,
-    ),
-    0,
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \@Ar,
+    Data2 => \@Br,
+);
+$Self->False(
+    $Diff,
     'DataDiff() ARRAY',
 );
 
 @Ar = ( 'Test', { a => 1 }, [ 1,     3 ] );
 @Br = ( 'Test', { a => 1 }, [ undef, 3 ] );
-$Self->Is(
-    $Self->{SystemConfigObject}->DataDiff(
-        Data1 => \@Ar,
-        Data2 => \@Br,
-    ),
-    1,
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \@Ar,
+    Data2 => \@Br,
+);
+$Self->True(
+    $Diff,
     'DataDiff() ARRAY',
 );
 
