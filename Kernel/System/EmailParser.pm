@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.88 2009-08-19 11:48:55 martin Exp $
+# $Id: EmailParser.pm,v 1.89 2009-09-14 11:00:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 =head1 NAME
 
@@ -785,7 +785,7 @@ sub GetContentTypeParams {
     my $ContentType = $Param{ContentType} || return;
     if ( $Param{ContentType} =~ /charset=.+?/i ) {
         $Param{Charset} = $Param{ContentType};
-        $Param{Charset} =~ s/.+?charset=("|'|)(\w+)/$2/gi;
+        $Param{Charset} =~ s/.*?charset=(.*?)/$1/i;
         $Param{Charset} =~ s/"|'//g;
         $Param{Charset} =~ s/(.+?);.*/$1/g;
     }
@@ -808,7 +808,7 @@ sub GetContentTypeParams {
             $Param{Charset} = $1;
         }
     }
-    if ( $Param{ContentType} =~ /^(\w+\/\w+)/i ) {
+    if ( $Param{ContentType} =~ /Content-Type:\s{0,1}(.+?\/.+?)(;|'|"|\s)/i ) {
         $Param{MimeType} = $1;
         $Param{MimeType} =~ s/"|'//g;
     }
@@ -888,6 +888,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.88 $ $Date: 2009-08-19 11:48:55 $
+$Revision: 1.89 $ $Date: 2009-09-14 11:00:57 $
 
 =cut

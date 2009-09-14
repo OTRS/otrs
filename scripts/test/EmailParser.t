@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.22 2009-09-11 07:55:09 martin Exp $
+# $Id: EmailParser.t,v 1.23 2009-09-14 11:00:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -715,4 +715,60 @@ $Self->Is(
     1,
     "#15 ContentAlternative check",
 );
+
+# content type tests
+my @Tests = (
+    {
+        ContentType => 'Content-Type: text/plain; charset="iso-8859-1"; charset="iso-8859-1"',
+        Charset     => 'iso-8859-1',
+        MimeType    => 'text/plain',
+    },
+    {
+        ContentType => 'Content-Type: text/plain; charset="iso-8859-1"',
+        Charset     => 'iso-8859-1',
+        MimeType    => 'text/plain',
+    },
+    {
+        ContentType => 'Content-Type: text/xls-2; charset="iso-8859-1";',
+        Charset     => 'iso-8859-1',
+        MimeType    => 'text/xls-2',
+    },
+    {
+        ContentType => 'Content-Type: text/plain; charset="iso-8859-1"; format=flowed',
+        Charset     => 'iso-8859-1',
+        MimeType    => 'text/plain',
+    },
+    {
+        ContentType => 'Content-Type: text/plain; charset="utf8"; format=flowed',
+        Charset     => 'utf8',
+        MimeType    => 'text/plain',
+    },
+    {
+        ContentType => 'Content-Type: text/plain; charset=iso-8859-1',
+        Charset     => 'iso-8859-1',
+        MimeType    => 'text/plain',
+    },
+    {
+        ContentType => 'Content-Type: text/plain; charset=\'iso-8859-1\'',
+        Charset     => 'iso-8859-1',
+        MimeType    => 'text/plain',
+    },
+);
+
+for my $Test (@Tests) {
+    my %Data = $Self->{EmailParserObject}->GetContentTypeParams(
+        ContentType => $Test->{ContentType},
+    );
+    $Self->Is(
+        $Data{Charset},
+        $Test->{Charset},
+        "#16 ContentType - Charset check",
+    );
+    $Self->Is(
+        $Data{MimeType},
+        $Test->{MimeType},
+        "#16 MimeType - Charset check",
+    );
+}
+
 1;
