@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.995 2009-09-16 08:38:49 martin Exp $
+# $Id: CHANGES,v 1.996 2009-09-16 11:47:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,14 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
+ - (2009/09/16) Fixed bug#4292 - "<some@example.com>" in body breaks body on
+    ticket split.
  - (2009/09/08) Fixed bug#4255 - RichText is not coupled with RichTextViewing.
     Rich Text is being shown, even if the text/plain MIME part is available.
  - (2009/09/08) Fixed bug#4243 - Adding a key to DefaultTheme HostBased via
     Sysconfig breaks OTRS.
  - (2009/09/08) Fixed bug#4257 - No event based notification is sent on queue
-    update.
+    or state update.
  - (2009/09/08) Fixed bug#4233 - AgentTicketCompose doesn't remember next state
     while attaching a file.
  - (2009/09/08) Fixed bug#4228 - scripts/DBUpdate-to-2.4.pl -

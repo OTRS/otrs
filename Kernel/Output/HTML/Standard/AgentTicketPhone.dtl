@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.50 2009-07-16 13:03:53 ub Exp $
+# $Id: AgentTicketPhone.dtl,v 1.51 2009-09-16 11:47:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,13 +106,13 @@ function clear_field() {
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Phone call"} / $Text{"new ticket"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Phone call"} / $Text{"new ticket"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
 #      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
 #        <input type="hidden" name="Action" value="$Env{"Action"}"/>
 #        <input type="hidden" name="Subaction" value="StoreNew"/>
@@ -125,149 +125,147 @@ function clear_field() {
 #        <input class="button" type="submit" name="" value="$Text{"Example Template"}"/>
 #      </form>
 #      <hr>
-      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="StoreNew"/>
-        <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
-        <input type="hidden" name="ExpandCustomerName" value="0"/>
-        <input type="hidden" name="OwnerAll" value="$QData{"OwnerAll"}"/>
-        <input type="hidden" name="ResponsibleAll" value="$QData{"ResponsibleAll"}"/>
-        <input type="hidden" name="PreSelectedCustomerUser" value=""/>
-        <input type="hidden" name="SelectedCustomerUser" value="$QData{"CustomerUser"}"/>
-        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-        <input type="hidden" name="LinkTicketID" value="$QData{"LinkTicketID"}"/>
-        <table border="0" width="100%">
+            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="StoreNew"/>
+                <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+                <input type="hidden" name="ExpandCustomerName" value="0"/>
+                <input type="hidden" name="OwnerAll" value="$QData{"OwnerAll"}"/>
+                <input type="hidden" name="ResponsibleAll" value="$QData{"ResponsibleAll"}"/>
+                <input type="hidden" name="PreSelectedCustomerUser" value=""/>
+                <input type="hidden" name="SelectedCustomerUser" value="$QData{"CustomerUser"}"/>
+                <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+                <input type="hidden" name="LinkTicketID" value="$QData{"LinkTicketID"}"/>
+                <table border="0" width="100%">
 <!-- dtl:block:TicketType -->
-          <tr>
-            <td class="contentkey">$Text{"Type"}:</td>
-            <td class="contentvalue"> $Data{"TypeStrg"}</td>
-          </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Type"}:</td>
+                        <td class="contentvalue"> $Data{"TypeStrg"}</td>
+                    </tr>
 <!-- dtl:block:TicketType -->
-          <tr>
-            <td width="20%" class="contentkey">$Text{"From"}:</td>
-            <td width="60%" class="contentvalue">
+                    <tr>
+                        <td width="20%" class="contentkey">$Text{"From"}:</td>
+                        <td width="60%" class="contentvalue">
 <!-- dtl:block:CustomerSearchAutoCompleteDivStart-->
-              <div id="myAutoComplete" class="myAutoComplete">
+                            <div id="myAutoComplete" class="myAutoComplete">
 <!-- dtl:block:CustomerSearchAutoCompleteDivStart -->
-              <input id="myAutoCompleteInput" type="text" name="From" value="$QData{"From"}" size="80"/>
+                                <input id="myAutoCompleteInput" type="text" name="From" value="$QData{"From"}" size="80"/>
 <!-- dtl:block:CustomerSearchAutoCompleteDivEnd -->
-              <div id="myAutoCompleteContainer"></div>
-              </div>
+                                <div id="myAutoCompleteContainer"></div>
+                            </div>
 <!-- dtl:block:CustomerSearchAutoCompleteDivEnd -->
 <!-- dtl:block:CustomerSearchAutoCompleteFromInvalid -->
-              <br/>
+                            <br/>
 <!-- dtl:block:CustomerSearchAutoCompleteFromInvalid -->
 
-              <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font>
-              <br/>
-              $Data{"CustomerUserStrg"}
-              <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br/><input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}"/>"; }>
-              $Data{"TakeThisCustomer"}
+                            <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font>
+                            <br/>
+                            $Data{"CustomerUserStrg"}
+                            <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br/><input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}"/>"; }>
+                            $Data{"TakeThisCustomer"}
 <!-- dtl:block:SearchCustomerButton -->
-              <input class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}"/>
-              <input class="button" type="submit" name="ClearFrom" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;"/>
+                            <input class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}"/>
+                            <input class="button" type="submit" name="ClearFrom" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;"/>
 <!-- dtl:block:SearchCustomerButton -->
-            </td>
-            <td width="20%" rowspan="10" class="contentvalue">
+                        </td>
+                        <td width="20%" rowspan="10" class="contentvalue">
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-              <p>
-                <div>
-                <b>$Text{"Customer Info"}</b>:<br/>
-                <div id="CustomerTable">
-                $Data{"CustomerTable"}
-                </div>
-                </div>
-              </p>
+                            <p>
+                                <div>
+                                    <b>$Text{"Customer Info"}</b>:<br/>
+                                    <div id="CustomerTable">
+                                        $Data{"CustomerTable"}
+                                    </div>
+                                </div>
+                            </p>
 <!-- dtl:block:CustomerTable -->
-            </td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"To"}:</td>
-            <td class="contentvalue">$Data{"ToStrg"} <font color="red" size="-2">$Text{"$Data{"Destination invalid"}"}</font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"To"}:</td>
+                        <td class="contentvalue">$Data{"ToStrg"} <font color="red" size="-2">$Text{"$Data{"Destination invalid"}"}</font>
 <!-- dtl:block:ToUpdateSubmit -->
-              <input class="button" type="submit" value="$Text{"Refresh"}" name="ExpandCustomerName2"/>
+                            <input class="button" type="submit" value="$Text{"Refresh"}" name="ExpandCustomerName2"/>
 <!-- dtl:block:ToUpdateSubmit -->
-            </td>
-          </tr>
+                        </td>
+                    </tr>
 <!-- dtl:block:TicketService -->
-          <tr>
-            <td class="contentkey">$Text{"Service"}:</td>
-            <td class="contentvalue">
-              $Data{"ServiceStrg"}
-              <font color="red" size="-2">$Text{"$Data{"Service invalid"}"}</font>
-            </td>
-          </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Service"}:</td>
+                        <td class="contentvalue">
+                            $Data{"ServiceStrg"}
+                            <font color="red" size="-2">$Text{"$Data{"Service invalid"}"}</font>
+                        </td>
+                    </tr>
 <!-- dtl:block:TicketService -->
 <!-- dtl:block:TicketSLA -->
-          <tr>
-            <td class="contentkey">$Text{"SLA"}:</td>
-            <td class="contentvalue">
-              $Data{"SLAStrg"}
-              <font color="red" size="-2">$Text{"$Data{"SLA invalid"}"}</font>
-            </td>
-          </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"SLA"}:</td>
+                        <td class="contentvalue">
+                            $Data{"SLAStrg"}
+                            <font color="red" size="-2">$Text{"$Data{"SLA invalid"}"}</font>
+                        </td>
+                    </tr>
 <!-- dtl:block:TicketSLA -->
 <!-- dtl:block:OwnerSelection -->
-          <tr>
-            <td class="contentkey">$Text{"Owner"}:</td>
-            <td class="contentvalue">$Data{"OptionStrg"}
+                    <tr>
+                        <td class="contentkey">$Text{"Owner"}:</td>
+                        <td class="contentvalue">$Data{"OptionStrg"}
 <!-- dtl:block:OwnerSelectionAllJS -->
 #              $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.OwnerAll.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
-              $Env{"Box0"}<a href="" onclick="document.compose.OwnerAll.value='1'; AJAXUpdate('AJAXUpdate', 'OwnerAll', ['OwnerAll', 'Dest'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+                            $Env{"Box0"}<a href="" onclick="document.compose.OwnerAll.value='1'; AJAXUpdate('AJAXUpdate', 'OwnerAll', ['OwnerAll', 'Dest'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:OwnerSelectionAllJS -->
 <!-- dtl:block:OwnerSelectionAllSubmit -->
-              <input class="button" type="submit" value="$Text{"All"}" name="OwnerAllRefresh"/>
+                            <input class="button" type="submit" value="$Text{"All"}" name="OwnerAllRefresh"/>
 <!-- dtl:block:OwnerSelectionAllSubmit -->
-            </td>
-          </tr>
+                        </td>
+                    </tr>
 <!-- dtl:block:OwnerSelection -->
 <!-- dtl:block:ResponsibleSelection -->
-          <tr>
-            <td class="contentkey">$Text{"Responsible"}:</td>
-            <td class="contentvalue">$Data{"ResponsibleOptionStrg"}
+                    <tr>
+                        <td class="contentkey">$Text{"Responsible"}:</td>
+                        <td class="contentvalue">$Data{"ResponsibleOptionStrg"}
 <!-- dtl:block:ResponsibleSelectionAllJS -->
 #              $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.ResponsibleAll.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
-              $Env{"Box0"}<a href="" onclick="document.compose.ResponsibleAll.value='1'; AJAXUpdate('AJAXUpdate', 'ResponsibleAll', ['ResponsibleAll', 'Dest'], ['NewResponsibleID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+                            $Env{"Box0"}<a href="" onclick="document.compose.ResponsibleAll.value='1'; AJAXUpdate('AJAXUpdate', 'ResponsibleAll', ['ResponsibleAll', 'Dest'], ['NewResponsibleID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:ResponsibleSelectionAllJS -->
 <!-- dtl:block:ResponsibleSelectionAllSubmit -->
-              <input class="button" type="submit" value="$Text{"All"}" name="ResponsibleAllRefresh"/>
+                            <input class="button" type="submit" value="$Text{"All"}" name="ResponsibleAllRefresh"/>
 <!-- dtl:block:ResponsibleSelectionAllSubmit -->
-            </td>
-          </tr>
+                        </td>
+                    </tr>
 <!-- dtl:block:ResponsibleSelection -->
-          <tr>
-            <td class="contentkey">$Text{"Subject"}:</td>
-            <td class="contentvalue">
-              <input type="text" name="Subject" value="$QData{"Subject"}" size="80"/>
-              <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Options"}:</td>
-            <td class="contentvalue">
+                    <tr>
+                        <td class="contentkey">$Text{"Subject"}:</td>
+                        <td class="contentvalue">
+                            <input type="text" name="Subject" value="$QData{"Subject"}" size="80"/>
+                            <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Options"}:</td>
+                        <td class="contentvalue">
 <!-- dtl:block:SpellCheck -->
-              $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+                            $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
-              $Env{"Box0"}<a href="" onclick="CustomerSubmit(); return false;" onmouseover="window.status='$JSText{"Customer"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}group-small.png">$Text{"Customer"}</a>$Env{"Box1"}
-            </td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Text"}:</td>
-            <td class="contentvalue">
-              <div class="yui-skin-sam">
+                            $Env{"Box0"}<a href="" onclick="CustomerSubmit(); return false;" onmouseover="window.status='$JSText{"Customer"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}group-small.png">$Text{"Customer"}</a>$Env{"Box1"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Text"}:</td>
+                        <td class="contentvalue">
+                            <div class="yui-skin-sam">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 # set white background for buttons
 <style type="text/css">
 <!--
-              .yui-skin-sam .yui-toolbar-container { background-color: #FFFFFF; }
-              -->
-              </style>
+                                .yui-skin-sam .yui-toolbar-container { background-color: #FFFFFF; }
+                                -->
+                                </style>
 <!-- dtl:block:RichText -->
-<textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">
-$Data{"Body"}
-</textarea>
+<textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
               <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
               </div>
             </td>
