@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.208 2009-09-02 14:23:35 mb Exp $
+# $Id: de.pm,v 1.209 2009-09-16 19:36:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.208 $) [1];
+$VERSION = qw($Revision: 1.209 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1021,11 +1021,15 @@ sub Data {
         # Template: AdminSession
         'Session Management' => 'Sitzungsverwaltung',
         'Sessions' => 'Sitzung',
-        'Uniq' => 'Uniq',
+        'All sessions' => 'Alle Sitzungen',
+        'Agent sessions' => 'Agent Sitzungen',
+        'Customer sessions' => 'Kunden Sitzungen',
+        'Unique agents' => 'Uniq Agenten',
+        'Unique customers' => 'Uniq Kunden',
         'Kill all sessions' => 'Löschen aller Sessions',
         'Session' => 'Session',
         'Content' => 'Inhalt',
-        'kill session' => 'Sitzung löschen',
+        'Kill session' => 'Sitzung löschen',
 
         # Template: AdminSignatureForm
         'Signature Management' => 'Signatur Verwaltung',
