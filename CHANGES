@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.998 2009-09-16 19:39:28 mb Exp $
+# $Id: CHANGES,v 1.999 2009-09-16 19:40:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
- - (2009/09/16) Fixed bug#3932 - Translation enhancements for AdminSession.dtl
+ - (2009/09/16) Fixed bug#3932 - Translation enhancements for AdminSession.dtl.
  - (2009/09/16) Fixed bug#2786 - Wrong text labels
     AdminSystemAddressForm.dtl.
  - (2009/09/16) Moved to global event handler Kernel/System/EventHander.pm
@@ -19,7 +19,7 @@
 
 2.4.5 (2009/??/??)
  - (2009/09/16) Fixed bug#4288 - 4288: Use of uninitialized value in
-    AdminGenericAgent.pm
+    AdminGenericAgent.pm.
  - (2009/09/16) Fixed bug#4292 - "<some@example.com>" in body breaks body on
     ticket split.
  - (2009/09/08) Fixed bug#4255 - RichText is not coupled with RichTextViewing.
