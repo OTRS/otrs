@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.33 2009-04-07 10:34:03 mh Exp $
+# $Id: Ticket.pm,v 1.34 2009-09-16 08:38:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -344,10 +344,12 @@ sub LinkAddPost {
         );
 
         # ticket event
-        $Self->{TicketObject}->TicketEventHandlerPost(
-            Event    => 'TicketSlaveLinkAdd' . $Param{Type},
-            UserID   => $Param{UserID},
-            TicketID => $Param{Key},
+        $Self->{TicketObject}->EventHandler(
+            Event => 'TicketSlaveLinkAdd' . $Param{Type},
+            Data  => {
+                TicketID => $Param{Key},
+            },
+            UserID => $Param{UserID},
         );
 
         return 1;
@@ -370,10 +372,12 @@ sub LinkAddPost {
         );
 
         # ticket event
-        $Self->{TicketObject}->TicketEventHandlerPost(
-            Event    => 'TicketMasterLinkAdd' . $Param{Type},
-            UserID   => $Param{UserID},
-            TicketID => $Param{Key},
+        $Self->{TicketObject}->EventHandler(
+            Event  => 'TicketMasterLinkAdd' . $Param{Type},
+            UserID => $Param{UserID},
+            Data   => {
+                TicketID => $Param{Key},
+            },
         );
 
         return 1;
@@ -486,10 +490,12 @@ sub LinkDeletePost {
         );
 
         # ticket event
-        $Self->{TicketObject}->TicketEventHandlerPost(
-            Event    => 'TicketSlaveLinkDelete' . $Param{Type},
-            UserID   => $Param{UserID},
-            TicketID => $Param{Key},
+        $Self->{TicketObject}->EventHandler(
+            Event => 'TicketSlaveLinkDelete' . $Param{Type},
+            Data  => {
+                TicketID => $Param{Key},
+            },
+            UserID => $Param{UserID},
         );
 
         return 1;
@@ -512,10 +518,12 @@ sub LinkDeletePost {
         );
 
         # ticket event
-        $Self->{TicketObject}->TicketEventHandlerPost(
-            Event    => 'TicketMasterLinkDelete' . $Param{Type},
-            UserID   => $Param{UserID},
-            TicketID => $Param{Key},
+        $Self->{TicketObject}->EventHandler(
+            Event => 'TicketMasterLinkDelete' . $Param{Type},
+            Data  => {
+                TicketID => $Param{Key},
+            },
+            UserID => $Param{UserID},
         );
 
         return 1;

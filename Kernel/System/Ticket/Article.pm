@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.232 2009-09-08 16:14:48 martin Exp $
+# $Id: Article.pm,v 1.233 2009-09-16 08:38:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,11 @@ package Kernel::System::Ticket::Article;
 use strict;
 use warnings;
 
+use Kernel::System::HTMLUtils;
+use Kernel::System::PostMaster::LoopProtection;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.232 $) [1];
+$VERSION = qw($Revision: 1.233 $) [1];
 
 =head1 NAME
 
@@ -80,6 +83,8 @@ example with "Charset & MimeType" and no "ContentType"
         HistoryComment   => 'Some free text!',
         UserID           => 123,
     );
+
+Events: ArticleCreate
 
 =cut
 
@@ -163,7 +168,13 @@ sub ArticleCreate {
         # get ascii body
         $Param{MimeType} = 'text/plain';
         $Param{ContentType} =~ s/html/plain/i;
-        $Param{Body} = $Self->{HTMLUtilsObject}->ToAscii(
+        my $HTMLUtilsObject = Kernel::System::HTMLUtils->new(
+            LogObject    => $Self->{LogObject},
+            ConfigObject => $Self->{ConfigObject},
+            MainObject   => $Self->{MainObject},
+            EncodeObject => $Self->{EncodeObject},
+        );
+        $Param{Body} = $HTMLUtilsObject->ToAscii(
             String => $Param{Body},
         );
     }
@@ -273,12 +284,14 @@ sub ArticleCreate {
         Name         => $Param{HistoryComment},
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event     => 'ArticleCreate',
-        ArticleID => $ArticleID,
-        TicketID  => $Param{TicketID},
-        UserID    => $Param{UserID},
+    # event
+    $Self->EventHandler(
+        Event => 'ArticleCreate',
+        Data  => {
+            ArticleID => $ArticleID,
+            TicketID  => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     # reset escalation if needed
@@ -1080,26 +1093,20 @@ sub ArticleFreeTextGet {
     }
 
     # workflow
-    if (
-        $Self->TicketAcl(
-            %Param,
-            ReturnType    => 'Ticket',
-            ReturnSubType => $Param{Type},
-            Data          => \%Data,
-        )
-        )
-    {
+    my $ACL = $Self->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => $Param{Type},
+        Data          => \%Data,
+    );
+    if ($ACL) {
         my %Hash = $Self->TicketAclData();
         return \%Hash;
     }
 
     # /workflow
-    if (%Data) {
-        return \%Data;
-    }
-    else {
-        return;
-    }
+    return if !%Data;
+    return \%Data;
 }
 
 =item ArticleFreeTextSet()
@@ -1115,6 +1122,8 @@ set article free text
         UserID    => 123,
     );
 
+Events: ArticleFreeTextUpdate
+
 =cut
 
 sub ArticleFreeTextSet {
@@ -1129,27 +1138,25 @@ sub ArticleFreeTextSet {
     }
 
     # db quote for key an value
-    $Param{Value} = $Self->{DBObject}->Quote( $Param{Value} ) || '';
-    $Param{Key}   = $Self->{DBObject}->Quote( $Param{Key} )   || '';
     for (qw(Counter)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
     # db update
     return if !$Self->{DBObject}->Do(
-        SQL => "UPDATE article SET a_freekey$Param{Counter} = ?, "
-            . " a_freetext$Param{Counter} = ?, "
-            . " change_time = current_timestamp, change_by = ? "
-            . " WHERE id = ?",
+        SQL => "UPDATE article SET a_freekey$Param{Counter} = ?, a_freetext$Param{Counter} = ?, "
+            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
         Bind => [ \$Param{Key}, \$Param{Value}, \$Param{UserID}, \$Param{ArticleID} ],
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event     => 'ArticleFreeTextUpdate',
-        TicketID  => $Param{TicketID},
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
+    # event
+    $Self->EventHandler(
+        Event => 'ArticleFreeTextUpdate',
+        Data  => {
+            TicketID  => $Param{TicketID},
+            ArticleID => $Param{ArticleID},
+        },
+        UserID => $Param{UserID},
     );
     return 1;
 }
@@ -1832,9 +1839,7 @@ sub ArticleGet {
     if ( $Param{ArticleID} ) {
         return %{ $Content[0] };
     }
-    else {
-        return @Content;
-    }
+    return @Content;
 }
 
 =item ArticleUpdate()
@@ -1858,6 +1863,8 @@ Note: Key "Body", "Subject", "From", "To", "Cc", "ArticleType" or "SenderType" i
         UserID    => 123,
         TicketID  => 123,
     );
+
+Events: ArticleUpdate
 
 =cut
 
@@ -1912,12 +1919,14 @@ sub ArticleUpdate {
         Bind => [ \$Param{Value}, \$Param{UserID}, \$Param{ArticleID} ],
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event     => 'ArticleUpdate',
-        TicketID  => $Param{TicketID},
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
+    # event
+    $Self->EventHandler(
+        Event => 'ArticleUpdate',
+        Data  => {
+            TicketID  => $Param{TicketID},
+            ArticleID => $Param{ArticleID},
+        },
+        UserID => $Param{UserID},
     );
     return 1;
 }
@@ -1972,6 +1981,8 @@ send article via email and create article with attachments
         NoAgentNotify  => 0,            # if you don't want to send agent notifications
         UserID         => 123,
     );
+
+Events: ArticleSend
 
 =cut
 
@@ -2046,12 +2057,14 @@ sub ArticleSend {
             . "HistoryType => $HistoryType, Subject => $Param{Subject};",
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event     => 'ArticleSend',
-        TicketID  => $Param{TicketID},
-        ArticleID => $ArticleID,
-        UserID    => $Param{UserID},
+    # event
+    $Self->EventHandler(
+        Event => 'ArticleSend',
+        Data  => {
+            TicketID  => $Param{TicketID},
+            ArticleID => $ArticleID,
+        },
+        UserID => $Param{UserID},
     );
     return $ArticleID;
 }
@@ -2067,6 +2080,8 @@ bounce an article
         ArticleID => 123,
         UserID    => 123,
     );
+
+Events: ArticleBounce
 
 =cut
 
@@ -2115,11 +2130,14 @@ sub ArticleBounce {
         CreateUserID => $Param{UserID},
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'ArticleBounce',
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
+    # event
+    $Self->EventHandler(
+        Event => 'ArticleBounce',
+        Data  => {
+            TicketID  => $Param{TicketID},
+            ArticleID => $Param{ArticleID},
+        },
+        UserID => $Param{UserID},
     );
     return 1;
 }
@@ -2137,6 +2155,8 @@ send an agent notification via email
         RecipientID => $UserID,
         UserID      => 123,
     );
+
+Events: ArticleAgentNotification
 
 =cut
 
@@ -2216,11 +2236,13 @@ sub SendAgentNotification {
         Message  => "Sent agent '$Param{Type}' notification to '$User{UserEmail}'.",
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'ArticleAgentNotification',
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
+    # event
+    $Self->EventHandler(
+        Event => 'ArticleAgentNotification',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -2238,6 +2260,8 @@ send a customer notification via email
         TicketID => 123,
         UserID   => 123,
     );
+
+Events: ArticleCustomerNotification
 
 =cut
 
@@ -2521,11 +2545,13 @@ sub SendCustomerNotification {
         Message  => "Sent customer '$Param{Type}' notification to '$Article{From}'.",
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'ArticleCustomerNotification',
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
+    # event
+    $Self->EventHandler(
+        Event => 'ArticleCustomerNotification',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -2544,6 +2570,8 @@ send an auto response to a customer via email
         },
         UserID          => 123,
     );
+
+Events: ArticleAutoResponse
 
 =cut
 
@@ -2629,7 +2657,13 @@ sub SendAutoResponse {
     }
 
     # check / loop protection!
-    if ( !$Self->{LoopProtectionObject}->Check( To => $OrigHeader{From} ) ) {
+    my $LoopProtectionObject = Kernel::System::PostMaster::LoopProtection->new(
+        LogObject    => $Self->{LogObject},
+        ConfigObject => $Self->{ConfigObject},
+        MainObject   => $Self->{MainObject},
+        DBObject     => $Self->{DBObject},
+    );
+    if ( !$LoopProtectionObject->Check( To => $OrigHeader{From} ) ) {
 
         # add history row
         $Self->HistoryAdd(
@@ -2649,7 +2683,7 @@ sub SendAutoResponse {
     }
 
     # return if loop count has reached
-    return if !$Self->{LoopProtectionObject}->SendEmail( To => $OrigHeader{From} );
+    return if !$LoopProtectionObject->SendEmail( To => $OrigHeader{From} );
 
     # check reply to for auto response recipient
     if ( $OrigHeader{ReplyTo} ) {
@@ -2754,11 +2788,13 @@ sub SendAutoResponse {
             . " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$ToAll'."
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'ArticleAutoResponse',
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
+    # event
+    $Self->EventHandler(
+        Event => 'ArticleAutoResponse',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -2773,6 +2809,8 @@ set article flags
         Flag      => 'seen',
         UserID    => 123,
     );
+
+Events: ArticleFlagSet
 
 =cut
 
@@ -2802,16 +2840,18 @@ sub ArticleFlagSet {
         Bind => [ \$Param{ArticleID}, \$Param{Flag}, \$Param{UserID} ],
     );
 
-    # ticket event
+    # event
     my %Article = $Self->ArticleGet(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
-    $Self->TicketEventHandlerPost(
-        Event     => 'ArticleFlagSet',
-        TicketID  => $Article{TicketID},
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
+    $Self->EventHandler(
+        Event => 'ArticleFlagSet',
+        Data  => {
+            TicketID  => $Article{TicketID},
+            ArticleID => $Param{ArticleID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -2826,6 +2866,8 @@ delete article flags
         Flag      => 'seen',
         UserID    => 123,
     );
+
+Events: ArticleFlagDelete
 
 =cut
 
@@ -2847,16 +2889,18 @@ sub ArticleFlagDelete {
         Bind => [ \$Param{ArticleID}, \$Param{UserID}, \$Param{Flag} ],
     );
 
-    # ticket event
+    # event
     my %Article = $Self->ArticleGet(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
-    $Self->TicketEventHandlerPost(
-        Event     => 'ArticleFlagDelete',
-        TicketID  => $Article{TicketID},
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
+    $Self->EventHandler(
+        Event => 'ArticleFlagDelete',
+        Data  => {
+            TicketID  => $Article{TicketID},
+            ArticleID => $Param{ArticleID},
+        },
+        UserID => $Param{UserID},
     );
     return 1;
 }
@@ -3053,6 +3097,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.232 $ $Date: 2009-09-08 16:14:48 $
+$Revision: 1.233 $ $Date: 2009-09-16 08:38:49 $
 
 =cut

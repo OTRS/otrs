@@ -1,0 +1,231 @@
+# --
+# Kernel/System/EventHandler.pm - globle object events
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: EventHandler.pm,v 1.1 2009-09-16 08:38:49 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+package Kernel::System::EventHandler;
+
+use strict;
+use warnings;
+
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.1 $) [1];
+
+=head1 NAME
+
+Kernel::System::EventHandler - event handler lib
+
+=head1 SYNOPSIS
+
+All event handler functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item EventHandlerInit()
+
+use vars qw(@ISA);
+use Kernel::System::EventHandler;
+push @ISA, 'Kernel::System::EventHandler';
+
+    $Self->EventHandlerInit(
+
+        # name of configured event modules
+        Config     => 'Example::EventModule',
+
+        # current object, $Self, used in events as "ExampleObject"
+        BaseObject => 'ExampleObject',
+
+        # served default objects in any event backend
+        Objects    => {
+            UserObject => $UserObject,
+            XZY        => $XYZ,
+        },
+    );
+
+e. g.
+
+    $Self->EventHandlerInit(
+        Config     => 'Ticket::EventModule',
+        BaseObject => 'TicketObject',
+        Objects    => {
+            %{ $Self },
+        },
+    );
+
+Example XML config:
+
+    <ConfigItem Name="Example::EventModule###99-EscalationIndex" Required="0" Valid="1">
+        <Description Lang="en">Example event module updates the example escalation index.</Description>
+        <Description Lang="de">Example Event Modul aktualisiert den Example Eskalations-Index.</Description>
+        <Group>Example</Group>
+        <SubGroup>Core::Example</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Example::Event::ExampleEscalationIndex</Item>
+                <Item Key="Event">(ExampleSLAUpdate|ExampleQueueUpdate|ExampleStateUpdate|ExampleCreate)</Item>
+                <Item Key="SomeOption">Some Option accessable via $Param{Config}->{SomeOption} in Run() of event module.</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+=cut
+
+sub EventHandlerInit {
+    my ( $Self, %Param ) = @_;
+
+    $Self->{EventHandlerInit} = \%Param;
+
+    return 1;
+}
+
+=item EventHandler()
+
+call event handler, returns true if it's executed successfully
+
+    $EventHandler->EventHandler(
+        Event => 'TicketStateUpdate',
+        Data  => {
+            TicketID => 123,
+        },
+        UserID => 123,
+    );
+
+=cut
+
+sub EventHandler {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Data Event UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # get configured modules
+    my $Modules = $Self->{ConfigObject}->Get( $Self->{EventHandlerInit}->{Config} );
+
+    # return if there is no one
+    return 1 if !$Modules;
+
+    # remember events only on normal mode
+    if ( !$Self->{EventHandlerTransaction} ) {
+        push @{ $Self->{EventHandlerPipe} }, \%Param;
+    }
+
+    # load modules and execute
+    for my $Module ( sort keys %{$Modules} ) {
+
+        # execute only if configured (regexp in Event of config is possible)
+        if ( !$Modules->{$Module}->{Event} || $Param{Event} =~ /$Modules->{$Module}->{Event}/ ) {
+
+            # next if we are not in transaction mode, but module is in transaction
+            next if !$Param{Transaction} && $Modules->{$Module}->{Transaction};
+
+            # next if we are in transaction mode, but module is not in transaction
+            next if $Param{Transaction} && !$Modules->{$Module}->{Transaction};
+
+            # load event module
+            next if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
+
+            # get all default objects if given
+            my $ObjectRef = $Self->{EventHandlerInit}->{Objects};
+            my %Objects;
+            if ($ObjectRef) {
+                %Objects = %{$ObjectRef};
+            }
+
+            # execute event backend
+            my $Generic = $Modules->{$Module}->{Module}->new(
+                %Objects,
+                $Self->{EventHandlerInit}->{BaseObject} => $Self,
+            );
+
+            # compatable to old
+            # OTRS 3.x: REMOVE ME
+            if ( $Param{Data} ) {
+                %Param = ( %Param, %{ $Param{Data} } );
+            }
+
+            $Generic->Run( %Param, Config => $Modules->{$Module} );
+        }
+    }
+
+    return 1;
+}
+
+=item EventHandlerTransaction()
+
+call all transaction backends for all triggered events till now
+
+    $EventHandler->EventHandlerTransaction();
+
+usually it's done in DESTORY of ExampleObject (e. g. Kernel::System::ExampleObject)
+
+sub DESTROY {
+    my $Self = shift;
+
+    # execute all transaction events
+    $Self->EventHandlerTransaction();
+
+    return 1;
+};
+
+=cut
+
+sub EventHandlerTransaction {
+    my ( $Self, %Param ) = @_;
+
+    # remember, we are on destory mode, do not execute new events
+    $Self->{EventHandlerTransaction} = 1;
+
+    # execute events on end of transaction
+    if ( $Self->{EventHandlerPipe} ) {
+        for my $Params ( @{ $Self->{EventHandlerPipe} } ) {
+            $Self->EventHandler(
+                %Param,
+                %{$Params},
+                Transaction => 1,
+            );
+        }
+
+        # delete event pipe
+        $Self->{EventHandlerPipe} = undef;
+    }
+
+    # reset transaction mode
+    $Self->{EventHandlerTransaction} = 0;
+
+    return 1;
+}
+
+1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.1 $ $Date: 2009-09-16 08:38:49 $
+
+=cut

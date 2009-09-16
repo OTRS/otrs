@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.416 2009-09-08 10:10:50 martin Exp $
+# $Id: Ticket.pm,v 1.417 2009-09-16 08:38:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,14 +29,14 @@ use Kernel::System::Cache;
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Email;
-use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::TemplateGenerator;
-use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
+use Kernel::System::LinkObject;
+use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.416 $) [1];
+$VERSION = qw($Revision: 1.417 $) [1];
 
 =head1 NAME
 
@@ -88,13 +88,13 @@ create an object
         MainObject   => $MainObject,
     );
     my $TicketObject = Kernel::System::Ticket->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        TimeObject   => $TimeObject,
-        EncodeObject => $EncodeObject,
-        GroupObject  => $GroupObject,              # if given
+        ConfigObject       => $ConfigObject,
+        LogObject          => $LogObject,
+        DBObject           => $DBObject,
+        MainObject         => $MainObject,
+        TimeObject         => $TimeObject,
+        EncodeObject       => $EncodeObject,
+        GroupObject        => $GroupObject,        # if given
         CustomerUserObject => $CustomerUserObject, # if given
         QueueObject        => $QueueObject,        # if given
     );
@@ -123,6 +123,7 @@ sub new {
             die "Got no $_!";
         }
     }
+    print STDERR "NEW Ticket\n";
 
     # create common needed module objects
     $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
@@ -148,17 +149,24 @@ sub new {
         $Self->{QueueObject} = $Param{QueueObject};
     }
 
-    $Self->{SendmailObject}       = Kernel::System::Email->new( %{$Self} );
-    $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new( %{$Self} );
-    $Self->{TypeObject}           = Kernel::System::Type->new( %{$Self} );
-    $Self->{PriorityObject}       = Kernel::System::Priority->new( %{$Self} );
-    $Self->{ServiceObject}        = Kernel::System::Service->new( %{$Self} );
-    $Self->{SLAObject}            = Kernel::System::SLA->new( %{$Self} );
-    $Self->{StateObject}          = Kernel::System::State->new( %{$Self} );
-    $Self->{LockObject}           = Kernel::System::Lock->new( %{$Self} );
-    $Self->{ValidObject}          = Kernel::System::Valid->new( %{$Self} );
-    $Self->{LinkObject}           = Kernel::System::LinkObject->new( %{$Self} );
-    $Self->{HTMLUtilsObject}      = Kernel::System::HTMLUtils->new( %{$Self} );
+    $Self->{SendmailObject} = Kernel::System::Email->new( %{$Self} );
+    $Self->{TypeObject}     = Kernel::System::Type->new( %{$Self} );
+    $Self->{PriorityObject} = Kernel::System::Priority->new( %{$Self} );
+    $Self->{ServiceObject}  = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}      = Kernel::System::SLA->new( %{$Self} );
+    $Self->{StateObject}    = Kernel::System::State->new( %{$Self} );
+    $Self->{LockObject}     = Kernel::System::Lock->new( %{$Self} );
+    $Self->{ValidObject}    = Kernel::System::Valid->new( %{$Self} );
+
+    # init of event handler
+    push @ISA, 'Kernel::System::EventHandler';
+    $Self->EventHandlerInit(
+        Config     => 'Ticket::EventModulePost',
+        BaseObject => 'TicketObject',
+        Objects    => {
+            %{$Self},
+        },
+    );
 
     # load ticket number generator
     my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
@@ -306,6 +314,8 @@ creates a new ticket
         ResponsibleID => 123,                # not required
         UserID        => 123,
     );
+
+Events: TicketCreate
 
 =cut
 
@@ -496,11 +506,13 @@ sub TicketCreate {
             . "(TicketID=$TicketID,Queue=$Param{Queue},Priority=$Param{Priority},State=$Param{State})",
     );
 
-    # trigger ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketCreate',
-        UserID   => $Param{UserID},
-        TicketID => $TicketID,
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketCreate',
+        Data  => {
+            TicketID => $TicketID,
+        },
+        UserID => $Param{UserID},
     );
 
     return $TicketID;
@@ -514,6 +526,8 @@ deletes a ticket with articles from storage
         TicketID => 123,
         UserID   => 123,
     );
+
+Events: TicketDelete
 
 =cut
 
@@ -532,7 +546,8 @@ sub TicketDelete {
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # delete ticket links
-    $Self->{LinkObject}->LinkDeleteAll(
+    my $LinkObject = Kernel::System::LinkObject->new( %{$Self} );
+    $LinkObject->LinkDeleteAll(
         Object => 'Ticket',
         Key    => $Param{TicketID},
         UserID => $Param{UserID},
@@ -568,11 +583,13 @@ sub TicketDelete {
         Bind => [ \$Param{TicketID} ],
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketDelete',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketDelete',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -1275,6 +1292,8 @@ update ticket title
         UserID   => 1,
     );
 
+Events: TicketTitleUpdate
+
 =cut
 
 sub TicketTitleUpdate {
@@ -1305,11 +1324,13 @@ sub TicketTitleUpdate {
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketTitleUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketTitleUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -1324,6 +1345,8 @@ update ticket unlock time to now
         TicketID      => 123,
         UserID        => 143,
     );
+
+Events: TicketUnlockTimeoutUpdate
 
 =cut
 
@@ -1360,11 +1383,13 @@ sub TicketUnlockTimeoutUpdate {
         Name         => 'Reset of unlock time.',
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketUnlockTimeoutUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketUnlockTimeoutUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -1495,6 +1520,8 @@ to move a ticket (send notification to agents of selected my queues, it ticket i
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
+Events: TicketQueueUpdate
+
 =cut
 
 sub MoveTicket {
@@ -1585,12 +1612,15 @@ sub MoveTicket {
         }
     }
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketQueueUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketQueueUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -1727,6 +1757,8 @@ to set a ticket type
         UserID   => 123,
     );
 
+Events: TicketTypeUpdate
+
 =cut
 
 sub TicketTypeSet {
@@ -1784,12 +1816,15 @@ sub TicketTypeSet {
         CreateUserID => $Param{UserID},
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketTypeUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketTypeUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -1876,6 +1911,8 @@ to set a ticket service
         UserID   => 123,
     );
 
+Events: TicketServiceUpdate
+
 =cut
 
 sub TicketServiceSet {
@@ -1941,12 +1978,15 @@ sub TicketServiceSet {
         CreateUserID => $Param{UserID},
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketServiceUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketServiceUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -2499,6 +2539,8 @@ to set a ticket service
         UserID   => 123,
     );
 
+Events: TicketSLAUpdate
+
 =cut
 
 sub TicketSLASet {
@@ -2567,12 +2609,15 @@ sub TicketSLASet {
         CreateUserID => $Param{UserID},
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketSLAUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketSLAUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -2586,6 +2631,8 @@ Set customer data of ticket.
         TicketID => 123,
         UserID   => 23,
     );
+
+Events: TicketCustomerUpdate
 
 =cut
 
@@ -2644,12 +2691,15 @@ sub SetCustomerData {
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketCustomerUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketCustomerUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -2796,6 +2846,8 @@ Set ticket free text.
         UserID   => 23,
     );
 
+Events: TicketFreeTextUpdate
+
 =cut
 
 sub TicketFreeTextSet {
@@ -2861,13 +2913,16 @@ sub TicketFreeTextSet {
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketFreeTextUpdate',
-        Counter  => $Param{Counter},
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketFreeTextUpdate',
+        Data  => {
+            Counter  => $Param{Counter},
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -2887,12 +2942,14 @@ Set ticket free text.
         UserID                => 23,
     );
 
+Events: TicketFreeTimeUpdate
+
 =cut
 
 sub TicketFreeTimeSet {
     my ( $Self, %Param ) = @_;
 
-    my $Prefix = $Param{'Prefix'} || 'TicketFreeTime';
+    my $Prefix = $Param{Prefix} || 'TicketFreeTime';
 
     # check needed stuff
     for (qw(TicketID UserID Counter)) {
@@ -2958,13 +3015,16 @@ sub TicketFreeTimeSet {
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketFreeTimeUpdate',
-        Counter  => $Param{Counter},
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketFreeTimeUpdate',
+        Data  => {
+            Counter  => $Param{Counter},
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -3256,6 +3316,8 @@ or use a time stamp
         UserID   => 23,
     );
 
+Events: TicketPendingTimeUpdate
+
 =cut
 
 sub TicketPendingTimeSet {
@@ -3311,11 +3373,13 @@ sub TicketPendingTimeSet {
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketPendingTimeUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketPendingTimeUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -4885,6 +4949,8 @@ to set a ticket lock or unlock
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
+Events: TicketLockUpdate
+
 =cut
 
 sub LockSet {
@@ -4986,12 +5052,15 @@ sub LockSet {
         }
     }
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketLockUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketLockUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -5018,6 +5087,8 @@ to set a ticket state
     For example:
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
+
+Events: TicketStateUpdate
 
 =cut
 
@@ -5091,12 +5162,15 @@ sub StateSet {
         CreateUserID => $Param{UserID},
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketStateUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketStateUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -5283,6 +5357,8 @@ to set the ticket owner (notification to the new owner will be sent)
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
+Events: TicketOwnerUpdate
+
 =cut
 
 sub OwnerSet {
@@ -5358,11 +5434,13 @@ sub OwnerSet {
         }
     }
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketOwnerUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketOwnerUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -5453,6 +5531,8 @@ to set the ticket responsible (notification to the new responsible will be sent)
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
+Events: TicketResponsibleUpdate
+
 =cut
 
 sub ResponsibleSet {
@@ -5529,12 +5609,15 @@ sub ResponsibleSet {
         }
     }
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketResponsibleUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketResponsibleUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -5666,6 +5749,8 @@ to set the ticket priority
         UserID     => 213,
     );
 
+Events: TicketPriorityUpdate
+
 =cut
 
 sub PrioritySet {
@@ -5730,12 +5815,15 @@ sub PrioritySet {
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketPriorityUpdate',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketPriorityUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -6180,6 +6268,8 @@ add a history entry to an ticket
         CreateUserID => 123,
     );
 
+Events: HistoryAdd
+
 =cut
 
 sub HistoryAdd {
@@ -6263,12 +6353,15 @@ sub HistoryAdd {
         ],
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'HistoryAdd',
-        UserID   => $Param{CreateUserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'HistoryAdd',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{CreateUserID},
     );
+
     return 1;
 }
 
@@ -6335,6 +6428,8 @@ delete a ticket history (from storage)
         UserID   => 123,
     );
 
+Events: HistoryDelete
+
 =cut
 
 sub HistoryDelete {
@@ -6370,11 +6465,13 @@ sub HistoryDelete {
         );
     }
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'HistoryDelete',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'HistoryDelete',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -6420,6 +6517,8 @@ account time to a ticket.
         TimeUnit  => '4.5',
         UserID    => 1,
     );
+
+Events: TicketAccountTime
 
 =cut
 
@@ -6468,12 +6567,15 @@ sub TicketAccountTime {
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketAccountTime',
-        UserID   => $Param{UserID},
-        TicketID => $Param{TicketID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketAccountTime',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -6486,6 +6588,8 @@ merge two tickets
         MergeTicketID => 123,
         UserID        => 123,
     );
+
+Events: TicketMerge
 
 =cut
 
@@ -6553,7 +6657,8 @@ sub TicketMerge {
     );
 
     # link tickets
-    $Self->{LinkObject}->LinkAdd(
+    my $LinkObject = Kernel::System::LinkObject->new( %{$Self} );
+    $LinkObject->LinkAdd(
         SourceObject => 'Ticket',
         SourceKey    => $Param{MainTicketID},
         TargetObject => 'Ticket',
@@ -6577,12 +6682,15 @@ sub TicketMerge {
         UserID   => $Param{UserID},
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketMerge',
-        TicketID => $Param{MergeTicketID},
-        UserID   => $Param{UserID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketMerge',
+        Data  => {
+            TicketID => $Param{MergeTicketID},
+        },
+        UserID => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -6677,6 +6785,8 @@ to subscribe a ticket to watch it
         UserID      => 123,
     );
 
+Events: TicketSubscribe
+
 =cut
 
 sub TicketWatchSubscribe {
@@ -6716,11 +6826,13 @@ sub TicketWatchSubscribe {
         Name         => "\%\%$User{UserFirstname} $User{UserLastname} ($User{UserLogin})",
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketSubscribe',
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketSubscribe',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -6735,6 +6847,8 @@ to remove a subscribtion of a ticket
         WatchUserID => 123,
         UserID      => 123,
     );
+
+Events: TicketUnsubscribe
 
 =cut
 
@@ -6769,11 +6883,13 @@ sub TicketWatchUnsubscribe {
         Name         => "\%\%$User{UserFirstname} $User{UserLastname} ($User{UserLogin})",
     );
 
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event    => 'TicketUnsubscribe',
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketUnsubscribe',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -7229,128 +7345,17 @@ sub TicketAclActionData {
     if ( $Self->{TicketAclActionData} ) {
         return %{ $Self->{TicketAclActionData} };
     }
-    else {
-        return %{ $Self->{ConfigObject}->Get('TicketACL::Default::Action') };
-    }
-}
-
-=item TicketEventHandlerPost()
-
-call ticket event post handler, returns true if it's executed successfully
-
-    $TicketObject->TicketEventHandlerPost(
-        TicketID => 123,
-        Event    => 'TicketStateUpdate',
-        UserID   => 123,
-    );
-
-events available:
-
-TicketCreate, TicketDelete, TicketTitleUpdate, TicketUnlockTimeoutUpdate,
-TicketQueueUpdate, TicketTypeUpdate, TicketServiceUpdate,
-TicketSLAUpdate, TicketCustomerUpdate, TicketFreeTextUpdate, TicketFreeTimeUpdate,
-TicketPendingTimeUpdate, TicketLockUpdate, TicketStateUpdate, TicketOwnerUpdate,
-TicketResponsibleUpdate, TicketPriorityUpdate, HistoryAdd, HistoryDelete,
-TicketAccountTime, TicketMerge, ArticleCreate, ArticleFreeTextUpdate,
-ArticleUpdate, ArticleSend, ArticleBounce, ArticleAgentNotification,
-ArticleCustomerNotification, ArticleAutoResponse, ArticleFlagSet, ArticleFlagDelete;
-
-=cut
-
-sub TicketEventHandlerPost {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(TicketID Event UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # get configured modules
-    my $Modules = $Self->{ConfigObject}->Get('Ticket::EventModulePost');
-
-    # return if there is no one
-    return if !$Modules;
-
-    # remember events only on normal mode
-    if ( !$Self->{DESTROY} ) {
-        push @{ $Self->{EventPipe} }, \%Param;
-    }
-
-    # load modules and execute
-    for my $Module ( sort keys %{$Modules} ) {
-
-        # execute only if configured
-        if ( !$Modules->{$Module}->{Event} || $Param{Event} =~ /$Modules->{$Module}->{Event}/ ) {
-
-            # next if we are not in transaction mode, but module is in transaction
-            next if !$Param{Transaction} && $Modules->{$Module}->{Transaction};
-
-            # next if we are in transaction mode, but module is not in transaction
-            next if $Param{Transaction} && !$Modules->{$Module}->{Transaction};
-
-            # load event module
-            next if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
-            my $Generic = $Modules->{$Module}->{Module}->new(
-                %{$Self},
-                TicketObject => $Self,
-            );
-            $Generic->Run( %Param, Config => $Modules->{$Module}, );
-        }
-    }
-
-    # COMPAT: compat to 2.0
-    if ( !$Param{CompatOff} ) {
-
-        # map for old events
-        my %Map = (
-
-            # new event name            => old event name
-            TicketStateUpdate           => 'StateSet',
-            TicketPriorityUpdate        => 'PrioritySet',
-            TicketLockUpdate            => 'LockSet',
-            TicketOwnerUpdate           => 'OwnerSet',
-            TicketQueueUpdate           => 'MoveTicket',
-            TicketCustomerUpdate        => 'SetCustomerData',
-            TicketFreeTextUpdate        => 'TicketFreeTextSet',
-            TicketFreeTimeUpdate        => 'TicketFreeTimeSet',
-            TicketPendingTimeUpdate     => 'TicketPendingTimeSet',
-            ArticleFreeTextUpdate       => 'ArticleFreeTextSet',
-            ArticleAgentNotification    => 'SendAgentNotification',
-            ArticleCustomerNotification => 'SendCustomerNotification',
-            ArticleAutoResponse         => 'SendAutoResponse',
-        );
-
-        # return if no map exists
-        return 1 if !$Map{ $Param{Event} };
-
-        # execute event with old event name again
-        return $Self->TicketEventHandlerPost(
-            %Param,
-            Event     => $Map{ $Param{Event} },
-            CompatOff => 1,
-        );
-    }
-    return 1;
+    return %{ $Self->{ConfigObject}->Get('TicketACL::Default::Action') };
 }
 
 sub DESTROY {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
 
-    # remember, we are on destory mode, do not execute new events
-    $Self->{DESTROY} = 1;
+    print STDERR "DESTORY Ticket $Self - $Self->{DBObject}\n";
 
-    # execute events on end of transaction
-    if ( $Self->{EventPipe} ) {
-        for my $Params ( @{ $Self->{EventPipe} } ) {
-            $Self->TicketEventHandlerPost(
-                %{$Params},
-                Transaction => 1,
-            );
-        }
-    }
+    # execute all transaction events
+    $Self->EventHandlerTransaction();
+
     return 1;
 }
 
@@ -7368,6 +7373,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.416 $ $Date: 2009-09-08 10:10:50 $
+$Revision: 1.417 $ $Date: 2009-09-16 08:38:49 $
 
 =cut

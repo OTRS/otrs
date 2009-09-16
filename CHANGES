@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.994 2009-09-14 22:53:27 mh Exp $
+# $Id: CHANGES,v 1.995 2009-09-16 08:38:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,13 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/09/16) Moved to globle event handler Kernel/System/EventHander.pm
+    for ticket events (config are compat. to old one).
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
+ - (2009/09/08) Fixed bug#4255 - RichText is not coupled with RichTextViewing.
+    Rich Text is being shown, even if the text/plain MIME part is available.
  - (2009/09/08) Fixed bug#4243 - Adding a key to DefaultTheme HostBased via
     Sysconfig breaks OTRS.
  - (2009/09/08) Fixed bug#4257 - No event based notification is sent on queue
