@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/TicketAcceleratorUpdate.pm - update ticket index
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketAcceleratorUpdate.pm,v 1.1 2009-05-07 21:03:26 martin Exp $
+# $Id: TicketAcceleratorUpdate.pm,v 1.2 2009-09-16 08:59:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,15 +36,21 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID Event Config)) {
+    for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+    for (qw(TicketID)) {
+        if ( !$Param{Data}->{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            return;
+        }
+    }
 
     # update ticket view index
-    $Self->{TicketObject}->TicketAcceleratorUpdate( TicketID => $Param{TicketID} );
+    $Self->{TicketObject}->TicketAcceleratorUpdate( TicketID => $Param{Data}->{TicketID} );
 
     return 1;
 }

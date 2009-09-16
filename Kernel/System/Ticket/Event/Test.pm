@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/Test.pm - test event module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.9 2009-02-16 11:46:10 tr Exp $
+# $Id: Test.pm,v 1.10 2009-09-16 08:59:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,19 +36,26 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID Event Config)) {
+    for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+    for (qw(TicketID)) {
+        if ( !$Param{Data}->{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            return;
+        }
+    }
+
     if ( $Param{Event} eq 'TicketCreate' ) {
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{Data}->{TicketID} );
         if ( $Ticket{State} eq 'Test' ) {
 
             # do some stuff
             $Self->{TicketObject}->HistoryAdd(
-                TicketID     => $Param{TicketID},
+                TicketID     => $Param{Data}->{TicketID},
                 CreateUserID => $Param{UserID},
                 HistoryType  => 'Misc',
                 Name         => 'Some Info about Changes!',
@@ -56,12 +63,12 @@ sub Run {
         }
     }
     elsif ( $Param{Event} eq 'MoveTicket' ) {
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{Data}->{TicketID} );
         if ( $Ticket{Queue} eq 'Test' ) {
 
             # do some stuff
             $Self->{TicketObject}->HistoryAdd(
-                TicketID     => $Param{TicketID},
+                TicketID     => $Param{Data}->{TicketID},
                 CreateUserID => $Param{UserID},
                 HistoryType  => 'Misc',
                 Name         => 'Some Info about Changes!',

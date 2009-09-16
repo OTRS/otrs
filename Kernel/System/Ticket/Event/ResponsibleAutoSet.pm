@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/ResponsibleAutoSet.pm - a event module for auto set of responible
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ResponsibleAutoSet.pm,v 1.2 2009-02-16 11:46:10 tr Exp $
+# $Id: ResponsibleAutoSet.pm,v 1.3 2009-09-16 08:59:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,33 +34,37 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID Event Config UserID)) {
+    for (qw(Data Event Config UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+    for (qw(TicketID)) {
+        if ( !$Param{Data}->{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            return;
+        }
+    }
 
     # set responsible if first change
-    if (
-        $Self->{ConfigObject}->Get('Ticket::Responsible')
-        && $Self->{ConfigObject}->Get('Ticket::ResponsibleAutoSet')
-        )
-    {
-        my %Ticket = $Self->{TicketObject}->TicketGet(
-            TicketID => $Param{TicketID},
-            UserID   => $Param{UserID},
-        );
-        if ( $Ticket{ResponsibleID} == 1 && $Param{UserID} != 1 ) {
+    return 1 if !$Self->{ConfigObject}->Get('Ticket::Responsible');
+    return 1 if !$Self->{ConfigObject}->Get('Ticket::ResponsibleAutoSet');
 
-            # check responible update
-            $Self->{TicketObject}->ResponsibleSet(
-                TicketID           => $Param{TicketID},
-                NewUserID          => $Ticket{OwnerID},
-                SendNoNotification => 1,
-                UserID             => $Param{UserID},
-            );
-        }
+    # get current ticket data
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID => $Param{Data}->{TicketID},
+        UserID   => $Param{UserID},
+    );
+
+    # check responible update
+    if ( $Ticket{ResponsibleID} == 1 && $Param{UserID} != 1 ) {
+        $Self->{TicketObject}->ResponsibleSet(
+            TicketID           => $Param{Data}->{TicketID},
+            NewUserID          => $Ticket{OwnerID},
+            SendNoNotification => 1,
+            UserID             => $Param{UserID},
+        );
     }
     return 1;
 }

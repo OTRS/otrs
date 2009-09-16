@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/TicketFreeFieldDefault.pm - a event module for default ticket free text settings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketFreeFieldDefault.pm,v 1.9 2009-02-16 11:46:10 tr Exp $
+# $Id: TicketFreeFieldDefault.pm,v 1.10 2009-09-16 08:59:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,24 +34,31 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID Event Config UserID)) {
+    for (qw(Data Event Config UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+    for (qw(TicketID)) {
+        if ( !$Param{Data}->{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            return;
+        }
+    }
+
     my $ConfigSettings = $Self->{ConfigObject}->Get('Ticket::TicketFreeFieldDefault');
     for ( keys %{$ConfigSettings} ) {
         my $Element = $ConfigSettings->{$_};
         if ( $Param{Event} eq $Element->{Event} ) {
-            my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+            my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{Data}->{TicketID} );
 
             # do some stuff
             $Self->{TicketObject}->TicketFreeTextSet(
                 Counter  => $Element->{Counter},
                 Key      => $Element->{Key},
                 Value    => $Element->{Value},
-                TicketID => $Param{TicketID},
+                TicketID => $Param{Data}->{TicketID},
                 UserID   => $Param{UserID},
             );
         }

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/ForceState.pm - set state
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ForceState.pm,v 1.8 2009-02-16 11:46:10 tr Exp $
+# $Id: ForceState.pm,v 1.9 2009-09-16 08:59:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,26 +39,38 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID Event Config)) {
+    for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    my %Ticket = $Self->{TicketObject}->TicketGet(%Param);
+    for (qw(TicketID)) {
+        if ( !$Param{Data}->{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            return;
+        }
+    }
+
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID => $Param{Data}->{TicketID},
+        UserID   => $Param{UserID},
+    );
 
     # should I unlock a ticket after move?
-    if ( $Ticket{Lock} =~ /^lock$/i ) {
-        for ( keys %{ $Param{Config} } ) {
-            if ( $_ eq $Ticket{State} && $_ ) {
-                $Self->{TicketObject}->StateSet(
-                    TicketID           => $Param{TicketID},
-                    State              => $Param{Config}->{$_},
-                    SendNoNotification => 1,
-                    UserID             => 1,
-                );
-            }
-        }
+    return 1 if lc $Ticket{Lock} ne 'lock';
+
+    # set now state
+    for my $OldState ( keys %{ $Param{Config} } ) {
+        next if !$OldState;
+        next if $OldSstate ne $Ticket{State};
+
+        $Self->{TicketObject}->StateSet(
+            TicketID           => $Param{Data}->{TicketID},
+            State              => $Param{Config}->{$OldState},
+            SendNoNotification => 1,
+            UserID             => 1,
+        );
     }
     return 1;
 }

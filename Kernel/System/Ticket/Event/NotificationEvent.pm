@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.9 2009-08-18 21:32:15 martin Exp $
+# $Id: NotificationEvent.pm,v 1.10 2009-09-16 08:59:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,16 +40,22 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID Event Config UserID)) {
+    for (qw(Event Data Config UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+    for (qw(TicketID)) {
+        if ( !$Param{Data}->{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
             return;
         }
     }
 
     # return of no ticket exists (e. g. it got deleted)
     my $TicketExists = $Self->{TicketObject}->TicketNumberLookup(
-        TicketID => $Param{TicketID},
+        TicketID => $Param{Data}->{TicketID},
         UserID   => $Param{UserID},
     );
     return 1 if !$TicketExists;
@@ -66,7 +72,7 @@ sub Run {
 
     # get ticket attribute matches
     my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID => $Param{TicketID},
+        TicketID => $Param{Data}->{TicketID},
         UserID   => $Param{UserID},
     );
 
@@ -107,9 +113,9 @@ sub Run {
 
         # match article types only on ArticleCreate event
         my @Attachments;
-        if ( $Param{Event} eq 'ArticleCreate' && $Param{ArticleID} ) {
+        if ( $Param{Event} eq 'ArticleCreate' && $Param{Data}->{ArticleID} ) {
             my %Article = $Self->{TicketObject}->ArticleGet(
-                ArticleID => $Param{ArticleID},
+                ArticleID => $Param{Data}->{ArticleID},
                 UserID    => $Param{UserID},
             );
 
@@ -145,13 +151,13 @@ sub Run {
             # add attachments to notification
             if ( $Notification{Data}->{ArticleAttachmentInclude} ) {
                 my %Index = $Self->{TicketObject}->ArticleAttachmentIndex(
-                    ArticleID => $Param{ArticleID},
+                    ArticleID => $Param{Data}->{ArticleID},
                     UserID    => $Param{UserID},
                 );
                 if (%Index) {
                     for my $FileID ( sort keys %Index ) {
                         my %Attachment = $Self->{TicketObject}->ArticleAttachment(
-                            ArticleID => $Param{ArticleID},
+                            ArticleID => $Param{Data}->{ArticleID},
                             FileID    => $FileID,
                             UserID    => $Param{UserID},
                         );
@@ -164,7 +170,7 @@ sub Run {
 
         # send notification
         $Self->SendCustomerNotification(
-            TicketID              => $Param{TicketID},
+            TicketID              => $Param{Data}->{TicketID},
             UserID                => $Param{UserID},
             Notification          => \%Notification,
             CustomerMessageParams => {},
@@ -346,11 +352,10 @@ sub _SendCustomerNotification {
     my ( $Self, %Param ) = @_;
 
     # get notification data
-    #    my %Notification = $Self->{NotificationObject}->NotificationGet(
-    #        Name => $Language . '::Customer::' . $Param{Type},
-    #    );
     my %Notification = %{ $Param{Notification} };
-    my %Recipient    = %{ $Param{Recipient} };
+
+    # get recipient data
+    my %Recipient = %{ $Param{Recipient} };
 
     # get old article for quoteing
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
@@ -561,15 +566,17 @@ sub _SendCustomerNotification {
         );
 
         # ticket event
-        $Self->{TicketObject}->TicketEventHandlerPost(
-            Event    => 'ArticleAgentNotification',
-            TicketID => $Param{TicketID},
-            UserID   => $Param{UserID},
+        $Self->{TicketObject}->EventHandler(
+            Event => 'ArticleAgentNotification',
+            Data  => {
+                TicketID => $Param{TicketID},
+            },
+            UserID => $Param{UserID},
         );
     }
     else {
         my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID} );
-        $Self->{TicketObject}->ArticleSend(
+        my $ArticleID = $Self->{TicketObject}->ArticleSend(
             ArticleType    => 'email-notification-ext',
             SenderType     => 'system',
             TicketID       => $Param{TicketID},
@@ -594,10 +601,13 @@ sub _SendCustomerNotification {
         );
 
         # ticket event
-        $Self->{TicketObject}->TicketEventHandlerPost(
-            Event    => 'ArticleCustomerNotification',
-            TicketID => $Param{TicketID},
-            UserID   => $Param{UserID},
+        $Self->{TicketObject}->EventHandler(
+            Event => 'ArticleCustomerNotification',
+            Data  => {
+                TicketID  => $Param{TicketID},
+                ArticleID => $Param{ArticleID},
+            },
+            UserID => $Param{UserID},
         );
     }
 

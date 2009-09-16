@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/ArticleSearchIndex.pm - update article search index
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleSearchIndex.pm,v 1.3 2009-02-16 11:46:47 tr Exp $
+# $Id: ArticleSearchIndex.pm,v 1.4 2009-09-16 08:59:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,17 +39,23 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID Event Config)) {
+    for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+    for (qw(TicketID)) {
+        if ( !$Param{Data}->{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            return;
+        }
+    }
 
-    return 1 if !$Param{ArticleID};
+    return 1 if !$Param{Data}->{ArticleID};
 
     $Self->{TicketObject}->ArticleIndexBuild(
-        ArticleID => $Param{ArticleID},
+        ArticleID => $Param{Data}->{ArticleID},
         UserID    => 1,
     );
 
