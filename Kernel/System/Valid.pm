@@ -2,7 +2,7 @@
 # Kernel/System/Valid.pm - all valid functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Valid.pm,v 1.14 2009-09-13 22:31:54 martin Exp $
+# $Id: Valid.pm,v 1.15 2009-09-17 07:23:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -192,7 +192,11 @@ sub ValidIDsGet {
     return @{ $Self->{'Cache::ValidIDsGet'} } if $Self->{'Cache::ValidIDsGet'};
 
     # get valid ids
-    return if !$Self->{DBObject}->Prepare( SQL => "SELECT id FROM valid WHERE name = 'valid'" );
+    my $Valid = 'valid';
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => 'SELECT id FROM valid WHERE name = ?',
+        Bind => [ \$Valid ],
+    );
 
     # fetch the results
     my @ValidIDs;
@@ -222,6 +226,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2009-09-13 22:31:54 $
+$Revision: 1.15 $ $Date: 2009-09-17 07:23:45 $
 
 =cut
