@@ -1,8 +1,8 @@
 # --
-# Kernel/System/EventHandler.pm - globle object events
+# Kernel/System/EventHandler.pm - global object events
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.1 2009-09-16 08:38:49 martin Exp $
+# $Id: EventHandler.pm,v 1.2 2009-09-17 23:02:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -58,7 +58,8 @@ e. g.
         Config     => 'Ticket::EventModule',
         BaseObject => 'TicketObject',
         Objects    => {
-            %{ $Self },
+            UserObject  => $UserObject,
+            GroupObject => $GroupObject,
         },
     );
 
@@ -74,6 +75,7 @@ Example XML config:
                 <Item Key="Module">Kernel::System::Example::Event::ExampleEscalationIndex</Item>
                 <Item Key="Event">(ExampleSLAUpdate|ExampleQueueUpdate|ExampleStateUpdate|ExampleCreate)</Item>
                 <Item Key="SomeOption">Some Option accessable via $Param{Config}->{SomeOption} in Run() of event module.</Item>
+                <Item Key="Transaction">(0|1)</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -226,6 +228,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2009-09-16 08:38:49 $
+$Revision: 1.2 $ $Date: 2009-09-17 23:02:59 $
 
 =cut
