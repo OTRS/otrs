@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.75 2009-09-16 17:56:53 mb Exp $
+# $Id: AgentStats.pm,v 1.76 2009-09-17 18:43:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,7 +44,7 @@ sub new {
         $Self->{$NeededData} = $Param{$NeededData};
     }
 
-    # check usefull params
+    # check necessary params
     for my $Transfer (qw( AccessRw RequestedURL)) {
         if ( $Param{$Transfer} ) {
             $Self->{$Transfer} = $Param{$Transfer};
@@ -54,7 +54,7 @@ sub new {
     # get current frontend language
     $Self->{UserLanguage} = $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
 
-    # create needed objects
+    # create necessary objects
     $Self->{CSVObject}   = Kernel::System::CSV->new( %{$Self} );
     $Self->{StatsObject} = Kernel::System::Stats->new( %{$Self} );
 
@@ -538,7 +538,7 @@ sub Run {
                     }
                 }
 
-                # Show this Block if no valueseries or restrictions are selected
+                # Show this Block if no value series or restrictions are selected
                 if ( !$Flag ) {
                     $Self->{LayoutObject}->Block( Name => 'NoElement', );
                 }
@@ -569,13 +569,13 @@ sub Run {
             );
         }
 
-        # Completenesscheck
+        # Completeness check
         my @Notify = $Self->{StatsObject}->CompletenessCheck(
             StatData => $Stat,
             Section  => 'All'
         );
 
-        # show the start buttom if the stat is valid and complettnesscheck true
+        # show the start button if the stat is valid and completeness check true
         if ( $Stat->{Valid} && !@Notify ) {
             $Self->{LayoutObject}->Block(
                 Name => 'FormSubmit',
@@ -587,12 +587,12 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Header( Title => 'View' );
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
-        # Errorwaring if some have done wrong setting in the view mask
-        # search for better solution
+        # Error message if there is an invalid setting in the search mask
+        # in need of better solution
         if ($Message) {
             my %ErrorMessages = (
                 1 => 'The selected start time is before the allowed start time!',
-                2 => 'The selected end time is after the allowed end time!',
+                2 => 'The selected end time is later than the allowed end time!',
                 3 => 'The selected time period is larger than the allowed time period!',
                 4 => 'Your reporting time interval is too small, please use a larger time scale!',
             );
@@ -742,7 +742,7 @@ sub Run {
     }
 
     # ---------------------------------------------------------- #
-    # action after edit a Stats
+    # action after edit of Stats
     # ---------------------------------------------------------- #
     elsif ( $Self->{Subaction} eq 'Action' ) {
 
