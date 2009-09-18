@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.999 2009-09-16 19:40:16 mb Exp $
+# $Id: CHANGES,v 1.1000 2009-09-18 10:21:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
+ - (2009/09/18) Updated Spanish translation, thanks to Gustavo Azambuja!
  - (2009/09/16) Fixed bug#4288 - 4288: Use of uninitialized value in
     AdminGenericAgent.pm.
  - (2009/09/16) Fixed bug#4292 - "<some@example.com>" in body breaks body on
