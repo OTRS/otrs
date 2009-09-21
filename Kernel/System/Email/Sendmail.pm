@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Sendmail.pm,v 1.29 2009-02-16 11:48:19 tr Exp $
+# $Id: Sendmail.pm,v 1.30 2009-09-21 15:39:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,36 +65,45 @@ sub Send {
     # get config data
     my $Sendmail = $Self->{ConfigObject}->Get('SendmailModule::CMD');
 
+    # check if sendmail binary is there (strip all args and check if file exists)
+    my $SendmailBinary = $Sendmail;
+    $SendmailBinary =~ s/^(.+?)\s.+?$/$1/;
+    if ( !-f $SendmailBinary ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such binary: $SendmailBinary!",
+        );
+        return;
+    }
+
     # invoke sendmail in order to send off mail, catching errors in a temporary file
     my $FH;
-    if ( open( $FH, '|-', "$Sendmail $Arg " ) ) {
-
-        # switch filehandle to utf8 mode if utf-8 is used
-        if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
-            binmode $FH, ":utf8";
-        }
-        print $FH ${ $Param{Header} };
-        print $FH "\n";
-        print $FH ${ $Param{Body} };
-        close($FH);
-
-        # debug
-        if ( $Self->{Debug} > 2 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Sent email to '$ToString' from '$Param{From}'.",
-            );
-        }
-
-        return 1;
-    }
-    else {
+    if ( !open( $FH, '|-', "$Sendmail $Arg " ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't send message: $!!",
         );
         return;
     }
+
+    # switch filehandle to utf8 mode if utf-8 is used
+    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
+        binmode $FH, ':utf8';
+    }
+    print $FH ${ $Param{Header} };
+    print $FH "\n";
+    print $FH ${ $Param{Body} };
+    close($FH);
+
+    # debug
+    if ( $Self->{Debug} > 2 ) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Sent email to '$ToString' from '$Param{From}'.",
+        );
+    }
+
+    return 1;
 }
 
 1;
