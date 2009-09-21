@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1001 2009-09-21 11:53:20 mae Exp $
+# $Id: CHANGES,v 1.1002 2009-09-21 13:17:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/09/21) Fixed bug#4312 - MOTD module for Agent Dashboard, thanks to
+    Alexander Scholler!
  - (2009/09/21) Fixed bug#3978 - Better description for PGP passphrases.
  - (2009/09/16) Fixed bug#3932 - Translation enhancements for AdminSession.dtl.
  - (2009/09/16) Fixed bug#2786 - Wrong text labels
