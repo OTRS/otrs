@@ -1360,7 +1360,7 @@ Communication with success!
         <Data Key="subject" Type="Quote">New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
+There is a new ticket in &lt;OTRS_TICKET_Queue&gt;!
 
 &lt;OTRS_CUSTOMER_FROM&gt; wrote:
 
@@ -1381,10 +1381,10 @@ Your OTRS Notification Master</Data>
         <Data Key="notification_type" Type="Quote">Agent::FollowUp</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">You got follow up! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="subject" Type="Quote">You've got a follow up! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-you got a follow up!
+You've got a follow up!
 
 &lt;OTRS_CUSTOMER_FROM&gt; wrote:
 
@@ -1408,7 +1408,7 @@ Your OTRS Notification Master</Data>
         <Data Key="subject" Type="Quote">Lock Timeout! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-unlocked (lock timeout) your locked ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
+The lock timeout period on [&lt;OTRS_TICKET_TicketNumber&gt;] has been reached, it is now unlocked.
 
 &lt;OTRS_CUSTOMER_FROM&gt; wrote:
 
@@ -1432,7 +1432,7 @@ Your OTRS Notification Master</Data>
         <Data Key="subject" Type="Quote">Ticket owner assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is assigned to you by "&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;".
+Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is assigned to you by &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;.
 
 Comment:
 
@@ -1451,10 +1451,10 @@ Your OTRS Notification Master</Data>
         <Data Key="notification_type" Type="Quote">Agent::ResponsibleUpdate</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket responsible assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="subject" Type="Quote">Ticket assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_RESPONSIBLE_UserFirstname&gt;,
 
-a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is assigned to you by "(&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;".
+Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is assigned to you by &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;.
 
 Comment:
 
@@ -1476,7 +1476,7 @@ Your OTRS Notification Master</Data>
         <Data Key="subject" Type="Quote">New note! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-"&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" added a new note to ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
+&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; added a new note to ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
 
 Note:
 &lt;OTRS_CUSTOMER_BODY&gt;
@@ -1494,10 +1494,10 @@ Your OTRS Notification Master</Data>
         <Data Key="notification_type" Type="Quote">Agent::Move</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Moved ticket in "&lt;OTRS_CUSTOMER_QUEUE&gt;" queue! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="subject" Type="Quote">Moved ticket in &lt;OTRS_CUSTOMER_QUEUE&gt; queue! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-"&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" moved a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] into "&lt;OTRS_CUSTOMER_QUEUE&gt;".
+&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; moved a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] into &lt;OTRS_CUSTOMER_QUEUE&gt;.
 
 &lt;snip&gt;
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
@@ -1519,7 +1519,7 @@ Your OTRS Notification Master</Data>
         <Data Key="subject" Type="Quote">Ticket reminder has reached! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-the ticket "&lt;OTRS_TICKET_TicketNumber&gt;" has reached its reminder time!
+The ticket [&lt;OTRS_TICKET_TicketNumber&gt;] has reached its reminder time!
 
 &lt;OTRS_CUSTOMER_FROM&gt;
 
@@ -1546,7 +1546,7 @@ Your OTRS Notification Master</Data>
         <Data Key="subject" Type="Quote">Ticket Escalation! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-the ticket "&lt;OTRS_TICKET_TicketNumber&gt;" is escalated!
+The ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is escalated!
 
 Escalated at:    &lt;OTRS_TICKET_EscalationDestinationDate&gt;
 Escalated since: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
@@ -1576,7 +1576,7 @@ Your OTRS Notification Master</Data>
         <Data Key="subject" Type="Quote">Ticket Escalation Warning! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-the ticket "&lt;OTRS_TICKET_TicketNumber&gt;" will escalate!
+The ticket [&lt;OTRS_TICKET_TicketNumber&gt;] will escalate!
 
 Escalation at: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
 Escalation in: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
@@ -1608,7 +1608,7 @@ Your OTRS Notification Master</Data>
         <Data Key="subject" Type="Quote">Neues Ticket! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
-es ist ein neues Ticket in "&lt;OTRS_TICKET_Queue&gt;"!
+es ist ein neues Ticket in &lt;OTRS_TICKET_Queue&gt;!
 
 &lt;OTRS_CUSTOMER_FROM&gt; schrieb:
 
@@ -1680,7 +1680,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="subject" Type="Quote">Ticket Besitz uebertragen an Sie! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
-der Besitz des Tickets [&lt;OTRS_TICKET_TicketNumber&gt;] wurde an Sie von "(&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" uebertragen.
+Der Besitz des Tickets [&lt;OTRS_TICKET_TicketNumber&gt;] wurde an Sie von &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; uebertragen.
 
 Kommentar:
 
@@ -1702,7 +1702,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="subject" Type="Quote">Ticket Verantwortung uebertragen an Sie! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_RESPONSIBLE_UserFirstname&gt; &lt;OTRS_RESPONSIBLE_UserLastname&gt;,
 
-die Verantwortung des Tickets [&lt;OTRS_TICKET_TicketNumber&gt;] wurde an Sie von "(&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" uebertragen.
+Die Verantwortung des Tickets [&lt;OTRS_TICKET_TicketNumber&gt;] wurde an Sie von &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; uebertragen.
 
 Kommentar:
 
@@ -1724,7 +1724,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="subject" Type="Quote">Neue Notiz! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
-"&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" fuegte eine Notiz an Ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
+&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; fuegte eine Notiz an Ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
 
 Notiz:
 &lt;OTRS_CUSTOMER_BODY&gt;
@@ -1745,7 +1745,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="subject" Type="Quote">Ticket verschoben in "&lt;OTRS_CUSTOMER_QUEUE&gt;" Queue! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
-"&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" verschob Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] nach "&lt;OTRS_CUSTOMER_QUEUE&gt;".
+&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; verschob Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] nach "&lt;OTRS_CUSTOMER_QUEUE&gt;".
 
 &lt;snip&gt;
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
@@ -1767,7 +1767,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="subject" Type="Quote">Ticket Erinnerung erreicht! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
-das Ticket "&lt;OTRS_TICKET_TicketNumber&gt;" hat die Erinnerungszeit erreicht!
+das Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] hat die Erinnerungszeit erreicht!
 
 &lt;OTRS_CUSTOMER_FROM&gt;
 
@@ -1794,7 +1794,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="subject" Type="Quote">Ticket Eskalation! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
-das Ticket "&lt;OTRS_TICKET_TicketNumber&gt;" ist eskaliert!
+das Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] ist eskaliert!
 
 Eskaliert am:   &lt;OTRS_TICKET_EscalationDestinationDate&gt;
 Eskaliert seit: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
@@ -1824,7 +1824,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="subject" Type="Quote">Ticket Eskalations-Warnung! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
-das Ticket "&lt;OTRS_TICKET_TicketNumber&gt;" wird bald eskalieren!
+das Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] wird bald eskalieren!
 
 Eskalation um: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
 Eskalation in: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
