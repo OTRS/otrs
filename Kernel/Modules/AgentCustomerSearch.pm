@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.15 2009-09-07 11:17:08 martin Exp $
+# $Id: AgentCustomerSearch.pm,v 1.16 2009-09-21 16:24:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -183,15 +183,18 @@ sub Run {
             my $LinkSort = 'Subaction=' . $Self->{Subaction}
                 . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
                 . '&CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
+                . '&CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
                 . '&';
             my $LinkPage = 'Subaction=' . $Self->{Subaction}
                 . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
                 . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
                 . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
                 . '&CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
+                . '&CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
                 . '&';
             my $LinkFilter = 'Subaction=' . $Self->{Subaction}
                 . '&CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
+                . '&CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
                 . '&';
 
             $CustomerTicketsHTMLString .= $Self->{LayoutObject}->TicketListShow(

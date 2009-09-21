@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1004 2009-09-21 15:39:55 martin Exp $
+# $Id: CHANGES,v 1.1005 2009-09-21 16:25:41 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,10 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
- - (2009/09/21) Fixed bug#2532 - Problem when setting queues and subqueues to invalid.
+ - (2009/09/21) Fixed bug#3818 - Customer History - Small/Medium/Preview does
+    not work.
+ - (2009/09/21) Fixed bug#2532 - Problem when setting queues and subqueues
+    to invalid.
  - (2009/09/18) Updated Spanish translation, thanks to Gustavo Azambuja!
  - (2009/09/16) Fixed bug#4288 - 4288: Use of uninitialized value in
     AdminGenericAgent.pm.
