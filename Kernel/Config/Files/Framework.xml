@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.243 2009-09-21 11:53:20 mae Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.244 2009-09-21 13:02:44 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -5300,7 +5300,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0000-ProductNotify" Required="0" Valid="1">
-        <Description Lang="en">Parameters for the dashboard backend. "Group" are used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" means if the plugin is enabled per default or if the user needs to enable it manually. "CacheTTLLocal" means the cache time in minutes for the plugin.</Description>
+        <Description Lang="en">Parameters for the dashboard backend. "Group" is used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
         <Description Lang="de">Parameter für das Dashboard Backend. "Group" ist verwendet um den Zugriff auf das Plugin einzuschränken (z. B. Group: admin;group1;group2;). ""Default" bedeutet ob das Plugin per default aktiviert ist oder ob dies der Anwender manuell machen muss. "CacheTTLLocal" ist die Cache-Zeit in Minuten nach der das Plugin erneut aufgerufen wird.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
@@ -5318,7 +5318,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0400-UserOnline" Required="0" Valid="1">
-        <Description Lang="en">Parameters for the dashboard backend. "Limit" are default shown entries. "Group" are used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" means if the plugin is enabled per default or if the user needs to enable it manually. "CacheTTLLocal" means the cache time in minutes for the plugin.</Description>
+        <Description Lang="en">Parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
         <Description Lang="de">Parameter für das Dashboard Backend. "Limit" bedeutet die default angezeigten Einträge. "Group" ist verwendet um den Zugriff auf das Plugin einzuschränken (z. B. Group: admin;group1;group2;). ""Default" bedeutet ob das Plugin per default aktiviert ist oder ob dies der Anwender manuell machen muss. "CacheTTLLocal" ist die Cache-Zeit in Minuten nach der das Plugin erneut aufgerufen wird.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
@@ -5340,7 +5340,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0410-RSS" Required="0" Valid="1">
-        <Description Lang="en">Parameters for the dashboard backend. "Limit" are default shown entries. "Group" are used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" means if the plugin is enabled per default or if the user needs to enable it manually. "CacheTTL" means the cache time in minutes for the plugin.</Description>
+        <Description Lang="en">Parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
         <Description Lang="de">Parameter für das Dashboard Backend. "Limit" bedeutet die default angezeigten Einträge. "Group" ist verwendet um den Zugriff auf das Plugin einzuschränken (z. B. Group: admin;group1;group2;). ""Default" bedeutet ob das Plugin per default aktiviert ist oder ob dies der Anwender manuell machen muss. "CacheTTL" ist die Cache-Zeit in Minuten nach der das Plugin erneut aufgerufen wird.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
@@ -5359,7 +5359,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0200-Image" Required="0" Valid="0">
-        <Description Lang="en">Parameters for the dashboard backend. "Group" are used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" means if the plugin is enabled per default or if the user needs to enable it manually. "CacheTTL" means the cache time in minutes for the plugin.</Description>
+        <Description Lang="en">Parameters for the dashboard backend. "Group" is used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
         <Description Lang="de">Parameter für das Dashboard Backend. "Group" ist verwendet um den Zugriff auf das Plugin einzuschränken (z. B. Group: admin;group1;group2;). ""Default" bedeutet ob das Plugin per default aktiviert ist oder ob dies der Anwender manuell machen muss. "CacheTTL" ist die Cache-Zeit in Minuten nach der das Plugin erneut aufgerufen wird.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
