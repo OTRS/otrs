@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.45 2009-09-22 17:35:58 mb Exp $
+# $Id: AdminQueueForm.dtl,v 1.46 2009-09-22 18:02:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -243,7 +243,7 @@
         </tr>
         <tr valign="top">
           <td>$Text{"Unlock timeout"}</td>
-          <td>$Text{"If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents."}</td>
+          <td>$Text{"If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents."}</td>
         </tr>
         <tr valign="top">
           <td>$Text{"Escalation - First Response Time"}</td>
@@ -263,7 +263,7 @@
         </tr>
         <tr valign="top">
           <td>$Text{"Ticket lock after a follow up"}</td>
-          <td>$Text{"If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner."}</td>
+          <td>$Text{"If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner."}</td>
         </tr>
         <tr valign="top">
           <td>$Text{"Systemaddress"}</td>
