@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Auth/LDAP.pm - provides the ldap authentification
+# Kernel/System/Auth/LDAP.pm - provides the ldap authentication
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.55 2009-04-23 15:21:14 tt Exp $
+# $Id: LDAP.pm,v 1.55.2.1 2009-09-22 14:53:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.55.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

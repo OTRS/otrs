@@ -1,9 +1,9 @@
 # --
-# Kernel/System/CustomerAuth/Radius.pm - provides the radius authentification
+# Kernel/System/CustomerAuth/Radius.pm - provides the radius authentication
 # based on Martin Edenhofer's Kernel::System::Auth::DB
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Radius.pm,v 1.10 2009-02-16 11:49:56 tr Exp $
+# $Id: Radius.pm,v 1.10.2.1 2009-09-22 14:50:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Authen::Radius;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.10.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -103,7 +103,7 @@ sub Auth {
     if ( !$Pw ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "User: $User authentification without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
+            Message  => "User: $User authentication without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
         return;
     }
@@ -131,7 +131,7 @@ sub Auth {
     if ( defined($AuthResult) && $AuthResult == 1 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "User: $User authentification ok (REMOTE_ADDR: $RemoteAddr).",
+            Message  => "User: $User authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
         return $User;
     }
@@ -140,7 +140,7 @@ sub Auth {
     else {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "User: $User authentification with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+            Message  => "User: $User authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }
