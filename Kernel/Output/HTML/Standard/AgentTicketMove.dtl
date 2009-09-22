@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.21 2009-09-22 09:40:08 mg Exp $
+# $Id: AgentTicketMove.dtl,v 1.22 2009-09-22 09:55:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,12 @@ function submit_compose() {
         document.compose.Subject.focus();
         return false;
     }
-    else if (document.compose.Body.value.replace(/\s+|<\/?\w+\s?\/?>/g, '') == "") {
+    else if (document.compose.Body.value.replace(/\s+|<\/?\w+\s?\/?>/g, '') != "" && document.compose.Subject.value == "") {
+        alert('$JSText{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    }
+    else if (document.compose.Body.value.replace(/\s+|<\/?\w+\s?\/?>/g, '') == "" && document.compose.Subject.value != "") {
         alert('$JSText{"A message should have a body!"}');
         if (parseInt('$Config{"Frontend::RichText"}', 10) > 0) {
             RichTextFocus();
@@ -52,11 +57,7 @@ function submit_compose() {
         }
         return false;
     }
-    else if (document.compose.Body.value == "" && document.compose.Subject.value != "") {
-        alert('$JSText{"A message should have a body!"}');
-        document.compose.Subject.focus();
-        return false;
-    }
+
 <!-- dtl:block:TicketFreeTextCheckJs -->
     if (document.compose.$Data{"TicketFreeTextField"}.value == "") {
         alert('$JSText{"A required field is:"} ' + document.compose.$Data{"TicketFreeKeyField"}.value + '!');
