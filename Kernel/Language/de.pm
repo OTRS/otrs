@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.209 2009-09-16 19:36:49 mb Exp $
+# $Id: de.pm,v 1.210 2009-09-22 13:04:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.209 $) [1];
+$VERSION = qw($Revision: 1.210 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1707,6 +1707,8 @@ sub Data {
         'PhoneView' => 'Telefon-Ansicht',
         'User-Name' => 'Benutzer-Name',
         'File-Path' => 'Datei-Dateipfad',
+        '%s is not writable!' => '%s kann nicht geschrieben werden!',
+        'Cannot create %s!' => '%s kann nicht erzeugt werden!',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Die E-Mail mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
         'Ticket Status View' => 'Ticket Status Ansicht',
         'Modified' => 'Verändert',

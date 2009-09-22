@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.67 2009-08-25 12:19:24 mb Exp $
+# $Id: fa.pm,v 1.68 2009-09-22 13:04:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1725,6 +1725,8 @@ sub Data {
         'Ticket Status View' => 'نمایش وضعیت درخواست',
         'Modified' => 'تغییر یافته',
         'Ticket selected for bulk action!' => 'درخواست برای اعمال عملیات کلی انتخاب شد!',
+        '%s is not writable!' => '',
+        'Cannot create %s!' => '',
     };
     # $$STOP$$
     return;

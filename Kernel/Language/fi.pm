@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.94 2009-08-25 12:19:24 mb Exp $
+# $Id: fi.pm,v 1.95 2009-09-22 13:04:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1687,6 +1687,8 @@ sub Data {
         'Ticket Status View' => 'Tikettien tilanäkymä',
         'Modified' => 'Muokattu',
         'Ticket selected for bulk action!' => 'Tiketti valittu massatoimenpiteeseen!',
+        '%s is not writable!' => '',
+        'Cannot create %s!' => '',
     };
     # $$STOP$$
     return;

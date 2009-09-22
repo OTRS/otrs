@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.23 2009-07-23 18:15:52 martin Exp $
+# $Id: AdminSMIME.pm,v 1.24 2009-09-22 13:04:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -274,10 +274,34 @@ sub Run {
         }
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        if ( !$Self->{CryptObject} ) {
+
+        # check if SMIME is activated in the sysconfig first
+        if ( !$Self->{ConfigObject}->Get('SMIME') ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
                 Data     => '$Text{"You need to activate %s first to use it!", "SMIME"}',
+                Link =>
+                    '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Crypt::SMIME"',
+            );
+        }
+
+        # check if SMIME Paths are writable
+        foreach my $PathKey (qw(SMIME::CertPath SMIME::PrivatePath)) {
+            if ( !-w $Self->{ConfigObject}->Get($PathKey) ) {
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Error',
+                    Data     => '$Text{"%s is not writable!", "'
+                        . "$PathKey "
+                        . $Self->{ConfigObject}->Get($PathKey) . '"}',
+                    Link =>
+                        '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Crypt::SMIME"',
+                );
+            }
+        }
+        if ( !$Self->{CryptObject} ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data     => '$Text{"Cannot create %s!", "CryptObject"}',
                 Link =>
                     '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Crypt::SMIME"',
             );
