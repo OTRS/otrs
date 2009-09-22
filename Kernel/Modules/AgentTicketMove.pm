@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.37.2.1 2009-09-22 14:54:24 ub Exp $
+# $Id: AgentTicketMove.pm,v 1.37.2.2 2009-09-22 14:58:09 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.1 $) [1];
+$VERSION = qw($Revision: 1.37.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,12 +76,10 @@ sub Run {
 
     # check if ticket is locked
     if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
-
         my $AccessOk = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
             OwnerID  => $Self->{UserID},
         );
-
         if ( !$AccessOk ) {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->Warning(
