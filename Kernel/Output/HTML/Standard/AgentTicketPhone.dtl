@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.50.2.1 2009-09-16 12:00:50 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.50.2.2 2009-09-22 09:39:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,13 @@ $Include{"AgentCustomerSearch"}
 <!-- start form -->
 <script language="JavaScript" type="text/javascript">
 <!--
+
 function submit_compose() {
+    // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
+    if (parseInt('$Config{"Frontend::RichText"}', 10) > 0) {
+        RichTextUpdateLinkedField();
+    }
+
     if (document.compose.TypeID && document.compose.TypeID.value == "") {
         alert('$JSText{"Ticket Type is required!"}');
         document.compose.TypeID.focus();
@@ -28,9 +34,14 @@ function submit_compose() {
         document.compose.Subject.focus();
         return false;
     }
-    else if (document.compose.Body.value == "") {
+    else if (document.compose.Body.value.replace(/\s+|<\/?\w+\s?\/?>/g, '') == "") {
         alert('$JSText{"A message should have a body!"}');
-        document.compose.Body.focus();
+        if (parseInt('$Config{"Frontend::RichText"}', 10) > 0) {
+            RichTextFocus();
+        }
+        else {
+            document.compose.Body.focus();
+        }
         return false;
     }
     else if (isNaN(document.compose.Day.value) || isNaN(document.compose.Month.value) || isNaN(document.compose.Year.value) || isNaN(document.compose.Hour.value) || isNaN(document.compose.Minute.value)) {

@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.18 2009-07-02 12:50:22 ub Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.18.2.1 2009-09-22 09:39:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,11 @@
 <script language="JavaScript" type="text/javascript">
 <!--
 function submit_compose() {
+    // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
+    if (parseInt('$Config{"Frontend::RichText"}', 10) > 0) {
+        RichTextUpdateLinkedField();
+    }
+
     if (document.compose.TypeID && document.compose.TypeID.value == "") {
         alert('$JSText{"Ticket Type is required!"}');
         document.compose.TypeID.focus();
@@ -23,9 +28,14 @@ function submit_compose() {
         document.compose.Subject.focus();
         return false;
     }
-    else if (document.compose.Body.value == "") {
+    else if (document.compose.Body.value.replace(/\s+|<\/?\w+\s?\/?>/g, '') == "") {
         alert('$JSText{"A message should have a body!"}');
-        document.compose.Body.focus();
+        if (parseInt('$Config{"Frontend::RichText"}', 10) > 0) {
+            RichTextFocus();
+        }
+        else {
+            document.compose.Body.focus();
+        }
         return false;
     }
 <!-- dtl:block:TicketFreeTextCheckJs -->
@@ -50,68 +60,66 @@ function submit_compose() {
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"new ticket"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <br/>
-      <table border="0" width="680" align="center" cellspacing="0" cellpadding="4">
-        <tr>
-          <td colspan="2" class="contenthead">$Text{"Options"}</td>
-        </tr>
-        <tr>
-          <td class="contentbody">
-            <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
-              <input type="hidden" name="Action" value="$Env{"Action"}"/>
-              <input type="hidden" name="Subaction" value="StoreNew"/>
-              <input type="hidden" name="Expand" value=""/>
-              <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
-              <table border="0">
-<!-- dtl:block:TicketType -->
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"new ticket"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <br/>
+            <table border="0" width="680" align="center" cellspacing="0" cellpadding="4">
                 <tr>
-                  <td class="contentkey">$Text{"Type"}:</td>
-                  <td class="contentvalue"> $Data{"TypeStrg"}</td>
+                    <td colspan="2" class="contenthead">$Text{"Options"}</td>
                 </tr>
-<!-- dtl:block:TicketType -->
                 <tr>
-                  <td width="15%" class="contentkey">$Text{"To"}:</td>
-                  <td width="85%" class="contentvalue">
-                    $Data{"ToStrg"}
-                    <font color="red" size="-2">$Text{"$Data{"Queue invalid"}"}</font>
-                  </td>
-                </tr>
+                    <td class="contentbody">
+                        <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="StoreNew"/>
+                            <input type="hidden" name="Expand" value=""/>
+                            <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+                            <table border="0">
+<!-- dtl:block:TicketType -->
+                                <tr>
+                                    <td class="contentkey">$Text{"Type"}:</td>
+                                    <td class="contentvalue"> $Data{"TypeStrg"}</td>
+                                </tr>
+<!-- dtl:block:TicketType -->
+                                <tr>
+                                    <td width="15%" class="contentkey">$Text{"To"}:</td>
+                                    <td width="85%" class="contentvalue">
+                                        $Data{"ToStrg"}
+                                        <font color="red" size="-2">$Text{"$Data{"Queue invalid"}"}</font>
+                                    </td>
+                                </tr>
 <!-- dtl:block:TicketService -->
-                <tr>
-                  <td class="contentkey">$Text{"Service"}:</td>
-                  <td class="contentvalue"> $Data{"ServiceStrg"}</td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Service"}:</td>
+                                    <td class="contentvalue"> $Data{"ServiceStrg"}</td>
+                                </tr>
 <!-- dtl:block:TicketService -->
 <!-- dtl:block:TicketSLA -->
-                <tr>
-                  <td class="contentkey">$Text{"SLA"}:</td>
-                  <td class="contentvalue"> $Data{"SLAStrg"}</td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"SLA"}:</td>
+                                    <td class="contentvalue"> $Data{"SLAStrg"}</td>
+                                </tr>
 <!-- dtl:block:TicketSLA -->
-                <tr>
-                  <td class="contentkey">$Text{"Subject"}:</td>
-                  <td class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70"/>
-                    <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Text"}:</td>
-                  <td class="contentvalue">
-                    <div class="yui-skin-sam">
+                                <tr>
+                                    <td class="contentkey">$Text{"Subject"}:</td>
+                                    <td class="contentvalue">
+                                        <input type="text" name="Subject" value="$QData{"Subject"}" size="70"/>
+                                        <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Text"}:</td>
+                                    <td class="contentvalue">
+                                        <div class="yui-skin-sam">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-<textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">
-$QData{"Body"}
-</textarea>
+<textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
                     </div>
                   </td>
