@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.72 2009-07-28 22:44:21 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.73 2009-09-22 09:37:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -715,6 +715,7 @@ sub Run {
             %GetParam,
         );
 
+        # CSV output
         if ( $GetParam{ResultForm} eq 'CSV' ) {
             my @CSVHead = ();
             my @CSVData = ();
@@ -730,7 +731,7 @@ sub Run {
                 $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
 
                 # get whole article (if configured!)
-                if ( $Self->{Config}->{SearchArticleCSVTree} && $GetParam{ResultForm} eq 'CSV' ) {
+                if ( $Self->{Config}->{SearchArticleCSVTree} ) {
                     my @Article = $Self->{TicketObjectSearch}->ArticleGet(
                         TicketID => $_,
                     );
@@ -772,9 +773,9 @@ sub Run {
                 }
                 my @Data = ();
                 for (@CSVHead) {
-                    push( @Data, $Info{$_} );
+                    push @Data, $Info{$_};
                 }
-                push( @CSVData, \@Data );
+                push @CSVData, \@Data;
             }
 
             my $CSV = $Self->{CSVObject}->Array2CSV(
@@ -857,15 +858,15 @@ sub Run {
                     );
 
                     my @PDFRow;
-                    push( @PDFRow,  $Data{TicketNumber} );
-                    push( @PDFRow,  $Created );
-                    push( @PDFRow,  $Data{From} );
-                    push( @PDFRow,  $Data{Subject} );
-                    push( @PDFRow,  $Data{State} );
-                    push( @PDFRow,  $Data{Queue} );
-                    push( @PDFRow,  $Owner );
-                    push( @PDFRow,  $Customer );
-                    push( @PDFData, \@PDFRow );
+                    push @PDFRow,  $Data{TicketNumber};
+                    push @PDFRow,  $Created;
+                    push @PDFRow,  $Data{From};
+                    push @PDFRow,  $Data{Subject};
+                    push @PDFRow,  $Data{State};
+                    push @PDFRow,  $Data{Queue};
+                    push @PDFRow,  $Owner;
+                    push @PDFRow,  $Customer;
+                    push @PDFData, \@PDFRow;
                 }
                 else {
 
