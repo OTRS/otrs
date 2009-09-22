@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.20 2009-08-26 13:05:04 martin Exp $
+# $Id: RichTextEditor.dtl,v 1.21 2009-09-22 09:40:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,19 @@
 <script src="$Config{"Frontend::JavaScriptPath"}fckeditor-2.6.4.1/fckeditor.js"></script>
 
 <script type="text/javascript">
-window.onload = function() {
+function RichTextUpdateLinkedField() {
+    FCKeditorAPI.GetInstance('RichText').UpdateLinkedField();
+}
+
+function RichTextFocus() {
+    FCKeditorAPI.GetInstance('RichText').Focus();
+}
+
+function InitRichText() {
     var oFCKeditor = new FCKeditor( 'RichText' );
     oFCKeditor.Height                             = 320;
     oFCKeditor.Width                              = 620;
-    oFCKeditor.BasePath                           = "$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/";
+    oFCKeditor.BasePath                           = '$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/';
     oFCKeditor.Config["ForcePasteAsPlainText"]    = false;
     oFCKeditor.Config["EditorAreaStyles"]         = 'body { $Config{"Frontend::RichText::DefaultCSS"} }';
     oFCKeditor.Config["AutoDetectLanguage"]       = false;
@@ -25,6 +33,7 @@ window.onload = function() {
     oFCKeditor.Config["ImageUploadURL"]           = '$Env{"Baselink"}';
     oFCKeditor.Config["FirefoxSpellChecker"]      = true;
     oFCKeditor.Config["BrowserContextMenu"]       = true;
+    oFCKeditor.Config["PreventSubmitHandler"]     = true;
     oFCKeditor.Config["SpellChecker"]             = 'SpellerPages';
     oFCKeditor.Config["SpellerPagesServerScript"] = '$Env{"Baselink"}';
     oFCKeditor.Config["FontSizes"]                = '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;';
@@ -51,8 +60,17 @@ window.onload = function() {
     oFCKeditor.ReplaceTextarea();
 }
 
-# workaround for http://dev.fckeditor.net/ticket/3053
-# see also http://www.fckeditor.net/forums/viewtopic.php?f=6&t=13222
+// preserve old window onload event
+var OldOnLoad = window.onload;
+window.onload = function() {
+    if (typeof OldOnLoad == 'function') {
+        OldOnLoad();
+    }
+    InitRichText();
+}
+
+// workaround for http://dev.fckeditor.net/ticket/3053
+// see also http://www.fckeditor.net/forums/viewtopic.php?f=6&t=13222
 function FCKeditor_OnComplete( editorInstance ) {
     var fck_iframe = document.getElementById('RichText___Frame');
     if ( fck_iframe && fck_iframe.contentDocument ) {

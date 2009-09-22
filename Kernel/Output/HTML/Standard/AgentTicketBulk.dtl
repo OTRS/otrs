@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.20 2009-07-02 12:48:45 ub Exp $
+# $Id: AgentTicketBulk.dtl,v 1.21 2009-09-22 09:40:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,27 @@
 <script language="JavaScript" type="text/javascript">
 <!--
 function submit_compose() {
-    if (document.compose.Body.value && document.compose.Subject.value == "") {
+    // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
+    if (parseInt('$Config{"Frontend::RichText"}', 10) > 0) {
+        RichTextUpdateLinkedField();
+    }
+
+    if (document.compose.Subject.value == "") {
         alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
         return false;
     }
+    else if (document.compose.Body.value.replace(/\s+|<\/?\w+\s?\/?>/g, '') == "") {
+        alert('$JSText{"A message should have a body!"}');
+        if (parseInt('$Config{"Frontend::RichText"}', 10) > 0) {
+            RichTextFocus();
+        }
+        else {
+            document.compose.Body.focus();
+        }
+        return false;
+    }
+
 <!-- dtl:block:TimeUnitsJs -->
     if (document.compose.TimeUnits.value != "") {
         var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;
@@ -49,54 +65,52 @@ function SpellCheckSubmit() {
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Ticket Bulk Action"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="menu">
-      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" class="mainbody">
-      <br/>
-      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="Do"/>
-        <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
-          <tr>
-            <td colspan="2" class="contenthead">$Text{"Options"}</td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              $Data{"TicketIDHidden"}
-              <table border="0" width="100%">
-                <tr>
-                  <td width="15%" class="contentkey">$Text{"Subject"}:</td>
-                  <td width="85%" class="contentvalue">
-                    <input type="text" name="Subject" value="$Text{"$Config{"Ticket::Frontend::NoteSubject"}"}" size="70"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Options"}:</td>
-                  <td class="contentvalue">
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Ticket Bulk Action"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="menu">
+            <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="mainbody">
+            <br/>
+            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Do"/>
+                <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td colspan="2" class="contenthead">$Text{"Options"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            $Data{"TicketIDHidden"}
+                            <table border="0" width="100%">
+                                <tr>
+                                    <td width="15%" class="contentkey">$Text{"Subject"}:</td>
+                                    <td width="85%" class="contentvalue">
+                                        <input type="text" name="Subject" value="$Text{"$Config{"Ticket::Frontend::NoteSubject"}"}" size="70"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Options"}:</td>
+                                    <td class="contentvalue">
 <!-- dtl:block:SpellCheck -->
-                    $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+                                        $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Text"}:</td>
-                  <td class="contentvalue">
-                    <div class="yui-skin-sam">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Text"}:</td>
+                                    <td class="contentvalue">
+                                        <div class="yui-skin-sam">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-<textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">
-$QData{"NoteText"}
-</textarea>
+<textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$QData{"NoteText"}</textarea>
                     </div>
                   </td>
                 </tr>
