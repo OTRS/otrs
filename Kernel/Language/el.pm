@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.55 2009-08-25 12:19:24 mb Exp $
+# $Id: el.pm,v 1.55.2.1 2009-09-22 13:04:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.55.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1731,6 +1731,8 @@ email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επι
         'Αδυναμία επεξεργασίας του αρχείου Online Repository index!' => '',
         'Ticket selected for bulk action!' => 'Δελτίο Επιλεχθηκε για Μαζική Εργασία',
         'History::SystemRequest' => 'System Request (%s).',
+        '%s is not writable!' => '',
+        'Cannot create %s!' => '',
     };
     # $$STOP$$
     return;

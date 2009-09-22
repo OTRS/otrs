@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.81 2009-08-25 12:19:24 mb Exp $
+# $Id: pt.pm,v 1.81.2.1 2009-09-22 13:04:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.81.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1718,6 +1718,8 @@ sub Data {
         'Ticket Status View' => 'Visualização do Estado dos Tickets',
         'Modified' => 'Modificado',
         'Ticket selected for bulk action!' => 'Ticket seleccionado para acção em lote!',
+        '%s is not writable!' => '',
+        'Cannot create %s!' => '',
     };
     # $$STOP$$
     return;

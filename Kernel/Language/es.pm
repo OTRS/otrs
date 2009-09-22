@@ -5,7 +5,7 @@
 # Copyright (C) 2008 Pelayo Romero Martín <pelayo.romero at gmail.com>
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # --
-# $Id: es.pm,v 1.95.2.1 2009-09-18 10:22:46 mb Exp $
+# $Id: es.pm,v 1.95.2.2 2009-09-22 13:04:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95.2.1 $) [1];
+$VERSION = qw($Revision: 1.95.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1707,6 +1707,8 @@ sub Data {
         'Ticket Status View' => 'Ver Estado del Ticket',
         'Modified' => 'Modificado',
         'Ticket selected for bulk action!' => 'Ticket seleccionado para acción múltiple!',
+        '%s is not writable!' => '',
+        'Cannot create %s!' => '',
     };
     # $$STOP$$
     return;

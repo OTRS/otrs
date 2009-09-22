@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.104 2009-09-04 12:20:36 mb Exp $
+# $Id: nl.pm,v 1.104.2.1 2009-09-22 13:04:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.104.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1723,6 +1723,8 @@ sub Data {
         'Ticket Status View' => 'Overzicht Ticketstatussen',
         'Modified' => 'Gewijzigd',
         'Ticket selected for bulk action!' => 'Ticket geselecteerd voor bulk actie!',
+        '%s is not writable!' => '',
+        'Cannot create %s!' => '',
     };
     # $$STOP$$
     return;

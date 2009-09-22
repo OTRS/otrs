@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.83 2009-08-25 12:19:24 mb Exp $
+# $Id: nb_NO.pm,v 1.83.2.1 2009-09-22 13:04:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.83 $;
+$VERSION = q$Revision: 1.83.2.1 $;
 
 sub Data {
     my $Self = shift;
@@ -1711,6 +1711,8 @@ sub Data {
         'Ticket Status View' => 'Sakstatus-visning',
         'Modified' => 'Endret',
         'Ticket selected for bulk action!' => 'Sak valgt for masseredigering',
+        '%s is not writable!' => '',
+        'Cannot create %s!' => '',
     };
     # $$STOP$$
     return;

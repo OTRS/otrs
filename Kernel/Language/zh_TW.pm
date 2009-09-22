@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.3 2009-07-21 08:53:45 martin Exp $
+# $Id: zh_TW.pm,v 1.3.2.1 2009-09-22 13:04:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.3.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1696,6 +1696,8 @@ sub Data {
         'Ticket Status View' => 'Ticket 狀態視圖',
         'Modified' => '修改於',
         'Ticket selected for bulk action!' => '被選中進行批量操作的 Tickets',
+        '%s is not writable!' => '',
+        'Cannot create %s!' => '',
     };
     # $$STOP$$
     return;

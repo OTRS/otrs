@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.55 2009-08-25 12:19:24 mb Exp $
+# $Id: sk_SK.pm,v 1.55.2.1 2009-09-22 13:04:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.55.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1972,6 +1972,8 @@ sub Data {
         'Ticket Status View' => '',
         'blokova»' => 'NavBar',
         'Ticket selected for bulk action!' => '',
+        '%s is not writable!' => '',
+        'Cannot create %s!' => '',
     };
     # $$STOP$$
     return;

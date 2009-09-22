@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.29 2009-08-25 12:25:40 mb Exp $
+# $Id: vi_VN.pm,v 1.29.2.1 2009-09-22 13:04:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.29.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1713,6 +1713,8 @@ sub Data {
         'Ticket Status View' => 'Xem trÕng thái thë',
         'Modified' => 'Ðã chïnh sØa',
         'Ticket selected for bulk action!' => 'Thë ðã ðßþc ch÷n cho l®nh lô',
+        '%s is not writable!' => '',
+        'Cannot create %s!' => '',
     };
     # $$STOP$$
     return;

@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.72 2009-08-25 12:25:40 mb Exp $
+# $Id: sv.pm,v 1.72.2.1 2009-09-22 13:04:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.72.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1712,6 +1712,8 @@ sub Data {
         'FAQ' => 'FAQ',
         'StatusView' => 'Statusvy',
         'My Locked Tickets' => 'Mina Låsta Ärenden',
+        '%s is not writable!' => '',
+        'Cannot create %s!' => '',
     };
     # $$STOP$$
     return;
