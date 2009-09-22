@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.993.2.9 2009-09-22 14:58:38 ub Exp $
+# $Id: CHANGES,v 1.993.2.10 2009-09-22 15:48:04 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.5 (2009/??/??)
+ - (2009/09/22) Ensured that plain article body is used for ArticleViewModules
+     in AgentTicketZoom.
  - (2009/09/21) Fixed bug#2087 - AgentTicketMove does not consider responsible feature.
  - (2009/09/21) Fixed bug#4029 - S/MIME activation with misunderandable
     message/incomplete documentation.
