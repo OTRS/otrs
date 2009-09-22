@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.42 2009-09-03 16:12:13 tr Exp $
+# $Id: Auth.pm,v 1.43 2009-09-22 13:59:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,15 +17,15 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
-Kernel::System::Auth - agent autentification module.
+Kernel::System::Auth - agent authentication module.
 
 =head1 SYNOPSIS
 
-The autentification module for the agent interface.
+The authentication module for the agent interface.
 
 =head1 PUBLIC INTERFACE
 
@@ -140,10 +140,10 @@ sub new {
 
 =item GetOption()
 
-Get module options. Currently exists just one option, "PreAuth".
+Get module options. Currently there is just one option, "PreAuth".
 
     if ($AuthObject->GetOption(What => 'PreAuth')) {
-        print "No login screen is needed. Autentificaion is based on some other options. E. g. $ENV{REMOTE_USER}\n";
+        print "No login screen is needed. Authentication is based on some other options. E. g. $ENV{REMOTE_USER}\n";
     }
 
 =cut
@@ -156,7 +156,7 @@ sub GetOption {
 
 =item Auth()
 
-The autentificaion function.
+The authentication function.
 
     if ($AuthObject->Auth(User => $User, Pw => $Pw)) {
         print "Auth ok!\n";
@@ -296,6 +296,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2009-09-03 16:12:13 $
+$Revision: 1.43 $ $Date: 2009-09-22 13:59:14 $
 
 =cut
