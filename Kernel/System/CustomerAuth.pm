@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth.pm - provides the authentication
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.30 2009-09-22 15:21:06 mb Exp $
+# $Id: CustomerAuth.pm,v 1.31 2009-09-22 17:16:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,15 +16,15 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
-Kernel::System::CustomerAuth - customer autentification module.
+Kernel::System::CustomerAuth - customer authentication module.
 
 =head1 SYNOPSIS
 
-The autentification module for the customer interface.
+The authentication module for the customer interface.
 
 =head1 PUBLIC INTERFACE
 
@@ -113,7 +113,7 @@ sub new {
 Get module options. Currently exists just one option, "PreAuth".
 
     if ($AuthObject->GetOption(What => 'PreAuth')) {
-        print "No login screen is needed. Autentificaion is based on some other options. E. g. $ENV{REMOTE_USER}\n";
+        print "No login screen is needed. Authentication is based on other options. E. g. $ENV{REMOTE_USER}\n";
     }
 
 =cut
@@ -224,6 +224,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2009-09-22 15:21:06 $
+$Revision: 1.31 $ $Date: 2009-09-22 17:16:56 $
 
 =cut
