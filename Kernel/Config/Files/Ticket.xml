@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.270 2009-09-08 08:15:08 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.271 2009-09-22 09:36:27 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -7353,6 +7353,39 @@ $QData{"Signature"}
                 <Item Key="5">0</Item>
                 <Item Key="6">0</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketSearch###SearchArticleCSVTree" Required="1" Valid="1">
+        <Description Lang="en">Export whole article tree in search result export (take care of the system performance!).</Description>
+        <Description Lang="de">Exportiere im Suchergebnisexport auch den ganzen Artikelbaum. Achten Sie bei dieser Einstellung auf die System-Performance!.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketSearch###SearchCSVData" Required="1" Valid="1">
+        <Description Lang="en">Used data to export the search result in CSV format..</Description>
+        <Description Lang="de">Angaben für den Export des Suchergebnisses im CSV-Format.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array>
+                <Item>TicketNumber</Item>
+                <Item>Age</Item>
+                <Item>Created</Item>
+                <Item>Closed</Item>
+                <Item>State</Item>
+                <Item>Priority</Item>
+                <Item>Lock</Item>
+                <Item>CustomerID</Item>
+                <Item>CustomerName</Item>
+                <Item>From</Item>
+                <Item>Subject</Item>
+            </Array>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###ClosedTickets" Required="0" Valid="1">

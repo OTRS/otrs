@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1005 2009-09-21 16:25:41 ub Exp $
+# $Id: CHANGES,v 1.1006 2009-09-22 09:36:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/09/22) Fixed bug#1027 - ticket csv export in customer interface incomplete.
  - (2009/09/21) Fixed bug#4218 - No error message when sending mail through not
     installed sendmail.
  - (2009/09/21) Fixed bug#4312 - MOTD module for Agent Dashboard, thanks to

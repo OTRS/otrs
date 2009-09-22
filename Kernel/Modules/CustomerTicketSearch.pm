@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.37 2009-02-16 11:20:53 tr Exp $
+# $Id: CustomerTicketSearch.pm,v 1.38 2009-09-22 09:36:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +19,10 @@ use Kernel::System::User;
 use Kernel::System::Priority;
 use Kernel::System::State;
 use Kernel::System::SearchProfile;
+use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,6 +42,7 @@ sub new {
     $Self->{PriorityObject}      = Kernel::System::Priority->new(%Param);
     $Self->{StateObject}         = Kernel::System::State->new(%Param);
     $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
+    $Self->{CSVObject}           = Kernel::System::CSV->new(%Param);
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
@@ -192,7 +194,7 @@ sub Run {
     if ( !$GetParam{ResultForm} ) {
         $GetParam{ResultForm} = '';
     }
-    if ( $GetParam{ResultForm} eq 'Print' || $GetParam{ResultForm} eq 'CSV' ) {
+    if ( $GetParam{ResultForm} eq 'Print' ) {
         $Self->{SearchPageShown} = $Self->{SearchLimit};
     }
 
@@ -369,8 +371,7 @@ sub Run {
         }
 
         # perform ticket search
-        my $Counter     = 0;
-        my @ViewableIDs = $Self->{TicketObject}->TicketSearch(
+        my @ViewableTicketIDs = $Self->{TicketObject}->TicketSearch(
             Result          => 'ARRAY',
             SortBy          => $Self->{SortBy},
             OrderBy         => $Self->{Order},
@@ -380,29 +381,27 @@ sub Run {
             FullTextIndex   => 1,
             %GetParam,
         );
-        for (@ViewableIDs) {
-            $Counter++;
 
-            # build search result
-            if (
-                $Counter >= $Self->{StartHit}
-                && $Counter < ( $Self->{SearchPageShown} + $Self->{StartHit} )
-                )
-            {
+        # CSV output
+        if ( $GetParam{ResultForm} eq 'CSV' ) {
+            my @CSVHead = ();
+            my @CSVData = ();
+
+            for (@ViewableTicketIDs) {
 
                 # get first article data
-                my %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                my %Data = $Self->{TicketObject}->ArticleFirstArticle(
                     TicketID => $_,
                     Extended => 1,
                 );
 
+                $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+
                 # get whole article (if configured!)
-                if (
-                    $Self->{ConfigObject}->Get('CustomerSearchArticleTreeCSV')
-                    && $GetParam{ResultForm} eq 'CSV'
-                    )
-                {
-                    my @Article = $Self->{TicketObject}->ArticleGet( TicketID => $_ );
+                if ( $Self->{Config}->{SearchArticleCSVTree} && $GetParam{ResultForm} eq 'CSV' ) {
+                    my @Article = $Self->{TicketObject}->ArticleGet(
+                        TicketID => $_,
+                    );
                     for my $Articles (@Article) {
                         if ( $Articles->{Body} ) {
                             $Data{ArticleTree}
@@ -413,6 +412,67 @@ sub Run {
                         }
                     }
                 }
+
+                # customer info (customer name)
+                if ( $Data{CustomerUserID} ) {
+                    $Data{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+                        UserLogin => $Data{CustomerUserID},
+                    );
+                }
+
+                # user info
+                my %UserInfo = $Self->{UserObject}->GetUserData(
+                    User   => $Data{Owner},
+                    Cached => 1,
+                );
+
+                # merge row data
+                my %Info = (
+                    %Data,
+                    %UserInfo,
+                    AccountedTime =>
+                        $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $_ ),
+                );
+
+                # csv quote
+                if ( !@CSVHead ) {
+                    @CSVHead = @{ $Self->{Config}->{SearchCSVData} };
+                }
+                my @Data = ();
+                for (@CSVHead) {
+                    push @Data, $Info{$_};
+                }
+                push @CSVData, \@Data;
+            }
+
+            my $CSV = $Self->{CSVObject}->Array2CSV(
+                Head => \@CSVHead,
+                Data => \@CSVData,
+            );
+
+            # return csv to download
+            my $CSVFile = 'ticket_search';
+            my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->SystemTime(),
+            );
+            $M = sprintf( "%02d", $M );
+            $D = sprintf( "%02d", $D );
+            $h = sprintf( "%02d", $h );
+            $m = sprintf( "%02d", $m );
+            return $Self->{LayoutObject}->Attachment(
+                Filename    => $CSVFile . "_" . "$Y-$M-$D" . "_" . "$h-$m.csv",
+                ContentType => "text/csv; charset=" . $Self->{LayoutObject}->{UserCharset},
+                Content     => $CSV,
+            );
+        }
+        elsif ( $GetParam{ResultForm} eq 'Print' ) {
+            for (@ViewableTicketIDs) {
+
+                # get first article data
+                my %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                    TicketID => $_,
+                    Extended => 1,
+                );
 
                 # customer info
                 my %CustomerData = ();
@@ -440,43 +500,111 @@ sub Run {
                     Cached => 1
                 );
 
-                # generate ticket result
-                if ( $GetParam{ResultForm} eq 'CSV' ) {
+                # Condense down the subject
+                my $Subject = $Self->{TicketObject}->TicketSubjectClean(
+                    TicketNumber => $Data{TicketNumber},
+                    Subject => $Data{Subject} || '',
+                );
+                $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
 
-                    # csv quote
-                    for ( keys %Data ) {
-                        $Data{$_} =~ s/"/""/g if ( $Data{$_} );
-                    }
-                    $Param{StatusTable} .= $Self->MaskCSVResult(
-                        %Data, %UserInfo,
-                        AccountedTime =>
-                            $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $_ ),
-                    ) . "\n";
+                # customer info string
+                if ( $Data{CustomerName} ) {
+                    $Data{CustomerName} = '(' . $Data{CustomerName} . ')';
                 }
-                else {
 
-                    # Condense down the subject
-                    my $Subject = $Self->{TicketObject}->TicketSubjectClean(
-                        TicketNumber => $Data{TicketNumber},
-                        Subject => $Data{Subject} || '',
-                    );
-                    $Data{Age}
-                        = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+                # add blocks to template
+                $Self->{LayoutObject}->Block(
+                    Name => 'Record',
+                    Data => {
+                        %Data,
+                        Subject => $Subject,
+                        %UserInfo,
+                    },
+                );
 
-                    # customer info string
-                    $Data{CustomerName} = '(' . $Data{CustomerName} . ')'
-                        if ( $Data{CustomerName} );
+            }
+            my $Output = $Self->{LayoutObject}->PrintHeader( Width => 800 );
+            if ( @ViewableTicketIDs == $Self->{SearchLimit} ) {
+                $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'
+                    . $Self->{SearchLimit} . '"}';
+            }
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'CustomerTicketSearchResultPrint',
+                Data         => \%Param,
+            );
 
-                    # add blocks to template
-                    $Self->{LayoutObject}->Block(
-                        Name => 'Record',
-                        Data => {
-                            %Data,
-                            Subject => $Subject,
-                            %UserInfo,
-                        },
+            # add footer
+            $Output .= $Self->{LayoutObject}->PrintFooter();
+
+            # return output
+            return $Output;
+
+        }
+
+        my $Counter = 0;
+        for (@ViewableTicketIDs) {
+            $Counter++;
+
+            # build search result
+            if (
+                $Counter >= $Self->{StartHit}
+                && $Counter < ( $Self->{SearchPageShown} + $Self->{StartHit} )
+                )
+            {
+
+                # get first article data
+                my %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                    TicketID => $_,
+                    Extended => 1,
+                );
+
+                # customer info
+                my %CustomerData = ();
+                if ( $Data{CustomerUserID} ) {
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        User => $Data{CustomerUserID},
                     );
                 }
+                elsif ( $Data{CustomerID} ) {
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        CustomerID => $Data{CustomerID},
+                    );
+                }
+
+                # customer info (customer name)
+                if ( $CustomerData{UserLogin} ) {
+                    $Data{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+                        UserLogin => $CustomerData{UserLogin},
+                    );
+                }
+
+                # user info
+                my %UserInfo = $Self->{UserObject}->GetUserData(
+                    User   => $Data{Owner},
+                    Cached => 1
+                );
+
+                # Condense down the subject
+                my $Subject = $Self->{TicketObject}->TicketSubjectClean(
+                    TicketNumber => $Data{TicketNumber},
+                    Subject => $Data{Subject} || '',
+                );
+                $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+
+                # customer info string
+                if ( $Data{CustomerName} ) {
+                    $Data{CustomerName} = '(' . $Data{CustomerName} . ')';
+                }
+
+                # add blocks to template
+                $Self->{LayoutObject}->Block(
+                    Name => 'Record',
+                    Data => {
+                        %Data,
+                        Subject => $Subject,
+                        %UserInfo,
+                    },
+                );
             }
         }
 
@@ -495,43 +623,10 @@ sub Run {
                 "Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&",
         );
 
-        # build shown ticket
-        if ( $GetParam{ResultForm} eq 'Print' ) {
-            $Output = $Self->{LayoutObject}->PrintHeader( Width => 800 );
-            if ( @ViewableIDs == $Self->{SearchLimit} ) {
-                $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'
-                    . $Self->{SearchLimit} . '"}';
-            }
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'CustomerTicketSearchResultPrint',
-                Data         => \%Param,
-            );
-
-            # add footer
-            $Output .= $Self->{LayoutObject}->PrintFooter();
-
-            # return output
-            return $Output;
-        }
-        elsif ( $GetParam{ResultForm} eq 'CSV' ) {
-
-            # return csv to download
-            my $CSVFile = 'search';
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
-                SystemTime => $Self->{TimeObject}->SystemTime(),
-            );
-            return $Self->{LayoutObject}->Attachment(
-                Filename    => $CSVFile . '_' . "$Year-$Month-$Day" . '_' . "$Hour-$Min.csv",
-                ContentType => "text/csv",
-                Content     => $Param{StatusTable},
-            );
-        }
-        else {
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'CustomerTicketSearchResultShort',
-                Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
-            );
-        }
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'CustomerTicketSearchResultShort',
+            Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
+        );
 
         # build footer
         $Output .= $Self->{LayoutObject}->CustomerFooter();
@@ -591,7 +686,7 @@ sub Run {
 sub MaskForm {
     my ( $Self, %Param ) = @_;
 
-    $Param{'ResultFormStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ResultFormStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             Normal => 'Normal',
             Print  => 'Print',
@@ -600,7 +695,7 @@ sub MaskForm {
         Name => 'ResultForm',
         SelectedID => $Param{ResultForm} || 'Normal',
     );
-    $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{StatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             $Self->{StateObject}->StateList(
                 UserID => $Self->{UserID},
@@ -612,16 +707,16 @@ sub MaskForm {
         Size               => 5,
         SelectedIDRefArray => $Param{StateIDs},
     );
-    $Param{'StateTypeStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{StateTypeStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-            'Open'   => 'open',
-            'Closed' => 'closed',
+            Open   => 'open',
+            Closed => 'closed',
         },
         Name       => 'StateType',
         Size       => 5,
         SelectedID => $Param{StateType},
     );
-    $Param{'PrioritiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{PrioritiesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             $Self->{PriorityObject}->PriorityList(
                 UserID => $Self->{UserID},
@@ -633,7 +728,7 @@ sub MaskForm {
         Size               => 5,
         SelectedIDRefArray => $Param{PriorityIDs},
     );
-    $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{TicketCreateTimePoint} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             1  => ' 1',
             2  => ' 2',
@@ -698,15 +793,15 @@ sub MaskForm {
         Name       => 'TicketCreateTimePoint',
         SelectedID => $Param{TicketCreateTimePoint},
     );
-    $Param{'TicketCreateTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{TicketCreateTimePointStart} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-            'Last'   => 'last',
-            'Before' => 'before',
+            Last   => 'last',
+            Before => 'before',
         },
         Name => 'TicketCreateTimePointStart',
         SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
     );
-    $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             minute => 'minute(s)',
             hour   => 'hour(s)',
