@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1010 2009-09-22 13:04:23 mg Exp $
+# $Id: CHANGES,v 1.1011 2009-09-22 15:03:10 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,9 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
- - (2009/09/21) Fixed bug#4029 - S/MIME activation with misunderandable message/incomplete documentation.
+ - (2009/09/21) Fixed bug#2087 - AgentTicketMove does not consider responsible feature.
+ - (2009/09/21) Fixed bug#4029 - S/MIME activation with misunderandable
+    message/incomplete documentation.
  - (2009/09/21) Fixed bug#3408 - Richtext editor - editor windows is way to small.
  - (2009/09/21) Fixed bug#4188 - Moving junk mails unnecessarily need subject and body.
  - (2009/09/21) Fixed bug#4189 - RTE off inserts a blank line in the text editor field.
