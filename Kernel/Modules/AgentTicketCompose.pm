@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.81 2009-09-08 09:04:27 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.82 2009-09-22 17:16:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -159,13 +159,11 @@ sub Run {
     }
 
     # get ticket free text params
-    for ( 1 .. 16 ) {
-        $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam(
-            Param => "TicketFreeKey$_",
-        );
-        $GetParam{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam(
-            Param => "TicketFreeText$_",
-        );
+    for my $Count ( 1 .. 16 ) {
+        my $Key  = 'TicketFreeKey' . $Count;
+        my $Text = 'TicketFreeText' . $Count;
+        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
     }
 
     # get ticket free time params
@@ -181,11 +179,11 @@ sub Run {
     }
 
     # get article free text params
-    for ( 1 .. 3 ) {
-        $GetParam{"ArticleFreeKey$_"}
-            = $Self->{ParamObject}->GetParam( Param => "ArticleFreeKey$_" );
-        $GetParam{"ArticleFreeText$_"}
-            = $Self->{ParamObject}->GetParam( Param => "ArticleFreeText$_" );
+    for my $Count ( 1 .. 3 ) {
+        my $Key  = 'ArticleFreeKey' . $Count;
+        my $Text = 'ArticleFreeText' . $Count;
+        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
     }
 
     # send email
@@ -202,19 +200,22 @@ sub Run {
 
         # check required FreeTextField (if configured)
         for ( 1 .. 16 ) {
-            if ( $Self->{Config}{'TicketFreeText'}{$_} == 2 && $GetParam{"TicketFreeText$_"} eq '' )
+            if (
+                $Self->{Config}->{TicketFreeText}->{$_} == 2
+                && $GetParam{"TicketFreeText$_"} eq ''
+                )
             {
                 $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
             }
         }
 
         # attachment delete
-        for ( 1 .. 16 ) {
-            if ( $GetParam{"AttachmentDelete$_"} ) {
+        for my $Count ( 1 .. 16 ) {
+            if ( $GetParam{"AttachmentDelete$Count"} ) {
                 $Error{AttachmentDelete} = 1;
                 $Self->{UploadCachObject}->FormIDRemoveFile(
                     FormID => $Self->{FormID},
-                    FileID => $_,
+                    FileID => $Count,
                 );
             }
         }
@@ -295,16 +296,18 @@ sub Run {
 
             # get free text config options
             my %TicketFreeText = ();
-            for ( 1 .. 16 ) {
-                $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+            for my $Count ( 1 .. 16 ) {
+                my $Key  = 'TicketFreeKey' . $Count;
+                my $Text = 'TicketFreeText' . $Count;
+                $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
-                    Type     => "TicketFreeKey$_",
+                    Type     => $Key,
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
-                $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                $TicketFreeText{$Text} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
-                    Type     => "TicketFreeText$_",
+                    Type     => $Text,
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
@@ -322,16 +325,18 @@ sub Run {
 
             # article free text
             my %ArticleFreeText = ();
-            for ( 1 .. 3 ) {
-                $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
+            for my $Count ( 1 .. 3 ) {
+                my $Key  = 'ArticleFreeKey' . $Count;
+                my $Text = 'ArticleFreeText' . $Count;
+                $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
                     TicketID => $Self->{TicketID},
-                    Type     => "ArticleFreeKey$_",
+                    Type     => $Key,
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
-                $ArticleFreeText{"ArticleFreeText$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
+                $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
                     TicketID => $Self->{TicketID},
-                    Type     => "ArticleFreeText$_",
+                    Type     => $Text,
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
@@ -448,12 +453,14 @@ sub Run {
         }
 
         # set ticket free text
-        for ( 1 .. 16 ) {
-            if ( defined $GetParam{"TicketFreeKey$_"} ) {
+        for my $Count ( 1 .. 16 ) {
+            my $Key  = 'TicketFreeKey' . $Count;
+            my $Text = 'TicketFreeText' . $Count;
+            if ( defined $GetParam{$Key} ) {
                 $Self->{TicketObject}->TicketFreeTextSet(
-                    Key      => $GetParam{"TicketFreeKey$_"},
-                    Value    => $GetParam{"TicketFreeText$_"},
-                    Counter  => $_,
+                    Key      => $GetParam{$Key},
+                    Value    => $GetParam{$Text},
+                    Counter  => $Count,
                     TicketID => $Self->{TicketID},
                     UserID   => $Self->{UserID},
                 );
@@ -495,14 +502,16 @@ sub Run {
         }
 
         # set article free text
-        for ( 1 .. 3 ) {
-            if ( defined $GetParam{"ArticleFreeKey$_"} ) {
+        for my $Count ( 1 .. 3 ) {
+            my $Key  = 'ArticleFreeKey' . $Count;
+            my $Text = 'ArticleFreeText' . $Count;
+            if ( defined $GetParam{$Key} ) {
                 $Self->{TicketObject}->ArticleFreeTextSet(
                     TicketID  => $Self->{TicketID},
                     ArticleID => $ArticleID,
-                    Key       => $GetParam{"ArticleFreeKey$_"},
-                    Value     => $GetParam{"ArticleFreeText$_"},
-                    Counter   => $_,
+                    Key       => $GetParam{$Key},
+                    Value     => $GetParam{$Text},
+                    Counter   => $Count,
                     UserID    => $Self->{UserID},
                 );
             }
@@ -868,16 +877,18 @@ $QData{"Signature"}
 
         # get free text config options
         my %TicketFreeText = ();
-        for ( 1 .. 16 ) {
-            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+        for my $Count ( 1 .. 16 ) {
+            my $Key  = 'TicketFreeKey' . $Count;
+            my $Text = 'TicketFreeText' . $Count;
+            $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "TicketFreeKey$_",
+                Type     => $Key,
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
-            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+            $TicketFreeText{$Text} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "TicketFreeText$_",
+                Type     => $Text,
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
@@ -916,25 +927,38 @@ $QData{"Signature"}
             Ticket => \%TicketFreeTime,
         );
 
+        # get article free text default selections
+        my %ArticleFreeDefault = ();
+        for my $Count ( 1 .. 3 ) {
+            my $Key  = 'ArticleFreeKey' . $Count;
+            my $Text = 'ArticleFreeText' . $Count;
+            $ArticleFreeDefault{$Key} = $GetParam{$Key}
+                || $Self->{ConfigObject}->Get( $Key . '::DefaultSelection' );
+            $ArticleFreeDefault{$Text} = $GetParam{$Text}
+                || $Self->{ConfigObject}->Get( $Text . '::DefaultSelection' );
+        }
+
         # article free text
         my %ArticleFreeText = ();
-        for ( 1 .. 3 ) {
-            $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
+        for my $Count ( 1 .. 3 ) {
+            my $Key  = 'ArticleFreeKey' . $Count;
+            my $Text = 'ArticleFreeText' . $Count;
+            $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "ArticleFreeKey$_",
+                Type     => $Key,
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
-            $ArticleFreeText{"ArticleFreeText$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
+            $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "ArticleFreeText$_",
+                Type     => $Text,
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
-            Config  => \%ArticleFreeText,
-            Article => \%GetParam,
+            Config => \%ArticleFreeText,
+            Article => { %GetParam, %ArticleFreeDefault, },
         );
 
         # build view ...
@@ -1054,7 +1078,7 @@ sub _Mask {
 
     # ticket free text
     for my $Count ( 1 .. 16 ) {
-        if ( $Self->{Config}->{'TicketFreeText'}->{$Count} ) {
+        if ( $Self->{Config}->{TicketFreeText}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeText',
                 Data => {
@@ -1071,7 +1095,7 @@ sub _Mask {
         }
     }
     for my $Count ( 1 .. 6 ) {
-        if ( $Self->{Config}->{'TicketFreeTime'}->{$Count} ) {
+        if ( $Self->{Config}->{TicketFreeTime}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTime',
                 Data => {
@@ -1089,7 +1113,7 @@ sub _Mask {
 
     # article free text
     for my $Count ( 1 .. 3 ) {
-        if ( $Self->{Config}->{'ArticleFreeText'}->{$Count} ) {
+        if ( $Self->{Config}->{ArticleFreeText}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleFreeText',
                 Data => {
@@ -1138,10 +1162,10 @@ sub _Mask {
     }
 
     # show attachments
-    for my $DataRef ( @{ $Param{Attachments} } ) {
+    for my $Attachment ( @{ $Param{Attachments} } ) {
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
-            Data => $DataRef,
+            Data => $Attachment,
         );
     }
 
