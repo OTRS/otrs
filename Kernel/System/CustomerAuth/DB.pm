@@ -1,8 +1,8 @@
 # --
-# Kernel/System/CustomerAuth/DB.pm - provides the db authentification
+# Kernel/System/CustomerAuth/DB.pm - provides the db authentication
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.28 2009-07-01 20:36:44 martin Exp $
+# $Id: DB.pm,v 1.29 2009-09-22 15:16:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -184,7 +184,7 @@ sub Auth {
     if ( $Self->{Debug} > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "CustomerUser: '$User' tried to authentificate with Pw: '$Pw' "
+            Message  => "CustomerUser: '$User' tried to authenticate with Pw: '$Pw' "
                 . "($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
         );
     }
@@ -194,7 +194,7 @@ sub Auth {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message =>
-                "CustomerUser: $User authentification without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
+                "CustomerUser: $User authentication without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
         return;
     }
@@ -203,7 +203,7 @@ sub Auth {
     elsif ( ( $GetPw && $User && $UserID ) && $CryptedPw eq $GetPw ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "CustomerUser: $User authentification ok (REMOTE_ADDR: $RemoteAddr).",
+            Message  => "CustomerUser: $User Authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
         return $User;
     }
@@ -213,7 +213,7 @@ sub Auth {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message =>
-                "CustomerUser: $User authentification with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+                "CustomerUser: $User Authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }

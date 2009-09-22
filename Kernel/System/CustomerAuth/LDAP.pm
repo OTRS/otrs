@@ -1,8 +1,8 @@
 # --
-# Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
+# Kernel/System/CustomerAuth/LDAP.pm - provides the ldap Authentication
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.33 2009-04-23 15:21:13 tt Exp $
+# $Id: LDAP.pm,v 1.34 2009-09-22 15:16:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -165,7 +165,7 @@ sub Auth {
     if ( $Self->{Debug} > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "CustomerUser: '$Param{User}' tried to authentificate with Pw: '$Param{Pw}' "
+            Message  => "CustomerUser: '$Param{User}' tried to authenticate with Pw: '$Param{Pw}' "
                 . "(REMOTE_ADDR: $RemoteAddr)",
         );
     }
@@ -237,7 +237,7 @@ sub Auth {
         # failed login note
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "CustomerUser: $Param{User} authentification failed, no LDAP entry found!"
+            Message  => "CustomerUser: $Param{User} Authentication failed, no LDAP entry found!"
                 . "BaseDN='$Self->{BaseDN}', Filter='$Filter', (REMOTE_ADDR: $RemoteAddr).",
         );
 
@@ -300,7 +300,7 @@ sub Auth {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message =>
-                    "CustomerUser: $Param{User} authentification failed, no LDAP group entry found"
+                    "CustomerUser: $Param{User} Authentication failed, no LDAP group entry found"
                     . "GroupDN='$Self->{GroupDN}', Filter='$Filter2'! (REMOTE_ADDR: $RemoteAddr).",
             );
 
@@ -318,7 +318,7 @@ sub Auth {
         # failed login note
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "CustomerUser: $Param{User} ($UserDN) authentification failed: '"
+            Message  => "CustomerUser: $Param{User} ($UserDN) Authentication failed: '"
                 . $Result->error . "' (REMOTE_ADDR: $RemoteAddr).",
         );
 
@@ -332,7 +332,7 @@ sub Auth {
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message =>
-            "CustomerUser: $Param{User} ($UserDN) authentification ok (REMOTE_ADDR: $RemoteAddr).",
+            "CustomerUser: $Param{User} ($UserDN) Authentication ok (REMOTE_ADDR: $RemoteAddr).",
     );
 
     # take down session
