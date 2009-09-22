@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.75 2009-09-08 17:02:49 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.76 2009-09-22 15:42:59 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -541,6 +541,9 @@ sub MaskAgentZoom {
         if ( !$RichText || !$Article{AttachmentIDOfHTMLBody} ) {
             $ViewMode = 'BodyPlain';
 
+            # remember plain body for further processing by ArticleViewModules
+            $Article{BodyPlain} = $Article{Body};
+
             # html quoting
             $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
                 NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
@@ -561,6 +564,11 @@ sub MaskAgentZoom {
             Name => $ViewMode,
             Data => \%Article,
         );
+
+        # restore plain body for further processing by ArticleViewModules
+        if ( !$RichText || !$Article{AttachmentIDOfHTMLBody} ) {
+            $Article{Body} = $Article{BodyPlain};
+        }
 
         # show article tree
         if ( $Count == 1 ) {
