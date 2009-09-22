@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.993.2.5 2009-09-22 09:39:21 mg Exp $
+# $Id: CHANGES,v 1.993.2.6 2009-09-22 09:55:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.5 (2009/??/??)
+ - (2009/09/21) Fixed bug#4188 - Moving junk mails unnecessarily need subject and body.
  - (2009/09/21) Fixed bug#4189 - RTE off inserts a blank line in the text editor field.
  - (2009/09/21) Fixed bug#4080 - Rich editors javascript overrides onload function.
  - (2009/09/21) Fixed bug#3818 - Customer History - Small/Medium/Preview does
