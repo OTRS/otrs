@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1014 2009-09-22 17:16:16 martin Exp $
+# $Id: CHANGES,v 1.1015 2009-09-22 18:06:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/09/22) Fixed bug#1774 - Updated documentation in AdminQueue.dtl.
  - (2009/09/22) Fixed bug#4100 - ArticleFreeText Default Value not working.
  - (2009/09/22) Fixed bug#1027 - Ticket csv export in customer interface incomplete.
  - (2009/09/21) Fixed bug#4218 - No error message when sending mail through not
