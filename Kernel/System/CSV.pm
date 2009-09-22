@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.21 2009-04-17 08:36:44 tr Exp $
+# $Id: CSV.pm,v 1.22 2009-09-22 09:28:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Text::CSV;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -80,6 +80,8 @@ Returns a csv formatted string based on a array with head data.
             [1,9],
             [34,4],
         ],
+        Separator => ';', # optional separator (default is ;)
+        Quote     => '"', # optional quote (default is ")
     );
 
 =cut
@@ -87,16 +89,16 @@ Returns a csv formatted string based on a array with head data.
 sub Array2CSV {
     my ( $Self, %Param ) = @_;
 
-    my @Head = ();
-    my @Data = ( ['##No Data##'] );
-
     # check required params
     for (qw(Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => "error", Message => "Got no $_ param!" );
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Got no $_ param!" );
             return;
         }
     }
+
+    my @Head = ();
+    my @Data = ( ['##No Data##'] );
     if ( $Param{Head} ) {
         @Head = @{ $Param{Head} };
     }
@@ -104,12 +106,22 @@ sub Array2CSV {
         @Data = @{ $Param{Data} };
     }
 
+    # get separator
+    if ( !defined $Param{Separator} || $Param{Separator} eq '' ) {
+        $Param{Separator} = ';';
+    }
+
+    # get separator
+    if ( !defined $Param{Quote} ) {
+        $Param{Quote} = '"';
+    }
+
     # create new csv backen object
     my $CSV = Text::CSV->new(
         {
-            quote_char          => '"',
-            escape_char         => '"',
-            sep_char            => ';',
+            quote_char          => $Param{Quote},
+            escape_char         => $Param{Quote},
+            sep_char            => $Param{Separator},
             eol                 => '',
             always_quote        => 1,
             binary              => 1,
@@ -137,8 +149,8 @@ sub Array2CSV {
         }
         else {
             $Self->{LogObject}->Log(
-                Priority => "error",
-                Message  => "Failed to build line: " . $CSV->error_input(),
+                Priority => 'error',
+                Message  => 'Failed to build line: ' . $CSV->error_input(),
             );
         }
     }
@@ -150,9 +162,9 @@ sub Array2CSV {
 Returns an array with parsed csv data.
 
     my $RefArray = $CSVObject->CSV2Array(
-        String => $CSVString,
+        String    => $CSVString,
         Separator => ';', # optional separator (default is ;)
-        Quote => '"',     # optional quote (default is ")
+        Quote     => '"', # optional quote (default is ")
     );
 
 =cut
@@ -160,15 +172,13 @@ Returns an array with parsed csv data.
 sub CSV2Array {
     my ( $Self, %Param ) = @_;
 
-    my @Array = ();
-
     # get separator
-    if ( !defined( $Param{Separator} ) || $Param{Separator} eq '' ) {
+    if ( !defined $Param{Separator} || $Param{Separator} eq '' ) {
         $Param{Separator} = ';';
     }
 
     # get separator
-    if ( !defined( $Param{Quote} ) ) {
+    if ( !defined $Param{Quote} ) {
         $Param{Quote} = '"';
     }
 
@@ -194,16 +204,17 @@ sub CSV2Array {
     $Param{String} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
 
     # if you change the split options, remember that each value can include \n
-    my @Lines = split( /$Param{Quote}\n/, $Param{String} );
+    my @Array;
+    my @Lines = split /$Param{Quote}\n/, $Param{String};
     for my $Line (@Lines) {
         if ( $CSV->parse( $Line . $Param{Quote} ) ) {
             my @Fields = $CSV->fields();
-            push( @Array, \@Fields );
+            push @Array, \@Fields;
         }
         else {
             $Self->{LogObject}->Log(
-                Priority => "error",
-                Message  => "Failed to parse line: " . $CSV->error_input(),
+                Priority => 'error',
+                Message  => 'Failed to parse line: ' . $CSV->error_input(),
             );
         }
     }
@@ -225,6 +236,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.22 $ $Date: 2009-09-22 09:28:31 $
 
 =cut
