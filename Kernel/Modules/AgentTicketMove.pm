@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.37 2009-08-25 14:34:17 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.37.2.1 2009-09-22 14:54:24 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.37.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,10 +76,12 @@ sub Run {
 
     # check if ticket is locked
     if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
+
         my $AccessOk = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
             OwnerID  => $Self->{UserID},
         );
+
         if ( !$AccessOk ) {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->Warning(
@@ -366,16 +368,14 @@ sub Run {
             );
 
             # set lock
-            if (
-                $Self->{TicketObject}->LockSet(
-                    TicketID => $Self->{TicketID},
-                    Lock     => 'lock',
-                    UserID   => $Self->{UserID}
-                )
-                )
-            {
+            my $Success = $Self->{TicketObject}->LockSet(
+                TicketID => $Self->{TicketID},
+                Lock     => 'lock',
+                UserID   => $Self->{UserID}
+            );
 
-                # show lock state
+            # show lock state
+            if ($Success) {
                 $Self->{LayoutObject}->Block(
                     Name => 'PropertiesLock',
                     Data => { %Param, TicketID => $Self->{TicketID} },
@@ -384,12 +384,13 @@ sub Run {
             }
         }
         else {
-            my ( $OwnerID, $OwnerLogin ) = $Self->{TicketObject}->OwnerCheck(
+            my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                 TicketID => $Self->{TicketID},
+                OwnerID  => $Self->{UserID},
             );
-            if ( $OwnerID != $Self->{UserID} ) {
+            if ( !$AccessOk ) {
                 $Output .= $Self->{LayoutObject}->Warning(
-                    Message => "Sorry, the current owner is $OwnerLogin!",
+                    Message => "Sorry, you need to be the owner to do this action!",
                     Comment => 'Please change the owner first.',
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
