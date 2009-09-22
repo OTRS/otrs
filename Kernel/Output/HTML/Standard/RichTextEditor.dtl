@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.21 2009-09-22 09:40:08 mg Exp $
+# $Id: RichTextEditor.dtl,v 1.22 2009-09-22 11:41:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,8 +23,8 @@ function RichTextFocus() {
 
 function InitRichText() {
     var oFCKeditor = new FCKeditor( 'RichText' );
-    oFCKeditor.Height                             = 320;
-    oFCKeditor.Width                              = 620;
+    oFCKeditor.Height                             = '$Config{"Frontend::RichTextHeight"}' || 320;
+    oFCKeditor.Width                              = '$Config{"Frontend::RichTextWidth"}' || 620;
     oFCKeditor.BasePath                           = '$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/';
     oFCKeditor.Config["ForcePasteAsPlainText"]    = false;
     oFCKeditor.Config["EditorAreaStyles"]         = 'body { $Config{"Frontend::RichText::DefaultCSS"} }';
