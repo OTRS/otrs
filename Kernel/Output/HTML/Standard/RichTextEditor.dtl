@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.23 2009-09-22 15:21:22 mg Exp $
+# $Id: RichTextEditor.dtl,v 1.24 2009-09-23 09:21:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,12 +13,28 @@
 <script src="$Config{"Frontend::JavaScriptPath"}fckeditor-2.6.4.1/fckeditor.js"></script>
 
 <script type="text/javascript">
+// update body with current rich text content
 function RichTextUpdateLinkedField() {
     FCKeditorAPI.GetInstance('RichText').UpdateLinkedField();
 }
 
+// set focus to rich text editor
 function RichTextFocus() {
     FCKeditorAPI.GetInstance('RichText').Focus();
+}
+
+// cleanup real body
+// If the body only contains whitespace or html tags but no text,
+// reset it to ''. This is needed for the frontend and backend
+// content checks to work properly.
+function RichTextCleanup() {
+    var Elem = document.getElementById('RichText');
+    if (Elem) {
+        var StrippedContent = Elem.value.replace(/\s+|&nbsp;|<\/?\w+\s?\/?>/g, '');
+        if (StrippedContent.length == 0) {
+            Elem.value = '';
+        }
+    }
 }
 
 function InitRichText() {
@@ -36,9 +52,13 @@ function InitRichText() {
     oFCKeditor.Config["SpellChecker"]             = 'SpellerPages';
     oFCKeditor.Config["SpellerPagesServerScript"] = '$Env{"Baselink"}';
     oFCKeditor.Config["FontSizes"]                = '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;';
+    oFCKeditor.Config["EnterMode"]                = 'br';
+    oFCKeditor.Config["ShiftEnterMode"]           = 'br';
+
     if ( '$Env{"TextDirection"}' ) {
         oFCKeditor.Config["ContentLangDirection"] = '$Env{"TextDirection"}';
     }
+
     var ToolbarSet = '';
     if ( document.compose && document.compose.FormID ) {
         oFCKeditor.Config["Action"] = 'PictureUpload';
@@ -68,14 +88,19 @@ window.onload = function() {
     InitRichText();
 }
 
-// workaround for http://dev.fckeditor.net/ticket/3053
-// see also http://www.fckeditor.net/forums/viewtopic.php?f=6&t=13222
 function FCKeditor_OnComplete( editorInstance ) {
+    // workaround for http://dev.fckeditor.net/ticket/3053
+    // see also http://www.fckeditor.net/forums/viewtopic.php?f=6&t=13222
     var fck_iframe = document.getElementById('RichText___Frame');
     if ( fck_iframe && fck_iframe.contentDocument ) {
         var fck_editing_area = fck_iframe.contentDocument.getElementById('xEditingArea');
         fck_editing_area.style.height = '100.1%';
-        setTimeout( function() { fck_editing_area.style.height = '100%' }, 100 );
+        setTimeout( function() {
+            fck_editing_area.style.height = '100%'
+        }, 100 );
     }
+
+    // cleanup hidden body field after update with content of rich text
+    editorInstance.Events.AttachEvent( 'OnAfterLinkedFieldUpdate', RichTextCleanup );
 }
 </script>
