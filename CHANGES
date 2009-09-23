@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1015 2009-09-22 18:06:13 mb Exp $
+# $Id: CHANGES,v 1.1016 2009-09-23 08:01:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,6 +26,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
+ - (2009/09/22) Fixed bug# 4262 - Encoding issue with Event-based notifications.
  - (2009/09/22) Fixed bug# 1420 - $Text{"User"} instead of $Text{"Username"} in
     AdminUserForm.dtl
  - (2009/09/22) Ensured that plain article body is used for ArticleViewModules

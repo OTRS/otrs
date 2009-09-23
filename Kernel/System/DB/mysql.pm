@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.49 2009-02-16 11:48:19 tr Exp $
+# $Id: mysql.pm,v 1.50 2009-09-23 08:01:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,8 +38,12 @@ sub LoadPreferences {
     $Self->{'DB::QuoteSemicolon'}     = '\\';
     $Self->{'DB::NoLowerInLargeText'} = 0;
 
-    # dbi attributes
-    $Self->{'DB::Attribute'} = {};
+    # DBI/DBD::mysql attributes
+    # disable automatic reconnects as they do not execute DB::Connect, which will
+    # cause charset problems
+    $Self->{'DB::Attribute'} = {
+        mysql_auto_reconnect => 0,
+    };
 
     # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = '';
