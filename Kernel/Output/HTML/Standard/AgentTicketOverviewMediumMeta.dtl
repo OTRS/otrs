@@ -2,7 +2,7 @@
 # AgentTicketOverviewMediumMeta.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMediumMeta.dtl,v 1.15 2009-07-01 19:18:21 martin Exp $
+# $Id: AgentTicketOverviewMediumMeta.dtl,v 1.15.2.1 2009-09-23 09:20:57 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,22 +85,21 @@ function select_item_check () {
 
 <!-- dtl:block:TicketFooter -->
 <form name="bulk">
-  <input type="hidden" name="TicketID" value=""/>
+    <input type="hidden" name="TicketID" value=""/>
 </form>
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
-  <input type="hidden" name="Action" value="AgentTicketBulk"/>
+    <input type="hidden" name="Action" value="AgentTicketBulk"/>
 <!-- dtl:block:TicketFooterBulkItem -->
-  <input type="hidden" name="TicketID" value=""/>
+    <input type="hidden" name="TicketID" value=""/>
 <!-- dtl:block:TicketFooterBulkItem -->
-  <input type="hidden" name="TicketID" value=""/>
-  <table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-      <td class="menu">
-        <input type="checkbox" name="Check" value="" onclick="select_items('TicketID')"/>
-#        <img border="0" src="$Config{"Frontend::ImagePath"}checkbox_arrow_left_up.png">
-        <input type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();">
-      </td>
-    </tr>
-  </table>
+    <input type="hidden" name="TicketID" value=""/>
+    <table border="0" width="100%" cellspacing="0" cellpadding="3">
+        <tr>
+            <td class="menu">
+                <input type="checkbox" name="Check" value="" onclick="select_items('TicketID')" autocomplete="off"/>
+                <input type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();">
+            </td>
+        </tr>
+    </table>
 </form>
 <!-- dtl:block:TicketFooter -->
