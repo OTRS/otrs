@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.177 2009-09-13 22:23:12 martin Exp $
+# $Id: Layout.pm,v 1.178 2009-09-23 08:12:11 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.177 $) [1];
+$VERSION = qw($Revision: 1.178 $) [1];
 
 =head1 NAME
 
@@ -712,10 +712,10 @@ sub Output {
     }
     {
         my $Text = $1;
-        if ( !defined $Text || $Text =~ /^","(.+)$/ ) {
+        if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
             '';
         }
-        elsif ($Text =~ /^(.+?)","(.+)$/) {
+        elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
             $Self->Ascii2Html(Text => $1, Max => $2);
         }
         else {
@@ -1038,10 +1038,10 @@ sub _Output {
                 }
                 elsif ($1 eq 'QEnv') {
                     my $Text = $2;
-                    if ( !defined $Text || $Text =~ /^","(.+)$/ ) {
+                    if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
                         '';
                     }
-                    elsif ($Text =~ /^(.+?)","(.+)$/) {
+                    elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
                         if ( defined $GlobalRef->{Env}->{$1} ) {
                             $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$1}, Max => $2);
                         }
@@ -1062,10 +1062,10 @@ sub _Output {
                 }
                 elsif ($1 eq 'QData') {
                     my $Text = $2;
-                    if ( !defined $Text || $Text =~ /^","(.+)$/ ) {
+                    if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
                         '';
                     }
-                    elsif ($Text =~ /^(.+?)","(.+)$/) {
+                    elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
                         if ( defined $GlobalRef->{Data}->{$1} ) {
                             $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$1}, Max => $2);
                         }
@@ -4361,6 +4361,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.177 $ $Date: 2009-09-13 22:23:12 $
+$Revision: 1.178 $ $Date: 2009-09-23 08:12:11 $
 
 =cut
