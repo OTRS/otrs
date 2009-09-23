@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.419 2009-09-23 09:59:30 martin Exp $
+# $Id: Ticket.pm,v 1.420 2009-09-23 21:19:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.419 $) [1];
+$VERSION = qw($Revision: 1.420 $) [1];
 
 =head1 NAME
 
@@ -123,7 +123,6 @@ sub new {
             die "Got no $_!";
         }
     }
-    print STDERR "NEW Ticket\n";
 
     # create common needed module objects
     $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
@@ -7332,8 +7331,6 @@ sub TicketAclActionData {
 sub DESTROY {
     my $Self = shift;
 
-    print STDERR "DESTORY Ticket $Self - $Self->{DBObject}\n";
-
     # execute all transaction events
     $Self->EventHandlerTransaction();
 
@@ -7354,6 +7351,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.419 $ $Date: 2009-09-23 09:59:30 $
+$Revision: 1.420 $ $Date: 2009-09-23 21:19:36 $
 
 =cut
