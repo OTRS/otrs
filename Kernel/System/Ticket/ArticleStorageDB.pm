@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.68 2009-04-06 21:25:05 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.69 2009-09-23 22:02:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -107,7 +107,7 @@ sub _ArticleDeleteDirectory {
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
     if ( -d $Path ) {
-        if ( !rmdir($Path) ) {
+        if ( !rmdir $Path ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't remove: $Path: $!!",
@@ -142,7 +142,7 @@ sub ArticleDeletePlain {
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $File = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
     if ( -f $File ) {
-        if ( !unlink($File) ) {
+        if ( !unlink $File ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't remove: $File: $!!",
@@ -203,7 +203,7 @@ sub ArticleWritePlain {
         }
     }
 
-    # encode attachemnt if it's a postgresql backend!!!
+    # encode attachment if it's a postgresql backend!!!
     if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{Email} );
         $Param{Email} = encode_base64( $Param{Email} );
@@ -255,7 +255,7 @@ sub ArticleWriteAttachment {
         no bytes;
     }
 
-    # encode attachemnt if it's a postgresql backend!!!
+    # encode attachment if it's a postgresql backend!!!
     if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
         $Param{Content} = encode_base64( $Param{Content} );
@@ -302,7 +302,7 @@ sub ArticlePlain {
     my $Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        # decode attachemnt if it's e. g. a postgresql backend!!!
+        # decode attachment if it's e. g. a postgresql backend!!!
         if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') && $Row[0] !~ / / ) {
             $Data = decode_base64( $Row[0] );
         }
@@ -525,7 +525,7 @@ sub ArticleAttachment {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ContentType} = $Row[0];
 
-        # decode attachemnt if it's e. g. a postgresql backend!!!
+        # decode attachment if it's e. g. a postgresql backend!!!
         if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
             $Data{Content} = decode_base64( $Row[1] );
         }
