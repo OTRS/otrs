@@ -2,7 +2,7 @@
 # Kernel/System/NotificationEvent.pm - notification system module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.2 2009-06-11 00:05:05 martin Exp $
+# $Id: NotificationEvent.pm,v 1.3 2009-09-23 21:13:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -240,6 +240,9 @@ sub NotificationAdd {
         return;
     }
 
+    # fix some bad stuff from some browsers (Opera)!
+    $Param{Body} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
+
     # insert data into db
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO notification_event '
@@ -310,7 +313,10 @@ sub NotificationUpdate {
         }
     }
 
-    # insert data into db
+    # fix some bad stuff from some browsers (Opera)!
+    $Param{Body} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
+
+    # update data in db
     return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE notification_event SET '
             . 'name = ?, subject = ?, text = ?, content_type = ?, charset = ?, valid_id = ?, '
@@ -436,6 +442,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2009-06-11 00:05:05 $
+$Revision: 1.3 $ $Date: 2009-09-23 21:13:40 $
 
 =cut
