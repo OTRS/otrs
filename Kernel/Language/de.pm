@@ -1,8 +1,8 @@
 # --
-# Kernel/Language/de.pm - provides de language translation
+# Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.210 2009-09-22 13:04:22 mg Exp $
+# $Id: de.pm,v 1.211 2009-09-23 15:23:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.210 $) [1];
+$VERSION = qw($Revision: 1.211 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -30,6 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
+    $Self->{Separator}           = ';';
 
     $Self->{Translation} = {
         # Template: AAABase

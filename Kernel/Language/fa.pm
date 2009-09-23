@@ -1,10 +1,10 @@
 # --
-# Kernel/Language/fa.pm - provides fa language translation
+# Kernel/Language/fa.pm - provides Persian language translation
 # Copyright (C) 2006-2009 Amir Shams Parsa <a.parsa at gmail.com>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.68 2009-09-22 13:04:23 mg Exp $
+# $Id: fa.pm,v 1.69 2009-09-23 15:24:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub Data {
     my $Self = shift;

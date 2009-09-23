@@ -2,7 +2,7 @@
 # Kernel/Language/en.pm - provides en_US languag translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: en.pm,v 1.31 2009-08-25 12:19:24 mb Exp $
+# $Id: en.pm,v 1.32 2009-09-23 15:24:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -35,6 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
+    $Self->{Separator}           = ',';
 
     # maybe nothing ... or help texts
     $Self->{Translation} = {

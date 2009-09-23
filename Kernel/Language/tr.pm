@@ -1,8 +1,8 @@
 # --
-# Kernel/Language/tr.pm - provides tr language translation
+# Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.30 2009-09-22 13:04:21 mg Exp $
+# $Id: tr.pm,v 1.31 2009-09-23 15:24:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $)[1];
+$VERSION = qw($Revision: 1.31 $)[1];
 
 sub Data {
     my $Self = shift;
@@ -30,6 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
+    $Self->{Separator}           = ';';
 
     $Self->{Translation} = {
         # Template: AAABase
