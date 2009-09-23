@@ -2,7 +2,7 @@
 # AgentTicketOwner.dtl - provides HTML form for owner mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.dtl,v 1.26.2.1 2009-09-22 09:39:21 mg Exp $
+# $Id: AgentTicketOwner.dtl,v 1.26.2.2 2009-09-23 09:21:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ function submit_compose() {
     }
 <!-- dtl:block:NoteJs -->
      // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
-    if (parseInt('$Config{"Frontend::RichText"}', 10) > 0) {
+    if (typeof RichTextUpdateLinkedField == 'function') {
         RichTextUpdateLinkedField();
     }
 
@@ -29,9 +29,9 @@ function submit_compose() {
         document.compose.Subject.focus();
         return false;
     }
-    else if (document.compose.Body.value.replace(/\s+|<\/?\w+\s?\/?>/g, '') == "") {
+    else if (document.compose.Body.value == "") {
         alert('$JSText{"A message should have a body!"}');
-        if (parseInt('$Config{"Frontend::RichText"}', 10) > 0) {
+        if (typeof RichTextUpdateLinkedField == 'function') {
             RichTextFocus();
         }
         else {

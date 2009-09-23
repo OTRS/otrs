@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.20.2.2 2009-09-22 09:55:39 mg Exp $
+# $Id: AgentTicketMove.dtl,v 1.20.2.3 2009-09-23 09:21:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ function change_selected(sel) {
 
 function submit_compose() {
     // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
-    if (parseInt('$Config{"Frontend::RichText"}', 10) > 0) {
+    if (typeof RichTextUpdateLinkedField == 'function') {
         RichTextUpdateLinkedField();
     }
 
@@ -42,14 +42,14 @@ function submit_compose() {
         document.compose.Subject.focus();
         return false;
     }
-    else if (document.compose.Body.value.replace(/\s+|<\/?\w+\s?\/?>/g, '') != "" && document.compose.Subject.value == "") {
+    else if (document.compose.Body.value != "" && document.compose.Subject.value == "") {
         alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
         return false;
     }
-    else if (document.compose.Body.value.replace(/\s+|<\/?\w+\s?\/?>/g, '') == "" && document.compose.Subject.value != "") {
+    else if (document.compose.Body.value == "" && document.compose.Subject.value != "") {
         alert('$JSText{"A message should have a body!"}');
-        if (parseInt('$Config{"Frontend::RichText"}', 10) > 0) {
+        if (typeof RichTextUpdateLinkedField == 'function') {
             RichTextFocus();
         }
         else {
