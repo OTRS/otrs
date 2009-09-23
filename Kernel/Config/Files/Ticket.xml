@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.274 2009-09-23 13:34:35 ub Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.275 2009-09-23 21:38:48 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -961,7 +961,7 @@
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey1" Required="1" Valid="1">
         <Description Lang="en">Define the key of TicketFreeTime field 1.</Description>
-        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 1.</Description>
+        <Description Lang="de">Definition des Schlüssels von TicketFreeTime Feld 1.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
@@ -1003,7 +1003,7 @@
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey2" Required="1" Valid="1">
         <Description Lang="en">Define the key of TicketFreeTime field 2.</Description>
-        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 2.</Description>
+        <Description Lang="de">Definition des Schlüssels von TicketFreeTime Feld 2.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
@@ -1045,7 +1045,7 @@
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey3" Required="1" Valid="1">
         <Description Lang="en">Define the key of TicketFreeTime field 3.</Description>
-        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 3.</Description>
+        <Description Lang="de">Definition des Schlüssels von TicketFreeTime Feld 3.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
@@ -1087,7 +1087,7 @@
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey4" Required="1" Valid="1">
         <Description Lang="en">Define the key of TicketFreeTime field 4.</Description>
-        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 4.</Description>
+        <Description Lang="de">Definition des Schlüssels von TicketFreeTime Feld 4.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
@@ -1129,7 +1129,7 @@
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey5" Required="1" Valid="1">
         <Description Lang="en">Define the key of TicketFreeTime field 5.</Description>
-        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 5.</Description>
+        <Description Lang="de">Definition des Schlüssels von TicketFreeTime Feld 5.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
@@ -1171,7 +1171,7 @@
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey6" Required="1" Valid="1">
         <Description Lang="en">Define the key of TicketFreeTime field 6.</Description>
-        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 6.</Description>
+        <Description Lang="de">Definition des Schlüssels von TicketFreeTime Feld 6.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
@@ -1360,7 +1360,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::NumberGenerator::CheckSystemID" Required="1" Valid="1">
         <Description Lang="en">Check SystemID in ticket number detection for follow ups (use "No" if SystemID has been changed after using the system).</Description>
-        <Description Lang="de">SystemID benutzen um Nachfragen zu erkennen (auf "Nein" stellen, wenn die SystemID im Betrieb veraendert wurde).</Description>
+        <Description Lang="de">SystemID benutzen um Nachfragen zu erkennen (auf "Nein" stellen, wenn die SystemID im Betrieb verändert wurde).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -1597,7 +1597,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete###Active" Required="1" Valid="1">
         <Description Lang="en">Enable or disable the autocomplete feature for the customer search in the agent interface.</Description>
-        <Description Lang="de">Aktivieren oder deativieren der Autocomplete-Funktionalitaet für die Kundensuche im Agenteninterface.</Description>
+        <Description Lang="de">Aktivieren oder deativieren der Autocomplete-Funktionalität für die Kundensuche im Agenteninterface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
         <Setting>
@@ -1609,7 +1609,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete###MinQueryLength" Required="1" Valid="1">
         <Description Lang="en">Set minimum number of characters before autocomplete query is sent.</Description>
-        <Description Lang="de">Mindestanzahl von Zeichen zum Ausfuehren der Autocomplete-Funktionalitaet.</Description>
+        <Description Lang="de">Mindestanzahl von Zeichen zum Ausfuehren der Autocomplete-Funktionalität.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
         <Setting>
@@ -1627,7 +1627,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete###TypeAhead" Required="1" Valid="1">
         <Description Lang="en">Enable or disable TypeAhead for the autocomplete feature.</Description>
-        <Description Lang="de">Aktivieren oder deativieren von TypeAhead für die Autocomplete-Funktionalitaet.</Description>
+        <Description Lang="de">Aktivieren oder deativieren von TypeAhead für die Autocomplete-Funktionalität.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
         <Setting>
@@ -1639,7 +1639,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete###MaxResultsDisplayed" Required="1" Valid="1">
         <Description Lang="en">Set number of search results for the autocomplete feature.</Description>
-        <Description Lang="de">Anzahl der Suchergebnisse für die Autocomplete-Funktionalitaet.</Description>
+        <Description Lang="de">Anzahl der Suchergebnisse für die Autocomplete-Funktionalität.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
         <Setting>
@@ -1648,7 +1648,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete::DynamicWidth" Required="1" Valid="1">
         <Description Lang="en">Should the search results container for the autocomplete feature dynamically adjust its width?</Description>
-        <Description Lang="de">Soll der Container für die Suchergebnisse der Autocomplete-Funktionalitaet dynamisch seine Breite anpassen?.</Description>
+        <Description Lang="de">Soll der Container für die Suchergebnisse der Autocomplete-Funktionalität dynamisch seine Breite anpassen?.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
         <Setting>
@@ -1693,7 +1693,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Watcher" Required="1" Valid="1">
         <Description Lang="en">Enable or disable the ticket watcher feature.</Description>
-        <Description Lang="de">Aktivieren oder deativieren der Ticket-Beobachter Funktionalitaet.</Description>
+        <Description Lang="de">Aktivieren oder deativieren der Ticket-Beobachter Funktionalität.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketWatcher</SubGroup>
         <Setting>
@@ -2192,7 +2192,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketStatusView###Order::Default" Required="1" Valid="1">
         <Description Lang="en">Queue order default (after priority sort). ASC: oldest on top. DESC: latest on top.</Description>
-        <Description Lang="de">Standard Reihenfolge der Queue (nach der Prioritaet). ASC: die ältesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
+        <Description Lang="de">Standard Reihenfolge der Queue (nach der Priorität). ASC: die ältesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewStatus</SubGroup>
         <Setting>
@@ -2267,7 +2267,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEscalationView###Order::Default" Required="1" Valid="1">
         <Description Lang="en">Queue order default (after priority sort). ASC: oldest on top. DESC: latest on top.</Description>
-        <Description Lang="de">Standard Reihenfolge der Queue (nach der Prioritaet). ASC: die ältesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
+        <Description Lang="de">Standard Reihenfolge der Queue (nach der Priorität). ASC: die ältesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEscalation</SubGroup>
         <Setting>
@@ -8681,7 +8681,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="PostmasterFollowUpSearchInAttachment" Required="1" Valid="1">
         <Description Lang="en">Would you like to execute followup checks in mail attachments, that don't have a ticket number in the subject?</Description>
-        <Description Lang="de">Sollen in den Email-Anhaengen Follow-up- Checks ausgeführt werden, wenn im Betreff einer Mail keine Ticketnummer angegeben ist?</Description>
+        <Description Lang="de">Sollen in den Email-Anhängen Follow-up- Checks ausgeführt werden, wenn im Betreff einer Mail keine Ticketnummer angegeben ist?</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
