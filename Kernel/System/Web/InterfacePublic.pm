@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.24 2009-04-03 13:57:50 mh Exp $
+# $Id: InterfacePublic.pm,v 1.24.2.1 2009-09-23 08:01:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.24.2.1 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -262,8 +262,6 @@ sub Run {
         );
     }
 
-    # db disconnect && undef %Param
-    $Self->{DBObject}->Disconnect();
     undef %Param;
     return 1;
 }
@@ -284,6 +282,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2009-04-03 13:57:50 $
+$Revision: 1.24.2.1 $ $Date: 2009-09-23 08:01:57 $
 
 =cut
