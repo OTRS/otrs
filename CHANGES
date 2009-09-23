@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1020 2009-09-23 09:21:10 mg Exp $
+# $Id: CHANGES,v 1.1021 2009-09-23 09:59:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,6 @@
 # --
 
 2.5.0 beta1 (????/??/??)
- - (2009/09/23) Fixed bug#2936 - $QData{""} and $Quote{""} crashes if a space
-    is set between the arguments.
  - (2009/09/22) Fixed bug#1774 - Updated documentation in AdminQueue.dtl.
  - (2009/09/22) Fixed bug#4100 - ArticleFreeText Default Value not working.
  - (2009/09/22) Fixed bug#1027 - Ticket csv export in customer interface incomplete.
@@ -28,6 +26,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
+ - (2009/09/23) Fixed bug#4226 - "Previous owner" alway empty when a new owner
+    must be defined.
  - (2009/09/23) Fixed bug#4320 - Javascript-check on empty body not working
     with RichText-Editor (RTE).
  - (2009/09/23) Fixed bug#2936 - $QData{""} and $Quote{""} crashes if a space

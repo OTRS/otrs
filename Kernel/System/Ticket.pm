@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.418 2009-09-18 09:34:41 ep Exp $
+# $Id: Ticket.pm,v 1.419 2009-09-23 09:59:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.418 $) [1];
+$VERSION = qw($Revision: 1.419 $) [1];
 
 =head1 NAME
 
@@ -5469,42 +5469,23 @@ sub OwnerList {
     }
 
     # db query
-    my @User      = ();
-    my $LastOwner = 1;
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT sh.name, ht.name, sh.create_by FROM '
-            . ' ticket_history sh, ticket_history_type ht WHERE '
-            . ' sh.ticket_id = ? AND '
-            . ' ht.name IN (\'OwnerUpdate\', \'NewTicket\') AND '
+        SQL => 'SELECT sh.owner_id FROM ticket_history sh, ticket_history_type ht WHERE '
+            . ' sh.ticket_id = ? AND ht.name IN (\'OwnerUpdate\', \'NewTicket\') AND '
             . ' ht.id = sh.history_type_id ORDER BY sh.id',
         Bind => [ \$Param{TicketID} ],
     );
+    my @UserID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-
-        # store result
-        if ( $Row[1] eq 'NewTicket' && $Row[2] ne '1' && $LastOwner ne $Row[2] ) {
-            $LastOwner = $Row[2];
-            push @User, $Row[2];
-        }
-        elsif ( $Row[1] eq 'OwnerUpdate' ) {
-            if (
-                $Row[0] =~ /^New Owner is '(.+?)' \(ID=(.+?)\)/
-                || $Row[0] =~ /^\%\%(.+?)\%\%(.+?)$/
-                )
-            {
-                if ( $2 ne 1 ) {
-                    $LastOwner = $2;
-                    push @User, $2;
-                }
-            }
-        }
+        next if !$Row[0];
+        next if $Row[0] eq 1;
+        push @UserID, $Row[0];
     }
-    my @UserInfo = ();
-    for (@User) {
-        my %User = $Self->{UserObject}->GetUserData( UserID => $_, Cache => 1, Valid => 1 );
-        if (%User) {
-            push @UserInfo, \%User;
-        }
+    my @UserInfo;
+    for my $UserID (@UserID) {
+        my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Cache => 1, Valid => 1 );
+        next if !%User;
+        push @UserInfo, \%User;
     }
     return @UserInfo;
 }
@@ -7373,6 +7354,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.418 $ $Date: 2009-09-18 09:34:41 $
+$Revision: 1.419 $ $Date: 2009-09-23 09:59:30 $
 
 =cut
