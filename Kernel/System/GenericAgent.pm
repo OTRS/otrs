@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.58 2009-09-03 16:12:13 tr Exp $
+# $Id: GenericAgent.pm,v 1.59 2009-09-23 12:51:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 =head1 NAME
 
@@ -476,6 +476,7 @@ sub _JobRunTicket {
             UserID         => $Param{UserID},
             HistoryType    => 'AddNote',
             HistoryComment => 'Generic Agent note added.',
+            NoAgentNotify  => $Param{Config}->{New}->{SendNoNotification} || 0,
         );
         my $TimeUnits = $Param{Config}->{New}->{Note}->{TimeUnits}
             || $Param{Config}->{New}->{NoteTimeUnits};
@@ -1145,6 +1146,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2009-09-03 16:12:13 $
+$Revision: 1.59 $ $Date: 2009-09-23 12:51:01 $
 
 =cut
