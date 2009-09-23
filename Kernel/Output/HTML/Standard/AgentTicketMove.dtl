@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.20.2.3 2009-09-23 09:21:19 mg Exp $
+# $Id: AgentTicketMove.dtl,v 1.20.2.4 2009-09-23 21:01:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,7 +124,6 @@ function SpellCheckSubmit() {
                 </tr>
                 <tr>
                     <td class="contentbody">
-#$Data{"TicketUnlock"}
                         <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
                             <input type="hidden" name="Action"       value="$Env{"Action"}"/>
                             <input type="hidden" name="FormID"       value="$QData{"FormID"}"/>
