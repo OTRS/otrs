@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.26 2009-07-31 22:41:27 martin Exp $
+# $Id: Layout.t,v 1.26.2.1 2009-09-23 09:30:04 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -634,6 +634,96 @@ $Self->True(
     $SelectedTest,
     "Layout.t - zero test for SelectedID attribute in BuildSelection().",
 );
+
+# test quoting and cutting of strings for $Quote, $QData and $QEnv
+@Tests = (
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$Quote{"some Text"}',
+        Result => 'some Text',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$Quote{"some "T"ext"}',
+        Result => 'some &quot;T&quot;ext',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$Quote{"some Text","6"}',
+        Result => 'some T[..]',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$Quote{"some Text", "6"}',
+        Result => 'some T[..]',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$Quote{"some Text",   "6"}',
+        Result => 'some T[..]',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$QData{"Key1"}',
+        Result => 'Value1',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$QData{"Key3"}',
+        Result => 'Value&quot;3&quot;',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$QData{"Key4","10"}',
+        Result => 'Value&quot;4&quot;Va[..]',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$QData{"Key4", "10"}',
+        Result => 'Value&quot;4&quot;Va[..]',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$QData{"Key4",   "10"}',
+        Result => 'Value&quot;4&quot;Va[..]',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$QEnv{"DOESNOTEXIST"}',
+        Result => '',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$QEnv{"DOESNOTEXIST","1"}',
+        Result => '',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$QEnv{"DOESNOTEXIST", "1"}',
+        Result => '',
+    },
+    {
+        Name   => 'QuoteAndCut()',
+        String => '$QEnv{"DOESNOTEXIST",   "1"}',
+        Result => '',
+    },
+);
+for my $Test (@Tests) {
+    my $Result = $Self->{LayoutObject}->Output(
+        Template => $Test->{String},
+        Data     => {
+            Key1 => 'Value1',
+            Key2 => 'Value2',
+            Key3 => 'Value"3"',
+            Key4 => 'Value"4"Value',
+        },
+    );
+    $Self->Is(
+        $Result || '',
+        $Test->{Result},
+        $Test->{Name},
+    );
+}
 
 # this check is only to display how long it had take
 $Self->True(
