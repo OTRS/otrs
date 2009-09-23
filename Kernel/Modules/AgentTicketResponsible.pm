@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsible.pm - set ticket responsible
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.pm,v 1.58 2009-08-25 14:32:55 martin Exp $
+# $Id: AgentTicketResponsible.pm,v 1.58.2.1 2009-09-23 09:51:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.58.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -918,11 +918,10 @@ sub _Mask {
             Size       => 10,
             OnClick    => "change_selected(0)",
         );
-        my %UserHash = ();
+        my %UserHash;
         if (@OldUserInfo) {
-            my $Counter = 0;
+            my $Counter = 1;
             for my $User ( reverse @OldUserInfo ) {
-                next if !$Counter;
                 next if $UserHash{ $User->{UserID} };
                 $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
                     . "$User->{UserFirstname} ($User->{UserLogin})";
