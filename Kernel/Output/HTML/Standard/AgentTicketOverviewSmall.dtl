@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.16 2009-07-01 19:18:21 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.17 2009-09-23 10:02:29 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,138 +36,137 @@ function select_item_check () {
 </script>
 <!-- start form -->
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
-  <input type="hidden" name="Action" value="AgentTicketBulk"/>
-  <input type="hidden" name="TicketID" value=""/>
-  <table border="0" width="100%" cellspacing="0" cellpadding="4">
-    <tr>
-      <td class="mainbody">
-        <table border="0" width="100%" cellspacing="0" cellpadding="3">
-          <tr class="contenthead" align="left">
-            <th width="1%">
+    <input type="hidden" name="Action" value="AgentTicketBulk"/>
+    <input type="hidden" name="TicketID" value=""/>
+    <table border="0" width="100%" cellspacing="0" cellpadding="4">
+        <tr>
+            <td class="mainbody">
+                <table border="0" width="100%" cellspacing="0" cellpadding="3">
+                    <tr class="contenthead" align="left">
+                        <th width="1%">
 #<!-- dtl:block:BulkHead -->
 #            <input type="checkbox" name="TicketID" value="" onclick="select_items('TicketID')"/>
 #<!-- dtl:block:BulkHead -->
-            </th>
-            <th width="10%">$Config{"Ticket::Hook"}<br/>
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Ticket&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Ticket&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
-            </th>
-            <th width="15%">$Text{"Age"}<br/>
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Age&OrderBy=Down" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Age&OrderBy=Up" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
-            </th>
+                        </th>
+                        <th width="10%">$Config{"Ticket::Hook"}<br/>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Ticket&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Ticket&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
+                        </th>
+                        <th width="15%">$Text{"Age"}<br/>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Age&OrderBy=Down" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Age&OrderBy=Up" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
+                        </th>
 <!-- dtl:block:RecordEscalationHeader -->
-            <th width="15%">$Text{"Escalation in"}<br/>
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=EscalationTime&OrderBy=Down" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=EscalationTime&OrderBy=Up" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
-            </th>
+                        <th width="15%">$Text{"Escalation in"}<br/>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=EscalationTime&OrderBy=Down" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=EscalationTime&OrderBy=Up" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
+                        </th>
 <!-- dtl:block:RecordEscalationHeader -->
 <!-- dtl:block:RecordLastCustomerSubjectHeader -->
-            <th width="25%">$Text{"From"}/$Text{"Subject"}</th>
+                        <th width="25%">$Text{"From"}/$Text{"Subject"}</th>
 <!-- dtl:block:RecordLastCustomerSubjectHeader -->
 <!-- dtl:block:RecordTicketTitleHeader -->
-            <th width="25%">$Text{"From"}/$Text{"Title"}</th>
+                        <th width="25%">$Text{"From"}/$Text{"Title"}</th>
 <!-- dtl:block:RecordTicketTitleHeader -->
-            <th width="5%">$Text{"State"}<br/>
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=State&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=State&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
-            </th>
-            <th width="5%">$Text{"Locked"}<br/>
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Lock&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Lock&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
-            </th>
-            <th width="10%">$Text{"Queue"}<br/>
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Queue&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Queue&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
-            </th>
-            <th width="15%">$Text{"Owner"}<br/>
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Owner&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Owner&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
-            </th>
-            <th width="15%">$Text{"CustomerID"}<br/>
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=CustomerID&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=CustomerID&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
-            </th>
-          </tr>
+                        <th width="5%">$Text{"State"}<br/>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=State&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=State&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
+                        </th>
+                        <th width="5%">$Text{"Locked"}<br/>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Lock&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Lock&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
+                        </th>
+                        <th width="10%">$Text{"Queue"}<br/>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Queue&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Queue&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
+                        </th>
+                        <th width="15%">$Text{"Owner"}<br/>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Owner&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Owner&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
+                        </th>
+                        <th width="15%">$Text{"CustomerID"}<br/>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=CustomerID&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}"></a> /
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=CustomerID&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"></a>
+                        </th>
+                    </tr>
 <!-- dtl:block:Record -->
-          <tr class="$QData{"css"}">
-            <td width="1%">
+                    <tr class="$QData{"css"}">
+                        <td width="1%">
 <!-- dtl:block:Bulk -->
-              <input type="checkbox" name="TicketID" value="$LQData{"TicketID"}"/>
+                            <input type="checkbox" name="TicketID" value="$LQData{"TicketID"}"/>
 <!-- dtl:block:Bulk -->
-            </td>
-            <td>
-              <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td class="PriorityID-$Data{"PriorityID"}" title="$Text{"Priority"}: $Text{"$Data{"Priority"}"}" width="1%">&nbsp;&nbsp;</td>
-                  <td>
-                    <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-            <td>
-              $Data{"StartFont"}$QData{"Age"}$Data{"StopFont"}
-            </td>
+                        </td>
+                        <td>
+                            <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td class="PriorityID-$Data{"PriorityID"}" title="$Text{"Priority"}: $Text{"$Data{"Priority"}"}" width="1%">&nbsp;&nbsp;</td>
+                                    <td>
+                                        <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            $Data{"StartFont"}$QData{"Age"}$Data{"StopFont"}
+                        </td>
 <!-- dtl:block:RecordEscalation -->
-            <td>
+                        <td>
 <!-- dtl:block:RecordEscalationFontStart -->
-              <font color="red">
+                            <font color="red">
 <!-- dtl:block:RecordEscalationFontStart -->
-              $Data{"StartFont"}<div title="$Text{"Service Time"}: $QData{"EscalationTimeWorkingTime"} - $TimeShort{"$QData{"EscalationDestinationDate"}"}">$QData{"EscalationTimeHuman"}<br/>$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>$Data{"StopFont"}
+                            $Data{"StartFont"}<div title="$Text{"Service Time"}: $QData{"EscalationTimeWorkingTime"} - $TimeShort{"$QData{"EscalationDestinationDate"}"}">$QData{"EscalationTimeHuman"}<br/>$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>$Data{"StopFont"}
 <!-- dtl:block:RecordEscalationFontStop -->
-              </font>
+                            </font>
 <!-- dtl:block:RecordEscalationFontStop -->
-            </td>
+                        </td>
 <!-- dtl:block:RecordEscalation -->
-            <td>
-              $Data{"StartFont"}
-              <div title="$QData{"From"}">$QData{"From","30"}</div>
+                        <td>
+                            $Data{"StartFont"}
+                            <div title="$QData{"From"}">$QData{"From","30"}</div>
 <!-- dtl:block:RecordLastCustomerSubject -->
-              <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>
+                            <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>
 <!-- dtl:block:RecordLastCustomerSubject -->
 <!-- dtl:block:RecordTicketTitle -->
-              <div title="$QData{"Title"}">$QData{"Title","30"}</div>
+                            <div title="$QData{"Title"}">$QData{"Title","30"}</div>
 <!-- dtl:block:RecordTicketTitle -->
-              $Data{"StopFont"}
-            </td>
-            <td>
-              $Data{"StartFont"}<div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div>$Data{"StopFont"}
-            </td>
-            <td>
-              $Data{"StartFont"}<div title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","30"}</div>$Data{"StopFont"}
-            </td>
-            <td>
-              $Data{"StartFont"}<div title="$QData{"Queue"}">$QData{"Queue","30"}</div>$Data{"StopFont"}
-            </td>
-            <td>
-              $Data{"StartFont"}<div title="$QData{"Owner"}">$QData{"Owner","30"}</div>
-              <div title="($QData{"UserFirstname"} $QData{"UserLastname"})">($QData{"UserFirstname","15"} $QData{"UserLastname","15"})</div>$Data{"StopFont"}
-            </td>
-            <td>
-              <a href="$Env{"Baselink"}Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Customer history"}'; return true;" onmouseout="window.status='';">
-              <div title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</div>
-              </a>
-              <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
-            </td>
-          </tr>
+                            $Data{"StopFont"}
+                        </td>
+                        <td>
+                            $Data{"StartFont"}<div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div>$Data{"StopFont"}
+                        </td>
+                        <td>
+                            $Data{"StartFont"}<div title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","30"}</div>$Data{"StopFont"}
+                        </td>
+                        <td>
+                            $Data{"StartFont"}<div title="$QData{"Queue"}">$QData{"Queue","30"}</div>$Data{"StopFont"}
+                        </td>
+                        <td>
+                            $Data{"StartFont"}<div title="$QData{"Owner"}">$QData{"Owner","30"}</div>
+                            <div title="($QData{"UserFirstname"} $QData{"UserLastname"})">($QData{"UserFirstname","15"} $QData{"UserLastname","15"})</div>$Data{"StopFont"}
+                        </td>
+                        <td>
+                            <a href="$Env{"Baselink"}Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Customer history"}'; return true;" onmouseout="window.status='';">
+                            <div title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</div>
+                            </a>
+                            <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+                        </td>
+                    </tr>
 <!-- dtl:block:Record -->
-          <tr class="contentfooter">
-            <td align="left" colspan="9">
+                    <tr class="contentfooter">
+                        <td align="left" colspan="9">
 <!-- dtl:block:BulkFooter -->
-              <input type="checkbox" name="Check" value="" onclick="select_items('TicketID')"/>
-#              <img border="0" src="$Config{"Frontend::ImagePath"}checkbox_arrow_left_up.png">
-              <input type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();">
+                            <input type="checkbox" name="Check" value="" onclick="select_items('TicketID')" autocomplete="off"/>
+                            <input type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();">
 <!-- dtl:block:BulkFooter -->
-              &nbsp;
+                            &nbsp;
+                        </td>
+<!-- dtl:block:EscalationFooter -->
+                        <td></td>
+<!-- dtl:block:EscalationFooter -->
+                    </tr>
+                </table>
             </td>
-<!-- dtl:block:EscalationFooter -->
-            <td></td>
-<!-- dtl:block:EscalationFooter -->
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+        </tr>
+    </table>
 </form>
 <!-- end form -->

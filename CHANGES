@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1021 2009-09-23 09:59:30 martin Exp $
+# $Id: CHANGES,v 1.1022 2009-09-23 10:01:50 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,6 +28,8 @@
 2.4.5 (2009/??/??)
  - (2009/09/23) Fixed bug#4226 - "Previous owner" alway empty when a new owner
     must be defined.
+ - (2009/09/23) Fixed bug#4322 - Bulk-Action checkboxes are refilled wrongly by
+    Firefox-Autocomplete feature.
  - (2009/09/23) Fixed bug#4320 - Javascript-check on empty body not working
     with RichText-Editor (RTE).
  - (2009/09/23) Fixed bug#2936 - $QData{""} and $Quote{""} crashes if a space
