@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.105 2009-09-22 13:04:22 mg Exp $
+# $Id: nl.pm,v 1.106 2009-09-23 15:24:15 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -45,6 +45,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
+    $Self->{Separator}           = ';';
 
     $Self->{Translation} = {
         # Template: AAABase
@@ -1100,7 +1101,8 @@ sub Data {
         'System Email Addresses Management' => 'Systeem e-mailadressen beheer',
         'Add System Address' => 'Systeem e-mailadres toevoegen',
         'Add a new System Address.' => 'Voeg nieuw systeem e-mailadres toe.',
-        'Realname' => 'Echte naam',
+        'Display Name' => 'Weergegeven naam',
+        'Email Address' => 'E-mailadres',
         'All email addresses get excluded on replaying on composing an email.' => 'OTRS zal nooit mail sturen aan alle hier gedefiniëerde adressen',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle binnenkomende emails met deze "To:" worden in de gekozen wachtrij geplaatst.',
 
