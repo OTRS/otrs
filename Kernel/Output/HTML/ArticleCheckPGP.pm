@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.23 2009-04-23 13:47:27 mh Exp $
+# $Id: ArticleCheckPGP.pm,v 1.23.2.1 2009-09-23 07:40:35 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.23.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,7 +57,7 @@ sub Check {
     $Self->{CryptObject} = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
 
     # check inline pgp crypt
-    if ( $Param{Article}->{Body} =~ /^-----BEGIN PGP MESSAGE-----/ ) {
+    if ( $Param{Article}->{Body} =~ /\A[\s\n]*^-----BEGIN PGP MESSAGE-----/m ) {
 
         # check sender (don't decrypt sent emails)
         if ( $Param{Article}->{SenderType} =~ /(agent|system)/i ) {
@@ -100,7 +100,7 @@ sub Check {
     }
 
     # check inline pgp signature
-    if ( $Param{Article}->{Body} =~ /^-----BEGIN PGP SIGNED MESSAGE-----/ ) {
+    if ( $Param{Article}->{Body} =~ /\A[\s\n]*^-----BEGIN PGP SIGNED MESSAGE-----/m ) {
         %SignCheck = $Self->{CryptObject}->Verify( Message => $Param{Article}->{Body}, );
         if (%SignCheck) {
 
