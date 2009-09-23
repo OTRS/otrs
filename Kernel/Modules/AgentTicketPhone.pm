@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.114 2009-09-22 17:16:16 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.115 2009-09-23 22:25:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -505,7 +505,7 @@ sub Run {
 
             # check required FreeTextField (if configured)
             if (
-                $Self->{Config}{'TicketFreeText'}->{$_} == 2
+                $Self->{Config}->{TicketFreeText}->{$_} == 2
                 && $GetParam{"TicketFreeText$_"} eq ''
                 && $ExpandCustomerName == 0
                 )
@@ -1291,8 +1291,8 @@ sub _GetTos {
 
     # check own selection
     my %NewTos = ();
-    if ( $Self->{ConfigObject}->{'Ticket::Frontend::NewQueueOwnSelection'} ) {
-        %NewTos = %{ $Self->{ConfigObject}->{'Ticket::Frontend::NewQueueOwnSelection'} };
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') ) {
+        %NewTos = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') };
     }
     else {
 
@@ -1389,7 +1389,7 @@ sub _MaskPhoneNew {
     }
 
     # build string
-    $Param{'OptionStrg'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{OptionStrg} = $Self->{LayoutObject}->BuildSelection(
         Data         => $Param{Users},
         SelectedID   => $Param{UserSelected},
         Translation  => 0,
@@ -1398,7 +1398,7 @@ sub _MaskPhoneNew {
     );
 
     # build next states string
-    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data          => $Param{NextStates},
         Name          => 'NextStateID',
         Translation   => 1,
@@ -1407,7 +1407,7 @@ sub _MaskPhoneNew {
 
     # build from string
     if ( $Param{FromOptions} && %{ $Param{FromOptions} } ) {
-        $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{CustomerUserStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => $Param{FromOptions},
             Name        => 'CustomerUser',
             Translation => 0,
@@ -1423,7 +1423,7 @@ sub _MaskPhoneNew {
         }
     }
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
-        $Param{'ToStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
+        $Param{ToStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Data           => \%NewTo,
             Multiple       => 0,
             Size           => 0,
@@ -1488,7 +1488,7 @@ sub _MaskPhoneNew {
         );
     }
     else {
-        $Param{'ToStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{ToStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%NewTo,
             Name        => 'Dest',
             SelectedID  => $Param{ToSelected},
@@ -1580,7 +1580,7 @@ sub _MaskPhoneNew {
 
     # build type string
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
-        $Param{'TypeStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{Types},
             Name         => 'TypeID',
             SelectedID   => $Param{TypeID},
@@ -1651,7 +1651,7 @@ sub _MaskPhoneNew {
 
     # build service string
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
-        $Param{'ServiceStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{Services},
             Name         => 'ServiceID',
             SelectedID   => $Param{ServiceID},
@@ -1720,7 +1720,7 @@ sub _MaskPhoneNew {
             Name => 'TicketService',
             Data => {%Param},
         );
-        $Param{'SLAStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{SLAStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{SLAs},
             Name         => 'SLAID',
             SelectedID   => $Param{SLAID},
@@ -1794,7 +1794,7 @@ sub _MaskPhoneNew {
     if ( !$Param{PriorityID} ) {
         $Param{Priority} = $Self->{Config}->{Priority};
     }
-    $Param{'PriorityStrg'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
         Data          => $Param{Priorities},
         Name          => 'PriorityID',
         SelectedID    => $Param{PriorityID},
@@ -1844,7 +1844,7 @@ sub _MaskPhoneNew {
         $Self->{ConfigObject}->Get('Ticket::Frontend::NewResponsibleSelection')
         )
     {
-        $Param{'ResponsibleOptionStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{ResponsibleOptionStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{ResponsibleUsers},
             SelectedID   => $Param{ResponsibleUserSelected},
             Name         => 'NewResponsibleID',
@@ -1943,10 +1943,10 @@ sub _MaskPhoneNew {
     }
 
     # show attachments
-    for my $DataRef ( @{ $Param{Attachments} } ) {
+    for my $Attachment ( @{ $Param{Attachments} } ) {
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
-            Data => $DataRef,
+            Data => $Attachment,
         );
     }
 

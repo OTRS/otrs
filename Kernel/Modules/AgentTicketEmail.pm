@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.100 2009-09-22 17:16:16 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.101 2009-09-23 22:25:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -388,7 +388,7 @@ sub Run {
 
             # check required FreeTextField (if configured)
             if (
-                $Self->{Config}{'TicketFreeText'}{$_} == 2
+                $Self->{Config}->{TicketFreeText}->{$_} == 2
                 && $GetParam{"TicketFreeText$_"} eq ''
                 && $ExpandCustomerName == 0
                 )
@@ -1282,8 +1282,8 @@ sub _GetTos {
 
     # check own selection
     my %NewTos = ();
-    if ( $Self->{ConfigObject}->{'Ticket::Frontend::NewQueueOwnSelection'} ) {
-        %NewTos = %{ $Self->{ConfigObject}->{'Ticket::Frontend::NewQueueOwnSelection'} };
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') ) {
+        %NewTos = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') };
     }
     else {
 
@@ -1394,14 +1394,14 @@ sub _MaskEmailNew {
 
     # build string
     $Param{Users}->{''} = '-';
-    $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{OptionStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Param{Users},
         SelectedID => $Param{UserSelected},
         Name       => 'NewUserID',
     );
 
     # build next states string
-    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data     => $Param{NextStates},
         Name     => 'NextStateID',
         Selected => $Param{NextState} || $Self->{Config}->{StateDefault},
@@ -1409,7 +1409,7 @@ sub _MaskEmailNew {
 
     # build from string
     if ( $Param{ToOptions} && %{ $Param{ToOptions} } ) {
-        $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{CustomerUserStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => $Param{ToOptions},
             Name => 'CustomerUser',
             Max  => 70,
@@ -1424,7 +1424,7 @@ sub _MaskEmailNew {
         }
     }
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
-        $Param{'FromStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
+        $Param{FromStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Data           => \%NewTo,
             Multiple       => 0,
             Size           => 0,
@@ -1500,7 +1500,7 @@ sub _MaskEmailNew {
         );
     }
     else {
-        $Param{'FromStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{FromStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => \%NewTo,
             Name       => 'Dest',
             SelectedID => $Param{FromSelected},
@@ -1602,7 +1602,7 @@ sub _MaskEmailNew {
 
     # build type string
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
-        $Param{'TypeStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{Types},
             Name         => 'TypeID',
             SelectedID   => $Param{TypeID},
@@ -1683,7 +1683,7 @@ sub _MaskEmailNew {
 
     # build service string
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
-        $Param{'ServiceStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{Services},
             Name         => 'ServiceID',
             SelectedID   => $Param{ServiceID},
@@ -1762,7 +1762,7 @@ sub _MaskEmailNew {
             Name => 'TicketService',
             Data => {%Param},
         );
-        $Param{'SLAStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{SLAStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{SLAs},
             Name         => 'SLAID',
             SelectedID   => $Param{SLAID},
@@ -1846,7 +1846,7 @@ sub _MaskEmailNew {
     if ( !$Param{PriorityID} ) {
         $Param{Priority} = $Self->{Config}->{Priority};
     }
-    $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{PriorityStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Param{Priorities},
         Name       => 'PriorityID',
         SelectedID => $Param{PriorityID},
@@ -1895,7 +1895,7 @@ sub _MaskEmailNew {
         )
     {
         $Param{ResponsibleUsers}->{''} = '-';
-        $Param{'ResponsibleOptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ResponsibleOptionStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => $Param{ResponsibleUsers},
             SelectedID => $Param{ResponsibleUsersSelected},
             Name       => 'NewResponsibleID',
@@ -2000,10 +2000,10 @@ sub _MaskEmailNew {
     }
 
     # show attachments
-    for my $DataRef ( @{ $Param{Attachments} } ) {
+    for my $Attachment ( @{ $Param{Attachments} } ) {
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
-            Data => $DataRef,
+            Data => $Attachment,
         );
     }
 
