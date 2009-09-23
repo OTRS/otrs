@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Emiliano Coletti <e.coletti at gmail.com>
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # --
-# $Id: it.pm,v 1.89 2009-09-22 13:04:21 mg Exp $
+# $Id: it.pm,v 1.90 2009-09-23 11:54:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1100,7 +1100,7 @@ sub Data {
         'User Management' => 'Gestione operatori',
         'Add User' => 'inserisci utente ',
         'Add a new Agent.' => 'inserisci nuovo Agente',
-        'Login as' => 'nome per login',
+        'Login as' => 'Cambia login',
         'Firstname' => 'Nome',
         'Lastname' => 'Cognome',
         'Start' => 'Inizio',
