@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2009-05-15 11:38:11
+--  driver: ingres, generated: 2009-09-24 00:14:35
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
@@ -186,5 +186,6 @@ ALTER TABLE notification_event ADD FOREIGN KEY (create_by) REFERENCES users(id);
 ALTER TABLE notification_event ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
 ALTER TABLE notification_event ADD FOREIGN KEY (valid_id) REFERENCES valid(id);\g
 ALTER TABLE notification_event_item ADD FOREIGN KEY (notification_id) REFERENCES notification_event(id);\g
+ALTER TABLE virtual_fs_preferences ADD FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs(id);\g
 ALTER TABLE package_repository ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE package_repository ADD FOREIGN KEY (change_by) REFERENCES users(id);\g

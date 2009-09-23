@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2009-07-13 14:36:59
+--  driver: db2, generated: 2009-09-24 00:14:35
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -445,6 +445,8 @@ CREATE TABLE ticket (
 );
 
 CREATE INDEX ticket_answered ON ticket (ticket_answered);
+
+CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 
 CREATE INDEX ticket_customer_id ON ticket (customer_id);
 
@@ -1236,6 +1238,46 @@ CREATE TABLE xml_storage (
 CREATE INDEX xml_storage_key_type ON xml_storage (xml_key, xml_type);
 
 CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);
+
+-- ----------------------------------------------------------
+--  create table virtual_fs
+-- ----------------------------------------------------------
+CREATE TABLE virtual_fs (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    filename VARCHAR (350) NOT NULL,
+    backend VARCHAR (60) NOT NULL,
+    backend_key VARCHAR (160) NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE INDEX virtual_fs_backend ON virtual_fs (backend);
+
+CREATE INDEX virtual_fs_filename ON virtual_fs (filename);
+
+-- ----------------------------------------------------------
+--  create table virtual_fs_preferences
+-- ----------------------------------------------------------
+CREATE TABLE virtual_fs_preferences (
+    virtual_fs_id BIGINT NOT NULL,
+    preferences_key VARCHAR (150) NOT NULL,
+    preferences_value VARCHAR (350)
+);
+
+CREATE INDEX virtual_fs_preferences_virtualf6 ON virtual_fs_preferences (virtual_fs_id);
+
+-- ----------------------------------------------------------
+--  create table virtual_fs_db
+-- ----------------------------------------------------------
+CREATE TABLE virtual_fs_db (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    filename VARCHAR (350) NOT NULL,
+    content BLOB (30M) NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);
 
 -- ----------------------------------------------------------
 --  create table package_repository

@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2009-07-13 14:37:00
+#  driver: mysql, generated: 2009-09-24 00:14:36
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -408,6 +408,7 @@ CREATE TABLE ticket (
     PRIMARY KEY(id),
     UNIQUE INDEX ticket_tn (tn),
     INDEX ticket_answered (ticket_answered),
+    INDEX ticket_create_time_unix (create_time_unix),
     INDEX ticket_customer_id (customer_id),
     INDEX ticket_customer_user_id (customer_user_id),
     INDEX ticket_escalation_response_time (escalation_response_time),
@@ -1094,6 +1095,39 @@ CREATE TABLE xml_storage (
     xml_content_value MEDIUMTEXT NULL,
     INDEX xml_storage_key_type (xml_key(10), xml_type(10)),
     INDEX xml_storage_xml_content_key (xml_content_key(100))
+);
+# ----------------------------------------------------------
+#  create table virtual_fs
+# ----------------------------------------------------------
+CREATE TABLE virtual_fs (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    filename TEXT NOT NULL,
+    backend VARCHAR (60) NOT NULL,
+    backend_key VARCHAR (160) NOT NULL,
+    create_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    INDEX virtual_fs_backend (backend(60)),
+    INDEX virtual_fs_filename (filename(350))
+);
+# ----------------------------------------------------------
+#  create table virtual_fs_preferences
+# ----------------------------------------------------------
+CREATE TABLE virtual_fs_preferences (
+    virtual_fs_id BIGINT NOT NULL,
+    preferences_key VARCHAR (150) NOT NULL,
+    preferences_value TEXT NULL,
+    INDEX virtual_fs_preferences_virtual_fs_id (virtual_fs_id)
+);
+# ----------------------------------------------------------
+#  create table virtual_fs_db
+# ----------------------------------------------------------
+CREATE TABLE virtual_fs_db (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    filename TEXT NOT NULL,
+    content LONGBLOB NOT NULL,
+    create_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    INDEX virtual_fs_db_filename (filename(350))
 );
 # ----------------------------------------------------------
 #  create table package_repository

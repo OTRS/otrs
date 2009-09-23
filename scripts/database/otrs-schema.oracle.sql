@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-07-13 14:37:00
+--  driver: oracle, generated: 2009-09-24 00:14:36
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -694,6 +694,7 @@ CREATE INDEX FK_ticket_service_id ON ticket (service_id);
 CREATE INDEX FK_ticket_sla_id ON ticket (sla_id);
 CREATE INDEX FK_ticket_valid_id ON ticket (valid_id);
 CREATE INDEX ticket_answered ON ticket (ticket_answered);
+CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 CREATE INDEX ticket_customer_id ON ticket (customer_id);
 CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);
 CREATE INDEX ticket_escalation_response_t29 ON ticket (escalation_response_time);
@@ -1782,6 +1783,67 @@ CREATE TABLE xml_storage (
 );
 CREATE INDEX xml_storage_key_type ON xml_storage (xml_key, xml_type);
 CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);
+-- ----------------------------------------------------------
+--  create table virtual_fs
+-- ----------------------------------------------------------
+CREATE TABLE virtual_fs (
+    id NUMBER (20, 0) NOT NULL,
+    filename VARCHAR2 (350) NOT NULL,
+    backend VARCHAR2 (60) NOT NULL,
+    backend_key VARCHAR2 (160) NOT NULL,
+    create_time DATE NOT NULL
+);
+ALTER TABLE virtual_fs ADD CONSTRAINT PK_virtual_fs PRIMARY KEY (id);
+DROP SEQUENCE SE_virtual_fs;
+CREATE SEQUENCE SE_virtual_fs;
+CREATE OR REPLACE TRIGGER SE_virtual_fs_t
+before insert on virtual_fs
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_virtual_fs.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX virtual_fs_backend ON virtual_fs (backend);
+CREATE INDEX virtual_fs_filename ON virtual_fs (filename);
+-- ----------------------------------------------------------
+--  create table virtual_fs_preferences
+-- ----------------------------------------------------------
+CREATE TABLE virtual_fs_preferences (
+    virtual_fs_id NUMBER (20, 0) NOT NULL,
+    preferences_key VARCHAR2 (150) NOT NULL,
+    preferences_value VARCHAR2 (350) NULL
+);
+CREATE INDEX virtual_fs_preferences_virtuf6 ON virtual_fs_preferences (virtual_fs_id);
+-- ----------------------------------------------------------
+--  create table virtual_fs_db
+-- ----------------------------------------------------------
+CREATE TABLE virtual_fs_db (
+    id NUMBER (20, 0) NOT NULL,
+    filename VARCHAR2 (350) NOT NULL,
+    content CLOB NOT NULL,
+    create_time DATE NOT NULL
+);
+ALTER TABLE virtual_fs_db ADD CONSTRAINT PK_virtual_fs_db PRIMARY KEY (id);
+DROP SEQUENCE SE_virtual_fs_db;
+CREATE SEQUENCE SE_virtual_fs_db;
+CREATE OR REPLACE TRIGGER SE_virtual_fs_db_t
+before insert on virtual_fs_db
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_virtual_fs_db.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);
 -- ----------------------------------------------------------
 --  create table package_repository
 -- ----------------------------------------------------------
