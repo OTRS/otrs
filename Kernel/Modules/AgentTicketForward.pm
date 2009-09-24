@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.54 2009-08-25 14:32:55 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.55 2009-09-24 19:53:06 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -493,6 +493,8 @@ sub SendEmail {
             $GetParam{ 'TicketFreeTime' . $_ . $Type }
                 = $Self->{ParamObject}->GetParam( Param => 'TicketFreeTime' . $_ . $Type );
         }
+        $GetParam{ 'TicketFreeTime' . $_ . 'Optional' }
+            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
         if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
             $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
         }
