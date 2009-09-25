@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.47 2009-09-08 17:02:49 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.48 2009-09-25 11:50:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,37 +75,39 @@ sub Run {
     if ( !$Self->{Subaction} ) {
 
         # get default selections
-        my %TicketFreeDefault = ();
-        for ( 1 .. 16 ) {
-            $TicketFreeDefault{ 'TicketFreeKey' . $_ }
-                = $Self->{ConfigObject}->Get( 'TicketFreeKey' . $_ . '::DefaultSelection' );
-            $TicketFreeDefault{ 'TicketFreeText' . $_ }
-                = $Self->{ConfigObject}->Get( 'TicketFreeText' . $_ . '::DefaultSelection' );
+        my %TicketFreeDefault;
+        for my $Count ( 1 .. 16 ) {
+            my $Key  = 'TicketFreeKey' . $Count;
+            my $Text = 'TicketFreeText' . $Count;
+            $TicketFreeDefault{$Key}  = $Self->{ConfigObject}->Get( $Key . '::DefaultSelection' );
+            $TicketFreeDefault{$Text} = $Self->{ConfigObject}->Get( $Text . '::DefaultSelection' );
         }
 
         # get free text config options
-        my %TicketFreeText = ();
-        for ( 1 .. 16 ) {
-            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+        my %TicketFreeText;
+        for my $Count ( 1 .. 16 ) {
+            my $Key  = 'TicketFreeKey' . $Count;
+            my $Text = 'TicketFreeText' . $Count;
+            $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID       => $Self->{TicketID},
                 Action         => $Self->{Action},
-                Type           => "TicketFreeKey$_",
+                Type           => $Key,
                 CustomerUserID => $Self->{UserID},
             );
-            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+            $TicketFreeText{$Text} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID       => $Self->{TicketID},
                 Action         => $Self->{Action},
-                Type           => "TicketFreeText$_",
+                Type           => $Text,
                 CustomerUserID => $Self->{UserID},
             );
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
-            Ticket => {%TicketFreeDefault},
+            Ticket => \%TicketFreeDefault,
         );
 
         # get ticket free time params
-        my %TicketFreeTime = ();
+        my %TicketFreeTime;
         for ( 1 .. 6 ) {
             for my $Type (qw(Used Year Month Day Hour Minute)) {
                 $TicketFreeTime{ "TicketFreeTime" . $_ . $Type }
@@ -152,29 +154,31 @@ sub Run {
                 $To         = $Queue;
             }
         }
-        my %TicketFree = ();
-        for ( 1 .. 16 ) {
-            $TicketFree{"TicketFreeKey$_"}
-                = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
-            $TicketFree{"TicketFreeText$_"}
-                = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
+        my %TicketFree;
+        for my $Count ( 1 .. 16 ) {
+            my $Key  = 'TicketFreeKey' . $Count;
+            my $Text = 'TicketFreeText' . $Count;
+            $TicketFree{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+            $TicketFree{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
         }
 
         # get free text config options
-        my %TicketFreeText = ();
-        for ( 1 .. 16 ) {
-            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+        my %TicketFreeText;
+        for my $Count ( 1 .. 16 ) {
+            my $Key  = 'TicketFreeKey' . $Count;
+            my $Text = 'TicketFreeText' . $Count;
+            $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID       => $Self->{TicketID},
                 Action         => $Self->{Action},
-                Type           => "TicketFreeKey$_",
+                Type           => $Key,
                 QueueID        => $NewQueueID || 0,
                 ServiceID      => $GetParam{ServiceID} || 0,
                 CustomerUserID => $Self->{UserID},
             );
-            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+            $TicketFreeText{$Text} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID       => $Self->{TicketID},
                 Action         => $Self->{Action},
-                Type           => "TicketFreeText$_",
+                Type           => $Text,
                 QueueID        => $NewQueueID || 0,
                 ServiceID      => $GetParam{ServiceID} || 0,
                 CustomerUserID => $Self->{UserID},
@@ -182,7 +186,7 @@ sub Run {
 
             # check required FreeTextField (if configured)
             if (
-                $Self->{Config}{'TicketFreeText'}{$_} == 2
+                $Self->{Config}{TicketFreeText}->{$_} == 2
                 && $TicketFree{"TicketFreeText$_"} eq ''
                 )
             {
@@ -191,7 +195,7 @@ sub Run {
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
-            Ticket => {%TicketFree},
+            Ticket => \%TicketFree,
         );
 
         # get ticket free time params
@@ -266,7 +270,7 @@ sub Run {
         }
         if ( $GetParam{Expand} ) {
             %Error = ();
-            $Error{'Expand'} = 1;
+            $Error{Expand} = 1;
         }
         if (%Error) {
 
@@ -310,13 +314,15 @@ sub Run {
         );
 
         # set ticket free text
-        for ( 1 .. 16 ) {
-            if ( defined( $TicketFree{"TicketFreeKey$_"} ) ) {
+        for my $Count ( 1 .. 16 ) {
+            my $Key  = 'TicketFreeKey' . $Count;
+            my $Text = 'TicketFreeText' . $Count;
+            if ( defined $TicketFree{$Key} ) {
                 $Self->{TicketObject}->TicketFreeTextSet(
                     TicketID => $TicketID,
-                    Key      => $TicketFree{"TicketFreeKey$_"},
-                    Value    => $TicketFree{"TicketFreeText$_"},
-                    Counter  => $_,
+                    Key      => $TicketFree{$Key},
+                    Value    => $TicketFree{$Text},
+                    Counter  => $Count,
                     UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                 );
             }
@@ -325,11 +331,11 @@ sub Run {
         # set ticket free time
         for ( 1 .. 6 ) {
             if (
-                defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Year" } )
-                && defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Month" } )
-                && defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Day" } )
-                && defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Hour" } )
-                && defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Minute" } )
+                defined $TicketFreeTime{ "TicketFreeTime" . $_ . "Year" }
+                && defined $TicketFreeTime{ "TicketFreeTime" . $_ . "Month" }
+                && defined $TicketFreeTime{ "TicketFreeTime" . $_ . "Day" }
+                && defined $TicketFreeTime{ "TicketFreeTime" . $_ . "Hour" }
+                && defined $TicketFreeTime{ "TicketFreeTime" . $_ . "Minute" }
                 )
             {
                 my %Time;
@@ -341,10 +347,9 @@ sub Run {
                 $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
 
                 if ( $TicketFreeTime{ "TicketFreeTime" . $_ . "Used" } ) {
-                    %Time
-                        = $Self->{LayoutObject}->TransfromDateSelection(
+                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
                         %TicketFreeTime, Prefix => "TicketFreeTime" . $_,
-                        );
+                    );
                 }
                 $Self->{TicketObject}->TicketFreeTimeSet(
                     %Time,
@@ -483,7 +488,7 @@ sub _MaskNew {
             delete $NewTos{$_};
         }
     }
-    $Param{'ToStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
+    $Param{ToStrg} = $Self->{LayoutObject}->AgentQueueListOption(
         Data       => \%NewTos,
         Multiple   => 0,
         Size       => 0,
@@ -507,14 +512,14 @@ sub _MaskNew {
         else {
             $PrioritySelected{Selected} = $Self->{Config}->{PriorityDefault} || '3 normal';
         }
-        $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{PriorityStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => \%Priorities,
             Name => 'PriorityID',
             %PrioritySelected,
         );
         $Self->{LayoutObject}->Block(
             Name => 'Priority',
-            Data => { %Param, },
+            Data => \%Param,
         );
     }
 
@@ -525,7 +530,7 @@ sub _MaskNew {
             Action         => $Self->{Action},
             CustomerUserID => $Self->{UserID},
         );
-        $Param{'TypeStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => \%Type,
             Name         => 'TypeID',
             SelectedID   => $Param{TypeID},
@@ -537,7 +542,7 @@ sub _MaskNew {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketType',
-            Data => {%Param},
+            Data => \%Param,
         );
     }
 
@@ -551,7 +556,7 @@ sub _MaskNew {
                 CustomerUserID => $Self->{UserID},
             );
         }
-        $Param{'ServiceStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => \%Service,
             Name         => 'ServiceID',
             SelectedID   => $Param{ServiceID},
@@ -575,7 +580,7 @@ sub _MaskNew {
                 CustomerUserID => $Self->{UserID},
             );
         }
-        $Param{'SLAStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{SLAStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => \%SLA,
             Name         => 'SLAID',
             SelectedID   => $Param{SLAID},
@@ -601,7 +606,7 @@ sub _MaskNew {
 
     # ticket free text
     for my $Count ( 1 .. 16 ) {
-        if ( $Self->{Config}->{'TicketFreeText'}->{$Count} ) {
+        if ( $Self->{Config}->{TicketFreeText}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeText',
                 Data => {
@@ -618,7 +623,7 @@ sub _MaskNew {
         }
     }
     for my $Count ( 1 .. 6 ) {
-        if ( $Self->{Config}->{'TicketFreeTime'}->{$Count} ) {
+        if ( $Self->{Config}->{TicketFreeTime}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeTime',
                 Data => {
@@ -635,10 +640,10 @@ sub _MaskNew {
     }
 
     # show attachments
-    for my $DataRef ( @{ $Param{Attachments} } ) {
+    for my $Attachment ( @{ $Param{Attachments} } ) {
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
-            Data => $DataRef,
+            Data => $Attachment,
         );
     }
 

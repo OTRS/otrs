@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.48 2009-09-08 17:02:49 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.49 2009-09-25 11:50:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -73,16 +73,14 @@ sub Run {
     }
 
     # check permissions
-    if (
-        !$Self->{TicketObject}->CustomerPermission(
-            Type     => 'ro',
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
-        )
-        )
-    {
+    my $Access = $Self->{TicketObject}->CustomerPermission(
+        Type     => 'ro',
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
 
-        # error screen, don't show ticket
+    # error screen, don't show ticket
+    if ( !$Access ) {
         return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'yes' );
     }
 
@@ -371,8 +369,8 @@ sub _Mask {
         my %Article = %$ArticleTmp;
 
         # if it is a customer article
-        if ( $Article{SenderType} eq 'customer' && $Article{ArticleType} !~ /int/ ) {
-            $LastCustomerArticleID = $Article{'ArticleID'};
+        if ( $Article{SenderType} eq 'customer' ) {
+            $LastCustomerArticleID = $Article{ArticleID};
             $LastCustomerArticle   = $CounterArray;
         }
         $CounterArray++;
@@ -389,7 +387,7 @@ sub _Mask {
     # try to use the latest non internal agent article
     if ( !$ArticleID ) {
         for my $ArticleTmp (@ArticleBox) {
-            if ( $ArticleTmp->{StateType} eq 'merged' || $ArticleTmp->{ArticleType} !~ /int/ ) {
+            if ( $ArticleTmp->{StateType} eq 'merged' ) {
                 $ArticleID = $ArticleTmp->{ArticleID};
             }
         }
@@ -525,7 +523,7 @@ sub _Mask {
             my %File = %{ $AtmIndex{$FileID} };
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleAttachmentRow',
-                Data => { %File, },
+                Data => \%File,
             );
 
             # download type
@@ -551,7 +549,7 @@ sub _Mask {
     }
 
     # just body if html email
-    if ( $Param{"ShowHTMLeMail"} ) {
+    if ( $Param{ShowHTMLeMail} ) {
 
         # generate output
         return $Self->{LayoutObject}->Attachment(
@@ -669,7 +667,7 @@ sub _Mask {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'State',
-                Data => { %Param, },
+                Data => \%Param,
             );
         }
 
@@ -693,7 +691,7 @@ sub _Mask {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'Priority',
-                Data => { %Param, },
+                Data => \%Param,
             );
         }
 
@@ -702,10 +700,10 @@ sub _Mask {
         my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
-        for my $DataRef (@Attachments) {
+        for my $Attachment (@Attachments) {
             $Self->{LayoutObject}->Block(
                 Name => 'Attachment',
-                Data => $DataRef,
+                Data => $Attachment,
             );
         }
     }
