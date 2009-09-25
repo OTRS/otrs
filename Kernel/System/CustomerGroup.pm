@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.21 2009-04-17 08:36:44 tr Exp $
+# $Id: CustomerGroup.pm,v 1.22 2009-09-25 11:39:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -66,8 +66,8 @@ create an object
     );
     my $CustomerGroupObject = Kernel::System::CustomerGroup->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -99,12 +99,12 @@ to add a member to a group
         GID => 12,
         UID => 6,
         Permission => {
-            ro => 1,
+            ro        => 1,
             move_into => 1,
-            create => 1,
-            owner => 1,
-            priority => 0,
-            rw => 0,
+            create    => 1,
+            owner     => 1,
+            priority  => 0,
+            rw        => 0,
         },
         UserID => 123,
     );
@@ -127,8 +127,8 @@ sub GroupMemberAdd {
 
         # delete existing permission
         $Self->{DBObject}->Do(
-            SQL => "DELETE FROM group_customer_user WHERE "
-                . " group_id = ? AND user_id = ? AND permission_key = ?",
+            SQL => 'DELETE FROM group_customer_user WHERE '
+                . ' group_id = ? AND user_id = ? AND permission_key = ?',
             Bind => [ \$Param{GID}, \$Param{UID}, \$Type ],
         );
 
@@ -143,10 +143,10 @@ sub GroupMemberAdd {
 
         # insert new permission
         $Self->{DBObject}->Do(
-            SQL => "INSERT INTO group_customer_user "
-                . " (user_id, group_id, permission_key, permission_value, "
-                . " create_time, create_by, change_time, change_by) "
-                . " VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+            SQL => 'INSERT INTO group_customer_user '
+                . ' (user_id, group_id, permission_key, permission_value, '
+                . ' create_time, create_by, change_time, change_by) '
+                . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
             Bind => [
                 \$Param{UID}, \$Param{GID}, \$Type, \$Param{Permission}->{$Type}, \$Param{UserID},
                 \$Param{UserID},
@@ -169,7 +169,7 @@ returns a list of users of a group with ro/move_into/create/owner/priority/rw pe
     Example:
     $CustomerGroupObject->GroupMemberList(
         UserID => $ID,
-        Type => 'move_into',
+        Type   => 'move_into',
         Result => 'HASH',
     );
 
@@ -186,12 +186,12 @@ sub GroupMemberList {
         }
     }
     if ( !$Param{UserID} && !$Param{GroupID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or GroupID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or GroupID!' );
         return;
     }
-    my %Data = ();
-    my @Name = ();
-    my @ID   = ();
+    my %Data;
+    my @Name;
+    my @ID;
 
     # check if customer group feature is activ, if not, return all groups
     if ( !$Self->{ConfigObject}->Get('CustomerGroupSupport') ) {
@@ -199,19 +199,16 @@ sub GroupMemberList {
         # get permissions
         %Data = $Self->{GroupObject}->GroupList( Valid => 1 );
         for ( keys %Data ) {
-            push( @Name, $Data{$_} );
-            push( @ID,   $_ );
+            push @Name, $Data{$_};
+            push @ID,   $_;
         }
     }
 
     # if it's activ, return just the permitted groups
     my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, gu.user_id "
-        . " FROM "
-        . " groups g, group_customer_user gu"
-        . " WHERE "
+        . " FROM groups g, group_customer_user gu WHERE "
         . " g.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) AND "
-        . " g.id = gu.group_id AND "
-        . " gu.permission_value = 1 AND "
+        . " g.id = gu.group_id AND gu.permission_value = 1 AND "
         . " gu.permission_key IN ('" . $Self->{DBObject}->Quote( $Param{Type} ) . "', 'rw') "
         . " AND ";
 
@@ -236,8 +233,8 @@ sub GroupMemberList {
 
         # get permissions
         $Data{$Key} = $Value;
-        push( @Name, $Value );
-        push( @ID,   $Key );
+        push @Name, $Value;
+        push @ID,   $Key;
     }
 
     # add always groups
@@ -247,8 +244,8 @@ sub GroupMemberList {
             for my $GroupID ( keys %Groups ) {
                 if ( $_ eq $Groups{$GroupID} && !$Data{$GroupID} ) {
                     $Data{$GroupID} = $_;
-                    push( @Name, $_ );
-                    push( @ID,   $GroupID );
+                    push @Name, $_;
+                    push @ID,   $GroupID;
                 }
             }
         }
@@ -261,9 +258,7 @@ sub GroupMemberList {
     if ( $Param{Result} && $Param{Result} eq 'Name' ) {
         return @Name;
     }
-    else {
-        return %Data;
-    }
+    return %Data;
 }
 
 =item GroupLookup()
@@ -348,6 +343,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.22 $ $Date: 2009-09-25 11:39:55 $
 
 =cut

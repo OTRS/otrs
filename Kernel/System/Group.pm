@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.70 2009-08-19 11:36:56 martin Exp $
+# $Id: Group.pm,v 1.71 2009-09-25 11:44:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -91,9 +91,9 @@ sub new {
 
 get id or name for group
 
-    my $Group = $GroupObject->GroupLookup(GroupID => $GroupID);
+    my $Group = $GroupObject->GroupLookup( GroupID => $GroupID );
 
-    my $GroupID = $GroupObject->GroupLookup(Group => $Group);
+    my $GroupID = $GroupObject->GroupLookup( Group => $Group );
 
 =cut
 
@@ -157,9 +157,9 @@ sub GroupLookup {
 
 get id or name for role
 
-    my $Role = $RoleObject->RoleLookup(RoleID => $RoleID);
+    my $Role = $RoleObject->RoleLookup( RoleID => $RoleID );
 
-    my $RoleID = $RoleObject->RoleLookup(Role => $Role);
+    my $RoleID = $RoleObject->RoleLookup( Role => $Role );
 
 =cut
 
@@ -244,8 +244,6 @@ to add a member to a group
 sub GroupMemberAdd {
     my ( $Self, %Param ) = @_;
 
-    my $Count;
-
     # check needed stuff
     for (qw(UID GID UserID Permission)) {
         if ( !$Param{$_} ) {
@@ -255,7 +253,7 @@ sub GroupMemberAdd {
     }
 
     # check if update is needed
-    my %Value = ();
+    my %Value;
     if ( !$Self->{"GroupMemberAdd::GID::$Param{GID}"} ) {
         return if !$Self->{DBObject}->Prepare(
             SQL => 'SELECT group_id, user_id, permission_key, permission_value FROM '
@@ -800,10 +798,10 @@ sub GroupGroupMemberList {
     my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
     # sql
-    my %Data = ();
-    my @Name = ();
-    my @ID   = ();
-    my $SQL  = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
+    my %Data;
+    my @Name;
+    my @ID;
+    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
         . " gu.user_id FROM groups g, group_user gu WHERE "
         . " g.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
         . " g.id = gu.group_id AND "
@@ -961,10 +959,10 @@ sub GroupRoleMemberList {
     my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
     # sql
-    my %Data = ();
-    my @Name = ();
-    my @ID   = ();
-    my $SQL  = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
+    my %Data;
+    my @Name;
+    my @ID;
+    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
         . " gu.role_id FROM groups g, group_role gu WHERE "
         . " g.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
         . " g.id = gu.group_id AND "
@@ -1004,7 +1002,7 @@ sub GroupRoleMemberList {
         }
 
         # remember permissions
-        if ( !defined( $Data{$Key} ) ) {
+        if ( !defined $Data{$Key} ) {
             $Data{$Key} = $Value;
             push @Name, $Value;
             push @ID,   $Key;
@@ -1073,7 +1071,7 @@ sub GroupRoleMemberAdd {
     }
 
     # check if update is needed
-    my %Value = ();
+    my %Value;
     if ( !$Self->{"GroupRoleMemberAdd::GID::$Param{GID}"} ) {
         $Self->{DBObject}->Prepare(
             SQL => 'SELECT group_id, role_id, permission_key, permission_value FROM '
@@ -1216,10 +1214,10 @@ sub GroupUserRoleMemberList {
     }
 
     # sql
-    my %Data = ();
-    my @Name = ();
-    my @ID   = ();
-    my $SQL  = "SELECT ru.role_id, ru.user_id, r.name FROM role_user ru, roles r WHERE "
+    my %Data;
+    my @Name;
+    my @ID;
+    my $SQL = "SELECT ru.role_id, ru.user_id, r.name FROM role_user ru, roles r WHERE "
         . " r.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
         . " r.id = ru.role_id AND ";
 
@@ -1516,6 +1514,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2009-08-19 11:36:56 $
+$Revision: 1.71 $ $Date: 2009-09-25 11:44:07 $
 
 =cut
