@@ -4,7 +4,7 @@
 <Cache>0</Cache>
 <Description>List of open tickets, sorted by time left until response deadline expires.
 
-NOTE: Please check the output and configuration of the statistics carefully to make sure that it produces the results you expect. If necessary, change the configuration before using the statistics productively.</Description>
+NOTE: Please check the output and configuration of the statistics carefully to make sure that it produces the results you expect. If necessary, change the configuration before using the statistics in a production environment.</Description>
 <File></File>
 <Format>CSV</Format>
 <Format>Print</Format>
