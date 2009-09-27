@@ -2,7 +2,7 @@
 # README.webserver - webserver description of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: README.webserver,v 1.19 2009-04-20 08:16:21 martin Exp $
+# $Id: README.webserver,v 1.20 2009-09-27 19:37:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,7 +78,7 @@ b)
 #   Perlrequire /opt/otrs/scripts/apache-perl-startup.pl
 
     # Apache::StatINC - Reload %INC files when updated on disk
-    # (just use it for testing, setup, ... not for high productiv systems)
+    # (just use it for testing, setup, ... not for high-load systems)
 #   PerlInitHandler Apache::StatINC
 
     <Location /otrs>
