@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.80 2009-08-27 12:32:21 martin Exp $
+# $Id: Stats.pm,v 1.81 2009-09-28 13:11:45 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 =head1 SYNOPSIS
 
@@ -593,7 +593,7 @@ sub GetStatsList {
             $UserPermission = 1;
         }
 
-        # these function is simular like other function in the code perhaps we should
+        # these function is similar like other function in the code perhaps we should
         # merge them
         # permission check
         elsif ( $Stat->{Valid} ) {
@@ -2225,8 +2225,9 @@ sub GetObjectName {
     # check if it is cached
     return $Self->{'Cache::ObjectModule'}{$Module} if $Self->{'Cache::ObjectName'}{$Module};
 
-    # load module
-    $Self->{MainObject}->Require($Module);
+    # load module, return if module does not exist
+    # (this is important when stats are uninstalled, see also bug# 4269)
+    return if !$Self->{MainObject}->Require($Module);
 
     # get name
     my $StatObject = $Module->new( %{$Self} );
@@ -3222,6 +3223,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.80 $ $Date: 2009-08-27 12:32:21 $
+$Revision: 1.81 $ $Date: 2009-09-28 13:11:45 $
 
 =cut
