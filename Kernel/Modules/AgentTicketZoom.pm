@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.75.2.2 2009-09-23 10:53:33 mg Exp $
+# $Id: AgentTicketZoom.pm,v 1.75.2.3 2009-09-28 07:26:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75.2.2 $) [1];
+$VERSION = qw($Revision: 1.75.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -336,12 +336,14 @@ sub MaskAgentZoom {
     # age design
     $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
     if ( $Param{UntilTime} ) {
-        if ( $Param{UntilTime} < -1 ) {
+        if ( $Param{UntilTime} < -1 && $Self->{HighlightColor2} ) {
             $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
         }
-        $Param{PendingUntil}
-            .= $Self->{LayoutObject}->CustomerAge( Age => $Param{UntilTime}, Space => '<br>' );
-        if ( $Param{UntilTime} < -1 ) {
+        $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
+            Age   => $Param{UntilTime},
+            Space => '<br>',
+        );
+        if ( $Param{UntilTime} < -1 && $Self->{HighlightColor2} ) {
             $Param{PendingUntil} .= "</font>";
         }
     }
