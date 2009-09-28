@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1031 2009-09-26 09:59:38 martin Exp $
+# $Id: CHANGES,v 1.1032 2009-09-28 07:20:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,6 +31,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
+ - (2009/09/28) Fixed bug#4328 - Incorrect charset in AgentTicketAttachment.
  - (2009/09/26) Fixed bug#4302 - Dashboard: Tickets Stats graph incorrect
    (permission related).
  - (2009/09/24) Fixed bug#3909 - Optional TicketFreeTimes with AgentTicketCompose
