@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.34 2009-04-17 08:36:44 tr Exp $
+# $Id: State.pm,v 1.34.2.1 2009-09-28 14:06:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.34.2.1 $) [1];
 
 =head1 NAME
 
@@ -221,7 +221,7 @@ sub StateGet {
     if ( !%Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "StateType '$Param{Name}' not found!"
+            Message  => "State '$Param{Name}' not found!"
         );
         return;
     }
@@ -450,6 +450,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.34.2.1 $ $Date: 2009-09-28 14:06:46 $
 
 =cut
