@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.270.2.4 2009-09-23 21:37:01 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.270.2.5 2009-09-29 11:47:48 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1839,6 +1839,36 @@
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::ZoomRichTextForce" Required="1" Valid="1">
+        <Description Lang="en">Show article also on richt text even rich text is disabled.</Description>
+        <Description Lang="de">Zeige die Artikel in der Ticket-Zoom-Ansicht im Rich Text Moduls auch wenn Rich Text deaktiviert ist.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">Use it based on global RichText setting.</Item>
+                <Item Key="1">Force to show always in RichText mode.</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::HTMLArticleHeightDefault" Required="1" Valid="1">
+        <Description Lang="en">Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.</Description>
+        <Description Lang="de">Standard-Höhe (in Pixeln) von eingebundenen HTML-Artikeln in AgentTicketZoom.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,4}$">100</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::HTMLArticleHeightMax" Required="1" Valid="1">
+        <Description Lang="en">Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.</Description>
+        <Description Lang="de">Maximale Höhe (in Pixeln) von eingebundenen HTML-Artikeln in AgentTicketZoom.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,5}$">2500</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::HistoryOrder" Required="1" Valid="1">
@@ -6676,7 +6706,7 @@ $QData{"Signature"}
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="CacheTTL">30</Item>
+                <Item Key="CacheTTL">45</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9401,24 +9431,6 @@ Thanks for your help!
                 <Item Key="Block">ItemSearchFulltext</Item>
                 <Item Key="Size">10</Item>
             </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::HTMLArticleHeightDefault" Required="1" Valid="1">
-        <Description Lang="en">Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.</Description>
-        <Description Lang="de">Standard-Höhe (in Pixeln) von eingebundenen HTML-Artikeln in AgentTicketZoom.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
-        <Setting>
-            <String Regex="^[0-9]{1,4}$">100</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::HTMLArticleHeightMax" Required="1" Valid="1">
-        <Description Lang="en">Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.</Description>
-        <Description Lang="de">Maximale Höhe (in Pixeln) von eingebundenen HTML-Artikeln in AgentTicketZoom.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
-        <Setting>
-            <String Regex="^[0-9]{1,5}$">2500</String>
         </Setting>
     </ConfigItem>
 </otrs_config>

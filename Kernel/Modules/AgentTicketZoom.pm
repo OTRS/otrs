@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.75.2.3 2009-09-28 07:26:51 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.75.2.4 2009-09-29 11:47:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75.2.3 $) [1];
+$VERSION = qw($Revision: 1.75.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,6 +57,12 @@ sub new {
     }
     $Self->{ArticleFilterActive}
         = $Self->{ConfigObject}->Get('Ticket::Frontend::TicketArticleFilter');
+
+    # define if rich text should be used
+    $Self->{RichText}
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomRichTextForce')
+        || $Self->{ConfigObject}->Get('Frontend::RichText')
+        || 0;
 
     # ticket id lookup
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
@@ -216,7 +222,7 @@ sub Run {
     my $StripPlainBodyAsAttachment = 1;
 
     # check if rich text is enabled, if not only stip ascii attachments
-    if ( !$Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    if ( !$Self->{RichText} ) {
         $StripPlainBodyAsAttachment = 2;
     }
 
@@ -539,8 +545,7 @@ sub MaskAgentZoom {
 
         # in case show plain article body (if no html body as attachment exists of if rich
         # text is not enabled)
-        my $RichText = $Self->{ConfigObject}->Get('Frontend::RichText');
-        if ( !$RichText || !$Article{AttachmentIDOfHTMLBody} ) {
+        if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
             $ViewMode = 'BodyPlain';
 
             # remember plain body for further processing by ArticleViewModules
@@ -570,7 +575,7 @@ sub MaskAgentZoom {
         );
 
         # restore plain body for further processing by ArticleViewModules
-        if ( !$RichText || !$Article{AttachmentIDOfHTMLBody} ) {
+        if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
             $Article{Body} = $Article{BodyPlain};
         }
 
