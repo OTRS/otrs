@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.106 2009-09-13 22:40:28 martin Exp $
+# $Id: DB.pm,v 1.107 2009-09-29 14:11:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 =head1 NAME
 
@@ -185,9 +185,8 @@ sub new {
     }
 
     # do database connect
-    if ( !$Self->Connect() ) {
-        return;
-    }
+    return if !$Self->Connect();
+
     return $Self;
 }
 
@@ -245,7 +244,7 @@ sub Disconnect {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'debug',
-            Message  => "DB.pm->Disconnect",
+            Message  => 'DB.pm->Disconnect',
         );
     }
 
@@ -371,7 +370,7 @@ sub Do {
     }
 
     # check bind params
-    my @Array = ();
+    my @Array;
     if ( $Param{Bind} ) {
         for my $Data ( @{ $Param{Bind} } ) {
             if ( ref $Data eq 'SCALAR' ) {
@@ -529,7 +528,7 @@ sub Prepare {
     }
 
     # check bind params
-    my @Array = ();
+    my @Array;
     if ( $Param{Bind} ) {
         for my $Data ( @{ $Param{Bind} } ) {
             if ( ref $Data eq 'SCALAR' ) {
@@ -975,6 +974,12 @@ sub QueryCondition {
     # remove double %%
     $Param{Value} =~ s/%%/%/g;
 
+    # replace '%!%' by '!%' (done if * gets added by search frontend)
+    $Param{Value} =~ s/\%!\%/!%/g;
+
+    # replace '%!' by '!%' (done if * gets added by search frontend)
+    $Param{Value} =~ s/\%!/!%/g;
+
     # remove leading/tailing conditions
     $Param{Value} =~ s/(&&|\|\|)\)$/)/g;
     $Param{Value} =~ s/^\((&&|\|\|)/(/g;
@@ -1164,6 +1169,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.106 $ $Date: 2009-09-13 22:40:28 $
+$Revision: 1.107 $ $Date: 2009-09-29 14:11:26 $
 
 =cut
