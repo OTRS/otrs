@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.105 2009-07-20 04:05:18 martin Exp $
+# $Id: DB.pm,v 1.105.2.1 2009-09-29 14:09:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.105.2.1 $) [1];
 
 =head1 NAME
 
@@ -975,6 +975,12 @@ sub QueryCondition {
     # remove double %%
     $Param{Value} =~ s/%%/%/g;
 
+    # replace '%!%' by '!%' (done if * gets added by search frontend)
+    $Param{Value} =~ s/\%!\%/!%/g;
+
+    # replace '%!' by '!%' (done if * gets added by search frontend)
+    $Param{Value} =~ s/\%!/!%/g;
+
     # remove leading/tailing conditions
     $Param{Value} =~ s/(&&|\|\|)\)$/)/g;
     $Param{Value} =~ s/^\((&&|\|\|)/(/g;
@@ -1164,6 +1170,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.105 $ $Date: 2009-07-20 04:05:18 $
+$Revision: 1.105.2.1 $ $Date: 2009-09-29 14:09:22 $
 
 =cut

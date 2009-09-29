@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.416 2009-09-08 10:10:50 martin Exp $
+# $Id: Ticket.pm,v 1.416.2.1 2009-09-29 14:09:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.416 $) [1];
+$VERSION = qw($Revision: 1.416.2.1 $) [1];
 
 =head1 NAME
 
@@ -4170,10 +4170,8 @@ sub TicketSearch {
             # check if search condition extention is used
             if ( $Param{ConditionInline} && $Value =~ /(&&|\|\||\!|\+|AND|OR)/ ) {
                 $SQLExt .= $Self->{DBObject}->QueryCondition(
-                    Key          => $FieldSQLMap{$Key},
-                    Value        => $Value,
-                    SearchPrefix => '*',
-                    SearchSuffix => '*',
+                    Key   => $FieldSQLMap{$Key},
+                    Value => $Value,
                 );
             }
             elsif ( $Value !~ /%/ ) {
@@ -7368,6 +7366,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.416 $ $Date: 2009-09-08 10:10:50 $
+$Revision: 1.416.2.1 $ $Date: 2009-09-29 14:09:22 $
 
 =cut
