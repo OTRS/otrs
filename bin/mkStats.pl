@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.62 2009-04-03 14:15:00 martin Exp $
+# $Id: mkStats.pl,v 1.63 2009-09-29 07:27:50 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -71,20 +71,22 @@ $CommonObject{PDFObject}       = Kernel::System::PDF->new(%CommonObject);
 
 # get options
 my %Opts = ();
-getopt( 'nrsmoplf', \%Opts );
+getopt( 'nrsmoplfS', \%Opts );
 if ( $Opts{h} ) {
     print "mkStats.pl <Revision $VERSION> - OTRS cmd stats\n";
     print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print
-        "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print]\n";
-    print "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";
+        "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>]\n";
+    print
+        "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";
     print "       <DIRECTORY> /output/dir/\n";
     exit 1;
 }
 
 # required output param check
 if ( !$Opts{o} && !$Opts{r} ) {
-    print STDERR "ERROR: Need -o /tmp/ OR -r email\@example.com [-m 'some message']\n";
+    print STDERR
+        "ERROR: Need -o /tmp/ OR -r email\@example.com [-m 'some message']\n";
     exit 1;
 }
 
@@ -132,10 +134,17 @@ if ( $Opts{f} ) {
     }
 }
 
+# separator (for CSV files)
+my $Separator = ';';    # for backwards compatibility no comma as default
+if ( $Opts{c} ) {
+    $Separator = $Opts{S};
+}
+
 # recipient check
 if ( $Opts{r} ) {
     if ( !$CommonObject{CheckItemObject}->CheckEmail( Address => $Opts{r} ) ) {
-        print STDERR "ERROR: " . $CommonObject{CheckItemObject}->CheckError() . "\n";
+        print STDERR "ERROR: "
+            . $CommonObject{CheckItemObject}->CheckError() . "\n";
         exit 1;
     }
 }
@@ -153,15 +162,16 @@ if ( $Opts{o} && !-e $Opts{o} ) {
 
 # process the information
 my $StatNumber = $Opts{n};
-my $StatID = $CommonObject{StatsObject}->StatNumber2StatID( StatNumber => $StatNumber );
+my $StatID =
+    $CommonObject{StatsObject}->StatNumber2StatID( StatNumber => $StatNumber );
 if ( !$StatID ) {
     print STDERR "ERROR: No StatNumber: $Opts{n}\n";
     exit 1;
 }
 
-my ( $s, $m, $h, $D, $M, $Y ) = $CommonObject{TimeObject}->SystemTime2Date(
-    SystemTime => $CommonObject{TimeObject}->SystemTime(),
-);
+my ( $s, $m, $h, $D, $M, $Y ) =
+    $CommonObject{TimeObject}
+    ->SystemTime2Date( SystemTime => $CommonObject{TimeObject}->SystemTime(), );
 
 my %GetParam = ();
 my $Stat = $CommonObject{StatsObject}->StatsGet( StatID => $StatID );
@@ -178,7 +188,8 @@ if ( $Stat->{StatType} eq 'static' ) {
         if ( !$ParamItem->{Multiple} ) {
             my $Value = GetParam( Param => $ParamItem->{Name}, );
             if ( defined $Value ) {
-                $GetParam{ $ParamItem->{Name} } = GetParam( Param => $ParamItem->{Name}, );
+                $GetParam{ $ParamItem->{Name} } =
+                    GetParam( Param => $ParamItem->{Name}, );
             }
             elsif ( defined $ParamItem->{SelectedID} ) {
                 $GetParam{ $ParamItem->{Name} } = $ParamItem->{SelectedID};
@@ -221,13 +232,18 @@ my %Attachment;
 if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
 
     # Create the PDF
-    my %User = $CommonObject{UserObject}->GetUserData( UserID => $CommonObject{UserID} );
+    my %User =
+        $CommonObject{UserObject}->GetUserData( UserID => $CommonObject{UserID} );
 
     my $PrintedBy  = $CommonObject{LanguageObject}->Get('printed by');
     my $Page       = $CommonObject{LanguageObject}->Get('Page');
     my $SystemTime = $CommonObject{TimeObject}->SystemTime();
-    my $TimeStamp  = $CommonObject{TimeObject}->SystemTime2TimeStamp( SystemTime => $SystemTime, );
-    my $Time       = $CommonObject{LanguageObject}->FormatTimeString( $TimeStamp, 'DateFormat' );
+    my $TimeStamp =
+        $CommonObject{TimeObject}
+        ->SystemTime2TimeStamp( SystemTime => $SystemTime, );
+    my $Time =
+        $CommonObject{LanguageObject}
+        ->FormatTimeString( $TimeStamp, 'DateFormat' );
 
     # create the content array
     my $CellData;
@@ -250,7 +266,8 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
         $CounterRow++;
     }
     if ( !$CellData->[0]->[0] ) {
-        $CellData->[0]->[0]->{Content} = $CommonObject{LanguageObject}->Get('No Result!');
+        $CellData->[0]->[0]->{Content} =
+            $CommonObject{LanguageObject}->Get('No Result!');
     }
 
     # page params
@@ -260,11 +277,13 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     $PageParam{MarginRight}     = 40;
     $PageParam{MarginBottom}    = 40;
     $PageParam{MarginLeft}      = 40;
-    $PageParam{HeaderRight}
-        = $CommonObject{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
-    $PageParam{FooterLeft}    = 'mkStats.pl';
-    $PageParam{HeadlineLeft}  = $Title;
-    $PageParam{HeadlineRight} = $PrintedBy . ' '
+    $PageParam{HeaderRight} =
+        $CommonObject{ConfigObject}->Get('Stats::StatsHook')
+        . $Stat->{StatNumber};
+    $PageParam{FooterLeft}   = 'mkStats.pl';
+    $PageParam{HeadlineLeft} = $Title;
+    $PageParam{HeadlineRight} =
+        $PrintedBy . ' '
         . $User{UserFirstname} . ' '
         . $User{UserLastname} . ' ('
         . $User{UserEmail} . ') '
@@ -301,7 +320,8 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
 
         # if first page
         if ( $Counter eq 1 ) {
-            $CommonObject{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' ' . $Counter, );
+            $CommonObject{PDFObject}
+                ->PageNew( %PageParam, FooterRight => $Page . ' ' . $Counter, );
         }
 
         # output table (or a fragment of it)
@@ -313,7 +333,8 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
         }
         else {
             $CommonObject{PDFObject}->PageNew(
-                %PageParam, FooterRight => $Page . ' ' . ( $Counter + 1 ),
+                %PageParam,
+                FooterRight => $Page . ' ' . ( $Counter + 1 ),
             );
         }
         $Counter++;
@@ -328,9 +349,9 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     my $PDFString = $CommonObject{PDFObject}->DocumentOutput();
 
     # save the pdf with the title and timestamp as filename
-    my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
-        String => $Stat->{Title} . " Created",
-    );
+    my $Filename =
+        $CommonObject{StatsObject}
+        ->StringAndTimestamp2Filename( String => $Stat->{Title} . " Created", );
     %Attachment = (
         Filename    => $Filename . ".pdf",
         ContentType => "application/pdf",
@@ -344,14 +365,15 @@ else {
     # Create the CVS data
     my $Output = "Name: $Title; Created: $Time\n";
     $Output .= $CommonObject{CSVObject}->Array2CSV(
-        Head => $HeadArrayRef,
-        Data => \@StatArray,
+        Head      => $HeadArrayRef,
+        Data      => \@StatArray,
+        Separator => $Separator,
     );
 
     # save the csv with the title and timestamp as filename
-    my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
-        String => $Stat->{Title} . " Created",
-    );
+    my $Filename =
+        $CommonObject{StatsObject}
+        ->StringAndTimestamp2Filename( String => $Stat->{Title} . " Created", );
 
     %Attachment = (
         Filename    => $Filename . ".csv",
