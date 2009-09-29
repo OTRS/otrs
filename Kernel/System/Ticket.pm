@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.420 2009-09-23 21:19:36 martin Exp $
+# $Id: Ticket.pm,v 1.421 2009-09-29 13:10:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.420 $) [1];
+$VERSION = qw($Revision: 1.421 $) [1];
 
 =head1 NAME
 
@@ -4233,10 +4233,8 @@ sub TicketSearch {
             # check if search condition extention is used
             if ( $Param{ConditionInline} && $Value =~ /(&&|\|\||\!|\+|AND|OR)/ ) {
                 $SQLExt .= $Self->{DBObject}->QueryCondition(
-                    Key          => $FieldSQLMap{$Key},
-                    Value        => $Value,
-                    SearchPrefix => '*',
-                    SearchSuffix => '*',
+                    Key   => $FieldSQLMap{$Key},
+                    Value => $Value,
                 );
             }
             elsif ( $Value !~ /%/ ) {
@@ -4808,6 +4806,7 @@ sub TicketSearch {
     my %Tickets;
     my @TicketIDs;
     my $Count;
+
     return if !$Self->{DBObject}->Prepare( SQL => $SQL . $SQLExt, Limit => $Limit );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Count = $Row[0];
@@ -7351,6 +7350,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.420 $ $Date: 2009-09-23 21:19:36 $
+$Revision: 1.421 $ $Date: 2009-09-29 13:10:37 $
 
 =cut
