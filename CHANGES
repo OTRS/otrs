@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1036 2009-09-29 13:10:37 martin Exp $
+# $Id: CHANGES,v 1.1037 2009-09-30 09:16:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,11 +31,13 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
-  - (2009/09/29) Fixed bug#3248 - TicketSearch with ExtendedSearchCondition not
-     working correct.
-  - (2009/09/29) Fixed bug#4341 - RTE is not coupled with RichTextViewing. Rich
-     text is being shown, even if the text/plain MIME part is available.
-     Added new config option to force rich text viewing in ticket zoom.
+ - (2009/09/30) Fixed bug#4355 - SLA dropdown does not populate in
+    AgentTicketEmail.
+ - (2009/09/29) Fixed bug#3248 - TicketSearch with ExtendedSearchCondition not
+    working correct.
+ - (2009/09/29) Fixed bug#4341 - RTE is not coupled with RichTextViewing. Rich
+    text is being shown, even if the text/plain MIME part is available.
+    Added new config option to force rich text viewing in ticket zoom.
 
      SysConfig -> Ticket -> Frontend::Agent::Ticket::ViewZoom ->
       -=> Ticket::Frontend::ZoomRichTextForce
@@ -45,6 +47,7 @@
  - (2009/09/28) Fixed bug#4341 - No HighlightColors configured fills up OTRS log
     file with warnings.
  - (2009/09/28) Fixed bug#4328 - Incorrect charset in AgentTicketAttachment.
+ - (2009/09/28) Fixed bug#4333 - StateGet() gives wrong error message.
  - (2009/09/26) Fixed bug#4302 - Dashboard: Tickets Stats graph incorrect
    (permission related).
  - (2009/09/24) Fixed bug#3909 - Optional TicketFreeTimes with AgentTicketCompose
