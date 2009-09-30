@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.993.2.29 2009-09-29 14:09:22 martin Exp $
+# $Id: CHANGES,v 1.993.2.30 2009-09-30 09:13:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,10 @@
 # --
 
 2.4.5 (2009/??/??)
-  - (2009/09/29) Fixed bug#3248 - TicketSearch with ExtendedSearchCondition not
-     working correct.
+ - (2009/09/30) Fixed bug#4355 - SLA dropdown does not populate in
+    AgentTicketEmail.
+ - (2009/09/29) Fixed bug#3248 - TicketSearch with ExtendedSearchCondition not
+    working correct.
  - (2009/09/29) Fixed bug#4341 - RTE is not coupled with RichTextViewing. Rich
     text is being shown, even if the text/plain MIME part is available.
     Added new config option to force rich text viewing in ticket zoom.
