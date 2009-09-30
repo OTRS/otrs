@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.31 2009-09-23 15:24:40 mb Exp $
+# $Id: vi_VN.pm,v 1.32 2009-09-30 15:06:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -677,8 +677,8 @@ sub Data {
         'Add Customer Company' => 'Thêm công ty khách hàng',
         'Add a new Customer Company.' => 'Thêm 1 công ty khách hàng m¾i',
         'List' => 'Danh sách',
-        'This values are required.' => 'Giá tr¸ này ğßşc yêu c¥u',
-        'This values are read only.' => 'Giá tr¸ này chï ğ÷c',
+        'These values are required.' => 'Giá tr¸ này ğßşc yêu c¥u',
+        'These values are read-only.' => 'Giá tr¸ này chï ğ÷c',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Tin nh¡n ğang soÕn b¸ ğóng. Ğang thoát.',

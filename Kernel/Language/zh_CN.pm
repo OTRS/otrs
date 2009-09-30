@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_CN.pm,v 1.70 2009-09-22 13:04:22 mg Exp $
+# $Id: zh_CN.pm,v 1.71 2009-09-30 15:06:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -687,8 +687,8 @@ sub Data {
         'Add Customer Company' => '增加客人单位',
         'Add a new Customer Company.' => '增加客人到单位里',
         'List' => '列表',
-        'This values are required.' => '该条目必须填写.',
-        'This values are read only.' => '该数据只读.',
+        'These values are required.' => '该条目必须填写.',
+        'These values are read-only.' => '该数据只读.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => '进行消息撰写的窗口已经被关闭,退出.',
