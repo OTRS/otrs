@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsible.pm - set ticket responsible
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.pm,v 1.58.2.2 2009-09-30 16:16:01 ub Exp $
+# $Id: AgentTicketResponsible.pm,v 1.58.2.3 2009-09-30 16:16:50 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58.2.2 $) [1];
+$VERSION = qw($Revision: 1.58.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1282,8 +1282,10 @@ sub _Mask {
     }
 
     # get output back
-    return $Self->{LayoutObject}
-        ->Output( TemplateFile => 'AgentTicketResponsible', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketResponsible',
+        Data         => \%Param,
+    );
 }
 
 1;
