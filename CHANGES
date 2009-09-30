@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1037 2009-09-30 09:16:07 mb Exp $
+# $Id: CHANGES,v 1.1038 2009-09-30 10:38:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,6 +31,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
+ - (2009/09/30) Fixed bug#4358 - Unable to insert inline images in customer
+    frontend if WebUploadCacheModule is set to "FS".
  - (2009/09/30) Fixed bug#4355 - SLA dropdown does not populate in
     AgentTicketEmail.
  - (2009/09/29) Fixed bug#3248 - TicketSearch with ExtendedSearchCondition not
@@ -77,7 +79,7 @@
     in AgentTicketZoom.
  - (2009/09/21) Fixed bug#2087 - AgentTicketMove does not consider responsible
     feature.
- - (2009/09/21) Fixed bug#4029 - S/MIME activation with misunderandable
+ - (2009/09/21) Fixed bug#4029 - S/MIME activation with unclear message
     message/incomplete documentation.
  - (2009/09/21) Fixed bug#3408 - Richtext editor - editor windows is way to small.
  - (2009/09/21) Fixed bug#4188 - Moving junk mails unnecessarily need subject and
