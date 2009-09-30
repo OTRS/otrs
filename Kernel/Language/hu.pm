@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.74 2009-09-23 15:24:40 mb Exp $
+# $Id: hu.pm,v 1.75 2009-09-30 14:51:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -682,8 +682,8 @@ sub Data {
         'Add Customer Company' => 'Ügyfél cég hozzáadása',
         'Add a new Customer Company.' => 'Új ügyfél cég hozzadása',
         'List' => 'Lista',
-        'This values are required.' => 'Ezen értékek megadása kötelezõ.',
-        'This values are read only.' => 'Ezek az értékek csak olvashatók.',
+        'These values are required.' => 'Ezen értékek megadása kötelezõ.',
+        'These values are read-only.' => 'Ezek az értékek csak olvashatók.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Az éppen elkészült levél lezárásra került. Kilépés.',

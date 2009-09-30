@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.96 2009-09-23 15:24:40 mb Exp $
+# $Id: fi.pm,v 1.97 2009-09-30 14:51:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -679,8 +679,8 @@ sub Data {
         'Add Customer Company' => 'Lisää asiakasyritys',
         'Add a new Customer Company.' => 'Lisää uusi asiakasyritys.',
         'List' => 'Listaa',
-        'This values are required.' => 'Pakollinen tieto.',
-        'This values are read only.' => 'Tämä kenttä on lukutyyppinen',
+        'These values are required.' => 'Pakollinen tieto.',
+        'These values are read-only.' => 'Tämä kenttä on lukutyyppinen',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Kirjoittamasi viesti on suljettu.  Poistutaan.',

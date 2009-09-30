@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.96 2009-09-23 15:24:40 mb Exp $
+# $Id: bg.pm,v 1.97 2009-09-30 14:51:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -679,8 +679,8 @@ sub Data {
         'Add Customer Company' => 'Добавяне на клиент-фирма',
         'Add a new Customer Company.' => 'Добавяне на нова клиент-фирма',
         'List' => 'Списък',
-        'This values are required.' => 'Тези стойности са задължителни.',
-        'This values are read only.' => 'Тези стойности са само за преглед. (read only)',
+        'These values are required.' => 'Тези стойности са задължителни.',
+        'These values are read-only.' => 'Тези стойности са само за преглед. (read only)',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Съобщението, което създавахте е затворено. Изход.',

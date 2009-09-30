@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.85 2009-09-23 15:24:40 mb Exp $
+# $Id: nb_NO.pm,v 1.86 2009-09-30 14:51:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.85 $;
+$VERSION = q$Revision: 1.86 $;
 
 sub Data {
     my $Self = shift;
@@ -681,8 +681,8 @@ sub Data {
         'Add Customer Company' => 'Legg til kundebedrift',
         'Add a new Customer Company.' => 'Legg til en ny kundebedrift',
         'List' => 'Liste',
-        'This values are required.' => 'Disse verdiene må fylles ut.',
-        'This values are read only.' => 'Disse verdiene kan ikke endres.',
+        'These values are required.' => 'Disse verdiene må fylles ut.',
+        'These values are read-only.' => 'Disse verdiene kan ikke endres.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Det tilhørende redigeringsvinduet har blitt lukket.  Avslutter.',

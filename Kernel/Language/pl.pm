@@ -3,7 +3,7 @@
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.85 2009-09-23 15:24:40 mb Exp $
+# $Id: pl.pm,v 1.86 2009-09-30 14:51:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -681,8 +681,8 @@ sub Data {
         'Add Customer Company' => 'Dodaj firmê',
         'Add a new Customer Company.' => 'Dodaj now± firmê',
         'List' => 'Lista',
-        'This values are required.' => 'Warto¶æ wymagana.',
-        'This values are read only.' => 'Warto¶æ tylko do odczytu.',
+        'These values are required.' => 'Warto¶æ wymagana.',
+        'These values are read-only.' => 'Warto¶æ tylko do odczytu.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Wiadomo¶æ edytowana zosta³a zamkniêta.  Wychodzê.',

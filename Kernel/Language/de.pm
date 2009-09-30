@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.211 2009-09-23 15:23:49 mb Exp $
+# $Id: de.pm,v 1.212 2009-09-30 14:51:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.211 $) [1];
+$VERSION = qw($Revision: 1.212 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -679,8 +679,8 @@ sub Data {
         'Add Customer Company' => 'Kunden-Firma hinzufügen',
         'Add a new Customer Company.' => 'Eine neue Kunden-Firma hinzufügen.',
         'List' => 'Liste',
-        'This values are required.' => 'Diese Inhalte werden benötigt.',
-        'This values are read only.' => 'Diese Inhalte sind schreibgeschützt.',
+        'These values are required.' => 'Diese Inhalte werden benötigt.',
+        'These values are read-only.' => 'Diese Inhalte sind schreibgeschützt.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Die erstellte Nachricht wurde geschlossen.',

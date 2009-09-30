@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.57 2009-09-23 15:24:40 mb Exp $
+# $Id: sk_SK.pm,v 1.58 2009-09-30 14:51:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -678,8 +678,8 @@ sub Data {
         'Add Customer Company' => '',
         'Add a new Customer Company.' => '',
         'List' => '',
-        'This values are required.' => 'Táto hodnota je po¾adovaná.',
-        'This values are read only.' => 'Táto hodnota je iba na èítanie',
+        'These values are required.' => 'Táto hodnota je po¾adovaná.',
+        'These values are read-only.' => 'Táto hodnota je iba na èítanie',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Vytvorená správa bola zatvorená. ',

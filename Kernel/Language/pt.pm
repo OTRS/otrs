@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.83 2009-09-23 15:24:40 mb Exp $
+# $Id: pt.pm,v 1.84 2009-09-30 14:51:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -678,8 +678,8 @@ sub Data {
         'Add Customer Company' => 'Adicione Utilizador de Companhia',
         'Add a new Customer Company.' => 'Adicione um novo Utilizador de Companhia',
         'List' => 'Listar',
-        'This values are required.' => 'Estes valores são obrigatórios.',
-        'This values are read only.' => 'Estes valores são apenas de leitura.',
+        'These values are required.' => 'Estes valores são obrigatórios.',
+        'These values are read-only.' => 'Estes valores são apenas de leitura.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'A mensagem sendo composta foi fechada. Saindo.',

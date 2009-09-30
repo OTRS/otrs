@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.39 2009-09-22 13:04:23 mg Exp $
+# $Id: ar_SA.pm,v 1.40 2009-09-30 14:51:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -679,8 +679,8 @@ sub Data {
         'Add Customer Company' => '',
         'Add a new Customer Company.' => '',
         'List' => '',
-        'This values are required.' => 'åÐå ÇáÞíãÉ ãØáæÈÉ',
-        'This values are read only.' => 'åÐå ÇáÞíãÉ ááÞÑÇÁÉ ÝÞØ',
+        'These values are required.' => 'åÐå ÇáÞíãÉ ãØáæÈÉ',
+        'These values are read-only.' => 'åÐå ÇáÞíãÉ ááÞÑÇÁÉ ÝÞØ',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => '',

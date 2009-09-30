@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.61 2009-09-23 15:24:40 mb Exp $
+# $Id: da.pm,v 1.62 2009-09-30 14:51:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -679,8 +679,8 @@ sub Data {
         'Add Customer Company' => 'Tilføj kunde firma',
         'Add a new Customer Company.' => 'Tilføj et nyt Kunde firma',
         'List' => 'Liste',
-        'This values are required.' => 'Disse værdier er påkrævede.',
-        'This values are read only.' => 'Disse værdier kan kun læses.',
+        'These values are required.' => 'Disse værdier er påkrævede.',
+        'These values are read-only.' => 'Disse værdier kan kun læses.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Den meddelelse, der er ved at blive formuleret, er blevet lukket.  Afslutter.',

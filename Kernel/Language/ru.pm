@@ -5,7 +5,7 @@
 # Copyright (C) 2008-2009 Egor Tsilenko <bg8s at symlink.ru>
 # Copyright (C) 2009 Andrey Cherepanov <cas at altlinux.ru>
 # --
-# $Id: ru.pm,v 1.89 2009-09-23 15:24:40 mb Exp $
+# $Id: ru.pm,v 1.90 2009-09-30 14:51:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -685,8 +685,8 @@ sub Data {
         'Add Customer Company' => 'Добавить компанию клиента',
         'Add a new Customer Company.' => 'Добавить компанию клиента',
         'List' => 'Список',
-        'This values are required.' => 'Данное поле обязательно',
-        'This values are read only.' => 'Данное поле только для чтения',
+        'These values are required.' => 'Данное поле обязательно',
+        'These values are read-only.' => 'Данное поле только для чтения',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Создаваемое сообщение было закрыто. выход.',

@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.29 2009-09-23 15:24:40 mb Exp $
+# $Id: et.pm,v 1.30 2009-09-30 14:51:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -677,8 +677,8 @@ sub Data {
         'Add Customer Company' => 'Lisa kliendiettevõte',
         'Add a new Customer Company.' => 'Lisa uus kliendiettevõte.',
         'List' => 'Nimekiri',
-        'This values are required.' => 'Need väärtused on nõutud.',
-        'This values are read only.' => 'Neid väärtusi ei saa muuta.',
+        'These values are required.' => 'Need väärtused on nõutud.',
+        'These values are read-only.' => 'Neid väärtusi ei saa muuta.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Pooleliolev kriri sulegi. Lõpetan.',

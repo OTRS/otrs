@@ -5,7 +5,7 @@
 # Copyright (C) 2008 Pelayo Romero Martín <pelayo.romero at gmail.com>
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # --
-# $Id: es.pm,v 1.98 2009-09-23 15:24:40 mb Exp $
+# $Id: es.pm,v 1.99 2009-09-30 14:51:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -681,8 +681,8 @@ sub Data {
         'Add Customer Company' => 'Añadir Compañía de Cliente',
         'Add a new Customer Company.' => 'Añadir una nueva Compañía de Cliente',
         'List' => 'Listar',
-        'This values are required.' => 'Estos valores son obligatorios',
-        'This values are read only.' => 'Estos valores son de sólo-lectura',
+        'These values are required.' => 'Estos valores son obligatorios',
+        'These values are read-only.' => 'Estos valores son de sólo-lectura',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'El mensaje que se estaba redactando ha sido cerrado. Saliendo.!',

@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.120 2009-09-23 15:24:40 mb Exp $
+# $Id: fr.pm,v 1.121 2009-09-30 14:51:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -689,8 +689,8 @@ sub Data {
         'Add Customer Company' => 'Ajouter un client au service',
         'Add a new Customer Company.' => 'Ajouter un nouveau service',
         'List' => 'Lister',
-        'This values are required.' => 'Ces valeurs sont obligatoires.',
-        'This values are read only.' => 'Ces valeurs sont en lecture seule.',
+        'These values are required.' => 'Ces valeurs sont obligatoires.',
+        'These values are read-only.' => 'Ces valeurs sont en lecture seule.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Le courriel en cours de rédaction a été clôturé. Sortie.',

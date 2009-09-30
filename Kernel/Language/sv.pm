@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.74 2009-09-23 15:24:40 mb Exp $
+# $Id: sv.pm,v 1.75 2009-09-30 14:51:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -679,8 +679,8 @@ sub Data {
         'Add Customer Company' => 'Lägg till Kundföretag',
         'Add a new Customer Company.' => 'Lägg till ett nytt Kundföretag.',
         'List' => 'Lista',
-        'This values are required.' => 'Dessa värden är tvingande.',
-        'This values are read only.' => 'Dessa värden är skrivskyddade.',
+        'These values are required.' => 'Dessa värden är tvingande.',
+        'These values are read-only.' => 'Dessa värden är skrivskyddade.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Det tilhörande redigeringsfönstret har stängts. Avslutar.',

@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.57 2009-09-23 15:24:40 mb Exp $
+# $Id: el.pm,v 1.58 2009-09-30 14:51:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -683,8 +683,8 @@ sub Data {
         'Add Customer Company' => 'Προσθήκη Οργανισμου Πελάτη',
         'Add a new Customer Company.' => 'Προσθήκη νέου Οργανισμού Πελάτη',
         'List' => 'Κατάλογος',
-        'This values are required.' => 'Οι τιμές απαιτούνται.',
-        'This values are read only.' => 'Οι τιμές ειναι μονο για ανάγνωση.',
+        'These values are required.' => 'Οι τιμές απαιτούνται.',
+        'These values are read-only.' => 'Οι τιμές ειναι μονο για ανάγνωση.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Η δυνατότητα επεξεργασίας του μηνύματος έχει κλείσει.Έξοδος...',

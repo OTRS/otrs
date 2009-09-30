@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.8 2009-09-23 15:24:40 mb Exp $
+# $Id: lv.pm,v 1.9 2009-09-30 14:51:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -682,8 +682,8 @@ sub Data {
         'Add Customer Company' => 'Pievienot klienta organizāciju/uzņēmumu',
         'Add a new Customer Company.' => 'Pievienot jaunu klienta organizāciju/uzņēmumu.',
         'List' => 'Saraksts',
-        'This values are required.' => 'Šīs vērtības ir obligātas (jāaizpilda obligāti).',
-        'This values are read only.' => 'Šīs vērtības ir pieejamas tikai lasīšanai.',
+        'These values are required.' => 'Šīs vērtības ir obligātas (jāaizpilda obligāti).',
+        'These values are read-only.' => 'Šīs vērtības ir pieejamas tikai lasīšanai.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Aktīvais ziņojums ir ticis aizvērts. Izejam.',

@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.106 2009-09-23 15:24:15 mb Exp $
+# $Id: nl.pm,v 1.107 2009-09-30 14:51:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -697,8 +697,8 @@ sub Data {
         'Add Customer Company' => 'Bedrijf toevoegen',
         'Add a new Customer Company.' => 'Voeg een nieuw bedrijf toe.',
         'List' => 'Lijst',
-        'This values are required.' => 'Deze waarden zijn verplicht.',
-        'This values are read only.' => 'Deze waarden kunt u alleen lezen.',
+        'These values are required.' => 'Deze waarden zijn verplicht.',
+        'These values are read-only.' => 'Deze waarden kunt u alleen lezen.',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'Het bericht dat werd aangemaakt is gesloten.',

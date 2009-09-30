@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides Catalonian language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.30 2009-09-23 15:24:40 mb Exp $
+# $Id: ct.pm,v 1.31 2009-09-30 14:51:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -679,8 +679,8 @@ sub Data {
         'Add Customer Company' => 'Agregar Client Companyia',
         'Add a new Customer Company.' => 'Agregar un nou Client Companyia',
         'List' => 'Llista',
-        'This values are required.' => 'Aquests valors són obligatoris',
-        'This values are read only.' => 'Aquests valors són només de lectura',
+        'These values are required.' => 'Aquests valors són obligatoris',
+        'These values are read-only.' => 'Aquests valors són només de lectura',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => 'El missatge que s\'estava redactant ha estat tancat.  Sortint.',
