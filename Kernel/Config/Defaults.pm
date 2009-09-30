@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.323 2009-08-16 11:40:13 martin Exp $
+# $Id: Defaults.pm,v 1.323.2.1 2009-09-30 11:06:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.323 $) [1];
+$VERSION = qw($Revision: 1.323.2.1 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -1240,7 +1240,7 @@ Your OTRS Notification Master
         CustomerUserNameFields     => [ 'salutation', 'first_name', 'last_name' ],
         CustomerUserEmailUniqCheck => 1,
 
-#        # show now own tickets in customer panel, CompanyTickets
+#        # show not own tickets in customer panel, CompanyTickets
 #        CustomerUserExcludePrimaryCustomerID => 0,
 #        # generate auto logins
 #        AutoLoginCreation => 0,
@@ -1334,7 +1334,7 @@ Your OTRS Notification Master
 #        CustomerUserSearchListLimit => 250,
 #        CustomerUserPostMasterSearchFields => ['mail'],
 #        CustomerUserNameFields => ['givenname', 'sn'],
-#        # show now own tickets in customer panel, CompanyTickets
+#        # show not own tickets in customer panel, CompanyTickets
 #        CustomerUserExcludePrimaryCustomerID => 0,
 #        # add a ldap filter for valid users (expert setting)
 #        # CustomerUserValidFilter => '(!(description=gesperrt))',
@@ -2423,6 +2423,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.323 $ $Date: 2009-08-16 11:40:13 $
+$Revision: 1.323.2.1 $ $Date: 2009-09-30 11:06:06 $
 
 =cut
