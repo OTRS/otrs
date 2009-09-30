@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.416.2.1 2009-09-29 14:09:22 martin Exp $
+# $Id: Ticket.pm,v 1.416.2.2 2009-09-30 10:44:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.416.2.1 $) [1];
+$VERSION = qw($Revision: 1.416.2.2 $) [1];
 
 =head1 NAME
 
@@ -3993,32 +3993,29 @@ sub TicketSearch {
         # return if we have no permissions
         return if !@GroupIDs;
 
-        # get secondary customer ids
+        # get all customer ids
+        $SQLExt .= ' AND (';
         my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
             User => $Param{CustomerUserID},
         );
+        if (@CustomerIDs) {
+            $SQLExt .= 'LOWER(st.customer_id) IN (';
+            my $Exists = 0;
+            for (@CustomerIDs) {
+                if ($Exists) {
+                    $SQLExt .= ', ';
+                }
+                else {
+                    $Exists = 1;
+                }
+                $SQLExt .= "LOWER('" . $Self->{DBObject}->Quote($_) . "')";
+            }
+            $SQLExt .= ') OR ';
+        }
 
-        # add own customer id
-        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User => $Param{CustomerUserID},
-        );
-        if ( $CustomerData{UserCustomerID} ) {
-            push @CustomerIDs, $CustomerData{UserCustomerID};
-        }
-        $SQLExt .= ' AND (LOWER(st.customer_id) IN (';
-        my $Exists = 0;
-        for (@CustomerIDs) {
-            if ($Exists) {
-                $SQLExt .= ', ';
-            }
-            else {
-                $Exists = 1;
-            }
-            $SQLExt .= "LOWER('" . $Self->{DBObject}->Quote($_) . "')";
-        }
-        $SQLExt .= ') OR '
-            . " st.customer_user_id = '"
-            . $Self->{DBObject}->Quote( $Param{CustomerUserID} ) . "') ";
+        # get all own tickets
+        my $CustomerUserIDQuoted = $Self->{DBObject}->Quote( $Param{CustomerUserID} );
+        $SQLExt .= "st.customer_user_id = '$CustomerUserIDQuoted') ";
     }
 
     # add group ids to sql string
@@ -7366,6 +7363,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.416.2.1 $ $Date: 2009-09-29 14:09:22 $
+$Revision: 1.416.2.2 $ $Date: 2009-09-30 10:44:37 $
 
 =cut
