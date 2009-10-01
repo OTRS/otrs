@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
+
+    <TableAlter Name="ticket">
+        <IndexCreate Name="ticket_create_time_unix">
+            <IndexColumn Name="create_time_unix"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_until_time">
+            <IndexColumn Name="until_time"/>
+        </IndexCreate>
+    </TableAlter>
+
+    <TableCreate Name="virtual_fs">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+        <Column Name="filename" Required="true" Size="350" Type="VARCHAR"/>
+        <Column Name="backend" Required="true" Size="60" Type="VARCHAR"/>
+        <Column Name="backend_key" Required="true" Size="160" Type="VARCHAR"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Index Name="virtual_fs_filename">
+            <IndexColumn Name="filename" Size="350"/>
+        </Index>
+        <Index Name="virtual_fs_backend">
+            <IndexColumn Name="backend" Size="60"/>
+        </Index>
+    </TableCreate>
+    <TableCreate Name="virtual_fs_preferences">
+        <Column Name="virtual_fs_id" Required="true" Type="BIGINT"/>
+        <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
+        <Column Name="preferences_value" Required="false" Size="350" Type="VARCHAR"/>
+        <Index Name="virtual_fs_preferences_virtual_fs_id">
+            <IndexColumn Name="virtual_fs_id"/>
+        </Index>
+        <ForeignKey ForeignTable="virtual_fs">
+            <Reference Local="virtual_fs_id" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+    <TableCreate Name="virtual_fs_db">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+        <Column Name="filename" Required="true" Size="350" Type="VARCHAR"/>
+        <Column Name="content" Required="true" Type="LONGBLOB"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Index Name="virtual_fs_db_filename">
+            <IndexColumn Name="filename" Size="350"/>
+        </Index>
+    </TableCreate>
+
+</database>
