@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-09-18 01:05:52
+--  driver: mssql, generated: 2009-10-01 10:44:02
 -- ----------------------------------------------------------
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 CREATE INDEX ticket_until_time ON ticket (until_time);
@@ -36,4 +36,14 @@ CREATE TABLE virtual_fs_db (
     PRIMARY KEY(id)
 );
 CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);
+GO
+EXECUTE sp_rename N'customer_user.salutation', N'title', 'COLUMN';
+GO
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_customer_user_title' )
+ALTER TABLE customer_user DROP CONSTRAINT DF_customer_user_title;
+GO
+EXECUTE sp_rename N'users.salutation', N'title', 'COLUMN';
+GO
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_users_title' )
+ALTER TABLE users DROP CONSTRAINT DF_users_title;
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virtual_fs_id_id FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);

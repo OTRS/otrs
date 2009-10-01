@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.54 2009-03-12 07:00:04 tr Exp $
+# $Id: AdminUser.pm,v 1.55 2009-10-01 08:55:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -145,7 +145,7 @@ sub Run {
         my $Note = '';
         my %GetParam;
         for (
-            qw(UserID UserSalutation UserLogin UserFirstname UserLastname UserEmail UserPw ValidID Search)
+            qw(UserID UserTitle UserLogin UserFirstname UserLastname UserEmail UserPw ValidID Search)
             )
         {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
@@ -250,7 +250,7 @@ sub Run {
         my $Note = '';
         my %GetParam;
         for (
-            qw(UserSalutation UserLogin UserFirstname UserLastname UserEmail UserPw ValidID Search)
+            qw(UserTitle UserLogin UserFirstname UserLastname UserEmail UserPw ValidID Search)
             )
         {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';

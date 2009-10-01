@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-09-18 01:05:52
+--  driver: oracle, generated: 2009-10-01 10:44:02
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
@@ -65,5 +65,15 @@ end;
 /
 --;
 CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user RENAME COLUMN salutation TO title;
+ALTER TABLE customer_user MODIFY title VARCHAR2 (50) DEFAULT NULL;
+-- ----------------------------------------------------------
+--  alter table users
+-- ----------------------------------------------------------
+ALTER TABLE users RENAME COLUMN salutation TO title;
+ALTER TABLE users MODIFY title VARCHAR2 (50) DEFAULT NULL;
 SET DEFINE OFF;
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_vib1 FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);

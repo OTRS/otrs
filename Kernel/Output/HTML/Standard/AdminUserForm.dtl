@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserForm.dtl,v 1.39 2009-09-22 16:13:08 mb Exp $
+# $Id: AdminUserForm.dtl,v 1.40 2009-10-01 08:56:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,8 +121,8 @@
                                     <td width="60%" class="contentvalue"> <input type="text" name="UserLogin" value="$QData{"UserLogin"}" size="35" maxlength="100"/></td>
                                 </tr>
                                 <tr>
-                                    <td class="contentkey">$Text{"Salutation"}: </td>
-                                    <td class="contentvalue"> <input type="text" name="UserSalutation" value="$QData{"UserSalutation"}" size="35" maxlength="50"/></td>
+                                    <td class="contentkey">$Text{"Title"}: </td>
+                                    <td class="contentvalue"> <input type="text" name="UserTitle" value="$QData{"UserTitle"}" size="35" maxlength="50"/></td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Firstname"}: </td>
