@@ -2,7 +2,7 @@
 # Kernel/System/CacheInternal.pm - all cache functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CacheInternal.pm,v 1.1 2009-10-01 18:25:40 martin Exp $
+# $Id: CacheInternal.pm,v 1.2 2009-10-01 18:29:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -214,24 +214,20 @@ delete all caches
 
     $CacheInternalObject->CleanUp();
 
-    of if you want to cleanup only one object cache
-
-    $CacheInternalObject->CleanUp(
-        Type => 'ObjectName', # only A-z chars usable
-    );
 =cut
 
 sub CleanUp {
     my ( $Self, %Param ) = @_;
 
-    # debug
-    if ( $Self->{Debug} > 1 ) {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => 'CleanUp cache!',
-        );
+    # delete all runtime cache
+    $Self->{Cache} = undef;
+
+    # delete permanent cache
+    if ( $Self->{CacheObject} ) {
+        return if !$Self->{CacheObject}->CleanUp( Type => $Self->{Type} );
     }
-    return $Self->{CacheInternalObject}->CleanUp(%Param);
+
+    return 1;
 }
 
 1;
@@ -250,6 +246,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2009-10-01 18:25:40 $
+$Revision: 1.2 $ $Date: 2009-10-01 18:29:32 $
 
 =cut
