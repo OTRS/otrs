@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.95 2009-09-13 23:08:41 martin Exp $
+# $Id: User.pm,v 1.96 2009-10-01 09:07:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 =head1 NAME
 
@@ -158,7 +158,7 @@ sub GetUserData {
     # get initial data
     my @Bind;
     my $SQL = "SELECT $Self->{UserTableUserID}, $Self->{UserTableUser}, "
-        . " salutation, first_name, last_name, $Self->{UserTableUserPW}, valid_id "
+        . " title, first_name, last_name, $Self->{UserTableUserPW}, valid_id "
         . " FROM $Self->{UserTable} WHERE ";
     if ( $Param{User} ) {
         my $User = lc $Param{User};
@@ -172,13 +172,13 @@ sub GetUserData {
     return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data{UserID}         = $Row[0];
-        $Data{UserLogin}      = $Row[1];
-        $Data{UserSalutation} = $Row[2];
-        $Data{UserFirstname}  = $Row[3];
-        $Data{UserLastname}   = $Row[4];
-        $Data{UserPw}         = $Row[5];
-        $Data{ValidID}        = $Row[6];
+        $Data{UserID}        = $Row[0];
+        $Data{UserLogin}     = $Row[1];
+        $Data{UserTitle}     = $Row[2];
+        $Data{UserFirstname} = $Row[3];
+        $Data{UserLastname}  = $Row[4];
+        $Data{UserPw}        = $Row[5];
+        $Data{ValidID}       = $Row[6];
     }
 
     # check data
@@ -322,15 +322,15 @@ sub UserAdd {
     # sql
     return if !$Self->{DBObject}->Do(
         SQL => "INSERT INTO $Self->{UserTable} "
-            . "(salutation, first_name, last_name, "
+            . "(title, first_name, last_name, "
             . " $Self->{UserTableUser}, $Self->{UserTableUserPW}, "
             . " valid_id, create_time, create_by, change_time, change_by)"
             . " VALUES "
             . " (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
         Bind => [
-            \$Param{UserSalutation}, \$Param{UserFirstname}, \$Param{UserLastname},
-            \$Param{UserLogin},      \$Param{UserPw},        \$Param{ValidID},
-            \$Param{ChangeUserID},   \$Param{ChangeUserID},
+            \$Param{UserTitle}, \$Param{UserFirstname}, \$Param{UserLastname},
+            \$Param{UserLogin}, \$Param{UserPw},        \$Param{ValidID},
+            \$Param{ChangeUserID}, \$Param{ChangeUserID},
         ],
     );
 
@@ -417,12 +417,12 @@ sub UserUpdate {
 
     # update db
     return if !$Self->{DBObject}->Do(
-        SQL => "UPDATE $Self->{UserTable} SET salutation = ?, first_name = ?, last_name = ?, "
+        SQL => "UPDATE $Self->{UserTable} SET title = ?, first_name = ?, last_name = ?, "
             . " $Self->{UserTableUser} = ?, valid_id = ?, "
             . " change_time = current_timestamp, change_by = ? "
             . " WHERE $Self->{UserTableUserID} = ?",
         Bind => [
-            \$Param{UserSalutation}, \$Param{UserFirstname}, \$Param{UserLastname},
+            \$Param{UserTitle}, \$Param{UserFirstname}, \$Param{UserLastname},
             \$Param{UserLogin}, \$Param{ValidID}, \$Param{ChangeUserID}, \$Param{UserID},
         ],
     );
@@ -998,6 +998,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.95 $ $Date: 2009-09-13 23:08:41 $
+$Revision: 1.96 $ $Date: 2009-10-01 09:07:08 $
 
 =cut
