@@ -2,7 +2,7 @@
 # AdminService.dtl - provides HTML form for AdminService
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.8 2009-04-22 14:42:02 mh Exp $
+# $Id: AdminService.dtl,v 1.9 2009-10-01 14:36:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,160 +11,160 @@
 
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td colspan="2" class="mainhead">
-      $Env{"Box0"}$Text{"Service Management"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td width="30%" class="mainbody">
-      <form action="$Env{"CGIHandle"}" method="get">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="ServiceEdit"/>
-        <input type="hidden" name="ServiceID" value="NEW"/>
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">$Text{"Add Service"}:</td>
-          </tr>
-          <tr>
-            <td class="contentbody">$Text{"Add a new Service."}</td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Add"}"/>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </td>
-    <td width="70%" class="mainbody">
+    <tr>
+        <td colspan="2" class="mainhead">
+            $Env{"Box0"}$Text{"Service Management"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" class="mainbody">
+            <form action="$Env{"CGIHandle"}" method="get">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="ServiceEdit"/>
+                <input type="hidden" name="ServiceID" value="NEW"/>
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">$Text{"Add Service"}:</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">$Text{"Add a new Service."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" type="submit" value="$Text{"Add"}"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+        <td width="70%" class="mainbody">
 <!-- dtl:block:OverviewList -->
-      <table width="100%" cellspacing="0" cellpadding="4">
-        <tr>
-          <td class="contenthead">$Text{"List"}:</td>
-        </tr>
-        <tr>
-          <td class="contentbody">
-            <table width="100%" border="0" cellspacing="0" cellpadding="3">
-              <tr>
-                <td class="contentkey" width="60%">$Text{"Service"}</td>
-                <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
-              </tr>
+            <table width="100%" cellspacing="0" cellpadding="4">
+                <tr>
+                    <td class="contenthead">$Text{"List"}:</td>
+                </tr>
+                <tr>
+                    <td class="contentbody">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                            <tr>
+                                <td class="contentkey" width="60%">$Text{"Service"}</td>
+                                <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
+                            </tr>
 <!-- dtl:block:OverviewListRow -->
-              <tr class="$QData{"CssClass"}">
-                <td>
-                  $Data{"LevelSpace"}
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ServiceEdit&ServiceID=$QData{"ServiceID"}">
-                  $QData{"Name"}
-                  </a>
-                </td>
-                <td align="center">
-                  $Text{"$QData{"Valid"}"}
-                </td>
-              </tr>
+                            <tr class="$QData{"CssClass"}">
+                                <td>
+                                    $Data{"LevelSpace"}
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ServiceEdit&ServiceID=$QData{"ServiceID"}">
+                                    $QData{"Name"}
+                                    </a>
+                                </td>
+                                <td align="center">
+                                    $Text{"$QData{"Valid"}"}
+                                </td>
+                            </tr>
 <!-- dtl:block:OverviewListRow -->
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="contentfooter">
+                        &nbsp;
+                    </td>
+                </tr>
             </table>
-          </td>
-        </tr>
-        <tr>
-          <td class="contentfooter">
-            &nbsp;
-          </td>
-        </tr>
-      </table>
 <!-- dtl:block:OverviewList -->
 <!-- dtl:block:ServiceEdit -->
-      <form action="$Env{"CGIHandle"}" method="get">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="ServiceSave"/>
-        <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}"/>
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">$Text{"Edit"}:</td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              <table border="0" cellspacing="0" cellpadding="3">
-                <tr>
-                  <td class="contentkey">$Text{"Service"}: </td>
-                  <td class="contentvalue">
-                    <input type="text" name="Name" value="$QData{"NameShort"}" size="45" maxlength="200"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Sub-Service of"}: </td>
-                  <td class="contentvalue">$Data{"ParentOptionStrg"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Valid"}: </td>
-                  <td class="contentvalue">$Data{"ValidOptionStrg"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Comment"}: </td>
-                  <td class="contentvalue">
-                    <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
-                  </td>
-                </tr>
+            <form action="$Env{"CGIHandle"}" method="get">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="ServiceSave"/>
+                <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}"/>
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">$Text{"Edit"}:</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            <table border="0" cellspacing="0" cellpadding="3">
+                                <tr>
+                                    <td class="contentkey">$Text{"Service"}: </td>
+                                    <td class="contentvalue">
+                                        <input type="text" name="Name" value="$QData{"NameShort"}" size="45" maxlength="200"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Sub-Service of"}: </td>
+                                    <td class="contentvalue">$Data{"ParentOptionStrg"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Valid"}: </td>
+                                    <td class="contentvalue">$Data{"ValidOptionStrg"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Comment"}: </td>
+                                    <td class="contentvalue">
+                                        <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
+                                    </td>
+                                </tr>
 <!-- dtl:block:Item -->
 <!-- dtl:block:InputKey -->
-                <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
-                  <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30"/></td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
+                                    <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30"/></td>
+                                </tr>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
-                <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></td>
-                  <td class="contentvalue">
-                    <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30"/>
-                  </td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></td>
+                                    <td class="contentvalue">
+                                        <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30"/>
+                                    </td>
+                                </tr>
 <!-- dtl:block:Input -->
 <!-- dtl:block:TextArea -->
-                <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></td>
-                  <td class="contentvalue">
-                    <textarea name="$QData{"Name"}" rows="$QData{"Rows"}" cols="$QData{"Cols"}">$QData{"SelectedID"}</textarea>
-                  </td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></td>
+                                    <td class="contentvalue">
+                                        <textarea name="$QData{"Name"}" rows="$QData{"Rows"}" cols="$QData{"Cols"}">$QData{"SelectedID"}</textarea>
+                                    </td>
+                                </tr>
 <!-- dtl:block:TextArea -->
 <!-- dtl:block:Option -->
-                <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:<br/>
-                    <i class="small">($Text{"$Data{"Desc"}"})</i>
-                  </td>
-                  <td class="contentvalue">$Data{"Option"}</td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:<br/>
+                                        <i class="small">($Text{"$Data{"Desc"}"})</i>
+                                    </td>
+                                    <td class="contentvalue">$Data{"Option"}</td>
+                                </tr>
 <!-- dtl:block:Option -->
 <!-- dtl:block:Upload -->
-                <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}</td>
-                  <td class="contentvalue">
-                    <input name="$QData{"Name"}" type="file" size="30" class="fixed"/><br/>
-                    <a href="">$QData{"Filename"}</a>
-                  </td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}</td>
+                                    <td class="contentvalue">
+                                        <input name="$QData{"Name"}" type="file" size="30" class="fixed"/><br/>
+                                        <a href="">$QData{"Filename"}</a>
+                                    </td>
+                                </tr>
 <!-- dtl:block:Upload -->
 <!-- dtl:block:Password -->
-                <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
-                  <td class="contentvalue"><input type="password" name="$QData{"Name"}" value="" size="30"/></td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
+                                    <td class="contentvalue"><input type="password" name="$QData{"Name"}" value="" size="30"/></td>
+                                </tr>
 <!-- dtl:block:Password -->
 <!-- dtl:block:Item -->
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Submit"}"/>
-            </td>
-          </tr>
-        </table>
-      </form>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" type="submit" value="$Text{"Submit"}"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
 <!-- dtl:block:ServiceEdit -->
-    </td>
-  </tr>
+        </td>
+    </tr>
 </table>
 <!-- end form -->
 <!-- dtl:block:Overview -->

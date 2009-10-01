@@ -2,7 +2,7 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.10 2009-09-17 19:00:57 mb Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.11 2009-10-01 14:36:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,150 +74,150 @@ function FormatGraphSizeRelation() {
                                         $Text{"Description"}:<span class="required">*</span>
                                     </td>
                                     <td class="contentvalue">
-                    <textarea name="Description" rows="4" cols="60">$QData{"Description"}</textarea>
-                  </td>
-                </tr>
+                                        <textarea name="Description" rows="4" cols="60">$QData{"Description"}</textarea>
+                                    </td>
+                                </tr>
 <!-- dtl:block:Selection -->
-                <tr>
-                  <td class="contentkey">
+                                <tr>
+                                    <td class="contentkey">
 <!-- dtl:block:RadioButton -->
-                    <input type="radio" name="StatType" value="$QData{"StateType"}"/>
-                    $Text{"$QData{"Name"}"}:<span class="footnote">*</span>
+                                        <input type="radio" name="StatType" value="$QData{"StateType"}"/>
+                                        $Text{"$QData{"Name"}"}:<span class="footnote">*</span>
 <!-- dtl:block:RadioButton -->
 <!-- dtl:block:NoRadioButton -->
-                    <input type="hidden" name="StatType" value="$QData{"StateType"}"/>
-                    $Text{"$QData{"Name"}"}:<span class="required">*</span>
+                                        <input type="hidden" name="StatType" value="$QData{"StateType"}"/>
+                                        $Text{"$QData{"Name"}"}:<span class="required">*</span>
 <!-- dtl:block:NoRadioButton -->
-                  </td>
-                  <td class="contentvalue">
+                                    </td>
+                                    <td class="contentvalue">
 <!-- dtl:block:SelectField -->
-                    $Data{"SelectField"}
+                                        $Data{"SelectField"}
 <!-- dtl:block:SelectField -->
 <!-- dtl:block:Selected -->
-                    <input type="hidden" name="$QData{"SelectedKey"}" value="$QData{"Selected"}"/>
-                    $Text{"$Data{"SelectedName"}"}
+                                        <input type="hidden" name="$QData{"SelectedKey"}" value="$QData{"Selected"}"/>
+                                        $Text{"$Data{"SelectedName"}"}
 <!-- dtl:block:Selected -->
-                  </td>
-                </tr>
+                                    </td>
+                                </tr>
 <!-- dtl:block:Selection -->
-                <tr>
-                  <td class="contentkey">
-                    $Text{"Permissions"}:<span class="required">*</span>
-                  </td>
-                  <td class="contentvalue">$Data{"SelectPermission"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Format"}:<span class="required">*</span></td>
-                  <td class="contentvalue">$Data{"SelectFormat"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Graphsize"}:</td>
-                  <td class="contentvalue">$Data{"SelectGraphSize"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Sum rows"}:</td>
-                  <td class="contentvalue">$Data{"SelectSumRow"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Sum columns"}:</td>
-                  <td class="contentvalue">$Data{"SelectSumCol"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Cache"}:</td>
-                  <td class="contentvalue">$Data{"SelectCache"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Valid"}:</td>
-                  <td class="contentvalue">$Data{"SelectValid"}</td>
-                </tr>
-              </table>
+                                <tr>
+                                    <td class="contentkey">
+                                        $Text{"Permissions"}:<span class="required">*</span>
+                                    </td>
+                                    <td class="contentvalue">$Data{"SelectPermission"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Format"}:<span class="required">*</span></td>
+                                    <td class="contentvalue">$Data{"SelectFormat"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Graphsize"}:</td>
+                                    <td class="contentvalue">$Data{"SelectGraphSize"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Sum rows"}:</td>
+                                    <td class="contentvalue">$Data{"SelectSumRow"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Sum columns"}:</td>
+                                    <td class="contentvalue">$Data{"SelectSumCol"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Cache"}:</td>
+                                    <td class="contentvalue">$Data{"SelectCache"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Valid"}:</td>
+                                    <td class="contentvalue">$Data{"SelectValid"}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" type="submit" name="Next" value="$Text{"Next..."}" accesskey="g"/>
+                        </td>
+                    </tr>
+                    <tr><td><div class="required">* $Text{"Required Field"}</div></td></tr>
+                    <tr><td><div class="footnote">* $Text{"Selection needed"}</div></td></tr>
+                </table>
+                <br/>
             </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" name="Next" value="$Text{"Next..."}" accesskey="g"/>
-            </td>
-          </tr>
-          <tr><td><div class="required">* $Text{"Required Field"}</div></td></tr>
-          <tr><td><div class="footnote">* $Text{"Selection needed"}</div></td></tr>
-        </table>
-        <br/>
-      </td>
-    </tr>
-  </table>
+        </tr>
+    </table>
 </form>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <table width="100%">
-        <tr>
-          <td colspan="2"class="mainkey">$Text{"Explanation"}</td>
-        </tr>
-        <tr>
-          <td colspan="2"class="mainvalue">$Text{"In this form you can select the basic specifications."}</td>
-        </tr>
-        <tr>
-          <td class="mainkey" width="150">$Text{"Attribute"}</td>
-          <td class="mainkey"            >$Text{"Description"}</td>
-        </tr>
-        <tr class="mainvalue">
-          <td valign="top">$Text{"Title"}</td>
-          <td>$Text{"Title of the stat."}</td>
-        </tr>
-        <tr>
-          <td valign="top">$Text{"Description"}</td>
-          <td>$Text{"Here you can insert a description for the stat."}</td>
-        </tr>
-        <tr>
-          <td valign="top">$Text{"Dynamic-Object"}</td>
-          <td>$Text{"Here you can select the dynamic object you want to use."}<br/>
-            $Text{"(Note: It depends on your installation how many dynamic objects you can use)"}
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">$Text{"Static-File"}</td>
-          <td>$Text{"For very complex stats it is possible to include a hard-coded file."}<br/>
-            $Text{"If a new hard-coded file is available you can select one here."}
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">$Text{"Permission"}</td>
-          <td>$Text{"Permission settings. You can select one or more groups to define access for different agents."}</td>
-        </tr>
-        <tr>
-          <td valign="top">$Text{"Format"}</td>
-          <td>$Text{"Multiple selection of the output format."}</td>
-        </tr>
-        <tr>
-          <td>$Text{"Size of graph"}</td>
-          <td>$Text{"If you use a graph as output format you have to select at least one graph size."}</td>
-        </tr>
-        <tr>
-          <td valign="top">$Text{"Sum rows"}</td>
-          <td>$Text{"If you need the sum of every row select yes"}</td>
-        </tr>
-        <tr>
-          <td valign="top">$Text{"Sum columns"}</td>
-          <td>$Text{"If you need the sum of every column select yes."}</td>
-        </tr>
-        <tr>
-          <td valign="top">$Text{"Cache report data"}</td>
-          <td>$Text{"Most of the stats can be cached. This will speed up the presentation of this stat."}<br/>
-            $Text{"(Note: Useful for big databases and low performance server)"}
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">$Text{"Status"}</td>
-          <td>$Text{"If set to invalid end users can not generate the stat."}<br/>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <table width="100%">
+                <tr>
+                    <td colspan="2"class="mainkey">$Text{"Explanation"}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"class="mainvalue">$Text{"In this form you can select the basic specifications."}</td>
+                </tr>
+                <tr>
+                    <td class="mainkey" width="150">$Text{"Attribute"}</td>
+                    <td class="mainkey"            >$Text{"Description"}</td>
+                </tr>
+                <tr class="mainvalue">
+                    <td valign="top">$Text{"Title"}</td>
+                    <td>$Text{"Title of the stat."}</td>
+                </tr>
+                <tr>
+                    <td valign="top">$Text{"Description"}</td>
+                    <td>$Text{"Here you can insert a description for the stat."}</td>
+                </tr>
+                <tr>
+                    <td valign="top">$Text{"Dynamic-Object"}</td>
+                    <td>$Text{"Here you can select the dynamic object you want to use."}<br/>
+                        $Text{"(Note: It depends on your installation how many dynamic objects you can use)"}
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">$Text{"Static-File"}</td>
+                    <td>$Text{"For very complex stats it is possible to include a hard-coded file."}<br/>
+                        $Text{"If a new hard-coded file is available you can select one here."}
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">$Text{"Permission"}</td>
+                    <td>$Text{"Permission settings. You can select one or more groups to define access for different agents."}</td>
+                </tr>
+                <tr>
+                    <td valign="top">$Text{"Format"}</td>
+                    <td>$Text{"Multiple selection of the output format."}</td>
+                </tr>
+                <tr>
+                    <td>$Text{"Size of graph"}</td>
+                    <td>$Text{"If you use a graph as output format you have to select at least one graph size."}</td>
+                </tr>
+                <tr>
+                    <td valign="top">$Text{"Sum rows"}</td>
+                    <td>$Text{"If you need the sum of every row select yes"}</td>
+                </tr>
+                <tr>
+                    <td valign="top">$Text{"Sum columns"}</td>
+                    <td>$Text{"If you need the sum of every column select yes."}</td>
+                </tr>
+                <tr>
+                    <td valign="top">$Text{"Cache report data"}</td>
+                    <td>$Text{"Most of the stats can be cached. This will speed up the presentation of this stat."}<br/>
+                        $Text{"(Note: Useful for big databases and low performance server)"}
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">$Text{"Status"}</td>
+                    <td>$Text{"If set to invalid end users can not generate the stat."}<br/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 <!-- end form -->

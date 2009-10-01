@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.20 2009-07-16 22:12:24 martin Exp $
+# $Id: AdminEmail.dtl,v 1.21 2009-10-01 14:36:01 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,30 +14,30 @@
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Admin Notification"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td align="center" class="mainbody">
-      <br/>
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Admin Notification"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="mainbody">
+            <br/>
 <!-- dtl:block:Sent -->
-      <table border="0" width="800" cellspacing="0" cellpadding="4">
-        <tr>
-          <td class="contenthead">$Text{"Options"}:</td>
-        </tr>
-        <tr>
-          <td class="contentbody">
-            <p>
-              $Text{"Message sent to"}: $Data{"Bcc"}
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <td class="contentfooter">&nbsp;</td>
-        </tr>
-      </table>
+            <table border="0" width="800" cellspacing="0" cellpadding="4">
+                <tr>
+                    <td class="contenthead">$Text{"Options"}:</td>
+                </tr>
+                <tr>
+                    <td class="contentbody">
+                        <p>
+                            $Text{"Message sent to"}: $Data{"Bcc"}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="contentfooter">&nbsp;</td>
+                </tr>
+            </table>
 <!-- dtl:block:Sent -->
 <!-- dtl:block:Form -->
 <script language="JavaScript" type="text/javascript">
@@ -53,61 +53,61 @@ function submit_compose() {
 //-->
 </script>
 
-      <form action="$Env{"CGIHandle"}" method="post" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="Send"/>
-        <table border="0" width="800" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">$Text{"Options"}:</td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              <table border="0" width="100%" cellspacing="0" cellpadding="4">
-                <tr>
-                  <td class="contentkey">$Text{"From"}:</td>
-                  <td class="contentvalue"><input type="Text" name="From" value="$Config{"AdminEmail"}" size="40"/></td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Recipients"}:</td>
-                  <td class="contentvalue">
-                    <table border="0" cellspacing="0" cellpadding="1" width="70%">
-                      <tr>
-                        <td rowspan="2" valign="top">$Text{"User"}:<br/>$Data{"UserOption"}</td>
-                        <td valign="top">$Text{"Group"}:<br/>$Data{"GroupOption"}</td>
-                      </tr>
-                      <tr>
-                        <td valign="top">
-                          $Text{"Permission"}:<br/>ro <input type="radio" name="GroupPermission" value="ro" checked/> - rw <input type="radio" name="GroupPermission" value="rw"/>
+            <form action="$Env{"CGIHandle"}" method="post" name="compose">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Send"/>
+                <table border="0" width="800" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">$Text{"Options"}:</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            <table border="0" width="100%" cellspacing="0" cellpadding="4">
+                                <tr>
+                                    <td class="contentkey">$Text{"From"}:</td>
+                                    <td class="contentvalue"><input type="Text" name="From" value="$Config{"AdminEmail"}" size="40"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Recipients"}:</td>
+                                    <td class="contentvalue">
+                                        <table border="0" cellspacing="0" cellpadding="1" width="70%">
+                                            <tr>
+                                                <td rowspan="2" valign="top">$Text{"User"}:<br/>$Data{"UserOption"}</td>
+                                                <td valign="top">$Text{"Group"}:<br/>$Data{"GroupOption"}</td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top">
+                                                    $Text{"Permission"}:<br/>ro <input type="radio" name="GroupPermission" value="ro" checked/> - rw <input type="radio" name="GroupPermission" value="rw"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Subject"}:</td>
+                                    <td class="contentvalue">
+                                        <input type="Text" name="Subject" value="$QData{"Subject"}" size="76"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Body"}:</td>
+                                    <td class="contentvalue">
+                                        <div class="yui-skin-sam">
+                                            <textarea id="RichText" name="Body" rows="16" cols="76">$QData{"Body"}</textarea>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Subject"}:</td>
-                  <td class="contentvalue">
-                    <input type="Text" name="Subject" value="$QData{"Subject"}" size="76"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Body"}:</td>
-                  <td class="contentvalue">
-                    <div class="yui-skin-sam">
-                      <textarea id="RichText" name="Body" rows="16" cols="76">$QData{"Body"}</textarea>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter"><input class="button" id="submitRichText" type="submit" value="$Text{"Send"}" onclick="return submit_compose();"/></td>
-          </tr>
-        </table>
-      </form>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter"><input class="button" id="submitRichText" type="submit" value="$Text{"Send"}" onclick="return submit_compose();"/></td>
+                    </tr>
+                </table>
+            </form>
 <!-- dtl:block:Form -->
-      <br/>
-    </td>
-  </tr>
+            <br/>
+        </td>
+    </tr>
 </table>
 <!-- end -->

@@ -2,7 +2,7 @@
 # AdminNotificationEventForm.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEventForm.dtl,v 1.4 2009-08-18 19:56:09 martin Exp $
+# $Id: AdminNotificationEventForm.dtl,v 1.5 2009-10-01 14:36:01 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,73 +10,73 @@
 # --
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td colspan="2" class="mainhead">
-      $Env{"Box0"}$Text{"Notification Management"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td width="30%" class="mainbody">
-      <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="Add"/>
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">$Text{"Add Notification"}:</td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              $Text{"Add a new Notification."}
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Add"}"/>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </td>
-    <td width="70%" class="mainbody">
+    <tr>
+        <td colspan="2" class="mainhead">
+            $Env{"Box0"}$Text{"Notification Management"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" class="mainbody">
+            <form action="$Env{"CGIHandle"}" method="post">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Add"/>
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">$Text{"Add Notification"}:</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            $Text{"Add a new Notification."}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" type="submit" value="$Text{"Add"}"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+        <td width="70%" class="mainbody">
 <!-- dtl:block:OverviewResult -->
-      <table width="100%" cellspacing="0" cellpadding="4">
-        <tr>
-          <td class="contenthead">$Text{"List"}:</td>
-        </tr>
-        <tr>
-          <td class="contentbody">
-            <table width="100%" border="0" cellspacing="0" cellpadding="3">
-              <tr>
-                <td class="contentkey" width="20%">$Text{"Name"}</td>
+            <table width="100%" cellspacing="0" cellpadding="4">
+                <tr>
+                    <td class="contenthead">$Text{"List"}:</td>
+                </tr>
+                <tr>
+                    <td class="contentbody">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                            <tr>
+                                <td class="contentkey" width="20%">$Text{"Name"}</td>
 #                <td class="contentkey">$Text{"Type"}</td>
 #                <td class="contentkey" width="25%">$Text{"Comment"}</td>
-                <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
-                <td class="contentkey">$Text{"Changed"}</td>
-                <td class="contentkey">$Text{"Created"}</td>
-                <td align="center" class="contentkey">$Text{"Delete"}</td>
-              </tr>
+                                <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
+                                <td class="contentkey">$Text{"Changed"}</td>
+                                <td class="contentkey">$Text{"Created"}</td>
+                                <td align="center" class="contentkey">$Text{"Delete"}</td>
+                            </tr>
 <!-- dtl:block:OverviewResultRow -->
-              <tr class="$QData{"CssClass"}">
-                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                            <tr class="$QData{"CssClass"}">
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
 #                <td><div title="$Text{"$QData{"TypeName"}"}">$Text{"$QData{"TypeName"}"}</div></td>
 #                <td><div title="$QData{"Comment"}">$QData{"Comment","20"}</div></td>
-                <td align="center">$Text{"$QData{"Valid"}"}</td>
-                <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
-                <td>$TimeShort{"$QData{"CreateTime"}"}</td>
-                <td align="center" class="$QData{"cssValid"}">
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$LQData{"ID"}">$Text{"x"}</a>
-                </td>
-              </tr>
+                                <td align="center">$Text{"$QData{"Valid"}"}</td>
+                                <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
+                                <td>$TimeShort{"$QData{"CreateTime"}"}</td>
+                                <td align="center" class="$QData{"cssValid"}">
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$LQData{"ID"}">$Text{"x"}</a>
+                                </td>
+                            </tr>
 <!-- dtl:block:OverviewResultRow -->
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="contentfooter">
+                        &nbsp;
+                    </td>
+                </tr>
             </table>
-          </td>
-        </tr>
-        <tr>
-          <td class="contentfooter">
-            &nbsp;
-          </td>
-        </tr>
-      </table>
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
 <script language="JavaScript" type="text/javascript">
@@ -107,252 +107,252 @@ function submit_compose() {
 //-->
 </script>
 
-      <form action="$Env{"CGIHandle"}" method="post" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
-        <input type="hidden" name="ID" value="$QData{"ID"}"/>
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">
-              $Text{"Edit"} ($Text{"$QData{"Action"}"}):
-            </td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              <table border="0" cellspacing="0" cellpadding="3">
-                <tr>
-                  <td class="contentkey">$Text{"Name"}: </td>
-                  <td class="contentvalue">
-                    <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <hr/>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Recipient"}:<br/><i class="small">($Text{"Group based"})</i></td>
-                  <td class="contentvalue"> $Data{"RecipientsStrg"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Recipient"}:<br/><i class="small">($Text{"Agent based"})</i> </td>
-                  <td class="contentvalue"> $Data{"RecipientAgentsStrg"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Recipient"}:<br/><i class="small">($Text{"Email based"})</i> </td>
-                  <td class="contentvalue"> <input type="text" name="RecipientEmail" size="50" value="$QData{"RecipientEmail"}"/></td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <hr/>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Event"}: </td>
-                  <td class="contentvalue"> $Data{"EventsStrg"}</td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <hr/>
-                  </td>
-                </tr>
+            <form action="$Env{"CGIHandle"}" method="post" name="compose">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
+                <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">
+                            $Text{"Edit"} ($Text{"$QData{"Action"}"}):
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            <table border="0" cellspacing="0" cellpadding="3">
+                                <tr>
+                                    <td class="contentkey">$Text{"Name"}: </td>
+                                    <td class="contentvalue">
+                                        <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <hr/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Recipient"}:<br/><i class="small">($Text{"Group based"})</i></td>
+                                    <td class="contentvalue"> $Data{"RecipientsStrg"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Recipient"}:<br/><i class="small">($Text{"Agent based"})</i> </td>
+                                    <td class="contentvalue"> $Data{"RecipientAgentsStrg"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Recipient"}:<br/><i class="small">($Text{"Email based"})</i> </td>
+                                    <td class="contentvalue"> <input type="text" name="RecipientEmail" size="50" value="$QData{"RecipientEmail"}"/></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <hr/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Event"}: </td>
+                                    <td class="contentvalue"> $Data{"EventsStrg"}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <hr/>
+                                    </td>
+                                </tr>
 <!-- dtl:block:OverviewUpdateType -->
-                <tr>
-                  <td class="contentkey">$Text{"Type"}: </td>
-                  <td class="contentvalue"> $Data{"TypesStrg"}</td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Type"}: </td>
+                                    <td class="contentvalue"> $Data{"TypesStrg"}</td>
+                                </tr>
 <!-- dtl:block:OverviewUpdateType -->
-                <tr>
-                  <td class="contentkey">$Text{"State"}: </td>
-                  <td class="contentvalue"> $Data{"StatesStrg"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Priority"}: </td>
-                  <td class="contentvalue"> $Data{"PrioritiesStrg"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Queue"}: </td>
-                  <td class="contentvalue"> $Data{"QueuesStrg"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Lock"}: </td>
-                  <td class="contentvalue"> $Data{"LocksStrg"}</td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"State"}: </td>
+                                    <td class="contentvalue"> $Data{"StatesStrg"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Priority"}: </td>
+                                    <td class="contentvalue"> $Data{"PrioritiesStrg"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Queue"}: </td>
+                                    <td class="contentvalue"> $Data{"QueuesStrg"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Lock"}: </td>
+                                    <td class="contentvalue"> $Data{"LocksStrg"}</td>
+                                </tr>
 <!-- dtl:block:OverviewUpdateService -->
-                <tr>
-                  <td class="contentkey">$Text{"Service"}: </td>
-                  <td class="contentvalue"> $Data{"ServicesStrg"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"SLA"}: </td>
-                  <td class="contentvalue"> $Data{"SLAsStrg"}</td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Service"}: </td>
+                                    <td class="contentvalue"> $Data{"ServicesStrg"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"SLA"}: </td>
+                                    <td class="contentvalue"> $Data{"SLAsStrg"}</td>
+                                </tr>
 <!-- dtl:block:OverviewUpdateService -->
-                <tr>
-                  <td class="contentkey">$Text{"CustomerID"}: </td>
-                  <td class="contentvalue"> <input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}"/></td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"CustomerUser"}: </td>
-                  <td class="contentvalue"> <input type="text" name="CustomerUserID" size="30" value="$QData{"CustomerUserID"}"/></td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"CustomerID"}: </td>
+                                    <td class="contentvalue"> <input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"CustomerUser"}: </td>
+                                    <td class="contentvalue"> <input type="text" name="CustomerUserID" size="30" value="$QData{"CustomerUserID"}"/></td>
+                                </tr>
 <!-- dtl:block:OverviewUpdateTicketFreeFieldElement -->
-                <tr>
-                  <td class="contentkey">$Data{"TicketFreeKey"}: </td>
-                  <td class="contentvalue">$Data{"TicketFreeText"}</td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Data{"TicketFreeKey"}: </td>
+                                    <td class="contentvalue">$Data{"TicketFreeText"}</td>
+                                </tr>
 <!-- dtl:block:OverviewUpdateTicketFreeFieldElement -->
-                <tr>
-                  <td colspan="2">
-                    <hr/>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Article Type"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
-                  <td class="contentvalue"> $Data{"ArticleTypesStrg"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Subject match"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
-                  <td class="contentvalue"> <input type="text" name="ArticleSubjectMatch" size="50" value="$QData{"ArticleSubjectMatch"}"/></td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Body match"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
-                  <td class="contentvalue"> <input type="text" name="ArticleBodyMatch" size="50" value="$QData{"ArticleSubjectMatch"}"/></td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Include Attachments to Notification"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
-                  <td class="contentvalue"> $Data{"ArticleAttachmentIncludeStrg"}</td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <hr/>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Subject"}: </td>
-                  <td class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="120"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Text"}: </td>
-                  <td class="contentvalue">
-                    <textarea rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <hr/>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Valid"}: </td>
-                  <td class="contentvalue">$Data{"ValidOption"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Comment"}: </td>
-                  <td class="contentvalue">
-                    <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
-            </td>
-          </tr>
-        </table>
-      </form>
+                                <tr>
+                                    <td colspan="2">
+                                        <hr/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Article Type"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
+                                    <td class="contentvalue"> $Data{"ArticleTypesStrg"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Subject match"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
+                                    <td class="contentvalue"> <input type="text" name="ArticleSubjectMatch" size="50" value="$QData{"ArticleSubjectMatch"}"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Body match"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
+                                    <td class="contentvalue"> <input type="text" name="ArticleBodyMatch" size="50" value="$QData{"ArticleSubjectMatch"}"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Include Attachments to Notification"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
+                                    <td class="contentvalue"> $Data{"ArticleAttachmentIncludeStrg"}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <hr/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Subject"}: </td>
+                                    <td class="contentvalue">
+                                        <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="120"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Text"}: </td>
+                                    <td class="contentvalue">
+                                        <textarea rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <hr/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Valid"}: </td>
+                                    <td class="contentvalue">$Data{"ValidOption"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Comment"}: </td>
+                                    <td class="contentvalue">
+                                        <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
 <!-- dtl:block:OverviewUpdate -->
-    </td>
-  </tr>
+        </td>
+    </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <p>
-        $Text{"Notifications are sent to an agent or a customer."}
-      </p>
-      <hr>
-      <p>
-        $Text{"Useable options"}:
-        <table>
-          <tr>
-            <td class="contentkey">&lt;OTRS_AGENT_SUBJECT[20]&gt;</td>
-            <td class="contentvalue">$Text{"To get the first 20 character of the subject (of the latest agent article)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_AGENT_BODY[5]&gt;</td>
-            <td class="contentvalue">$Text{"To get the first 5 lines of the body (of the latest agent article)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_AGENT_*&gt;</td>
-            <td class="contentvalue">$Text{"To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</td>
-            <td class="contentvalue">$Text{"To get the first 20 character of the subject (of the latest customer article)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_BODY[5]&gt;</td>
-            <td class="contentvalue">$Text{"To get the first 5 lines of the body (of the latest customer article)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
-            <td class="contentvalue">$Text{"To get the realname of the sender (if given)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_*&gt;</td>
-            <td class="contentvalue">$Text{"To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
-            <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_RESPONSIBLE_*&gt;</td>
-            <td class="contentvalue">$Text{"Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
-            <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
-          </tr>
-        </table>
-      </p>
-        <p>
-          $Text{"Example"}:
-          <hr/>
-          <form action="/">
-            <table>
-              <tr>
-                <td>$Text{"Subject"}:</td>
-                <td><input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/></td>
-              </tr>
-              <tr>
-                <td>
-                  $Text{"Text"}:
-                </td>
-                <td>
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <p>
+                $Text{"Notifications are sent to an agent or a customer."}
+            </p>
+            <hr>
+            <p>
+                $Text{"Useable options"}:
+                <table>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_AGENT_SUBJECT[20]&gt;</td>
+                        <td class="contentvalue">$Text{"To get the first 20 character of the subject (of the latest agent article)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_AGENT_BODY[5]&gt;</td>
+                        <td class="contentvalue">$Text{"To get the first 5 lines of the body (of the latest agent article)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_AGENT_*&gt;</td>
+                        <td class="contentvalue">$Text{"To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</td>
+                        <td class="contentvalue">$Text{"To get the first 20 character of the subject (of the latest customer article)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_BODY[5]&gt;</td>
+                        <td class="contentvalue">$Text{"To get the first 5 lines of the body (of the latest customer article)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
+                        <td class="contentvalue">$Text{"To get the realname of the sender (if given)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_*&gt;</td>
+                        <td class="contentvalue">$Text{"To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
+                        <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
+                        <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_RESPONSIBLE_*&gt;</td>
+                        <td class="contentvalue">$Text{"Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
+                        <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
+                        <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
+                        <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
+                    </tr>
+                </table>
+            </p>
+            <p>
+                $Text{"Example"}:
+                <hr/>
+                <form action="/">
+                    <table>
+                        <tr>
+                            <td>$Text{"Subject"}:</td>
+                            <td><input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                $Text{"Text"}:
+                            </td>
+                            <td>
                   <textarea rows="12" cols="70" name="Response">
 Hi &lt;OTRS_CURRENT_UserFirstname&gt;,
 
@@ -367,13 +367,13 @@ there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
 
 Your OTRS Notification Master
                     </textarea>
-                  </td>
-                </tr>
-              </table>
-            </form>
-            <hr/>
-          </p>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <hr/>
+            </p>
         </td>
-      </tr>
-    </table>
+    </tr>
+</table>
 <!-- dtl:block:Overview -->

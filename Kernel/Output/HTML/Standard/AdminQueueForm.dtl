@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.46 2009-09-22 18:02:33 mb Exp $
+# $Id: AdminQueueForm.dtl,v 1.47 2009-10-01 14:36:01 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -185,100 +185,100 @@
                                 <tr>
                                     <td class="contentkey">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></td>
                                     <td class="contentvalue">
-                    <textarea name="$QData{"Name"}" rows="$QData{"Rows"}" cols="$QData{"Cols"}">$QData{"SelectedID"}</textarea>
-                  </td>
-                </tr>
+                                        <textarea name="$QData{"Name"}" rows="$QData{"Rows"}" cols="$QData{"Cols"}">$QData{"SelectedID"}</textarea>
+                                    </td>
+                                </tr>
 <!-- dtl:block:TextArea -->
 <!-- dtl:block:Option -->
-                <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:<br/>
-                    <i class="small">($Text{"$Data{"Desc"}"})</i>
-                  </td>
-                  <td class="contentvalue">$Data{"Option"}</td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:<br/>
+                                        <i class="small">($Text{"$Data{"Desc"}"})</i>
+                                    </td>
+                                    <td class="contentvalue">$Data{"Option"}</td>
+                                </tr>
 <!-- dtl:block:Option -->
 <!-- dtl:block:Upload -->
-                <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}</td>
-                  <td class="contentvalue">
-                    <input name="$QData{"Name"}" type="file" size="30" class="fixed"/><br/>
-                    <a href="">$QData{"Filename"}</a>
-                  </td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}</td>
+                                    <td class="contentvalue">
+                                        <input name="$QData{"Name"}" type="file" size="30" class="fixed"/><br/>
+                                        <a href="">$QData{"Filename"}</a>
+                                    </td>
+                                </tr>
 <!-- dtl:block:Upload -->
 <!-- dtl:block:Password -->
-                <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
-                  <td class="contentvalue"><input type="password" name="$QData{"Name"}" value="" size="30"/></td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
+                                    <td class="contentvalue"><input type="password" name="$QData{"Name"}" value="" size="30"/></td>
+                                </tr>
 <!-- dtl:block:Password -->
 <!-- dtl:block:Item -->
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"/>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </td>
-  </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
 </table>
 <!-- end form -->
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <table width="100%">
-        <tr valign="top">
-          <th width="30%">$Text{"Key"}</th>
-          <th>$Text{"Description"}</th>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Unlock timeout"}</td>
-          <td>$Text{"If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents."}</td>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Escalation - First Response Time"}</td>
-          <td>$Text{"If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated."}</td>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Escalation - Update Time"}</td>
-          <td>$Text{"If there is an article added, such as a follow-up via e-mail or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated."}</td>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Escalation - Solution Time"}</td>
-          <td>$Text{"If the ticket is not set to closed before the time defined here expires, the ticket is escalated."}</td>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Folllow up Option"}</td>
-          <td>$Text{"Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket."}</td>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Ticket lock after a follow up"}</td>
-          <td>$Text{"If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner."}</td>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Systemaddress"}</td>
-          <td>$Text{"Will be the sender address of this queue for email answers."}</td>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Salutation"}</td>
-          <td>$Text{"The salutation for email answers."}</td>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Signature"}</td>
-          <td>$Text{"The signature for email answers."}</td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <table width="100%">
+                <tr valign="top">
+                    <th width="30%">$Text{"Key"}</th>
+                    <th>$Text{"Description"}</th>
+                </tr>
+                <tr valign="top">
+                    <td>$Text{"Unlock timeout"}</td>
+                    <td>$Text{"If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>$Text{"Escalation - First Response Time"}</td>
+                    <td>$Text{"If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>$Text{"Escalation - Update Time"}</td>
+                    <td>$Text{"If there is an article added, such as a follow-up via e-mail or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>$Text{"Escalation - Solution Time"}</td>
+                    <td>$Text{"If the ticket is not set to closed before the time defined here expires, the ticket is escalated."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>$Text{"Folllow up Option"}</td>
+                    <td>$Text{"Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>$Text{"Ticket lock after a follow up"}</td>
+                    <td>$Text{"If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>$Text{"Systemaddress"}</td>
+                    <td>$Text{"Will be the sender address of this queue for email answers."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>$Text{"Salutation"}</td>
+                    <td>$Text{"The salutation for email answers."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>$Text{"Signature"}</td>
+                    <td>$Text{"The signature for email answers."}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 <!-- end note -->

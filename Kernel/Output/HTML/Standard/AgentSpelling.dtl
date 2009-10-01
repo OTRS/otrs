@@ -2,7 +2,7 @@
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.dtl,v 1.20 2009-08-26 19:33:08 martin Exp $
+# $Id: AgentSpelling.dtl,v 1.21 2009-10-01 14:36:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,74 +46,74 @@ function change_selected(sel) {
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Spell Checker"} - $Data{"SpellCounter"} $Text{"spelling error(s)"} $Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="spelling">
-        <input type="hidden" name="Action" value="AgentSpelling"/>
-        <input type="hidden" name="Field" value="$QData{"Field"}"/>
-        <table border="0" width="100%" cellspacing="0" cellpadding="1">
-          <tr>
-            <th width="50">$Text{"Line"}</th>
-            <th width="100">$Text{"Word"}</th>
-            <th colspan="2">$Text{"replace with"}</th>
-            <th width="50">$Text{"Change"}</th>
-            <th width="50">$Text{"Ignore"}</th>
-          </tr>
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Spell Checker"} - $Data{"SpellCounter"} $Text{"spelling error(s)"} $Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="spelling">
+                <input type="hidden" name="Action" value="AgentSpelling"/>
+                <input type="hidden" name="Field" value="$QData{"Field"}"/>
+                <table border="0" width="100%" cellspacing="0" cellpadding="1">
+                    <tr>
+                        <th width="50">$Text{"Line"}</th>
+                        <th width="100">$Text{"Word"}</th>
+                        <th colspan="2">$Text{"replace with"}</th>
+                        <th width="50">$Text{"Change"}</th>
+                        <th width="50">$Text{"Ignore"}</th>
+                    </tr>
 <!-- dtl:block:Row -->
-          <tr>
-            <td align="center">$QData{"Line"}</td>
-            <td>
-              <font color="red">$QData{"Word"}</font>
-              <input type="hidden" name="SpellCheckOld::$QData{"Count"}" value="$QData{"Word"}"/>
-            </td>
-            <td>$Data{"OptionList"}</td>
-            <td>
-              $Text{"or"}
-              <input type="text" name="SpellCheckOrReplace::$QData{"Count"}" value="" size="20" onchange="change_selected($QData{"Count"})"/>
-            </td>
-            <td align="center">
-              <input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="$QData{"Word"}"/>
-            </td>
-            <td align="center">
-              <input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="" checked="checked"/>
-            </td>
-          </tr>
+                    <tr>
+                        <td align="center">$QData{"Line"}</td>
+                        <td>
+                            <font color="red">$QData{"Word"}</font>
+                            <input type="hidden" name="SpellCheckOld::$QData{"Count"}" value="$QData{"Word"}"/>
+                        </td>
+                        <td>$Data{"OptionList"}</td>
+                        <td>
+                            $Text{"or"}
+                            <input type="text" name="SpellCheckOrReplace::$QData{"Count"}" value="" size="20" onchange="change_selected($QData{"Count"})"/>
+                        </td>
+                        <td align="center">
+                            <input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="$QData{"Word"}"/>
+                        </td>
+                        <td align="center">
+                            <input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="" checked="checked"/>
+                        </td>
+                    </tr>
 <!-- dtl:block:Row -->
-        </table>
-        <hr>
-        <table border="0" width="580" cellspacing="0" cellpadding="1">
-          <tr>
-            <td>
-              <input class="button" type="submit" value="$Text{"Apply these changes"}"/>
-              <input class="button" type="reset" value="$Text{"Reset"}"/>
-            </td>
-            <td>
-              $Text{"Language"}: $Data{"SpellLanguageString"}
-            </td>
-          </tr>
-        </table>
-        <textarea name="Body" rows="22" cols="78" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
-        <br/>
-        <input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}"/>
-        <i>($Text{"Return to the compose screen"})</i>
-        <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}"/>
-        <i>($Text{"Discard all changes and return to the compose screen"})</i>
-      </form>
-      <hr>
-    </td>
-  </tr>
+                </table>
+                <hr>
+                <table border="0" width="580" cellspacing="0" cellpadding="1">
+                    <tr>
+                        <td>
+                            <input class="button" type="submit" value="$Text{"Apply these changes"}"/>
+                            <input class="button" type="reset" value="$Text{"Reset"}"/>
+                        </td>
+                        <td>
+                            $Text{"Language"}: $Data{"SpellLanguageString"}
+                        </td>
+                    </tr>
+                </table>
+                <textarea name="Body" rows="22" cols="78" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+                <br/>
+                <input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}"/>
+                <i>($Text{"Return to the compose screen"})</i>
+                <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}"/>
+                <i>($Text{"Discard all changes and return to the compose screen"})</i>
+            </form>
+            <hr>
+        </td>
+    </tr>
 </table>
 <!-- dtl:block:SpellCheckerExtern -->
 <!-- dtl:block:SpellCheckerInline -->
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/editor/dialog/fck_spellerpages/spellerpages/spellerStyle.css"/>
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/editor/dialog/fck_spellerpages/spellerpages/spellerStyle.css"/>
 <script src="$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/editor/dialog/fck_spellerpages/spellerpages/wordWindow.js" type="text/javascript"></script>
 <script type="text/javascript">
 var suggs = new Array();
