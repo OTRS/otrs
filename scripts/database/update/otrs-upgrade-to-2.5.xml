@@ -44,4 +44,11 @@
         </Index>
     </TableCreate>
 
+    <TableAlter Name="customer_user">
+        <ColumnChange NameOld="salutation" NameNew="title" Required="false" Size="50" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="users">
+        <ColumnChange NameOld="salutation" NameNew="title" Required="false" Size="50" Type="VARCHAR"/>
+    </TableAlter>
+
 </database>
