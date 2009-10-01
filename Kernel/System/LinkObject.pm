@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.53 2009-10-01 18:04:07 martin Exp $
+# $Id: LinkObject.pm,v 1.54 2009-10-01 22:45:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -90,11 +90,7 @@ sub new {
 
     # check needed objects
     for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
-        $Self->{$_} = $Param{$_} ||
-            $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Need $_!",
-            ) && die;
+        $Self->{$_} = $Param{$_} || die;
     }
     $Self->{CheckItemObject}     = Kernel::System::CheckItem->new( %{$Self} );
     $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
@@ -149,8 +145,8 @@ sub PossibleTypesList {
     for my $PossibleLink ( keys %PossibleLinkList ) {
 
         # extract objects
-        my $Object1 = $PossibleLinkList{$PossibleLink}{Object1};
-        my $Object2 = $PossibleLinkList{$PossibleLink}{Object2};
+        my $Object1 = $PossibleLinkList{$PossibleLink}->{Object1};
+        my $Object2 = $PossibleLinkList{$PossibleLink}->{Object2};
 
         next POSSIBLELINK
             if ( $Object1 eq $Param{Object1} && $Object2 eq $Param{Object2} )
@@ -170,7 +166,7 @@ sub PossibleTypesList {
     for my $PossibleLink ( keys %PossibleLinkList ) {
 
         # extract type
-        my $Type = $PossibleLinkList{$PossibleLink}{Type} || '';
+        my $Type = $PossibleLinkList{$PossibleLink}->{Type} || '';
 
         next POSSIBLELINK if $TypeList{$Type};
 
@@ -183,7 +179,7 @@ sub PossibleTypesList {
     for my $PossibleLink ( keys %PossibleLinkList ) {
 
         # extract type
-        my $Type = $PossibleLinkList{$PossibleLink}{Type};
+        my $Type = $PossibleLinkList{$PossibleLink}->{Type};
 
         $PossibleTypesList{$Type} = 1;
     }
@@ -233,8 +229,8 @@ sub PossibleObjectsList {
     for my $PossibleLink ( keys %PossibleLinkList ) {
 
         # extract objects
-        my $Object1 = $PossibleLinkList{$PossibleLink}{Object1};
-        my $Object2 = $PossibleLinkList{$PossibleLink}{Object2};
+        my $Object1 = $PossibleLinkList{$PossibleLink}->{Object1};
+        my $Object2 = $PossibleLinkList{$PossibleLink}->{Object2};
 
         next POSSIBLELINK if $Param{Object} ne $Object1 && $Param{Object} ne $Object2;
 
@@ -296,15 +292,15 @@ sub PossibleLinkList {
         for my $Argument (qw(Object1 Object2 Type)) {
 
             # set empty string as default value
-            $PossibleLinkList{$PossibleLink}{$Argument} ||= '';
+            $PossibleLinkList{$PossibleLink}->{$Argument} ||= '';
 
             # trim the argument
             $Self->{CheckItemObject}->StringClean(
-                StringRef => \$PossibleLinkList{$PossibleLink}{$Argument},
+                StringRef => \$PossibleLinkList{$PossibleLink}->{$Argument},
             );
 
             # extract value
-            my $Value = $PossibleLinkList{$PossibleLink}{$Argument} || '';
+            my $Value = $PossibleLinkList{$PossibleLink}->{$Argument} || '';
 
             next ARGUMENT if $Value && $Value !~ m{ :: }xms && $Value !~ m{ \s }xms;
 
@@ -334,7 +330,7 @@ sub PossibleLinkList {
         for my $Argument (qw(Object1 Object2)) {
 
             # extract object
-            my $Object = $PossibleLinkList{$PossibleLink}{$Argument};
+            my $Object = $PossibleLinkList{$PossibleLink}->{$Argument};
 
             next ARGUMENT if -e $BackendLocation . $Object . '.pm';
 
@@ -355,7 +351,7 @@ sub PossibleLinkList {
     for my $PossibleLink ( keys %PossibleLinkList ) {
 
         # extract type
-        my $Type = $PossibleLinkList{$PossibleLink}{Type};
+        my $Type = $PossibleLinkList{$PossibleLink}->{Type};
 
         next POSSIBLELINK if $TypeList{$Type};
 
@@ -2373,9 +2369,6 @@ sub _LoadBackend {
     my $BackendObject = $BackendModule->new(
         %{$Self},
         %Param,
-
-        # REMOVE ME in OTRS 2.5 and higher: not longer needed
-        LinkObject => 'not_used',
     );
 
     if ( !$BackendObject ) {
@@ -2408,6 +2401,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2009-10-01 18:04:07 $
+$Revision: 1.54 $ $Date: 2009-10-01 22:45:48 $
 
 =cut
