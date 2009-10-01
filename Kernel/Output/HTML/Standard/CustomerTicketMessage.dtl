@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.18.2.2 2009-09-23 09:21:19 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.18.2.3 2009-10-01 14:14:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,45 +119,45 @@ function submit_compose() {
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-<textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                    <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Attachment"}:</td>
-                  <td class="contentvalue">
-                    <table cellspacing="0" cellpadding="0" width="400">
+                                            <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                                            <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Attachment"}:</td>
+                                    <td class="contentvalue">
+                                        <table cellspacing="0" cellpadding="0" width="400">
 <!-- dtl:block:Attachment -->
-                      <tr>
-                        <td>$QData{"Filename"}</td>
-                        <td>$QData{"Filesize"}</td>
-                        <td align="right">
-                          <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
-                        </td>
-                      </tr>
+                                            <tr>
+                                                <td>$QData{"Filename"}</td>
+                                                <td>$QData{"Filesize"}</td>
+                                                <td align="right">
+                                                    <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
+                                                </td>
+                                            </tr>
 <!-- dtl:block:Attachment -->
-                      <tr>
-                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
-                        <td align="right">
-                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
-                          <a name="attachment"></a>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
+                                            <tr>
+                                                <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
+                                                <td align="right">
+                                                    <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
+                                                    <a name="attachment"></a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
 <!-- dtl:block:Priority -->
-                <tr>
-                  <td class="contentkey">$Text{"Priority"}:</td>
-                  <td class="contentvalue"> $Data{"PriorityStrg"}</td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Priority"}:</td>
+                                    <td class="contentvalue"> $Data{"PriorityStrg"}</td>
+                                </tr>
 <!-- dtl:block:Priority -->
 <!-- dtl:block:FreeText -->
-                <tr>
-                  <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
-                  <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
+                                    <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+                                </tr>
 <!-- dtl:block:FreeText -->
 #                <tr>
 #                  <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
@@ -176,10 +176,10 @@ $Include{"RichTextEditor"}
 #                  <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
 #                </tr>
 <!-- dtl:block:FreeTime -->
-                <tr>
-                  <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
-                  <td class="contentvalue">$Data{"TicketFreeTime"}</td>
-                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
+                                    <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+                                </tr>
 <!-- dtl:block:FreeTime -->
 #                <tr>
 #                  <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
@@ -189,18 +189,18 @@ $Include{"RichTextEditor"}
 #                  <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
 #                  <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
 #                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
-            </td>
-          </tr>
-        </table>
-      </form>
-      <br/>
-    </td>
-  </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <br/>
+        </td>
+    </tr>
 </table>
 <!-- end form -->

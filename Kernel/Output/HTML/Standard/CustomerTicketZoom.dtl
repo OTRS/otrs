@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.44.2.2 2009-09-23 09:21:18 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.44.2.3 2009-10-01 14:14:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -192,88 +192,88 @@ $Include{"RichTextEditor"}
                                 -->
                                 </style>
 <!-- dtl:block:RichText -->
-<textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-              <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Attachment"}:</td>
-            <td class="contentvalue">
-              <table cellspacing="0" cellpadding="0" width="400">
+                                <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                                <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Attachment"}:</td>
+                        <td class="contentvalue">
+                            <table cellspacing="0" cellpadding="0" width="400">
 <!-- dtl:block:Attachment -->
-                <tr>
-                  <td>$QData{"Filename"}</td>
-                  <td>$QData{"Filesize"}</td>
-                  <td align="right">
-                    <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
-                  </td>
-                </tr>
+                                <tr>
+                                    <td>$QData{"Filename"}</td>
+                                    <td>$QData{"Filesize"}</td>
+                                    <td align="right">
+                                        <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
+                                    </td>
+                                </tr>
 <!-- dtl:block:Attachment -->
-                <tr>
-                  <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
-                  <td align="right">
-                    <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
-                    <a name="attachment"></a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+                                <tr>
+                                    <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
+                                    <td align="right">
+                                        <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
+                                        <a name="attachment"></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 <!-- dtl:block:State -->
-          <tr>
-            <td class="contentkey">$Text{"Next state"}:</td>
-            <td class="contentvalue"> $Data{"NextStatesStrg"}</td>
-          </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Next state"}:</td>
+                        <td class="contentvalue"> $Data{"NextStatesStrg"}</td>
+                    </tr>
 <!-- dtl:block:State -->
 <!-- dtl:block:Priority -->
-          <tr>
-            <td class="contentkey">$Text{"Priority"}:</td>
-            <td class="contentvalue"> $Data{"PriorityStrg"}</td>
-          </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Priority"}:</td>
+                        <td class="contentvalue"> $Data{"PriorityStrg"}</td>
+                    </tr>
 <!-- dtl:block:Priority -->
-        </table>
-        <br/>
-        <input class="button" id="submitRichText" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
-      </form>
+                </table>
+                <br/>
+                <input class="button" id="submitRichText" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
+            </form>
 <!-- dtl:block:FollowUp -->
-    </td>
-    <td width="25%" align="center" class="menu">
-      <table border="0" cellspacing="0" cellpadding="1" width="95%">
+        </td>
+        <td width="25%" align="center" class="menu">
+            <table border="0" cellspacing="0" cellpadding="1" width="95%">
 <!-- dtl:block:Type -->
-        <tr>
-          <td class="contentkey">$Text{"Type"}:</td>
-          <td class="contentvalue"><font color="red"><div title="$Quote{"$Text{"$Data{"Type"}"}"}">$Quote{"$Text{"$Data{"Type"}"}","18"}</div></font></td>
-        </tr>
+                <tr>
+                    <td class="contentkey">$Text{"Type"}:</td>
+                    <td class="contentvalue"><font color="red"><div title="$Quote{"$Text{"$Data{"Type"}"}"}">$Quote{"$Text{"$Data{"Type"}"}","18"}</div></font></td>
+                </tr>
 <!-- dtl:block:Type -->
-        <tr>
-          <td class="contentkey">$Text{"State"}:</td>
-          <td class="contentvalue"><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></font></td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Priority"}:</td>
-          <td class="contentvalue"><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</div></font></td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Queue"}:</td>
-          <td class="contentvalue"><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></font></td>
-        </tr>
+                <tr>
+                    <td class="contentkey">$Text{"State"}:</td>
+                    <td class="contentvalue"><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></font></td>
+                </tr>
+                <tr>
+                    <td class="contentkey">$Text{"Priority"}:</td>
+                    <td class="contentvalue"><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</div></font></td>
+                </tr>
+                <tr>
+                    <td class="contentkey">$Text{"Queue"}:</td>
+                    <td class="contentvalue"><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></font></td>
+                </tr>
 <!-- dtl:block:Service -->
-        <tr>
-          <td class="contentkey">$Text{"Service"}:</td>
-          <td class="contentvalue"><font color="red"><div title="$QData{"Service"}">$QData{"Service","18"}</div></font></td>
-        </tr>
+                <tr>
+                    <td class="contentkey">$Text{"Service"}:</td>
+                    <td class="contentvalue"><font color="red"><div title="$QData{"Service"}">$QData{"Service","18"}</div></font></td>
+                </tr>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
-        <tr>
-          <td class="contentkey">$Text{"SLA"}:</td>
-          <td class="contentvalue"><font color="red"><div title="$QData{"SLA"}">$QData{"SLA","18"}</div></font></td>
-        </tr>
+                <tr>
+                    <td class="contentkey">$Text{"SLA"}:</td>
+                    <td class="contentvalue"><font color="red"><div title="$QData{"SLA"}">$QData{"SLA","18"}</div></font></td>
+                </tr>
 <!-- dtl:block:SLA -->
-        <tr>
-          <td class="contentkey">$Text{"CustomerID"}:</td>
-          <td class="contentvalue"><div title="$QData{"CustomerID"}">$QData{"CustomerID","18"}</div></td>
-        </tr>
+                <tr>
+                    <td class="contentkey">$Text{"CustomerID"}:</td>
+                    <td class="contentvalue"><div title="$QData{"CustomerID"}">$QData{"CustomerID","18"}</div></td>
+                </tr>
 #      <tr>
 #        <td class="contentkey">$Text{"Accounted time"}:</td>
 #        <td class="contentvalue">$Data{"TicketTimeUnits"}</td>
@@ -285,12 +285,12 @@ $Include{"RichTextEditor"}
 
 # use this if you want to show TicketFreeKey1-16 and TicketFreeText1-16
 <!-- dtl:block:TicketFreeText -->
-        <tr>
-          <td class="contentkey">$QData{"TicketFreeKey","20"}:</td>
-          <td class="contentvalue">
-            <div title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","20"}</div>
-          </td>
-        </tr>
+                <tr>
+                    <td class="contentkey">$QData{"TicketFreeKey","20"}:</td>
+                    <td class="contentvalue">
+                        <div title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","20"}</div>
+                    </td>
+                </tr>
 <!-- dtl:block:TicketFreeText -->
 #<!-- dtl:block:TicketFreeText1 -->
 #        <tr>
@@ -311,10 +311,10 @@ $Include{"RichTextEditor"}
 
 # use this if you want to show TicketFreeTime1-6
 <!-- dtl:block:TicketFreeTime -->
-        <tr>
-          <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
-          <td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div></td>
-        </tr>
+                <tr>
+                    <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
+                    <td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div></td>
+                </tr>
 <!-- dtl:block:TicketFreeTime -->
 #<!-- dtl:block:TicketFreeTime1 -->
 #          <tr>
@@ -329,8 +329,8 @@ $Include{"RichTextEditor"}
 #          </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
 
-      </table>
-    </td>
-  </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 <!-- end ticket -->

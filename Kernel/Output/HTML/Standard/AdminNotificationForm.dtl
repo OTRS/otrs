@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.27 2009-07-02 12:47:43 ub Exp $
+# $Id: AdminNotificationForm.dtl,v 1.27.2.1 2009-10-01 14:12:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,154 +14,154 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td colspan="2" class="mainhead">
-      $Env{"Box0"}$Text{"Notification Management"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td width="30%" class="mainbody">
-      <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="Change"/>
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">$Text{"Change"}:</td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              $Data{"NotificationOption"}
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              &nbsp;<input class="button" type="submit" value="$Text{"Change"}"/>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </td>
-    <td width="70%" class="mainbody">
+    <tr>
+        <td colspan="2" class="mainhead">
+            $Env{"Box0"}$Text{"Notification Management"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" class="mainbody">
+            <form action="$Env{"CGIHandle"}" method="post">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Change"/>
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">$Text{"Change"}:</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            $Data{"NotificationOption"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            &nbsp;<input class="button" type="submit" value="$Text{"Change"}"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+        <td width="70%" class="mainbody">
 # check subaction
-      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" id="submitRichText" type="submit" value="$Text{"Update"}"/>"; }>
-      <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action"/>
-        <input type="hidden" name="ID" value="$QData{"ID"}"/>
-        <input type="hidden" name="Charset" value="$Env{"Charset"}"/>
-        <input type="hidden" name="Language" value="$QData{"Language"}"/>
-        <input type="hidden" name="Type" value="$QData{"Type"}"/>
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">$Text{"Notification"}:</td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              <table border="0" cellspacing="0" cellpadding="3">
-                <tr>
-                  <td class="contentkey">$Text{"Type"}: </td>
-                  <td class="contentvalue"> $Data{"Language"}::$QData{"Type"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Subject"}: </td>
-                  <td class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="120"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Text"}: </td>
-                  <td class="contentvalue">
-                    <div class="yui-skin-sam">
-                      <textarea id="RichText" rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              &nbsp;$Data{"Botton"}
-            </td>
-          </tr>
-        </table>
-      </form>
-    </td>
-  </tr>
+            <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" id="submitRichText" type="submit" value="$Text{"Update"}"/>"; }>
+            <form action="$Env{"CGIHandle"}" method="post">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action"/>
+                <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                <input type="hidden" name="Charset" value="$Env{"Charset"}"/>
+                <input type="hidden" name="Language" value="$QData{"Language"}"/>
+                <input type="hidden" name="Type" value="$QData{"Type"}"/>
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">$Text{"Notification"}:</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            <table border="0" cellspacing="0" cellpadding="3">
+                                <tr>
+                                    <td class="contentkey">$Text{"Type"}: </td>
+                                    <td class="contentvalue"> $Data{"Language"}::$QData{"Type"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Subject"}: </td>
+                                    <td class="contentvalue">
+                                        <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="120"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Text"}: </td>
+                                    <td class="contentvalue">
+                                        <div class="yui-skin-sam">
+                                            <textarea id="RichText" rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            &nbsp;$Data{"Botton"}
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
 </table>
 <!-- end form -->
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <p>
-        $Text{"Notifications are sent to an agent or a customer."}
-      </p>
-      <hr>
-      <p>
-        $Text{"Useable options"}:
-        <table>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</td>
-            <td class="contentvalue">$Text{"To get the first 20 character of the subject."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</td>
-            <td class="contentvalue">$Text{"To get the first 5 lines of the email."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
-            <td class="contentvalue">$Text{"To get the realname of the sender (if given)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_*&gt;</td>
-            <td class="contentvalue">$Text{"To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
-            <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_RESPONSIBLE_*&gt;</td>
-            <td class="contentvalue">$Text{"Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
-            <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
-          </tr>
-        </table>
-      </p>
-        <p>
-          $Text{"Example"}:
-          <hr/>
-          <form action="/">
-            <table>
-              <tr>
-                <td>$Text{"Subject"}:</td>
-                <td><input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/></td>
-              </tr>
-              <tr>
-                <td>
-                  $Text{"Text"}:
-                </td>
-                <td>
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <p>
+                $Text{"Notifications are sent to an agent or a customer."}
+            </p>
+            <hr>
+            <p>
+                $Text{"Useable options"}:
+                <table>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</td>
+                        <td class="contentvalue">$Text{"To get the first 20 character of the subject."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</td>
+                        <td class="contentvalue">$Text{"To get the first 5 lines of the email."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
+                        <td class="contentvalue">$Text{"To get the realname of the sender (if given)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_*&gt;</td>
+                        <td class="contentvalue">$Text{"To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
+                        <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
+                        <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_RESPONSIBLE_*&gt;</td>
+                        <td class="contentvalue">$Text{"Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
+                        <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
+                        <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
+                        <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
+                    </tr>
+                </table>
+            </p>
+            <p>
+                $Text{"Example"}:
+                <hr/>
+                <form action="/">
+                    <table>
+                        <tr>
+                            <td>$Text{"Subject"}:</td>
+                            <td><input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                $Text{"Text"}:
+                            </td>
+                            <td>
                   <textarea rows="12" cols="70" name="Response">
 Hi &lt;OTRS_CURRENT_UserFirstname&gt;,
 
@@ -176,13 +176,13 @@ there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
 
 Your OTRS Notification Master
                     </textarea>
-                  </td>
-                </tr>
-              </table>
-            </form>
-            <hr/>
-          </p>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <hr/>
+            </p>
         </td>
-      </tr>
-    </table>
+    </tr>
+</table>
 <!-- end note -->

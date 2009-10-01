@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.50.2.3 2009-09-23 09:21:19 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.50.2.4 2009-10-01 14:13:32 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -276,57 +276,57 @@ $Include{"RichTextEditor"}
                                 -->
                                 </style>
 <!-- dtl:block:RichText -->
-<textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-              <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Attachment"}:</td>
-            <td class="contentvalue">
-              <table cellspacing="0" cellpadding="0" width="400">
+                                <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                                <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Attachment"}:</td>
+                        <td class="contentvalue">
+                            <table cellspacing="0" cellpadding="0" width="400">
 <!-- dtl:block:Attachment -->
-                <tr>
-                  <td>$QData{"Filename"}</td>
-                  <td>$QData{"Filesize"}</td>
-                  <td align="right">
-                    <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
-                  </td>
-                </tr>
+                                <tr>
+                                    <td>$QData{"Filename"}</td>
+                                    <td>$QData{"Filesize"}</td>
+                                    <td align="right">
+                                        <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
+                                    </td>
+                                </tr>
 <!-- dtl:block:Attachment -->
-                <tr>
-                  <td colspan="2">
-                    <input name="file_upload" type="file" size="40" class="fixed"/>
-                  </td>
-                  <td align="right">
-                    <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
-                    <a name="attachment"></a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"CustomerID"}:</td>
-            <td class="contentvalue"> <input type="text" name="CustomerID" value="$QData{"CustomerID"}" size="25"/></td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Next ticket state"}:</td>
-            <td class="contentvalue"> $Data{"NextStatesStrg"}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
-            <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Priority"}:</td>
-            <td class="contentvalue"> $Data{"PriorityStrg"}</td>
-          </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <input name="file_upload" type="file" size="40" class="fixed"/>
+                                    </td>
+                                    <td align="right">
+                                        <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
+                                        <a name="attachment"></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"CustomerID"}:</td>
+                        <td class="contentvalue"> <input type="text" name="CustomerID" value="$QData{"CustomerID"}" size="25"/></td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Next ticket state"}:</td>
+                        <td class="contentvalue"> $Data{"NextStatesStrg"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
+                        <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Priority"}:</td>
+                        <td class="contentvalue"> $Data{"PriorityStrg"}</td>
+                    </tr>
 <!-- dtl:block:TicketFreeText -->
-          <tr>
-            <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
-            <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
-          </tr>
+                    <tr>
+                        <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
+                        <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+                    </tr>
 <!-- dtl:block:TicketFreeText -->
 #<!-- dtl:block:TicketFreeText1 -->
 #          <tr>
@@ -341,10 +341,10 @@ $Include{"RichTextEditor"}
 #          </tr>
 #<!-- dtl:block:TicketFreeText2 -->
 <!-- dtl:block:TicketFreeTime -->
-          <tr>
-            <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
-            <td class="contentvalue">$Data{"TicketFreeTime"}</td>
-          </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
+                        <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+                    </tr>
 <!-- dtl:block:TicketFreeTime -->
 #<!-- dtl:block:TicketFreeTime1 -->
 #          <tr>
@@ -359,10 +359,10 @@ $Include{"RichTextEditor"}
 #          </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
 <!-- dtl:block:ArticleFreeText -->
-          <tr>
-            <td class="contentkey">$Data{"ArticleFreeKeyField"}:</td>
-            <td class="contentvalue">$Data{"ArticleFreeTextField"}</td>
-          </tr>
+                    <tr>
+                        <td class="contentkey">$Data{"ArticleFreeKeyField"}:</td>
+                        <td class="contentvalue">$Data{"ArticleFreeTextField"}</td>
+                    </tr>
 <!-- dtl:block:ArticleFreeText -->
 #<!-- dtl:block:ArticleFreeText1 -->
 #          <tr>
@@ -377,28 +377,28 @@ $Include{"RichTextEditor"}
 #          </tr>
 #<!-- dtl:block:ArticleFreeText2 -->
 <!-- dtl:block:TimeUnits -->
-          <tr>
-            <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
-            <td class="contentvalue"> <input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"/></td>
-          </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
+                        <td class="contentvalue"> <input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"/></td>
+                    </tr>
 <!-- dtl:block:TimeUnits -->
-        </table>
-        <br/>
-        <input class="button" id="submitRichText" accesskey="g" type="submit" name="Create" value="$Text{"Create"}" onclick="return submit_compose();"/>
-      </form>
-      <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-        <input type="hidden" name="Action" value="AgentSpelling"/>
-        <input type="hidden" name="Body" value=""/>
-        <input type="hidden" name="spell_lang" value=""/>
-      </form>
-      <form action="$Env{"CGIHandle"}" method="post" name="customer" target="customer">
-        <input type="hidden" name="Action" value="AdminCustomerUser"/>
-        <input type="hidden" name="Nav" value="None"/>
-        <input type="hidden" name="Subject" value=""/>
-        <input type="hidden" name="What" value=""/>
-      </form>
-    </td>
-  </tr>
+                </table>
+                <br/>
+                <input class="button" id="submitRichText" accesskey="g" type="submit" name="Create" value="$Text{"Create"}" onclick="return submit_compose();"/>
+            </form>
+            <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+                <input type="hidden" name="Action" value="AgentSpelling"/>
+                <input type="hidden" name="Body" value=""/>
+                <input type="hidden" name="spell_lang" value=""/>
+            </form>
+            <form action="$Env{"CGIHandle"}" method="post" name="customer" target="customer">
+                <input type="hidden" name="Action" value="AdminCustomerUser"/>
+                <input type="hidden" name="Nav" value="None"/>
+                <input type="hidden" name="Subject" value=""/>
+                <input type="hidden" name="What" value=""/>
+            </form>
+        </td>
+    </tr>
 </table>
 <!-- end form -->
 <div id="CustomerTickets"></div>
