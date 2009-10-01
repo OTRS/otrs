@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.52 2009-04-17 08:36:44 tr Exp $
+# $Id: LinkObject.pm,v 1.52.2.1 2009-10-01 18:05:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.52.2.1 $) [1];
 
 =head1 NAME
 
@@ -2345,7 +2345,9 @@ sub _LoadBackend {
     my $BackendObject = $BackendModule->new(
         %{$Self},
         %Param,
-        LinkObject => $Self,
+
+        # REMOVE ME in OTRS 2.5 and higher: not longer needed
+        LinkObject => 'not_used',
     );
 
     if ( !$BackendObject ) {
@@ -2378,6 +2380,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.52.2.1 $ $Date: 2009-10-01 18:05:44 $
 
 =cut
