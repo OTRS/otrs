@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.178 2009-09-23 08:12:11 sb Exp $
+# $Id: Layout.pm,v 1.179 2009-10-01 10:21:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.178 $) [1];
+$VERSION = qw($Revision: 1.179 $) [1];
 
 =head1 NAME
 
@@ -1749,20 +1749,19 @@ sub Ascii2Html {
         for my $Filter ( sort keys %Filters ) {
 
             # load module
-            my $Object = $Filters{$Filter}->{Module};
-            if ( !$Self->{FilterTextObject}->{$Object} ) {
-                if ( !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
-                    $Self->FatalDie();
-                }
-                $Self->{FilterTextObject}->{$Object} = $Filters{$Filter}->{Module}->new(
-                    %{$Self},
-                    LayoutObject => $Self,
-                );
+            my $Module = $Filters{$Filter}->{Module};
+            if ( !$Self->{MainObject}->Require($Module) ) {
+                $Self->FatalDie();
             }
+            my $Object = $Module->new(
+                %{$Self},
+                LayoutObject => $Self,
+            );
+            next if !$Object;
             push(
                 @Filters,
                 {
-                    Object => $Self->{FilterTextObject}->{$Object},
+                    Object => $Object,
                     Filter => $Filters{$Filter}
                 },
             );
@@ -4361,6 +4360,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.178 $ $Date: 2009-09-23 08:12:11 $
+$Revision: 1.179 $ $Date: 2009-10-01 10:21:33 $
 
 =cut
