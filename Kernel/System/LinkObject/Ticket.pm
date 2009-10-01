@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.34 2009-09-16 08:38:49 martin Exp $
+# $Id: Ticket.pm,v 1.35 2009-10-01 18:04:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +27,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject LinkObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );

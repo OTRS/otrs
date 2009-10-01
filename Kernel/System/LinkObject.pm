@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.52 2009-04-17 08:36:44 tr Exp $
+# $Id: LinkObject.pm,v 1.53 2009-10-01 18:04:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,10 @@ use warnings;
 
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
+use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 NAME
 
@@ -89,10 +90,19 @@ sub new {
 
     # check needed objects
     for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+        $Self->{$_} = $Param{$_} ||
+            $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need $_!",
+            ) && die;
     }
-    $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
-    $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
+    $Self->{CheckItemObject}     = Kernel::System::CheckItem->new( %{$Self} );
+    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'LinkObject',
+        TTL  => 60 * 60 * 1,
+    );
 
     return $Self;
 }
@@ -450,7 +460,7 @@ sub LinkAdd {
     );
 
     # check if link already exists in database
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT source_object_id, source_key, state_id '
             . 'FROM link_relation '
             . 'WHERE ( ( source_object_id = ? AND source_key = ? '
@@ -1041,7 +1051,7 @@ sub LinkList {
     }
 
     # get links where the given object is the source
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT target_object_id, target_key, type_id '
             . 'FROM link_relation '
             . 'WHERE source_object_id = ? '
@@ -1085,7 +1095,7 @@ sub LinkList {
     }
 
     # get links where the given object is the target
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL =>
             'SELECT source_object_id, source_key, type_id '
             . 'FROM link_relation '
@@ -1493,11 +1503,12 @@ sub ObjectLookup {
     if ( $Param{ObjectID} ) {
 
         # check cache
-        return $Self->{Cache}->{ObjectLookup}->{ObjectID}->{ $Param{ObjectID} }
-            if $Self->{Cache}->{ObjectLookup}->{ObjectID}->{ $Param{ObjectID} };
+        my $CacheKey = 'ObjectLookup::ObjectID::' . $Param{ObjectID};
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return $Cache if $Cache;
 
         # ask the database
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL   => 'SELECT name FROM link_object WHERE id = ?',
             Bind  => [ \$Param{ObjectID} ],
             Limit => 1,
@@ -1518,17 +1529,20 @@ sub ObjectLookup {
             return;
         }
 
-        # cache result
-        $Self->{Cache}->{ObjectLookup}->{ObjectID}->{ $Param{ObjectID} } = $Name;
-        $Self->{Cache}->{ObjectLookup}->{Name}->{$Name} = $Param{ObjectID};
+        # set cache
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $Name,
+        );
 
         return $Name;
     }
     else {
 
         # check cache
-        return $Self->{Cache}->{ObjectLookup}->{Name}->{ $Param{Name} }
-            if $Self->{Cache}->{ObjectLookup}->{Name}->{ $Param{Name} };
+        my $CacheKey = 'ObjectLookup::Name::' . $Param{Name};
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return $Cache if $Cache;
 
         # investigate the object id
         my $ObjectID;
@@ -1536,7 +1550,7 @@ sub ObjectLookup {
         for my $Try ( 1 .. 3 ) {
 
             # ask the database
-            $Self->{DBObject}->Prepare(
+            return if !$Self->{DBObject}->Prepare(
                 SQL   => 'SELECT id FROM link_object WHERE name = ?',
                 Bind  => [ \$Param{Name} ],
                 Limit => 1,
@@ -1572,9 +1586,11 @@ sub ObjectLookup {
             );
         }
 
-        # cache result
-        $Self->{Cache}->{ObjectLookup}->{Name}->{ $Param{Name} } = $ObjectID;
-        $Self->{Cache}->{ObjectLookup}->{ObjectID}->{$ObjectID} = $Param{Name};
+        # set cache
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $ObjectID,
+        );
 
         return $ObjectID;
     }
@@ -1619,11 +1635,12 @@ sub TypeLookup {
     if ( $Param{TypeID} ) {
 
         # check cache
-        return $Self->{Cache}->{TypeLookup}->{TypeID}->{ $Param{TypeID} }
-            if $Self->{Cache}->{TypeLookup}->{TypeID}->{ $Param{TypeID} };
+        my $CacheKey = 'TypeLookup::TypeID::' . $Param{TypeID};
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return $Cache if $Cache;
 
         # ask the database
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL   => 'SELECT name FROM link_type WHERE id = ?',
             Bind  => [ \$Param{TypeID} ],
             Limit => 1,
@@ -1644,9 +1661,11 @@ sub TypeLookup {
             return;
         }
 
-        # cache result
-        $Self->{Cache}->{TypeLookup}->{TypeID}->{ $Param{TypeID} } = $Name;
-        $Self->{Cache}->{TypeLookup}->{Name}->{$Name} = $Param{TypeID};
+        # set cache
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $Name,
+        );
 
         return $Name;
     }
@@ -1658,8 +1677,9 @@ sub TypeLookup {
         );
 
         # check cache
-        return $Self->{Cache}->{TypeLookup}->{Name}->{ $Param{Name} }
-            if $Self->{Cache}->{TypeLookup}->{Name}->{ $Param{Name} };
+        my $CacheKey = 'TypeLookup::Name::' . $Param{Name};
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return $Cache if $Cache;
 
         # investigate the type id
         my $TypeID;
@@ -1667,7 +1687,7 @@ sub TypeLookup {
         for my $Try ( 1 .. 2 ) {
 
             # ask the database
-            $Self->{DBObject}->Prepare(
+            return if !$Self->{DBObject}->Prepare(
                 SQL   => 'SELECT id FROM link_type WHERE name = ?',
                 Bind  => [ \$Param{Name} ],
                 Limit => 1,
@@ -1707,9 +1727,11 @@ sub TypeLookup {
             return;
         }
 
-        # cache result
-        $Self->{Cache}->{TypeLookup}->{Name}->{ $Param{Name} } = $TypeID;
-        $Self->{Cache}->{TypeLookup}->{TypeID}->{$TypeID} = $Param{Name};
+        # set cache
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $TypeID,
+        );
 
         return $TypeID;
     }
@@ -1756,7 +1778,7 @@ sub TypeGet {
         if $Self->{Cache}->{TypeGet}->{TypeID}->{ $Param{TypeID} };
 
     # ask the database
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id, name, create_time, create_by, change_time, change_by '
             . 'FROM link_type WHERE id = ?',
         Bind  => [ \$Param{TypeID} ],
@@ -2072,11 +2094,12 @@ sub StateLookup {
     if ( $Param{StateID} ) {
 
         # check cache
-        return $Self->{Cache}->{StateLookup}->{StateID}->{ $Param{StateID} }
-            if $Self->{Cache}->{StateLookup}->{StateID}->{ $Param{StateID} };
+        my $CacheKey = 'StateLookup::StateID::' . $Param{StateID};
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return $Cache if $Cache;
 
         # ask the database
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL   => 'SELECT name FROM link_state WHERE id = ?',
             Bind  => [ \$Param{StateID} ],
             Limit => 1,
@@ -2097,20 +2120,23 @@ sub StateLookup {
             return;
         }
 
-        # cache result
-        $Self->{Cache}->{StateLookup}->{StateID}->{ $Param{StateID} } = $Name;
-        $Self->{Cache}->{StateLookup}->{Name}->{$Name} = $Param{StateID};
+        # set cache
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $Name,
+        );
 
         return $Name;
     }
     else {
 
         # check cache
-        return $Self->{Cache}->{StateLookup}->{Name}->{ $Param{Name} }
-            if $Self->{Cache}->{StateLookup}->{Name}->{ $Param{Name} };
+        my $CacheKey = 'StateLookup::Name::' . $Param{Name};
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return $Cache if $Cache;
 
         # ask the database
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL   => 'SELECT id FROM link_state WHERE name = ?',
             Bind  => [ \$Param{Name} ],
             Limit => 1,
@@ -2131,9 +2157,11 @@ sub StateLookup {
             return;
         }
 
-        # cache result
-        $Self->{Cache}->{StateLookup}->{Name}->{ $Param{Name} } = $StateID;
-        $Self->{Cache}->{StateLookup}->{StateID}->{$StateID} = $Param{Name};
+        # set cache
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $StateID,
+        );
 
         return $StateID;
     }
@@ -2181,7 +2209,7 @@ sub StateList {
     }
 
     # ask database
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT id, name FROM link_state $SQLWhere",
     );
 
@@ -2345,7 +2373,9 @@ sub _LoadBackend {
     my $BackendObject = $BackendModule->new(
         %{$Self},
         %Param,
-        LinkObject => $Self,
+
+        # REMOVE ME in OTRS 2.5 and higher: not longer needed
+        LinkObject => 'not_used',
     );
 
     if ( !$BackendObject ) {
@@ -2378,6 +2408,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.53 $ $Date: 2009-10-01 18:04:07 $
 
 =cut
