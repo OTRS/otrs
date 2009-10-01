@@ -1,8 +1,8 @@
 # --
-# AdminPostMasterFilter.dtl - provides HTML form for AdminSystemAddress
+# AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.21 2009-09-30 23:46:40 ep Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.22 2009-10-01 06:23:59 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
