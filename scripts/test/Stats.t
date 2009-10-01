@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.20 2009-04-23 13:47:27 mh Exp $
+# $Id: Stats.t,v 1.21 2009-10-01 18:38:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,6 @@ use Kernel::System::Group;
 use Kernel::System::User;
 use Kernel::System::Main;
 use Kernel::System::CSV;
-
-# declare externally defined variables to avoid errors under 'use strict'
-use vars qw( $Self );
 
 $Self->{UserID}      = 1;
 $Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
@@ -38,15 +35,16 @@ $Self->False(
     'StatsGet() try to get a not exitsting stat',
 );
 
+my $Update = $Self->{StatsObject}->StatsUpdate(
+    StatID => '1111',
+    Hash   => {
+        Title       => 'TestTitle from UnitTest.pl',
+        Description => 'some Description',
+    },
+);
 $Self->False(
-    $Self->{StatsObject}->StatsUpdate(
-        StatID => '1111',
-        Hash   => {
-            Title       => 'TestTitle from UnitTest.pl',
-            Description => 'some Description',
-        },
-    ),
-    "StatsUpdate() try to update a invalid stat id (Ignore the Tracebacks on the top)",
+    $Update,
+    'StatsUpdate() try to update a invalid stat id (Ignore the Tracebacks on the top)',
 );
 
 # check the StatsAddfunction
@@ -72,34 +70,36 @@ $Self->True(
 );
 
 # test 4 - check the stats update function
+$Update = $Self->{StatsObject}->StatsUpdate(
+    StatID => $StatID1,
+    Hash   => {
+        Title        => 'TestTitle from UnitTest.pl',
+        Description  => 'some Description',
+        Object       => 'Ticket',
+        Format       => 'CSV',
+        ObjectModule => 'Kernel::System::Stats::Dynamic::Ticket',
+        Permission   => '1',
+        StatType     => 'dynamic',
+        SumCol       => '1',
+        SumRow       => '1',
+        Valid        => '1',
+    },
+);
 $Self->True(
-    $Self->{StatsObject}->StatsUpdate(
-        StatID => $StatID1,
-        Hash   => {
-            Title        => 'TestTitle from UnitTest.pl',
-            Description  => 'some Description',
-            Object       => 'Ticket',
-            Format       => 'CSV',
-            ObjectModule => 'Kernel::System::Stats::Dynamic::Ticket',
-            Permission   => '1',
-            StatType     => 'dynamic',
-            SumCol       => '1',
-            SumRow       => '1',
-            Valid        => '1',
-        },
-    ),
-    "StatsUpdate() Update StatID1",
+    $Update,
+    'StatsUpdate() Update StatID1',
 );
 
+$Update = $Self->{StatsObject}->StatsUpdate(
+    StatID => ( $StatID2 + 2 ),
+    Hash   => {
+        Title       => 'TestTitle from UnitTest.pl',
+        Description => 'some Description',
+    },
+);
 $Self->False(
-    $Self->{StatsObject}->StatsUpdate(
-        StatID => ( $StatID2 + 2 ),
-        Hash   => {
-            Title       => 'TestTitle from UnitTest.pl',
-            Description => 'some Description',
-        },
-    ),
-    "StatsUpdate() try to update a invalid stat id (Ignore the Tracebacks on the top)",
+    $Update,
+    'StatsUpdate() try to update a invalid stat id (Ignore the Tracebacks on the top)',
 );
 
 # check get function
@@ -162,7 +162,7 @@ my @StatArray = @{
         ],
         SumRow => 1,
         SumCol => 1,
-        )
+    ),
     };
 
 my @SubStatArray = @{ $StatArray[-1] };

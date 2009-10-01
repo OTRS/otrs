@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.81 2009-09-28 13:11:45 ub Exp $
+# $Id: Stats.pm,v 1.82 2009-10-01 18:38:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 =head1 SYNOPSIS
 
@@ -127,7 +127,7 @@ sub new {
 
 =item StatsAdd()
 
-add new stats
+add new empty stats
 
     my $StatID = $StatsObject->StatsAdd();
 
@@ -136,9 +136,8 @@ add new stats
 sub StatsAdd {
     my $Self = shift;
 
-    my $StatID = 1;
-
     # get new StatID
+    my $StatID = 1;
     my @Keys = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats', );
     if (@Keys) {
         my @SortKeys = sort { $a <=> $b } @Keys;
@@ -151,31 +150,43 @@ sub StatsAdd {
     );
 
     # meta tags
-    my %MetaData = ();
-    $MetaData{Created}[0]{Content}   = $TimeStamp;
-    $MetaData{CreatedBy}[0]{Content} = $Self->{UserID};
-    $MetaData{Changed}[0]{Content}   = $TimeStamp;
-    $MetaData{ChangedBy}[0]{Content} = $Self->{UserID};
-    $MetaData{Valid}[0]{Content}     = 1;
-    $MetaData{StatNumber}[0]{Content}
-        = $StatID + $Self->{ConfigObject}->Get('Stats::StatsStartNumber');
+    my $StatNumber = $StatID + $Self->{ConfigObject}->Get('Stats::StatsStartNumber');
+    my %MetaData   = (
+        Created => [
+            Content => $TimeStamp,
+        ],
+        CreatedBy => [
+            Content => $Self->{UserID},
+        ],
+        Changed => [
+            Content => $TimeStamp,
+        ],
+        ChangedBy => [
+            Content => $Self->{UserID},
+        ],
+        Valid => [
+            Content => 1,
+        ],
+        StatNumber => [
+            Content => $StatNumber,
+        ],
+    );
 
     # start new stats record
-    my @XMLHash;    # it's an array but the wording is hash
-    $XMLHash[0]{otrs_stats}[0] = \%MetaData;
-    if (
-        !$Self->{XMLObject}->XMLHashAdd(
-            Type    => 'Stats',
-            Key     => $StatID,
-            XMLHash => \@XMLHash,
-        )
-        )
-    {
+    my @XMLHash = (
+        { otrs_stats => [ \%MetaData ] },
+    );
+    my $Success = $Self->{XMLObject}->XMLHashAdd(
+        Type    => 'Stats',
+        Key     => $StatID,
+        XMLHash => \@XMLHash,
+    );
+    if ( !$Success ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'StatsAdd: Can not add a new Stat!',
+            Message  => 'Can not add a new Stat!',
         );
-        return 0;
+        return;
     }
 
     return $StatID;
@@ -197,7 +208,7 @@ sub StatsGet {
 
     # check necessary data
     if ( !$Param{StatID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'StatsGet: Need StatID!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StatID!' );
     }
 
     # get hash from storage
@@ -207,12 +218,15 @@ sub StatsGet {
     );
 
     if ( !$XMLHash[0] ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "StatsGet: Can\'t get Stat!" );
-        return 0;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't get StatsID $Param{StatID}!",
+        );
+        return;
     }
 
-    my %Stat    = ();
-    my $StatXML = $XMLHash[0]{otrs_stats}[1];
+    my %Stat;
+    my $StatsXML = $XMLHash[0]->{otrs_stats}->[1];
 
     # process all strings
     $Stat{StatID} = $Param{StatID};
@@ -222,26 +236,26 @@ sub StatsGet {
         )
         )
     {
-        if ( defined $StatXML->{$Key}[1]{Content} ) {
-            $Stat{$Key} = $StatXML->{$Key}[1]{Content};
+        if ( defined $StatsXML->{$Key}[1]->{Content} ) {
+            $Stat{$Key} = $StatsXML->{$Key}->[1]->{Content};
         }
     }
 
     # process all arrays
     KEY:
     for my $Key (qw(Permission Format GraphSize)) {
-        next KEY if !$StatXML->{$Key}[1]{Content};
+        next KEY if !$StatsXML->{$Key}->[1]->{Content};
 
         $Stat{$Key} = ();
-        for my $Index ( 1 .. $#{ $StatXML->{$Key} } ) {
-            push @{ $Stat{$Key} }, $StatXML->{$Key}[$Index]->{Content};
+        for my $Index ( 1 .. $#{ $StatsXML->{$Key} } ) {
+            push @{ $Stat{$Key} }, $StatsXML->{$Key}->[$Index]->{Content};
         }
     }
 
     # get the configuration elements of the dynamic stats
     # %Allowed is used to avoid douple selection in different forms
-    my %Allowed     = ();
-    my %TimeAllowed = ();
+    my %Allowed;
+    my %TimeAllowed;
     my $TimeElement = $Self->{ConfigObject}->Get('Stats::TimeElement') || 'Time';
     return \%Stat if !$Stat{Object};
 
@@ -255,7 +269,7 @@ sub StatsGet {
     for my $Key (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
 
         # @StatAttributesSimplified give you arrays without undef array elements
-        my @StatAttributesSimplified = ();
+        my @StatAttributesSimplified;
 
         # get the attributes of the object
         my @ObjectAttributes = $Self->GetStatsObjectAttributes(
@@ -270,11 +284,7 @@ sub StatsGet {
             my $Element = $Attribute->{Element};
             if ( $Attribute->{Block} eq 'Time' ) {
                 if ( $Key eq 'UseAsValueSeries' ) {
-                    if (
-                        $Allowed{$Element}
-                        && $Allowed{$Element} == 1
-                        )
-                    {
+                    if ( $Allowed{$Element} && $Allowed{$Element} == 1 ) {
                         $Allowed{$Element}     = 0;
                         $TimeAllowed{$Element} = 1;
                     }
@@ -283,11 +293,7 @@ sub StatsGet {
                     }
                 }
                 elsif ( $Key eq 'UseAsRestriction' ) {
-                    if (
-                        $TimeAllowed{$Element}
-                        && $TimeAllowed{$Element} == 1
-                        )
-                    {
+                    if ( $TimeAllowed{$Element} && $TimeAllowed{$Element} == 1 ) {
                         $Allowed{$Element} = 1;
                     }
                     else {
@@ -297,8 +303,8 @@ sub StatsGet {
             }
             next ATTRIBUTE if $Allowed{$Element};
 
-            if ( $StatXML->{$Key} ) {
-                my @StatAttributes = @{ $StatXML->{$Key} };
+            if ( $StatsXML->{$Key} ) {
+                my @StatAttributes = @{ $StatsXML->{$Key} };
                 if ( !$StatAttributes[0] ) {
                     shift @StatAttributes;
                 }
@@ -324,7 +330,7 @@ sub StatsGet {
                     for my $Index ( 1 .. $#{ $Ref->{SelectedValues} } ) {
                         push(
                             @{ $Attribute->{SelectedValues} },
-                            $Ref->{SelectedValues}[$Index]->{Content}
+                            $Ref->{SelectedValues}->[$Index]->{Content}
                         );
                     }
 
@@ -370,7 +376,7 @@ sub StatsUpdate {
 
     # check necessary data
     if ( !$Param{StatID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'StatsUpdate: Need StatID!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StatID!' );
     }
 
     # requesting stats reference
@@ -379,9 +385,9 @@ sub StatsUpdate {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
-                "StatsUpddate: Can't get stats, perhaps you have an invalid stats id! (StatsID => $Param{StatID})"
+                "Can't get stats, perhaps you have an invalid stats id! (StatsID => $Param{StatID})"
         );
-        return 0;
+        return;
     }
 
     # declare variable
@@ -409,30 +415,30 @@ sub StatsUpdate {
                 next REF if !$Ref;
 
                 $Index++;
-                $StatXML{$Key}[$Index]{Element} = $Ref->{Element};
-                $StatXML{$Key}[$Index]{Fixed}   = $Ref->{Fixed};
+                $StatXML{$Key}->[$Index]->{Element} = $Ref->{Element};
+                $StatXML{$Key}->[$Index]->{Fixed}   = $Ref->{Fixed};
                 my $SubIndex = 0;
                 for my $Value ( @{ $Ref->{SelectedValues} } ) {
                     $SubIndex++;
-                    $StatXML{$Key}[$Index]{SelectedValues}[$SubIndex]{Content} = $Value;
+                    $StatXML{$Key}->[$Index]->{SelectedValues}->[$SubIndex]->{Content} = $Value;
                 }
 
                 # stettings for working with time elements
                 for (qw(TimeStop TimeStart TimeRelativeUnit TimeRelativeCount TimeScaleCount)) {
                     if ( $Ref->{$_} ) {
-                        $StatXML{$Key}[$Index]{$_} = $Ref->{$_};
+                        $StatXML{$Key}->[$Index]->{$_} = $Ref->{$_};
                     }
                 }
             }
         }
-        elsif ( ref( $StatOld->{$Key} ) eq 'ARRAY' ) {
+        elsif ( ref $StatOld->{$Key} eq 'ARRAY' ) {
             for my $Index ( 0 .. $#{ $StatOld->{$Key} } ) {
-                $StatXML{$Key}[$Index]{Content} = $StatOld->{$Key}[$Index];
+                $StatXML{$Key}->[$Index]->{Content} = $StatOld->{$Key}->[$Index];
             }
         }
         else {
             if ( defined $StatOld->{$Key} ) {
-                $StatXML{$Key}[1]{Content} = $StatOld->{$Key};
+                $StatXML{$Key}->[1]->{Content} = $StatOld->{$Key};
             }
         }
     }
@@ -441,55 +447,52 @@ sub StatsUpdate {
     my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $Self->{TimeObject}->SystemTime(),
     );
-    $StatXML{Changed}[1]{Content}   = $TimeStamp;
-    $StatXML{ChangedBy}[1]{Content} = $Self->{UserID};
+    $StatXML{Changed}->[1]->{Content}   = $TimeStamp;
+    $StatXML{ChangedBy}->[1]->{Content} = $Self->{UserID};
 
     # please don't change the functionality of XMLHashDelete and XMLHashAdd
     # into the new function XMLHashUpdate, there is an incompatibility.
     # Perhaps there are intricacies because of the 'Array[0] = undef' definition
 
     # delete the old record
-    if (
-        !$Self->{XMLObject}->XMLHashDelete(
-            Type => 'Stats',
-            Key  => $Param{StatID},
-        )
-        )
-    {
+    my $Success = $Self->{XMLObject}->XMLHashDelete(
+        Type => 'Stats',
+        Key  => $Param{StatID},
+    );
+    if ( !$Success ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "StatsUpddate: Can't delete XMLHash!"
+            Message  => "Can't delete XMLHash!"
         );
-        return 0;
+        return;
     }
 
     # delete cache
     $Self->_DeleteCache( StatID => $Param{StatID} );
 
-    my @Array = ();
-    $Array[0]{otrs_stats}[0] = \%StatXML;
+    my @Array = (
+        { otrs_stats => [ \%StatXML ], },
+    );
 
     # add the revised record
-    if (
-        $Self->{XMLObject}->XMLHashAdd(
-            Type    => 'Stats',
-            Key     => $Param{StatID},
-            XMLHash => \@Array
-        )
-        )
-    {
-        return 1;
+    $Success = $Self->{XMLObject}->XMLHashAdd(
+        Type    => 'Stats',
+        Key     => $Param{StatID},
+        XMLHash => \@Array
+    );
+    if ( !$Success ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add XMLHash!" );
+        return;
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => "StatsUpddate: Can't add XMLHash!" );
 
-    return 0;
+    return 1;
 }
 
 =item StatsDelete()
 
 delete a stats
 
-    $StatsObject->StatsDelete(StatID => '123');
+    $StatsObject->StatsDelete( StatID => '123' );
 
 =cut
 
@@ -498,22 +501,22 @@ sub StatsDelete {
 
     # check necessary data
     if ( !$Param{StatID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "StatsDelete: Need StatID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StatID!' );
     }
 
     # delete the record
-    my $Result = $Self->{XMLObject}->XMLHashDelete(
+    my $Success = $Self->{XMLObject}->XMLHashDelete(
         Type => 'Stats',
         Key  => $Param{StatID},
     );
 
     # error handling
-    if ( !$Result ) {
+    if ( !$Success ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "StatsDelete: Can't delete XMLHash!",
+            Message  => "Can't delete XMLHash!",
         );
-        return 0;
+        return;
     }
 
     # delete cache
@@ -569,7 +572,7 @@ sub GetStatsList {
     my @SearchResult = ();
     if ( !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) ) ) {
         $Self->_AutomaticSampleImport();
-        return () if !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) );
+        return if !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) );
     }
 
     # get user groups
@@ -644,7 +647,7 @@ sub GetStatsList {
 build sum in x or/and y axis
 
     $StatArray = $StatsObject->SumBuild(
-        Array => \@Result,
+        Array  => \@Result,
         SumRow => 1,
         SumCol => 0,
     );
@@ -691,11 +694,11 @@ sub SumBuild {
 #    take the stat configuration and get the stat table
 #
 #    my @StatArray = $StatsObject->_GenerateStaticStats(
-#        ObjectModule     => $Stat->{ObjectModule},
-#        GetParam         => $Param{GetParam},
-#        Title            => $Stat->{Title},
-#        StatID           => $Stat->{StatID},
-#        Cache            => $Stat->{Cache},
+#        ObjectModule => $Stat->{ObjectModule},
+#        GetParam     => $Param{GetParam},
+#        Title        => $Stat->{Title},
+#        StatID       => $Stat->{StatID},
+#        Cache        => $Stat->{Cache},
 #    );
 #
 #=cut
@@ -709,17 +712,18 @@ sub _GenerateStaticStats {
         next NEED if $Param{$Need};
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "_GenerateStaticStats: Need $Need!"
+            Message  => "Need $Need!"
         );
         return;
     }
 
     # load static modul
     my $ObjectModule = $Param{ObjectModule};
-    $Self->{MainObject}->Require($ObjectModule);
+    return if !$Self->{MainObject}->Require($ObjectModule);
     my $StatObject = $ObjectModule->new( %{$Self} );
+    return if !$StatObject;
 
-    my @Result   = ();
+    my @Result;
     my %GetParam = %{ $Param{GetParam} };
 
     # use result cache if configured
@@ -741,7 +745,7 @@ sub _GenerateStaticStats {
 
             # these two lines are requirements of me, perhaps this
             # information is needed for former static stats
-            Format => $Param{Format}[0],
+            Format => $Param{Format}->[0],
             Module => $Param{ObjectModule},
         );
 
@@ -754,7 +758,7 @@ sub _GenerateStaticStats {
             );
         }
     }
-    $Result[0][0] = $Param{Title} . " " . $Result[0][0];
+    $Result[0]->[0] = $Param{Title} . ' ' . $Result[0]->[0];
 
     return @Result;
 }
@@ -790,15 +794,16 @@ sub _GenerateDynamicStats {
         next NEED if $Param{$Need};
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "_GenerateDynamicStats: Need $Need!"
+            Message  => "Need $Need!"
         );
         return;
     }
 
     # include the needed dynamic object
     my $ObjectModule = $Param{ObjectModule};
-    $Self->{MainObject}->Require($ObjectModule);
+    return if !$Self->{MainObject}->Require($ObjectModule);
     my $StatObject = $ObjectModule->new( %{$Self} );
+    return if !$StatObject;
 
     # get the selected values
     # perhaps i can split the StatGet function to make this needless
@@ -823,10 +828,9 @@ sub _GenerateDynamicStats {
             if ( $Element->{Block} eq 'Time' ) {
                 delete $Element->{TimePeriodFormat};
                 if ( $Element->{TimeRelativeUnit} ) {
-                    my ( $s, $m, $h, $D, $M, $Y )
-                        = $Self->{TimeObject}->SystemTime2Date(
+                    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
                         SystemTime => $Self->{TimeObject}->SystemTime(),
-                        );
+                    );
 
                     my $Count = $Element->{TimeRelativeCount} ? $Element->{TimeRelativeCount} : 1;
 
@@ -954,8 +958,9 @@ sub _GenerateDynamicStats {
             $Second = $VSSecond = int $6;
         }
 
-        $TimeAbsolutStopUnixTime
-            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Element->{'TimeStop'} );
+        $TimeAbsolutStopUnixTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Element->{TimeStop},
+        );
         my $TimeStart = 0;
         my $TimeStop  = 0;
 
@@ -1144,9 +1149,9 @@ sub _GenerateDynamicStats {
     }
 
     # get the value series
-    my %ValueSeries   = ();
-    my @ArraySelected = ();
-    my $ColumnName    = '';
+    my %ValueSeries;
+    my @ArraySelected;
+    my $ColumnName = '';
 
     # give me all possilbe elements for Value Series
     REF1:
@@ -1484,7 +1489,7 @@ sub _GenerateDynamicStats {
     }
 
     # create the table structure
-    my %TableStructure = ();
+    my %TableStructure;
     for my $Row ( sort keys %ValueSeries ) {
         my @Cells = ();
         for my $Cell ( @{ $Xvalue->{SelectedValues} } ) {    # get each cell
@@ -1524,7 +1529,7 @@ sub _GenerateDynamicStats {
         $TableStructure{$Row} = \@Cells;
     }
 
-    my @DataArray = ();
+    my @DataArray;
     if ( $StatObject->can('GetStatTable') ) {
 
         # get the whole stats table
@@ -1624,7 +1629,7 @@ sub GenerateGraph {
     # check if need params are available
     for (qw(Array GraphSize HeadArrayRef Title Format)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "GenerateGraph: Need $_!" );
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1649,7 +1654,7 @@ sub GenerateGraph {
         if ( !$Self->{MainObject}->Require($Module) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "GenerateGraph: Need $Module!"
+                Message  => "Need $Module!"
             );
             return;
         }
@@ -1659,7 +1664,7 @@ sub GenerateGraph {
     my $XLable = shift @{$HeadArrayRef};
 
     # get first col for legend
-    my @YLine = ();
+    my @YLine;
     for my $Tmp (@StatArray) {
         push @YLine, $Tmp->[0];
         shift @{$Tmp};
@@ -1679,20 +1684,20 @@ sub GenerateGraph {
         #        y_tick_number => 16,
         #        y_label_skip => 4,
         #        x_tick_number => 8,
-        t_margin    => $Self->{ConfigObject}->Get("Stats::Graph::t_margin")    || 10,
-        b_margin    => $Self->{ConfigObject}->Get("Stats::Graph::b_margin")    || 10,
-        l_margin    => $Self->{ConfigObject}->Get("Stats::Graph::l_margin")    || 10,
-        r_margin    => $Self->{ConfigObject}->Get("Stats::Graph::r_margin")    || 20,
-        bgclr       => $Self->{ConfigObject}->Get("Stats::Graph::bgclr")       || 'white',
-        transparent => $Self->{ConfigObject}->Get("Stats::Graph::transparent") || 0,
+        t_margin    => $Self->{ConfigObject}->Get('Stats::Graph::t_margin')    || 10,
+        b_margin    => $Self->{ConfigObject}->Get('Stats::Graph::b_margin')    || 10,
+        l_margin    => $Self->{ConfigObject}->Get('Stats::Graph::l_margin')    || 10,
+        r_margin    => $Self->{ConfigObject}->Get('Stats::Graph::r_margin')    || 20,
+        bgclr       => $Self->{ConfigObject}->Get('Stats::Graph::bgclr')       || 'white',
+        transparent => $Self->{ConfigObject}->Get('Stats::Graph::transparent') || 0,
         interlaced  => 1,
-        fgclr       => $Self->{ConfigObject}->Get("Stats::Graph::fgclr")       || 'black',
-        boxclr      => $Self->{ConfigObject}->Get("Stats::Graph::boxclr")      || 'white',
-        accentclr   => $Self->{ConfigObject}->Get("Stats::Graph::accentclr")   || 'black',
-        shadowclr   => $Self->{ConfigObject}->Get("Stats::Graph::shadowclr")   || 'black',
-        legendclr   => $Self->{ConfigObject}->Get("Stats::Graph::legendclr")   || 'black',
-        textclr     => $Self->{ConfigObject}->Get("Stats::Graph::textclr")     || 'black',
-        dclrs       => $Self->{ConfigObject}->Get("Stats::Graph::dclrs")
+        fgclr       => $Self->{ConfigObject}->Get('Stats::Graph::fgclr')       || 'black',
+        boxclr      => $Self->{ConfigObject}->Get('Stats::Graph::boxclr')      || 'white',
+        accentclr   => $Self->{ConfigObject}->Get('Stats::Graph::accentclr')   || 'black',
+        shadowclr   => $Self->{ConfigObject}->Get('Stats::Graph::shadowclr')   || 'black',
+        legendclr   => $Self->{ConfigObject}->Get('Stats::Graph::legendclr')   || 'black',
+        textclr     => $Self->{ConfigObject}->Get('Stats::Graph::textclr')     || 'black',
+        dclrs       => $Self->{ConfigObject}->Get('Stats::Graph::dclrs')
             || [
             qw(red green blue yellow black purple orange pink marine cyan lgray lblue lyellow lgreen lred lpurple lorange lbrown)
             ],
@@ -1700,12 +1705,12 @@ sub GenerateGraph {
         x_label_position    => 1 / 2,
         y_label_position    => 1 / 2,
         x_labels_vertical   => 31,
-        line_width          => $Self->{ConfigObject}->Get("Stats::Graph::line_width") || 1,
-        legend_placement    => $Self->{ConfigObject}->Get("Stats::Graph::legend_placement") || 'BC',
-        legend_spacing      => $Self->{ConfigObject}->Get("Stats::Graph::legend_spacing") || 4,
-        legend_marker_width => $Self->{ConfigObject}->Get("Stats::Graph::legend_marker_width")
+        line_width          => $Self->{ConfigObject}->Get('Stats::Graph::line_width') || 1,
+        legend_placement    => $Self->{ConfigObject}->Get('Stats::Graph::legend_placement') || 'BC',
+        legend_spacing      => $Self->{ConfigObject}->Get('Stats::Graph::legend_spacing') || 4,
+        legend_marker_width => $Self->{ConfigObject}->Get('Stats::Graph::legend_marker_width')
             || 12,
-        legend_marker_height => $Self->{ConfigObject}->Get("Stats::Graph::legend_marker_height")
+        legend_marker_height => $Self->{ConfigObject}->Get('Stats::Graph::legend_marker_height')
             || 8,
     );
 
@@ -1823,7 +1828,7 @@ sub CompletenessCheck {
         next NEED if $Param{$Need};
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "CompletenessCheck: Need $Need"
+            Message  => "Need $Need"
         );
         return;
     }
@@ -2083,14 +2088,12 @@ Get all attributes from the object in dependence of the use
 sub GetStatsObjectAttributes {
     my ( $Self, %Param ) = @_;
 
-    my @ObjectAttributes = ();
-
     # check needed params
     for (qw(ObjectModule Use)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "GetStatsObjectAttributes: Need $_!"
+                Message  => "Need $_!"
             );
             return;
         }
@@ -2098,13 +2101,15 @@ sub GetStatsObjectAttributes {
 
     # load module
     my $ObjectModule = $Param{ObjectModule};
-    $Self->{MainObject}->Require($ObjectModule);
+    return if !$Self->{MainObject}->Require($ObjectModule);
     my $StatObject = $ObjectModule->new( %{$Self} );
+    return if !$StatObject;
 
     # load attributes
     my @ObjectAttributesRaw = $StatObject->GetObjectAttributes();
 
     # build the objectattribute array
+    my @ObjectAttributes;
     for my $HashRef (@ObjectAttributesRaw) {
         if ( $HashRef->{ $Param{Use} } ) {
             delete $HashRef->{UseAsXvalue};
@@ -2131,8 +2136,6 @@ Get all static files
 sub GetStaticFiles {
     my ( $Self, %Param ) = @_;
 
-    my %Filelist = ();
-
     my $Directory = $Self->{ConfigObject}->Get('Home');
     if ( $Directory !~ m{^.*\/$}x ) {
         $Directory .= '/';
@@ -2147,8 +2150,7 @@ sub GetStaticFiles {
         return ();
     }
 
-    my %StaticFiles = ();
-
+    my %StaticFiles;
     if ( $Param{OnlyUnusedFiles} ) {
 
         # get all Stats from the db
@@ -2167,6 +2169,7 @@ sub GetStaticFiles {
     }
 
     # read files
+    my %Filelist;
     while ( defined( my $Filename = readdir DIR ) ) {
         next if $Filename eq '.';
         next if $Filename eq '..';
@@ -2223,7 +2226,7 @@ sub GetObjectName {
     my $Module = $Param{ObjectModule};
 
     # check if it is cached
-    return $Self->{'Cache::ObjectModule'}{$Module} if $Self->{'Cache::ObjectName'}{$Module};
+    return $Self->{'Cache::ObjectModule'}->{$Module} if $Self->{'Cache::ObjectName'}->{$Module};
 
     # load module, return if module does not exist
     # (this is important when stats are uninstalled, see also bug# 4269)
@@ -2231,10 +2234,11 @@ sub GetObjectName {
 
     # get name
     my $StatObject = $Module->new( %{$Self} );
-    my $Name       = $StatObject->GetObjectName();
+    return if !$StatObject;
+    my $Name = $StatObject->GetObjectName();
 
     # cache the result
-    $Self->{'Cache::ObjectModule'}{$Module} = $Name;
+    $Self->{'Cache::ObjectModule'}->{$Module} = $Name;
 
     return $Name;
 }
@@ -2265,7 +2269,7 @@ sub ObjectFileCheck {
     }
 
     return 1 if -r $Directory;
-    return 0;
+    return;
 }
 
 sub _WriteResultCache {
@@ -2275,8 +2279,9 @@ sub _WriteResultCache {
 
     # check if we should cache this result
     # get the current time
-    my ( $s, $m, $h, $D, $M, $Y )
-        = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
 
     # if get params in future do not cache
     if ( $GetParam{Year} && $GetParam{Month} ) {
@@ -2326,7 +2331,7 @@ sub _CreateStaticResultCacheFilename {
         if ( !$Param{$NeededParam} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "_CreateStaticResultCacheFilename: Need $NeededParam!"
+                Message  => "Need $NeededParam!"
             );
             return;
         }
@@ -2379,7 +2384,7 @@ sub _SetResultCache {
         if ( !$Param{$NeededParam} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "_SetResultCache: Need $NeededParam!"
+                Message  => "Need $NeededParam!"
             );
             return;
         }
@@ -2480,12 +2485,10 @@ get content from stats for export
 sub Export {
     my ( $Self, %Param ) = @_;
 
-    my %File = ();
-
     if ( !$Param{StatID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Export: Need StatID!"
+            Message  => 'Export: Need StatID!'
         );
         return;
     }
@@ -2496,19 +2499,21 @@ sub Export {
         #Cache => 0,
         Key => $Param{StatID}
     );
+    my $StatsXML = $XMLHash[0]->{otrs_stats}->[1];
 
+    my %File;
     $File{Filename} = $Self->StringAndTimestamp2Filename(
-        String => $XMLHash[0]->{otrs_stats}[1]{Title}[1]{Content},
+        String => $StatsXML->{Title}->[1]->{Content},
     );
     $File{Filename} .= '.xml';
 
     # settings for static files
     if (
-        $XMLHash[0]->{otrs_stats}[1]{StatType}[1]{Content}
-        && $XMLHash[0]->{otrs_stats}[1]{StatType}[1]{Content} eq 'static'
+        $StatsXML->{StatType}->[1]->{Content}
+        && $StatsXML->{StatType}->[1]->{Content} eq 'static'
         )
     {
-        my $FileLocation = $XMLHash[0]->{otrs_stats}[1]{ObjectModule}[1]{Content};
+        my $FileLocation = $StatsXML->{ObjectModule}->[1]->{Content};
         $FileLocation =~ s{::}{\/}xg;
         $FileLocation .= '.pm';
         my $File        = $Self->{ConfigObject}->Get('Home') . "/$FileLocation";
@@ -2524,48 +2529,54 @@ sub Export {
         close $Filehandle;
 
         $Self->{EncodeObject}->Encode( \$FileContent );
-        $XMLHash[0]->{otrs_stats}[1]{File}[1]{File}
-            = $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content};
-        $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content}    = encode_base64( $FileContent, '' );
-        $XMLHash[0]->{otrs_stats}[1]{File}[1]{Location}   = $FileLocation;
-        $XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission} = '644';
-        $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode}     = 'Base64';
+        $StatsXML->{File}->[1]->{File}       = $StatsXML->{File}->[1]->{Content};
+        $StatsXML->{File}->[1]->{Content}    = encode_base64( $FileContent, '' );
+        $StatsXML->{File}->[1]->{Location}   = $FileLocation;
+        $StatsXML->{File}->[1]->{Permission} = '644';
+        $StatsXML->{File}->[1]->{Encode}     = 'Base64';
     }
 
     # delete create and change data
-    delete( $XMLHash[0]->{otrs_stats}[1]{Changed} );
-    delete( $XMLHash[0]->{otrs_stats}[1]{ChangedBy} );
-    delete( $XMLHash[0]->{otrs_stats}[1]{Created} );
-    delete( $XMLHash[0]->{otrs_stats}[1]{CreatedBy} );
-    delete( $XMLHash[0]->{otrs_stats}[1]{StatID} );
+    for my $Key (qw(Changed ChangedBy Created CreatedBy StatID)) {
+        delete $StatsXML->{$Key};
+    }
     if ( !$Param{ExportStatNumber} ) {
-        delete( $XMLHash[0]->{otrs_stats}[1]{StatNumber} );
+        delete $StatsXML->{StatNumber};
     }
 
     # wrapper to change ids in used spelling
     # wrap permissions
-    for my $ID ( @{ $XMLHash[0]->{otrs_stats}[1]{Permission} } ) {
-        if ($ID) {
-            my %Group = $Self->{GroupObject}->GroupGet( ID => ( $ID->{Content} ) );
-            $ID->{Content} = $Group{Name};
-        }
+    for my $ID ( @{ $StatsXML->{Permission} } ) {
+        next if !$ID;
+        my $Name = $Self->{GroupObject}->GroupLookup( GroupID => $ID->{Content} );
+        next if !$Name;
+        $ID->{Content} = $Name;
     }
 
     # wrap object dependend ids
-    if ( $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} ) {
+    if ( $StatsXML->{Object}->[1]->{Content} ) {
 
         # load module
-        my $ObjectModule = $XMLHash[0]->{otrs_stats}[1]{ObjectModule}[1]{Content};
-        $Self->{MainObject}->Require($ObjectModule);
+        my $ObjectModule = $StatsXML->{ObjectModule}->[1]->{Content};
+        return if !$Self->{MainObject}->Require($ObjectModule);
         my $StatObject = $ObjectModule->new( %{$Self} );
+        return if !$StatObject;
 
         # load attributes
-        $XMLHash[0]->{otrs_stats}[1]
-            = $StatObject->ExportWrapper( %{ $XMLHash[0]->{otrs_stats}[1] } );
+        $StatsXML = $StatObject->ExportWrapper(
+            %{$StatsXML},
+        );
     }
 
     # convert hash to string
-    $File{Content} = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
+    $File{Content} = $Self->{XMLObject}->XMLHash2XML(
+        {
+            otrs_stats => [
+                undef,
+                $StatsXML,
+            ],
+        },
+    );
 
     return \%File;
 }
@@ -2583,12 +2594,10 @@ import a stats from xml file
 sub Import {
     my ( $Self, %Param ) = @_;
 
-    my $StatID = 1;
-
     if ( !$Param{Content} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Import: Need Content!"
+            Message  => 'Need Content!'
         );
         return;
     }
@@ -2597,6 +2606,7 @@ sub Import {
     if ( !$XMLHash[0] ) {
         shift @XMLHash;
     }
+    my $StatsXML = $XMLHash[0]->{otrs_stats}->[1];
 
     # Get new StatID
     my @Keys = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats', );
@@ -2606,26 +2616,27 @@ sub Import {
         qw( Description Format Object ObjectModule Permission StatType SumCol SumRow Title Valid)
         )
     {
-        if ( !defined $XMLHash[0]{otrs_stats}[1]{$Element}[1]{Content} ) {
+        if ( !defined $StatsXML->{$Element}->[1]->{Content} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message =>
-                    "Import: Can't import Stat, because the required element $Element is not available!"
+                    "Can't import Stat, because the required element $Element is not available!"
             );
             return;
         }
     }
 
     # if-clause if a stat-xml includes a StatNumber
-    if ( $XMLHash[0]{otrs_stats}[1]{StatNumber} ) {
-        my $XMLStatsID = $XMLHash[0]{otrs_stats}[1]{StatNumber}[1]{Content}
-            - $Self->{ConfigObject}->Get("Stats::StatsStartNumber");
+    my $StatID = 1;
+    if ( $StatsXML->{StatNumber} ) {
+        my $XMLStatsID = $StatsXML->{StatNumber}->[1]->{Content}
+            - $Self->{ConfigObject}->Get('Stats::StatsStartNumber');
         for my $Key (@Keys) {
             if ( $Key eq $XMLStatsID ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message =>
-                        "Import: Can't import StatNumber $Key, because this StatNumber is already used!"
+                        "Can't import StatNumber $Key, because this StatNumber is already used!"
                 );
                 return;
             }
@@ -2647,74 +2658,68 @@ sub Import {
     );
 
     # meta tags
-    $XMLHash[0]{otrs_stats}[1]{Created}[1]{Content}   = $TimeStamp;
-    $XMLHash[0]{otrs_stats}[1]{CreatedBy}[1]{Content} = $Self->{UserID};
-    $XMLHash[0]{otrs_stats}[1]{Changed}[1]{Content}   = $TimeStamp;
-    $XMLHash[0]{otrs_stats}[1]{ChangedBy}[1]{Content} = $Self->{UserID};
-    $XMLHash[0]{otrs_stats}[1]{StatNumber}[1]{Content}
-        = $StatID + $Self->{ConfigObject}->Get("Stats::StatsStartNumber");
+    $StatsXML->{Created}->[1]->{Content}   = $TimeStamp;
+    $StatsXML->{CreatedBy}->[1]->{Content} = $Self->{UserID};
+    $StatsXML->{Changed}->[1]->{Content}   = $TimeStamp;
+    $StatsXML->{ChangedBy}->[1]->{Content} = $Self->{UserID};
+    $StatsXML->{StatNumber}->[1]->{Content}
+        = $StatID + $Self->{ConfigObject}->Get('Stats::StatsStartNumber');
 
     my $DynamicFiles = $Self->GetDynamicFiles();
 
     # Because some xml-parser insert \n instead of <example><example>
-    if ( $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} ) {
-        $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} =~ s{\n}{}x;
+    if ( $StatsXML->{Object}->[1]->{Content} ) {
+        $StatsXML->{Object}->[1]->{Content} =~ s{\n}{}x;
     }
 
     if (
-        $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content}
-        && !$DynamicFiles->{ $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} }
+        $StatsXML->{Object}->[1]->{Content}
+        && !$DynamicFiles->{ $StatsXML->{Object}->[1]->{Content} }
         )
     {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message =>
-                "Import: Object $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} doesn't exists!"
+            Message  => "Object $StatsXML->{Object}[1]{Content} doesn't exists!"
         );
-        return 0;
+        return;
     }
     if (
-        $XMLHash[0]->{otrs_stats}[1]{StatType}[1]{Content}
-        && $XMLHash[0]->{otrs_stats}[1]{StatType}[1]{Content} eq 'static'
+        $StatsXML->{StatType}->[1]->{Content}
+        && $StatsXML->{StatType}->[1]->{Content} eq 'static'
         )
     {
-        my $FileLocation = $XMLHash[0]->{otrs_stats}[1]{ObjectModule}[1]{Content};
+        my $FileLocation = $StatsXML->{ObjectModule}[1]{Content};
         $FileLocation =~ s{::}{\/}gx;
         $FileLocation = $Self->{ConfigObject}->Get('Home') . '/' . $FileLocation . '.pm';
 
         # write file
         if ( open my $Filehandle, '>', $FileLocation ) {
-            print STDERR
-                "Notice: Install $FileLocation ($XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission})!\n";
-            if (
-                $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode}
-                && $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode} eq 'Base64'
-                )
+            print STDERR "Notice: Install $FileLocation ($StatsXML->{File}[1]{Permission})!\n";
+            if ( $StatsXML->{File}->[1]->{Encode} && $StatsXML->{File}->[1]->{Encode} eq 'Base64' )
             {
-                $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content}
-                    = decode_base64( $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content} );
+                $StatsXML->{File}->[1]->{Content}
+                    = decode_base64( $StatsXML->{File}->[1]->{Content} );
                 $Self->{EncodeObject}->EncodeOutput(
-                    \$XMLHash[0]->{otrs_stats}[1]{File}[1]{Content}
+                    \$StatsXML->{File}[1]{Content}
                 );
             }
 
             # set bin mode
             binmode $Filehandle;
-            print $Filehandle $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content};
+            print $Filehandle $StatsXML->{File}->[1]->{Content};
             close $Filehandle;
 
             # set permission
-            if ( length( $XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission} ) == 3 ) {
-                $XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission}
-                    = "0$XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission}";
+            if ( length( $StatsXML->{File}->[1]->{Permission} ) == 3 ) {
+                $StatsXML->{File}->[1]->{Permission} = "0$StatsXML->{File}->[1]->{Permission}";
             }
-            chmod( oct( $XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission} ), $FileLocation );
-            $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content}
-                = $XMLHash[0]->{otrs_stats}[1]{File}[1]{File};
-            delete $XMLHash[0]->{otrs_stats}[1]{File}[1]{File};
-            delete $XMLHash[0]->{otrs_stats}[1]{File}[1]{Location};
-            delete $XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission};
-            delete $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode};
+            chmod( oct( $StatsXML->{File}[1]{Permission} ), $FileLocation );
+            $StatsXML->{File}->[1]->{Content} = $StatsXML->{File}->[1]->{File};
+
+            delete $StatsXML->{File}[1]{File};
+            delete $StatsXML->{File}[1]{Location};
+            delete $StatsXML->{File}[1]{Permission};
+            delete $StatsXML->{File}[1]{Encode};
         }
     }
 
@@ -2723,7 +2728,7 @@ sub Import {
     my %Groups = $Self->{GroupObject}->GroupList( Valid => 1 );
 
     NAME:
-    for my $Name ( @{ $XMLHash[0]->{otrs_stats}[1]{Permission} } ) {
+    for my $Name ( @{ $StatsXML->{Permission} } ) {
         next NAME if !$Name;
 
         my $Flag = 1;
@@ -2738,30 +2743,37 @@ sub Import {
         if ($Flag) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Import: Can' find the permission (group) $Name->{Content}!"
+                Message  => "Can't find the permission (group) $Name->{Content}!"
             );
             $Name = undef;
         }
     }
 
     # wrap object dependend ids
-    if ( $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} ) {
+    if ( $StatsXML->{Object}->[1]->{Content} ) {
 
         # load module
-        my $ObjectModule = $XMLHash[0]->{otrs_stats}[1]{ObjectModule}[1]{Content};
-        $Self->{MainObject}->Require($ObjectModule);
+        my $ObjectModule = $StatsXML->{ObjectModule}->[1]->{Content};
+        return if !$Self->{MainObject}->Require($ObjectModule);
         my $StatObject = $ObjectModule->new( %{$Self} );
+        return if !$StatObject;
 
         # load attributes
-        $XMLHash[0]->{otrs_stats}[1]
-            = $StatObject->ImportWrapper( %{ $XMLHash[0]->{otrs_stats}[1] } );
+        $StatsXML = $StatObject->ImportWrapper( %{$StatsXML} );
     }
 
     # new
-    return 0 if !$Self->{XMLObject}->XMLHashAdd(
+    return if !$Self->{XMLObject}->XMLHashAdd(
         Type    => 'Stats',
         Key     => $StatID,
-        XMLHash => \@XMLHash,
+        XMLHash => [
+            {
+                otrs_stats => [
+                    undef,
+                    $StatsXML,
+                ],
+            },
+        ],
     );
 
     return $StatID;
@@ -2771,19 +2783,17 @@ sub Import {
 
     get all edit params from stats for view
 
-    my $Params = $StatsObject->GetParams(StatID => '123');
+    my $Params = $StatsObject->GetParams( StatID => '123' );
 
 =cut
 
 sub GetParams {
     my ( $Self, %Param ) = @_;
 
-    my @Params = ();
-
     if ( !$Param{StatID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "GetParams: Need StatID!"
+            Message  => 'Need StatID!'
         );
         return;
     }
@@ -2792,12 +2802,14 @@ sub GetParams {
 
     # static
     # don't remove this if clause, because is required for mkStats.pl
+    my @Params = ();
     if ( $Stat->{StatType} eq 'static' ) {
 
         # load static modul
         my $ObjectModule = $Stat->{ObjectModule};
-        $Self->{MainObject}->Require($ObjectModule);
+        return if !$Self->{MainObject}->Require($ObjectModule);
         my $StatObject = $ObjectModule->new( %{$Self} );
+        return if !$StatObject;
 
         # get params
         @Params = $StatObject->Param();
@@ -2807,10 +2819,10 @@ sub GetParams {
 
 =item StatsRun()
 
-    run a stats...
+run a stats
 
     my $StatArray = $StatsObject->StatsRun(
-        StatID => '123',
+        StatID   => '123',
         GetParam => \%GetParam,
     );
 
@@ -2825,7 +2837,7 @@ sub StatsRun {
         next NEED if $Param{$Need};
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "StatsRun: Need $Need!"
+            Message  => "Need $Need!"
         );
         return;
     }
@@ -2896,7 +2908,7 @@ sub StatsRun {
 builds a filename with a string and a timestamp.
 (space will be replaced with _ and - e.g. Title-of-File_2006-12-31_11-59)
 
-    my $Filename = $StatsObject->StringAndTimestamp2Filename(String => 'Title');
+    my $Filename = $StatsObject->StringAndTimestamp2Filename( String => 'Title' );
 
 =cut
 
@@ -2906,7 +2918,7 @@ sub StringAndTimestamp2Filename {
     if ( !$Param{String} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'StringAndTimestamp2Filename: Need String!'
+            Message  => 'Need String!'
         );
         return;
     }
@@ -2930,10 +2942,9 @@ sub StringAndTimestamp2Filename {
 }
 
 sub _MonthArray {
-    my @MonthArray
-        = (
+    my @MonthArray = (
         '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-        );
+    );
 
     return \@MonthArray;
 }
@@ -2954,7 +2965,7 @@ sub StatNumber2StatID {
     if ( !$Param{StatNumber} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'StatNumber2StatID: Need StatNumber!',
+            Message  => 'Need StatNumber!',
         );
         return;
     }
@@ -2971,7 +2982,7 @@ sub StatNumber2StatID {
         Priority => 'error',
         Message  => 'StatNumber invalid!',
     );
-    return 0;
+    return;
 }
 
 sub _AutomaticSampleImport {
@@ -3223,6 +3234,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.81 $ $Date: 2009-09-28 13:11:45 $
+$Revision: 1.82 $ $Date: 2009-10-01 18:38:48 $
 
 =cut
