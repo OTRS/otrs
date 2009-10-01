@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.50 2009-08-27 12:34:07 martin Exp $
+# $Id: LayoutTicket.pm,v 1.51 2009-10-01 10:40:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -895,23 +895,27 @@ sub ArticleQuote {
 sub TicketListShow {
     my ( $Self, %Param ) = @_;
 
+    # take object ref to local, remove it from %Param (prevent memory leak)
+    my $Env = $Param{Env};
+    delete $Param{Env};
+
     # lookup latest used view mode
-    if ( !$Param{View} && $Self->{ 'UserTicketOverview' . $Param{Env}->{Action} } ) {
-        $Param{View} = $Self->{ 'UserTicketOverview' . $Param{Env}->{Action} };
+    if ( !$Param{View} && $Self->{ 'UserTicketOverview' . $Env->{Action} } ) {
+        $Param{View} = $Self->{ 'UserTicketOverview' . $Env->{Action} };
     }
 
     # set defaut view mode to 'small'
     my $View = $Param{View} || 'Small';
 
     # set default view mode for AgentTicketQueue
-    if ( !$Param{View} && $Param{Env}->{Action} eq 'AgentTicketQueue' ) {
+    if ( !$Param{View} && $Env->{Action} eq 'AgentTicketQueue' ) {
         $View = 'Preview';
     }
 
     # store latest view mode
     $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key       => 'UserTicketOverview' . $Param{Env}->{Action},
+        Key       => 'UserTicketOverview' . $Env->{Action},
         Value     => $View,
     );
 
@@ -919,7 +923,7 @@ sub TicketListShow {
     if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
         $Self->{UserObject}->SetPreferences(
             UserID => $Self->{UserID},
-            Key    => 'UserTicketOverview' . $Param{Env}->{Action},
+            Key    => 'UserTicketOverview' . $Env->{Action},
             Value  => $View,
         );
     }
@@ -927,17 +931,17 @@ sub TicketListShow {
     # check backends
     my $Backends = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview');
     if ( !$Backends ) {
-        return $Param{Env}->{LayoutObject}->FatalError(
+        return $Env->{LayoutObject}->FatalError(
             Message => 'Need config option Ticket::Frontend::Overview',
         );
     }
     if ( ref $Backends ne 'HASH' ) {
-        return $Param{Env}->{LayoutObject}->FatalError(
+        return $Env->{LayoutObject}->FatalError(
             Message => 'Config option Ticket::Frontend::Overview need to be HASH ref!',
         );
     }
     if ( !$Backends->{$View} ) {
-        return $Param{Env}->{LayoutObject}->FatalError(
+        return $Env->{LayoutObject}->FatalError(
             Message => "No Config option found for $View!",
         );
     }
@@ -954,23 +958,23 @@ sub TicketListShow {
     }
 
     my $Limit = $Param{Limit} || 20_000;
-    my %PageNav = $Param{Env}->{LayoutObject}->PageNavBar(
+    my %PageNav = $Env->{LayoutObject}->PageNavBar(
         Limit     => $Limit,
         StartHit  => $StartHit,
         PageShown => $PageShown,
         AllHits   => $Param{Total} || 0,
-        Action    => 'Action=' . $Param{Env}->{LayoutObject}->{Action},
+        Action    => 'Action=' . $Env->{LayoutObject}->{Action},
         Link      => $Param{LinkPage},
     );
 
-    $Param{Env}->{LayoutObject}->Block(
+    $Env->{LayoutObject}->Block(
         Name => 'OverviewNavBar',
         Data => \%Param,
     );
 
     # back link
     if ( $Param{LinkBack} ) {
-        $Param{Env}->{LayoutObject}->Block(
+        $Env->{LayoutObject}->Block(
             Name => 'OverviewNavBarPageBack',
             Data => \%Param,
         );
@@ -982,7 +986,7 @@ sub TicketListShow {
         for my $Prio ( sort keys %{ $Param{Filters} } ) {
             push @NavBarFilters, $Param{Filters}->{$Prio};
         }
-        $Param{Env}->{LayoutObject}->Block(
+        $Env->{LayoutObject}->Block(
             Name => 'OverviewNavBarFilter',
             Data => {
                 %Param,
@@ -991,7 +995,7 @@ sub TicketListShow {
         my $Count = 0;
         for my $Filter (@NavBarFilters) {
             if ($Count) {
-                $Param{Env}->{LayoutObject}->Block(
+                $Env->{LayoutObject}->Block(
                     Name => 'OverviewNavBarFilterItemSplit',
                     Data => {
                         %Param,
@@ -1000,7 +1004,7 @@ sub TicketListShow {
                 );
             }
             $Count++;
-            $Param{Env}->{LayoutObject}->Block(
+            $Env->{LayoutObject}->Block(
                 Name => 'OverviewNavBarFilterItem',
                 Data => {
                     %Param,
@@ -1008,7 +1012,7 @@ sub TicketListShow {
                 },
             );
             if ( $Filter->{Filter} eq $Param{Filter} ) {
-                $Param{Env}->{LayoutObject}->Block(
+                $Env->{LayoutObject}->Block(
                     Name => 'OverviewNavBarFilterItemSelected',
                     Data => {
                         %Param,
@@ -1017,7 +1021,7 @@ sub TicketListShow {
                 );
             }
             else {
-                $Param{Env}->{LayoutObject}->Block(
+                $Env->{LayoutObject}->Block(
                     Name => 'OverviewNavBarFilterItemSelectedNot',
                     Data => {
                         %Param,
@@ -1030,7 +1034,7 @@ sub TicketListShow {
 
     # mode
     for my $Backend ( keys %{$Backends} ) {
-        $Param{Env}->{LayoutObject}->Block(
+        $Env->{LayoutObject}->Block(
             Name => 'OverviewNavBarViewMode',
             Data => {
                 %Param,
@@ -1040,7 +1044,7 @@ sub TicketListShow {
             },
         );
         if ( $View eq $Backend ) {
-            $Param{Env}->{LayoutObject}->Block(
+            $Env->{LayoutObject}->Block(
                 Name => 'OverviewNavBarViewModeSelected',
                 Data => {
                     %Param,
@@ -1051,7 +1055,7 @@ sub TicketListShow {
             );
         }
         else {
-            $Param{Env}->{LayoutObject}->Block(
+            $Env->{LayoutObject}->Block(
                 Name => 'OverviewNavBarViewModeNotSelected',
                 Data => {
                     %Param,
@@ -1064,7 +1068,7 @@ sub TicketListShow {
     }
 
     if (%PageNav) {
-        $Param{Env}->{LayoutObject}->Block(
+        $Env->{LayoutObject}->Block(
             Name => 'OverviewNavBarPageNavBar',
             Data => \%PageNav,
         );
@@ -1072,20 +1076,20 @@ sub TicketListShow {
 
     if ( $Param{NavBar} ) {
         if ( $Param{NavBar}->{MainName} ) {
-            $Param{Env}->{LayoutObject}->Block(
+            $Env->{LayoutObject}->Block(
                 Name => 'OverviewNavBarMain',
                 Data => $Param{NavBar},
             );
         }
     }
 
-    my $OutputNavBar = $Param{Env}->{LayoutObject}->Output(
+    my $OutputNavBar = $Env->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewNavBar',
         Data         => { %Param, },
     );
     my $OutputRaw = '';
     if ( !$Param{Output} ) {
-        $Param{Env}->{LayoutObject}->Print( Output => \$OutputNavBar );
+        $Env->{LayoutObject}->Print( Output => \$OutputNavBar );
     }
     else {
         $OutputRaw .= $OutputNavBar;
@@ -1093,9 +1097,10 @@ sub TicketListShow {
 
     # load module
     if ( !$Self->{MainObject}->Require( $Backends->{$View}->{Module} ) ) {
-        return $Param{Env}->{LayoutObject}->FatalError();
+        return $Env->{LayoutObject}->FatalError();
     }
-    my $Object = $Backends->{$View}->{Module}->new( %{ $Param{Env} } );
+    my $Object = $Backends->{$View}->{Module}->new( %{$Env} );
+    return if !$Object;
 
     # run module
     my $Output = $Object->Run(
@@ -1106,29 +1111,29 @@ sub TicketListShow {
         AllHits   => $Param{Total} || 0,
     );
     if ( !$Param{Output} ) {
-        $Param{Env}->{LayoutObject}->Print( Output => \$Output );
+        $Env->{LayoutObject}->Print( Output => \$Output );
     }
     else {
         $OutputRaw .= $Output;
     }
 
     if (1) {
-        $Param{Env}->{LayoutObject}->Block(
+        $Env->{LayoutObject}->Block(
             Name => 'OverviewNavBar',
             Data => \%Param,
         );
         if (%PageNav) {
-            $Param{Env}->{LayoutObject}->Block(
+            $Env->{LayoutObject}->Block(
                 Name => 'OverviewNavBarPageNavBar',
                 Data => \%PageNav,
             );
         }
-        my $OutputNavBarSmall = $Param{Env}->{LayoutObject}->Output(
+        my $OutputNavBarSmall = $Env->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketOverviewNavBarSmall',
             Data         => { %Param, },
         );
         if ( !$Param{Output} ) {
-            $Param{Env}->{LayoutObject}->Print( Output => \$OutputNavBarSmall );
+            $Env->{LayoutObject}->Print( Output => \$OutputNavBarSmall );
         }
         else {
             $OutputRaw .= $OutputNavBarSmall;
