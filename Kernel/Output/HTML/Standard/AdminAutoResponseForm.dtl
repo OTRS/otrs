@@ -2,7 +2,7 @@
 # AdminAutoResponseForm.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.33 2009-07-02 12:47:43 ub Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.33.2.1 2009-10-01 14:03:11 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,167 +14,167 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td colspan="2" class="mainhead">
-      $Env{"Box0"}$Text{"Auto Response Management"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td width="30%" class="mainbody">
-      <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="Change"/>
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">$Text{"Change"}:</td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              $Data{"AutoResponseOption"}
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Change"}"/>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </td>
-    <td width="70%" class="mainbody">
+    <tr>
+        <td colspan="2" class="mainhead">
+            $Env{"Box0"}$Text{"Auto Response Management"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" class="mainbody">
+            <form action="$Env{"CGIHandle"}" method="post">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Change"/>
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">$Text{"Change"}:</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            $Data{"AutoResponseOption"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" type="submit" value="$Text{"Change"}"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+        <td width="70%" class="mainbody">
 # check subaction
-      <dtl set $Data{"Headline"} = "Add">
-      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
+            <dtl set $Data{"Headline"} = "Add">
+            <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
 # set subaction!
-      <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
+            <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
 # check add link
-      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
-      <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action"/>
-        <input type="hidden" name="ID" value="$QData{"ID"}"/>
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">
-              $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>:
-            </td>
-          </tr>
-          <tr>
-            <td class="contentbody">
+            <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
+            <form action="$Env{"CGIHandle"}" method="post">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action"/>
+                <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">
+                            $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
 $Data{"Note"}
-              <table border="0" cellspacing="0" cellpadding="3">
-                <tr>
-                  <td class="contentkey">$Text{"Name"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"/></td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Subject"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Subject" value="$QData{"Subject"}" size="50" maxlength="250"/></td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Response"}: </td>
-                  <td class="contentvalue">
-                    <div class="yui-skin-sam">
-                      <textarea id="RichText" rows="10" cols="60" name="Response">$QData{"Response"}</textarea>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Type"}: </td>
-                  <td class="contentvalue"> $Data{"TypeOption"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Auto Response From"}: </td>
-                  <td class="contentvalue"> $Data{"SystemAddressOption"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Valid"}: </td>
-                  <td class="contentvalue"> $Data{"ValidOption"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Comment"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/></td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" id="submitRichText" type="submit" value="$Text{"$Data{"Headline"}"}"/>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </td>
-  </tr>
+                            <table border="0" cellspacing="0" cellpadding="3">
+                                <tr>
+                                    <td class="contentkey">$Text{"Name"}: </td>
+                                    <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Subject"}: </td>
+                                    <td class="contentvalue"> <input type="text" name="Subject" value="$QData{"Subject"}" size="50" maxlength="250"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Response"}: </td>
+                                    <td class="contentvalue">
+                                        <div class="yui-skin-sam">
+                                            <textarea id="RichText" rows="10" cols="60" name="Response">$QData{"Response"}</textarea>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Type"}: </td>
+                                    <td class="contentvalue"> $Data{"TypeOption"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Auto Response From"}: </td>
+                                    <td class="contentvalue"> $Data{"SystemAddressOption"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Valid"}: </td>
+                                    <td class="contentvalue"> $Data{"ValidOption"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Comment"}: </td>
+                                    <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" id="submitRichText" type="submit" value="$Text{"$Data{"Headline"}"}"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
 </table>
 <!-- end form -->
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <p>
-        $Text{"Useable options"}:
-        <table>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</td>
-            <td class="contentvalue">$Text{"To get the first 20 character of the subject."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</td>
-            <td class="contentvalue">$Text{"To get the first 5 lines of the email."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
-            <td class="contentvalue">$Text{"To get the realname of the sender (if given)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_*&gt;</td>
-            <td class="contentvalue">$Text{"To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
-            <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_RESPONSIBLE_*&gt;</td>
-            <td class="contentvalue">$Text{"Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)."}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
-            <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
-          </tr>
-        </table>
-      </p>
-      <p>
-        $Text{"Example"}:
-        <hr>
-        <form action="/">
-          <table>
-            <tr>
-              <td class="contentkey">$Text{"Subject"}:</td>
-              <td class="contentvalue"><input type="text" name="Subject" value="RE: &lt;OTRS_CUSTOMER_SUBJECT[22]&gt;" size="80" maxlength="80"/></td>
-            </tr>
-            <tr>
-              <td class="contentkey">$Text{"Response"}:</td>
-              <td class="contentvalue">
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <p>
+                $Text{"Useable options"}:
+                <table>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</td>
+                        <td class="contentvalue">$Text{"To get the first 20 character of the subject."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</td>
+                        <td class="contentvalue">$Text{"To get the first 5 lines of the email."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
+                        <td class="contentvalue">$Text{"To get the realname of the sender (if given)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_*&gt;</td>
+                        <td class="contentvalue">$Text{"To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
+                        <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
+                        <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_RESPONSIBLE_*&gt;</td>
+                        <td class="contentvalue">$Text{"Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
+                        <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
+                        <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
+                        <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
+                    </tr>
+                </table>
+            </p>
+            <p>
+                $Text{"Example"}:
+                <hr>
+                <form action="/">
+                    <table>
+                        <tr>
+                            <td class="contentkey">$Text{"Subject"}:</td>
+                            <td class="contentvalue"><input type="text" name="Subject" value="RE: &lt;OTRS_CUSTOMER_SUBJECT[22]&gt;" size="80" maxlength="80"/></td>
+                        </tr>
+                        <tr>
+                            <td class="contentkey">$Text{"Response"}:</td>
+                            <td class="contentvalue">
                 <textarea rows="12" cols="70" name="Response">
 Thanks for your e-mail.
 
@@ -189,13 +189,13 @@ Super Support Company Inc. - Waterford Business Park
 Email: hot@florida.com - Web: http://hot.florida.com/
 --
                 </textarea>
-                  </td>
-                </tr>
-              </table>
-            </form>
-            <hr>
-          </p>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <hr>
+            </p>
         </td>
-      </tr>
-    </table>
+    </tr>
+</table>
 <!-- end note -->
