@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.29 2009-04-17 08:36:44 tr Exp $
+# $Id: Lock.pm,v 1.30 2009-10-05 08:35:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -40,7 +41,6 @@ create an object
     use Kernel::Config;
     use Kernel::System::Encode;
     use Kernel::System::Log;
-    use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Lock;
@@ -52,10 +52,6 @@ create an object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
@@ -72,7 +68,7 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
-        TimeObject   => $TimeObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -85,10 +81,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %Param,
+        Type => 'Lock',
+        TTL  => 60 * 30,
+    );
 
     # get ViewableLocks
     $Self->{ViewableLocks} = $Self->{ConfigObject}->Get('Ticket::ViewableLocks')
@@ -124,9 +125,8 @@ sub LockViewableLock {
 
     # check cache
     my $CacheKey = 'LockViewableLock::' . $Param{Type};
-    if ( $Self->{$CacheKey} ) {
-        return @{ $Self->{$CacheKey} };
-    }
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return @{$Cache} if $Cache;
 
     # sql
     return if !$Self->{DBObject}->Prepare(
@@ -135,16 +135,22 @@ sub LockViewableLock {
             . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
     );
 
-    my @Name = ();
-    my @ID   = ();
+    my @Name;
+    my @ID;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         push @Name, $Data[1];
         push @ID,   $Data[0];
     }
 
-    # cache result
-    $Self->{'LockViewableLock::Name'} = \@Name;
-    $Self->{'LockViewableLock::ID'}   = \@ID;
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => 'LockViewableLock::Name',
+        Value => \@Name,
+    );
+    $Self->{CacheInternalObject}->Set(
+        Key   => 'LockViewableLock::ID',
+        Value => \@ID,
+    );
 
     if ( $Param{Type} eq 'Name' ) {
         return @Name;
@@ -180,11 +186,10 @@ sub LockLookup {
         return;
     }
 
-    # check if we ask the same request?
-    my $CacheKey = 'Lock::Lookup::' . $Param{$Key};
-    if ( $Self->{$CacheKey} ) {
-        return $Self->{$CacheKey};
-    }
+    # check cache
+    my $CacheKey = 'Lookup::' . $Param{$Key};
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return $Cache if $Cache;
 
     # db query
     my $SQL;
@@ -197,20 +202,27 @@ sub LockLookup {
         $SQL = 'SELECT name FROM ticket_lock_type WHERE id = ?';
         push @Bind, \$Param{LockID};
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    my $Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{$CacheKey} = $Row[0];
+        $Data = $Row[0];
     }
 
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Data,
+    );
+
     # check if data exists
-    if ( !$Self->{$CacheKey} ) {
+    if ( !$Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "No Lock/LockID for $Param{$Key} found!",
         );
         return;
     }
-    return $Self->{$CacheKey};
+    return $Data;
 }
 
 =item LockList()
@@ -233,21 +245,25 @@ sub LockList {
     }
 
     # check cache
-    if ( $Self->{LockList} ) {
-        return %{ $Self->{LockList} };
-    }
+    my $CacheKey = 'LockList';
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
 
     # sql
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id, name FROM ticket_lock_type',
     );
-    my %Data = ();
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
 
-    # cache result
-    $Self->{LockList} = \%Data;
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data,
+    );
+
     return %Data;
 }
 
@@ -267,6 +283,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.30 $ $Date: 2009-10-05 08:35:31 $
 
 =cut

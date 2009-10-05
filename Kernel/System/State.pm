@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.36 2009-10-05 08:17:33 martin Exp $
+# $Id: State.pm,v 1.37 2009-10-05 08:35:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -73,7 +73,7 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
-        TimeObject   => $TimeObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -86,7 +86,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
@@ -490,6 +490,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2009-10-05 08:17:33 $
+$Revision: 1.37 $ $Date: 2009-10-05 08:35:31 $
 
 =cut
