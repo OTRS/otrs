@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1042 2009-10-02 13:18:29 sb Exp $
+# $Id: CHANGES,v 1.1043 2009-10-05 08:23:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,6 +32,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
+ - (2009/10/05) Updated Spanish translation, thanks to Emiliano Augusto!
  - (2009/10/02) Fixed bug#4379 - Array parameters not working in mkStats.pl
  - (2009/09/30) Fixed bug#4348 - Dashboard: Upcoming Events Caching on a
     per-user basis.
