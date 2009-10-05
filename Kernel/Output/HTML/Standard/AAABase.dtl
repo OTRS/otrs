@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.77 2009-09-22 13:04:23 mg Exp $
+# $Id: AAABase.dtl,v 1.78 2009-10-05 08:37:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -180,6 +180,7 @@ $Text{"You have %s new message(s)!"}
 $Text{"You have %s reminder ticket(s)!"}
 
 $Text{"The recommended charset for your language is %s!"}
+$Text{"Change your account password."}
 $Text{"Passwords doesn't match! Please try it again!"}
 $Text{"Password is already in use! Please use an other password!"}
 $Text{"Password is already used! Please use an other password!"}
