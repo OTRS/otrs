@@ -2,7 +2,7 @@
 # Kernel/System/Auth/DB.pm - provides the db authentication
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.27 2009-09-22 15:19:27 mb Exp $
+# $Id: DB.pm,v 1.28 2009-10-05 08:59:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Crypt::PasswdMD5 qw(unix_md5_crypt);
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,7 +29,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(LogObject ConfigObject DBObject EncodeObject)) {
+    for (qw(LogObject ConfigObject DBObject EncodeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
