@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1043 2009-10-05 08:23:21 mb Exp $
+# $Id: CHANGES,v 1.1044 2009-10-05 11:02:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/10/05) Fixed bug#939 - "Salutation" should be renamed to "Title" for
+    users and customer users.
+    Notice: Use scripts/DBUpdate-to-2.5.*.sql for upgrading!
  - (2009/10/02) Fixed bug#4379 - Array parameters not working in mkStats.pl
  - (2009/09/23) Added virtual file system object for global file storage as
     Kernel::System::VirtualFS with FS and DB backends.
