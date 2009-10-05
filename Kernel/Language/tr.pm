@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.32 2009-09-30 15:06:01 mb Exp $
+# $Id: tr.pm,v 1.33 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $)[1];
+$VERSION = qw($Revision: 1.33 $)[1];
 
 sub Data {
     my $Self = shift;
@@ -681,6 +681,20 @@ sub Data {
         'These values are read-only.' => 'Bu deðerler salt-okunurdur.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Oluþturulan mesaj kapatýldý. Çýkýlýyor.',
         'This window must be called from compose window' => 'Bu pencere \'yeni mesaj\' penceresinden açýlmalýdýr',
         'Customer User Management' => 'Müþteri Kullanýcý Yönetimi',
@@ -1094,6 +1108,7 @@ sub Data {
         'Add User' => 'Kullanýcý Ekle',
         'Add a new Agent.' => 'Yeni bir Aracý ekle.',
         'Login as' => 'Oturum açma kimliði',
+        'Title{user}' => '',
         'Firstname' => 'Adý',
         'Lastname' => 'Soyadý',
         'Start' => 'Baþla',

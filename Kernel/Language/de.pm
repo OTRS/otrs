@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.212 2009-09-30 14:51:36 mb Exp $
+# $Id: de.pm,v 1.213 2009-10-05 10:19:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.212 $) [1];
+$VERSION = qw($Revision: 1.213 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -683,6 +683,20 @@ sub Data {
         'These values are read-only.' => 'Diese Inhalte sind schreibgeschützt.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => 'Anrede',
+        'Firstname{CustomerUser}' => 'Vorname',
+        'Lastname{CustomerUser}' => 'Nachname',
+        'Username{CustomerUser}' => 'Benutzername',
+        'Email{CustomerUser}' => 'E-Mail',
+        'CustomerID{CustomerUser}' => 'Kunden#',
+        'Phone{CustomerUser}' => 'Telefon',
+        'Fax{CustomerUser}' => 'Fax',
+        'Mobile{CustomerUser}' => 'Handy',
+        'Street{CustomerUser}' => 'Strasse',
+        'Zip{CustomerUser}' => 'PLZ',
+        'City{CustomerUser}' => 'Stadt',
+        'Country{CustomerUser}' => 'Land',
+        'Comment{CustomerUser}' => 'Kommentar',
         'The message being composed has been closed.  Exiting.' => 'Die erstellte Nachricht wurde geschlossen.',
         'This window must be called from compose window' => 'Dieses Fenster muss über das Verfassen-Fenster aufgerufen werden',
         'Customer User Management' => 'Kunden-Benutzer Verwaltung',
@@ -1100,6 +1114,7 @@ sub Data {
         'Add User' => 'Benutzer hinzufügen',
         'Add a new Agent.' => 'Einen neuen Agenten hinzufügen.',
         'Login as' => 'Anmelden als',
+        'Title{user}' => 'Anrede',
         'Firstname' => 'Vorname',
         'Lastname' => 'Nachname',
         'Start' => 'Start',

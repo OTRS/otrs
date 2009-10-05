@@ -2,7 +2,7 @@
 # Kernel/Language/en_CA.pm - provides en_CA language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: en_CA.pm,v 1.3 2009-09-23 15:24:40 mb Exp $
+# $Id: en_CA.pm,v 1.4 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -87,6 +87,23 @@ sub Data {
         'History::SystemRequest' => 'System Request (%s).',
         # There's a difference between May (short) and May (long) in some languages, not in en
         'May_long' => 'May',
+        #CustomerUser fields
+        'Title{CustomerUser}' => 'Title',
+        'Firstname{CustomerUser}' => 'First name',
+        'Lastname{CustomerUser}' => 'Last name',
+        'Username{CustomerUser}' => 'Username',
+        'Email{CustomerUser}' => 'E-mail address',
+        'CustomerID{CustomerUser}' => 'Customer ID',
+        'Phone{CustomerUser}' => 'Phone',
+        'Fax{CustomerUser}' => 'Fax',
+        'Mobile{CustomerUser}' => 'Cellphone',
+        'Street{CustomerUser}' => 'Street',
+        'Zip{CustomerUser}' => 'ZIP code',
+        'City{CustomerUser}' => 'City',
+        'Country{CustomerUser}' => 'Country',
+        'Comment{CustomerUser}' => 'Comment',
+        #User field
+        'Title{user}' => 'Title',
     };
     # $$STOP$$
     return;

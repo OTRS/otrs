@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.100 2009-10-05 08:17:02 mb Exp $
+# $Id: es.pm,v 1.101 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -686,6 +686,20 @@ sub Data {
         'These values are read-only.' => 'Estos valores son de sólo-lectura',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => 'Nombre',
+        'Lastname{CustomerUser}' => 'Apellido',
+        'Username{CustomerUser}' => 'Nombre de Usuario',
+        'Email{CustomerUser}' => 'Correo',
+        'CustomerID{CustomerUser}' => 'Nº cliente',
+        'Phone{CustomerUser}' => 'Teléfono',
+        'Fax{CustomerUser}' => 'Fax',
+        'Mobile{CustomerUser}' => 'Móvil',
+        'Street{CustomerUser}' => 'Calle',
+        'Zip{CustomerUser}' => 'Código postal',
+        'City{CustomerUser}' => 'Ciudad',
+        'Country{CustomerUser}' => 'País',
+        'Comment{CustomerUser}' => 'Comentario',
         'The message being composed has been closed.  Exiting.' => 'El mensaje que se estaba redactando ha sido cerrado. Saliendo.!',
         'This window must be called from compose window' => 'Esta ventana debe ser llamada desde la ventana de redacción',
         'Customer User Management' => 'Gestión de clientes',
@@ -1099,6 +1113,7 @@ sub Data {
         'Add User' => 'Añadir Usuario',
         'Add a new Agent.' => 'Añadir un nuevo Agente',
         'Login as' => 'Conectarse como',
+        'Title{user}' => '',
         'Firstname' => 'Nombre',
         'Lastname' => 'Apellido',
         'Start' => 'Iniciar',

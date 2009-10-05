@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.86 2009-09-30 14:51:37 mb Exp $
+# $Id: nb_NO.pm,v 1.87 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.86 $;
+$VERSION = q$Revision: 1.87 $;
 
 sub Data {
     my $Self = shift;
@@ -685,6 +685,20 @@ sub Data {
         'These values are read-only.' => 'Disse verdiene kan ikke endres.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Det tilhørende redigeringsvinduet har blitt lukket.  Avslutter.',
         'This window must be called from compose window' => 'Denne funksjonen må kalles fra redigeringsvinduet',
         'Customer User Management' => 'Administrasjon av kunde-brukere',
@@ -1098,6 +1112,7 @@ sub Data {
         'Add User' => 'Legg til bruker',
         'Add a new Agent.' => 'Legg til en ny saksbehandler.',
         'Login as' => 'Logg in som',
+        'Title{user}' => '',
         'Firstname' => 'Fornavn',
         'Lastname' => 'Etternavn',
         'Start' => 'Start',

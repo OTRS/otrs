@@ -5,7 +5,7 @@
 # Copyright (C) 2008-2009 Egor Tsilenko <bg8s at symlink.ru>
 # Copyright (C) 2009 Andrey Cherepanov <cas at altlinux.ru>
 # --
-# $Id: ru.pm,v 1.90 2009-09-30 14:51:37 mb Exp $
+# $Id: ru.pm,v 1.91 2009-10-05 10:19:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -689,6 +689,20 @@ sub Data {
         'These values are read-only.' => 'Данное поле только для чтения',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Создаваемое сообщение было закрыто. выход.',
         'This window must be called from compose window' => 'Это окно должно вызываться из окна ввода',
         'Customer User Management' => 'Управление пользователями (для клиентов)',
@@ -1103,6 +1117,7 @@ sub Data {
         'Add User' => 'Добавить пользователя',
         'Add a new Agent.' => 'Добавить пользователя',
         'Login as' => 'Зайти данным пользователем',
+        'Title{user}' => '',
         'Firstname' => 'Имя',
         'Lastname' => 'Фамилия',
         'Start' => 'Начало',

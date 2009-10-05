@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.58 2009-09-30 14:51:37 mb Exp $
+# $Id: sk_SK.pm,v 1.59 2009-10-05 10:19:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -682,6 +682,20 @@ sub Data {
         'These values are read-only.' => 'Táto hodnota je iba na èítanie',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Vytvorená správa bola zatvorená. ',
         'This window must be called from compose window' => 'Toto okno musí by» vyvolané z okna na vytváranie.',
         'Customer User Management' => 'Riadenie klientských u¾ívateµov.',
@@ -1095,6 +1109,7 @@ sub Data {
         'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => '',
+        'Title{user}' => '',
         'Firstname' => '',
         'Lastname' => '',
         'Start' => '',

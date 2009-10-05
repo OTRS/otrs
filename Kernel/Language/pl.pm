@@ -3,7 +3,7 @@
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.86 2009-09-30 14:51:37 mb Exp $
+# $Id: pl.pm,v 1.87 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -685,6 +685,20 @@ sub Data {
         'These values are read-only.' => 'Warto¶æ tylko do odczytu.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Wiadomo¶æ edytowana zosta³a zamkniêta.  Wychodzê.',
         'This window must be called from compose window' => 'To okno musi zostaæ wywo³ane z okna edycji',
         'Customer User Management' => 'Zarzadzanie klientami',
@@ -1105,6 +1119,7 @@ sub Data {
         'Add User' => 'Dodaj agenta',
         'Add a new Agent.' => 'Dodaj nowego agenta',
         'Login as' => 'Zaloguj jako',
+        'Title{user}' => '',
         'Firstname' => 'Imiê',
         'Lastname' => 'Nazwisko',
         'Start' => 'Pocz±tek',

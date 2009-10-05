@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.9 2009-09-30 14:51:37 mb Exp $
+# $Id: lv.pm,v 1.10 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -686,6 +686,20 @@ sub Data {
         'These values are read-only.' => 'Šīs vērtības ir pieejamas tikai lasīšanai.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Aktīvais ziņojums ir ticis aizvērts. Izejam.',
         'This window must be called from compose window' => 'Šis logs jāizsauc no ziņojuma sastādīšanas loga',
         'Customer User Management' => 'Klientu datu pārvaldība',
@@ -1102,6 +1116,7 @@ sub Data {
         'Add User' => 'Pievienot lietotāju',
         'Add a new Agent.' => 'Pievienot jaunu aģentu (pieteikumu apstrādes operatoru).',
         'Login as' => 'Pieteikties sistēmā kā',
+        'Title{user}' => '',
         'Firstname' => 'Vārds',
         'Lastname' => 'Uzvārds',
         'Start' => 'Sākt',

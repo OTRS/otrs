@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.121 2009-09-30 14:51:36 mb Exp $
+# $Id: fr.pm,v 1.122 2009-10-05 10:19:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -693,6 +693,20 @@ sub Data {
         'These values are read-only.' => 'Ces valeurs sont en lecture seule.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Le courriel en cours de rédaction a été clôturé. Sortie.',
         'This window must be called from compose window' => 'Cette fenêtre doit être appelée depuis la fenêtre de rédaction',
         'Customer User Management' => 'Gestion des clients',
@@ -1107,6 +1121,7 @@ sub Data {
         'Add User' => 'Ajouter un utilisateur',
         'Add a new Agent.' => 'Ajoute un nouvel agent.',
         'Login as' => 'Connecté en tant que',
+        'Title{user}' => '',
         'Firstname' => 'Prénom',
         'Lastname' => 'Nom',
         'Start' => 'Démarrer',

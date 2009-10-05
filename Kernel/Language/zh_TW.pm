@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.6 2009-09-30 15:06:01 mb Exp $
+# $Id: zh_TW.pm,v 1.7 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -683,6 +683,20 @@ sub Data {
         'These values are read-only.' => '該數據隻讀.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => '進行消息撰寫的窗口已經被關閉,退出.',
         'This window must be called from compose window' => '該窗口必須由撰寫窗口調用',
         'Customer User Management' => '客戶用戶管理',
@@ -1096,6 +1110,7 @@ sub Data {
         'Add User' => '增加人員',
         'Add a new Agent.' => '增加一個新的人員',
         'Login as' => '登錄名',
+        'Title{user}' => '',
         'Firstname' => '名',
         'Lastname' => '姓',
         'Start' => '開始',

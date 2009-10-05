@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.32 2009-09-30 15:06:01 mb Exp $
+# $Id: vi_VN.pm,v 1.33 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -681,6 +681,20 @@ sub Data {
         'These values are read-only.' => 'Giá tr¸ này chï ð÷c',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Tin nh¡n ðang soÕn b¸ ðóng. Ðang thoát.',
         'This window must be called from compose window' => 'CØa s± này c¥n phäi ðßþc g÷i t× cØa s± soÕn thäo',
         'Customer User Management' => 'Quän tr¸ ngß¶i dùng khách hàng',
@@ -1094,6 +1108,7 @@ sub Data {
         'Add User' => 'Thêm ngß¶i dùng',
         'Add a new Agent.' => 'Thêm mµt nhân viên m¾i.',
         'Login as' => 'Ðång nh§p v¾i',
+        'Title{user}' => '',
         'Firstname' => 'H÷',
         'Lastname' => 'Tên',
         'Start' => 'b¡t ð¥u',

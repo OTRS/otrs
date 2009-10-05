@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.70 2009-09-30 14:51:36 mb Exp $
+# $Id: fa.pm,v 1.71 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -688,6 +688,20 @@ sub Data {
         'These values are read-only.' => 'این مقادیر فقط قابل خواندن هستند.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'پیامی که ارسال شد بسته شد..',
         'This window must be called from compose window' => 'این پنجره میبایست از طریق پنجره ارسال فراخوانی شود',
         'Customer User Management' => 'مدیریت مشترکین',
@@ -1102,6 +1116,7 @@ sub Data {
         'Add User' => 'افزودن کاربر',
         'Add a new Agent.' => 'افزودن کاربر جدید',
         'Login as' => 'ورود به عنوان',
+        'Title{user}' => '',
         'Firstname' => 'نام',
         'Lastname' => 'نام خانوادگی',
         'Start' => 'شروع',

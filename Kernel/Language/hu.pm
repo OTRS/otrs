@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.75 2009-09-30 14:51:36 mb Exp $
+# $Id: hu.pm,v 1.76 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -686,6 +686,20 @@ sub Data {
         'These values are read-only.' => 'Ezek az értékek csak olvashatók.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Az éppen elkészült levél lezárásra került. Kilépés.',
         'This window must be called from compose window' => 'Ezt az ablakot a szerkesztõ ablakból kell hívni',
         'Customer User Management' => 'Ügyfél felhasználók kezelése',
@@ -1099,6 +1113,7 @@ sub Data {
         'Add User' => 'Felhasználó hozzáadása',
         'Add a new Agent.' => 'Új felhasználó hozzáadása',
         'Login as' => 'Belép mint',
+        'Title{user}' => '',
         'Firstname' => 'Keresztnév',
         'Lastname' => 'Vezetéknév',
         'Start' => 'Eleje',

@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.107 2009-09-30 14:51:37 mb Exp $
+# $Id: nl.pm,v 1.108 2009-10-05 10:19:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -701,6 +701,20 @@ sub Data {
         'These values are read-only.' => 'Deze waarden kunt u alleen lezen.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => 'Titel',
+        'Firstname{CustomerUser}' => 'Voornaam',
+        'Lastname{CustomerUser}' => 'Achternaam',
+        'Username{CustomerUser}' => 'Gebruikersnaam',
+        'Email{CustomerUser}' => 'E-mailadres',
+        'CustomerID{CustomerUser}' => 'Klantnummer',
+        'Phone{CustomerUser}' => 'Telefoon',
+        'Fax{CustomerUser}' => 'Fax',
+        'Mobile{CustomerUser}' => 'Mobiel',
+        'Street{CustomerUser}' => 'Straat',
+        'Zip{CustomerUser}' => 'Postcode',
+        'City{CustomerUser}' => 'Woonplaats',
+        'Country{CustomerUser}' => 'Land',
+        'Comment{CustomerUser}' => 'Opmerking',
         'The message being composed has been closed.  Exiting.' => 'Het bericht dat werd aangemaakt is gesloten.',
         'This window must be called from compose window' => 'Dit scherm moet van het scherm <opstellen bericht> worden aangeroepen',
         'Customer User Management' => 'Gebruikersbeheer klanten',
@@ -1116,6 +1130,7 @@ sub Data {
         'Add User' => 'Nieuwe gebruiker toevoegen',
         'Add a new Agent.' => 'Voeg hier een nieuwe behandelaar toe',
         'Login as' => 'Inloggen als',
+        'Title{user}' => 'Titel',
         'Firstname' => 'Voornaam',
         'Lastname' => 'Achternaam',
         'Start' => 'Begin',

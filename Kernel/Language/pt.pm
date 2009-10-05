@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.84 2009-09-30 14:51:37 mb Exp $
+# $Id: pt.pm,v 1.85 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -682,6 +682,20 @@ sub Data {
         'These values are read-only.' => 'Estes valores são apenas de leitura.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'A mensagem sendo composta foi fechada. Saindo.',
         'This window must be called from compose window' => 'Esta janela deve ser chamada da janela de composição',
         'Customer User Management' => 'Gestão de Utilizadores de Cliente',
@@ -1095,6 +1109,7 @@ sub Data {
         'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => 'Entrar como',
+        'Title{user}' => '',
         'Firstname' => 'Nome',
         'Lastname' => 'Apelido',
         'Start' => 'Início',

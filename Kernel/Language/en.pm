@@ -2,7 +2,7 @@
 # Kernel/Language/en.pm - provides en_US languag translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: en.pm,v 1.32 2009-09-23 15:24:40 mb Exp $
+# $Id: en.pm,v 1.33 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -77,6 +77,23 @@ sub Data {
         'History::Subscribe' => 'Added subscription for user "%s".',
         'History::Unsubscribe' => 'Removed subscription for user "%s".',
         'History::SystemRequest' => 'System Request (%s).',
+        #CustomerUser fields
+        'Title{CustomerUser}' => 'Title',
+        'Firstname{CustomerUser}' => 'First name',
+        'Lastname{CustomerUser}' => 'Last name',
+        'Username{CustomerUser}' => 'Username',
+        'Email{CustomerUser}' => 'E-mail address',
+        'CustomerID{CustomerUser}' => 'Customer ID',
+        'Phone{CustomerUser}' => 'Phone',
+        'Fax{CustomerUser}' => 'Fax',
+        'Mobile{CustomerUser}' => 'Cellphone',
+        'Street{CustomerUser}' => 'Street',
+        'Zip{CustomerUser}' => 'ZIP code',
+        'City{CustomerUser}' => 'City',
+        'Country{CustomerUser}' => 'Country',
+        'Comment{CustomerUser}' => 'Comment',
+        #User field
+        'Title{user}' => 'Title',
     };
     # $$STOP$$
     return;

@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.30 2009-09-30 14:51:36 mb Exp $
+# $Id: et.pm,v 1.31 2009-10-05 10:19:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -681,6 +681,20 @@ sub Data {
         'These values are read-only.' => 'Neid väärtusi ei saa muuta.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Pooleliolev kriri sulegi. Lõpetan.',
         'This window must be called from compose window' => 'Seda akent saab avada kirja kirjutamise aknast',
         'Customer User Management' => 'Kliendikasutajate haldus',
@@ -1094,6 +1108,7 @@ sub Data {
         'Add User' => 'Kasutaja lisamine',
         'Add a new Agent.' => 'Lisa uus töötaja.',
         'Login as' => 'kasutajanimi',
+        'Title{user}' => '',
         'Firstname' => 'Eesnimi',
         'Lastname' => 'Perekonnanimi',
         'Start' => 'Start',

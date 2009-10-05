@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.97 2009-09-30 14:51:36 mb Exp $
+# $Id: bg.pm,v 1.98 2009-10-05 10:19:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -683,6 +683,20 @@ sub Data {
         'These values are read-only.' => 'Тези стойности са само за преглед. (read only)',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Съобщението, което създавахте е затворено. Изход.',
         'This window must be called from compose window' => 'Този прозорец трябва да бъде извикан от прозореца за създаване',
         'Customer User Management' => 'Управление на клиент-потребители',
@@ -1096,6 +1110,7 @@ sub Data {
         'Add User' => 'Добавяне',
         'Add a new Agent.' => 'Управление на нов агент',
         'Login as' => 'Логин като',
+        'Title{user}' => '',
         'Firstname' => 'Име',
         'Lastname' => 'Фамилия',
         'Start' => 'Старт',
