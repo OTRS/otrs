@@ -4,8 +4,9 @@
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # Copyright (C) 2008 Pelayo Romero Martín <pelayo.romero at gmail.com>
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
+# Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.99 2009-09-30 14:51:36 mb Exp $
+# $Id: es.pm,v 1.100 2009-10-05 08:17:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -145,7 +146,7 @@ sub Data {
         'update!' => 'Actualizar!',
         'update' => 'actualizar',
         'Update' => 'Actualizar',
-        'Updated!' => '',
+        'Updated!' => 'Actualizado!',
         'submit!' => 'enviar!',
         'submit' => 'enviar',
         'Submit' => 'Enviar',
@@ -274,13 +275,13 @@ sub Data {
         'Please press Back and try again.' => 'Por favor, presione Atrás e inténtelo de nuevo.',
         'Sent password token to: %s' => 'Enviado recordatorio de clave a: %s',
         'Sent new password to: %s' => 'Enviada nueva clave a: %s',
-        'Upcoming Events' => '',
+        'Upcoming Events' => 'Eventos Entrantes',
         'Event' => 'Evento',
         'Events' => 'Eventos',
         'Invalid Token!' => 'Recordatorio no válido!',
         'more' => 'mas',
-        'For more info see:' => '',
-        'Package verification failed!' => '',
+        'For more info see:' => 'Para mas información ver:',
+        'Package verification failed!' => 'Error de Verificación de Paquete!',
         'Collapse' => 'Contraer',
         'News' => 'Noticias',
         'Product News' => 'Noticias de productos',
@@ -296,8 +297,8 @@ sub Data {
         'Align Right' => 'Alinear a la derecha',
         'Justify' => 'Justificado',
         'Header' => 'Encabezado',
-        'Indent' => '',
-        'Outdent' => '',
+        'Indent' => 'Sangrado Derecho',
+        'Outdent' => 'Sangrado Izquierdo',
         'Create an Unordered List' => 'Crear una Lista Desordenada',
         'Create an Ordered List' => 'Crear una Lista Ordenada',
         'HTML Link' => 'Enlace HTML',
@@ -419,8 +420,8 @@ sub Data {
         'Create Time' => 'Fecha de Creación',
         'CustomerUserLogin' => 'Login de Usuario Cliente',
         'Close Time' => 'Fecha de Cierre',
-        'TicketAccumulation' => '',
-        'Attributes to be printed' => '',
+        'TicketAccumulation' => 'AcumulacionDeTickets',
+        'Attributes to be printed' => 'Atributos a Imprimir',
         'Sort sequence' => 'Ordenar secuencia',
         'Order by' => 'Ordenar por',
         'Limit' => 'Límite',
@@ -430,17 +431,17 @@ sub Data {
         'First Lock' => 'Primer bloquéo',
         'Evaluation by' => 'Evaluación por',
         'Total Time' => 'Tiempo Total',
-        'Ticket Average' => '',
-        'Ticket Min Time' => '',
-        'Ticket Max Time' => '',
+        'Ticket Average' => 'Ticket-Promedio',
+        'Ticket Min Time' => 'Ticket-Tiempo Mín',
+        'Ticket Max Time' => 'Ticket-Tiempo Máx',
         'Number of Tickets' => 'Número de tickets',
-        'Article Average' => '',
-        'Article Min Time' => '',
-        'Article Max Time' => '',
+        'Article Average' => 'Artículo-Promedio',
+        'Article Min Time' => 'Artículo-Tiempo Mín',
+        'Article Max Time' => 'Artículo-Tiempo Máx',
         'Number of Articles' => 'Número de artículos',
-        'Accounted time by Agent' => '',
-        'Ticket/Article Accounted Time' => '',
-        'TicketAccountedTime' => '',
+        'Accounted time by Agent' => 'Tiempo utilizado por el Agente',
+        'Ticket/Article Accounted Time' => 'Tiempo utilizado por el Ticket/Articulo',
+        'TicketAccountedTime' => 'TiempoUtilizadoTicket',
         'Ticket Create Time' => 'Creación del ticket',
         'Ticket Close Time' => 'Finalización del ticket',
 
@@ -602,8 +603,8 @@ sub Data {
         'Open Tickets / Need to be answered' => 'Tickets Abiertos / Que necesitan de una respuesta',
         'Tickets which need to be answered!' => 'Tickets que necesitan ser respondidos!',
         'All new tickets!' => 'Todos los nuevos tickets',
-        'All tickets which are escalated!' => '',
-        'All tickets where the reminder date has reached!' => '',
+        'All tickets which are escalated!' => 'Todos los tickets que estan escalados!',
+        'All tickets where the reminder date has reached!' => 'Todos los tickes que han alcanzado la fecha de recordatorio!',
         'Responses' => 'Respuestas',
         'Responses <-> Queue' => 'Respuestas <-> Colas',
         'Auto Responses' => 'Respuestas Automáticas',
@@ -733,8 +734,8 @@ sub Data {
         'Is Job Valid?' => 'Es la tarea válida?',
         'Is Job Valid' => 'Es una tarea válida',
         'Schedule' => 'Horario',
-        'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
+        'Currently this generic agent job will not run automatically.' => 'Actualmente esta agente de tarea generica no corre automáticamente',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => 'Para habilitar la ejecución automática seleccionar por lo menos un valor de minutos, horas y dias!',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Búsqueda de texto en Artículo (ej. "Mar*in" o "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '(ej: 10*5155 o 105658*)',
         '(e. g. 234321)' => '(ej: 234321)',
@@ -757,18 +758,18 @@ sub Data {
         'Ticket pending time reached' => 'Tiempo de Pendiente del Ticket alcanzado',
         'Ticket pending time reached between' => 'Tiempo de Pendiente del Ticket alcanzado entre',
         'Escalation Times' => 'Tiempo de escalado',
-        'No escalation time settings.' => '',
+        'No escalation time settings.' => 'Ningún tiempo de escalado seleccionado',
         'Ticket escalation time reached' => 'Tiempo de escalado alcanzado',
-        'Ticket escalation time reached between' => '',
+        'Ticket escalation time reached between' => 'Tiempo de escalado alcanzado entre',
         'Escalation - First Response Time' => 'Escalado - Tiempo para Primera Respuesta',
-        'Ticket first response time reached' => '',
-        'Ticket first response time reached between' => '',
+        'Ticket first response time reached' => 'Tiempo de primera respuesta al Ticket alcanzado',
+        'Ticket first response time reached between' => 'Tiempo de primera respuesta al Ticket alcanzado entre',
         'Escalation - Update Time' => 'Escalado - Tiempo para Actualización',
-        'Ticket update time reached' => '',
-        'Ticket update time reached between' => '',
+        'Ticket update time reached' => 'Tiempo de actualización de Ticket alcanzado',
+        'Ticket update time reached between' => 'Tiempo de actualización de Ticket alcanzado entre',
         'Escalation - Solution Time' => 'Escalado - Tiempo para Solución',
-        'Ticket solution time reached' => '',
-        'Ticket solution time reached between' => '',
+        'Ticket solution time reached' => 'Tiempo de solución de Ticket alcanzado',
+        'Ticket solution time reached between' => 'Tiempo de solución de Ticket alcanzado',
         'New Service' => 'Nuevo Servicio',
         'New SLA' => 'Nuevo SLA',
         'New Priority' => 'Nueva prioridad',
@@ -794,12 +795,12 @@ sub Data {
         'Param 4' => 'Parámetro 4',
         'Param 5' => 'Parámetro 5',
         'Param 6' => 'Parámetro 6',
-        'Send agent/customer notifications on changes' => '',
+        'Send agent/customer notifications on changes' => 'Enviar notificación de cambios al agente/cliente',
         'Save' => 'Grabar',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets afectados! Realmente desea utilizar esta tarea?',
 
         # Template: AdminGroupForm
-        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => '',
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => 'ATENCIÓN: Cuando cambia el nombre del grupo \'admin\', antes de realizar los cambios apropiados en SysConfig, bloqueará el panel de administración! Si esto sucediera, por favor vuelva a renombrar el grupo para administrar por declaración SQL.',
         'Group Management' => 'Administración de grupos',
         'Add Group' => 'Añadir Grupo',
         'Add a new Group.' => 'Añadir nuevo Grupo',
@@ -826,25 +827,25 @@ sub Data {
 
         # Template: AdminNotificationEventForm
         'Notification Management' => 'Gestión de Notificaciones',
-        'Add Notification' => '',
-        'Add a new Notification.' => '',
-        'Name is required!' => 'Debe especificar nombre!',
-        'Event is required!' => '',
+        'Add Notification' => 'Agregar Notificación',
+        'Add a new Notification.' => 'Agregar una nueva Notificación',
+        'Name is required!' => 'Debe especificar Nombre!',
+        'Event is required!' => 'Debe especificar Evento!',
         'A message should have a body!' => 'Los mensajes deben tener contenido',
-        'Recipient' => '',
+        'Recipient' => 'Recipiente',
         'Group based' => 'Basado en grupo',
         'Agent based' => 'Basado en agente',
         'Email based' => 'Basado en e-mail',
         'Article Type' => 'Tipo de artículo',
-        'Only for ArticleCreate Event.' => '',
+        'Only for ArticleCreate Event.' => 'Solo para el Evento CrearArtículo',
         'Subject match' => 'Coincidencia de asunto',
         'Body match' => 'Coincidencia del cuerpo',
         'Notifications are sent to an agent or a customer.' => 'Las notificaciones se envían a un agente o cliente',
-        'To get the first 20 character of the subject (of the latest agent article).' => '',
-        'To get the first 5 lines of the body (of the latest agent article).' => '',
-        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
-        'To get the first 20 character of the subject (of the latest customer article).' => '',
-        'To get the first 5 lines of the body (of the latest customer article).' => '',
+        'To get the first 20 character of the subject (of the latest agent article).' => 'Para obtener los primeros 20 caracters del Sujeto (del último artículo del agente).',
+        'To get the first 5 lines of the body (of the latest agent article).' => 'Para obtener las primeras 5 líneas del cuerpo (del último artículo del agente).',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => 'Para obtener los atributos (ej. <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>)',
+        'To get the first 20 character of the subject (of the latest customer article).' => 'Para obtener los primeros 20 caracters del Sujeto (del último artículo del cliente).',
+        'To get the first 5 lines of the body (of the latest customer article).' => 'Para obtener las primeras 5 líneas del cuerpo (del último artículo del cliente).',
 
         # Template: AdminNotificationForm
         'Notification' => 'Notificaciones',
@@ -861,7 +862,7 @@ sub Data {
         'Package' => 'Paquete',
         'Online Repository' => 'Repositorio Online',
         'Vendor' => 'Vendedor',
-        'Module documentation' => '',
+        'Module documentation' => 'Módulo de Documentación',
         'Upgrade' => 'Actualizar',
         'Local Repository' => 'Repositorio Local',
         'Status' => 'Estados',
@@ -882,7 +883,7 @@ sub Data {
         'Performance Log' => 'Trazas de rendimiento',
         'This feature is enabled!' => 'Esta característica está habilitada',
         'Just use this feature if you want to log each request.' => 'Use esta característica sólo si desea registrar cada petición.',
-        'Activating this feature might affect your system performance!' => '',
+        'Activating this feature might affect your system performance!' => 'Activar esta opción podría afectar el rendimiento de su sistema!',
         'Disable it here!' => 'Deshabilítelo aquí',
         'This feature is disabled!' => 'Esta característica está deshabilitada',
         'Enable it here!' => 'Habilítelo aquí',
@@ -905,14 +906,14 @@ sub Data {
         'Identifier' => 'Identificador',
         'Bit' => '',
         'Key' => 'Clave',
-        'Fingerprint' => '',
+        'Fingerprint' => 'Huella',
         'Expires' => 'Expira',
         'In this way you can directly edit the keyring configured in SysConfig.' => 'De esta forma puede editar directamente el anillo de Claves configurado en Sysconfig',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Gestión del filtro maestro',
         'Filtername' => 'Nombre del filtro',
-        'Stop after match' => '',
+        'Stop after match' => 'Parar al coincidir',
         'Match' => 'Coincidir',
         'Value' => 'Valor',
         'Set' => 'Ajustar',
@@ -1005,10 +1006,10 @@ sub Data {
         'Add a new Salutation.' => 'Añadir un nuevo Saludo',
 
         # Template: AdminSecureMode
-        'Secure Mode need to be enabled!' => '',
-        'Secure mode will (normally) be set after the initial installation is completed.' => '',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
-        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+        'Secure Mode need to be enabled!' => 'El Modo Seguro debe estar habilitado!',
+        'Secure mode will (normally) be set after the initial installation is completed.' => 'El Modo Seguro (normalmente) queda habilitado cuando la instalación inicial se completa.',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => 'El Modo Seguro debe estar deshabilitado para poder reinstalar usado el instalador web.',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => 'Si el Modo Seguro no está activado actívelo con SysConfig ya que su aplicación está en funcionamiento.',
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'Consola SQL',
@@ -1085,7 +1086,7 @@ sub Data {
         'Add System Address' => 'Añadir Dirección de Sistema',
         'Add a new System Address.' => 'Añadir una Dirección de Sistema',
         'Realname' => 'Nombre real',
-        'All email addresses get excluded on replaying on composing an email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => 'Toda dirección de correo electrónico será omitida mientras se compone la respuesta de un correo.',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Todos los mensajes entrantes con esta dirección (Para:) serán enviados a la cola seleccionada!',
 
         # Template: AdminTypeForm
@@ -1132,13 +1133,13 @@ sub Data {
         # Template: AgentDashboardImage
 
         # Template: AgentDashboardProductNotify
-        '%s %s is available!' => '',
+        '%s %s is available!' => '%s %s está disponible!',
         'Please update now.' => 'Por favór, actualize ahora',
         'Release Note' => 'Notas de versión',
         'Level' => 'Nivel',
 
         # Template: AgentDashboardRSSOverview
-        'Posted %s ago.' => '',
+        'Posted %s ago.' => 'Enviado hace %s.',
 
         # Template: AgentDashboardTicketOverview
 
@@ -1225,7 +1226,8 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Seleccione el elemento, que será utilizado en el eje-X',
         'maximal period' => 'periodo máximo',
         'minimal scale' => 'escala mínima',
-        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' =>
+        'Aquí Ud. puede definir el eje x. Puede seleccionar un elemento con un boton circular (radio button). Si no selecciona todos los atributos del elemento será usado si genera un stat, apenas se agrega un nuevo atributo desde la útima configuración',
 
         # Template: AgentStatsImport
         'Import' => 'Importar',
@@ -1270,14 +1272,14 @@ sub Data {
         'Next state' => 'Siguiente estado',
         'Pending date' => 'Fecha pendiente',
         'Merge to' => 'Fusionar con',
-        'Merge to oldest' => '',
-        'Link together' => '',
-        'Link to Parent' => '',
+        'Merge to oldest' => 'Combinar con el mas viejo',
+        'Link together' => 'Enlazar juntos',
+        'Link to Parent' => 'Enlazar con el padre',
         'Unlock Tickets' => 'Desbloquear Tickets',
 
         # Template: AgentTicketClose
-        'Ticket Type is required!' => '',
-        'A required field is:' => '',
+        'Ticket Type is required!' => 'Se necesita el tipo de Ticket!',
+        'A required field is:' => 'Un campo requerido es:',
         'Close ticket' => 'Cerrar el ticket',
         'Previous Owner' => 'Propietario Anterior',
         'Inform Agent' => 'Notificar a Agente',
@@ -1402,13 +1404,13 @@ sub Data {
         'Search-Template' => 'Buscar-Modelo',
         'TicketFreeText' => 'TextoLibreTicket',
         'Created in Queue' => 'Creado en Cola',
-        'Article Create Times' => '',
-        'Article created' => '',
-        'Article created between' => '',
-        'Change Times' => '',
-        'No change time settings.' => '',
-        'Ticket changed' => '',
-        'Ticket changed between' => '',
+        'Article Create Times' => 'Tiempo de Creación de Artículo',
+        'Article created' => 'Artículo Creado',
+        'Article created between' => 'Artículo creado entre',
+        'Change Times' => 'Cambio de Tiempo',
+        'No change time settings.' => 'Sin cambio de marca de tiempo',
+        'Ticket changed' => 'Ticket modificado',
+        'Ticket changed between' => 'Ticket modificado entre',
         'Result Form' => 'Modelo de Resultados',
         'Save Search-Profile as Template?' => 'Guardar perfil de búsqueda como patrón?',
         'Yes, save it with name' => 'Sí, guardarlo con nombre',
@@ -1426,8 +1428,8 @@ sub Data {
         'Split' => 'Dividir',
 
         # Template: AgentTicketZoomArticleFilterDialog
-        'Article filter settings' => '',
-        'Save filter settings as default' => '',
+        'Article filter settings' => 'Configuración de filtro de Artículos',
+        'Save filter settings as default' => 'Grabar configuración de filtros como defecto',
 
         # Template: AgentWindowTab
 
@@ -1440,7 +1442,7 @@ sub Data {
         # Template: CustomerCalendarSmallIcon
 
         # Template: CustomerError
-        'Traceback' => '',
+        'Traceback' => 'Determinar el origen',
 
         # Template: CustomerFooter
         'Powered by' => '',
@@ -1670,7 +1672,7 @@ sub Data {
         'Object already linked as %s.' => 'Objecto ya vinculado como %s.',
         'A article should have a title!' => 'Los artículos deben tener título',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opciones de configuración (ej. &lt;OTRS_CONFIG_HttpType&gt;)',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing and email.' => 'Todas las direcciones de correo electrónico será omitidas al componer la respuesta a un correo',
         'don\'t accept license' => 'no aceptar la licencia',
         'A web mail client' => 'Un cliente de correo Web',
         'Compose Follow up' => 'Redactar seguimiento',
@@ -1702,14 +1704,14 @@ sub Data {
         'PhoneView' => 'Vista telefónica',
         'maximal period form' => 'periodo máximo del formulario',
         'TicketID' => 'Identificador de Ticket',
-        'Escaladed Tickets' => '',
+        'Escaladed Tickets' => 'Tickets Escalados',
         'Yes means, send no agent and customer notifications on changes.' => '"Sí" significa no enviar notificación a los agentes y clientes al realizarse cambios.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Su correo con número de ticket "<OTRS_TICKET>"  fue rebotado a "<OTRS_BOUNCE_TO>". Contacte con dicha dirección para más información.',
         'Ticket Status View' => 'Ver Estado del Ticket',
         'Modified' => 'Modificado',
         'Ticket selected for bulk action!' => 'Ticket seleccionado para acción múltiple!',
-        '%s is not writable!' => '',
-        'Cannot create %s!' => '',
+        '%s is not writable!' => '%s no es modificable!',
+        'Cannot create %s!' => 'No se puede crear %s!',
     };
     # $$STOP$$
     return;
