@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.8.2.1 2009-09-26 10:22:22 martin Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.8.2.2 2009-10-05 10:40:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8.2.1 $) [1];
+$VERSION = qw($Revision: 1.8.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,7 +29,7 @@ sub new {
         qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
         )
     {
-        die "Got no $_!" if ( !$Self->{$_} );
+        die "Got no $_!" if !$Self->{$_};
     }
 
     return $Self;
@@ -67,11 +67,6 @@ sub Run {
         },
     );
 
-    my $TimeNow = $Self->{TimeObject}->SystemTime();
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
-        SystemTime => $TimeNow,
-    );
-
     my @Data;
     my $Max = 1;
     for my $Key ( 0 .. 6 ) {
@@ -91,6 +86,9 @@ sub Run {
 
         my $CountCreated = $Self->{TicketObject}->TicketSearch(
 
+            # cache search result 20 min
+            CacheTTL => 60 * 20,
+
             # tickets with create time after ... (ticket newer than this date) (optional)
             TicketCreateTimeNewerDate => "$Year-$Month-$Day 00:00:00",
 
@@ -99,8 +97,10 @@ sub Run {
 
             CustomerID => $Param{Data}->{UserCustomerID},
             Result     => 'COUNT',
+
+            # search with user permissions
             Permission => $Self->{Config}->{Permission} || 'ro',
-            UserID     => $Self->{UserID},
+            UserID => $Self->{UserID},
         );
         $Data[$Key]->{Created} = $CountCreated;
         if ( $CountCreated > $Max ) {
@@ -108,6 +108,9 @@ sub Run {
         }
 
         my $CountClosed = $Self->{TicketObject}->TicketSearch(
+
+            # cache search result 20 min
+            CacheTTL => 60 * 20,
 
             # tickets with create time after ... (ticket newer than this date) (optional)
             TicketCloseTimeNewerDate => "$Year-$Month-$Day 00:00:00",
@@ -117,8 +120,10 @@ sub Run {
 
             CustomerID => $Param{Data}->{UserCustomerID},
             Result     => 'COUNT',
+
+            # search with user permissions
             Permission => $Self->{Config}->{Permission} || 'ro',
-            UserID     => $Self->{UserID},
+            UserID => $Self->{UserID},
         );
         $Data[$Key]->{Closed} = $CountClosed;
         if ( $CountClosed > $Max ) {
