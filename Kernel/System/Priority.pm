@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.21 2009-06-22 22:54:08 martin Exp $
+# $Id: Priority.pm,v 1.22 2009-10-05 08:17:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -82,7 +83,12 @@ sub new {
     for (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %Param,
+        Type => 'Priority',
+        TTL  => 60 * 30,
+    );
 
     return $Self;
 }
@@ -112,7 +118,7 @@ sub PriorityList {
     }
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-    my %Data = ();
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
@@ -147,7 +153,7 @@ sub PriorityGet {
             . "FROM ticket_priority WHERE id = ?",
         Bind => [ \$Param{PriorityID} ],
     );
-    my %Data = ();
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ID}         = $Row[0];
         $Data{Name}       = $Row[1];
@@ -183,7 +189,7 @@ sub PriorityAdd {
         }
     }
 
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO ticket_priority (name, valid_id, create_time, create_by, '
             . 'change_time, change_by) VALUES '
             . '(?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -191,6 +197,23 @@ sub PriorityAdd {
             \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
         ],
     );
+
+    # get new state id
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => 'SELECT id FROM ticket_priority WHERE name = ?',
+        Bind => [ \$Param{Name} ],
+    );
+    my $ID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $ID = $Row[0];
+    }
+    return if !$ID;
+
+    # delete cache
+    $Self->{CacheInternalObject}->Delete( Key => 'PriorityLookup::Name::' . $Param{Name} );
+    $Self->{CacheInternalObject}->Delete( Key => 'PriorityLookup::ID::' . $ID );
+
+    return $ID;
 }
 
 =item PriorityUpdate()
@@ -217,13 +240,19 @@ sub PriorityUpdate {
         }
     }
 
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE ticket_priority SET name = ?, valid_id = ?, '
             . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
             \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{PriorityID},
         ],
     );
+
+    # delete cache
+    $Self->{CacheInternalObject}->Delete( Key => 'PriorityLookup::Name::' . $Param{Name} );
+    $Self->{CacheInternalObject}->Delete( Key => 'PriorityLookup::ID::' . $Param{PriorityID} );
+
+    return 1;
 }
 
 =item PriorityLookup()
@@ -249,22 +278,23 @@ sub PriorityLookup {
         return;
     }
 
-    # check if we ask the same request?
+    # check cache
     my $CacheKey;
     my $Key;
     my $Value;
     if ( $Param{Priority} ) {
         $Key      = 'Priority';
         $Value    = $Param{Priority};
-        $CacheKey = 'Ticket::Priority::PriorityLookup::' . $Param{Priority};
-        return $Self->{$CacheKey} if defined $Self->{$CacheKey};
+        $CacheKey = 'PriorityLookup::Name::' . $Param{Priority};
     }
     else {
         $Key      = 'PriorityID';
         $Value    = $Param{PriorityID};
-        $CacheKey = 'Ticket::Priority::PriorityIDLookup::' . $Param{PriorityID};
-        return $Self->{$CacheKey} if defined $Self->{$CacheKey};
+        $CacheKey = 'PriorityLookup::ID::' . $Param{PriorityID};
     }
+
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return $Cache if $Cache;
 
     # db query
     my $SQL;
@@ -277,13 +307,17 @@ sub PriorityLookup {
         $SQL = 'SELECT name FROM ticket_priority WHERE id = ?';
         push @Bind, \$Param{PriorityID};
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    my $Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{$CacheKey} = $Row[0];
+        $Data = $Row[0];
     }
 
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
+
     # check if data exists
-    if ( !defined $Self->{$CacheKey} ) {
+    if ( !defined $Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "No $Key for $Value found!",
@@ -291,7 +325,7 @@ sub PriorityLookup {
         return;
     }
 
-    return $Self->{$CacheKey};
+    return $Data;
 }
 
 1;
@@ -310,6 +344,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2009-06-22 22:54:08 $
+$Revision: 1.22 $ $Date: 2009-10-05 08:17:33 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.13 2009-04-17 08:36:44 tr Exp $
+# $Id: Type.pm,v 1.14 2009-10-05 08:17:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -40,7 +41,6 @@ create an object
     use Kernel::Config;
     use Kernel::System::Encode;
     use Kernel::System::Log;
-    use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Type;
@@ -52,10 +52,6 @@ create an object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
@@ -72,7 +68,7 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
-        TimeObject   => $TimeObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -85,10 +81,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
+    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'Type',
+        TTL  => 60 * 15,
+    );
 
     return $Self;
 }
@@ -124,7 +125,7 @@ sub TypeAdd {
     );
 
     # get new type id
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL   => 'SELECT id FROM ticket_type WHERE name = ?',
         Bind  => [ \$Param{Name} ],
         Limit => 1,
@@ -134,6 +135,14 @@ sub TypeAdd {
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
+    }
+    return if !$ID;
+
+    # delete cache
+    my @CacheKeys = ( 'TypeGet::Name::' . $Param{Name}, 'TypeGet::ID::' . $ID );
+    push @CacheKeys, 'TypeLookup::Name::' . $Param{Name}, 'TypeLookup::ID::' . $ID;
+    for my $CacheKey (@CacheKeys) {
+        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
     }
 
     return $ID;
@@ -158,9 +167,10 @@ sub TypeGet {
         return;
     }
 
-    # check if result is already cached
-    return %{ $Self->{Cache}->{TypeGet}->{ $Param{ID} } }
-        if $Self->{Cache}->{TypeGet}->{ $Param{ID} };
+    # check cache
+    my $CacheKey = 'TypeGet::' . $Param{ID};
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
 
     # ask the database
     return if !$Self->{DBObject}->Prepare(
@@ -178,6 +188,9 @@ sub TypeGet {
         $Data{CreateTime} = $Data[4];
     }
 
+    # set cache
+    $Self->{CacheInternalObject}->Get( Key => $CacheKey, Value => \%Data );
+
     # no data found
     if ( !%Data ) {
         $Self->{LogObject}->Log(
@@ -186,9 +199,6 @@ sub TypeGet {
         );
         return;
     }
-
-    # cache the result
-    $Self->{Cache}->{TypeGet}->{ $Param{ID} } = \%Data;
 
     return %Data;
 }
@@ -217,17 +227,23 @@ sub TypeUpdate {
         }
     }
 
-    # reset cache
-    delete $Self->{Cache}->{TypeGet}->{ $Param{ID} };
-
     # sql
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE ticket_type SET name = ?, valid_id = ?, '
             . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
             \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
+
+    # delete cache
+    my @CacheKeys = ( 'TypeGet::Name::' . $Param{Name}, 'TypeGet::ID::' . $ID );
+    push @CacheKeys, 'TypeLookup::Name::' . $Param{Name}, 'TypeLookup::ID::' . $ID;
+    for my $CacheKey (@CacheKeys) {
+        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+    }
+
+    return 1;
 }
 
 =item TypeList()
@@ -266,9 +282,9 @@ sub TypeList {
 
 get id or name for queue
 
-    my $Type = $TypeObject->TypeLookup(TypeID => $TypeID);
+    my $Type = $TypeObject->TypeLookup( TypeID => $TypeID );
 
-    my $TypeID = $TypeObject->TypeLookup(Type => $Type);
+    my $TypeID = $TypeObject->TypeLookup( Type => $Type );
 
 =cut
 
@@ -281,23 +297,23 @@ sub TypeLookup {
         return;
     }
 
-    # check if we ask the same request (cache)?
+    # check cache
     my $CacheKey;
     my $Key;
     my $Value;
     if ( $Param{TypeID} ) {
-        $CacheKey = 'QL::Type::' . $Param{TypeID};
+        $CacheKey = 'TypeLookup::ID::' . $Param{TypeID};
         $Key      = 'TypeID';
         $Value    = $Param{TypeID};
     }
     else {
-        $CacheKey = 'QL::TypeID::' . $Param{Type};
+        $CacheKey = 'TypeLookup::Name::' . $Param{Type};
         $Key      = 'Type';
         $Value    = $Param{Type};
     }
 
-    return $Self->{$CacheKey}
-        if $Self->{$CacheKey};
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return $Cache if $Cache;
 
     # get data
     my $SQL;
@@ -313,19 +329,23 @@ sub TypeLookup {
     }
 
     # ask the database
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL   => $SQL,
         Bind  => \@Bind,
         Limit => 1,
     );
 
     # fetch the result
+    my $Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{$CacheKey} = $Row[0];
+        $Data = $Row[0];
     }
 
+    # set cache
+    $Self->{CacheInternalObject}->Get( Key => $CacheKey, Value => $Data );
+
     # check if data exists
-    if ( !$Self->{$CacheKey} ) {
+    if ( !$Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Found no $Key for $Value!",
@@ -333,7 +353,7 @@ sub TypeLookup {
         return;
     }
 
-    return $Self->{$CacheKey};
+    return $Data;
 }
 
 1;
@@ -352,6 +372,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.14 $ $Date: 2009-10-05 08:17:33 $
 
 =cut

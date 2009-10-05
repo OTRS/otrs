@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.35 2009-09-28 14:04:58 mb Exp $
+# $Id: State.pm,v 1.36 2009-10-05 08:17:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -88,7 +89,12 @@ sub new {
     for (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %Param,
+        Type => 'State',
+        TTL  => 60 * 30,
+    );
 
     # check needed config options
     for (qw(Ticket::ViewableStateType Ticket::UnlockStateType)) {
@@ -139,14 +145,15 @@ sub StateAdd {
         SQL  => 'SELECT id FROM ticket_state WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
-    my $ID = '';
+    my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
+    return if !$ID;
 
-    # reset cache
-    delete $Self->{ 'StateGet::' . $Param{Name} };
-    delete $Self->{ 'StateGet::' . $ID };
+    # delete cache
+    $Self->{CacheInternalObject}->Delete( Key => 'StateGet::Name::' . $Param{Name}, );
+    $Self->{CacheInternalObject}->Delete( Key => 'StateGet::ID::' . $ID, );
 
     return $ID;
 }
@@ -174,17 +181,16 @@ sub StateGet {
         return;
     }
 
-    # cache data
+    # check cache
     my $CacheKey;
     if ( $Param{Name} ) {
-        $CacheKey = 'StateGet::' . $Param{Name};
+        $CacheKey = 'StateGet::Name::' . $Param{Name};
     }
     else {
-        $CacheKey = 'StateGet::' . $Param{ID};
+        $CacheKey = 'StateGet::ID::' . $Param{ID};
     }
-    if ( $Self->{$CacheKey} ) {
-        return %{ $Self->{$CacheKey} };
-    }
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
 
     # sql
     my @Bind;
@@ -200,7 +206,7 @@ sub StateGet {
         push @Bind, \$Param{ID};
     }
     return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
-    my %Data = ();
+    my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
             ID         => $Data[0],
@@ -214,8 +220,11 @@ sub StateGet {
         );
     }
 
-    # cache data
-    $Self->{$CacheKey} = \%Data;
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data,
+    );
 
     # no data found...
     if ( !%Data ) {
@@ -267,9 +276,9 @@ sub StateUpdate {
         ],
     );
 
-    # reset cache
-    delete $Self->{ 'StateGet::' . $Param{Name} };
-    delete $Self->{ 'StateGet::' . $Param{ID} };
+    # delete cache
+    $Self->{CacheInternalObject}->Delete( Key => 'StateGet::Name::' . $Param{Name}, );
+    $Self->{CacheInternalObject}->Delete( Key => 'StateGet::ID::' . $Param{ID} );
 
     return 1;
 }
@@ -301,10 +310,6 @@ get list of state types
 sub StateGetStatesByType {
     my ( $Self, %Param ) = @_;
 
-    my @Name = ();
-    my @ID   = ();
-    my %Data = ();
-
     # check needed stuff
     if ( !$Param{Result} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Result!' );
@@ -316,8 +321,32 @@ sub StateGetStatesByType {
         return;
     }
 
+    # cache key
+    my $CacheKey = 'StateGetStatesByType::';
+    if ( $Param{Type} ) {
+        $CacheKey .= 'Type::' . $Param{Type};
+    }
+    if ( $Param{StateType} ) {
+        $CacheKey .= 'StateType::' . join ':', sort @{ $Param{StateType} };
+    }
+
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    if ($Cache) {
+        if ( $Param{Result} eq 'Name' ) {
+            return @{ $Cache->{Name} };
+        }
+        elsif ( $Param{Result} eq 'HASH' ) {
+            return %{ $Cache->{HASH} };
+        }
+        return @{ $Cache->{ID} };
+    }
+
     # sql
-    my @StateType = ();
+    my @StateType;
+    my @Name;
+    my @ID;
+    my %Data;
     if ( $Param{Type} ) {
         if ( $Self->{ConfigObject}->Get( 'Ticket::' . $Param{Type} . 'StateType' ) ) {
             @StateType = @{ $Self->{ConfigObject}->Get( 'Ticket::' . $Param{Type} . 'StateType' ) };
@@ -334,11 +363,9 @@ sub StateGetStatesByType {
         @StateType = @{ $Param{StateType} };
     }
     my $SQL = "SELECT ts.id, ts.name, tst.name  "
-        . " FROM "
-        . " ticket_state ts, ticket_state_type tst "
-        . " WHERE "
+        . " FROM ticket_state ts, ticket_state_type tst WHERE "
         . " tst.id = ts.type_id AND "
-        . " tst.name IN ('${\(join '\', \'', @StateType)}' ) AND "
+        . " tst.name IN ('${\(join '\', \'', sort @StateType)}' ) AND "
         . " ts.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
@@ -347,13 +374,26 @@ sub StateGetStatesByType {
         push @ID,   $Data[0];
         $Data{ $Data[0] } = $Data[1];
     }
+
+    # set runtime cache
+    my $All = {
+        Name => \@Name,
+        ID   => \@ID,
+        HASH => \%Data,
+    };
+
+    # set permanent cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $All,
+    );
+
     if ( $Param{Result} eq 'Name' ) {
         return @Name;
     }
     elsif ( $Param{Result} eq 'HASH' ) {
         return %Data;
     }
-
     return @ID;
 }
 
@@ -397,7 +437,7 @@ sub StateList {
         $SQL .= " WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-    my %Data = ();
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
@@ -424,10 +464,10 @@ sub StateTypeList {
     }
 
     # sql
-    my %Data = ();
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id, name FROM ticket_state_type',
     );
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
@@ -450,6 +490,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2009-09-28 14:04:58 $
+$Revision: 1.36 $ $Date: 2009-10-05 08:17:33 $
 
 =cut
