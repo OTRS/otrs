@@ -2,7 +2,7 @@
 # AdminCustomerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.41 2009-09-30 14:50:44 mb Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.42 2009-10-05 10:24:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -167,7 +167,7 @@ $Data{"Back"}
 <!-- dtl:block:PreferencesGenericInput -->
                                 <tr>
                                     <td width="40%" class="contentkey">
-                                        $Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStart"}
+                                        $Data{"TableFontStart"}$Text{"$Data{"Item"}{CustomerUser}"}:$Data{"TableFontStart"}
                                         <font color="red" title="$Text{"These values are required."}">$Data{"Required"}</font>
                                         <font color="blue" title="$Text{"These values are read-only."}">$Data{"ReadOnly"}</font>
                                     </td>
