@@ -2,7 +2,7 @@
 # Kernel/System/Valid.pm - all valid functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Valid.pm,v 1.15 2009-09-17 07:23:45 martin Exp $
+# $Id: Valid.pm,v 1.16 2009-10-05 08:27:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::System::Valid;
 use strict;
 use warnings;
 
+use Kernel::System::CacheInternal;
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -65,6 +67,7 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -77,9 +80,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject)) {
+    for my $Object (qw(DBObject ConfigObject LogObject MainObject)) {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
+
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'Valid',
+        TTL  => 60 * 15,
+    );
 
     return $Self;
 }
@@ -96,7 +105,9 @@ sub ValidList {
     my ( $Self, %Param ) = @_;
 
     # read cache
-    return %{ $Self->{'Cache::ValidList'} } if $Self->{'Cache::ValidList'};
+    my $CacheKey = 'ValidList';
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
 
     # get list from database
     return if !$Self->{DBObject}->Prepare( SQL => 'SELECT id, name FROM valid' );
@@ -107,8 +118,8 @@ sub ValidList {
         $Data{ $Row[0] } = $Row[1];
     }
 
-    # write cache
-    $Self->{'Cache::ValidList'} = \%Data;
+    # set cache
+    $Self->{CacheInternalObject}->Get( Key => $CacheKey, Value => \%Data );
 
     return %Data;
 }
@@ -144,29 +155,31 @@ sub ValidLookup {
         $Key      = 'Valid';
         $Value    = $Param{Valid};
         $CacheKey = 'ValidLookup::' . $Param{Valid};
-        return $Self->{$CacheKey} if defined $Self->{$CacheKey};
     }
     else {
         $Key      = 'ValidID';
         $Value    = $Param{ValidID};
         $CacheKey = 'ValidIDLookup::' . $Param{ValidID};
-        return $Self->{$CacheKey} if defined $Self->{$CacheKey};
     }
 
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return $Cache if $Cache;
+
     my %List = $Self->ValidList();
+    my $Data;
     if ( $Param{Valid} ) {
         for my $ID ( keys %List ) {
             next if $List{$ID} ne $Param{Valid};
-            $Self->{$CacheKey} = $ID;
+            $Data = $ID;
             last;
         }
     }
     else {
-        $Self->{$CacheKey} = $List{ $Param{ValidID} };
+        $Data = $List{ $Param{ValidID} };
     }
 
     # check if data exists
-    if ( !defined $Self->{$CacheKey} ) {
+    if ( !defined $Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "No $Key for $Value found!",
@@ -174,7 +187,10 @@ sub ValidLookup {
         return;
     }
 
-    return $Self->{$CacheKey};
+    # set cache
+    $Self->{CacheInternalObject}->Get( Key => $CacheKey, Value => $Data );
+
+    return $Data;
 }
 
 =item ValidIDsGet()
@@ -189,7 +205,9 @@ sub ValidIDsGet {
     my ( $Self, %Param ) = @_;
 
     # read cache
-    return @{ $Self->{'Cache::ValidIDsGet'} } if $Self->{'Cache::ValidIDsGet'};
+    my $CacheKey = 'ValidIDsGet';
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return @{$Cache} if $Cache;
 
     # get valid ids
     my $Valid = 'valid';
@@ -204,8 +222,8 @@ sub ValidIDsGet {
         push @ValidIDs, $Row[0];
     }
 
-    # write cache
-    $Self->{'Cache::ValidIDsGet'} = \@ValidIDs;
+    # set cache
+    $Self->{CacheInternalObject}->Get( Key => $CacheKey, Value => \@ValidIDs );
 
     return @ValidIDs;
 }
@@ -226,6 +244,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2009-09-17 07:23:45 $
+$Revision: 1.16 $ $Date: 2009-10-05 08:27:00 $
 
 =cut
