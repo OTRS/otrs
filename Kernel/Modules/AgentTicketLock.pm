@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLock.pm,v 1.10 2009-03-16 08:24:17 martin Exp $
+# $Id: AgentTicketLock.pm,v 1.11 2009-10-05 08:51:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,8 +39,6 @@ sub Run {
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
-
-        # error page
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'Can\'t lock Ticket, no TicketID is given!',
             Comment => 'Please contact the admin.',
@@ -91,9 +89,7 @@ sub Run {
         if ( $Self->{QueueID} ) {
             return $Self->{LayoutObject}->Redirect( OP => "QueueID=$Self->{QueueID}" );
         }
-        else {
-            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
-        }
+        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
     }
     else {
 
@@ -135,9 +131,7 @@ sub Run {
         if ( $Self->{QueueID} ) {
             return $Self->{LayoutObject}->Redirect( OP => "&QueueID=$Self->{QueueID}" );
         }
-        else {
-            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
-        }
+        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
     }
 }
 
