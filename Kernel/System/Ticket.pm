@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.422 2009-09-30 10:47:06 martin Exp $
+# $Id: Ticket.pm,v 1.423 2009-10-05 11:47:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.422 $) [1];
+$VERSION = qw($Revision: 1.423 $) [1];
 
 =head1 NAME
 
@@ -909,29 +909,27 @@ sub TicketGet {
         return %{ $Self->{$CacheKey}->{ $Param{Extended} } };
     }
 
-    # db query
-    my $SQL = 'SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, st.ticket_lock_id,'
-        . ' sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn,'
-        . ' st.customer_id, st.customer_user_id, st.user_id, st.responsible_user_id, st.until_time,'
-        . ' st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
-        . ' st.freekey3, st.freetext3, st.freekey4, st.freetext4,'
-        . ' st.freekey5, st.freetext5, st.freekey6, st.freetext6,'
-        . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8,'
-        . ' st.freekey9, st.freetext9, st.freekey10, st.freetext10,'
-        . ' st.freekey11, st.freetext11, st.freekey12, st.freetext12,'
-        . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14,'
-        . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16,'
-        . ' st.freetime1, st.freetime2, st.freetime3, st.freetime4,'
-        . ' st.freetime5, st.freetime6,'
-        . ' st.change_time, st.title, st.escalation_update_time, st.timeout,'
-        . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time,'
-        . ' st.escalation_solution_time, st.escalation_time'
-        . ' FROM ticket st, ticket_priority sp, queue sq'
-        . ' WHERE sp.id = st.ticket_priority_id AND sq.id = st.queue_id AND st.id = ?';
-
     # fetch the result
     return if !$Self->{DBObject}->Prepare(
-        SQL   => $SQL,
+        SQL => 'SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, st.ticket_lock_id,'
+            . ' sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn,'
+            . ' st.customer_id, st.customer_user_id, st.user_id, st.responsible_user_id, '
+            . ' st.until_time,'
+            . ' st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
+            . ' st.freekey3, st.freetext3, st.freekey4, st.freetext4,'
+            . ' st.freekey5, st.freetext5, st.freekey6, st.freetext6,'
+            . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8,'
+            . ' st.freekey9, st.freetext9, st.freekey10, st.freetext10,'
+            . ' st.freekey11, st.freetext11, st.freekey12, st.freetext12,'
+            . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14,'
+            . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16,'
+            . ' st.freetime1, st.freetime2, st.freetime3, st.freetime4,'
+            . ' st.freetime5, st.freetime6,'
+            . ' st.change_time, st.title, st.escalation_update_time, st.timeout,'
+            . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time,'
+            . ' st.escalation_solution_time, st.escalation_time'
+            . ' FROM ticket st, ticket_priority sp, queue sq'
+            . ' WHERE sp.id = st.ticket_priority_id AND sq.id = st.queue_id AND st.id = ?',
         Bind  => [ \$Param{TicketID} ],
         Limit => 1,
     );
@@ -946,10 +944,10 @@ sub TicketGet {
         $Ticket{LockID}         = $Row[4];
         $Ticket{PriorityID}     = $Row[5];
         $Ticket{Priority}       = $Row[6];
-        $Ticket{Age}            = $Self->{TimeObject}->SystemTime() - $Row[7];
         $Ticket{CreateTimeUnix} = $Row[7];
-        $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[7] );
-        $Ticket{Changed} = $Row[54];
+        $Ticket{Created}
+            = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Ticket{CreateTimeUnix} );
+        $Ticket{Changed}                = $Row[54];
         $Ticket{EscalationTime}         = $Row[63];
         $Ticket{EscalationUpdateTime}   = $Row[56];
         $Ticket{EscalationResponseTime} = $Row[61];
@@ -965,44 +963,44 @@ sub TicketGet {
         $Ticket{TypeID}                 = $Row[58] || 1;
         $Ticket{ServiceID}              = $Row[59] || '';
         $Ticket{SLAID}                  = $Row[60] || '';
-        $Ticket{TicketFreeKey1}         = defined( $Row[16] ) ? $Row[16] : '';
-        $Ticket{TicketFreeText1}        = defined( $Row[17] ) ? $Row[17] : '';
-        $Ticket{TicketFreeKey2}         = defined( $Row[18] ) ? $Row[18] : '';
-        $Ticket{TicketFreeText2}        = defined( $Row[19] ) ? $Row[19] : '';
-        $Ticket{TicketFreeKey3}         = defined( $Row[20] ) ? $Row[20] : '';
-        $Ticket{TicketFreeText3}        = defined( $Row[21] ) ? $Row[21] : '';
-        $Ticket{TicketFreeKey4}         = defined( $Row[22] ) ? $Row[22] : '';
-        $Ticket{TicketFreeText4}        = defined( $Row[23] ) ? $Row[23] : '';
-        $Ticket{TicketFreeKey5}         = defined( $Row[24] ) ? $Row[24] : '';
-        $Ticket{TicketFreeText5}        = defined( $Row[25] ) ? $Row[25] : '';
-        $Ticket{TicketFreeKey6}         = defined( $Row[26] ) ? $Row[26] : '';
-        $Ticket{TicketFreeText6}        = defined( $Row[27] ) ? $Row[27] : '';
-        $Ticket{TicketFreeKey7}         = defined( $Row[28] ) ? $Row[28] : '';
-        $Ticket{TicketFreeText7}        = defined( $Row[29] ) ? $Row[29] : '';
-        $Ticket{TicketFreeKey8}         = defined( $Row[30] ) ? $Row[30] : '';
-        $Ticket{TicketFreeText8}        = defined( $Row[31] ) ? $Row[31] : '';
-        $Ticket{TicketFreeKey9}         = defined( $Row[32] ) ? $Row[32] : '';
-        $Ticket{TicketFreeText9}        = defined( $Row[33] ) ? $Row[33] : '';
-        $Ticket{TicketFreeKey10}        = defined( $Row[34] ) ? $Row[34] : '';
-        $Ticket{TicketFreeText10}       = defined( $Row[35] ) ? $Row[35] : '';
-        $Ticket{TicketFreeKey11}        = defined( $Row[36] ) ? $Row[36] : '';
-        $Ticket{TicketFreeText11}       = defined( $Row[37] ) ? $Row[37] : '';
-        $Ticket{TicketFreeKey12}        = defined( $Row[38] ) ? $Row[38] : '';
-        $Ticket{TicketFreeText12}       = defined( $Row[39] ) ? $Row[39] : '';
-        $Ticket{TicketFreeKey13}        = defined( $Row[40] ) ? $Row[40] : '';
-        $Ticket{TicketFreeText13}       = defined( $Row[41] ) ? $Row[41] : '';
-        $Ticket{TicketFreeKey14}        = defined( $Row[42] ) ? $Row[42] : '';
-        $Ticket{TicketFreeText14}       = defined( $Row[43] ) ? $Row[43] : '';
-        $Ticket{TicketFreeKey15}        = defined( $Row[44] ) ? $Row[44] : '';
-        $Ticket{TicketFreeText15}       = defined( $Row[45] ) ? $Row[45] : '';
-        $Ticket{TicketFreeKey16}        = defined( $Row[46] ) ? $Row[46] : '';
-        $Ticket{TicketFreeText16}       = defined( $Row[47] ) ? $Row[47] : '';
-        $Ticket{TicketFreeTime1}        = defined( $Row[48] ) ? $Row[48] : '';
-        $Ticket{TicketFreeTime2}        = defined( $Row[49] ) ? $Row[49] : '';
-        $Ticket{TicketFreeTime3}        = defined( $Row[50] ) ? $Row[50] : '';
-        $Ticket{TicketFreeTime4}        = defined( $Row[51] ) ? $Row[51] : '';
-        $Ticket{TicketFreeTime5}        = defined( $Row[52] ) ? $Row[52] : '';
-        $Ticket{TicketFreeTime6}        = defined( $Row[53] ) ? $Row[53] : '';
+        $Ticket{TicketFreeKey1}         = defined $Row[16] ? $Row[16] : '';
+        $Ticket{TicketFreeText1}        = defined $Row[17] ? $Row[17] : '';
+        $Ticket{TicketFreeKey2}         = defined $Row[18] ? $Row[18] : '';
+        $Ticket{TicketFreeText2}        = defined $Row[19] ? $Row[19] : '';
+        $Ticket{TicketFreeKey3}         = defined $Row[20] ? $Row[20] : '';
+        $Ticket{TicketFreeText3}        = defined $Row[21] ? $Row[21] : '';
+        $Ticket{TicketFreeKey4}         = defined $Row[22] ? $Row[22] : '';
+        $Ticket{TicketFreeText4}        = defined $Row[23] ? $Row[23] : '';
+        $Ticket{TicketFreeKey5}         = defined $Row[24] ? $Row[24] : '';
+        $Ticket{TicketFreeText5}        = defined $Row[25] ? $Row[25] : '';
+        $Ticket{TicketFreeKey6}         = defined $Row[26] ? $Row[26] : '';
+        $Ticket{TicketFreeText6}        = defined $Row[27] ? $Row[27] : '';
+        $Ticket{TicketFreeKey7}         = defined $Row[28] ? $Row[28] : '';
+        $Ticket{TicketFreeText7}        = defined $Row[29] ? $Row[29] : '';
+        $Ticket{TicketFreeKey8}         = defined $Row[30] ? $Row[30] : '';
+        $Ticket{TicketFreeText8}        = defined $Row[31] ? $Row[31] : '';
+        $Ticket{TicketFreeKey9}         = defined $Row[32] ? $Row[32] : '';
+        $Ticket{TicketFreeText9}        = defined $Row[33] ? $Row[33] : '';
+        $Ticket{TicketFreeKey10}        = defined $Row[34] ? $Row[34] : '';
+        $Ticket{TicketFreeText10}       = defined $Row[35] ? $Row[35] : '';
+        $Ticket{TicketFreeKey11}        = defined $Row[36] ? $Row[36] : '';
+        $Ticket{TicketFreeText11}       = defined $Row[37] ? $Row[37] : '';
+        $Ticket{TicketFreeKey12}        = defined $Row[38] ? $Row[38] : '';
+        $Ticket{TicketFreeText12}       = defined $Row[39] ? $Row[39] : '';
+        $Ticket{TicketFreeKey13}        = defined $Row[40] ? $Row[40] : '';
+        $Ticket{TicketFreeText13}       = defined $Row[41] ? $Row[41] : '';
+        $Ticket{TicketFreeKey14}        = defined $Row[42] ? $Row[42] : '';
+        $Ticket{TicketFreeText14}       = defined $Row[43] ? $Row[43] : '';
+        $Ticket{TicketFreeKey15}        = defined $Row[44] ? $Row[44] : '';
+        $Ticket{TicketFreeText15}       = defined $Row[45] ? $Row[45] : '';
+        $Ticket{TicketFreeKey16}        = defined $Row[46] ? $Row[46] : '';
+        $Ticket{TicketFreeText16}       = defined $Row[47] ? $Row[47] : '';
+        $Ticket{TicketFreeTime1}        = defined $Row[48] ? $Row[48] : '';
+        $Ticket{TicketFreeTime2}        = defined $Row[49] ? $Row[49] : '';
+        $Ticket{TicketFreeTime3}        = defined $Row[50] ? $Row[50] : '';
+        $Ticket{TicketFreeTime4}        = defined $Row[51] ? $Row[51] : '';
+        $Ticket{TicketFreeTime5}        = defined $Row[52] ? $Row[52] : '';
+        $Ticket{TicketFreeTime6}        = defined $Row[53] ? $Row[53] : '';
     }
 
     # check ticket
@@ -1017,15 +1015,17 @@ sub TicketGet {
     # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
     # and 0000-00-00 00:00:00 time stamps)
     for my $Time ( 1 .. 6 ) {
-        if ( $Ticket{ 'TicketFreeTime' . $Time } ) {
-            if ( $Ticket{ 'TicketFreeTime' . $Time } eq '0000-00-00 00:00:00' ) {
-                $Ticket{ 'TicketFreeTime' . $Time } = '';
-                next;
-            }
-            $Ticket{ 'TicketFreeTime' . $Time }
-                =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+        my $Key = 'TicketFreeTime' . $Time;
+        next if !$Ticket{$Key};
+        if ( $Ticket{$Key} eq '0000-00-00 00:00:00' ) {
+            $Ticket{$Key} = '';
+            next;
         }
+        $Ticket{$Key} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
     }
+
+    # fillup runtime values
+    $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Ticket{CreateTimeUnix};
 
     # get owner
     $Ticket{Owner} = $Self->{UserObject}->UserLookup(
@@ -1059,7 +1059,7 @@ sub TicketGet {
     my %StateData = $Self->{StateObject}->StateGet( ID => $Ticket{StateID} );
     $Ticket{StateType} = $StateData{TypeName};
     $Ticket{State}     = $StateData{Name};
-    if ( !$Ticket{RealTillTimeNotUsed} || $StateData{TypeName} !~ /^pending/i ) {
+    if ( !$Ticket{RealTillTimeNotUsed} || lc $StateData{TypeName} eq 'pending' ) {
         $Ticket{UntilTime} = 0;
     }
     else {
@@ -2091,7 +2091,9 @@ sub TicketEscalationDateCalculation {
     my %Ticket = %{ $Param{Ticket} };
 
     # do no escalations on (merge|close|remove) tickets
-    return if $Ticket{StateType} =~ /^(merge|close|remove)/i;
+    return if $Ticket{StateType} eq 'merge';
+    return if $Ticket{StateType} eq 'close';
+    return if $Ticket{StateType} eq 'remove';
 
     # get escalation properties
     my %Escalation = $Self->TicketEscalationPreferences(
@@ -3576,6 +3578,9 @@ To find tickets in your system.
         # customer search (CustomerUserID is required)
         CustomerUserID => 123,
         Permission     => 'ro' || 'rw',
+
+        # CacheTTL, cache search result xx secunds (optional)
+        CacheTTL => 60 * 15,
     );
 
 =cut
@@ -4776,7 +4781,7 @@ sub TicketSearch {
 
     # check cache
     my $CacheObject;
-    if ( $ArticleIndexSQLExt && $Param{FullTextIndex} ) {
+    if ( ( $ArticleIndexSQLExt && $Param{FullTextIndex} ) || $Param{CacheTTL} ) {
         $CacheObject = Kernel::System::Cache->new( %{$Self} );
         my $CacheData = $CacheObject->Get(
             Type => 'TicketSearch',
@@ -4818,7 +4823,7 @@ sub TicketSearch {
                 Type  => 'TicketSearch',
                 Key   => $SQL . $SQLExt . $Result . $Limit,
                 Value => $Count,
-                TTL   => 60 * 5,
+                TTL   => $Param{CacheTTL} || 60 * 5,
             );
         }
         return $Count;
@@ -4831,7 +4836,7 @@ sub TicketSearch {
                 Type  => 'TicketSearch',
                 Key   => $SQL . $SQLExt . $Result . $Limit,
                 Value => \%Tickets,
-                TTL   => 60 * 5,
+                TTL   => $Param{CacheTTL} || 60 * 5,
             );
         }
         return %Tickets;
@@ -4845,7 +4850,7 @@ sub TicketSearch {
                 Type  => 'TicketSearch',
                 Key   => $SQL . $SQLExt . $Result . $Limit,
                 Value => \@TicketIDs,
-                TTL   => 60 * 5,
+                TTL   => $Param{CacheTTL} || 60 * 5,
             );
         }
         return @TicketIDs;
@@ -4914,9 +4919,8 @@ sub LockIsTicketLocked {
     my %Ticket = $Self->TicketGet(%Param);
 
     # check lock state
-    if ( $Ticket{Lock} =~ /^lock$/i ) {
-        return 1;
-    }
+    return 1 if lc $Ticket{Lock} eq 'lock';
+
     return;
 }
 
@@ -4987,10 +4991,10 @@ sub LockSet {
 
     # add history
     my $HistoryType = '';
-    if ( $Param{Lock} =~ /^unlock$/i ) {
+    if ( lc $Param{Lock} eq 'unlock' ) {
         $HistoryType = 'Unlock';
     }
-    elsif ( $Param{Lock} =~ /^lock$/i ) {
+    elsif ( lc $Param{Lock} eq 'lock' ) {
         $HistoryType = 'Lock';
     }
     else {
@@ -5015,7 +5019,7 @@ sub LockSet {
     }
 
     # send unlock notify
-    if ( $Param{Lock} =~ /^unlock$/i ) {
+    if ( lc $Param{Lock} eq 'unlock' ) {
         my %Ticket = $Self->TicketGet(%Param);
 
         # check if the current user is the current owner, if not send a notify
@@ -7347,6 +7351,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.422 $ $Date: 2009-09-30 10:47:06 $
+$Revision: 1.423 $ $Date: 2009-10-05 11:47:03 $
 
 =cut
