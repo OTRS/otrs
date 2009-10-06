@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.233 2009-09-16 08:38:49 martin Exp $
+# $Id: Article.pm,v 1.234 2009-10-06 15:15:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.233 $) [1];
+$VERSION = qw($Revision: 1.234 $) [1];
 
 =head1 NAME
 
@@ -1526,7 +1526,7 @@ sub ArticleGet {
     }
 
     # sql query
-    my @Content = ();
+    my @Content;
     my @Bind;
     my $SQL = 'SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, '
         . ' sa.a_reply_to, sa.a_message_id, sa.a_in_reply_to, sa.a_references, sa.a_body, '
@@ -1568,7 +1568,7 @@ sub ArticleGet {
     $SQL .= ' ORDER BY sa.create_time, sa.id ASC';
 
     $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
-    my %Ticket = ();
+    my %Ticket;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Data;
         $Data{ArticleID}                = $Row[33];
@@ -1593,9 +1593,9 @@ sub ArticleGet {
         $Data{InReplyTo}                = $Row[7];
         $Data{References}               = $Row[8];
         $Data{Body}                     = $Row[9];
-        $Data{Age}                      = $Self->{TimeObject}->SystemTime() - $Row[10];
         $Ticket{CreateTimeUnix}         = $Row[10];
-        $Ticket{Created}    = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[10] );
+        $Ticket{Created}
+            = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Ticket{CreateTimeUnix} );
         $Data{PriorityID}   = $Row[20];
         $Ticket{PriorityID} = $Row[20];
         $Data{StateID}      = $Row[11];
@@ -1693,22 +1693,25 @@ sub ArticleGet {
         $Data{SLAID}               = $Row[77];
         $Ticket{SLAID}             = $Row[77];
 
+        # fill up dynamic varaibles
+        $Data{Age} = $Self->{TimeObject}->SystemTime() - $Ticket{CreateTimeUnix};
+
         # strip not wanted stuff
-        for (qw(From To Cc Subject)) {
-            $Data{$_} =~ s/\n|\r//g if ( $Data{$_} );
+        for my $Key (qw(From To Cc Subject)) {
+            next if !$Data{$Key};
+            $Data{$Key} =~ s/\n|\r//g;
         }
 
         # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
         # and 0000-00-00 00:00:00 time stamps)
         for my $Time ( 1 .. 6 ) {
-            if ( $Data{ 'TicketFreeTime' . $Time } ) {
-                if ( $Data{ 'TicketFreeTime' . $Time } eq '0000-00-00 00:00:00' ) {
-                    $Data{ 'TicketFreeTime' . $Time } = '';
-                    next;
-                }
-                $Data{ 'TicketFreeTime' . $Time }
-                    =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+            my $Key = 'TicketFreeTime' . $Time;
+            next if !$Data{$Key};
+            if ( $Data{$Key} eq '0000-00-00 00:00:00' ) {
+                $Data{$Key} = '';
+                next;
             }
+            $Data{$Key} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
         }
 
         push @Content, { %Ticket, %Data };
@@ -2199,6 +2202,7 @@ sub SendAgentNotification {
         CustomerUserObject => $Self->{CustomerUserObject},
         QueueObject        => $Self->{QueueObject},
         UserObject         => $Self->{UserObject},
+        MainObject         => $Self->{MainObject},
         TicketObject       => $Self,
     );
 
@@ -2601,6 +2605,7 @@ sub SendAutoResponse {
         CustomerUserObject => $Self->{CustomerUserObject},
         QueueObject        => $Self->{QueueObject},
         UserObject         => $Self->{UserObject},
+        MainObject         => $Self->{MainObject},
         TicketObject       => $Self,
     );
     my %AutoResponse = $TemplateGeneratorObject->AutoResponse(
@@ -3097,6 +3102,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.233 $ $Date: 2009-09-16 08:38:49 $
+$Revision: 1.234 $ $Date: 2009-10-06 15:15:27 $
 
 =cut
