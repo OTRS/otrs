@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.101 2009-10-05 10:19:29 mb Exp $
+# $Id: es.pm,v 1.102 2009-10-06 09:53:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -307,6 +307,15 @@ sub Data {
         'SHIFT' => 'SHIFT',
         'Undo' => 'Deshacer',
         'Redo' => 'Rehacer',
+        '7 Day Stats' => 'Estadísticas Semanales',
+        'Online' => 'En línea',
+        'OTRS News' => 'Novedades de OTRS',
+        'Database Backend' => 'Base de Datos',
+        'This values are required.' => 'Estos valores son obligatorios.',
+        'This values are read only.' => 'Estos valores son de solo lectura.',
+        'Customer Users <-> Services' => 'Clientes <-> Servicios',
+        'PostMaster Mail Account' => 'Cuenta de Correo del Administrador del Correo',
+        'PostMaster Filter' => 'Filtro del Administrador del Correo',
 
         # Template: AAAMonth
         'Jan' => 'Ene',
