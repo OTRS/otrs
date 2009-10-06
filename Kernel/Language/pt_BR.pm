@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.92 2009-09-30 14:51:37 mb Exp $
+# $Id: pt_BR.pm,v 1.93 2009-10-06 09:50:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -684,6 +684,20 @@ sub Data {
         'These values are read-only.' => 'Estes valores são apenas para leitura.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'A mensagem sendo composta foi fechada. Saindo.',
         'This window must be called from compose window' => 'Esta janela deve ser chamada da janela de composição',
         'Customer User Management' => 'Administração de Clientes',
@@ -1097,6 +1111,7 @@ sub Data {
         'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => 'Logar-se como',
+        'Title{user}' => '',
         'Firstname' => 'Nome',
         'Lastname' => 'Sobrenome',
         'Start' => 'Início',

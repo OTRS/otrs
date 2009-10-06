@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.62 2009-09-30 14:51:36 mb Exp $
+# $Id: da.pm,v 1.63 2009-10-06 09:49:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -683,6 +683,20 @@ sub Data {
         'These values are read-only.' => 'Disse værdier kan kun læses.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'Den meddelelse, der er ved at blive formuleret, er blevet lukket.  Afslutter.',
         'This window must be called from compose window' => 'Dette vindue skal åbnes via Skriv-vinduet.',
         'Customer User Management' => 'Styring af kundebruger',
@@ -1096,6 +1110,7 @@ sub Data {
         'Add User' => 'Tilføj bruger',
         'Add a new Agent.' => 'Tilføj en ny Agent',
         'Login as' => 'Login som',
+        'Title{user}' => '',
         'Firstname' => 'Fornavn',
         'Lastname' => 'Efternavn',
         'Start' => 'Start',

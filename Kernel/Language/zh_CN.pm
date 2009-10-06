@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_CN.pm,v 1.71 2009-09-30 15:06:01 mb Exp $
+# $Id: zh_CN.pm,v 1.72 2009-10-06 09:50:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -691,6 +691,20 @@ sub Data {
         'These values are read-only.' => '该数据只读.',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => '进行消息撰写的窗口已经被关闭,退出.',
         'This window must be called from compose window' => '该窗口必须由撰写窗口调用',
         'Customer User Management' => '客户用户管理',
@@ -1105,6 +1119,7 @@ sub Data {
         'Add User' => '增加人员',
         'Add a new Agent.' => '增加一个新的人员',
         'Login as' => '登录名',
+        'Title{user}' => '',
         'Firstname' => '名',
         'Lastname' => '姓',
         'Start' => '开始',

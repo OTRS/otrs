@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Emiliano Coletti <e.coletti at gmail.com>
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # --
-# $Id: it.pm,v 1.91 2009-09-30 14:51:36 mb Exp $
+# $Id: it.pm,v 1.92 2009-10-06 09:50:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -688,6 +688,20 @@ sub Data {
         'These values are read-only.' => 'Questi valori non sono modificabili',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => '',
+        'Lastname{CustomerUser}' => '',
+        'Username{CustomerUser}' => '',
+        'Email{CustomerUser}' => '',
+        'CustomerID{CustomerUser}' => '',
+        'Phone{CustomerUser}' => '',
+        'Fax{CustomerUser}' => '',
+        'Mobile{CustomerUser}' => '',
+        'Street{CustomerUser}' => '',
+        'Zip{CustomerUser}' => '',
+        'City{CustomerUser}' => '',
+        'Country{CustomerUser}' => '',
+        'Comment{CustomerUser}' => '',
         'The message being composed has been closed.  Exiting.' => 'La finestra con il messaggio che si stava componendo è stata chiusa. Sto uscendo.',
         'This window must be called from compose window' => 'Questa finestra deve essere aperta dalla finestra di composizione dei messaggi',
         'Customer User Management' => 'Gestione clienti',
@@ -1101,6 +1115,7 @@ sub Data {
         'Add User' => 'inserisci utente ',
         'Add a new Agent.' => 'inserisci nuovo Agente',
         'Login as' => 'Cambia login',
+        'Title{user}' => '',
         'Firstname' => 'Nome',
         'Lastname' => 'Cognome',
         'Start' => 'Inizio',
