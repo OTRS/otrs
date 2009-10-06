@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.34 2009-09-08 07:47:46 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.35 2009-10-06 15:18:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -121,6 +121,7 @@ create an object
         CustomerUserObject => $CustomerUserObject,
         QueueObject        => $QueueObject,
         TicketObject       => $TicketObject,
+        MainObject         => $MainObject,
     );
 
 =cut
@@ -134,7 +135,7 @@ sub new {
 
     # check needed objects
     for (
-        qw(DBObject ConfigObject LogObject TicketObject CustomerUserObject QueueObject UserObject EncodeObject)
+        qw(DBObject ConfigObject LogObject TicketObject CustomerUserObject QueueObject UserObject MainObject EncodeObject)
         )
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
@@ -1229,6 +1230,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2009-09-08 07:47:46 $
+$Revision: 1.35 $ $Date: 2009-10-06 15:18:53 $
 
 =cut
