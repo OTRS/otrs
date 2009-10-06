@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.41 2009-08-09 23:14:27 martin Exp $
+# $Id: Encode.pm,v 1.42 2009-10-06 14:40:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Encode;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -173,6 +173,15 @@ sub Convert {
         if ( $Param{Check} && !eval { Encode::is_utf8( $Param{Text}, 1 ) } ) {
             Encode::_utf8_off( $Param{Text} );
             print STDERR "No valid '$Param{To}' string: '$Param{Text}'!\n";
+
+            # strip invalid chars / 0 = will put a substitution character in
+            # place of a malformed character
+            eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, 0 ) };
+
+            # set utf-8 flag
+            Encode::_utf8_on( $Param{Text} );
+
+            # return new string
             return $Param{Text};
         }
 
@@ -321,8 +330,8 @@ This should be used in for output of utf-8 chars.
 sub EncodeOutput {
     my ( $Self, $What ) = @_;
 
-    return 1 if !$Self->EncodeFrontendUsed();
-    return 1 if $Self->EncodeFrontendUsed() ne 'utf-8';
+    return 1 if !$Self->{CharsetEncodeFrontendUsed};
+    return 1 if $Self->{CharsetEncodeFrontendUsed} ne 'utf-8';
 
     return 1 if !Encode::is_utf8( ${$What} );
 
@@ -346,6 +355,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2009-08-09 23:14:27 $
+$Revision: 1.42 $ $Date: 2009-10-06 14:40:54 $
 
 =cut
