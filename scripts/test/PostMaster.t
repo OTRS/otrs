@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.17 2009-08-19 11:38:17 martin Exp $
+# $Id: PostMaster.t,v 1.17.2.1 2009-10-06 12:16:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -111,7 +111,7 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
         # get rand sender address
         my $UserRand1 = 'example-user' . int( rand(1000000) ) . '@example.com';
 
-        for my $File (qw(1 2 3 5 6 11)) {
+        for my $File (qw(1 2 3 5 6 11 17)) {
 
             # new ticket check
             my @Content;
