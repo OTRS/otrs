@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.22 2009-09-11 07:55:09 martin Exp $
+# $Id: EmailParser.t,v 1.22.2.1 2009-10-06 13:55:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -670,13 +670,13 @@ $Self->Is(
 );
 $Self->Is(
     $Self->{EmailParserObject}->GetParam( WHAT => 'From' ),
-    'VIAGRA ® Official Site <security@example.org>',
+    'VIAGRA � Official Site <security@example.org>',
     "#14 GetParam(WHAT => 'From')",
 );
 $MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
-    'ec26dfb246e69ad8a7d9eca616d0c538',
+    '31f59045e9940fdad6d2aea64b56d69b',
     "#14 md5 body check",
 );
 
