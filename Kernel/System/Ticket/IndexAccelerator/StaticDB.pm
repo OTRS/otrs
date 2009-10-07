@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.69 2009-08-04 08:49:22 ub Exp $
+# $Id: StaticDB.pm,v 1.69.2.1 2009-10-07 14:55:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.69.2.1 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -126,7 +126,7 @@ sub TicketAcceleratorDelete {
             return;
         }
     }
-
+    return if !$Self->TicketLockAcceleratorDelete(%Param);
     return $Self->{DBObject}->Do(
         SQL  => 'DELETE FROM ticket_index WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ],
