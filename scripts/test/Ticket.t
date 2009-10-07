@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.47 2009-09-01 10:31:20 martin Exp $
+# $Id: Ticket.t,v 1.47.2.1 2009-10-07 12:51:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3496,6 +3496,7 @@ for my $Condition (
         Limit           => 1000,
         From            => $Condition,
         ConditionInline => 1,
+        FullTextIndex   => 1,
         UserID          => 1,
         Permission      => 'rw',
     );
@@ -3526,6 +3527,7 @@ for my $Condition (
         Limit           => 1000,
         From            => $Condition,
         ConditionInline => 1,
+        FullTextIndex   => 1,
         UserID          => 1,
         Permission      => 'rw',
     );
