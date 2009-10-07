@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.35 2009-04-17 08:36:44 tr Exp $
+# $Id: StdResponse.pm,v 1.36 2009-10-07 17:34:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -207,10 +207,11 @@ sub StdResponseDelete {
     );
 
     # sql
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM standard_response WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
+    return 1;
 }
 
 =item StdResponseUpdate()
@@ -240,7 +241,7 @@ sub StdResponseUpdate {
     }
 
     # sql
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE standard_response SET'
             . ' name = ?, text = ?, content_type = ?, comments = ?,'
             . ' valid_id = ?, change_time = current_timestamp, change_by = ?'
@@ -250,6 +251,7 @@ sub StdResponseUpdate {
             \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
+    return 1;
 }
 
 =item StdResponseLookup()
@@ -363,6 +365,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.36 $ $Date: 2009-10-07 17:34:08 $
 
 =cut

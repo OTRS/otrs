@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.18 2009-02-16 11:48:19 tr Exp $
+# $Id: DB.pm,v 1.19 2009-10-07 17:34:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,7 +78,7 @@ sub GetPreferences {
 
     # get preferences
 
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
             . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableUserID} = ?",
         Bind => [ \$UserID ],
@@ -108,7 +108,7 @@ sub SearchPreferences {
         . " LOWER($Self->{PreferencesTableValue}) LIKE LOWER('"
         . $Self->{DBObject}->Quote( $Value, 'Like' ) . "')";
 
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $UserID{ $Row[0] } = $Row[1];
     }

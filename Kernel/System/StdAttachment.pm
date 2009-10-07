@@ -1,8 +1,8 @@
 # --
-# Kernel/System/StdAttachment.pm - lib for std attachemnt
+# Kernel/System/StdAttachment.pm - lib for std attachment
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.31 2009-04-17 08:36:44 tr Exp $
+# $Id: StdAttachment.pm,v 1.32 2009-10-07 17:34:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -118,7 +118,7 @@ sub StdAttachmentAdd {
         }
     }
 
-    # encode attachemnt if it's a postgresql backend!!!
+    # encode attachment if it's a postgresql backend!!!
     if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
         $Param{Content} = encode_base64( $Param{Content} );
@@ -177,7 +177,7 @@ sub StdAttachmentGet {
     my %Data = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        # decode attachemnt if it's a postgresql backend!!!
+        # decode attachment if it's a postgresql backend!!!
         if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
             $Row[2] = decode_base64( $Row[2] );
         }
@@ -221,7 +221,7 @@ sub StdAttachmentUpdate {
         }
     }
 
-    # encode attachemnt if it's a postgresql backend!!!
+    # encode attachment if it's a postgresql backend!!!
     if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
         $Param{Content} = encode_base64( $Param{Content} );
@@ -237,7 +237,7 @@ sub StdAttachmentUpdate {
     $Self->{ 'StdAttachmentLookupName::' . $Param{Name} } = 0;
 
     # sql
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE standard_attachment SET name = ?, content = ?, content_type = ?, '
             . ' comments = ?, filename = ?, valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
@@ -246,6 +246,7 @@ sub StdAttachmentUpdate {
             \$Param{Filename}, \$Param{ValidID}, \$Param{UserID},      \$Param{ID},
         ],
     );
+    return 1;
 }
 
 =item StdAttachmentDelete()
@@ -283,10 +284,11 @@ sub StdAttachmentDelete {
     );
 
     # sql
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM standard_attachment WHERE ID = ?',
         Bind => [ \$Param{ID} ],
     );
+    return 1;
 }
 
 =item StdAttachmentLookup()
@@ -487,6 +489,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.32 $ $Date: 2009-10-07 17:34:08 $
 
 =cut

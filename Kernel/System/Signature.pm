@@ -2,7 +2,7 @@
 # Kernel/System/Signature.pm - All signature related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Signature.pm,v 1.13 2009-10-06 15:18:53 martin Exp $
+# $Id: Signature.pm,v 1.14 2009-10-07 17:34:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -166,7 +166,7 @@ sub SignatureGet {
             . ' FROM signature WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
-    my %Data = ();
+    my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
             ID          => $Data[0],
@@ -221,7 +221,7 @@ sub SignatureUpdate {
     }
 
     # sql
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE signature SET name = ?, text = ?, content_type = ?, comments = ?, '
             . ' valid_id = ?, change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
@@ -229,6 +229,7 @@ sub SignatureUpdate {
             \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
+    return 1;
 }
 
 =item SignatureList()
@@ -278,6 +279,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2009-10-06 15:18:53 $
+$Revision: 1.14 $ $Date: 2009-10-07 17:34:08 $
 
 =cut

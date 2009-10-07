@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.36 2009-10-01 18:22:45 martin Exp $
+# $Id: AutoResponse.pm,v 1.37 2009-10-07 17:34:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -265,7 +265,7 @@ sub AutoResponseUpdate {
     );
 
     # update the database
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE auto_response SET '
             . 'name = ?, text0 = ?, comments = ?, text1 = ?, type_id = ?, '
             . 'system_address_id = ?, charset = ?, content_type = ?, valid_id = ?, '
@@ -277,6 +277,7 @@ sub AutoResponseUpdate {
             \$Param{UserID}, \$Param{ID},
         ],
     );
+    return 1;
 }
 
 sub AutoResponseGetByTypeQueueID {
@@ -429,6 +430,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2009-10-01 18:22:45 $
+$Revision: 1.37 $ $Date: 2009-10-07 17:34:08 $
 
 =cut

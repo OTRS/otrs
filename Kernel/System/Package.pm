@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.106 2009-08-18 23:57:27 martin Exp $
+# $Id: Package.pm,v 1.107 2009-10-07 17:34:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Config;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 =head1 NAME
 
@@ -157,7 +157,7 @@ sub RepositoryList {
         SQL =>
             'SELECT name, version, install_status, content FROM package_repository ORDER BY name, create_time',
     );
-    my @Data = ();
+    my @Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Package = (
             Name    => $Row[0],
@@ -277,7 +277,7 @@ sub RepositoryAdd {
 
     # add new package
     my $FileName = $Structure{Name}->{Content} . '-' . $Structure{Version}->{Content} . '.xml';
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO package_repository (name, version, vendor, filename, '
             . ' content_size, content_type, content, install_status, '
             . ' create_time, create_by, change_time, change_by)'
@@ -288,6 +288,7 @@ sub RepositoryAdd {
             \$Structure{Vendor}->{Content}, \$FileName, \$Param{String},
         ],
     );
+    return 1;
 }
 
 =item RepositoryRemove()
@@ -318,7 +319,8 @@ sub RepositoryRemove {
         push @Bind, \$Param{Version};
     }
 
-    return $Self->{DBObject}->Do( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Do( SQL => $SQL, Bind => \@Bind );
+    return 1;
 }
 
 =item PackageInstall()
@@ -531,7 +533,7 @@ upgrade a package
 sub PackageUpgrade {
     my ( $Self, %Param ) = @_;
 
-    my %InstalledStructure = ();
+    my %InstalledStructure;
 
     # check needed stuff
     if ( !defined $Param{String} ) {
@@ -641,7 +643,7 @@ sub PackageUpgrade {
 
     # upgrade code (pre)
     if ( $Structure{CodeUpgrade} && ref $Structure{CodeUpgrade} eq 'ARRAY' ) {
-        my @Parts = ();
+        my @Parts;
         PART:
         for my $Part ( @{ $Structure{CodeUpgrade} } ) {
             if ( $Part->{Version} ) {
@@ -676,8 +678,8 @@ sub PackageUpgrade {
 
     # upgrade database (pre)
     if ( $Structure{DatabaseUpgrade}->{pre} && ref $Structure{DatabaseUpgrade}->{pre} eq 'ARRAY' ) {
-        my @Parts = ();
-        my $Use   = 0;
+        my @Parts;
+        my $Use = 0;
         for my $Part ( @{ $Structure{DatabaseUpgrade}->{pre} } ) {
             if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
                 my $CheckVersion = $Self->_CheckVersion(
@@ -727,8 +729,8 @@ sub PackageUpgrade {
     # upgrade database (post)
     if ( $Structure{DatabaseUpgrade}->{post} && ref $Structure{DatabaseUpgrade}->{post} eq 'ARRAY' )
     {
-        my @Parts = ();
-        my $Use   = 0;
+        my @Parts;
+        my $Use = 0;
         for my $Part ( @{ $Structure{DatabaseUpgrade}->{post} } ) {
             if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
                 my $CheckVersion = $Self->_CheckVersion(
@@ -755,7 +757,7 @@ sub PackageUpgrade {
 
     # upgrade code (post)
     if ( $Structure{CodeUpgrade} && ref $Structure{CodeUpgrade} eq 'ARRAY' ) {
-        my @Parts = ();
+        my @Parts;
         PART:
         for my $Part ( @{ $Structure{CodeUpgrade} } ) {
             if ( $Part->{Version} ) {
@@ -890,8 +892,8 @@ sub PackageOnlineRepositories {
     return if !$XML;
 
     my @XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
-    my %List     = ();
-    my $Name     = '';
+    my %List;
+    my $Name = '';
     for my $Tag (@XMLARRAY) {
 
         # just use start tags
@@ -943,8 +945,8 @@ sub PackageOnlineList {
         );
         return;
     }
-    my @Packages = ();
-    my %Package  = ();
+    my @Packages;
+    my %Package;
     my $Filelist;
     for my $Tag (@XMLARRAY) {
 
@@ -989,7 +991,7 @@ sub PackageOnlineList {
     }
 
     # just framework packages
-    my @NewPackages                  = ();
+    my @NewPackages;
     my $PackageForRequestedFramework = 0;
     for my $Package (@Packages) {
         my $FWCheckOk = 0;
@@ -1015,7 +1017,7 @@ sub PackageOnlineList {
     @Packages = @NewPackages;
 
     # just the newest packages
-    my %Newest = ();
+    my %Newest;
     for my $Package (@Packages) {
         if ( !$Newest{ $Package->{Name} } ) {
             $Newest{ $Package->{Name} } = $Package;
@@ -1360,7 +1362,7 @@ sub PackageBuild {
             next;
         }
         if ( ref $Param{$Tag} eq 'HASH' ) {
-            my %OldParam = ();
+            my %OldParam;
             for (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
                 $OldParam{$_} = $Param{$Tag}->{$_};
                 delete $Param{$Tag}->{$_};
@@ -1374,9 +1376,9 @@ sub PackageBuild {
         }
         elsif ( ref $Param{$Tag} eq 'ARRAY' ) {
             for ( @{ $Param{$Tag} } ) {
-                my $TagSub   = $Tag;
-                my %Hash     = %{$_};
-                my %OldParam = ();
+                my $TagSub = $Tag;
+                my %Hash   = %{$_};
+                my %OldParam;
                 for (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
                     $OldParam{$_} = $Hash{$_};
                     delete $Hash{$_};
@@ -1422,7 +1424,7 @@ sub PackageBuild {
     if ( $Param{Filelist} ) {
         $XML .= "    <Filelist>\n";
         for my $File ( @{ $Param{Filelist} } ) {
-            my %OldParam = ();
+            my %OldParam;
             for (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
                 $OldParam{$_} = $File->{$_} || '';
                 delete $File->{$_};
@@ -2326,7 +2328,7 @@ sub _ReadDistArchive {
         Filename  => 'ARCHIVE',
         Result    => 'ARRAY',
     );
-    my %File = ();
+    my %File;
     if ($Content) {
         for ( @{$Content} ) {
             my @Row = split( /::/, $_ );
@@ -2408,6 +2410,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.106 $ $Date: 2009-08-18 23:57:27 $
+$Revision: 1.107 $ $Date: 2009-10-07 17:34:08 $
 
 =cut

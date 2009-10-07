@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.86 2009-09-14 08:17:59 martin Exp $
+# $Id: XML.pm,v 1.87 2009-10-07 17:34:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 NAME
 
@@ -339,10 +339,11 @@ sub XMLHashDelete {
         Key  => "$Param{Type}-$Param{Key}",
     );
 
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?',
         Bind => [ \$Param{Type}, \$Param{Key} ],
     );
+    return 1;
 }
 
 =item XMLHashMove()
@@ -386,11 +387,12 @@ sub XMLHashMove {
     );
 
     # update xml hash
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE xml_storage SET xml_type = ?, xml_key = ? '
             . 'WHERE xml_type = ? AND xml_key = ?',
         Bind => [ \$Param{NewType}, \$Param{NewKey}, \$Param{OldType}, \$Param{OldKey} ],
     );
+    return 1;
 }
 
 =item XMLHashSearch()
@@ -1440,6 +1442,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2009-09-14 08:17:59 $
+$Revision: 1.87 $ $Date: 2009-10-07 17:34:08 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.20 2009-09-01 11:01:47 martin Exp $
+# $Id: DB.pm,v 1.21 2009-10-07 17:34:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,10 +53,11 @@ sub FormIDRemove {
             return;
         }
     }
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM web_upload_cache WHERE form_id = ?',
         Bind => [ \$Param{FormID} ],
     );
+    return 1;
 }
 
 sub FormIDAddFile {
@@ -93,7 +94,7 @@ sub FormIDAddFile {
 
     # write attachment to db
     my $Time = time();
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO web_upload_cache '
             . ' (form_id, filename, content_type, content_size, content, create_time_unix,'
             . ' content_id)'
@@ -103,6 +104,7 @@ sub FormIDAddFile {
             \$Param{Content}, \$Time, \$ContentID
         ],
     );
+    return 1;
 }
 
 sub FormIDRemoveFile {
@@ -118,10 +120,11 @@ sub FormIDRemoveFile {
     my $ID    = $Param{FileID} - 1;
     $Param{Filename} = $Index[$ID]->{Filename};
 
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'DELETE FROM web_upload_cache WHERE form_id = ? AND filename = ?',
         Bind => [ \$Param{FormID}, \$Param{Filename} ],
     );
+    return 1;
 }
 
 sub FormIDGetAllFilesData {
@@ -231,10 +234,11 @@ sub FormIDCleanUp {
     my ( $Self, %Param ) = @_;
 
     my $CurrentTile = time() - ( 60 * 60 * 24 * 1 );
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM web_upload_cache WHERE create_time_unix < ?',
         Bind => [ \$CurrentTile ],
     );
+    return 1;
 }
 
 1;

@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.32 2009-07-30 16:11:10 martin Exp $
+# $Id: Notification.pm,v 1.33 2009-10-07 17:34:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -288,7 +288,7 @@ sub NotificationUpdate {
     );
 
     # sql
-    return $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'INSERT INTO notifications '
             . '(notification_type, notification_charset, notification_language, subject, text, '
             . 'content_type, create_time, create_by, change_time, change_by) '
@@ -298,6 +298,7 @@ sub NotificationUpdate {
             \$Param{Body}, \$Param{ContentType}, \$Param{UserID},   \$Param{UserID},
         ],
     );
+    return 1;
 }
 
 1;
@@ -316,6 +317,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2009-07-30 16:11:10 $
+$Revision: 1.33 $ $Date: 2009-10-07 17:34:08 $
 
 =cut

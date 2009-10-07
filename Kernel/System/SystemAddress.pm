@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.27 2009-09-30 23:46:40 ep Exp $
+# $Id: SystemAddress.pm,v 1.28 2009-10-07 17:34:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -209,7 +209,7 @@ sub SystemAddressUpdate {
     }
 
     # sql
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE system_address SET value0 = ?, value1 = ?, comments = ?, valid_id = ?, '
             . ' change_time = current_timestamp, change_by = ?, queue_id = ? WHERE id = ?',
         Bind => [
@@ -217,6 +217,7 @@ sub SystemAddressUpdate {
             \$Param{UserID}, \$Param{QueueID}, \$Param{ID},
         ],
     );
+    return 1;
 }
 
 =item SystemAddressList()
@@ -298,6 +299,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2009-09-30 23:46:40 $
+$Revision: 1.28 $ $Date: 2009-10-07 17:34:08 $
 
 =cut
