@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.234 2009-10-06 15:15:27 martin Exp $
+# $Id: Article.pm,v 1.235 2009-10-07 17:13:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.234 $) [1];
+$VERSION = qw($Revision: 1.235 $) [1];
 
 =head1 NAME
 
@@ -84,7 +84,8 @@ example with "Charset & MimeType" and no "ContentType"
         UserID           => 123,
     );
 
-Events: ArticleCreate
+Events:
+    ArticleCreate
 
 =cut
 
@@ -1113,7 +1114,7 @@ sub ArticleFreeTextGet {
 
 set article free text
 
-    $TicketObject->ArticleFreeTextSet(
+    my $Success = $TicketObject->ArticleFreeTextSet(
         TicketID  => 123,
         ArticleID => 1234,
         Counter   => 1,
@@ -1122,7 +1123,8 @@ set article free text
         UserID    => 123,
     );
 
-Events: ArticleFreeTextUpdate
+Events:
+    ArticleFreeTextUpdate
 
 =cut
 
@@ -1567,7 +1569,7 @@ sub ArticleGet {
     }
     $SQL .= ' ORDER BY sa.create_time, sa.id ASC';
 
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     my %Ticket;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Data;
@@ -1851,7 +1853,7 @@ update a article item
 
 Note: Key "Body", "Subject", "From", "To", "Cc", "ArticleType" or "SenderType" is implemented.
 
-    $TicketObject->ArticleUpdate(
+    my $Success = $TicketObject->ArticleUpdate(
         ArticleID => 123,
         Key       => 'Body',
         Value     => 'New Body',
@@ -1859,7 +1861,7 @@ Note: Key "Body", "Subject", "From", "To", "Cc", "ArticleType" or "SenderType" i
         TicketID  => 123,
     );
 
-    $TicketObject->ArticleUpdate(
+    my $Success = $TicketObject->ArticleUpdate(
         ArticleID => 123,
         Key       => 'ArticleType',
         Value     => 'email-internal',
@@ -1867,7 +1869,8 @@ Note: Key "Body", "Subject", "From", "To", "Cc", "ArticleType" or "SenderType" i
         TicketID  => 123,
     );
 
-Events: ArticleUpdate
+Events:
+    ArticleUpdate
 
 =cut
 
@@ -1985,7 +1988,8 @@ send article via email and create article with attachments
         UserID         => 123,
     );
 
-Events: ArticleSend
+Events:
+    ArticleSend
 
 =cut
 
@@ -2076,7 +2080,7 @@ sub ArticleSend {
 
 bounce an article
 
-    $TicketObject->ArticleBounce(
+    my $Success = $TicketObject->ArticleBounce(
         From      => 'some@example.com',
         To        => 'webmaster@example.com',
         TicketID  => 123,
@@ -2084,7 +2088,8 @@ bounce an article
         UserID    => 123,
     );
 
-Events: ArticleBounce
+Events:
+    ArticleBounce
 
 =cut
 
@@ -2149,7 +2154,7 @@ sub ArticleBounce {
 
 send an agent notification via email
 
-    $TicketObject->SendAgentNotification(
+    my $Success = $TicketObject->SendAgentNotification(
         TicketID    => 123,
         CustomerMessageParams => {
             SomeParams => 'For the message!',
@@ -2159,7 +2164,8 @@ send an agent notification via email
         UserID      => 123,
     );
 
-Events: ArticleAgentNotification
+Events:
+    ArticleAgentNotification
 
 =cut
 
@@ -2265,7 +2271,8 @@ send a customer notification via email
         UserID   => 123,
     );
 
-Events: ArticleCustomerNotification
+Events:
+    ArticleCustomerNotification
 
 =cut
 
@@ -2575,7 +2582,8 @@ send an auto response to a customer via email
         UserID          => 123,
     );
 
-Events: ArticleAutoResponse
+Events:
+    ArticleAutoResponse
 
 =cut
 
@@ -2809,13 +2817,14 @@ sub SendAutoResponse {
 
 set article flags
 
-    $TicketObject->ArticleFlagSet(
+    my $Success = $TicketObject->ArticleFlagSet(
         ArticleID => 123,
         Flag      => 'seen',
         UserID    => 123,
     );
 
-Events: ArticleFlagSet
+Events:
+    ArticleFlagSet
 
 =cut
 
@@ -2866,13 +2875,14 @@ sub ArticleFlagSet {
 
 delete article flags
 
-    $TicketObject->ArticleFlagDelete(
+    my $Success = $TicketObject->ArticleFlagDelete(
         ArticleID => 123,
         Flag      => 'seen',
         UserID    => 123,
     );
 
-Events: ArticleFlagDelete
+Events:
+    ArticleFlagDelete
 
 =cut
 
@@ -2981,7 +2991,7 @@ sub ArticleAccountedTimeGet {
 
 delete accounted time of article
 
-    $TicketObject->ArticleAccountedTimeDelete(
+    my $Success = $TicketObject->ArticleAccountedTimeDelete(
         ArticleID => $ArticleID,
     );
 
@@ -3011,7 +3021,7 @@ sub ArticleAccountedTimeDelete {
 
 delete all article, attachments and plain message of a ticket
 
-    $TicketObject->ArticleDelete(
+    my $Success = $TicketObject->ArticleDelete(
         ArticleID => 123,
         UserID    => 123,
     );
@@ -3020,7 +3030,7 @@ delete all article, attachments and plain message of a ticket
 
 delete a artile plain message
 
-    $TicketObject->ArticleDeletePlain(
+    my $Success = $TicketObject->ArticleDeletePlain(
         ArticleID => 123,
         UserID    => 123,
     );
@@ -3029,7 +3039,7 @@ delete a artile plain message
 
 delete all attachments of an article
 
-    $TicketObject->ArticleDeleteAttachment(
+    my $Success = $TicketObject->ArticleDeleteAttachment(
         ArticleID => 123,
         UserID    => 123,
     );
@@ -3038,7 +3048,7 @@ delete all attachments of an article
 
 write an plain email to storage
 
-    $TicketObject->ArticleWritePlain(
+    my $Success = $TicketObject->ArticleWritePlain(
         ArticleID => 123,
         Email     => $EmailAsString,
         UserID    => 123,
@@ -3057,7 +3067,7 @@ get plain message/email
 
 write an article attachment to storage
 
-    $TicketObject->ArticleWriteAttachment(
+    my $Success = $TicketObject->ArticleWriteAttachment(
         Content            => $ContentAsString,
         ContentType        => 'text/html; charset="iso-8859-15"',
         Filename           => 'lala.html',
@@ -3102,6 +3112,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.234 $ $Date: 2009-10-06 15:15:27 $
+$Revision: 1.235 $ $Date: 2009-10-07 17:13:09 $
 
 =cut

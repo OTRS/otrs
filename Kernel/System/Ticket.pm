@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.424 2009-10-07 13:19:32 martin Exp $
+# $Id: Ticket.pm,v 1.425 2009-10-07 17:13:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.424 $) [1];
+$VERSION = qw($Revision: 1.425 $) [1];
 
 =head1 NAME
 
@@ -314,7 +314,8 @@ creates a new ticket
         UserID        => 123,
     );
 
-Events: TicketCreate
+Events:
+    TicketCreate
 
 =cut
 
@@ -521,12 +522,13 @@ sub TicketCreate {
 
 deletes a ticket with articles from storage
 
-    $TicketObject->TicketDelete(
+    my $Success = $TicketObject->TicketDelete(
         TicketID => 123,
         UserID   => 123,
     );
 
-Events: TicketDelete
+Events:
+    TicketDelete
 
 =cut
 
@@ -796,81 +798,82 @@ sub TicketSubjectClean {
 
 =item TicketGet()
 
-get ticket info
+Get ticket info
 
     my %Ticket = $TicketObject->TicketGet(
         TicketID => 123,
         UserID   => 123,
     );
 
-returns
+Returns:
 
-    TicketNumber
-    TicketID
-    State
-    StateID
-    StateType
-    Priority
-    PriorityID
-    Lock
-    LockID
-    Queue
-    QueueID
-    GroupID
-    CustomerID
-    CustomerUserID
-    Owner
-    OwnerID
-    Type
-    TypeID
-    SLA
-    SLAID
-    Service
-    ServiceID
-    Responsible
-    ResponsibleID
-    Created
-    CreateTimeUnix
-    Changed
-    TicketFreeKey1-16
-    TicketFreeText1-16
-    TicketFreeTime1-6
+    %Ticket = (
+        TicketNumber       => '20101027000001',
+        TicketID           => 123,
+        State              => 'some state',
+        StateID            => 123,
+        StateType          => 'some state type',
+        Priority           => 'some priority',
+        PriorityID         => 123,
+        Lock               => 'lock',
+        LockID             => 123,
+        Queue              => 'some queue',
+        QueueID            => 123,
+        CustomerID         => 'customer_id_123',
+        CustomerUserID     => 'customer_user_id_123',
+        Owner              => 'some_owner_login',
+        OwnerID            => 123,
+        Type               => 'some ticket type',
+        TypeID             => 123,
+        SLA                => 'some sla',
+        SLAID              => 123,
+        Service            => 'some service',
+        ServiceID          => 123,
+        Responsible        => 'some_responsible_login',
+        ResponsibleID      => 123,
+        Created            => '2010-10-27 20:15:00'
+        CreateTimeUnix     => '1231414141',
+        Changed            => '2010-10-27 20:15:15',
+        TicketFreeKey1-16
+        TicketFreeText1-16
+        TicketFreeTime1-6
 
-    (time stampes of expected escalations)
-    EscalationResponseTime           (unix time stamp of response time escalation)
-    EscalationUpdateTime             (unix time stamp of update time escalation)
-    EscalationSolutionTime           (unix time stamp of solution time escalation)
+        # (time stampes of expected escalations)
+        EscalationResponseTime           (unix time stamp of response time escalation)
+        EscalationUpdateTime             (unix time stamp of update time escalation)
+        EscalationSolutionTime           (unix time stamp of solution time escalation)
 
-    (general escalation info of nearest escalation type)
-    EscalationDestinationIn          (escalation in e. g. 1h 4m)
-    EscalationDestinationTime        (date of escalation in unix time, e. g. 72193292)
-    EscalationDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
-    EscalationTimeWorkingTime        (seconds of working/service time till escalation, e. g. "1800")
-    EscalationTime                   (seconds total till escalation of nearest escalation time type - response, update or solution time, e. g. "3600")
+        # (general escalation info of nearest escalation type)
+        EscalationDestinationIn          (escalation in e. g. 1h 4m)
+        EscalationDestinationTime        (date of escalation in unix time, e. g. 72193292)
+        EscalationDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
+        EscalationTimeWorkingTime        (seconds of working/service time till escalation, e. g. "1800")
+        EscalationTime                   (seconds total till escalation of nearest escalation time type - response, update or solution time, e. g. "3600")
 
-    (detail escalation info about first response, update and solution time)
-    FirstResponseTimeEscalation      (if true, ticket is escalated)
-    FirstResponseTimeNotification    (if true, notify - x% of escalation has reached)
-    FirstResponseTimeDestinationTime (date of escalation in unix time, e. g. 72193292)
-    FirstResponseTimeDestinationDate (date of escalation, e. g. "2009-02-14 18:00:00")
-    FirstResponseTimeWorkingTime     (seconds of working/service time till escalation, e. g. "1800")
-    FirstResponseTime                (seconds total till escalation, e. g. "3600")
+        # (detail escalation info about first response, update and solution time)
+        FirstResponseTimeEscalation      (if true, ticket is escalated)
+        FirstResponseTimeNotification    (if true, notify - x% of escalation has reached)
+        FirstResponseTimeDestinationTime (date of escalation in unix time, e. g. 72193292)
+        FirstResponseTimeDestinationDate (date of escalation, e. g. "2009-02-14 18:00:00")
+        FirstResponseTimeWorkingTime     (seconds of working/service time till escalation, e. g. "1800")
+        FirstResponseTime                (seconds total till escalation, e. g. "3600")
 
-    UpdateTimeEscalation             (if true, ticket is escalated)
-    UpdateTimeNotification           (if true, notify - x% of escalation has reached)
-    UpdateTimeDestinationTime        (date of escalation in unix time, e. g. 72193292)
-    UpdateTimeDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
-    UpdateTimeWorkingTime            (seconds of working/service time till escalation, e. g. "1800")
-    UpdateTime                       (seconds total till escalation, e. g. "3600")
+        UpdateTimeEscalation             (if true, ticket is escalated)
+        UpdateTimeNotification           (if true, notify - x% of escalation has reached)
+        UpdateTimeDestinationTime        (date of escalation in unix time, e. g. 72193292)
+        UpdateTimeDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
+        UpdateTimeWorkingTime            (seconds of working/service time till escalation, e. g. "1800")
+        UpdateTime                       (seconds total till escalation, e. g. "3600")
 
-    SolutionTimeEscalation           (if true, ticket is escalated)
-    SolutionTimeNotification         (if true, notify - x% of escalation has reached)
-    SolutionTimeDestinationTime      (date of escalation in unix time, e. g. 72193292)
-    SolutionTimeDestinationDate      (date of escalation, e. g. "2009-02-14 18:00:00")
-    SolutionTimeWorkingTime          (seconds of working/service time till escalation, e. g. "1800")
-    SolutionTime                     (seconds total till escalation, e. g. "3600")
+        SolutionTimeEscalation           (if true, ticket is escalated)
+        SolutionTimeNotification         (if true, notify - x% of escalation has reached)
+        SolutionTimeDestinationTime      (date of escalation in unix time, e. g. 72193292)
+        SolutionTimeDestinationDate      (date of escalation, e. g. "2009-02-14 18:00:00")
+        SolutionTimeWorkingTime          (seconds of working/service time till escalation, e. g. "1800")
+        SolutionTime                     (seconds total till escalation, e. g. "3600")
+    );
 
-to get extended ticket attributes, use param Extended:
+To get extended ticket attributes, use param Extended:
 
     my %Ticket = $TicketObject->TicketGet(
         TicketID => 123,
@@ -878,17 +881,19 @@ to get extended ticket attributes, use param Extended:
         Extended => 1,
     );
 
-params are
+Additional params are:
 
-    FirstResponse                   (timestamp of first response, first contact with customer)
-    FirstResponseInMin              (minutes till first response)
-    FirstResponseDiffInMin          (minutes till or over first response)
+    %Ticket = (
+        FirstResponse                   (timestamp of first response, first contact with customer)
+        FirstResponseInMin              (minutes till first response)
+        FirstResponseDiffInMin          (minutes till or over first response)
 
-    SolutionTime                    (timestamp of solution time, also close time)
-    SolutionInMin                   (minutes till solution time)
-    SolutionDiffInMin               (minutes till or over solution time)
+        SolutionTime                    (timestamp of solution time, also close time)
+        SolutionInMin                   (minutes till solution time)
+        SolutionDiffInMin               (minutes till or over solution time)
 
-    FirstLock                       (timestamp of first lock)
+        FirstLock                       (timestamp of first lock)
+    );
 
 =cut
 
@@ -1285,13 +1290,14 @@ sub _TicketGetFirstLock {
 
 update ticket title
 
-    $TicketObject->TicketTitleUpdate(
+    my $Success = $TicketObject->TicketTitleUpdate(
         Title    => 'Some Title',
         TicketID => 123,
         UserID   => 1,
     );
 
-Events: TicketTitleUpdate
+Events:
+    TicketTitleUpdate
 
 =cut
 
@@ -1339,13 +1345,14 @@ sub TicketTitleUpdate {
 
 update ticket unlock time to now
 
-    $TicketObject->TicketUnlockTimeoutUpdate(
+    my $Success = $TicketObject->TicketUnlockTimeoutUpdate(
         UnlockTimeout => $TimeObject->SystemTime(),
         TicketID      => 123,
         UserID        => 143,
     );
 
-Events: TicketUnlockTimeoutUpdate
+Events:
+    TicketUnlockTimeoutUpdate
 
 =cut
 
@@ -1491,19 +1498,19 @@ sub MoveList {
 
 to move a ticket (send notification to agents of selected my queues, it ticket isn't closed)
 
-    $TicketObject->MoveTicket(
+    my $Success = $TicketObject->MoveTicket(
         QueueID  => 123,
         TicketID => 123,
         UserID   => 123,
     );
 
-    $TicketObject->MoveTicket(
+    my $Success = $TicketObject->MoveTicket(
         Queue    => 'Some Queue Name',
         TicketID => 123,
         UserID   => 123,
     );
 
-    $TicketObject->MoveTicket(
+    my $Success = $TicketObject->MoveTicket(
         Queue    => 'Some Queue Name',
         TicketID => 123,
         Comment  => 'some comment', # optional
@@ -1519,7 +1526,8 @@ to move a ticket (send notification to agents of selected my queues, it ticket i
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
-Events: TicketQueueUpdate
+Events:
+    TicketQueueUpdate
 
 =cut
 
@@ -1632,10 +1640,18 @@ returns a list of used queue ids / names
         Type     => 'ID',
     );
 
+Returns:
+
+    @QueueIDList = ( 1, 2, 3 );
+
     my @QueueList = $TicketObject->MoveQueueList(
         TicketID => 123,
         Type     => 'Name',
     );
+
+Returns:
+
+    @QueueList = ( 'QueueA', 'QueueB', 'QueueC' );
 
 =cut
 
@@ -1658,7 +1674,7 @@ sub MoveQueueList {
             . 'ht.id = sh.history_type_id ORDER BY sh.id',
         Bind => [ \$Param{TicketID} ],
     );
-    my @QueueID = ();
+    my @QueueID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # store result
@@ -1678,7 +1694,7 @@ sub MoveQueueList {
     }
 
     # queue lookup
-    my @QueueName = ();
+    my @QueueName;
     for my $QueueID (@QueueID) {
         my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
         push @QueueName, $Queue;
@@ -1707,6 +1723,14 @@ to get all possible types for a ticket (depends on workflow, if configured)
     my %Types = $TicketObject->TicketTypeList(
         TicketID => 123,
         UserID   => 123,
+    );
+
+Returns:
+
+    %Types = (
+        1 => 'default',
+        2 => 'request',
+        3 => 'offer',
     );
 
 =cut
@@ -1744,19 +1768,20 @@ sub TicketTypeList {
 
 to set a ticket type
 
-    $TicketObject->TicketTypeSet(
+    my $Success = $TicketObject->TicketTypeSet(
         TypeID   => 123,
         TicketID => 123,
         UserID   => 123,
     );
 
-    $TicketObject->TicketTypeSet(
+    my $Success = $TicketObject->TicketTypeSet(
         Type     => 'normal',
         TicketID => 123,
         UserID   => 123,
     );
 
-Events: TicketTypeUpdate
+Events:
+    TicketTypeUpdate
 
 =cut
 
@@ -1847,6 +1872,14 @@ to get all possible services for a ticket (depends on workflow, if configured)
         UserID         => 123,
     );
 
+Returns:
+
+    %Services = (
+        1 => 'ServiceA',
+        2 => 'ServiceB',
+        3 => 'ServiceC',
+    );
+
 =cut
 
 sub TicketServiceList {
@@ -1869,7 +1902,7 @@ sub TicketServiceList {
         );
         return;
     }
-    my %Services = ();
+    my %Services;
     if ( !$Param{CustomerUserID} ) {
         %Services = $Self->{ServiceObject}->ServiceList( UserID => 1, );
     }
@@ -1898,19 +1931,20 @@ sub TicketServiceList {
 
 to set a ticket service
 
-    $TicketObject->TicketServiceSet(
+    my $Success = $TicketObject->TicketServiceSet(
         ServiceID => 123,
         TicketID  => 123,
         UserID    => 123,
     );
 
-    $TicketObject->TicketServiceSet(
+    my $Success = $TicketObject->TicketServiceSet(
         Service  => 'Service A',
         TicketID => 123,
         UserID   => 123,
     );
 
-Events: TicketServiceUpdate
+Events:
+    TicketServiceUpdate
 
 =cut
 
@@ -2483,6 +2517,14 @@ to get all possible SLAs for a ticket (depends on workflow, if configured)
         UserID    => 123,
     );
 
+Returns:
+
+    %SLAs = (
+        1 => 'SLA A',
+        2 => 'SLA B',
+        3 => 'SLA C',
+    );
+
 =cut
 
 sub TicketSLAList {
@@ -2528,19 +2570,20 @@ sub TicketSLAList {
 
 to set a ticket service
 
-    $TicketObject->TicketSLASet(
+    my $Success = $TicketObject->TicketSLASet(
         SLAID    => 123,
         TicketID => 123,
         UserID   => 123,
     );
 
-    $TicketObject->TicketSLASet(
+    my $Success = $TicketObject->TicketSLASet(
         SLA      => 'SLA A',
         TicketID => 123,
         UserID   => 123,
     );
 
-Events: TicketSLAUpdate
+Events:
+    TicketSLAUpdate
 
 =cut
 
@@ -2626,14 +2669,15 @@ sub TicketSLASet {
 
 Set customer data of ticket.
 
-    $TicketObject->SetCustomerData(
+    my $Success = $TicketObject->SetCustomerData(
         No       => 'client123',
         User     => 'client-user-123',
         TicketID => 123,
         UserID   => 23,
     );
 
-Events: TicketCustomerUpdate
+Events:
+    TicketCustomerUpdate
 
 =cut
 
@@ -2728,6 +2772,16 @@ Note: the current value is accessible over TicketGet()
         UserID => 123, # or CustomerUserID
     );
 
+Returns:
+
+    $HashRef = {
+        'Storage Value A' => 'Display Value A',
+        'Storage Value B' => 'Display Value B',
+        'Storage Value C' => 'Display Value C',
+        'Storage Value D' => 'Display Value D',
+        'Storage Value E' => 'Display Value E',
+    };
+
 =cut
 
 sub TicketFreeTextGet {
@@ -2752,7 +2806,7 @@ sub TicketFreeTextGet {
     }
 
     # get config
-    my %Data = ();
+    my %Data;
     if ( ref $Self->{ConfigObject}->Get( $Param{Type} ) eq 'HASH' ) {
         %Data = %{ $Self->{ConfigObject}->Get( $Param{Type} ) };
     }
@@ -2839,7 +2893,7 @@ sub TicketFreeTextGet {
 
 Set ticket free text.
 
-    $TicketObject->TicketFreeTextSet(
+    my $Success = $TicketObject->TicketFreeTextSet(
         Counter  => 1,
         Key      => 'Planet', # optional
         Value    => 'Sun',  # optional
@@ -2847,7 +2901,8 @@ Set ticket free text.
         UserID   => 23,
     );
 
-Events: TicketFreeTextUpdate
+Events:
+    TicketFreeTextUpdate
 
 =cut
 
@@ -2931,7 +2986,7 @@ sub TicketFreeTextSet {
 
 Set ticket free text.
 
-    $TicketObject->TicketFreeTimeSet(
+    my $Success = $TicketObject->TicketFreeTimeSet(
         Counter               => 1,
         Prefix                => 'TicketFreeTime',
         TicketFreeTime1Year   => 1900,
@@ -2943,7 +2998,8 @@ Set ticket free text.
         UserID                => 23,
     );
 
-Events: TicketFreeTimeUpdate
+Events:
+    TicketFreeTimeUpdate
 
 =cut
 
@@ -3252,6 +3308,10 @@ custom queue.
         QueueID => 123,
     );
 
+Returns:
+
+    @UserIDs = ( 1, 2, 3 );
+
 =cut
 
 sub GetSubscribedUserIDsByQueueID {
@@ -3267,7 +3327,7 @@ sub GetSubscribedUserIDsByQueueID {
     my %Queue = $Self->{QueueObject}->QueueGet( ID => $Param{QueueID} );
 
     # fetch all queues
-    my @UserIDs = ();
+    my @UserIDs;
     return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT user_id FROM personal_queues WHERE queue_id = ?',
         Bind => [ \$Param{QueueID} ],
@@ -3277,7 +3337,7 @@ sub GetSubscribedUserIDsByQueueID {
     }
 
     # check if user is valid and check permissions
-    my @CleanUserIDs = ();
+    my @CleanUserIDs;
     for my $UserID (@UserIDs) {
         my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Valid => 1 );
         next if !%User;
@@ -3299,7 +3359,7 @@ sub GetSubscribedUserIDsByQueueID {
 
 set ticket pending time
 
-    $TicketObject->TicketPendingTimeSet(
+    my $Success = $TicketObject->TicketPendingTimeSet(
         Year     => 2003,
         Month    => 08,
         Day      => 14,
@@ -3311,13 +3371,14 @@ set ticket pending time
 
 or use a time stamp
 
-    $TicketObject->TicketPendingTimeSet(
+    my $Success = $TicketObject->TicketPendingTimeSet(
         String   => '2003-08-14 22:05:00',
         TicketID => 123,
         UserID   => 23,
     );
 
-Events: TicketPendingTimeUpdate
+Events:
+    TicketPendingTimeUpdate
 
 =cut
 
@@ -3588,6 +3649,24 @@ To find tickets in your system.
         # CacheTTL, cache search result xx secunds (optional)
         CacheTTL => 60 * 15,
     );
+
+Returns:
+
+    Result: 'ARRAY'
+
+    @TicketIDs = ( 1, 2, 3 );
+
+    Result: 'HASH'
+
+    %TicketIDs = (
+        1 => '2010102700001',
+        2 => '2010102700002',
+        3 => '2010102700003',
+    );
+
+    Result: 'COUNT'
+
+    $TicketIDs = 123;
 
 =cut
 
@@ -4937,13 +5016,13 @@ sub LockIsTicketLocked {
 
 to set a ticket lock or unlock
 
-    $TicketObject->LockSet(
+    my $Success = $TicketObject->LockSet(
         Lock     => 'lock',
         TicketID => 123,
         UserID   => 123,
     );
 
-    $TicketObject->LockSet(
+    my $Success = $TicketObject->LockSet(
         LockID   => 1,
         TicketID => 123,
         UserID   => 123,
@@ -4957,7 +5036,8 @@ to set a ticket lock or unlock
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
-Events: TicketLockUpdate
+Events:
+    TicketLockUpdate
 
 =cut
 
@@ -5076,13 +5156,13 @@ sub LockSet {
 
 to set a ticket state
 
-    $TicketObject->StateSet(
+    my $Success = $TicketObject->StateSet(
         State    => 'open',
         TicketID => 123,
         UserID   => 123,
     );
 
-    $TicketObject->StateSet(
+    my $Success = $TicketObject->StateSet(
         StateID  => 3,
         TicketID => 123,
         UserID   => 123,
@@ -5096,7 +5176,8 @@ to set a ticket state
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
-Events: TicketStateUpdate
+Events:
+    TicketStateUpdate
 
 =cut
 
@@ -5200,6 +5281,14 @@ to get the state list for a ticket (depends on workflow, if configured)
         TicketID => 123,
         Type     => 'open',
         UserID   => 123,
+    );
+
+Returns:
+
+    %States = (
+        1 => 'State A',
+        2 => 'State B',
+        3 => 'State C',
     );
 
 =cut
@@ -5365,7 +5454,8 @@ to set the ticket owner (notification to the new owner will be sent)
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
-Events: TicketOwnerUpdate
+Events:
+    TicketOwnerUpdate
 
 =cut
 
@@ -5463,6 +5553,23 @@ returns the owner in the past as array with hash ref of the owner data
         TicketID => 123,
     );
 
+Returns:
+
+    @Owner = (
+        {
+            UserFirstname => 'SomeName',
+            UserLastname  => 'SomeName',
+            UserEmail     => 'some@example.com',
+            # custom attributes
+        },
+        {
+            UserFirstname => 'SomeName',
+            UserLastname  => 'SomeName',
+            UserEmail     => 'some@example.com',
+            # custom attributes
+        },
+    );
+
 =cut
 
 sub OwnerList {
@@ -5520,7 +5627,8 @@ to set the ticket responsible (notification to the new responsible will be sent)
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
-Events: TicketResponsibleUpdate
+Events:
+    TicketResponsibleUpdate
 
 =cut
 
@@ -5619,6 +5727,23 @@ returns the responsible in the past as array with hash ref of the owner data
         TicketID => 123,
     );
 
+Returns:
+
+    @Responsible = (
+        {
+            UserFirstname => 'SomeName',
+            UserLastname  => 'SomeName',
+            UserEmail     => 'some@example.com',
+            # custom attributes
+        },
+        {
+            UserFirstname => 'SomeName',
+            UserLastname  => 'SomeName',
+            UserEmail     => 'some@example.com',
+            # custom attributes
+        },
+    );
+
 =cut
 
 sub ResponsibleList {
@@ -5633,7 +5758,7 @@ sub ResponsibleList {
     }
 
     # db query
-    my @User            = ();
+    my @User;
     my $LastResponsible = 1;
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT sh.name, ht.name, sh.create_by FROM '
@@ -5661,7 +5786,7 @@ sub ResponsibleList {
             }
         }
     }
-    my @UserInfo = ();
+    my @UserInfo;
     for (@User) {
         my %User = $Self->{UserObject}->GetUserData( UserID => $_, Cache => 1 );
         push @UserInfo, \%User;
@@ -5675,6 +5800,23 @@ returns array with hash ref of involved agents of a ticket
 
     my @InvolvedAgents = $TicketObject->InvolvedAgents(
         TicketID => 123,
+    );
+
+Returns:
+
+    @InvolvedAgents = (
+        {
+            UserFirstname => 'SomeName',
+            UserLastname  => 'SomeName',
+            UserEmail     => 'some@example.com',
+            # custom attributes
+        },
+        {
+            UserFirstname => 'SomeName',
+            UserLastname  => 'SomeName',
+            UserEmail     => 'some@example.com',
+            # custom attributes
+        },
     );
 
 =cut
@@ -5691,8 +5833,8 @@ sub InvolvedAgents {
     }
 
     # db query
-    my @User      = ();
-    my %UsedOwner = ();
+    my @User;
+    my %UsedOwner;
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT sh.name, sh.create_by FROM '
             . ' ticket_history sh, ticket_history_type ht WHERE '
@@ -5708,16 +5850,15 @@ sub InvolvedAgents {
             push @User, $Row[1];
         }
     }
-    my @UserInfo = ();
+    my @UserInfo;
     for (@User) {
         my %User = $Self->{UserObject}->GetUserData(
             UserID => $_,
             Valid  => 1,
             Cache  => 1,
         );
-        if (%User) {
-            push @UserInfo, \%User;
-        }
+        next if !%User;
+        push @UserInfo, \%User;
     }
     return @UserInfo;
 }
@@ -5726,19 +5867,20 @@ sub InvolvedAgents {
 
 to set the ticket priority
 
-    $TicketObject->PrioritySet(
+    my $Success = $TicketObject->PrioritySet(
         TicketID => 123,
         Priority => 'low',
         UserID   => 213,
     );
 
-    $TicketObject->PrioritySet(
+    my $Success = $TicketObject->PrioritySet(
         TicketID   => 123,
         PriorityID => 2,
         UserID     => 213,
     );
 
-Events: TicketPriorityUpdate
+Events:
+    TicketPriorityUpdate
 
 =cut
 
@@ -5828,6 +5970,14 @@ to get the priority list for a ticket (depends on workflow, if configured)
     my %Priorities = $TicketObject->PriorityList(
         QueueID => 123,
         UserID  => 123,
+    );
+
+Returns:
+
+    %Priorities = (
+        1 => 'Priority A',
+        2 => 'Priority B',
+        3 => 'Priority C',
     );
 
 =cut
@@ -6204,7 +6354,7 @@ sub HistoryTicketGet {
 
 returns the id of the requested history type.
 
-    my $ID = $TicketObject->HistoryTypeLookup(Type => 'Move');
+    my $ID = $TicketObject->HistoryTypeLookup( Type => 'Move' );
 
 =cut
 
@@ -6247,7 +6397,7 @@ sub HistoryTypeLookup {
 
 add a history entry to an ticket
 
-    $TicketObject->HistoryAdd(
+    my $Success = $TicketObject->HistoryAdd(
         Name         => 'Some Comment',
         HistoryType  => 'Move', # see system tables
         TicketID     => 123,
@@ -6257,7 +6407,8 @@ add a history entry to an ticket
         CreateUserID => 123,
     );
 
-Events: HistoryAdd
+Events:
+    HistoryAdd
 
 =cut
 
@@ -6412,12 +6563,13 @@ sub HistoryGet {
 
 delete a ticket history (from storage)
 
-    $TicketObject->HistoryDelete(
+    my $Success = $TicketObject->HistoryDelete(
         TicketID => 123,
         UserID   => 123,
     );
 
-Events: HistoryDelete
+Events:
+    HistoryDelete
 
 =cut
 
@@ -6500,14 +6652,15 @@ sub TicketAccountedTimeGet {
 
 account time to a ticket.
 
-    $TicketObject->TicketAccountTime(
+    my $Success = $TicketObject->TicketAccountTime(
         TicketID  => 1234,
         ArticleID => 23542,
         TimeUnit  => '4.5',
         UserID    => 1,
     );
 
-Events: TicketAccountTime
+Events:
+    TicketAccountTime
 
 =cut
 
@@ -6572,13 +6725,14 @@ sub TicketAccountTime {
 
 merge two tickets
 
-    $TicketObject->TicketMerge(
+    my $Success = $TicketObject->TicketMerge(
         MainTicketID  => 412,
         MergeTicketID => 123,
         UserID        => 123,
     );
 
-Events: TicketMerge
+Events:
+    TicketMerge
 
 =cut
 
@@ -6768,13 +6922,14 @@ sub TicketWatchGet {
 
 to subscribe a ticket to watch it
 
-    $TicketObject->TicketWatchSubscribe(
+    my $Success = $TicketObject->TicketWatchSubscribe(
         TicketID    => 111,
         WatchUserID => 123,
         UserID      => 123,
     );
 
-Events: TicketSubscribe
+Events:
+    TicketSubscribe
 
 =cut
 
@@ -6831,13 +6986,14 @@ sub TicketWatchSubscribe {
 
 to remove a subscribtion of a ticket
 
-    $TicketObject->TicketWatchUnsubscribe(
+    my $Success = $TicketObject->TicketWatchUnsubscribe(
         TicketID    => 111,
         WatchUserID => 123,
         UserID      => 123,
     );
 
-Events: TicketUnsubscribe
+Events:
+    TicketUnsubscribe
 
 =cut
 
@@ -7360,6 +7516,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.424 $ $Date: 2009-10-07 13:19:32 $
+$Revision: 1.425 $ $Date: 2009-10-07 17:13:08 $
 
 =cut
