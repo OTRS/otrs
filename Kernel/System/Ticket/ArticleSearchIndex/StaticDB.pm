@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.11 2009-10-07 12:20:33 martin Exp $
+# $Id: StaticDB.pm,v 1.12 2009-10-07 13:19:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -148,50 +148,61 @@ sub _ArticleIndexQuerySQLExt {
     my $SQLExt      = '';
     my $FullTextSQL = '';
     for my $Key ( keys %FieldSQLMapFullText ) {
-        if ( $Param{Data}->{$Key} ) {
-            $Param{Data}->{$Key} =~ s/\*/%/gi;
+        next if !$Param{Data}->{$Key};
 
-            # check search attribute, we do not need to search for *
-            next if $Param{Data}->{$Key} =~ /^\%{1,3}$/;
+        # replace * by % for SQL like
+        $Param{Data}->{$Key} =~ s/\*/%/gi;
 
-            if ($FullTextSQL) {
-                $FullTextSQL .= ' ' . $Param{Data}->{ContentSearch} . ' ';
+        # check search attribute, we do not need to search for *
+        next if $Param{Data}->{$Key} =~ /^\%{1,3}$/;
+
+        if ($FullTextSQL) {
+            $FullTextSQL .= ' ' . $Param{Data}->{ContentSearch} . ' ';
+        }
+
+        # check if search condition extention is used
+        if (
+            $Param{Data}->{ConditionInline}
+            && $Param{Data}->{$Key} =~ /(&&|\|\||\!|\+|AND|OR)/
+            )
+        {
+            $FullTextSQL .= $Self->{DBObject}->QueryCondition(
+                Key          => $FieldSQLMapFullText{$Key},
+                Value        => $Param{Data}->{$Key},
+                SearchPrefix => $Param{Data}->{ContentSearchPrefix},
+                SearchSuffix => $Param{Data}->{ContentSearchSuffix},
+            );
+        }
+        else {
+
+            my $Field = $FieldSQLMapFullText{$Key};
+            my $Value = $Param{Data}->{$Key};
+
+            if ( $Param{Data}->{ContentSearchPrefix} ) {
+                $Value = $Param{Data}->{ContentSearchPrefix} . $Value;
+            }
+            if ( $Param{Data}->{ContentSearchSuffix} ) {
+                $Value .= $Param{Data}->{ContentSearchSuffix};
             }
 
-            # check if search condition extention is used
-            if (
-                $Param{Data}->{ConditionInline}
-                && $Param{Data}->{$Key} =~ /(&&|\|\||\!|\+|AND|OR)/
-                )
-            {
-                my %Search;
-                if ( $Param{FullTextIndex} ) {
-                    %Search = (
-                        SearchPrefix => '*',
-                        SearchSuffix => '*',
-                    );
-                }
-                $FullTextSQL .= $Self->{DBObject}->QueryCondition(
-                    Key   => $FieldSQLMapFullText{$Key},
-                    Value => $Param{Data}->{$Key},
-                    %Search,
-                );
+            # replace %% by % for SQL
+            $Param{Data}->{$Key} =~ s/%%/%/gi;
+
+            # db quote
+            $Value = $Self->{DBObject}->Quote( $Value, 'Like' );
+
+            # check if database supports LIKE in large text types (in this case for body)
+            if ( $Self->{DBObject}->GetDatabaseFunction('NoLowerInLargeText') ) {
+                $FullTextSQL .= " $Field LIKE '$Value'";
+            }
+            elsif ( $Self->{DBObject}->GetDatabaseFunction('LcaseLikeInLargeText') ) {
+                $FullTextSQL .= " LCASE($Field) LIKE LCASE('$Value')";
+            }
+            elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'ingres' ) {
+                $FullTextSQL .= " LOWER(VARCHAR($Field)) LIKE LOWER('$Value')";
             }
             else {
-
-                # check if database supports LIKE in large text types (in this case for body)
-                if ( $Self->{DBObject}->GetDatabaseFunction('NoLowerInLargeText') ) {
-                    $FullTextSQL .= " $FieldSQLMapFullText{$Key} LIKE '"
-                        . $Self->{DBObject}->Quote( $Param{Data}->{$Key}, 'Like' ) . "'";
-                }
-                elsif ( $Self->{DBObject}->GetDatabaseFunction('LcaseLikeInLargeText') ) {
-                    $FullTextSQL .= " LCASE($FieldSQLMapFullText{$Key}) LIKE LCASE('"
-                        . $Self->{DBObject}->Quote( $Param{Data}->{$Key}, 'Like' ) . "')";
-                }
-                else {
-                    $FullTextSQL .= " LOWER($FieldSQLMapFullText{$Key}) LIKE LOWER('"
-                        . $Self->{DBObject}->Quote( $Param{Data}->{$Key}, 'Like' ) . "')";
-                }
+                $FullTextSQL .= " LOWER($Field) LIKE LOWER('$Value')";
             }
         }
     }

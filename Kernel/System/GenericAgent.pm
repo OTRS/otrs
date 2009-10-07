@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.59 2009-09-23 12:51:01 mg Exp $
+# $Id: GenericAgent.pm,v 1.60 2009-10-07 13:19:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 =head1 NAME
 
@@ -285,9 +285,10 @@ sub JobRun {
             %Tickets = (
                 $Self->{TicketObject}->TicketSearch(
                     %Job,
-                    StateType => $Type,
-                    Limit     => $Param{Limit} || 4000,
-                    UserID    => $Param{UserID},
+                    ConditionInline => 1,
+                    StateType       => $Type,
+                    Limit           => $Param{Limit} || 4000,
+                    UserID          => $Param{UserID},
                 ),
                 %Tickets
             );
@@ -300,10 +301,11 @@ sub JobRun {
                 %Tickets = (
                     $Self->{TicketObject}->TicketSearch(
                         %Job,
-                        Queues    => [$_],
-                        StateType => $Type,
-                        Limit     => $Param{Limit} || 4000,
-                        UserID    => $Param{UserID},
+                        ConditionInline => 1,
+                        Queues          => [$_],
+                        StateType       => $Type,
+                        Limit           => $Param{Limit} || 4000,
+                        UserID          => $Param{UserID},
                     ),
                     %Tickets
                 );
@@ -313,10 +315,11 @@ sub JobRun {
             %Tickets = (
                 $Self->{TicketObject}->TicketSearch(
                     %Job,
-                    StateType => $Type,
-                    Queues    => [ $Job{Queue} ],
-                    Limit     => $Param{Limit} || 4000,
-                    UserID    => $Param{UserID},
+                    ConditionInline => 1,
+                    StateType       => $Type,
+                    Queues          => [ $Job{Queue} ],
+                    Limit           => $Param{Limit} || 4000,
+                    UserID          => $Param{UserID},
                 ),
                 %Tickets
             );
@@ -357,8 +360,9 @@ sub JobRun {
             }
             %Tickets = $Self->{TicketObject}->TicketSearch(
                 %Job,
-                Limit => $Param{Limit} || 4000,
-                UserID => $Param{UserID},
+                ConditionInline => 1,
+                Limit           => $Param{Limit} || 4000,
+                UserID          => $Param{UserID},
             );
         }
         elsif ( ref $Job{Queue} eq 'ARRAY' ) {
@@ -369,9 +373,10 @@ sub JobRun {
                 %Tickets = (
                     $Self->{TicketObject}->TicketSearch(
                         %Job,
-                        Queues => [$_],
-                        Limit  => $Param{Limit} || 4000,
-                        UserID => $Param{UserID},
+                        ConditionInline => 1,
+                        Queues          => [$_],
+                        Limit           => $Param{Limit} || 4000,
+                        UserID          => $Param{UserID},
                     ),
                     %Tickets
                 );
@@ -380,9 +385,10 @@ sub JobRun {
         else {
             %Tickets = $Self->{TicketObject}->TicketSearch(
                 %Job,
-                Queues => [ $Job{Queue} ],
-                Limit  => $Param{Limit} || 4000,
-                UserID => $Param{UserID},
+                ConditionInline => 1,
+                Queues          => [ $Job{Queue} ],
+                Limit           => $Param{Limit} || 4000,
+                UserID          => $Param{UserID},
             );
         }
     }
@@ -747,22 +753,22 @@ sub _JobRunTicket {
             );
         }
         if ( $Self->{MainObject}->Require( $Param{Config}->{New}->{Module} ) ) {
-            my $Object = $Param{Config}->{New}->{Module}->new(
-                %{$Self},
-                Debug => $Self->{Debug},
-            );
-            if ($Object) {
 
-                # protect parent process
-                eval {
+            # protect parent process
+            eval {
+                my $Object = $Param{Config}->{New}->{Module}->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
+                if ($Object) {
                     $Object->Run(
                         %{ $Param{Config} },
                         TicketID => $Param{TicketID},
                     );
-                };
-                if ($@) {
-                    $Self->{LogObject}->Log( Priority => 'error', Message => $@ );
                 }
+            };
+            if ($@) {
+                $Self->{LogObject}->Log( Priority => 'error', Message => $@ );
             }
         }
     }
@@ -1146,6 +1152,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.59 $ $Date: 2009-09-23 12:51:01 $
+$Revision: 1.60 $ $Date: 2009-10-07 13:19:32 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.70 2009-09-16 12:32:02 mb Exp $
+# $Id: AdminGenericAgent.pm,v 1.71 2009-10-07 13:19:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -368,19 +368,21 @@ sub Run {
 
         # perform ticket search
         my $Counter = $Self->{TicketObject}->TicketSearch(
-            Result  => 'COUNT',
-            SortBy  => 'Age',
-            OrderBy => 'Down',
-            UserID  => 1,
-            Limit   => 60_000,
+            Result          => 'COUNT',
+            SortBy          => 'Age',
+            OrderBy         => 'Down',
+            UserID          => 1,
+            Limit           => 60_000,
+            ConditionInline => 1,
             %GetParam,
         ) || 0;
         my @TicketIDs = $Self->{TicketObject}->TicketSearch(
-            Result  => 'ARRAY',
-            SortBy  => 'Age',
-            OrderBy => 'Down',
-            UserID  => 1,
-            Limit   => 30,
+            Result          => 'ARRAY',
+            SortBy          => 'Age',
+            OrderBy         => 'Down',
+            UserID          => 1,
+            Limit           => 30,
+            ConditionInline => 1,
             %GetParam,
         );
 

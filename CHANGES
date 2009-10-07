@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1046 2009-10-07 11:12:50 martin Exp $
+# $Id: CHANGES,v 1.1047 2009-10-07 13:19:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/10/07) Added global Search-Condition-Feature (AND/OR/()/!/+) for
+    TicketNumber, From, To, Cc, Subject and Body also to generic agent.
  - (2009/10/05) Fixed bug#939 - "Salutation" should be renamed to "Title" for
     users and customer users.
     Notice: Use scripts/DBUpdate-to-2.5.*.sql for upgrading!

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.423 2009-10-05 11:47:03 martin Exp $
+# $Id: Ticket.pm,v 1.424 2009-10-07 13:19:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.423 $) [1];
+$VERSION = qw($Revision: 1.424 $) [1];
 
 =head1 NAME
 
@@ -3490,6 +3490,12 @@ To find tickets in your system.
         # content search (AND or OR) (optional)
         ContentSearch => 'AND',
 
+        # content search prefix (optional)
+        ContentSearchPrefix => '*',
+
+        # content search suffix (optional)
+        ContentSearchSuffix => '*',
+
         # content conditions for From,To,Cc,Subject,Body,TicketNumber,
         # Title,CustomerID and CustomerUserLogin (all optional)
         ConditionInline => 1,
@@ -4793,6 +4799,9 @@ sub TicketSearch {
             }
             elsif ( ref $CacheData eq 'ARRAY' ) {
                 return @{$CacheData};
+            }
+            elsif ( ref $CacheData eq '' ) {
+                return $CacheData;
             }
             else {
                 $Self->{LogObject}->Log(
@@ -7351,6 +7360,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.423 $ $Date: 2009-10-05 11:47:03 $
+$Revision: 1.424 $ $Date: 2009-10-07 13:19:32 $
 
 =cut

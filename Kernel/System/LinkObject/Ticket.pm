@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.35 2009-10-01 18:04:29 martin Exp $
+# $Id: Ticket.pm,v 1.36 2009-10-07 13:19:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -212,13 +212,15 @@ sub ObjectSearch {
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
         %{ $Param{SearchParams} },
         %Search,
-        Limit           => 50,
-        Result          => 'ARRAY',
-        ConditionInline => 1,
-        FullTextIndex   => 1,
-        OrderBy         => 'Down',
-        SortBy          => 'Age',
-        UserID          => $Param{UserID},
+        Limit               => 50,
+        Result              => 'ARRAY',
+        ConditionInline     => 1,
+        ContentSearchPrefix => '*',
+        ContentSearchSuffix => '*',
+        FullTextIndex       => 1,
+        OrderBy             => 'Down',
+        SortBy              => 'Age',
+        UserID              => $Param{UserID},
     );
 
     my %SearchList;
