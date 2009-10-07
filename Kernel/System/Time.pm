@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.52 2009-06-13 16:21:06 mh Exp $
+# $Id: Time.pm,v 1.52.2.1 2009-10-07 11:59:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.52.2.1 $) [1];
 
 =head1 NAME
 
@@ -272,12 +272,12 @@ sub TimeStamp2SystemTime {
         )
     {
         my $DiffTime = 0;
-        if ( $10 eq '+' ) {
+        if ( $10 && $10 eq '+' ) {
 
             #            $DiffTime = $DiffTime - ($11 * 60 * 60);
             #            $DiffTime = $DiffTime - ($12 * 60);
         }
-        elsif ( $10 eq '-' ) {
+        elsif ( $10 && $10 eq '-' ) {
 
             #            $DiffTime = $DiffTime + ($11 * 60 * 60);
             #            $DiffTime = $DiffTime + ($12 * 60);
@@ -851,6 +851,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2009-06-13 16:21:06 $
+$Revision: 1.52.2.1 $ $Date: 2009-10-07 11:59:16 $
 
 =cut
