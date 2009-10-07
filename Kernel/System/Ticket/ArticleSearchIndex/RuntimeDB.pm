@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/RuntimeDB.pm - article search index backend runtime
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.7 2009-04-23 13:47:08 mh Exp $
+# $Id: RuntimeDB.pm,v 1.8 2009-10-07 12:20:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -115,11 +115,17 @@ sub _ArticleIndexQuerySQLExt {
                 && $Param{Data}->{$Key} =~ /(&&|\|\||\!|\+|AND|OR)/
                 )
             {
+                my %Search;
+                if ( $Param{FullTextIndex} ) {
+                    %Search = (
+                        SearchPrefix => '*',
+                        SearchSuffix => '*',
+                    );
+                }
                 $FullTextSQL .= $Self->{DBObject}->QueryCondition(
-                    Key          => $FieldSQLMapFullText{$Key},
-                    Value        => $Param{Data}->{$Key},
-                    SearchPrefix => '*',
-                    SearchSuffix => '*',
+                    Key   => $FieldSQLMapFullText{$Key},
+                    Value => $Param{Data}->{$Key},
+                    %Search,
                 );
             }
             else {
