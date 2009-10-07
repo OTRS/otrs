@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1045 2009-10-06 14:40:55 martin Exp $
+# $Id: CHANGES,v 1.1046 2009-10-07 11:12:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,6 +35,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
+ - (2009/10/07) Fixed bug#4367 - Generic agent produces TicketNumberLookup error
+    messages.
  - (2009/10/05) Fixed bug#3793 - UTF-8 PostgreSQL database encode issues on
     incoming emails.
  - (2009/10/05) Updated Spanish translation, thanks to Emiliano Augusto!
