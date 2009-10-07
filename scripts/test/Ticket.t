@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.47 2009-09-01 10:31:20 martin Exp $
+# $Id: Ticket.t,v 1.48 2009-10-07 13:32:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3493,11 +3493,13 @@ for my $Condition (
         Result => 'HASH',
 
         # result limit
-        Limit           => 1000,
-        From            => $Condition,
-        ConditionInline => 1,
-        UserID          => 1,
-        Permission      => 'rw',
+        Limit               => 1000,
+        From                => $Condition,
+        ConditionInline     => 1,
+        ContentSearchPrefix => '*',
+        ContentSearchSuffix => '*',
+        UserID              => 1,
+        Permission          => 'rw',
     );
     $Self->True(
         $TicketIDs{$TicketID} || 0,
@@ -3523,11 +3525,13 @@ for my $Condition (
         Result => 'HASH',
 
         # result limit
-        Limit           => 1000,
-        From            => $Condition,
-        ConditionInline => 1,
-        UserID          => 1,
-        Permission      => 'rw',
+        Limit               => 1000,
+        From                => $Condition,
+        ConditionInline     => 1,
+        ContentSearchPrefix => '*',
+        ContentSearchSuffix => '*',
+        UserID              => 1,
+        Permission          => 'rw',
     );
     $Self->True(
         ( !$TicketIDs{$TicketID} ) || 0,
