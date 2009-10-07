@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.425 2009-10-07 17:13:08 martin Exp $
+# $Id: Ticket.pm,v 1.426 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.425 $) [1];
+$VERSION = qw($Revision: 1.426 $) [1];
 
 =head1 NAME
 
@@ -1488,9 +1488,7 @@ sub MoveList {
         ReturnSubType => 'Queue',
         Data          => \%Queues,
     );
-    if ($ACL) {
-        return $Self->TicketAclData();
-    }
+    return $Self->TicketAclData() if $ACL;
     return %Queues;
 }
 
@@ -1589,7 +1587,7 @@ sub MoveTicket {
 
     # send move notify to queue subscriber
     if ( !$Param{SendNoNotification} && $Ticket{StateType} ne 'closed' ) {
-        my %Used = ();
+        my %Used;
         my @UserIDs = $Self->GetSubscribedUserIDsByQueueID( QueueID => $Param{QueueID} );
         if ( $Param{ForceNotificationToUserID} ) {
             push @UserIDs, @{ $Param{ForceNotificationToUserID} };
@@ -1758,9 +1756,7 @@ sub TicketTypeList {
         ReturnSubType => 'Type',
         Data          => \%Types,
     );
-    if ($ACL) {
-        return $Self->TicketAclData();
-    }
+    return $Self->TicketAclData() if $ACL;
     return %Types;
 }
 
@@ -1921,9 +1917,7 @@ sub TicketServiceList {
         ReturnSubType => 'Service',
         Data          => \%Services,
     );
-    if ($ACL) {
-        return $Self->TicketAclData();
-    }
+    return $Self->TicketAclData() if $ACL;
     return %Services;
 }
 
@@ -2560,9 +2554,7 @@ sub TicketSLAList {
         ReturnSubType => 'SLA',
         Data          => \%SLAs,
     );
-    if ($ACL) {
-        return $Self->TicketAclData();
-    }
+    return $Self->TicketAclData() if $ACL;
     return %SLAs;
 }
 
@@ -4064,8 +4056,8 @@ sub TicketSearch {
 
     # current sub queue ids
     if ( $Param{UseSubQueues} && $Param{QueueIDs} ) {
-        my @SubQueueIDs = ();
-        my %Queues      = $Self->{QueueObject}->GetAllQueues();
+        my @SubQueueIDs;
+        my %Queues = $Self->{QueueObject}->GetAllQueues();
         for my $QueueID ( @{ $Param{QueueIDs} } ) {
             my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
             for my $QueuesID ( keys %Queues ) {
@@ -5184,7 +5176,7 @@ Events:
 sub StateSet {
     my ( $Self, %Param ) = @_;
 
-    my %State = ();
+    my %State;
     my $ArticleID = $Param{ArticleID} || '';
 
     # check needed stuff
@@ -5296,7 +5288,7 @@ Returns:
 sub StateList {
     my ( $Self, %Param ) = @_;
 
-    my %States = ();
+    my %States;
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
@@ -5349,9 +5341,7 @@ sub StateList {
         ReturnSubType => 'State',
         Data          => \%States,
     );
-    if ($ACL) {
-        return $Self->TicketAclData();
-    }
+    return $Self->TicketAclData() if $ACL;
     return %States;
 }
 
@@ -6006,9 +5996,7 @@ sub PriorityList {
         ReturnSubType => 'Priority',
         Data          => \%Data,
     );
-    if ($ACL) {
-        return $Self->TicketAclData();
-    }
+    return $Self->TicketAclData() if $ACL;
     return %Data;
 }
 
@@ -6031,8 +6019,6 @@ of all affected tickets in this time area.
 
 sub HistoryTicketStatusGet {
     my ( $Self, %Param ) = @_;
-
-    my %Ticket = ();
 
     # check needed stuff
     for (qw(StopYear StopMonth StopDay StartYear StartMonth StartDay)) {
@@ -6074,6 +6060,7 @@ sub HistoryTicketStatusGet {
             . "$SQLExt ORDER BY th.create_time DESC",
         Limit => 150000,
     );
+    my %Ticket;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Ticket{ $Row[0] } = 1;
     }
@@ -6140,8 +6127,6 @@ returns
 sub HistoryTicketGet {
     my ( $Self, %Param ) = @_;
 
-    my %Ticket = ();
-
     # check needed stuff
     for (qw(TicketID StopYear StopMonth StopDay)) {
         if ( !$Param{$_} ) {
@@ -6165,6 +6150,7 @@ sub HistoryTicketGet {
     );
 
     # write cache
+    my %Ticket;
     if ( !$Param{Force} && -f "$Path/$File" ) {
         my $ContentARRAYRef = $Self->{MainObject}->FileRead(
             Directory => $Path,
@@ -7093,7 +7079,7 @@ sub TicketAcl {
             && !$Self->{ConfigObject}->Get('Ticket::EventModulePost');
 
     # match also frontend options
-    my %Checks = ();
+    my %Checks;
     if ( $Param{Action} ) {
         undef $Self->{TicketAclActionData};
         $Checks{Frontend} = { Action => $Param{Action}, };
@@ -7307,7 +7293,7 @@ sub TicketAcl {
         }
 
         # debug log
-        my %NewTmpData = ();
+        my %NewTmpData;
         if ( $Match && $Match3 ) {
             if ( $Self->{Debug} > 2 ) {
                 $Self->{LogObject}->Log(
@@ -7516,6 +7502,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.425 $ $Date: 2009-10-07 17:13:08 $
+$Revision: 1.426 $ $Date: 2009-10-07 20:30:48 $
 
 =cut

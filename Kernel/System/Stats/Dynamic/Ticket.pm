@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.30 2009-04-23 13:47:08 mh Exp $
+# $Id: Ticket.pm,v 1.31 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -627,7 +627,7 @@ sub ImportWrapper {
             }
             elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
                 my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
-                my %PriorityIDs = ();
+                my %PriorityIDs;
                 for my $Key ( keys %PriorityList ) {
                     $PriorityIDs{ $PriorityList{$Key} } = $Key;
                 }

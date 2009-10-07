@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.11 2009-04-23 13:47:08 mh Exp $
+# $Id: TicketList.pm,v 1.12 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -624,10 +624,10 @@ sub GetStatTable {
     );
 
     # generate the ticket list
-    my @StatArray = ();
+    my @StatArray;
     for my $TicketID (@TicketIDs) {
-        my @ResultRow = ();
-        my %Ticket    = $Self->{TicketObject}->TicketGet(
+        my @ResultRow;
+        my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID => $TicketID,
             UserID   => 1,
             Extended => $Extended,
@@ -894,8 +894,8 @@ sub GetHeaderLine {
     my %SelectedAttributes = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
 
     my $TicketAttributes    = $Self->_TicketAttributes();
-    my @HeaderLine          = ();
     my $SortedAttributesRef = $Self->_SortedAttributes();
+    my @HeaderLine;
 
     ATTRIBUTE:
     for my $Attribute ( @{$SortedAttributesRef} ) {
@@ -999,7 +999,7 @@ sub _OrderByIsValueOfTicketSearchSort {
 sub _IndividualResultOrder {
     my ( $Self, %Param ) = @_;
     my @Unsorted = @{ $Param{StatArray} };
-    my @Sorted   = ();
+    my @Sorted;
 
     # find out the positon of the values which should be
     # used for the order
@@ -1195,7 +1195,7 @@ sub ImportWrapper {
             }
             elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
                 my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
-                my %PriorityIDs = ();
+                my %PriorityIDs;
                 for my $Key ( keys %PriorityList ) {
                     $PriorityIDs{ $PriorityList{$Key} } = $Key;
                 }

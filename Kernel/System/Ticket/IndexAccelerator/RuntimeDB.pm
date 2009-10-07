@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.69 2009-08-04 08:49:40 ub Exp $
+# $Id: RuntimeDB.pm,v 1.70 2009-10-07 20:30:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -70,7 +70,7 @@ sub TicketAcceleratorIndex {
         Cached => 1,
     );
     my @QueueIDs = @{ $Param{ShownQueueIDs} };
-    my %Queues   = ();
+    my %Queues;
     $Queues{MaxAge}       = 0;
     $Queues{TicketsShown} = 0;
     $Queues{TicketsAvail} = 0;
@@ -109,7 +109,7 @@ sub TicketAcceleratorIndex {
         $Hashes{Queue}   = 'CustomQueue';
         $Hashes{MaxAge}  = 0;
         $Hashes{Count}   = 0;
-        push( @{ $Queues{Queues} }, \%Hashes );
+        push @{ $Queues{Queues} }, \%Hashes;
         return %Queues;
     }
 
@@ -121,7 +121,7 @@ sub TicketAcceleratorIndex {
         . " suq.queue_id = st.queue_id AND "
         . " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
         . " suq.user_id = $Param{UserID}";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Hashes;
@@ -129,7 +129,7 @@ sub TicketAcceleratorIndex {
         $Hashes{Queue}   = 'CustomQueue';
         $Hashes{MaxAge}  = 0;
         $Hashes{Count}   = $Row[0];
-        push( @{ $Queues{Queues} }, \%Hashes );
+        push @{ $Queues{Queues} }, \%Hashes;
 
         # set some things
         if ( $Param{QueueID} == 0 ) {
@@ -147,7 +147,7 @@ sub TicketAcceleratorIndex {
         . " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) "
         . " GROUP BY st.queue_id,sq.name "
         . " ORDER BY sq.name";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
@@ -157,7 +157,7 @@ sub TicketAcceleratorIndex {
         $Hashes{Queue}   = $Row[1];
         $Hashes{MaxAge}  = $Self->{TimeObject}->SystemTime() - $Row[2];
         $Hashes{Count}   = $Row[3];
-        push( @{ $Queues{Queues} }, \%Hashes );
+        push @{ $Queues{Queues} }, \%Hashes;
 
         # set some things
         if ( $Param{QueueID} eq $Row[0] ) {
@@ -200,7 +200,7 @@ sub GetLockedCount {
         Type => 'ID',
     );
 
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
             . " ar.create_by, ti.create_time_unix, ti.until_time, "
             . " tst.name, ar.article_type_id FROM "
@@ -213,13 +213,13 @@ sub GetLockedCount {
             . " ORDER BY ar.create_time DESC",
         Bind => [ \$Param{UserID} ],
     );
-    my @ArticleLocked = ();
+    my @ArticleLocked;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push @ArticleLocked, \@Row;
     }
 
-    my %TicketIDs = ();
-    my %Data      = (
+    my %TicketIDs;
+    my %Data = (
         Reminder => 0,
         Pending  => 0,
         All      => 0,

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Filter.pm,v 1.21 2009-04-17 08:36:44 tr Exp $
+# $Id: Filter.pm,v 1.22 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -95,8 +95,10 @@ get all filter
 sub FilterList {
     my ( $Self, %Param ) = @_;
 
-    $Self->{DBObject}->Prepare( SQL => 'SELECT f_name FROM postmaster_filter' );
-    my %Data = ();
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT f_name FROM postmaster_filter',
+    );
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[0];
     }
@@ -166,10 +168,11 @@ sub FilterDelete {
         }
     }
 
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM postmaster_filter WHERE f_name = ?',
         Bind => [ \$Param{Name} ],
     );
+    return 1;
 }
 
 =item FilterGet()
@@ -198,7 +201,7 @@ sub FilterGet {
             'SELECT f_type, f_key, f_value, f_name, f_stop FROM postmaster_filter WHERE f_name = ?',
         Bind => [ \$Param{Name} ],
     );
-    my %Data = ();
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] }->{ $Row[1] } = $Row[2];
         $Data{Name}                   = $Row[3];
@@ -223,6 +226,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.22 $ $Date: 2009-10-07 20:30:48 $
 
 =cut

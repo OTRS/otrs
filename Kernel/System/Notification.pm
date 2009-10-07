@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.33 2009-10-07 17:34:08 martin Exp $
+# $Id: Notification.pm,v 1.34 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -129,7 +129,7 @@ sub NotificationGet {
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
-    my %Data = ();
+    my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
         # convert to internal charset e. g. utf8
@@ -205,7 +205,7 @@ sub NotificationList {
     my %Languages = %{ $Self->{ConfigObject}->{DefaultUsedLanguages} };
 
     # get possible notification types
-    my %Types = ();
+    my %Types;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
         # do not use customer notifications this way anymore (done by notification event now)
@@ -217,7 +217,7 @@ sub NotificationList {
     }
 
     # create list
-    my %List = ();
+    my %List;
     for my $Language ( keys %Languages ) {
 
         # show only 'en' and not en_*
@@ -317,6 +317,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2009-10-07 17:34:08 $
+$Revision: 1.34 $ $Date: 2009-10-07 20:30:48 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.87 2009-10-07 17:34:08 martin Exp $
+# $Id: XML.pm,v 1.88 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 =head1 NAME
 
@@ -254,7 +254,7 @@ sub XMLHashGet {
     my ( $Self, %Param ) = @_;
 
     my $Content = '';
-    my @XMLHash = ();
+    my @XMLHash;
 
     # check needed stuff
     for (qw(Type Key)) {
@@ -425,28 +425,27 @@ search a xml hash from database
 sub XMLHashSearch {
     my ( $Self, %Param ) = @_;
 
-    my @Keys    = ();
-    my %Hash    = ();
-    my %HashNew = ();
-
     # check needed stuff
     if ( !$Param{Type} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type!' );
         return;
     }
 
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ? GROUP BY xml_key',
         Bind => [ \$Param{Type} ],
     );
+    my %Hash;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         $Hash{ $Data[0] } = 1;
     }
 
+    my @Keys;
+    my %HashNew;
     if ( $Param{What} && ref $Param{What} eq 'ARRAY' ) {
         for my $And ( @{ $Param{What} } ) {
-            my %HashNew = ();
-            my $SQL     = '';
+            my %HashNew;
+            my $SQL = '';
             for my $Key ( sort keys %{$And} ) {
                 my $Value = $Self->{DBObject}->Quote( $And->{$Key} );
                 $Key = $Self->{DBObject}->Quote( $Key, 'Like' );
@@ -500,18 +499,17 @@ a list of xml hash's in database
 sub XMLHashList {
     my ( $Self, %Param ) = @_;
 
-    my @Keys = ();
-
     # check needed stuff
     if ( !$Param{Type} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type!' );
         return;
     }
 
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT distinct(xml_key) FROM xml_storage WHERE xml_type = ? GROUP BY xml_key',
         Bind => [ \$Param{Type} ],
     );
+    my @Keys;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         push @Keys, $Data[0];
     }
@@ -544,8 +542,8 @@ sub XMLHash2XML {
 sub _ElementBuild {
     my ( $Self, %Param ) = @_;
 
-    my @Tag    = ();
-    my @Sub    = ();
+    my @Tag;
+    my @Sub;
     my $Output = '';
     if ( $Param{Key} ) {
         $Self->{XMLHash2XMLLayer}++;
@@ -1442,6 +1440,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.87 $ $Date: 2009-10-07 17:34:08 $
+$Revision: 1.88 $ $Date: 2009-10-07 20:30:48 $
 
 =cut

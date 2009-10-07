@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.64 2009-09-23 22:02:37 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.65 2009-10-07 20:30:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -285,8 +285,8 @@ sub ArticleWriteAttachment {
     # strip dots from filenames
     $Param{Filename} =~ s/^\.//g;
     my $NewFileName = $Param{Filename};
-    my %UsedFile    = ();
-    my %Index       = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID}, );
+    my %UsedFile;
+    my %Index = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID}, );
     for ( keys %Index ) {
         $UsedFile{ $Index{$_}->{Filename} } = 1;
     }
@@ -430,8 +430,8 @@ sub ArticleAttachmentIndex {
         return;
     }
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my %Index       = ();
-    my $Counter     = 0;
+    my %Index;
+    my $Counter = 0;
 
     # try fs
     my @List = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");

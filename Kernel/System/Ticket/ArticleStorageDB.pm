@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.69 2009-09-23 22:02:37 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.70 2009-10-07 20:30:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -210,12 +210,13 @@ sub ArticleWritePlain {
     }
 
     # write article to db 1:1
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO article_plain '
             . ' (article_id, body, create_time, create_by, change_time, change_by) '
             . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [ \$Param{ArticleID}, \$Param{Email}, \$Param{UserID}, \$Param{UserID} ],
     );
+    return 1;
 }
 
 sub ArticleWriteAttachment {
@@ -229,8 +230,8 @@ sub ArticleWriteAttachment {
         }
     }
     my $NewFileName = $Param{Filename};
-    my %UsedFile    = ();
-    my %Index       = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID} );
+    my %UsedFile;
+    my %Index = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID} );
     for ( keys %Index ) {
         $UsedFile{ $Index{$_}->{Filename} } = 1;
     }
@@ -267,7 +268,7 @@ sub ArticleWriteAttachment {
     }
 
     # write attachment to db
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO article_attachment '
             . ' (article_id, filename, content_type, content_size, content, '
             . ' content_id, content_alternative, create_time, create_by, change_time, change_by) '
@@ -278,6 +279,7 @@ sub ArticleWriteAttachment {
             \$Param{UserID}, \$Param{UserID},
         ],
     );
+    return 1;
 }
 
 sub ArticlePlain {
@@ -358,7 +360,7 @@ sub ArticleAttachmentIndex {
     if ( !$Param{ContentPath} ) {
         $Param{ContentPath} = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} ) || '';
     }
-    my %Index   = ();
+    my %Index;
     my $Counter = 0;
 
     # try database

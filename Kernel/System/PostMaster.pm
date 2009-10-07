@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.83 2009-07-14 05:28:00 martin Exp $
+# $Id: PostMaster.pm,v 1.84 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 =head1 NAME
 
@@ -171,7 +171,7 @@ return params
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my @Return = ();
+    my @Return;
 
     # ConfigObject section / get params
     my $GetParam = $Self->GetEmailParams();
@@ -635,6 +635,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.83 $ $Date: 2009-07-14 05:28:00 $
+$Revision: 1.84 $ $Date: 2009-10-07 20:30:48 $
 
 =cut

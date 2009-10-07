@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketAccountedTime.pm,v 1.7 2009-04-23 13:47:08 mh Exp $
+# $Id: TicketAccountedTime.pm,v 1.8 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -547,7 +547,7 @@ sub GetObjectAttributes {
 
 sub GetStatTable {
     my ( $Self, %Param ) = @_;
-    my @StatArray = ();
+    my @StatArray;
     if ( $Param{XValue}{Element} && $Param{XValue}{Element} eq 'KindsOfReporting' ) {
 
         for my $Row ( sort keys %{ $Param{TableStructure} } ) {
@@ -611,10 +611,10 @@ sub GetStatTable {
 sub _ReportingValues {
     my ( $Self, %Param ) = @_;
     my $SearchAttributes = $Param{SearchAttributes};
-    my @Where            = ();
+    my @Where;
 
     # get ticket search relevant attributes
-    my %TicketSearch = ();
+    my %TicketSearch;
     ATTRIBUTE:
     for my $Attribute ( @{ $Self->_AllowedTicketSearchAttributes() } ) {
         next ATTRIBUTE if !$SearchAttributes->{$Attribute};
@@ -634,7 +634,7 @@ sub _ReportingValues {
 
         # do nothing, if there are no tickets
         if ( !@TicketIDs ) {
-            my %Reporting = ();
+            my %Reporting;
             for my $Kind ( @{ $Param{SelectedKindsOfReporting} } ) {
                 $Reporting{$Kind} = 0;
             }
@@ -668,7 +668,7 @@ sub _ReportingValues {
 
     # ask only for the needed kinds to get a better performance
     my %SelectedKindsOfReporting = map { $_ => 1 } @{ $Param{SelectedKindsOfReporting} };
-    my %Reporting = ();
+    my %Reporting;
 
     if ( $SelectedKindsOfReporting{TotalTime} ) {
 
@@ -700,9 +700,9 @@ sub _ReportingValues {
         SQL => "SELECT ticket_id, article_id, time_unit FROM time_accounting $WhereString"
     );
 
-    my %TicketID  = ();
-    my %ArticleID = ();
-    my $Time      = 0;
+    my %TicketID;
+    my %ArticleID;
+    my $Time = 0;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $TicketID{ $Row[0] }  += $Row[2];
         $ArticleID{ $Row[1] } += $Row[2];
@@ -984,7 +984,7 @@ sub ImportWrapper {
             }
             elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
                 my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
-                my %PriorityIDs = ();
+                my %PriorityIDs;
                 for my $Key ( keys %PriorityList ) {
                     $PriorityIDs{ $PriorityList{$Key} } = $Key;
                 }

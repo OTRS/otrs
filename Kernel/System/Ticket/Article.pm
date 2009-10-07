@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.235 2009-10-07 17:13:09 martin Exp $
+# $Id: Article.pm,v 1.236 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.235 $) [1];
+$VERSION = qw($Revision: 1.236 $) [1];
 
 =head1 NAME
 
@@ -357,10 +357,10 @@ sub ArticleCreate {
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
 
     # remember already sent agent notifications
-    my %AlreadySent = ();
+    my %AlreadySent;
 
     # remember agent to exclude notifications
-    my %DoNotSend = ();
+    my %DoNotSend;
     if ( $Param{ExcludeNotificationToUserID} && ref $Param{ExcludeNotificationToUserID} eq 'ARRAY' )
     {
         for my $UserID ( @{ $Param{ExcludeNotificationToUserID} } ) {
@@ -369,7 +369,7 @@ sub ArticleCreate {
     }
 
     # remember agent to exclude notifications / already sent
-    my %DoNotSendMute = ();
+    my %DoNotSendMute;
     if (
         $Param{ExcludeMuteNotificationToUserID}
         && ref $Param{ExcludeMuteNotificationToUserID} eq 'ARRAY'
@@ -815,7 +815,7 @@ sub ArticleSenderTypeList {
             . "valid_id IN (${\(join ', ', $Self->{ValidObject}->ValidIDsGet())})",
     );
 
-    my @Array = ();
+    my @Array;
     my %Hash;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push @Array, $Row[1];
@@ -1066,7 +1066,7 @@ sub ArticleFreeTextGet {
     }
 
     # get config
-    my %Data = ();
+    my %Data;
     if ( ref $Self->{ConfigObject}->Get( $Param{Type} ) eq 'HASH' ) {
         %Data = %{ $Self->{ConfigObject}->Get( $Param{Type} ) };
     }
@@ -3007,10 +3007,11 @@ sub ArticleAccountedTimeDelete {
     }
 
     # db query
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM time_accounting WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
+    return 1;
 }
 
 1;
@@ -3112,6 +3113,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.235 $ $Date: 2009-10-07 17:13:09 $
+$Revision: 1.236 $ $Date: 2009-10-07 20:30:48 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.82 2009-10-01 18:38:48 martin Exp $
+# $Id: Stats.pm,v 1.83 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 =head1 SYNOPSIS
 
@@ -372,7 +372,7 @@ sub StatsUpdate {
     my ( $Self, %Param ) = @_;
 
     # declaration of the hash
-    my %StatXML = ();
+    my %StatXML;
 
     # check necessary data
     if ( !$Param{StatID} ) {
@@ -569,7 +569,7 @@ lists all stats id's
 sub GetStatsList {
     my ( $Self, %Param ) = @_;
 
-    my @SearchResult = ();
+    my @SearchResult;
     if ( !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) ) ) {
         $Self->_AutomaticSampleImport();
         return if !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) );
@@ -585,7 +585,7 @@ sub GetStatsList {
     $Param{OrderBy} ||= 'ID';
 
     # a solution with more performance is useful
-    my %ResultHash = ();
+    my %ResultHash;
     for my $StatID (@SearchResult) {
         my $Stat = $Self->StatsGet(
             StatID             => $StatID,
@@ -628,7 +628,7 @@ sub GetStatsList {
             }
         }
     }
-    my @SortArray = ();
+    my @SortArray;
     if ( $Param{OrderBy} eq 'ID' ) {
         @SortArray = sort { $ResultHash{$a} <=> $ResultHash{$b} } keys %ResultHash;
     }
@@ -675,7 +675,7 @@ sub SumBuild {
 
     # add sum x
     if ( $Param{SumCol} ) {
-        my @SumRow = ();
+        my @SumRow;
         $SumRow[0] = 'Sum';
         for my $Index1 ( 2 .. $#Data ) {
             for my $Index2 ( 1 .. $#{ $Data[$Index1] } ) {
@@ -785,7 +785,7 @@ sub _GenerateStaticStats {
 sub _GenerateDynamicStats {
     my ( $Self, %Param ) = @_;
 
-    my @HeaderLine     = ();
+    my @HeaderLine;
     my $TitleTimeStart = '';
     my $TitleTimeStop  = '';
 
@@ -808,7 +808,7 @@ sub _GenerateDynamicStats {
     # get the selected values
     # perhaps i can split the StatGet function to make this needless
     # Problem, i need the block information
-    my %NewParam = ();
+    my %NewParam;
 
     $NewParam{Title}        = $Param{Title};
     $NewParam{Object}       = $Param{Object};
@@ -913,7 +913,7 @@ sub _GenerateDynamicStats {
     %Param = %NewParam;
 
     # get all restrictions for the search
-    my %RestrictionAttribute = ();
+    my %RestrictionAttribute;
     for my $RestrictionPart ( @{ $Param{UseAsRestriction} } ) {
         my $Element = $RestrictionPart->{Element};
         if ( $RestrictionPart->{Block} eq 'InputField' ) {
@@ -1159,7 +1159,7 @@ sub _GenerateDynamicStats {
 
         # all elements which are shown with multiselectfields
         if ( $Ref1->{Block} ne 'Time' ) {
-            my %SelectedValues = ();
+            my %SelectedValues;
             for my $Ref2 ( @{ $Ref1->{SelectedValues} } ) {
                 $SelectedValues{$Ref2} = $Ref1->{Values}{$Ref2};
             }
@@ -1491,7 +1491,7 @@ sub _GenerateDynamicStats {
     # create the table structure
     my %TableStructure;
     for my $Row ( sort keys %ValueSeries ) {
-        my @Cells = ();
+        my @Cells;
         for my $Cell ( @{ $Xvalue->{SelectedValues} } ) {    # get each cell
             $ValueSeries{$Row} ||= {};
             my %Attributes = ( %{ $ValueSeries{$Row} }, %RestrictionAttribute );
@@ -1747,9 +1747,9 @@ sub GenerateGraph {
 sub CompletenessCheck {
     my ( $Self, %Param ) = @_;
 
-    my @Notify         = ();
-    my @NotifySelected = ();
-    my @IndexArray     = ();
+    my @Notify;
+    my @NotifySelected;
+    my @IndexArray;
 
     $Notify[0] = {
         Info     => 'Please fill out the required fields!',
@@ -2802,7 +2802,7 @@ sub GetParams {
 
     # static
     # don't remove this if clause, because is required for mkStats.pl
-    my @Params = ();
+    my @Params;
     if ( $Stat->{StatType} eq 'static' ) {
 
         # load static modul
@@ -2863,9 +2863,9 @@ sub StatsRun {
         $Self->{DBObject} = $ExtraDatabaseObject;
     }
 
-    my $Stat     = $Self->StatsGet( StatID => $Param{StatID} );
+    my $Stat = $Self->StatsGet( StatID => $Param{StatID} );
     my %GetParam = %{ $Param{GetParam} };
-    my @Result   = ();
+    my @Result;
 
     # get data if it is a static stats
     if ( $Stat->{StatType} eq 'static' ) {
@@ -3234,6 +3234,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.82 $ $Date: 2009-10-01 18:38:48 $
+$Revision: 1.83 $ $Date: 2009-10-07 20:30:48 $
 
 =cut

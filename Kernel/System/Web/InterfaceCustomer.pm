@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.42 2009-09-13 22:13:29 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.43 2009-10-07 20:30:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -106,7 +106,7 @@ sub Run {
     my $Self = shift;
 
     # get common framework params
-    my %Param = ();
+    my %Param;
 
     # get session id
     $Param{SessionName} = $Self->{ConfigObject}->Get('CustomerPanelSessionName') || 'CSID';
@@ -560,7 +560,7 @@ sub Run {
         }
 
         # get params
-        my %GetParams = ();
+        my %GetParams;
         for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerUser')->{Map} } ) {
             $GetParams{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[1] )
                 || '';
@@ -942,6 +942,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2009-09-13 22:13:29 $
+$Revision: 1.43 $ $Date: 2009-10-07 20:30:49 $
 
 =cut

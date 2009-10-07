@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.21 2009-10-07 17:34:09 martin Exp $
+# $Id: DB.pm,v 1.22 2009-10-07 20:30:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,7 +131,7 @@ sub FormIDGetAllFilesData {
     my ( $Self, %Param ) = @_;
 
     my $Counter = 0;
-    my @Data    = ();
+    my @Data;
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -186,7 +186,7 @@ sub FormIDGetAllFilesMeta {
     my ( $Self, %Param ) = @_;
 
     my $Counter = 0;
-    my @Data    = ();
+    my @Data;
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );

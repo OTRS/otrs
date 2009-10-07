@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachment
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.32 2009-10-07 17:34:08 martin Exp $
+# $Id: StdAttachment.pm,v 1.33 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -174,7 +174,7 @@ sub StdAttachmentGet {
         Encode => [ 1, 1, 0, 1, 1, 1 ],
         Limit  => 1,
     );
-    my %Data = ();
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # decode attachment if it's a postgresql backend!!!
@@ -394,7 +394,7 @@ sub StdAttachmentsByResponseID {
         Where => "standard_response_id = $Param{ID}",
     );
     my %AllStdAttachments = $Self->GetAllStdAttachments( Valid => 1 );
-    my %Data = ();
+    my %Data;
     for ( keys %Relation ) {
         if ( $AllStdAttachments{$_} ) {
             $Data{$_} = $AllStdAttachments{$_};
@@ -489,6 +489,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2009-10-07 17:34:08 $
+$Revision: 1.33 $ $Date: 2009-10-07 20:30:48 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm - stats about ticket solution and response time
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSolutionResponseTime.pm,v 1.3 2009-04-23 13:47:08 mh Exp $
+# $Id: TicketSolutionResponseTime.pm,v 1.4 2009-10-07 20:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -526,7 +526,7 @@ sub GetObjectAttributes {
 
 sub GetStatTable {
     my ( $Self, %Param ) = @_;
-    my @StatArray = ();
+    my @StatArray;
     if ( $Param{XValue}{Element} && $Param{XValue}{Element} eq 'KindsOfReporting' ) {
 
         for my $Row ( sort keys %{ $Param{TableStructure} } ) {
@@ -591,7 +591,7 @@ sub _ReportingValues {
     my $SearchAttributes = $Param{SearchAttributes};
 
     # get ticket search relevant attributes
-    my %TicketSearch = ();
+    my %TicketSearch;
     ATTRIBUTE:
     for my $Attribute ( @{ $Self->_AllowedTicketSearchAttributes() } ) {
         next ATTRIBUTE if !$SearchAttributes->{$Attribute};
@@ -617,11 +617,11 @@ sub _ReportingValues {
     my $Counter        = 0;
     my $CounterAllOver = 0;
 
-    my %SolutionAllOver     = ();
-    my %Solution            = ();
-    my %SolutionWorkingTime = ();
-    my %Response            = ();
-    my %ResponseWorkingTime = ();
+    my %SolutionAllOver;
+    my %Solution;
+    my %SolutionWorkingTime;
+    my %Response;
+    my %ResponseWorkingTime;
 
     for my $TicketID (@TicketIDs) {
         $CounterAllOver++;
@@ -659,7 +659,7 @@ sub _ReportingValues {
         }
     }
 
-    my %Reporting = ();
+    my %Reporting;
     my %SelectedKindsOfReporting = map { $_ => 1 } @{ $Param{SelectedKindsOfReporting} };
 
     # different solution averages
@@ -1094,7 +1094,7 @@ sub ImportWrapper {
             }
             elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
                 my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
-                my %PriorityIDs = ();
+                my %PriorityIDs;
                 for my $Key ( keys %PriorityList ) {
                     $PriorityIDs{ $PriorityList{$Key} } = $Key;
                 }

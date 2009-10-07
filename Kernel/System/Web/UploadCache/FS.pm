@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.17 2009-09-01 11:01:47 martin Exp $
+# $Id: FS.pm,v 1.18 2009-10-07 20:30:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,7 +57,7 @@ sub FormIDRemove {
 
     my @List    = glob("$Self->{TempDir}/$Param{FormID}.*");
     my $Counter = 0;
-    my @Data    = ();
+    my @Data;
     for my $File (@List) {
         $Self->{MainObject}->FileDelete( Location => $File, );
     }
@@ -145,7 +145,7 @@ sub FormIDGetAllFilesData {
 
     my @List    = glob("$Self->{TempDir}/$Param{FormID}.*");
     my $Counter = 0;
-    my @Data    = ();
+    my @Data;
     for my $File (@List) {
 
         # ignore meta files
@@ -222,7 +222,7 @@ sub FormIDGetAllFilesMeta {
 
     my @List    = glob("$Self->{TempDir}/$Param{FormID}.*");
     my $Counter = 0;
-    my @Data    = ();
+    my @Data;
     for my $File (@List) {
 
         # ignore meta files
@@ -285,9 +285,9 @@ sub FormIDGetAllFilesMeta {
 sub FormIDCleanUp {
     my ( $Self, %Param ) = @_;
 
-    my $CurrentTile   = time() - 86400;               # 60 * 60 * 24 * 1
-    my @List          = glob("$Self->{TempDir}/*");
-    my %RemoveFormIDs = ();
+    my $CurrentTile = time() - 86400;               # 60 * 60 * 24 * 1
+    my @List        = glob("$Self->{TempDir}/*");
+    my %RemoveFormIDs;
     for my $File (@List) {
 
         # get FormID
