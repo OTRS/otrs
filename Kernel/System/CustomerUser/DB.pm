@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.78 2009-08-31 16:32:11 martin Exp $
+# $Id: DB.pm,v 1.79 2009-10-07 20:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -181,7 +181,7 @@ sub CustomerName {
 sub CustomerSearch {
     my ( $Self, %Param ) = @_;
 
-    my %Users = ();
+    my %Users;
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
 
     # check needed stuff

@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.31 2009-06-03 09:28:23 martin Exp $
+# $Id: SMIME.pm,v 1.32 2009-10-07 20:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -303,7 +303,7 @@ verify a message with signature and returns a hash (Successful, Message, SignerC
 sub Verify {
     my ( $Self, %Param ) = @_;
 
-    my %Return      = ();
+    my %Return;
     my $Message     = '';
     my $MessageLong = '';
     my $UsedKey     = '';
@@ -402,8 +402,8 @@ sub CertificateSearch {
     my ( $Self, %Param ) = @_;
 
     my $Search = $Param{Search} || '';
-    my @Result = ();
-    my @Hash   = $Self->CertificateList();
+    my @Result;
+    my @Hash = $Self->CertificateList();
     for (@Hash) {
         my $Certificate = $Self->CertificateGet( Hash => $_ );
         my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
@@ -419,7 +419,7 @@ sub CertificateSearch {
             $Hit = 1;
         }
         if ($Hit) {
-            push( @Result, \%Attributes );
+            push @Result, \%Attributes;
         }
     }
     return @Result;
@@ -518,12 +518,12 @@ get list of local certificates
 sub CertificateList {
     my ( $Self, %Param ) = @_;
 
-    my @Hash = ();
+    my @Hash;
     my @List = glob("$Self->{CertPath}/*.0");
     for my $File (@List) {
         $File =~ s!^.*/!!;
         $File =~ s/(.*)\.0/$1/;
-        push( @Hash, $File );
+        push @Hash, $File;
     }
     return @Hash;
 }
@@ -541,7 +541,7 @@ get certificate attributes
 sub CertificateAttributes {
     my ( $Self, %Param ) = @_;
 
-    my %Attributes = ();
+    my %Attributes;
     if ( !$Param{Certificate} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need Certificate!" );
         return;
@@ -577,8 +577,8 @@ sub PrivateSearch {
     my ( $Self, %Param ) = @_;
 
     my $Search = $Param{Search} || '';
-    my @Result = ();
-    my @Hash   = $Self->CertificateList();
+    my @Result;
+    my @Hash = $Self->CertificateList();
     for (@Hash) {
         my $Certificate = $Self->CertificateGet( Hash => $_ );
         my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
@@ -595,7 +595,7 @@ sub PrivateSearch {
         }
         if ( $Hit && $Attributes{Private} eq 'Yes' ) {
             $Attributes{Type} = 'key';
-            push( @Result, \%Attributes );
+            push @Result, \%Attributes;
         }
     }
     return @Result;
@@ -753,12 +753,12 @@ returns a list of private key hashs
 sub PrivateList {
     my ( $Self, %Param ) = @_;
 
-    my @Hash = ();
+    my @Hash;
     my @List = glob("$Self->{PrivatePath}/*.0");
     for my $File (@List) {
         $File =~ s!^.*/!!;
         $File =~ s/(.*)\.0/$1/;
-        push( @Hash, $File );
+        push @Hash, $File;
     }
     return @Hash;
 
@@ -778,7 +778,7 @@ returns attributes of private key
 sub PrivateAttributes {
     my ( $Self, %Param ) = @_;
 
-    my %Attributes = ();
+    my %Attributes;
     my %Option = ( Modulus => '-modulus', );
     if ( !$Param{Private} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need Private!" );
@@ -918,6 +918,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2009-06-03 09:28:23 $
+$Revision: 1.32 $ $Date: 2009-10-07 20:41:50 $
 
 =cut

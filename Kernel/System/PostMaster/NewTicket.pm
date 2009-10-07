@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.75 2009-03-24 12:14:34 martin Exp $
+# $Id: NewTicket.pm,v 1.76 2009-10-07 20:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -89,7 +89,7 @@ sub Run {
 
     # get customer user data form From: (sender address)
     if ( !$GetParam{'X-OTRS-CustomerUser'} ) {
-        my %CustomerData = ();
+        my %CustomerData;
         if ( $GetParam{From} ) {
             my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
                 Line => $GetParam{From},

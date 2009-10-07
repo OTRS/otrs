@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.19 2009-10-07 17:34:09 martin Exp $
+# $Id: DB.pm,v 1.20 2009-10-07 20:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -94,9 +94,9 @@ sub GetPreferences {
 sub SearchPreferences {
     my ( $Self, %Param ) = @_;
 
-    my %UserID = ();
-    my $Key    = $Param{Key} || '';
-    my $Value  = $Param{Value} || '';
+    my %UserID;
+    my $Key   = $Param{Key}   || '';
+    my $Value = $Param{Value} || '';
 
     # get preferences
     my $SQL = "SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue} "

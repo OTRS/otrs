@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.25 2009-04-17 08:36:44 tr Exp $
+# $Id: UnitTest.pm,v 1.26 2009-10-07 20:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -128,11 +128,11 @@ Run all tests located in scripts/test/*.t and print result to stdout.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %ResultSummary = ();
-    my $Home          = $Self->{ConfigObject}->Get('Home');
-    my @Files         = glob("$Home/scripts/test/*.t");
-    my $StartTime     = $Self->{TimeObject}->SystemTime();
-    my $Product       = $Param{Product}
+    my %ResultSummary;
+    my $Home      = $Self->{ConfigObject}->Get('Home');
+    my @Files     = glob("$Home/scripts/test/*.t");
+    my $StartTime = $Self->{TimeObject}->SystemTime();
+    my $Product   = $Param{Product}
         || $Self->{ConfigObject}->Get('Product') . " " . $Self->{ConfigObject}->Get('Version');
     my @Names = split( /:/, $Param{Name} || '' );
 
@@ -552,6 +552,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.26 $ $Date: 2009-10-07 20:41:50 $
 
 =cut

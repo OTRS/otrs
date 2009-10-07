@@ -2,7 +2,7 @@
 # Kernel/System/SearchProfile.pm - module to manage search profiles
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SearchProfile.pm,v 1.15 2009-04-17 08:36:44 tr Exp $
+# $Id: SearchProfile.pm,v 1.16 2009-10-07 20:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -101,8 +101,6 @@ to add a search profile item
 sub SearchProfileAdd {
     my ( $Self, %Param ) = @_;
 
-    my @Data = ();
-
     # check needed stuff
     for (qw(Base Name Key UserLogin)) {
         if ( !defined( $Param{$_} ) ) {
@@ -115,6 +113,7 @@ sub SearchProfileAdd {
     if ( !defined( $Param{Value} ) ) {
         return 1;
     }
+    my @Data;
     if ( ref( $Param{Value} ) eq 'ARRAY' ) {
         @Data = @{ $Param{Value} };
         $Param{Type} = 'ARRAY';
@@ -240,7 +239,7 @@ sub SearchProfileList {
     return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT profile_name FROM search_profile WHERE LOWER(login) = LOWER('$Login')",
     );
-    my %Result = ();
+    my %Result;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         $Result{ $Data[0] } = $Data[0];
     }
@@ -263,6 +262,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.16 $ $Date: 2009-10-07 20:41:50 $
 
 =cut

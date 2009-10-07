@@ -2,7 +2,7 @@
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.6 2009-09-13 22:38:20 martin Exp $
+# $Id: LDAP.pm,v 1.7 2009-10-07 20:41:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -214,7 +214,7 @@ sub Sync {
     if ($UserSyncMap) {
 
         # get whole user dn
-        my %SyncUser = ();
+        my %SyncUser;
         for my $Entry ( $Result->all_entries ) {
             for my $Key ( keys %{$UserSyncMap} ) {
 
@@ -317,7 +317,7 @@ sub Sync {
         my %UserData = $Self->{UserObject}->GetUserData( User => $Param{User} );
 
         # system permissions
-        my %PermissionsEmpty = ();
+        my %PermissionsEmpty;
         for ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
             $PermissionsEmpty{$_} = 0;
         }
@@ -519,7 +519,7 @@ sub Sync {
         my %UserData = $Self->{UserObject}->GetUserData( User => $Param{User} );
 
         # system permissions
-        my %PermissionsEmpty = ();
+        my %PermissionsEmpty;
         for ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
             $PermissionsEmpty{$_} = 0;
         }
