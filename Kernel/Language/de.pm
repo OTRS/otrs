@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.213 2009-10-05 10:19:28 mb Exp $
+# $Id: de.pm,v 1.214 2009-10-07 19:28:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.213 $) [1];
+$VERSION = qw($Revision: 1.214 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -37,7 +37,7 @@ sub Data {
         'Yes' => 'Ja',
         'No' => 'Nein',
         'yes' => 'ja',
-        'no' => 'kein',
+        'no' => 'nein',
         'Off' => 'Aus',
         'off' => 'aus',
         'On' => 'Ein',
