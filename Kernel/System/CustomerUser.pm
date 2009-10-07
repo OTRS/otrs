@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.56 2009-09-13 22:41:11 martin Exp $
+# $Id: CustomerUser.pm,v 1.57 2009-10-07 20:25:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -126,7 +126,7 @@ return customer source list
 sub CustomerSourceList {
     my ( $Self, %Param ) = @_;
 
-    my %Data = ();
+    my %Data;
     for ( '', 1 .. 10 ) {
 
         # next if customer backend is used
@@ -168,7 +168,7 @@ sub CustomerSearch {
         $Param{Search} =~ s/\s+$//;
     }
 
-    my %Data = ();
+    my %Data;
     for ( '', 1 .. 10 ) {
 
         # next if customer backend is used
@@ -194,7 +194,7 @@ return a hash with all users (depreciated)
 sub CustomerUserList {
     my ( $Self, %Param ) = @_;
 
-    my %Data = ();
+    my %Data;
     for ( '', 1 .. 10 ) {
 
         # next if customer backend is used
@@ -300,7 +300,7 @@ sub CustomerUserDataGet {
         }
 
         # check if customer company support is enabled and get company data
-        my %Company = ();
+        my %Company;
         if (
             $Self->{ConfigObject}->Get("CustomerCompany")
             && $Self->{ConfigObject}->Get("CustomerUser$_")->{CustomerCompanySupport}
@@ -618,6 +618,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2009-09-13 22:41:11 $
+$Revision: 1.57 $ $Date: 2009-10-07 20:25:38 $
 
 =cut

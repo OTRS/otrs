@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.40 2009-04-17 08:36:44 tr Exp $
+# $Id: AuthSession.pm,v 1.41 2009-10-07 20:25:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -106,7 +106,9 @@ sub new {
 
 checks a session, returns true (session ok) or false (session invalid)
 
-    $SessionObject->CheckSessionID(SessionID => '1234567890123456');
+    my $Ok = $SessionObject->CheckSessionID(
+        SessionID => '1234567890123456',
+    );
 
 =cut
 
@@ -135,7 +137,20 @@ sub CheckSessionIDMessage {
 
 get session data in a hash
 
-    my %Data = $SessionObject->GetSessionIDData(SessionID => '1234567890123456');
+    my %Data = $SessionObject->GetSessionIDData(
+        SessionID => '1234567890123456',
+    );
+
+Returns:
+
+    %Data = (
+        UserSessionStart    => '1293801801',
+        UserRemoteAddr      => '127.0.0.1',
+        UserRemoteUserAgent => 'Some User Agent x.x',
+        UserLastname        => 'SomeLastName',
+        UserFirstname       => 'SomeFirstname',
+        # and all other preferences values
+    );
 
 =cut
 
@@ -226,9 +241,9 @@ returns a array with expired session ids
 sub GetExpiredSessionIDs {
     my ( $Self, %Param ) = @_;
 
-    my @ExpiredSession = ();
-    my @ExpiredIdle    = ();
-    my @List           = $Self->{Backend}->GetAllSessionIDs();
+    my @ExpiredSession;
+    my @ExpiredIdle;
+    my @List = $Self->{Backend}->GetAllSessionIDs();
     for my $SessionID (@List) {
         my %SessionData    = $Self->GetSessionIDData( SessionID => $SessionID );
         my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
@@ -292,6 +307,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.41 $ $Date: 2009-10-07 20:25:38 $
 
 =cut

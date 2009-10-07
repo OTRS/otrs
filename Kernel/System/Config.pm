@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.86 2009-09-13 22:28:08 martin Exp $
+# $Id: Config.pm,v 1.87 2009-10-07 20:25:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 NAME
 
@@ -129,7 +129,7 @@ sub _Init {
 
     # load xml config files
     if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
-        my %Data  = ();
+        my %Data;
         my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.xml");
         for my $File (@Files) {
             my $ConfigFile = '';
@@ -259,8 +259,8 @@ sub _Init {
 sub WriteDefault {
     my ( $Self, %Param ) = @_;
 
-    my $File     = '';
-    my %UsedKeys = ();
+    my $File = '';
+    my %UsedKeys;
 
     # check needed stuff
     for (qw()) {
@@ -424,9 +424,9 @@ submit config settings to application
 sub CreateConfig {
     my ( $Self, %Param ) = @_;
 
-    my $File     = '';
-    my %UsedKeys = ();
-    my $Home     = $Self->{Home};
+    my $File = '';
+    my %UsedKeys;
+    my $Home = $Self->{Home};
 
     # remember to update ZZZAAuto.pm and ZZZAuto.pm
     $Self->{Update} = 1;
@@ -599,8 +599,8 @@ sub ConfigItemUpdate {
 
     # update content
     my @FileOld = <$In>;
-    my @FileNew = ();
-    my $Insert  = 0;
+    my @FileNew;
+    my $Insert = 0;
     for my $Line ( reverse @FileOld ) {
         push( @FileNew, $Line );
         if ( !$Insert && ( $Line =~ /^}/ || $Line =~ /^\$Self->\{'1'\} = 1;/ ) ) {
@@ -714,7 +714,7 @@ sub ConfigItemGet {
     if ( $ConfigItem->{Setting}->[1]->{Hash} ) {
         my $HashRef = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
         if ( !$Param{Default} && defined($HashRef) ) {
-            my @Array = ();
+            my @Array;
             if ( ref $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} eq 'ARRAY' ) {
                 @Array = @{ $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} };
             }
@@ -1060,8 +1060,8 @@ sub ConfigGroupList {
             return;
         }
     }
-    my %List  = ();
-    my %Count = ();
+    my %List;
+    my %Count;
     for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
         if ( $ConfigItem->{Group} && ref( $ConfigItem->{Group} ) eq 'ARRAY' ) {
             for my $Group ( @{ $ConfigItem->{Group} } ) {
@@ -1095,7 +1095,7 @@ sub ConfigSubGroupList {
             return;
         }
     }
-    my %List = ();
+    my %List;
     for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
         if ( $ConfigItem->{Group} && ref $ConfigItem->{Group} eq 'ARRAY' ) {
             my $Hit = 0;
@@ -1143,12 +1143,12 @@ sub ConfigSubGroupConfigItemList {
             return;
         }
     }
-    my %Data = ();
+    my %Data;
     if ( $Self->{'Cache::ConfigSubGroupConfigItemList'} ) {
         %Data = %{ $Self->{'Cache::ConfigSubGroupConfigItemList'} };
     }
     else {
-        my %Used = ();
+        my %Used;
         for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
             my $Name = $ConfigItem->{Name};
             if ( $ConfigItem->{Group} && ref $ConfigItem->{Group} eq 'ARRAY' ) {
@@ -1200,8 +1200,8 @@ search sub groups of config items
 sub ConfigItemSearch {
     my ( $Self, %Param ) = @_;
 
-    my @List = ();
-    my %Used = ();
+    my @List;
+    my %Used;
 
     # check needed stuff
     for (qw(Search)) {
@@ -1529,14 +1529,14 @@ sub _XML2Perl {
         $Data = $Dump;
     }
     if ( $ConfigItem->{Hash} ) {
-        my %Hash  = ();
-        my @Array = ();
+        my %Hash;
+        my @Array;
         if ( ref $ConfigItem->{Hash}->[1]->{Item} eq 'ARRAY' ) {
             @Array = @{ $ConfigItem->{Hash}->[1]->{Item} };
         }
         for my $Item ( 1 .. $#Array ) {
             if ( defined $Array[$Item]->{Hash} ) {
-                my %SubHash = ();
+                my %SubHash;
                 for my $Index (
                     1 .. $#{ $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item} }
                     )
@@ -1551,7 +1551,7 @@ sub _XML2Perl {
                 $Hash{ $Array[$Item]->{Key} } = \%SubHash;
             }
             elsif ( defined $Array[$Item]->{Array} ) {
-                my @SubArray = ();
+                my @SubArray;
                 for my $Index (
                     1 .. $#{ $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item} }
                     )
@@ -1575,8 +1575,8 @@ sub _XML2Perl {
         $Data = $Dump;
     }
     if ( $ConfigItem->{Array} ) {
-        my @ArrayNew = ();
-        my @Array    = ();
+        my @ArrayNew;
+        my @Array;
         if ( ref $ConfigItem->{Array}->[1]->{Item} eq 'ARRAY' ) {
             @Array = @{ $ConfigItem->{Array}->[1]->{Item} };
         }
@@ -1590,10 +1590,10 @@ sub _XML2Perl {
         $Data = $Dump;
     }
     if ( $ConfigItem->{FrontendModuleReg} ) {
-        my %Hash = ();
+        my %Hash;
         for my $Key ( sort keys %{ $ConfigItem->{FrontendModuleReg}->[1] } ) {
             if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
-                my @Array = ();
+                my @Array;
                 for my $Index ( 1 .. $#{ $ConfigItem->{FrontendModuleReg}->[1]->{$Key} } ) {
                     push(
                         @Array,
@@ -1606,10 +1606,10 @@ sub _XML2Perl {
                 if ( ref $ConfigItem->{FrontendModuleReg}->[1]->{$Key} eq 'ARRAY' ) {
                     for my $Index ( 1 .. $#{ $ConfigItem->{FrontendModuleReg}->[1]->{$Key} } ) {
                         my $Content = $ConfigItem->{FrontendModuleReg}->[1]->{$Key}->[$Index];
-                        my %NavBar  = ();
+                        my %NavBar;
                         for my $Key ( sort keys %{$Content} ) {
                             if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
-                                my @Array = ();
+                                my @Array;
                                 for my $Index ( 1 .. $#{ $Content->{$Key} } ) {
                                     push @Array, $Content->{$Key}->[$Index]->{Content};
                                 }
@@ -1631,10 +1631,10 @@ sub _XML2Perl {
                 }
                 else {
                     my $Content = $ConfigItem->{FrontendModuleReg}->[1]->{$Key};
-                    my %NavBar  = ();
+                    my %NavBar;
                     for my $Key ( sort keys %{$Content} ) {
                         if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
-                            my @Array = ();
+                            my @Array;
                             for my $Index ( 1 .. $#{ $Content->{$Key} } ) {
                                 push @Array, $Content->{$Key}->[1]->{Content};
                             }
@@ -1662,10 +1662,10 @@ sub _XML2Perl {
         $Data = $Dump;
     }
     if ( $ConfigItem->{TimeWorkingHours} ) {
-        my %Days  = ();
+        my %Days;
         my @Array = @{ $ConfigItem->{TimeWorkingHours}->[1]->{Day} };
         for my $Day ( 1 .. $#Array ) {
-            my @Array2 = ();
+            my @Array2;
             if ( $Array[$Day]->{Hour} ) {
                 my @Hours = @{ $Array[$Day]->{Hour} };
                 for my $Hour ( 1 .. $#Hours ) {
@@ -1681,7 +1681,7 @@ sub _XML2Perl {
         $Data = $Dump;
     }
     if ( $ConfigItem->{TimeVacationDays} ) {
-        my %Hash  = ();
+        my %Hash;
         my @Array = @{ $ConfigItem->{TimeVacationDays}->[1]->{Item} };
         for my $Item ( 1 .. $#Array ) {
             $Hash{ $Array[$Item]->{Month} }->{ $Array[$Item]->{Day} } = $Array[$Item]->{Content};
@@ -1693,7 +1693,7 @@ sub _XML2Perl {
         $Data = $Dump;
     }
     if ( $ConfigItem->{TimeVacationDaysOneTime} ) {
-        my %Hash  = ();
+        my %Hash;
         my @Array = @{ $ConfigItem->{TimeVacationDaysOneTime}->[1]->{Item} };
         for my $Item ( 1 .. $#Array ) {
             $Hash{ $Array[$Item]->{Year} }->{ $Array[$Item]->{Month} }->{ $Array[$Item]->{Day} }
@@ -1736,6 +1736,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2009-09-13 22:28:08 $
+$Revision: 1.87 $ $Date: 2009-10-07 20:25:38 $
 
 =cut

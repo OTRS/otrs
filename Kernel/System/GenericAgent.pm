@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.60 2009-10-07 13:19:32 martin Exp $
+# $Id: GenericAgent.pm,v 1.61 2009-10-07 20:25:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 =head1 NAME
 
@@ -212,7 +212,7 @@ sub JobRun {
     }
 
     # get job from param
-    my %Job = ();
+    my %Job;
     if ( $Param{Config} ) {
         %Job = %{ $Param{Config} };
 
@@ -251,7 +251,7 @@ sub JobRun {
         }
     }
 
-    my %Tickets = ();
+    my %Tickets;
 
     # escalation tickets
     if ( $Job{Escalation} ) {
@@ -698,7 +698,7 @@ sub _JobRunTicket {
             || defined $Param{Config}->{New}->{"TicketFreeText$_"}
             )
         {
-            my %Data = ();
+            my %Data;
             $Data{TicketID} = $Param{TicketID};
             $Data{UserID}   = $Param{UserID};
             $Data{Counter}  = $_;
@@ -823,7 +823,7 @@ sub JobList {
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT DISTINCT(job_name) FROM generic_agent_jobs',
     );
-    my %Data = ();
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[0];
     }
@@ -852,7 +852,7 @@ sub JobGet {
         SQL  => 'SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?',
         Bind => [ \$Param{Name} ],
     );
-    my %Data = ();
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Self->{Map}->{ $Row[0] } && $Self->{Map}->{ $Row[0] } eq 'ARRAY' ) {
             push @{ $Data{ $Row[0] } }, $Row[1];
@@ -1090,8 +1090,6 @@ sub JobDelete {
 sub _JobUpdateRunTime {
     my ( $Self, %Param ) = @_;
 
-    my @Data = ();
-
     # check needed stuff
     for (qw(Name UserID)) {
         if ( !$Param{$_} ) {
@@ -1105,6 +1103,7 @@ sub _JobUpdateRunTime {
         SQL  => 'SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?',
         Bind => [ \$Param{Name} ],
     );
+    my @Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Row[0] =~ /^(ScheduleLastRun|ScheduleLastRunUnixTime)/ ) {
             push @Data, { Key => $Row[0], Value => $Row[1] };
@@ -1152,6 +1151,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2009-10-07 13:19:32 $
+$Revision: 1.61 $ $Date: 2009-10-07 20:25:38 $
 
 =cut

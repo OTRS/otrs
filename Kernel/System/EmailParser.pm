@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.89 2009-09-14 11:00:57 martin Exp $
+# $Id: EmailParser.pm,v 1.90 2009-10-07 20:25:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 =head1 NAME
 
@@ -190,7 +190,7 @@ sub GetParam {
     my $Line = $Self->{HeaderObject}->get($What) || '';
     chomp($Line);
     my $ReturnLine = '';
-    my %Remember   = ();
+    my %Remember;
     for my $Array ( decode_mimewords($Line) ) {
         for ( @{$Array} ) {
 
@@ -269,7 +269,7 @@ This returns an array with ('Juergen Weber <juergen.qeber@air.com>', 'me@example
 sub SplitAddressLine {
     my ( $Self, %Param ) = @_;
 
-    my @GetParam = ();
+    my @GetParam;
     for my $Line ( Mail::Address->parse( $Param{Line} ) ) {
         push @GetParam, $Line->format();
     }
@@ -636,7 +636,7 @@ sub PartsAttachments {
     }
 
     # get attachment meta stuff
-    my %PartData = ();
+    my %PartData;
 
     # get content alternative
     if ($ContentAlternative) {
@@ -888,6 +888,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.89 $ $Date: 2009-09-14 11:00:57 $
+$Revision: 1.90 $ $Date: 2009-10-07 20:25:38 $
 
 =cut

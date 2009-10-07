@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount.pm - lib for mail accounts
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: MailAccount.pm,v 1.10 2009-10-07 17:34:08 martin Exp $
+# $Id: MailAccount.pm,v 1.11 2009-10-07 20:25:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -184,7 +184,7 @@ sub MailAccountGet {
             . ' FROM mail_account WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
-    my %Data = ();
+    my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
             ID       => $Param{ID},
@@ -320,7 +320,7 @@ returns a list usable backends
 sub MailAccountBackendList {
     my ( $Self, %Param ) = @_;
 
-    my %Backends  = ();
+    my %Backends;
     my $Directory = $Self->{ConfigObject}->Get('Home') . '/Kernel/System/MailAccount/*.pm';
     my @List      = glob $Directory;
     for my $File (@List) {
@@ -397,6 +397,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2009-10-07 17:34:08 $
+$Revision: 1.11 $ $Date: 2009-10-07 20:25:38 $
 
 =cut

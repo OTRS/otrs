@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.64 2009-07-23 18:15:52 martin Exp $
+# $Id: Email.pm,v 1.65 2009-10-07 20:25:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -233,7 +233,7 @@ sub Send {
     }
 
     # build header
-    my %Header = ();
+    my %Header;
     for (qw(From To Cc Subject Charset Reply-To)) {
         next if !$Param{$_};
         $Header{$_} = $Param{$_};
@@ -345,9 +345,9 @@ sub Send {
 
     # add attachments to email
     if ( $Param{Attachment} ) {
-        my $Count          = 0;
-        my $PartType       = '';
-        my @NewAttachments = ();
+        my $Count    = 0;
+        my $PartType = '';
+        my @NewAttachments;
         ATTACHMENTS:
         for my $Upload ( @{ $Param{Attachment} } ) {
             if ( defined $Upload->{Content} && defined $Upload->{Filename} ) {
@@ -644,8 +644,8 @@ sub Send {
     $Param{Body} = $Entity->body_as_string();
 
     # get recipients
-    my @ToArray = ();
-    my $To      = '';
+    my @ToArray;
+    my $To = '';
     for (qw(To Cc Bcc)) {
         next if !$Param{$_};
         for my $Email ( Mail::Address->parse( $Param{$_} ) ) {
@@ -831,6 +831,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2009-07-23 18:15:52 $
+$Revision: 1.65 $ $Date: 2009-10-07 20:25:38 $
 
 =cut

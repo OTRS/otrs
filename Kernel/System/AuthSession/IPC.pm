@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.39 2009-03-23 06:29:49 martin Exp $
+# $Id: IPC.pm,v 1.40 2009-10-07 20:25:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -110,7 +110,7 @@ sub _ReadSHM {
     # read session data from mem
     my $String = '';
     shmread( $Self->{Key}, $String, 0, $Self->_GetSHMDataSize() ) || die "$!";
-    my @Lines = split( /\n/, $String );
+    my @Lines = split /\n/, $String;
     $String = '';
     for (@Lines) {
         if ( $_ =~ /^SessionID/ ) {
@@ -137,7 +137,7 @@ sub _GetSHMDataSize {
     # read meta data from mem
     my $MetaString = '';
     shmread( $Self->{KeyMeta}, $MetaString, 0, $Self->{IPCSizeMeta} ) || die "$!";
-    my @Items = split( /;/, $MetaString );
+    my @Items = split /;/, $MetaString;
     if ( $MetaString !~ /;/ ) {
         $Items[0] = $Self->{IPCSize};
     }
@@ -254,13 +254,13 @@ sub GetSessionIDData {
 
     # split data
     my %Data;
-    my @Items = split( /\n/, $String );
+    my @Items = split /\n/, $String;
     for my $Item (@Items) {
-        my @PaarData = split( /;/, $Item );
+        my @PaarData = split /;/, $Item;
         next if !$PaarData[0];
         if ( $Item =~ /^SessionID:$SessionIDBase64;/ ) {
             for (@PaarData) {
-                my ( $Key, $Value ) = split( /:/, $_ );
+                my ( $Key, $Value ) = split /:/, $_;
                 $Data{$Key} = decode_base64($Value);
                 $Self->{EncodeObject}->Encode( \$Data{$Key} );
             }
@@ -321,7 +321,7 @@ sub CreateSessionID {
     my $String = $Self->_ReadSHM();
 
     # split data
-    my @Items = split( /\n/, $String );
+    my @Items = split /\n/, $String;
     for my $Item (@Items) {
         if ( $Item !~ /^SessionID:$SessionIDBase64;/ ) {
             $DataToStore .= $Item . "\n";
@@ -348,7 +348,7 @@ sub RemoveSessionID {
     my $String      = $Self->_ReadSHM();
 
     # split data
-    my @Items = split( /\n/, $String );
+    my @Items = split /\n/, $String;
     for my $Item (@Items) {
         if ( $Item !~ /^SessionID:$SessionIDBase64;/ ) {
             $DataToStore .= $Item . "\n";
@@ -422,7 +422,7 @@ sub UpdateSessionID {
     my $String = $Self->_ReadSHM();
 
     # split data
-    my @Items = split( /\n/, $String );
+    my @Items = split /\n/, $String;
     for my $Item (@Items) {
         my $SessionIDBase64 = encode_base64( $Param{SessionID}, '' );
         if ( $Item !~ /^SessionID:$SessionIDBase64;/ ) {
@@ -435,7 +435,7 @@ sub UpdateSessionID {
 
     # reset cache
     if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        delete( $Self->{"Cache::$Param{SessionID}"} );
+        delete $Self->{"Cache::$Param{SessionID}"};
     }
     return 1;
 }
@@ -443,23 +443,20 @@ sub UpdateSessionID {
 sub GetAllSessionIDs {
     my ( $Self, %Param ) = @_;
 
-    my @SessionIDs = ();
-
     # read data
     my $String = $Self->_ReadSHM();
-    if ( !$String ) {
-        return;
-    }
+    return if !$String;
 
     # split data
-    my @Items = split( /\n/, $String );
+    my @Items = split /\n/, $String;
+    my @SessionIDs;
     for my $Item (@Items) {
-        my @PaarData = split( /;/, $Item );
+        my @PaarData = split /;/, $Item;
         next if !$PaarData[0];
-        my ( $Key, $Value ) = split( /:/, $PaarData[0] );
+        my ( $Key, $Value ) = split /:/, $PaarData[0];
         if ($Value) {
             my $SessionID = decode_base64($Value);
-            push( @SessionIDs, $SessionID );
+            push @SessionIDs, $SessionID;
         }
     }
     return @SessionIDs;
