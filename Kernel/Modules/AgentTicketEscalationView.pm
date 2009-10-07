@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEscalationView.pm - status for all open tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEscalationView.pm,v 1.11 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketEscalationView.pm,v 1.12 2009-10-07 19:18:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -179,7 +179,7 @@ sub Run {
         FilterLink => $LinkFilter,
 
         TitleName  => 'Ticket Escalation View',
-        TitleValue => $Self->{Filter},
+        TitleValue => $Filters{ $Self->{Filter} }->{Name},
         Bulk       => 1,
 
         Env      => $Self,
