@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1048 2009-10-07 15:10:20 mb Exp $
+# $Id: CHANGES,v 1.1049 2009-10-07 20:28:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,6 +37,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
+ - (2009/10/07) Fixed bug#3581 - Wrong German translation of "no".
+ - (2009/10/07) Fixed bug#4397 - QueueView shows wrong filter name.
  - (2009/10/07) Fixed bug#4395 - Can't delete locked tickets via GenericAgent
     on PostgreSQL and MS-SQL databases.
  - (2009/10/07) Fixed bug#4367 - Generic agent produces TicketNumberLookup error
