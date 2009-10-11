@@ -2,7 +2,7 @@
 # Kernel/System/EventHandler.pm - global object events
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.2 2009-09-17 23:02:59 martin Exp $
+# $Id: EventHandler.pm,v 1.3 2009-10-11 14:41:18 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -127,19 +127,20 @@ sub EventHandler {
     }
 
     # load modules and execute
+    MODULE:
     for my $Module ( sort keys %{$Modules} ) {
 
         # execute only if configured (regexp in Event of config is possible)
         if ( !$Modules->{$Module}->{Event} || $Param{Event} =~ /$Modules->{$Module}->{Event}/ ) {
 
             # next if we are not in transaction mode, but module is in transaction
-            next if !$Param{Transaction} && $Modules->{$Module}->{Transaction};
+            next MODULE if !$Param{Transaction} && $Modules->{$Module}->{Transaction};
 
             # next if we are in transaction mode, but module is not in transaction
-            next if $Param{Transaction} && !$Modules->{$Module}->{Transaction};
+            next MODULE if $Param{Transaction} && !$Modules->{$Module}->{Transaction};
 
             # load event module
-            next if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
+            next MODULE if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
 
             # get all default objects if given
             my $ObjectRef = $Self->{EventHandlerInit}->{Objects};
@@ -160,7 +161,10 @@ sub EventHandler {
                 %Param = ( %Param, %{ $Param{Data} } );
             }
 
-            $Generic->Run( %Param, Config => $Modules->{$Module} );
+            $Generic->Run(
+                %Param,
+                Config => $Modules->{$Module},
+            );
         }
     }
 
@@ -228,6 +232,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2009-09-17 23:02:59 $
+$Revision: 1.3 $ $Date: 2009-10-11 14:41:18 $
 
 =cut
