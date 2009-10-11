@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/ForceState.pm - set state
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ForceState.pm,v 1.9 2009-09-16 08:59:37 martin Exp $
+# $Id: ForceState.pm,v 1.10 2009-10-11 14:40:23 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,7 +63,7 @@ sub Run {
     # set now state
     for my $OldState ( keys %{ $Param{Config} } ) {
         next if !$OldState;
-        next if $OldSstate ne $Ticket{State};
+        next if $OldState ne $Ticket{State};
 
         $Self->{TicketObject}->StateSet(
             TicketID           => $Param{Data}->{TicketID},

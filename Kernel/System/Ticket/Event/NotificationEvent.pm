@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.10 2009-09-16 08:59:37 martin Exp $
+# $Id: NotificationEvent.pm,v 1.11 2009-10-11 14:40:23 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,7 +53,7 @@ sub Run {
         }
     }
 
-    # return of no ticket exists (e. g. it got deleted)
+    # return if no ticket exists (e. g. it got deleted)
     my $TicketExists = $Self->{TicketObject}->TicketNumberLookup(
         TicketID => $Param{Data}->{TicketID},
         UserID   => $Param{UserID},
