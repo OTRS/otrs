@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.10.2.2 2009-10-07 13:05:26 martin Exp $
+# $Id: StaticDB.pm,v 1.10.2.3 2009-10-12 18:24:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10.2.2 $) [1];
+$VERSION = qw($Revision: 1.10.2.3 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -90,6 +90,26 @@ sub ArticleIndexDelete {
     return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM article_search WHERE id = ?',
         Bind => [ \$Param{ArticleID} ],
+    );
+
+    return 1;
+}
+
+sub ArticleIndexDeleteTicket {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TicketID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # delete articles
+    return if !$Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM article_search WHERE ticket_id = ?',
+        Bind => [ \$Param{TicketID} ],
     );
 
     return 1;

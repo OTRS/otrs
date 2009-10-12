@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.416.2.4 2009-10-07 13:12:59 martin Exp $
+# $Id: Ticket.pm,v 1.416.2.5 2009-10-12 18:25:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.416.2.4 $) [1];
+$VERSION = qw($Revision: 1.416.2.5 $) [1];
 
 =head1 NAME
 
@@ -540,6 +540,9 @@ sub TicketDelete {
 
     # update ticket index
     return if !$Self->TicketAcceleratorDelete(%Param);
+
+    # update full text index
+    return if !$Self->ArticleIndexDeleteTicket(%Param);
 
     # remove ticket watcher
     return if !$Self->{DBObject}->Do(
@@ -7369,6 +7372,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.416.2.4 $ $Date: 2009-10-07 13:12:59 $
+$Revision: 1.416.2.5 $ $Date: 2009-10-12 18:25:44 $
 
 =cut
