@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.6 2009-09-23 10:02:29 ub Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.7 2009-10-12 10:09:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -291,7 +291,6 @@ $Data{"AgentPhoneStrg"}
                             <br/>
                             <form action="$Env{"CGIHandle"}" method="get">
                                 <input type="hidden" name="Action" value="AgentTicketMove"/>
-                                <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
                                 <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
                                 $Data{"MoveQueuesStrg"}
                                 <input class="button" type="submit" value="$Text{"Move"}"/>
