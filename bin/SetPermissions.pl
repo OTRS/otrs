@@ -3,7 +3,7 @@
 # SetPermissions.pl - to set the otrs permissions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SetPermissions.pl,v 1.10 2009-08-18 12:52:55 mh Exp $
+# $Id: SetPermissions.pl,v 1.11 2009-10-12 11:46:04 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 print "bin/SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
 print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
@@ -119,6 +119,16 @@ else {
     }
 }
 
+# add empty files
+my @EmptyFiles = (
+    "$DestDir/var/log/TicketCounter.log",
+);
+for my $File (@EmptyFiles) {
+    open( my $Fh, '>>', $File );
+    print $Fh '';
+    close $Fh;
+}
+
 # var/*
 
 print "Setting permissions on $DestDir/var\n";
@@ -138,16 +148,6 @@ for my $Dir (@Dirs) {
     }
 }
 find( \&makeWritableSetGid, @Dirs );
-
-# add empty files
-my @EmptyFiles = (
-    "$DestDir/var/log/TicketCounter.log",
-);
-for my $File (@EmptyFiles) {
-    open( my $Fh, '>>', $File );
-    print $Fh '';
-    close $Fh;
-}
 
 # set all bin/* as executable
 print "Setting permissions on $DestDir/bin/*\n";
