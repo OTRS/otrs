@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1050 2009-10-09 09:48:58 ub Exp $
+# $Id: CHANGES,v 1.1051 2009-10-12 10:19:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,10 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/10/12) Removed check on AttachmentDelete1 in function in
+    AgentTicketMove.dtl.
+ - (2009/10/12) AgentTicketOverviewPreview.dtl: superfluous hidden parameter
+    'QueueID'.
  - (2009/10/07) Added global Search-Condition-Feature (AND/OR/()/!/+) for
     TicketNumber, From, To, Cc, Subject and Body also to generic agent.
  - (2009/10/05) Fixed bug#939 - "Salutation" should be renamed to "Title" for
