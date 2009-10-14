@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1052 2009-10-12 11:30:19 mb Exp $
+# $Id: CHANGES,v 1.1053 2009-10-14 09:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/10/14) Fixed bug#1731 - Show last login time of agent and customer
+    management.
  - (2009/10/12) TTL in Kernel::System::Cache::Set required but not checked.
  - (2009/10/12) Removed check on AttachmentDelete1 in function in
     AgentTicketMove.dtl.

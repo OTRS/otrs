@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserForm.dtl,v 1.41 2009-10-05 10:24:44 mb Exp $
+# $Id: AdminUserForm.dtl,v 1.42 2009-10-14 09:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,6 +75,7 @@
                                 <td class="contentkey">$Text{"User"}</td>
                                 <td width="40%" class="contentkey">$Text{"Name"}</td>
                                 <td class="contentkey">$Text{"Email"}</td>
+                                <td align="center" class="contentkey">$Text{"Last Login"}</td>
 <!-- dtl:block:OverviewResultSwitchToUser -->
                                 <td align="center" class="contentkey">$Text{"Login as"}</td>
 <!-- dtl:block:OverviewResultSwitchToUser -->
@@ -85,6 +86,7 @@
                                 <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&UserID=$LQData{"UserID"}&Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
                                 <td>$QData{"UserFirstname"} $QData{"UserLastname"}</td>
                                 <td><div title="$QData{"UserEmail"}">$QData{"UserEmail","26"}</div></td>
+                                <td>$TimeShort{"$QData{"UserLastLoginTimestamp"}"}</td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
                                 <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Switch&UserID=$LQData{"UserID"}">x</a></td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->

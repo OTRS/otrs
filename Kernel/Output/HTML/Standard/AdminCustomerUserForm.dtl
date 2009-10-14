@@ -2,7 +2,7 @@
 # AdminCustomerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.42 2009-10-05 10:24:44 mb Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.43 2009-10-14 09:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -115,6 +115,7 @@ $Data{"Back"}
                                 <td width="40%" class="contentkey">$Text{"Name"}</td>
                                 <td class="contentkey">$Text{"Email"}</td>
                                 <td class="contentkey">$Text{"CustomerID"}</td>
+                                <td class="contentkey">$Text{"Last Login"}</td>
                                 <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
                             </tr>
 <!-- dtl:block:OverviewResultRow -->
@@ -128,6 +129,7 @@ $Data{"Back"}
                                 <td class="$QData{"CssClass"}">$QData{"UserFirstname"} $QData{"UserLastname"}</td>
                                 <td class="$QData{"CssClass"}">$QData{"UserEmail"}</td>
                                 <td class="$QData{"CssClass"}">$QData{"UserCustomerID"}</td>
+                                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"UserLastLoginTimestamp"}"}</td>
                                 <td class="$QData{"CssClass"}">$Text{"$QData{"Valid"}"}</td>
                             </tr>
 <!-- dtl:block:OverviewResultRow -->
