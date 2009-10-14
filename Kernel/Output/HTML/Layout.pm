@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.179 2009-10-01 10:21:33 martin Exp $
+# $Id: Layout.pm,v 1.180 2009-10-14 08:45:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.179 $) [1];
+$VERSION = qw($Revision: 1.180 $) [1];
 
 =head1 NAME
 
@@ -664,7 +664,7 @@ sub Output {
 
     # do time translation (with seconds)
     $Output =~ s{
-        \$TimeLong{"(.+?)"}
+        \$TimeLong{"(.*?)"}
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1);
@@ -672,7 +672,7 @@ sub Output {
 
     # do time translation (without seconds)
     $Output =~ s{
-        \$TimeShort{"(.+?)"}
+        \$TimeShort{"(.*?)"}
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1, undef, 'NoSeconds');
@@ -680,7 +680,7 @@ sub Output {
 
     # do date translation
     $Output =~ s{
-        \$Date{"(.+?)"}
+        \$Date{"(.*?)"}
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1, 'DateFormatShort');
@@ -4360,6 +4360,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.179 $ $Date: 2009-10-01 10:21:33 $
+$Revision: 1.180 $ $Date: 2009-10-14 08:45:21 $
 
 =cut
