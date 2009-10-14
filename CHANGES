@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1053 2009-10-14 09:12:14 martin Exp $
+# $Id: CHANGES,v 1.1054 2009-10-14 14:29:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/10/14) Pending Date of tickets can be max. 1 year in the future.
  - (2009/10/14) Fixed bug#1731 - Show last login time of agent and customer
     management.
  - (2009/10/12) TTL in Kernel::System::Cache::Set required but not checked.
@@ -44,6 +45,10 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.5 (2009/??/??)
+ - (2009/10/12) Fixed bug#3541 - Deleting tickets is not possible when using
+    Full Text Search Index on MS-SQL or PostgreSQL.
+ - (2009/10/12) Fixed bug#4392 - TicketCounter.log is created after permissions
+    are set.
  - (2009/10/07) Updated cpan module TEXT::CSV to version 1.14 to
     fix bug#4195 - Import with leading 0 in a field not possible.
  - (2009/10/07) Fixed bug#3581 - Wrong German translation of "no".
