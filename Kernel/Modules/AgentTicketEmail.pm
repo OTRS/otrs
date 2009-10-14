@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.102 2009-09-30 09:08:22 mb Exp $
+# $Id: AgentTicketEmail.pm,v 1.103 2009-10-14 14:18:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1857,8 +1857,10 @@ sub _MaskEmailNew {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format => 'DateInputFormatLong',
-        DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Format           => 'DateInputFormatLong',
+        YearPeriodPast   => 0,
+        YearPeriodFuture => 5,
+        DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
 
     # from update

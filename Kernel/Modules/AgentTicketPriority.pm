@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPriority.pm - set ticket priority
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.pm,v 1.60 2009-09-23 09:59:30 martin Exp $
+# $Id: AgentTicketPriority.pm,v 1.61 2009-10-14 14:18:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1037,7 +1037,9 @@ sub _Mask {
             my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
             if ( $StateData{TypeName} =~ /pending/i ) {
                 $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
-                    Format   => 'DateInputFormatLong',
+                    Format           => 'DateInputFormatLong',
+                    YearPeriodPast   => 0,
+                    YearPeriodFuture => 5,
                     DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
                         || 0,
                     %Param,

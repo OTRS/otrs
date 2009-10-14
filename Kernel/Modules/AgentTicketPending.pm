@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - set ticket to pending
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPending.pm,v 1.71 2009-09-23 09:59:30 martin Exp $
+# $Id: AgentTicketPending.pm,v 1.72 2009-10-14 14:18:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1040,6 +1040,8 @@ sub _Mask {
                     Format   => 'DateInputFormatLong',
                     DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
                         || 0,
+                    YearPeriodPast   => 0,
+                    YearPeriodFuture => 5,
                     %Param,
                 );
                 $Self->{LayoutObject}->Block(
