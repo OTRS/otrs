@@ -1,0 +1,72 @@
+Return-Path: <security@example.com>
+X-Original-To: portal@mail.example.com
+Delivered-To: portal@mail.example.com
+Received: from localhost (localhost [127.0.0.1])
+	by mail.example.com (Postfix) with ESMTP id 8608488DF0
+	for <portal@mail.example.com>; Wed, 14 Oct 2009 12:37:38 +0200 (CEST)
+Received: from mail.example.com ([127.0.0.1])
+ by localhost (osser.example.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 15022-10 for <portal@mail.example.com>;
+ Wed, 14 Oct 2009 12:37:35 +0200 (CEST)
+Received: from mail.example.com (unknown [123.237.0.0])
+	by mail.example.com (Postfix) with SMTP id 6B100889FB
+	for <security@example.com>; Wed, 14 Oct 2009 12:37:34 +0200 (CEST)
+From: © VIAGRA ® Official <security@example.com>
+Subject: Dear security@example.com 88% 0FF on Pfizer !
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20091014103734.6B100889FB@mail.example.com>
+Date: Wed, 14 Oct 2009 12:37:34 +0200 (CEST)
+To: undisclosed-recipients:;
+X-Amavis-Alert: BAD HEADER Non-encoded 8-bit data (char A9 hex) in message header 'From': From: \251 VIAGRA \256 Offic...
+X-Spam-Status: Yes, score=18.997 tagged_above=-900 required=5
+ tests=[AWL=6.749, BAYES_99=3.5, HTML_90_100=0.113, HTML_IMAGE_ONLY_20=1.157,
+ HTML_IMAGE_RATIO_02=0.463, HTML_MESSAGE=0.001, HTML_SHORT_LINK_IMG_3=0.881,
+ MIME_HTML_ONLY=0.001, MSGID_FROM_MTA_ID=1.393, RCVD_IN_PBL=0.001,
+ RCVD_IN_XBL=3.897, UNDISC_RECIPS=0.841]
+X-Spam-Score: 18.997
+X-Spam-Level: ******************
+X-Spam-Flag: YES
+
+<!DOCTYPE html    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+      <title>
+        News
+      </title>
+   </head>
+   <body>
+
+      <table border="0" cellpadding="0" cellspacing="0" style="width: 896px">
+
+
+<tr><td align="center" style="font: normal 11px Verdana, sans-serif; color: #333;"><a href="http://www.mabanes.cn" style="text-decoration: none; color: #0099ff;">Click here</a> to view as a web page. </td></tr>
+
+         <tr><td align="center">
+             <br />
+             <a href="http://www.mabanes.cn">
+             <img alt="View image in browser now" width="618" height="326" src="http://www.mabanes.cn/1.gif" style="border-width: 0px" /></a></td></tr>
+
+
+<tr><td valign="top" style="border-right: 1px solid #e5e4e4; padding-right: 10px">
+        <table border="0" cellpadding="0" cellspacing="0" style="width: 884px">
+
+<tr><td align="center" style="font: normal 9px Verdana, sans-serif; color: #999; padding-top: 20px">
+
+<a href="http://www.mabanes.cn" style="font: 9px Verdana, sans-serif; text-decoration: none; color: #0099ff">Unsubscribe</a> | 
+<a href="http://www.mabanes.cn" style="font: 9px Verdana, sans-serif; text-decoration: none; color: #0099ff">Change e-mail address</a> | 
+<a href="http://www.mabanes.cn" style="font: 9px Verdana, sans-serif; text-decoration: none; color: #0099ff">Privacy Policy</a> | 
+<a href="http://www.mabanes.cn" style="font: 9px Verdana, sans-serif; text-decoration: none; color: #0099ff">About Us</a><br /><br />
+Copyright © 2009 uxiuvhqdl  azt Inc. All rights reserved.<br />
+                      </td></tr>
+
+        </table>
+
+</td>
+</tr>
+      </table>
+</body>
+</html>
