@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.42 2009-10-06 14:40:54 martin Exp $
+# $Id: Encode.pm,v 1.43 2009-10-15 08:24:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Encode;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -208,6 +208,16 @@ sub Convert {
     if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, $Check ) } ) {
         print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text})"
             . " not supported!\n";
+
+        # strip invalid chars / 0 = will put a substitution character in place of
+        # a malformed character
+        eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, 0 ) };
+
+        # set utf-8 flag
+        if ( $Param{To} eq 'utf-8' ) {
+            Encode::_utf8_on( $Param{Text} );
+        }
+
         return $Param{Text};
     }
 
@@ -355,6 +365,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2009-10-06 14:40:54 $
+$Revision: 1.43 $ $Date: 2009-10-15 08:24:23 $
 
 =cut
