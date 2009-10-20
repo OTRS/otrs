@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.38 2009-10-16 13:11:04 mg Exp $
+# $Id: Login.dtl,v 1.39 2009-10-20 13:31:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,11 +23,6 @@ $Include{"Copyright"}
     <title>$Config{"ProductName"} :: $Text{"$Data{"Title"}"}</title>
 # include css file
     <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css">
-    <style type="text/css">
-    div.spacer {
-    margin: 10px 0;
-    }
-    </style>
 </head>
 <!-- end header -->
 <body onLoad="document.login.User.focus();">
@@ -53,11 +48,10 @@ function submit_form() {
 //-->
 </script>
 
-<center>
-<div class="spacer">
+<div class="login-box">
     <font color="red">$Text{"$Data{"Message"}"}</font>
 </div>
-<div class="spacer">
+<div class="login-box">
     <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
         <input type="hidden" name="Action" value="Login">
         <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
@@ -88,7 +82,7 @@ function submit_form() {
 # --
 # language
 # --
-<div class="spacer">
+<div class="login-box">
     <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="Action" value=""/>
         <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
@@ -111,7 +105,7 @@ function submit_form() {
     </form>
 </div>
 <!-- dtl:block:LostPassword -->
-<div class="spacer">
+<div class="login-box">
     <table border="0" cellspacing="0" cellpadding="3" width="280">
         <tr>
             <td align="center" class="singleboxhead">$Text{"Lost your password?"}</td>
@@ -139,7 +133,6 @@ function submit_form() {
 # Message of the day data!
 # --
 $Data{"Motd"}
-</center>
 <!-- start footer -->
 </body>
 </html>

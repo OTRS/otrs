@@ -3,7 +3,7 @@
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: apache2-perl-startup.pl,v 1.38 2009-10-06 14:48:54 martin Exp $
+# $Id: apache2-perl-startup.pl,v 1.39 2009-10-20 13:31:01 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,8 +30,8 @@ use warnings;
 $ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
 
 # set otrs lib path!
-use lib "/opt/otrs/";
-use lib "/opt/otrs/Kernel/cpan-lib";
+use lib "/ws/otrs25-dev/";
+use lib "/ws/otrs25-dev/Kernel/cpan-lib";
 
 # pull in things we will use in most requests so it is read and compiled
 # exactly once
@@ -42,12 +42,12 @@ CGI->compile(':cgi');
 use CGI::Carp ();
 
 #use Apache::DBI ();
-#Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
+#Apache::DBI->connect_on_init('DBI:mysql:otrs24_dev', 'otrs24_dev', 'otrs24_dev');
 use DBI ();
 
 # enable this if you use mysql
-#use DBD::mysql ();
-#use Kernel::System::DB::mysql;
+use DBD::mysql ();
+use Kernel::System::DB::mysql;
 
 # enable this if you use postgresql
 #use DBD::Pg ();
@@ -66,7 +66,6 @@ use Kernel::System::Web::Request;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::DB;
 use Kernel::System::Encode;
-use Kernel::System::EventHandler;
 use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::Cache;
@@ -96,16 +95,20 @@ use Kernel::System::Stats;
 
 # optional core modules
 #use Kernel::System::Auth::LDAP;
-#use Kernel::System::AuthSession::IPC;
+use Kernel::System::AuthSession::IPC;
+
 #use Kernel::System::AuthSession::FS;
-#use Kernel::System::PDF;
-#use Kernel::System::Log::SysLog;
+use Kernel::System::PDF;
+use Kernel::System::Log::SysLog;
+
 #use Kernel::System::Log::File;
-#use Kernel::System::Ticket::ArticleStorageDB;
+use Kernel::System::Ticket::ArticleStorageDB;
+
 #use Kernel::System::Ticket::ArticleStorageFS;
 #use Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 #use Kernel::System::Ticket::IndexAccelerator::StaticDB;
-#use Kernel::System::Ticket::Number::Date;
+use Kernel::System::Ticket::Number::Date;
+
 #use Kernel::System::Ticket::Number::AutoIncrement;
 #use Kernel::System::Ticket::Number::Random;
 #use Kernel::System::CustomerUser::DB;
@@ -116,9 +119,6 @@ use Kernel::System::Stats;
 # web agent middle ware modules
 use Kernel::Modules::AgentTicketQueue;
 use Kernel::Modules::AgentTicketStatusView;
-use Kernel::Modules::AgentTicketWatchView;
-use Kernel::Modules::AgentTicketEscalationView;
-use Kernel::Modules::AgentTicketLockedView;
 use Kernel::Modules::AgentTicketMove;
 use Kernel::Modules::AgentTicketZoom;
 use Kernel::Modules::AgentTicketAttachment;
