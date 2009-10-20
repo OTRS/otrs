@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.87 2009-10-07 20:25:38 martin Exp $
+# $Id: Config.pm,v 1.88 2009-10-20 08:35:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 =head1 NAME
 
@@ -39,6 +39,7 @@ All functions to manage sys config settings.
 create an object
 
     use Kernel::Config;
+    use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
     use Kernel::System::Time;
@@ -46,25 +47,33 @@ create an object
     use Kernel::System::Config;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject    = Kernel::System::Log->new(
+    my $EncodeObject  = Kernel::System::Encode->new(
         ConfigObject => $ConfigObject,
     );
-    my $MainObject = Kernel::System::Main->new(
-        LogObject    => $LogObject,
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
     );
     my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
     my $SysConfigObject = Kernel::System::Config->new(
-        LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
         DBObject     => $DBObject,
         MainObject   => $MainObject,
         TimeObject   => $TimeObject,
@@ -234,7 +243,7 @@ sub _Init {
         }
     }
 
-    # remove dublicate entries
+    # remove duplicate entries
     my %Used;
     my @XMLConfig;
     for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
@@ -1736,6 +1745,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.87 $ $Date: 2009-10-07 20:25:38 $
+$Revision: 1.88 $ $Date: 2009-10-20 08:35:19 $
 
 =cut
