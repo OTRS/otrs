@@ -2,7 +2,7 @@
 # AgentCalendarSmall.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCalendarSmall.dtl,v 1.16 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentCalendarSmall.dtl,v 1.17 2009-10-20 13:59:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,36 +45,36 @@ function SelectDay(tt, mm, yyyy) {
 </script>
 
 <table border="0" width="225" cellspacing="0" cellpadding="3">
-  <tr>
-    <th class="mainhead"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Month=$LQData{"Back"}&Prefix=$LQData{"Prefix"}" class="headeritem">&lt;&lt;</a></th>
-    <th class="mainhead">$Text{"$QData{"Month"}"} $QData{"Year"}</th>
-    <th class="mainhead"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Month=$LQData{"Next"}&Prefix=$LQData{"Prefix"}" class="headeritem">&gt;&gt;</a></th>
-  </tr>
-  <tr>
-    <td class="mainbody" colspan="3">
-      <table border="0" width="100%" cellspacing="0" cellpadding="2">
-        <tr class="contenthead">
-          <td>$Text{"Mon"}</td>
-          <td>$Text{"Tue"}</td>
-          <td>$Text{"Wed"}</td>
-          <td>$Text{"Thu"}</td>
-          <td>$Text{"Fri"}</td>
-          <td>$Text{"Sat"}</td>
-          <td>$Text{"Sun"}</td>
-        </tr>
+    <tr>
+        <th class="mainhead"><a href="$Env{"Baselink"}Action=$Env{"Action"}&amp;Month=$LQData{"Back"}&amp;Prefix=$LQData{"Prefix"}" class="headeritem">&lt;&lt;</a></th>
+        <th class="mainhead">$Text{"$QData{"Month"}"} $QData{"Year"}</th>
+        <th class="mainhead"><a href="$Env{"Baselink"}Action=$Env{"Action"}&amp;Month=$LQData{"Next"}&amp;Prefix=$LQData{"Prefix"}" class="headeritem">&gt;&gt;</a></th>
+    </tr>
+    <tr>
+        <td class="mainbody" colspan="3">
+            <table border="0" width="100%" cellspacing="0" cellpadding="2">
+                <tr class="contenthead">
+                    <td>$Text{"Mon"}</td>
+                    <td>$Text{"Tue"}</td>
+                    <td>$Text{"Wed"}</td>
+                    <td>$Text{"Thu"}</td>
+                    <td>$Text{"Fri"}</td>
+                    <td>$Text{"Sat"}</td>
+                    <td>$Text{"Sun"}</td>
+                </tr>
 <!-- dtl:block:Row -->
-        <tr>
+                <tr>
 <!-- dtl:block:ColEmpty -->
-          <th></th>
+                    <th></th>
 <!-- dtl:block:ColEmpty -->
 <!-- dtl:block:Col -->
-          <td $Data{"Style"} align="center">
-            <a href="#" onClick="SelectDay($Data{"Day"}, $Data{"Month"}, $Data{"Year"})">$Data{"Day"}</a>
-          </td>
+                    <td $Data{"Style"} align="center">
+                        <a href="#" onClick="SelectDay($Data{"Day"}, $Data{"Month"}, $Data{"Year"})">$Data{"Day"}</a>
+                    </td>
 <!-- dtl:block:Col -->
-        </tr>
+                </tr>
 <!-- dtl:block:Row -->
-      </table>
-    </td>
-  </tr>
+            </table>
+        </td>
+    </tr>
 </table>

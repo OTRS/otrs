@@ -2,7 +2,7 @@
 # HeaderSmall.dtl - provides global HTML header
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HeaderSmall.dtl,v 1.14 2009-03-03 17:05:49 martin Exp $
+# $Id: HeaderSmall.dtl,v 1.15 2009-10-20 13:59:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,9 @@ Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
 Pragma: no-cache
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
 # include Copyright.dtl
 $Include{"Copyright"}
 # --
@@ -23,15 +26,15 @@ $Include{"Copyright"}
 <dtl set $Env{"Box0"} = "[ ">
 <dtl set $Env{"Box1"} = " ]">
 # --
-<html>
 <head>
+    <meta http-equiv="Content-type" content="text/html;charset=$Env{"UserCharset"}">
 <!-- dtl:block:MetaHttpEquivRefresh -->
-  <meta http-equiv="refresh" content="$QData{"Refresh"}"/>
+    <meta http-equiv="refresh" content="$QData{"Refresh"}">
 <!-- dtl:block:MetaHttpEquivRefresh -->
 # include css file
-  <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css"/>
-  <title>$Config{"ProductName"} $Data{"TitleArea"}</title>
+    <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css">
+    <title>$Config{"ProductName"} $Data{"TitleArea"}</title>
 </head>
-<a name="top"></a>
 <body>
+<a name="top"></a>
 <!-- end header -->
