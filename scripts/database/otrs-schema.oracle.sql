@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-10-06 16:22:06
+--  driver: oracle, generated: 2009-10-21 11:04:45
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -7,7 +7,7 @@ SET DEFINE OFF;
 -- ----------------------------------------------------------
 CREATE TABLE valid (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (50) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -36,7 +36,7 @@ CREATE INDEX FK_valid_create_by ON valid (create_by);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_priority (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (50) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -66,7 +66,7 @@ CREATE INDEX FK_ticket_priority_create_by ON ticket_priority (create_by);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (50) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -97,7 +97,7 @@ CREATE INDEX FK_ticket_type_valid_id ON ticket_type (valid_id);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_lock_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (50) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -128,7 +128,7 @@ CREATE INDEX FK_ticket_lock_type_valid_id ON ticket_lock_type (valid_id);
 -- ----------------------------------------------------------
 CREATE TABLE users (
     id NUMBER (12, 0) NOT NULL,
-    login VARCHAR2 (100) NOT NULL,
+    login VARCHAR2 (200) NOT NULL,
     pw VARCHAR2 (50) NOT NULL,
     title VARCHAR2 (50) NULL,
     first_name VARCHAR2 (100) NOT NULL,
@@ -172,7 +172,7 @@ CREATE INDEX user_preferences_user_id ON user_preferences (user_id);
 -- ----------------------------------------------------------
 CREATE TABLE groups (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -255,7 +255,7 @@ CREATE INDEX group_customer_user_user_id ON group_customer_user (user_id);
 -- ----------------------------------------------------------
 CREATE TABLE roles (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -342,7 +342,7 @@ CREATE INDEX FK_theme_valid_id ON theme (valid_id);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     comments VARCHAR2 (250) NULL,
     type_id NUMBER (5, 0) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
@@ -376,7 +376,7 @@ CREATE INDEX FK_ticket_state_valid_id ON ticket_state (valid_id);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (120) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     comments VARCHAR2 (250) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -406,7 +406,7 @@ CREATE INDEX FK_ticket_state_type_create_by ON ticket_state_type (create_by);
 -- ----------------------------------------------------------
 CREATE TABLE salutation (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     text VARCHAR2 (3000) NOT NULL,
     content_type VARCHAR2 (250) NULL,
     comments VARCHAR2 (250) NULL,
@@ -440,7 +440,7 @@ CREATE INDEX FK_salutation_valid_id ON salutation (valid_id);
 -- ----------------------------------------------------------
 CREATE TABLE signature (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     text VARCHAR2 (3000) NOT NULL,
     content_type VARCHAR2 (250) NULL,
     comments VARCHAR2 (250) NULL,
@@ -479,7 +479,7 @@ CREATE TABLE system_address (
     value2 VARCHAR2 (200) NULL,
     value3 VARCHAR2 (200) NULL,
     queue_id NUMBER (12, 0) NOT NULL,
-    comments VARCHAR2 (200) NULL,
+    comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -509,7 +509,7 @@ CREATE INDEX FK_system_address_valid_id ON system_address (valid_id);
 -- ----------------------------------------------------------
 CREATE TABLE follow_up_possible (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -557,7 +557,7 @@ CREATE TABLE queue (
     signature_id NUMBER (5, 0) NOT NULL,
     follow_up_id NUMBER (5, 0) NOT NULL,
     follow_up_lock NUMBER (5, 0) NOT NULL,
-    comments VARCHAR2 (200) NULL,
+    comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -868,7 +868,7 @@ CREATE INDEX ticket_history_type_id ON ticket_history (type_id);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_history_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -900,7 +900,7 @@ CREATE INDEX FK_ticket_history_type_validad ON ticket_history_type (valid_id);
 -- ----------------------------------------------------------
 CREATE TABLE article_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -932,7 +932,7 @@ CREATE INDEX FK_article_type_valid_id ON article_type (valid_id);
 -- ----------------------------------------------------------
 CREATE TABLE article_sender_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -1121,10 +1121,10 @@ CREATE INDEX article_attachment_article_id ON article_attachment (article_id);
 -- ----------------------------------------------------------
 CREATE TABLE standard_response (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (80) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     text CLOB NULL,
     content_type VARCHAR2 (250) NULL,
-    comments VARCHAR2 (100) NULL,
+    comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -1170,11 +1170,11 @@ CREATE INDEX FK_queue_standard_response_s15 ON queue_standard_response (standard
 -- ----------------------------------------------------------
 CREATE TABLE standard_attachment (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (150) NOT NULL,
-    content_type VARCHAR2 (150) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    content_type VARCHAR2 (250) NOT NULL,
     content CLOB NOT NULL,
     filename VARCHAR2 (250) NOT NULL,
-    comments VARCHAR2 (200) NULL,
+    comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -1236,8 +1236,8 @@ CREATE INDEX FK_standard_response_attachmea ON standard_response_attachment (sta
 -- ----------------------------------------------------------
 CREATE TABLE auto_response_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (50) NOT NULL,
-    comments VARCHAR2 (200) NULL,
+    name VARCHAR2 (200) NOT NULL,
+    comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -1268,7 +1268,7 @@ CREATE INDEX FK_auto_response_type_valid_id ON auto_response_type (valid_id);
 -- ----------------------------------------------------------
 CREATE TABLE auto_response (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     text0 CLOB NULL,
     text1 CLOB NULL,
     text2 CLOB NULL,
@@ -1276,7 +1276,7 @@ CREATE TABLE auto_response (
     system_address_id NUMBER (5, 0) NOT NULL,
     charset VARCHAR2 (80) NOT NULL,
     content_type VARCHAR2 (250) NULL,
-    comments VARCHAR2 (100) NULL,
+    comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -1389,7 +1389,7 @@ CREATE TABLE service (
     id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
-    comments VARCHAR2 (200) NULL,
+    comments VARCHAR2 (250) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -1426,7 +1426,7 @@ CREATE INDEX service_preferences_service_id ON service_preferences (service_id);
 --  create table service_customer_user
 -- ----------------------------------------------------------
 CREATE TABLE service_customer_user (
-    customer_user_login VARCHAR2 (100) NOT NULL,
+    customer_user_login VARCHAR2 (200) NOT NULL,
     service_id NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL
@@ -1448,7 +1448,7 @@ CREATE TABLE sla (
     solution_time NUMBER (12, 0) NOT NULL,
     solution_notify NUMBER (5, 0) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
-    comments VARCHAR2 (200) NULL,
+    comments VARCHAR2 (250) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -1526,9 +1526,9 @@ CREATE INDEX ticket_lock_index_ticket_id ON ticket_lock_index (ticket_id);
 -- ----------------------------------------------------------
 CREATE TABLE customer_user (
     id NUMBER (12, 0) NOT NULL,
-    login VARCHAR2 (100) NOT NULL,
+    login VARCHAR2 (200) NOT NULL,
     email VARCHAR2 (150) NOT NULL,
-    customer_id VARCHAR2 (200) NOT NULL,
+    customer_id VARCHAR2 (150) NOT NULL,
     pw VARCHAR2 (50) NULL,
     title VARCHAR2 (50) NULL,
     first_name VARCHAR2 (100) NOT NULL,
@@ -1537,9 +1537,9 @@ CREATE TABLE customer_user (
     fax VARCHAR2 (150) NULL,
     mobile VARCHAR2 (150) NULL,
     street VARCHAR2 (150) NULL,
-    zip VARCHAR2 (150) NULL,
-    city VARCHAR2 (150) NULL,
-    country VARCHAR2 (150) NULL,
+    zip VARCHAR2 (200) NULL,
+    city VARCHAR2 (200) NULL,
+    country VARCHAR2 (200) NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -1579,8 +1579,8 @@ CREATE INDEX customer_preferences_user_id ON customer_preferences (user_id);
 --  create table customer_company
 -- ----------------------------------------------------------
 CREATE TABLE customer_company (
-    customer_id VARCHAR2 (100) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
+    customer_id VARCHAR2 (150) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     street VARCHAR2 (200) NULL,
     zip VARCHAR2 (200) NULL,
     city VARCHAR2 (200) NULL,
@@ -1734,7 +1734,7 @@ CREATE TABLE notification_event (
     name VARCHAR2 (200) NOT NULL,
     subject VARCHAR2 (200) NOT NULL,
     text VARCHAR2 (4000) NOT NULL,
-    content_type VARCHAR2 (100) NOT NULL,
+    content_type VARCHAR2 (250) NOT NULL,
     charset VARCHAR2 (100) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -1849,7 +1849,7 @@ CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);
 -- ----------------------------------------------------------
 CREATE TABLE package_repository (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (250) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
     version VARCHAR2 (250) NOT NULL,
     vendor VARCHAR2 (250) NOT NULL,
     install_status VARCHAR2 (250) NOT NULL,

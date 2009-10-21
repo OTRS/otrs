@@ -1,12 +1,12 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2009-10-06 16:22:05
+--  driver: db2, generated: 2009-10-21 11:04:44
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
 -- ----------------------------------------------------------
 CREATE TABLE valid (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE valid (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_priority (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE ticket_priority (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_type (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE ticket_type (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_lock_type (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE ticket_lock_type (
 -- ----------------------------------------------------------
 CREATE TABLE users (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    login VARCHAR (100) NOT NULL,
+    login VARCHAR (200) NOT NULL,
     pw VARCHAR (50) NOT NULL,
     title VARCHAR (50),
     first_name VARCHAR (100) NOT NULL,
@@ -95,7 +95,7 @@ CREATE INDEX user_preferences_user_id ON user_preferences (user_id);
 -- ----------------------------------------------------------
 CREATE TABLE groups (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (100) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -165,7 +165,7 @@ CREATE INDEX group_customer_user_user_id ON group_customer_user (user_id);
 -- ----------------------------------------------------------
 CREATE TABLE roles (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (100) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -224,7 +224,7 @@ CREATE TABLE theme (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (100) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     comments VARCHAR (250),
     type_id SMALLINT NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -241,7 +241,7 @@ CREATE TABLE ticket_state (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state_type (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (120) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     comments VARCHAR (250),
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -256,7 +256,7 @@ CREATE TABLE ticket_state_type (
 -- ----------------------------------------------------------
 CREATE TABLE salutation (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (100) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     text VARCHAR (3000) NOT NULL,
     content_type VARCHAR (250),
     comments VARCHAR (250),
@@ -274,7 +274,7 @@ CREATE TABLE salutation (
 -- ----------------------------------------------------------
 CREATE TABLE signature (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (100) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     text VARCHAR (3000) NOT NULL,
     content_type VARCHAR (250),
     comments VARCHAR (250),
@@ -297,7 +297,7 @@ CREATE TABLE system_address (
     value2 VARCHAR (200),
     value3 VARCHAR (200),
     queue_id INTEGER NOT NULL,
-    comments VARCHAR (200),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -311,7 +311,7 @@ CREATE TABLE system_address (
 -- ----------------------------------------------------------
 CREATE TABLE follow_up_possible (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (100) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -343,7 +343,7 @@ CREATE TABLE queue (
     signature_id SMALLINT NOT NULL,
     follow_up_id SMALLINT NOT NULL,
     follow_up_lock SMALLINT NOT NULL,
-    comments VARCHAR (200),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -580,7 +580,7 @@ CREATE INDEX ticket_history_type_id ON ticket_history (type_id);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_history_type (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (100) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -596,7 +596,7 @@ CREATE TABLE ticket_history_type (
 -- ----------------------------------------------------------
 CREATE TABLE article_type (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (100) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -612,7 +612,7 @@ CREATE TABLE article_type (
 -- ----------------------------------------------------------
 CREATE TABLE article_sender_type (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (100) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -753,10 +753,10 @@ CREATE INDEX article_attachment_article_id ON article_attachment (article_id);
 -- ----------------------------------------------------------
 CREATE TABLE standard_response (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (80) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     text CLOB (78K),
     content_type VARCHAR (250),
-    comments VARCHAR (100),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -783,11 +783,11 @@ CREATE TABLE queue_standard_response (
 -- ----------------------------------------------------------
 CREATE TABLE standard_attachment (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (150) NOT NULL,
-    content_type VARCHAR (150) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    content_type VARCHAR (250) NOT NULL,
     content BLOB (30M) NOT NULL,
     filename VARCHAR (250) NOT NULL,
-    comments VARCHAR (200),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -816,8 +816,8 @@ CREATE TABLE standard_response_attachment (
 -- ----------------------------------------------------------
 CREATE TABLE auto_response_type (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (50) NOT NULL,
-    comments VARCHAR (200),
+    name VARCHAR (200) NOT NULL,
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -832,7 +832,7 @@ CREATE TABLE auto_response_type (
 -- ----------------------------------------------------------
 CREATE TABLE auto_response (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (100) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     text0 CLOB (46K),
     text1 CLOB (46K),
     text2 CLOB (46K),
@@ -840,7 +840,7 @@ CREATE TABLE auto_response (
     system_address_id SMALLINT NOT NULL,
     charset VARCHAR (80) NOT NULL,
     content_type VARCHAR (250),
-    comments VARCHAR (100),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -904,7 +904,7 @@ CREATE TABLE service (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name VARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
-    comments VARCHAR (200),
+    comments VARCHAR (250),
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -928,7 +928,7 @@ CREATE INDEX service_preferences_service_id ON service_preferences (service_id);
 --  create table service_customer_user
 -- ----------------------------------------------------------
 CREATE TABLE service_customer_user (
-    customer_user_login VARCHAR (100) NOT NULL,
+    customer_user_login VARCHAR (200) NOT NULL,
     service_id INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL
@@ -952,7 +952,7 @@ CREATE TABLE sla (
     solution_time INTEGER NOT NULL,
     solution_notify SMALLINT,
     valid_id SMALLINT NOT NULL,
-    comments VARCHAR (200),
+    comments VARCHAR (250),
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -1023,9 +1023,9 @@ CREATE INDEX ticket_lock_index_ticket_id ON ticket_lock_index (ticket_id);
 -- ----------------------------------------------------------
 CREATE TABLE customer_user (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    login VARCHAR (100) NOT NULL,
+    login VARCHAR (200) NOT NULL,
     email VARCHAR (150) NOT NULL,
-    customer_id VARCHAR (200) NOT NULL,
+    customer_id VARCHAR (150) NOT NULL,
     pw VARCHAR (50),
     title VARCHAR (50),
     first_name VARCHAR (100) NOT NULL,
@@ -1034,9 +1034,9 @@ CREATE TABLE customer_user (
     fax VARCHAR (150),
     mobile VARCHAR (150),
     street VARCHAR (150),
-    zip VARCHAR (150),
-    city VARCHAR (150),
-    country VARCHAR (150),
+    zip VARCHAR (200),
+    city VARCHAR (200),
+    country VARCHAR (200),
     comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -1062,8 +1062,8 @@ CREATE INDEX customer_preferences_user_id ON customer_preferences (user_id);
 --  create table customer_company
 -- ----------------------------------------------------------
 CREATE TABLE customer_company (
-    customer_id VARCHAR (100) NOT NULL,
-    name VARCHAR (100) NOT NULL,
+    customer_id VARCHAR (150) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     street VARCHAR (200),
     zip VARCHAR (200),
     city VARCHAR (200),
@@ -1199,7 +1199,7 @@ CREATE TABLE notification_event (
     name VARCHAR (200) NOT NULL,
     subject VARCHAR (200) NOT NULL,
     text CLOB (31K) NOT NULL,
-    content_type VARCHAR (100) NOT NULL,
+    content_type VARCHAR (250) NOT NULL,
     charset VARCHAR (100) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -1284,7 +1284,7 @@ CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);
 -- ----------------------------------------------------------
 CREATE TABLE package_repository (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    name VARCHAR (250) NOT NULL,
+    name VARCHAR (200) NOT NULL,
     version VARCHAR (250) NOT NULL,
     vendor VARCHAR (250) NOT NULL,
     install_status VARCHAR (250) NOT NULL,
