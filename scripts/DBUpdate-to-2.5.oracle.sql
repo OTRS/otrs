@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-10-01 10:44:02
+--  driver: oracle, generated: 2009-10-21 10:58:00
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
@@ -70,10 +70,48 @@ CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);
 -- ----------------------------------------------------------
 ALTER TABLE customer_user RENAME COLUMN salutation TO title;
 ALTER TABLE customer_user MODIFY title VARCHAR2 (50) DEFAULT NULL;
+ALTER TABLE customer_user MODIFY login VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE customer_user MODIFY customer_id VARCHAR2 (150) DEFAULT NULL;
+ALTER TABLE customer_user MODIFY zip VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE customer_user MODIFY city VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE customer_user MODIFY country VARCHAR2 (200) DEFAULT NULL;
 -- ----------------------------------------------------------
 --  alter table users
 -- ----------------------------------------------------------
 ALTER TABLE users RENAME COLUMN salutation TO title;
 ALTER TABLE users MODIFY title VARCHAR2 (50) DEFAULT NULL;
+ALTER TABLE users MODIFY login VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE valid MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE ticket_priority MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE ticket_type MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE ticket_lock_type MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE groups MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE roles MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE ticket_state MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE ticket_state_type MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE salutation MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE signature MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE system_address MODIFY comments VARCHAR2 (250) DEFAULT NULL;
+ALTER TABLE follow_up_possible MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE queue MODIFY comments VARCHAR2 (250) DEFAULT NULL;
+ALTER TABLE ticket_history_type MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE article_type MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE article_sender_type MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE standard_response MODIFY comments VARCHAR2 (250) DEFAULT NULL;
+ALTER TABLE standard_response MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE standard_attachment MODIFY comments VARCHAR2 (250) DEFAULT NULL;
+ALTER TABLE standard_attachment MODIFY content_type VARCHAR2 (250) DEFAULT NULL;
+ALTER TABLE standard_attachment MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE auto_response_type MODIFY comments VARCHAR2 (250) DEFAULT NULL;
+ALTER TABLE auto_response_type MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE auto_response MODIFY comments VARCHAR2 (250) DEFAULT NULL;
+ALTER TABLE auto_response MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE service MODIFY comments VARCHAR2 (250) DEFAULT NULL;
+ALTER TABLE service_customer_user MODIFY customer_user_login VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE sla MODIFY comments VARCHAR2 (250) DEFAULT NULL;
+ALTER TABLE customer_company MODIFY customer_id VARCHAR2 (150) DEFAULT NULL;
+ALTER TABLE customer_company MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE notification_event MODIFY content_type VARCHAR2 (250) DEFAULT NULL;
+ALTER TABLE package_repository MODIFY name VARCHAR2 (200) DEFAULT NULL;
 SET DEFINE OFF;
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_vib1 FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);
