@@ -46,9 +46,101 @@
 
     <TableAlter Name="customer_user">
         <ColumnChange NameOld="salutation" NameNew="title" Required="false" Size="50" Type="VARCHAR"/>
+        <ColumnChange NameOld="login" NameNew="login" Required="true" Size="200" Type="VARCHAR"/>
+        <ColumnChange NameOld="customer_id" NameNew="customer_id" Required="true" Size="150" Type="VARCHAR"/>
+        <ColumnChange NameOld="zip" NameNew="zip" Required="false" Size="200" Type="VARCHAR"/>
+        <ColumnChange NameOld="city" NameNew="city" Required="false" Size="200" Type="VARCHAR"/>
+        <ColumnChange NameOld="country" NameNew="country" Required="false" Size="200" Type="VARCHAR"/>
     </TableAlter>
+
     <TableAlter Name="users">
         <ColumnChange NameOld="salutation" NameNew="title" Required="false" Size="50" Type="VARCHAR"/>
+        <ColumnChange NameOld="login" NameNew="login" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+
+    <TableAlter Name="valid">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="ticket_priority">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="ticket_type">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="ticket_lock_type">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="groups">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="roles">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="ticket_state">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="ticket_state_type">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="salutation">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="signature">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="system_address">
+        <ColumnChange NameOld="comments" NameNew="comments" Required="false" Size="250" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="follow_up_possible">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="queue">
+        <ColumnChange NameOld="comments" NameNew="comments" Required="false" Size="250" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="ticket_history_type">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="article_type">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="article_sender_type">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="standard_response">
+        <ColumnChange NameOld="comments" NameNew="comments" Required="false" Size="250" Type="VARCHAR"/>
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="standard_attachment">
+        <ColumnChange NameOld="comments" NameNew="comments" Required="false" Size="250" Type="VARCHAR"/>
+        <ColumnChange NameOld="content_type" NameNew="content_type" Required="true" Size="250" Type="VARCHAR"/>
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="auto_response_type">
+        <ColumnChange NameOld="comments" NameNew="comments" Required="false" Size="250" Type="VARCHAR"/>
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="auto_response">
+        <ColumnChange NameOld="comments" NameNew="comments" Required="false" Size="250" Type="VARCHAR"/>
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="service">
+        <ColumnChange NameOld="comments" NameNew="comments" Required="false" Size="250" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="service_customer_user">
+        <ColumnChange NameOld="customer_user_login" NameNew="customer_user_login" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="sla">
+        <ColumnChange NameOld="comments" NameNew="comments" Required="false" Size="250" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="customer_company">
+        <ColumnChange NameOld="customer_id" NameNew="customer_id" Required="true" Size="150" Type="VARCHAR"/>
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="notification_event">
+        <ColumnChange NameOld="content_type" NameNew="content_type" Required="true" Size="250" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="package_repository">
+        <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
     </TableAlter>
 
 </database>
