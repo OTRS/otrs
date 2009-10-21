@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.116 2009-10-14 14:18:46 mb Exp $
+# $Id: AgentTicketPhone.pm,v 1.117 2009-10-21 12:14:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1940,6 +1940,18 @@ sub _MaskPhoneNew {
     if ( $Self->{LayoutObject}->{BrowserSpellChecker} ) {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
+            Data => {},
+        );
+    }
+
+    # show customer edit link
+    my $OptionCustomer = $Self->{LayoutObject}->Permission(
+        Action => 'AdminCustomerUser',
+        Type   => 'rw',
+    );
+    if ($OptionCustomer) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OptionCustomer',
             Data => {},
         );
     }

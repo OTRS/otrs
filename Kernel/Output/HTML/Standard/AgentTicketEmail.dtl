@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.54 2009-10-01 14:36:48 ub Exp $
+# $Id: AgentTicketEmail.dtl,v 1.55 2009-10-21 12:14:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -289,7 +289,9 @@ function clear_field() {
 <!-- dtl:block:AddressBook -->
                                 $Env{"Box0"}<a href="" onclick="BookCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Address Book"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}contents.png">$Text{"Address Book"}</a>$Env{"Box1"}
 <!-- dtl:block:AddressBook -->
+<!-- dtl:block:OptionCustomer -->
                                 $Env{"Box0"}<a href="" onclick="CustomerSubmit(); return false;" onmouseover="window.status='$JSText{"Customer"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}group-small.png">$Text{"Customer"}</a>$Env{"Box1"}
+<!-- dtl:block:OptionCustomer -->
                             </td>
                         </tr>
                         <tr>
