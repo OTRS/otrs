@@ -3,7 +3,7 @@
 <!-- valid - all valid stats -->
 <Table Name="valid">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -20,7 +20,7 @@
 <!-- ticket_priority - all ticket priorites -->
 <Table Name="ticket_priority">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -38,7 +38,7 @@
 <!-- ticket_type - all ticket types -->
 <Table Name="ticket_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -59,7 +59,7 @@
 <!-- ticket_lock_type - all ticket lock types -->
 <Table Name="ticket_lock_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -80,7 +80,7 @@
 <!-- user - all user -->
 <Table Name="users">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="login" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="login" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="pw" Required="true" Size="50" Type="VARCHAR"/>
     <Column Name="title" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="first_name" Required="true" Size="100" Type="VARCHAR"/>
@@ -118,7 +118,7 @@
 <!-- group - all groups -->
 <Table Name="groups">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -219,7 +219,7 @@
 <!-- role - all roles -->
 <Table Name="roles">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -301,7 +301,7 @@
 <!-- ticket_state - all ticket states -->
 <Table Name="ticket_state">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="type_id" Required="true" Type="SMALLINT"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
@@ -327,7 +327,7 @@
 <!-- ticket_state_type - all ticket states types -->
 <Table Name="ticket_state_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="120" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -345,7 +345,7 @@
 <!-- salutation - all salutation for the queues -->
 <Table Name="salutation">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="text" Required="true" Size="3000" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
@@ -369,7 +369,7 @@
 <!-- signature - all signature for the queues -->
 <Table Name="signature">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="text" Required="true" Size="3000" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
@@ -400,7 +400,7 @@
     <Column Name="value2" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="value3" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="queue_id" Required="true" Type="INTEGER"/>
-    <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -418,7 +418,7 @@
 <!-- follow_up_possible? -->
 <Table Name="follow_up_possible">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -456,7 +456,7 @@
     <Column Name="signature_id" Required="true" Type="SMALLINT"/>
     <Column Name="follow_up_id" Required="true" Type="SMALLINT"/>
     <Column Name="follow_up_lock" Required="true" Type="SMALLINT"/>
-    <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -829,7 +829,7 @@
 <!-- ticket_history_type - all history types -->
 <Table Name="ticket_history_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -851,7 +851,7 @@
 <!-- article_type - all types of articles (e. g. email, fax, phonecall, ...) -->
 <Table Name="article_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -873,7 +873,7 @@
 <!-- article_sender_type - all possibles senders (e. g. agent, system, customer, ...) -->
 <Table Name="article_sender_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1060,10 +1060,10 @@
 <!-- standard_response - -->
 <Table Name="standard_response">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="80" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="text" Required="false" Size="10000" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="comments" Required="false" Size="100" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -1104,11 +1104,11 @@
 <!-- standard_attachment -->
 <Table Name="standard_attachment">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="150" Type="VARCHAR"/>
-    <Column Name="content_type" Required="true" Size="150" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="content_type" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="content" Required="true" Type="LONGBLOB"/>
     <Column Name="filename" Required="true" Size="250" Type="VARCHAR"/>
-    <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -1150,8 +1150,8 @@
 <!-- auto_response_type - -->
 <Table Name="auto_response_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
-    <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -1172,7 +1172,7 @@
 <!-- auto_response - -->
 <Table Name="auto_response">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="text0" Required="false" Size="6000" Type="VARCHAR"/>
     <Column Name="text1" Required="false" Size="6000" Type="VARCHAR"/>
     <Column Name="text2" Required="false" Size="6000" Type="VARCHAR"/>
@@ -1180,7 +1180,7 @@
     <Column Name="system_address_id" Required="true" Type="SMALLINT"/>
     <Column Name="charset" Required="true" Size="80" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="comments" Required="false" Size="100" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -1279,7 +1279,7 @@
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
-    <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -1308,7 +1308,7 @@
 
 <!-- service_customer_user - relation customeruser<->service -->
 <Table Name="service_customer_user">
-    <Column Name="customer_user_login" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="customer_user_login" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="service_id" Required="true" Type="INTEGER"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -1338,7 +1338,7 @@
     <Column Name="solution_time" Required="true" Type="INTEGER"/>
     <Column Name="solution_notify" Required="false" Type="SMALLINT"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
-    <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -1430,10 +1430,10 @@
 
 <!-- customer user -->
 <Table Name="customer_user">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="login" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="login" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="email" Required="true" Size="150" Type="VARCHAR"/>
-    <Column Name="customer_id" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="customer_id" Required="true" Size="150" Type="VARCHAR"/>
     <Column Name="pw" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="title" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="first_name" Required="true" Size="100" Type="VARCHAR"/>
@@ -1442,9 +1442,9 @@
     <Column Name="fax" Required="false" Size="150" Type="VARCHAR"/>
     <Column Name="mobile" Required="false" Size="150" Type="VARCHAR"/>
     <Column Name="street" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="zip" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="city" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="country" Required="false" Size="150" Type="VARCHAR"/>
+    <Column Name="zip" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="city" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="country" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1475,8 +1475,8 @@
 
 <!-- customer company -->
 <Table Name="customer_company">
-    <Column Name="customer_id" Required="true" PrimaryKey="true" Size="100" Type="VARCHAR"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="customer_id" Required="true" PrimaryKey="true" Size="150" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="street" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="zip" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="city" Required="false" Size="200" Type="VARCHAR"/>
@@ -1610,7 +1610,7 @@
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="subject" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="text" Required="true" Size="4000" Type="VARCHAR"/>
-    <Column Name="content_type" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="content_type" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="charset" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1701,7 +1701,7 @@
 <!-- opm - package_repository -->
 <Table Name="package_repository">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="250" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="version" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="vendor" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="install_status" Required="true" Size="250" Type="VARCHAR"/>
