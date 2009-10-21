@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.181 2009-10-21 12:09:37 martin Exp $
+# $Id: Layout.pm,v 1.182 2009-10-21 12:17:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.181 $) [1];
+$VERSION = qw($Revision: 1.182 $) [1];
 
 =head1 NAME
 
@@ -3008,7 +3008,7 @@ check if access to an frontend module exists
 
     my $Access = $LayoutObject->Permission(
         Action => 'AdminCustomerUser',
-        Type   => 'rw',
+        Type   => 'rw', # ro|rw possible
     );
 
 =cut
@@ -3027,16 +3027,18 @@ sub Permission {
         }
     }
 
+    # check if it is ro|rw
     my %Map = (
         ro => 'GroupRo',
         rw => 'Group',
 
     );
-
     my $Permission = $Map{ $Param{Type} };
+    return if !$Permission;
 
+    # get config option for frontend module
     my $Config = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Param{Action} };
-    next if !$Config;
+    return if !$Config;
 
     my $Item = $Config->{$Permission};
 
@@ -4427,6 +4429,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.181 $ $Date: 2009-10-21 12:09:37 $
+$Revision: 1.182 $ $Date: 2009-10-21 12:17:41 $
 
 =cut
