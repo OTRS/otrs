@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.180 2009-10-14 08:45:21 martin Exp $
+# $Id: Layout.pm,v 1.181 2009-10-21 12:09:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.180 $) [1];
+$VERSION = qw($Revision: 1.181 $) [1];
 
 =head1 NAME
 
@@ -296,6 +296,11 @@ sub new {
             Key   => 'Frontend::RichText',
             Value => 0,
         );
+    }
+
+    # check if rich text is active
+    if ( !$Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        $Self->{BrowserRichText} = 0;
     }
 
     # check if spell check should be active
@@ -2997,6 +3002,70 @@ sub NoPermission {
     return $Output;
 }
 
+=item Permission()
+
+check if access to an frontend module exists
+
+    my $Access = $LayoutObject->Permission(
+        Action => 'AdminCustomerUser',
+        Type   => 'rw',
+    );
+
+=cut
+
+sub Permission {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for (qw(Action Type)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Got no $_!",
+            );
+            $Self->FatalError();
+        }
+    }
+
+    my %Map = (
+        ro => 'GroupRo',
+        rw => 'Group',
+
+    );
+
+    my $Permission = $Map{ $Param{Type} };
+
+    my $Config = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Param{Action} };
+    next if !$Config;
+
+    my $Item = $Config->{$Permission};
+
+    # array access restriction
+    my $Access = 0;
+    if ( $Item && ref $Item eq 'ARRAY' ) {
+        for ( @{$Item} ) {
+            my $Key = 'UserIs' . $Permission . '[' . $_ . ']';
+            if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
+                $Access = 1;
+            }
+        }
+    }
+
+    # scalar access restriction
+    elsif ($Item) {
+        my $Key = 'UserIs' . $Permission . '[' . $Item . ']';
+        if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
+            $Access = 1;
+        }
+    }
+
+    # no access restriction
+    elsif ( !$Config->{GroupRo} && !$Config->{Group} ) {
+        $Access = 1;
+    }
+    return $Access;
+}
+
 sub CheckCharset {
     my ( $Self, %Param ) = @_;
 
@@ -3107,7 +3176,7 @@ returns browser output to display/download a attachment
 sub Attachment {
     my ( $Self, %Param ) = @_;
 
-    # check needed objects
+    # check needed params
     for (qw(Content ContentType)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log(
@@ -4240,7 +4309,7 @@ sub RichText2Ascii {
 =item RichTextDocumentComplete()
 
 1) add html, body, ... tags to be a valid html document
-2) replace links of inline content e. g. images
+2) replace links of inline content e. g. images to <img src="cid:xxxx" />
 
     $HTMLBody = $LayoutObject->RichTextDocumentComplete(
         String => $HTMLBody,
@@ -4302,12 +4371,10 @@ sub _RichTextReplaceLinkOfInlineContent {
 
     # replace image link with content id for uploaded images
     ${ $Param{String} } =~ s{
-        ((?:<|&lt;)img.*?src=(?:"|&quot;))
-        .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
-        ((?:"|&quot;).*?(?:>|&gt;))
+        (<img.+?src=("|')).+?ContentID=(.+?)("|')(.*?>)
     }
     {
-        $1 . "cid:" . $2 . $3;
+        $1 . 'cid:' . $3 . $4 . $5;
     }esgxi;
 
     return $Param{String};
@@ -4360,6 +4427,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.180 $ $Date: 2009-10-14 08:45:21 $
+$Revision: 1.181 $ $Date: 2009-10-21 12:09:37 $
 
 =cut
