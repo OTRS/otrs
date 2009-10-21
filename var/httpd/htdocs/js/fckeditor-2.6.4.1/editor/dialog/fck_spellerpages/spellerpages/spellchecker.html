@@ -45,7 +45,7 @@ function postWords() {
 		bodyDoc.write('<p>' + window.parent.FCKLang.DlgSpellProgress + '<\/p>');		// by FredCK
 		bodyDoc.write('<form action="'+speller.spellCheckScript+'" method="post">');
 // OTRS
-		bodyDoc.write('<input type="hidden" name="Action" value="AgentSpelling">');
+		bodyDoc.write('<input type="hidden" name="Action" value="SpellingInline">');
 		bodyDoc.write('<input type="hidden" name="Subaction" value="Inline">');
 // /OTRS
 		for( var i = 0; i < speller.textInputs.length; i++ ) {
