@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.23 2009-10-01 14:36:48 ub Exp $
+# $Id: AgentTicketBulk.dtl,v 1.24 2009-10-22 12:37:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,19 +18,9 @@ function submit_compose() {
         RichTextUpdateLinkedField();
     }
 
-    if (document.compose.Subject.value == "") {
+    if (document.compose.Body.value && document.compose.Subject.value == "") {
         alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
-        return false;
-    }
-    else if (document.compose.Body.value == "") {
-        alert('$JSText{"A message should have a body!"}');
-        if (typeof RichTextUpdateLinkedField == 'function') {
-            RichTextFocus();
-        }
-        else {
-            document.compose.Body.focus();
-        }
         return false;
     }
 
