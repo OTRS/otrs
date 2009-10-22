@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.31 2009-05-11 18:20:55 martin Exp $
+# $Id: Request.pm,v 1.32 2009-10-22 20:55:22 reb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -147,6 +147,36 @@ sub GetParam {
     }
 
     return $Value;
+}
+
+=item GetParamNames()
+
+to get names of all parameters passed to the script.
+
+    my @ParamNames = $ParamObject->GetParamNames();
+
+Example:
+
+Called URL: index.pl?Action=AdminSysConfig&Subaction=Save&Name=Config::Option::Valid
+
+    my @ParamNames = $ParamObject->GetParamNames();
+    print join " :: ", @ParamNames;
+    #prints Action :: Subaction :: Name
+
+=cut
+
+sub GetParamNames {
+    my ($Self) = @_;
+
+    # fetch all names
+    my @ParamNames = $Self->{Query}->param();
+
+    # is encode needed?
+    for my $Name (@ParamNames) {
+        $Self->{EncodeObject}->Encode( \$Name );
+    }
+
+    return @ParamNames;
 }
 
 =item GetArray()
@@ -349,6 +379,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2009-05-11 18:20:55 $
+$Revision: 1.32 $ $Date: 2009-10-22 20:55:22 $
 
 =cut
