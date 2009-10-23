@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.14 2009-10-12 18:31:00 mb Exp $
+# $Id: StaticDB.pm,v 1.15 2009-10-23 14:14:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -255,7 +255,7 @@ sub _ArticleIndexString {
             WordLengthMax => $Param{WordLengthMax},
         );
     };
-    next if !$ListOfWords;
+    return if !$ListOfWords;
 
     # find ranking of words
     my %List;
