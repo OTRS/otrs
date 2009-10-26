@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.98 2009-10-05 10:19:28 mb Exp $
+# $Id: bg.pm,v 1.99 2009-10-26 10:00:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1338,6 +1338,7 @@ sub Data {
         'Ticket Merge' => 'Изравняване на билет',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Преместване на билета',
 
         # Template: AgentTicketNote

@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.122 2009-10-05 10:19:28 mb Exp $
+# $Id: fr.pm,v 1.123 2009-10-26 10:00:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1351,6 +1351,7 @@ sub Data {
         'Ticket Merge' => 'Fusion de Ticket',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Changer la file du ticket',
 
         # Template: AgentTicketNote

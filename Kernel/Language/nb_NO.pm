@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.88 2009-10-20 19:17:45 mb Exp $
+# $Id: nb_NO.pm,v 1.89 2009-10-26 10:00:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.88 $;
+$VERSION = q$Revision: 1.89 $;
 
 sub Data {
     my $Self = shift;
@@ -1340,6 +1340,7 @@ sub Data {
         'Ticket Merge' => 'Flett saker',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Flytt sak',
 
         # Template: AgentTicketNote

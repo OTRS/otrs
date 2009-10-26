@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.98 2009-10-05 10:19:29 mb Exp $
+# $Id: fi.pm,v 1.99 2009-10-26 10:00:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1338,6 +1338,7 @@ sub Data {
         'Ticket Merge' => 'Liitä tiketti',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Siirrä tiketti',
 
         # Template: AgentTicketNote

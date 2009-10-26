@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.7 2009-10-05 10:19:29 mb Exp $
+# $Id: zh_TW.pm,v 1.8 2009-10-26 10:01:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1338,6 +1338,7 @@ sub Data {
         'Ticket Merge' => 'Ticket ¦X¨Ã',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => '²¾°Ê Ticket',
 
         # Template: AgentTicketNote

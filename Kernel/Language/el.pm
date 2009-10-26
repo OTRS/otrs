@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.59 2009-10-05 10:19:29 mb Exp $
+# $Id: el.pm,v 1.60 2009-10-26 10:00:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1350,6 +1350,7 @@ sub Data {
         'Ticket Merge' => 'Ένωση μηνυμάτων',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Μεταφορά Δελτίου',
 
         # Template: AgentTicketNote

@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # --
-# $Id: cz.pm,v 1.82 2009-10-05 10:19:29 mb Exp $
+# $Id: cz.pm,v 1.83 2009-10-26 10:00:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1338,6 +1338,7 @@ sub Data {
         'Ticket Merge' => '',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Pøesunout tiket',
 
         # Template: AgentTicketNote

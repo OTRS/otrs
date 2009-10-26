@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.33 2009-10-05 10:19:29 mb Exp $
+# $Id: vi_VN.pm,v 1.34 2009-10-26 10:01:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1336,6 +1336,7 @@ sub Data {
         'Ticket Merge' => 'Trµn thë',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Chuy¬n thë',
 
         # Template: AgentTicketNote

@@ -3,7 +3,7 @@
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.87 2009-10-05 10:19:29 mb Exp $
+# $Id: pl.pm,v 1.88 2009-10-26 10:00:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1352,6 +1352,7 @@ sub Data {
         'Ticket Merge' => 'Scal zg³oszenie',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Przesuñ zg³oszenie',
 
         # Template: AgentTicketNote

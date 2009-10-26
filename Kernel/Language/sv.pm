@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.76 2009-10-05 10:19:29 mb Exp $
+# $Id: sv.pm,v 1.77 2009-10-26 10:01:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1338,6 +1338,7 @@ sub Data {
         'Ticket Merge' => 'Slå samman',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Flytta ärende',
 
         # Template: AgentTicketNote
