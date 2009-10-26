@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1056 2009-10-26 16:09:19 mb Exp $
+# $Id: CHANGES,v 1.1057 2009-10-26 19:09:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,10 +46,14 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/10/26) Fixed bug#4455 - Input field in Preferences of a Dashboard
+    module doesn't save settings.
  - (2009/10/26) Fixed bug#4454 - restore.pl is not working.
  - (2009/10/26) Fixed bug#4447 - TimeUnits not saved in AgentTicketMove.pm when
     omitting a note.
- - (2009/10/22) Fixed bug #4188: Restore original subject check in AgentTicketMerge.
+ - (2009/10/22) Fixed bug#4188: Restore original subject check in AgentTicketMerge.
+ - (2009/10/21) Fixed bug#4232 - SpellChecker Customer-Interface is not
+    working.
  - (2009/10/19) Fixed bug#4433 - StateDefault is being ignored in when composing
     an email answer, current ticket state or first one in list gets selected.
 
