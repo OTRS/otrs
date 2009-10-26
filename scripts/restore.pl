@@ -3,7 +3,7 @@
 # scripts/restore.pl - the restore script
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: restore.pl,v 1.10.2.1 2009-10-26 15:49:19 mb Exp $
+# $Id: restore.pl,v 1.10.2.2 2009-10-26 15:54:45 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10.2.1 $) [1];
+$VERSION = qw($Revision: 1.10.2.2 $) [1];
 
 use Getopt::Std;
 
@@ -80,10 +80,8 @@ require Kernel::System::DB;
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(
-    ConfigObject => $CommonObject{ConfigObject},
-);
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Restore',
     %CommonObject,
 );
