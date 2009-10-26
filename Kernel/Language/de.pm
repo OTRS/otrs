@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.215 2009-10-26 10:00:54 mb Exp $
+# $Id: de.pm,v 1.216 2009-10-26 20:53:08 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.215 $) [1];
+$VERSION = qw($Revision: 1.216 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -746,7 +746,7 @@ sub Data {
         'Is Job Valid' => 'Ist Job gültig',
         'Schedule' => 'Zeitplan',
         'Currently this generic agent job will not run automatically.' => 'Derzeit würde dieser GenericAgentJob nicht automatisch ausgeführt werden.',
-        'To enable automatic execution select at least one value from minutes, hours and days!' => 'Um ihn automatisch auszuführen muß mindestens ein Wert vom Minuten, Stunden und Tagen ausgewählt werden!',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => 'Um ihn automatisch auszuführen muß mindestens ein Wert von Minuten, Stunden und Tagen ausgewählt werden!',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Volltextsuche in Artikel (z. B. "Mar*in" oder "Baue*")',
         '(e. g. 10*5155 or 105658*)' => 'z .B. 10*5144 oder 105658*',
         '(e. g. 234321)' => 'z. B. 234321',
