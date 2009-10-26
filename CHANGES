@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1055 2009-10-22 12:37:42 mg Exp $
+# $Id: CHANGES,v 1.1056 2009-10-26 16:09:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/10/26) Added CGI.pm back to packaged versions (auto_build.sh).
  - (2009/10/14) Pending Date of tickets can be max. 1 year in the future.
  - (2009/10/14) Fixed bug#1731 - Show last login time of agent and customer
     management.
@@ -45,6 +46,9 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/10/26) Fixed bug#4454 - restore.pl is not working.
+ - (2009/10/26) Fixed bug#4447 - TimeUnits not saved in AgentTicketMove.pm when
+    omitting a note.
  - (2009/10/22) Fixed bug #4188: Restore original subject check in AgentTicketMerge.
  - (2009/10/19) Fixed bug#4433 - StateDefault is being ignored in when composing
     an email answer, current ticket state or first one in list gets selected.
