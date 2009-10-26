@@ -3,7 +3,7 @@
  # agent.css - css file
  # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
  # --
- # $Id: agent.css,v 1.4 2009-10-20 13:31:01 mg Exp $
+ # $Id: agent.css,v 1.5 2009-10-26 14:20:51 mg Exp $
  # --
  # --
  # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -21,11 +21,11 @@ body {
 
 a {
     color: #557799;
+    text-decoration: none;
 }
 
 a:hover {
     color: #002244;
-    text-decoration: none;
 }
 
 pre {
