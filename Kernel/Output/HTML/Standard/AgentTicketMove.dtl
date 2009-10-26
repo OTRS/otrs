@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.26 2009-10-12 10:18:26 mb Exp $
+# $Id: AgentTicketMove.dtl,v 1.27 2009-10-26 10:24:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,7 +57,11 @@ function submit_compose() {
         }
         return false;
     }
-
+    else if (document.compose.TimeUnits && document.compose.TimeUnits.value > 0 && document.compose.Subject.value == "") {
+        alert('$JSText{"If you want to account time, please provide Subject and Text!"}');
+        document.compose.Subject.focus();
+        return false;
+    }
 <!-- dtl:block:TicketFreeTextCheckJs -->
     if (document.compose.$Data{"TicketFreeTextField"}.value == "") {
         alert('$JSText{"A required field is:"} ' + document.compose.$Data{"TicketFreeKeyField"}.value + '!');
