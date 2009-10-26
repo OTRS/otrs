@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.89.2.1 2009-09-22 13:04:55 mg Exp $
+# $Id: pt_BR.pm,v 1.89.2.2 2009-10-26 09:54:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89.2.1 $) [1];
+$VERSION = qw($Revision: 1.89.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1323,6 +1323,7 @@ sub Data {
         'Ticket Merge' => 'Unir Chamado',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Mover Chamado',
 
         # Template: AgentTicketNote

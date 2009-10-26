@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.72.2.1 2009-09-22 13:04:56 mg Exp $
+# $Id: hu.pm,v 1.72.2.2 2009-10-26 09:54:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72.2.1 $) [1];
+$VERSION = qw($Revision: 1.72.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1325,6 +1325,7 @@ sub Data {
         'Ticket Merge' => 'Jegy egyesítése',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Jegy áthelyezése',
 
         # Template: AgentTicketNote

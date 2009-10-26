@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Emiliano Coletti <e.coletti at gmail.com>
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # --
-# $Id: it.pm,v 1.88.2.2 2009-09-23 11:55:43 mb Exp $
+# $Id: it.pm,v 1.88.2.3 2009-10-26 09:54:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88.2.2 $) [1];
+$VERSION = qw($Revision: 1.88.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1328,6 +1328,7 @@ sub Data {
         'Ticket Merge' => 'Unisci Richiesta',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Sposta la richiesta',
 
         # Template: AgentTicketNote

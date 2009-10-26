@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.95.2.4 2009-10-06 09:54:59 mb Exp $
+# $Id: es.pm,v 1.95.2.5 2009-10-26 09:54:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95.2.4 $) [1];
+$VERSION = qw($Revision: 1.95.2.5 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1335,6 +1335,7 @@ sub Data {
         'Ticket Merge' => 'Fusionar Ticket',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Mover Ticket',
 
         # Template: AgentTicketNote

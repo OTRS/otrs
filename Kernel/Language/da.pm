@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.59.2.1 2009-09-22 13:04:56 mg Exp $
+# $Id: da.pm,v 1.59.2.2 2009-10-26 09:54:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.59.2.1 $) [1];
+$VERSION = qw($Revision: 1.59.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1322,6 +1322,7 @@ sub Data {
         'Ticket Merge' => 'Sagfletning',
 
         # Template: AgentTicketMove
+        'If you want to account time, please provide Subject and Text!' => '',
         'Move Ticket' => 'Flyt sag',
 
         # Template: AgentTicketNote
