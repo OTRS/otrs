@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.38 2009-09-22 15:02:12 ub Exp $
+# $Id: AgentTicketMove.pm,v 1.39 2009-10-26 10:13:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -541,7 +541,7 @@ sub Run {
         );
     }
 
-    # force unlock if no new owner is set and tickert was unlocked
+    # force unlock if no new owner is set and ticket was unlocked
     else {
         if ( $Self->{TicketUnlock} ) {
             $Self->{TicketObject}->LockSet(
@@ -557,12 +557,12 @@ sub Run {
 
     if ( $GetParam{Body} ) {
 
-        # get pre loaded attachment
+        # get pre-loaded attachments
         my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
             FormID => $Self->{FormID},
         );
 
-        # get submit attachment
+        # get submitted attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'file_upload',
             Source => 'String',
@@ -616,7 +616,7 @@ sub Run {
             );
         }
 
-        # remove pre submited attachments
+        # remove pre-submitted attachments
         $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
     }
 
@@ -671,7 +671,7 @@ sub Run {
     if ( $GetParam{TimeUnits} ) {
         $Self->{TicketObject}->TicketAccountTime(
             TicketID  => $Self->{TicketID},
-            ArticleID => $ArticleID || '',
+            ArticleID => $ArticleID,
             TimeUnit  => $GetParam{TimeUnits},
             UserID    => $Self->{UserID},
         );
@@ -895,7 +895,7 @@ sub AgentMove {
         }
     }
 
-    # java script check for required free text fields by form submit
+    # JavaScript check for required free text fields by form submit
     for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
         if ( $Self->{Config}->{TicketFreeText}->{$Key} == 2 ) {
             $Self->{LayoutObject}->Block(
@@ -908,7 +908,7 @@ sub AgentMove {
         }
     }
 
-    # java script check for required free time fields by form submit
+    # JavaScript check for required free time fields by form submit
     for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
         if ( $Self->{Config}->{TicketFreeTime}->{$Key} == 2 ) {
             $Self->{LayoutObject}->Block(
