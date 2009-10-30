@@ -2,7 +2,7 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.21.2.3 2009-10-01 14:14:16 ub Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.21.2.4 2009-10-30 09:39:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ function submit_compose() {
         alert('$JSText{"Invalid date!"}');
         return false;
     }
-    else if (document.compose.Day.value < 1 || document.compose.Day.value > 31 || document.compose.Month.value < 1 || document.compose.Month.value > 31 || document.compose.Year.value < 999 || document.compose.Year.value > 10000 || document.compose.Hour.value < 0 || document.compose.Hour.value > 23 ||document.compose.Minute.value < 0 || document.compose.Minute.value > 59  ) {
+    else if (document.compose.Day.value < 1 || document.compose.Day.value > 31 || document.compose.Month.value < 1 || document.compose.Month.value > 12 || document.compose.Year.value < 999 || document.compose.Year.value > 10000 || document.compose.Hour.value < 0 || document.compose.Hour.value > 23 ||document.compose.Minute.value < 0 || document.compose.Minute.value > 59  ) {
         alert('$JSText{"Invalid date!"}');
         return false;
     }
