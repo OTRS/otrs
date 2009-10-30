@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.89 2009-10-26 10:00:54 mb Exp $
+# $Id: nb_NO.pm,v 1.90 2009-10-30 09:44:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.89 $;
+$VERSION = q$Revision: 1.90 $;
 
 sub Data {
     my $Self = shift;
@@ -28,7 +28,7 @@ sub Data {
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
-    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%D/%M %Y %T';
     $Self->{DateFormatLong}      = '%A %D. %B %Y %T';
     $Self->{DateFormatShort}     = '%D.%M.%Y';
