@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.t,v 1.25 2009-07-29 16:43:48 martin Exp $
+# $Id: XML.t,v 1.26 2009-10-30 10:48:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -159,6 +159,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
       <SpecialCharacters1>\\\'</SpecialCharacters1>
       <SpecialCharacters2>0</SpecialCharacters2>
       <GermanText>German Umlaute öäü ÄÜÖ ß</GermanText>
+      <Quote>Test &amp;amp; Test &amp;lt; &amp;&lt;&gt;&quot;</Quote>
+      <Quote Name="Test &amp;amp; Test &amp;lt; &amp;&lt;&gt;&quot;">Some Text</Quote>
     </Contact>
 ';
 
@@ -225,6 +227,16 @@ $Self->Is(
     $XMLHash[1]->{Contact}->[1]->{SpecialCharacters2}->[1]->{Content},
     0,
     '#3 XMLParse2XMLHash() (Contact->SpecialCharacters2)',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{Quote}->[1]->{Content},
+    'Test &amp; Test &lt; &<>"',
+    '#3 XMLParse2XMLHash() (Contact->Quote)',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{Quote}->[2]->{Name},
+    'Test &amp; Test &lt; &<>"',
+    '#3 XMLParse2XMLHash() (Contact->Quote->Name)',
 );
 
 # test charset specific situations
@@ -634,7 +646,7 @@ if ( open( DATA, "< $Path/$File" ) ) {
         'XMLParse2XMLHash() - charset test - use file form the filesystem and parse it',
     );
 
-    # charset test - use file form the articleattachement and parse it
+    # charset test - use file form the article attachment and parse it
     my $TicketID = $Self->{TicketObject}->TicketCreate(
         Title        => 'Some Ticket Title',
         Queue        => 'Raw',
@@ -683,7 +695,7 @@ if ( open( DATA, "< $Path/$File" ) ) {
     );
     $Self->True(
         $Feedback,
-        'XMLParse2XMLHash() - charset test - write an article attachemnt to storage',
+        'XMLParse2XMLHash() - charset test - write an article attachment to storage',
     );
 
     my %Attachment = $Self->{TicketObject}->ArticleAttachment(
@@ -696,7 +708,7 @@ if ( open( DATA, "< $Path/$File" ) ) {
     $Self->True(
         $#XMLHash == 1
             && $XMLHash[1]->{'EISPP-Advisory'}->[1]->{System_Information}->[1]->{information},
-        'XMLParse2XMLHash() - charset test - use file form the articleattachement and parse it',
+        'XMLParse2XMLHash() - charset test - use file form the article attachment and parse it',
     );
 
 }

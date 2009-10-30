@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.88 2009-10-07 20:30:48 martin Exp $
+# $Id: XML.pm,v 1.89 2009-10-30 10:48:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 =head1 NAME
 
@@ -1290,6 +1290,9 @@ sub XMLParse {
 
         if ( eval { $Parser->parse( $Param{String} ) } ) {
             $UseFallback = 0;
+
+            # remember, XML::Parser is managing e. g. &amp; by it self
+            $Self->{XMLQuote} = 0;
         }
         else {
             $Self->{LogObject}->Log( Priority => 'error', Message => "C-Parser: $@!" );
@@ -1311,6 +1314,9 @@ sub XMLParse {
             },
         );
         $Parser->parse( $Param{String} );
+
+        # remember, XML::Parser::Lite is managing e. g. &amp; NOT by it self
+        $Self->{XMLQuote} = 1;
     }
 
     # quote
@@ -1332,10 +1338,17 @@ sub _Decode {
 
         # decode
         elsif ( defined $A->{$_} ) {
-            $A->{$_} =~ s/&amp;/&/g;
-            $A->{$_} =~ s/&lt;/</g;
-            $A->{$_} =~ s/&gt;/>/g;
-            $A->{$_} =~ s/&quot;/"/g;
+
+            # check if decode is already done by parser
+            if ( $Self->{XMLQuote} ) {
+                my %Map = (
+                    'amp'  => '&',
+                    'lt'   => '<',
+                    'gt'   => '>',
+                    'quot' => '"',
+                );
+                $A->{$_} =~ s/&(amp|lt|gt|quot);/$Map{$1}/g;
+            }
 
             # convert into default charset
             $A->{$_} = $Self->{EncodeObject}->Convert(
@@ -1440,6 +1453,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.88 $ $Date: 2009-10-07 20:30:48 $
+$Revision: 1.89 $ $Date: 2009-10-30 10:48:45 $
 
 =cut
