@@ -2,7 +2,7 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.28 2009-02-17 22:11:21 martin Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.29 2009-10-30 10:18:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,104 +11,104 @@
 
 <!-- dtl:block:Body -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr align="center">
+    <tr align="center">
 <!-- dtl:block:Head -->
-    <td width="33%" class="mainhead">
-      $Env{"Box0"}$Text{"$QData{"Header"}"}$Env{"Box1"}
-    </td>
+        <td width="33%" class="mainhead">
+            $Env{"Box0"}$Text{"$QData{"Header"}"}$Env{"Box1"}
+        </td>
 <!-- dtl:block:Head -->
-  </tr>
+    </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr align="center">
+    <tr align="center">
 <!-- dtl:block:Colum -->
-    <td width="33%" class="mainbody">
+        <td width="33%" class="mainbody">
 <!-- dtl:block:Item -->
-      <table border="0" width="100%" cellspacing="0" cellpadding="3">
-        <tr align="center">
-          <td class="contenthead">
-            $Env{"Box0"}$Text{"$Data{"Label"}"}$Env{"Box1"}
-          </td>
-        </tr>
-        <tr align="center">
-          <td class="contentbody">
-            <p>
-              $Text{"$Data{"Desc"}"}
-            </p>
-            <form action="$Env{"CGIHandle"}" method="post">
-              <input type="hidden" name="Action" value="$Env{"Action"}"/>
-              <input type="hidden" name="Subaction" value="Update"/>
-              <input type="hidden" name="Group" value="$QData{"Group"}"/>
-              <p>
-                <table border="0">
+            <table border="0" width="100%" cellspacing="0" cellpadding="3">
+                <tr align="center">
+                    <td class="contenthead">
+                        $Env{"Box0"}$Text{"$Data{"Label"}"}$Env{"Box1"}
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td class="contentbody">
+                        <div style="margin: 20px 0;">
+                            $Text{"$Data{"Desc"}"}
+                        </div>
+                        <form action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="Update"/>
+                            <input type="hidden" name="Group" value="$QData{"Group"}"/>
+                            <div style="margin: 20px 0;">
+                                <table border="0">
 <!-- dtl:block:Block -->
 <!-- dtl:block:InputKey -->
-                  <tr>
-                    <td>$Text{"$QData{"Key"}"}:</td>
-                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="22"/></td>
-                  </tr>
+                                    <tr>
+                                        <td>$Text{"$QData{"Key"}"}:</td>
+                                        <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="22"/></td>
+                                    </tr>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
-                  <tr>
-                    <td>$Text{"$QData{"Key"}"}</td>
-                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="22"/></td>
-                  </tr>
+                                    <tr>
+                                        <td>$Text{"$QData{"Key"}"}</td>
+                                        <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="22"/></td>
+                                    </tr>
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
-                  <tr>
-                    <td>$Text{"$QData{"Key"}"}</td>
-                    <td>$Data{"Option"}</td>
-                  </tr>
+                                    <tr>
+                                        <td>$Text{"$QData{"Key"}"}</td>
+                                        <td>$Data{"Option"}</td>
+                                    </tr>
 <!-- dtl:block:Option -->
 <!-- dtl:block:Upload -->
-                  <tr>
-                    <td>$Text{"$QData{"Key"}"}</td>
-                    <td>
-                      <input name="$QData{"Name"}" type="file" size="20" class="fixed"/><br/>
-                      <a href="">$QData{"Filename"}</a>
-                    </td>
-                  </tr>
+                                    <tr>
+                                        <td>$Text{"$QData{"Key"}"}</td>
+                                        <td>
+                                            <input name="$QData{"Name"}" type="file" size="20" class="fixed"/><br/>
+                                            <a href="">$QData{"Filename"}</a>
+                                        </td>
+                                    </tr>
 <!-- dtl:block:Upload -->
 <!-- dtl:block:Password -->
-                  <tr>
-                    <td>$Text{"$QData{"Key"}"}:</td>
-                    <td><input type="password" name="$QData{"Name"}" value="" size="12"/></td>
-                  </tr>
+                                    <tr>
+                                        <td>$Text{"$QData{"Key"}"}:</td>
+                                        <td><input type="password" name="$QData{"Name"}" value="" size="12"/></td>
+                                    </tr>
 <!-- dtl:block:Password -->
 <!-- dtl:block:OutOfOffice -->
-                  <tr>
-                    <td colspan="2">$Text{"$QData{"Key"}"}</td>
-                  </tr>
-                  <tr>
-                    <td colspan="2" align="top">
-                      <center>
-                      <input type="radio" name="OutOfOffice" value="1" $QData{"OutOfOfficeOn"}>$Text{"On"}<input type="radio" name="OutOfOffice" value="0" $QData{"OutOfOfficeOff"}>$Text{"Off"}
-                      </center>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2">
-                      $Text{"Start"}: $Data{"OptionStart"}<br>$Text{"End"}: $Data{"OptionEnd"}
-                    </td>
-                  </tr>
+                                    <tr>
+                                        <td colspan="2">$Text{"$QData{"Key"}"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" align="top">
+                                            <center>
+                                            <input type="radio" name="OutOfOffice" value="1" $QData{"OutOfOfficeOn"}>$Text{"On"}<input type="radio" name="OutOfOffice" value="0" $QData{"OutOfOfficeOff"}>$Text{"Off"}
+                                            </center>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            $Text{"Start"}: $Data{"OptionStart"}<br>$Text{"End"}: $Data{"OptionEnd"}
+                                        </td>
+                                    </tr>
 <!-- dtl:block:OutOfOffice -->
 <!-- dtl:block:Block -->
-                </table>
-              </p>
-              <input class="button" type="submit" value="$Text{"Update"}"/>
-            </form>
-          </td>
-        </tr>
-        <tr>
-          <td class="contentfooter">
-            &nbsp;
-          </td>
-        </tr>
-      </table>
-      <br/>
+                                </table>
+                            </div>
+                            <input class="button" type="submit" value="$Text{"Update"}"/>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="contentfooter">
+                        &nbsp;
+                    </td>
+                </tr>
+            </table>
+            <br/>
 <!-- dtl:block:Item -->
-    </td>
+        </td>
 <!-- dtl:block:Colum -->
-  </tr>
+    </tr>
 </table>
 <!-- dtl:block:Body -->

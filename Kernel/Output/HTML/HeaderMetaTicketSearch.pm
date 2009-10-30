@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/HeaderMetaTicketSearch.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HeaderMetaTicketSearch.pm,v 1.5 2009-04-06 21:08:09 martin Exp $
+# $Id: HeaderMetaTicketSearch.pm,v 1.6 2009-10-30 10:18:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,7 +49,7 @@ sub Run {
             Type  => 'application/opensearchdescription+xml',
             Title => $Title,
             Href  => '$Env{"Baselink"}Action=' . $Param{Config}->{Action}
-                . '&Subaction=OpenSearchDescriptionTicketNumber' . $Session,
+                . '&amp;Subaction=OpenSearchDescriptionTicketNumber' . $Session,
         },
     );
 
@@ -63,7 +63,7 @@ sub Run {
             Type  => 'application/opensearchdescription+xml',
             Title => $Title,
             Href  => '$Env{"Baselink"}Action=' . $Param{Config}->{Action}
-                . '&Subaction=OpenSearchDescriptionFulltext' . $Session,
+                . '&amp;Subaction=OpenSearchDescriptionFulltext' . $Session,
         },
     );
     return 1;
