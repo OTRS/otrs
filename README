@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.35.2.1 2009-09-14 13:29:01 martin Exp $
+# $Id: README,v 1.35.2.2 2009-10-30 10:51:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,43 +15,48 @@ What is OTRS?
   OTRS is an Open source Ticket Request System with many features to manage
   customer telephone calls and e-mails. It is distributed under the GNU
   AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
-  FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and want to
-  answer them with a team of agents? You're going to love the OTRS!
+  Windows, FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and
+  want to answer them with a team of agents? You're going to love OTRS!
 
 
   Feature list:
 
    Web-Interface:
     - Agent web interface for viewing and working on all customer requests
-    - Admin web interface for changing system things
-    - Customer web interface for viewing and sending infos to the agents
-    - Webinterface with themes support
-    - Webinterface with Single sign on (e. g. HTTPBasicAuth or LogonTickets)
-    - Multi language support (Brazilian Portuguese, Bulgarian, Czech, Dutch,
-       English, Finnish, French, German, Italian, Polish, Portuguese, Russian
-       and Spanish)
+    - Admin web interface for changing system configuration
+    - Customer web interface for viewing and sending information to the agents
+    - Web interface with themes support
+    - Web interface with Single sign on (e. g. HTTPBasicAuth or LogonTickets)
+    - Multi-language support (Brazilian Portuguese, Bulgarian, Catalonian,
+      Chinese Simple, Chinese Traditional, Czech, Danish, Dutch, English,
+      Estonian, Finnish, French, German, Greek, Hungarian, Italian, Latvian,
+      Norwegian, Persian, Polish, Portuguese, Russian, Slovak, Spanish, Swedish,
+      Turkish, and Vietnamese built in and easy to add your own if needed)
     - customize the output templates (dtl) release independently
-    - Webinterface with attachment support
+    - Web interface with attachment support
+    - Support for ITIL processes via additional packages: Incident, Problem, Config..
+    - Knowledge Base module (FAQ) via additional package
     - easy and logical to use
 
    Email-Interface:
-    - dispatching of incoming email via email addess or x-header
-    - autoresponders for customers by incoming emails (per queue)
+    - dispatching of incoming email via email address or email headers
+    - autoresponders for customers by incoming e-mails (per queue)
     - email-notification to the agent by new tickets, follow ups or lock timeouts
+    - Rich Text support
     - MIME support (attachments)
     - PGP support
     - SMIME support
 
-   Ticket:
+   Tickets:
     - custom queue view and queue view of all requests
     - Ticket locking
     - Ticket replies (standard responses)
     - Ticket autoresponders per queue
     - Ticket history, evolution of ticket status and actions taken on ticket
-    - abaility to add notes (with different note types) to a ticket
+    - Ability to add notes (with different note types) to a ticket
     - Ticket zoom feature
     - Tickets can be bounced or forwarded to other email addresses
-    - Ticket can be moved to a different queue (this is helpful if emails are
+    - Ticket can be moved to a different queue (this is helpful if e-mails are
        for a specific subject)
     - Ticket priority
     - Ticket time accounting
@@ -59,15 +64,14 @@ What is OTRS?
     - Ticket pending feature
     - Ticket merge feature
     - Ticket ACL support
-    - content fulltext search
+    - Content full text search
 
    System:
-    - ASP (activ service providing) support
     - Customer Source can be used from a SQL databases or LDAP
         (e. g. eDirectory, AD, OpenLDAP)
-    - TicketHook free setable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
-    - Ticket number format free setable
-    - utf-8 support for frontend and backend
+    - TicketHook free configurable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
+    - Ticket number format free configurable
+    - utf-8 support for front end and back end
     - creation and configuration of user accounts, and groups
     - creation of standard responses
     - creation of sub queue
@@ -76,21 +80,20 @@ What is OTRS?
     - email-notification of administrators
     - email-notification sent to problem reporter (by create, locked, deleted,
        moved and closed)
-    - submitting update-info (via email or webinterface)
+    - submitting update-info (via email or web interface)
     - deadlines for trouble tickets
-    - TicketHook free setable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
     - different levels of permissions/access-rights
-    - central database, Support of different SQL databases (e. g. MySQL, PostgreSQL, Oracle and DB2)
-    - user authentication agains database or ldap directory
-    - easy to develope you own addon's (OTRS API)
-    - easy to write different frontends (e. g. X11, console, ...)
-    - own package manager (e. g. for application modules like webmail, calendar or
-       filemanager)
-    - a fast and usefull application
+    - central database, support for different SQL databases (MySQL, PostgreSQL, Oracle, MS-SQL, Ingres and DB2)
+    - user authentication against database or LDAP directory
+    - easy to develop you own add-ons (OTRS API)
+    - easy to write different front-ends (e. g. X11, console, ...)
+    - package manager (e. g. for application modules like web mail, calendar, FAQ or
+       file manager)
+    - a fast and useful application
+    - SOAP interface for integration with other applications
+    - built-in capabilities to connect with network monitoring such as Nagios and OpenNMS
+    -
 
-Todo:
-    - API to other ticket systems like Paregrine
-    - XML interface
 
 License:
 ========
@@ -129,58 +132,74 @@ $HOME (e. g. /opt/otrs/)
 |   |--/PostMaster.pl      (email2db)
 |   |--/PostMasterMail.pl  (email2db)
 |   |--/cgi-bin/
-|   |   |----- /index.pl        (Global Agent & Admin handel)
-|   |   |----- /customer.pl     (Global Customer handel)
-|   |   |----- /public.pl       (Global Public handel)
-|   |   |----- /installer.pl    (Global Installer handel)
+|   |   |----- /index.pl        (Global Agent & Admin handle)
+|   |   |----- /customer.pl     (Global Customer handle)
+|   |   |----- /public.pl       (Global Public handle)
+|   |   |----- /installer.pl    (Global Installer handle)
+|   |--/fcgi-bin/               (If you're using FastCGI)
 |
 |  (all modules)
 |--/Kernel/
+|   |---- /Config/        (Configuration files)
+|   |      |---- /Files/  (System generated, don't touch...)
+|   |
 |   |---- /Output/        (all output generating modules)
 |   |      |---- /HTML/
-|   |             |--- /Standard/*.dtl (all dtl files for Standard-Theme)
-|   |             |--- /Lite/*.dtl (all dtl files for Lite-Theme)
-|   |      |---- /wml/
-|   |      |---- /ascii/
-|   |      |---- /X11/
+|   |             |--- /Standard/*.dtl (all dtl files for Standard theme)
+|   |             |--- /Lite/*.dtl (all dtl files for Lite theme)
 |   |
-|   |---- /Languages/      (all translation modules)
+|   |---- /Languages/      (all translation files)
 |   |
 |   |---- /Modules/        (all action modules e. g. QueueView, Move, ...)
 |   |      |----- /Agent*      (all modules for the agent interface)
 |   |      |----- /Admin*      (all modules for the admin interface)
 |   |      |----- /Customer*   (all modules for the customer interface)
-|   |      |----- /System*     (all modules for the system views e.g. stats)
 |   |
-|   |---- /System/         (all backend modules)
+|   |---- /System/         (back-end API modules)
 |           |--- /DB.pm         (central DB interface)
 |                 |--- /DB/*.pm (DB driver)
-|           |--- /Auth.pm       (authentification module)
-|           |--- /AuthSession.pm (session authentification module)
-|           |--- /EmailSend.pm      (create and send emails)
-|           |--- /EmailParser.pm (parsing emails)
+|           |--- /Auth.pm       (authentication module)
+|           |--- /AuthSession.pm (session authentication module)
+|           |--- /EmailSend.pm      (create and send e-mail)
+|           |--- /EmailParser.pm (parsing e-mail)
 |           |--- /Log.pm        (log module)
 |           |--- /User.pm       (user module)
 |           |--- /Group.pm      (group module)
 |           |--- /WebParam.pm   (e. g. get param)
 |           |--- /Queue.pm      (information about queues. e. g. responses, ...)
-|           |--- /Ticket.pm     (ticket and article funktions)
+|           |--- /Ticket.pm     (ticket and article functions)
 |
 |  (data stuff)
 |--/var/
-|   |--/log/                    (log files)
-|   |   |--/TicketCounter.log   (ticket counter)
+|   |--/article/               (all incoming e-mails, plain 1/1 and all attachments ...
+|   |                            ... separately (different files), if you want to store on disk)
+|   |--/cron/                  (all cron jobs for escalations and such)
 |   |
-|   |--/articles/               (all incoming emails, plain 1/1 and all attachments ...
-|   |                            ... separately (different files))
-|   |--/sessions/               (session infos)
+|   |--/httpd/                 (all static files served by HTTP)
+|   |   |--- /htdocs/
+|   |         |--- /css/       (css files for the different themes)
+|   |         |--- /images/    (images for the different themes)
+|   |         |--- /js/        (javascript files, prototype and FCKEditor)
+|   |         |--- /yui/       (Yahoo User Interface framework)
+|   |
+|   |--/log/                   (log files)
+|   |   |--/TicketCounter.log  (ticket counter)
+|   |
+|   |--/sessions/              (session info)
+|   |
+|   |--/spool/                 (spool files)
+|   |
+|   |--/stats/                 (statistics)
+|   |
+|   |--/tmp/                   (temporary files, such as cache)
 |
 |  (tools stuff)
 |--/scripts/
 |   |----  /database/
-|           |--- /otrs-schema.(mysql|postgrsql|*).sql (create database script)
-|           |--- /otrs-initial_insert.(mysql|postgrsql|*).sql (all initial sql data - e. g.
-|                                                              root user, queues, ...)
+|           |--- /otrs-schema.(mysql|postgresql|*).sql (create database script)
+|           |--- /otrs-initial_insert.(mysql|postgresql|*).sql (all initial sql data - e. g.
+|           |                                                   root user, queues, ...)
+|           |--- /otrs-schema-post.(mysql|postgresql|*).sql (create foreign keys script)
 |
 
 EOF
