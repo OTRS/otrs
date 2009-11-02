@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesTicketWatcher.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesTicketWatcher.pm,v 1.1 2009-02-17 00:19:32 martin Exp $
+# $Id: PreferencesTicketWatcher.pm,v 1.2 2009-11-02 20:44:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,7 +35,7 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
-    # check if feature is aktive
+    # check if feature is active
     return if !$Self->{ConfigObject}->Get('Ticket::Watcher');
 
     # check access
