@@ -2,7 +2,7 @@
 # AgentDashboardUserOnline.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardUserOnline.dtl,v 1.7 2009-07-30 15:41:26 martin Exp $
+# $Id: AgentDashboardUserOnline.dtl,v 1.8 2009-11-02 20:51:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,37 +11,37 @@
 
 <table border="0" width="100%" cellspacing="0" cellpadding="2">
 <!-- dtl:block:ContentSmallUserOnlineFilter -->
-  <tr>
-    <td class="small" widh="50%">
-      <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Element&Name=$QData{"Name"}&Filter=Agent'); return false;" style="$QData{"Agent::Style"}">$Text{"Agent"} ($QData{"Agent"})</a>
-      |
-      <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Element&Name=$QData{"Name"}&Filter=Customer'); return false;" style="$QData{"Customer::Style"}">$Text{"Customer"} ($QData{"Customer"})</a>
-    </td>
-    <td class="small" align="right">
+    <tr>
+        <td class="small" widh="50%">
+            <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=Element&amp;Name=$QData{"Name"}&amp;Filter=Agent'); return false;" style="$QData{"Agent::Style"}">$Text{"Agent"} ($QData{"Agent"})</a>
+            |
+            <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=Element&amp;Name=$QData{"Name"}&amp;Filter=Customer'); return false;" style="$QData{"Customer::Style"}">$Text{"Customer"} ($QData{"Customer"})</a>
+        </td>
+        <td class="small" align="right">
 <!-- dtl:block:ContentSmallTicketGenericFilterNavBar -->
-      $Text{"Page"}: $Data{"SiteNavBar"}
+            $Text{"Page"}: $Data{"SiteNavBar"}
 <!-- dtl:block:ContentSmallTicketGenericFilterNavBar -->
-    </td>
-  </tr>
+        </td>
+    </tr>
 <!-- dtl:block:ContentSmallUserOnlineFilter -->
 <!-- dtl:block:ContentSmallUserOnlineRow -->
-  <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
-  <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
-    <td colspan="2">
-      $QData{"UserLastname"} $QData{"UserFirstname"}
+    <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
+    <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
+        <td colspan="2">
+            $QData{"UserLastname"} $QData{"UserFirstname"}
 <!-- dtl:block:ContentSmallUserOnlineRowEmail -->
-      ($QData{"UserEmail","50"})
+            ($QData{"UserEmail","50"})
 <!-- dtl:block:ContentSmallUserOnlineRowEmail -->
-    </td>
-  </tr>
-  <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
-  <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
+        </td>
+    </tr>
+    <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+    <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
 <!-- dtl:block:ContentSmallUserOnlineRow -->
 <!-- dtl:block:ContentSmallUserOnlineNone -->
-  <tr class="searchactive" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
-    <td colspan="2">
-      $Text{"none"}
-    </td>
-  </tr>
+    <tr class="searchactive" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
+        <td colspan="2">
+            $Text{"none"}
+        </td>
+    </tr>
 <!-- dtl:block:ContentSmallUserOnlineNone -->
 </table>

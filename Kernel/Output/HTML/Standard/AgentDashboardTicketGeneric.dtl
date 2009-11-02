@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.9 2009-08-25 10:05:22 martin Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.10 2009-11-02 20:51:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,58 +11,58 @@
 
 <table border="0" width="100%" cellspacing="0" cellpadding="2">
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
-  <tr>
-    <td class="small" width="70%">
-      <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Element&Name=$QData{"Name"}&Filter=Locked'); return false;" style="$QData{"Locked::Style"}">$Text{"Locked Tickets"} ($QData{"Locked"})</a>
+    <tr>
+        <td class="small" width="70%">
+            <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=Element&amp;Name=$QData{"Name"}&amp;Filter=Locked'); return false;" style="$QData{"Locked::Style"}">$Text{"Locked Tickets"} ($QData{"Locked"})</a>
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
-      | <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Element&Name=$QData{"Name"}&Filter=Watcher'); return false;" style="$QData{"Watcher::Style"}">$Text{"Watched"} ($QData{"Watcher"})</a>
+            | <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=Element&amp;Name=$QData{"Name"}&amp;Filter=Watcher'); return false;" style="$QData{"Watcher::Style"}">$Text{"Watched"} ($QData{"Watcher"})</a>
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
-      | <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Element&Name=$QData{"Name"}&Filter=Responsible'); return false;" style="$QData{"Responsible::Style"}">$Text{"Responsible"} ($QData{"Responsible"})</a>
+            | <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=Element&amp;Name=$QData{"Name"}&amp;Filter=Responsible'); return false;" style="$QData{"Responsible::Style"}">$Text{"Responsible"} ($QData{"Responsible"})</a>
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
-      | <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Element&Name=$QData{"Name"}&Filter=MyQueues'); return false;" style="$QData{"MyQueues::Style"}">$Text{"My Queues"} ($QData{"MyQueues"})</a>
-      | <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Element&Name=$QData{"Name"}&Filter=All'); return false;" style="$QData{"All::Style"}">$Text{"All"} ($QData{"All"})</a>
+            | <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=Element&amp;Name=$QData{"Name"}&amp;Filter=MyQueues'); return false;" style="$QData{"MyQueues::Style"}">$Text{"My Queues"} ($QData{"MyQueues"})</a>
+            | <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=Element&amp;Name=$QData{"Name"}&amp;Filter=All'); return false;" style="$QData{"All::Style"}">$Text{"All"} ($QData{"All"})</a>
 
-    </td>
-    <td class="small" align="right">
+        </td>
+        <td class="small" align="right">
 <!-- dtl:block:ContentLargeTicketGenericFilterNavBar -->
-      $Text{"Page"}: $Data{"SiteNavBar"}
+            $Text{"Page"}: $Data{"SiteNavBar"}
 <!-- dtl:block:ContentLargeTicketGenericFilterNavBar -->
-    </td>
-  </tr>
+        </td>
+    </tr>
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
-  <tr>
-    <td colspan="2">
-      <table border="0" width="100%" cellspacing="0" cellpadding="2">
+    <tr>
+        <td colspan="2">
+            <table border="0" width="100%" cellspacing="0" cellpadding="2">
 <!-- dtl:block:ContentLargeTicketGenericRow -->
-        <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
-        <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
-          <td width="10%">
-            <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
-              <tr>
-                <td class="PriorityID-$Data{"PriorityID"}" title="$Text{"Priority"}: $Text{"$Data{"Priority"}"}" width="1%">&nbsp;</td>
-                <td>
-                  &nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
-                </td>
-              </tr>
+                <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
+                <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
+                    <td width="10%">
+                        <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td class="PriorityID-$Data{"PriorityID"}" title="$Text{"Priority"}: $Text{"$Data{"Priority"}"}" width="1%">&nbsp;</td>
+                                <td>
+                                    &nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td width="60%">
+                        <div title="$QData{"Title"}">$QData{"Title","70"}</div>
+                    </td>
+                    <td>$QData{"Time"}</td>
+                </tr>
+                <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
+                <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
+<!-- dtl:block:ContentLargeTicketGenericRow -->
+<!-- dtl:block:ContentLargeTicketGenericNone -->
+                <tr class="searchactive" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
+                    <td colspan="3">
+                        $Text{"none"}
+                    </td>
+                </tr>
+<!-- dtl:block:ContentLargeTicketGenericNone -->
             </table>
-          </td>
-          <td width="60%">
-            <div title="$QData{"Title"}">$QData{"Title","70"}</div>
-          </td>
-          <td>$QData{"Time"}</td>
-        </tr>
-        <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
-        <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
-<!-- dtl:block:ContentLargeTicketGenericRow -->
-<!-- dtl:block:ContentLargeTicketGenericNone -->
-        <tr class="searchactive" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
-          <td colspan="3">
-            $Text{"none"}
-          </td>
-        </tr>
-<!-- dtl:block:ContentLargeTicketGenericNone -->
-      </table>
-    </td>
-  </tr>
+        </td>
+    </tr>
 </table>

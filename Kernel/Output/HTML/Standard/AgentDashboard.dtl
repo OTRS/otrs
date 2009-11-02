@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.15 2009-10-26 19:09:22 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.16 2009-11-02 20:50:15 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,9 @@
 # --
 
 # include accordion
-<script src="$Config{"Frontend::YUIPath"}/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-<script src="$Config{"Frontend::YUIPath"}/build/animation/animation-min.js"></script>
-<script src="$Config{"Frontend::JavaScriptPath"}accordion.js" type="text/javascript"></script>
+<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/animation/animation-min.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}accordion.js" type="text/javascript"></script>
 
 # include AJAX lib
 $Include{"AJAX"}
@@ -82,7 +82,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 <!-- dtl:block:ContentLargePreferences -->
                                                 <a href="#" onclick="OTRSDashboard.Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
 <!-- dtl:block:ContentLargePreferences -->
-                                                <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpdateRemove&Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"/></a>
+                                                <a href="$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=UpdateRemove&amp;Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"/></a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -211,7 +211,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 <!-- dtl:block:ContentSmallPreferences -->
                                                 <a href="#" onclick="OTRSDashboard.Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
 <!-- dtl:block:ContentSmallPreferences -->
-                                                <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpdateRemove&Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"></a>
+                                                <a href="$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=UpdateRemove&amp;Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"></a>
                                             </td>
                                         </tr>
                                         <tr>
