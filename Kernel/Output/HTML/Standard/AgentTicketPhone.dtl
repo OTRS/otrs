@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.56 2009-10-30 09:35:17 mb Exp $
+# $Id: AgentTicketPhone.dtl,v 1.57 2009-11-02 16:27:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -258,10 +258,10 @@ function clear_field() {
                         <td class="contentkey">$Text{"Options"}:</td>
                         <td class="contentvalue">
 <!-- dtl:block:SpellCheck -->
-                            $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+                            $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png" alt="">$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
 <!-- dtl:block:OptionCustomer -->
-                            $Env{"Box0"}<a href="" onclick="CustomerSubmit(); return false;" onmouseover="window.status='$JSText{"Customer"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}group-small.png">$Text{"Customer"}</a>$Env{"Box1"}
+                            $Env{"Box0"}<a href="" onclick="CustomerSubmit(); return false;" onmouseover="window.status='$JSText{"Customer"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}group-small.png" alt="">$Text{"Customer"}</a>$Env{"Box1"}
 <!-- dtl:block:OptionCustomer -->
                         </td>
                     </tr>

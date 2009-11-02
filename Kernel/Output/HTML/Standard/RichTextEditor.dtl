@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.24 2009-09-23 09:21:10 mg Exp $
+# $Id: RichTextEditor.dtl,v 1.25 2009-11-02 16:27:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 # load js
-<script src="$Config{"Frontend::JavaScriptPath"}fckeditor-2.6.4.1/fckeditor.js"></script>
+<script src="$Config{"Frontend::JavaScriptPath"}fckeditor-2.6.4.1/fckeditor.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 // update body with current rich text content
