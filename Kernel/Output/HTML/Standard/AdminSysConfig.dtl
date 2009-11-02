@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.21 2009-09-13 22:28:08 martin Exp $
+# $Id: AdminSysConfig.dtl,v 1.22 2009-11-02 15:23:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -139,7 +139,7 @@
                             <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
                             <tr>
                                 <td class="$Env{"Color"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Edit&SysConfigSubGroup=$LQData{"SubGroup"}&SysConfigGroup=$LQData{"Group"}">$QData{"SubGroup"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=Edit&amp;SysConfigSubGroup=$LQData{"SubGroup"}&amp;SysConfigGroup=$LQData{"Group"}">$QData{"SubGroup"}</a>
                                 </td>
                                 <td class="$Env{"Color"}">$QData{"SubGroupCount"}</td>
                                 <td class="$Env{"Color"}">$QData{"Group"}</td>
