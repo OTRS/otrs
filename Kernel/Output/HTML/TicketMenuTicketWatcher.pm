@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuTicketWatcher.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuTicketWatcher.pm,v 1.12 2009-08-27 11:32:25 martin Exp $
+# $Id: TicketMenuTicketWatcher.pm,v 1.13 2009-11-02 20:36:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -98,7 +98,7 @@ sub Run {
                         Name        => 'Unsubscribe',
                         Description => 'Unsubscribe it to watch it not longer!',
                         Link =>
-                            'Action=AgentTicketWatcher&Subaction=Unsubscribe&TicketID=$QData{"TicketID"}',
+                            'Action=AgentTicketWatcher&amp;Subaction=Unsubscribe&amp;TicketID=$QData{"TicketID"}',
                     },
                 );
             }
@@ -111,7 +111,7 @@ sub Run {
                         Name        => 'Subscribe',
                         Description => 'Subscribe it to watch it!',
                         Link =>
-                            'Action=AgentTicketWatcher&Subaction=Subscribe&TicketID=$QData{"TicketID"}',
+                            'Action=AgentTicketWatcher&amp;Subaction=Subscribe&amp;TicketID=$QData{"TicketID"}',
                     },
                 );
             }
