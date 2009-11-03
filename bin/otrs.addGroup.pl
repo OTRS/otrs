@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.addGroup - add new system groups
+# bin/otrs.addGroup.pl - add new system groups
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addGroup,v 1.20 2009-09-01 19:46:43 jb Exp $
+# $Id: otrs.addGroup.pl,v 1.1 2009-11-03 15:14:23 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
