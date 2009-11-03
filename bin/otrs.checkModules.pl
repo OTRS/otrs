@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.checkModules - to check needed cpan framework modules
+# bin/otrs.checkModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.checkModules,v 1.37 2009-08-31 12:29:29 mb Exp $
+# $Id: otrs.checkModules.pl,v 1.1 2009-11-03 16:06:41 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
