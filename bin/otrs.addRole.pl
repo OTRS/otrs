@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.addRole - add new system roles
+# bin/otrs.addRole.pl - add new system roles
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addRole,v 1.7 2009-09-01 12:46:28 jb Exp $
+# $Id: otrs.addRole.pl,v 1.1 2009-11-03 15:54:28 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
