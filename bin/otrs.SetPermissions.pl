@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# SetPermissions.pl - to set the otrs permissions
+# bin/otrs.SetPermissions.pl - to set the otrs permissions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SetPermissions.pl,v 1.11 2009-10-12 11:46:04 mb Exp $
+# $Id: otrs.SetPermissions.pl,v 1.1 2009-11-03 16:14:15 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 print "bin/SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
 print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
