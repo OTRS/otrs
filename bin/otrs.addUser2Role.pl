@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# otrs.addUser2Role - Assign users to Roles from CLI
+# bin/otrs.addUser2Role.pl - Assign users to Roles from CLI
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addUser2Role,v 1.5 2009-09-01 14:42:39 jb Exp $
+# $Id: otrs.addUser2Role.pl,v 1.1 2009-11-03 16:06:11 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
