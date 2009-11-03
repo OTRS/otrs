@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# StatsExportToOPM.pl - export all stats of a system and create a package for the package manager
+# bin/otrs.StatsExportToOPM.pl - export all stats of a system and create a package for the package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StatsExportToOPM.pl,v 1.14 2009-03-18 19:06:20 martin Exp $
+# $Id: otrs.StatsExportToOPM.pl,v 1.1 2009-11-03 16:14:57 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -50,7 +50,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 # common objects
 my %CommonObject = ();
