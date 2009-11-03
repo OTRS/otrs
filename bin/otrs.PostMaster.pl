@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/PostMaster.pl - the global eMail handle for email2db
+# bin/otrs.PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pl,v 1.36 2009-06-03 09:28:52 martin Exp $
+# $Id: otrs.PostMaster.pl,v 1.1 2009-11-03 16:10:10 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -36,7 +36,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
