@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/RebuildTicketIndex.pl - rebuild ticket index for queue view
+# bin/otrs.RebuildTicketIndex.pl - rebuild ticket index for queue view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RebuildTicketIndex.pl,v 1.18 2009-04-03 14:15:00 martin Exp $
+# $Id: otrs.RebuildTicketIndex.pl,v 1.1 2009-11-03 16:13:01 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
