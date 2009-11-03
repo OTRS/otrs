@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# otrs.addUser - Add User from CLI
+# bin/otrs.addUser.pl - Add User from CLI
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addUser,v 1.17 2009-04-23 13:47:27 mh Exp $
+# $Id: otrs.addUser.pl,v 1.1 2009-11-03 16:05:14 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
