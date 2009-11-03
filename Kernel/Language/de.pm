@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.217 2009-10-30 09:44:04 mb Exp $
+# $Id: de.pm,v 1.218 2009-11-03 11:24:23 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.217 $) [1];
+$VERSION = qw($Revision: 1.218 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -584,7 +584,7 @@ sub Data {
         'Show closed tickets.' => 'Geschlossene Tickets anzeigen.',
         'Max. shown Tickets a page in QueueView.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Queue-Ansicht.',
         'Watch notification' => 'Beobachter Benachrichtigung',
-        'Send me a notification of an watched ticket like an owner of an ticket.' => 'Informierte mich über Änderungen an beobachteten Tickets (als ob ich der Besitzer eines Ticket wäre).',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => 'Informiere mich über Änderungen an beobachteten Tickets (als ob ich der Besitzer eines Ticket wäre).',
         'Out Of Office' => 'Abwesenheit',
         'Select your out of office time.' => 'Bitte die Abwesenheitszeit auswählen.',
         'CompanyTickets' => 'Firmen Ticket',
