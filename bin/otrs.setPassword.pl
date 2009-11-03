@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# otrs.setPassword - Changes or Sets password for a user
+# bin/otrs.setPassword.pl - Changes or Sets password for a user
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.setPassword,v 1.19 2009-04-23 13:47:27 mh Exp $
+# $Id: otrs.setPassword.pl,v 1.1 2009-11-03 16:13:38 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::User;
 use Kernel::System::Main;
 use Kernel::System::Time;
 
-my $VERSION = qw($Revision: 1.19 $) [1];
+my $VERSION = qw($Revision: 1.1 $) [1];
 
 my %Opts = ();
 getopt( 'h', \%Opts );
