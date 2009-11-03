@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.addUser2Group - Add User to a Group
+# bin/otrs.addUser2Group.pl - Add User to a Group
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addUser2Group,v 1.22 2009-08-18 12:52:55 mh Exp $
+# $Id: otrs.addUser2Group.pl,v 1.1 2009-11-03 16:05:43 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
