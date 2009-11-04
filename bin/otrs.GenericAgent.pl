@@ -3,7 +3,7 @@
 # bin/otrs.GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenericAgent.pl,v 1.1 2009-11-03 14:35:20 mn Exp $
+# $Id: otrs.GenericAgent.pl,v 1.2 2009-11-04 12:27:57 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,11 +49,11 @@ use Kernel::System::GenericAgent;
 my %Opts = ();
 getopt( 'fcdlb', \%Opts );
 if ( $Opts{h} ) {
-    print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
+    print "otrs.GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
     print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
-    print "usage: GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] ";
+    print "usage: otrs.GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] ";
     print "[-l <limit>] [-f force]\n";
-    print "usage: GenericAgent.pl [-c db] [-d 1] [-l <limit>] ";
+    print "usage: otrs.GenericAgent.pl [-c db] [-d 1] [-l <limit>] ";
     print "[-b <BACKGROUND_INTERVAL_IN_MIN> (note: only 10,20,30,40,50,60,... minutes make ";
     print "sense)] [-f force]\n";
     print "Use -d for debug mode.\n";
@@ -122,11 +122,11 @@ if ( $Opts{c} eq 'db' && $Opts{b} && $Opts{b} !~ /^\d+$/ ) {
 
 # create pid lock
 if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
-    print "NOTICE: GenericAgent.pl is already running!\n";
+    print "NOTICE: otrs.GenericAgent.pl is already running!\n";
     exit 1;
 }
 elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
-    print "NOTICE: GenericAgent.pl is already running but is starting again!\n";
+    print "NOTICE: otrs.GenericAgent.pl is already running but is starting again!\n";
 }
 
 # while to run several times if -b is used

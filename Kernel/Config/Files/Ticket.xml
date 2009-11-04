@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.275 2009-09-23 21:38:48 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.276 2009-11-04 12:27:58 mn Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5831,8 +5831,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::UnlockStateType" Required="1" Valid="1">
-        <Description Lang="en">The states for unlocked tickets. You can unlock tickets with the script "bin/UnlockTickets.pl".</Description>
-        <Description Lang="de">Status für nicht gelockte Ticketes. Sie können Tickets mit Hilfe des Skripts "bin/UnlockTickets.pl" in diesen Status versetzen.</Description>
+        <Description Lang="en">The states for unlocked tickets. You can unlock tickets with the script "bin/otrs.UnlockTickets.pl".</Description>
+        <Description Lang="de">Status für nicht gelockte Ticketes. Sie können Tickets mit Hilfe des Skripts "bin/otrs.UnlockTickets.pl" in diesen Status versetzen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>

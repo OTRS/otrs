@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.50 2009-08-27 17:32:09 martin Exp $
+# $Id: INSTALL,v 1.51 2009-11-04 12:27:57 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,8 +104,8 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
       shell> perl -cw /opt/otrs/bin/cgi-bin/index.pl
       /opt/otrs/bin/cgi-bin/index.pl syntax OK
 
-      shell> perl -cw /opt/otrs/bin/PostMaster.pl
-      /opt/otrs/bin/PostMaster.pl syntax OK
+      shell> perl -cw /opt/otrs/bin/otrs.PostMaster.pl
+      /opt/otrs/bin/otrs.PostMaster.pl syntax OK
 
     If you get "syntax OK" it seems to be Ok. Go ahead.
 
@@ -148,8 +148,8 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
 11) First Email:
     ------------
-   pipe an email directly into $OTRS_HOME/bin/Postmaster.pl
-    (e. g. 'cat /opt/otrs/doc/test-email-1.box | /opt/otrs/bin/PostMaster.pl').
+   pipe an email directly into $OTRS_HOME/bin/otrs.Postmaster.pl
+    (e. g. 'cat /opt/otrs/doc/test-email-1.box | /opt/otrs/bin/otrs.PostMaster.pl').
 
 12) Cronjobs for the OTRS user:
     ---------------------------

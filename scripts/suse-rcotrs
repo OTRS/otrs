@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-rcotrs,v 1.31 2009-02-26 11:10:53 tr Exp $
+# $Id: suse-rcotrs,v 1.32 2009-11-04 12:27:57 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -170,7 +170,7 @@ case "$1" in
       fi
 
       # --
-      # enable PostMaster.pl
+      # enable otrs.PostMaster.pl
       # --
       echo -n " Enable $OTRS_POSTMASTER ..."
       if chmod 755 $OTRS_POSTMASTER; then
@@ -227,7 +227,7 @@ case "$1" in
       echo "Shutting down $OTRS_PROG "
 
       # --
-      # disable PostMaster.pl
+      # disable otrs.PostMaster.pl
       # --
       echo -n " Disable $OTRS_POSTMASTER ..."
       if chmod 644 $OTRS_POSTMASTER; then

@@ -3,7 +3,7 @@
 # bin/otrs.DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.DeleteSessionIDs.pl,v 1.1 2009-11-03 14:34:48 mn Exp $
+# $Id: otrs.DeleteSessionIDs.pl,v 1.2 2009-11-04 12:27:57 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -56,7 +56,7 @@ $CommonObject{SessionObject} = Kernel::System::AuthSession->new( %CommonObject, 
 
 # check args
 my $Command = shift || '--help';
-print "DeleteSessionIDs.pl <Revision $VERSION> - delete all existing or expired session ids\n";
+print "otrs.DeleteSessionIDs.pl <Revision $VERSION> - delete all existing or expired session ids\n";
 print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 
 # show/delete all session ids

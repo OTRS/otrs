@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.63 2009-10-26 14:00:26 mb Exp $
+# $Id: auto_build.sh,v 1.64 2009-11-04 12:27:57 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.63 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.64 $>"
 echo "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -182,7 +182,7 @@ mkdir doc/manual
 cp -R /tmp/OTRSDOC-package/* doc/manual/
 
 # mk ARCHIVE
-bin/CheckSum.pl -a create
+bin/otrs.CheckSum.pl -a create
 
 # add pre installed packages
 mkdir var/packages/

@@ -3,7 +3,7 @@
 # bin/otrs.PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PostMaster.pl,v 1.1 2009-11-03 16:10:10 mn Exp $
+# $Id: otrs.PostMaster.pl,v 1.2 2009-11-04 12:27:57 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -36,7 +36,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -51,10 +51,10 @@ use Kernel::System::PostMaster;
 my %Opts = ();
 getopt( 'hqtd', \%Opts );
 if ( $Opts{h} ) {
-    print "PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
+    print "otrs.PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
     print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print
-        "usage: PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
+        "usage: otrs.PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
     exit 1;
 }
 if ( !$Opts{d} ) {
@@ -91,7 +91,7 @@ eval {
     if ( $Opts{d} ) {
         $CommonObject{LogObject}->Log(
             Priority => 'debug',
-            Message  => 'Global OTRS email handle (PostMaster.pl) started...',
+            Message  => 'Global OTRS email handle (otrs.PostMaster.pl) started...',
         );
     }
 
@@ -121,7 +121,7 @@ eval {
     if ( $Opts{d} ) {
         $CommonObject{LogObject}->Log(
             Priority => 'debug',
-            Message  => 'Global OTRS email handle (PostMaster.pl) stopped.',
+            Message  => 'Global OTRS email handle (otrs.PostMaster.pl) stopped.',
         );
     }
 };

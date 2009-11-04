@@ -2,7 +2,7 @@
 # .mailfilter - mailfilter of the OTRS user
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: .mailfilter.dist,v 1.5 2009-06-03 09:28:52 martin Exp $
+# $Id: .mailfilter.dist,v 1.6 2009-11-04 12:27:57 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,11 +65,11 @@ cc ${SYS_HOME}/var/INBOX.Backup.${MONTHFOLDER}
 
 # Pipe all email into the PostMaster process.
 
-xfilter "${SYS_HOME}/bin/PostMaster.pl"
+xfilter "${SYS_HOME}/bin/otrs.PostMaster.pl"
 
 
-# spool all the rest (which the PostMaster.pl can't process!)
-# If the database is down or the PostMaster.pl exit was not '0'!
+# spool all the rest (which the otrs.PostMaster.pl can't process!)
+# If the database is down or the otrs.PostMaster.pl exit was not '0'!
 
 to $DEFAULT
 

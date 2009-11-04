@@ -3,7 +3,7 @@
 # bin/otrs.UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.UnlockTickets.pl,v 1.1 2009-11-03 16:16:02 mn Exp $
+# $Id: otrs.UnlockTickets.pl,v 1.2 2009-11-04 12:27:57 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -71,7 +71,7 @@ my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock( Type => 'ID' 
 
 # check args
 my $Command = shift || '--help';
-print "UnlockTickets.pl <Revision $VERSION> - unlock tickets\n";
+print "otrs.UnlockTickets.pl <Revision $VERSION> - unlock tickets\n";
 print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 
 # unlock all tickets

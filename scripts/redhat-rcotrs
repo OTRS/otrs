@@ -2,7 +2,7 @@
 # --
 # redhat-rcotrs - rc script of otrs for RedHat Linux
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
-# Copyright (C) 2002 Pablo Ruiz <pruiz@ip6seguridad.com>
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,7 @@ case "$1" in
       # test if apache is running..
       # --
       if test $OTRS_HTTP_RUNNING -gt 0; then
-	echo -n " Checking httpd ..."	
+    echo -n " Checking httpd ..."
         if $OTRS_USED_WEBSERVER_TEST >/dev/null 2>&1; then
           echo " done."
         else
@@ -76,7 +76,7 @@ case "$1" in
       # check mysql, mysql init script does not have a status check...
       # --
       if test $OTRS_DB_RUNNING -gt 0; then
-	echo -n " Checking MySQL ..."
+    echo -n " Checking MySQL ..."
         if $OTRS_USED_DB_TEST >/dev/null 2>&1; then 
           echo " done."
         else 
@@ -94,7 +94,7 @@ case "$1" in
       echo -n " Checking database connect... "
       if ! $OTRS_CHECKDB -s 1; then
           echo " Error! "
-	  echo "  May your database isn't configured yet? "
+      echo "  May your database isn't configured yet? "
           echo ""
           echo " Try the web installer to configure your database: "
           echo ""
@@ -107,7 +107,7 @@ case "$1" in
       fi
 
       # --
-      # disable PostMaster.pl
+      # disable otrs.PostMaster.pl
       # --
       echo -n " Enable $OTRS_POSTMASTER ..."
       if chmod 755 $OTRS_POSTMASTER; then
@@ -159,7 +159,7 @@ case "$1" in
       echo "Shutting down OTRS "
 
       # --
-      # disable PostMaster.pl
+      # disable otrs.PostMaster.pl
       # --
       echo -n " Disable $OTRS_POSTMASTER ..."
       if chmod 644 $OTRS_POSTMASTER; then
@@ -172,7 +172,7 @@ case "$1" in
       # --
       if test $OTRS_CRON_RUNNING -gt 0; then
         echo -e " Shutting down cronjobs ..."
-	if crontab $OTRS_CRON_USER -r ; then
+    if crontab $OTRS_CRON_USER -r ; then
           echo " done."
         else
           echo " failed!"
@@ -233,7 +233,7 @@ case "$1" in
       echo -n "Checking database connect... "
       if ! $OTRS_CHECKDB -s 1; then
           echo " Error! "
-	  echo " May your database isn't configured yet? "
+      echo " May your database isn't configured yet? "
       else
           echo "done."
       fi

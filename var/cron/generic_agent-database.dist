@@ -1,8 +1,8 @@
 # --
-# cron/generic_agent - GenericAgent.pl cron of the OTRS
+# cron/generic_agent - otrs.GenericAgent.pl cron of the OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: generic_agent-database.dist,v 1.8 2009-02-16 20:55:11 tr Exp $
+# $Id: generic_agent-database.dist,v 1.9 2009-11-04 12:27:57 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,4 +10,4 @@
 # --
 
 # start generic agent every 10 minutes
-*/10 * * * *    $HOME/bin/GenericAgent.pl -c db >> /dev/null
+*/10 * * * *    $HOME/bin/otrs.GenericAgent.pl -c db >> /dev/null

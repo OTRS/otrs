@@ -2,7 +2,7 @@
 # otrs.cleanup - to cleanup not proccesed emails
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.cleanup,v 1.7 2009-02-26 11:01:01 tr Exp $
+# $Id: otrs.cleanup,v 1.8 2009-11-04 12:27:57 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -23,7 +23,7 @@
 #OTRS_ROOT=/usr/local/otrs
 OTRS_ROOT=$HOME
 OTRS_SPOOLDIR=$OTRS_ROOT/var/spool
-OTRS_POSTMASTER=$OTRS_ROOT/bin/PostMaster.pl
+OTRS_POSTMASTER=$OTRS_ROOT/bin/otrs.PostMaster.pl
 
 if ! test -e $OTRS_ROOT/RELEASE; then
     echo "$HOME is not OTRS root!"

@@ -2,7 +2,7 @@
 # .procmailrc - procmailrc of the OTRS user
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: .procmailrc.dist,v 1.6 2009-06-03 09:28:52 martin Exp $
+# $Id: .procmailrc.dist,v 1.7 2009-11-04 12:27:57 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,11 +71,11 @@ VERBOSE=on
 # Pipe all email into the PostMaster process.
 
 :0 :
-| $SYS_HOME/bin/PostMaster.pl
+| $SYS_HOME/bin/otrs.PostMaster.pl
 
 
-# spool all the rest (which the PostMaster.pl can't process!)
-# If the database is down or the PostMaster.pl exit was not '0'!
+# spool all the rest (which the otrs.PostMaster.pl can't process!)
+# If the database is down or the otrs.PostMaster.pl exit was not '0'!
 
 :0 :
 $SYS_HOME/var/spool/.

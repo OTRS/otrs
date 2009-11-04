@@ -3,7 +3,7 @@
 # bin/otrs.CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckSum.pl,v 1.1 2009-11-03 14:31:40 mn Exp $
+# $Id: otrs.CheckSum.pl,v 1.2 2009-11-04 12:27:57 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
@@ -45,9 +45,10 @@ my %Compare = ();
 my %Opts = ();
 getopt( 'habd', \%Opts );
 if ( $Opts{h} ) {
-    print "CheckSum.pl <Revision $VERSION> - OTRS check sum\n";
+    print "otrs.CheckSum.pl <Revision $VERSION> - OTRS check sum\n";
     print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
-    print "usage: CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
+    print
+        "usage: otrs.CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
     exit 1;
 }
 

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1057 2009-10-26 19:09:22 martin Exp $
+# $Id: CHANGES,v 1.1058 2009-11-04 12:27:57 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,39 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/11/03) Renamed some files in the bin/ directory
+    CheckSum.pl                     ->  otrs.CheckSum.pl
+    CleanUp.pl                      ->  otrs.CleanUp.pl
+    Cron4Win32.pl                   ->  otrs.Cron4Win32.pl
+    CryptPassword.pl                ->  otrs.CryptPassword.pl
+    DeleteSessionIDs.pl             ->  otrs.DeleteSessionIDs.pl
+    GenericAgent.pl                 ->  otrs.GenericAgent.pl
+    mkStats.pl                      ->  otrs.mkStats.pl
+    otrs.addGroup                   ->  otrs.addGroup.pl
+    otrs.addQueue                   ->  otrs.addQueue.pl
+    otrs.addRole                    ->  otrs.addRole.pl
+    otrs.addRole2Group              ->  otrs.addRole2Group.pl
+    otrs.addUser                    ->  otrs.addUser.pl
+    otrs.addUser2Group              ->  otrs.addUser2Group.pl
+    otrs.addUser2Role               ->  otrs.addUser2Role.pl
+    otrs.checkModules               ->  otrs.checkModules.pl
+    otrs.CreateNewTranslationFile   ->  otrs.CreateNewTranslationFile.pl
+    otrs.getConfig                  ->  otrs.getConfig.pl
+    otrs.getTicketThread            ->  otrs.getTicketThread.pl
+    otrs.setPassword                ->  otrs.setPassword.pl
+    PendingJobs.pl                  ->  otrs.PendingJobs.pl
+    PostMaster.pl                   ->  otrs.PostMaster.pl
+    PostMasterClient.pl             ->  otrs.PostMasterClient.pl
+    PostMasterDaemon.pl             ->  otrs.PostMasterDaemon.pl
+    PostMasterMailbox.pl            ->  otrs.PostMasterMailbox.pl
+    PostMasterPOP3.pl               ->  otrs.PostMasterPOP3.pl
+    RebuildTicketIndex.pl           ->  otrs.RebuildTicketIndex.pl
+    SetPermissions.pl               ->  otrs.SetPermissions.pl
+    StatsExportToOPM.pl             ->  otrs.StatsExportToOPM.pl
+    UnitTest.pl                     ->  otrs.UnitTest.pl
+    UnlockTickets.pl                ->  otrs.UnlockTickets.pl
+    xml2sql.pl                      ->  otrs.xml2sql.pl
+    XMLMaster.pl                    ->  otrs.XMLMaster.pl
  - (2009/10/26) Added CGI.pm back to packaged versions (auto_build.sh).
  - (2009/10/14) Pending Date of tickets can be max. 1 year in the future.
  - (2009/10/14) Fixed bug#1731 - Show last login time of agent and customer
