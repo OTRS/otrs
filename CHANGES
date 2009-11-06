@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1059 2009-11-06 08:00:17 tt Exp $
+# $Id: CHANGES,v 1.1060 2009-11-06 09:11:19 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/11/06) Fixed bug#2069 - update of customer company id
  - (2009/11/06) Fixed bug#2948 - renamed crypt option "md5" to "md5-crypt" to
    avoid missunderstanding
  - (2009/11/03) Renamed some files in the bin/ directory

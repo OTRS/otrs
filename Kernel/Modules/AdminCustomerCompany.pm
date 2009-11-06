@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.7 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminCustomerCompany.pm,v 1.8 2009-11-06 09:11:19 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,6 +68,11 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
         my $Note = '';
         my %GetParam;
+
+        $GetParam{CustomerCompanyID} = $Self->{ParamObject}->GetParam(
+            Param => 'CustomerCompanyID'
+        );
+
         for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
             $GetParam{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[0] ) || '';
         }
