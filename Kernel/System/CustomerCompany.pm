@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.19 2009-07-01 20:36:44 martin Exp $
+# $Id: CustomerCompany.pm,v 1.19.2.1 2009-11-06 09:11:31 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.19.2.1 $) [1];
 
 =head1 NAME
 
@@ -257,6 +257,7 @@ sub CustomerCompanyGet {
 update project attributes
 
     $CustomerCompanyObject->CustomerCompanyUpdate(
+        CustomerCompanyID => 'oldexample.com', #required if CustomerCompanyID-update
         CustomerID => 'example.com',
         CustomerCompanyName => 'New Customer Company Inc.',
         CustomerCompanyStreet => '5201 Blue Lagoon Drive',
@@ -281,6 +282,10 @@ sub CustomerCompanyUpdate {
         }
     }
 
+    if ( !$Param{CustomerCompanyID} ) {
+        $Param{CustomerCompanyID} = $Param{CustomerID};
+    }
+
     # update db
     my $SQL = "UPDATE $Self->{CustomerCompanyTable} SET ";
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
@@ -294,7 +299,7 @@ sub CustomerCompanyUpdate {
     $SQL .= " change_time = current_timestamp, ";
     $SQL .= " change_by = $Param{UserID} ";
     $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER('"
-        . $Self->{DBObject}->Quote( $Param{CustomerID} ) . "')";
+        . $Self->{DBObject}->Quote( $Param{CustomerCompanyID} ) . "')";
 
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
 
@@ -304,6 +309,11 @@ sub CustomerCompanyUpdate {
             Message =>
                 "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' updated successfully ($Param{UserID})!",
         );
+
+        # open question:
+        # should existing customer users and tickets be updated as well?
+        # problem could be solved with a post-company-update-event
+
         return 1;
     }
     else {
@@ -438,6 +448,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2009-07-01 20:36:44 $
+$Revision: 1.19.2.1 $ $Date: 2009-11-06 09:11:31 $
 
 =cut
