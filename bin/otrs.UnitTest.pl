@@ -3,7 +3,7 @@
 # bin/otrs.UnitTest.pl - the global test handle
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.UnitTest.pl,v 1.1 2009-11-03 16:15:31 mn Exp $
+# $Id: otrs.UnitTest.pl,v 1.2 2009-11-09 15:56:30 ub Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,10 +28,10 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin) . "/Kernel/cpan-lib";
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
