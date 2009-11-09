@@ -3,7 +3,7 @@
 # bin/otrs.CryptPassword.pl - to crypt database password for Kernel/Config.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CryptPassword.pl,v 1.1 2009-11-03 14:33:54 mn Exp $
+# $Id: otrs.CryptPassword.pl,v 1.2 2009-11-09 15:24:13 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,16 +25,16 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 # check args
 my $Password = shift;
 print
-    "bin/CryptPassword.pl <Revision $VERSION> - to crypt database password for Kernel/Config.pm\n";
-print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
+    "bin/otrs.CryptPassword.pl <Revision $VERSION> - to crypt database password for Kernel/Config.pm\n";
+print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 
 if ( !$Password ) {
-    print STDERR "Usage: bin/CryptPassword.pl NEWPW\n";
+    print STDERR "Usage: bin/otrs.CryptPassword.pl NEWPW\n";
 }
 else {
     my $Length = length($Password) * 8;

@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.51 2009-11-04 12:27:57 mn Exp $
+# $Id: INSTALL,v 1.52 2009-11-09 15:24:13 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,14 +116,14 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 7) File Permissions:
    -----------------
    To set the file permissions with a functional package manager:
-   "bin/SetPermissions.pl --otrs-user=<OTRS_USER> --web-user=<WEBSERVER_USER> [--otrs-group=<OTRS_GROUP>] [--web-group=<WEB_GROUP>] <OTRS_HOME>"
+   "bin/otrs.SetPermissions.pl --otrs-user=<OTRS_USER> --web-user=<WEBSERVER_USER> [--otrs-group=<OTRS_GROUP>] [--web-group=<WEB_GROUP>] <OTRS_HOME>"
     e. g.
      Webserver with OTRS user:
-        "bin/SetPermissions.pl --otrs-user=otrs --web-user=otrs /opt/otrs"
+        "bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=otrs /opt/otrs"
      Webserver with wwwrun user (e. g. SuSE):
-        "bin/SetPermissions.pl --otrs-user=otrs --web-user=wwwrun /opt/otrs"
+        "bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=wwwrun /opt/otrs"
      Webserver with apache user (e. g. Redhat):
-        "bin/SetPermissions.pl --otrs-user=otrs --web-user=apache --otrs-group=apache --web-group=apache /opt/otrs"
+        "bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=apache --otrs-group=apache --web-group=apache /opt/otrs"
 
 8) Database setup:
    ---------------

@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.107 2009-10-07 17:34:08 martin Exp $
+# $Id: Package.pm,v 1.108 2009-11-09 15:24:14 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Config;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 =head1 NAME
 
@@ -136,7 +136,7 @@ sub new {
     # permission check
     if ( !$Self->_FileSystemCheck() ) {
         die "ERROR: Need write permission in OTRS home\n"
-            . "Try: \$OTRS_HOME/bin/SetPermissions.pl !!!\n";
+            . "Try: \$OTRS_HOME/bin/otrs.SetPermissions.pl !!!\n";
     }
 
     return $Self;
@@ -2410,6 +2410,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.107 $ $Date: 2009-10-07 17:34:08 $
+$Revision: 1.108 $ $Date: 2009-11-09 15:24:14 $
 
 =cut

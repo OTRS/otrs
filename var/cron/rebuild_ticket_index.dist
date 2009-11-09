@@ -2,7 +2,7 @@
 # cron/rebuild_ticket_index - rebuild ticket index for OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: rebuild_ticket_index.dist,v 1.9 2009-02-16 20:55:11 tr Exp $
+# $Id: rebuild_ticket_index.dist,v 1.10 2009-11-09 15:24:13 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,4 +10,4 @@
 # --
 
 # just every day
-01 01 * * * $HOME/bin/RebuildTicketIndex.pl >> /dev/null
+01 01 * * * $HOME/bin/otrs.RebuildTicketIndex.pl >> /dev/null

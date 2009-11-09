@@ -2,7 +2,7 @@
 # README.webserver - webserver description of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: README.webserver,v 1.20 2009-09-27 19:37:47 mb Exp $
+# $Id: README.webserver,v 1.21 2009-11-09 15:24:13 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,11 +49,11 @@ a)
     also work with group permissions (more tricky).
 
      Webserver with OTRS user:
-        "bin/SetPermissions.pl --otrs-user=otrs --web-user=otrs /opt/otrs"
+        "bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=otrs /opt/otrs"
      Webserver with wwwrun user (e. g. SuSE):
-        "bin/SetPermissions.pl --otrs-user=otrs --web-user=wwwrun /opt/otrs"
+        "bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=wwwrun /opt/otrs"
      Webserver with apache user (e. g. Redhat):
-        "bin/SetPermissions.pl --otrs-user=otrs --web-user=apache --otrs-group=apache --web-group=apache /opt/otrs"
+        "bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=apache --otrs-group=apache --web-group=apache /opt/otrs"
 
 b)
  *)

@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.21 2009-10-01 18:38:48 martin Exp $
+# $Id: Stats.t,v 1.22 2009-11-09 15:24:13 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -278,7 +278,7 @@ if ( !qx(perl -v) ) {
     }
 }
 
-my $Command = "$Perl $Home/bin/mkStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";
+my $Command = "$Perl $Home/bin/otrs.mkStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";
 
 if ( open my $Filehandle, '-|', $Command ) {
     @Lines = <$Filehandle>;

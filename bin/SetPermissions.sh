@@ -3,7 +3,7 @@
 # SetPermissions.sh - to set the otrs permissions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SetPermissions.sh,v 1.35 2009-04-20 08:16:21 martin Exp $
+# $Id: SetPermissions.sh,v 1.36 2009-11-09 15:24:13 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.35 $> - set OTRS file permissions"
+echo "SetPermissions.sh <\$Revision: 1.36 $> - set OTRS file permissions"
 echo "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 
 if ! test $1 || ! test $2 || ! test $3; then
@@ -44,7 +44,7 @@ else
 fi
 
 
-`dirname "$0"`/SetPermissions.pl \
+`dirname "$0"`/otrs.SetPermissions.pl \
    --web-user="$WEBUSER" \
    --otrs-user="$OTRSUSER" \
    --web-group="$WEBGROUP" \

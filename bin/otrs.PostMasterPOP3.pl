@@ -3,7 +3,7 @@
 # bin/otrs.PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PostMasterPOP3.pl,v 1.1 2009-11-03 16:12:20 mn Exp $
+# $Id: otrs.PostMasterPOP3.pl,v 1.2 2009-11-09 15:24:13 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,5 +21,6 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-print STDERR "ERROR: bin/PostMasterPOP3.pl is not longer used, use bin/PostMasterMailbox.pl\n";
+print STDERR
+    "ERROR: bin/otrs.PostMasterPOP3.pl is not longer used, use bin/otrs.PostMasterMailbox.pl\n";
 exit 1;
