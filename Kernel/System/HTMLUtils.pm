@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.12 2009-09-08 16:28:11 martin Exp $
+# $Id: HTMLUtils.pm,v 1.13 2009-11-09 12:54:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -23,7 +23,7 @@ Kernel::System::HTMLUtils - creating and modifying html strings
 
 =head1 SYNOPSIS
 
-A module to for creating and modifying html strings.
+A module for creating and modifying html strings.
 
 =head1 PUBLIC INTERFACE
 
@@ -105,7 +105,7 @@ sub ToAscii {
         "[$Counter]";
     }egxi;
 
-    # pre process <blockquote> and <div style=\"cite\"
+    # pre-process <blockquote> and <div style=\"cite\"
     my %Cite;
     $Counter = 0;
     $Param{String} =~ s{
@@ -205,7 +205,7 @@ sub ToAscii {
     # strip all other tags
     $Param{String} =~ s/\<.+?\>//gs;
 
-    # html encode based from cpan's HTML::Entities v1.35
+    # html encode based on cpan's HTML::Entities v1.35
     my %Entity = (
 
         # Some normal chars that have special meaning in SGML context
@@ -614,7 +614,7 @@ sub DocumentComplete {
 
 =item DocumentStrip()
 
-remove html document tags from sting
+remove html document tags from string
 
     my $HTMLString = $HTMLUtilsObject->DocumentStrip(
         String  => $String,
@@ -839,6 +839,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2009-09-08 16:28:11 $
+$Revision: 1.13 $ $Date: 2009-11-09 12:54:09 $
 
 =cut
