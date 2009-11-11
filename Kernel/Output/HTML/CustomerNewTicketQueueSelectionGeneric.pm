@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerNewTicketQueueSelectionGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.8 2009-02-16 11:16:22 tr Exp $
+# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.9 2009-11-11 09:58:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,7 +39,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check if own selection is configured
-    my %NewTos = ();
+    my %NewTos;
     if ( $Self->{ConfigObject}->{CustomerPanelOwnSelection} ) {
         for my $Queue ( keys %{ $Self->{ConfigObject}->{CustomerPanelOwnSelection} } ) {
             my $Value = $Self->{ConfigObject}->{CustomerPanelOwnSelection}->{$Queue};
@@ -71,7 +71,7 @@ sub Run {
     else {
 
         # SelectionType Queue or SystemAddress?
-        my %Tos = ();
+        my %Tos;
         if ( $Self->{ConfigObject}->Get('CustomerPanelSelectionType') eq 'Queue' ) {
             %Tos = $Self->{TicketObject}->MoveList(
                 CustomerUserID => $Param{Env}->{UserID},
@@ -115,7 +115,7 @@ sub Run {
             $NewTos{$QueueID} = $String;
         }
     }
-    return (%NewTos);
+    return %NewTos;
 }
 
 1;
