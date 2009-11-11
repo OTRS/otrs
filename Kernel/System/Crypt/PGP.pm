@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.32 2009-06-04 14:49:48 ub Exp $
+# $Id: PGP.pm,v 1.33 2009-11-11 09:18:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -38,10 +38,10 @@ sub _Init {
     $Self->{GPGBin}  = $Self->{ConfigObject}->Get('PGP::Bin')     || '/usr/bin/gpg';
     $Self->{Options} = $Self->{ConfigObject}->Get('PGP::Options') || '--batch --no-tty --yes';
 
-    if ( $^O =~ m{Win}i ) {
+    if ( $^O =~ m/Win/i ) {
 
         # take care to deal properly with paths containing whitespace
-        $Self->{GPGBin} = qq{"$Self->{GPGBin}" $Self->{Options}};
+        $Self->{GPGBin} = "\"$Self->{GPGBin}\" $Self->{Options}";
     }
     else {
 
@@ -87,7 +87,7 @@ crypt a message
 
     my $Message = $CryptObject->Crypt(
         Message => $Message,
-        Key => $PGPPublicKeyID,
+        Key     => $PGPPublicKeyID,
     );
 
 =cut
@@ -102,6 +102,13 @@ sub Crypt {
             return;
         }
     }
+
+    # since the following write would auto-convert utf8-characters into iso-characters, we
+    # avoid that by explicitly encoding utf8-strings:
+    #    if ( utf8::is_utf8( $Param{Message} ) ) {
+    #        utf8::encode( $Param{Message} );
+    #    }
+    $Self->{EncodeObject}->EncodeOutput( \$Param{Message} );
 
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Message};
@@ -137,17 +144,15 @@ Decrypt a message and returns a hash (Successful, Message, Data)
 
 The returned hash %Result has the following keys:
 
-    'Successful' => '1',        # could the given data be decrypted at all (0 or 1)
-    'Data'       => '...',      # the decrypted data
-    'KeyID'      => 'FA23FB24'  # hex ID of PGP-(secret-)key that was used for decryption
-    'Message'    => '...'       # descriptive text containing the result status
+    Successful => '1',        # could the given data be decrypted at all (0 or 1)
+    Data       => '...',      # the decrypted data
+    KeyID      => 'FA23FB24'  # hex ID of PGP-(secret-)key that was used for decryption
+    Message    => '...'       # descriptive text containing the result status
 
 =cut
 
 sub Decrypt {
     my ( $Self, %Param ) = @_;
-
-    my %Return;
 
     # check needed stuff
     for (qw(Message)) {
@@ -163,6 +168,8 @@ sub Decrypt {
 
     my %PasswordHash = %{ $Self->{ConfigObject}->Get('PGP::Key::Password') };
     my @Keys = $Self->_CryptedWithKey( File => $Filename );
+    my %Return;
+
     KEY:
     for my $Key (@Keys) {
         my $Password = $Param{Password} || $PasswordHash{$Key} || '';
@@ -202,7 +209,10 @@ sub _DecryptPart {
         = qq{--batch --passphrase-fd 0 --always-trust --yes --decrypt -o $FileDecrypt $Param{Filename}};
     my $LogMessage = qx{$Self->{GPGBin} $GPGOptions <$FilePhrase 2>&1};
     if ( $LogMessage =~ /failed/i ) {
-        $Self->{LogObject}->Log( Priority => 'notice', Message => "$LogMessage!" );
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "$LogMessage!",
+        );
         return (
             Successful => 0,
             Message    => $LogMessage,
@@ -225,8 +235,8 @@ sign a message
 
     my $Sign = $CryptObject->Sign(
         Message => $Message,
-        Key => $PGPPrivateKeyID,
-        Type => 'Detached'  # Detached|Inline
+        Key     => $PGPPrivateKeyID,
+        Type    => 'Detached'  # Detached|Inline
     );
 
 =cut
@@ -297,28 +307,26 @@ Attached sign:
 
     my %Result = $CryptObject->Verify(
         Message => $Message,
-        Sign => $Sign,
+        Sign    => $Sign,
     );
 
 The returned hash %Result has the following keys:
 
-    'SignatureFound' => '1',        # was a signature found at all (0 or 1)
-    'Successful'     => '1',        # could the signature be verified (0 or 1)
-    'KeyID'          => 'FA23FB24'  # hex ID of PGP-key that was used for signing
-    'KeyUserID'      => 'username <user@test.org>'  # PGP-User-ID (e-mail adress) used for signing
-    'Message'        => '...'       # descriptive text containing the result status
-    'MessageLong'    => '...'       # full output of GPG binary
+    SignatureFound => 1,        # was a signature found at all (0 or 1)
+    Successful     => 1,        # could the signature be verified (0 or 1)
+    KeyID          => 'FA23FB24'  # hex ID of PGP-key that was used for signing
+    KeyUserID      => 'username <user@test.org>'  # PGP-User-ID (e-mail adress) used for signing
+    Message        => '...'       # descriptive text containing the result status
+    MessageLong    => '...'       # full output of GPG binary
 
 =cut
 
 sub Verify {
     my ( $Self, %Param ) = @_;
 
-    my %Return;
-
     # check needed stuff
     if ( !$Param{Message} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Message!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Message!' );
         return;
     }
 
@@ -327,7 +335,7 @@ sub Verify {
     print $FH $Param{Message};
     close $FH;
 
-    my $GPGOptions = "--verify";
+    my $GPGOptions = '--verify';
     if ( $Param{Sign} ) {
         my ( $FHSign, $FilenameSign ) = $Self->{FileTempObject}->TempFile();
         binmode($FHSign);
@@ -335,6 +343,7 @@ sub Verify {
         close $FHSign;
         $GPGOptions .= " $FilenameSign";
     }
+    my %Return;
     my $Message = qx{$Self->{GPGBin} $GPGOptions $File 2>&1};
     if ( $Message =~ m{(Good signature from ".+?")}i ) {
         my $GPGMessage = $1;
@@ -345,7 +354,7 @@ sub Verify {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Unable to fetch key-ID from gpg output!"
+                Message  => 'Unable to fetch key-ID from gpg output!'
             );
         }
         my $KeyUserID = '';
@@ -355,7 +364,7 @@ sub Verify {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Unable to fetch key-user-ID from gpg output!"
+                Message  => 'Unable to fetch key-user-ID from gpg output!'
             );
         }
         %Return = (
@@ -391,8 +400,8 @@ sub KeySearch {
     my ( $Self, %Param ) = @_;
 
     my @Result;
-    push( @Result, $Self->PublicKeySearch(%Param) );
-    push( @Result, $Self->PrivateKeySearch(%Param) );
+    push @Result, $Self->PublicKeySearch(%Param);
+    push @Result, $Self->PrivateKeySearch(%Param);
 
     return @Result;
 }
@@ -590,7 +599,7 @@ sub PublicKeyDelete {
     if ( !$Param{Key} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need Key!",
+            Message  => 'Need Key!',
         );
         return;
     }
@@ -627,7 +636,7 @@ sub SecretKeyDelete {
     if ( !$Param{Key} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need Key!",
+            Message  => 'Need Key!',
         );
         return;
     }
@@ -679,7 +688,7 @@ sub KeyAdd {
     if ( !$Param{Key} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need Key!",
+            Message  => 'Need Key!',
         );
         return;
     }
@@ -749,6 +758,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2009-06-04 14:49:48 $
+$Revision: 1.33 $ $Date: 2009-11-11 09:18:23 $
 
 =cut
