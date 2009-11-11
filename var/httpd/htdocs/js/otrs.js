@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.5 2009-07-22 09:29:21 martin Exp $
+// $Id: otrs.js,v 1.6 2009-11-11 10:27:41 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,7 @@
 
 // create global OTRS name space
 var OTRS = {};
+var OTRSUI = {};
 var OTRSConfig = {};
 
 // config settings
@@ -28,60 +29,60 @@ function AJAXContentUpdate(Element, url, OnLoad, OnLoaded ) {
     if ( !OTRS.ConfigGet('SessionIDCookie') ) {
         url = url + '&' + OTRS.ConfigGet('SessionName') + '=' + OTRS.ConfigGet('SessionID') + '&' + OTRS.ConfigGet('CustomerPanelSessionName') + '=' + OTRS.ConfigGet('SessionID');
     }
-    new Ajax.Request(url,
-        {
-            method:'get',
-            onLoading: OnLoad,
-            onLoaded:  OnLoaded,
-            onSuccess: function(transport) {
-                var Response = transport.responseText;
-                if (!Response) {
-                    alert("ERROR: No content from: " + url);
-                }
-                if ( document.getElementById(Element) ) {
-                    document.getElementById(Element).innerHTML = Response;
-                }
-                else {
-                    alert("ERROR: No such element id: " + Element + " in page!");
-                }
-            },
-            onFailure: function() {
-                alert('ERROR: Something went wrong!')
+
+    $.ajax({
+        type:     'GET',
+        url:      url,
+        async:    true,
+        dataType: 'html',
+        success: function(Response) {
+            if (!Response) {
+                alert("ERROR: No content from: " + url);
             }
+            if ( document.getElementById(Element) ) {
+                document.getElementById(Element).innerHTML = Response;
+            }
+            else {
+                alert("ERROR: No such element id: " + Element + " in page!");
+            }
+        },
+        beforeSend: OnLoad,
+        complete:   OnLoaded,
+        error:      function() {
+            alert('ERROR: Something went wrong!')
         }
-    );
+    });
+
+    return true;
 };
 
 // update input and option fields
 function AJAXUpdate(Subaction, Changed, Depend, Update) {
     var url = AJAXURLGet(Subaction, Changed, Depend, Update);
-    new Ajax.Request(url,
-        {
-            method:'get',
-            onLoading: function() {
-               AJAXLoadingImage('Load', Update);
-            },
-            onLoaded: function() {
-               AJAXLoadingImage('Unload', Update);
-            },
-            onSuccess: function(transport) {
-                var Response = transport.responseText;
-                if (!Response) {
-                    alert("ERROR: No content from: " + url);
-                }
-                var ObjectRef= Response.evalJSON();
-                if (ObjectRef) {
-                    AJAXUpdateItems(ObjectRef, Update);
-                }
-                else {
-                    alert("ERROR: Invalid JSON: " + Response);
-                }
-            },
-            onFailure: function() {
-                alert('ERROR: Something went wrong!')
+    $.ajax({
+        type:     'GET',
+        url:      url,
+        async:    true,
+        dataType: 'json',
+        success: function(Response) {
+            if (!Response) {
+                alert("ERROR: Invalid JSON from: " + url);
             }
+            else {
+                AJAXUpdateItems(Response, Update);
+            }
+        },
+        beforeSend: function() {
+            AJAXLoadingImage('Load', Update);
+        },
+        complete: function() {
+            AJAXLoadingImage('Unload', Update);
+        },
+        error:      function() {
+            alert('ERROR: Something went wrong!')
         }
-    );
+    });
+    return true;
 }
 
 // generate requested url
@@ -175,5 +176,57 @@ function AJAXLoadingImagePreload (FieldName) {
 // init
 function AJAXInit () {
     AJAXLoadingImagePreload( [OTRS.ConfigGet('Images') + 'loading.gif'] );
+}
+
+
+OTRSUI.Settings = function( Element1, Element2 ) {
+//    $( '[name=' + Element1 + ']' ).toggle("slow");
+//    return true;
+
+    var Icon1 = document.getElementById(Element1);
+    if ( !Icon1.style.display || Icon1.style.display == 'block' ) {
+        $( '#' + Element1 ).slideUp('fast', function () {
+            $('#' + Element2).slideDown('fast');
+        });
+    }
+    else {
+        $( '#' + Element2 ).slideUp('fast', function () {
+            $('#' + Element1).slideDown('fast');
+        });
+    }
+
+    return true;
+}
+
+OTRSUI.Accordion = function( Element1, Element2, Element3 ) {
+
+    var Data = document.getElementById(Element1);
+    var Icon1 = document.getElementById(Element2);
+    var Icon2 = document.getElementById(Element3);
+
+    // coplaps data
+    if ( !Data.style.display || Data.style.display == 'block' ) {
+        $( '#' + Element1 ).slideUp('normal', function () {
+
+            // toggle icons
+            if ( Icon1 && Icon2 ) {
+                Icon1.style.display = '';
+                Icon2.style.display = 'none';
+            }
+        });
+    }
+    // expand data
+    else {
+        $('#' + Element1).slideDown('normal', function () {
+
+            // toggle icons
+            if ( Icon1 && Icon2 ) {
+                Icon1.style.display = 'none';
+                Icon2.style.display = '';
+            }
+        });
+    }
+
+    return true;
 }
 

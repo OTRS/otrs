@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.15 2009-10-26 19:09:22 martin Exp $
+# $Id: AgentDashboard.pm,v 1.16 2009-11-11 10:27:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -171,6 +171,43 @@ sub Run {
         );
     }
 
+    # update position
+    elsif ( $Self->{Subaction} eq 'UpdatePosition' ) {
+
+        my @Backends = $Self->{ParamObject}->GetArray( Param => 'Backend' );
+
+        # get new order
+        my $Key  = 'UserDashboardPosition';
+        my $Data = '';
+        for my $Backend (@Backends) {
+            $Backend =~ s/-box$//g;
+            $Data .= $Backend . ';';
+        }
+        print STDERR $Data . "KKKKKKKK\n";
+
+        # update ssession
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key       => $Key,
+            Value     => $Data,
+        );
+
+        # update preferences
+        if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+            print STDERR "LLLLLLL $Key :  $Data\n";
+            $Self->{UserObject}->SetPreferences(
+                UserID => $Self->{UserID},
+                Key    => $Key,
+                Value  => $Data,
+            );
+        }
+
+        # redirect
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=$Self->{Action}"
+        );
+    }
+
     # deliver element
     elsif ( $Self->{Subaction} eq 'Element' ) {
 
@@ -234,12 +271,33 @@ sub Run {
         }
     }
 
-    # try every backend to load and execute it
-    for my $Name ( sort keys %{$Config} ) {
+    # set order of plugins
+    my $Key = 'UserDashboardPosition';
+    my @Order;
+    my $Value = $Self->{$Key};
+    print STDERR "VALUE: $Value\n";
+    if ($Value) {
+        @Order = split /;/, $Value;
+    }
+    if ( !@Order ) {
+        for my $Name ( sort keys %Backends ) {
+            push @Order, $Name;
+        }
+    }
 
-        # NameForm (to support IE, is not working with "-" in form names)
-        my $NameForm = $Name;
-        $NameForm =~ s/-//g;
+    # add not ordered plugins (e. g. new active)
+    for my $Name ( sort keys %Backends ) {
+        my $Included = 0;
+        for my $Item (@Order) {
+            next if $Item ne $Name;
+            $Included = 1;
+        }
+        next if $Included;
+        push @Order, $Name;
+    }
+
+    # try every backend to load and execute it
+    for my $Name (@Order) {
 
         # get element data
         my %Element = $Self->_Element(
@@ -248,6 +306,10 @@ sub Run {
             Backends => \%Backends,
         );
         next if !%Element;
+
+        # NameForm (to support IE, is not working with "-" in form names)
+        my $NameForm = $Name;
+        $NameForm =~ s/-//g;
 
         # rendering
         $Self->{LayoutObject}->Block(
