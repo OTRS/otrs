@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.49 2009-11-11 19:27:05 martin Exp $
+# $Id: Ticket.t,v 1.50 2009-11-11 19:34:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -218,10 +218,10 @@ $Self->{ConfigObject}->Set(
     Value => $OldTicketHook,
 );
 
-$Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
-$Self->{QueueObject}  = Kernel::System::Queue->new( %{$Self} );
+my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+my $QueueObject  = Kernel::System::Queue->new( %{$Self} );
 
-my $TicketID = $Self->{TicketObject}->TicketCreate(
+my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -237,7 +237,7 @@ $Self->True(
     'TicketCreate()',
 );
 
-my %Ticket = $Self->{TicketObject}->TicketGet(
+my %Ticket = $TicketObject->TicketGet(
     TicketID => $TicketID,
 );
 $Self->Is(
@@ -291,7 +291,7 @@ $Self->Is(
     'TicketGet() (TypeID)',
 );
 
-my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+my $ArticleID = $TicketObject->ArticleCreate(
     TicketID    => $TicketID,
     ArticleType => 'note-internal',
     SenderType  => 'agent',
@@ -2871,7 +2871,7 @@ $Self->True(
     'ArticleCreate()',
 );
 
-my %Article = $Self->{TicketObject}->ArticleGet(
+my %Article = $TicketObject->ArticleGet(
     ArticleID => $ArticleID,
 );
 $Self->Is(
@@ -2886,7 +2886,7 @@ $Self->True(
 );
 
 # ticket watch tests
-my $Subscribe = $Self->{TicketObject}->TicketWatchSubscribe(
+my $Subscribe = $TicketObject->TicketWatchSubscribe(
     TicketID    => $TicketID,
     WatchUserID => 1,
     UserID      => 1,
@@ -2895,7 +2895,7 @@ $Self->True(
     $Subscribe || 0,
     'TicketWatchSubscribe()',
 );
-my $Unsubscribe = $Self->{TicketObject}->TicketWatchUnsubscribe(
+my $Unsubscribe = $TicketObject->TicketWatchUnsubscribe(
     TicketID    => $TicketID,
     WatchUserID => 1,
     UserID      => 1,
@@ -2906,7 +2906,7 @@ $Self->True(
 );
 
 # add new subscription (will be deleted by TicketDelete(), also check foreign keys)
-$Subscribe = $Self->{TicketObject}->TicketWatchSubscribe(
+$Subscribe = $TicketObject->TicketWatchSubscribe(
     TicketID    => $TicketID,
     WatchUserID => 1,
     UserID      => 1,
@@ -2919,7 +2919,7 @@ $Self->True(
 # Check the TicketFreeField functions
 my %TicketFreeText = ();
 for ( 1 .. 16 ) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+    my $TicketFreeTextSet = $TicketObject->TicketFreeTextSet(
         Counter  => $_,
         Key      => 'Planet' . $_,
         Value    => 'Sun' . $_,
@@ -2932,7 +2932,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $Self->{TicketObject}->TicketGet(
+%TicketFreeText = $TicketObject->TicketGet(
     TicketID => $TicketID,
 );
 for ( 1 .. 16 ) {
@@ -2950,7 +2950,7 @@ for ( 1 .. 16 ) {
 
 # TicketFreeTextSet check, if only a value is available but no key
 for ( 1 .. 16 ) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+    my $TicketFreeTextSet = $TicketObject->TicketFreeTextSet(
         Counter  => $_,
         Value    => 'Earth' . $_,
         TicketID => $TicketID,
@@ -2962,7 +2962,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $Self->{TicketObject}->TicketGet(
+%TicketFreeText = $TicketObject->TicketGet(
     TicketID => $TicketID,
 );
 
@@ -2981,7 +2981,7 @@ for ( 1 .. 16 ) {
 
 # TicketFreeTextSet check, if only a key is available but no value
 for ( 1 .. 16 ) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+    my $TicketFreeTextSet = $TicketObject->TicketFreeTextSet(
         Counter  => $_,
         Key      => 'Location' . $_,
         TicketID => $TicketID,
@@ -2993,7 +2993,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $Self->{TicketObject}->TicketGet(
+%TicketFreeText = $TicketObject->TicketGet(
     TicketID => $TicketID,
 );
 
@@ -3012,7 +3012,7 @@ for ( 1 .. 16 ) {
 
 # TicketFreeTextSet check, if no key and value
 for ( 1 .. 16 ) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+    my $TicketFreeTextSet = $TicketObject->TicketFreeTextSet(
         Counter  => $_,
         TicketID => $TicketID,
         UserID   => 1,
@@ -3023,7 +3023,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $Self->{TicketObject}->TicketGet(
+%TicketFreeText = $TicketObject->TicketGet(
     TicketID => $TicketID,
 );
 for ( 1 .. 16 ) {
@@ -3041,7 +3041,7 @@ for ( 1 .. 16 ) {
 
 # TicketFreeTextSet check, with empty keys and values
 for ( 1 .. 16 ) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+    my $TicketFreeTextSet = $TicketObject->TicketFreeTextSet(
         Counter  => $_,
         TicketID => $TicketID,
         Key      => '',
@@ -3054,7 +3054,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $Self->{TicketObject}->TicketGet(
+%TicketFreeText = $TicketObject->TicketGet(
     TicketID => $TicketID,
 );
 for ( 1 .. 16 ) {
@@ -3071,7 +3071,7 @@ for ( 1 .. 16 ) {
 }
 
 for ( 1 .. 16 ) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+    my $TicketFreeTextSet = $TicketObject->TicketFreeTextSet(
         Counter  => $_,
         Key      => 'Hans' . $_,
         Value    => 'Max' . $_,
@@ -3087,7 +3087,7 @@ for ( 1 .. 16 ) {
 # Check the TicketFreeTime functions
 my %TicketFreeTime = ();
 for ( 1 .. 5 ) {
-    my $TicketFreeTimeSet = $Self->{TicketObject}->TicketFreeTimeSet(
+    my $TicketFreeTimeSet = $TicketObject->TicketFreeTimeSet(
         Counter          => $_,
         Prefix           => 'a',
         "a$_" . "Year"   => 2008,
@@ -3104,7 +3104,7 @@ for ( 1 .. 5 ) {
     );
 }
 
-%TicketFreeTime = $Self->{TicketObject}->TicketGet(
+%TicketFreeTime = $TicketObject->TicketGet(
     TicketID => $TicketID,
 );
 for ( 1 .. 5 ) {
@@ -3114,7 +3114,7 @@ for ( 1 .. 5 ) {
         "TicketGet() (TicketFreeTime$_)",
     );
 }
-my @ArticleFreeTime = $Self->{TicketObject}->ArticleGet(
+my @ArticleFreeTime = $TicketObject->ArticleGet(
     TicketID => $TicketID,
 );
 for ( 1 .. 5 ) {
@@ -3127,7 +3127,7 @@ for ( 1 .. 5 ) {
 
 # set undef
 for ( 1 .. 5 ) {
-    my $TicketFreeTimeSet = $Self->{TicketObject}->TicketFreeTimeSet(
+    my $TicketFreeTimeSet = $TicketObject->TicketFreeTimeSet(
         Counter          => $_,
         Prefix           => 'a',
         "a$_" . "Year"   => '0000',
@@ -3144,7 +3144,7 @@ for ( 1 .. 5 ) {
     );
 }
 
-%TicketFreeTime = $Self->{TicketObject}->TicketGet(
+%TicketFreeTime = $TicketObject->TicketGet(
     TicketID => $TicketID,
 );
 for ( 1 .. 5 ) {
@@ -3226,7 +3226,7 @@ for my $Backend (qw(DB FS)) {
 }
 
 my $TicketSearchTicketNumber = substr $Ticket{TicketNumber}, 0, 10;
-my %TicketIDs = $Self->{TicketObject}->TicketSearch(
+my %TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3242,7 +3242,7 @@ $Self->True(
     'TicketSearch() (HASH:TicketNumber as HASHREF)',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3258,7 +3258,7 @@ $Self->True(
     'TicketSearch() (HASH:TicketNumber)',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3274,7 +3274,7 @@ $Self->True(
     'TicketSearch() (HASH:TicketNumber[ARRAY])',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3290,7 +3290,7 @@ $Self->True(
     'TicketSearch() (HASH:Title)',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3306,7 +3306,7 @@ $Self->True(
     'TicketSearch() (HASH:Title[ARRAY])',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3322,7 +3322,7 @@ $Self->True(
     'TicketSearch() (HASH:CustomerID)',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3338,7 +3338,7 @@ $Self->True(
     'TicketSearch() (HASH:CustomerID[ARRAY])',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3354,7 +3354,7 @@ $Self->True(
     'TicketSearch() (HASH:CustomerUser)',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3370,7 +3370,7 @@ $Self->True(
     'TicketSearch() (HASH:CustomerUser[ARRAY])',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3389,7 +3389,7 @@ $Self->True(
     'TicketSearch() (HASH:TicketNumber,Title,CustomerID,CustomerUserID)',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3408,7 +3408,7 @@ $Self->True(
     'TicketSearch() (HASH:TicketNumber,Title,CustomerID,CustomerUser[ARRAY])',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3425,7 +3425,7 @@ $Self->True(
     'TicketSearch() (HASH:TicketNumber,StateType:Closed)',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3442,7 +3442,7 @@ $Self->False(
     'TicketSearch() (HASH:TicketNumber,StateType:Open)',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3459,7 +3459,7 @@ $Self->True(
     'TicketSearch() (HASH:Body,StateType:Closed)',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3476,7 +3476,7 @@ $Self->True(
     'TicketSearch() (HASH:Body,StateType:Open)',
 );
 
-my $TicketMove = $Self->{TicketObject}->MoveTicket(
+my $TicketMove = $TicketObject->MoveTicket(
     Queue              => 'Junk',
     TicketID           => $TicketID,
     SendNoNotification => 1,
@@ -3487,7 +3487,7 @@ $Self->True(
     'MoveTicket()',
 );
 
-my $TicketState = $Self->{TicketObject}->StateSet(
+my $TicketState = $TicketObject->StateSet(
     State    => 'open',
     TicketID => $TicketID,
     UserID   => 1,
@@ -3497,7 +3497,7 @@ $Self->True(
     'StateSet()',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3514,7 +3514,7 @@ $Self->True(
     'TicketSearch() (HASH:TicketNumber,StateType:Open)',
 );
 
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3546,7 +3546,7 @@ for my $Condition (
     '((Some+Agent)||(SomeAgentNotFound||AgentNotFound))',
     )
 {
-    %TicketIDs = $Self->{TicketObject}->TicketSearch(
+    %TicketIDs = $TicketObject->TicketSearch(
 
         # result (required)
         Result => 'HASH',
@@ -3578,7 +3578,7 @@ for my $Condition (
     '((SomeNotFound&&Agent)||(SomeAgentNotFound||AgentNotFound))',
     )
 {
-    %TicketIDs = $Self->{TicketObject}->TicketSearch(
+    %TicketIDs = $TicketObject->TicketSearch(
 
         # result (required)
         Result => 'HASH',
@@ -3598,7 +3598,7 @@ for my $Condition (
     );
 }
 
-my $TicketPriority = $Self->{TicketObject}->PrioritySet(
+my $TicketPriority = $TicketObject->PrioritySet(
     Priority => '2 low',
     TicketID => $TicketID,
     UserID   => 1,
@@ -3608,7 +3608,7 @@ $Self->True(
     'PrioritySet()',
 );
 
-my $TicketTitle = $Self->{TicketObject}->TicketTitleUpdate(
+my $TicketTitle = $TicketObject->TicketTitleUpdate(
     Title    => 'Some Title 1234567',
     TicketID => $TicketID,
     UserID   => 1,
@@ -3618,7 +3618,7 @@ $Self->True(
     'TicketTitleUpdate()',
 );
 
-my $TicketLock = $Self->{TicketObject}->LockSet(
+my $TicketLock = $TicketObject->LockSet(
     Lock               => 'lock',
     TicketID           => $TicketID,
     SendNoNotification => 1,
@@ -3630,7 +3630,7 @@ $Self->True(
 );
 
 # Test CreatedUserIDs
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3647,7 +3647,7 @@ $Self->True(
 );
 
 # Test CreatedPriorities
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3664,7 +3664,7 @@ $Self->True(
 );
 
 # Test CreatedPriorityIDs
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3681,7 +3681,7 @@ $Self->True(
 );
 
 # Test CreatedStates
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3698,7 +3698,7 @@ $Self->True(
 );
 
 # Test CreatedStateIDs
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3715,7 +3715,7 @@ $Self->True(
 );
 
 # Test CreatedQueues
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3732,7 +3732,7 @@ $Self->True(
 );
 
 # Test CreatedQueueIDs
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3749,7 +3749,7 @@ $Self->True(
 );
 
 # Test TicketCreateTimeNewerMinutes
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3766,7 +3766,7 @@ $Self->True(
 );
 
 # Test TicketCreateOlderMinutes
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3784,7 +3784,7 @@ $Self->False(
 
 # Test TicketCreateTimeNewerDate
 my $SystemTime = $Self->{TimeObject}->SystemTime();
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3803,7 +3803,7 @@ $Self->True(
 );
 
 # Test TicketCreateOlderDate
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3822,7 +3822,7 @@ $Self->False(
 );
 
 # Test TicketCloseTimeNewerDate
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3841,7 +3841,7 @@ $Self->True(
 );
 
 # Test TicketCloseOlderDate
-%TicketIDs = $Self->{TicketObject}->TicketSearch(
+%TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',
@@ -3859,7 +3859,7 @@ $Self->False(
     'TicketSearch() (HASH:TicketCloseTimeOlderDate => 60)',
 );
 
-my %Ticket2 = $Self->{TicketObject}->TicketGet(
+my %Ticket2 = $TicketObject->TicketGet(
     TicketID => $TicketID,
 );
 $Self->Is(
@@ -3888,7 +3888,7 @@ $Self->Is(
     'TicketGet() (Lock)',
 );
 
-%Article = $Self->{TicketObject}->ArticleGet(
+%Article = $TicketObject->ArticleGet(
     ArticleID => $ArticleID,
 );
 $Self->Is(
@@ -3939,7 +3939,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-my @MoveQueueList = $Self->{TicketObject}->MoveQueueList(
+my @MoveQueueList = $TicketObject->MoveQueueList(
     TicketID => $TicketID,
     Type     => 'Name',
 );
@@ -3955,7 +3955,7 @@ $Self->Is(
     'MoveQueueList() (Junk)',
 );
 
-my $TicketAccountTime = $Self->{TicketObject}->TicketAccountTime(
+my $TicketAccountTime = $TicketObject->TicketAccountTime(
     TicketID  => $TicketID,
     ArticleID => $ArticleID,
     TimeUnit  => '4.5',
@@ -3967,7 +3967,7 @@ $Self->True(
     'TicketAccountTime() 1',
 );
 
-my $TicketAccountTime2 = $Self->{TicketObject}->TicketAccountTime(
+my $TicketAccountTime2 = $TicketObject->TicketAccountTime(
     TicketID  => $TicketID,
     ArticleID => $ArticleID,
     TimeUnit  => '4123.53',
@@ -3979,7 +3979,7 @@ $Self->True(
     'TicketAccountTime() 2',
 );
 
-my $TicketAccountTime3 = $Self->{TicketObject}->TicketAccountTime(
+my $TicketAccountTime3 = $TicketObject->TicketAccountTime(
     TicketID  => $TicketID,
     ArticleID => $ArticleID,
     TimeUnit  => '4,53',
@@ -3991,7 +3991,7 @@ $Self->True(
     'TicketAccountTime() 3',
 );
 
-my $AccountedTime = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $TicketID );
+my $AccountedTime = $TicketObject->TicketAccountedTimeGet( TicketID => $TicketID );
 
 $Self->Is(
     $AccountedTime,
@@ -3999,7 +3999,7 @@ $Self->Is(
     'TicketAccountedTimeGet()',
 );
 
-my $AccountedTime2 = $Self->{TicketObject}->ArticleAccountedTimeGet(
+my $AccountedTime2 = $TicketObject->ArticleAccountedTimeGet(
     ArticleID => $ArticleID,
 );
 
@@ -4024,7 +4024,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my %Flag = $Self->{TicketObject}->ArticleFlagGet(
+    my %Flag = $TicketObject->ArticleFlagGet(
         ArticleID => $ArticleID,
         UserID    => 1,
     );
@@ -4032,7 +4032,7 @@ for my $Test (@Tests) {
         $Flag{ $Test->{Flag} } || 0,
         'ArticleFlagGet()',
     );
-    my $Set = $Self->{TicketObject}->ArticleFlagSet(
+    my $Set = $TicketObject->ArticleFlagSet(
         ArticleID => $ArticleID,
         Flag      => $Test->{Flag},
         UserID    => 1,
@@ -4041,7 +4041,7 @@ for my $Test (@Tests) {
         $Set || 0,
         'ArticleFlagSet()',
     );
-    %Flag = $Self->{TicketObject}->ArticleFlagGet(
+    %Flag = $TicketObject->ArticleFlagGet(
         ArticleID => $ArticleID,
         UserID    => 1,
     );
@@ -4049,7 +4049,7 @@ for my $Test (@Tests) {
         $Flag{ $Test->{Flag} } || 0,
         'ArticleFlagGet()',
     );
-    my $Delete = $Self->{TicketObject}->ArticleFlagDelete(
+    my $Delete = $TicketObject->ArticleFlagDelete(
         ArticleID => $ArticleID,
         Flag      => $Test->{Flag},
         UserID    => 1,
@@ -4058,7 +4058,7 @@ for my $Test (@Tests) {
         $Delete || 0,
         'ArticleFlagDelete()',
     );
-    %Flag = $Self->{TicketObject}->ArticleFlagGet(
+    %Flag = $TicketObject->ArticleFlagGet(
         ArticleID => $ArticleID,
         UserID    => 1,
     );
@@ -4072,7 +4072,7 @@ my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2
     SystemTime => $Self->{TimeObject}->SystemTime(),
 );
 
-my %TicketStatus = $Self->{TicketObject}->HistoryTicketStatusGet(
+my %TicketStatus = $TicketObject->HistoryTicketStatusGet(
     StopYear   => $Year,
     StopMonth  => $Month,
     StopDay    => $Day,
@@ -4148,7 +4148,7 @@ else {
     );
 }
 
-my $Delete = $Self->{TicketObject}->TicketDelete(
+my $Delete = $TicketObject->TicketDelete(
     TicketID => $TicketID,
     UserID   => 1,
 );
@@ -4158,7 +4158,7 @@ $Self->True(
 );
 
 # ticket search sort/order test
-my $TicketIDSortOrder1 = $Self->{TicketObject}->TicketCreate(
+my $TicketIDSortOrder1 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title - ticket sort/order by tests',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -4170,7 +4170,7 @@ my $TicketIDSortOrder1 = $Self->{TicketObject}->TicketCreate(
     UserID       => 1,
 );
 sleep 2;
-my $TicketIDSortOrder2 = $Self->{TicketObject}->TicketCreate(
+my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title - ticket sort/order by tests2',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -4183,7 +4183,7 @@ my $TicketIDSortOrder2 = $Self->{TicketObject}->TicketCreate(
 );
 
 # find newest ticket by priority, age
-my @TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+my @TicketIDsSortOrder = $TicketObject->TicketSearch(
     Result  => 'ARRAY',
     Title   => '%sort/order by test%',
     Queues  => ['Raw'],
@@ -4197,7 +4197,7 @@ $Self->True(
 );
 
 # find oldest ticket by priority, age
-@TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+@TicketIDsSortOrder = $TicketObject->TicketSearch(
     Result  => 'ARRAY',
     Title   => '%sort/order by test%',
     Queues  => ['Raw'],
@@ -4209,7 +4209,7 @@ $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
     'TicketTicketSearch() - ticket sort/order by (Priority (Down), Age (Down))',
 );
-my $TicketIDSortOrder3 = $Self->{TicketObject}->TicketCreate(
+my $TicketIDSortOrder3 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title - ticket sort/order by tests2',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -4221,7 +4221,7 @@ my $TicketIDSortOrder3 = $Self->{TicketObject}->TicketCreate(
     UserID       => 1,
 );
 sleep 2;
-my $TicketIDSortOrder4 = $Self->{TicketObject}->TicketCreate(
+my $TicketIDSortOrder4 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title - ticket sort/order by tests2',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -4234,7 +4234,7 @@ my $TicketIDSortOrder4 = $Self->{TicketObject}->TicketCreate(
 );
 
 # find oldest ticket by priority, age
-@TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+@TicketIDsSortOrder = $TicketObject->TicketSearch(
     Result  => 'ARRAY',
     Title   => '%sort/order by test%',
     Queues  => ['Raw'],
@@ -4248,7 +4248,7 @@ $Self->True(
 );
 
 # find oldest ticket by priority, age
-@TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+@TicketIDsSortOrder = $TicketObject->TicketSearch(
     Result  => 'ARRAY',
     Title   => '%sort/order by test%',
     Queues  => ['Raw'],
@@ -4262,7 +4262,7 @@ $Self->True(
 );
 
 # find newest ticket
-@TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+@TicketIDsSortOrder = $TicketObject->TicketSearch(
     Result  => 'ARRAY',
     Title   => '%sort/order by test%',
     Queues  => ['Raw'],
@@ -4276,7 +4276,7 @@ $Self->True(
 );
 
 # find oldest ticket
-@TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+@TicketIDsSortOrder = $TicketObject->TicketSearch(
     Result  => 'ARRAY',
     Title   => '%sort/order by test%',
     Queues  => ['Raw'],
@@ -4289,28 +4289,28 @@ $Self->True(
     'TicketTicketSearch() - ticket sort/order by (Age (Up))',
 );
 $Self->True(
-    $Self->{TicketObject}->TicketDelete(
+    $TicketObject->TicketDelete(
         TicketID => $TicketIDSortOrder1,
         UserID   => 1,
     ),
     "TicketDelete()",
 );
 $Self->True(
-    $Self->{TicketObject}->TicketDelete(
+    $TicketObject->TicketDelete(
         TicketID => $TicketIDSortOrder2,
         UserID   => 1,
     ),
     "TicketDelete()",
 );
 $Self->True(
-    $Self->{TicketObject}->TicketDelete(
+    $TicketObject->TicketDelete(
         TicketID => $TicketIDSortOrder3,
         UserID   => 1,
     ),
     "TicketDelete()",
 );
 $Self->True(
-    $Self->{TicketObject}->TicketDelete(
+    $TicketObject->TicketDelete(
         TicketID => $TicketIDSortOrder4,
         UserID   => 1,
     ),
@@ -4319,15 +4319,15 @@ $Self->True(
 
 # ticket index accelerator tests
 for my $Module ( 'RuntimeDB', 'StaticDB' ) {
-    my $QueueID = $Self->{QueueObject}->QueueLookup( Queue => 'Raw' );
+    my $QueueID = $QueueObject->QueueLookup( Queue => 'Raw' );
     $Self->{ConfigObject}->Set(
         Key   => 'Ticket::IndexModule',
         Value => "Kernel::System::Ticket::IndexAccelerator::$Module",
     );
-    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
+    $TicketObject = Kernel::System::Ticket->new( %{$Self} );
 
     my @TicketIDs = ();
-    $TicketID = $Self->{TicketObject}->TicketCreate(
+    $TicketID = $TicketObject->TicketCreate(
         Title        => 'Some Ticket Title - ticket index accelerator tests',
         Queue        => 'Raw',
         Lock         => 'unlock',
@@ -4344,12 +4344,12 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         "$Module TicketCreate() - unlock - new",
     );
 
-    my %IndexBefore = $Self->{TicketObject}->TicketAcceleratorIndex(
+    my %IndexBefore = $TicketObject->TicketAcceleratorIndex(
         UserID        => 1,
         QueueID       => [ 1, 2, 3, 4, 5, $QueueID ],
         ShownQueueIDs => [ 1, 2, 3, 4, 5, $QueueID ],
     );
-    $TicketID = $Self->{TicketObject}->TicketCreate(
+    $TicketID = $TicketObject->TicketCreate(
         Title        => 'Some Ticket Title - ticket index accelerator tests',
         Queue        => 'Raw',
         Lock         => 'unlock',
@@ -4365,7 +4365,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         $TicketID,
         "$Module TicketCreate() - unlock - closed successful",
     );
-    $TicketID = $Self->{TicketObject}->TicketCreate(
+    $TicketID = $TicketObject->TicketCreate(
         Title        => 'Some Ticket Title - ticket index accelerator tests',
         Queue        => 'Raw',
         Lock         => 'lock',
@@ -4381,7 +4381,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         $TicketID,
         "$Module TicketCreate() - lock - closed successful",
     );
-    $TicketID = $Self->{TicketObject}->TicketCreate(
+    $TicketID = $TicketObject->TicketCreate(
         Title        => 'Some Ticket Title - ticket index accelerator tests',
         Queue        => 'Raw',
         Lock         => 'lock',
@@ -4397,7 +4397,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         $TicketID,
         "$Module TicketCreate() - lock - open",
     );
-    $TicketID = $Self->{TicketObject}->TicketCreate(
+    $TicketID = $TicketObject->TicketCreate(
         Title        => 'Some Ticket Title - ticket index accelerator tests',
         Queue        => 'Raw',
         Lock         => 'unlock',
@@ -4414,7 +4414,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         "$Module TicketCreate() - unlock - open",
     );
 
-    my %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
+    my %IndexNow = $TicketObject->TicketAcceleratorIndex(
         UserID        => 1,
         QueueID       => [ 1, 2, 3, 4, 5, $QueueID ],
         ShownQueueIDs => [ 1, 2, 3, 4, 5, $QueueID ],
@@ -4437,7 +4437,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
             }
         }
     }
-    my $TicketLock = $Self->{TicketObject}->LockSet(
+    my $TicketLock = $TicketObject->LockSet(
         Lock               => 'lock',
         TicketID           => $TicketIDs[1],
         SendNoNotification => 1,
@@ -4447,7 +4447,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         $TicketLock,
         "$Module LockSet()",
     );
-    %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
+    %IndexNow = $TicketObject->TicketAcceleratorIndex(
         UserID        => 1,
         QueueID       => [ 1, 2, 3, 4, 5, $QueueID ],
         ShownQueueIDs => [ 1, 2, 3, 4, 5, $QueueID ],
@@ -4470,7 +4470,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
             }
         }
     }
-    $TicketLock = $Self->{TicketObject}->LockSet(
+    $TicketLock = $TicketObject->LockSet(
         Lock               => 'lock',
         TicketID           => $TicketIDs[4],
         SendNoNotification => 1,
@@ -4480,7 +4480,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         $TicketLock,
         "$Module LockSet()",
     );
-    %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
+    %IndexNow = $TicketObject->TicketAcceleratorIndex(
         UserID        => 1,
         QueueID       => [ 1, 2, 3, 4, 5, $QueueID ],
         ShownQueueIDs => [ 1, 2, 3, 4, 5, $QueueID ],
@@ -4503,7 +4503,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
             }
         }
     }
-    $TicketLock = $Self->{TicketObject}->LockSet(
+    $TicketLock = $TicketObject->LockSet(
         Lock               => 'unlock',
         TicketID           => $TicketIDs[4],
         SendNoNotification => 1,
@@ -4513,7 +4513,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         $TicketLock,
         "$Module LockSet()",
     );
-    %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
+    %IndexNow = $TicketObject->TicketAcceleratorIndex(
         UserID        => 1,
         QueueID       => [ 1, 2, 3, 4, 5, $QueueID ],
         ShownQueueIDs => [ 1, 2, 3, 4, 5, $QueueID ],
@@ -4536,7 +4536,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
             }
         }
     }
-    my $TicketState = $Self->{TicketObject}->StateSet(
+    my $TicketState = $TicketObject->StateSet(
         State              => 'open',
         TicketID           => $TicketIDs[1],
         SendNoNotification => 1,
@@ -4546,7 +4546,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         $TicketState,
         "$Module StateSet()",
     );
-    $TicketLock = $Self->{TicketObject}->LockSet(
+    $TicketLock = $TicketObject->LockSet(
         Lock               => 'unlock',
         TicketID           => $TicketIDs[1],
         SendNoNotification => 1,
@@ -4556,7 +4556,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         $TicketLock,
         "$Module LockSet()",
     );
-    %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
+    %IndexNow = $TicketObject->TicketAcceleratorIndex(
         UserID        => 1,
         QueueID       => [ 1, 2, 3, 4, 5, $QueueID ],
         ShownQueueIDs => [ 1, 2, 3, 4, 5, $QueueID ],
@@ -4582,7 +4582,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
 
     for my $TicketID (@TicketIDs) {
         $Self->True(
-            $Self->{TicketObject}->TicketDelete(
+            $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => 1,
             ),
@@ -4598,9 +4598,9 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
 # Get an error warning, if the result is different if use a StateType or its ID (StateTypeID)
 use Kernel::System::State;
 
-$Self->{StateObject} = Kernel::System::State->new( %{$Self} );
+my $StateObject = Kernel::System::State->new( %{$Self} );
 
-my %StateTypeList = $Self->{StateObject}->StateTypeList(
+my %StateTypeList = $StateObject->StateTypeList(
     UserID => 1,
 );
 
@@ -4608,7 +4608,7 @@ my %StateTypeList = $Self->{StateObject}->StateTypeList(
 # reference
 my %StateAsKeyAndStateTypeAsValue;
 for my $StateTypeID ( keys %StateTypeList ) {
-    my @List = $Self->{StateObject}->StateGetStatesByType(
+    my @List = $StateObject->StateGetStatesByType(
         StateType => [ $StateTypeList{$StateTypeID} ],
         Result    => 'Name',                             # HASH|ID|Name
     );
@@ -4619,7 +4619,7 @@ for my $StateTypeID ( keys %StateTypeList ) {
 }
 
 # to be sure that you have a result ticket create one
-$TicketID = $Self->{TicketObject}->TicketCreate(
+$TicketID = $TicketObject->TicketCreate(
     Title        => 'StateTypeTest',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -4631,20 +4631,20 @@ $TicketID = $Self->{TicketObject}->TicketCreate(
     UserID       => 1,
 );
 
-my %StateList = $Self->{StateObject}->StateList(
+my %StateList = $StateObject->StateList(
     UserID => 1,
 );
 
 # now check every possible state
 for my $State ( values %StateList ) {
-    $Self->{TicketObject}->StateSet(
+    $TicketObject->StateSet(
         State              => $State,
         TicketID           => $TicketID,
         SendNoNotification => 1,
         UserID             => 1,
     );
 
-    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+    my @TicketIDs = $TicketObject->TicketSearch(
         Result       => 'ARRAY',
         Title        => '%StateTypeTest%',
         Queues       => ['Raw'],
@@ -4652,7 +4652,7 @@ for my $State ( values %StateList ) {
         UserID       => 1,
     );
 
-    my @TicketIDsType = $Self->{TicketObject}->TicketSearch(
+    my @TicketIDsType = $TicketObject->TicketSearch(
         Result    => 'ARRAY',
         Title     => '%StateTypeTest%',
         Queues    => ['Raw'],
@@ -4661,7 +4661,7 @@ for my $State ( values %StateList ) {
     );
 
     if ( $TicketIDs[0] ) {
-        my %Ticket = $Self->{TicketObject}->TicketGet(
+        my %Ticket = $TicketObject->TicketGet(
             TicketID => $TicketIDs[0],
             UserID   => 1,
         );
@@ -4685,7 +4685,7 @@ for my $State ( values %StateList ) {
 }
 
 # the ticket is no longer needed
-$Self->{TicketObject}->TicketDelete(
+$TicketObject->TicketDelete(
     TicketID => $TicketID,
     UserID   => 1,
 );
