@@ -1,21 +1,21 @@
 # --
-# README.webserver - webserver description of OTRS
+# README.web server - web server configuration for OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: README.webserver,v 1.21 2009-11-09 15:24:13 mn Exp $
+# $Id: README.webserver,v 1.22 2009-11-11 11:39:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-Which webserver is needed?
-==========================
-I prefer the apache webserver (http://httpd.apache.org).
+Which web server is needed?
+===========================
+I prefer the apache web server (http://httpd.apache.org).
 
 Configuration:
 ==============
-"After" this steps, you will get the login page at
+After these steps, you will find the login page at
 http://your-host/otrs/index.pl or http://your-host/otrs/installer.pl.
 
 SuSE Linux:
@@ -23,20 +23,21 @@ SuSE Linux:
 a) Install the RPM-Package (http://otrs.org/ - "rpm -i otrs-xxx.rpm").
 
 b) The manual way:
-  Use the "$OTRS_HOME/scripts/suse-httpd.include.conf" include config file.
+  Use the configuration file included in your installation
+  "$OTRS_HOME/scripts/suse-httpd.include.conf"
 
   Add it to /etc/sysconfig/apache with HTTPD_CONF_INCLUDE_FILES
   [...]
   HTTPD_CONF_INCLUDE_FILES=/opt/otrs/scripts/suse-httpd.include.conf
   [...]
 
-  Start SuSEconfig and restart the webserver (rcapache restart).
+  Start SuSEconfig and restart the web server (rcapache restart).
 
 
-Or edit the httpd.conf directly:
-================================
+Or edit httpd.conf directly:
+============================
 a)
- *) Change the webserver user (normaly wwwrun) to the OTRS user (otrs).
+ *) Change the web server user (normally wwwrun) to the OTRS user (otrs).
 
   [...]
   User wwwrun
@@ -44,9 +45,9 @@ a)
   User otrs
   [...]
 
- *) If you can't change the user and group of your webserver (system-wide),
+ *) If you can't change the user and group of your web server (system-wide),
     because you have other applications running on this server, you can
-    also work with group permissions (more tricky).
+    also work with group permissions. This is somewhat more work.
 
      Webserver with OTRS user:
         "bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=otrs /opt/otrs"
@@ -67,7 +68,7 @@ b)
 
  *)
   With mod_perl 1 (speed!):
-  =======================
+  =========================
   Add this to the mod_perl stuff section in httpd.conf
   [...]
     # agent, admin and customer frontend (mod_alias required!)
@@ -78,7 +79,7 @@ b)
 #   Perlrequire /opt/otrs/scripts/apache-perl-startup.pl
 
     # Apache::StatINC - Reload %INC files when updated on disk
-    # (just use it for testing, setup, ... not for high-load systems)
+    # (just use it for testing, setup, ... not for high productiv systems)
 #   PerlInitHandler Apache::StatINC
 
     <Location /otrs>
@@ -93,7 +94,7 @@ b)
 
  *)
   With mod_perl 2 (speed!):
-  =======================
+  =========================
   Add this to the mod_perl stuff section in httpd.conf
   [...]
     # agent, admin and customer frontend
@@ -124,7 +125,7 @@ b)
 
   Edit the scripts/apache-perl-startup.pl / scripts/apache2-perl-startup.pl script:
 
-   - Establish datababase connections on process startup (httpd).
+   - Establish database connections on process startup (httpd).
 
      [...]
      use Apache::DBI ();
@@ -145,8 +146,8 @@ b)
   Nice! You will love mod_perl! ,-)
 
 c)
-  Restart the webserver
-  =====================
+  Restart the web server
+  ======================
 
 d)
   Web-Installer
@@ -157,6 +158,6 @@ d)
   ===========
    http://yourhost/otrs/index.pl
    User: root@localhost
-   PW: root
+   Password: root
 
 EOF
