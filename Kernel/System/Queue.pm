@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.110 2009-05-15 06:14:46 martin Exp $
+# $Id: Queue.pm,v 1.111 2009-11-11 09:32:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 =head1 NAME
 
@@ -334,7 +334,7 @@ get all valid system queues
 
 get all system queues of a user with permission type (e. g. ro, move_into, rw, ...)
 
-    my %Queues = $QueueObject->GetAllQueues(UserID => 123, Type => 'ro');
+    my %Queues = $QueueObject->GetAllQueues( UserID => 123, Type => 'ro' );
 
 =cut
 
@@ -416,7 +416,7 @@ sub GetAllQueues {
 
 get all custom queues of one user
 
-    my @Queues = $QueueObject->GetAllCustomQueues(UserID => 123);
+    my @Queues = $QueueObject->GetAllCustomQueues( UserID => 123 );
 
 =cut
 
@@ -1093,6 +1093,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.110 $ $Date: 2009-05-15 06:14:46 $
+$Revision: 1.111 $ $Date: 2009-11-11 09:32:27 $
 
 =cut
