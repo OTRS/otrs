@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.428 2009-11-11 19:27:05 martin Exp $
+# $Id: Ticket.pm,v 1.429 2009-11-11 20:04:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.428 $) [1];
+$VERSION = qw($Revision: 1.429 $) [1];
 
 =head1 NAME
 
@@ -731,6 +731,9 @@ sub TicketSubjectBuild {
         if ( lc $TicketSubjectFormat eq 'right' ) {
             return $Subject . " [$TicketHook$TicketHookDivider$Param{TicketNumber}]";
         }
+        if ( lc $TicketSubjectFormat eq 'none' ) {
+            return $Subject;
+        }
         return "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
     }
 
@@ -740,6 +743,9 @@ sub TicketSubjectBuild {
     }
     if ( lc $TicketSubjectFormat eq 'right' ) {
         return $TicketSubjectRe . $Subject . " [$TicketHook$TicketHookDivider$Param{TicketNumber}]";
+    }
+    if ( lc $TicketSubjectFormat eq 'none' ) {
+        return $TicketSubjectRe . $Subject;
     }
     return $TicketSubjectRe . "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
 }
@@ -7512,6 +7518,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.428 $ $Date: 2009-11-11 19:27:05 $
+$Revision: 1.429 $ $Date: 2009-11-11 20:04:27 $
 
 =cut
