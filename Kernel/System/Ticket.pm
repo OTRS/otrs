@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.427 2009-10-12 18:34:40 mb Exp $
+# $Id: Ticket.pm,v 1.428 2009-11-11 19:27:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.427 $) [1];
+$VERSION = qw($Revision: 1.428 $) [1];
 
 =head1 NAME
 
@@ -721,18 +721,25 @@ sub TicketSubjectBuild {
     }
 
     # get config options
-    my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
-    my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
-    my $TicketSubjectRe   = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
+    my $TicketHook          = $Self->{ConfigObject}->Get('Ticket::Hook');
+    my $TicketHookDivider   = $Self->{ConfigObject}->Get('Ticket::HookDivider');
+    my $TicketSubjectRe     = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
+    my $TicketSubjectFormat = $Self->{ConfigObject}->Get('Ticket::SubjectFormat') || 'Left';
 
     # return subject for new tickets
     if ( $Param{Type} && $Param{Type} eq 'New' ) {
+        if ( lc $TicketSubjectFormat eq 'right' ) {
+            return $Subject . " [$TicketHook$TicketHookDivider$Param{TicketNumber}]";
+        }
         return "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
     }
 
     # return subject for existing tickets
     if ($TicketSubjectRe) {
         $TicketSubjectRe .= ': ';
+    }
+    if ( lc $TicketSubjectFormat eq 'right' ) {
+        return $TicketSubjectRe . $Subject . " [$TicketHook$TicketHookDivider$Param{TicketNumber}]";
     }
     return $TicketSubjectRe . "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
 }
@@ -6879,7 +6886,7 @@ sub TicketWatchGet {
             CreateBy   => $Row[2],
             ChangeTime => $Row[3],
             ChangeBy   => $Row[4],
-            },
+        };
     }
 
     if ( $Param{Notify} ) {
@@ -7505,6 +7512,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.427 $ $Date: 2009-10-12 18:34:40 $
+$Revision: 1.428 $ $Date: 2009-11-11 19:27:05 $
 
 =cut

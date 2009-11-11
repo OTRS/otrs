@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1060 2009-11-06 09:11:19 tt Exp $
+# $Id: CHANGES,v 1.1061 2009-11-11 19:27:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,14 @@
 # --
 
 2.5.0 beta1 (????/??/??)
- - (2009/11/06) Fixed bug#2069 - update of customer company id
- - (2009/11/06) Fixed bug#2948 - renamed crypt option "md5" to "md5-crypt" to
-   avoid missunderstanding
+ - (2009/11/11) Added feature/config option (Ticket::SubjectFormat) for subject
+    format.
+     o 'Left'  means '[TicketHook#:12345] Some Subject',
+     o 'Right' means 'Some Subject [TicketHook#:12345]'.
+    Wrote also unit tests to take care of functionality.
+ - (2009/11/11) Moved from prototype js to jqeury
+    (removed var/httpd/htdocs/js/prototype.js added
+    var/httpd/htdocs/js/jquery-1.3.2.min.js).
  - (2009/11/03) Renamed some files in the bin/ directory
     CheckSum.pl                     ->  otrs.CheckSum.pl
     CleanUp.pl                      ->  otrs.CleanUp.pl
@@ -82,6 +87,10 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/11/06) Fixed bug#2069 - Update of customer company id in admin
+    interface failed.
+ - (2009/11/06) Fixed bug#2948 - Renamed crypt option "md5" to "md5-crypt" to
+    avoid missunderstanding.
  - (2009/10/26) Fixed bug#4455 - Input field in Preferences of a Dashboard
     module doesn't save settings.
  - (2009/10/26) Fixed bug#4454 - restore.pl is not working.
