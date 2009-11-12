@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2009-10-21 10:58:00
+--  driver: postgresql, generated: 2009-11-12 16:42:33
 -- ----------------------------------------------------------
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 CREATE INDEX ticket_until_time ON ticket (until_time);
@@ -291,6 +291,10 @@ ALTER TABLE notification_event ALTER content_type TYPE VARCHAR (250);
 ALTER TABLE notification_event ALTER content_type DROP DEFAULT;
 UPDATE notification_event SET content_type = '' WHERE content_type IS NULL;
 ALTER TABLE notification_event ALTER content_type SET NOT NULL;
+-- ----------------------------------------------------------
+--  alter table notification_event
+-- ----------------------------------------------------------
+ALTER TABLE notification_event ADD comments VARCHAR (250) NULL;
 -- ----------------------------------------------------------
 --  alter table package_repository
 -- ----------------------------------------------------------

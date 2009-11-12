@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-10-21 10:58:00
+--  driver: mssql, generated: 2009-11-12 16:42:32
 -- ----------------------------------------------------------
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 CREATE INDEX ticket_until_time ON ticket (until_time);
@@ -261,6 +261,10 @@ GO
 UPDATE notification_event SET content_type = '' WHERE content_type IS NULL;
 GO
 ALTER TABLE notification_event ALTER COLUMN content_type VARCHAR (250) NOT NULL;
+-- ----------------------------------------------------------
+--  alter table notification_event
+-- ----------------------------------------------------------
+ALTER TABLE notification_event ADD comments VARCHAR (250) NULL;
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_package_repository_name' )
 ALTER TABLE package_repository DROP CONSTRAINT DF_package_repository_name;

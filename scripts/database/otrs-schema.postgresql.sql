@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2009-10-21 11:04:45
+--  driver: postgresql, generated: 2009-11-12 16:43:19
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1067,6 +1067,7 @@ CREATE TABLE notification_event (
     content_type VARCHAR (250) NOT NULL,
     charset VARCHAR (100) NOT NULL,
     valid_id INTEGER NOT NULL,
+    comments VARCHAR (250) NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,

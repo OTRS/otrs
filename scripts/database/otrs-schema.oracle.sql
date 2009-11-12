@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-10-21 11:04:45
+--  driver: oracle, generated: 2009-11-12 16:43:18
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1737,6 +1737,7 @@ CREATE TABLE notification_event (
     content_type VARCHAR2 (250) NOT NULL,
     charset VARCHAR2 (100) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
+    comments VARCHAR2 (250) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,

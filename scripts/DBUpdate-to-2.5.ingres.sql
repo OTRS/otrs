@@ -1,9 +1,9 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2009-10-21 10:58:00
+--  driver: ingres, generated: 2009-11-12 16:42:32
 -- ----------------------------------------------------------
-CREATE SEQUENCE virtual_fs_721;\g
+CREATE SEQUENCE virtual_fs_358;\g
 CREATE TABLE virtual_fs (
-    id BIGINT NOT NULL DEFAULT virtual_fs_721.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_358.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     backend VARCHAR(60) NOT NULL,
     backend_key VARCHAR(160) NOT NULL,
@@ -20,9 +20,9 @@ CREATE TABLE virtual_fs_preferences (
 );\g
 MODIFY virtual_fs_preferences TO btree;\g
 CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);\g
-CREATE SEQUENCE virtual_fs_db_686;\g
+CREATE SEQUENCE virtual_fs_db_279;\g
 CREATE TABLE virtual_fs_db (
-    id BIGINT NOT NULL DEFAULT virtual_fs_db_686.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_db_279.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     content LONG BYTE NOT NULL,
     create_time TIMESTAMP NOT NULL
@@ -196,6 +196,10 @@ ALTER TABLE customer_company ALTER COLUMN name VARCHAR(200);\g
 --  alter table notification_event
 -- ----------------------------------------------------------
 ALTER TABLE notification_event ALTER COLUMN content_type VARCHAR(250);\g
+-- ----------------------------------------------------------
+--  alter table notification_event
+-- ----------------------------------------------------------
+ALTER TABLE notification_event ADD COLUMN comments VARCHAR(250);\g
 -- ----------------------------------------------------------
 --  alter table package_repository
 -- ----------------------------------------------------------

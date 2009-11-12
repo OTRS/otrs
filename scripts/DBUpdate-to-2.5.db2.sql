@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2009-10-21 10:58:00
+--  driver: db2, generated: 2009-11-12 16:42:32
 -- ----------------------------------------------------------
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 
@@ -554,6 +554,11 @@ UPDATE notification_event SET content_type = '' WHERE content_type IS NULL;
 ALTER TABLE notification_event ALTER COLUMN content_type SET NOT NULL;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE notification_event');
+
+-- ----------------------------------------------------------
+--  alter table notification_event
+-- ----------------------------------------------------------
+ALTER TABLE notification_event ADD comments VARCHAR (250);
 
 ALTER TABLE package_repository ALTER COLUMN name SET DEFAULT '';
 
