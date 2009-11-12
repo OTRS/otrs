@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.58 2009-02-16 11:20:53 tr Exp $
+# $Id: Installer.pm,v 1.59 2009-11-12 08:17:45 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use warnings;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -187,42 +187,53 @@ sub Run {
         }
     }
 
+    # check different requirements (AJAX)
+    elsif ( $Self->{Subaction} eq 'CheckRequirements' ) {
+        my $CheckMode = $Self->{ParamObject}->GetParam( Param => 'CheckMode' );
+        my %Result;
+
+        # check DB requirements
+        if ( $CheckMode eq 'DB' ) {
+            %Result = $Self->CheckDBRequirements();
+        }
+
+        # no adequate check method found
+        else {
+            %Result = (
+                Successful => 0,
+                Message    => 'Unknown Check!',
+                Comment    => "The called check '$CheckMode' doesn't exists!"
+            );
+        }
+
+        # return JSON-String because of AJAX-Mode
+        my $OutputJSON = $Self->{LayoutObject}->JSON( Data => \%Result );
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/plain; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $OutputJSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
     # do database settings
     elsif ( $Self->{Subaction} eq 'DB' ) {
         $Output .= $Self->{LayoutObject}->Header( Title => 'Installer' );
 
-        # get params
-        my %DB = ();
-        $DB{User}             = $Self->{ParamObject}->GetParam( Param => 'DBUser' )           || '';
-        $DB{Password}         = $Self->{ParamObject}->GetParam( Param => 'DBPassword' )       || '';
-        $DB{DatabaseHost}     = $Self->{ParamObject}->GetParam( Param => 'DBHost' )           || '';
-        $DB{Type}             = $Self->{ParamObject}->GetParam( Param => 'DBType' )           || '';
-        $DB{Database}         = $Self->{ParamObject}->GetParam( Param => 'DBName' )           || '';
-        $DB{DBAction}         = $Self->{ParamObject}->GetParam( Param => 'DBAction' )         || '';
-        $DB{DBDefaultCharset} = $Self->{ParamObject}->GetParam( Param => 'DBDefaultCharset' ) || '';
-        $DB{DatabaseUser}     = $Self->{ParamObject}->GetParam( Param => 'OTRSDBUser' )       || '';
-        $DB{DatabasePw}       = $Self->{ParamObject}->GetParam( Param => 'OTRSDBPassword' )   || '';
-        $DB{NewHost} = $Self->{ParamObject}->GetParam( Param => 'OTRSDBConnectHost' ) || '';
-
-        # check params
-        for ( keys %DB ) {
-            if ( !$DB{$_} && $_ !~ /^(Password|DBDefaultCharset)$/ ) {
-                return $Self->{LayoutObject}->ErrorScreen(
-                    Message => "You need '$_'!!",
-                    Comment => 'Please go back',
-                );
-            }
-        }
-
-        # connect to database
-        my $DBH = DBI->connect(
-            "DBI:mysql:database=;host=$DB{DatabaseHost};", $DB{User}, $DB{Password},
-        );
-        if ( !$DBH ) {
+        # get and check params and connect to DB
+        my %Result = $Self->ConnectToDB();
+        my %DB;
+        my $DBH;
+        if ( ref $Result{DB} ne 'HASH' || !$Result{DBH} ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Can't connect to database, read comment!",
-                Comment => "$DBI::errstr",
+                Message => $Result{Message},
+                Comment => $Result{Comment},
             );
+        }
+        else {
+            %DB  = %{ $Result{DB} };
+            $DBH = $Result{DBH};
         }
 
         if ( $DB{DBAction} eq 'Create' ) {
@@ -747,6 +758,69 @@ sub ParseSQLFile {
         }
     }
     return @SQL;
+}
+
+sub ConnectToDB {
+    my ( $Self, %Param ) = @_;
+
+    my %DB = ();
+    $DB{User}             = $Self->{ParamObject}->GetParam( Param => 'DBUser' )            || '';
+    $DB{Password}         = $Self->{ParamObject}->GetParam( Param => 'DBPassword' )        || '';
+    $DB{DatabaseHost}     = $Self->{ParamObject}->GetParam( Param => 'DBHost' )            || '';
+    $DB{Type}             = $Self->{ParamObject}->GetParam( Param => 'DBType' )            || '';
+    $DB{Database}         = $Self->{ParamObject}->GetParam( Param => 'DBName' )            || '';
+    $DB{DBAction}         = $Self->{ParamObject}->GetParam( Param => 'DBAction' )          || '';
+    $DB{DBDefaultCharset} = $Self->{ParamObject}->GetParam( Param => 'DBDefaultCharset' )  || '';
+    $DB{DatabaseUser}     = $Self->{ParamObject}->GetParam( Param => 'OTRSDBUser' )        || '';
+    $DB{DatabasePw}       = $Self->{ParamObject}->GetParam( Param => 'OTRSDBPassword' )    || '';
+    $DB{NewHost}          = $Self->{ParamObject}->GetParam( Param => 'OTRSDBConnectHost' ) || '';
+
+    # check params
+    for ( keys %DB ) {
+        if ( !$DB{$_} && $_ !~ /^(Password|DBDefaultCharset)$/ ) {
+            return (
+                Successful => 0,
+                Message    => "You need '$_'!!",
+                Comment    => 'Please go back',
+                DB         => undef,
+                DBH        => undef,
+            );
+        }
+    }
+
+    # connect to database
+    my $DBH = DBI->connect(
+        "DBI:mysql:database=;host=$DB{DatabaseHost};", $DB{User}, $DB{Password},
+    );
+    if ( !$DBH ) {
+        return (
+            Successful => 0,
+            Message    => "Can't connect to database, read comment!",
+            Comment    => "$DBI::errstr",
+            DB         => undef,
+            DBH        => undef,
+        );
+    }
+
+    return (
+        Successful => 1,
+        Message    => '',
+        Comment    => '',
+        DB         => \%DB,
+        DBH        => $DBH
+    );
+}
+
+sub CheckDBRequirements {
+    my ( $Self, %Param ) = @_;
+
+    my %Result = $Self->ConnectToDB();
+
+    # delete not necessary key/value pairs
+    delete $Result{DB};
+    delete $Result{DBH};
+
+    return %Result;
 }
 
 1;

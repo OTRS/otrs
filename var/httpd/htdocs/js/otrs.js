@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.6 2009-11-11 10:27:41 martin Exp $
+// $Id: otrs.js,v 1.7 2009-11-12 08:17:46 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -178,6 +178,39 @@ function AJAXInit () {
     AJAXLoadingImagePreload( [OTRS.ConfigGet('Images') + 'loading.gif'] );
 }
 
+// start ajax request and call a callback when ready
+function AJAXFunctionCall(Data, Callback)
+{
+    var url = OTRS.ConfigGet('Baselink') + 'Action=' + OTRS.ConfigGet('Action');
+    // add sessionid if no cookies are used
+    if ( !OTRS.ConfigGet('SessionIDCookie') ) {
+        url = url + '&' + OTRS.ConfigGet('SessionName') + '=' + OTRS.ConfigGet('SessionID') + '&' + OTRS.ConfigGet('CustomerPanelSessionName') + '=' + OTRS.ConfigGet('SessionID');
+    }
+
+    // append further data to url
+    url += "&" + Data;
+
+    $.ajax({
+        type:     'GET',
+        url:      url,
+        dataType: 'json',
+        success: function(Response) {
+            if (!Response) {
+                alert("ERROR: No content from: " + url);
+            }
+            // call the callback
+            if (typeof Callback == 'function') {
+                Callback(Response);
+            }
+            else {
+                alert("ERROR: Invalid callback method: " + Callback.toString());
+            }
+        },
+        error:      function() {
+            alert('ERROR: Something went wrong!')
+        }
+    });
+}
 
 OTRSUI.Settings = function( Element1, Element2 ) {
 //    $( '[name=' + Element1 + ']' ).toggle("slow");

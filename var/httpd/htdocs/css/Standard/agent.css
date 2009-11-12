@@ -3,7 +3,7 @@
  # agent.css - css file
  # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
  # --
- # $Id: agent.css,v 1.5 2009-10-26 14:20:51 mg Exp $
+ # $Id: agent.css,v 1.6 2009-11-12 08:17:46 mn Exp $
  # --
  # --
  # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -41,6 +41,10 @@ textarea {
 td, th {
     font-size: 12px;
     font-family: Geneva, Helvetica, Arial, sans-serif;
+}
+
+.hidden {
+    display: none;
 }
 
 /* header */

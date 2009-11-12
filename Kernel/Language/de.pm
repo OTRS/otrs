@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.218 2009-11-03 11:24:23 ub Exp $
+# $Id: de.pm,v 1.219 2009-11-12 08:17:45 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.218 $) [1];
+$VERSION = qw($Revision: 1.219 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1554,6 +1554,9 @@ sub Data {
         'After doing so your OTRS is up and running.' => 'Danach läuft Dein OTRS.',
         'Start page' => 'Startseite',
         'Your OTRS Team' => 'Dein OTRS-Team',
+        'Check database settings' => 'Einstellungen der Datenbank prüfen',
+        'Result of database check' => 'Ergebnis der Datenbankprüfung',
+        'Database check successful.' => 'Datenbankprüfung erfolgreich.',
 
         # Template: LinkObject
 

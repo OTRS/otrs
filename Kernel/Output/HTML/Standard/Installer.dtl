@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.23 2009-10-01 14:37:43 ub Exp $
+# $Id: Installer.dtl,v 1.24 2009-11-12 08:17:46 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -776,7 +776,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 $Include{"AJAX"}
 
             <img border="0" src="$Config{"Frontend::ImagePath"}installer1.png" alt="">
-            <form action="$Env{"CGIHandle"}" method="post">
+            <form action="$Env{"CGIHandle"}" method="post" id="formdb">
                 <input type="hidden" name="Action"    value="Installer"/>
                 <input type="hidden" name="Subaction" value="DB"/>
                 <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
@@ -811,54 +811,92 @@ $Include{"AJAX"}
                                         </select>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr class="hidden">
                                     <td colspan="3" class="contenthead">$Text{"Database-User"} ($Text{"New"})</td>
                                 </tr>
-                                <tr>
+                                <tr class="hidden">
                                     <td class="contentkey">$Text{"User"}:</td>
                                     <td class="contentvalue"><input type="text" name="OTRSDBUser" value="$Config{"DatabaseUser"}" size="25"/></td>
                                     <td class="contentvalue"></td>
                                 </tr>
-                                <tr>
+                                <tr class="hidden">
                                     <td class="contentkey">$Text{"Password"}:</td>
                                     <td class="contentvalue"><input type="password" name="OTRSDBPassword" value="hot" size="25"/></td>
                                     <td class="contentvalue"><font color="red" size="-2">$Text{"default 'hot'"}</font></td>
                                 </tr>
-                                <tr>
+                                <tr class="hidden">
                                     <td class="contentkey">$Text{"DB connect host"}:</td>
                                     <td class="contentvalue"><input type="text" name="OTRSDBConnectHost" value="localhost" size="25"/></td>
                                     <td class="contentvalue"></td>
                                 </tr>
-                                <tr>
+                                <tr class="hidden">
                                     <td colspan="3" class="contenthead">$Text{"Database"}</td>
                                 </tr>
-                                <tr>
+                                <tr class="hidden">
                                     <td class="contentkey">$Text{"Name"}:</td>
                                     <td><input type="text" name="DBName" value="$Config{"Database"}" size="25"/></td>
                                     <td class="contentvalue"></td>
                                 </tr>
-                                <tr>
+                                <tr class="hidden">
                                     <td class="contentkey">$Text{"Default Charset"}:</td>
                                     <td class="contentvalue">$Text{"utf8"}: $Text{"Yes"} <input type="radio" name="DBDefaultCharset" checked value="utf8"/> - $Text{"No"} <input type="radio" name="DBDefaultCharset" value=""/>
                                     </td>
                                     <td class="contentvalue"></td>
                                 </tr>
-                                <tr>
+                                <tr class="hidden">
                                     <td class="contentkey">$Text{"Action"}:</td>
                                     <td class="contentvalue">$Text{"Create"} <input type="radio" name="DBAction" checked value="Create"/> - $Text{"Delete"} <input type="radio" name="DBAction" value="Delete"/>
                                     </td>
                                     <td class="contentvalue"></td>
                                 </tr>
+                                <tr class="checkdb">
+                                    <td colspan="3" class="contenthead">$Text{"Check database settings"}</td>
+                                </tr>
+                                <tr class="checkdb">
+                                    <td class="contentkey"></td>
+                                    <td class="contentvalue"><input class="button" type="button" onclick="CheckDBData();" value="$Text{"Check database settings"}"/></td>
+                                    <td class="contentvalue"></td>
+                                </tr>
+                                <tr class="errormsg" style="display: none">
+                                    <td colspan="3" class="contenthead">$Text{"Result of database check"}</td>
+                                </tr>
+                                <tr class="errormsg" style="display: none">
+                                    <td class="contentkey" id="formdbresultmessage"></td>
+                                    <td class="contentvalue" colspan="2" id="formdbresultcomment"></td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="hidden">
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Next..."}"/>
+                            <input class="button" type="submit" id="formdbsubmit" disabled="disabled" value="$Text{"Next..."}"/>
                         </td>
                     </tr>
                 </table>
             </form>
+            <script type="text/javascript">
+                function CheckDBData() {
+                    $('input[name=Subaction]').val('CheckRequirements');
+                    var Data = $('#formdb').serialize();
+                    Data += "&CheckMode=DB";
+                    AJAXFunctionCall(Data, CheckDBDataCallback);
+                    $('input[name=Subaction]').val('DB');
+                }
+
+                function CheckDBDataCallback(json) {
+                    if (parseInt(json['Successful']) < 1) {
+                        $('#formdbresultmessage').html(json['Message']);
+                        $('#formdbresultcomment').html(json['Comment']);
+                        $('tr.errormsg').show();
+                    }
+                    else {
+                        alert('$JSText{"Database check successful."}');
+                        $('#formdbsubmit').attr('disabled', false);
+                        $('tr.errormsg, tr.checkdb').hide();
+                        $('tr.hidden').show();
+                    }
+                }
+            </script>
 <!-- dtl:block:DatabaseStart -->
 <!-- dtl:block:DatabaseResult -->
             <img border="0" src="$Config{"Frontend::ImagePath"}installer1.png" alt="">
