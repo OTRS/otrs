@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to add/update/delete state
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.5 2009-08-18 19:56:09 martin Exp $
+# $Id: AdminNotificationEvent.pm,v 1.6 2009-11-12 15:22:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -85,7 +85,7 @@ sub Run {
         #        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my %GetParam;
-        for (qw(ID Name Subject Body Type Charset ValidID)) {
+        for (qw(ID Name Subject Body Type Charset Comment ValidID)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
         for (
@@ -178,7 +178,7 @@ sub Run {
         #        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my %GetParam;
-        for (qw(Name Subject Body ValidID)) {
+        for (qw(Name Subject Body Comment ValidID)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
         for (

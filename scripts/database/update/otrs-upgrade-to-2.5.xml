@@ -138,6 +138,7 @@
     </TableAlter>
     <TableAlter Name="notification_event">
         <ColumnChange NameOld="content_type" NameNew="content_type" Required="true" Size="250" Type="VARCHAR"/>
+        <ColumnAdd Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     </TableAlter>
     <TableAlter Name="package_repository">
         <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>

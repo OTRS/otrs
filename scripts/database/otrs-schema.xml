@@ -1613,6 +1613,7 @@
     <Column Name="content_type" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="charset" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
