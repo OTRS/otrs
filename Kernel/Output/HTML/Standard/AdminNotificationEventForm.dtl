@@ -2,7 +2,7 @@
 # AdminNotificationEventForm.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEventForm.dtl,v 1.4.2.1 2009-10-01 14:12:05 ub Exp $
+# $Id: AdminNotificationEventForm.dtl,v 1.4.2.2 2009-11-16 08:51:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -249,12 +249,6 @@ function submit_compose() {
                                 <tr>
                                     <td class="contentkey">$Text{"Valid"}: </td>
                                     <td class="contentvalue">$Data{"ValidOption"}</td>
-                                </tr>
-                                <tr>
-                                    <td class="contentkey">$Text{"Comment"}: </td>
-                                    <td class="contentvalue">
-                                        <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
-                                    </td>
                                 </tr>
                             </table>
                         </td>
