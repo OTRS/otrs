@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to add/update/delete state
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.5 2009-08-18 19:56:09 martin Exp $
+# $Id: AdminNotificationEvent.pm,v 1.5.2.1 2009-11-16 08:46:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.5.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -318,6 +318,10 @@ sub _Edit {
             TicketQueueUpdate         => 'TicketQueueUpdate',
             TicketCreate              => 'TicketCreate',
             TicketTitleUpdate         => 'TicketTitleUpdate',
+            TicketTypeUpdate          => 'TicketTypeUpdate',
+            TicketServiceUpdate       => 'TicketServiceUpdate',
+            TicketSLAUpdate           => 'TicketSLAUpdate',
+            TicketDelete              => 'TicketDelete',
             TicketUnlockTimeoutUpdate => 'TicketUnlockTimeoutUpdate',
             TicketCustomerUpdate      => 'TicketCustomerUpdate',
             TicketFreeTextUpdate      => 'TicketFreeTextUpdate',
