@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1063 2009-11-12 15:29:49 mb Exp $
+# $Id: CHANGES,v 1.1064 2009-11-16 09:30:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,8 +94,12 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
- - (2009/11/06) Fixed bug#2069 - Update of customer company id in admin
-    interface failed.
+ - (2009/11/16) Fixed bug#4507 - Add Ticket Events for SLAUpdate, ServiceUpdate,
+    and TicketTypeUpdate in AdminNotificationEvent UI.
+ - (2009/11/16) Fixed bug#4509 - Notification (event based) comments are not
+    saved.
+ - (2009/11/06) Fixed bug#2069 - Update of CustomerCompany company_id is not
+    working.
  - (2009/11/06) Fixed bug#2948 - Renamed crypt option "md5" to "md5-crypt" to
     avoid missunderstanding.
  - (2009/10/30) Fixed JS check for months, thanks to bes.
