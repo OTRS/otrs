@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.20.2.4 2009-09-23 09:21:19 mg Exp $
+# $Id: RichTextEditor.dtl,v 1.20.2.5 2009-11-17 10:30:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,6 +54,7 @@ function InitRichText() {
     oFCKeditor.Config["FontSizes"]                = '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;';
     oFCKeditor.Config["EnterMode"]                = 'br';
     oFCKeditor.Config["ShiftEnterMode"]           = 'br';
+    oFCKeditor.Config["LinkUpload"]               = false;
 
     if ( '$Env{"TextDirection"}' ) {
         oFCKeditor.Config["ContentLangDirection"] = '$Env{"TextDirection"}';
