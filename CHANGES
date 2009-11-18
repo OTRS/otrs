@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1066 2009-11-18 12:03:09 martin Exp $
+# $Id: CHANGES,v 1.1067 2009-11-18 15:27:57 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/11/18) Added database check and mail configuration steps
+    to the web installer.
  - (2009/11/12) Fixed bug#4509 - Notification (event based) comments are not
     saved.
  - (2009/11/11) Added feature/config option (Ticket::SubjectFormat) for subject
