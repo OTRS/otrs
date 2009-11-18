@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.24 2009-11-12 08:17:46 mn Exp $
+# $Id: Installer.dtl,v 1.25 2009-11-18 15:13:04 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -947,7 +947,7 @@ $Include{"AJAX"}
             <img border="0" src="$Config{"Frontend::ImagePath"}installer2.png" alt="">
             <form action="$Env{"CGIHandle"}" method="post">
                 <input type="hidden" name="Action" value="Installer"/>
-                <input type="hidden" name="Subaction" value="Finish"/>
+                <input type="hidden" name="Subaction" value="ConfigureMail"/>
                 <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
                     <tr>
                         <td colspan="3" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
@@ -1024,6 +1024,147 @@ $Include{"AJAX"}
                 </table>
             </form>
 <!-- dtl:block:System-->
+<!-- dtl:block:ConfigureMail-->
+# include AJAX lib
+$Include{"AJAX"}
+
+            <img border="0" src="$Config{"Frontend::ImagePath"}installer2.png" alt="">
+            <form action="$Env{"CGIHandle"}" method="post" id="formmail">
+                <input type="hidden" name="Action" value="Installer"/>
+                <input type="hidden" name="Subaction" value="Finish"/>
+                <input type="hidden" name="Skip" value="0"/>
+                <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td colspan="3" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            <table width="100%" cellspacing="0" cellpadding="2">
+                                <tr>
+                                    <td colspan="3" class="contenthead">$Text{"Configure Outbound Mail"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Outbound Mail Type"}:</td>
+                                    <td class="contentvalue">
+                                        <select onchange="SelectOutboundMailType(this)" name="OutboundMailType">
+                                            <option value="sendmail">$Text{"Sendmail"}</option>
+                                            <option value="smtp">$Text{"SMTP"}</option>
+                                        </select>
+                                    </td>
+                                    <td class="contentvalue">$Text{"Select outbound mail type"}</td>
+                                </tr>
+                                <tr class="infosmtp hidden">
+                                    <td class="contentkey">$Text{"SMTP host"}:</td>
+                                    <td class="contentvalue"><input type="text" name="SMTPHost" value="$QData{"SMTPHost"}" size="30"/></td>
+                                    <td class="contentvalue">$Text{"SMTP host"}</td>
+                                </tr>
+                                <tr class="infosmtp hidden">
+                                    <td class="contentkey">$Text{"SMTP Authentication"}:</td>
+                                    <td class="contentvalue"><input type="checkbox" name="SMTPAuth" onchange="CheckSMTPAuth(this);" /></td>
+                                    <td class="contentvalue">$Text{"Does your SMTP host need authentication?"}</td>
+                                </tr>
+                                <tr class="infosmtpauth hidden">
+                                    <td class="contentkey">$Text{"SMTP Auth User"}:</td>
+                                    <td class="contentvalue"><input type="text" name="SMTPAuthUser" value="$QData{"SMTPAuthUser"}" disabled="disabled" size="30"/></td>
+                                    <td class="contentvalue">$Text{"Username for SMTP Auth"}</td>
+                                </tr>
+                                <tr class="infosmtpauth hidden">
+                                    <td class="contentkey">$Text{"SMTP Auth Password"}:</td>
+                                    <td class="contentvalue"><input type="password" name="SMTPAuthPassword" value="$QData{"SMTPAuthPassword"}" disabled="disabled" size="30"/></td>
+                                    <td class="contentvalue">$Text{"Password for SMTP Auth"}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="contenthead">$Text{"Configure Inbound Mail"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Inbound Mail Type"}:</td>
+                                    <td class="contentvalue">
+                                        $Data{"InboundMailType"}
+                                    </td>
+                                    <td class="contentvalue">$Text{"Select inbound mail type"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Inbound Mail host"}:</td>
+                                    <td class="contentvalue"><input type="text" name="InboundHost" value="$QData{"InboundHost"}" size="30"/></td>
+                                    <td class="contentvalue">$Text{"Inbound Mail host"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Inbound Mail User"}:</td>
+                                    <td class="contentvalue"><input type="text" name="InboundUser" value="$QData{"InboundUser"}" size="30"/></td>
+                                    <td class="contentvalue">$Text{"User for Inbound Mail"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Inbound Mail Password"}:</td>
+                                    <td class="contentvalue"><input type="password" name="InboundPassword" value="$QData{"InboundPassword"}" size="30"/></td>
+                                    <td class="contentvalue">$Text{"Password for Inbound Mail"}</td>
+                                </tr>
+                                <tr class="errormsg" style="display: none">
+                                    <td colspan="3" class="contenthead">$Text{"Result of mail configuration check"}</td>
+                                </tr>
+                                <tr class="errormsg" style="display: none">
+                                    <td class="contentkey" colspan="3" id="formmailresultmessage" style="color:red;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" type="button" onclick="SkipMailConfig()" value="$Text{"Skip this step"}"/>
+                            <input class="button" type="button" onclick="CheckMailConfig()" value="$Text{"Check Mail Configuration"}"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <script type="Text/javascript">
+                function SelectOutboundMailType(obj) {
+                    var value = $(obj).val();
+                    if (value == "smtp") {
+                        $('.infosmtp').show();
+                    }
+                    else {
+                        $('.infosmtp, .infosmtpauth').hide().find('input[name=SMTPAuth]').removeAttr('checked');
+                    }
+                }
+
+                function CheckSMTPAuth(obj) {
+                    if ($(obj).is(':checked')) {
+                        $('.infosmtpauth').show().find('input').removeAttr('disabled');
+                    }
+                    else {
+                        $('.infosmtpauth input').attr('disabled', 'disabled').val("");
+                        $('.infosmtpauth').hide();
+                    }
+                }
+
+                function SkipMailConfig() {
+                    $('input[name=Skip]').val('1');
+                    $('form').submit();
+                }
+
+                function CheckMailConfig() {
+                    $('input[name=Skip]').val('0');
+                    // Check mail data via AJAX
+                    $('input[name=Subaction]').val('CheckRequirements');
+                    var Data = $('#formmail').serialize();
+                    Data += "&CheckMode=Mail";
+                    AJAXFunctionCall(Data, CheckMailConfigCallback);
+                    $('input[name=Subaction]').val('Finish');
+                }
+
+                function CheckMailConfigCallback(json) {
+                    if (parseInt(json['Successful']) == 1) {
+                        alert('$JSText{"Mail check successful."}');
+                        $('tr.errormsg').hide();
+                        $('form').submit();
+                    }
+                    else {
+                        $('#formmailresultmessage').html(json['Message']);
+                        $('tr.errormsg').show();
+                        alert('$JSText{"Error in the mail settings. Please correct and try again."}');
+                    }
+                }
+            </script>
+<!-- dtl:block:ConfigureMail-->
 <!-- dtl:block:Finish -->
             <img border="0" src="$Config{"Frontend::ImagePath"}installer3.png" alt="">
             <form action="$Env{"CGIHandle"}" method="post">

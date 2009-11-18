@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Sendmail.pm,v 1.30 2009-09-21 15:39:55 martin Exp $
+# $Id: Sendmail.pm,v 1.31 2009-11-18 15:13:04 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,16 +62,15 @@ sub Send {
         $Arg .= ' ' . quotemeta($To);
     }
 
-    # get config data
-    my $Sendmail = $Self->{ConfigObject}->Get('SendmailModule::CMD');
-
-    # check if sendmail binary is there (strip all args and check if file exists)
-    my $SendmailBinary = $Sendmail;
-    $SendmailBinary =~ s/^(.+?)\s.+?$/$1/;
-    if ( !-f $SendmailBinary ) {
+    my %Result = $Self->Check();
+    my $Sendmail;
+    if ( $Result{Successful} ) {
+        $Sendmail = $Result{Sendmail};
+    }
+    else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No such binary: $SendmailBinary!",
+            Message  => $Result{Message},
         );
         return;
     }
@@ -104,6 +103,23 @@ sub Send {
     }
 
     return 1;
+}
+
+sub Check {
+    my ( $Self, %Param ) = @_;
+
+    # get config data
+    my $Sendmail = $Self->{ConfigObject}->Get('SendmailModule::CMD');
+
+    # check if sendmail binary is there (strip all args and check if file exists)
+    my $SendmailBinary = $Sendmail;
+    $SendmailBinary =~ s/^(.+?)\s.+?$/$1/;
+    if ( !-f $SendmailBinary ) {
+        return ( Successful => 0, Message => "No such binary: $SendmailBinary!" );
+    }
+    else {
+        return ( Successful => 1, Sendmail => $Sendmail );
+    }
 }
 
 1;

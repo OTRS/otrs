@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.59 2009-11-12 08:17:45 mn Exp $
+# $Id: Installer.pm,v 1.60 2009-11-18 15:13:04 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,10 @@ use strict;
 use warnings;
 
 use DBI;
+use Kernel::System::Email;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -195,6 +196,11 @@ sub Run {
         # check DB requirements
         if ( $CheckMode eq 'DB' ) {
             %Result = $Self->CheckDBRequirements();
+        }
+
+        # check mail configuration
+        elsif ( $CheckMode eq 'Mail' ) {
+            %Result = $Self->CheckMailConfiguration();
         }
 
         # no adequate check method found
@@ -611,7 +617,7 @@ sub Run {
     }
 
     # do system settings action
-    elsif ( $Self->{Subaction} eq 'Finish' ) {
+    elsif ( $Self->{Subaction} eq 'ConfigureMail' ) {
 
         # ReConfigure Config.pm
         my %Config = ();
@@ -628,35 +634,56 @@ sub Run {
         }
         else {
 
-            # my $SetPermission = $ENV{SCRIPT_FILENAME} || '/opt/otrs/bin/SetPermissions.sh';
-            # $SetPermission =~ s/(.+?)\/cgi-bin\/installer.pl/$1\/SetPermissions.sh/g;
-            # my $BaseDir = $SetPermission;
-            # $BaseDir =~ s/(.*\/)bin\/SetPermissions.sh/$1/;
+            # get mail account object and check available backends
+            $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
+            my $MailAccount  = Kernel::System::MailAccount->new( %{$Self} );
+            my %MailBackends = $MailAccount->MailAccountBackendList();
 
-            my $OTRSHandle = $ENV{SCRIPT_NAME};
-            $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
-            $Output .= $Self->{LayoutObject}->Header( Title => 'Finished' );
+            my $InboundMailTypeSelection = $Self->{LayoutObject}->BuildSelection(
+                Data => \%MailBackends,
+                Name => 'InboundMailType',
+            );
+
+            $Output .= $Self->{LayoutObject}->Header( Title => 'Configure Mail' );
             $Self->{LayoutObject}->Block(
-                Name => 'Finish',
+                Name => 'ConfigureMail',
                 Data => {
-                    Item       => 'Finished',
-                    Step       => '4/4',
-                    OTRSHandle => $OTRSHandle,
-                    %Dist,
+                    Item            => 'Mail configuration',
+                    Step            => '3/4',
+                    InboundMailType => $InboundMailTypeSelection,
                 },
             );
-            if ( $Dist{Webserver} ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Restart',
-                    Data => { %Dist, },
-                );
-            }
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'Installer',
                 Data         => {}
             );
         }
         $Output .= $Self->{LayoutObject}->Footer();
+    }
+
+    elsif ( $Self->{Subaction} eq 'Finish' ) {
+        my $OTRSHandle = $ENV{SCRIPT_NAME};
+        $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
+        $Output .= $Self->{LayoutObject}->Header( Title => 'Configure Mail' );
+        $Self->{LayoutObject}->Block(
+            Name => 'Finish',
+            Data => {
+                Item       => 'Finished',
+                Step       => '4/4',
+                OTRSHandle => $OTRSHandle,
+                %Dist,
+            },
+        );
+        if ( $Dist{Webserver} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'Restart',
+                Data => { %Dist, },
+            );
+        }
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'Installer',
+            Data         => {}
+        );
     }
 
     # else! error!
@@ -819,6 +846,130 @@ sub CheckDBRequirements {
     # delete not necessary key/value pairs
     delete $Result{DB};
     delete $Result{DBH};
+
+    return %Result;
+}
+
+sub CheckMailConfiguration {
+    my ( $Self, %Param ) = @_;
+
+    my %Result = ();
+
+    # first check outbound mail config
+    my $OutboundMailType = $Self->{ParamObject}->GetParam( Param => 'OutboundMailType' );
+    my $SMTPHost         = $Self->{ParamObject}->GetParam( Param => 'SMTPHost' );
+    my $SMTPAuthUser     = $Self->{ParamObject}->GetParam( Param => 'SMTPAuthUser' );
+    my $SMTPAuthPassword = $Self->{ParamObject}->GetParam( Param => 'SMTPAuthPassword' );
+
+    # if chosen config option is SMTP, set some Config params
+    if ( $OutboundMailType eq 'smtp' ) {
+        $Self->{ConfigObject}
+            ->Set( Key => 'SendmailModule', Value => 'Kernel::System::Email::SMTP' );
+        $Self->{ConfigObject}->Set( Key => 'SendmailModule::Host', Value => $SMTPHost );
+        if ($SMTPAuthUser) {
+            $Self->{ConfigObject}->Set( Key => 'SendmailModule::AuthUser', Value => $SMTPAuthUser );
+        }
+        if ($SMTPAuthPassword) {
+            $Self->{ConfigObject}
+                ->Set( Key => 'SendmailModule::AuthPassword', Value => $SMTPAuthPassword );
+        }
+    }
+
+    # if sendmail, set config to sendmail
+    else {
+        $Self->{ConfigObject}
+            ->Set( Key => 'SendmailModule', Value => 'Kernel::System::Email::Sendmail' );
+    }
+
+    # if config option smtp and no smtp host given, return with error
+    if ( $OutboundMailType eq 'smtp' && !$SMTPHost ) {
+        return ( Successful => 0, Message => "No SMTP Host given!" );
+    }
+
+    # check outbound mail configuration
+    $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
+    my $SendObject = Kernel::System::Email->new(
+        %{$Self}
+    );
+    %Result = $SendObject->Check();
+
+    # if smtp check was successful, write data into config
+    if (
+        $Result{Successful}
+        && $Self->{ConfigObject}->Get('SendmailModule') eq 'Kernel::System::Email::SMTP'
+        )
+    {
+        $Self->ReConfigure(
+            'SendmailModule'       => $Self->{ConfigObject}->Get('SendmailModule'),
+            'SendmailModule::Host' => $SMTPHost,
+        );
+        if ( $SMTPAuthUser && $SMTPAuthPassword ) {
+            $Self->ReConfigure(
+                'SendmailModule::AuthUser'     => $SMTPAuthUser,
+                'SendmailModule::AuthPassword' => $SMTPAuthPassword,
+            );
+        }
+    }
+
+    # if sendmail check was successful, write data into config
+    elsif (
+        $Result{Successful}
+        && $Self->{ConfigObject}->Get('SendmailModule') eq 'Kernel::System::Email::Sendmail'
+        )
+    {
+        $Self->ReConfigure(
+            'SendmailModule' => $Self->{ConfigObject}->Get('SendmailModule'),
+        );
+    }
+
+    # now check inbound mail config. if outbound config threw error, theres no need to carry on
+    if ( !$Result{Successful} ) {
+        return %Result;
+    }
+
+    # check inbound mail config
+    my $MailAccount = Kernel::System::MailAccount->new(
+        %{$Self}
+    );
+
+    for (qw(InboundUser InboundPassword InboundHost)) {
+        if ( !$Self->{ParamObject}->GetParam( Param => $_ ) ) {
+            return ( Successful => 0, Message => "Missing parameter: $_!" );
+        }
+    }
+
+    my $InboundUser     = $Self->{ParamObject}->GetParam( Param => 'InboundUser' );
+    my $InboundPassword = $Self->{ParamObject}->GetParam( Param => 'InboundPassword' );
+    my $InboundHost     = $Self->{ParamObject}->GetParam( Param => 'InboundHost' );
+    my $InboundMailType = $Self->{ParamObject}->GetParam( Param => 'InboundMailType' );
+
+    %Result = $MailAccount->MailAccountCheck(
+        Login    => $InboundUser,
+        Password => $InboundPassword,
+        Host     => $InboundHost,
+        Type     => $InboundMailType,
+        Timeout  => '60',
+        Debug    => '0',
+    );
+
+    # if successful, add mail account to DB
+    if ( $Result{Successful} ) {
+        my $Id = $MailAccount->MailAccountAdd(
+            Login         => $InboundUser,
+            Password      => $InboundPassword,
+            Host          => $InboundHost,
+            Type          => $InboundMailType,
+            ValidID       => 1,
+            Trusted       => 0,
+            DispatchingBy => 'From',
+            QueueID       => 1,
+            UserID        => 1,
+        );
+
+        if ( !$Id ) {
+            return ( Successful => 0, Message => 'Error while adding mail account!' );
+        }
+    }
 
     return %Result;
 }

@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.219 2009-11-12 08:17:45 mn Exp $
+# $Id: de.pm,v 1.220 2009-11-18 15:13:03 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.219 $) [1];
+$VERSION = qw($Revision: 1.220 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1557,6 +1557,29 @@ sub Data {
         'Check database settings' => 'Einstellungen der Datenbank prüfen',
         'Result of database check' => 'Ergebnis der Datenbankprüfung',
         'Database check successful.' => 'Datenbankprüfung erfolgreich.',
+        'Configure Outbound Mail' => 'Mailversand konfigurieren',
+        'Outbound Mail Type' => 'Mailversand',
+        'Select outbound mail type' => 'Art des Mailversands auswählen',
+        'SMTP host' => 'SMTP-Host',
+        'SMTP Authentication' => 'SMTP-Authentifizierung',
+        'Does your SMTP host need authentication?' => 'Benötigt der SMTP-Host eine Authentifizierung?',
+        'SMTP Auth User' => 'SMTP Auth Benutzer',
+        'Username for SMTP Auth' => 'Benutzername für die SMTP-Authentifizierung',
+        'SMTP Auth Password' => 'SMTP Auth Passwort',
+        'Password for SMTP Auth' => 'Passwort für die SMTP-Authentifizierung',
+        'Configure Inbound Mail' => 'Mailempfang konfigurieren',
+        'Inbound Mail Type' => 'Mailempfang',
+        'Select inbound mail type' => 'Art des Mailempfangs auswählen',
+        'Inbound Mail host' => 'Host für Mailempfang',
+        'Inbound Mail User' => 'Benutzername',
+        'User for Inbound Mail' => 'Benutzername für Mailempfang',
+        'Inbound Mail Password' => 'Passwort',
+        'Password for Inbound Mail' => 'Passwort für Mailempfang',
+        'Result of mail configuration check' => 'Ergebnis der Konfigurationsprüfung',
+        'Skip this step' => 'Diesen Schritt überspringen',
+        'Check Mail Configuration' => 'Mailkonfiguration überprüfen',
+        'Error in the mail settings. Please correct and try again.' => 'Fehler in der Mail-Konfiguration. Bitte korrigieren und  nochmals probieren.',
+        'Mail check successful.' => 'Konfigurationsprüfung erfolgreich.',
 
         # Template: LinkObject
 

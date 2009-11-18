@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.7 2009-11-12 08:17:46 mn Exp $
+// $Id: otrs.js,v 1.8 2009-11-18 15:13:04 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -187,12 +187,10 @@ function AJAXFunctionCall(Data, Callback)
         url = url + '&' + OTRS.ConfigGet('SessionName') + '=' + OTRS.ConfigGet('SessionID') + '&' + OTRS.ConfigGet('CustomerPanelSessionName') + '=' + OTRS.ConfigGet('SessionID');
     }
 
-    // append further data to url
-    url += "&" + Data;
-
     $.ajax({
-        type:     'GET',
+        type:     'POST',
         url:      url,
+        data:     Data,
         dataType: 'json',
         success: function(Response) {
             if (!Response) {

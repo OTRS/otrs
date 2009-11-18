@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.65 2009-10-07 20:25:38 martin Exp $
+# $Id: Email.pm,v 1.66 2009-11-18 15:13:04 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 =head1 NAME
 
@@ -692,6 +692,27 @@ sub Send {
     return ( \$Param{Header}, \$Param{Body} );
 }
 
+=item Check()
+
+Check mail configuration
+
+    my %Check = $SendObject->Check();
+
+=cut
+
+sub Check {
+    my ( $Self, %Param ) = @_;
+
+    my %Check = $Self->{Backend}->Check();
+
+    if ( $Check{Successful} ) {
+        return ( Successful => 1 )
+    }
+    else {
+        return ( Successful => 0, Message => $Check{Message} );
+    }
+}
+
 =item Bounce()
 
 Bounce an email
@@ -831,6 +852,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2009-10-07 20:25:38 $
+$Revision: 1.66 $ $Date: 2009-11-18 15:13:04 $
 
 =cut

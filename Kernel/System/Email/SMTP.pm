@@ -2,7 +2,7 @@
 # Kernel/System/Email/SMTP.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTP.pm,v 1.25 2009-04-07 07:58:37 martin Exp $
+# $Id: SMTP.pm,v 1.26 2009-11-18 15:13:04 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,19 +52,8 @@ sub new {
     return $Self;
 }
 
-sub Send {
+sub Check {
     my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Header Body ToArray)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-    if ( !$Param{From} ) {
-        $Param{From} = '';
-    }
 
     # try it 3 times to connect with the SMTP server
     # (M$ Exchange Server 2007 have sometimes problems on port 25)
@@ -89,25 +78,51 @@ sub Send {
 
     # return if no connect was possible
     if ( !$SMTP ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't connect to $Self->{MailHost}: $!!",
-        );
-        return;
+        return ( Successful => 0, Message => "Can't connect to $Self->{MailHost}: $!!" );
     }
 
     # use smtp auth if configured
     if ( $Self->{User} && $Self->{Password} ) {
         if ( !$SMTP->auth( $Self->{User}, $Self->{Password} ) ) {
             my $Error = $SMTP->code() . $SMTP->message();
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "SMTP authentication failed: $Error! Enable Net::SMTP debug for more info!",
-            );
             $SMTP->quit();
+            return (
+                Successful => 0,
+                Message =>
+                    "SMTP authentication failed: $Error! Enable Net::SMTP debug for more info!"
+            );
+        }
+    }
+
+    return ( Successful => 1, SMTP => $SMTP );
+}
+
+sub Send {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Header Body ToArray)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+    if ( !$Param{From} ) {
+        $Param{From} = '';
+    }
+
+    # check mail configuration - is there a working smtp host?
+    my %Result = $Self->Check();
+    my $SMTP;
+    if ( $Result{Succcessful} ) {
+        $SMTP = $Result{$SMTP};
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => $Result{Message},
+        );
+        return;
     }
 
     # set from, return it from was not accepted

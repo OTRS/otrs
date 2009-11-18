@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/POP3.pm - lib for pop3 accounts
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: POP3.pm,v 1.6 2009-08-10 04:05:22 martin Exp $
+# $Id: POP3.pm,v 1.7 2009-11-18 15:13:03 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Net::POP3;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,6 +35,41 @@ sub new {
     $Self->{Limit} = 0;
 
     return $Self;
+}
+
+sub Connect {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Login Password Host Timeout Debug)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # connect to host
+    my $PopObject
+        = Net::POP3->new( $Param{Host}, Timeout => $Param{Timeout}, Debug => $Param{Debug} );
+    if ( !$PopObject ) {
+        return ( Successful => 0, Message => "POP3: Can't connect to $Param{Host}" );
+    }
+
+    # authentcation
+    my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
+    if ( !defined $NOM ) {
+        $PopObject->quit();
+        return (
+            Successful => 0,
+            Message    => "POP3: Auth for user $Param{Login}/$Param{Host} failed!"
+        );
+    }
+
+    return (
+        Successful => 1,
+        PopObject  => $PopObject,
+        NOM        => $NOM
+    );
 }
 
 sub Fetch {
@@ -69,25 +104,26 @@ sub Fetch {
     my $Reconnect    = 0;
     my $AuthType     = 'POP3';
 
-    # connect to host
-    my $PopObject = Net::POP3->new( $Param{Host}, Timeout => $Timeout, Debug => $Debug );
-    if ( !$PopObject ) {
+    my %Connect = $Self->Connect(
+        Host     => $Param{Host},
+        Login    => $Param{Login},
+        Password => $Param{Password},
+        Timeout  => $Timeout,
+        Debug    => $Debug
+    );
+
+    my $PopObject;
+    my $NOM;
+    if ( !$Connect{Successful} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "$AuthType: Can't connect to $Param{Host}",
+            Message  => "$Connect{Message}",
         );
         return;
     }
-
-    # authentcation
-    my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
-    if ( !defined $NOM ) {
-        $PopObject->quit();
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "$AuthType: Auth for user $Param{Login}/$Param{Host} failed!",
-        );
-        return;
+    else {
+        $PopObject = $Connect{PopObject};
+        $NOM       = $Connect{NOM};
     }
 
     # fetch messages

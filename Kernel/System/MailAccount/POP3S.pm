@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/POP3S.pm - lib for pop3 accounts
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: POP3S.pm,v 1.10 2009-08-10 04:05:22 martin Exp $
+# $Id: POP3S.pm,v 1.11 2009-11-18 15:13:03 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use IO::Socket::SSL;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,6 +41,61 @@ sub new {
     $Self->{Limit} = 0;
 
     return $Self;
+}
+
+sub Connect {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Login Password Host Timeout Debug)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
+    #    my $PopObject
+    #        = Net::POP3->new( $Param{Host}, Port => 995, Timeout => $Timeout, Debug => $Debug );
+
+    # connect to host
+    my $PopObject = Mail::POP3Client->new(
+        USER     => $Param{Login},
+        PASSWORD => $Param{Password},
+        HOST     => $Param{Host},
+        USESSL   => 'true',
+    );
+
+    if ( !$PopObject ) {
+        return ( Successful => 0, Message => "POP3S: Can't connect to $Param{Host}" );
+    }
+
+    # authentcation
+    # Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
+    #    my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
+    #    if ( !defined $NOM ) {
+    #        $PopObject->quit();
+    #        $Self->{LogObject}->Log(
+    #            Priority => 'error',
+    #            Message  => "$AuthType: Auth for user $Param{Login}/$Param{Host} failed!",
+    #        );
+    #        return;
+    #    }
+    my $NOM = $PopObject->Count();
+
+    # if there is no connection, Mail::POP3Client will return a -1 (see bug 3790)
+    if ( $NOM == -1 ) {
+        return (
+            Successful => 0,
+            Message    => "POP3S: Auth for user $Param{Login}/$Param{Host} failed!"
+        );
+    }
+
+    return (
+        Successful => 1,
+        PopObject  => $PopObject,
+        NOM        => $NOM
+    );
 }
 
 sub Fetch {
@@ -75,46 +130,26 @@ sub Fetch {
     my $Reconnect    = 0;
     my $AuthType     = 'POP3S';
 
-    # Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
-    #    my $PopObject
-    #        = Net::POP3->new( $Param{Host}, Port => 995, Timeout => $Timeout, Debug => $Debug );
-
-    # connect to host
-    my $PopObject = Mail::POP3Client->new(
-        USER     => $Param{Login},
-        PASSWORD => $Param{Password},
-        HOST     => $Param{Host},
-        USESSL   => 'true',
+    my %Connect = $Self->Connect(
+        Host     => $Param{Host},
+        Login    => $Param{Login},
+        Password => $Param{Password},
+        Timeout  => $Timeout,
+        Debug    => $Debug
     );
 
-    if ( !$PopObject ) {
+    my $PopObject;
+    my $NOM;
+    if ( !$Connect{Successful} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "$AuthType: Can't connect to $Param{Host}",
+            Message  => "$Connect{Message}",
         );
         return;
     }
-
-    # authentcation
-    # Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
-    #    my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
-    #    if ( !defined $NOM ) {
-    #        $PopObject->quit();
-    #        $Self->{LogObject}->Log(
-    #            Priority => 'error',
-    #            Message  => "$AuthType: Auth for user $Param{Login}/$Param{Host} failed!",
-    #        );
-    #        return;
-    #    }
-    my $NOM = $PopObject->Count();
-
-    # if there is no connection, Mail::POP3Client will return a -1 (see bug 3790)
-    if ( $NOM == -1 ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "$AuthType: Can't connect to $Param{Host}",
-        );
-        return;
+    else {
+        $PopObject = $Connect{PopObject};
+        $NOM       = $Connect{NOM};
     }
 
     # fetch messages

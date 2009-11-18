@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount.pm - lib for mail accounts
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: MailAccount.pm,v 1.11 2009-10-07 20:25:38 martin Exp $
+# $Id: MailAccount.pm,v 1.12 2009-11-18 15:13:04 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -381,6 +381,52 @@ sub MailAccountFetch {
     return $Backend->Fetch(%Param);
 }
 
+=item MailAccountCheck()
+
+Check inbound mail configuration
+
+    my %Check = $MailAccount->MailAccountCheck(
+        Login         => 'mail',
+        Password      => 'SomePassword',
+        Host          => 'pop3.example.com',
+        Type          => 'POP3', # POP3|POP3S|IMAP|IMAPS
+        Timeout       => '60',
+        Debug         => '0',
+    );
+
+=cut
+
+sub MailAccountCheck {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Login Password Host Type Timeout Debug)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # load backend
+    my $GenericModule = "Kernel::System::MailAccount::$Param{Type}";
+
+    # try to load module $GenericModule
+    if ( !$Self->{MainObject}->Require($GenericModule) ) {
+        return;
+    }
+
+    # check if connect is successful
+    my $Backend = $GenericModule->new( %{$Self} );
+    my %Check   = $Backend->Connect(%Param);
+
+    if ( $Check{Successful} ) {
+        return ( Successful => 1 )
+    }
+    else {
+        return ( Successful => 0, Message => $Check{Message} );
+    }
+}
+
 1;
 
 =back
@@ -397,6 +443,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2009-10-07 20:25:38 $
+$Revision: 1.12 $ $Date: 2009-11-18 15:13:04 $
 
 =cut
