@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/cgi-bin/installer.pl - the global CGI handle for installer
+# bin/fcgi-bin/installer.fpl - the global FastCGI handle for installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.32 2009-11-18 11:57:40 martin Exp $
+# $Id: installer.fpl,v 1.1 2009-11-18 11:57:39 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -29,20 +29,29 @@ use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 
-use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.32 $) [1];
+use vars qw(@ISA $VERSION);
+$VERSION = qw($Revision: 1.1 $)[1];
 
 # check @INC for mod_perl (add lib path for "require module"!)
-push( @INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib" );
+push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 
-# 0=off;1=on;
-my $Debug = 0;
+# Imports the library; required line
+use CGI::Fast;
 
 # load agent web interface
 use Kernel::System::Web::InterfaceInstaller();
 
-# create new object
-my $Interface = Kernel::System::Web::InterfaceInstaller->new( Debug => $Debug );
+# 0=off;1=on;
+my $Debug = 0;
+#my $Cnt = 0;
 
-# execute object
-$Interface->Run();
+# Response loop
+while (my $WebRequest = new CGI::Fast) {
+    # create new object
+    my $Interface= Kernel::System::Web::InterfaceInstaller->new(Debug => $Debug, WebRequest => $WebRequest);
+
+    # execute object
+    $Interface->Run();
+#    $Cnt++;
+#    print STDERR "This is connection number $Cnt\n";
+}
