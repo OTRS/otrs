@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.61 2009-11-23 12:45:06 mn Exp $
+# $Id: Installer.pm,v 1.62 2009-11-23 13:00:22 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Config;
 use Kernel::System::Email;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -662,7 +662,7 @@ sub Run {
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'Installer',
-                Data         => {}
+                Data         => {},
             );
         }
         $Output .= $Self->{LayoutObject}->Footer();
@@ -689,7 +689,7 @@ sub Run {
         }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
-            Data         => {}
+            Data         => {},
         );
     }
 
@@ -841,7 +841,7 @@ sub ConnectToDB {
         Message    => '',
         Comment    => '',
         DB         => \%DB,
-        DBH        => $DBH
+        DBH        => $DBH,
     );
 }
 
@@ -872,22 +872,22 @@ sub CheckMailConfiguration {
     if ( $OutboundMailType eq 'smtp' ) {
         $Self->{ConfigObject}->Set(
             Key   => 'SendmailModule',
-            Value => 'Kernel::System::Email::SMTP'
+            Value => 'Kernel::System::Email::SMTP',
         );
         $Self->{ConfigObject}->Set(
             Key   => 'SendmailModule::Host',
-            Value => $SMTPHost
+            Value => $SMTPHost,
         );
         if ($SMTPAuthUser) {
             $Self->{ConfigObject}->Set(
                 Key   => 'SendmailModule::AuthUser',
-                Value => $SMTPAuthUser
+                Value => $SMTPAuthUser,
             );
         }
         if ($SMTPAuthPassword) {
             $Self->{ConfigObject}->Set(
                 Key   => 'SendmailModule::AuthPassword',
-                Value => $SMTPAuthPassword
+                Value => $SMTPAuthPassword,
             );
         }
     }
@@ -896,7 +896,7 @@ sub CheckMailConfiguration {
     else {
         $Self->{ConfigObject}->Set(
             Key   => 'SendmailModule',
-            Value => 'Kernel::System::Email::Sendmail'
+            Value => 'Kernel::System::Email::Sendmail',
         );
     }
 
