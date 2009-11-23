@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.104 2009-10-21 12:14:26 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.105 2009-11-23 12:04:31 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1075,11 +1075,17 @@ sub Run {
                 }
             }
         }
+
+        # convert Signature to ASCII, if RichText is on
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $Signature = $Self->{HTMLUtilsObject}->ToAscii( String => $Signature, );
+        }
+
         my $JSON = $Self->{LayoutObject}->BuildJSON(
             [
                 {
                     Name         => 'Signature',
-                    Data         => $Self->{HTMLUtilsObject}->ToAscii( String => $Signature, ),
+                    Data         => $Signature,
                     Translation  => 1,
                     PossibleNone => 1,
                     Max          => 100,
