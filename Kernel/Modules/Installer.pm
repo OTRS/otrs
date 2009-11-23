@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.60 2009-11-18 15:13:04 mn Exp $
+# $Id: Installer.pm,v 1.61 2009-11-23 12:45:06 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,10 +18,11 @@ use strict;
 use warnings;
 
 use DBI;
+use Kernel::System::Config;
 use Kernel::System::Email;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -619,23 +620,29 @@ sub Run {
     # do system settings action
     elsif ( $Self->{Subaction} eq 'ConfigureMail' ) {
 
-        # ReConfigure Config.pm
-        my %Config = ();
-        for (
-            qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile
-            DefaultCharset DefaultLanguage CheckMXRecord)
-            )
-        {
-            my $Value = $Self->{ParamObject}->GetParam( Param => $_ );
-            $Config{$_} = defined $Value ? $Value : '';
-        }
-        if ( $Self->ReConfigure( %Config, SecureMode => 1, ) ) {
-            $Self->{LayoutObject}->FatalError( Message => "Can't write Kernel/Config.pm!", );
+        # save config values in DB
+        $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
+        if ( !$Self->{DBObject} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Can't write config to the database!", );
         }
         else {
+            my $SysConfigObject = Kernel::System::Config->new(
+                %{$Self}
+            );
+            for my $Key (
+                qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile
+                DefaultCharset DefaultLanguage CheckMXRecord)
+                )
+            {
+                my $Value = $Self->{ParamObject}->GetParam( Param => $Key );
+                $SysConfigObject->ConfigItemUpdate(
+                    Valid => 1,
+                    Key   => $Key,
+                    Value => $Value,
+                );
+            }
 
             # get mail account object and check available backends
-            $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
             my $MailAccount  = Kernel::System::MailAccount->new( %{$Self} );
             my %MailBackends = $MailAccount->MailAccountBackendList();
 
@@ -863,22 +870,34 @@ sub CheckMailConfiguration {
 
     # if chosen config option is SMTP, set some Config params
     if ( $OutboundMailType eq 'smtp' ) {
-        $Self->{ConfigObject}
-            ->Set( Key => 'SendmailModule', Value => 'Kernel::System::Email::SMTP' );
-        $Self->{ConfigObject}->Set( Key => 'SendmailModule::Host', Value => $SMTPHost );
+        $Self->{ConfigObject}->Set(
+            Key   => 'SendmailModule',
+            Value => 'Kernel::System::Email::SMTP'
+        );
+        $Self->{ConfigObject}->Set(
+            Key   => 'SendmailModule::Host',
+            Value => $SMTPHost
+        );
         if ($SMTPAuthUser) {
-            $Self->{ConfigObject}->Set( Key => 'SendmailModule::AuthUser', Value => $SMTPAuthUser );
+            $Self->{ConfigObject}->Set(
+                Key   => 'SendmailModule::AuthUser',
+                Value => $SMTPAuthUser
+            );
         }
         if ($SMTPAuthPassword) {
-            $Self->{ConfigObject}
-                ->Set( Key => 'SendmailModule::AuthPassword', Value => $SMTPAuthPassword );
+            $Self->{ConfigObject}->Set(
+                Key   => 'SendmailModule::AuthPassword',
+                Value => $SMTPAuthPassword
+            );
         }
     }
 
     # if sendmail, set config to sendmail
     else {
-        $Self->{ConfigObject}
-            ->Set( Key => 'SendmailModule', Value => 'Kernel::System::Email::Sendmail' );
+        $Self->{ConfigObject}->Set(
+            Key   => 'SendmailModule',
+            Value => 'Kernel::System::Email::Sendmail'
+        );
     }
 
     # if config option smtp and no smtp host given, return with error
@@ -893,21 +912,42 @@ sub CheckMailConfiguration {
     );
     %Result = $SendObject->Check();
 
+    my $SysConfigObject = Kernel::System::Config->new(
+        %{$Self}
+    );
+
     # if smtp check was successful, write data into config
     if (
         $Result{Successful}
         && $Self->{ConfigObject}->Get('SendmailModule') eq 'Kernel::System::Email::SMTP'
         )
     {
-        $Self->ReConfigure(
+        my %NewConfigs = (
             'SendmailModule'       => $Self->{ConfigObject}->Get('SendmailModule'),
             'SendmailModule::Host' => $SMTPHost,
         );
+
+        for my $Key ( keys %NewConfigs ) {
+            $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $Key,
+                Value => $NewConfigs{$Key},
+            );
+        }
+
         if ( $SMTPAuthUser && $SMTPAuthPassword ) {
-            $Self->ReConfigure(
+            %NewConfigs = (
                 'SendmailModule::AuthUser'     => $SMTPAuthUser,
                 'SendmailModule::AuthPassword' => $SMTPAuthPassword,
             );
+
+            for my $Key ( keys %NewConfigs ) {
+                $SysConfigObject->ConfigItemUpdate(
+                    Valid => 1,
+                    Key   => $Key,
+                    Value => $NewConfigs{$Key},
+                );
+            }
         }
     }
 
@@ -917,8 +957,10 @@ sub CheckMailConfiguration {
         && $Self->{ConfigObject}->Get('SendmailModule') eq 'Kernel::System::Email::Sendmail'
         )
     {
-        $Self->ReConfigure(
-            'SendmailModule' => $Self->{ConfigObject}->Get('SendmailModule'),
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'SendmailModule',
+            Value => $Self->{ConfigObject}->Get('SendmailModule'),
         );
     }
 
