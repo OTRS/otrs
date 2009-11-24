@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.220 2009-11-18 15:13:03 mn Exp $
+# $Id: de.pm,v 1.221 2009-11-24 10:32:31 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.220 $) [1];
+$VERSION = qw($Revision: 1.221 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -186,6 +186,9 @@ sub Data {
         'Category' => 'Kategorie',
         'Viewer' => 'Betrachter',
         'Expand' => 'Ausklappen',
+        'Small' => 'Klein',
+        'Medium' => 'Mittel',
+        'Large' => 'Groß',
         'New message' => 'Neue Nachricht',
         'New message!' => 'Neue Nachricht!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Bitte beantworten Sie dieses Ticket, um in die normale Queue-Ansicht zurück zu kommen!',
