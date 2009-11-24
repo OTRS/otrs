@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.76.2.1 2009-09-22 13:04:56 mg Exp $
+# $Id: AAABase.dtl,v 1.76.2.2 2009-11-24 10:21:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -169,6 +169,9 @@ $Text{"Added!"}
 $Text{"Category"}
 $Text{"Viewer"}
 $Text{"Expand"}
+$Text{"Small"}
+$Text{"Medium"}
+$Text{"Large"}
 
 $Text{"New message"}
 $Text{"New message!"}
