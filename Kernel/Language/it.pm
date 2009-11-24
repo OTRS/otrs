@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Emiliano Coletti <e.coletti at gmail.com>
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # --
-# $Id: it.pm,v 1.88.2.3 2009-10-26 09:54:05 mb Exp $
+# $Id: it.pm,v 1.88.2.4 2009-11-24 10:34:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88.2.3 $) [1];
+$VERSION = qw($Revision: 1.88.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -30,7 +30,7 @@ sub Data {
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
-    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%D/%M/%Y %T';
     $Self->{DateFormatLong}      = '%A %D %B %Y %T';
     $Self->{DateFormatShort}     = '%D/%M/%Y';

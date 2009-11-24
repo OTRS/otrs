@@ -2,7 +2,7 @@
 # Kernel/Language/en_CA.pm - provides en_CA language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: en_CA.pm,v 1.2 2009-08-25 12:19:24 mb Exp $
+# $Id: en_CA.pm,v 1.2.2.1 2009-11-24 10:34:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.2.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -31,7 +31,7 @@ sub Data {
     # possible charsets
     $Self->{Charset} = ['us-ascii', 'UTF-8', 'iso-8859-1', 'iso-8859-15', ];
 
-    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%Y-%M-%D %T';
     $Self->{DateFormatLong}      = '%T - %Y-%M-%D';
     $Self->{DateFormatShort}     = '%Y-%M-%D';

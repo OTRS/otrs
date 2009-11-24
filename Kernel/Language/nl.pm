@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.104.2.2 2009-10-26 09:54:05 mb Exp $
+# $Id: nl.pm,v 1.104.2.3 2009-11-24 10:34:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104.2.2 $) [1];
+$VERSION = qw($Revision: 1.104.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -39,9 +39,9 @@ sub Data {
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
-    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%D-%M-%Y %T';
-    $Self->{DateFormatLong}      = '%A %D %B %T %Y';
+    $Self->{DateFormatLong}      = '%A %D %B %Y %T';
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
@@ -200,6 +200,9 @@ sub Data {
         'Category' => 'Categorie',
         'Viewer' => 'Viewer',
         'Expand' => 'Klap uit',
+        'Small' => 'Klein',
+        'Medium' => 'Middel',
+        'Large' => 'Groot',
         'New message' => 'Nieuw bericht',
         'New message!' => 'Nieuw bericht!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Beantwoord eerst onderstaande geëscaleerde tickets om terug te kunnen komen in de normale wachtrij',

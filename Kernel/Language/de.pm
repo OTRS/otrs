@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.208.2.4 2009-11-03 11:20:53 ub Exp $
+# $Id: de.pm,v 1.208.2.5 2009-11-24 10:34:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.208.2.4 $) [1];
+$VERSION = qw($Revision: 1.208.2.5 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -24,7 +24,7 @@ sub Data {
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
-    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%D.%M.%Y %T';
     $Self->{DateFormatLong}      = '%T - %D.%M.%Y';
     $Self->{DateFormatShort}     = '%D.%M.%Y';
@@ -185,6 +185,9 @@ sub Data {
         'Category' => 'Kategorie',
         'Viewer' => 'Betrachter',
         'Expand' => 'Ausklappen',
+        'Small' => 'Klein',
+        'Medium' => 'Mittel',
+        'Large' => 'Groß',
         'New message' => 'Neue Nachricht',
         'New message!' => 'Neue Nachricht!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Bitte beantworten Sie dieses Ticket, um in die normale Queue-Ansicht zurück zu kommen!',

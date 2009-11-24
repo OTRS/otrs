@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.72.2.2 2009-10-26 09:54:05 mb Exp $
+# $Id: hu.pm,v 1.72.2.3 2009-11-24 10:34:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72.2.2 $) [1];
+$VERSION = qw($Revision: 1.72.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -29,7 +29,7 @@ sub Data {
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
-    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%Y.%M.%D %T';
     $Self->{DateFormatLong}      = '%Y %B %D %A %T';
     $Self->{DateFormatShort}     = '%Y.%M.%D';
