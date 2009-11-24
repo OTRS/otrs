@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.62 2009-11-23 13:00:22 mn Exp $
+# $Id: Installer.pm,v 1.63 2009-11-24 08:19:18 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Config;
 use Kernel::System::Email;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -669,28 +669,43 @@ sub Run {
     }
 
     elsif ( $Self->{Subaction} eq 'Finish' ) {
-        my $OTRSHandle = $ENV{SCRIPT_NAME};
-        $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
-        $Output .= $Self->{LayoutObject}->Header( Title => 'Configure Mail' );
-        $Self->{LayoutObject}->Block(
-            Name => 'Finish',
-            Data => {
-                Item       => 'Finished',
-                Step       => '4/4',
-                OTRSHandle => $OTRSHandle,
-                %Dist,
-            },
+        $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
+        my $SysConfigObject = Kernel::System::Config->new(
+            %{$Self}
         );
-        if ( $Dist{Webserver} ) {
+        my $Result = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'SecureMode',
+            Value => 1,
+        );
+        if ( !$Result ) {
+            $Self->{LayoutObject}->FatalError( Message => "Can't write Config file!" );
+        }
+        else {
+            my $OTRSHandle = $ENV{SCRIPT_NAME};
+            $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
+            $Output .= $Self->{LayoutObject}->Header( Title => 'Finish' );
             $Self->{LayoutObject}->Block(
-                Name => 'Restart',
-                Data => { %Dist, },
+                Name => 'Finish',
+                Data => {
+                    Item       => 'Finished',
+                    Step       => '4/4',
+                    OTRSHandle => $OTRSHandle,
+                    %Dist,
+                },
+            );
+            if ( $Dist{Webserver} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Restart',
+                    Data => { %Dist, },
+                );
+            }
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'Installer',
+                Data         => {},
             );
         }
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'Installer',
-            Data         => {},
-        );
+        $Output .= $Self->{LayoutObject}->Footer();
     }
 
     # else! error!
