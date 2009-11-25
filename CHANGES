@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1071 2009-11-25 15:26:13 mn Exp $
+# $Id: CHANGES,v 1.1072 2009-11-25 18:44:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/11/25) Updated CPAN module CGI to version 3.48.
  - (2009/11/23) Only database configuration is now saved in Config.pm.
  - (2009/11/18) Added database check and mail configuration steps
     to the web installer.
