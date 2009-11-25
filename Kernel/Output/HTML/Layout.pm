@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.184 2009-11-25 15:49:32 mg Exp $
+# $Id: Layout.pm,v 1.185 2009-11-25 16:46:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.184 $) [1];
+$VERSION = qw($Revision: 1.185 $) [1];
 
 =head1 NAME
 
@@ -2136,7 +2136,7 @@ sub OptionStrgHashRef {
     # build select string
     $Output .= "<select id=\"$Name\" name=\"$Name\" $Multiple $OnStuff $Size>\n";
     if ($PossibleNone) {
-        $Output .= '<option VALUE="">-$Text{"none"}-</option>';
+        $Output .= '<option value="">-$Text{"none"}-</option>';
     }
 
     # hash cleanup
@@ -2172,7 +2172,8 @@ sub OptionStrgHashRef {
             # build select string
             if ( $_ eq $SelectedID || $Data{$_} eq $Selected || $Param{SelectedIDRefArrayOK}->{$_} )
             {
-                $Output .= '  <option selected value="' . $Self->Ascii2Html( Text => $_ ) . '">';
+                $Output .= '  <option selected="selected" value="'
+                    . $Self->Ascii2Html( Text => $_ ) . '">';
             }
             else {
                 $Output .= '  <option value="' . $Self->Ascii2Html( Text => $_ ) . '">';
@@ -2962,10 +2963,10 @@ sub _BuildSelectionOutput {
             }
             my $SelectedDisabled = '';
             if ( $Row->{Selected} ) {
-                $SelectedDisabled = ' selected';
+                $SelectedDisabled = ' selected="selected"';
             }
             elsif ( $Row->{Disabled} ) {
-                $SelectedDisabled = ' disabled';
+                $SelectedDisabled = ' disabled="disabled"';
             }
             $String .= "  <option value=\"$Key\"$SelectedDisabled>$Value</option>\n";
         }
@@ -4409,6 +4410,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.184 $ $Date: 2009-11-25 15:49:32 $
+$Revision: 1.185 $ $Date: 2009-11-25 16:46:25 $
 
 =cut
