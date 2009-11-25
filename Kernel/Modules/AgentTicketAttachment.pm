@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.24 2009-11-25 14:08:56 mg Exp $
+# $Id: AgentTicketAttachment.pm,v 1.25 2009-11-25 15:19:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -197,7 +197,7 @@ sub Run {
         }
         my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
             . 'Action=AgentTicketAttachment;Subaction=HTMLView'
-            . '&ArticleID='
+            . ';ArticleID='
             . $Self->{ArticleID}
             . $SessionID
             . '&FileID=';

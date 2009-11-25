@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete role <-> groups
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.18 2009-11-25 15:15:28 mg Exp $
+# $Id: AdminRoleGroup.pm,v 1.19 2009-11-25 15:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -130,7 +130,7 @@ sub Run {
                 UserID     => $Self->{UserID},
             );
         }
-        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminRoleGroup&Change=Group;ID=$ID" );
+        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminRoleGroup;Change=Group;ID=$ID" );
     }
 
     # groups to user
@@ -163,7 +163,7 @@ sub Run {
                 UserID     => $Self->{UserID},
             );
         }
-        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminRoleGroup&Change=Role;ID=$ID" );
+        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminRoleGroup;Change=Role;ID=$ID" );
     }
 
     # else ! print form

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLock.pm,v 1.11 2009-10-05 08:51:00 martin Exp $
+# $Id: AgentTicketLock.pm,v 1.12 2009-11-25 15:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -129,7 +129,7 @@ sub Run {
 
         # redirekt
         if ( $Self->{QueueID} ) {
-            return $Self->{LayoutObject}->Redirect( OP => "&QueueID=$Self->{QueueID}" );
+            return $Self->{LayoutObject}->Redirect( OP => ";QueueID=$Self->{QueueID}" );
         }
         return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
     }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPriority.pm - set ticket priority
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.pm,v 1.62 2009-11-25 15:15:28 mg Exp $
+# $Id: AgentTicketPriority.pm,v 1.63 2009-11-25 15:19:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -701,7 +701,7 @@ sub Run {
 
         # redirect
         return $Self->{LayoutObject}->Redirect(
-            OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}&ArticleID=$ArticleID"
+            OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID"
         );
     }
     else {

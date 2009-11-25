@@ -2,7 +2,7 @@
 # AgentTicketZoomArticleFilterDialog.dtl - provides a dialog to filter articles
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoomArticleFilterDialog.dtl,v 1.3 2009-08-24 19:11:11 martin Exp $
+# $Id: AgentTicketZoomArticleFilterDialog.dtl,v 1.4 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -137,8 +137,8 @@
 
             var url = "$Env{"CGIHandle"}";
             var postdata = "Action=AgentTicketZoom"
-                         + "&Subaction=ArticleFilterSet"
-                         + "&TicketID=$QData{"TicketID"}";
+                         + ";Subaction=ArticleFilterSet"
+                         + ";TicketID=$QData{"TicketID"}";
 
             var callback = {
                 success: handleSuccess,

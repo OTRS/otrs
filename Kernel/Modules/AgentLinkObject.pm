@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.47 2009-02-16 11:20:52 tr Exp $
+# $Id: AgentLinkObject.pm,v 1.48 2009-11-25 15:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -184,9 +184,9 @@ sub Run {
         if ( !$LinkListWithData || !%{$LinkListWithData} ) {
 
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=$Self->{Action}&Mode=$Form{Mode}"
-                    . "&SourceObject=$Form{SourceObject}&SourceKey=$Form{SourceKey}"
-                    . "&TargetIdentifier=$Form{TargetIdentifier}",
+                OP => "Action=$Self->{Action};Mode=$Form{Mode}"
+                    . ";SourceObject=$Form{SourceObject};SourceKey=$Form{SourceKey}"
+                    . ";TargetIdentifier=$Form{TargetIdentifier}",
             );
         }
 
