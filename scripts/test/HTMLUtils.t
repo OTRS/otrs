@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.13 2009-09-08 16:28:11 martin Exp $
+# $Id: HTMLUtils.t,v 1.14 2009-11-25 15:26:13 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,7 +58,7 @@ More Text',
 &gt; Buenas noches,<br/>
 &gt; <br/>',
         Result => "> This is the first test.
- > \n > Buenas noches,\n > \n",
+> \n> Buenas noches,\n> \n",
         Name => 'ToAscii - simple'
     },
     {
@@ -113,6 +113,19 @@ More Text',
             "<pre><a class=\"moz-txt-link-freetext\"\rhref=\"mailto:html\@example.com\">mailto:html\@example.com</a></pre>",
         Result => "\n[1]mailto:html\@example.com\n\n\n\n[1] mailto:html\@example.com\n",
         Name   => 'ToAscii - <a class ... href ..>'
+    },
+    {
+        Input => 'First Line<br>
+Second Line<br />
+Third Line<br class="foo">
+Fourth Line<br class="bar" />
+Fifth Line',
+        Result => 'First Line
+Second Line
+Third Line
+Fourth Line
+Fifth Line',
+        Name => 'ToAscii - <br> and line breaks'
     },
 );
 

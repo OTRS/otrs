@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.13 2009-11-09 12:54:09 mb Exp $
+# $Id: HTMLUtils.pm,v 1.14 2009-11-25 15:26:13 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -162,6 +162,9 @@ sub ToAscii {
 
     # fix some bad stuff from opera and others
     $Param{String} =~ s/(\n\r|\r\r\n|\r\n)/\n/gs;
+
+    # remove new line after <br>
+    $Param{String} =~ s/(\<br(\s{0,3}|\s{1,3}.+?)(\/|)\>)(\n|\r)/$1/gsi;
 
     # replace new lines with one space
     $Param{String} =~ s/\n/ /gs;
@@ -839,6 +842,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2009-11-09 12:54:09 $
+$Revision: 1.14 $ $Date: 2009-11-25 15:26:13 $
 
 =cut
