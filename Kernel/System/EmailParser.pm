@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.91 2009-11-25 23:13:23 mh Exp $
+# $Id: EmailParser.pm,v 1.92 2009-11-25 23:25:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 =head1 NAME
 
@@ -50,6 +50,7 @@ create an object
     use Kernel::System::EmailParser;
 
     # as array ref
+
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
         ConfigObject => $ConfigObject,
@@ -887,6 +888,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.91 $ $Date: 2009-11-25 23:13:23 $
+$Revision: 1.92 $ $Date: 2009-11-25 23:25:24 $
 
 =cut
