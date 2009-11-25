@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.182 2009-10-21 12:17:41 martin Exp $
+# $Id: Layout.pm,v 1.183 2009-11-25 11:23:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.182 $) [1];
+$VERSION = qw($Revision: 1.183 $) [1];
 
 =head1 NAME
 
@@ -640,12 +640,8 @@ sub Output {
         for my $Filter ( sort keys %Filters ) {
             next if !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} );
             my $Object = $Filters{$Filter}->{Module}->new(
-                ConfigObject => $Self->{ConfigObject},
-                LogObject    => $Self->{LogObject},
-                MainObject   => $Self->{MainObject},
-                ParamObject  => $Self->{ParamObject},
+                %{$Self},
                 LayoutObject => $Self,
-                Debug        => $Self->{Debug},
             );
 
             # run module
@@ -835,12 +831,8 @@ sub Output {
         for my $Filter ( sort keys %Filters ) {
             next if !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} );
             my $Object = $Filters{$Filter}->{Module}->new(
-                ConfigObject => $Self->{ConfigObject},
-                LogObject    => $Self->{LogObject},
-                MainObject   => $Self->{MainObject},
-                ParamObject  => $Self->{ParamObject},
+                %{$Self},
                 LayoutObject => $Self,
-                Debug        => $Self->{Debug},
             );
 
             # run module
@@ -1632,12 +1624,8 @@ sub Print {
         for my $Filter ( sort keys %Filters ) {
             next if !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} );
             my $Object = $Filters{$Filter}->{Module}->new(
-                ConfigObject => $Self->{ConfigObject},
-                LogObject    => $Self->{LogObject},
-                MainObject   => $Self->{MainObject},
-                ParamObject  => $Self->{ParamObject},
+                %{$Self},
                 LayoutObject => $Self,
-                Debug        => $Self->{Debug},
             );
 
             # run module
@@ -4117,16 +4105,8 @@ sub CustomerNavigationBar {
                 );
             }
             my $Object = $Jobs{$Job}->{Module}->new(
-                ConfigObject   => $Self->{ConfigObject},
-                LogObject      => $Self->{LogObject},
-                MainObject     => $Self->{MainObject},
-                DBObject       => $Self->{DBObject},
-                TimeObject     => $Self->{TimeObject},
-                UserTimeObject => $Self->{UserTimeObject},
-                LayoutObject   => $Self,
-                EncodeObject   => $Self->{EncodeObject},
-                UserID         => $Self->{UserID},
-                Debug          => $Self->{Debug},
+                %{$Self},
+                LayoutObject => $Self,
             );
 
             # log loaded module
@@ -4429,6 +4409,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.182 $ $Date: 2009-10-21 12:17:41 $
+$Revision: 1.183 $ $Date: 2009-11-25 11:23:10 $
 
 =cut
