@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.pm,v 1.33 2009-02-20 12:04:29 mh Exp $
+# $Id: AdminGroup.pm,v 1.34 2009-11-25 14:08:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,12 +169,12 @@ sub Run {
             )
         {
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminRoleGroup&Subaction=Group&ID=$GroupID",
+                OP => "Action=AdminRoleGroup;Subaction=Group&ID=$GroupID",
             );
         }
         if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} ) {
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminUserGroup&Subaction=Group&ID=$GroupID",
+                OP => "Action=AdminUserGroup;Subaction=Group&ID=$GroupID",
             );
         }
         return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminGroup', );

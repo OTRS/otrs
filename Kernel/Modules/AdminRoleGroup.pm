@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete role <-> groups
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.16 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminRoleGroup.pm,v 1.17 2009-11-25 14:08:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -200,7 +200,7 @@ sub MaskAdminUserGroupChangeForm {
     ) || '';
     $Param{OptionStrg0}
         .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"
-        . "Action=Admin$Type&Subaction=Change&ID=$Param{ID}\">"
+        . "Action=Admin$Type;Subaction=Change&ID=$Param{ID}\">"
         . "$Param{Name}</A> (id=$Param{ID})<BR>";
     $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="' . $Param{ID} . '"><BR>';
 
@@ -233,7 +233,7 @@ sub MaskAdminUserGroupChangeForm {
         ) || '';
         $Param{OptionStrg0} .= "<tr class=\"$CssClass\"><td>";
         $Param{OptionStrg0} .= "<a href=\"$BaseLink"
-            . "Action=Admin$NeType&Subaction=Change&ID=$_\">$Param{Data}->{$_}</a></td>";
+            . "Action=Admin$NeType;Subaction=Change&ID=$_\">$Param{Data}->{$_}</a></td>";
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
             my $Selected = '';
             if ( $Param{$Type}->{$_} ) {

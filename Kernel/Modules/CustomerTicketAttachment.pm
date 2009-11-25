@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketAttachment.pm,v 1.18 2009-09-28 07:20:09 martin Exp $
+# $Id: CustomerTicketAttachment.pm,v 1.19 2009-11-25 14:08:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -157,7 +157,7 @@ sub Run {
             $SessionID = '&' . $Self->{SessionName} . '=' . $Self->{SessionID};
         }
         my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
-            . 'Action=CustomerTicketAttachment&Subaction=HTMLView'
+            . 'Action=CustomerTicketAttachment;Subaction=HTMLView'
             . '&ArticleID='
             . $Self->{ArticleID}
             . $SessionID
