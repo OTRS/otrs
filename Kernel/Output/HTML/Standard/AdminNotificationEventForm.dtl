@@ -2,7 +2,7 @@
 # AdminNotificationEventForm.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEventForm.dtl,v 1.5 2009-10-01 14:36:01 ub Exp $
+# $Id: AdminNotificationEventForm.dtl,v 1.6 2009-11-25 15:15:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,14 +57,14 @@
                             </tr>
 <!-- dtl:block:OverviewResultRow -->
                             <tr class="$QData{"CssClass"}">
-                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
 #                <td><div title="$Text{"$QData{"TypeName"}"}">$Text{"$QData{"TypeName"}"}</div></td>
 #                <td><div title="$QData{"Comment"}">$QData{"Comment","20"}</div></td>
                                 <td align="center">$Text{"$QData{"Valid"}"}</td>
                                 <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                                 <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                                 <td align="center" class="$QData{"cssValid"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$LQData{"ID"}">$Text{"x"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"}">$Text{"x"}</a>
                                 </td>
                             </tr>
 <!-- dtl:block:OverviewResultRow -->
@@ -363,7 +363,7 @@ there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
 &lt;OTRS_CUSTOMER_EMAIL[16]&gt;
 &lt;snip&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_ID&gt;
 
 Your OTRS Notification Master
                     </textarea>

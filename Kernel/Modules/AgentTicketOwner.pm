@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.pm,v 1.67 2009-10-14 14:18:45 mb Exp $
+# $Id: AgentTicketOwner.pm,v 1.68 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -701,7 +701,7 @@ sub Run {
 
         # redirect
         return $Self->{LayoutObject}->Redirect(
-            OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID"
+            OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}&ArticleID=$ArticleID"
         );
     }
     else {

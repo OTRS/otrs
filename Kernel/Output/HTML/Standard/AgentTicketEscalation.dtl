@@ -2,27 +2,27 @@
 # AgentTicketEscalation.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEscalation.dtl,v 1.2 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentTicketEscalation.dtl,v 1.3 2009-11-25 15:15:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!-- dtl:block:TicketEscalationFirstResponseTimeOver -->
-<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: first response time is over (%s)!", "$QData{"TicketNumber"}", "$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}"}</a>
+<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: first response time is over (%s)!", "$QData{"TicketNumber"}", "$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}"}</a>
 <!-- dtl:block:TicketEscalationFirstResponseTimeOver -->
 <!-- dtl:block:TicketEscalationFirstResponseTimeWillBeOver -->
-<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: first response time will be over in %s!", "$QData{"TicketNumber"}", "$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}"}</a>
+<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: first response time will be over in %s!", "$QData{"TicketNumber"}", "$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}"}</a>
 <!-- dtl:block:TicketEscalationFirstResponseTimeWillBeOver -->
 <!-- dtl:block:TicketEscalationUpdateTimeOver -->
-<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: update time is over (%s)!", "$QData{"TicketNumber"}", "$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}"}</a>
+<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: update time is over (%s)!", "$QData{"TicketNumber"}", "$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}"}</a>
 <!-- dtl:block:TicketEscalationUpdateTimeOver -->
 <!-- dtl:block:TicketEscalationUpdateTimeWillBeOver -->
-<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: update time will be over in %s!", "$QData{"TicketNumber"}", "$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}"}</a>
+<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: update time will be over in %s!", "$QData{"TicketNumber"}", "$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}"}</a>
 <!-- dtl:block:TicketEscalationUpdateTimeWillBeOver -->
 <!-- dtl:block:TicketEscalationSolutionTimeOver -->
-<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: solution time is over (%s)!", "$QData{"TicketNumber"}", "$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}"}</a>
+<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: solution time is over (%s)!", "$QData{"TicketNumber"}", "$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}"}</a>
 <!-- dtl:block:TicketEscalationSolutionTimeOver -->
 <!-- dtl:block:TicketEscalationSolutionTimeWillBeOver -->
-<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: solution time will be over in %s!", "$QData{"TicketNumber"}", "$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}"}</a>
+<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Text{"Ticket %s: solution time will be over in %s!", "$QData{"TicketNumber"}", "$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}"}</a>
 <!-- dtl:block:TicketEscalationSolutionTimeWillBeOver -->

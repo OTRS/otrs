@@ -2,7 +2,7 @@
 # AgentTicketPlain.dtl - provides HTML plain article
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPlain.dtl,v 1.8 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentTicketPlain.dtl,v 1.9 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,23 +11,23 @@
 
 <!-- start plain article -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Plain"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} / TicketID: $Data{"TicketID"} / ArticleID: $Data{"ArticleID"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="menu">
-      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';">$Text{"Back"}</a>
-      - <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Download"}'; return true;" onmouseout="window.status='';">$Text{"Download"}</a>
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <div class="message">
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Plain"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} / TicketID: $Data{"TicketID"} / ArticleID: $Data{"ArticleID"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="menu">
+            <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';">$Text{"Back"}</a>
+            - <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Download"}'; return true;" onmouseout="window.status='';">$Text{"Download"}</a>
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <div class="message">
 $Data{"Text"}
-      </div>
-    </td>
-  </tr>
+            </div>
+        </td>
+    </tr>
 </table>
 <!-- end plain article -->

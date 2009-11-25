@@ -2,7 +2,7 @@
 # AdminCustomerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.43 2009-10-14 09:12:14 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.44 2009-11-25 15:15:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,7 +121,7 @@ $Data{"Back"}
 <!-- dtl:block:OverviewResultRow -->
                             <tr>
 <!-- dtl:block:OverviewResultRowLink -->
-                                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&ID=$LQData{"UserLogin"}&Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
+                                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"UserLogin"}&Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
 <!-- dtl:block:OverviewResultRowLink -->
 <!-- dtl:block:OverviewResultRowLinkNone -->
                                 <td class="contentvalue"><a href="" onclick="updateMessage('$QData{"UserLogin"}')">$QData{"UserLogin"}</a></td>
@@ -239,7 +239,7 @@ $Data{"Back"}
                                     </td>
                                     <td class="contentvalue">
                                         <input name="$QData{"Name"}" type="file" size="25" class="fixed"/><br/>
-                                        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Group=$LQData{"Group"}&ID=$QData{"UserID"}&File=$LQData{"Filename"}">$QData{"Filename","80"}</a>
+                                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download&Group=$LQData{"Group"};ID=$QData{"UserID"}&File=$LQData{"Filename"}">$QData{"Filename","80"}</a>
                                     </td>
                                 </tr>
 <!-- dtl:block:Upload -->

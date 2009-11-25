@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.39 2009-08-18 12:52:53 mh Exp $
+# $Id: AgentTicketMerge.pm,v 1.40 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -235,7 +235,7 @@ sub Run {
 
             # redirect to merged ticket
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AgentTicketZoom&TicketID=$MainTicketID"
+                OP => "Action=AgentTicketZoom;TicketID=$MainTicketID"
             );
         }
     }

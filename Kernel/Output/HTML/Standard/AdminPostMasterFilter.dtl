@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.22 2009-10-01 06:23:59 mb Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.23 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,8 +59,8 @@
 <!-- dtl:block:OverviewResultRow -->
                             <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
                             <tr class="$Env{"Color"}">
-                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Update&Name=$LQData{"Name"}">$QData{"Name"}</a></td>
-                                <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Name=$LQData{"Name"}">x</a></td>
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update&Name=$LQData{"Name"}">$QData{"Name"}</a></td>
+                                <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete&Name=$LQData{"Name"}">x</a></td>
                             </tr>
                             <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
                             <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>

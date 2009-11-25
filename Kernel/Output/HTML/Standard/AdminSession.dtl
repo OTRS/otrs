@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.21 2009-09-16 19:34:27 mb Exp $
+# $Id: AdminSession.dtl,v 1.22 2009-11-25 15:15:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,7 +81,7 @@
                                 <td class="$Env{"Color"}">$QData{"SessionID"}</td>
                                 <td class="$Env{"Color"}"><div class="small">$Data{"Output"}</div></td>
                                 <td align="center" class="$Env{"Color"}">
-                                    <a href="$Env{"Baselink"}Action=AdminSession&Subaction=Kill&WantSessionID=$Data{"SessionID"}">x</a>
+                                    <a href="$Env{"Baselink"}Action=AdminSession;Subaction=Kill&WantSessionID=$Data{"SessionID"}">x</a>
                                 </td>
                             </tr>
                             <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>

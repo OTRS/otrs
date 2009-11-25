@@ -2,7 +2,7 @@
 # AgentTicketHistory.dtl - provides HTML form for history
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.dtl,v 1.9 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentTicketHistory.dtl,v 1.10 2009-11-25 15:15:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,65 +11,65 @@
 
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"History of"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="menu">
-      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <table border="0" cellspacing="0" cellpadding="2" width="100%">
-        <tr class="contenthead">
-          <td>
-            $Text{"Action"}:
-          </td>
-          <td>
-            $Text{"Comment"}:
-          </td>
-          <td WIDTH="60" ALIGN="CENTER">
-            $Text{"Zoom"}:
-          </td>
-          <td>
-            $Text{"User"}:
-          </td>
-          <td>
-            $Text{"Createtime"}:
-          </td>
-        </tr>
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"History of"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="menu">
+            <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <table border="0" cellspacing="0" cellpadding="2" width="100%">
+                <tr class="contenthead">
+                    <td>
+                        $Text{"Action"}:
+                    </td>
+                    <td>
+                        $Text{"Comment"}:
+                    </td>
+                    <td WIDTH="60" ALIGN="CENTER">
+                        $Text{"Zoom"}:
+                    </td>
+                    <td>
+                        $Text{"User"}:
+                    </td>
+                    <td>
+                        $Text{"Createtime"}:
+                    </td>
+                </tr>
 <!-- dtl:block:Row -->
 # should i show  the zoom link?
-        <dtl set $Data{"Link"} = "-">
-        <dtl if ($Data{"ArticleID"} ne "0") { $Data{"Link"} = "<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';">x</a>"; }>
-        <tr class="$QData{"css"}">
-          <td>
-            $Quote{"$Data{"HistoryType"}"}
-          </td>
-          <td>
-            <div title="$QData{"Name"}">$QData{"Name","100"}</div>
-          </td>
-          <td align="CENTER">
-            $Data{"Link"}
-          </td>
-          <td>
-            <div title="$Quote{"$Data{"UserLogin"} ($Data{"UserFirstname"} $Data{"UserLastname"})"}">
-            $Quote{"$Data{"UserLogin"}"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","20"})
-            </div>
-          </td>
-          <td>
-            $TimeLong{"$Data{"CreateTime"}"}
-          </td>
-        </tr>
+                <dtl set $Data{"Link"} = "-">
+                <dtl if ($Data{"ArticleID"} ne "0") { $Data{"Link"} = "<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';">x</a>"; }>
+                <tr class="$QData{"css"}">
+                    <td>
+                        $Quote{"$Data{"HistoryType"}"}
+                    </td>
+                    <td>
+                        <div title="$QData{"Name"}">$QData{"Name","100"}</div>
+                    </td>
+                    <td align="CENTER">
+                        $Data{"Link"}
+                    </td>
+                    <td>
+                        <div title="$Quote{"$Data{"UserLogin"} ($Data{"UserFirstname"} $Data{"UserLastname"})"}">
+                            $Quote{"$Data{"UserLogin"}"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","20"})
+                        </div>
+                    </td>
+                    <td>
+                        $TimeLong{"$Data{"CreateTime"}"}
+                    </td>
+                </tr>
 <!-- dtl:block:Row -->
-        <tr class="contenthead">
-          <td colspan="5">&nbsp;</td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+                <tr class="contenthead">
+                    <td colspan="5">&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 <!-- end form -->

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.28 2009-04-01 16:02:37 ub Exp $
+# $Id: AgentTicketCustomer.pm,v 1.29 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -171,7 +171,7 @@ sub Run {
 
             # redirect
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}"
+                OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}"
             );
         }
         else {

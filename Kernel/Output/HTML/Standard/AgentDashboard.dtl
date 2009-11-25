@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.17 2009-11-11 10:27:41 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.18 2009-11-25 15:15:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,7 +51,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
             cursor: 'move',
             update: function(event, ui) {
 //                $('.ui-state-default').css("border","3px solid red");
-                var url = '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpdatePosition';
+                var url = '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition';
                 $('.ui-state-default').each(
                     function(i) {
 //    alert( $(this).attr('id') );
@@ -68,7 +68,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
             opacity: 0.6,
             cursor: 'move',
             update: function(event, ui) {
-                var url = '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpdatePosition';
+                var url = '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition';
                 $('.ui-state-default').each(
                     function(i) {
                         url = url + '&Backend=' + $(this).attr('id');

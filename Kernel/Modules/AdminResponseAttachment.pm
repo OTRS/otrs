@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.22 2009-11-25 14:08:56 mg Exp $
+# $Id: AdminResponseAttachment.pm,v 1.23 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -170,7 +170,7 @@ sub _Mask {
             LanguageTranslation => 0,
         ) || '';
         $Param{AnswerQueueStrg}
-            .= "<a href=\"$BaseLink" . "Subaction=Response&ID=$_\">$UserDataTmp{$_}</a><br>";
+            .= "<a href=\"$BaseLink" . "Subaction=Response;ID=$_\">$UserDataTmp{$_}</a><br>";
     }
     for ( sort { $GroupDataTmp{$a} cmp $GroupDataTmp{$b} } keys %GroupDataTmp ) {
         $GroupDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
@@ -179,7 +179,7 @@ sub _Mask {
             LanguageTranslation => 0,
         ) || '';
         $Param{QueueAnswerStrg}
-            .= "<a href=\"$BaseLink" . "Subaction=Attachment&ID=$_\">$GroupDataTmp{$_}</a><br>";
+            .= "<a href=\"$BaseLink" . "Subaction=Attachment;ID=$_\">$GroupDataTmp{$_}</a><br>";
     }
 
     return $Self->{LayoutObject}->Output(
@@ -208,7 +208,7 @@ sub _MaskChange {
             LanguageTranslation => 0,
         ) || '';
         $Param{OptionStrg0}
-            .= "<B>$Param{Type}:</B> <A HREF=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change&ID=$_\">"
+            .= "<B>$Param{Type}:</B> <A HREF=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change;ID=$_\">"
             . "$FirstDataTmp{$_}</A> (id=$_)<BR>";
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
     }

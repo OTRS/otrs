@@ -2,7 +2,7 @@
 # AdminPriority.dtl - provides HTML form for AdminTicketPriority
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.dtl,v 1.3 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminPriority.dtl,v 1.4 2009-11-25 15:15:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,107 +11,107 @@
 
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td colspan="2" class="mainhead">
-      $Env{"Box0"}$Text{"Priority Management"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td width="30%" class="mainbody">
-      <form action="$Env{"CGIHandle"}" method="get">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="PriorityEdit">
-        <input type="hidden" name="PriorityID" value="NEW">
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">$Text{"Add Priority"}:</td>
-          </tr>
-          <tr>
-            <td class="contentbody">$Text{"Add a new Priority."}</td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Add"}">
-            </td>
-          </tr>
-        </table>
-      </form>
-    </td>
-    <td width="70%" class="mainbody">
+    <tr>
+        <td colspan="2" class="mainhead">
+            $Env{"Box0"}$Text{"Priority Management"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" class="mainbody">
+            <form action="$Env{"CGIHandle"}" method="get">
+                <input type="hidden" name="Action" value="$Env{"Action"}">
+                <input type="hidden" name="Subaction" value="PriorityEdit">
+                <input type="hidden" name="PriorityID" value="NEW">
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">$Text{"Add Priority"}:</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">$Text{"Add a new Priority."}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" type="submit" value="$Text{"Add"}">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+        <td width="70%" class="mainbody">
 <!-- dtl:block:OverviewList -->
-      <table width="100%" cellspacing="0" cellpadding="4">
-        <tr>
-          <td class="contenthead">$Text{"List"}:</td>
-        </tr>
-        <tr>
-          <td class="contentbody">
-            <table width="100%" border="0" cellspacing="0" cellpadding="3">
-              <tr>
-                <td class="contentkey">$Text{"Name"}</td>
-                <td class="contentkey" align="center">$Text{"valid"}/$Text{"invalid"}</td>
-                <td class="contentkey">$Text{"Changed"}</td>
-                <td class="contentkey">$Text{"Created"}</td>
-              </tr>
+            <table width="100%" cellspacing="0" cellpadding="4">
+                <tr>
+                    <td class="contenthead">$Text{"List"}:</td>
+                </tr>
+                <tr>
+                    <td class="contentbody">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                            <tr>
+                                <td class="contentkey">$Text{"Name"}</td>
+                                <td class="contentkey" align="center">$Text{"valid"}/$Text{"invalid"}</td>
+                                <td class="contentkey">$Text{"Changed"}</td>
+                                <td class="contentkey">$Text{"Created"}</td>
+                            </tr>
 <!-- dtl:block:OverviewListRow -->
-              <tr>
-                <td class="$QData{"CssClass"}">
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=PriorityEdit&PriorityID=$QData{"PriorityID"}">
-                  $QData{"Name"}
-                  </a>
-                </td>
-                <td align="center" class="$QData{"CssClass"}">
-                  $Text{"$QData{"Valid"}"}
-                </td>
-                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"ChangeTime"}"}</td>
-                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"CreateTime"}"}</td>
-              </tr>
+                            <tr>
+                                <td class="$QData{"CssClass"}">
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=PriorityEdit&PriorityID=$QData{"PriorityID"}">
+                                    $QData{"Name"}
+                                    </a>
+                                </td>
+                                <td align="center" class="$QData{"CssClass"}">
+                                    $Text{"$QData{"Valid"}"}
+                                </td>
+                                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"ChangeTime"}"}</td>
+                                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"CreateTime"}"}</td>
+                            </tr>
 <!-- dtl:block:OverviewListRow -->
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="contentfooter">
+                        &nbsp;
+                    </td>
+                </tr>
             </table>
-          </td>
-        </tr>
-        <tr>
-          <td class="contentfooter">
-            &nbsp;
-          </td>
-        </tr>
-      </table>
 <!-- dtl:block:OverviewList -->
 <!-- dtl:block:PriorityEdit -->
-      <form action="$Env{"CGIHandle"}" method="get">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="PrioritySave">
-        <input type="hidden" name="PriorityID" value="$QData{"PriorityID"}">
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">
-              $Text{"Edit"} ($Text{"$QData{"Action"}"}):
-            </td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              <table border="0" cellspacing="0" cellpadding="3">
-                <tr>
-                  <td class="contentkey">$Text{"Priority"}: </td>
-                  <td class="contentvalue">
-                    <input type="text" name="Name" value="$QData{"Name"}" size="45" maxlength="200">
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Valid"}: </td>
-                  <td class="contentvalue">$Data{"ValidOptionStrg"}</td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Submit"}">
-            </td>
-          </tr>
-        </table>
-      </form>
+            <form action="$Env{"CGIHandle"}" method="get">
+                <input type="hidden" name="Action" value="$Env{"Action"}">
+                <input type="hidden" name="Subaction" value="PrioritySave">
+                <input type="hidden" name="PriorityID" value="$QData{"PriorityID"}">
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">
+                            $Text{"Edit"} ($Text{"$QData{"Action"}"}):
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            <table border="0" cellspacing="0" cellpadding="3">
+                                <tr>
+                                    <td class="contentkey">$Text{"Priority"}: </td>
+                                    <td class="contentvalue">
+                                        <input type="text" name="Name" value="$QData{"Name"}" size="45" maxlength="200">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Valid"}: </td>
+                                    <td class="contentvalue">$Data{"ValidOptionStrg"}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" type="submit" value="$Text{"Submit"}">
+                        </td>
+                    </tr>
+                </table>
+            </form>
 <!-- dtl:block:PriorityEdit -->
-    </td>
-  </tr>
+        </td>
+    </tr>
 </table>
 <!-- dtl:block:Overview -->

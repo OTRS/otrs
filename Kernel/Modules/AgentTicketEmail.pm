@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.106 2009-11-25 14:08:56 mg Exp $
+# $Id: AgentTicketEmail.pm,v 1.107 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -141,7 +141,7 @@ sub Run {
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
                 $Output .= $Self->{LayoutObject}->Notify(
                     Info => 'Ticket "%s" created!", "' . $Ticket{TicketNumber},
-                    Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $Ticket{TicketID},
+                    Link => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $Ticket{TicketID},
                 );
             }
 
@@ -938,7 +938,7 @@ sub Run {
 
             # redirect
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=$NextScreen;Subaction=Created&TicketID=$TicketID",
+                OP => "Action=$NextScreen;Subaction=Created;TicketID=$TicketID",
             );
         }
         else {

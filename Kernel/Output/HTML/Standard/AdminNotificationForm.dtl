@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.28 2009-10-01 14:36:01 ub Exp $
+# $Id: AdminNotificationForm.dtl,v 1.29 2009-11-25 15:15:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -172,7 +172,7 @@ there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
 &lt;OTRS_CUSTOMER_EMAIL[16]&gt;
 &lt;snip&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_ID&gt;
 
 Your OTRS Notification Master
                     </textarea>

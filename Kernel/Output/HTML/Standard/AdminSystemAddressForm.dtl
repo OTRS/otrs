@@ -2,7 +2,7 @@
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.32 2009-09-16 12:57:20 mb Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.33 2009-11-25 15:15:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@
                             </tr>
 <!-- dtl:block:OverviewResultRow -->
                             <tr>
-                                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                                 <td class="$QData{"CssClass"}"><div title="$QData{"Realname"}">$QData{"Realname","26"}</div></td>
                                 <td align="center" class="$QData{"CssClass"}">$Text{"$QData{"Valid"}"}</td>
                                 <td class="$QData{"CssClass"}">$TimeShort{"$QData{"ChangeTime"}"}</td>

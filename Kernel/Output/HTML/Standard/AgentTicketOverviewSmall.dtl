@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.17 2009-09-23 10:02:29 ub Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.18 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -101,7 +101,7 @@ function select_item_check () {
                                 <tr>
                                     <td class="PriorityID-$Data{"PriorityID"}" title="$Text{"Priority"}: $Text{"$Data{"Priority"}"}" width="1%">&nbsp;&nbsp;</td>
                                     <td>
-                                        <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
+                                        <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
                                     </td>
                                 </tr>
                             </table>
@@ -145,7 +145,7 @@ function select_item_check () {
                             <div title="($QData{"UserFirstname"} $QData{"UserLastname"})">($QData{"UserFirstname","15"} $QData{"UserLastname","15"})</div>$Data{"StopFont"}
                         </td>
                         <td>
-                            <a href="$Env{"Baselink"}Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Customer history"}'; return true;" onmouseout="window.status='';">
+                            <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Customer history"}'; return true;" onmouseout="window.status='';">
                             <div title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</div>
                             </a>
                             <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>

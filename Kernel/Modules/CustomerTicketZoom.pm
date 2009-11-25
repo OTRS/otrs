@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.49 2009-09-25 11:50:22 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.50 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -271,7 +271,7 @@ sub Run {
 
                 # redirect to zoom view
                 return $Self->{LayoutObject}->Redirect(
-                    OP => "Action=$NextScreen&TicketID=$Self->{TicketID}",
+                    OP => "Action=$NextScreen;TicketID=$Self->{TicketID}",
                 );
             }
             else {

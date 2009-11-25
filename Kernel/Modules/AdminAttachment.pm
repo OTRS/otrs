@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.22 2009-11-25 14:08:56 mg Exp $
+# $Id: AdminAttachment.pm,v 1.23 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -120,7 +120,7 @@ sub Run {
         }
 
         return $Self->{LayoutObject}->Redirect(
-            OP => "Action=AdminResponseAttachment;Subaction=Attachment&ID=$Id",
+            OP => "Action=AdminResponseAttachment;Subaction=Attachment;ID=$Id",
         );
     }
 

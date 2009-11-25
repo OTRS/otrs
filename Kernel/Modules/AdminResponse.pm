@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.32 2009-11-25 14:08:56 mg Exp $
+# $Id: AdminResponse.pm,v 1.33 2009-11-25 15:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -141,7 +141,7 @@ sub Run {
 
         # show next page
         return $Self->{LayoutObject}->Redirect(
-            OP => "Action=AdminQueueResponses;Subaction=Response&ID=$Id",
+            OP => "Action=AdminQueueResponses;Subaction=Response;ID=$Id",
         );
     }
 

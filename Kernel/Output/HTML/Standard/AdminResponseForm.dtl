@@ -2,7 +2,7 @@
 # AdminResponseForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseForm.dtl,v 1.31 2009-10-01 14:36:01 ub Exp $
+# $Id: AdminResponseForm.dtl,v 1.32 2009-11-25 15:15:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,7 +93,7 @@ $Include{"RichTextEditor"}
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$Data{"ID"}">$Data{"DeleteLink"}</a>
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$Data{"ID"}">$Data{"DeleteLink"}</a>
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>
                             <input class="button" id="submitRichText" type="submit" value="$Text{"$Data{"Headline"}"}"/>
                         </td>
