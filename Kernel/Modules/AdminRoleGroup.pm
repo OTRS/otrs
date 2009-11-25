@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete role <-> groups
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.22 2009-11-25 16:24:20 mg Exp $
+# $Id: AdminRoleGroup.pm,v 1.23 2009-11-25 16:29:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -201,7 +201,7 @@ sub MaskAdminUserGroupChangeForm {
     $Param{OptionStrg0}
         .= "<b>\$Text{\"$Type\"}:</b> <a href=\"$BaseLink"
         . "Action=Admin$Type;Subaction=Change;ID=$Param{ID}\">"
-        . "$Param{Name}</A> (id=$Param{ID})<br/>";
+        . "$Param{Name}</a> (id=$Param{ID})<br/>";
     $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="' . $Param{ID} . '"><br/>';
 
     $Param{OptionStrg0} .= "<br/>\n";
@@ -275,7 +275,7 @@ sub MaskAdminUserGroupForm {
             LanguageTranslation => 0,
         ) || '';
         $Param{RoleStrg}
-            .= "<a href=\"$BaseLink" . "Subaction=Role;ID=$_\">$UserDataTmp{$_}</A><br/>";
+            .= "<a href=\"$BaseLink" . "Subaction=Role;ID=$_\">$UserDataTmp{$_}</a><br/>";
     }
     for ( sort { uc( $GroupDataTmp{$a} ) cmp uc( $GroupDataTmp{$b} ) } keys %GroupDataTmp ) {
         $GroupDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
@@ -284,7 +284,7 @@ sub MaskAdminUserGroupForm {
             LanguageTranslation => 0,
         ) || '';
         $Param{GroupStrg}
-            .= "<a href=\"$BaseLink" . "Subaction=Group;ID=$_\">$GroupDataTmp{$_}</A><br/>";
+            .= "<a href=\"$BaseLink" . "Subaction=Group;ID=$_\">$GroupDataTmp{$_}</a><br/>";
     }
 
     # return output
