@@ -21,9 +21,14 @@ use overload '""' => \&as_string,
     'cmp' => \&compare,
     'fallback'=>1;
 
+my $PERLEX = 0;
+# Turn on special checking for ActiveState's PerlEx
+$PERLEX++ if defined($ENV{'GATEWAY_INTERFACE'}) && $ENV{'GATEWAY_INTERFACE'} =~ /^CGI-PerlEx/;
+
 # Turn on special checking for Doug MacEachern's modperl
+# PerlEx::DBI tries to fool DBI by setting MOD_PERL
 my $MOD_PERL = 0;
-if (exists $ENV{MOD_PERL}) {
+if (exists $ENV{MOD_PERL} && ! $PERLEX) {
   if (exists $ENV{MOD_PERL_API_VERSION} && $ENV{MOD_PERL_API_VERSION} == 2) {
       $MOD_PERL = 2;
       require Apache2::RequestUtil;
@@ -358,7 +363,7 @@ MS Internet Explorer 6 Service Pack 1 and later.
 
 See this URL for more information:
 
-L<http://msdn.microsoft.com/workshop/author/dhtml/httponly_cookies.asp>
+L<http://msdn.microsoft.com/en-us/library/ms533046%28VS.85%29.aspx>
 
 =back
 
