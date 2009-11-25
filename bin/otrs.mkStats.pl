@@ -3,7 +3,7 @@
 # bin/otrs.mkStats.pl - send stats output via email
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.mkStats.pl,v 1.1 2009-11-03 14:36:01 mn Exp $
+# $Id: otrs.mkStats.pl,v 1.2 2009-11-25 23:13:23 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -170,8 +170,9 @@ if ( !$StatID ) {
 }
 
 my ( $s, $m, $h, $D, $M, $Y ) =
-    $CommonObject{TimeObject}
-    ->SystemTime2Date( SystemTime => $CommonObject{TimeObject}->SystemTime(), );
+    $CommonObject{TimeObject}->SystemTime2Date(
+    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+    );
 
 my %GetParam = ();
 my $Stat = $CommonObject{StatsObject}->StatsGet( StatID => $StatID );
@@ -239,11 +240,13 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     my $Page       = $CommonObject{LanguageObject}->Get('Page');
     my $SystemTime = $CommonObject{TimeObject}->SystemTime();
     my $TimeStamp =
-        $CommonObject{TimeObject}
-        ->SystemTime2TimeStamp( SystemTime => $SystemTime, );
+        $CommonObject{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $SystemTime,
+        );
     my $Time =
-        $CommonObject{LanguageObject}
-        ->FormatTimeString( $TimeStamp, 'DateFormat' );
+        $CommonObject{LanguageObject}->FormatTimeString(
+        $TimeStamp, 'DateFormat'
+        );
 
     # create the content array
     my $CellData;
@@ -320,8 +323,9 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
 
         # if first page
         if ( $Counter eq 1 ) {
-            $CommonObject{PDFObject}
-                ->PageNew( %PageParam, FooterRight => $Page . ' ' . $Counter, );
+            $CommonObject{PDFObject}->PageNew(
+                %PageParam, FooterRight => $Page . ' ' . $Counter,
+            );
         }
 
         # output table (or a fragment of it)
@@ -350,8 +354,9 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
 
     # save the pdf with the title and timestamp as filename
     my $Filename =
-        $CommonObject{StatsObject}
-        ->StringAndTimestamp2Filename( String => $Stat->{Title} . " Created", );
+        $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+        String => $Stat->{Title} . " Created",
+        );
     %Attachment = (
         Filename    => $Filename . ".pdf",
         ContentType => "application/pdf",
@@ -372,8 +377,9 @@ else {
 
     # save the csv with the title and timestamp as filename
     my $Filename =
-        $CommonObject{StatsObject}
-        ->StringAndTimestamp2Filename( String => $Stat->{Title} . " Created", );
+        $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+        String => $Stat->{Title} . " Created",
+        );
 
     %Attachment = (
         Filename    => $Filename . ".csv",

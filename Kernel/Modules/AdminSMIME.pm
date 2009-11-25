@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.26 2009-11-25 15:39:15 mg Exp $
+# $Id: AdminSMIME.pm,v 1.27 2009-11-25 23:13:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -286,7 +286,7 @@ sub Run {
         }
 
         # check if SMIME Paths are writable
-        foreach my $PathKey (qw(SMIME::CertPath SMIME::PrivatePath)) {
+        for my $PathKey (qw(SMIME::CertPath SMIME::PrivatePath)) {
             if ( !-w $Self->{ConfigObject}->Get($PathKey) ) {
                 $Output .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',

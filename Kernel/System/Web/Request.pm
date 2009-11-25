@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.32 2009-10-22 20:55:22 reb Exp $
+# $Id: Request.pm,v 1.33 2009-11-25 23:13:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -166,7 +166,7 @@ Called URL: index.pl?Action=AdminSysConfig&Subaction=Save&Name=Config::Option::V
 =cut
 
 sub GetParamNames {
-    my ($Self) = @_;
+    my $Self = shift;
 
     # fetch all names
     my @ParamNames = $Self->{Query}->param();
@@ -379,6 +379,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2009-10-22 20:55:22 $
+$Revision: 1.33 $ $Date: 2009-11-25 23:13:23 $
 
 =cut

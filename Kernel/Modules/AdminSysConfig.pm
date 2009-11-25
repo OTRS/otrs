@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.80 2009-11-25 15:39:15 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.81 2009-11-25 23:13:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -279,8 +279,9 @@ sub Run {
                 }
 
                 # New HashElement
-                my $New = $Self->{ParamObject}
-                    ->GetParam( Param => $ItemHash{Name} . '#NewHashElement' );
+                my $New = $Self->{ParamObject}->GetParam(
+                    Param => $ItemHash{Name} . '#NewHashElement'
+                );
                 if ($New) {
                     $Anker = $ItemHash{Name};
                     $Content{''} = '';
@@ -302,8 +303,9 @@ sub Run {
                 my @Content = $Self->{ParamObject}->GetArray( Param => $_ . 'Content[]' );
 
                 # New ArrayElement
-                my $New = $Self->{ParamObject}
-                    ->GetParam( Param => $ItemHash{Name} . '#NewArrayElement' );
+                my $New = $Self->{ParamObject}->GetParam(
+                    Param => $ItemHash{Name} . '#NewArrayElement'
+                );
                 if ($New) {
                     push @Content, '';
                     $Anker = $ItemHash{Name};

@@ -3,7 +3,7 @@
 # otrs.CleanTicketIndex.pl - Clean the Static Ticket Index
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CleanTicketIndex.pl,v 1.2 2009-10-07 14:14:27 mb Exp $
+# $Id: otrs.CleanTicketIndex.pl,v 1.3 2009-11-25 23:13:23 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -62,8 +62,9 @@ print "Module is $Module\n";
 if ( $Module !~ /StaticDB/ ) {
     print "OTRS is configured to use $Module as index\n";
 
-    $CommonObject{DBObject}
-        ->Prepare( SQL => 'SELECT count(*) from ticket_index' );
+    $CommonObject{DBObject}->Prepare(
+        SQL => 'SELECT count(*) from ticket_index'
+    );
     while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
         if ( $Row[0] ) {
             print "Found $Row[0] records in StaticDB index.\n";
@@ -74,14 +75,16 @@ if ( $Module !~ /StaticDB/ ) {
         else { print "No records found in StaticDB index.. OK!\n"; }
     }
 
-    $CommonObject{DBObject}
-        ->Prepare( SQL => 'SELECT count(*) from ticket_lock_index' );
+    $CommonObject{DBObject}->Prepare(
+        SQL => 'SELECT count(*) from ticket_lock_index'
+    );
     while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
         if ( $Row[0] ) {
             print "Found $Row[0] records in StaticDB lock_index.\n";
             print "Deleting $Row[0] records...";
-            $CommonObject{DBObject}
-                ->Do( SQL => 'DELETE FROM ticket_lock_index' );
+            $CommonObject{DBObject}->Do(
+                SQL => 'DELETE FROM ticket_lock_index'
+            );
             print " OK!\n";
         }
         else { print "No records found in StaticDB lock_index.. OK!\n"; }

@@ -3,7 +3,7 @@
 # bin/otrs.addRole2Group.pl - Assign Roles to Groups from CLI
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addRole2Group.pl,v 1.1 2009-11-03 15:55:30 mn Exp $
+# $Id: otrs.addRole2Group.pl,v 1.2 2009-11-25 23:13:23 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,7 +49,8 @@ getopts( 'hg:r:R:M:C:N:O:P:W:', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.addRole2Group.pl <Revision $VERSION> - assign Roles to Groups\n";
     print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
-    print "usage: otrs.addRole2Group.pl -g <GROUP> -r <ROLE> [-R<READ> -M<MOVE_INTO> -C<CREATE> -N<NOTE> -O<OWNER> -P<PRIORITY> -W<RW>] \n";
+    print
+        "usage: otrs.addRole2Group.pl -g <GROUP> -r <ROLE> [-R<READ> -M<MOVE_INTO> -C<CREATE> -N<NOTE> -O<OWNER> -P<PRIORITY> -W<RW>] \n";
     print "For Options: R,M,C,N,O,P,W setting to 0 or 1 is expected \n";
     exit 1;
 }
@@ -62,11 +63,13 @@ if ( !$Opts{g} ) {
     print STDERR "ERROR: Need -g <GROUP>\n";
     exit 1;
 }
+
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject} = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addRole2Group', );
+$CommonObject{LogObject}
+    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addRole2Group', );
 $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
@@ -85,22 +88,21 @@ if ( !$RoleID ) {
     exit 1;
 }
 
-
 # add queue
 if (
     !$CommonObject{GroupObject}->GroupRoleMemberAdd(
-        GID                 => $GroupID,
-        RID                 => $RoleID,
-        Permission          => {
-                 ro         => $Opts{R} ||0,
-                 move_into  => $Opts{M} ||0,
-                 create     => $Opts{C} ||0,
-                 note       => $Opts{N} ||0,
-                 owner      => $Opts{O} ||0,
-                 priority   => $Opts{P} ||0,
-                 rw         => $Opts{W} ||0,
+        GID        => $GroupID,
+        RID        => $RoleID,
+        Permission => {
+            ro        => $Opts{R} || 0,
+            move_into => $Opts{M} || 0,
+            create    => $Opts{C} || 0,
+            note      => $Opts{N} || 0,
+            owner     => $Opts{O} || 0,
+            priority  => $Opts{P} || 0,
+            rw        => $Opts{W} || 0,
         },
-        UserID             => 1,
+        UserID => 1,
     )
     )
 {

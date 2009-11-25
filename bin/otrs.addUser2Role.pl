@@ -3,7 +3,7 @@
 # bin/otrs.addUser2Role.pl - Assign users to Roles from CLI
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addUser2Role.pl,v 1.1 2009-11-03 16:06:11 mn Exp $
+# $Id: otrs.addUser2Role.pl,v 1.2 2009-11-25 23:13:23 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -62,11 +62,13 @@ if ( !$Opts{u} ) {
     print STDERR "ERROR: Need -u <USER>\n";
     exit 1;
 }
+
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject} = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addUser2Role', );
+$CommonObject{LogObject}
+    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addUser2Role', );
 $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
@@ -84,13 +86,14 @@ if ( !$RoleID ) {
     print STDERR "ERROR: Found no RoleID for $Opts{r}\n";
     exit 1;
 }
+
 # add user 2 role
 if (
     !$CommonObject{GroupObject}->GroupUserRoleMemberAdd(
-        UID                 => $UserID,
-        RID                 => $RoleID,
-        Active              => 1,
-        UserID              => 1,
+        UID    => $UserID,
+        RID    => $RoleID,
+        Active => 1,
+        UserID => 1,
     )
     )
 {

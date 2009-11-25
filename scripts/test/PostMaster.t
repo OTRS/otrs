@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.20 2009-11-11 19:27:05 martin Exp $
+# $Id: PostMaster.t,v 1.21 2009-11-25 23:13:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -524,8 +524,10 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     }
                     push @Content, $Line;
                 }
-                $Self->{ConfigObject}
-                    ->Set( Key => 'PostmasterFollowUpStateClosed', Value => 'new' );
+                $Self->{ConfigObject}->Set(
+                    Key   => 'PostmasterFollowUpStateClosed',
+                    Value => 'new'
+                );
                 $PostMasterObject = Kernel::System::PostMaster->new(
                     %{$Self},
                     TicketObject => $TicketObject,

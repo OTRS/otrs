@@ -3,7 +3,7 @@
 # bin/otrs.addQueue.pl - Add Queue from CLI
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addQueue.pl,v 1.1 2009-11-03 15:18:50 mn Exp $
+# $Id: otrs.addQueue.pl,v 1.2 2009-11-25 23:13:23 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -50,7 +50,8 @@ if ( $Opts{h} ) {
     print "otrs.addQueue.pl <Revision $VERSION> - add new queue\n";
     print "Copyright (C) 2002 Atif Ghaffar <aghaffar\@developer.ch>\n";
     print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
-    print "usage: otrs.addQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -c <COMMENT> -r <FirstResponseTime> -u <UpdateTime> -l <SolutionTime> -C <CalendarID>]\n";
+    print
+        "usage: otrs.addQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -c <COMMENT> -r <FirstResponseTime> -u <UpdateTime> -l <SolutionTime> -C <CalendarID>]\n";
     exit 1;
 }
 
@@ -83,16 +84,16 @@ if ( !$GroupID ) {
 # add queue
 if (
     !$CommonObject{QueueObject}->QueueAdd(
-        Name               => $Opts{n},
-        GroupID            => $GroupID,
-        SystemAddressID    => $Opts{s} || undef,
-        Comment            => $Opts{c} || undef,
-        FirstResponseTime  => $Opts{r} || undef,
-        UpdateTime         => $Opts{u} || undef,
-        SolutionTime       => $Opts{l} || undef,
-        Calendar           => $Opts{C} || undef,
-        ValidID            => 1,
-        UserID             => 1,
+        Name              => $Opts{n},
+        GroupID           => $GroupID,
+        SystemAddressID   => $Opts{s} || undef,
+        Comment           => $Opts{c} || undef,
+        FirstResponseTime => $Opts{r} || undef,
+        UpdateTime        => $Opts{u} || undef,
+        SolutionTime      => $Opts{l} || undef,
+        Calendar          => $Opts{C} || undef,
+        ValidID           => 1,
+        UserID            => 1,
     )
     )
 {
