@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.38 2009-11-25 15:15:28 mg Exp $
+# $Id: AdminUserGroup.pm,v 1.39 2009-11-25 15:51:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -279,7 +279,7 @@ sub MaskAdminUserGroupForm {
     my %UserDataTmp  = %$UserData;
     my $GroupData    = $Param{GroupData};
     my %GroupDataTmp = %$GroupData;
-    my $BaseLink     = $Self->{LayoutObject}->{Baselink} . "Action=AdminUserGroup&";
+    my $BaseLink     = $Self->{LayoutObject}->{Baselink} . "Action=AdminUserGroup;";
     for ( sort { uc( $UserDataTmp{$a} ) cmp uc( $UserDataTmp{$b} ) } keys %UserDataTmp ) {
         $UserDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text                => $UserDataTmp{$_},

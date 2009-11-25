@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.18 2009-02-16 11:16:22 tr Exp $
+# $Id: LinkObjectTicket.pm,v 1.19 2009-11-25 15:49:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -189,7 +189,7 @@ sub TableCreateComplex {
                 Type    => 'Link',
                 Key     => $TicketID,
                 Content => $Ticket->{TicketNumber},
-                Link    => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
+                Link    => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
                 Css     => $Css,
             },
             {
@@ -326,7 +326,7 @@ sub TableCreateSimple {
                     Type    => 'Link',
                     Content => 'T:' . $Ticket->{TicketNumber},
                     Title   => "$TicketHook$Ticket->{TicketNumber}: $Ticket->{Title}",
-                    Link    => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
+                    Link    => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
                     Css     => $Css,
                 );
 
@@ -536,6 +536,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2009-02-16 11:16:22 $
+$Revision: 1.19 $ $Date: 2009-11-25 15:49:32 $
 
 =cut

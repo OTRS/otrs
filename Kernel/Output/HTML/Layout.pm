@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.183 2009-11-25 11:23:10 mh Exp $
+# $Id: Layout.pm,v 1.184 2009-11-25 15:49:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.183 $) [1];
+$VERSION = qw($Revision: 1.184 $) [1];
 
 =head1 NAME
 
@@ -1127,7 +1127,7 @@ sub _Output {
 return html for browser to redirect
 
     my $HTML = $LayoutObject->Redirect(
-        OP => "Action=AdminUserGroup&Subaction=User&ID=$UserID",
+        OP => "Action=AdminUserGroup;Subaction=User;ID=$UserID",
     );
 
     my $HTML = $LayoutObject->Redirect(
@@ -3080,8 +3080,8 @@ sub CheckCharset {
                     . '$Text{"If it is not displayed correctly,"} '
                     . '<a href="'
                     . $Self->{Baselink}
-                    . "Action=$Param{Action}&TicketID=$Param{TicketID}"
-                    . "&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" target=\"HTMLeMail\" "
+                    . "Action=$Param{Action};TicketID=$Param{TicketID}"
+                    . ";ArticleID=$Param{ArticleID};Subaction=ShowHTMLeMail\" target=\"HTMLeMail\" "
                     . 'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'
                     . '$Text{"click here"}</a> $Text{"to open it in a new window."}</i></p>';
             }
@@ -3107,8 +3107,8 @@ sub CheckMimeType {
             . ' $Text{"email"}, '
             . '<a href="'
             . $Self->{Baselink}
-            . "Action=$Param{Action}&TicketID="
-            . "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" "
+            . "Action=$Param{Action};TicketID="
+            . "$Param{TicketID};ArticleID=$Param{ArticleID};Subaction=ShowHTMLeMail\" "
             . 'target="HTMLeMail" '
             . 'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'
             . '$Text{"click here"}</a> '
@@ -3122,8 +3122,8 @@ sub CheckMimeType {
             . ' $Text{"email"}, '
             . '<a href="'
             . $Self->{Baselink}
-            . 'Action=$Env{"Action"}&TicketID='
-            . "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" "
+            . 'Action=$Env{"Action"};TicketID='
+            . "$Param{TicketID};ArticleID=$Param{ArticleID};Subaction=ShowHTMLeMail\" "
             . 'target="HTMLeMail" '
             . 'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'
             . '$Text{"click here"}</a> '
@@ -3305,7 +3305,7 @@ sub PageNavBar {
         if ( $i <= ( $WindowStart + $WindowSize ) && $i > $WindowStart ) {
             my $BaselinkAll
                 = $Baselink
-                . "StartWindow=$WindowStart&StartHit="
+                . "StartWindow=$WindowStart;StartHit="
                 . ( ( ( $i - 1 ) * $Param{PageShown} ) + 1 );
             my $AJAXReplace = '';
             if ( $Param{AJAXReplace} ) {
@@ -3349,7 +3349,7 @@ sub PageNavBar {
         # over window "<<" and "|<"
         elsif ( $i < $WindowStart && ( $i - 1 ) < $Pages ) {
             my $StartWindow     = $WindowStart - $WindowSize - 1;
-            my $BaselinkAllBack = $Baselink . "StartHit=1&StartWindow=1";
+            my $BaselinkAllBack = $Baselink . "StartHit=1;StartWindow=1";
             my $AJAXReplaceBack = '';
             if ( $Param{AJAXReplace} ) {
                 $AJAXReplaceBack
@@ -4409,6 +4409,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.183 $ $Date: 2009-11-25 11:23:10 $
+$Revision: 1.184 $ $Date: 2009-11-25 15:49:32 $
 
 =cut

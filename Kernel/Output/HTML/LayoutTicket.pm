@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.52 2009-11-18 15:36:25 mn Exp $
+# $Id: LayoutTicket.pm,v 1.53 2009-11-25 15:49:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -53,7 +53,7 @@ sub TicketStdResponseString {
             $Param{StdResponsesStrg}
                 .= "\n<li><a href=\"$Self->{Baselink}"
                 . "Action=AgentTicketCompose&"
-                . "ResponseID=$_&TicketID=$Param{TicketID}&ArticleID=$Param{ArticleID}\" "
+                . "ResponseID=$_;TicketID=$Param{TicketID};ArticleID=$Param{ArticleID}\" "
                 . 'onmouseover="window.status=\'$Text{"Compose"}\'; return true;" '
                 . 'onmouseout="window.status=\'\';">'
                 .
@@ -759,10 +759,10 @@ sub ArticleQuote {
             }
             my $AttachmentLink = $Self->{Baselink}
                 . 'Action=PictureUpload'
-                . '&FormID='
+                . ';FormID='
                 . $Param{FormID}
                 . $SessionID
-                . '&ContentID=';
+                . ';ContentID=';
 
             # search inline documents in body and add it to upload cache
             $Body =~ s{

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.250 2009-11-25 13:55:58 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.251 2009-11-25 15:45:25 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -2645,8 +2645,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::RepositoryList" Required="0" Valid="0">
-        <Description Lang="en">List of online repositories (for example you also can use other installations as repositoriy by using Key="http://example.com/otrs/public.pl?Action=PublicRepository&amp;File=" and Content="Some Name").</Description>
-        <Description Lang="de">Liste der zur Verfügung stehenden Online-Quellen (es koennen z. B. auch andere Installationen als Online-Quellen verwendet werden mit der Verwendung von Key="http://example.com/otrs/public.pl?Action=PublicRepository&amp;File=" and Content="Ein Name").</Description>
+        <Description Lang="en">List of online repositories (for example you also can use other installations as repositoriy by using Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name").</Description>
+        <Description Lang="de">Liste der zur Verfügung stehenden Online-Quellen (es koennen z. B. auch andere Installationen als Online-Quellen verwendet werden mit der Verwendung von Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Ein Name").</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
@@ -2956,7 +2956,7 @@ password.
 
 If you want to do this, click on this link to get a new password.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=LostPassword&amp;Token=&lt;OTRS_TOKEN&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=LostPassword;Token=&lt;OTRS_TOKEN&gt;
 
 Your OTRS Notification Master
             </TextArea>
@@ -3437,7 +3437,7 @@ Your OTRS Notification Master
                     <Item Key="Image">in.png</Item>
                     <Item Key="Target">_blank</Item>
                     <Item Key="Text">LinkedIn</Item>
-                    <Item Key="URL">http://www.linkedin.com/search?search=&amp;currentCompany=currentCompany&amp;keywords=</Item>
+                    <Item Key="URL">http://www.linkedin.com/search?search=;currentCompany=currentCompany;keywords=</Item>
                 </Hash>
             </Setting>
     </ConfigItem>
@@ -3454,7 +3454,7 @@ Your OTRS Notification Master
                     <Item Key="Image">xing.png</Item>
                     <Item Key="Target">_blank</Item>
                     <Item Key="Text">XING</Item>
-                    <Item Key="URL">https://www.xing.com/app/search?op=search&amp;keywords=</Item>
+                    <Item Key="URL">https://www.xing.com/app/search?op=search;keywords=</Item>
                 </Hash>
             </Setting>
     </ConfigItem>
@@ -3531,7 +3531,7 @@ password.
 
 If you want to do this, click on this link to get a new password.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl?Action=CustomerLostPassword&amp;Token=&lt;OTRS_TOKEN&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl?Action=CustomerLostPassword;Token=&lt;OTRS_TOKEN&gt;
 
 Your OTRS Notification Master
             </TextArea>

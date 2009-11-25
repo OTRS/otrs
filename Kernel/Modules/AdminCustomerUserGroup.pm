@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.20 2009-11-25 15:15:28 mg Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.21 2009-11-25 15:55:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -234,11 +234,11 @@ sub MaskAdminUserGroupChangeForm {
     $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"
         . "Action=Admin$Type;Subaction=Change;ID="
         . $Self->{LayoutObject}->LinkEncode( $Param{ID} ) . "\">"
-        . "$Param{Name}</A> (id=$Param{ID})<BR>";
+        . "$Param{Name}</A> (id=$Param{ID})<br/>";
     $Param{OptionStrg0}
         .= '<INPUT TYPE="hidden" NAME="ID" VALUE="'
         . $Self->{LayoutObject}->Ascii2Html( Text => $Param{ID} )
-        . '"><BR>';
+        . '"><br/>';
 
     $Param{OptionStrg0} .= "<br>\n";
     $Param{OptionStrg0} .= "<table>\n";
@@ -287,7 +287,7 @@ sub MaskAdminUserGroupForm {
             . "Subaction=User;ID="
             . $Self->{LayoutObject}->LinkEncode($_) . "\">"
             . $Self->{LayoutObject}->Ascii2Html( Text => $UserDataTmp{$_} )
-            . "</A><BR>";
+            . "</A><br/>";
     }
     for ( sort { uc( $GroupDataTmp{$a} ) cmp uc( $GroupDataTmp{$b} ) } keys %GroupDataTmp ) {
         $Param{GroupStrg}
@@ -295,7 +295,7 @@ sub MaskAdminUserGroupForm {
             . "Subaction=Group;ID="
             . $Self->{LayoutObject}->LinkEncode($_) . "\">"
             . $Self->{LayoutObject}->Ascii2Html( Text => $GroupDataTmp{$_} )
-            . "</A><BR>";
+            . "</A><br/>";
     }
 
     # return output
