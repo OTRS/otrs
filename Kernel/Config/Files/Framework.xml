@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.249 2009-11-25 13:45:16 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.250 2009-11-25 13:55:58 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -332,7 +332,7 @@
     </ConfigItem>
     <ConfigItem Name="CheckMXRecord" Required="1" Valid="1">
         <Description Lang="en">Should the application check the MX record of e-mail addresses before sending an e-mail or submitting a telephone or e-mail ticket?</Description>
-        <Description Lang="de">Ueberprüft den MX-Record von Emailadressen vor dem Versenden.</Description>
+        <Description Lang="de">Prüft den MX-Record von Emailadressen vor dem Versenden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
