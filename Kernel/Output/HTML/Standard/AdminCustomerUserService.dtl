@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.8 2009-11-25 15:15:27 mg Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.9 2009-11-25 15:34:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,11 +100,11 @@
 <!-- dtl:block:ResultRow -->
                             <tr>
                                 <td class="$QData{"CustomerUserCssClass"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateCustomerUser&CustomerUserLogin=$LQData{"CustomerUserLogin"}&CustomerUserSearch=$LQData{"CustomerUserSearch"}&ServiceSearch=$LQData{"ServiceSearch"}">$QData{"CustomerUser"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateCustomerUser;CustomerUserLogin=$LQData{"CustomerUserLogin"};CustomerUserSearch=$LQData{"CustomerUserSearch"};ServiceSearch=$LQData{"ServiceSearch"}">$QData{"CustomerUser"}</a>
                                 </td>
                                 <td></td>
                                 <td class="$QData{"ServiceCssClass"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService&ServiceID=$LQData{"ServiceID"}&CustomerUserSearch=$LQData{"CustomerUserSearch"}&ServiceSearch=$LQData{"ServiceSearch"}">$QData{"Service"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ServiceID"};CustomerUserSearch=$LQData{"CustomerUserSearch"};ServiceSearch=$LQData{"ServiceSearch"}">$QData{"Service"}</a>
                                 </td>
                             </tr>
 <!-- dtl:block:ResultRow -->
@@ -146,7 +146,7 @@
 <!-- dtl:block:AllocateCustomerUserRow -->
                                 <tr>
                                     <td class="$QData{"CssClass"}">
-                                        <a href="$Env{"Baselink"}Action=AdminService;Subaction=ServiceEdit&ServiceID=$QData{"ServiceID"}">
+                                        <a href="$Env{"Baselink"}Action=AdminService;Subaction=ServiceEdit;ServiceID=$QData{"ServiceID"}">
                                         $QData{"Service"}
                                         </a>
                                     </td>

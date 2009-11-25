@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.49 2009-11-25 15:32:16 mg Exp $
+# $Id: AdminPackageManager.dtl,v 1.50 2009-11-25 15:34:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -283,11 +283,11 @@
 <!-- dtl:block:ShowRemotePackage -->
                             <tr>
                                 <td class="$QData{"CssClass"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote&Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"}&Version=$LQData{"Version"}">$QData{"Name"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"}">$QData{"Name"}</a>
                                 </td>
                                 <td class="$QData{"CssClass"}">
 <!-- dtl:block:ShowRemotePackageDocumentation -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote&Source=$LQData{"Source"};File=$LQData{"File"};Name=$QData{"Name"}&Version=$QData{"Version"}&Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png"></a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$QData{"Name"};Version=$QData{"Version"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png"></a>
 <!-- dtl:block:ShowRemotePackageDocumentation -->
                                 </td>
                                 <td class="$QData{"CssClass"}">$QData{"Version"}</td>
@@ -295,10 +295,10 @@
                                 <td class="$QData{"CssClass"}" title="$QData{"Description"}">$QData{"Description","55"}</td>
                                 <td class="$QData{"CssClass"}">
 <!-- dtl:block:ShowRemotePackageInstall -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=InstallRemote&Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Install"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=InstallRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Install"}</a>
 <!-- dtl:block:ShowRemotePackageInstall -->
 <!-- dtl:block:ShowRemotePackageUpgrade -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpgradeRemote&Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Upgrade"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpgradeRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Upgrade"}</a>
 <!-- dtl:block:ShowRemotePackageUpgrade -->
                                 </td>
                             </tr>
@@ -332,11 +332,11 @@
 <!-- dtl:block:ShowLocalPackage -->
                             <tr>
                                 <td class="$QData{"CssClass"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"}&Version=$LQData{"Version"}">$QData{"Name"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"}">$QData{"Name"}</a>
                                 </td>
                                 <td class="$QData{"CssClass"}">
 <!-- dtl:block:ShowLocalPackageDocumentation -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$QData{"Name"}&Version=$QData{"Version"};File=$QData{"File"}&Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png"></a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png"></a>
 <!-- dtl:block:ShowLocalPackageDocumentation -->
                                 </td>
                                 <td class="$QData{"CssClass"}">$QData{"Version"}</td>
@@ -345,15 +345,15 @@
                                 <td class="$QData{"CssClass"}">$Text{"$QData{"Status"}"}</td>
                                 <td class="$QData{"CssClass"}">
 <!-- dtl:block:ShowLocalPackageInstall -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Install;Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Install"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Install;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Install"}</a>
                                     <br/><br/>
 <!-- dtl:block:ShowLocalPackageInstall -->
 <!-- dtl:block:ShowLocalPackageUninstall -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Uninstall;Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Uninstall"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Uninstall;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Uninstall"}</a>
                                     <br/>
 <!-- dtl:block:ShowLocalPackageUninstall -->
 <!-- dtl:block:ShowLocalPackageReinstall -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$QData{"Name"}&Version=$QData{"Version"}" title="$Text{"Package not correctly deployed! You should reinstall the Package again!"}">$Text{"Reinstall"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$QData{"Name"};Version=$QData{"Version"}" title="$Text{"Package not correctly deployed! You should reinstall the Package again!"}">$Text{"Reinstall"}</a>
                                     <br/>
 <!-- dtl:block:ShowLocalPackageReinstall -->
                                 </td>
@@ -384,7 +384,7 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
             <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Overview"}</a>
 <!-- dtl:block:PackageDownloadLocal -->
             -
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Download"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Download"}</a>
 <!-- dtl:block:PackageDownloadLocal -->
 <!-- dtl:block:PackageDownloadRemote -->
             -
@@ -392,11 +392,11 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
 <!-- dtl:block:PackageDownloadRemote -->
 <!-- dtl:block:PackageRebuild -->
             -
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RebuildPackage;Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Rebuild"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RebuildPackage;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Rebuild"}</a>
 <!-- dtl:block:PackageRebuild -->
 <!-- dtl:block:PackageReinstall -->
             -
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Reinstall"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Reinstall"}</a>
 <!-- dtl:block:PackageReinstall -->
         </td>
     </tr>
@@ -461,7 +461,7 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
                                             </td>
 <!-- dtl:block:PackageItemFilelistFileNoteDiff -->
                                             <td class="contentvalue">
-                                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewDiff;Name=$QData{"Name"}&Version=$QData{"Version"};File=$QData{"File"}&Location=$LQData{"Location"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt=" " title="$QData{"Message"}"></a>
+                                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewDiff;Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt=" " title="$QData{"Message"}"></a>
                                             </td>
 <!-- dtl:block:PackageItemFilelistFileNoteDiff -->
 <!-- dtl:block:PackageItemFilelistFileNote -->
@@ -470,7 +470,7 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
                                             </td>
 <!-- dtl:block:PackageItemFilelistFileNote -->
                                             <td class="contentvalue">
-                                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Name=$QData{"Name"}&Version=$QData{"Version"};File=$QData{"File"}&Location=$LQData{"Location"}" title="$Text{"Download file from package!"}"><img alt="$Text{"Download file from package!"}" border="0" src="$Config{"Frontend::ImagePath"}disk-s.png"></a> $QData{"Size"}
+                                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}" title="$Text{"Download file from package!"}"><img alt="$Text{"Download file from package!"}" border="0" src="$Config{"Frontend::ImagePath"}disk-s.png"></a> $QData{"Size"}
                                             </td>
                                         </tr>
 <!-- dtl:block:PackageItemFilelistFile -->
@@ -546,7 +546,7 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
     </tr>
     <tr>
         <td class="menu">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Back"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Back"}</a>
         </td>
     </tr>
     <tr>
