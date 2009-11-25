@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.25 2009-03-02 23:50:07 martin Exp $
+# $Id: Footer.dtl,v 1.26 2009-11-25 16:19:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,26 +10,26 @@
 # --
 <!-- start footer -->
 <table border="0" width="$Data{"Width"}" cellspacing="0" cellpadding="0">
-  <tr class="footer">
-    <td align="right" class="footer">
-      <table border="0">
-        <tr>
-          <td align="center" class="footer">
-            <a href="#top" onmouseover="window.status='$JSText{"Top of Page"}'; return true;" onmouseout="window.status='';" class="footeritem">
-            <img border="0" src="$Config{"Frontend::ImagePath"}up.png" alt="$Text{"Top of Page"}">
-            </a>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+    <tr class="footer">
+        <td align="right" class="footer">
+            <table border="0">
+                <tr>
+                    <td align="center" class="footer">
+                        <a href="#top" onmouseover="window.status='$JSText{"Top of Page"}'; return true;" onmouseout="window.status='';" class="footeritem">
+                        <img border="0" src="$Config{"Frontend::ImagePath"}up.png" alt="$Text{"Top of Page"}" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td align="right" class="small">
-      $Text{"Powered by"} <a href="http://otrs.org/" class="small">$Config{"Product"} $Config{"Version"}</a>
-    </td>
-  </tr>
+    <tr>
+        <td align="right" class="small">
+            $Text{"Powered by"} <a href="http://otrs.org/" class="small">$Config{"Product"} $Config{"Version"}</a>
+        </td>
+    </tr>
 </table>
 <a name="end"></a>
 </body>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.21 2009-11-25 15:55:16 mg Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.22 2009-11-25 16:22:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -231,7 +231,7 @@ sub MaskAdminUserGroupChangeForm {
     my $Type     = $Param{Type} || 'CustomerUser';
     my $NeType   = $Type eq 'Group' ? 'CustomerUser' : 'Group';
 
-    $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"
+    $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <a href=\"$BaseLink"
         . "Action=Admin$Type;Subaction=Change;ID="
         . $Self->{LayoutObject}->LinkEncode( $Param{ID} ) . "\">"
         . "$Param{Name}</A> (id=$Param{ID})<br/>";
@@ -283,7 +283,7 @@ sub MaskAdminUserGroupForm {
     my $BaseLink     = $Self->{LayoutObject}->{Baselink} . "Action=AdminCustomerUserGroup&";
     for ( sort { uc( $UserDataTmp{$a} ) cmp uc( $UserDataTmp{$b} ) } keys %UserDataTmp ) {
         $Param{UserStrg}
-            .= "<A HREF=\"$BaseLink"
+            .= "<a href=\"$BaseLink"
             . "Subaction=User;ID="
             . $Self->{LayoutObject}->LinkEncode($_) . "\">"
             . $Self->{LayoutObject}->Ascii2Html( Text => $UserDataTmp{$_} )
@@ -291,7 +291,7 @@ sub MaskAdminUserGroupForm {
     }
     for ( sort { uc( $GroupDataTmp{$a} ) cmp uc( $GroupDataTmp{$b} ) } keys %GroupDataTmp ) {
         $Param{GroupStrg}
-            .= "<A HREF=\"$BaseLink"
+            .= "<a href=\"$BaseLink"
             . "Subaction=Group;ID="
             . $Self->{LayoutObject}->LinkEncode($_) . "\">"
             . $Self->{LayoutObject}->Ascii2Html( Text => $GroupDataTmp{$_} )

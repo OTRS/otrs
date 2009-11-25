@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.20 2009-11-25 15:39:47 mg Exp $
+# $Id: AgentDashboard.dtl,v 1.21 2009-11-25 16:19:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -237,7 +237,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 <!-- dtl:block:ContentSmallPreferences -->
                                                 <a href="#" onclick="OTRSUI.Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
 <!-- dtl:block:ContentSmallPreferences -->
-                                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"></a>
+                                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}" /></a>
                                             </td>
                                         </tr>
                                         <tr class="contentbody">

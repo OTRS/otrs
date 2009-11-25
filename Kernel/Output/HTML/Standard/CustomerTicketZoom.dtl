@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.50 2009-11-25 15:34:55 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.51 2009-11-25 16:19:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,7 +80,7 @@ function submit_compose() {
                         [..]
 <!-- dtl:block:TreeItemAttachmentMore -->
 <!-- dtl:block:TreeItemAttachment -->
-                        &nbsp;<a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=CustomerTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Config{"Frontend::ImagePath"}attach-small.png"></a>
+                        &nbsp;<a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=CustomerTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Config{"Frontend::ImagePath"}attach-small.png" /></a>
 <!-- dtl:block:TreeItemAttachment -->
                         </nobr>
                     </td>
@@ -117,10 +117,10 @@ function submit_compose() {
                                 <td>$QData{"Filename"}</td>
                                 <td>
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                                    <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
+                                    <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" /></a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                                    <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}">
+                                    <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" />
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
                                 </td>
                                 <td align="right">$QData{"Filesize"}</td>

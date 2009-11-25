@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.67 2009-11-25 15:34:55 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.68 2009-11-25 16:19:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -86,7 +86,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                                     [..]
 <!-- dtl:block:TreeItemAttachmentMore -->
 <!-- dtl:block:TreeItemAttachment -->
-                                    <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Config{"Frontend::ImagePath"}attach-small.png"></a>
+                                    <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Config{"Frontend::ImagePath"}attach-small.png" /></a>
 <!-- dtl:block:TreeItemAttachment -->
                                     </nobr>
                                 </td>
@@ -154,10 +154,10 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                                             <td>$QData{"Filename"}</td>
                                             <td>
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                                                <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $JSText{"$QData{"Filename"}"}';return true;" onmouseout="window.status='';"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
+                                                <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $JSText{"$QData{"Filename"}"}';return true;" onmouseout="window.status='';"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" /></a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                                                <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}">
+                                                <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" />
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
                                             </td>
                                             <td align="right">$QData{"Filesize"}</td>
@@ -204,12 +204,12 @@ $Data{"Body"}
                     <td valign="top">
 <!-- dtl:block:Expand -->
                         <div title="$Text{"Expand View"}">
-                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=1" onmouseover="window.status='$JSText{"Expand View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}expand.png"></a>
+                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=1" onmouseover="window.status='$JSText{"Expand View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}expand.png" /></a>
                         </div>
 <!-- dtl:block:Expand -->
 <!-- dtl:block:Collapse -->
                         <div title="$Text{"Collapse View"}">
-                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=0" onmouseover="window.status='$JSText{"Collapse View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}collapse.png"></a>
+                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=0" onmouseover="window.status='$JSText{"Collapse View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}collapse.png" /></a>
                         </div>
 <!-- dtl:block:Collapse -->
                     </td>
