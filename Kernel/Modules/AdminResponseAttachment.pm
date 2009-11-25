@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.25 2009-11-25 16:22:43 mg Exp $
+# $Id: AdminResponseAttachment.pm,v 1.26 2009-11-25 16:24:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -208,11 +208,11 @@ sub _MaskChange {
             LanguageTranslation => 0,
         ) || '';
         $Param{OptionStrg0}
-            .= "<B>$Param{Type}:</B> <a href=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change;ID=$_\">"
+            .= "<b>$Param{Type}:</b> <a href=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change;ID=$_\">"
             . "$FirstDataTmp{$_}</A> (id=$_)<br/>";
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><br/>\n";
     }
-    $Param{OptionStrg0} .= "<B>$NeType:</B><br/> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
+    $Param{OptionStrg0} .= "<b>$NeType:</b><br/> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
     for my $ID ( sort keys %SecondDataTmp ) {
         $SecondDataTmp{$ID} = $Self->{LayoutObject}->Ascii2Html(
             Text                => $SecondDataTmp{$ID},

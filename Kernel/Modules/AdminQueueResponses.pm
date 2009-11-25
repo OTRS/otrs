@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.30 2009-11-25 16:22:43 mg Exp $
+# $Id: AdminQueueResponses.pm,v 1.31 2009-11-25 16:24:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -190,11 +190,11 @@ sub _Mask {
             LanguageTranslation => 0,
         ) || '';
         $Param{OptionStrg0}
-            .= "<B>$Param{Type}:</B> <a href=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change;ID=$_\">"
+            .= "<b>$Param{Type}:</b> <a href=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change;ID=$_\">"
             . "$FirstDataTmp{$_}</A> (id=$_)<br/>";
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><br/>\n";
     }
-    $Param{OptionStrg0} .= "<B>$NeType:</B><br/> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
+    $Param{OptionStrg0} .= "<b>$NeType:</b><br/> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
     for my $ID ( sort { $SecondDataTmp{$a} cmp $SecondDataTmp{$b} } keys %SecondDataTmp ) {
         $SecondDataTmp{$ID} = $Self->{LayoutObject}->Ascii2Html(
             Text                => $SecondDataTmp{$ID},
