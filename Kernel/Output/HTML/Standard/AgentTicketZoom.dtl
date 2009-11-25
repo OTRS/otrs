@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.65 2009-11-25 15:19:51 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.66 2009-11-25 15:32:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -476,7 +476,7 @@ $Data{"Body"}
                                 <tr>
                                     <td>
                                         <li>
-                                        <a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a>
+                                        <a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a>
                                         </li>
 $Data{"AgentPhoneStrg"}
                                     </td>
@@ -498,18 +498,18 @@ $Data{"AgentPhoneStrg"}
 <!-- dtl:block:AgentArticleComPrint -->
 # check if forward should be shown
 <!-- dtl:block:AgentArticleComForward -->
-                                        <a href="$Env{"Baselink"}Action=AgentTicketForward;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
+                                        <a href="$Env{"Baselink"}Action=AgentTicketForward;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
 <!-- dtl:block:AgentArticleComForward -->
 # check if bounce should be shown
 <!-- dtl:block:AgentArticleComBounce -->
                                         <dtl if ($Data{"ArticleType"} eq "email-external") { $Data{"ArticleBounceString"} = "Bounce"; }>
                                         <dtl if ($Data{"SenderType"} ne "customer") { $Data{"ArticleBounceString"} = ""; }>
-                                        <a href="$Env{"Baselink"}Action=AgentTicketBounce;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
+                                        <a href="$Env{"Baselink"}Action=AgentTicketBounce;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
 <!-- dtl:block:AgentArticleComBounce -->
 # check if split should be shown
 <!-- dtl:block:AgentArticleComPhone -->
                                         <dtl if ($Data{"SenderType"} eq "customer") { $Data{"ArticleSplitString"} = "Split"; }>
-                                        <a href="$Env{"Baselink"}Action=AgentTicketPhone;ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}&LinkTicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
+                                        <a href="$Env{"Baselink"}Action=AgentTicketPhone;ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}&LinkTicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
 <!-- dtl:block:AgentArticleComPhone -->
                                     </td>
                                 </tr>

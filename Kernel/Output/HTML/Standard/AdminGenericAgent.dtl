@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.46 2009-11-25 15:15:28 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.47 2009-11-25 15:32:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,7 +64,7 @@
 <!-- dtl:block:Row -->
                             <tr class="$QData{"css"}">
                                 <td class="$QData{"cssValid"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update&Profile=$LQData{"Name"}" class="$QData{"cssValid"}">
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update;Profile=$LQData{"Name"}" class="$QData{"cssValid"}">
                                     $QData{"Name"}
                                     </a>
                                 </td>
@@ -75,10 +75,10 @@
                                     $Text{"$QData{"ShownValid"}"}
                                 </td>
                                 <td align="center" class="$QData{"cssValid"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"}&;Subaction=Delete&Profile=$LQData{"Name"}">$Text{"x"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"}&;Subaction=Delete;Profile=$LQData{"Name"}">$Text{"x"}</a>
                                 </td>
                                 <td align="center" class="$QData{"cssValid"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow&Profile=$LQData{"Name"}">$Text{"x"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow;Profile=$LQData{"Name"}">$Text{"x"}</a>
                                 </td>
                             </tr>
 <!-- dtl:block:Row -->
@@ -643,10 +643,10 @@
     <tr>
         <td colspan="2" class="menu">
             <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Job-List"}</a> -
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update&Profile=$LQData{"Name"}">
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update;Profile=$LQData{"Name"}">
             $Text{"Edit"}
             </a> -
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow&Profile=$LQData{"Name"}">$Text{"Run Now!"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow;Profile=$LQData{"Name"}">$Text{"Run Now!"}</a>
         </td>
     </tr>
     <tr>

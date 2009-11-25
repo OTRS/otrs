@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.12 2009-11-25 15:19:51 mg Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.13 2009-11-25 15:32:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@
                             <tr>
                                 <td class="PriorityID-$Data{"PriorityID"}" title="$Text{"Priority"}: $Text{"$Data{"Priority"}"}" width="1%">&nbsp;</td>
                                 <td>
-                                    &nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
+                                    &nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
                                 </td>
                             </tr>
                         </table>

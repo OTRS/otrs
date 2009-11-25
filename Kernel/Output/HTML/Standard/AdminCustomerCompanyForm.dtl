@@ -2,7 +2,7 @@
 # AdminCustomerCompanyForm.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompanyForm.dtl,v 1.11 2009-11-25 15:15:28 mg Exp $
+# $Id: AdminCustomerCompanyForm.dtl,v 1.12 2009-11-25 15:34:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,7 +82,7 @@
                             </tr>
 <!-- dtl:block:OverviewResultRow -->
                             <tr>
-                                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change&CustomerID=$LQData{"CustomerID"}">$QData{"CustomerID","20"}</a></td>
+                                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;CustomerID=$LQData{"CustomerID"}">$QData{"CustomerID","20"}</a></td>
                                 <td class="$QData{"CssClass"}">$QData{"CustomerCompanyName"}</td>
                                 <td class="$QData{"CssClass"}"><div title="$QData{"Comment"}">$QData{"CustomerCompanyComment","20"}</div></td>
                                 <td align="center" class="$QData{"CssClass"}">$Text{"$QData{"Valid"}"}</td>

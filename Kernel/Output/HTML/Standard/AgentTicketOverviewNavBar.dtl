@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.12 2009-11-24 10:18:18 mb Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.13 2009-11-25 15:32:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,10 +63,10 @@
                     <td width="20%" align="right" valign="top">
 <!-- dtl:block:OverviewNavBarViewMode -->
 <!-- dtl:block:OverviewNavBarViewModeSelected -->
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&Filter=$LQData{"Filter"}&View=$LQData{"View"}&$Data{"LinkFilter"}#subnav" Title="$Text{"$QData{"Name"}"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"ImageSelected"}" $QData{"Name"}/></a>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"}&View=$LQData{"View"}&$Data{"LinkFilter"}#subnav" Title="$Text{"$QData{"Name"}"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"ImageSelected"}" $QData{"Name"}/></a>
 <!-- dtl:block:OverviewNavBarViewModeSelected -->
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&Filter=$LQData{"Filter"}&View=$LQData{"View"}&$Data{"LinkFilter"}#subnav" Title="$Text{"$QData{"Name"}"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" title="$Text{"$QData{"Name"}"}" /></a>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"}&View=$LQData{"View"}&$Data{"LinkFilter"}#subnav" Title="$Text{"$QData{"Name"}"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" title="$Text{"$QData{"Name"}"}" /></a>
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
 <!-- dtl:block:OverviewNavBarViewMode -->
                         &nbsp;
