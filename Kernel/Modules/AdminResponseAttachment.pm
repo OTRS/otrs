@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.24 2009-11-25 15:55:16 mg Exp $
+# $Id: AdminResponseAttachment.pm,v 1.25 2009-11-25 16:22:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -208,7 +208,7 @@ sub _MaskChange {
             LanguageTranslation => 0,
         ) || '';
         $Param{OptionStrg0}
-            .= "<B>$Param{Type}:</B> <A HREF=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change;ID=$_\">"
+            .= "<B>$Param{Type}:</B> <a href=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change;ID=$_\">"
             . "$FirstDataTmp{$_}</A> (id=$_)<br/>";
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><br/>\n";
     }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.29 2009-11-25 15:55:16 mg Exp $
+# $Id: AdminQueueResponses.pm,v 1.30 2009-11-25 16:22:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -190,7 +190,7 @@ sub _Mask {
             LanguageTranslation => 0,
         ) || '';
         $Param{OptionStrg0}
-            .= "<B>$Param{Type}:</B> <A HREF=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change;ID=$_\">"
+            .= "<B>$Param{Type}:</B> <a href=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change;ID=$_\">"
             . "$FirstDataTmp{$_}</A> (id=$_)<br/>";
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><br/>\n";
     }

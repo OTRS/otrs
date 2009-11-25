@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.22 2009-11-25 16:22:43 mg Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.23 2009-11-25 16:24:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -231,7 +231,7 @@ sub MaskAdminUserGroupChangeForm {
     my $Type     = $Param{Type} || 'CustomerUser';
     my $NeType   = $Type eq 'Group' ? 'CustomerUser' : 'Group';
 
-    $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <a href=\"$BaseLink"
+    $Param{OptionStrg0} .= "<b>\$Text{\"$Type\"}:</b> <a href=\"$BaseLink"
         . "Action=Admin$Type;Subaction=Change;ID="
         . $Self->{LayoutObject}->LinkEncode( $Param{ID} ) . "\">"
         . "$Param{Name}</A> (id=$Param{ID})<br/>";
