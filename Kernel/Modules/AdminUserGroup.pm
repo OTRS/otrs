@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.39 2009-11-25 15:51:38 mg Exp $
+# $Id: AdminUserGroup.pm,v 1.40 2009-11-25 15:55:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -219,8 +219,8 @@ sub MaskAdminUserGroupChangeForm {
     $Param{OptionStrg0}
         .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"
         . "Action=Admin$Type;Subaction=Change;ID=$Param{ID}\">"
-        . "$Param{Name}</A> (id=$Param{ID})<BR>";
-    $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="' . $Param{ID} . '"><BR>';
+        . "$Param{Name}</A> (id=$Param{ID})<br/>";
+    $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="' . $Param{ID} . '"><br/>';
 
     $Param{OptionStrg0} .= "<br/>\n";
     $Param{OptionStrg0} .= "<table cellspacing=\"0\" cellpadding=\"4\">\n";
@@ -287,7 +287,7 @@ sub MaskAdminUserGroupForm {
             LanguageTranslation => 0,
         ) || '';
         $Param{UserStrg}
-            .= "<A HREF=\"$BaseLink" . "Subaction=User;ID=$_\">$UserDataTmp{$_}</A><BR>";
+            .= "<A HREF=\"$BaseLink" . "Subaction=User;ID=$_\">$UserDataTmp{$_}</A><br/>";
     }
     for ( sort { uc( $GroupDataTmp{$a} ) cmp uc( $GroupDataTmp{$b} ) } keys %GroupDataTmp ) {
         $GroupDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
@@ -296,7 +296,7 @@ sub MaskAdminUserGroupForm {
             LanguageTranslation => 0,
         ) || '';
         $Param{GroupStrg}
-            .= "<A HREF=\"$BaseLink" . "Subaction=Group;ID=$_\">$GroupDataTmp{$_}</A><BR>";
+            .= "<A HREF=\"$BaseLink" . "Subaction=Group;ID=$_\">$GroupDataTmp{$_}</A><br/>";
     }
 
     # return output

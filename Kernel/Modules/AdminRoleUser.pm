@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete role <-> users
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.18 2009-11-25 15:15:28 mg Exp $
+# $Id: AdminRoleUser.pm,v 1.19 2009-11-25 15:55:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -239,7 +239,7 @@ sub MaskAdminUserGroupForm {
             LanguageTranslation => 0,
         ) || '';
         $Param{UserStrg}
-            .= "<A HREF=\"$BaseLink" . "Subaction=User;ID=$_\">$UserDataTmp{$_}</A><BR>";
+            .= "<A HREF=\"$BaseLink" . "Subaction=User;ID=$_\">$UserDataTmp{$_}</A><br/>";
     }
     for ( sort { uc( $GroupDataTmp{$a} ) cmp uc( $GroupDataTmp{$b} ) } keys %GroupDataTmp ) {
         $GroupDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
@@ -248,7 +248,7 @@ sub MaskAdminUserGroupForm {
             LanguageTranslation => 0,
         ) || '';
         $Param{RoleStrg}
-            .= "<A HREF=\"$BaseLink" . "Subaction=Role;ID=$_\">$GroupDataTmp{$_}</A><BR>";
+            .= "<A HREF=\"$BaseLink" . "Subaction=Role;ID=$_\">$GroupDataTmp{$_}</A><br/>";
     }
 
     # return output
