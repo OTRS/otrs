@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicket.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicket.pm,v 1.12 2009-03-16 08:49:29 martin Exp $
+# $Id: NotificationAgentTicket.pm,v 1.13 2009-11-25 13:42:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,14 +42,14 @@ sub Run {
     if ( $LockedData{New} ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Notice',
-            Link     => '$Env{"Baselink"}Action=AgentTicketLockedView&Filter=New',
+            Link     => '$Env{"Baselink"}Action=AgentTicketLockedView;Filter=New',
             Data     => '$Text{"You have %s new message(s)!", "' . $LockedData{New} . '"}',
         );
     }
     if ( $LockedData{Reminder} ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Notice',
-            Link     => '$Env{"Baselink"}Action=AgentTicketLockedView&Filter=ReminderReached',
+            Link     => '$Env{"Baselink"}Action=AgentTicketLockedView;Filter=ReminderReached',
             Data     => '$Text{"You have %s reminder ticket(s)!", "' . $LockedData{Reminder} . '"}',
         );
     }
