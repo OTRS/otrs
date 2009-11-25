@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.29 2009-10-20 13:31:01 mg Exp $
+# $Id: CustomerHeader.dtl,v 1.30 2009-11-25 17:13:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,24 +16,24 @@ Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
 Pragma: no-cache
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 # set some html variables
 #<dtl set $Env{"Box0"} = "&gt;&gt; ">
 #<dtl set $Env{"Box1"} = " &lt;&lt;">
 $Include{"Copyright"}
 <head>
-    <meta http-equiv="Content-type" content="text/html;charset=$Env{"UserCharset"}">
+    <meta http-equiv="Content-type" content="text/html;charset=$Env{"UserCharset"}" />
 <!-- dtl:block:MetaHttpEquivRefresh -->
-    <meta http-equiv="refresh" content="$QData{"Refresh"}">
+    <meta http-equiv="refresh" content="$QData{"Refresh"}" />
 <!-- dtl:block:MetaHttpEquivRefresh -->
 <!-- dtl:block:MetaLink -->
-    <link rel="$QData{"Rel"}" type="$QData{"Type"}" title="$QData{"Title"}" href="$Data{"Href"}">
+    <link rel="$QData{"Rel"}" type="$QData{"Type"}" title="$QData{"Title"}" href="$Data{"Href"}" />
 <!-- dtl:block:MetaLink -->
-    <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico">
+    <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
 # include css file
-    <link href="$Config{"Frontend::CSSPath"}Standard/customer.css" rel="stylesheet" type="text/css">
+    <link href="$Config{"Frontend::CSSPath"}Standard/customer.css" rel="stylesheet" type="text/css" />
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>
 <body>

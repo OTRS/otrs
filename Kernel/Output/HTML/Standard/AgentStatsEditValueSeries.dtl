@@ -2,7 +2,7 @@
 # AgentStatsEditValueSeries.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditValueSeries.dtl,v 1.14 2009-11-25 16:19:58 mg Exp $
+# $Id: AgentStatsEditValueSeries.dtl,v 1.15 2009-11-25 17:13:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,7 +55,7 @@ function SelectCheckbox(Checkbox) {
 <!-- dtl:block:Attribute -->
 <!-- dtl:block:hr -->
                                 <tr>
-                                    <td colspan="3"><hr></td>
+                                    <td colspan="3"><hr/></td>
                                 </tr>
 <!-- dtl:block:hr -->
 <!-- dtl:block:MultiSelectField -->

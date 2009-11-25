@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.15 2009-11-25 15:34:55 mg Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.16 2009-11-25 17:13:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -138,7 +138,7 @@
 <!-- dtl:block:OverviewRow -->
                             <tr>
                                 <td colspan="5">
-                                    <hr>
+                                    <hr/>
                                 </td>
                             </tr>
 <!-- dtl:block:OverviewInterface -->

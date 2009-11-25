@@ -2,7 +2,7 @@
 # AdminResponseForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseForm.dtl,v 1.32 2009-11-25 15:15:27 mg Exp $
+# $Id: AdminResponseForm.dtl,v 1.33 2009-11-25 17:13:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,7 +119,7 @@ $Include{"RichTextEditor"}
             <p>
                 $Text{"Attention"}: <a href="$Env{"Baselink"}Action=AdminQueueResponses">$Text{"Don't forget to add a new response a queue!"}</a>
             </p>
-            <hr>
+            <hr/>
             <p>
                 $Text{"Useable options"}:
                 <table>
@@ -151,7 +151,7 @@ $Include{"RichTextEditor"}
             </p>
             <p>
                 $Text{"Example"}:
-                <hr>
+                <hr/>
                 <form action="/">
                     <table>
                         <tr>
@@ -167,7 +167,7 @@ $Text{"Your email address is new"}: "&lt;OTRS_CUSTOMER_UserEmail&gt;"
                         </tr>
                     </table>
                 </form>
-                <hr>
+                <hr/>
             </p>
         </td>
     </tr>

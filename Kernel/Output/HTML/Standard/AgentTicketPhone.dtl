@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.58 2009-11-25 16:19:58 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.59 2009-11-25 17:13:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -135,7 +135,7 @@ function clear_field() {
 #        Comment:"/>
 #        <input class="button" type="submit" name="" value="$Text{"Example Template"}"/>
 #      </form>
-#      <hr>
+#      <hr/>
             <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                 <input type="hidden" name="Subaction" value="StoreNew"/>

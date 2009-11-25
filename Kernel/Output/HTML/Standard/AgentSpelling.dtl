@@ -2,7 +2,7 @@
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.dtl,v 1.21 2009-10-01 14:36:48 ub Exp $
+# $Id: AgentSpelling.dtl,v 1.22 2009-11-25 17:13:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,7 +85,7 @@ function change_selected(sel) {
                     </tr>
 <!-- dtl:block:Row -->
                 </table>
-                <hr>
+                <hr/>
                 <table border="0" width="580" cellspacing="0" cellpadding="1">
                     <tr>
                         <td>
@@ -104,7 +104,7 @@ function change_selected(sel) {
                 <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}"/>
                 <i>($Text{"Discard all changes and return to the compose screen"})</i>
             </form>
-            <hr>
+            <hr/>
         </td>
     </tr>
 </table>

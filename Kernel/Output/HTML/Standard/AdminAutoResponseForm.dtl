@@ -2,7 +2,7 @@
 # AdminAutoResponseForm.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.34 2009-10-01 14:36:01 ub Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.35 2009-11-25 17:13:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -165,7 +165,7 @@ $Data{"Note"}
             </p>
             <p>
                 $Text{"Example"}:
-                <hr>
+                <hr/>
                 <form action="/">
                     <table>
                         <tr>
@@ -193,7 +193,7 @@ Email: hot@florida.com - Web: http://hot.florida.com/
                         </tr>
                     </table>
                 </form>
-                <hr>
+                <hr/>
             </p>
         </td>
     </tr>

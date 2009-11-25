@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.29 2009-11-25 15:15:27 mg Exp $
+# $Id: AdminNotificationForm.dtl,v 1.30 2009-11-25 17:13:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -102,7 +102,7 @@ $Include{"RichTextEditor"}
             <p>
                 $Text{"Notifications are sent to an agent or a customer."}
             </p>
-            <hr>
+            <hr/>
             <p>
                 $Text{"Useable options"}:
                 <table>

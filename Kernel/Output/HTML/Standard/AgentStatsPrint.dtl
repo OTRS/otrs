@@ -2,7 +2,7 @@
 # AgentStatsPrint.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsPrint.dtl,v 1.7 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentStatsPrint.dtl,v 1.8 2009-11-25 17:13:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,22 +11,22 @@
 
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainbody">
-      <table border="0" width="100%" cellspacing="0" cellpadding="3">
-        <tr>
-          <td class="contenthead">
-            $Env{"Box0"}$Text{"Print"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}$Env{"Box1"}
-          </td>
-        </tr>
-        <tr>
-          <td class="contentbody">
-            <table width="100%" border="0">
-              <tr>
-                <td class="contentkey">
-                  $Text{"Title"}: $Data{"Title"}
-                </td>
-              </tr>
+    <tr>
+        <td class="mainbody">
+            <table border="0" width="100%" cellspacing="0" cellpadding="3">
+                <tr>
+                    <td class="contenthead">
+                        $Env{"Box0"}$Text{"Print"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}$Env{"Box1"}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="contentbody">
+                        <table width="100%" border="0">
+                            <tr>
+                                <td class="contentkey">
+                                    $Text{"Title"}: $Data{"Title"}
+                                </td>
+                            </tr>
 #              <tr>
 #                <td class="contentkey">
 #                  $Text{"Title"}:
@@ -45,55 +45,55 @@
 #              </tr>
 #              <tr>
 #                <td colspan="2">
-#                  <hr>
+#                  <hr/>
 #                </td>
 #              </tr>
 <!--dtl:block:Dynamic -->
-              <tr>
-                <td class="contentkey">$Text{"$QData{"Name"}"}</td>
-              </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"$QData{"Name"}"}</td>
+                            </tr>
 <!--dtl:block:NoElement -->
-              <tr>
-                <td class="contentvalue" colspan="2">
-                  $Text{"No Element selected."}
-                </td>
-              </tr>
+                            <tr>
+                                <td class="contentvalue" colspan="2">
+                                    $Text{"No Element selected."}
+                                </td>
+                            </tr>
 <!--dtl:block:NoElement -->
 <!--dtl:block:Element -->
-              <tr>
-                <td class="contentkey" width="150">$Text{"$QData{"Name"}"}:</td>
-                <td class="contentvalue">
+                            <tr>
+                                <td class="contentkey" width="150">$Text{"$QData{"Name"}"}:</td>
+                                <td class="contentvalue">
 <!--dtl:block:TimePeriodFixed -->
-                  $Text{"Between"} $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br/>
+                                    $Text{"Between"} $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br/>
 <!--dtl:block:TimePeriodFixed -->
 <!--dtl:block:TimeScaleFixed -->
-                  $Text{"Scale"}: $Data{"Count"} $Text{"$Data{"Scale"}"}
+                                    $Text{"Scale"}: $Data{"Count"} $Text{"$Data{"Scale"}"}
 <!--dtl:block:TimeScaleFixed -->
 <!--dtl:block:Fixed -->
-                  $Data{"Value"}<br/>
+                                    $Data{"Value"}<br/>
 <!--dtl:block:Fixed -->
-                </td>
-              </tr>
+                                </td>
+                            </tr>
 <!--dtl:block:Element -->
-              <tr>
-                <td colspan="2">
-                  <hr>
-                </td>
-              </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <hr/>
+                                </td>
+                            </tr>
 <!--dtl:block:Dynamic -->
-              <tr>
-                <td colspan="2">
-                  $Data{"Table"}
-                </td>
-              </tr>
+                            <tr>
+                                <td colspan="2">
+                                    $Data{"Table"}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="contentfooter">&nbsp;</td>
+                </tr>
             </table>
-          </td>
-        </tr>
-        <tr>
-          <td class="contentfooter">&nbsp;</td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+        </td>
+    </tr>
 </table>
 <!-- end form -->

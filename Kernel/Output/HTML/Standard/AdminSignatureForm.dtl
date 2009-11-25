@@ -2,7 +2,7 @@
 # AdminSignatureForm.dtl - provides HTML form for AdminSignature
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignatureForm.dtl,v 1.34 2009-11-25 15:15:27 mg Exp $
+# $Id: AdminSignatureForm.dtl,v 1.35 2009-11-25 17:13:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -167,7 +167,7 @@ $Include{"RichTextEditor"}
             </p>
             <p>
                 $Text{"Example"}:
-                <hr>
+                <hr/>
                 <form action="/">
                     <table>
                         <tr>
@@ -189,7 +189,7 @@ PS: Your email address in our database is "&lt;OTRS_CUSTOMER_DATA_UserEmail&gt;"
                         </tr>
                     </table>
                 </form>
-                <hr>
+                <hr/>
             </p>
         </td>
     </tr>

@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.40 2009-10-20 14:13:45 mg Exp $
+# $Id: Login.dtl,v 1.41 2009-11-25 17:13:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,18 +13,18 @@
 Content-Type: text/html; charset=$Env{"UserCharset"};
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 $Include{"Copyright"}
 <head>
-    <meta http-equiv="Content-type" content="text/html;charset=$Env{"UserCharset"}">
-    <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico">
+    <meta http-equiv="Content-type" content="text/html;charset=$Env{"UserCharset"}" />
+    <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
+    <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css" />
     <title>$Config{"ProductName"} :: $Text{"$Data{"Title"}"}</title>
-    <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css">
 </head>
 <!-- end header -->
-<body onLoad="document.login.User.focus();">
+<body onload="document.login.User.focus();">
 
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -52,7 +52,7 @@ function submit_form() {
 </div>
 <div class="login-box">
     <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
-        <input type="hidden" name="Action" value="Login">
+        <input type="hidden" name="Action" value="Login" />
         <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
         <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
         <input type="hidden" name="TimeOffset" value=""/>
