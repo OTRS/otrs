@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.16 2009-11-25 15:15:28 mg Exp $
+# $Id: AgentStatsView.dtl,v 1.17 2009-11-25 15:34:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,11 +21,11 @@
             <a href="$Env{"Baselink"}$Env{"LastStatsOverview"}" class="menuitem">$Text{"Back"}</a>
 <!-- dtl:block:AdminLinks -->
             &nbsp;-&nbsp;
-            <a href="$Env{"Baselink"}Action=AgentStats;Subaction=EditSpecification&StatID=$QData{"StatID"}&" class="menuitem">$Text{"Edit"}</a>
+            <a href="$Env{"Baselink"}Action=AgentStats;Subaction=EditSpecification;StatID=$QData{"StatID"}&" class="menuitem">$Text{"Edit"}</a>
             &nbsp;-&nbsp;
-            <a href="$Env{"Baselink"}Action=AgentStats;Subaction=Delete&StatID=$QData{"StatID"}&" class="menuitem">$Text{"Delete"}</a>
+            <a href="$Env{"Baselink"}Action=AgentStats;Subaction=Delete;StatID=$QData{"StatID"}&" class="menuitem">$Text{"Delete"}</a>
             &nbsp;-&nbsp;
-            <a href="$Env{"Baselink"}Action=AgentStats;Subaction=Export&StatID=$QData{"StatID"}&" class="menuitem">$Text{"Export Config"}</a>
+            <a href="$Env{"Baselink"}Action=AgentStats;Subaction=Export;StatID=$QData{"StatID"}&" class="menuitem">$Text{"Export Config"}</a>
 <!-- dtl:block:AdminLinks -->
         </td>
     </tr>

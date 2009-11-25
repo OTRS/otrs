@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.74 2009-11-25 14:08:56 mg Exp $
+# $Id: AgentTicketSearch.pm,v 1.75 2009-11-25 15:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -129,7 +129,7 @@ sub Run {
     if ( $Self->{ParamObject}->GetParam( Param => 'SearchTemplate' ) && $Self->{Profile} ) {
         return $Self->{LayoutObject}->Redirect(
             OP =>
-                "Action=AgentTicketSearch;Subaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}"
+                "Action=AgentTicketSearch;Subaction=Search;TakeLastSearch=1;SaveProfile=1;Profile=$Self->{Profile}"
         );
     }
 
@@ -313,8 +313,8 @@ sub Run {
 
         # store last queue screen
         my $URL
-            = "Action=AgentTicketSearch;Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}"
-            . "&OrderBy=$Self->{OrderBy}&TakeLastSearch=1&StartHit=$Self->{StartHit}";
+            = "Action=AgentTicketSearch;Subaction=Search;Profile=$Self->{Profile};SortBy=$Self->{SortBy}"
+            . ";OrderBy=$Self->{OrderBy};TakeLastSearch=1;StartHit=$Self->{StartHit}";
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'LastScreenOverview',
@@ -1042,28 +1042,28 @@ sub Run {
             # show ticket's
             my $LinkPage = 'Filter='
                 . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
-                . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-                . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
-                . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
-                . '&Profile=' . $Self->{Profile} . '&TakeLastSearch=1;Subaction=Search'
+                . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+                . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
+                . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
+                . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
                 . '&';
             my $LinkSort = 'Filter='
                 . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
-                . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-                . '&Profile=' . $Self->{Profile} . '&TakeLastSearch=1;Subaction=Search'
+                . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+                . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
                 . '&';
-            my $LinkFilter = 'TakeLastSearch=1;Subaction=Search&Profile='
+            my $LinkFilter = 'TakeLastSearch=1;Subaction=Search;Profile='
                 . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Profile} )
                 . '&';
-            my $LinkBack = 'Subaction=LoadProfile&Profile='
+            my $LinkBack = 'Subaction=LoadProfile;Profile='
                 . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Profile} )
-                . '&TakeLastSearch=1&';
+                . ';TakeLastSearch=1&';
 
             my $FilterLink
                 = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
-                . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
-                . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-                . '&Profile=' . $Self->{Profile} . '&TakeLastSearch=1;Subaction=Search'
+                . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
+                . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+                . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
                 . '&';
             $Output .= $Self->{LayoutObject}->TicketListShow(
                 TicketIDs => \@ViewableTicketIDs,

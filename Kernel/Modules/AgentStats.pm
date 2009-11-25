@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.78 2009-11-25 15:23:20 mg Exp $
+# $Id: AgentStats.pm,v 1.79 2009-11-25 15:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -101,7 +101,7 @@ sub Run {
             PageShown => $Param{SearchPageShown},
             AllHits   => $#{$Result} + 1,
             Action    => 'Action=AgentStats;Subaction=Overview',
-            Link      => "&Direction=$Param{Direction}&OrderBy=$Param{OrderBy}&",
+            Link      => ";Direction=$Param{Direction};OrderBy=$Param{OrderBy}&",
         );
 
         # list result
@@ -1843,7 +1843,7 @@ sub Run {
                                     # redirect to edit
                                     return $Self->{LayoutObject}->Redirect(
                                         OP =>
-                                            "Action=AgentStats;Subaction=View;StatID=$Param{StatID}&Message=1",
+                                            "Action=AgentStats;Subaction=View;StatID=$Param{StatID};Message=1",
                                     );
                                 }
 
@@ -1859,7 +1859,7 @@ sub Run {
                                 {
                                     return $Self->{LayoutObject}->Redirect(
                                         OP =>
-                                            "Action=AgentStats;Subaction=View;StatID=$Param{StatID}&Message=2",
+                                            "Action=AgentStats;Subaction=View;StatID=$Param{StatID};Message=2",
                                     );
                                 }
                                 $Element->{TimeStart} = $Time{TimeStart};
@@ -1908,7 +1908,7 @@ sub Run {
                                 if ( $TimePeriodAgent > $TimePeriodAdmin ) {
                                     return $Self->{LayoutObject}->Redirect(
                                         OP =>
-                                            "Action=AgentStats;Subaction=View;StatID=$Param{StatID}&Message=3",
+                                            "Action=AgentStats;Subaction=View;StatID=$Param{StatID};Message=3",
                                     );
                                 }
 

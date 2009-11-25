@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.29 2009-11-25 15:15:28 mg Exp $
+# $Id: AgentLinkObject.dtl,v 1.30 2009-11-25 15:34:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@
             -
 <!-- dtl:block:LinkMenuSeperator -->
 <!-- dtl:block:LinkMenuDelete -->
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=LinkDelete&Mode=$LQData{"Mode"}&SourceObject=$LQData{"SourceObject"}&SourceKey=$LQData{"SourceKey"}&TargetIdentifier=$LQData{"TargetIdentifier"}" class="menuitem">$Text{"Delete"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=LinkDelete;Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}" class="menuitem">$Text{"Delete"}</a>
 <!-- dtl:block:LinkMenuDelete -->
         </td>
     </tr>
@@ -112,7 +112,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
         <td width="75%" class="menu">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Mode=$LQData{"Mode"}&SourceObject=$LQData{"SourceObject"}&SourceKey=$LQData{"SourceKey"}&TargetIdentifier=$LQData{"TargetIdentifier"}" class="menuitem">$Text{"Back"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}" class="menuitem">$Text{"Back"}</a>
         </td>
         <td align="right" width="25%" class="menu"></td>
     </tr>

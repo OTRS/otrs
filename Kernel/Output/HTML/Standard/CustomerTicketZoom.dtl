@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.49 2009-11-25 15:19:51 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.50 2009-11-25 15:34:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,7 +80,7 @@ function submit_compose() {
                         [..]
 <!-- dtl:block:TreeItemAttachmentMore -->
 <!-- dtl:block:TreeItemAttachment -->
-                        &nbsp;<a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=CustomerTicketAttachment;ArticleID=$QData{"ArticleID"}&FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Config{"Frontend::ImagePath"}attach-small.png"></a>
+                        &nbsp;<a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=CustomerTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Config{"Frontend::ImagePath"}attach-small.png"></a>
 <!-- dtl:block:TreeItemAttachment -->
                         </nobr>
                     </td>
@@ -160,7 +160,7 @@ $Data{"Article::Text"}
                     }
                     //-->
                     </script>
-                    <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"}&FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+                    <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
                 </div>
 <!-- dtl:block:BodyHTML -->
             </p>

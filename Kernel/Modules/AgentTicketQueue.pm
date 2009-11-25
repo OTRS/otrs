@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.67 2009-09-21 14:39:41 mg Exp $
+# $Id: AgentTicketQueue.pm,v 1.68 2009-11-25 15:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -175,13 +175,13 @@ sub Run {
 
     my $LinkSort = 'QueueID='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
-        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
         . '&';
     my $LinkPage = 'QueueID='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
-        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-        . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
-        . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+        . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
+        . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
         . '&';
     my $LinkFilter = 'QueueID='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
@@ -344,8 +344,8 @@ sub _MaskQueueView {
             $Param{AllSubTickets} = $Counter{ $Queue{Queue} };
         }
         $QueueStrg
-            .= "<a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentTicketQueue&QueueID=$Queue{QueueID}";
-        $QueueStrg .= '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} ) . '"';
+            .= "<a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentTicketQueue;QueueID=$Queue{QueueID}";
+        $QueueStrg .= ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} ) . '"';
         $QueueStrg
             .= ' onmouseover="window.status=\'$Text{"Queue"}: '
             . $Queue{Queue}

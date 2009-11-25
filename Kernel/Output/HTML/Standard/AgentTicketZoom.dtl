@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.66 2009-11-25 15:32:16 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.67 2009-11-25 15:34:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,7 +73,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                             <tr class="$QData{"SenderType"}-$QData{"ArticleType"}" onmouseover="this.className='highlight';" onmouseout="this.className='$QData{"SenderType"}-$QData{"ArticleType"}';">
                                 <td class="small">
                                     <div title="$QData{"From","70"}: $QData{"Subject","200"} - $TimeShort{"$QData{"Created"}"}">
-                                        $Data{"Start2"}$Data{"Space"}$Data{"Stop2"}$Data{"Start"}$Data{"Start2"}&nbsp;$QData{"Count"}.&nbsp;$Data{"Stop2"}&nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"}&ZoomExpand=$LQData{"ZoomExpand"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"}&nbsp;($Text{"$QData{"ArticleType"}"})</a>$Data{"Stop"}
+                                        $Data{"Start2"}$Data{"Space"}$Data{"Stop2"}$Data{"Start"}$Data{"Start2"}&nbsp;$QData{"Count"}.&nbsp;$Data{"Stop2"}&nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=$LQData{"ZoomExpand"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"}&nbsp;($Text{"$QData{"ArticleType"}"})</a>$Data{"Stop"}
 <!-- dtl:block:TreeItemEmail -->
                                         (<a href="$Env{"Baselink"}Action=AgentTicketPlain;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"}" onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';" title="$Text{"plain"}">$Text{"plain"}</a>)
 <!-- dtl:block:TreeItemEmail -->
@@ -86,7 +86,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                                     [..]
 <!-- dtl:block:TreeItemAttachmentMore -->
 <!-- dtl:block:TreeItemAttachment -->
-                                    <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$QData{"ArticleID"}&FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Config{"Frontend::ImagePath"}attach-small.png"></a>
+                                    <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Config{"Frontend::ImagePath"}attach-small.png"></a>
 <!-- dtl:block:TreeItemAttachment -->
                                     </nobr>
                                 </td>
@@ -197,19 +197,19 @@ $Data{"Body"}
                             }
                             //-->
                             </script>
-                            <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"}&FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+                            <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
                         </div>
 <!-- dtl:block:BodyHTML -->
                     </td>
                     <td valign="top">
 <!-- dtl:block:Expand -->
                         <div title="$Text{"Expand View"}">
-                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"}&ZoomExpand=1" onmouseover="window.status='$JSText{"Expand View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}expand.png"></a>
+                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=1" onmouseover="window.status='$JSText{"Expand View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}expand.png"></a>
                         </div>
 <!-- dtl:block:Expand -->
 <!-- dtl:block:Collapse -->
                         <div title="$Text{"Collapse View"}">
-                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"}&ZoomExpand=0" onmouseover="window.status='$JSText{"Collapse View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}collapse.png"></a>
+                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=0" onmouseover="window.status='$JSText{"Collapse View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}collapse.png"></a>
                         </div>
 <!-- dtl:block:Collapse -->
                     </td>
@@ -509,7 +509,7 @@ $Data{"AgentPhoneStrg"}
 # check if split should be shown
 <!-- dtl:block:AgentArticleComPhone -->
                                         <dtl if ($Data{"SenderType"} eq "customer") { $Data{"ArticleSplitString"} = "Split"; }>
-                                        <a href="$Env{"Baselink"}Action=AgentTicketPhone;ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}&LinkTicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
+                                        <a href="$Env{"Baselink"}Action=AgentTicketPhone;ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"};LinkTicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
 <!-- dtl:block:AgentArticleComPhone -->
                                     </td>
                                 </tr>

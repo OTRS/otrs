@@ -2,7 +2,7 @@
 # Kernel/Modules/PictureUpload.pm - get picture uploads
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PictureUpload.pm,v 1.3 2009-07-19 21:47:15 martin Exp $
+# $Id: PictureUpload.pm,v 1.4 2009-11-25 15:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -138,9 +138,9 @@ sub Run {
     }
     my $URL = $Self->{LayoutObject}->{Baselink}
         . "Action=PictureUpload"
-        . "&FormID="
+        . ";FormID="
         . $Self->{FormID}
-        . "&ContentID="
+        . ";ContentID="
         . $ContentID
         . $SessionID;
     $Output .= "window.parent.OnUploadCompleted(0,\"$URL\",\"$URL\",\"\") ;</script>";

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.50 2009-08-20 11:09:43 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.51 2009-11-25 15:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -138,9 +138,9 @@ sub Run {
 
     # create & return output
     my $Link = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
-        . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Order} )
-        . '&ShowClosedTickets=' . $Self->{LayoutObject}->Ascii2Html( Text => $ShowClosed )
-        . '&Type=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Type} )
+        . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Order} )
+        . ';ShowClosedTickets=' . $Self->{LayoutObject}->Ascii2Html( Text => $ShowClosed )
+        . ';Type=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Type} )
         . '&';
     my %PageNav = $Self->{LayoutObject}->PageNavBar(
         Limit     => 10000,

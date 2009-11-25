@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.58 2009-11-25 14:08:56 mg Exp $
+# $Id: AdminCustomerUser.pm,v 1.59 2009-11-25 15:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -335,7 +335,7 @@ sub Run {
                 my $URL = '';
                 if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone} ) {
                     $URL
-                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone;Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$User\"$OnClick>"
+                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$User\"$OnClick>"
                         . $Self->{LayoutObject}->{LanguageObject}->Get('PhoneView') . "</a>";
                 }
                 if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketEmail} ) {
@@ -343,7 +343,7 @@ sub Run {
                         $URL .= " - ";
                     }
                     $URL
-                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail;Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$User\"$OnClick>"
+                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$User\"$OnClick>"
                         . $Self->{LayoutObject}->{LanguageObject}->Get('Compose Email') . "</a>";
                 }
                 if ($URL) {

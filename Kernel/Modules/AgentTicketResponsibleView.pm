@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsibleView.pm - to view all locked tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsibleView.pm,v 1.4 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketResponsibleView.pm,v 1.5 2009-11-25 15:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -182,17 +182,17 @@ sub Run {
     # show ticket's
     my $LinkPage = 'Filter='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
-        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-        . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
-        . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+        . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
+        . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
         . '&';
     my $LinkSort = 'Filter='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
-        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
         . '&';
     my $LinkFilter = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
-        . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
-        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+        . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
         . '&';
     $Output .= $Self->{LayoutObject}->TicketListShow(
         TicketIDs => \@ViewableTickets,

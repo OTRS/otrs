@@ -2,7 +2,7 @@
 # AgentTicketSearchOpenSearchDescriptionTicketNumber.dtl - provides opensearch form for AgentTicketSearch
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearchOpenSearchDescriptionTicketNumber.dtl,v 1.1 2009-04-06 21:07:47 martin Exp $
+# $Id: AgentTicketSearchOpenSearchDescriptionTicketNumber.dtl,v 1.2 2009-11-25 15:39:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,6 @@
 <ShortName>$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})</ShortName>
 <Description>$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})</Description>
 <InputEncoding>$Env{"UserCharset"}</InputEncoding>
-<Url type="text/html" template="$Config{"HttpType"}://$Env{"HTTP_HOST"}$Env{"Baselink"}Action=AgentTicketSearch&amp;Subaction=Search&amp;TicketNumber={searchTerms}" />
+<Url type="text/html" template="$Config{"HttpType"}://$Env{"HTTP_HOST"}$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;TicketNumber={searchTerms}" />
 <Image height="16" width="16" type="image/x-icon">$Config{"HttpType"}://$Env{"HTTP_HOST"}$Config{"Frontend::ImagePath"}product.ico</Image>
 </OpenSearchDescription>

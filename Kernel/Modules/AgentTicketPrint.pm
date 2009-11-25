@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.64 2009-08-27 16:00:23 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.65 2009-11-25 15:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1198,7 +1198,7 @@ sub _HTMLMask {
             $File{Filename} = $Self->{LayoutObject}->Ascii2Html( Text => $File{Filename} );
             $Param{'Article::ATM'}
                 .= '<a href="$Env{"CGIHandle"}/$QData{"Filename"}?Action=AgentTicketAttachment&'
-                . "ArticleID=$Article{ArticleID}&FileID=$FileID\" target=\"attachment\" "
+                . "ArticleID=$Article{ArticleID};FileID=$FileID\" target=\"attachment\" "
                 . "onmouseover=\"window.status='\$Text{\"Download\"}: $File{Filename}';"
                 . ' return true;" onmouseout="window.status=\'\';">'
                 . "$File{Filename}</a> $File{Filesize}<br>";

@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserForm.dtl,v 1.43 2009-10-30 10:18:38 mg Exp $
+# $Id: AdminUserForm.dtl,v 1.44 2009-11-25 15:39:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,12 +83,12 @@
                             </tr>
 <!-- dtl:block:OverviewResultRow -->
                             <tr class="$QData{"CssClass"}">
-                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=Change&amp;UserID=$LQData{"UserID"}&amp;Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;UserID=$LQData{"UserID"};Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
                                 <td>$QData{"UserFirstname"} $QData{"UserLastname"}</td>
                                 <td><div title="$QData{"UserEmail"}">$QData{"UserEmail","26"}</div></td>
                                 <td>$TimeShort{"$QData{"UserLastLoginTimestamp"}"}</td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
-                                <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&amp;Subaction=Switch&amp;UserID=$LQData{"UserID"}">x</a></td>
+                                <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Switch;UserID=$LQData{"UserID"}">x</a></td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
                                 <td align="center">$Text{"$QData{"Valid"}"}</td>
                             </tr>

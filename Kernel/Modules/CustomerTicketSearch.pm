@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.39 2009-11-25 14:08:56 mg Exp $
+# $Id: CustomerTicketSearch.pm,v 1.40 2009-11-25 15:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,7 +76,7 @@ sub Run {
     if ( $Self->{ParamObject}->GetParam( Param => 'SearchTemplate' ) && $Self->{Profile} ) {
         return $Self->{LayoutObject}->Redirect(
             OP =>
-                "Action=CustomerTicketSearchSubaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}",
+                "Action=CustomerTicketSearchSubaction=Search;TakeLastSearch=1;SaveProfile=1;Profile=$Self->{Profile}",
         );
     }
 
@@ -620,7 +620,7 @@ sub Run {
             AllHits   => $Counter,
             Action    => "Action=CustomerTicketSearch;Subaction=Search",
             Link =>
-                "Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&",
+                "Profile=$Self->{Profile};SortBy=$Self->{SortBy};Order=$Self->{Order};TakeLastSearch=1&",
         );
 
         $Output .= $Self->{LayoutObject}->Output(

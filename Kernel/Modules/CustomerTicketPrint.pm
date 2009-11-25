@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.27 2009-08-27 16:00:23 martin Exp $
+# $Id: CustomerTicketPrint.pm,v 1.28 2009-11-25 15:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -893,7 +893,7 @@ sub _HTMLMask {
             $File{Filename} = $Self->{LayoutObject}->Ascii2Html( Text => $File{Filename} );
             $Param{'Article::ATM'}
                 .= '<a href="$Env{"CGIHandle"}/$QData{"Filename"}?Action=CustomerTicketAttachment&'
-                . "ArticleID=$Article{ArticleID}&FileID=$FileID\" target=\"attachment\" "
+                . "ArticleID=$Article{ArticleID};FileID=$FileID\" target=\"attachment\" "
                 . "onmouseover=\"window.status='\$Text{\"Download\"}: $File{Filename}';"
                 . ' return true;" onmouseout="window.status=\'\';">'
                 . "$File{Filename}</a> $File{Filesize}<br>";
