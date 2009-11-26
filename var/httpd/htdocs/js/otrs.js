@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.8 2009-11-18 15:13:04 mn Exp $
+// $Id: otrs.js,v 1.9 2009-11-26 08:57:18 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -179,17 +179,51 @@ function AJAXInit () {
 }
 
 // start ajax request and call a callback when ready
-function AJAXFunctionCall(Data, Callback)
+// AJAXFunctionCall({
+//     Url: 'http://otrs-installation/index.pl?Action=...' - URL for Request, optional (otherwise OTRS.Config is used)
+//     Data: {name:'Value'} - JSON or Query String, optional
+//     Callback: CallbackFunc - JS function pointer, optional (otherwise no callback is called)
+// })
+function AJAXFunctionCall(Param)
 {
-    var url = OTRS.ConfigGet('Baselink') + 'Action=' + OTRS.ConfigGet('Action');
-    // add sessionid if no cookies are used
-    if ( !OTRS.ConfigGet('SessionIDCookie') ) {
-        url = url + '&' + OTRS.ConfigGet('SessionName') + '=' + OTRS.ConfigGet('SessionID') + '&' + OTRS.ConfigGet('CustomerPanelSessionName') + '=' + OTRS.ConfigGet('SessionID');
+    var Url, Data, Callback;
+
+    // use parameter Url or build a fallback manually
+    if ( Param['Url'] ) {
+        Url = Param['Url'];
+    }
+    else {
+        Url = OTRS.ConfigGet('Baselink') + 'Action=' + OTRS.ConfigGet('Action');
+        // add sessionid if no cookies are used
+        if ( !OTRS.ConfigGet('SessionIDCookie') ) {
+            Url = Url + '&' + OTRS.ConfigGet('SessionName') + '=' + OTRS.ConfigGet('SessionID') + '&' + OTRS.ConfigGet('CustomerPanelSessionName') + '=' + OTRS.ConfigGet('SessionID');
+        }
+    }
+
+    // use parameter data, otherwise leave data empty
+    if ( Param['Data'] ) {
+        Data = Param['Data'];
+    }
+    else {
+        Data = '';
+    }
+
+    if ( Param['Callback'] ) {
+        Callback = Param['Callback'];
+    }
+
+    // if no Data is given, but a valid Url, than extract query string from url, because needs to be the Data parameter
+    if ( Data == '' && Url ) {
+        var Index = Url.indexOf("?");
+        if ( Index >= 0 ) {
+          Data = Url.substr(Index + 1);
+          Url = Url.substr(0, Index);
+        }
     }
 
     $.ajax({
         type:     'POST',
-        url:      url,
+        url:      Url,
         data:     Data,
         dataType: 'json',
         success: function(Response) {

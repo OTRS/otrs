@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.70 2009-11-26 08:02:16 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.71 2009-11-26 08:57:18 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -177,23 +177,20 @@ $Data{"Body"}
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTML -->
                         <div class="message">
-                            <script src="$Config{"Frontend::YUIPath"}build/yahoo/yahoo-min.js" type="text/javascript"></script>
-                            <script src="$Config{"Frontend::YUIPath"}build/dom/dom-min.js" type="text/javascript"></script>
-                            <script src="$Config{"Frontend::YUIPath"}build/event/event-min.js" type="text/javascript"></script>
-                            <script src="$Config{"Frontend::YUIPath"}build/element/element-min.js" type="text/javascript"></script>
+                            <script src="$Config{"Frontend::JavaScriptPath"}jquery-1.3.2.min.js" type="text/javascript"></script>
                             <script language="JavaScript" type="text/javascript">
-<!--
+                            <!--
                             function IframeAutoHeight( IframeID ) {
-                            var Dom = YAHOO.util.Dom;
-                            var iframe = new YAHOO.util.Element( IframeID );
-                            var newHeight = iframe.get('element').contentWindow.document.body.scrollHeight;
-                            if ( !newHeight || isNaN( newHeight ) ) {
-                            newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightDefault"};
-                            }
-                            else if ( newHeight > $Config{"Ticket::Frontend::HTMLArticleHeightMax"} ) {
-                            newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightMax"};
-                            }
-                            Dom.setStyle(iframe, 'height', newHeight);
+                                var iframe = $('#' + IframeID);
+                                var newHeight = iframe.get(0).contentWindow.document.body.scrollHeight;
+                                if ( !newHeight || isNaN( newHeight ) ) {
+                                    newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightDefault"};
+                                }
+                                else
+                                    if ( newHeight > $Config{"Ticket::Frontend::HTMLArticleHeightMax"} ) {
+                                        newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightMax"};
+                                    }
+                                iframe.css('height', newHeight + 'px');
                             }
                             //-->
                             </script>

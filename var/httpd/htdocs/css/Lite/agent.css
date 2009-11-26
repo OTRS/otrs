@@ -3,7 +3,7 @@
  # agent.css - css file
  # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
  # --
- # $Id: agent.css,v 1.4 2009-11-12 08:17:46 mn Exp $
+ # $Id: agent.css,v 1.5 2009-11-26 08:57:18 mn Exp $
  # --
  # This software comes with ABSOLUTELY NO WARRANTY. For details, see
  # the enclosed file COPYING for license information (AGPL). If you
@@ -382,4 +382,48 @@ input {
 div.login-box {
     width: 280px;
     margin: 20px auto;
+}
+
+/*
+ * AutoCompletion
+ */
+.ac_results {
+    padding: 0px;
+    border: 1px solid black;
+    background-color: white;
+    overflow: hidden;
+    z-index: 99999;
+}
+
+.ac_results ul {
+    width: 100%;
+    list-style-position: outside;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ac_results li {
+    margin: 0px;
+    padding: 2px 5px;
+    cursor: default;
+    display: block;
+    /*
+    if width will be 100% horizontal scrollbar will apear
+    when scroll mode will be used
+    */
+    /*width: 100%;*/
+    font: menu;
+    font-size: 12px;
+    /*
+    it is very important, if line-height not setted or setted
+    in relative units scroll will be broken in firefox
+    */
+    line-height: 16px;
+    overflow: hidden;
+}
+
+.ac_over {
+    background-color: #426FD9;
+    color: white;
 }

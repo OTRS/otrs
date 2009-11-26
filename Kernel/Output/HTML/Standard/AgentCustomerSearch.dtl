@@ -2,41 +2,19 @@
 # AgentCustomerSearch.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.dtl,v 1.14 2009-11-25 15:34:55 mg Exp $
+# $Id: AgentCustomerSearch.dtl,v 1.15 2009-11-26 08:57:18 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!--CSS file (default YUI Sam Skin) -->
-<link type="text/css" rel="stylesheet" href="$Config{"Frontend::YUIPath"}build/autocomplete/assets/skins/sam/autocomplete.css">
-
-<!-- Dependencies -->
-<script type="text/javascript" src="$Config{"Frontend::YUIPath"}build/yahoo-dom-event/yahoo-dom-event.js"></script>
-<script type="text/javascript" src="$Config{"Frontend::YUIPath"}build/datasource/datasource-min.js"></script>
-
-<!-- OPTIONAL: Connection (required only if using XHRDataSource) -->
-<script type="text/javascript" src="$Config{"Frontend::YUIPath"}build/connection/connection-min.js"></script>
-
-<!-- OPTIONAL: Animation (required only if enabling animation) -->
-<script type="text/javascript" src="$Config{"Frontend::YUIPath"}build/animation/animation-min.js"></script>
-
-<!-- OPTIONAL: JSON (enables JSON validation) -->
-<script type="text/javascript" src="$Config{"Frontend::YUIPath"}build/json/json-min.js"></script>
-
-<!-- Source file -->
-<script type="text/javascript" src="$Config{"Frontend::YUIPath"}build/autocomplete/autocomplete-min.js"></script>
-
-<style type="text/css">
-.myAutoComplete {
-    width:36em; /* set width here or else widget will expand to fit its container */
-    padding-bottom:0.5em;
-}
-</style>
-
+# include AJAX lib
+$Include{"AJAX"}
+# include Autocompletion plugin
+<script src="$Config{"Frontend::JavaScriptPath"}jquery.bgiframe.min.js" type="text/javascript"></script>
+<script src="$Config{"Frontend::JavaScriptPath"}jquery.autocomplete.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-
 function ReplaceOverviewControlLinks () {
     var ControlFields = document.getElementsByName("OverviewControl");
     for (var i = 0; i < ControlFields.length; i++) {
@@ -46,228 +24,137 @@ function ReplaceOverviewControlLinks () {
 }
 
 function OverviewControlNew( Link ) {
-   var AjaxRequestOverviewControlNew = YAHOO.util.Connect.asyncRequest('GET', Link, {
-        success: function(o){
-            if (o.responseText !== undefined) {
-                var Response = YAHOO.lang.JSON.parse(o.responseText);
-
-                // show customer tickets
-                if ( document.getElementById('CustomerTickets') ) {
-                    document.getElementById('CustomerTickets').innerHTML = Response.CustomerTicketsHTMLString;
-                    ReplaceOverviewControlLinks();
-                }
-            }
+    AJAXFunctionCall( { Url: Link, Callback: function(Response) {
+        // show customer tickets
+        if ( document.getElementById('CustomerTickets') ) {
+            document.getElementById('CustomerTickets').innerHTML = Response.CustomerTicketsHTMLString;
+            ReplaceOverviewControlLinks();
         }
-    });
+    } } );
 }
 
 function GetCustomerInfo( CustomerUserID ) {
-    var sURL = "?Action=AgentCustomerSearch;Subaction=CustomerInfo;CustomerUserID=" + CustomerUserID;
-    var AjaxRequestCustomerInfo = YAHOO.util.Connect.asyncRequest('GET', sURL, {
-        success: function(o){
-            if (o.responseText !== undefined) {
-                var Response = YAHOO.lang.JSON.parse(o.responseText);
-
-                // set CustomerID
-                document.compose.CustomerID.value = Response.CustomerID;
-                if ( document.getElementById('ShowCustomerID') ) {
-                    document.getElementById('ShowCustomerID').innerHTML = Response.CustomerID;
-                }
-
-                // show customer info table
-                if ( document.getElementById('CustomerTable') ) {
-                    document.getElementById('CustomerTable').innerHTML = Response.CustomerTableHTMLString;
-                }
-
-                if (window.AJAXUpdate) {
-
-                    // reset service
-                    if ( document.compose.ServiceID ) {
-                        document.compose.ServiceID.selectedIndex = 0;
-                    }
-                    // update services (trigger ServiceID change event)
-                    AJAXUpdate('AJAXUpdate', 'ServiceID', ['Dest', 'SelectedCustomerUser', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'OwnerAll', 'ResponsibleAll', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16'], ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
-                }
-            }
+    var Data = {
+        Action:         'AgentCustomerSearch',
+        Subaction:      'CustomerInfo',
+        CustomerUserID: CustomerUserID
+    };
+    AJAXFunctionCall( { Url: OTRS.ConfigGet('Baselink'), Data: Data, Callback: function(Response) {
+        // set CustomerID
+        document.compose.CustomerID.value = Response.CustomerID;
+        if ( document.getElementById('ShowCustomerID') ) {
+            document.getElementById('ShowCustomerID').innerHTML = Response.CustomerID;
         }
-    });
+
+        // show customer info table
+        if ( document.getElementById('CustomerTable') ) {
+            document.getElementById('CustomerTable').innerHTML = Response.CustomerTableHTMLString;
+        }
+
+        // only execute this part, if in AgentTicketEmail or AgentTicketPhone
+        // PriorityID only exists in this two modules
+        if (window.AJAXUpdate && document.compose.PriorityID) {
+            // reset service
+            if ( document.compose.ServiceID ) {
+                document.compose.ServiceID.selectedIndex = 0;
+            }
+            // update services (trigger ServiceID change event)
+            AJAXUpdate('AJAXUpdate', 'ServiceID', ['Dest', 'SelectedCustomerUser', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'OwnerAll', 'ResponsibleAll', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16'], ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
+        }
+    } } );
 }
 
 function GetCustomerTickets( CustomerUserID, CustomerID ) {
-
     // check if customer tickets should be shown
-    if ( !Number('$Config{"Ticket::Frontend::ShowCustomerTickets"}') ) {
+    if ( isNaN(parseInt('$Config{"Ticket::Frontend::ShowCustomerTickets"}')) ) {
         return;
     }
 
-    var sURL = "?Action=AgentCustomerSearch;Subaction=CustomerTickets;CustomerUserID=" + CustomerUserID + ";CustomerID=" + CustomerID;
-    var AjaxRequestCustomerTickets = YAHOO.util.Connect.asyncRequest('GET', sURL, {
-        success: function(o){
-            if (o.responseText !== undefined) {
-                var Response = YAHOO.lang.JSON.parse(o.responseText);
+    var Data = {
+        Action:         'AgentCustomerSearch',
+        Subaction:      'CustomerTickets',
+        CustomerUserID: CustomerUserID,
+        CustomerID:     CustomerID
+    };
+    AJAXFunctionCall( { Url: OTRS.ConfigGet('Baselink'), Data: Data, Callback: function(Response) {
+        // show customer tickets
+        if ( document.getElementById('CustomerTickets') ) {
+            document.getElementById('CustomerTickets').innerHTML = Response.CustomerTicketsHTMLString;
 
-                // show customer tickets
-                if ( document.getElementById('CustomerTickets') ) {
-                    document.getElementById('CustomerTickets').innerHTML = Response.CustomerTicketsHTMLString;
-
-                    // replace links
-                    ReplaceOverviewControlLinks();
-                }
-            }
+            // replace links
+            ReplaceOverviewControlLinks();
         }
-    });
+    } } );
 }
 
-(function() {
+$(document).ready(function() {
+    // get customer tickets for AgentTicketCustomer
+    if (document.compose.CustomerUserID && document.compose.CustomerUserID.value) {
+        GetCustomerTickets( document.compose.CustomerUserID.value, document.compose.CustomerID.value );
+    }
 
-    var Dom = YAHOO.util.Dom,
-        Event = YAHOO.util.Event;
-
-    Event.onDOMReady(function() {
-
-        // add yui css to body tag
-        document.body.className = "yui-skin-sam";
-
-        // get customer tickets for AgentTicketCustomer
-        if (document.compose.CustomerUserID && document.compose.CustomerUserID.value) {
-            GetCustomerTickets( document.compose.CustomerUserID.value, document.compose.CustomerID.value );
-        }
-
-        // get customer tickets for AgentTicketPhone and AgentTicketEmail
-        if (document.compose.SelectedCustomerUser && document.compose.SelectedCustomerUser.value) {
-            GetCustomerTickets( document.compose.SelectedCustomerUser.value );
-        }
+    // get customer tickets for AgentTicketPhone and AgentTicketEmail
+    if (document.compose.SelectedCustomerUser && document.compose.SelectedCustomerUser.value) {
+        GetCustomerTickets( document.compose.SelectedCustomerUser.value );
+    }
 
 <!-- dtl:block:CustomerSearchAutoComplete -->
-        // define XHRDataSource for autocomplete object
-        var myDataSource = new YAHOO.util.XHRDataSource('');
-        myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
-        myDataSource.maxCacheEntries = 100;
-        myDataSource.connXhrMode = 'cancelStaleRequests';
+    var sURL = OTRS.ConfigGet( 'Baselink' );
+    $("#myAutoCompleteInput").autocomplete(sURL, {
+        delay:          $QData{"queryDelay"},
+        extraParams:    {
+                            Action: 'AgentCustomerSearch'
+                        },
+        max:            $QData{"maxResultsDisplayed"},
+        minChars:       $QData{"minQueryLength"},
+        formatItem:     function(Row) {
+                            var CustomerKey = Row[0];
+                            var CustomerValue = Row[1];
+                            var SearchOutput = CustomerValue + " (" + CustomerKey + ")";
+                            // adjust width of result container, only when dynamic width is enabled
+                            if ( parseInt('$Config{"Ticket::Frontend::CustomerSearchAutoComplete::DynamicWidth"}') ) {
+                                var DummyElement = $('<div id="DummyElement" style="visibility:hidden"><span>' + SearchOutput + '</span></div>').appendTo('body');
+                                var ResultWidth = DummyElement.find('span').width();
+                                DummyElement.remove();
 
-        // define the schema of the results for autocomplete object
-        myDataSource.responseSchema = {
-            resultsList : "Response.Results", // String pointer to result data
-            fields : [
-                { key: "CustomerKey" },
-                { key: "CustomerValue" },
-                { key: "CustomerValuePlain" }
-            ]
-        };
-
-        // define autocomplete object
-        var myAutoComp = new YAHOO.widget.AutoComplete("myAutoCompleteInput", "myAutoCompleteContainer", myDataSource);
-        myAutoComp.resultTypeList = false;
-
-        // define request parameters
-        myAutoComp.generateRequest = function(sQuery) {
-          return "?Action=AgentCustomerSearch;Search=" + sQuery ;
-        };
-
-        // define output format for drop down list
-        myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) {
-            return (oResultData.CustomerValue + " (" + oResultData.CustomerKey + ")");
-        };
-
-        // define various autocomplete properties
-        myAutoComp.minQueryLength           = $QData{"minQueryLength"};
-        myAutoComp.queryDelay               = $QData{"queryDelay"};
-        myAutoComp.typeAhead                = $QData{"typeAhead"};
-        myAutoComp.maxResultsDisplayed      = $QData{"maxResultsDisplayed"};
-        myAutoComp.animVert                 = true;
-        myAutoComp.animSpeed                = 0.2;
-        myAutoComp.allowBrowserAutocomplete = false;
-
-        // fixes IE6 bug that causes form select elements to be displayed
-        // over elements with a higher z-index
-        myAutoComp.useIFrame = true;
-
-        // define custom itemSelect handler function
-        var itemSelectHandler = function(sType, aArgs) {
-            var oMyAcInstance = aArgs[0];  // your AutoComplete instance
-            var elListItem    = aArgs[1];  // the <li> element selected in the suggestion container
-            var oData         = aArgs[2];  // object literal of data for the result
-
-            // set autocomplete field with selected value
-            oMyAcInstance.getInputEl().value = oData.CustomerValuePlain;
-
-            // set hidden field SelectedCustomerUser
-            if (document.compose.SelectedCustomerUser) {
-                document.compose.SelectedCustomerUser.value = oData.CustomerKey;
-            }
-
-            // needed for AgentTicketCustomer.pm
-            if (document.compose.CustomerUserID) {
-                document.compose.CustomerUserID.value = oData.CustomerKey;
-
-                // set hidden field 'CustomerUserOption'
-                var input = document.createElement('input');
-                input.setAttribute("type", "hidden");
-                input.setAttribute("name", "CustomerUserOption");
-                input.value = oData.CustomerKey;
-                document.compose.appendChild(input);
-            }
-
-            // get customer tickets
-            GetCustomerTickets(oData.CustomerKey);
-
-            // get customer data for customer info table
-            GetCustomerInfo(oData.CustomerKey);
-
-        };
-
-        // subscribe custom itemSelect handler to the event
-        myAutoComp.itemSelectEvent.subscribe(itemSelectHandler);
-
-        // dynamically adjust the width of the autocomplete container
-        myAutoComp.doBeforeLoadData = function (oRequest, oResponse, oPayload) {
-
-            // check if dynamic width is enabled
-            if ( !Number('$Config{"Ticket::Frontend::CustomerSearchAutoComplete::DynamicWidth"}') ) {
-                return true;
-            }
-
-            // find the longest result string
-            var MaxString = '';
-            for ( var i = 0; i < oResponse.results.length; i++ ) {
-                var Result = oResponse.results[i];
-                var String = Result["CustomerValuePlain"] + Result["CustomerKey"];
-                if ( String.length > MaxString.length ) {
-                    MaxString = String;
-                }
-            }
-
-            // build option element with the longest result string
-            var DummyOption = document.createElement("option");
-            DummyOption.appendChild(document.createTextNode(MaxString));
-
-            // build invisible dummy select field to find the width
-            var DummySelect = document.createElement("select");
-            DummySelect.setAttribute( 'id', 'DummySelectID' );
-            DummySelect.setAttribute( 'style', 'visibility:hidden' );
-            DummySelect.appendChild(DummyOption);
-            document.getElementsByTagName("body")[0].appendChild(DummySelect);
-
-            // get new width
-            var NewWidth = DummySelect.offsetWidth;
-
-            // remove hidden select field
-            document.getElementsByTagName("body")[0].removeChild(DummySelect);
-
-            // get container
-            var Container = document.getElementById('myAutoCompleteContainer');
-
-            // apply new width to container
-            Container.style.width = NewWidth + 'px';
-
-            return true;
-        };
-
-        return {
-            myDataSource: myDataSource,
-            myAutoComp  : myAutoComp
-        };
-<!-- dtl:block:CustomerSearchAutoComplete -->
+                                var ContainerWidth = $('div.ac_results').width();
+                                if ( ResultWidth > ContainerWidth) {
+                                   $("#myAutoCompleteInput").setOptions( { width: ResultWidth } );
+                                }
+                            }
+                            return SearchOutput;
+                        },
+        formatResult:   function(Data) {
+                            var CustomerValuePlain = Data[2];
+                            return CustomerValuePlain;
+                        }
     });
-})();
+    $("#myAutoCompleteInput").result(function(event, data, formatted) {
+        var CustomerKey = data[0];
+
+        // set hidden field SelectedCustomerUser
+        if (document.compose.SelectedCustomerUser) {
+            document.compose.SelectedCustomerUser.value = CustomerKey;
+        }
+
+        // needed for AgentTicketCustomer.pm
+        if (document.compose.CustomerUserID) {
+            document.compose.CustomerUserID.value = CustomerKey;
+
+            // set hidden field 'CustomerUserOption'
+            var input = document.createElement('input');
+            input.setAttribute("type", "hidden");
+            input.setAttribute("name", "CustomerUserOption");
+            input.value = CustomerKey;
+            document.compose.appendChild(input);
+        }
+
+        // get customer tickets
+        GetCustomerTickets(CustomerKey);
+
+        // get customer data for customer info table
+        GetCustomerInfo(CustomerKey);
+    });
+<!-- dtl:block:CustomerSearchAutoComplete -->
+});
 </script>

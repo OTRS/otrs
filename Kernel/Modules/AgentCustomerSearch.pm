@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.17 2009-11-25 15:39:15 mg Exp $
+# $Id: AgentCustomerSearch.pm,v 1.18 2009-11-26 08:57:18 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +51,7 @@ sub Run {
     if ( !$Self->{Subaction} ) {
 
         # get needed params
-        my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' ) || '';
+        my $Search = $Self->{ParamObject}->GetParam( Param => 'q' ) || '';
 
         # workaround, all auto completion requests get posted by utf8 anyway
         # convert any to 8bit string if application is not running in utf8
@@ -89,14 +89,16 @@ sub Run {
             };
         }
 
-        # build JSON output
-        $JSON = $Self->{LayoutObject}->JSON(
-            Data => {
-                Response => {
-                    Results => \@Data,
-                },
-            },
-        );
+        # build output (not really JSON)
+        for my $Row (@Data) {
+            $Row->{CustomerKey}        =~ s/(\r|\n)//eg;
+            $Row->{CustomerValue}      =~ s/(\r|\n)//eg;
+            $Row->{CustomerValuePlain} =~ s/(\r|\n)//eg;
+            $JSON
+                .= $Row->{CustomerKey} . '|'
+                . $Row->{CustomerValue} . '|'
+                . $Row->{CustomerValuePlain} . "\n";
+        }
     }
 
     # get customer info
