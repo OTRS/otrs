@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1072 2009-11-25 18:44:36 mh Exp $
+# $Id: CHANGES,v 1.1073 2009-11-26 11:57:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,13 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/11/25) switched to XHTML doctype
+    - not all of the generated HTML is valid yet, but much
+    - from now on, ";" will be used as a query parameter separator in URLs
+        (old: index.pl?Action=AgentExample&Subaction=Test,
+        new: index.pl?Action=AgentExample;Subaction=Test)
+    - made some self-closing tags actually close themselves (e.g. <img .../>)
+    - made some tags and attributes used lowercase
  - (2009/11/25) Updated CPAN module CGI to version 3.48.
  - (2009/11/23) Only database configuration is now saved in Config.pm.
  - (2009/11/18) Added database check and mail configuration steps
