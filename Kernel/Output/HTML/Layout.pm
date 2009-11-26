@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.186 2009-11-26 10:24:41 bes Exp $
+# $Id: Layout.pm,v 1.187 2009-11-26 11:05:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.186 $) [1];
+$VERSION = qw($Revision: 1.187 $) [1];
 
 =head1 NAME
 
@@ -1641,7 +1641,7 @@ sub OptionStrgHashRef {
     my $Output     = '';
     my $Name       = $Param{Name} || '';
     my $Max        = $Param{Max} || 80;
-    my $Multiple   = $Param{Multiple} ? 'multiple' : '';
+    my $Multiple   = $Param{Multiple} ? 'multiple="multiple"' : '';
     my $HTMLQuote  = defined( $Param{HTMLQuote} ) ? $Param{HTMLQuote} : 1;
     my $LT         = defined( $Param{LanguageTranslation} ) ? $Param{LanguageTranslation} : 1;
     my $Selected   = defined( $Param{Selected} ) ? $Param{Selected} : '-not-possible-to-use-';
@@ -1822,7 +1822,7 @@ sub OptionElement {
     my $Output       = '';
     my $Name         = $Param{Name} || '';
     my $Max          = $Param{Max} || 80;
-    my $Multiple     = $Param{Multiple} ? 'multiple' : '';
+    my $Multiple     = $Param{Multiple} ? 'multiple="multiple"' : '';
     my $HTMLQuote    = defined( $Param{HTMLQuote} ) ? $Param{HTMLQuote} : 1;
     my $Translation  = defined( $Param{Translation} ) ? $Param{Translation} : 1;
     my $PossibleNone = $Param{PossibleNone} || '';
@@ -2868,7 +2868,7 @@ sub BuildDateSelection {
     if ($Optional) {
         my $Checked = '';
         if ($Used) {
-            $Checked = ' checked';
+            $Checked = ' checked="checked"';
         }
         $Output .= "<input type=\"checkbox\" name=\""
             . $Prefix
@@ -3977,10 +3977,10 @@ sub _BuildSelectionAttributeRefCreate {
         }
     }
 
-    # check key only params
+    # check HTML params
     for (qw(Multiple Disabled)) {
         if ( $Param{$_} ) {
-            $AttributeRef->{ lc($_) } = undef;
+            $AttributeRef->{ lc($_) } = lc($_);
         }
     }
 
@@ -4410,6 +4410,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.186 $ $Date: 2009-11-26 10:24:41 $
+$Revision: 1.187 $ $Date: 2009-11-26 11:05:38 $
 
 =cut
