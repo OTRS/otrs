@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.188 2009-11-26 12:23:09 bes Exp $
+# $Id: Layout.pm,v 1.189 2009-11-26 12:41:51 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.188 $) [1];
+$VERSION = qw($Revision: 1.189 $) [1];
 
 =head1 NAME
 
@@ -3821,21 +3821,21 @@ sub _Output {
     return $Output;
 }
 
-#=item _BuildSelectionOptionRefCreate()
-#
-#create the option hash
-#
-#    my $OptionRef = $LayoutObject->_BuildSelectionOptionRefCreate(
-#        %Param,
-#    );
-#
-#    my $OptionRef = {
-#        Sort => 'numeric',
-#        PossibleNone => 0,
-#        Max => 100,
-#    }
-#
-#=cut
+=item _BuildSelectionOptionRefCreate()
+
+create the option hash
+
+    my $OptionRef = $LayoutObject->_BuildSelectionOptionRefCreate(
+        %Param,
+    );
+
+    my $OptionRef = {
+        Sort => 'numeric',
+        PossibleNone => 0,
+        Max => 100,
+    }
+
+=cut
 
 sub _BuildSelectionOptionRefCreate {
     my ( $Self, %Param ) = @_;
@@ -3941,21 +3941,21 @@ sub _BuildSelectionOptionRefCreate {
     return $OptionRef;
 }
 
-#=item _BuildSelectionAttributeRefCreate()
-#
-#create the attribute hash
-#
-#    my $AttributeRef = $LayoutObject->_BuildSelectionAttributeRefCreate(
-#        %Param,
-#    );
-#
-#    my $AttributeRef = {
-#        name => 'TheName',
-#        multiple => undef,
-#        size => 5,
-#    }
-#
-#=cut
+=item _BuildSelectionAttributeRefCreate()
+
+create the attribute hash
+
+    my $AttributeRef = $LayoutObject->_BuildSelectionAttributeRefCreate(
+        %Param,
+    );
+
+    my $AttributeRef = {
+        name => 'TheName',
+        multiple => undef,
+        size => 5,
+    }
+
+=cut
 
 sub _BuildSelectionAttributeRefCreate {
     my ( $Self, %Param ) = @_;
@@ -3991,29 +3991,29 @@ sub _BuildSelectionAttributeRefCreate {
     return $AttributeRef;
 }
 
-#=item _BuildSelectionDataRefCreate()
-#
-#create the data hash
-#
-#    my $DataRef = $LayoutObject->_BuildSelectionDataRefCreate(
-#        Data => $ArrayRef,              # use $HashRef, $ArrayRef or $ArrayHashRef
-#        AttributeRef => $AttributeRef,
-#        OptionRef => $OptionRef,
-#    );
-#
-#    my $DataRef  = [
-#        {
-#            Key => 11,
-#            Value => 'Text',
-#        },
-#        {
-#            Key => 'abc',
-#            Value => '&nbsp;&nbsp;Text',
-#            Selected => 1,
-#        },
-#    ];
-#
-#=cut
+=item _BuildSelectionDataRefCreate()
+
+create the data hash
+
+    my $DataRef = $LayoutObject->_BuildSelectionDataRefCreate(
+        Data => $ArrayRef,              # use $HashRef, $ArrayRef or $ArrayHashRef
+        AttributeRef => $AttributeRef,
+        OptionRef => $OptionRef,
+    );
+
+    my $DataRef  = [
+        {
+            Key => 11,
+            Value => 'Text',
+        },
+        {
+            Key => 'abc',
+            Value => '&nbsp;&nbsp;Text',
+            Selected => 1,
+        },
+    ];
+
+=cut
 
 sub _BuildSelectionDataRefCreate {
     my ( $Self, %Param ) = @_;
@@ -4279,35 +4279,35 @@ sub _BuildSelectionDataRefCreate {
     return $DataRef;
 }
 
-#=item _BuildSelectionOutput()
-#
-#create the html string
-#
-#    my $HTMLString = $LayoutObject->_BuildSelectionOutput(
-#        AttributeRef => $AttributeRef,
-#        DataRef => $DataRef,
-#    );
-#
-#    my $AttributeRef = {
-#        name => 'TheName',
-#        multiple => undef,
-#        size => 5,
-#    }
-#
-#    my $DataRef  = [
-#        {
-#            Key => 11,
-#            Value => 'Text',
-#            Disabled => 1,
-#        },
-#        {
-#            Key => 'abc',
-#            Value => '&nbsp;&nbsp;Text',
-#            Selected => 1,
-#        },
-#    ];
-#
-#=cut
+=item _BuildSelectionOutput()
+
+create the html string
+
+    my $HTMLString = $LayoutObject->_BuildSelectionOutput(
+        AttributeRef => $AttributeRef,
+        DataRef => $DataRef,
+    );
+
+    my $AttributeRef = {
+        name => 'TheName',
+        multiple => undef,
+        size => 5,
+    }
+
+    my $DataRef  = [
+        {
+            Key => 11,
+            Value => 'Text',
+            Disabled => 1,
+        },
+        {
+            Key => 'abc',
+            Value => '&nbsp;&nbsp;Text',
+            Selected => 1,
+        },
+    ];
+
+=cut
 
 sub _BuildSelectionOutput {
     my ( $Self, %Param ) = @_;
@@ -4367,16 +4367,15 @@ sub _DisableBannerCheck {
     return 1
 }
 
-#=item _RichTextReplaceLinkOfInlineContent()
-#
-#replace links of inline content e. g. images
-#
-#
-#    $HTMLBodyStringRef = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
-#        String => $HTMLBodyStringRef,
-#    );
-#
-#=cut
+=item _RichTextReplaceLinkOfInlineContent()
+
+replace links of inline content e. g. images
+
+    $HTMLBodyStringRef = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
+        String => $HTMLBodyStringRef,
+    );
+
+=cut
 
 sub _RichTextReplaceLinkOfInlineContent {
     my ( $Self, %Param ) = @_;
@@ -4416,6 +4415,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.188 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.189 $ $Date: 2009-11-26 12:41:51 $
 
 =cut

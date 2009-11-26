@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.72 2009-11-26 12:23:09 bes Exp $
+# $Id: Group.pm,v 1.73 2009-11-26 12:41:51 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 =head1 NAME
 
@@ -1483,13 +1483,13 @@ sub RoleList {
 
 =cut
 
-#=item _GetTypeString()
-#
-#returns a string for a sql IN elements which contains a comma separted list of system permissions.
-#
-#    my $TypeString = $GroupObject->_GetTypeString(Type => 'close');
-#
-#=cut
+=item _GetTypeString()
+
+returns a string for a sql IN elements which contains a comma separted list of system permissions.
+
+    my $TypeString = $GroupObject->_GetTypeString(Type => 'close');
+
+=cut
 
 sub _GetTypeString {
     my ( $Self, %Param ) = @_;
@@ -1520,6 +1520,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.73 $ $Date: 2009-11-26 12:41:51 $
 
 =cut

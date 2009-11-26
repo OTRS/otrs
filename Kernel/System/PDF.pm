@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.35 2009-11-26 12:23:09 bes Exp $
+# $Id: PDF.pm,v 1.36 2009-11-26 12:41:51 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -1628,82 +1628,81 @@ sub DimGet {
 
 =begin Internal:
 
-=cut
+=item _TableCalculate()
 
-#=item _TableCalculate()
-#
-# calculate params of table
-#
-#    Return  # normally no return required, only references
-#        %Param
-#
-#    (%Return, $CellData, $ColumnData) = $PDFObject->_TableCalculate(
-#        CellData => $CellData,            # 2D arrayref (see example)
-#        ColumnData => $ColumnData,        # arrayref (see example)
-#        RowData => $RowData,              # arrayref (see example)
-#        Width => 300,                     # (optional) default default maximal width
-#        Height => 400,                    # (optional) default minimal height
-#        Font => 'Monospaced',             # (optional) default Proportional (see DocumentNew())
-#        FontSize => 9,                    # (optional) default 11
-#        FontColor => 'red',               # (optional) default black
-#        FontColorEven => 'blue',          # (optional) cell font color for even rows
-#        FontColorOdd => 'green',          # (optional) cell font color for odd rows
-#        Align => 'right',                 # (optional) default left (left|center|right)
-#        Lead => 3,                        # (optional) default 1
-#        PaddingTop => 10,                 # (optional) top cell padding, overides Padding
-#        PaddingRight => 30,               # (optional) right cell padding, overides Padding
-#        PaddingBottom => 30,              # (optional) bottom cell padding, overides Padding
-#        PaddingLeft => 10,                # (optional) left cell padding, overides Padding
-#        BackgroundColor => '#101010',     # (optional) default white
-#        BackgroundColorEven => '#F0F0F0', # (optional) cell background color for even rows
-#        BackgroundColorOdd => '#A0A0A0',  # (optional) cell background color for odd rows
-#        Border => 1,                      # (optional) default 1 (values between 0 and 20)
-#        BorderColor => '#FF0000',         # (optional) default black
-#    );
-#
-#    $CellData = [
-#        [
-#            {
-#                Content => "Cell 1 (Row 1, Column 1)",  # (optional)
-#                Font => 'Monospaced',                   # (optional)
-#                FontSize => 13,                         # (optional)
-#                FontColor => '#00FF00',                 # (optional)
-#                Align => 'center',                      # (optional)
-#                Lead => 7,                              # (optional)
-#                BackgroundColor => '#101010',           # (optional)
-#            },
-#            {
-#                Content => "Cell 2 (Row 1, Column 2)",
-#            },
-#        ],
-#        [
-#            {
-#                Content => "Cell 3 (Row 2, Column 1)",
-#            },
-#            {
-#                Content => "Cell 4 (Row 2, Column 2)",
-#            },
-#        ],
-#    ];
-#
-#    $ColumData = [        # this array was automaticly generated, if not given
-#        {
-#            Width => 11,  # (optional)
-#        },
-#        {
-#            Width => 44,
-#        },
-#    ];
-#
-#    $RowData = [           # this array was automaticly generated, if not given
-#        {
-#            Height => 11,  # (optional)
-#        },
-#        {
-#            Height => 44,
-#        },
-#    ];
-#
+ calculate params of table
+
+    Return  # normally no return required, only references
+        %Param
+
+    (%Return, $CellData, $ColumnData) = $PDFObject->_TableCalculate(
+        CellData => $CellData,            # 2D arrayref (see example)
+        ColumnData => $ColumnData,        # arrayref (see example)
+        RowData => $RowData,              # arrayref (see example)
+        Width => 300,                     # (optional) default default maximal width
+        Height => 400,                    # (optional) default minimal height
+        Font => 'Monospaced',             # (optional) default Proportional (see DocumentNew())
+        FontSize => 9,                    # (optional) default 11
+        FontColor => 'red',               # (optional) default black
+        FontColorEven => 'blue',          # (optional) cell font color for even rows
+        FontColorOdd => 'green',          # (optional) cell font color for odd rows
+        Align => 'right',                 # (optional) default left (left|center|right)
+        Lead => 3,                        # (optional) default 1
+        PaddingTop => 10,                 # (optional) top cell padding, overides Padding
+        PaddingRight => 30,               # (optional) right cell padding, overides Padding
+        PaddingBottom => 30,              # (optional) bottom cell padding, overides Padding
+        PaddingLeft => 10,                # (optional) left cell padding, overides Padding
+        BackgroundColor => '#101010',     # (optional) default white
+        BackgroundColorEven => '#F0F0F0', # (optional) cell background color for even rows
+        BackgroundColorOdd => '#A0A0A0',  # (optional) cell background color for odd rows
+        Border => 1,                      # (optional) default 1 (values between 0 and 20)
+        BorderColor => '#FF0000',         # (optional) default black
+    );
+
+    $CellData = [
+        [
+            {
+                Content => "Cell 1 (Row 1, Column 1)",  # (optional)
+                Font => 'Monospaced',                   # (optional)
+                FontSize => 13,                         # (optional)
+                FontColor => '#00FF00',                 # (optional)
+                Align => 'center',                      # (optional)
+                Lead => 7,                              # (optional)
+                BackgroundColor => '#101010',           # (optional)
+            },
+            {
+                Content => "Cell 2 (Row 1, Column 2)",
+            },
+        ],
+        [
+            {
+                Content => "Cell 3 (Row 2, Column 1)",
+            },
+            {
+                Content => "Cell 4 (Row 2, Column 2)",
+            },
+        ],
+    ];
+
+    $ColumData = [        # this array was automaticly generated, if not given
+        {
+            Width => 11,  # (optional)
+        },
+        {
+            Width => 44,
+        },
+    ];
+
+    $RowData = [           # this array was automaticly generated, if not given
+        {
+            Height => 11,  # (optional)
+        },
+        {
+            Height => 44,
+        },
+    ];
+
+=cut
 
 sub _TableCalculate {
     my ( $Self, %Param ) = @_;
@@ -3485,6 +3484,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.36 $ $Date: 2009-11-26 12:41:51 $
 
 =cut

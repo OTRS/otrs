@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.85 2009-11-26 12:23:09 bes Exp $
+# $Id: Stats.pm,v 1.86 2009-11-26 12:41:51 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1992,21 +1992,19 @@ sub StatsCleanUp {
 
 =begin Internal:
 
-=cut
+=item _GenerateStaticStats()
 
-#=item _GenerateStaticStats()
-#
-#    take the stat configuration and get the stat table
-#
-#    my @StatArray = $StatsObject->_GenerateStaticStats(
-#        ObjectModule => $Stat->{ObjectModule},
-#        GetParam     => $Param{GetParam},
-#        Title        => $Stat->{Title},
-#        StatID       => $Stat->{StatID},
-#        Cache        => $Stat->{Cache},
-#    );
-#
-#=cut
+    take the stat configuration and get the stat table
+
+    my @StatArray = $StatsObject->_GenerateStaticStats(
+        ObjectModule => $Stat->{ObjectModule},
+        GetParam     => $Param{GetParam},
+        Title        => $Stat->{Title},
+        StatID       => $Stat->{StatID},
+        Cache        => $Stat->{Cache},
+    );
+
+=cut
 
 sub _GenerateStaticStats {
     my ( $Self, %Param ) = @_;
@@ -2068,22 +2066,22 @@ sub _GenerateStaticStats {
     return @Result;
 }
 
-#=item _GenerateDynamicStats()
-#
-#    take the stat configuration and get the stat table
-#
-#    my @StatArray = $StatsObject->_GenerateDynamicStats(
-#        ObjectModule     => 'Kernel::System::Stats::Dynamic::Ticket',
-#        Object           => 'Ticket',
-#        UseAsXvalue      => \UseAsXvalueElements,
-#        UseAsValueSeries => \UseAsValueSeriesElements,
-#        UseAsRestriction => \UseAsRestrictionElements,
-#        Title            => 'TicketStat',
-#        StatID           => 123,
-#        Cache            => 1,      # optional
-#    );
-#
-#=cut
+=item _GenerateDynamicStats()
+
+    take the stat configuration and get the stat table
+
+    my @StatArray = $StatsObject->_GenerateDynamicStats(
+        ObjectModule     => 'Kernel::System::Stats::Dynamic::Ticket',
+        Object           => 'Ticket',
+        UseAsXvalue      => \UseAsXvalueElements,
+        UseAsValueSeries => \UseAsValueSeriesElements,
+        UseAsRestriction => \UseAsRestrictionElements,
+        Title            => 'TicketStat',
+        StatID           => 123,
+        Cache            => 1,      # optional
+    );
+
+=cut
 
 # search for a better way to cache stats (see lines before StatID and Cache)
 
@@ -2950,20 +2948,20 @@ sub _WriteResultCache {
     return 1;
 }
 
-#=item _CreateStaticResultCacheFilename()
-#
-#create a filename out of the GetParam information and the stat id
-#
-#    my $Filename = $StatsObject->_CreateStaticResultCacheFilename(
-#        GetParam => {
-#            Year  => 2008,
-#            Month => 3,
-#            Day   => 5
-#        },
-#        StatID   => $Param{StatID},
-#    );
-#
-#=cut
+=item _CreateStaticResultCacheFilename()
+
+create a filename out of the GetParam information and the stat id
+
+    my $Filename = $StatsObject->_CreateStaticResultCacheFilename(
+        GetParam => {
+            Year  => 2008,
+            Month => 3,
+            Day   => 5
+        },
+        StatID   => $Param{StatID},
+    );
+
+=cut
 
 sub _CreateStaticResultCacheFilename {
     my ( $Self, %Param ) = @_;
@@ -3007,16 +3005,16 @@ sub _CreateStaticResultCacheFilename {
     return 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache';
 }
 
-#=item _SetResultCache()
-#
-#write the result array as cache in the filesystem
-#
-#    $StatsObject->_SetResultCache(
-#        Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
-#        Result   => $Param{Data},
-#    );
-#
-#=cut
+=item _SetResultCache()
+
+write the result array as cache in the filesystem
+
+    $StatsObject->_SetResultCache(
+        Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
+        Result   => $Param{Data},
+    );
+
+=cut
 
 sub _SetResultCache {
     my ( $Self, %Param ) = @_;
@@ -3054,15 +3052,15 @@ sub _SetResultCache {
     return 1;
 }
 
-#=item _GetResultCache()
-#
-#get the result array cache out of the filesystem
-#
-#    my @Result = $StatsObject->_GetResultCache(
-#        Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
-#    );
-#
-#=cut
+=item _GetResultCache()
+
+get the result array cache out of the filesystem
+
+    my @Result = $StatsObject->_GetResultCache(
+        Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
+    );
+
+=cut
 
 sub _GetResultCache {
     my ( $Self, %Param ) = @_;
@@ -3187,17 +3185,17 @@ sub _AutomaticSampleImport {
     return 1;
 }
 
-# =item _GetCacheString()
-#
-# return the cache string
-#
-#     my $Result = $StatsObject->_GetCacheString(
-#         UseAsXvalue      => $UseAsXvalueRef
-#         UseAsValueSeries => $UseAsValueSeriesRef,
-#         UseAsRestriction => $UseAsRestrictionRef,
-#     );
-#
-# =cut
+=item _GetCacheString()
+
+return the cache string
+
+    my $Result = $StatsObject->_GetCacheString(
+        UseAsXvalue      => $UseAsXvalueRef
+        UseAsValueSeries => $UseAsValueSeriesRef,
+        UseAsRestriction => $UseAsRestrictionRef,
+    );
+
+=cut
 
 sub _GetCacheString {
     my ( $Self, %Param ) = @_;
@@ -3240,6 +3238,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.86 $ $Date: 2009-11-26 12:41:51 $
 
 =cut

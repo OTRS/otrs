@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.79 2009-11-25 15:39:15 mg Exp $
+# $Id: AgentStats.pm,v 1.80 2009-11-26 12:41:50 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2212,6 +2212,10 @@ sub Run {
     return $Self->{LayoutObject}->ErrorScreen( Message => 'Invalid Subaction process!' );
 }
 
+=begin Internal:
+
+=cut
+
 sub _Notify {
     my ( $Self, %Param ) = @_;
 
@@ -2388,18 +2392,18 @@ sub _TimeScale {
     return \%TimeScale;
 }
 
-# =item _ColumnAndRowTranslation()
-#
-# translate the column and row name if needed
-#
-#     $StatsObject->_ColumnAndRowTranslation(
-#         StatArrayRef => $StatArrayRef,
-#         HeadArrayRef => $HeadArrayRef,
-#         StatRef      => $StatRef,
-#         ExchangeAxis => 1 | 0,
-#     );
-#
-# =cut
+=item _ColumnAndRowTranslation()
+
+translate the column and row name if needed
+
+    $StatsObject->_ColumnAndRowTranslation(
+        StatArrayRef => $StatArrayRef,
+        HeadArrayRef => $HeadArrayRef,
+        StatRef      => $StatRef,
+        ExchangeAxis => 1 | 0,
+    );
+
+=cut
 
 sub _ColumnAndRowTranslation {
     my ( $Self, %Param ) = @_;
@@ -2598,21 +2602,21 @@ sub _TimeInSeconds {
     return $TimeInSeconds{ $Param{TimeUnit} };
 }
 
-#=item _OutputHTMLTable()
-#
-#returns a html table based on a array
-#
-#    $HTML = $LayoutObject->_OutputHTMLTable(
-#        Head => ['RowA', 'RowB', ],
-#        Data => [
-#            [1,4],
-#            [7,3],
-#            [1,9],
-#            [34,4],
-#        ],
-#    );
-#
-#=cut
+=item _OutputHTMLTable()
+
+returns a html table based on a array
+
+    $HTML = $LayoutObject->_OutputHTMLTable(
+        Head => ['RowA', 'RowB', ],
+        Data => [
+            [1,4],
+            [7,3],
+            [1,9],
+            [34,4],
+        ],
+    );
+
+=cut
 
 sub _OutputHTMLTable {
     my ( $Self, %Param ) = @_;
@@ -2643,4 +2647,9 @@ sub _OutputHTMLTable {
     $Output .= "</table>\n";
     return $Output;
 }
+
+=end Internal:
+
+=cut
+
 1;
