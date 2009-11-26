@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.27 2009-11-25 16:19:58 mg Exp $
+# $Id: Installer.dtl,v 1.28 2009-11-26 08:23:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -839,13 +839,13 @@ $Include{"AJAX"}
                                 </tr>
                                 <tr class="hidden">
                                     <td class="contentkey">$Text{"Default Charset"}:</td>
-                                    <td class="contentvalue">$Text{"utf8"}: $Text{"Yes"} <input type="radio" name="DBDefaultCharset" checked value="utf8"/> - $Text{"No"} <input type="radio" name="DBDefaultCharset" value=""/>
+                                    <td class="contentvalue">$Text{"utf8"}: $Text{"Yes"} <input type="radio" name="DBDefaultCharset" checked="checked" value="utf8"/> - $Text{"No"} <input type="radio" name="DBDefaultCharset" value=""/>
                                     </td>
                                     <td class="contentvalue"></td>
                                 </tr>
                                 <tr class="hidden">
                                     <td class="contentkey">$Text{"Action"}:</td>
-                                    <td class="contentvalue">$Text{"Create"} <input type="radio" name="DBAction" checked value="Create"/> - $Text{"Delete"} <input type="radio" name="DBAction" value="Delete"/>
+                                    <td class="contentvalue">$Text{"Create"} <input type="radio" name="DBAction" checked="checked" value="Create"/> - $Text{"Delete"} <input type="radio" name="DBAction" value="Delete"/>
                                     </td>
                                     <td class="contentvalue"></td>
                                 </tr>
