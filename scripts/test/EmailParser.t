@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.25 2009-10-06 13:55:30 martin Exp $
+# $Id: EmailParser.t,v 1.26 2009-11-26 08:48:30 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -695,7 +695,7 @@ $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
 $Self->Is(
     $Self->{EmailParserObject}->GetCharset(),
     'ISO-8859-1',
-    "#15 GetCharset() - utf8 charset should be found",
+    "#15 GetCharset() - iso-8859-1 charset should be found",
 );
 
 @Attachments = $Self->{EmailParserObject}->GetAttachments();
