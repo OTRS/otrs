@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.32 2009-11-25 16:29:18 mg Exp $
+# $Id: AdminQueueResponses.pm,v 1.33 2009-11-26 08:02:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -192,24 +192,25 @@ sub _Mask {
         $Param{OptionStrg0}
             .= "<b>$Param{Type}:</b> <a href=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change;ID=$_\">"
             . "$FirstDataTmp{$_}</a> (id=$_)<br/>";
-        $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><br/>\n";
+        $Param{OptionStrg0} .= "<input type=\"hidden\" name=\"ID\" value=\"$_\" /><br/>\n";
     }
-    $Param{OptionStrg0} .= "<b>$NeType:</b><br/> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
+    $Param{OptionStrg0}
+        .= "<b>$NeType:</b><br/> <select name=\"IDs\" size=10 multiple=\"multiple\">\n";
     for my $ID ( sort { $SecondDataTmp{$a} cmp $SecondDataTmp{$b} } keys %SecondDataTmp ) {
         $SecondDataTmp{$ID} = $Self->{LayoutObject}->Ascii2Html(
             Text                => $SecondDataTmp{$ID},
             HTMLQuote           => 1,
             LanguageTranslation => 0,
         ) || '';
-        $Param{OptionStrg0} .= "<OPTION ";
+        $Param{OptionStrg0} .= "<option ";
         for ( sort keys %DataTmp ) {
             if ( $_ eq $ID ) {
-                $Param{OptionStrg0} .= 'selected';
+                $Param{OptionStrg0} .= 'selected="selected"';
             }
         }
-        $Param{OptionStrg0} .= " VALUE=\"$ID\">$SecondDataTmp{$ID} (id=$ID)</OPTION>\n";
+        $Param{OptionStrg0} .= " value=\"$ID\">$SecondDataTmp{$ID} (id=$ID)</option>\n";
     }
-    $Param{OptionStrg0} .= "</SELECT>\n";
+    $Param{OptionStrg0} .= "</select>\n";
 
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminQueueResponsesChangeForm',
@@ -232,7 +233,7 @@ sub _MaskFrom {
             LanguageTranslation => 0,
         );
         $Param{AnswerQueueStrg}
-            .= "<a href=\"$BaseLink" . "Subaction=Response;ID=$_\">$UserDataTmp{$_}</a><br>";
+            .= "<a href=\"$BaseLink" . "Subaction=Response;ID=$_\">$UserDataTmp{$_}</a><br/>";
     }
     for ( sort { $GroupDataTmp{$a} cmp $GroupDataTmp{$b} } keys %GroupDataTmp ) {
         $GroupDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
@@ -241,7 +242,7 @@ sub _MaskFrom {
             LanguageTranslation => 0,
         );
         $Param{QueueAnswerStrg}
-            .= "<a href=\"$BaseLink" . "Subaction=Queue;ID=$_\">$GroupDataTmp{$_}</a><br>";
+            .= "<a href=\"$BaseLink" . "Subaction=Queue;ID=$_\">$GroupDataTmp{$_}</a><br/>";
     }
 
     return $Self->{LayoutObject}->Output(

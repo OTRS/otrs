@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.79 2009-09-29 11:48:55 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.80 2009-11-26 08:02:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -347,7 +347,7 @@ sub MaskAgentZoom {
         }
         $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
             Age   => $Param{UntilTime},
-            Space => '<br>'
+            Space => '<br/>'
         );
         if ( $Param{UntilTime} < -1 && $Self->{HighlightColor2} ) {
             $Param{PendingUntil} .= "</font>";

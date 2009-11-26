@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.24 2009-11-25 16:29:18 mg Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.25 2009-11-26 08:02:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -236,11 +236,11 @@ sub MaskAdminUserGroupChangeForm {
         . $Self->{LayoutObject}->LinkEncode( $Param{ID} ) . "\">"
         . "$Param{Name}</a> (id=$Param{ID})<br/>";
     $Param{OptionStrg0}
-        .= '<INPUT TYPE="hidden" NAME="ID" VALUE="'
+        .= '<input type="hidden" name="ID" value="'
         . $Self->{LayoutObject}->Ascii2Html( Text => $Param{ID} )
-        . '"><br/>';
+        . '"/><br/>';
 
-    $Param{OptionStrg0} .= "<br>\n";
+    $Param{OptionStrg0} .= "<br/>\n";
     $Param{OptionStrg0} .= "<table>\n";
     $Param{OptionStrg0} .= "<tr><th>\$Text{\"$NeType\"}</th>";
     for ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {

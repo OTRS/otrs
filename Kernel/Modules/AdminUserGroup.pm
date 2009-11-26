@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.43 2009-11-25 16:29:18 mg Exp $
+# $Id: AdminUserGroup.pm,v 1.44 2009-11-26 08:02:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -220,7 +220,7 @@ sub MaskAdminUserGroupChangeForm {
         .= "<b>\$Text{\"$Type\"}:</b> <a href=\"$BaseLink"
         . "Action=Admin$Type;Subaction=Change;ID=$Param{ID}\">"
         . "$Param{Name}</a> (id=$Param{ID})<br/>";
-    $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="' . $Param{ID} . '"><br/>';
+    $Param{OptionStrg0} .= '<input type="hidden" name="ID" value="' . $Param{ID} . '" /><br/>';
 
     $Param{OptionStrg0} .= "<br/>\n";
     $Param{OptionStrg0} .= "<table cellspacing=\"0\" cellpadding=\"4\">\n";
@@ -231,7 +231,7 @@ sub MaskAdminUserGroupChangeForm {
             $Param{OptionStrg0} .= " | ";
         }
         $Param{OptionStrg0}
-            .= "<input type=\"checkbox\" name=\"$_\" value=\"\" onclick=\"select_items('$_');\"></th>";
+            .= "<input type=\"checkbox\" name=\"$_\" value=\"\" onclick=\"select_items('$_');\" /></th>";
     }
     $Param{OptionStrg0} .= "</tr>\n";
 

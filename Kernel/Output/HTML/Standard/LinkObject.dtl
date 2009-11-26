@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.9 2009-03-04 11:02:50 tr Exp $
+# $Id: LinkObject.dtl,v 1.10 2009-11-26 08:02:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ $TimeLong{"$Data{"Content"}"}
 <!-- dtl:block:TimeLong -->
 
 <!-- dtl:block:Checkbox -->
-<input type="checkbox" name="$QData{"Name"}" value="$QData{"Content"}" alt="$QData{"Title"}" title="$QData{"Title"}"><br>
+<input type="checkbox" name="$QData{"Name"}" value="$QData{"Content"}" alt="$QData{"Title"}" title="$QData{"Title"}"><br/>
 <!-- dtl:block:Checkbox -->
 
 <!-- dtl:block:InputText -->
@@ -39,20 +39,20 @@ $TimeLong{"$Data{"Content"}"}
 
 <!-- dtl:block:TableSimple -->
 <tr>
-  <td colspan="2">
-    <b>$Text{"Linked"}:</b>
-  </td>
+    <td colspan="2">
+        <b>$Text{"Linked"}:</b>
+    </td>
 </tr>
 <!-- dtl:block:TableSimpleType -->
 <tr valign="top">
-  <td>
-    <b>&nbsp;&nbsp;$Text{"$QData{"LinkTypeName"}"}:</b>
-  </td>
-  <td>
+    <td>
+        <b>&nbsp;&nbsp;$Text{"$QData{"LinkTypeName"}"}:</b>
+    </td>
+    <td>
 <!-- dtl:block:TableSimpleTypeRow -->
-    $Data{"Content"}<br>
+        $Data{"Content"}<br/>
 <!-- dtl:block:TableSimpleTypeRow -->
-  </td>
+    </td>
 </tr>
 <!-- dtl:block:TableSimpleType -->
 <!-- dtl:block:TableSimple -->
@@ -60,55 +60,55 @@ $TimeLong{"$Data{"Content"}"}
 <!-- dtl:block:TableComplex -->
 <table width="100%" border="0" cellspacing="0" cellpadding="3">
 <!-- dtl:block:TableComplexBlock -->
-  <tr>
-    <td>
-      <b><i>$Text{"$Data{"BlockDescription"}"}: $Data{"Blockname"}</i></b>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <table width="100%" border="0" cellspacing="0" cellpadding="3">
-        <tr>
+    <tr>
+        <td>
+            <b><i>$Text{"$Data{"BlockDescription"}"}: $Data{"Blockname"}</i></b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                <tr>
 <!-- dtl:block:TableComplexBlockColumn -->
-          <td class="contenthead" width="$QData{"Width"}">$Text{"$QData{"Content"}"}</td>
+                    <td class="contenthead" width="$QData{"Width"}">$Text{"$QData{"Content"}"}</td>
 <!-- dtl:block:TableComplexBlockColumn -->
-        </tr>
+                </tr>
 <!-- dtl:block:TableComplexBlockRow -->
-        <tr class="contentbody">
+                <tr class="contentbody">
 <!-- dtl:block:TableComplexBlockRowColumn -->
-          <td class="$QData{"CssClass"}" $Data{"Css"}>$Data{"Content"}</td>
+                    <td class="$QData{"CssClass"}" $Data{"Css"}>$Data{"Content"}</td>
 <!-- dtl:block:TableComplexBlockRowColumn -->
-        </tr>
+                </tr>
 <!-- dtl:block:TableComplexBlockRow -->
 <!-- dtl:block:TableComplexBlockFooterNormal -->
-        <tr>
-          <td class="contentfooter" colspan="$QData{"Colspan"}">&nbsp;</td>
-        </tr>
+                <tr>
+                    <td class="contentfooter" colspan="$QData{"Colspan"}">&nbsp;</td>
+                </tr>
 <!-- dtl:block:TableComplexBlockFooterNormal -->
 <!-- dtl:block:TableComplexBlockFooterAdd -->
-        <tr>
-          <td class="contentfooter" colspan="$QData{"Colspan"}">
-            $Data{"LinkTypeStrg"}
-            &nbsp;
-            <input class="button" type="submit" name="SubmitLink" value="$Text{"Link"}"/>
-          </td>
-        </tr>
+                <tr>
+                    <td class="contentfooter" colspan="$QData{"Colspan"}">
+                        $Data{"LinkTypeStrg"}
+                        &nbsp;
+                        <input class="button" type="submit" name="SubmitLink" value="$Text{"Link"}"/>
+                    </td>
+                </tr>
 <!-- dtl:block:TableComplexBlockFooterAdd -->
 <!-- dtl:block:TableComplexBlockFooterDelete -->
-        <tr>
-          <td class="contentfooter" colspan="$QData{"Colspan"}">
-            <input class="button" type="submit" name="SubmitDelete" value="$Text{"Delete"}"/>
-          </td>
-        </tr>
+                <tr>
+                    <td class="contentfooter" colspan="$QData{"Colspan"}">
+                        <input class="button" type="submit" name="SubmitDelete" value="$Text{"Delete"}"/>
+                    </td>
+                </tr>
 <!-- dtl:block:TableComplexBlockFooterDelete -->
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <font size="1">&nbsp;</font>
-    </td>
-  </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <font size="1">&nbsp;</font>
+        </td>
+    </tr>
 <!-- dtl:block:TableComplexBlock -->
 </table>
 <!-- dtl:block:TableComplex -->
