@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.31 2009-11-26 08:02:16 mg Exp $
+# $Id: AgentLinkObject.dtl,v 1.32 2009-11-26 08:12:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,10 +39,10 @@
         <td class="mainbody" align="center">
             <br/>
             <form action="$Env{"CGIHandle"}" method="get" name="compose">
-                <input type="hidden" name="Action" value="$Env{"Action"}">
-                <input type="hidden" name="Mode" value="$QData{"Mode"}">
-                <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}">
-                <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}">
+                <input type="hidden" name="Action" value="$Env{"Action"}" />
+                <input type="hidden" name="Mode" value="$QData{"Mode"}" />
+                <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}" />
+                <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}" />
                 <table width="800" border="0" cellspacing="0" cellpadding="3">
                     <tr>
                         <td class="contenthead">
@@ -121,12 +121,12 @@
     <tr>
         <td class="mainbody" align="center">
             <form action="$Env{"CGIHandle"}" method="get">
-                <input type="hidden" name="Action" value="$Env{"Action"}">
-                <input type="hidden" name="Subaction" value="LinkDelete">
-                <input type="hidden" name="Mode" value="$QData{"Mode"}">
-                <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}">
-                <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}">
-                <input type="hidden" name="TargetIdentifier" value="$QData{"TargetIdentifier"}">
+                <input type="hidden" name="Action" value="$Env{"Action"}" />
+                <input type="hidden" name="Subaction" value="LinkDelete" />
+                <input type="hidden" name="Mode" value="$QData{"Mode"}" />
+                <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}" />
+                <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}" />
+                <input type="hidden" name="TargetIdentifier" value="$QData{"TargetIdentifier"}" />
 <!-- dtl:block:DeleteTableComplex -->
                 <br/>
                 <table width="806" align="center" border="0" cellspacing="0" cellpadding="0">

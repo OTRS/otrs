@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.10 2009-11-26 08:02:16 mg Exp $
+# $Id: LinkObject.dtl,v 1.11 2009-11-26 08:12:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,11 +30,11 @@ $TimeLong{"$Data{"Content"}"}
 <!-- dtl:block:TimeLong -->
 
 <!-- dtl:block:Checkbox -->
-<input type="checkbox" name="$QData{"Name"}" value="$QData{"Content"}" alt="$QData{"Title"}" title="$QData{"Title"}"><br/>
+<input type="checkbox" name="$QData{"Name"}" value="$QData{"Content"}" alt="$QData{"Title"}" title="$QData{"Title"}" /><br/>
 <!-- dtl:block:Checkbox -->
 
 <!-- dtl:block:InputText -->
-<input type="Text" name="$QData{"Key"}" size="60" value="$QData{"Value"}">
+<input type="Text" name="$QData{"Key"}" size="60" value="$QData{"Value"}" />
 <!-- dtl:block:InputText -->
 
 <!-- dtl:block:TableSimple -->

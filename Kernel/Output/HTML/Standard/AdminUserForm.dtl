@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserForm.dtl,v 1.45 2009-11-26 08:02:16 mg Exp $
+# $Id: AdminUserForm.dtl,v 1.46 2009-11-26 08:12:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -188,7 +188,7 @@
                                 <tr>
                                     <td class="contentkey">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></td>
                                     <td class="contentvalue">
-                                        <input type="radio" name="OutOfOffice" value="1" $QData{"OutOfOfficeOn"}>$Text{"On"}<input type="radio" name="OutOfOffice" value="0" $QData{"OutOfOfficeOff"}>$Text{"Off"}
+                                        <input type="radio" name="OutOfOffice" value="1" $QData{"OutOfOfficeOn"} />$Text{"On"}<input type="radio" name="OutOfOffice" value="0" $QData{"OutOfOfficeOff"} />$Text{"Off"}
                                         <br/>
                                         $Text{"Start"}: $Data{"OptionStart"}<br/>$Text{"End"}: $Data{"OptionEnd"}
                                     </td>

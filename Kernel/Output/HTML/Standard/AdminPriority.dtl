@@ -2,7 +2,7 @@
 # AdminPriority.dtl - provides HTML form for AdminTicketPriority
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.dtl,v 1.5 2009-11-25 15:34:55 mg Exp $
+# $Id: AdminPriority.dtl,v 1.6 2009-11-26 08:12:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +19,9 @@
     <tr>
         <td width="30%" class="mainbody">
             <form action="$Env{"CGIHandle"}" method="get">
-                <input type="hidden" name="Action" value="$Env{"Action"}">
-                <input type="hidden" name="Subaction" value="PriorityEdit">
-                <input type="hidden" name="PriorityID" value="NEW">
+                <input type="hidden" name="Action" value="$Env{"Action"}" />
+                <input type="hidden" name="Subaction" value="PriorityEdit" />
+                <input type="hidden" name="PriorityID" value="NEW" />
                 <table width="100%" cellspacing="0" cellpadding="4">
                     <tr>
                         <td class="contenthead">$Text{"Add Priority"}:</td>
@@ -31,7 +31,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Add"}">
+                            <input class="button" type="submit" value="$Text{"Add"}" />
                         </td>
                     </tr>
                 </table>
@@ -78,9 +78,9 @@
 <!-- dtl:block:OverviewList -->
 <!-- dtl:block:PriorityEdit -->
             <form action="$Env{"CGIHandle"}" method="get">
-                <input type="hidden" name="Action" value="$Env{"Action"}">
-                <input type="hidden" name="Subaction" value="PrioritySave">
-                <input type="hidden" name="PriorityID" value="$QData{"PriorityID"}">
+                <input type="hidden" name="Action" value="$Env{"Action"}" />
+                <input type="hidden" name="Subaction" value="PrioritySave" />
+                <input type="hidden" name="PriorityID" value="$QData{"PriorityID"}" />
                 <table width="100%" cellspacing="0" cellpadding="4">
                     <tr>
                         <td class="contenthead">
@@ -93,7 +93,7 @@
                                 <tr>
                                     <td class="contentkey">$Text{"Priority"}: </td>
                                     <td class="contentvalue">
-                                        <input type="text" name="Name" value="$QData{"Name"}" size="45" maxlength="200">
+                                        <input type="text" name="Name" value="$QData{"Name"}" size="45" maxlength="200" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -105,7 +105,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Submit"}">
+                            <input class="button" type="submit" value="$Text{"Submit"}" />
                         </td>
                     </tr>
                 </table>

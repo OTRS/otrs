@@ -2,7 +2,7 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.31 2009-11-26 08:02:16 mg Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.32 2009-11-26 08:12:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,7 +82,7 @@
                                     <tr>
                                         <td colspan="2" align="center">
                                             <center>
-                                            <input type="radio" name="OutOfOffice" value="1" $QData{"OutOfOfficeOn"}>$Text{"On"}<input type="radio" name="OutOfOffice" value="0" $QData{"OutOfOfficeOff"}>$Text{"Off"}
+                                            <input type="radio" name="OutOfOffice" value="1" $QData{"OutOfOfficeOn"} />$Text{"On"}<input type="radio" name="OutOfOffice" value="0" $QData{"OutOfOfficeOff"} />$Text{"Off"}
                                             </center>
                                         </td>
                                     </tr>
