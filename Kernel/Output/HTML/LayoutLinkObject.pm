@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.15 2009-02-16 11:16:22 tr Exp $
+# $Id: LayoutLinkObject.pm,v 1.16 2009-11-26 10:24:41 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -472,6 +472,148 @@ sub LinkObjectTableCreateSimple {
     );
 }
 
+=item LinkObjectSelectableObjectList()
+
+return a selection list of linkable objects
+
+    my $String = $LayoutObject->LinkObjectSelectableObjectList(
+        Object   => 'Ticket',
+        Selected => $Identifier,  # (optional)
+    );
+
+=cut
+
+sub LinkObjectSelectableObjectList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Object} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Object!' );
+        return;
+    }
+
+    # load link core module
+    if ( !$Self->{LinkObject} ) {
+        $Self->{LinkObject} = Kernel::System::LinkObject->new( %{$Self} );
+    }
+
+    # get possible objects list
+    my %PossibleObjectsList = $Self->{LinkObject}->PossibleObjectsList(
+        Object => $Param{Object},
+        UserID => $Self->{UserID},
+    );
+
+    return if !%PossibleObjectsList;
+
+    # get the select lists
+    my @SelectableObjectList;
+    my @SelectableTempList;
+    my $AddBlankLines;
+    POSSIBLEOBJECT:
+    for my $PossibleObject ( sort { lc $a cmp lc $b } keys %PossibleObjectsList ) {
+
+        # load backend
+        my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
+            Object => $PossibleObject,
+        );
+
+        return if !$BackendObject;
+
+        # get object select list
+        my @SelectableList = $BackendObject->SelectableObjectList(
+            %Param,
+        );
+
+        next POSSIBLEOBJECT if !@SelectableList;
+
+        push @SelectableTempList,   \@SelectableList;
+        push @SelectableObjectList, @SelectableList;
+
+        next POSSIBLEOBJECT if $AddBlankLines;
+
+        # check each keys if blank lines must be added
+        ROW:
+        for my $Row (@SelectableList) {
+            next ROW if !$Row->{Key} || $Row->{Key} !~ m{ :: }xms;
+            $AddBlankLines = 1;
+            last ROW;
+        }
+    }
+
+    # add blank lines
+    if ($AddBlankLines) {
+
+        # reset list
+        @SelectableObjectList = ();
+
+        # define blank line entry
+        my %BlankLine = (
+            Key      => '-',
+            Value    => '-------------------------',
+            Disabled => 1,
+        );
+
+        # insert the blank lines
+        for my $Elements (@SelectableTempList) {
+            push @SelectableObjectList, @{$Elements};
+        }
+        continue {
+            push @SelectableObjectList, \%BlankLine;
+        }
+
+        # add blank lines in top of the list
+        unshift @SelectableObjectList, \%BlankLine;
+    }
+
+    # create new instance of the layout object
+    my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
+
+    # create target object string
+    my $TargetObjectStrg = $LayoutObject->BuildSelection(
+        Data     => \@SelectableObjectList,
+        Name     => 'TargetIdentifier',
+        TreeView => 1,
+        OnChange => 'document.compose.submit(); return false;',
+    );
+
+    return $TargetObjectStrg;
+}
+
+=item LinkObjectSearchOptionList()
+
+return a list of search options
+
+    my @SearchOptionList = $LayoutObject->LinkObjectSearchOptionList(
+        Object    => 'Ticket',
+        SubObject => 'Bla',     # (optional)
+    );
+
+=cut
+
+sub LinkObjectSearchOptionList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Object} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Object!' );
+        return;
+    }
+
+    # load backend
+    my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
+        Object => $Param{Object},
+    );
+
+    return if !$BackendObject;
+
+    # get search option list
+    my @SearchOptionList = $BackendObject->SearchOptionList(
+        %Param,
+    );
+
+    return @SearchOptionList;
+}
+
 =item _LinkObjectContentStringCreate()
 
 return a output string
@@ -633,148 +775,6 @@ sub _LinkObjectContentStringCreate {
     return $Param{LayoutObject}->Output(
         TemplateFile => 'LinkObject',
     );
-}
-
-=item LinkObjectSelectableObjectList()
-
-return a selection list of linkable objects
-
-    my $String = $LayoutObject->LinkObjectSelectableObjectList(
-        Object   => 'Ticket',
-        Selected => $Identifier,  # (optional)
-    );
-
-=cut
-
-sub LinkObjectSelectableObjectList {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Object!' );
-        return;
-    }
-
-    # load link core module
-    if ( !$Self->{LinkObject} ) {
-        $Self->{LinkObject} = Kernel::System::LinkObject->new( %{$Self} );
-    }
-
-    # get possible objects list
-    my %PossibleObjectsList = $Self->{LinkObject}->PossibleObjectsList(
-        Object => $Param{Object},
-        UserID => $Self->{UserID},
-    );
-
-    return if !%PossibleObjectsList;
-
-    # get the select lists
-    my @SelectableObjectList;
-    my @SelectableTempList;
-    my $AddBlankLines;
-    POSSIBLEOBJECT:
-    for my $PossibleObject ( sort { lc $a cmp lc $b } keys %PossibleObjectsList ) {
-
-        # load backend
-        my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
-            Object => $PossibleObject,
-        );
-
-        return if !$BackendObject;
-
-        # get object select list
-        my @SelectableList = $BackendObject->SelectableObjectList(
-            %Param,
-        );
-
-        next POSSIBLEOBJECT if !@SelectableList;
-
-        push @SelectableTempList,   \@SelectableList;
-        push @SelectableObjectList, @SelectableList;
-
-        next POSSIBLEOBJECT if $AddBlankLines;
-
-        # check each keys if blank lines must be added
-        ROW:
-        for my $Row (@SelectableList) {
-            next ROW if !$Row->{Key} || $Row->{Key} !~ m{ :: }xms;
-            $AddBlankLines = 1;
-            last ROW;
-        }
-    }
-
-    # add blank lines
-    if ($AddBlankLines) {
-
-        # reset list
-        @SelectableObjectList = ();
-
-        # define blank line entry
-        my %BlankLine = (
-            Key      => '-',
-            Value    => '-------------------------',
-            Disabled => 1,
-        );
-
-        # insert the blank lines
-        for my $Elements (@SelectableTempList) {
-            push @SelectableObjectList, @{$Elements};
-        }
-        continue {
-            push @SelectableObjectList, \%BlankLine;
-        }
-
-        # add blank lines in top of the list
-        unshift @SelectableObjectList, \%BlankLine;
-    }
-
-    # create new instance of the layout object
-    my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
-
-    # create target object string
-    my $TargetObjectStrg = $LayoutObject->BuildSelection(
-        Data     => \@SelectableObjectList,
-        Name     => 'TargetIdentifier',
-        TreeView => 1,
-        OnChange => 'document.compose.submit(); return false;',
-    );
-
-    return $TargetObjectStrg;
-}
-
-=item LinkObjectSearchOptionList()
-
-return a list of search options
-
-    my @SearchOptionList = $LayoutObject->LinkObjectSearchOptionList(
-        Object    => 'Ticket',
-        SubObject => 'Bla',     # (optional)
-    );
-
-=cut
-
-sub LinkObjectSearchOptionList {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Object!' );
-        return;
-    }
-
-    # load backend
-    my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
-        Object => $Param{Object},
-    );
-
-    return if !$BackendObject;
-
-    # get search option list
-    my @SearchOptionList = $BackendObject->SearchOptionList(
-        %Param,
-    );
-
-    return @SearchOptionList;
 }
 
 =item _LoadLinkObjectLayoutBackend()

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.185 2009-11-25 16:46:25 mg Exp $
+# $Id: Layout.pm,v 1.186 2009-11-26 10:24:41 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.185 $) [1];
+$VERSION = qw($Revision: 1.186 $) [1];
 
 =head1 NAME
 
@@ -404,140 +404,6 @@ sub Block {
     push @{ $Self->{BlockData} }, { Name => $Param{Name}, Data => $Param{Data} };
 }
 
-sub _BlockTemplatePreferences {
-    my ( $Self, %Param ) = @_;
-
-    my %TagsOpen       = ();
-    my @Preferences    = ();
-    my $LastLayerCount = 0;
-    my $Layer          = 0;
-    my $LastLayer      = '';
-    my $CurrentLayer   = '';
-    my %UsedNames      = ();
-    my $TemplateFile   = $Param{TemplateFile} || '';
-    if ( !defined $Param{Template} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
-        return;
-    }
-
-    if ( $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} ) {
-        return $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile};
-    }
-
-    $Param{Template} =~ s{
-        <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
-    }
-    {
-        my $BlockName = $1;
-        if (!$TagsOpen{$BlockName}) {
-            $Layer++;
-            $TagsOpen{$BlockName} = 1;
-            my $CL = '';
-            if ($Layer == 1) {
-                $LastLayer = '';
-                $CurrentLayer = $BlockName;
-            }
-            elsif ($LastLayerCount == $Layer) {
-                $CurrentLayer = $LastLayer.'::'.$BlockName;
-            }
-            else {
-                $LastLayer = $CurrentLayer;
-                $CurrentLayer = $CurrentLayer.'::'.$BlockName;
-            }
-            $LastLayerCount = $Layer;
-            if (!$UsedNames{$BlockName}) {
-                push (@Preferences, {
-                    Name => $BlockName,
-                    Layer => $Layer,
-                    },
-                );
-                $UsedNames{$BlockName} = 1;
-            }
-        }
-        else {
-            $TagsOpen{$BlockName} = 0;
-            $Layer--;
-        }
-    }segxm;
-
-    # check open (invalid) tags
-    for ( keys %TagsOpen ) {
-        if ( $TagsOpen{$_} ) {
-            my $Message = "'dtl:block:$_' isn't closed!";
-            if ($TemplateFile) {
-                $Message .= " ($TemplateFile.dtl)";
-            }
-            $Self->{LogObject}->Log( Priority => 'error', Message => $Message );
-            $Self->FatalError();
-        }
-    }
-
-    # remember block data
-    if ($TemplateFile) {
-        $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} = \@Preferences;
-    }
-
-    return \@Preferences;
-}
-
-sub _BlockTemplatesReplace {
-    my ( $Self, %Param ) = @_;
-
-    my %BlockLayer     = ();
-    my %BlockTemplates = ();
-    my @BR             = ();
-    if ( !$Param{Template} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
-        return;
-    }
-    my $TemplateString = $Param{Template};
-
-    # get availabe template block preferences
-    my $BlocksRef = $Self->_BlockTemplatePreferences(
-        Template => $$TemplateString,
-        TemplateFile => $Param{TemplateFile} || '',
-    );
-    for my $Block ( reverse @{$BlocksRef} ) {
-        $$TemplateString =~ s{
-            <!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->
-        }
-        {
-            $BlockTemplates{$Block->{Name}} = $1;
-            "<!-- dtl:place_block:$Block->{Name} -->";
-        }segxm;
-        $BlockLayer{ $Block->{Name} } = $Block->{Layer};
-    }
-
-    # create block template string
-    if ( $Self->{BlockData} && %BlockTemplates ) {
-        my @NotUsedBlockData = ();
-        for my $Block ( @{ $Self->{BlockData} } ) {
-            if ( $BlockTemplates{ $Block->{Name} } ) {
-                push(
-                    @BR,
-                    {
-                        Layer => $BlockLayer{ $Block->{Name} },
-                        Name  => $Block->{Name},
-                        Data  => $Self->_Output(
-                            Template => "\n<!--start $Block->{Name}-->"
-                                . $BlockTemplates{ $Block->{Name} }
-                                . "<!--stop $Block->{Name} -->",
-                            Data => $Block->{Data},
-                        ),
-                    }
-                );
-            }
-            else {
-                push @NotUsedBlockData, { %{$Block} };
-            }
-        }
-
-        # remember not use block data
-        $Self->{BlockData} = \@NotUsedBlockData;
-    }
-    return @BR;
-}
-
 =item Output()
 
 use a dtl template and get html back
@@ -844,281 +710,6 @@ sub Output {
         }
     }
 
-    return $Output;
-}
-
-sub _Output {
-    my ( $Self, %Param ) = @_;
-
-    # deep recursion protection
-    $Self->{OutputCount}++;
-    if ( $Self->{OutputCount} > 20 ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Loop detection!',
-        );
-        $Self->FatalDie();
-    }
-
-    # create refs
-    my $GlobalRef = {
-        Env    => $Self->{EnvRef},
-        Data   => $Param{Data},
-        Config => $Self->{ConfigObject},
-    };
-
-    my $TemplateString = $Param{Template};
-
-    # parse/get text blocks
-    my @BR = $Self->_BlockTemplatesReplace(
-        Template => \$TemplateString,
-        TemplateFile => $Param{TemplateFile} || '',
-    );
-    my $ID        = 0;
-    my %LayerHash = ();
-    my $OldLayer  = 1;
-    for my $Block (@BR) {
-
-        # reset layer counter if we switched on layer lower
-        if ( $Block->{Layer} > $OldLayer ) {
-            $LayerHash{ $Block->{Layer} } = 0;
-        }
-
-        # count current layer
-        $LayerHash{ $Block->{Layer} }++;
-
-        # create current id (1:2:3)
-        undef $ID;
-        for ( my $i = 1; $i <= $Block->{Layer}; $i++ ) {
-            if ( defined $ID ) {
-                $ID .= ':';
-            }
-            if ( defined $LayerHash{$i} ) {
-                $ID .= $LayerHash{$i};
-            }
-        }
-
-        # add block counter to template blocks
-        if ( $Block->{Layer} == 1 ) {
-            $TemplateString =~ s{
-                ( <!--\s{0,1}dtl:place_block:$Block->{Name})(\s{0,1}-->)
-            }
-            {
-                "$1:".$LayerHash{$Block->{Layer}}.$2;
-            }segxm;
-        }
-
-        # add block counter to in block blocks
-        $Block->{Data} =~ s{
-            (<!--\s{0,1}dtl:place_block:.+?)(\s{0,1}-->)
-        }
-        {
-            "$1:$ID:-$2";
-        }segxm;
-
-        # count up place_block counter
-        $ID =~ s/^(.*:)(\d+)$/$1-/g;
-
-        my $NewID = '';
-        if ( $ID =~ /^(.*:)(\d+)$/ ) {
-            $NewID = $1 . ( $2 + 1 );
-        }
-        elsif ( $ID =~ /^(\d+)$/ ) {
-            $NewID = ( $1 + 1 );
-        }
-        elsif ( $ID =~ /^(.*:)-$/ ) {
-            $NewID = $ID;
-        }
-
-        $TemplateString =~ s{
-            <!--\sdtl:place_block:$Block->{Name}:$ID\s-->
-        }
-        {$Block->{Data}<!-- dtl:place_block:$Block->{Name}:$NewID -->}sxm;
-        $OldLayer = $Block->{Layer};
-    }
-
-    # remove empty blocks and block preferences
-    if ( $Param{BlockReplace} ) {
-        $TemplateString =~ s{ <!--\s{0,1}dtl:place_block:.+?\s{0,1}--> }{}sgxm;
-    }
-
-    # process template
-    my $Output = '';
-    for my $Line ( split( /\n/, $TemplateString ) ) {
-
-        #        # add missing new line (striped from split)
-        #        $Line .= "\n";
-        if ( $Line =~ /<dtl/ ) {
-
-            # do template set (<dtl set $Data{"adasd"} = "lala">)
-            # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
-            $Line =~ s{
-                <dtl\W(system-call|set)\W\$(Data|Env|Config)\{\"(.+?)\"\}\W=\W\"(.+?)\">
-            }
-            {
-                my $Data = '';
-                if ($1 eq 'set') {
-                    $Data = $4;
-                }
-                else {
-                    open my $System, " $4 | " or print STDERR "Can't open $4: $!";
-                    $Data = do { local $/; <$System> };
-                    close $System;
-                }
-
-                $GlobalRef->{$2}->{$3} = $Data;
-                # output replace with nothing!
-                '';
-            }egx;
-
-            # do template if dynamic
-            $Line =~ s{
-                <dtl\Wif\W\(\$(Env|Data|Text|Config)\{\"(.*)\"\}\W(eq|ne|=~|!~)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
-            }
-            {
-                my $Type    = $1 || '';
-                my $TypeKey = $2 || '';
-                my $Con     = $3 || '';
-                my $ConVal  = defined $4 ? $4 : '';
-                my $IsType  = $5 || '';
-                my $IsKey   = $6 || '';
-                my $IsValue = $7 || '';
-                # do ne actions
-                if ($Type eq 'Text') {
-                    my $Tmp = $Self->{LanguageObject}->Get($TypeKey) || '';
-                    if (eval '($Tmp '.$Con.' $ConVal)') {
-                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
-                        # output replace with nothing!
-                        '';
-                    }
-                }
-                elsif ($Type eq 'Env' || $Type eq 'Data') {
-                    my $Tmp = $GlobalRef->{$Type}->{$TypeKey};
-                    if ( !defined $Tmp ) {
-                        $Tmp = '';
-                    }
-                    if (eval '($Tmp '.$Con.' $ConVal)') {
-                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
-                        # output replace with nothing!
-                        '';
-                    }
-                    else {
-                        # output replace with nothing!
-                        '';
-                    }
-                }
-                elsif ($Type eq 'Config') {
-                    my $Tmp = $Self->{ConfigObject}->Get($TypeKey);
-                    if ( defined $Tmp && eval '($Tmp '.$Con.' $ConVal)') {
-                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
-                        '';
-                    }
-                }
-            }egx;
-        }
-
-        # variable & env & config replacement (three times)
-        my $Regexp = 1;
-        while ($Regexp) {
-            $Regexp = $Line =~ s{
-                \$((?:|Q|LQ|)Data|(?:|Q)Env|Config|Include){"(.+?)"}
-            }
-            {
-                if ($1 eq 'Data' || $1 eq 'Env') {
-                    if ( defined $GlobalRef->{$1}->{$2} ) {
-                        $GlobalRef->{$1}->{$2};
-                    }
-                    else {
-                        # output replace with nothing!
-                        '';
-                    }
-                }
-                elsif ($1 eq 'QEnv') {
-                    my $Text = $2;
-                    if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
-                        '';
-                    }
-                    elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
-                        if ( defined $GlobalRef->{Env}->{$1} ) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$1}, Max => $2);
-                        }
-                        else {
-                            # output replace with nothing!
-                            '';
-                        }
-                    }
-                    else {
-                        if ( defined $GlobalRef->{Env}->{$Text} ) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$Text});
-                        }
-                        else {
-                            # output replace with nothing!
-                            '';
-                        }
-                    }
-                }
-                elsif ($1 eq 'QData') {
-                    my $Text = $2;
-                    if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
-                        '';
-                    }
-                    elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
-                        if ( defined $GlobalRef->{Data}->{$1} ) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$1}, Max => $2);
-                        }
-                        else {
-                            # output replace with nothing!
-                            '';
-                        }
-                    }
-                    else {
-                        if ( defined $GlobalRef->{Data}->{$Text} ) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$Text});
-                        }
-                        else {
-                            # output replace with nothing!
-                            '';
-                        }
-                    }
-                }
-                # link encode
-                elsif ($1 eq 'LQData') {
-                    if ( defined $GlobalRef->{Data}->{$2} ) {
-                        $Self->LinkEncode($GlobalRef->{Data}->{$2});
-                    }
-                    else {
-                        # output replace with nothing!
-                        '';
-                    }
-                }
-                # replace with
-                elsif ($1 eq 'Config') {
-                    if ( defined $Self->{ConfigObject}->Get($2) ) {
-                        $Self->{ConfigObject}->Get($2);
-                    }
-                    else {
-                        # output replace with nothing!
-                        '';
-                    }
-                }
-                # include dtl files
-                elsif ($1 eq 'Include') {
-                    $Self->Output(
-                        %Param,
-                        TemplateFile => $2,
-                    );
-                }
-            }egx;
-        }
-
-        # add this line to output
-        $Output .= $Line . "\n";
-    }
-    chomp $Output;
-
-    $Self->{OutputCount} = 0;
-
-    # return output
     return $Output;
 }
 
@@ -2443,538 +2034,6 @@ sub BuildSelection {
     return $String;
 }
 
-#=item _BuildSelectionOptionRefCreate()
-#
-#create the option hash
-#
-#    my $OptionRef = $LayoutObject->_BuildSelectionOptionRefCreate(
-#        %Param,
-#    );
-#
-#    my $OptionRef = {
-#        Sort => 'numeric',
-#        PossibleNone => 0,
-#        Max => 100,
-#    }
-#
-#=cut
-
-sub _BuildSelectionOptionRefCreate {
-    my ( $Self, %Param ) = @_;
-
-    my $OptionRef = {};
-
-    # set SelectedID option
-    if ( defined $Param{SelectedID} ) {
-        if ( ref $Param{SelectedID} eq 'ARRAY' ) {
-            for my $Key ( @{ $Param{SelectedID} } ) {
-                $OptionRef->{SelectedID}->{$Key} = 1;
-            }
-        }
-        else {
-            $OptionRef->{SelectedID}->{ $Param{SelectedID} } = 1;
-        }
-    }
-
-    # set SelectedValue option
-    if ( defined $Param{SelectedValue} ) {
-        if ( ref $Param{SelectedValue} eq 'ARRAY' ) {
-            for my $Value ( @{ $Param{SelectedValue} } ) {
-                $OptionRef->{SelectedValue}->{$Value} = 1;
-            }
-        }
-        else {
-            $OptionRef->{SelectedValue}->{ $Param{SelectedValue} } = 1;
-        }
-    }
-
-    # set Sort option
-    $OptionRef->{Sort} = 0;
-    if ( $Param{Sort} ) {
-        $OptionRef->{Sort} = $Param{Sort};
-    }
-
-    # look if a individual sort is available
-    if ( $Param{SortIndividual} && ref $Param{SortIndividual} eq 'ARRAY' ) {
-        $OptionRef->{SortIndividual} = $Param{SortIndividual};
-    }
-
-    # set SortReverse option
-    $OptionRef->{SortReverse} = 0;
-    if ( $Param{SortReverse} ) {
-        $OptionRef->{SortReverse} = 1;
-    }
-
-    # set Translation option
-    $OptionRef->{Translation} = 1;
-    if ( defined $Param{Translation} && $Param{Translation} eq 0 ) {
-        $OptionRef->{Translation} = 0;
-    }
-
-    # correcting selected value hash if translation is on
-    if (
-        $OptionRef->{Translation}
-        && $OptionRef->{SelectedValue}
-        && ref $OptionRef->{SelectedValue} eq 'HASH'
-        )
-    {
-        my %SelectedValueNew;
-        for my $OriginalKey ( keys %{ $OptionRef->{SelectedValue} } ) {
-            my $TranslatedKey = $Self->{LanguageObject}->Get($OriginalKey);
-            $SelectedValueNew{$TranslatedKey} = 1;
-        }
-        $OptionRef->{SelectedValue} = \%SelectedValueNew;
-    }
-
-    # set PossibleNone option
-    $OptionRef->{PossibleNone} = 0;
-    if ( $Param{PossibleNone} ) {
-        $OptionRef->{PossibleNone} = 1;
-    }
-
-    # set TreeView option
-    $OptionRef->{TreeView} = 0;
-    if ( $Param{TreeView} ) {
-        $OptionRef->{TreeView} = 1;
-        $OptionRef->{Sort}     = 'TreeView';
-    }
-
-    # set DisabledBranch option
-    if ( $Param{DisabledBranch} ) {
-        if ( ref $Param{DisabledBranch} eq 'ARRAY' ) {
-            for my $Branch ( @{ $Param{DisabledBranch} } ) {
-                $OptionRef->{DisabledBranch}->{$Branch} = 1;
-            }
-        }
-        else {
-            $OptionRef->{DisabledBranch}->{ $Param{DisabledBranch} } = 1;
-        }
-    }
-
-    # set Max option
-    $OptionRef->{Max} = $Param{Max} || 100;
-
-    # set HTMLQuote option
-    $OptionRef->{HTMLQuote} = 1;
-    if ( defined $Param{HTMLQuote} ) {
-        $OptionRef->{HTMLQuote} = $Param{HTMLQuote};
-    }
-
-    return $OptionRef;
-}
-
-#=item _BuildSelectionAttributeRefCreate()
-#
-#create the attribute hash
-#
-#    my $AttributeRef = $LayoutObject->_BuildSelectionAttributeRefCreate(
-#        %Param,
-#    );
-#
-#    my $AttributeRef = {
-#        name => 'TheName',
-#        multiple => undef,
-#        size => 5,
-#    }
-#
-#=cut
-
-sub _BuildSelectionAttributeRefCreate {
-    my ( $Self, %Param ) = @_;
-
-    my $AttributeRef = {};
-
-    # check params with key and value
-    for (qw(Name ID Size Class OnChange OnClick)) {
-        if ( $Param{$_} ) {
-            $AttributeRef->{ lc($_) } = $Param{$_};
-        }
-    }
-
-    # add id attriubut
-    if ( !$AttributeRef->{id} ) {
-        $AttributeRef->{id} = $AttributeRef->{name};
-    }
-
-    # check params with key and value that need to be HTML-Quoted
-    for (qw(Title)) {
-        if ( $Param{$_} ) {
-            $AttributeRef->{ lc($_) } = $Self->Ascii2Html( Text => $Param{$_} );
-        }
-    }
-
-    # check key only params
-    for (qw(Multiple Disabled)) {
-        if ( $Param{$_} ) {
-            $AttributeRef->{ lc($_) } = undef;
-        }
-    }
-
-    return $AttributeRef;
-}
-
-#=item _BuildSelectionDataRefCreate()
-#
-#create the data hash
-#
-#    my $DataRef = $LayoutObject->_BuildSelectionDataRefCreate(
-#        Data => $ArrayRef,              # use $HashRef, $ArrayRef or $ArrayHashRef
-#        AttributeRef => $AttributeRef,
-#        OptionRef => $OptionRef,
-#    );
-#
-#    my $DataRef  = [
-#        {
-#            Key => 11,
-#            Value => 'Text',
-#        },
-#        {
-#            Key => 'abc',
-#            Value => '&nbsp;&nbsp;Text',
-#            Selected => 1,
-#        },
-#    ];
-#
-#=cut
-
-sub _BuildSelectionDataRefCreate {
-    my ( $Self, %Param ) = @_;
-
-    my $AttributeRef = $Param{AttributeRef};
-    my $OptionRef    = $Param{OptionRef};
-    my $DataRef      = [];
-
-    my $Counter = 0;
-
-    # if HashRef was given
-    if ( ref $Param{Data} eq 'HASH' ) {
-
-        # sort hash (before the translation)
-        my @SortKeys;
-        if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
-            my %List = reverse %{ $Param{Data} };
-            for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
-                if ( $List{$Key} ) {
-                    push @SortKeys, $List{$Key};
-                    delete $List{$Key};
-                }
-            }
-            push @SortKeys, sort { $a cmp $b } ( values %List );
-        }
-
-        # translate value
-        if ( $OptionRef->{Translation} ) {
-            for my $Row ( keys %{ $Param{Data} } ) {
-                $Param{Data}->{$Row} = $Self->{LanguageObject}->Get( $Param{Data}->{$Row} );
-            }
-        }
-
-        # sort hash (after the translation)
-        if ( $OptionRef->{Sort} eq 'NumericKey' ) {
-            @SortKeys = sort { $a <=> $b } ( keys %{ $Param{Data} } );
-        }
-        elsif ( $OptionRef->{Sort} eq 'NumericValue' ) {
-            @SortKeys
-                = sort { $Param{Data}->{$a} <=> $Param{Data}->{$b} } ( keys %{ $Param{Data} } );
-        }
-        elsif ( $OptionRef->{Sort} eq 'AlphanumericKey' ) {
-            @SortKeys = sort( keys %{ $Param{Data} } );
-        }
-        elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
-
-            # add suffix for correct sorting
-            my %SortHash;
-            for ( keys %{ $Param{Data} } ) {
-                $SortHash{$_} = $Param{Data}->{$_} . '::';
-            }
-            @SortKeys = sort { $SortHash{$a} cmp $SortHash{$b} } ( keys %SortHash );
-        }
-        elsif ( $OptionRef->{Sort} eq 'IndividualKey' && $OptionRef->{SortIndividual} ) {
-            my %List = %{ $Param{Data} };
-            for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
-                if ( $List{$Key} ) {
-                    push @SortKeys, $Key;
-                    delete $List{$Key};
-                }
-            }
-            push @SortKeys, sort { $List{$a} cmp $List{$b} } ( keys %List );
-        }
-        elsif ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
-
-            # already done before the translation
-        }
-        else {
-            @SortKeys
-                = sort { $Param{Data}->{$a} cmp $Param{Data}->{$b} } ( keys %{ $Param{Data} } );
-            $OptionRef->{Sort} = 'AlphanumericValue';
-        }
-
-        # create DataRef
-        for my $Row (@SortKeys) {
-            $DataRef->[$Counter]->{Key}   = $Row;
-            $DataRef->[$Counter]->{Value} = $Param{Data}->{$Row};
-            $Counter++;
-        }
-    }
-
-    # if ArrayHashRef was given
-    elsif ( ref $Param{Data} eq 'ARRAY' && ref $Param{Data}->[0] eq 'HASH' ) {
-
-        # create DataRef
-        for my $Row ( @{ $Param{Data} } ) {
-            if ( ref $Row eq 'HASH' && defined $Row->{Key} ) {
-                $DataRef->[$Counter]->{Key}   = $Row->{Key};
-                $DataRef->[$Counter]->{Value} = $Row->{Value};
-
-                # translate value
-                if ( $OptionRef->{Translation} ) {
-                    $DataRef->[$Counter]->{Value}
-                        = $Self->{LanguageObject}->Get( $DataRef->[$Counter]->{Value} );
-                }
-
-                # set Selected and Disabled options
-                if ( $Row->{Selected} ) {
-                    $DataRef->[$Counter]->{Selected} = 1;
-                }
-                elsif ( $Row->{Disabled} ) {
-                    $DataRef->[$Counter]->{Disabled} = 1;
-                }
-                $Counter++;
-            }
-        }
-    }
-
-    # if ArrayRef was given
-    elsif ( ref $Param{Data} eq 'ARRAY' ) {
-
-        if (
-            ( $OptionRef->{Sort} eq 'IndividualValue' || $OptionRef->{Sort} eq 'IndividualValue' )
-            && $OptionRef->{SortIndividual}
-            )
-        {
-            my %List = map { $_ => 1 } @{ $Param{Data} };
-            $Param{Data} = [];
-            for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
-                if ( $List{$Key} ) {
-                    push @{ $Param{Data} }, $Key;
-                    delete $List{$Key};
-                }
-            }
-            push @{ $Param{Data} }, sort { $a cmp $b } ( keys %List );
-        }
-
-        my %ReverseHash;
-
-        # translate value
-        if ( $OptionRef->{Translation} ) {
-            my @TranslateArray;
-            for my $Row ( @{ $Param{Data} } ) {
-                my $TranslateString = $Self->{LanguageObject}->Get($Row);
-                push @TranslateArray, $TranslateString;
-                $ReverseHash{$TranslateString} = $Row;
-            }
-            $Param{Data} = \@TranslateArray;
-        }
-        else {
-            for my $Row ( @{ $Param{Data} } ) {
-                $ReverseHash{$Row} = $Row;
-            }
-        }
-
-        # sort array
-        if ( $OptionRef->{Sort} eq 'AlphanumericKey' || $OptionRef->{Sort} eq 'AlphanumericValue' )
-        {
-            my @SortArray = sort( @{ $Param{Data} } );
-            $Param{Data} = \@SortArray;
-        }
-        elsif ( $OptionRef->{Sort} eq 'NumericKey' || $OptionRef->{Sort} eq 'NumericValue' ) {
-            my @SortArray = sort { $a <=> $b } ( @{ $Param{Data} } );
-            $Param{Data} = \@SortArray;
-        }
-        elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
-
-            # add suffix for correct sorting
-            my @SortArray;
-            for my $Row ( @{ $Param{Data} } ) {
-                push @SortArray, ( $Row . '::' );
-            }
-
-            # sort array
-            @SortArray = sort(@SortArray);
-
-            # remove suffix
-            my @SortArray2;
-            for my $Row (@SortArray) {
-                $/ = '::';
-                chomp($Row);
-                push @SortArray2, $Row;
-            }
-            $Param{Data} = \@SortArray;
-        }
-
-        # create DataRef
-        for my $Row ( @{ $Param{Data} } ) {
-            $DataRef->[$Counter]->{Key}   = $ReverseHash{$Row};
-            $DataRef->[$Counter]->{Value} = $Row;
-            $Counter++;
-        }
-    }
-
-    # SelectedID and SelectedValue option
-    if ( $OptionRef->{SelectedID} || $OptionRef->{SelectedValue} ) {
-        for my $Row ( @{$DataRef} ) {
-            if (
-                $OptionRef->{SelectedID}->{ $Row->{Key} }
-                || $OptionRef->{SelectedValue}->{ $Row->{Value} }
-                )
-            {
-                $Row->{Selected} = 1;
-            }
-        }
-    }
-
-    # DisabledBranch option
-    if ( $OptionRef->{DisabledBranch} ) {
-        for my $Row ( @{$DataRef} ) {
-            for my $Branch ( keys %{ $OptionRef->{DisabledBranch} } ) {
-                if ( $Row->{Value} =~ /^(\Q$Branch\E)$/ || $Row->{Value} =~ /^(\Q$Branch\E)::/ ) {
-                    $Row->{Disabled} = 1;
-                }
-            }
-        }
-    }
-
-    # Max option
-    # REMARK: Don't merge the Max handling with Ascii2Html function call of
-    # the HTMLQuote handling. In this case you lose the max handling if you
-    # deactivate HTMLQuote
-    if ( $OptionRef->{Max} ) {
-        for my $Row ( @{$DataRef} ) {
-
-            # REMARK: This is the same solution as in Ascii2Html
-            $Row->{Value} =~ s/^(.{$OptionRef->{Max}}).+?$/$1\[\.\.\]/gs;
-
-            #$Row->{Value} = substr( $Row->{Value}, 0, $OptionRef->{Max} );
-        }
-    }
-
-    # HTMLQuote option
-    if ( $OptionRef->{HTMLQuote} ) {
-        for my $Row ( @{$DataRef} ) {
-            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
-            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
-        }
-    }
-
-    # SortReverse option
-    if ( $OptionRef->{SortReverse} ) {
-        @{$DataRef} = reverse( @{$DataRef} );
-    }
-
-    # PossibleNone option
-    if ( $OptionRef->{PossibleNone} ) {
-        my %None;
-        $None{Key}   = '';
-        $None{Value} = '-';
-
-        unshift( @{$DataRef}, \%None );
-    }
-
-    # TreeView option
-    if ( $OptionRef->{TreeView} ) {
-
-        ROW:
-        for my $Row ( @{$DataRef} ) {
-
-            next ROW if !$Row->{Value};
-
-            my @Fragment = split '::', $Row->{Value};
-            $Row->{Value} = pop @Fragment;
-
-            my $Space = '&nbsp;&nbsp;' x scalar @Fragment;
-            $Space ||= '';
-
-            $Row->{Value} = $Space . $Row->{Value};
-        }
-    }
-
-    return $DataRef;
-}
-
-#=item _BuildSelectionOutput()
-#
-#create the html string
-#
-#    my $HTMLString = $LayoutObject->_BuildSelectionOutput(
-#        AttributeRef => $AttributeRef,
-#        DataRef => $DataRef,
-#    );
-#
-#    my $AttributeRef = {
-#        name => 'TheName',
-#        multiple => undef,
-#        size => 5,
-#    }
-#
-#    my $DataRef  = [
-#        {
-#            Key => 11,
-#            Value => 'Text',
-#            Disabled => 1,
-#        },
-#        {
-#            Key => 'abc',
-#            Value => '&nbsp;&nbsp;Text',
-#            Selected => 1,
-#        },
-#    ];
-#
-#=cut
-
-sub _BuildSelectionOutput {
-    my ( $Self, %Param ) = @_;
-
-    my $String;
-
-    # start generation, if AttributeRef and DataRef was found
-    if ( $Param{AttributeRef} && $Param{DataRef} ) {
-
-        # generate <select> row
-        $String = '<select';
-        for my $Key ( keys %{ $Param{AttributeRef} } ) {
-            if ( $Key && defined $Param{AttributeRef}->{$Key} ) {
-                $String .= " $Key=\"$Param{AttributeRef}->{$Key}\"";
-            }
-            elsif ($Key) {
-                $String .= " $Key";
-            }
-        }
-        $String .= ">\n";
-
-        # generate <option> rows
-        for my $Row ( @{ $Param{DataRef} } ) {
-            my $Key = '';
-            if ( defined $Row->{Key} ) {
-                $Key = $Row->{Key};
-            }
-            my $Value = '';
-            if ( defined $Row->{Value} ) {
-                $Value = $Row->{Value};
-            }
-            my $SelectedDisabled = '';
-            if ( $Row->{Selected} ) {
-                $SelectedDisabled = ' selected="selected"';
-            }
-            elsif ( $Row->{Disabled} ) {
-                $SelectedDisabled = ' disabled="disabled"';
-            }
-            $String .= "  <option value=\"$Key\"$SelectedDisabled>$Value</option>\n";
-        }
-        $String .= '</select>';
-    }
-    return $String;
-}
-
 sub NoPermission {
     my ( $Self, %Param ) = @_;
 
@@ -4217,20 +3276,6 @@ sub CustomerNoPermission {
     return $Output;
 }
 
-sub _DisableBannerCheck {
-    my ( $Self, %Param ) = @_;
-
-    return 1 if !$Self->{ConfigObject}->Get('Secure::DisableBanner');
-    return   if !$Param{OutputRef};
-
-    # remove the version tag from the header
-    ${ $Param{OutputRef} } =~ s{
-                ^ X-Powered-By: .+? Open \s Ticket \s Request \s System \s \(http .+? \)$ \n
-            }{}smx;
-
-    return 1
-}
-
 =item Ascii2RichText()
 
 converts text to rich text
@@ -4330,39 +3375,6 @@ sub RichTextDocumentComplete {
     return $Param{String};
 }
 
-#=item _RichTextReplaceLinkOfInlineContent()
-#
-#replace links of inline content e. g. images
-#
-#
-#    $HTMLBodyStringRef = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
-#        String => $HTMLBodyStringRef,
-#    );
-#
-#=cut
-
-sub _RichTextReplaceLinkOfInlineContent {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(String)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # replace image link with content id for uploaded images
-    ${ $Param{String} } =~ s{
-        (<img.+?src=("|')).+?ContentID=(.+?)("|')(.*?>)
-    }
-    {
-        $1 . 'cid:' . $3 . $4 . $5;
-    }esgxi;
-
-    return $Param{String};
-}
-
 =item RichTextDocumentCleanup()
 
 1)  replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
@@ -4396,6 +3408,994 @@ sub RichTextDocumentCleanup {
     return $Param{String};
 }
 
+sub _BlockTemplatePreferences {
+    my ( $Self, %Param ) = @_;
+
+    my %TagsOpen       = ();
+    my @Preferences    = ();
+    my $LastLayerCount = 0;
+    my $Layer          = 0;
+    my $LastLayer      = '';
+    my $CurrentLayer   = '';
+    my %UsedNames      = ();
+    my $TemplateFile   = $Param{TemplateFile} || '';
+    if ( !defined $Param{Template} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
+        return;
+    }
+
+    if ( $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} ) {
+        return $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile};
+    }
+
+    $Param{Template} =~ s{
+        <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
+    }
+    {
+        my $BlockName = $1;
+        if (!$TagsOpen{$BlockName}) {
+            $Layer++;
+            $TagsOpen{$BlockName} = 1;
+            my $CL = '';
+            if ($Layer == 1) {
+                $LastLayer = '';
+                $CurrentLayer = $BlockName;
+            }
+            elsif ($LastLayerCount == $Layer) {
+                $CurrentLayer = $LastLayer.'::'.$BlockName;
+            }
+            else {
+                $LastLayer = $CurrentLayer;
+                $CurrentLayer = $CurrentLayer.'::'.$BlockName;
+            }
+            $LastLayerCount = $Layer;
+            if (!$UsedNames{$BlockName}) {
+                push (@Preferences, {
+                    Name => $BlockName,
+                    Layer => $Layer,
+                    },
+                );
+                $UsedNames{$BlockName} = 1;
+            }
+        }
+        else {
+            $TagsOpen{$BlockName} = 0;
+            $Layer--;
+        }
+    }segxm;
+
+    # check open (invalid) tags
+    for ( keys %TagsOpen ) {
+        if ( $TagsOpen{$_} ) {
+            my $Message = "'dtl:block:$_' isn't closed!";
+            if ($TemplateFile) {
+                $Message .= " ($TemplateFile.dtl)";
+            }
+            $Self->{LogObject}->Log( Priority => 'error', Message => $Message );
+            $Self->FatalError();
+        }
+    }
+
+    # remember block data
+    if ($TemplateFile) {
+        $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} = \@Preferences;
+    }
+
+    return \@Preferences;
+}
+
+sub _BlockTemplatesReplace {
+    my ( $Self, %Param ) = @_;
+
+    my %BlockLayer     = ();
+    my %BlockTemplates = ();
+    my @BR             = ();
+    if ( !$Param{Template} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
+        return;
+    }
+    my $TemplateString = $Param{Template};
+
+    # get availabe template block preferences
+    my $BlocksRef = $Self->_BlockTemplatePreferences(
+        Template => $$TemplateString,
+        TemplateFile => $Param{TemplateFile} || '',
+    );
+    for my $Block ( reverse @{$BlocksRef} ) {
+        $$TemplateString =~ s{
+            <!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->
+        }
+        {
+            $BlockTemplates{$Block->{Name}} = $1;
+            "<!-- dtl:place_block:$Block->{Name} -->";
+        }segxm;
+        $BlockLayer{ $Block->{Name} } = $Block->{Layer};
+    }
+
+    # create block template string
+    if ( $Self->{BlockData} && %BlockTemplates ) {
+        my @NotUsedBlockData = ();
+        for my $Block ( @{ $Self->{BlockData} } ) {
+            if ( $BlockTemplates{ $Block->{Name} } ) {
+                push(
+                    @BR,
+                    {
+                        Layer => $BlockLayer{ $Block->{Name} },
+                        Name  => $Block->{Name},
+                        Data  => $Self->_Output(
+                            Template => "\n<!--start $Block->{Name}-->"
+                                . $BlockTemplates{ $Block->{Name} }
+                                . "<!--stop $Block->{Name} -->",
+                            Data => $Block->{Data},
+                        ),
+                    }
+                );
+            }
+            else {
+                push @NotUsedBlockData, { %{$Block} };
+            }
+        }
+
+        # remember not use block data
+        $Self->{BlockData} = \@NotUsedBlockData;
+    }
+    return @BR;
+}
+
+sub _Output {
+    my ( $Self, %Param ) = @_;
+
+    # deep recursion protection
+    $Self->{OutputCount}++;
+    if ( $Self->{OutputCount} > 20 ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Loop detection!',
+        );
+        $Self->FatalDie();
+    }
+
+    # create refs
+    my $GlobalRef = {
+        Env    => $Self->{EnvRef},
+        Data   => $Param{Data},
+        Config => $Self->{ConfigObject},
+    };
+
+    my $TemplateString = $Param{Template};
+
+    # parse/get text blocks
+    my @BR = $Self->_BlockTemplatesReplace(
+        Template => \$TemplateString,
+        TemplateFile => $Param{TemplateFile} || '',
+    );
+    my $ID        = 0;
+    my %LayerHash = ();
+    my $OldLayer  = 1;
+    for my $Block (@BR) {
+
+        # reset layer counter if we switched on layer lower
+        if ( $Block->{Layer} > $OldLayer ) {
+            $LayerHash{ $Block->{Layer} } = 0;
+        }
+
+        # count current layer
+        $LayerHash{ $Block->{Layer} }++;
+
+        # create current id (1:2:3)
+        undef $ID;
+        for ( my $i = 1; $i <= $Block->{Layer}; $i++ ) {
+            if ( defined $ID ) {
+                $ID .= ':';
+            }
+            if ( defined $LayerHash{$i} ) {
+                $ID .= $LayerHash{$i};
+            }
+        }
+
+        # add block counter to template blocks
+        if ( $Block->{Layer} == 1 ) {
+            $TemplateString =~ s{
+                ( <!--\s{0,1}dtl:place_block:$Block->{Name})(\s{0,1}-->)
+            }
+            {
+                "$1:".$LayerHash{$Block->{Layer}}.$2;
+            }segxm;
+        }
+
+        # add block counter to in block blocks
+        $Block->{Data} =~ s{
+            (<!--\s{0,1}dtl:place_block:.+?)(\s{0,1}-->)
+        }
+        {
+            "$1:$ID:-$2";
+        }segxm;
+
+        # count up place_block counter
+        $ID =~ s/^(.*:)(\d+)$/$1-/g;
+
+        my $NewID = '';
+        if ( $ID =~ /^(.*:)(\d+)$/ ) {
+            $NewID = $1 . ( $2 + 1 );
+        }
+        elsif ( $ID =~ /^(\d+)$/ ) {
+            $NewID = ( $1 + 1 );
+        }
+        elsif ( $ID =~ /^(.*:)-$/ ) {
+            $NewID = $ID;
+        }
+
+        $TemplateString =~ s{
+            <!--\sdtl:place_block:$Block->{Name}:$ID\s-->
+        }
+        {$Block->{Data}<!-- dtl:place_block:$Block->{Name}:$NewID -->}sxm;
+        $OldLayer = $Block->{Layer};
+    }
+
+    # remove empty blocks and block preferences
+    if ( $Param{BlockReplace} ) {
+        $TemplateString =~ s{ <!--\s{0,1}dtl:place_block:.+?\s{0,1}--> }{}sgxm;
+    }
+
+    # process template
+    my $Output = '';
+    for my $Line ( split( /\n/, $TemplateString ) ) {
+
+        #        # add missing new line (striped from split)
+        #        $Line .= "\n";
+        if ( $Line =~ /<dtl/ ) {
+
+            # do template set (<dtl set $Data{"adasd"} = "lala">)
+            # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
+            $Line =~ s{
+                <dtl\W(system-call|set)\W\$(Data|Env|Config)\{\"(.+?)\"\}\W=\W\"(.+?)\">
+            }
+            {
+                my $Data = '';
+                if ($1 eq 'set') {
+                    $Data = $4;
+                }
+                else {
+                    open my $System, " $4 | " or print STDERR "Can't open $4: $!";
+                    $Data = do { local $/; <$System> };
+                    close $System;
+                }
+
+                $GlobalRef->{$2}->{$3} = $Data;
+                # output replace with nothing!
+                '';
+            }egx;
+
+            # do template if dynamic
+            $Line =~ s{
+                <dtl\Wif\W\(\$(Env|Data|Text|Config)\{\"(.*)\"\}\W(eq|ne|=~|!~)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
+            }
+            {
+                my $Type    = $1 || '';
+                my $TypeKey = $2 || '';
+                my $Con     = $3 || '';
+                my $ConVal  = defined $4 ? $4 : '';
+                my $IsType  = $5 || '';
+                my $IsKey   = $6 || '';
+                my $IsValue = $7 || '';
+                # do ne actions
+                if ($Type eq 'Text') {
+                    my $Tmp = $Self->{LanguageObject}->Get($TypeKey) || '';
+                    if (eval '($Tmp '.$Con.' $ConVal)') {
+                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
+                        # output replace with nothing!
+                        '';
+                    }
+                }
+                elsif ($Type eq 'Env' || $Type eq 'Data') {
+                    my $Tmp = $GlobalRef->{$Type}->{$TypeKey};
+                    if ( !defined $Tmp ) {
+                        $Tmp = '';
+                    }
+                    if (eval '($Tmp '.$Con.' $ConVal)') {
+                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
+                        # output replace with nothing!
+                        '';
+                    }
+                    else {
+                        # output replace with nothing!
+                        '';
+                    }
+                }
+                elsif ($Type eq 'Config') {
+                    my $Tmp = $Self->{ConfigObject}->Get($TypeKey);
+                    if ( defined $Tmp && eval '($Tmp '.$Con.' $ConVal)') {
+                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
+                        '';
+                    }
+                }
+            }egx;
+        }
+
+        # variable & env & config replacement (three times)
+        my $Regexp = 1;
+        while ($Regexp) {
+            $Regexp = $Line =~ s{
+                \$((?:|Q|LQ|)Data|(?:|Q)Env|Config|Include){"(.+?)"}
+            }
+            {
+                if ($1 eq 'Data' || $1 eq 'Env') {
+                    if ( defined $GlobalRef->{$1}->{$2} ) {
+                        $GlobalRef->{$1}->{$2};
+                    }
+                    else {
+                        # output replace with nothing!
+                        '';
+                    }
+                }
+                elsif ($1 eq 'QEnv') {
+                    my $Text = $2;
+                    if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
+                        '';
+                    }
+                    elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
+                        if ( defined $GlobalRef->{Env}->{$1} ) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$1}, Max => $2);
+                        }
+                        else {
+                            # output replace with nothing!
+                            '';
+                        }
+                    }
+                    else {
+                        if ( defined $GlobalRef->{Env}->{$Text} ) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$Text});
+                        }
+                        else {
+                            # output replace with nothing!
+                            '';
+                        }
+                    }
+                }
+                elsif ($1 eq 'QData') {
+                    my $Text = $2;
+                    if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
+                        '';
+                    }
+                    elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
+                        if ( defined $GlobalRef->{Data}->{$1} ) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$1}, Max => $2);
+                        }
+                        else {
+                            # output replace with nothing!
+                            '';
+                        }
+                    }
+                    else {
+                        if ( defined $GlobalRef->{Data}->{$Text} ) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$Text});
+                        }
+                        else {
+                            # output replace with nothing!
+                            '';
+                        }
+                    }
+                }
+                # link encode
+                elsif ($1 eq 'LQData') {
+                    if ( defined $GlobalRef->{Data}->{$2} ) {
+                        $Self->LinkEncode($GlobalRef->{Data}->{$2});
+                    }
+                    else {
+                        # output replace with nothing!
+                        '';
+                    }
+                }
+                # replace with
+                elsif ($1 eq 'Config') {
+                    if ( defined $Self->{ConfigObject}->Get($2) ) {
+                        $Self->{ConfigObject}->Get($2);
+                    }
+                    else {
+                        # output replace with nothing!
+                        '';
+                    }
+                }
+                # include dtl files
+                elsif ($1 eq 'Include') {
+                    $Self->Output(
+                        %Param,
+                        TemplateFile => $2,
+                    );
+                }
+            }egx;
+        }
+
+        # add this line to output
+        $Output .= $Line . "\n";
+    }
+    chomp $Output;
+
+    $Self->{OutputCount} = 0;
+
+    # return output
+    return $Output;
+}
+
+#=item _BuildSelectionOptionRefCreate()
+#
+#create the option hash
+#
+#    my $OptionRef = $LayoutObject->_BuildSelectionOptionRefCreate(
+#        %Param,
+#    );
+#
+#    my $OptionRef = {
+#        Sort => 'numeric',
+#        PossibleNone => 0,
+#        Max => 100,
+#    }
+#
+#=cut
+
+sub _BuildSelectionOptionRefCreate {
+    my ( $Self, %Param ) = @_;
+
+    my $OptionRef = {};
+
+    # set SelectedID option
+    if ( defined $Param{SelectedID} ) {
+        if ( ref $Param{SelectedID} eq 'ARRAY' ) {
+            for my $Key ( @{ $Param{SelectedID} } ) {
+                $OptionRef->{SelectedID}->{$Key} = 1;
+            }
+        }
+        else {
+            $OptionRef->{SelectedID}->{ $Param{SelectedID} } = 1;
+        }
+    }
+
+    # set SelectedValue option
+    if ( defined $Param{SelectedValue} ) {
+        if ( ref $Param{SelectedValue} eq 'ARRAY' ) {
+            for my $Value ( @{ $Param{SelectedValue} } ) {
+                $OptionRef->{SelectedValue}->{$Value} = 1;
+            }
+        }
+        else {
+            $OptionRef->{SelectedValue}->{ $Param{SelectedValue} } = 1;
+        }
+    }
+
+    # set Sort option
+    $OptionRef->{Sort} = 0;
+    if ( $Param{Sort} ) {
+        $OptionRef->{Sort} = $Param{Sort};
+    }
+
+    # look if a individual sort is available
+    if ( $Param{SortIndividual} && ref $Param{SortIndividual} eq 'ARRAY' ) {
+        $OptionRef->{SortIndividual} = $Param{SortIndividual};
+    }
+
+    # set SortReverse option
+    $OptionRef->{SortReverse} = 0;
+    if ( $Param{SortReverse} ) {
+        $OptionRef->{SortReverse} = 1;
+    }
+
+    # set Translation option
+    $OptionRef->{Translation} = 1;
+    if ( defined $Param{Translation} && $Param{Translation} eq 0 ) {
+        $OptionRef->{Translation} = 0;
+    }
+
+    # correcting selected value hash if translation is on
+    if (
+        $OptionRef->{Translation}
+        && $OptionRef->{SelectedValue}
+        && ref $OptionRef->{SelectedValue} eq 'HASH'
+        )
+    {
+        my %SelectedValueNew;
+        for my $OriginalKey ( keys %{ $OptionRef->{SelectedValue} } ) {
+            my $TranslatedKey = $Self->{LanguageObject}->Get($OriginalKey);
+            $SelectedValueNew{$TranslatedKey} = 1;
+        }
+        $OptionRef->{SelectedValue} = \%SelectedValueNew;
+    }
+
+    # set PossibleNone option
+    $OptionRef->{PossibleNone} = 0;
+    if ( $Param{PossibleNone} ) {
+        $OptionRef->{PossibleNone} = 1;
+    }
+
+    # set TreeView option
+    $OptionRef->{TreeView} = 0;
+    if ( $Param{TreeView} ) {
+        $OptionRef->{TreeView} = 1;
+        $OptionRef->{Sort}     = 'TreeView';
+    }
+
+    # set DisabledBranch option
+    if ( $Param{DisabledBranch} ) {
+        if ( ref $Param{DisabledBranch} eq 'ARRAY' ) {
+            for my $Branch ( @{ $Param{DisabledBranch} } ) {
+                $OptionRef->{DisabledBranch}->{$Branch} = 1;
+            }
+        }
+        else {
+            $OptionRef->{DisabledBranch}->{ $Param{DisabledBranch} } = 1;
+        }
+    }
+
+    # set Max option
+    $OptionRef->{Max} = $Param{Max} || 100;
+
+    # set HTMLQuote option
+    $OptionRef->{HTMLQuote} = 1;
+    if ( defined $Param{HTMLQuote} ) {
+        $OptionRef->{HTMLQuote} = $Param{HTMLQuote};
+    }
+
+    return $OptionRef;
+}
+
+#=item _BuildSelectionAttributeRefCreate()
+#
+#create the attribute hash
+#
+#    my $AttributeRef = $LayoutObject->_BuildSelectionAttributeRefCreate(
+#        %Param,
+#    );
+#
+#    my $AttributeRef = {
+#        name => 'TheName',
+#        multiple => undef,
+#        size => 5,
+#    }
+#
+#=cut
+
+sub _BuildSelectionAttributeRefCreate {
+    my ( $Self, %Param ) = @_;
+
+    my $AttributeRef = {};
+
+    # check params with key and value
+    for (qw(Name ID Size Class OnChange OnClick)) {
+        if ( $Param{$_} ) {
+            $AttributeRef->{ lc($_) } = $Param{$_};
+        }
+    }
+
+    # add id attriubut
+    if ( !$AttributeRef->{id} ) {
+        $AttributeRef->{id} = $AttributeRef->{name};
+    }
+
+    # check params with key and value that need to be HTML-Quoted
+    for (qw(Title)) {
+        if ( $Param{$_} ) {
+            $AttributeRef->{ lc($_) } = $Self->Ascii2Html( Text => $Param{$_} );
+        }
+    }
+
+    # check key only params
+    for (qw(Multiple Disabled)) {
+        if ( $Param{$_} ) {
+            $AttributeRef->{ lc($_) } = undef;
+        }
+    }
+
+    return $AttributeRef;
+}
+
+#=item _BuildSelectionDataRefCreate()
+#
+#create the data hash
+#
+#    my $DataRef = $LayoutObject->_BuildSelectionDataRefCreate(
+#        Data => $ArrayRef,              # use $HashRef, $ArrayRef or $ArrayHashRef
+#        AttributeRef => $AttributeRef,
+#        OptionRef => $OptionRef,
+#    );
+#
+#    my $DataRef  = [
+#        {
+#            Key => 11,
+#            Value => 'Text',
+#        },
+#        {
+#            Key => 'abc',
+#            Value => '&nbsp;&nbsp;Text',
+#            Selected => 1,
+#        },
+#    ];
+#
+#=cut
+
+sub _BuildSelectionDataRefCreate {
+    my ( $Self, %Param ) = @_;
+
+    my $AttributeRef = $Param{AttributeRef};
+    my $OptionRef    = $Param{OptionRef};
+    my $DataRef      = [];
+
+    my $Counter = 0;
+
+    # if HashRef was given
+    if ( ref $Param{Data} eq 'HASH' ) {
+
+        # sort hash (before the translation)
+        my @SortKeys;
+        if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
+            my %List = reverse %{ $Param{Data} };
+            for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
+                if ( $List{$Key} ) {
+                    push @SortKeys, $List{$Key};
+                    delete $List{$Key};
+                }
+            }
+            push @SortKeys, sort { $a cmp $b } ( values %List );
+        }
+
+        # translate value
+        if ( $OptionRef->{Translation} ) {
+            for my $Row ( keys %{ $Param{Data} } ) {
+                $Param{Data}->{$Row} = $Self->{LanguageObject}->Get( $Param{Data}->{$Row} );
+            }
+        }
+
+        # sort hash (after the translation)
+        if ( $OptionRef->{Sort} eq 'NumericKey' ) {
+            @SortKeys = sort { $a <=> $b } ( keys %{ $Param{Data} } );
+        }
+        elsif ( $OptionRef->{Sort} eq 'NumericValue' ) {
+            @SortKeys
+                = sort { $Param{Data}->{$a} <=> $Param{Data}->{$b} } ( keys %{ $Param{Data} } );
+        }
+        elsif ( $OptionRef->{Sort} eq 'AlphanumericKey' ) {
+            @SortKeys = sort( keys %{ $Param{Data} } );
+        }
+        elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
+
+            # add suffix for correct sorting
+            my %SortHash;
+            for ( keys %{ $Param{Data} } ) {
+                $SortHash{$_} = $Param{Data}->{$_} . '::';
+            }
+            @SortKeys = sort { $SortHash{$a} cmp $SortHash{$b} } ( keys %SortHash );
+        }
+        elsif ( $OptionRef->{Sort} eq 'IndividualKey' && $OptionRef->{SortIndividual} ) {
+            my %List = %{ $Param{Data} };
+            for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
+                if ( $List{$Key} ) {
+                    push @SortKeys, $Key;
+                    delete $List{$Key};
+                }
+            }
+            push @SortKeys, sort { $List{$a} cmp $List{$b} } ( keys %List );
+        }
+        elsif ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
+
+            # already done before the translation
+        }
+        else {
+            @SortKeys
+                = sort { $Param{Data}->{$a} cmp $Param{Data}->{$b} } ( keys %{ $Param{Data} } );
+            $OptionRef->{Sort} = 'AlphanumericValue';
+        }
+
+        # create DataRef
+        for my $Row (@SortKeys) {
+            $DataRef->[$Counter]->{Key}   = $Row;
+            $DataRef->[$Counter]->{Value} = $Param{Data}->{$Row};
+            $Counter++;
+        }
+    }
+
+    # if ArrayHashRef was given
+    elsif ( ref $Param{Data} eq 'ARRAY' && ref $Param{Data}->[0] eq 'HASH' ) {
+
+        # create DataRef
+        for my $Row ( @{ $Param{Data} } ) {
+            if ( ref $Row eq 'HASH' && defined $Row->{Key} ) {
+                $DataRef->[$Counter]->{Key}   = $Row->{Key};
+                $DataRef->[$Counter]->{Value} = $Row->{Value};
+
+                # translate value
+                if ( $OptionRef->{Translation} ) {
+                    $DataRef->[$Counter]->{Value}
+                        = $Self->{LanguageObject}->Get( $DataRef->[$Counter]->{Value} );
+                }
+
+                # set Selected and Disabled options
+                if ( $Row->{Selected} ) {
+                    $DataRef->[$Counter]->{Selected} = 1;
+                }
+                elsif ( $Row->{Disabled} ) {
+                    $DataRef->[$Counter]->{Disabled} = 1;
+                }
+                $Counter++;
+            }
+        }
+    }
+
+    # if ArrayRef was given
+    elsif ( ref $Param{Data} eq 'ARRAY' ) {
+
+        if (
+            ( $OptionRef->{Sort} eq 'IndividualValue' || $OptionRef->{Sort} eq 'IndividualValue' )
+            && $OptionRef->{SortIndividual}
+            )
+        {
+            my %List = map { $_ => 1 } @{ $Param{Data} };
+            $Param{Data} = [];
+            for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
+                if ( $List{$Key} ) {
+                    push @{ $Param{Data} }, $Key;
+                    delete $List{$Key};
+                }
+            }
+            push @{ $Param{Data} }, sort { $a cmp $b } ( keys %List );
+        }
+
+        my %ReverseHash;
+
+        # translate value
+        if ( $OptionRef->{Translation} ) {
+            my @TranslateArray;
+            for my $Row ( @{ $Param{Data} } ) {
+                my $TranslateString = $Self->{LanguageObject}->Get($Row);
+                push @TranslateArray, $TranslateString;
+                $ReverseHash{$TranslateString} = $Row;
+            }
+            $Param{Data} = \@TranslateArray;
+        }
+        else {
+            for my $Row ( @{ $Param{Data} } ) {
+                $ReverseHash{$Row} = $Row;
+            }
+        }
+
+        # sort array
+        if ( $OptionRef->{Sort} eq 'AlphanumericKey' || $OptionRef->{Sort} eq 'AlphanumericValue' )
+        {
+            my @SortArray = sort( @{ $Param{Data} } );
+            $Param{Data} = \@SortArray;
+        }
+        elsif ( $OptionRef->{Sort} eq 'NumericKey' || $OptionRef->{Sort} eq 'NumericValue' ) {
+            my @SortArray = sort { $a <=> $b } ( @{ $Param{Data} } );
+            $Param{Data} = \@SortArray;
+        }
+        elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
+
+            # add suffix for correct sorting
+            my @SortArray;
+            for my $Row ( @{ $Param{Data} } ) {
+                push @SortArray, ( $Row . '::' );
+            }
+
+            # sort array
+            @SortArray = sort(@SortArray);
+
+            # remove suffix
+            my @SortArray2;
+            for my $Row (@SortArray) {
+                $/ = '::';
+                chomp($Row);
+                push @SortArray2, $Row;
+            }
+            $Param{Data} = \@SortArray;
+        }
+
+        # create DataRef
+        for my $Row ( @{ $Param{Data} } ) {
+            $DataRef->[$Counter]->{Key}   = $ReverseHash{$Row};
+            $DataRef->[$Counter]->{Value} = $Row;
+            $Counter++;
+        }
+    }
+
+    # SelectedID and SelectedValue option
+    if ( $OptionRef->{SelectedID} || $OptionRef->{SelectedValue} ) {
+        for my $Row ( @{$DataRef} ) {
+            if (
+                $OptionRef->{SelectedID}->{ $Row->{Key} }
+                || $OptionRef->{SelectedValue}->{ $Row->{Value} }
+                )
+            {
+                $Row->{Selected} = 1;
+            }
+        }
+    }
+
+    # DisabledBranch option
+    if ( $OptionRef->{DisabledBranch} ) {
+        for my $Row ( @{$DataRef} ) {
+            for my $Branch ( keys %{ $OptionRef->{DisabledBranch} } ) {
+                if ( $Row->{Value} =~ /^(\Q$Branch\E)$/ || $Row->{Value} =~ /^(\Q$Branch\E)::/ ) {
+                    $Row->{Disabled} = 1;
+                }
+            }
+        }
+    }
+
+    # Max option
+    # REMARK: Don't merge the Max handling with Ascii2Html function call of
+    # the HTMLQuote handling. In this case you lose the max handling if you
+    # deactivate HTMLQuote
+    if ( $OptionRef->{Max} ) {
+        for my $Row ( @{$DataRef} ) {
+
+            # REMARK: This is the same solution as in Ascii2Html
+            $Row->{Value} =~ s/^(.{$OptionRef->{Max}}).+?$/$1\[\.\.\]/gs;
+
+            #$Row->{Value} = substr( $Row->{Value}, 0, $OptionRef->{Max} );
+        }
+    }
+
+    # HTMLQuote option
+    if ( $OptionRef->{HTMLQuote} ) {
+        for my $Row ( @{$DataRef} ) {
+            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
+            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
+        }
+    }
+
+    # SortReverse option
+    if ( $OptionRef->{SortReverse} ) {
+        @{$DataRef} = reverse( @{$DataRef} );
+    }
+
+    # PossibleNone option
+    if ( $OptionRef->{PossibleNone} ) {
+        my %None;
+        $None{Key}   = '';
+        $None{Value} = '-';
+
+        unshift( @{$DataRef}, \%None );
+    }
+
+    # TreeView option
+    if ( $OptionRef->{TreeView} ) {
+
+        ROW:
+        for my $Row ( @{$DataRef} ) {
+
+            next ROW if !$Row->{Value};
+
+            my @Fragment = split '::', $Row->{Value};
+            $Row->{Value} = pop @Fragment;
+
+            my $Space = '&nbsp;&nbsp;' x scalar @Fragment;
+            $Space ||= '';
+
+            $Row->{Value} = $Space . $Row->{Value};
+        }
+    }
+
+    return $DataRef;
+}
+
+#=item _BuildSelectionOutput()
+#
+#create the html string
+#
+#    my $HTMLString = $LayoutObject->_BuildSelectionOutput(
+#        AttributeRef => $AttributeRef,
+#        DataRef => $DataRef,
+#    );
+#
+#    my $AttributeRef = {
+#        name => 'TheName',
+#        multiple => undef,
+#        size => 5,
+#    }
+#
+#    my $DataRef  = [
+#        {
+#            Key => 11,
+#            Value => 'Text',
+#            Disabled => 1,
+#        },
+#        {
+#            Key => 'abc',
+#            Value => '&nbsp;&nbsp;Text',
+#            Selected => 1,
+#        },
+#    ];
+#
+#=cut
+
+sub _BuildSelectionOutput {
+    my ( $Self, %Param ) = @_;
+
+    my $String;
+
+    # start generation, if AttributeRef and DataRef was found
+    if ( $Param{AttributeRef} && $Param{DataRef} ) {
+
+        # generate <select> row
+        $String = '<select';
+        for my $Key ( keys %{ $Param{AttributeRef} } ) {
+            if ( $Key && defined $Param{AttributeRef}->{$Key} ) {
+                $String .= " $Key=\"$Param{AttributeRef}->{$Key}\"";
+            }
+            elsif ($Key) {
+                $String .= " $Key";
+            }
+        }
+        $String .= ">\n";
+
+        # generate <option> rows
+        for my $Row ( @{ $Param{DataRef} } ) {
+            my $Key = '';
+            if ( defined $Row->{Key} ) {
+                $Key = $Row->{Key};
+            }
+            my $Value = '';
+            if ( defined $Row->{Value} ) {
+                $Value = $Row->{Value};
+            }
+            my $SelectedDisabled = '';
+            if ( $Row->{Selected} ) {
+                $SelectedDisabled = ' selected="selected"';
+            }
+            elsif ( $Row->{Disabled} ) {
+                $SelectedDisabled = ' disabled="disabled"';
+            }
+            $String .= "  <option value=\"$Key\"$SelectedDisabled>$Value</option>\n";
+        }
+        $String .= '</select>';
+    }
+    return $String;
+}
+
+sub _DisableBannerCheck {
+    my ( $Self, %Param ) = @_;
+
+    return 1 if !$Self->{ConfigObject}->Get('Secure::DisableBanner');
+    return   if !$Param{OutputRef};
+
+    # remove the version tag from the header
+    ${ $Param{OutputRef} } =~ s{
+                ^ X-Powered-By: .+? Open \s Ticket \s Request \s System \s \(http .+? \)$ \n
+            }{}smx;
+
+    return 1
+}
+
+#=item _RichTextReplaceLinkOfInlineContent()
+#
+#replace links of inline content e. g. images
+#
+#
+#    $HTMLBodyStringRef = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
+#        String => $HTMLBodyStringRef,
+#    );
+#
+#=cut
+
+sub _RichTextReplaceLinkOfInlineContent {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # replace image link with content id for uploaded images
+    ${ $Param{String} } =~ s{
+        (<img.+?src=("|')).+?ContentID=(.+?)("|')(.*?>)
+    }
+    {
+        $1 . 'cid:' . $3 . $4 . $5;
+    }esgxi;
+
+    return $Param{String};
+}
+
 1;
 
 =back
@@ -4410,6 +4410,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.185 $ $Date: 2009-11-25 16:46:25 $
+$Revision: 1.186 $ $Date: 2009-11-26 10:24:41 $
 
 =cut

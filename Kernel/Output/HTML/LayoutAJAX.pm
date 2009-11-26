@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.20 2009-03-09 13:14:49 martin Exp $
+# $Id: LayoutAJAX.pm,v 1.21 2009-11-26 10:24:41 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =item JSON()
 
@@ -159,6 +159,31 @@ sub BuildJSON {
     return '{' . $JSON . '}';
 }
 
+sub JSONQuote {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Data)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # quote
+    my %Quote = (
+        "\n" => '\n',
+        "\r" => '\r',
+        "\t" => '\t',
+        "\f" => '\f',
+        "\b" => '\b',
+        "\"" => '\"',
+        "\\" => '\\\\',
+    );
+    $Param{Data} =~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
+    return $Param{Data};
+}
+
 sub _BuildJSONOutput {
     my ( $Self, %Param ) = @_;
 
@@ -201,31 +226,6 @@ sub _BuildJSONOutput {
         $String .= ']';
     }
     return \$String;
-}
-
-sub JSONQuote {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Data)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # quote
-    my %Quote = (
-        "\n" => '\n',
-        "\r" => '\r',
-        "\t" => '\t',
-        "\f" => '\f',
-        "\b" => '\b',
-        "\"" => '\"',
-        "\\" => '\\\\',
-    );
-    $Param{Data} =~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
-    return $Param{Data};
 }
 
 1;
