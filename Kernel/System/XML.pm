@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.89 2009-10-30 10:48:45 martin Exp $
+# $Id: XML.pm,v 1.90 2009-11-26 11:26:08 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 =head1 NAME
 
@@ -164,46 +164,6 @@ sub XMLHashAdd {
         Message  => 'Got no %ValueHASH from XMLHash2D()',
     );
     return;
-}
-
-sub _XMLHashAddAutoIncrement {
-    my ( $Self, %Param ) = @_;
-
-    my $KeyAutoIncrement = 0;
-    my @KeysExists;
-
-    # check needed stuff
-    for (qw(Type KeyAutoIncrement)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ?',
-        Bind => [ \$Param{Type} ],
-    );
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        if ( $Data[0] ) {
-            push @KeysExists, $Data[0];
-        }
-    }
-    for my $Key (@KeysExists) {
-        if ( $Key !~ /^\d{1,99}$/ ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No KeyAutoIncrement possible, no int key exists ($Key)!",
-            );
-            return;
-        }
-        if ( $Key > $KeyAutoIncrement ) {
-            $KeyAutoIncrement = $Key;
-        }
-    }
-
-    $KeyAutoIncrement++;
-    return $KeyAutoIncrement;
 }
 
 =item XMLHashUpdate()
@@ -539,71 +499,6 @@ sub XMLHash2XML {
     return $Output;
 }
 
-sub _ElementBuild {
-    my ( $Self, %Param ) = @_;
-
-    my @Tag;
-    my @Sub;
-    my $Output = '';
-    if ( $Param{Key} ) {
-        $Self->{XMLHash2XMLLayer}++;
-        for ( 2 .. $Self->{XMLHash2XMLLayer} ) {
-
-            #            $Output .= "  ";
-        }
-        $Output .= "<$Param{Key}";
-    }
-    for ( sort keys %Param ) {
-        if ( ref $Param{$_} eq 'ARRAY' ) {
-            push @Tag, $_;
-            push @Sub, $Param{$_};
-        }
-        elsif ( $_ ne 'Content' && $_ ne 'Key' && $_ !~ /^Tag/ ) {
-            if ( defined $Param{$_} ) {
-                $Param{$_} =~ s/&/&amp;/g;
-                $Param{$_} =~ s/</&lt;/g;
-                $Param{$_} =~ s/>/&gt;/g;
-                $Param{$_} =~ s/"/&quot;/g;
-            }
-            $Output .= " $_=\"$Param{$_}\"";
-        }
-    }
-    if ( $Param{Key} ) {
-        $Output .= '>';
-    }
-    if ( defined $Param{Content} ) {
-
-        # encode
-        $Param{Content} =~ s/&/&amp;/g;
-        $Param{Content} =~ s/</&lt;/g;
-        $Param{Content} =~ s/>/&gt;/g;
-        $Param{Content} =~ s/"/&quot;/g;
-        $Output .= $Param{Content};
-    }
-    else {
-        $Output .= "\n";
-    }
-    for ( 0 .. $#Sub ) {
-        for my $K ( @{ $Sub[$_] } ) {
-            if ( defined $K ) {
-                $Output .= $Self->_ElementBuild( %{$K}, Key => $Tag[$_], );
-            }
-        }
-    }
-
-    if ( $Param{Key} ) {
-
-        #        if (!$Param{Content}) {
-        #            for (2..$Self->{XMLHash2XMLLayer}) {
-        #                $Output .= "  ";
-        #            }
-        #        }
-        $Output .= "</$Param{Key}>\n";
-        $Self->{XMLHash2XMLLayer} = $Self->{XMLHash2XMLLayer} - 1;
-    }
-    return $Output;
-}
-
 =item XMLParse2XMLHash()
 
 parse a xml file and return a XMLHash structur
@@ -734,6 +629,242 @@ sub XMLHash2D {
     return %{ $Self->{XMLHash} };
 }
 
+=item XMLStructure2XMLHash()
+
+get a @XMLHash from a @XMLStructure with current TagKey param
+
+    my @XMLHash = $XMLObject->XMLStructure2XMLHash(XMLStructure => \@XMLStructure);
+
+=cut
+
+sub XMLStructure2XMLHash {
+    my ( $Self, %Param ) = @_;
+
+    my @NewXMLStructure;
+
+    # check needed stuff
+    if ( !defined $Param{XMLStructure} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'XMLStructure not defined!' );
+        return;
+    }
+
+    $Self->{Tll}           = 0;
+    $Self->{XMLTagCount}   = 0;
+    $Self->{XMLHash2}      = {};
+    $Self->{XMLHashReturn} = 1;
+    undef $Self->{XMLLevelTag};
+    undef $Self->{XMLLevelCount};
+
+    for my $Item ( @{ $Param{XMLStructure} } ) {
+        if ( ref $Item eq 'HASH' ) {
+            $Self->_XMLStructure2XMLHash( Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY' );
+        }
+    }
+    $Self->{XMLHashReturn} = 0;
+    return ( \%{ $Self->{XMLHash2} } );
+}
+
+=item XMLParse()
+
+parse a xml file
+
+    my @XMLStructure = $XMLObject->XMLParse( String => $FileString );
+
+    my @XMLStructure = $XMLObject->XMLParse( String => \$FileStringScalar );
+
+=cut
+
+sub XMLParse {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !defined $Param{String} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
+        return;
+    }
+
+    # check input type
+    if ( ref $Param{String} ) {
+        $Param{String} = ${ $Param{String} };
+    }
+
+    # cleanup global vars
+    undef $Self->{XMLARRAY};
+    $Self->{XMLLevel}    = 0;
+    $Self->{XMLTagCount} = 0;
+    undef $Self->{XMLLevelTag};
+    undef $Self->{XMLLevelCount};
+    $S = $Self;
+
+    # convert string
+    if ( $Param{String} =~ /(<.+?>)/ ) {
+        if ( $1 !~ /(utf-8|utf8)/i && $1 =~ /encoding=('|")(.+?)('|")/i ) {
+            my $SourceCharset = $2;
+            $Param{String} =~ s/$SourceCharset/utf-8/i;
+            $Param{String} = $Self->{EncodeObject}->Convert(
+                Text  => $Param{String},
+                From  => $SourceCharset,
+                To    => 'utf-8',
+                Force => 1,
+            );
+        }
+    }
+
+    # load parse package and parse
+    my $UseFallback = 1;
+
+    if ( eval 'require XML::Parser' ) {
+        my $Parser = XML::Parser->new(
+            Handlers => {
+                Start => \&_HS,
+                End   => \&_ES,
+                Char  => \&_CS,
+            },
+        );
+
+        if ( eval { $Parser->parse( $Param{String} ) } ) {
+            $UseFallback = 0;
+
+            # remember, XML::Parser is managing e. g. &amp; by it self
+            $Self->{XMLQuote} = 0;
+        }
+        else {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "C-Parser: $@!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'XML::Parser produced errors. I use XML::Parser::Lite as fallback!'
+            );
+        }
+    }
+
+    if ($UseFallback) {
+        require XML::Parser::Lite;
+
+        my $Parser = XML::Parser::Lite->new(
+            Handlers => {
+                Start => \&_HS,
+                End   => \&_ES,
+                Char  => \&_CS,
+            },
+        );
+        $Parser->parse( $Param{String} );
+
+        # remember, XML::Parser::Lite is managing e. g. &amp; NOT by it self
+        $Self->{XMLQuote} = 1;
+    }
+
+    # quote
+    for my $XMLElement ( @{ $Self->{XMLARRAY} } ) {
+        $Self->_Decode($XMLElement);
+    }
+    return @{ $Self->{XMLARRAY} };
+}
+
+sub _XMLHashAddAutoIncrement {
+    my ( $Self, %Param ) = @_;
+
+    my $KeyAutoIncrement = 0;
+    my @KeysExists;
+
+    # check needed stuff
+    for (qw(Type KeyAutoIncrement)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => 'SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ?',
+        Bind => [ \$Param{Type} ],
+    );
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        if ( $Data[0] ) {
+            push @KeysExists, $Data[0];
+        }
+    }
+    for my $Key (@KeysExists) {
+        if ( $Key !~ /^\d{1,99}$/ ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "No KeyAutoIncrement possible, no int key exists ($Key)!",
+            );
+            return;
+        }
+        if ( $Key > $KeyAutoIncrement ) {
+            $KeyAutoIncrement = $Key;
+        }
+    }
+
+    $KeyAutoIncrement++;
+    return $KeyAutoIncrement;
+}
+
+sub _ElementBuild {
+    my ( $Self, %Param ) = @_;
+
+    my @Tag;
+    my @Sub;
+    my $Output = '';
+    if ( $Param{Key} ) {
+        $Self->{XMLHash2XMLLayer}++;
+        for ( 2 .. $Self->{XMLHash2XMLLayer} ) {
+
+            #            $Output .= "  ";
+        }
+        $Output .= "<$Param{Key}";
+    }
+    for ( sort keys %Param ) {
+        if ( ref $Param{$_} eq 'ARRAY' ) {
+            push @Tag, $_;
+            push @Sub, $Param{$_};
+        }
+        elsif ( $_ ne 'Content' && $_ ne 'Key' && $_ !~ /^Tag/ ) {
+            if ( defined $Param{$_} ) {
+                $Param{$_} =~ s/&/&amp;/g;
+                $Param{$_} =~ s/</&lt;/g;
+                $Param{$_} =~ s/>/&gt;/g;
+                $Param{$_} =~ s/"/&quot;/g;
+            }
+            $Output .= " $_=\"$Param{$_}\"";
+        }
+    }
+    if ( $Param{Key} ) {
+        $Output .= '>';
+    }
+    if ( defined $Param{Content} ) {
+
+        # encode
+        $Param{Content} =~ s/&/&amp;/g;
+        $Param{Content} =~ s/</&lt;/g;
+        $Param{Content} =~ s/>/&gt;/g;
+        $Param{Content} =~ s/"/&quot;/g;
+        $Output .= $Param{Content};
+    }
+    else {
+        $Output .= "\n";
+    }
+    for ( 0 .. $#Sub ) {
+        for my $K ( @{ $Sub[$_] } ) {
+            if ( defined $K ) {
+                $Output .= $Self->_ElementBuild( %{$K}, Key => $Tag[$_], );
+            }
+        }
+    }
+
+    if ( $Param{Key} ) {
+
+        #        if (!$Param{Content}) {
+        #            for (2..$Self->{XMLHash2XMLLayer}) {
+        #                $Output .= "  ";
+        #            }
+        #        }
+        $Output .= "</$Param{Key}>\n";
+        $Self->{XMLHash2XMLLayer} = $Self->{XMLHash2XMLLayer} - 1;
+    }
+    return $Output;
+}
+
 sub _XMLHash2D {
     my ( $Self, %Param ) = @_;
 
@@ -775,41 +906,6 @@ sub _XMLHash2D {
     }
 
     return 1;
-}
-
-=item XMLStructure2XMLHash()
-
-get a @XMLHash from a @XMLStructure with current TagKey param
-
-    my @XMLHash = $XMLObject->XMLStructure2XMLHash(XMLStructure => \@XMLStructure);
-
-=cut
-
-sub XMLStructure2XMLHash {
-    my ( $Self, %Param ) = @_;
-
-    my @NewXMLStructure;
-
-    # check needed stuff
-    if ( !defined $Param{XMLStructure} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'XMLStructure not defined!' );
-        return;
-    }
-
-    $Self->{Tll}           = 0;
-    $Self->{XMLTagCount}   = 0;
-    $Self->{XMLHash2}      = {};
-    $Self->{XMLHashReturn} = 1;
-    undef $Self->{XMLLevelTag};
-    undef $Self->{XMLLevelCount};
-
-    for my $Item ( @{ $Param{XMLStructure} } ) {
-        if ( ref $Item eq 'HASH' ) {
-            $Self->_XMLStructure2XMLHash( Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY' );
-        }
-    }
-    $Self->{XMLHashReturn} = 0;
-    return ( \%{ $Self->{XMLHash2} } );
 }
 
 sub _XMLStructure2XMLHash {
@@ -1230,102 +1326,6 @@ sub _XMLStructure2XMLHash {
     return 1;
 }
 
-=item XMLParse()
-
-parse a xml file
-
-    my @XMLStructure = $XMLObject->XMLParse( String => $FileString );
-
-    my @XMLStructure = $XMLObject->XMLParse( String => \$FileStringScalar );
-
-=cut
-
-sub XMLParse {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    if ( !defined $Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
-        return;
-    }
-
-    # check input type
-    if ( ref $Param{String} ) {
-        $Param{String} = ${ $Param{String} };
-    }
-
-    # cleanup global vars
-    undef $Self->{XMLARRAY};
-    $Self->{XMLLevel}    = 0;
-    $Self->{XMLTagCount} = 0;
-    undef $Self->{XMLLevelTag};
-    undef $Self->{XMLLevelCount};
-    $S = $Self;
-
-    # convert string
-    if ( $Param{String} =~ /(<.+?>)/ ) {
-        if ( $1 !~ /(utf-8|utf8)/i && $1 =~ /encoding=('|")(.+?)('|")/i ) {
-            my $SourceCharset = $2;
-            $Param{String} =~ s/$SourceCharset/utf-8/i;
-            $Param{String} = $Self->{EncodeObject}->Convert(
-                Text  => $Param{String},
-                From  => $SourceCharset,
-                To    => 'utf-8',
-                Force => 1,
-            );
-        }
-    }
-
-    # load parse package and parse
-    my $UseFallback = 1;
-
-    if ( eval 'require XML::Parser' ) {
-        my $Parser = XML::Parser->new(
-            Handlers => {
-                Start => \&_HS,
-                End   => \&_ES,
-                Char  => \&_CS,
-            },
-        );
-
-        if ( eval { $Parser->parse( $Param{String} ) } ) {
-            $UseFallback = 0;
-
-            # remember, XML::Parser is managing e. g. &amp; by it self
-            $Self->{XMLQuote} = 0;
-        }
-        else {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "C-Parser: $@!" );
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'XML::Parser produced errors. I use XML::Parser::Lite as fallback!'
-            );
-        }
-    }
-
-    if ($UseFallback) {
-        require XML::Parser::Lite;
-
-        my $Parser = XML::Parser::Lite->new(
-            Handlers => {
-                Start => \&_HS,
-                End   => \&_ES,
-                Char  => \&_CS,
-            },
-        );
-        $Parser->parse( $Param{String} );
-
-        # remember, XML::Parser::Lite is managing e. g. &amp; NOT by it self
-        $Self->{XMLQuote} = 1;
-    }
-
-    # quote
-    for my $XMLElement ( @{ $Self->{XMLARRAY} } ) {
-        $Self->_Decode($XMLElement);
-    }
-    return @{ $Self->{XMLARRAY} };
-}
-
 sub _Decode {
     my ( $Self, $A ) = @_;
 
@@ -1453,6 +1453,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.89 $ $Date: 2009-10-30 10:48:45 $
+$Revision: 1.90 $ $Date: 2009-11-26 11:26:08 $
 
 =cut

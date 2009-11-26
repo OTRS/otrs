@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.61 2009-10-07 20:25:38 martin Exp $
+# $Id: GenericAgent.pm,v 1.62 2009-11-26 11:26:08 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 NAME
 
@@ -403,6 +403,291 @@ sub JobRun {
             UserID       => $Param{UserID},
         );
     }
+    return 1;
+}
+
+=item JobList()
+
+returns a hash of jobs
+
+    my %List = $GenericAgentObject->JobList();
+
+=cut
+
+sub JobList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw()) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT DISTINCT(job_name) FROM generic_agent_jobs',
+    );
+    my %Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{ $Row[0] } = $Row[0];
+    }
+    return %Data;
+}
+
+=item JobGet()
+
+returns a hash of the job data
+
+    my %Job = $GenericAgentObject->JobGet(Name => 'JobName');
+
+=cut
+
+sub JobGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Name)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => 'SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?',
+        Bind => [ \$Param{Name} ],
+    );
+    my %Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if ( $Self->{Map}->{ $Row[0] } && $Self->{Map}->{ $Row[0] } eq 'ARRAY' ) {
+            push @{ $Data{ $Row[0] } }, $Row[1];
+        }
+        else {
+            $Data{ $Row[0] } = $Row[1];
+        }
+    }
+    for my $Key ( keys %Data ) {
+        if ( $Key =~ /(NewParam)Key(\d)/ ) {
+            if ( $Data{"$1Value$2"} ) {
+                $Data{"New$Data{$Key}"} = $Data{"$1Value$2"};
+            }
+        }
+    }
+
+    # get time settings
+    my %Map = (
+        TicketCreate             => 'Time',
+        TicketClose              => 'CloseTime',
+        TicketPending            => 'TimePending',
+        TicketEscalation         => 'EscalationTime',
+        TicketEscalationResponse => 'EscalationResponseTime',
+        TicketEscalationUpdate   => 'EscalationUpdateTime',
+        TicketEscalationSolution => 'EscalationSolutionTime',
+    );
+    for my $Type (
+        qw(TicketCreate TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+        )
+    {
+        my $SearchType = $Map{$Type} . 'SearchType';
+
+        if ( !$Data{$SearchType} || $Data{$SearchType} eq 'None' ) {
+
+            # do noting on time stuff
+            for (
+                qw(TimeStartMonth TimeStopMonth TimeStopDay
+                TimeStartDay TimeStopYear TimePoint
+                TimeStartYear TimePointFormat TimePointStart)
+                )
+            {
+                delete $Data{ $Type . $_ };
+            }
+        }
+        elsif ( $Data{$SearchType} && $Data{$SearchType} eq 'TimeSlot' ) {
+            for (qw(TimePoint TimePointFormat TimePointStart)) {
+                delete $Data{ $Type . $_ };
+            }
+            for (qw(Month Day)) {
+                if ( $Data{ $Type . "TimeStart$_" } <= 9 ) {
+                    $Data{ $Type . "TimeStart$_" } = '0' . $Data{ $Type . "TimeStart$_" };
+                }
+            }
+            for (qw(Month Day)) {
+                if ( $Data{ $Type . "TimeStop$_" } <= 9 ) {
+                    $Data{ $Type . "TimeStop$_" } = '0' . $Data{ $Type . "TimeStop$_" };
+                }
+            }
+            if (
+                $Data{ $Type . 'TimeStartDay' }
+                && $Data{ $Type . 'TimeStartMonth' }
+                && $Data{ $Type . 'TimeStartYear' }
+                )
+            {
+                $Data{ $Type . 'TimeNewerDate' }
+                    = $Data{ $Type . 'TimeStartYear' } . '-'
+                    . $Data{ $Type . 'TimeStartMonth' } . '-'
+                    . $Data{ $Type . 'TimeStartDay' }
+                    . ' 00:00:01';
+            }
+            if (
+                $Data{ $Type . 'TimeStopDay' }
+                && $Data{ $Type . 'TimeStopMonth' }
+                && $Data{ $Type . 'TimeStopYear' }
+                )
+            {
+                $Data{ $Type . 'TimeOlderDate' }
+                    = $Data{ $Type . 'TimeStopYear' } . '-'
+                    . $Data{ $Type . 'TimeStopMonth' } . '-'
+                    . $Data{ $Type . 'TimeStopDay' }
+                    . ' 23:59:59';
+            }
+        }
+        elsif ( $Data{$SearchType} && $Data{$SearchType} eq 'TimePoint' ) {
+            for (
+                qw(TimeStartMonth TimeStopMonth TimeStopDay
+                TimeStartDay TimeStopYear TimeStartYear)
+                )
+            {
+                delete $Data{ $Type . $_ };
+            }
+            if (
+                $Data{ $Type . 'TimePoint' }
+                && $Data{ $Type . 'TimePointStart' }
+                && $Data{ $Type . 'TimePointFormat' }
+                )
+            {
+                my $Time = 0;
+                if ( $Data{ $Type . 'TimePointFormat' } eq 'minute' ) {
+                    $Time = $Data{ $Type . 'TimePoint' };
+                }
+                elsif ( $Data{ $Type . 'TimePointFormat' } eq 'hour' ) {
+                    $Time = $Data{ $Type . 'TimePoint' } * 60;
+                }
+                elsif ( $Data{ $Type . 'TimePointFormat' } eq 'day' ) {
+                    $Time = $Data{ $Type . 'TimePoint' } * 60 * 24;
+                }
+                elsif ( $Data{ $Type . 'TimePointFormat' } eq 'week' ) {
+                    $Time = $Data{ $Type . 'TimePoint' } * 60 * 24 * 7;
+                }
+                elsif ( $Data{ $Type . 'TimePointFormat' } eq 'month' ) {
+                    $Time = $Data{ $Type . 'TimePoint' } * 60 * 24 * 30;
+                }
+                elsif ( $Data{ $Type . 'TimePointFormat' } eq 'year' ) {
+                    $Time = $Data{ $Type . 'TimePoint' } * 60 * 24 * 356;
+                }
+                if ( $Data{ $Type . 'TimePointStart' } eq 'Before' ) {
+                    $Data{ $Type . 'TimeOlderMinutes' } = $Time;
+                }
+                else {
+                    $Data{ $Type . 'TimeNewerMinutes' } = $Time;
+                }
+            }
+        }
+    }
+
+    # check valid
+    if ( %Data && !defined $Data{Valid} ) {
+        $Data{Valid} = 1;
+    }
+    if (%Data) {
+        $Data{Name} = $Param{Name};
+    }
+    return %Data;
+}
+
+=item JobAdd()
+
+adds a new job to the database
+
+    $GenericAgentObject->JobAdd(
+        Name => 'JobName',
+        Data => {
+            Queue => 'SomeQueue',
+            ...
+            Vaild => 1,
+        },
+        UserID => 123,
+    );
+
+=cut
+
+sub JobAdd {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Name Data UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # check if job name already exists
+    my %Check = $Self->JobGet( Name => $Param{Name} );
+    if (%Check) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't add job '$Param{Name}', job already exists!",
+        );
+        return;
+    }
+
+    # insert data into db
+    for my $Key ( keys %{ $Param{Data} } ) {
+        if ( ref $Param{Data}->{$Key} eq 'ARRAY' ) {
+            for my $Item ( @{ $Param{Data}->{$Key} } ) {
+                if ( defined $Item ) {
+                    $Self->{DBObject}->Do(
+                        SQL => 'INSERT INTO generic_agent_jobs '
+                            . '(job_name, job_key, job_value) VALUES (?, ?, ?)',
+                        Bind => [ \$Param{Name}, \$Key, \$Item ],
+                    );
+                }
+            }
+        }
+        else {
+            if ( defined $Param{Data}->{$Key} ) {
+                $Self->{DBObject}->Do(
+                    SQL => 'INSERT INTO generic_agent_jobs '
+                        . '(job_name, job_key, job_value) VALUES (?, ?, ?)',
+                    Bind => [ \$Param{Name}, \$Key, \$Param{Data}->{$Key} ],
+                );
+            }
+        }
+    }
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "New GenericAgent job '$Param{Name}' added (UserID=$Param{UserID}).",
+    );
+    return 1;
+}
+
+=item JobDelete()
+
+deletes an job from the database
+
+    $GenericAgentObject->JobDelete(Name => 'JobName');
+
+=cut
+
+sub JobDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Name UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # delete job
+    $Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM generic_agent_jobs WHERE job_name = ?',
+        Bind => [ \$Param{Name} ],
+    );
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "GenericAgent job '$Param{Name}' deleted (UserID=$Param{UserID}).",
+    );
     return 1;
 }
 
@@ -802,291 +1087,6 @@ sub _JobRunTicket {
     return 1;
 }
 
-=item JobList()
-
-returns a hash of jobs
-
-    my %List = $GenericAgentObject->JobList();
-
-=cut
-
-sub JobList {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-    return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT DISTINCT(job_name) FROM generic_agent_jobs',
-    );
-    my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data{ $Row[0] } = $Row[0];
-    }
-    return %Data;
-}
-
-=item JobGet()
-
-returns a hash of the job data
-
-    my %Job = $GenericAgentObject->JobGet(Name => 'JobName');
-
-=cut
-
-sub JobGet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Name)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-    return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?',
-        Bind => [ \$Param{Name} ],
-    );
-    my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ( $Self->{Map}->{ $Row[0] } && $Self->{Map}->{ $Row[0] } eq 'ARRAY' ) {
-            push @{ $Data{ $Row[0] } }, $Row[1];
-        }
-        else {
-            $Data{ $Row[0] } = $Row[1];
-        }
-    }
-    for my $Key ( keys %Data ) {
-        if ( $Key =~ /(NewParam)Key(\d)/ ) {
-            if ( $Data{"$1Value$2"} ) {
-                $Data{"New$Data{$Key}"} = $Data{"$1Value$2"};
-            }
-        }
-    }
-
-    # get time settings
-    my %Map = (
-        TicketCreate             => 'Time',
-        TicketClose              => 'CloseTime',
-        TicketPending            => 'TimePending',
-        TicketEscalation         => 'EscalationTime',
-        TicketEscalationResponse => 'EscalationResponseTime',
-        TicketEscalationUpdate   => 'EscalationUpdateTime',
-        TicketEscalationSolution => 'EscalationSolutionTime',
-    );
-    for my $Type (
-        qw(TicketCreate TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
-        )
-    {
-        my $SearchType = $Map{$Type} . 'SearchType';
-
-        if ( !$Data{$SearchType} || $Data{$SearchType} eq 'None' ) {
-
-            # do noting on time stuff
-            for (
-                qw(TimeStartMonth TimeStopMonth TimeStopDay
-                TimeStartDay TimeStopYear TimePoint
-                TimeStartYear TimePointFormat TimePointStart)
-                )
-            {
-                delete $Data{ $Type . $_ };
-            }
-        }
-        elsif ( $Data{$SearchType} && $Data{$SearchType} eq 'TimeSlot' ) {
-            for (qw(TimePoint TimePointFormat TimePointStart)) {
-                delete $Data{ $Type . $_ };
-            }
-            for (qw(Month Day)) {
-                if ( $Data{ $Type . "TimeStart$_" } <= 9 ) {
-                    $Data{ $Type . "TimeStart$_" } = '0' . $Data{ $Type . "TimeStart$_" };
-                }
-            }
-            for (qw(Month Day)) {
-                if ( $Data{ $Type . "TimeStop$_" } <= 9 ) {
-                    $Data{ $Type . "TimeStop$_" } = '0' . $Data{ $Type . "TimeStop$_" };
-                }
-            }
-            if (
-                $Data{ $Type . 'TimeStartDay' }
-                && $Data{ $Type . 'TimeStartMonth' }
-                && $Data{ $Type . 'TimeStartYear' }
-                )
-            {
-                $Data{ $Type . 'TimeNewerDate' }
-                    = $Data{ $Type . 'TimeStartYear' } . '-'
-                    . $Data{ $Type . 'TimeStartMonth' } . '-'
-                    . $Data{ $Type . 'TimeStartDay' }
-                    . ' 00:00:01';
-            }
-            if (
-                $Data{ $Type . 'TimeStopDay' }
-                && $Data{ $Type . 'TimeStopMonth' }
-                && $Data{ $Type . 'TimeStopYear' }
-                )
-            {
-                $Data{ $Type . 'TimeOlderDate' }
-                    = $Data{ $Type . 'TimeStopYear' } . '-'
-                    . $Data{ $Type . 'TimeStopMonth' } . '-'
-                    . $Data{ $Type . 'TimeStopDay' }
-                    . ' 23:59:59';
-            }
-        }
-        elsif ( $Data{$SearchType} && $Data{$SearchType} eq 'TimePoint' ) {
-            for (
-                qw(TimeStartMonth TimeStopMonth TimeStopDay
-                TimeStartDay TimeStopYear TimeStartYear)
-                )
-            {
-                delete $Data{ $Type . $_ };
-            }
-            if (
-                $Data{ $Type . 'TimePoint' }
-                && $Data{ $Type . 'TimePointStart' }
-                && $Data{ $Type . 'TimePointFormat' }
-                )
-            {
-                my $Time = 0;
-                if ( $Data{ $Type . 'TimePointFormat' } eq 'minute' ) {
-                    $Time = $Data{ $Type . 'TimePoint' };
-                }
-                elsif ( $Data{ $Type . 'TimePointFormat' } eq 'hour' ) {
-                    $Time = $Data{ $Type . 'TimePoint' } * 60;
-                }
-                elsif ( $Data{ $Type . 'TimePointFormat' } eq 'day' ) {
-                    $Time = $Data{ $Type . 'TimePoint' } * 60 * 24;
-                }
-                elsif ( $Data{ $Type . 'TimePointFormat' } eq 'week' ) {
-                    $Time = $Data{ $Type . 'TimePoint' } * 60 * 24 * 7;
-                }
-                elsif ( $Data{ $Type . 'TimePointFormat' } eq 'month' ) {
-                    $Time = $Data{ $Type . 'TimePoint' } * 60 * 24 * 30;
-                }
-                elsif ( $Data{ $Type . 'TimePointFormat' } eq 'year' ) {
-                    $Time = $Data{ $Type . 'TimePoint' } * 60 * 24 * 356;
-                }
-                if ( $Data{ $Type . 'TimePointStart' } eq 'Before' ) {
-                    $Data{ $Type . 'TimeOlderMinutes' } = $Time;
-                }
-                else {
-                    $Data{ $Type . 'TimeNewerMinutes' } = $Time;
-                }
-            }
-        }
-    }
-
-    # check valid
-    if ( %Data && !defined $Data{Valid} ) {
-        $Data{Valid} = 1;
-    }
-    if (%Data) {
-        $Data{Name} = $Param{Name};
-    }
-    return %Data;
-}
-
-=item JobAdd()
-
-adds a new job to the database
-
-    $GenericAgentObject->JobAdd(
-        Name => 'JobName',
-        Data => {
-            Queue => 'SomeQueue',
-            ...
-            Vaild => 1,
-        },
-        UserID => 123,
-    );
-
-=cut
-
-sub JobAdd {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Name Data UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # check if job name already exists
-    my %Check = $Self->JobGet( Name => $Param{Name} );
-    if (%Check) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't add job '$Param{Name}', job already exists!",
-        );
-        return;
-    }
-
-    # insert data into db
-    for my $Key ( keys %{ $Param{Data} } ) {
-        if ( ref $Param{Data}->{$Key} eq 'ARRAY' ) {
-            for my $Item ( @{ $Param{Data}->{$Key} } ) {
-                if ( defined $Item ) {
-                    $Self->{DBObject}->Do(
-                        SQL => 'INSERT INTO generic_agent_jobs '
-                            . '(job_name, job_key, job_value) VALUES (?, ?, ?)',
-                        Bind => [ \$Param{Name}, \$Key, \$Item ],
-                    );
-                }
-            }
-        }
-        else {
-            if ( defined $Param{Data}->{$Key} ) {
-                $Self->{DBObject}->Do(
-                    SQL => 'INSERT INTO generic_agent_jobs '
-                        . '(job_name, job_key, job_value) VALUES (?, ?, ?)',
-                    Bind => [ \$Param{Name}, \$Key, \$Param{Data}->{$Key} ],
-                );
-            }
-        }
-    }
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message  => "New GenericAgent job '$Param{Name}' added (UserID=$Param{UserID}).",
-    );
-    return 1;
-}
-
-=item JobDelete()
-
-deletes an job from the database
-
-    $GenericAgentObject->JobDelete(Name => 'JobName');
-
-=cut
-
-sub JobDelete {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Name UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # delete job
-    $Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM generic_agent_jobs WHERE job_name = ?',
-        Bind => [ \$Param{Name} ],
-    );
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message  => "GenericAgent job '$Param{Name}' deleted (UserID=$Param{UserID}).",
-    );
-    return 1;
-}
-
 sub _JobUpdateRunTime {
     my ( $Self, %Param ) = @_;
 
@@ -1151,6 +1151,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2009-10-07 20:25:38 $
+$Revision: 1.62 $ $Date: 2009-11-26 11:26:08 $
 
 =cut

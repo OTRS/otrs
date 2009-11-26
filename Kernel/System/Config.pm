@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.89 2009-11-11 09:16:23 martin Exp $
+# $Id: Config.pm,v 1.90 2009-11-26 11:26:08 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 =head1 NAME
 
@@ -121,148 +121,6 @@ sub new {
     $Self->{ConfigCounter} = $Self->_Init();
 
     return $Self;
-}
-
-sub _Init {
-    my ( $Self, %Param ) = @_;
-
-    my $Counter = 0;
-
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # load xml config files
-    if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
-        my %Data;
-        my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.xml");
-        for my $File (@Files) {
-            my $ConfigFile = '';
-            my $In;
-            if ( open( $In, '<', $File ) ) {
-                $ConfigFile = do { local $/; <$In> };
-                close $In;
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Can't open file $File: $!",
-                );
-            }
-            my $FileCachePart = $File;
-            $FileCachePart =~ s/\Q$Self->{Home}\E//;
-            $FileCachePart =~ s/\/\//\//g;
-            $FileCachePart =~ s/\//_/g;
-            if ($ConfigFile) {
-                my $CacheFileUsed = 0;
-                my $Digest        = $Self->{MainObject}->MD5sum(
-                    String => $ConfigFile,
-                );
-                my $FileCache = "$Self->{Home}/var/tmp/SysConfig-Cache$FileCachePart-$Digest.pm";
-                if ( -e $FileCache ) {
-                    my $ConfigFileCache = '';
-                    my $In;
-                    if ( open( $In, "<$Self->{FileMode}", $FileCache ) ) {
-                        $ConfigFileCache = do { local $/; <$In> };
-                        close $In;
-                        my $XMLHashRef;
-                        if ( eval $ConfigFileCache ) {
-                            $Data{$File} = $XMLHashRef;
-                            $CacheFileUsed = 1;
-                        }
-                    }
-                    else {
-                        $Self->{LogObject}->Log(
-                            Priority => 'error',
-                            Message  => "Can't open cache file $FileCache: $!",
-                        );
-                    }
-                }
-                else {
-
-                    # remove all cache files
-                    my @List = glob("$Self->{Home}/var/tmp/SysConfig-Cache$FileCachePart-*.pm");
-                    for my $File (@List) {
-                        unlink $File;
-                    }
-                }
-
-                # parse config files
-                if ( !$CacheFileUsed ) {
-                    my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $ConfigFile );
-                    $Data{$File} = \@XMLHash;
-                    my $Dump = $Self->{MainObject}->Dump( \@XMLHash, 'ascii' );
-                    $Dump =~ s/\$VAR1/\$XMLHashRef/;
-                    my $Out;
-                    if ( open( $Out, ">$Self->{FileMode}", $FileCache ) ) {
-                        if ( $Self->{utf8} ) {
-                            print $Out "use utf8;\n";
-                        }
-                        print $Out $Dump . "\n1;";
-                        close($Out);
-                    }
-                    else {
-                        $Self->{LogObject}->Log(
-                            Priority => 'error',
-                            Message  => "Can't write cache file $FileCache: $!",
-                        );
-                    }
-                }
-            }
-        }
-        $Self->{XMLConfig} = [];
-
-        # load framework, application, config, changes
-        for my $Init (qw(Framework Application Config Changes)) {
-            for my $Set ( sort keys %Data ) {
-                if ( $Data{$Set}->[1]->{otrs_config}->[1]->{init} eq $Init ) {
-
-                    # just use valid entries
-                    if ( $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} ) {
-                        push(
-                            @{ $Self->{XMLConfig} },
-                            @{ $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} }
-                        );
-                    }
-                    delete $Data{$Set};
-                }
-            }
-        }
-
-        # load misc
-        for my $Set ( sort keys %Data ) {
-            push(
-                @{ $Self->{XMLConfig} },
-                @{ $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} }
-            );
-            delete $Data{$Set};
-        }
-    }
-
-    # remove duplicate entries
-    my %Used;
-    my @XMLConfig;
-    for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
-        next if !$ConfigItem;
-        next if !$ConfigItem->{Name};
-        next if $Used{ $ConfigItem->{Name} };
-        $Used{ $ConfigItem->{Name} } = 1;
-        push @XMLConfig, $ConfigItem;
-    }
-    $Self->{XMLConfig} = \@XMLConfig;
-
-    # read all config files
-    for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
-        $Counter++;
-        if ( $ConfigItem->{Name} && !$Self->{Config}->{ $ConfigItem->{Name} } ) {
-            $Self->{Config}->{ $ConfigItem->{Name} } = $ConfigItem;
-        }
-    }
-    return $Counter;
 }
 
 sub WriteDefault {
@@ -1317,40 +1175,6 @@ sub ConfigItemSearch {
     return @List;
 }
 
-sub _ModGet {
-    my ( $Self, %Param ) = @_;
-
-    my $Content;
-    my $ConfigObject;
-
-    # do not use ZZZ files
-    if ( $Param{Level} && $Param{Level} eq 'Default' ) {
-        $ConfigObject = $Self->{ConfigDefaultObject};
-    }
-    elsif ( $Param{Level} && $Param{Level} eq 'Clear' ) {
-        $ConfigObject = $Self->{ConfigClearObject};
-    }
-    else {
-        $ConfigObject = $Self->{ConfigObject};
-    }
-    if ( $Param{ConfigName} =~ /^(.*)###(.*)###(.*)$/ ) {
-        if ( defined $ConfigObject->Get($1) ) {
-            $Content = $ConfigObject->Get($1)->{$2}->{$3};
-        }
-    }
-    elsif ( $Param{ConfigName} =~ /^(.*)###(.*)$/ ) {
-        if ( defined $ConfigObject->Get($1) ) {
-            $Content = $ConfigObject->Get($1)->{$2};
-        }
-    }
-    else {
-        if ( defined $ConfigObject->Get( $Param{ConfigName} ) ) {
-            $Content = $ConfigObject->Get( $Param{ConfigName} );
-        }
-    }
-    return $Content;
-}
-
 sub DataDiff {
     my ( $Self, %Param ) = @_;
 
@@ -1492,6 +1316,193 @@ sub DataDiff {
         }
     }
     return 1;
+}
+
+sub DESTROY {
+    my ( $Self, %Param ) = @_;
+
+    if ( $Self->{Update} ) {
+
+        # write default file
+        $Self->WriteDefault();
+    }
+    return 1;
+}
+
+sub _Init {
+    my ( $Self, %Param ) = @_;
+
+    my $Counter = 0;
+
+    # check needed stuff
+    for (qw()) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # load xml config files
+    if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
+        my %Data;
+        my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.xml");
+        for my $File (@Files) {
+            my $ConfigFile = '';
+            my $In;
+            if ( open( $In, '<', $File ) ) {
+                $ConfigFile = do { local $/; <$In> };
+                close $In;
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Can't open file $File: $!",
+                );
+            }
+            my $FileCachePart = $File;
+            $FileCachePart =~ s/\Q$Self->{Home}\E//;
+            $FileCachePart =~ s/\/\//\//g;
+            $FileCachePart =~ s/\//_/g;
+            if ($ConfigFile) {
+                my $CacheFileUsed = 0;
+                my $Digest        = $Self->{MainObject}->MD5sum(
+                    String => $ConfigFile,
+                );
+                my $FileCache = "$Self->{Home}/var/tmp/SysConfig-Cache$FileCachePart-$Digest.pm";
+                if ( -e $FileCache ) {
+                    my $ConfigFileCache = '';
+                    my $In;
+                    if ( open( $In, "<$Self->{FileMode}", $FileCache ) ) {
+                        $ConfigFileCache = do { local $/; <$In> };
+                        close $In;
+                        my $XMLHashRef;
+                        if ( eval $ConfigFileCache ) {
+                            $Data{$File} = $XMLHashRef;
+                            $CacheFileUsed = 1;
+                        }
+                    }
+                    else {
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message  => "Can't open cache file $FileCache: $!",
+                        );
+                    }
+                }
+                else {
+
+                    # remove all cache files
+                    my @List = glob("$Self->{Home}/var/tmp/SysConfig-Cache$FileCachePart-*.pm");
+                    for my $File (@List) {
+                        unlink $File;
+                    }
+                }
+
+                # parse config files
+                if ( !$CacheFileUsed ) {
+                    my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $ConfigFile );
+                    $Data{$File} = \@XMLHash;
+                    my $Dump = $Self->{MainObject}->Dump( \@XMLHash, 'ascii' );
+                    $Dump =~ s/\$VAR1/\$XMLHashRef/;
+                    my $Out;
+                    if ( open( $Out, ">$Self->{FileMode}", $FileCache ) ) {
+                        if ( $Self->{utf8} ) {
+                            print $Out "use utf8;\n";
+                        }
+                        print $Out $Dump . "\n1;";
+                        close($Out);
+                    }
+                    else {
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message  => "Can't write cache file $FileCache: $!",
+                        );
+                    }
+                }
+            }
+        }
+        $Self->{XMLConfig} = [];
+
+        # load framework, application, config, changes
+        for my $Init (qw(Framework Application Config Changes)) {
+            for my $Set ( sort keys %Data ) {
+                if ( $Data{$Set}->[1]->{otrs_config}->[1]->{init} eq $Init ) {
+
+                    # just use valid entries
+                    if ( $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} ) {
+                        push(
+                            @{ $Self->{XMLConfig} },
+                            @{ $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} }
+                        );
+                    }
+                    delete $Data{$Set};
+                }
+            }
+        }
+
+        # load misc
+        for my $Set ( sort keys %Data ) {
+            push(
+                @{ $Self->{XMLConfig} },
+                @{ $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} }
+            );
+            delete $Data{$Set};
+        }
+    }
+
+    # remove duplicate entries
+    my %Used;
+    my @XMLConfig;
+    for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
+        next if !$ConfigItem;
+        next if !$ConfigItem->{Name};
+        next if $Used{ $ConfigItem->{Name} };
+        $Used{ $ConfigItem->{Name} } = 1;
+        push @XMLConfig, $ConfigItem;
+    }
+    $Self->{XMLConfig} = \@XMLConfig;
+
+    # read all config files
+    for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
+        $Counter++;
+        if ( $ConfigItem->{Name} && !$Self->{Config}->{ $ConfigItem->{Name} } ) {
+            $Self->{Config}->{ $ConfigItem->{Name} } = $ConfigItem;
+        }
+    }
+    return $Counter;
+}
+
+sub _ModGet {
+    my ( $Self, %Param ) = @_;
+
+    my $Content;
+    my $ConfigObject;
+
+    # do not use ZZZ files
+    if ( $Param{Level} && $Param{Level} eq 'Default' ) {
+        $ConfigObject = $Self->{ConfigDefaultObject};
+    }
+    elsif ( $Param{Level} && $Param{Level} eq 'Clear' ) {
+        $ConfigObject = $Self->{ConfigClearObject};
+    }
+    else {
+        $ConfigObject = $Self->{ConfigObject};
+    }
+    if ( $Param{ConfigName} =~ /^(.*)###(.*)###(.*)$/ ) {
+        if ( defined $ConfigObject->Get($1) ) {
+            $Content = $ConfigObject->Get($1)->{$2}->{$3};
+        }
+    }
+    elsif ( $Param{ConfigName} =~ /^(.*)###(.*)$/ ) {
+        if ( defined $ConfigObject->Get($1) ) {
+            $Content = $ConfigObject->Get($1)->{$2};
+        }
+    }
+    else {
+        if ( defined $ConfigObject->Get( $Param{ConfigName} ) ) {
+            $Content = $ConfigObject->Get( $Param{ConfigName} );
+        }
+    }
+    return $Content;
 }
 
 sub _XML2Perl {
@@ -1718,17 +1729,6 @@ sub _XML2Perl {
     return $Data;
 }
 
-sub DESTROY {
-    my ( $Self, %Param ) = @_;
-
-    if ( $Self->{Update} ) {
-
-        # write default file
-        $Self->WriteDefault();
-    }
-    return 1;
-}
-
 1;
 
 =back
@@ -1745,6 +1745,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.89 $ $Date: 2009-11-11 09:16:23 $
+$Revision: 1.90 $ $Date: 2009-11-26 11:26:08 $
 
 =cut
