@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.54 2009-10-01 22:45:48 martin Exp $
+# $Id: LinkObject.pm,v 1.55 2009-11-26 12:23:09 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -2325,6 +2325,8 @@ sub ObjectSearch {
     return \%ObjectList;
 }
 
+=begin Internal:
+
 =item _LoadBackend()
 
 to load a link object backend module
@@ -2387,6 +2389,8 @@ sub _LoadBackend {
 
 1;
 
+=end Internal:
+
 =back
 
 =head1 TERMS AND CONDITIONS
@@ -2401,6 +2405,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2009-10-01 22:45:48 $
+$Revision: 1.55 $ $Date: 2009-11-26 12:23:09 $
 
 =cut

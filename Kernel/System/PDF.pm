@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.34 2009-09-14 22:52:17 mh Exp $
+# $Id: PDF.pm,v 1.35 2009-11-26 12:23:09 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -1626,8 +1626,11 @@ sub DimGet {
     return $Self->{Current}->{Dim};
 }
 
-#
-# _TableCalculate()
+=begin Internal:
+
+=cut
+
+#=item _TableCalculate()
 #
 # calculate params of table
 #
@@ -3468,6 +3471,8 @@ sub _CurPositionGet {
 
 1;
 
+=end Internal:
+
 =back
 
 =head1 TERMS AND CONDITIONS
@@ -3480,6 +3485,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2009-09-14 22:52:17 $
+$Revision: 1.35 $ $Date: 2009-11-26 12:23:09 $
 
 =cut

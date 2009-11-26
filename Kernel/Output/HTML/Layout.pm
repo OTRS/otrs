@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.187 2009-11-26 11:05:38 mg Exp $
+# $Id: Layout.pm,v 1.188 2009-11-26 12:23:09 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.187 $) [1];
+$VERSION = qw($Revision: 1.188 $) [1];
 
 =head1 NAME
 
@@ -3408,6 +3408,10 @@ sub RichTextDocumentCleanup {
     return $Param{String};
 }
 
+=begin Internal:
+
+=cut
+
 sub _BlockTemplatePreferences {
     my ( $Self, %Param ) = @_;
 
@@ -4398,6 +4402,8 @@ sub _RichTextReplaceLinkOfInlineContent {
 
 1;
 
+=end Internal:
+
 =back
 
 =head1 TERMS AND CONDITIONS
@@ -4410,6 +4416,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.187 $ $Date: 2009-11-26 11:05:38 $
+$Revision: 1.188 $ $Date: 2009-11-26 12:23:09 $
 
 =cut

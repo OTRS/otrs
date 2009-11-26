@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.84 2009-11-26 11:26:08 bes Exp $
+# $Id: Stats.pm,v 1.85 2009-11-26 12:23:09 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1990,6 +1990,10 @@ sub StatsCleanUp {
     return 1;
 }
 
+=begin Internal:
+
+=cut
+
 #=item _GenerateStaticStats()
 #
 #    take the stat configuration and get the stat table
@@ -3222,6 +3226,8 @@ sub _GetCacheString {
 
 1;
 
+=end Internal:
+
 =back
 
 =head1 TERMS AND CONDITIONS
@@ -3234,6 +3240,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.84 $ $Date: 2009-11-26 11:26:08 $
+$Revision: 1.85 $ $Date: 2009-11-26 12:23:09 $
 
 =cut

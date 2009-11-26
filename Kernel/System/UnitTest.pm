@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.26 2009-10-07 20:41:50 martin Exp $
+# $Id: UnitTest.pm,v 1.27 2009-11-26 12:23:09 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -417,6 +417,10 @@ sub IsNot {
     }
 }
 
+=begin Internal:
+
+=cut
+
 sub _PrintSummary {
     my ( $Self, %ResultSummary ) = @_;
 
@@ -538,6 +542,8 @@ sub DESTROY {
 
 1;
 
+=end Internal:
+
 =back
 
 =head1 TERMS AND CONDITIONS
@@ -552,6 +558,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2009-10-07 20:41:50 $
+$Revision: 1.27 $ $Date: 2009-11-26 12:23:09 $
 
 =cut
