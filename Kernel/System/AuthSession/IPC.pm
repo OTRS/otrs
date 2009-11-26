@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.40 2009-10-07 20:25:38 martin Exp $
+# $Id: IPC.pm,v 1.41 2009-11-26 10:54:16 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,98 +50,6 @@ sub new {
     $Self->_InitSHM();
 
     return $Self;
-}
-
-sub _InitSHM {
-    my $Self = shift;
-
-    # init meta data mem
-    $Self->{KeyMeta} = shmget( $Self->{IPCKeyMeta}, $Self->{IPCSizeMeta}, oct(1777) ) || die $!;
-
-    # init session data mem
-    $Self->{Key} = shmget( $Self->{IPCKey}, $Self->_GetSHMDataSize(), oct(1777) ) || die $!;
-    return 1;
-}
-
-sub _WriteSHM {
-    my ( $Self, %Param ) = @_;
-
-    # get size of data
-    my $DataSize        = ( length( $Param{Data} ) + 1 );
-    my $AddBuffer       = 4000;
-    my $CurrentDataSize = $Self->_GetSHMDataSize();
-
-    # overwrite with new session data
-    if ( $Self->{CMD} || $DataSize < $CurrentDataSize || $DataSize > $Self->{IPCSizeMax} ) {
-        shmwrite( $Self->{Key}, $Param{Data}, 0, $CurrentDataSize ) || die $!;
-        if ( $DataSize > $Self->{IPCSizeMax} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't write session data. Max. size "
-                    . "($Self->{IPCSizeMax} Bytes) of SessionData reached! Drop old sessions!",
-            );
-        }
-        return;
-    }
-    else {
-        my $NewIPCSize = $DataSize + $Self->{IPCAddBufferSize};
-        if ( $NewIPCSize > $Self->{IPCSizeMax} ) {
-            $NewIPCSize = $Self->{IPCSizeMax};
-        }
-
-        # delete old shm
-        shmctl( $Self->{Key}, IPC_RMID, 0 ) || die "$!";
-
-        # init new mem
-        $Self->{Key} = shmget( $Self->{IPCKey}, $NewIPCSize, oct(1777) ) || die $!;
-
-        # write session data to mem
-        shmwrite( $Self->{Key}, $Param{Data}, 0, $NewIPCSize ) || die $!;
-
-        # write new meta data
-        $Self->_SetSHMDataSize($NewIPCSize);
-        return 1;
-    }
-}
-
-sub _ReadSHM {
-    my $Self = shift;
-
-    # read session data from mem
-    my $String = '';
-    shmread( $Self->{Key}, $String, 0, $Self->_GetSHMDataSize() ) || die "$!";
-    my @Lines = split /\n/, $String;
-    $String = '';
-    for (@Lines) {
-        if ( $_ =~ /^SessionID/ ) {
-            $String .= $_ . "\n";
-        }
-    }
-    return $String;
-}
-
-sub _SetSHMDataSize {
-    my ( $Self, $Size ) = @_;
-    if ( !$Size ) {
-        return;
-    }
-
-    # read meta data from mem
-    shmwrite( $Self->{KeyMeta}, $Size . ";", 0, $Self->{IPCSizeMeta} ) || die $!;
-    return 1;
-}
-
-sub _GetSHMDataSize {
-    my $Self = shift;
-
-    # read meta data from mem
-    my $MetaString = '';
-    shmread( $Self->{KeyMeta}, $MetaString, 0, $Self->{IPCSizeMeta} ) || die "$!";
-    my @Items = split /;/, $MetaString;
-    if ( $MetaString !~ /;/ ) {
-        $Items[0] = $Self->{IPCSize};
-    }
-    return $Items[0];
 }
 
 sub CheckSessionID {
@@ -483,6 +391,98 @@ sub CleanUp {
         return;
     }
     return 1;
+}
+
+sub _InitSHM {
+    my $Self = shift;
+
+    # init meta data mem
+    $Self->{KeyMeta} = shmget( $Self->{IPCKeyMeta}, $Self->{IPCSizeMeta}, oct(1777) ) || die $!;
+
+    # init session data mem
+    $Self->{Key} = shmget( $Self->{IPCKey}, $Self->_GetSHMDataSize(), oct(1777) ) || die $!;
+    return 1;
+}
+
+sub _WriteSHM {
+    my ( $Self, %Param ) = @_;
+
+    # get size of data
+    my $DataSize        = ( length( $Param{Data} ) + 1 );
+    my $AddBuffer       = 4000;
+    my $CurrentDataSize = $Self->_GetSHMDataSize();
+
+    # overwrite with new session data
+    if ( $Self->{CMD} || $DataSize < $CurrentDataSize || $DataSize > $Self->{IPCSizeMax} ) {
+        shmwrite( $Self->{Key}, $Param{Data}, 0, $CurrentDataSize ) || die $!;
+        if ( $DataSize > $Self->{IPCSizeMax} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't write session data. Max. size "
+                    . "($Self->{IPCSizeMax} Bytes) of SessionData reached! Drop old sessions!",
+            );
+        }
+        return;
+    }
+    else {
+        my $NewIPCSize = $DataSize + $Self->{IPCAddBufferSize};
+        if ( $NewIPCSize > $Self->{IPCSizeMax} ) {
+            $NewIPCSize = $Self->{IPCSizeMax};
+        }
+
+        # delete old shm
+        shmctl( $Self->{Key}, IPC_RMID, 0 ) || die "$!";
+
+        # init new mem
+        $Self->{Key} = shmget( $Self->{IPCKey}, $NewIPCSize, oct(1777) ) || die $!;
+
+        # write session data to mem
+        shmwrite( $Self->{Key}, $Param{Data}, 0, $NewIPCSize ) || die $!;
+
+        # write new meta data
+        $Self->_SetSHMDataSize($NewIPCSize);
+        return 1;
+    }
+}
+
+sub _ReadSHM {
+    my $Self = shift;
+
+    # read session data from mem
+    my $String = '';
+    shmread( $Self->{Key}, $String, 0, $Self->_GetSHMDataSize() ) || die "$!";
+    my @Lines = split /\n/, $String;
+    $String = '';
+    for (@Lines) {
+        if ( $_ =~ /^SessionID/ ) {
+            $String .= $_ . "\n";
+        }
+    }
+    return $String;
+}
+
+sub _SetSHMDataSize {
+    my ( $Self, $Size ) = @_;
+    if ( !$Size ) {
+        return;
+    }
+
+    # read meta data from mem
+    shmwrite( $Self->{KeyMeta}, $Size . ";", 0, $Self->{IPCSizeMeta} ) || die $!;
+    return 1;
+}
+
+sub _GetSHMDataSize {
+    my $Self = shift;
+
+    # read meta data from mem
+    my $MetaString = '';
+    shmread( $Self->{KeyMeta}, $MetaString, 0, $Self->{IPCSizeMeta} ) || die "$!";
+    my @Items = split /;/, $MetaString;
+    if ( $MetaString !~ /;/ ) {
+        $Items[0] = $Self->{IPCSize};
+    }
+    return $Items[0];
 }
 
 1;
