@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.33 2009-11-11 09:18:23 martin Exp $
+# $Id: PGP.pm,v 1.34 2009-11-26 11:02:53 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -30,27 +30,6 @@ This is a sub module of Kernel::System::Crypt and contains all pgp functions.
 =over 4
 
 =cut
-
-# just for internal
-sub _Init {
-    my ( $Self, %Param ) = @_;
-
-    $Self->{GPGBin}  = $Self->{ConfigObject}->Get('PGP::Bin')     || '/usr/bin/gpg';
-    $Self->{Options} = $Self->{ConfigObject}->Get('PGP::Options') || '--batch --no-tty --yes';
-
-    if ( $^O =~ m/Win/i ) {
-
-        # take care to deal properly with paths containing whitespace
-        $Self->{GPGBin} = "\"$Self->{GPGBin}\" $Self->{Options}";
-    }
-    else {
-
-        # make sure that we are getting POSIX (i.e. english) messages from gpg
-        $Self->{GPGBin} = "LC_MESSAGES=POSIX $Self->{GPGBin} $Self->{Options}";
-    }
-
-    return $Self;
-}
 
 =item Check()
 
@@ -187,46 +166,6 @@ sub Decrypt {
         );
     }
     return %Return;
-}
-
-sub _DecryptPart {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Key Password Filename)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    my ( $FHDecrypt, $FileDecrypt ) = $Self->{FileTempObject}->TempFile();
-    close $FHDecrypt;
-    my ( $FHPhrase, $FilePhrase ) = $Self->{FileTempObject}->TempFile();
-    print $FHPhrase $Param{Password};
-    close $FHPhrase;
-    my $GPGOptions
-        = qq{--batch --passphrase-fd 0 --always-trust --yes --decrypt -o $FileDecrypt $Param{Filename}};
-    my $LogMessage = qx{$Self->{GPGBin} $GPGOptions <$FilePhrase 2>&1};
-    if ( $LogMessage =~ /failed/i ) {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "$LogMessage!",
-        );
-        return (
-            Successful => 0,
-            Message    => $LogMessage,
-        );
-    }
-    else {
-        my $DecryptedDataRef = $Self->{MainObject}->FileRead( Location => $FileDecrypt );
-        return (
-            Successful => 1,
-            Message    => $LogMessage,
-            Data       => $$DecryptedDataRef,
-            KeyID      => $Param{Key},
-        );
-    }
 }
 
 =item Sign()
@@ -446,86 +385,6 @@ sub PublicKeySearch {
     return $Self->_ParseGPGKeyList( GPGOutputLines => \@GPGOutputLines );
 }
 
-=item _ParseGPGKeyList()
-
-parses given key list (as received from gpg) and returns an array with key infos
-
-=cut
-
-sub _ParseGPGKeyList {
-    my ( $Self, %Param ) = @_;
-
-    my %Key;
-    my $InKey;
-    my @Result;
-    LINE:
-    for my $Line ( @{ $Param{GPGOutputLines} } ) {
-
-        # The option '--with-colons' causes gpg to output a machine-parsable format where the
-        # individual fields are separated by a colon (':') - for a detailed description,
-        # see the file doc/DETAILS in the gpg source distribution.
-        my @Fields = split ':', $Line;
-        my $Type = $Fields[0];
-
-        # 'sec' or 'pub' indicate the start of a info block for a specific key
-        if ( $Type eq 'sec' || $Type eq 'pub' ) {
-
-            # push last key and restart with empty key info
-            if (%Key) {
-                push( @Result, {%Key} );
-                %Key = ();
-            }
-            $InKey     = 1;
-            $Key{Type} = $Type;
-            $Key{Bit}  = $Fields[2];
-            $Key{Key} = substr( $Fields[4], -8, 8 );    # only use last 8 chars of key-ID
-                                                        # in order to be compatible with
-                                                        # previous parser
-            $Key{Created}          = $Fields[5];
-            $Key{Expires}          = $Fields[6];
-            $Key{Identifier}       = $Fields[9];
-            $Key{IdentifierMaster} = $Fields[9];
-        }
-
-        # skip anything before we've seen the first key
-        next LINE if !$InKey;
-
-        # add any additional info to the current key
-        if ( $Type eq 'uid' ) {
-            $Key{Identifier} .= ', ' . $Fields[9];
-        }
-        elsif ( $Type eq 'ssb' ) {
-            $Key{Bit} = $Fields[2];
-
-            # only use last 8 chars of key-ID in order to be compatible with previous parser
-            $Key{Key} = substr( $Fields[4], -8, 8 );
-            $Key{Created} = $Fields[5];
-        }
-        elsif ( $Type eq 'sub' ) {
-
-            # only use last 8 chars of key-ID in order to be compatible with previous parser
-            $Key{KeyPrivate} = substr( $Fields[4], -8, 8 );
-        }
-        elsif ( $Type eq 'fpr' ) {
-            $Key{FingerprintShort} = $Fields[9];
-
-            # add fingerprint in standard format, too
-            if (
-                $Fields[9] =~ m{
-                (\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)
-                (\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)
-            }x
-                )
-            {
-                $Key{Fingerprint} = "$1 $2 $3 $4 $5  $6 $7 $8 $9 $10";
-            }
-        }
-    }
-    push( @Result, {%Key} ) if (%Key);
-
-    return @Result;
-}
-
 =item PublicKeyGet()
 
 returns public key in ascii
@@ -708,6 +567,147 @@ sub KeyAdd {
     return $LogMessage;
 }
 
+# just for internal
+sub _Init {
+    my ( $Self, %Param ) = @_;
+
+    $Self->{GPGBin}  = $Self->{ConfigObject}->Get('PGP::Bin')     || '/usr/bin/gpg';
+    $Self->{Options} = $Self->{ConfigObject}->Get('PGP::Options') || '--batch --no-tty --yes';
+
+    if ( $^O =~ m/Win/i ) {
+
+        # take care to deal properly with paths containing whitespace
+        $Self->{GPGBin} = "\"$Self->{GPGBin}\" $Self->{Options}";
+    }
+    else {
+
+        # make sure that we are getting POSIX (i.e. english) messages from gpg
+        $Self->{GPGBin} = "LC_MESSAGES=POSIX $Self->{GPGBin} $Self->{Options}";
+    }
+
+    return $Self;
+}
+
+sub _DecryptPart {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Key Password Filename)) {
+        if ( !defined( $Param{$_} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    my ( $FHDecrypt, $FileDecrypt ) = $Self->{FileTempObject}->TempFile();
+    close $FHDecrypt;
+    my ( $FHPhrase, $FilePhrase ) = $Self->{FileTempObject}->TempFile();
+    print $FHPhrase $Param{Password};
+    close $FHPhrase;
+    my $GPGOptions
+        = qq{--batch --passphrase-fd 0 --always-trust --yes --decrypt -o $FileDecrypt $Param{Filename}};
+    my $LogMessage = qx{$Self->{GPGBin} $GPGOptions <$FilePhrase 2>&1};
+    if ( $LogMessage =~ /failed/i ) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "$LogMessage!",
+        );
+        return (
+            Successful => 0,
+            Message    => $LogMessage,
+        );
+    }
+    else {
+        my $DecryptedDataRef = $Self->{MainObject}->FileRead( Location => $FileDecrypt );
+        return (
+            Successful => 1,
+            Message    => $LogMessage,
+            Data       => $$DecryptedDataRef,
+            KeyID      => $Param{Key},
+        );
+    }
+}
+
+=item _ParseGPGKeyList()
+
+parses given key list (as received from gpg) and returns an array with key infos
+
+=cut
+
+sub _ParseGPGKeyList {
+    my ( $Self, %Param ) = @_;
+
+    my %Key;
+    my $InKey;
+    my @Result;
+    LINE:
+    for my $Line ( @{ $Param{GPGOutputLines} } ) {
+
+        # The option '--with-colons' causes gpg to output a machine-parsable format where the
+        # individual fields are separated by a colon (':') - for a detailed description,
+        # see the file doc/DETAILS in the gpg source distribution.
+        my @Fields = split ':', $Line;
+        my $Type = $Fields[0];
+
+        # 'sec' or 'pub' indicate the start of a info block for a specific key
+        if ( $Type eq 'sec' || $Type eq 'pub' ) {
+
+            # push last key and restart with empty key info
+            if (%Key) {
+                push( @Result, {%Key} );
+                %Key = ();
+            }
+            $InKey     = 1;
+            $Key{Type} = $Type;
+            $Key{Bit}  = $Fields[2];
+            $Key{Key} = substr( $Fields[4], -8, 8 );    # only use last 8 chars of key-ID
+                                                        # in order to be compatible with
+                                                        # previous parser
+            $Key{Created}          = $Fields[5];
+            $Key{Expires}          = $Fields[6];
+            $Key{Identifier}       = $Fields[9];
+            $Key{IdentifierMaster} = $Fields[9];
+        }
+
+        # skip anything before we've seen the first key
+        next LINE if !$InKey;
+
+        # add any additional info to the current key
+        if ( $Type eq 'uid' ) {
+            $Key{Identifier} .= ', ' . $Fields[9];
+        }
+        elsif ( $Type eq 'ssb' ) {
+            $Key{Bit} = $Fields[2];
+
+            # only use last 8 chars of key-ID in order to be compatible with previous parser
+            $Key{Key} = substr( $Fields[4], -8, 8 );
+            $Key{Created} = $Fields[5];
+        }
+        elsif ( $Type eq 'sub' ) {
+
+            # only use last 8 chars of key-ID in order to be compatible with previous parser
+            $Key{KeyPrivate} = substr( $Fields[4], -8, 8 );
+        }
+        elsif ( $Type eq 'fpr' ) {
+            $Key{FingerprintShort} = $Fields[9];
+
+            # add fingerprint in standard format, too
+            if (
+                $Fields[9] =~ m{
+                (\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)
+                (\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)
+            }x
+                )
+            {
+                $Key{Fingerprint} = "$1 $2 $3 $4 $5  $6 $7 $8 $9 $10";
+            }
+        }
+    }
+    push( @Result, {%Key} ) if (%Key);
+
+    return @Result;
+}
+
 sub _CryptedWithKey {
     my ( $Self, %Param ) = @_;
 
@@ -758,6 +758,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2009-11-11 09:18:23 $
+$Revision: 1.34 $ $Date: 2009-11-26 11:02:53 $
 
 =cut

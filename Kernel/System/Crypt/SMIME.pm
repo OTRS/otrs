@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.32 2009-10-07 20:41:50 martin Exp $
+# $Id: SMIME.pm,v 1.33 2009-11-26 11:02:53 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -30,34 +30,6 @@ This is a sub module of Kernel::System::Crypt and contains all smime functions.
 =over 4
 
 =cut
-
-sub _Init {
-    my ( $Self, %Param ) = @_;
-
-    $Self->{Bin}         = $Self->{ConfigObject}->Get('SMIME::Bin') || '/usr/bin/openssl';
-    $Self->{CertPath}    = $Self->{ConfigObject}->Get('SMIME::CertPath');
-    $Self->{PrivatePath} = $Self->{ConfigObject}->Get('SMIME::PrivatePath');
-
-    if ( $^O =~ m{Win}i ) {
-
-        # take care to deal properly with paths containing whitespace
-        $Self->{Cmd} = qq{"$Self->{Bin}"};
-    }
-    else {
-
-        # make sure that we are getting POSIX (i.e. english) messages from gpg
-        $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
-    }
-
-    # ensure that there is a random state file that we can write to (otherwise openssl will bail)
-    $ENV{RANDFILE} = $Self->{ConfigObject}->Get('TempDir') . '/.rnd';
-
-    # prepend RANDFILE declaration to openssl cmd
-    $Self->{Cmd}
-        = "HOME=" . $Self->{ConfigObject}->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
-
-    return $Self;
-}
 
 =item Check()
 
@@ -800,6 +772,34 @@ sub PrivateAttributes {
     return %Attributes;
 }
 
+sub _Init {
+    my ( $Self, %Param ) = @_;
+
+    $Self->{Bin}         = $Self->{ConfigObject}->Get('SMIME::Bin') || '/usr/bin/openssl';
+    $Self->{CertPath}    = $Self->{ConfigObject}->Get('SMIME::CertPath');
+    $Self->{PrivatePath} = $Self->{ConfigObject}->Get('SMIME::PrivatePath');
+
+    if ( $^O =~ m{Win}i ) {
+
+        # take care to deal properly with paths containing whitespace
+        $Self->{Cmd} = qq{"$Self->{Bin}"};
+    }
+    else {
+
+        # make sure that we are getting POSIX (i.e. english) messages from gpg
+        $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
+    }
+
+    # ensure that there is a random state file that we can write to (otherwise openssl will bail)
+    $ENV{RANDFILE} = $Self->{ConfigObject}->Get('TempDir') . '/.rnd';
+
+    # prepend RANDFILE declaration to openssl cmd
+    $Self->{Cmd}
+        = "HOME=" . $Self->{ConfigObject}->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
+
+    return $Self;
+}
+
 sub _FetchAttributesFromCert {
     my ( $Self, $Filename, $AttributesRef ) = @_;
 
@@ -918,6 +918,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2009-10-07 20:41:50 $
+$Revision: 1.33 $ $Date: 2009-11-26 11:02:53 $
 
 =cut
