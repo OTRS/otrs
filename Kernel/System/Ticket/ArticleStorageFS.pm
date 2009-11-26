@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.66 2009-11-09 15:24:13 mn Exp $
+# $Id: ArticleStorageFS.pm,v 1.67 2009-11-26 10:50:00 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -115,32 +115,6 @@ sub ArticleDelete {
         Bind => [ \$Param{ArticleID} ],
     );
 
-    return 1;
-}
-
-sub _ArticleDeleteDirectory {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # delete directory from fs
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
-    if ( -d $Path ) {
-        if ( !rmdir($Path) ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't remove: $Path: $!!",
-            );
-            return;
-        }
-    }
     return 1;
 }
 
@@ -708,6 +682,32 @@ sub ArticleAttachment {
         return;
     }
     return %Data;
+}
+
+sub _ArticleDeleteDirectory {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(ArticleID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # delete directory from fs
+    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
+    if ( -d $Path ) {
+        if ( !rmdir($Path) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't remove: $Path: $!!",
+            );
+            return;
+        }
+    }
+    return 1;
 }
 
 1;

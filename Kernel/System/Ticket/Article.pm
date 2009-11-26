@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.236 2009-10-07 20:30:48 martin Exp $
+# $Id: Article.pm,v 1.237 2009-11-26 10:50:00 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.236 $) [1];
+$VERSION = qw($Revision: 1.237 $) [1];
 
 =head1 NAME
 
@@ -668,48 +668,6 @@ sub ArticleCreate {
 
     # return ArticleID
     return $ArticleID;
-}
-
-# just for internal use
-sub _ArticleGetId {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(TicketID MessageID From Subject IncomingTime)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # sql query
-    my @Bind = ( \$Param{TicketID} );
-    my $SQL  = 'SELECT id FROM article WHERE ticket_id = ? AND ';
-    if ( $Param{MessageID} ) {
-        $SQL .= 'a_message_id = ? AND ';
-        push @Bind, \$Param{MessageID};
-    }
-    if ( $Param{From} ) {
-        $SQL .= 'a_from = ? AND ';
-        push @Bind, \$Param{From};
-    }
-    if ( $Param{Subject} ) {
-        $SQL .= 'a_subject = ? AND ';
-        push @Bind, \$Param{Subject};
-    }
-    $SQL .= ' incoming_time = ?';
-    push @Bind, \$Param{IncomingTime};
-
-    # start query
-    return if !$Self->{DBObject}->Prepare(
-        SQL  => $SQL,
-        Bind => \@Bind,
-    );
-    my $ID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $ID = $Row[0];
-    }
-    return $ID;
 }
 
 =item ArticleGetTicketIDOfMessageID()
@@ -3014,6 +2972,48 @@ sub ArticleAccountedTimeDelete {
     return 1;
 }
 
+# just for internal use
+sub _ArticleGetId {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TicketID MessageID From Subject IncomingTime)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # sql query
+    my @Bind = ( \$Param{TicketID} );
+    my $SQL  = 'SELECT id FROM article WHERE ticket_id = ? AND ';
+    if ( $Param{MessageID} ) {
+        $SQL .= 'a_message_id = ? AND ';
+        push @Bind, \$Param{MessageID};
+    }
+    if ( $Param{From} ) {
+        $SQL .= 'a_from = ? AND ';
+        push @Bind, \$Param{From};
+    }
+    if ( $Param{Subject} ) {
+        $SQL .= 'a_subject = ? AND ';
+        push @Bind, \$Param{Subject};
+    }
+    $SQL .= ' incoming_time = ?';
+    push @Bind, \$Param{IncomingTime};
+
+    # start query
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind,
+    );
+    my $ID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $ID = $Row[0];
+    }
+    return $ID;
+}
+
 1;
 
 # the following is the pod for Kernel/System/Ticket/ArticleStorage*.pm
@@ -3113,6 +3113,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.236 $ $Date: 2009-10-07 20:30:48 $
+$Revision: 1.237 $ $Date: 2009-11-26 10:50:00 $
 
 =cut
