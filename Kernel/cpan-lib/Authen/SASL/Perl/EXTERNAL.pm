@@ -8,12 +8,13 @@ package Authen::SASL::Perl::EXTERNAL;
 use strict;
 use vars qw($VERSION @ISA);
 
-$VERSION = "1.03";
+$VERSION = "1.04";
 @ISA	 = qw(Authen::SASL::Perl);
 
 my %secflags = (
 	noplaintext  => 1,
 	nodictionary => 1,
+	noanonymous  => 1,
 );
 
 sub _order { 2 }
@@ -25,12 +26,14 @@ sub _secflags {
 sub mechanism { 'EXTERNAL' }
 
 sub client_start {
-  ''
+  my $self = shift;
+  my $v = $self->_call('user');
+  defined($v) ? $v : ''
 }
 
-sub client_step {
-  shift->_call('user');
-}
+#sub client_step {
+#  shift->_call('user');
+#}
 
 1;
 

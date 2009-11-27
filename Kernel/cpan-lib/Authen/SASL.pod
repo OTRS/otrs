@@ -32,15 +32,20 @@ plugins.
 This module implements several mechanisms and is implemented
 entirely in Perl.
 
-=item Authen::SASL::Cyrus
+=item Authen::SASL::XS
 
 This module uses the Cyrus SASL C-library (both version 1 and 2 
 are supported).
 
+=item Authen::SASL::Cyrus
+
+This module is the predecessor to L<Authen::SASL::XS>. It is reccomended
+to use L<Authen::SASL::XS>
+
 =back
 
 By default the order in which these plugins are selected is 
-Authen::SASL::Cyrus first and then Authen::SASL::Perl.
+Authen::SASL::XS, Authen::SASL::Cyrus and then Authen::SASL::Perl.
 
 If you want to change it or want to specifically use one
 implementation only simply do
@@ -120,7 +125,6 @@ Creates and returns a new connection object for a client-side connection.
 =item server_new ( SERVICE, HOST )
 
 Creates and returns a new connection object for a server-side connection.
-Currently only supported by L<Authen::SASL::Cyrus>.
 
 =item error ( )
 
@@ -209,8 +213,7 @@ passing an code reference that, when called, returns the value.
 
 =head1 SEE ALSO
 
-L<Authen::SASL::Perl>, L<Authen::SASL::Cyrus> (for more methods that currently
-only support by Authen::SASL::Cyrus)
+L<Authen::SASL::Perl>, L<Authen::SASL::XS>, L<Authen::SASL::Cyrus>
 
 =head1 AUTHOR
 
