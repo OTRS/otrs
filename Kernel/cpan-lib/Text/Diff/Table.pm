@@ -1,87 +1,20 @@
 package Text::Diff::Table;
 
-=head1 NAME
-
-    Text::Diff::Table - Text::Diff plugin to generate "table" format output
-
-=head1 SYNOPSIS
-
-    use Text::Diff;
-
-    diff \@a, $b { STYLE => "Table" };
-
-=head1 DESCRIPTION
-
-This is a plugin output formatter for Text::Diff that generates "table" style
-diffs:
-
- +--+----------------------------------+--+------------------------------+
- |  |../Test-Differences-0.2/MANIFEST  |  |../Test-Differences/MANIFEST  |
- |  |Thu Dec 13 15:38:49 2001          |  |Sat Dec 15 02:09:44 2001      |
- +--+----------------------------------+--+------------------------------+
- |  |                                  * 1|Changes                       *
- | 1|Differences.pm                    | 2|Differences.pm                |
- | 2|MANIFEST                          | 3|MANIFEST                      |
- |  |                                  * 4|MANIFEST.SKIP                 *
- | 3|Makefile.PL                       | 5|Makefile.PL                   |
- |  |                                  * 6|t/00escape.t                  *
- | 4|t/00flatten.t                     | 7|t/00flatten.t                 |
- | 5|t/01text_vs_data.t                | 8|t/01text_vs_data.t            |
- | 6|t/10test.t                        | 9|t/10test.t                    |
- +--+----------------------------------+--+------------------------------+
-
-This format also goes to some pains to highlight "invisible" characters on
-differing elements by selectively escaping whitespace.  Each element is split
-in to three segments (leading whitespace, body, trailing whitespace).  If
-whitespace differs in a segement, that segment is whitespace escaped.
-
-Here is an example of the selective whitespace.
-
- +--+--------------------------+--------------------------+
- |  |demo_ws_A.txt             |demo_ws_B.txt             |
- |  |Fri Dec 21 08:36:32 2001  |Fri Dec 21 08:36:50 2001  |
- +--+--------------------------+--------------------------+
- | 1|identical                 |identical                 |
- * 2|        spaced in         |        also spaced in    *
- * 3|embedded space            |embedded        tab       *
- | 4|identical                 |identical                 |
- * 5|        spaced in         |\ttabbed in               *
- * 6|trailing spaces\s\s\n     |trailing tabs\t\t\n       *
- | 7|identical                 |identical                 |
- * 8|lf line\n                 |crlf line\r\n             *
- * 9|embedded ws               |embedded\tws              *
- +--+--------------------------+--------------------------+
-
-Here's why the lines do or do not have whitespace escaped:
-
-=over
-
-=item lines 1, 4, 7 don't differ, no need.
-
-=item lines 2, 3 differ in non-whitespace, no need.
-
-=item lines 5, 6, 8, 9 all have subtle ws changes.
-
-=back
-
-Whether or not line 3 should have that tab character escaped is a judgement
-call; so far I'm choosing not to.
-
-=cut
-
-@ISA = qw( Text::Diff::Base Exporter );
-@EXPORT_OK = qw( expand_tabs );
-$VERSION = 1.2;
-
+use 5.00503;
 use strict;
 use Carp;
-
+use vars qw{$VERSION @ISA @EXPORT_OK};
+BEGIN {
+	$VERSION   = '1.37';
+	@ISA       = qw( Text::Diff::Base Exporter );
+	@EXPORT_OK = qw( expand_tabs );
+}
 
 my %escapes = map {
     my $c =
         $_ eq '"' || $_ eq '$' ? qq{'$_'}
 	: $_ eq "\\"           ? qq{"\\\\"}
-	                       : qq{"$_"} ;
+	                       : qq{"$_"};
     ( ord eval $c => $_ )
 } (
     map( chr, 32..126),
@@ -92,12 +25,11 @@ my %escapes = map {
     ## escaped before escape() is called and we don't want to
     ## double-escape "\".  Also, in most texts, leaving "\" more
     ## readable makes sense.
-) ;
-
+);
 
 sub expand_tabs($) {
-    my $s = shift ;
-    my $count=0;
+    my $s     = shift;
+    my $count = 0;
     $s =~ s{(\t)(\t*)|([^\t]+)}{
          if ( $1 ) {
              my $spaces = " " x ( 8 - $count % 8  + 8 * length $2 );
@@ -113,7 +45,6 @@ sub expand_tabs($) {
     return $s;
 }
 
-
 sub trim_trailing_line_ends($) {
     my $s = shift;
     $s =~ s/[\r\n]+(?!\n)$//;
@@ -122,17 +53,17 @@ sub trim_trailing_line_ends($) {
 
 sub escape($);
 
-{
+SCOPE: {
    ## use utf8 if available.  don't if not.
-   my $escaper = <<'EOCODE' ;
+   my $escaper = <<'EOCODE';
       sub escape($) {
 	  use utf8;
 	  join "", map {
 	      $_ = ord;
 	      exists $escapes{$_}
 		  ? $escapes{$_}
-		  : sprintf( "\\x{%04x}", $_ ) ;
-	  } split //, shift ;
+		  : sprintf( "\\x{%04x}", $_ );
+	  } split //, shift;
       }
 
       1;
@@ -143,7 +74,6 @@ EOCODE
    }
 }
 
-
 sub new {
     my $proto = shift;
     return bless { @_ }, $proto
@@ -152,9 +82,9 @@ sub new {
 my $missing_elt = [ "", "" ];
 
 sub hunk {
-    my $self = shift;
-    my @seqs = ( shift, shift );
-    my $ops = shift;  ## Leave sequences in @_[0,1]
+    my $self    = shift;
+    my @seqs    = ( shift, shift );
+    my $ops     = shift;  ## Leave sequences in @_[0,1]
     my $options = shift;
 
     my ( @A, @B );
@@ -266,23 +196,20 @@ sub hunk {
         push @elts, [ @$A, @$B, $elt_type ];
     }
 
-
     push @{$self->{ELTS}}, @elts, ["bar"];
     return "";
 }
 
-
 sub _glean_formats {
-    my $self = shift ;
+    my $self = shift;
 }
-
 
 sub file_footer {
     my $self = shift;
     my @seqs = (shift,shift);
     my $options = pop;
 
-    my @heading_lines ;
+    my @heading_lines;
     
     if ( defined $options->{FILENAME_A} || defined $options->{FILENAME_B} ) {
         push @heading_lines, [ 
@@ -361,7 +288,7 @@ sub file_footer {
             "*" => "* %$w[0]s|%-$w[1]s  |%-$w[2]s  *\n",
         );
 
-    $fmts{bar} = sprintf $fmts{"="}, "", "", "", "" ;
+    $fmts{bar} = sprintf $fmts{"="}, "", "", "", "";
     $fmts{bar} =~ s/\S/+/g;
     $fmts{bar} =~ s/ /-/g;
     return join( "",
@@ -378,6 +305,78 @@ sub file_footer {
     @{$self->{ELTS}} = [];
 }
 
+1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+  Text::Diff::Table - Text::Diff plugin to generate "table" format output
+
+=head1 SYNOPSIS
+
+  use Text::Diff;
+  
+  diff \@a, $b { STYLE => "Table" };
+
+=head1 DESCRIPTION
+
+This is a plugin output formatter for Text::Diff that generates "table" style
+diffs:
+
+  +--+----------------------------------+--+------------------------------+
+  |  |../Test-Differences-0.2/MANIFEST  |  |../Test-Differences/MANIFEST  |
+  |  |Thu Dec 13 15:38:49 2001          |  |Sat Dec 15 02:09:44 2001      |
+  +--+----------------------------------+--+------------------------------+
+  |  |                                  * 1|Changes                       *
+  | 1|Differences.pm                    | 2|Differences.pm                |
+  | 2|MANIFEST                          | 3|MANIFEST                      |
+  |  |                                  * 4|MANIFEST.SKIP                 *
+  | 3|Makefile.PL                       | 5|Makefile.PL                   |
+  |  |                                  * 6|t/00escape.t                  *
+  | 4|t/00flatten.t                     | 7|t/00flatten.t                 |
+  | 5|t/01text_vs_data.t                | 8|t/01text_vs_data.t            |
+  | 6|t/10test.t                        | 9|t/10test.t                    |
+  +--+----------------------------------+--+------------------------------+
+
+This format also goes to some pains to highlight "invisible" characters on
+differing elements by selectively escaping whitespace.  Each element is split
+in to three segments (leading whitespace, body, trailing whitespace).  If
+whitespace differs in a segement, that segment is whitespace escaped.
+
+Here is an example of the selective whitespace.
+
+  +--+--------------------------+--------------------------+
+  |  |demo_ws_A.txt             |demo_ws_B.txt             |
+  |  |Fri Dec 21 08:36:32 2001  |Fri Dec 21 08:36:50 2001  |
+  +--+--------------------------+--------------------------+
+  | 1|identical                 |identical                 |
+  * 2|        spaced in         |        also spaced in    *
+  * 3|embedded space            |embedded        tab       *
+  | 4|identical                 |identical                 |
+  * 5|        spaced in         |\ttabbed in               *
+  * 6|trailing spaces\s\s\n     |trailing tabs\t\t\n       *
+  | 7|identical                 |identical                 |
+  * 8|lf line\n                 |crlf line\r\n             *
+  * 9|embedded ws               |embedded\tws              *
+  +--+--------------------------+--------------------------+
+
+Here's why the lines do or do not have whitespace escaped:
+
+=over
+
+=item lines 1, 4, 7 don't differ, no need.
+
+=item lines 2, 3 differ in non-whitespace, no need.
+
+=item lines 5, 6, 8, 9 all have subtle ws changes.
+
+=back
+
+Whether or not line 3 should have that tab character escaped is a judgement
+call; so far I'm choosing not to.
 
 =head1 LIMITATIONS
 
@@ -397,7 +396,7 @@ instead of octal ("\001") or control-code ("\cA") escapes.
 
 =head1 AUTHOR
 
-    Barrie Slaymaker <barries@slaysys.com>
+Barrie Slaymaker E<lt>barries@slaysys.comE<gt>
 
 =head1 LICENSE
 
@@ -407,5 +406,3 @@ You may use this software under the terms of the GNU public license, any
 version, or the Artistic license.
 
 =cut
-
-1;
