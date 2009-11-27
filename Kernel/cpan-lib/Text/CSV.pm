@@ -5,14 +5,14 @@ use strict;
 use Carp ();
 
 BEGIN {
-    $Text::CSV::VERSION = '1.14';
+    $Text::CSV::VERSION = '1.15';
     $Text::CSV::DEBUG   = 0;
 }
 
 # if use CSV_XS, requires version
 my $Module_XS  = 'Text::CSV_XS';
 my $Module_PP  = 'Text::CSV_PP';
-my $XS_Version = '0.68';
+my $XS_Version = '0.69';
 
 my $Is_Dynamic = 0;
 
@@ -286,9 +286,9 @@ perhaps better called ASV (anything separated values) rather than just CSV.
 
 =head1 VERSION
 
-    1.14
+    1.15
 
-This module is compatible with Text::CSV_XS B<0.68> and later.
+This module is compatible with Text::CSV_XS B<0.69> and later.
 
 =head2 Embedded newlines
 

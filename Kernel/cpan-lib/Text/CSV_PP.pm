@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.22';
+$VERSION = '1.23';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -474,9 +474,7 @@ sub _parse {
         else {
 
             if (!$self->{verbatim} and $col =~ /\r\n|\n/) {
-                unless (defined $eol and !$allow_eol{$eol}) {
-                    $col =~ s/(?:\r\n|\n).*//sm;
-                }
+                $col =~ s/(?:\r\n|\n).*$//sm;
             }
 
             if ($col =~ /\Q$esc\E\r$/) { # for t/15_flags : test 165 'ESC CR' at line 203
@@ -594,14 +592,24 @@ sub getline {
 
     $self->{_EOF} = eof($io) ? 1 : '';
 
-    my $line = $io->getline();
     my $quot = $self->{quote_char};
     my $sep  = $self->{sep_char};
-    my $eol  = $self->{eol};
-
     my $re   = qr/(?:\Q$quot\E)/;
 
-    if ( defined $line and $line =~ /${re}0/ ) {
+    local $/ = "\r" if $self->{_AUTO_DETECT_CR};
+
+    my $line = $io->getline();
+    my $eol  = $self->{eol};
+
+    # AUTO DETECTION EOL CR
+    if ( defined $line and defined $eol and $eol eq '' and $line =~ /[^\r]\r[^\r\n]/ and eof ) {
+        $self->{_AUTO_DETECT_CR} = 1;
+        $self->{eol} = "\r";
+        seek( $io, 0, 0 ); # restart
+        return $self->getline( $io );
+    }
+
+    if ( defined $line and $line =~ /${re}0/ ) { # null containing line
         my $auto_diag = $self->auto_diag;
         $self->auto_diag( 0 ) if ( $auto_diag ); # stop auto error diag
 
@@ -610,42 +618,53 @@ sub getline {
         }
 
         $self->auto_diag( $auto_diag ) if ( $auto_diag ); # restore
-    }
-    else {
-        $line .= $io->getline() while ( defined $line and scalar(my @list = $line =~ /$re/g) % 2 and !eof($io) );
 
-        if (defined $eol and defined $line) {
-            $line =~ s/\Q$eol\E$//;
-        }
-
-        $self->_parse($line) or return;
+        return $self->_return_getline_result;
     }
 
-    if ( $self->{_BOUND_COLUMNS} ) {
-        my @vals  = $self->_fields();
-        my ( $max, $count ) = ( scalar @vals, 0 );
+    $line .= $io->getline() while ( defined $line and scalar(my @list = $line =~ /$re/g) % 2 and !eof($io) );
 
-        if ( @{ $self->{_BOUND_COLUMNS} } < $max ) {
-                $self->_set_error_diag(3006);
-                return;
-        }
-
-        for ( my $i = 0; $i < $max; $i++ ) {
-            my $bind = $self->{_BOUND_COLUMNS}->[ $i ];
-            if ( Scalar::Util::readonly( $$bind ) ) {
-                $self->_set_error_diag(3008);
-                return;
-            }
-            $$bind = $vals[ $i ];
-        }
-
-        return [];
-    }
-    else {
-        [ $self->_fields() ];
+    if ( $self->{verbatim} and defined $eol and defined $line ) { # VERBATIM MODE
+        $line =~ s/\Q$eol\E$//;
     }
 
+    $self->_parse($line);
+
+    return $self->_return_getline_result();
 }
+
+
+sub _return_getline_result {
+
+    if ( eof ) {
+        $_[0]->{_AUTO_DETECT_CR} = 0;
+    }
+
+    return unless $_[0]->{_STATUS};
+
+    return [ $_[0]->_fields() ] unless $_[0]->{_BOUND_COLUMNS};
+
+    my @vals  = $_[0]->_fields();
+    my ( $max, $count ) = ( scalar @vals, 0 );
+
+    if ( @{ $_[0]->{_BOUND_COLUMNS} } < $max ) {
+            $_[0]->_set_error_diag(3006);
+            return;
+    }
+
+    for ( my $i = 0; $i < $max; $i++ ) {
+        my $bind = $_[0]->{_BOUND_COLUMNS}->[ $i ];
+        if ( Scalar::Util::readonly( $$bind ) ) {
+            $_[0]->_set_error_diag(3008);
+            return;
+        }
+        $$bind = $vals[ $i ];
+    }
+
+    return [];
+}
+
+
 ################################################################################
 # getline_hr
 ################################################################################
