@@ -93,13 +93,21 @@ This constructor method creates an instance for an Atom 0.3/1.0 feed.
 The first argument is optional, but must be an Atom source if specified.
 This method returns an empty instance when $source is undefined.
 
-Atom 1.0 feed is supported since C<XML::FeedPP> version 0.30.
-Atom 0.3 is still default however.
+Atom 1.0 feed is also supported since C<XML::FeedPP> version 0.30.
+Atom 0.3 is still default, however, future version of this module
+would create Atom 1.0 as default.
+
+=head2  $feed = XML::FeedPP::Atom::Atom03->new();
+
+This creates an empty Atom 0.3 instance obviously.
+
+=head2  $feed = XML::FeedPP::Atom::Atom10->new();
+
+This creates an empty Atom 1.0 instance intended.
 
 =head2  $feed = XML::FeedPP::RSS->new( link => $link, title => $tile, ... );
 
-This constructor method creates an instance
-which has C<link>, C<title> elements etc.
+This creates a RSS instance which has C<link>, C<title> elements etc.
 
 =head2  $feed->load( $source );
 
@@ -392,7 +400,7 @@ use vars qw(
     $XMLNS_ATOM10
 );
 
-$VERSION = "0.40";
+$VERSION = "0.41";
 
 $RSS20_VERSION  = '2.0';
 $ATOM03_VERSION = '0.3';
@@ -2211,25 +2219,36 @@ sub get_value {
     # multiple elements
     if ( UNIVERSAL::isa( $value, 'ARRAY' )) {
         if ( wantarray ) {
-            return map { ref $_ && exists $_->{'#text'}
-                         ? $_->{'#text'} : $_ } @$value;
+            return map { &get_avalue($_) } @$value;
         } else {
-            return ref $value->[0] && exists $value->[0]->{'#text'}
-                   ? $value->[0]->{'#text'} : $value->[0];
+            return &get_avalue($value->[0]);
         }
     }
 
-    # text node of an element with attributes
-    return $value->{'#text'} if exists $value->{'#text'};
-
     # a hack for atom: <content type="xhtml"><div>...</div></content>
-    my $child = [ grep { /^[^\-\#]/ } keys %$value ];
-    if ( exists $value->{'-type'}
-        && ($value->{'-type'} eq "xhtml")
-        && scalar @$child == 1) {
-        return &get_value( $value, $child->[0] );
+    if ( UNIVERSAL::isa( $value, 'HASH' )
+        && exists $value->{'-type'}
+        && ($value->{'-type'} eq "xhtml")) {
+        my $child = [ grep { /^[^_-_#]/ } keys %$value ];
+        if (scalar @$child == 1) {
+            return &get_value( $value, $child->[0] );
+        }
     }
-    return;
+    return &get_avalue($value);
+}
+
+sub get_avalue {
+    my $value = shift;
+    
+    if ( UNIVERSAL::isa( $value, 'HASH' )) {
+        # text node of an element with attributes
+        return &get_avalue($value->{'#text'}) if exists $value->{'#text'};
+    } elsif ( UNIVERSAL::isa( $value, 'SCALAR' )) {
+        # CDATA section as a scalar reference
+        return $$value;
+    }
+    
+    return $value;
 }
 
 sub set_value {
@@ -2262,7 +2281,9 @@ sub set_attr {
     my $elem = shift;
     my $attr = \@_;
     if ( defined $self->{$elem} ) {
-        if ( !ref $self->{$elem} ) {
+        my $scalar = ref $self->{$elem};
+        $scalar = undef if ($scalar eq 'SCALAR');
+        if (! $scalar) {
             $self->{$elem} = { '#text' => $self->{$elem} };
         }
     }
@@ -2273,6 +2294,7 @@ sub set_attr {
         my $key = shift @$attr;
         my $val = shift @$attr;
         if ( defined $val ) {
+#           $val = $$val if (ref $val eq 'SCALAR');
             $self->{$elem}->{ '-' . $key } = $val;
         }
         else {
