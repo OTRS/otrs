@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.64 2009-11-04 12:27:57 mn Exp $
+# $Id: auto_build.sh,v 1.65 2009-12-01 17:42:38 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.64 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.65 $>"
 echo "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -38,7 +38,7 @@ PACKAGE_DEST_DIR="/tmp/$PACKAGE-packages"
 PACKAGE_TMP_SPEC="/tmp/$PACKAGE.spec"
 #RPM_BUILD="rpmbuild"
 RPM_BUILD="rpm"
-SUPPORT_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/Support-1.0.93.opm"
+SUPPORT_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/Support-1.0.94.opm"
 
 if ! test $PATH_TO_CVS_SRC || ! test $VERSION || ! test $RELEASE; then
     # --
@@ -94,25 +94,19 @@ rm -rf $PACKAGE_DEST_DIR
 mkdir $PACKAGE_DEST_DIR
 mkdir $PACKAGE_DEST_DIR/RPMS
 mkdir $PACKAGE_DEST_DIR/RPMS/suse
-mkdir $PACKAGE_DEST_DIR/RPMS/suse/7.3
-mkdir $PACKAGE_DEST_DIR/RPMS/suse/8.x
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/9.0
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/9.1
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/10.0
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat
-mkdir $PACKAGE_DEST_DIR/RPMS/redhat/7.x
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat/8.0
 mkdir $PACKAGE_DEST_DIR/RPMS/fedora
 mkdir $PACKAGE_DEST_DIR/RPMS/fedora/4
 mkdir $PACKAGE_DEST_DIR/SRPMS
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse
-mkdir $PACKAGE_DEST_DIR/SRPMS/suse/7.3
-mkdir $PACKAGE_DEST_DIR/SRPMS/suse/8.x
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/9.0
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/9.1
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/10.0
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat
-mkdir $PACKAGE_DEST_DIR/SRPMS/redhat/7.x
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat/8.0
 mkdir $PACKAGE_DEST_DIR/SRPMS/fedora
 mkdir $PACKAGE_DEST_DIR/SRPMS/fedora/4
@@ -264,54 +258,6 @@ rm $specfile || exit 1;
 
 mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/9.0/
 mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/9.0/
-
-# --
-# build SuSE 8.x rpm
-# --
-specfile=$PACKAGE_TMP_SPEC
-# replace version and release
-cat $ARCHIVE_DIR/scripts/suse-otrs-8.0.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
-# replace sourced files
-perl -e "open(SPEC, '< $specfile.tmp');while(<SPEC>){\$spec.=\$_;};open(IN, '< $FILES');while(<IN>){\$i.=\$_;}\$spec=~s/<FILES>/\$i/g;print \$spec;" > $specfile.tmp1
-# replace package description
-perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< $DESCRIPTION');while(<IN>){\$i.=\$_;}\$spec=~s/<DESCRIPTION>/\$i/g;print \$spec;" > $specfile
-$RPM_BUILD -ba --clean $specfile || exit 1;
-rm $specfile || exit 1;
-
-mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/8.x/
-mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/8.x/
-
-# --
-# build SuSE 7.3 rpm
-# --
-specfile=$PACKAGE_TMP_SPEC
-cat $ARCHIVE_DIR/scripts/suse-otrs-7.3.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
-# replace sourced files
-perl -e "open(SPEC, '< $specfile.tmp');while(<SPEC>){\$spec.=\$_;};open(IN, '< $FILES');while(<IN>){\$i.=\$_;}\$spec=~s/<FILES>/\$i/g;print \$spec;" > $specfile.tmp1
-# replace package description
-perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< $DESCRIPTION');while(<IN>){\$i.=\$_;}\$spec=~s/<DESCRIPTION>/\$i/g;print \$spec;" > $specfile
-$RPM_BUILD -ba --clean $specfile || exit 1;
-rm $specfile || exit 1;
-
-mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/7.3/
-mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/7.3/
-
-# --
-# build Redhat 7.3 rpm
-# --
-cp $ARCHIVE_DIR/scripts/redhat-rpmmacros ~/.rpmmacros || exit 1
-specfile=$PACKAGE_TMP_SPEC
-cat $ARCHIVE_DIR/scripts/redhat-otrs-7.3.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
-# replace sourced files
-perl -e "open(SPEC, '< $specfile.tmp');while(<SPEC>){\$spec.=\$_;};open(IN, '< $FILES');while(<IN>){\$i.=\$_;}\$spec=~s/<FILES>/\$i/g;print \$spec;" > $specfile.tmp1
-# replace package description
-perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< $DESCRIPTION');while(<IN>){\$i.=\$_;}\$spec=~s/<DESCRIPTION>/\$i/g;print \$spec;" > $specfile
-$RPM_BUILD -ba --clean $specfile || exit 1;
-rm $specfile || exit 1;
-rm ~/.rpmmacros || exit 1;
-
-mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/redhat/7.x/
-mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/redhat/7.x/
 
 # --
 # build Redhat 8.0 rpm
