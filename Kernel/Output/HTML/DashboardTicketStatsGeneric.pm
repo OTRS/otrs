@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.10 2009-10-05 11:47:03 martin Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.11 2009-12-02 08:55:48 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,18 +57,41 @@ sub Run {
 
     my %Axis = (
         '7Day' => {
-            0 => { Day => 'Sun', Created => 0, Closed => 0, },
-            1 => { Day => 'Mon', Created => 0, Closed => 0, },
-            2 => { Day => 'Tue', Created => 0, Closed => 0, },
-            3 => { Day => 'Wed', Created => 0, Closed => 0, },
-            4 => { Day => 'Thu', Created => 0, Closed => 0, },
-            5 => { Day => 'Fri', Created => 0, Closed => 0, },
-            6 => { Day => 'Sat', Created => 0, Closed => 0, },
+            0 => 'Sun',
+            1 => 'Mon',
+            2 => 'Tue',
+            3 => 'Wed',
+            4 => 'Thu',
+            5 => 'Fri',
+            6 => 'Sat',
         },
     );
 
-    my @Data;
-    my $Max = 1;
+    # define standard look of line chart
+    my %Data = (
+        'bg_colour' => "#FFFFFF",
+        'x_axis'    => {
+            'stroke'      => 1,
+            'tick_height' => 2,
+            'colour'      => "#000000",
+            'grid-colour' => "#cccccc",
+            'labels'      => {
+                'labels' => []
+            },
+        },
+        'y_axis' => {
+            'stroke'      => 1,
+            'tick_length' => 2,
+            'colour'      => "#000000",
+            'grid-colour' => "#cccccc",
+            'offset'      => 0,
+        },
+        'elements' => []
+    );
+
+    my $Max            = 1;
+    my @TicketsCreated = ();
+    my @TicketsClosed  = ();
     for my $Key ( 0 .. 6 ) {
 
         my $TimeNow = $Self->{TimeObject}->SystemTime();
@@ -80,8 +103,9 @@ sub Run {
             SystemTime => $TimeNow,
             );
 
-        $Data[$Key]->{Day} = $Self->{LayoutObject}->{LanguageObject}->Get(
-            $Axis{'7Day'}->{$WeekDay}->{Day}
+        unshift(
+            @{ $Data{'x_axis'}{'labels'}{'labels'} },
+            $Self->{LayoutObject}->{LanguageObject}->Get( $Axis{'7Day'}->{$WeekDay} )
         );
 
         my $CountCreated = $Self->{TicketObject}->TicketSearch(
@@ -102,7 +126,7 @@ sub Run {
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID => $Self->{UserID},
         );
-        $Data[$Key]->{Created} = $CountCreated;
+        push @TicketsCreated, $CountCreated;
         if ( $CountCreated > $Max ) {
             $Max = $CountCreated;
         }
@@ -125,15 +149,69 @@ sub Run {
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID => $Self->{UserID},
         );
-        $Data[$Key]->{Closed} = $CountClosed;
+        push @TicketsClosed, $CountClosed;
         if ( $CountClosed > $Max ) {
             $Max = $CountClosed;
         }
     }
 
-    @Data = reverse @Data;
+    # add line elements
+    @TicketsClosed  = reverse @TicketsClosed;
+    @TicketsCreated = reverse @TicketsCreated;
+    push @{ $Data{'elements'} }, {
+        'type'      => "line",
+        'dot-style' => {
+            'type' => "solid-dot",
+            'tip'  => $Self->{LayoutObject}->{LanguageObject}->Get('Closed') . " #x_label#: #val#",
+        },
+        'colour'    => "#736AFF",
+        'font-size' => 10,
+        'width'     => 2,
+        'dot-size'  => 4,
+        'values'    => \@TicketsClosed
+    };
+
+    push @{ $Data{'elements'} }, {
+        'type'      => "line",
+        'dot-style' => {
+            'type' => "solid-dot",
+            'tip'  => $Self->{LayoutObject}->{LanguageObject}->Get('Created') . " #x_label#: #val#",
+        },
+        'colour'    => "#009F42",
+        'font-size' => 10,
+        'width'     => 2,
+        'dot-size'  => 4,
+        'values'    => \@TicketsCreated
+    };
+
+    # calculate the maximum height and the tick steps of y axis
+    if ( $Max <= 10 ) {
+        $Data{'y_axis'}{'max'}   = 10;
+        $Data{'y_axis'}{'steps'} = 1;
+    }
+    elsif ( $Max <= 20 ) {
+        $Data{'y_axis'}{'max'}   = 20;
+        $Data{'y_axis'}{'steps'} = 5;
+    }
+    elsif ( $Max <= 100 ) {
+        $Data{'y_axis'}{'max'} = ( ( ( $Max - $Max % 10 ) / 10 ) + 1 ) * 10;
+        $Data{'y_axis'}{'steps'} = 10;
+    }
+    elsif ( $Max <= 1000 ) {
+
+        # get the next full hundreds of max
+        $Data{'y_axis'}{'max'} = ( ( ( $Max - $Max % 100 ) / 100 ) + 1 ) * 100;
+        $Data{'y_axis'}{'steps'} = 100;
+    }
+    else {
+
+        # get the next full thousands of max
+        $Data{'y_axis'}{'max'} = ( ( ( $Max - $Max % 1000 ) / 1000 ) + 1 ) * 1000;
+        $Data{'y_axis'}{'steps'} = 1000;
+    }
+
     my $Source = $Self->{LayoutObject}->JSON(
-        Data => \@Data,
+        Data => \%Data,
     );
 
     my $Content = $Self->{LayoutObject}->Output(
@@ -141,7 +219,6 @@ sub Run {
         Data         => {
             %{ $Self->{Config} },
             Key    => int rand 99999,
-            Max    => $Max,
             Source => $Source,
         },
     );

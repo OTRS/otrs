@@ -2,81 +2,32 @@
 # AgentDashboardTicketStats.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketStats.dtl,v 1.5 2009-06-29 12:32:29 ub Exp $
+# $Id: AgentDashboardTicketStats.dtl,v 1.6 2009-12-02 08:55:47 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<link rel="stylesheet" type="text/css" href="$Config{"Frontend::YUIPath"}/build/fonts/fonts-min.css" />
-<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/json/json-min.js"></script>
-<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/element/element-min.js"></script>
-<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/datasource/datasource-min.js"></script>
-<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/charts/charts-min.js"></script>
-
-<style type="text/css">
-    #chart$QData{"Key"}
-    {
-        width: 320px;
-        height: 200px;
-    }
-</style>
-
-<center>
-<div id="chart$QData{"Key"}"><p>Unable to load Flash content. The Charts Control requires Flash Player 9.0.45 or higher. You can download the latest version of Flash Player from the <a href="http://www.adobe.com/go/getflashplayer">Adobe Flash Player Download Center</a>.</p></div>
-</center>
-
+<script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}thirdparty/swfobject.js"></script>
 <script type="text/javascript">
+    swfobject.embedSWF("$Config{"Frontend::ImagePath"}open-flash-chart.swf", "chart$QData{"Key"}", "320", "200", "9.0.0");
 
-    YAHOO.widget.Chart.SWFURL = "$Config{"Frontend::YUIPath"}/build/charts/assets/charts.swf";
-
-//--- data
-
-    YAHOO.namespace("OTRS.Dashboard");
-
-    YAHOO.OTRS.Dashboard.TicketStats = $Data{"Source"};
-
-    var myDataSource = new YAHOO.util.DataSource( YAHOO.OTRS.Dashboard.TicketStats );
-    myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
-    myDataSource.responseSchema = {
-        fields: [ "Day", "Created", "Closed" ]
-    };
-
-//--- chart
-
-    var seriesDef = [
-        { displayName: "$JSText{"Created"}", yField: "Created" },
-        { displayName: "$JSText{"Closed"}", yField: "Closed" }
-    ];
-
-
-    YAHOO.OTRS.Dashboard.getDataTipText = function( item, index, series ) {
-        var toolTipText = series.displayName + " " + item.Day;
-        toolTipText += ": " + YAHOO.OTRS.Dashboard.formatYAxisLabel( item[series.yField] );
-        return toolTipText;
+    function open_flash_chart_data()
+    {
+        var data = '$Data{"Source"}';
+        return data;
     }
 
-    YAHOO.OTRS.Dashboard.formatYAxisLabel = function( value ) {
-        return YAHOO.util.Number.format( value, {
-            prefix: "",
-            thousandsSeparator: ",",
-            decimalPlaces: 0
-        });
+    function findSWF(movieName) {
+        if (navigator.appName.indexOf("Microsoft")!= -1) {
+            return window[movieName];
+        }
+        else {
+            return document[movieName];
+        }
     }
-
-    var YAxis = new YAHOO.widget.NumericAxis();
-    YAxis.minimum = $LQData{"Max"};
-    YAxis.labelFunction = YAHOO.OTRS.Dashboard.formatYAxisLabel;
-
-    var mychart = new YAHOO.widget.LineChart( "chart$QData{"Key"}", myDataSource, {
-        series: seriesDef,
-        xField: "Day",
-        yAxis: YAxis,
-        dataTipFunction: YAHOO.OTRS.Dashboard.getDataTipText,
-        //only needed for flash player express install
-        expressInstall: "assets/expressinstall.swf"
-    });
-
 </script>
+<div style="text-align:center; padding: 5px; background-color: #FFFFFF;">
+    <div id="chart$QData{"Key"}"><p>$Config{"Frontend::JavaScriptPath"} - Unable to load Flash content. The Charts Control requires Flash Player 9 or higher. You can download the latest version of Flash Player from the <a href="http://www.adobe.com/go/getflashplayer">Adobe Flash Player Download Center</a>.</p></div>
+</div>
