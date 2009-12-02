@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# faq.pl - the global CGI handle file for OTRS
+# bin/fcgi-bin/customer.pl - the global FCGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: public.fpl,v 1.7 2009-02-16 12:26:57 tr Exp $
+# $Id: customer.pl,v 1.2 2009-12-02 08:43:54 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $)[1];
+$VERSION = qw($Revision: 1.2 $)[1];
 
 # check @INC for mod_perl (add lib path for "require module"!)
 push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
@@ -39,7 +39,7 @@ push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 use CGI::Fast;
 
 # load agent web interface
-use Kernel::System::Web::InterfacePublic();
+use Kernel::System::Web::InterfaceCustomer();
 
 # 0=off;1=on;
 my $Debug = 0;
@@ -48,7 +48,7 @@ my $Debug = 0;
 # Response loop
 while (my $WebRequest = new CGI::Fast) {
     # create new object
-    my $Interface = Kernel::System::Web::InterfacePublic->new(Debug => $Debug, WebRequest => $WebRequest);
+    my $Interface = Kernel::System::Web::InterfaceCustomer->new(Debug => $Debug, WebRequest => $WebRequest);
 
     # execute object
     $Interface->Run();
