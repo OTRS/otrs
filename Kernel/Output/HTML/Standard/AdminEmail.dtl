@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.22 2009-11-26 08:23:57 mg Exp $
+# $Id: AdminEmail.dtl,v 1.23 2009-12-02 10:41:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,9 +92,7 @@ function submit_compose() {
                                 <tr>
                                     <td class="contentkey">$Text{"Body"}:</td>
                                     <td class="contentvalue">
-                                        <div class="yui-skin-sam">
-                                            <textarea id="RichText" name="Body" rows="16" cols="76">$QData{"Body"}</textarea>
-                                        </div>
+                                        <textarea id="RichText" name="Body" rows="16" cols="76">$QData{"Body"}</textarea>
                                     </td>
                                 </tr>
                             </table>

@@ -2,7 +2,7 @@
 # AgentTicketResponsible.dtl - provides HTML form for responsible mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.dtl,v 1.26 2009-11-25 16:19:58 mg Exp $
+# $Id: AgentTicketResponsible.dtl,v 1.27 2009-12-02 10:41:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -213,13 +213,11 @@ function change_selected(sel) {
                                 <tr>
                                     <td colspan="2" class="contentkey">$Text{"Text"}:</td>
                                     <td class="contentvalue">
-                                        <div class="yui-skin-sam">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                                            <textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                                            <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
-                                        </div>
+                                        <textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                                        <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
                                     </td>
                                 </tr>
                                 <tr>

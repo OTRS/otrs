@@ -2,7 +2,7 @@
 # AdminAutoResponseForm.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.35 2009-11-25 17:13:55 mg Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.36 2009-12-02 10:41:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,9 +74,7 @@ $Data{"Note"}
                                 <tr>
                                     <td class="contentkey">$Text{"Response"}: </td>
                                     <td class="contentvalue">
-                                        <div class="yui-skin-sam">
-                                            <textarea id="RichText" rows="10" cols="60" name="Response">$QData{"Response"}</textarea>
-                                        </div>
+                                        <textarea id="RichText" rows="10" cols="60" name="Response">$QData{"Response"}</textarea>
                                     </td>
                                 </tr>
                                 <tr>

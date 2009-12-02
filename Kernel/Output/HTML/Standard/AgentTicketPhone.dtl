@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.59 2009-11-25 17:13:55 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.60 2009-12-02 10:41:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -268,19 +268,12 @@ function clear_field() {
                     <tr>
                         <td class="contentkey">$Text{"Text"}:</td>
                         <td class="contentvalue">
-                            <div class="yui-skin-sam">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 # set white background for buttons
-<style type="text/css">
-<!--
-                                .yui-skin-sam .yui-toolbar-container { background-color: #FFFFFF; }
-                                -->
-                                </style>
 <!-- dtl:block:RichText -->
-                                <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                                <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
-                            </div>
+                            <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                            <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
                         </td>
                     </tr>
                     <tr>

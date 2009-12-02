@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1076 2009-12-02 08:55:48 mn Exp $
+# $Id: CHANGES,v 1.1077 2009-12-02 10:41:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/02) Completely removed YUI from the OTRS code.
  - (2009/12/02) Switched line chart on the dashboard from YUI to OFC.
  - (2009/11/27) Updated CPAN modules.
  - (2009/11/27) changed directory structure for thirdparty javascript modules

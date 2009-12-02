@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.65 2009-12-01 17:42:38 martin Exp $
+# $Id: auto_build.sh,v 1.66 2009-12-02 10:41:35 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.65 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.66 $>"
 echo "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -150,10 +150,6 @@ rm -rf doc/screenshots
 rm -rf doc/manual/screenshots
 # remove doc stuff
 rm -rf doc/manual
-# remove yui docu
-rm -rf var/httpd/htdocs/yui/*/docs/
-rm -rf var/httpd/htdocs/yui/*/examples/
-rm -rf var/httpd/htdocs/yui/*/tests/
 # remove swap stuff
 find -name ".#*" | xargs rm -rf
 # remove .cvs ignore files

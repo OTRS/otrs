@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.324 2009-10-01 08:57:20 mb Exp $
+# $Id: Defaults.pm,v 1.325 2009-12-02 10:41:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.324 $) [1];
+$VERSION = qw($Revision: 1.325 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -210,10 +210,6 @@ sub LoadDefaults {
     # Frontend::ImagePath
     # (URL image path of icons for navigation.)
     $Self->{'Frontend::ImagePath'} = '<OTRS_CONFIG_Frontend::WebPath>images/Standard/';
-
-    # Frontend::YUIPath
-    # (URL YUI path.)
-    $Self->{'Frontend::YUIPath'} =  '<OTRS_CONFIG_Frontend::WebPath>yui/2.7.0/';
 
     # DefaultViewNewLine
     # (insert new line in text messages after max x chars and
@@ -2423,6 +2419,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.324 $ $Date: 2009-10-01 08:57:20 $
+$Revision: 1.325 $ $Date: 2009-12-02 10:41:35 $
 
 =cut
