@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1077 2009-12-02 10:41:35 mn Exp $
+# $Id: CHANGES,v 1.1078 2009-12-02 22:32:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -110,6 +110,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/02) Fixed bug#4613 - Umlauts in <OTRS_*> variable and also on whole
+    message are not show right with ArticleStorageFS.
  - (2009/12/02) Fixed bug#3667 - E-mail notification link is wrong when using
     FastCGI.
  - (2009/11/25) Fixed bug#4498 - Rich text editor places whitespace in front of
