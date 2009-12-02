@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/fcgi-bin/index.fpl - the global FastCGI handle file (incl. auth) for OTRS
+# bin/fcgi-bin/index.pl - the global FastCGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: index.fpl,v 1.7 2009-02-16 12:26:57 tr Exp $
+# $Id: index.pl,v 1.1.2.1 2009-12-02 08:38:36 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $)[1];
+$VERSION = qw($Revision: 1.1.2.1 $)[1];
 
 # check @INC for mod_perl (add lib path for "require module"!)
 push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
