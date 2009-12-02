@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.64 2009-11-27 12:02:01 mn Exp $
+# $Id: Installer.pm,v 1.65 2009-12-02 17:43:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -627,15 +627,25 @@ sub Run {
             $Self->{LayoutObject}->FatalError( Message => "Can't write config to the database!", );
         }
         else {
+
+            # create sys config object
             my $SysConfigObject = Kernel::System::Config->new(
                 %{$Self}
             );
+
+            # take care that default config file is existing
+            if ( !$SysConfigObject->WriteDefault() ) {
+                return $Self->{LayoutObject}->FatalError();
+            }
+
             for my $Key (
                 qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile
                 DefaultCharset DefaultLanguage CheckMXRecord)
                 )
             {
                 my $Value = $Self->{ParamObject}->GetParam( Param => $Key );
+
+                # update config item via sys config object
                 $SysConfigObject->ConfigItemUpdate(
                     Valid => 1,
                     Key   => $Key,
@@ -671,9 +681,18 @@ sub Run {
 
     elsif ( $Self->{Subaction} eq 'Finish' ) {
         $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
+
+        # create sys config object
         my $SysConfigObject = Kernel::System::Config->new(
             %{$Self}
         );
+
+        # take care that default config file is existing
+        if ( !$SysConfigObject->WriteDefault() ) {
+            return $Self->{LayoutObject}->FatalError();
+        }
+
+        # update config item via sys config object
         my $Result = $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'SecureMode',
