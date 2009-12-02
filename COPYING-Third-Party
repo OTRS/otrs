@@ -1,16 +1,36 @@
 # --
-# $Id: COPYING-Third-Party,v 1.3 2009-11-11 10:27:41 martin Exp $
+# $Id: COPYING-Third-Party,v 1.4 2009-12-02 10:54:52 mn Exp $
 # --
 # A list of all included third party libraries.
 # --
 
-o Name:    JQuery
-  Web:     http://www.jquery.com/
+o Name:    Open Flash Chart
+  Web:     http://teethgrinder.co.uk/open-flash-chart-2/
+  License: LGPL - http://www.gnu.org/licenses/lgpl.html
+
+o Name:    SWFObject
+  Web:     http://code.google.com/p/swfobject/
+  License: MIT - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jQuery Autocomplete Plugin
+  Web:     http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/
+  License: GNU v3 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    jQuery BGIframe Plugin
+  Web:     http://docs.jquery.com/Plugins/bgiframe
+  License: GNU v3 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    jQuery Form Plugin
+  Web:     http://malsup.com/jquery/form/
+  License: GNU v3 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    jQuery UI
+  Web:     http://www.jqueryui.com/
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
 
-o Name:    YUI - Yahoo User Interface
-  Web:     http://developer.yahoo.net/yui/
-  License: BSD License - http://developer.yahoo.net/yui/license.txt
+o Name:    jQuery
+  Web:     http://www.jquery.com/
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    fckeditor
   Web:     http://www.fckeditor.net/
