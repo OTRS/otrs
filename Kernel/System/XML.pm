@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.91 2009-11-26 12:23:09 bes Exp $
+# $Id: XML.pm,v 1.92 2009-12-02 16:47:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 =head1 NAME
 
@@ -89,6 +89,8 @@ sub new {
 
     # to access object over non object oriented XML::Parser and XML::Parser::Lite
     $S = $Self;
+
+    $Self->{DefaultCharset} = $Self->{ConfigObject}->Get('DefaultCharset');
 
     return $Self;
 }
@@ -488,9 +490,7 @@ generate a xml string from a XMLHash
 sub XMLHash2XML {
     my ( $Self, @XMLHash ) = @_;
 
-    my $Output = '<?xml version="1.0" encoding="'
-        . $Self->{ConfigObject}->Get('DefaultCharset')
-        . '"?>' . "\n";
+    my $Output = '<?xml version="1.0" encoding="' . $Self->{DefaultCharset} . '"?>' . "\n";
 
     $Self->{XMLHash2XMLLayer} = 0;
     for my $Key (@XMLHash) {
@@ -1358,7 +1358,7 @@ sub _Decode {
             $A->{$_} = $Self->{EncodeObject}->Convert(
                 Text  => $A->{$_},
                 From  => 'utf-8',
-                To    => $Self->{ConfigObject}->Get('DefaultCharset'),
+                To    => $Self->{DefaultCharset},
                 Force => 1,
             );
         }
@@ -1459,6 +1459,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.91 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.92 $ $Date: 2009-12-02 16:47:09 $
 
 =cut
