@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1078 2009-12-02 22:32:06 martin Exp $
+# $Id: CHANGES,v 1.1079 2009-12-03 08:57:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,12 @@
 2.5.0 beta1 (????/??/??)
  - (2009/12/02) Completely removed YUI from the OTRS code.
  - (2009/12/02) Switched line chart on the dashboard from YUI to OFC.
- - (2009/11/27) Updated CPAN modules.
+ - (2009/11/27) Updated CPAN module XML::Parser::Lite to version 0.710.10.
+ - (2009/11/27) Updated CPAN module XML::TreePP to version 0.39.
+ - (2009/11/27) Updated CPAN module XML::FeedPP to version 0.41.
+ - (2009/11/27) Updated CPAN module Text::Diff to version 1.37.
+ - (2009/11/27) Updated CPAN module Text::CSV to version 1.15.
+ - (2009/11/27) Updated CPAN module Authen::SASL to version 2.13.
  - (2009/11/27) changed directory structure for thirdparty javascript modules
  - (2009/11/27) switched AutoCompletion and Dialog from YUI to jQuery
  - (2009/11/25) switched to XHTML doctype
