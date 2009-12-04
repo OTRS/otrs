@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.11 2009-12-02 08:55:48 mn Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.12 2009-12-04 10:44:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,31 +67,9 @@ sub Run {
         },
     );
 
-    # define standard look of line chart
-    my %Data = (
-        'bg_colour' => "#FFFFFF",
-        'x_axis'    => {
-            'stroke'      => 1,
-            'tick_height' => 2,
-            'colour'      => "#000000",
-            'grid-colour' => "#cccccc",
-            'labels'      => {
-                'labels' => []
-            },
-        },
-        'y_axis' => {
-            'stroke'      => 1,
-            'tick_length' => 2,
-            'colour'      => "#000000",
-            'grid-colour' => "#cccccc",
-            'offset'      => 0,
-        },
-        'elements' => []
-    );
-
-    my $Max            = 1;
     my @TicketsCreated = ();
     my @TicketsClosed  = ();
+    my @TicketWeekdays = ();
     for my $Key ( 0 .. 6 ) {
 
         my $TimeNow = $Self->{TimeObject}->SystemTime();
@@ -104,8 +82,8 @@ sub Run {
             );
 
         unshift(
-            @{ $Data{'x_axis'}{'labels'}{'labels'} },
-            $Self->{LayoutObject}->{LanguageObject}->Get( $Axis{'7Day'}->{$WeekDay} )
+            @TicketWeekdays,
+            [ 6 - $Key, $Self->{LayoutObject}->{LanguageObject}->Get( $Axis{'7Day'}->{$WeekDay} ) ]
         );
 
         my $CountCreated = $Self->{TicketObject}->TicketSearch(
@@ -126,10 +104,7 @@ sub Run {
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID => $Self->{UserID},
         );
-        push @TicketsCreated, $CountCreated;
-        if ( $CountCreated > $Max ) {
-            $Max = $CountCreated;
-        }
+        push @TicketsCreated, [ $Key, $CountCreated ];
 
         my $CountClosed = $Self->{TicketObject}->TicketSearch(
 
@@ -149,77 +124,33 @@ sub Run {
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID => $Self->{UserID},
         );
-        push @TicketsClosed, $CountClosed;
-        if ( $CountClosed > $Max ) {
-            $Max = $CountClosed;
-        }
+        push @TicketsClosed, [ $Key, $CountClosed ];
     }
 
     # add line elements
     @TicketsClosed  = reverse @TicketsClosed;
     @TicketsCreated = reverse @TicketsCreated;
-    push @{ $Data{'elements'} }, {
-        'type'      => "line",
-        'dot-style' => {
-            'type' => "solid-dot",
-            'tip'  => $Self->{LayoutObject}->{LanguageObject}->Get('Closed') . " #x_label#: #val#",
-        },
-        'colour'    => "#736AFF",
-        'font-size' => 10,
-        'width'     => 2,
-        'dot-size'  => 4,
-        'values'    => \@TicketsClosed
-    };
 
-    push @{ $Data{'elements'} }, {
-        'type'      => "line",
-        'dot-style' => {
-            'type' => "solid-dot",
-            'tip'  => $Self->{LayoutObject}->{LanguageObject}->Get('Created') . " #x_label#: #val#",
-        },
-        'colour'    => "#009F42",
-        'font-size' => 10,
-        'width'     => 2,
-        'dot-size'  => 4,
-        'values'    => \@TicketsCreated
-    };
+    my $TicketsClosedJSON = $Self->{LayoutObject}->JSON(
+        Data => \@TicketsClosed,
+    );
 
-    # calculate the maximum height and the tick steps of y axis
-    if ( $Max <= 10 ) {
-        $Data{'y_axis'}{'max'}   = 10;
-        $Data{'y_axis'}{'steps'} = 1;
-    }
-    elsif ( $Max <= 20 ) {
-        $Data{'y_axis'}{'max'}   = 20;
-        $Data{'y_axis'}{'steps'} = 5;
-    }
-    elsif ( $Max <= 100 ) {
-        $Data{'y_axis'}{'max'} = ( ( ( $Max - $Max % 10 ) / 10 ) + 1 ) * 10;
-        $Data{'y_axis'}{'steps'} = 10;
-    }
-    elsif ( $Max <= 1000 ) {
+    my $TicketsCreatedJSON = $Self->{LayoutObject}->JSON(
+        Data => \@TicketsCreated,
+    );
 
-        # get the next full hundreds of max
-        $Data{'y_axis'}{'max'} = ( ( ( $Max - $Max % 100 ) / 100 ) + 1 ) * 100;
-        $Data{'y_axis'}{'steps'} = 100;
-    }
-    else {
-
-        # get the next full thousands of max
-        $Data{'y_axis'}{'max'} = ( ( ( $Max - $Max % 1000 ) / 1000 ) + 1 ) * 1000;
-        $Data{'y_axis'}{'steps'} = 1000;
-    }
-
-    my $Source = $Self->{LayoutObject}->JSON(
-        Data => \%Data,
+    my $TicketWeekdaysJSON = $Self->{LayoutObject}->JSON(
+        Data => \@TicketWeekdays,
     );
 
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardTicketStats',
         Data         => {
             %{ $Self->{Config} },
-            Key    => int rand 99999,
-            Source => $Source,
+            Key            => int rand 99999,
+            TicketsClosed  => $TicketsClosedJSON,
+            TicketsCreated => $TicketsCreatedJSON,
+            TicketWeekdays => $TicketWeekdaysJSON,
         },
     );
 

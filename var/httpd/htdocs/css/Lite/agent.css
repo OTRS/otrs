@@ -3,7 +3,7 @@
  # agent.css - css file
  # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
  # --
- # $Id: agent.css,v 1.5 2009-11-26 08:57:18 mn Exp $
+ # $Id: agent.css,v 1.6 2009-12-04 10:44:24 mn Exp $
  # --
  # This software comes with ABSOLUTELY NO WARRANTY. For details, see
  # the enclosed file COPYING for license information (AGPL). If you
@@ -426,4 +426,27 @@ div.login-box {
 .ac_over {
     background-color: #426FD9;
     color: white;
+}
+
+/*
+ * LineChart
+ */
+.chart {
+    text-align: center;
+    padding: 5px;
+    background-color: #FFFFFF;
+}
+
+.chart .drawingarea {
+    width:320px;
+    height:200px;
+}
+
+#charttooltip {
+    position: absolute;
+    display: none;
+    border: 1px solid #000;
+    padding: 2px;
+    background-color: #ccc;
+    opacity: 0.80;
 }

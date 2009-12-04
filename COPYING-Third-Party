@@ -1,16 +1,16 @@
 # --
-# $Id: COPYING-Third-Party,v 1.4 2009-12-02 10:54:52 mn Exp $
+# $Id: COPYING-Third-Party,v 1.5 2009-12-04 10:44:24 mn Exp $
 # --
 # A list of all included third party libraries.
 # --
 
-o Name:    Open Flash Chart
-  Web:     http://teethgrinder.co.uk/open-flash-chart-2/
-  License: LGPL - http://www.gnu.org/licenses/lgpl.html
+o Name:    Flot
+  Web:     http://code.google.com/p/flot/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
 
-o Name:    SWFObject
-  Web:     http://code.google.com/p/swfobject/
-  License: MIT - http://www.opensource.org/licenses/mit-license.php
+o Name:    ExplorerCanvas
+  Web:     http://excanvas.sourceforge.net/
+  License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
 
 o Name:    jQuery Autocomplete Plugin
   Web:     http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/
