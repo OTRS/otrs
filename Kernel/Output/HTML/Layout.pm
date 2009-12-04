@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.190 2009-12-04 15:12:35 mh Exp $
+# $Id: Layout.pm,v 1.191 2009-12-04 16:01:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.190 $) [1];
+$VERSION = qw($Revision: 1.191 $) [1];
 
 =head1 NAME
 
@@ -1782,133 +1782,6 @@ sub OptionStrgHashRef {
         }
     }
     $Output .= "</select><a id=\"AJAXImage$Name\"></a>\n";
-    return $Output;
-}
-
-# OptionElement()
-#
-# !! DONT USE THIS FUNCTION !! Use BuildSelection() instead.
-#
-# Due to compatibility reason this function is still in use and will be removed
-# in a further release.
-#
-#
-# build a html option element based on given data
-#
-#    my $HTML = $LayoutObject->OptionElement(
-#        Name            => 'SomeParamName',
-#        Data            => {
-#            ParamA => {
-#                Position    => 1,
-#                Value       => 'Some Nice Text A',
-#            },
-#            ParamB => {
-#                Position    => 2,
-#                Value       => 'Some Nice Text B',
-#                Selected    => 1,
-#            },
-#        },
-#        # optional
-#        Max             => 80, # max size of the shown value
-#        Multiple        => 0, # 1|0
-#        Size            => '', # option element size
-#        HTMLQuote       => 1, # 1|0
-#        PossibleNone    => 0, # 1|0 add a leading empty selection
-#    );
-
-sub OptionElement {
-    my ( $Self, %Param ) = @_;
-
-    my $Output       = '';
-    my $Name         = $Param{Name} || '';
-    my $Max          = $Param{Max} || 80;
-    my $Multiple     = $Param{Multiple} ? 'multiple="multiple"' : '';
-    my $HTMLQuote    = defined( $Param{HTMLQuote} ) ? $Param{HTMLQuote} : 1;
-    my $Translation  = defined( $Param{Translation} ) ? $Param{Translation} : 1;
-    my $PossibleNone = $Param{PossibleNone} || '';
-    my $Size         = $Param{Size} || '';
-    $Size = "size=\"$Size\"" if ($Size);
-
-    # check needed stuff
-    for (qw(Name Data)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Got no Data Param ref in OptionStrgHashRef()!",
-            );
-            $Self->FatalError();
-        }
-    }
-    if ( !$Param{Data} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Got no Data Param ref in OptionStrgHashRef()!",
-        );
-        $Self->FatalError();
-    }
-    elsif ( ref $Param{Data} ne 'HASH' ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
-        );
-        $Self->FatalError();
-    }
-
-    # detect
-    # $Param{Data}{Key}{Value}
-    my $Hash2 = 0;
-    for my $Key ( %{ $Param{Data} } ) {
-        if ( ref $Param{Data}->{$Key} eq 'HASH' ) {
-            $Hash2 = 1;
-            last;
-        }
-    }
-    if ($Hash2) {
-
-        # get sort prio
-        my %DataSort = ();
-        for my $Key ( keys %{ $Param{Data} } ) {
-            if ( $Param{Data}->{$Key}->{Position} ) {
-                $DataSort{$Key} = $Param{Data}->{$Key}->{Position};
-            }
-            else {
-                $DataSort{$Key} = 0;
-            }
-        }
-
-        # build option element
-        $Output .= "<select name=\"$Name\" $Multiple $Size>\n";
-        if ($PossibleNone) {
-            $Output .= '<option VALUE="">-$Text{"none"}-</option>';
-        }
-        for my $Key ( sort { $DataSort{$a} <=> $DataSort{$b} } keys %DataSort ) {
-            $Output .= '  <option value="' . $Self->Ascii2Html( Text => $Key ) . '"';
-            if ( $Param{Data}->{$Key}->{Selected} ) {
-                $Output .= ' selected';
-            }
-            $Output .= '>';
-            if ($Translation) {
-                $Param{Data}->{$Key}->{Value}
-                    = $Self->{LanguageObject}->Get( $Param{Data}->{$Key}->{Value} );
-            }
-            if ($HTMLQuote) {
-                $Output .= $Self->Ascii2Html( Text => $Param{Data}->{$Key}->{Value}, Max => $Max )
-                    || '';
-            }
-            else {
-                $Output .= $Param{Data}->{$Key}->{Value} || '';
-            }
-            $Output .= "</option>\n";
-        }
-        $Output .= "</select>\n";
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Got corrupt Data param! Got: '" . ref( $Param{Data} ) . "'!",
-        );
-        $Self->FatalError();
-    }
     return $Output;
 }
 
@@ -4416,6 +4289,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.190 $ $Date: 2009-12-04 15:12:35 $
+$Revision: 1.191 $ $Date: 2009-12-04 16:01:10 $
 
 =cut

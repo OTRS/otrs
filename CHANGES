@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1080 2009-12-04 10:44:24 mn Exp $
+# $Id: CHANGES,v 1.1081 2009-12-04 16:01:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/04) Removed OptionElement() from Layout.pm. Use BuildSelection()
+    instead.
  - (2009/12/04) Changed line chart library again: from OFC to Flot.
  - (2009/12/02) Completely removed YUI from the OTRS code.
  - (2009/12/02) Switched line chart on the dashboard from YUI to OFC.
