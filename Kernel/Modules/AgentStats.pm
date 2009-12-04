@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.74 2009-04-08 07:16:30 tr Exp $
+# $Id: AgentStats.pm,v 1.74.2.1 2009-12-04 16:00:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.74.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2312,7 +2312,7 @@ sub _Timeoutput {
         $Data->{ $Param{SelectedValues}[0] }{Selected} = 1;
     }
 
-    $Timeoutput{TimeScaleUnit} = $Self->{LayoutObject}->OptionElement(
+    $Timeoutput{TimeScaleUnit} = $Self->{LayoutObject}->BuildSelection(
         Name => $Element,
         Data => $Data,
     );
@@ -2322,11 +2322,9 @@ sub _Timeoutput {
         $Data->{ $Param{TimeRelativeUnit} }{Selected} = 1;
     }
 
-    $Timeoutput{TimeRelativeUnit} = $Self->{LayoutObject}->OptionElement(
-        Name => $Element . 'TimeRelativeUnit',
-        Data => $Data,
-
-        #FIXME: onchange only works with build selection
+    $Timeoutput{TimeRelativeUnit} = $Self->{LayoutObject}->BuildSelection(
+        Name     => $Element . 'TimeRelativeUnit',
+        Data     => $Data,
         OnChange => "SelectRadiobutton('Relativ', '$Element" . "TimeSelect')",
     );
 
@@ -2348,7 +2346,7 @@ sub _Timeoutput {
         $Size     = 0;
     }
 
-    $Timeoutput{TimeSelectField} = $Self->{LayoutObject}->OptionElement(
+    $Timeoutput{TimeSelectField} = $Self->{LayoutObject}->BuildSelection(
         Name     => $Element,
         Data     => $Data,
         Multiple => $Multiple,
