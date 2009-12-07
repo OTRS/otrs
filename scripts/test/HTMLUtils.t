@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.13.2.2 2009-12-07 16:49:36 martin Exp $
+# $Id: HTMLUtils.t,v 1.13.2.3 2009-12-07 16:51:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -270,8 +270,7 @@ bgColor=#ffffff>
 </FONT></DIV>
 <DIV><FONT face=Arial size=2></FONT>&nbsp;</DIV>
 ',
-        Result => '
-
+        Result => "\n\n
 <DIV><FONT face=Arial size=2>xxx</FONT></DIV>
 <DIV><FONT face=Arial size=2>
 </FONT></DIV>
@@ -279,7 +278,7 @@ bgColor=#ffffff>
 <DIV><FONT face=Arial size=2>
 </FONT></DIV>
 <DIV><FONT face=Arial size=2></FONT>&nbsp;</DIV>
-',
+",
 
         Name => 'DocumentStrip - Generator - Microsoft Word 10 (filtered)',
     },
