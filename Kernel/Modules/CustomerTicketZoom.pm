@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.52 2009-11-25 15:39:15 mg Exp $
+# $Id: CustomerTicketZoom.pm,v 1.53 2009-12-07 16:19:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -252,15 +252,14 @@ sub Run {
                 }
 
                 # write attachments
-                WRITEATTACHMENT:
-                for my $Ref (@AttachmentData) {
+                for my $Attachment (@AttachmentData) {
 
                     # skip deleted inline images
-                    next WRITEATTACHMENT if $Ref->{ContentID}
-                            && $Ref->{ContentID} =~ /^inline/
-                            && $GetParam{Body} !~ /$Ref->{ContentID}/;
+                    next if $Attachment->{ContentID}
+                            && $Attachment->{ContentID} =~ /^inline/
+                            && $GetParam{Body} !~ /$Attachment->{ContentID}/;
                     $Self->{TicketObject}->ArticleWriteAttachment(
-                        %{$Ref},
+                        %{$Attachment},
                         ArticleID => $ArticleID,
                         UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                     );
@@ -635,7 +634,7 @@ sub _Mask {
     {
         $Self->{LayoutObject}->Block(
             Name => 'FollowUp',
-            Data => { %Param, },
+            Data => \%Param,
         );
 
         # add rich text editor
@@ -771,7 +770,10 @@ sub _Mask {
     # select the output template
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerTicketZoom',
-        Data => { %Article, %Param, },
+        Data         => {
+            %Article,
+            %Param,
+        },
     );
 }
 
