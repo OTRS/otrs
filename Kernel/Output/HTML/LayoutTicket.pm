@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.50.2.2 2009-11-18 15:35:22 mn Exp $
+# $Id: LayoutTicket.pm,v 1.50.2.3 2009-12-07 13:30:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50.2.2 $) [1];
+$VERSION = qw($Revision: 1.50.2.3 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -73,7 +73,7 @@ sub AgentCustomerViewTable {
         $Self->FatalError( Message => 'Need Hash ref in Data param' );
     }
     elsif ( ref $Param{Data} eq 'HASH' && !%{ $Param{Data} } ) {
-        return '$Text{"none"}';
+        return $Self->{LanguageObject}->Get('none');
     }
 
     # add ticket params if given
