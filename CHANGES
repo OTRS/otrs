@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1088 2009-12-07 15:52:57 mg Exp $
+# $Id: CHANGES,v 1.1089 2009-12-07 16:58:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,6 +119,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/07) Fixed bug#4246 - Response Templates fail to populate for certain
+    email tickets.
  - (2009/12/07) Fixed bug#4381 - Function change_selection in AgentTicketMove.
  - (2009/12/07) Fixed bug#4400 - OTRS switches back to phone view when closing
     ticket after split.

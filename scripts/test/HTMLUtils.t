@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.14 2009-11-25 15:26:13 mn Exp $
+# $Id: HTMLUtils.t,v 1.15 2009-12-07 16:58:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -252,7 +252,35 @@ style='font-size:12.0pt;font-family:\"Courier New\"'>Hello, <br>
 </div>
 \n\n\n
 ",
-        Name => 'DocumentStrip - Generator - Microsoft Word 10 (filtered)'
+        Name => 'DocumentStrip - Generator - Microsoft Word 10 (filtered)',
+    },
+    {
+        Input => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv="Content-Type content=text/html; charset=utf-8">
+<META content="MSHTML 6.00.6002.18124" name=GENERATOR></HEAD>
+<BODY style="FONT-SIZE: 12px; FONT-FAMILY: =
+Geneva,Helvetica,Arial,sans-serif"=20
+bgColor=#ffffff>
+<DIV><FONT face=Arial size=2>xxx</FONT></DIV>
+<DIV><FONT face=Arial size=2>
+</FONT></DIV>
+<DIV><FONT face=Arial size=2></FONT>&nbsp;</DIV>
+<DIV><FONT face=Arial size=2>
+</FONT></DIV>
+<DIV><FONT face=Arial size=2></FONT>&nbsp;</DIV>
+',
+        Result => "\n\n
+<DIV><FONT face=Arial size=2>xxx</FONT></DIV>
+<DIV><FONT face=Arial size=2>
+</FONT></DIV>
+<DIV><FONT face=Arial size=2></FONT>&nbsp;</DIV>
+<DIV><FONT face=Arial size=2>
+</FONT></DIV>
+<DIV><FONT face=Arial size=2></FONT>&nbsp;</DIV>
+",
+
+        Name => 'DocumentStrip - Generator - Microsoft Word 10 (filtered)',
     },
 );
 
