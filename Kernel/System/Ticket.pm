@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.432 2009-11-26 12:41:51 bes Exp $
+# $Id: Ticket.pm,v 1.433 2009-12-07 10:10:06 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.432 $) [1];
+$VERSION = qw($Revision: 1.433 $) [1];
 
 =head1 NAME
 
@@ -6105,7 +6105,7 @@ sub HistoryTicketGet {
         if ( $Year <= $Param{StopYear} && $Month > $Param{StopMonth} ) {
 
             # create sub directory if needed
-            if ( !-e $Path && !File::Path::mkpath( [$Path], 0, '0775' ) ) {
+            if ( !-e $Path && !File::Path::mkpath( [$Path], 0, 0775 ) ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => "Can't create directory: $Path: $!",
@@ -7524,6 +7524,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.432 $ $Date: 2009-11-26 12:41:51 $
+$Revision: 1.433 $ $Date: 2009-12-07 10:10:06 $
 
 =cut
