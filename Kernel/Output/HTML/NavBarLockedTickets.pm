@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarLockedTickets.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarLockedTickets.pm,v 1.15 2009-11-25 13:42:11 mg Exp $
+# $Id: NavBarLockedTickets.pm,v 1.16 2009-12-07 13:57:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,7 +34,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Return = ();
+    my %Return;
 
     # get responsible
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
@@ -59,10 +59,9 @@ sub Run {
     }
 
     # get user lock data
-    my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
+    my %Locked = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
 
-    my $Text
-        = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets') . " ($LockedData{All})";
+    my $Text = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets') . " ($Locked{All})";
     $Return{'0999999'} = {
         Block       => 'ItemPersonal',
         Description => $Text,
@@ -71,7 +70,7 @@ sub Run {
         Link        => 'Action=AgentTicketLockedView',
         AccessKey   => 'k',
     };
-    $Text = $Self->{LayoutObject}->{LanguageObject}->Get('New message') . " ($LockedData{New})";
+    $Text = $Self->{LayoutObject}->{LanguageObject}->Get('New message') . " ($Locked{New})";
     $Return{'0999989'} = {
         Block       => 'ItemPersonal',
         Description => $Text,
