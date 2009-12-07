@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1082 2009-12-07 10:10:06 mae Exp $
+# $Id: CHANGES,v 1.1083 2009-12-07 10:38:23 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,6 +118,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/07) Fixed bug#4477 - Uninitialized Value issue with Redirect()
+    function in Layout.pm.
  - (2009/12/07) Fixed bug#3907 - Caching function not working due to wrong
      hardcoded umask.
  - (2009/12/02) Fixed bug#4613 - Umlauts in <OTRS_*> variable and also on whole

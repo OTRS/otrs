@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.191 2009-12-04 16:01:10 mh Exp $
+# $Id: Layout.pm,v 1.192 2009-12-07 10:34:53 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.191 $) [1];
+$VERSION = qw($Revision: 1.192 $) [1];
 
 =head1 NAME
 
@@ -748,31 +748,37 @@ sub Redirect {
         return $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
     }
 
-    # Filter out hazardous characters
-    if ( $Param{OP} =~ s{\x00}{}smxg ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Someone tries to use a null bytes (\x00) character in redirect!',
-        );
-    }
+    # set baselink
+    $Param{Redirect} = $Self->{Baselink};
 
-    if ( $Param{OP} =~ s{\r}{}smxg ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Someone tries to use a carriage return character in redirect!',
-        );
-    }
+    if ( $Param{OP} ) {
 
-    if ( $Param{OP} =~ s{\n}{}smxg ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Someone tries to use a newline character in redirect!',
-        );
-    }
+        # Filter out hazardous characters
+        if ( $Param{OP} =~ s{\x00}{}smxg ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Someone tries to use a null bytes (\x00) character in redirect!',
+            );
+        }
 
-    # internal redirect
-    $Param{OP} =~ s/^.*\?(.+?)$/$1/;
-    $Param{Redirect} = $Self->{Baselink} . $Param{OP};
+        if ( $Param{OP} =~ s{\r}{}smxg ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Someone tries to use a carriage return character in redirect!',
+            );
+        }
+
+        if ( $Param{OP} =~ s{\n}{}smxg ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Someone tries to use a newline character in redirect!',
+            );
+        }
+
+        # internal redirect
+        $Param{OP} =~ s/^.*\?(.+?)$/$1/;
+        $Param{Redirect} .= $Param{OP};
+    }
 
     # check if IIS is used, add absolute url for IIS workaround
     # see also:
@@ -4289,6 +4295,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.191 $ $Date: 2009-12-04 16:01:10 $
+$Revision: 1.192 $ $Date: 2009-12-07 10:34:53 $
 
 =cut
