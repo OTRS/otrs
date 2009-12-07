@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.50 2009-11-11 19:34:58 martin Exp $
+# $Id: Ticket.t,v 1.51 2009-12-07 17:47:14 ud Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4065,6 +4065,205 @@ for my $Test (@Tests) {
     $Self->False(
         $Flag{ $Test->{Flag} } || 0,
         'ArticleFlagGet()',
+    );
+}
+
+my $HistoryCreate = [
+    {
+        CreateData => [
+            {
+                TicketCreate => {
+                    Title        => 'HistoryCreateTitle',
+                    Queue        => 'Raw',
+                    Lock         => 'unlock',
+                    PriorityID   => '3',
+                    State        => 'new',
+                    CustomerID   => '1',
+                    CustomerUser => 'customer@example.com',
+                    OwnerID      => 1,
+                    UserID       => 1,
+                },
+            },
+            {
+                ArticleCreate => {
+                    ArticleType => 'note-internal',    # email-external|email-internal|phone|fax|...
+                    SenderType  => 'agent',            # agent|system|customer
+                    From    => 'Some Agent <email@example.com>',           # not required but useful
+                    To      => 'Some Customer A <customer-a@example.com>', # not required but useful
+                    Subject => 'some short description',                   # required
+                    Body    => 'the message text',                         # required
+                    Charset => 'ISO-8859-15',
+                    MimeType    => 'text/plain',
+                    HistoryType => 'OwnerUpdate'
+                    ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+                    HistoryComment => 'Some free text!',
+                    UserID         => 1,
+                },
+            },
+            {
+                ArticleCreate => {
+                    ArticleType => 'note-internal',    # email-external|email-internal|phone|fax|...
+                    SenderType  => 'agent',            # agent|system|customer
+                    From    => 'Some other Agent <email2@example.com>',    # not required but useful
+                    To      => 'Some Customer A <customer-a@example.com>', # not required but useful
+                    Subject => 'some short description',                   # required
+                    Body    => 'the message text',                         # required
+                    Charset => 'UTF-8',
+                    MimeType    => 'text/plain',
+                    HistoryType => 'OwnerUpdate'
+                    ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+                    HistoryComment => 'Some free text!',
+                    UserID         => 1,
+                },
+            },
+        ],
+    },
+    {
+        ReferenceData => [
+            {
+                TicketIndex => 0,
+                HistoryGet  => [
+                    {
+                        CreateBy      => 1,
+                        HistoryType   => 'NewTicket',
+                        Queue         => 'Raw',
+                        OwnerID       => undef,
+                        PriorityID    => undef,
+                        StateID       => undef,
+                        HistoryTypeID => undef,
+                        TypeID        => undef,
+                    },
+                    {
+                        CreateBy      => 1,
+                        HistoryType   => 'CustomerUpdate',
+                        Queue         => 'Raw',
+                        OwnerID       => undef,
+                        PriorityID    => undef,
+                        StateID       => undef,
+                        HistoryTypeID => undef,
+                        TypeID        => undef,
+                    },
+                    {
+                        CreateBy      => 1,
+                        HistoryType   => 'OwnerUpdate',
+                        Queue         => 'Raw',
+                        OwnerID       => undef,
+                        PriorityID    => undef,
+                        StateID       => undef,
+                        HistoryTypeID => undef,
+                        TypeID        => undef,
+                    },
+                    {
+                        CreateBy      => 1,
+                        HistoryType   => 'OwnerUpdate',
+                        Queue         => 'Raw',
+                        OwnerID       => undef,
+                        PriorityID    => undef,
+                        StateID       => undef,
+                        HistoryTypeID => undef,
+                        TypeID        => undef,
+                    },
+                ],
+            },
+        ],
+    },
+];
+
+my @HistoryCreateTicketIDs;
+for my $HistoryCreateTest ( @{$HistoryCreate} ) {
+    my $HistoryCreateTicketID;
+    my @HistoryCreateArticleIDs;
+
+    if ( $HistoryCreateTest->{CreateData} ) {
+        for my $CreateData ( @{ $HistoryCreateTest->{CreateData} } ) {
+            if ( $CreateData->{TicketCreate} ) {
+                $HistoryCreateTicketID = $TicketObject->TicketCreate(
+                    %{ $CreateData->{TicketCreate} },
+                );
+                $Self->True(
+                    $HistoryCreateTicketID,
+                    'HistoryGet - TicketCreate()',
+                );
+
+                if ($HistoryCreateTicketID) {
+                    push @HistoryCreateTicketIDs, $HistoryCreateTicketID;
+                }
+            }
+            if ( $CreateData->{ArticleCreate} ) {
+                my $HistoryCreateArticleID = $TicketObject->ArticleCreate(
+                    TicketID => $HistoryCreateTicketID,
+                    %{ $CreateData->{ArticleCreate} },
+                );
+                $Self->True(
+                    $HistoryCreateArticleID,
+                    'HistoryGet - ArticleCreate()',
+                );
+                if ($HistoryCreateArticleID) {
+                    push @HistoryCreateArticleIDs, $HistoryCreateArticleID;
+                }
+            }
+        }
+    }
+
+    if ( $HistoryCreateTest->{ReferenceData} ) {
+
+        REFERENCEDATA:
+        for my $ReferenceData ( @{ $HistoryCreateTest->{ReferenceData} } ) {
+            $HistoryCreateTicketID = $HistoryCreateTicketIDs[ $ReferenceData->{TicketIndex} ];
+
+            if ( $ReferenceData->{HistoryGet} ) {
+                my @ReferenceResults = @{ $ReferenceData->{HistoryGet} };
+
+                my @HistoryGet = $TicketObject->HistoryGet(
+                    UserID   => 1,
+                    TicketID => $HistoryCreateTicketID,
+                );
+
+                $Self->True(
+                    @HistoryGet,
+                    'HistoryGet - HistoryGet()',
+                );
+
+                next REFERENCEDATA if !@HistoryGet;
+
+                for my $ResultCount ( 0 .. ( ( scalar @ReferenceResults ) - 1 ) ) {
+
+                    RESULTENTRY:
+                    for my $ResultEntry ( keys %{ $ReferenceData->{HistoryGet}->[$ResultCount] } ) {
+                        next RESULTENTRY
+                            if !$ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry};
+
+                        if ( $ResultEntry eq "Queue" ) {
+                            my $HistoryQueueID = $QueueObject->QueueLookup(
+                                Queue =>
+                                    $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry},
+                            );
+
+                            $ResultEntry = 'QueueID';
+                            $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry}
+                                = $HistoryQueueID;
+                        }
+
+                        $Self->Is(
+                            $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry},
+                            $HistoryGet[$ResultCount]->{$ResultEntry},
+                            'HistoryGet - Check returned content',
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+
+# clean up created tickets
+for my $HistoryTicketID (@HistoryCreateTicketIDs) {
+    $Self->True(
+        $TicketObject->TicketDelete(
+            UserID   => 1,
+            TicketID => $HistoryTicketID,
+        ),
+        'HistoryGet - TicketDelete()',
     );
 }
 
