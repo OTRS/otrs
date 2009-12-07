@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.120 2009-12-03 10:11:07 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.121 2009-12-07 15:15:44 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -127,7 +127,11 @@ sub Run {
         }
 
         # store last queue screen
-        if ( $Self->{LastScreenOverview} !~ /Action=AgentTicketPhone/ ) {
+        if (
+            $Self->{LastScreenOverview} !~ /Action=AgentTicketPhone/
+            && $Self->{RequestedURL} !~ /Action=AgentTicketPhone.*LinkTicketID=/
+            )
+        {
             $Self->{SessionObject}->UpdateSessionID(
                 SessionID => $Self->{SessionID},
                 Key       => 'LastScreenOverview',
