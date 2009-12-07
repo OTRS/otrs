@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.434 2009-12-07 17:30:43 ud Exp $
+# $Id: Ticket.pm,v 1.435 2009-12-07 17:50:52 ud Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.434 $) [1];
+$VERSION = qw($Revision: 1.435 $) [1];
 
 =head1 NAME
 
@@ -6310,7 +6310,7 @@ sub HistoryGet {
 
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ht.name, '
-            . ' sh.queue_id, sh.owner_id, sh.priority_id, sh.state_id, sh.history_type_id, type_id '
+            . ' sh.queue_id, sh.owner_id, sh.priority_id, sh.state_id, sh.history_type_id, sh.type_id '
             . ' FROM ticket_history sh, ticket_history_type ht WHERE '
             . ' sh.ticket_id = ? AND ht.id = sh.history_type_id'
             . ' ORDER BY sh.create_time, sh.id',
@@ -7532,6 +7532,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.434 $ $Date: 2009-12-07 17:30:43 $
+$Revision: 1.435 $ $Date: 2009-12-07 17:50:52 $
 
 =cut
