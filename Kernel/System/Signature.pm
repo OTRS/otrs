@@ -2,7 +2,7 @@
 # Kernel/System/Signature.pm - All signature related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Signature.pm,v 1.14 2009-10-07 17:34:08 martin Exp $
+# $Id: Signature.pm,v 1.15 2009-12-07 10:34:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -155,11 +155,6 @@ sub SignatureGet {
         return;
     }
 
-    # quote params
-    for (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id, name, text, content_type, comments, valid_id, change_time, create_time '
@@ -250,7 +245,7 @@ sub SignatureList {
     my $Valid = 1;
 
     # check needed stuff
-    if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
+    if ( !$Param{Valid} && defined $Param{Valid} ) {
         $Valid = 0;
     }
 
@@ -279,6 +274,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2009-10-07 17:34:08 $
+$Revision: 1.15 $ $Date: 2009-12-07 10:34:36 $
 
 =cut
