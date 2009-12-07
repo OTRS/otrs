@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1086 2009-12-07 14:59:39 mg Exp $
+# $Id: CHANGES,v 1.1087 2009-12-07 15:21:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,9 +119,13 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/07) Fixed bug#4400 - OTRS switches back to phone view when closing
+    ticket after split.
  - (2009/12/07) Fixed bug#4597 - Unnecessary slash in download links.
- - (2009/12/07) Fixed bug#2768 - AttachmentsContent-Disposition header downloading a non-ASCII filename.
- - (2009/12/07) Fixed bug#4282 - Fixed problems with CustomerInfo for Usernames with a '+'.
+ - (2009/12/07) Fixed bug#2768 - AttachmentsContent-Disposition header downloading
+    a non-ASCII filename.
+ - (2009/12/07) Fixed bug#4282 - Fixed problems with CustomerInfo for Usernames
+    with a '+'.
  - (2009/12/07) Fixed bug#4477 - Uninitialized Value issue with Redirect()
     function in Layout.pm.
  - (2009/12/07) Fixed bug#3907 - Caching function not working due to wrong
