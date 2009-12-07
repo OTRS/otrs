@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.23 2009-10-07 20:25:38 martin Exp $
+# $Id: CSV.pm,v 1.24 2009-12-07 10:21:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Text::CSV;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -73,12 +73,12 @@ sub new {
 Returns a csv formatted string based on a array with head data.
 
     $CSV = $CSVObject->Array2CSV(
-        Head => ['RowA', 'RowB', ],   # optional
+        Head => [ 'RowA', 'RowB', ],   # optional
         Data => [
-            [1,4],
-            [7,3],
-            [1,9],
-            [34,4],
+            [ 1, 4 ],
+            [ 7, 3 ],
+            [ 1, 9 ],
+            [ 34, 4 ],
         ],
         Separator => ';', # optional separator (default is ;)
         Quote     => '"', # optional quote (default is ")
@@ -137,7 +137,7 @@ sub Array2CSV {
 
     # if we have head param fill in header
     if (@Head) {
-        my $status = $CSV->combine(@Head);
+        my $Status = $CSV->combine(@Head);
         $Output .= $CSV->string() . "\n";
     }
 
@@ -236,6 +236,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2009-10-07 20:25:38 $
+$Revision: 1.24 $ $Date: 2009-12-07 10:21:39 $
 
 =cut
