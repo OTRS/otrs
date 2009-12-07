@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.27 2009-12-07 10:16:20 martin Exp $
+# $Id: EmailParser.t,v 1.28 2009-12-07 14:00:27 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -775,5 +775,34 @@ for my $Test (@Tests) {
         "#16 MimeType - Charset check",
     );
 }
+
+# test #17
+@Array = ();
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test19.box" );
+while (<IN>) {
+    push( @Array, $_ );
+}
+close(IN);
+
+$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+    %{$Self},
+    Email => \@Array,
+);
+$Self->Is(
+    $Self->{EmailParserObject}->GetCharset(),
+    'iso-8859-1',
+    "#17 GetCharset() - iso-8859-1 charset should be found",
+);
+
+#test #18
+my $ContentType = qq(Content-Type: text/html; charset="iso-8859-1"; charset="iso-8859-1");
+my %Data        = $Self->{EmailParserObject}->GetContentTypeParams(
+    ContentType => $ContentType,
+);
+$Self->Is(
+    $Data{Charset},
+    'iso-8859-1',
+    "#18 ContentType - iso-8859-1 charset should be found",
+);
 
 1;
