@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.433 2009-12-07 10:10:06 mae Exp $
+# $Id: Ticket.pm,v 1.434 2009-12-07 17:30:43 ud Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.433 $) [1];
+$VERSION = qw($Revision: 1.434 $) [1];
 
 =head1 NAME
 
@@ -6285,7 +6285,8 @@ sub HistoryAdd {
 =item HistoryGet()
 
 get ticket history as array with hashes
-(TicketID, ArticleID, Name, CreateBy, CreateTime and HistoryType)
+(TicketID, ArticleID, Name, CreateBy, CreateTime, HistoryType, QueueID,
+OwnerID, PriorityID, StateID, HistoryTypeID and TypeID)
 
     my @HistoryLines = $TicketObject->HistoryGet(
         TicketID => 123,
@@ -6308,7 +6309,8 @@ sub HistoryGet {
     }
 
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ht.name '
+        SQL => 'SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ht.name, '
+            . ' sh.queue_id, sh.owner_id, sh.priority_id, sh.state_id, sh.history_type_id, type_id '
             . ' FROM ticket_history sh, ticket_history_type ht WHERE '
             . ' sh.ticket_id = ? AND ht.id = sh.history_type_id'
             . ' ORDER BY sh.create_time, sh.id',
@@ -6316,12 +6318,18 @@ sub HistoryGet {
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Data;
-        $Data{TicketID}    = $Param{TicketID};
-        $Data{ArticleID}   = $Row[1] || 0;
-        $Data{Name}        = $Row[0];
-        $Data{CreateBy}    = $Row[3];
-        $Data{CreateTime}  = $Row[2];
-        $Data{HistoryType} = $Row[4];
+        $Data{TicketID}      = $Param{TicketID};
+        $Data{ArticleID}     = $Row[1] || 0;
+        $Data{Name}          = $Row[0];
+        $Data{CreateBy}      = $Row[3];
+        $Data{CreateTime}    = $Row[2];
+        $Data{HistoryType}   = $Row[4];
+        $Data{QueueID}       = $Row[5];
+        $Data{OwnerID}       = $Row[6];
+        $Data{PriorityID}    = $Row[7];
+        $Data{StateID}       = $Row[8];
+        $Data{HistoryTypeID} = $Row[9];
+        $Data{TypeID}        = $Row[10];
         push @Lines, \%Data;
     }
 
@@ -7524,6 +7532,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.433 $ $Date: 2009-12-07 10:10:06 $
+$Revision: 1.434 $ $Date: 2009-12-07 17:30:43 $
 
 =cut
