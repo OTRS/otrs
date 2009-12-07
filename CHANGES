@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1085 2009-12-07 14:00:27 mn Exp $
+# $Id: CHANGES,v 1.1086 2009-12-07 14:59:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,6 +119,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/07) Fixed bug#4597 - Unnecessary slash in download links.
+ - (2009/12/07) Fixed bug#2768 - AttachmentsContent-Disposition header downloading a non-ASCII filename.
  - (2009/12/07) Fixed bug#4282 - Fixed problems with CustomerInfo for Usernames with a '+'.
  - (2009/12/07) Fixed bug#4477 - Uninitialized Value issue with Redirect()
     function in Layout.pm.

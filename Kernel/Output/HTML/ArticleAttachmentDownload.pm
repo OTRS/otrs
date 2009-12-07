@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleAttachmentDownload.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleAttachmentDownload.pm,v 1.11 2009-11-25 15:49:32 mg Exp $
+# $Id: ArticleAttachmentDownload.pm,v 1.12 2009-12-07 14:59:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,11 +50,15 @@ sub Run {
     if ( $Type =~ /inline/i ) {
         $Target = 'target="attachment" ';
     }
+
+    # include Filename in URL because of encoding problems with IIS/IE
+    my $EncodedFilename = $Self->{LayoutObject}->LinkEncode( $Param{File}->{Filename} || '' );
+
     return (
         %{ $Param{File} },
         Action => 'Download',
         Link =>
-            "\$Env{\"CGIHandle\"}/\$LQData{\"$Param{File}->{Filename}\"}?Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID}",
+            "\$Env{\"CGIHandle\"}/$EncodedFilename?Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID}",
         Image  => 'disk-s.png',
         Target => $Target,
     );
