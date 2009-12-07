@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.176.2.4 2009-12-04 16:07:49 mh Exp $
+# $Id: Layout.pm,v 1.176.2.5 2009-12-07 10:19:46 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.176.2.4 $) [1];
+$VERSION = qw($Revision: 1.176.2.5 $) [1];
 
 =head1 NAME
 
@@ -1159,6 +1159,9 @@ sub Redirect {
         $Param{Redirect} = $Param{ExtURL};
         return $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
     }
+
+    # set default if param is not set
+    $Param{OP} ||= '';
 
     # Filter out hazardous characters
     if ( $Param{OP} =~ s{\x00}{}smxg ) {
@@ -4384,6 +4387,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.176.2.4 $ $Date: 2009-12-04 16:07:49 $
+$Revision: 1.176.2.5 $ $Date: 2009-12-07 10:19:46 $
 
 =cut
