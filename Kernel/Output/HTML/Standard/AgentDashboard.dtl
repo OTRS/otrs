@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.23 2009-12-08 13:29:46 mg Exp $
+# $Id: AgentDashboard.dtl,v 1.24 2009-12-08 15:20:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -109,7 +109,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 
                                                         <div id="Dashboard$QData{"Name"}-setting" style="display:none;">
 
-                                                            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="$QData{"NameForm"}_setting_form">
+                                                            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="Dashboard$QData{"NameForm"}_setting_form">
                                                                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                                                 <input type="hidden" name="Subaction" value="UpdatePreferences"/>
                                                                 <input type="hidden" name="Name" value="$QData{"Name"}"/>
@@ -132,8 +132,8 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 <!-- dtl:block:ContentLargePreferencesItem -->
                                                                     <tr>
                                                                         <td colspan="2">
-                                                                            <input class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('$QData{"Name"}','$QData{"NameForm"}_setting_form'); return false;"/>
-                                                                            <input class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSUI.Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;"/>
+                                                                            <input class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;"/>
+                                                                            <input class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSUI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;"/>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -237,7 +237,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 
                                                         <div id="Dashboard$QData{"Name"}-setting" style="display:none;">
 
-                                                            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="$QData{"NameForm"}_setting_form">
+                                                            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="Dashboard$QData{"NameForm"}_setting_form">
                                                                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                                                 <input type="hidden" name="Subaction" value="UpdatePreferences"/>
                                                                 <input type="hidden" name="Name" value="$QData{"Name"}"/>
@@ -260,8 +260,8 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 <!-- dtl:block:ContentSmallPreferencesItem -->
                                                                     <tr>
                                                                         <td colspan="2">
-                                                                            <input class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('$QData{"Name"}','$QData{"NameForm"}_setting_form'); return false;"/>
-                                                                            <input class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSUI.Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;"/>
+                                                                            <input class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;"/>
+                                                                            <input class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSUI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;"/>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
