@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.22.2.1 2009-10-06 13:55:37 martin Exp $
+# $Id: EmailParser.t,v 1.22.2.2 2009-12-08 14:43:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -676,7 +676,7 @@ $Self->Is(
 $MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
-    '31f59045e9940fdad6d2aea64b56d69b',
+    '3a5519f26da763887a38e79663441dc1',
     "#14 md5 body check",
 );
 
