@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.33 2009-11-25 15:15:28 mg Exp $
+# $Id: AdminResponse.pm,v 1.34 2009-12-08 18:07:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -204,17 +204,19 @@ sub _Mask {
 
     my %SecondDataTmp = %{ $Param{Attachments} };
     my %DataTmp       = %{ $Param{SelectedAttachments} };
-    $Param{AttachmentOption} .= "<SELECT NAME=\"IDs\" SIZE=3 multiple>\n";
-    for my $ID ( sort keys %SecondDataTmp ) {
-        $Param{AttachmentOption} .= "<OPTION ";
-        for ( sort keys %DataTmp ) {
-            if ( $_ eq $ID ) {
-                $Param{AttachmentOption} .= 'selected';
+    if (%SecondDataTmp) {
+        $Param{AttachmentOption} .= "<select name=\"IDs\" size=\"3\" multiple=\"multiple\">\n";
+        for my $ID ( sort keys %SecondDataTmp ) {
+            $Param{AttachmentOption} .= "<option ";
+            for ( sort keys %DataTmp ) {
+                if ( $_ eq $ID ) {
+                    $Param{AttachmentOption} .= 'selected="selected"';
+                }
             }
+            $Param{AttachmentOption} .= " value=\"$ID\">$SecondDataTmp{$ID}</option>\n";
         }
-        $Param{AttachmentOption} .= " VALUE=\"$ID\">$SecondDataTmp{$ID}</OPTION>\n";
+        $Param{AttachmentOption} .= "</select>\n";
     }
-    $Param{AttachmentOption} .= "</SELECT>\n";
 
     # add rich text editor
     if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {

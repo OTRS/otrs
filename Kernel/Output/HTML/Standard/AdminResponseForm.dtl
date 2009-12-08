@@ -2,7 +2,7 @@
 # AdminResponseForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseForm.dtl,v 1.34 2009-12-02 10:41:35 mn Exp $
+# $Id: AdminResponseForm.dtl,v 1.35 2009-12-08 18:07:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -111,14 +111,14 @@ $Include{"RichTextEditor"}
     </tr>
     <tr>
         <td class="mainbody">
-            <p>
+            <div style="margin: 20px 0">
                 $Text{"A response is default text to write faster answer (with default text) to customers."}
-            </p>
-            <p>
+            </div>
+            <div style="margin: 20px 0">
                 $Text{"Attention"}: <a href="$Env{"Baselink"}Action=AdminQueueResponses">$Text{"Don't forget to add a new response a queue!"}</a>
-            </p>
+            </div>
             <hr/>
-            <p>
+            <div style="margin: 20px 0">
                 $Text{"Useable options"}:
                 <table>
                     <tr>
@@ -146,27 +146,25 @@ $Include{"RichTextEditor"}
                         <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
                     </tr>
                 </table>
-            </p>
-            <p>
+            </div>
+            <div style="margin: 20px 0">
                 $Text{"Example"}:
                 <hr/>
-                <form action="/">
-                    <table>
-                        <tr>
-                            <td class="contentkey">$Text{"Response"}:</td>
-                            <td class="contentvalue">
+                <table>
+                    <tr>
+                        <td class="contentkey">$Text{"Response"}:</td>
+                        <td class="contentvalue">
                 <textarea rows="12" cols="70" name="Response">
 
 $Text{"The current ticket state is"}: "&lt;OTRS_TICKET_State&gt;"
 
 $Text{"Your email address is new"}: "&lt;OTRS_CUSTOMER_UserEmail&gt;"
                 </textarea>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                        </td>
+                    </tr>
+                </table>
                 <hr/>
-            </p>
+            </div>
         </td>
     </tr>
 </table>

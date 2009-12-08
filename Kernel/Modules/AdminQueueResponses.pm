@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.33 2009-11-26 08:02:16 mg Exp $
+# $Id: AdminQueueResponses.pm,v 1.34 2009-12-08 18:11:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -195,7 +195,7 @@ sub _Mask {
         $Param{OptionStrg0} .= "<input type=\"hidden\" name=\"ID\" value=\"$_\" /><br/>\n";
     }
     $Param{OptionStrg0}
-        .= "<b>$NeType:</b><br/> <select name=\"IDs\" size=10 multiple=\"multiple\">\n";
+        .= "<b>$NeType:</b><br/> <select name=\"IDs\" size=\"10\" multiple=\"multiple\">\n";
     for my $ID ( sort { $SecondDataTmp{$a} cmp $SecondDataTmp{$b} } keys %SecondDataTmp ) {
         $SecondDataTmp{$ID} = $Self->{LayoutObject}->Ascii2Html(
             Text                => $SecondDataTmp{$ID},
@@ -225,7 +225,7 @@ sub _MaskFrom {
     my %UserDataTmp  = %$UserData;
     my $GroupData    = $Param{SecondData};
     my %GroupDataTmp = %$GroupData;
-    my $BaseLink     = $Self->{LayoutObject}->{Baselink} . "Action=AdminQueueResponses&";
+    my $BaseLink     = $Self->{LayoutObject}->{Baselink} . "Action=AdminQueueResponses;";
     for ( sort { $UserDataTmp{$a} cmp $UserDataTmp{$b} } keys %UserDataTmp ) {
         $UserDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text                => $UserDataTmp{$_},
