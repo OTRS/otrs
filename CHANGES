@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1093 2009-12-08 13:58:19 mn Exp $
+# $Id: CHANGES,v 1.1094 2009-12-08 14:49:30 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/08) Fixed bug#2153 - Recognize domain names only if they are words.
  - (2009/12/08) Fixed bug#4399 - Phone- / Email-Ticket AJAX reload does not
     consider ACL in Config.pm.
  - (2009/12/08) Fixed bug#4330 - Added new history-get results.
