@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1090 2009-12-08 09:17:23 mg Exp $
+# $Id: CHANGES,v 1.1091 2009-12-08 09:47:09 ud Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/08) Fixed bug#4330 - Added new history-get results.
  - (2009/12/07) Fixed bug#3887 - Processing headers with faulty charset definitions.
  - (2009/12/04) Removed OptionElement() from Layout.pm. Use BuildSelection()
     instead.
