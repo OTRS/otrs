@@ -2,7 +2,7 @@
 # Kernel/System/EventHandler.pm - global object events
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.3 2009-10-11 14:41:18 ub Exp $
+# $Id: EventHandler.pm,v 1.4 2009-12-08 16:23:46 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -177,7 +177,7 @@ call all transaction backends for all triggered events till now
 
     $EventHandler->EventHandlerTransaction();
 
-usually it's done in DESTORY of ExampleObject (e. g. Kernel::System::ExampleObject)
+usually it's done in DESTROY of ExampleObject (e. g. Kernel::System::ExampleObject)
 
 sub DESTROY {
     my $Self = shift;
@@ -232,6 +232,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2009-10-11 14:41:18 $
+$Revision: 1.4 $ $Date: 2009-12-08 16:23:46 $
 
 =cut
