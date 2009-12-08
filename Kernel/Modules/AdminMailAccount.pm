@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.10 2009-11-25 15:23:21 mg Exp $
+# $Id: AdminMailAccount.pm,v 1.11 2009-12-08 15:19:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,7 +45,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %GetParam = ();
-    my @Params   = (qw(ID Login Password Host Type Comment ValidID QueueID Trusted DispatchingBy));
+    my @Params
+        = (qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID Trusted DispatchingBy));
     for (@Params) {
         $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
     }
@@ -141,10 +142,10 @@ sub Run {
         my $Ok      = $Self->{ParamObject}->GetParam( Param => 'Ok' );
         my %Backend = $Self->{MailAccount}->MailAccountBackendList();
         my %List    = $Self->{MailAccount}->MailAccountList( Valid => 0 );
-        $Param{TypeOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{TypeOptionAdd} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => { $Self->{MailAccount}->MailAccountBackendList() },
-            Name       => 'Type',
-            SelectedID => $Param{Type} || 'POP3',
+            Name       => 'TypeAdd',
+            SelectedID => $Param{TypeAdd} || 'POP3',
         );
 
         $Self->{LayoutObject}->Block(
@@ -190,10 +191,16 @@ sub _MaskUpdate {
         SelectedID => $Param{ValidID},
     );
 
+    $Param{TypeOptionAdd} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data       => { $Self->{MailAccount}->MailAccountBackendList() },
+        Name       => 'TypeAdd',
+        SelectedID => $Param{Type} || $Param{TypeAdd} || '',
+    );
+
     $Param{TypeOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => { $Self->{MailAccount}->MailAccountBackendList() },
         Name       => 'Type',
-        SelectedID => $Param{Type},
+        SelectedID => $Param{Type} || $Param{TypeAdd} || '',
     );
 
     $Param{TrustedOption} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -230,7 +237,10 @@ sub _MaskUpdate {
     );
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
-    $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminMailAccount', Data => \%Param );
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminMailAccount',
+        Data         => \%Param,
+    );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }

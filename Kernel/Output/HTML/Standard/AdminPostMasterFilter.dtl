@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.27 2009-12-08 14:37:27 mg Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.28 2009-12-08 15:19:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -207,65 +207,63 @@
             <div style="margin: 20px 0">
                 $Text{"Example"}:
                 <hr/>
-                <form action="/">
-                    $Text{"Match"}
-                    <table>
-                        <tr>
-                            <td>$Text{"Header"} 1: </td>
-                            <td>
-                                <select name="MatchHeader1">
-                                    <option value="">-</option>
-                                    <option value="Cc">Cc</option>
-                                    <option value="From">From</option>
-                                    <option value="In-Reply-To">In-Reply-To</option>
-                                    <option value="List-Id">List-Id</option>
-                                    <option value="Mailing-List">Mailing-List</option>
-                                    <option value="Message-ID">Message-ID</option>
-                                    <option value="Reply-To">Reply-To</option>
-                                    <option value="ReplyTo">ReplyTo</option>
-                                    <option value="Resent-From">Resent-From</option>
-                                    <option value="Resent-To">Resent-To</option>
-                                    <option value="Subject">Subject</option>
-                                    <option selected="selected" value="To">To</option>
-                                    <option value="X-Loop">X-Loop</option>
-                                    <option value="X-No-Loop">X-No-Loop</option>
-                                    <option value="X-OTRS-ArticleKey1">X-OTRS-ArticleKey1</option>
-                                </select>
-                            </td>
-                            <td>$Text{"Value"}: </td>
-                            <td> <input type="text" name="Value1" value="(me|test)@example.com" size="30" maxlength="50"/></td>
-                        </tr>
-                    </table>
-                    $Text{"Set"}
-                    <table>
-                        <tr>
-                            <td>$Text{"Header"} 1: </td>
-                            <td>
-                                <select name="MatchHeader1">
-                                    <option value="">-</option>
-                                    <option value="Cc">Cc</option>
-                                    <option value="From">From</option>
-                                    <option value="In-Reply-To">In-Reply-To</option>
-                                    <option value="List-Id">List-Id</option>
-                                    <option value="Mailing-List">Mailing-List</option>
-                                    <option value="Message-ID">Message-ID</option>
-                                    <option value="Reply-To">Reply-To</option>
-                                    <option value="ReplyTo">ReplyTo</option>
-                                    <option value="Resent-From">Resent-From</option>
-                                    <option value="Resent-To">Resent-To</option>
-                                    <option value="Subject">Subject</option>
-                                    <option value="To">To</option>
-                                    <option value="X-Loop">X-Loop</option>
-                                    <option value="X-No-Loop">X-No-Loop</option>
-                                    <option value="X-OTRS-ArticleKey1">X-OTRS-ArticleKey1</option>
-                                    <option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option>
-                                </select>
-                            </td>
-                            <td>$Text{"Value"}: </td>
-                            <td> <input type="text" name="Value1" value="SomeQueue" size="30" maxlength="50"/></td>
-                        </tr>
-                    </table>
-                </form>
+                $Text{"Match"}
+                <table>
+                    <tr>
+                        <td>$Text{"Header"} 1: </td>
+                        <td>
+                            <select name="MatchHeader1">
+                                <option value="">-</option>
+                                <option value="Cc">Cc</option>
+                                <option value="From">From</option>
+                                <option value="In-Reply-To">In-Reply-To</option>
+                                <option value="List-Id">List-Id</option>
+                                <option value="Mailing-List">Mailing-List</option>
+                                <option value="Message-ID">Message-ID</option>
+                                <option value="Reply-To">Reply-To</option>
+                                <option value="ReplyTo">ReplyTo</option>
+                                <option value="Resent-From">Resent-From</option>
+                                <option value="Resent-To">Resent-To</option>
+                                <option value="Subject">Subject</option>
+                                <option selected="selected" value="To">To</option>
+                                <option value="X-Loop">X-Loop</option>
+                                <option value="X-No-Loop">X-No-Loop</option>
+                                <option value="X-OTRS-ArticleKey1">X-OTRS-ArticleKey1</option>
+                            </select>
+                        </td>
+                        <td>$Text{"Value"}: </td>
+                        <td> <input type="text" name="Value1" value="(me|test)@example.com" size="30" maxlength="50"/></td>
+                    </tr>
+                </table>
+                $Text{"Set"}
+                <table>
+                    <tr>
+                        <td>$Text{"Header"} 1: </td>
+                        <td>
+                            <select name="MatchHeader1">
+                                <option value="">-</option>
+                                <option value="Cc">Cc</option>
+                                <option value="From">From</option>
+                                <option value="In-Reply-To">In-Reply-To</option>
+                                <option value="List-Id">List-Id</option>
+                                <option value="Mailing-List">Mailing-List</option>
+                                <option value="Message-ID">Message-ID</option>
+                                <option value="Reply-To">Reply-To</option>
+                                <option value="ReplyTo">ReplyTo</option>
+                                <option value="Resent-From">Resent-From</option>
+                                <option value="Resent-To">Resent-To</option>
+                                <option value="Subject">Subject</option>
+                                <option value="To">To</option>
+                                <option value="X-Loop">X-Loop</option>
+                                <option value="X-No-Loop">X-No-Loop</option>
+                                <option value="X-OTRS-ArticleKey1">X-OTRS-ArticleKey1</option>
+                                <option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option>
+                            </select>
+                        </td>
+                        <td>$Text{"Value"}: </td>
+                        <td> <input type="text" name="Value1" value="SomeQueue" size="30" maxlength="50"/></td>
+                    </tr>
+                </table>
                 <hr/>
             </div>
         </td>

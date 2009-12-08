@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.6 2009-11-25 17:13:55 mg Exp $
+# $Id: AdminMailAccount.dtl,v 1.7 2009-12-08 15:19:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@
                             <table>
                                 <tr>
                                     <td class="contentkey">$Text{"Type"}:</td>
-                                    <td class="contentvalue">$Data{"TypeOption"}</td>
+                                    <td class="contentvalue">$Data{"TypeOptionAdd"}</td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Username"}:</td>
@@ -178,83 +178,89 @@
     </tr>
     <tr>
         <td class="mainbody">
-            <p>
+            <div style="margin: 20px 0">
                 $Text{"All incoming emails with one account will be dispatched in the selected queue!"}
                 <br/>
                 $Text{"If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway."}
-            </p>
-            <p>
+            </div>
+            <div style="margin: 20px 0">
                 $Text{"Example"}:
                 <hr/>
-                <form action="/">
-                    <table>
-                        <tr>
-                            <td>$Text{"Type"}: </td>
-                            <td>
-                                <select name="Type">
-                                    <option selected value="POP3">POP3</option>
-                                    <option value="IMAP">IMAP</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>$Text{"Username"}: </td>
-                            <td> <input type="text" name="Login" value="mail2" size="35" maxlength="50"/></td>
-                        </tr>
-                        <tr>
-                            <td>$Text{"Password"}: </td>
-                            <td> <input type="password" name="Password" value="" size="35" maxlength="50"/></td>
-                        </tr>
-                        <tr>
-                            <td>$Text{"Host"}: </td>
-                            <td> <input type="text" name="Host" value="mail.example.com" size="35" maxlength="50"/></td>
-                        </tr>
-                        <tr>
-                            <td>$Text{"Trusted"}: </td>
-                            <td>
-                                <select name="Trusted">
-                                    <option selected value="0">$Text{"No"}</option>
-                                    <option value="1">$Text{"Yes"}</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>$Text{"Dispatching"}: </td>
-                            <td>
-                                <select name="DispatchingBy">
-                                    <option selected value="From">$Text{"Dispatching by email To: field."}</option>
-                                    <option value="Queue">$Text{"Dispatching by selected Queue."}</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>$Text{"Queue"}</td>
-                            <td>
-                                <select name="QueueID">
-                                    <option VALUE="3">Tech (1)</option>
-                                    <option VALUE="4">Misc (2)</option>
-                                    <option VALUE="2">Raw (3)</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>$Text{"Valid"}: </td>
-                            <td>
-                                <select name="ValidID">
-                                    <option value="2">$Text{"invalid"}</option>
-                                    <option value="3">$Text{"invalid-temporarily"}</option>
-                                    <option selected value="1">$Text{"valid"}</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>$Text{"Comment"}: </td>
-                            <td> <input type="text" name="Comment" value="$Text{"Comment"}" size="60" maxlength="150"/></td>
-                        </tr>
-                    </table>
-                </form>
+                <table>
+                    <tr>
+                        <td>$Text{"Type"}: </td>
+                        <td>
+                            <select name="Type">
+                                <option selected="selected" value="POP3">POP3</option>
+                                <option value="IMAP">IMAP</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>$Text{"Username"}: </td>
+                        <td>
+                            <input type="text" name="Login" value="mail2" size="35" maxlength="50"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>$Text{"Password"}: </td>
+                        <td>
+                            <input type="password" name="Password" value="" size="35" maxlength="50"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>$Text{"Host"}: </td>
+                        <td>
+                            <input type="text" name="Host" value="mail.example.com" size="35" maxlength="50"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>$Text{"Trusted"}: </td>
+                        <td>
+                            <select name="Trusted">
+                                <option selected="selected" value="0">$Text{"No"}</option>
+                                <option value="1">$Text{"Yes"}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>$Text{"Dispatching"}: </td>
+                        <td>
+                            <select name="DispatchingBy">
+                                <option selected="selected" value="From">$Text{"Dispatching by email To: field."}</option>
+                                <option value="Queue">$Text{"Dispatching by selected Queue."}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>$Text{"Queue"}</td>
+                        <td>
+                            <select name="QueueID">
+                                <option value="3">Tech (1)</option>
+                                <option value="4">Misc (2)</option>
+                                <option value="2">Raw (3)</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>$Text{"Valid"}: </td>
+                        <td>
+                            <select name="ValidID">
+                                <option value="2">$Text{"invalid"}</option>
+                                <option value="3">$Text{"invalid-temporarily"}</option>
+                                <option selected="selected" value="1">$Text{"valid"}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>$Text{"Comment"}: </td>
+                        <td>
+                            <input type="text" name="Comment" value="$Text{"Comment"}" size="60" maxlength="150"/>
+                        </td>
+                    </tr>
+                </table>
                 <hr/>
-            </p>
+            </div>
         </td>
     </tr>
 </table>
