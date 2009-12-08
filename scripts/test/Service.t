@@ -2,7 +2,7 @@
 # Service.t - Service tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.t,v 1.11 2009-12-08 09:38:03 ub Exp $
+# $Id: Service.t,v 1.12 2009-12-08 10:25:11 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -700,6 +700,38 @@ for my $Item ( @{$ItemData} ) {
     }
 
     $TestCount++;
+}
+
+# ------------------------------------------------------------ #
+# Additional ServiceGet test (By Servicename and ServiceID)
+# ------------------------------------------------------------ #
+
+{
+
+    # get a service by using the service name
+    my %ServiceGet = $Self->{ServiceObject}->ServiceGet(
+        Name   => $ServiceName[0],
+        UserID => 1,
+    );
+
+    $Self->Is(
+        $ServiceGet{Name},
+        $ServiceName[0],
+        "Test $TestCount: ServiceGet() - by service name",
+    );
+
+    # get the same service by using the service id
+    %ServiceGet = $Self->{ServiceObject}->ServiceGet(
+        ServiceID => $ServiceGet{ServiceID},
+        UserID    => 1,
+    );
+
+    $Self->Is(
+        $ServiceGet{Name},
+        $ServiceName[0],
+        "Test $TestCount: ServiceGet() - by service id",
+    );
+
 }
 
 # ------------------------------------------------------------ #
