@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.48 2009-09-08 17:02:49 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.48.2.1 2009-12-08 15:23:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.48.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -371,8 +371,8 @@ sub _Mask {
         my %Article = %$ArticleTmp;
 
         # if it is a customer article
-        if ( $Article{SenderType} eq 'customer' && $Article{ArticleType} !~ /int/ ) {
-            $LastCustomerArticleID = $Article{'ArticleID'};
+        if ( $Article{SenderType} eq 'customer' ) {
+            $LastCustomerArticleID = $Article{ArticleID};
             $LastCustomerArticle   = $CounterArray;
         }
         $CounterArray++;
@@ -381,18 +381,14 @@ sub _Mask {
         }
     }
 
+    # try to use the latest non internal agent article
+    if ( !$ArticleID ) {
+        $ArticleID = $ArticleBox[-1]->{ArticleID};
+    }
+
     # try to use the latest customer article
     if ( !$ArticleID && $LastCustomerArticleID ) {
         $ArticleID = $LastCustomerArticleID;
-    }
-
-    # try to use the latest non internal agent article
-    if ( !$ArticleID ) {
-        for my $ArticleTmp (@ArticleBox) {
-            if ( $ArticleTmp->{StateType} eq 'merged' || $ArticleTmp->{ArticleType} !~ /int/ ) {
-                $ArticleID = $ArticleTmp->{ArticleID};
-            }
-        }
     }
 
     # build thread string
