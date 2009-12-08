@@ -2,7 +2,7 @@
 # Type.t - Type tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.t,v 1.7 2009-02-16 12:40:23 tr Exp $
+# $Id: Type.t,v 1.8 2009-12-08 10:24:08 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,6 +27,7 @@ $Self->True(
     'TypeAdd()',
 );
 
+# get the type by using the type id
 my %Type = $Self->{TypeObject}->TypeGet(
     ID => $TypeID,
 );
@@ -34,12 +35,23 @@ my %Type = $Self->{TypeObject}->TypeGet(
 $Self->Is(
     $Type{Name} || '',
     $TypeNameRand0,
-    'TypeGet() - Name',
+    'TypeGet() - Name (using the type id)',
 );
 $Self->Is(
     $Type{ValidID} || '',
     1,
     'TypeGet() - ValidID',
+);
+
+# get the type by using the type name
+%Type = $Self->{TypeObject}->TypeGet(
+    Name => $TypeNameRand0,
+);
+
+$Self->Is(
+    $Type{Name} || '',
+    $TypeNameRand0,
+    'TypeGet() - Name (using the type name)',
 );
 
 my %TypeList = $Self->{TypeObject}->TypeList(
