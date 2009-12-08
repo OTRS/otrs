@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.39 2009-08-27 19:27:31 mb Exp $
+# $Id: Service.pm,v 1.40 2009-12-08 09:28:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -202,20 +202,48 @@ Return
         UserID    => 1,
     );
 
+    my %ServiceData = $ServiceObject->ServiceGet(
+        Name    => 'Service::SubService',
+        UserID  => 1,
+    );
+
 =cut
 
 sub ServiceGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(ServiceID UserID)) {
-        if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!",
-            );
-            return;
-        }
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need UserID!",
+        );
+        return;
+    }
+
+    # either ServiceID or Name must be passed
+    if ( !$Param{ServiceID} && !$Param{Name} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ServiceID or Name!',
+        );
+        return;
+    }
+
+    # check that not both ServiceID and Name are given
+    if ( $Param{ServiceID} && $Param{Name} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need either ServiceID OR Name - not both!',
+        );
+        return;
+    }
+
+    # lookup the ServiceID
+    if ( $Param{Name} ) {
+        $Param{ServiceID} = $Self->ServiceLookup(
+            Name => $Param{Name},
+        );
     }
 
     # get service from db
@@ -909,6 +937,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2009-08-27 19:27:31 $
+$Revision: 1.40 $ $Date: 2009-12-08 09:28:22 $
 
 =cut
