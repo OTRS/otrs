@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.108 2009-12-03 10:11:07 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.109 2009-12-08 09:39:59 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.108 $) [1];
+$VERSION = qw($Revision: 1.109 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1476,6 +1476,7 @@ sub _MaskEmailNew {
                     'SelectedCustomerUser',
                     'NextStateID',
                     'PriorityID',
+                    'TypeID',
                     'ServiceID',
                     'SLAID',
                     'SignKeyID',
@@ -1549,6 +1550,7 @@ sub _MaskEmailNew {
                     'SelectedCustomerUser',
                     'NextStateID',
                     'PriorityID',
+                    'TypeID',
                     'ServiceID',
                     'SLAID',
                     'SignKeyID',
@@ -1653,6 +1655,7 @@ sub _MaskEmailNew {
                     'SelectedCustomerUser',
                     'NextStateID',
                     'PriorityID',
+                    'TypeID',
                     'ServiceID',
                     'SLAID',
                     'SignKeyID',
@@ -1736,6 +1739,7 @@ sub _MaskEmailNew {
                     'SelectedCustomerUser',
                     'NextStateID',
                     'PriorityID',
+                    'TypeID',
                     'ServiceID',
                     'SLAID',
                     'SignKeyID',
@@ -1814,6 +1818,7 @@ sub _MaskEmailNew {
                     'SelectedCustomerUser',
                     'NextStateID',
                     'PriorityID',
+                    'TypeID',
                     'ServiceID',
                     'SLAID',
                     'SignKeyID',
