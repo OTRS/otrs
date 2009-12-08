@@ -2,7 +2,7 @@
 # AdminSalutationForm.dtl - provides HTML form for AdminSalutation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSalutationForm.dtl,v 1.39 2009-12-02 10:41:35 mn Exp $
+# $Id: AdminSalutationForm.dtl,v 1.40 2009-12-08 17:52:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,7 +134,7 @@ $Include{"RichTextEditor"}
     </tr>
     <tr>
         <td class="mainbody">
-            <p>
+            <div style="margin: 20px 0">
                 $Text{"Useable options"}:
                 <table>
                     <tr>
@@ -162,26 +162,24 @@ $Include{"RichTextEditor"}
                         <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
                     </tr>
                 </table>
-            </p>
-            <p>
+            </div>
+            <div style="margin: 20px 0">
                 $Text{"Example"}:
                 <hr/>
-                <form action="/">
-                    <table>
-                        <tr>
-                            <td class="contentkey">$Text{"Salutation"}:</td>
-                            <td class="contentvalue">
+                <table>
+                    <tr>
+                        <td class="contentkey">$Text{"Salutation"}:</td>
+                        <td class="contentvalue">
                 <textarea rows="8" cols="70" name="Response">
 Dear &lt;OTRS_CUSTOMER_REALNAME&gt;,
 
 Thank you for your request.
                 </textarea>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                        </td>
+                    </tr>
+                </table>
                 <hr/>
-            </p>
+            </div>
         </td>
     </tr>
 </table>

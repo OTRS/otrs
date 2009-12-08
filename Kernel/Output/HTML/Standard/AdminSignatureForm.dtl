@@ -2,7 +2,7 @@
 # AdminSignatureForm.dtl - provides HTML form for AdminSignature
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignatureForm.dtl,v 1.36 2009-12-02 10:41:35 mn Exp $
+# $Id: AdminSignatureForm.dtl,v 1.37 2009-12-08 17:50:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,7 +134,7 @@ $Include{"RichTextEditor"}
     </tr>
     <tr>
         <td class="mainbody">
-            <p>
+            <div style="margin: 20px 0">
                 $Text{"Useable options"}:
                 <table>
                     <tr>
@@ -162,15 +162,14 @@ $Include{"RichTextEditor"}
                         <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
                     </tr>
                 </table>
-            </p>
-            <p>
+            </div>
+            <div style="margin: 20px 0">
                 $Text{"Example"}:
                 <hr/>
-                <form action="/">
-                    <table>
-                        <tr>
-                            <td class="contentkey">$Text{"Signature"}:</td>
-                            <td class="contentvalue">
+                <table>
+                    <tr>
+                        <td class="contentkey">$Text{"Signature"}:</td>
+                        <td class="contentvalue">
                 <textarea rows="12" cols="70" name="Response">
 Your OTRS-Team
 
@@ -183,12 +182,11 @@ Email: hot@florida.com - Web: http://hot.florida.com/
 --
 PS: Your email address in our database is "&lt;OTRS_CUSTOMER_DATA_UserEmail&gt;".
                 </textarea>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                        </td>
+                    </tr>
+                </table>
                 <hr/>
-            </p>
+            </div>
         </td>
     </tr>
 </table>

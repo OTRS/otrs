@@ -2,7 +2,7 @@
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.34 2009-11-25 17:13:55 mg Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.35 2009-12-08 17:48:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -135,42 +135,40 @@
     </tr>
     <tr>
         <td class="mainbody">
-            <p>
+            <div style="margin: 20px 0">
                 $Text{"Note"}: $Text{"All email addresses get excluded on replaying on composing an email."}
-            </p>
-            <p>
+            </div>
+            <div style="margin: 20px 0">
                 $Text{"All incoming emails with this "Email" (To:) will be dispatched in the selected queue!"}
-            </p>
-            <p>
+            </div>
+            <div style="margin: 20px 0">
                 $Text{"Example"}:
                 <hr/>
-                <form action="/">
-                    <table>
-                        <tr>
-                            <td class="contentkey">$Text{"Email"}:</td>
-                            <td class="contentvalue">
-                                <input type="text" name="Email" value="support@company.com" size="50" maxlength="50"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="contentkey">$Text{"Display Name"}:</td>
-                            <td class="contentvalue">
-                                <input type="text" name="Realname" value="Support Team" size="50" maxlength="50"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="contentkey">$Text{"Queue"}:</td>
-                            <td class="contentvalue"><select name="QueueID">
-                                <option VALUE="3">Tech (1)</option>
-                                <option VALUE="4">Misc (2)</option>
-                                <option VALUE="2">Raw (3)</option>
-                            </select>
+                <table>
+                    <tr>
+                        <td class="contentkey">$Text{"Email"}:</td>
+                        <td class="contentvalue">
+                            <input type="text" name="Email" value="support@company.com" size="50" maxlength="50"/>
                         </td>
                     </tr>
-                </table>
-            </form>
+                    <tr>
+                        <td class="contentkey">$Text{"Display Name"}:</td>
+                        <td class="contentvalue">
+                            <input type="text" name="Realname" value="Support Team" size="50" maxlength="50"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Queue"}:</td>
+                        <td class="contentvalue"><select name="QueueID">
+                            <option value="3">Tech (1)</option>
+                            <option value="4">Misc (2)</option>
+                            <option value="2">Raw (3)</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
             <hr/>
-        </p>
+        </div>
     </td>
 </tr>
 </table>
