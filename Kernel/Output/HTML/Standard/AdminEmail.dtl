@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.24 2009-12-08 10:21:33 mg Exp $
+# $Id: AdminEmail.dtl,v 1.25 2009-12-08 13:29:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ $Include{"RichTextEditor"}
             </table>
 <!-- dtl:block:Sent -->
 <!-- dtl:block:Form -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function submit_compose() {
     if (document.compose.Subject.value == "") {

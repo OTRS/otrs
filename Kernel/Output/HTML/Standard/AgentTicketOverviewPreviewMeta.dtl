@@ -2,14 +2,14 @@
 # AgentTicketOverviewPreviewMeta.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreviewMeta.dtl,v 1.18 2009-12-08 11:15:04 mb Exp $
+# $Id: AgentTicketOverviewPreviewMeta.dtl,v 1.19 2009-12-08 13:29:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!-- dtl:block:TicketHeader -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 function select_items (Type) {
     for (var i = 0; i < document.matrix.elements[Type].length; i++) {
         if ( document.matrix.Check.checked ) {

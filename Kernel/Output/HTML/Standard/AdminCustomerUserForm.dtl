@@ -2,7 +2,7 @@
 # AdminCustomerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.46 2009-11-25 15:34:55 mg Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.47 2009-12-08 13:29:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- dtl:block:Overview -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 
 function updateMessage(x) {

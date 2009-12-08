@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.60 2009-12-02 10:41:35 mn Exp $
+# $Id: AgentTicketPhone.dtl,v 1.61 2009-12-08 13:29:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ $Include{"AJAX"}
 $Include{"AgentCustomerSearch"}
 
 <!-- start form -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 
 function submit_compose() {
@@ -88,7 +88,7 @@ function submit_compose() {
 //-->
 </script>
 
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
@@ -98,7 +98,7 @@ function SpellCheckSubmit() {
 // -->
 </script>
 
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function CustomerSubmit() {
     window.open('', 'customer', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
@@ -107,7 +107,7 @@ function CustomerSubmit() {
 // -->
 </script>
 
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function clear_field() {
     document.compose.From.value = "";

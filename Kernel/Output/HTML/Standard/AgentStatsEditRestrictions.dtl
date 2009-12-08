@@ -2,14 +2,14 @@
 # AgentStatsEditRestrictions.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditRestrictions.dtl,v 1.14 2009-11-25 17:13:55 mg Exp $
+# $Id: AgentStatsEditRestrictions.dtl,v 1.15 2009-12-08 13:29:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 // set the checkbox with the given value as being checked
 function SelectCheckbox(Checkbox) {

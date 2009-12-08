@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.27 2009-10-20 13:31:01 mg Exp $
+# $Id: CustomerLogin.dtl,v 1.28 2009-12-08 13:29:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
 $Include{"CustomerHeader"}
 
 <!-- start login -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function submit_form() {
 #    if (!document.login.User.value) {

@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.72 2009-11-27 11:52:30 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.73 2009-12-08 13:29:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -177,7 +177,7 @@ $Data{"Body"}
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTML -->
                         <div class="message">
-                            <script language="JavaScript" type="text/javascript">
+                            <script type="text/javascript">
                             <!--
                             function IframeAutoHeight( IframeID ) {
                                 var iframe = document.getElementById(IframeID);
@@ -472,7 +472,7 @@ $Data{"Body"}
                                 <tr>
                                     <td>
                                         <li>
-                                        <a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a>
+                                            <a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a>
                                         </li>
 $Data{"AgentPhoneStrg"}
                                     </td>

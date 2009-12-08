@@ -2,13 +2,13 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.23 2009-11-26 08:12:21 mg Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.24 2009-12-08 13:29:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 function select_items (Type) {
     for (var i = 1; i < document.matrix.elements[Type].length; i++) {
         if ( document.matrix.Check.checked ) {

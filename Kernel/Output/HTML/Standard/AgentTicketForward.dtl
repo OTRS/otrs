@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.41 2009-12-02 10:41:35 mn Exp $
+# $Id: AgentTicketForward.dtl,v 1.42 2009-12-08 13:29:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- start compose form -->
 <!-- This java script is just for nice to have funktions! -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function submit_compose() {
     if (document.compose.To.value == "") {
@@ -72,7 +72,7 @@ function submit_compose() {
 }
 //-->
 </script>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
@@ -83,7 +83,7 @@ function SpellCheckSubmit() {
 // -->
 </script>
 
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function BookCheckSubmit() {
     document.book.To.value = document.compose.To.value;

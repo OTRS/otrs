@@ -2,7 +2,7 @@
 # AdminNotificationEventForm.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEventForm.dtl,v 1.7 2009-11-25 17:13:55 mg Exp $
+# $Id: AdminNotificationEventForm.dtl,v 1.8 2009-12-08 13:29:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -79,7 +79,7 @@
             </table>
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function submit_compose() {
     if ( document.compose.Name.value == "" ) {

@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.22 2009-12-08 13:26:07 mg Exp $
+# $Id: AgentDashboard.dtl,v 1.23 2009-12-08 13:29:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,7 @@
 # include AJAX lib
 $Include{"AJAX"}
 
-<script language="JavaScript" type="text/javascript">//<![CDATA[
+<script type="text/javascript">//<![CDATA[
 var OTRSDashboard = {};
 
 OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {

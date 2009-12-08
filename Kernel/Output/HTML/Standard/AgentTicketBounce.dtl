@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.22 2009-12-02 10:41:35 mn Exp $
+# $Id: AgentTicketBounce.dtl,v 1.23 2009-12-08 13:29:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,7 @@
 <!-- start bounce form -->
 
 <!-- This java script is just for nice to have funktions! -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function submit_bounce() {
     if (document.bounce.BounceTo.value == "") {
