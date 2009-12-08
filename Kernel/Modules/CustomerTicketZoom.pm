@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.53 2009-12-07 16:19:34 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.54 2009-12-08 15:25:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -378,18 +378,14 @@ sub _Mask {
         }
     }
 
+    # try to use the latest non internal agent article
+    if ( !$ArticleID ) {
+        $ArticleID = $ArticleBox[-1]->{ArticleID};
+    }
+
     # try to use the latest customer article
     if ( !$ArticleID && $LastCustomerArticleID ) {
         $ArticleID = $LastCustomerArticleID;
-    }
-
-    # try to use the latest non internal agent article
-    if ( !$ArticleID ) {
-        for my $ArticleTmp (@ArticleBox) {
-            if ( $ArticleTmp->{StateType} eq 'merged' ) {
-                $ArticleID = $ArticleTmp->{ArticleID};
-            }
-        }
     }
 
     # build thread string

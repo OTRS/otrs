@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1095 2009-12-08 14:56:25 martin Exp $
+# $Id: CHANGES,v 1.1096 2009-12-08 15:24:54 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -123,6 +123,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/08) Fixed bug# 4323 - Customer Interface shows last customer article
+    instead of last article.
  - (2009/12/08) Fixed bug#4435 - Inline attachments break in some scenarios like
     AgentTicketCompose and AgentTicketForward.
  - (2009/12/08) Fixed bug#4384 - Customer User Info not deleted when From in
