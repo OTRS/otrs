@@ -2,7 +2,7 @@
 # AgentDashboardTicketStats.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketStats.dtl,v 1.8 2009-12-08 13:26:07 mg Exp $
+# $Id: AgentDashboardTicketStats.dtl,v 1.9 2009-12-08 14:23:14 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,6 +76,9 @@ $(document).ready(function() {
                 },
                 xaxis: {
                     ticks: TicksXAxis
+                },
+                yaxis: {
+                    min: 0
                 }
             }
     );
@@ -132,5 +135,5 @@ $(document).ready(function() {
 });
 //]]></script>
 <div class="chart">
-    <div id="chart$QData{"Key"}" class="drawingarea"><p>Unable to load Flash content. The Charts Control requires Flash Player 9 or higher. You can download the latest version of Flash Player from the <a href="http://www.adobe.com/go/getflashplayer">Adobe Flash Player Download Center</a>.</p></div>
+    <div id="chart$QData{"Key"}" class="drawingarea"></div>
 </div>
