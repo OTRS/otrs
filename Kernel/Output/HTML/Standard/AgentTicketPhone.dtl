@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.61 2009-12-08 13:29:46 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.62 2009-12-08 13:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,8 +15,7 @@ $Include{"AJAX"}
 $Include{"AgentCustomerSearch"}
 
 <!-- start form -->
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 
 function submit_compose() {
     // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
@@ -85,36 +84,29 @@ function submit_compose() {
         return true;
     }
 }
-//-->
-</script>
+//]]></script>
 
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
 }
-// -->
-</script>
+//]]></script>
 
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 function CustomerSubmit() {
     window.open('', 'customer', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.customer.submit()
 }
-// -->
-</script>
+//]]></script>
 
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 function clear_field() {
     document.compose.From.value = "";
     document.compose.From.focus();
 }
-//-->
-</script>
+//]]></script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>

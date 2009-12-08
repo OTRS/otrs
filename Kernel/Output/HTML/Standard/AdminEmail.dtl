@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.25 2009-12-08 13:29:47 mg Exp $
+# $Id: AdminEmail.dtl,v 1.26 2009-12-08 13:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,8 +40,7 @@ $Include{"RichTextEditor"}
             </table>
 <!-- dtl:block:Sent -->
 <!-- dtl:block:Form -->
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 function submit_compose() {
     if (document.compose.Subject.value == "") {
         alert('$JSText{"A message should have a subject!"}');
@@ -50,8 +49,7 @@ function submit_compose() {
     }
     return true;
 }
-//-->
-</script>
+//]]></script>
 
             <form action="$Env{"CGIHandle"}" method="post" name="compose">
                 <input type="hidden" name="Action" value="$Env{"Action"}"/>

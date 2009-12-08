@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.27 2009-12-08 13:29:47 mg Exp $
+# $Id: AgentTicketBulk.dtl,v 1.28 2009-12-08 13:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,7 @@
 # --
 
 <!-- dtl:block:BulkAction -->
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 function submit_compose() {
     // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
     if (typeof RichTextUpdateLinkedField == 'function') {
@@ -41,18 +40,15 @@ function submit_compose() {
 <!-- dtl:block:TimeUnitsJs -->
     return true;
 }
-//-->
-</script>
+//]]></script>
 
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
 }
-// -->
-</script>
+//]]></script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>

@@ -2,15 +2,14 @@
 # AgentStatsEditXaxis.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditXaxis.dtl,v 1.16 2009-12-08 13:29:46 mg Exp $
+# $Id: AgentStatsEditXaxis.dtl,v 1.17 2009-12-08 13:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 // set the radio button with the given value as being checked
 function SelectRadiobutton(Value, Object) {
     var Object = document.compose.elements[Object];
@@ -22,8 +21,7 @@ function SelectRadiobutton(Value, Object) {
         }
     }
 }
--->
-</script>
+//]]></script>
 
 <!-- start form -->
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">

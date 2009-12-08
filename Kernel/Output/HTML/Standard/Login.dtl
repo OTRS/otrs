@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.42 2009-12-08 13:29:46 mg Exp $
+# $Id: Login.dtl,v 1.43 2009-12-08 13:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,8 +26,7 @@ $Include{"Copyright"}
 <!-- end header -->
         <body onload="document.login.User.focus();">
 
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 function submit_form() {
 #    if (!document.login.User.value) {
 #        alert('$JSText{"Login is needed!"}');
@@ -44,8 +43,7 @@ function submit_form() {
 
     return true;
 }
-//-->
-</script>
+//]]></script>
 
         <div class="login-box">
             <font color="red">$Text{"$Data{"Message"}"}</font>

@@ -2,15 +2,14 @@
 # AgentCalendarSmall.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCalendarSmall.dtl,v 1.19 2009-12-08 13:29:46 mg Exp $
+# $Id: AgentCalendarSmall.dtl,v 1.20 2009-12-08 13:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 <!-- dtl:block:DateFormatOption -->
 function SelectDay(tt, mm, yyyy) {
     for(var z=0;z < opener.document.compose["$Data{"Prefix"}Day"].length;z++) {
@@ -41,8 +40,7 @@ function SelectDay(tt, mm, yyyy) {
 }
 <!-- dtl:block:DateFormatInput -->
 
-//-->
-</script>
+//]]></script>
 
 <table border="0" width="225" cellspacing="0" cellpadding="3">
     <tr>

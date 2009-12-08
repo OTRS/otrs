@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.32 2009-12-08 13:29:47 mg Exp $
+# $Id: AgentTicketMove.dtl,v 1.33 2009-12-08 13:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,8 +13,7 @@
 $Include{"AJAX"}
 
 <!-- start form -->
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 
 function change_selected(sel) {
     start_elements = (sel + 7);
@@ -102,8 +101,7 @@ function SpellCheckSubmit() {
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
 }
-//-->
-</script>
+//]]></script>
 
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">

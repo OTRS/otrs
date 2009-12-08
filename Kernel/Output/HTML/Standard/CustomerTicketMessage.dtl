@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.23 2009-12-08 13:29:46 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.24 2009-12-08 13:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,7 @@
 # --
 
 <!-- start form -->
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 function submit_compose() {
     // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
     if (typeof RichTextUpdateLinkedField == 'function') {
@@ -56,8 +55,7 @@ function submit_compose() {
         return true;
     }
 }
-//-->
-</script>
+//]]></script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>

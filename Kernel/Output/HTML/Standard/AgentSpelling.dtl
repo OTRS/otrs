@@ -2,7 +2,7 @@
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.dtl,v 1.24 2009-12-08 13:29:46 mg Exp $
+# $Id: AgentSpelling.dtl,v 1.25 2009-12-08 13:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,7 @@
 # --
 
 <!-- dtl:block:SpellCheckerExtern -->
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 
 function updateMessage() {
     if (parent.opener.closed) {
@@ -42,8 +41,7 @@ function change_selected(sel) {
     }
 }
 
-//-->
-</script>
+//]]></script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>

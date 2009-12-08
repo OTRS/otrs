@@ -2,15 +2,14 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.45 2009-12-08 13:29:47 mg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.46 2009-12-08 13:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 function submit_compose() {
     if (document.compose.To.value == "") {
         alert('$JSText{"A message should have a To: recipient!"}');
@@ -68,21 +67,17 @@ function submit_compose() {
         return true;
     }
 }
-//-->
-</script>
-<script type="text/javascript">
-<!--
+//]]></script>
+<script type="text/javascript">//<![CDATA[
 function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
     document.spelling.was_spell_checked=true;
 }
-// -->
-</script>
+//]]></script>
 
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 function BookCheckSubmit() {
     document.book.To.value = document.compose.To.value;
     document.book.Cc.value = document.compose.Cc.value;
@@ -91,8 +86,7 @@ function BookCheckSubmit() {
     document.book.submit()
     document.book.was_spell_checked=true;
 }
-// -->
-</script>
+//]]></script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>

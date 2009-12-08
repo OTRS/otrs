@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.28 2009-12-08 13:29:47 mg Exp $
+# $Id: CustomerLogin.dtl,v 1.29 2009-12-08 13:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,8 +13,7 @@
 $Include{"CustomerHeader"}
 
 <!-- start login -->
-<script type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 function submit_form() {
 #    if (!document.login.User.value) {
 #        alert('$JSText{"Login is needed!"}');
@@ -31,8 +30,7 @@ function submit_form() {
 
     return true;
 }
-//-->
-</script>
+//]]></script>
 <div class="login-box">
     <font color="red">$Text{"$Data{"Message"}"}</font>
     <table border="0" cellspacing="0" cellpadding="3" width="300">
