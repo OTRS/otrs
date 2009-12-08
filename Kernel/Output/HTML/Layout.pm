@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.176.2.7 2009-12-08 08:07:52 mae Exp $
+# $Id: Layout.pm,v 1.176.2.8 2009-12-08 14:35:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.176.2.7 $) [1];
+$VERSION = qw($Revision: 1.176.2.8 $) [1];
 
 =head1 NAME
 
@@ -4332,12 +4332,10 @@ sub _RichTextReplaceLinkOfInlineContent {
 
     # replace image link with content id for uploaded images
     ${ $Param{String} } =~ s{
-        ((?:<|&lt;)img.*?src=(?:"|&quot;))
-        .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
-        ((?:"|&quot;).*?(?:>|&gt;))
+        (<img.+?src=("|')).+?ContentID=(.+?)("|')(.*?>)
     }
     {
-        $1 . "cid:" . $2 . $3;
+        $1 . 'cid:' . $3 . $4 . $5;
     }esgxi;
 
     return $Param{String};
@@ -4390,6 +4388,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.176.2.7 $ $Date: 2009-12-08 08:07:52 $
+$Revision: 1.176.2.8 $ $Date: 2009-12-08 14:35:34 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.64 2009-07-23 18:15:52 martin Exp $
+# $Id: Email.pm,v 1.64.2.1 2009-12-08 14:35:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.64.2.1 $) [1];
 
 =head1 NAME
 
@@ -397,9 +397,9 @@ sub Send {
                 );
 
                 # format content id, leave undefined if no value
-                my $ContentID;
-                if ( $Upload->{ContentID} ) {
-                    $ContentID = '<' . $Upload->{ContentID} . '>';
+                my $ContentID = $Upload->{ContentID};
+                if ( $ContentID && $ContentID !~ /^</ ) {
+                    $ContentID = '<' . $ContentID . '>';
                 }
 
                 # attach file to email
@@ -433,11 +433,18 @@ sub Send {
                 Charset => $Param{Charset},
             );
 
-            # attach file to email (no content id needed)
+            # format content id, leave undefined if no value
+            my $ContentID = $Upload->{ContentID};
+            if ( $ContentID && $ContentID !~ /^</ ) {
+                $ContentID = '<' . $ContentID . '>';
+            }
+
+            # attach file to email
             $Entity->attach(
                 Filename    => $Filename,
                 Data        => $Upload->{Content},
                 Type        => $Upload->{ContentType},
+                Id          => $ContentID,
                 Disposition => $Upload->{Disposition} || 'inline',
                 Encoding    => $Upload->{Encoding} || '-SUGGEST',
             );
@@ -831,6 +838,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2009-07-23 18:15:52 $
+$Revision: 1.64.2.1 $ $Date: 2009-12-08 14:35:34 $
 
 =cut
