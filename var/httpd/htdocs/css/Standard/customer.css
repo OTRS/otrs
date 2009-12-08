@@ -3,7 +3,7 @@
 # customer.css - customer css
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: customer.css,v 1.4 2009-11-26 08:57:18 mn Exp $
+# $Id: customer.css,v 1.5 2009-12-08 14:11:49 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,14 +61,6 @@ a.headeritem:hover {
     background-color:#ffffff;
     font-size:10px;
 }
-a.navitem {
-    color:#557799;
-    font-size:11px;
-}
-a.navitem:hover {
-    color:#002244;
-    font-size:11px;
-}
 
 /* nav bar (left) */
 .navbar {
@@ -80,6 +72,7 @@ a.navitem:hover {
 a.navitem {
     color:#557799;
     font-size:11px;
+    text-decoration:none;
 }
 a.navitem:hover {
     color:#002244;
