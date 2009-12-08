@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.15 2009-10-05 08:27:00 martin Exp $
+# $Id: Type.pm,v 1.16 2009-12-08 09:37:10 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -156,15 +156,38 @@ get types attributes
         ID => 123,
     );
 
+    my %Type = $TypeObject->TypeGet(
+        Name => 'default',
+    );
+
 =cut
 
 sub TypeGet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+    # either ID or Name must be passed
+    if ( !$Param{ID} && !$Param{Name} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID or Name!',
+        );
         return;
+    }
+
+    # check that not both ID and Name are given
+    if ( $Param{ID} && $Param{Name} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need either ID OR Name - not both!',
+        );
+        return;
+    }
+
+    # lookup the ID
+    if ( $Param{Name} ) {
+        $Param{ID} = $Self->TypeLookup(
+            Type => $Param{Name},
+        );
     }
 
     # check cache
@@ -372,6 +395,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2009-10-05 08:27:00 $
+$Revision: 1.16 $ $Date: 2009-12-08 09:37:10 $
 
 =cut
