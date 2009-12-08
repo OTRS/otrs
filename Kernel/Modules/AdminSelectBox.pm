@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.pm,v 1.30 2009-07-09 02:29:35 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.31 2009-12-08 10:01:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,7 +63,18 @@ sub Run {
             my $Count = 0;
             my @Head;
             my @Data;
+            my $TableOpened;
             while ( my @Row = $Self->{DBObject}->FetchrowArray( RowNames => 1 ) ) {
+
+                if ( !$TableOpened ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ResultTableStart',
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ResultTableEnd',
+                    );
+                    $TableOpened++;
+                }
 
                 # get csv data
                 if ( $Param{CSV} ) {

@@ -2,7 +2,7 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.24 2009-10-01 14:36:48 ub Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.25 2009-12-08 10:01:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,7 +47,7 @@
     </tr>
 </table>
 <!-- end form -->
-<!-- dtl::block::Result -->
+<!-- dtl:block:Result -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
         <td class="mainhead">
@@ -56,7 +56,9 @@
     </tr>
     <tr>
         <td class="mainbody">
+<!-- dtl:block:ResultTableStart -->
             <table width="100%" cellspacing="0" cellpadding="3" border="0">
+<!-- dtl:block:ResultTableStart -->
 <!-- dtl:block:Row -->
                 <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
                 <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
@@ -65,8 +67,10 @@
                 <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
                 <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
 <!-- dtl:block:Row -->
+<!-- dtl:block:ResultTableEnd -->
             </table>
+<!-- dtl:block:ResultTableEnd -->
         </td>
     </tr>
 </table>
-<!-- dtl::block::Result -->
+<!-- dtl:block:Result -->
