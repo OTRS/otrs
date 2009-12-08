@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.81 2009-11-25 23:13:23 mh Exp $
+# $Id: AdminSysConfig.pm,v 1.82 2009-12-08 10:10:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -646,14 +646,14 @@ sub Run {
             # Required
             my $Required = '';
             if ( $ItemHash{Required} ) {
-                $Required = 'disabled';
+                $Required = 'disabled="disabled"';
             }
 
             # Valid
             my $Valid      = '';
             my $Validstyle = 'passiv';
             if ( $ItemHash{Valid} ) {
-                $Valid      = 'checked';
+                $Valid      = 'checked="checked"';
                 $Validstyle = '';
             }
 
@@ -1266,7 +1266,7 @@ sub ListConfigItem {
             if ( defined $Item->{TimeWorkingHours}[1]{Day}[$Index]{Hour} ) {
                 for my $Index2 ( 1 .. $#{ $Item->{TimeWorkingHours}[1]{Day}[$Index]{Hour} } ) {
                     $ArrayHours[ $Item->{TimeWorkingHours}[1]{Day}[$Index]{Hour}[$Index2]{Content} ]
-                        = 'checked';
+                        = 'checked="checked"';
                 }
             }
             for my $Z ( 0 .. 23 ) {

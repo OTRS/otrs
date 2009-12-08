@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.46 2009-12-08 09:46:02 mg Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.47 2009-12-08 10:10:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@
                     <tr class="contentbody">
                         <td class="contentvalue">
                             <a name="$QData{"Name"}"></a>
-                            <input type="checkbox" value="1" name="$QData{"ItemKey"}ItemAktiv" $QData{"Valid"} $QData{"Required"}/>
+                            <input type="checkbox" value="1" name="$QData{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}/>
 <!-- dtl:block:ConfigElementBlockReset -->
                             <br/>
                             <input type="image" src="$Config{"Frontend::ImagePath"}edit.png" name="Reset$QData{"ItemKey"}" alt="$Text{"Reset"}" title="$Text{"Reset"}"/>
@@ -562,7 +562,7 @@
 <!-- dtl:block:ConfigElementTimeWorkingHoursHours -->
                                                 <td class="contentvalue" align="center">
                                                     $Data{"Hour"}<br/>
-                                                    <input type="checkbox" name="$QData{"ElementKey"}[]" value="$QData{"Hour"}" $QData{"Aktiv"}/>
+                                                    <input type="checkbox" name="$QData{"ElementKey"}[]" value="$QData{"Hour"}" $Data{"Aktiv"}/>
                                                 </td>
 <!-- dtl:block:ConfigElementTimeWorkingHoursHours -->
                                             </tr>
