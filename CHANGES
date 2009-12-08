@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.993.2.66 2009-12-07 16:49:37 martin Exp $
+# $Id: CHANGES,v 1.993.2.67 2009-12-08 09:15:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.6 (2009/??/??)
+ - (2009/12/08) Fixed bug#4482 - Owner update possible with no new owner set.
  - (2009/12/07) Fixed bug#4246 - Response Templates fail to populate for certain
     email tickets.
  - (2009/12/07) Fixed bug#4381 - Function change_selection in AgentTicketMove.
