@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.51 2009-12-07 17:47:14 ud Exp $
+# $Id: Ticket.t,v 1.52 2009-12-08 09:24:33 ud Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4068,6 +4068,12 @@ for my $Test (@Tests) {
     );
 }
 
+use Kernel::System::State;
+my $StateObject = Kernel::System::State->new( %{$Self} );
+
+use Kernel::System::Type;
+my $TypeObject = Kernel::System::Type->new( %{$Self} );
+
 my $HistoryCreate = [
     {
         CreateData => [
@@ -4124,44 +4130,44 @@ my $HistoryCreate = [
                 TicketIndex => 0,
                 HistoryGet  => [
                     {
-                        CreateBy      => 1,
-                        HistoryType   => 'NewTicket',
-                        Queue         => 'Raw',
-                        OwnerID       => undef,
-                        PriorityID    => undef,
-                        StateID       => undef,
-                        HistoryTypeID => undef,
-                        TypeID        => undef,
+                        CreateBy    => 1,
+                        HistoryType => 'NewTicket',
+                        Queue       => 'Raw',
+                        OwnerID     => 1,
+                        PriorityID  => 3,
+                        State       => 'new',
+                        HistoryType => 'NewTicket',
+                        Type        => 'default',
                     },
                     {
-                        CreateBy      => 1,
-                        HistoryType   => 'CustomerUpdate',
-                        Queue         => 'Raw',
-                        OwnerID       => undef,
-                        PriorityID    => undef,
-                        StateID       => undef,
-                        HistoryTypeID => undef,
-                        TypeID        => undef,
+                        CreateBy    => 1,
+                        HistoryType => 'CustomerUpdate',
+                        Queue       => 'Raw',
+                        OwnerID     => 1,
+                        PriorityID  => 3,
+                        State       => 'new',
+                        HistoryType => 'CustomerUpdate',
+                        Type        => 'default',
                     },
                     {
-                        CreateBy      => 1,
-                        HistoryType   => 'OwnerUpdate',
-                        Queue         => 'Raw',
-                        OwnerID       => undef,
-                        PriorityID    => undef,
-                        StateID       => undef,
-                        HistoryTypeID => undef,
-                        TypeID        => undef,
+                        CreateBy    => 1,
+                        HistoryType => 'OwnerUpdate',
+                        Queue       => 'Raw',
+                        OwnerID     => 1,
+                        PriorityID  => 3,
+                        State       => 'new',
+                        HistoryType => 'OwnerUpdate',
+                        Type        => 'default',
                     },
                     {
-                        CreateBy      => 1,
-                        HistoryType   => 'OwnerUpdate',
-                        Queue         => 'Raw',
-                        OwnerID       => undef,
-                        PriorityID    => undef,
-                        StateID       => undef,
-                        HistoryTypeID => undef,
-                        TypeID        => undef,
+                        CreateBy    => 1,
+                        HistoryType => 'OwnerUpdate',
+                        Queue       => 'Raw',
+                        OwnerID     => 1,
+                        PriorityID  => 3,
+                        State       => 'new',
+                        HistoryType => 'OwnerUpdate',
+                        Type        => 'default',
                     },
                 ],
             },
@@ -4242,6 +4248,36 @@ for my $HistoryCreateTest ( @{$HistoryCreate} ) {
                             $ResultEntry = 'QueueID';
                             $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry}
                                 = $HistoryQueueID;
+                        }
+
+                        if ( $ResultEntry eq "State" ) {
+                            my %HistoryState = $StateObject->StateGet(
+                                Name =>
+                                    $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry},
+                            );
+                            $ResultEntry = 'StateID';
+                            $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry}
+                                = $HistoryState{ID};
+                        }
+
+                        if ( $ResultEntry eq "HistoryType" ) {
+                            my $HistoryTypeID = $TicketObject->HistoryTypeLookup(
+                                Type =>
+                                    $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry},
+                            );
+                            $ResultEntry = 'HistoryTypeID';
+                            $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry}
+                                = $HistoryTypeID;
+                        }
+
+                        if ( $ResultEntry eq "Type" ) {
+                            my $TypeID = $TypeObject->TypeLookup(
+                                Type =>
+                                    $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry},
+                            );
+                            $ResultEntry = 'TypeID';
+                            $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry}
+                                = $TypeID;
                         }
 
                         $Self->Is(
@@ -4793,11 +4829,6 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
 # ---
 # avoid StateType and StateTypeID problems in TicketSearch()
 # ---
-
-# Get an error warning, if the result is different if use a StateType or its ID (StateTypeID)
-use Kernel::System::State;
-
-my $StateObject = Kernel::System::State->new( %{$Self} );
 
 my %StateTypeList = $StateObject->StateTypeList(
     UserID => 1,
