@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.437 2009-12-08 18:02:38 ub Exp $
+# $Id: Ticket.pm,v 1.438 2009-12-08 18:09:25 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.437 $) [1];
+$VERSION = qw($Revision: 1.438 $) [1];
 
 =head1 NAME
 
@@ -6972,7 +6972,7 @@ sub TicketAcl {
        # As a workaround we lookup the TypeList first, and compare if the type parameter
        # is found in the list, so we can be more sure that it is the type that we want here.
 
-        # lookup the type list (workaround for desribed problem)
+        # lookup the type list (workaround for described problem)
         my %TypeList = $Self->{TypeObject}->TypeList();
 
         # check if type is in the type list (workaround for described problem)
@@ -7566,6 +7566,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.437 $ $Date: 2009-12-08 18:02:38 $
+$Revision: 1.438 $ $Date: 2009-12-08 18:09:25 $
 
 =cut
