@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.436 2009-12-08 09:47:13 ub Exp $
+# $Id: Ticket.pm,v 1.437 2009-12-08 18:02:38 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.436 $) [1];
+$VERSION = qw($Revision: 1.437 $) [1];
 
 =head1 NAME
 
@@ -6960,11 +6960,29 @@ sub TicketAcl {
         $Checks{Type} = \%Type;
     }
     elsif ( $Param{Type} ) {
-        my %Type = $Self->{TypeObject}->TypeGet(
-            Name   => $Param{Type},
-            UserID => 1,
-        );
-        $Checks{Type} = \%Type;
+
+       # TODO Attention!
+       #
+       # The parameter type can contain not only the wanted ticket type, because also
+       # some other functions in Kernel/System/Ticket.pm use a type paremeter, for example
+       # MoveList(), TicketFreeTextGet(), etc... These functions could be rewritten to not
+       # use a Type parameter, or the functions that call TicketAcl() could be modified to
+       # not just pass the complete Param-Hash, but instead a new parameter, like FrontEndParameter.
+       #
+       # As a workaround we lookup the TypeList first, and compare if the type parameter
+       # is found in the list, so we can be more sure that it is the type that we want here.
+
+        # lookup the type list (workaround for desribed problem)
+        my %TypeList = $Self->{TypeObject}->TypeList();
+
+        # check if type is in the type list (workaround for described problem)
+        if ( $TypeList{ $Param{Type} } ) {
+            my %Type = $Self->{TypeObject}->TypeGet(
+                Name   => $Param{Type},
+                UserID => 1,
+            );
+            $Checks{Type} = \%Type;
+        }
     }
 
     # check acl config
@@ -7548,6 +7566,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.436 $ $Date: 2009-12-08 09:47:13 $
+$Revision: 1.437 $ $Date: 2009-12-08 18:02:38 $
 
 =cut
