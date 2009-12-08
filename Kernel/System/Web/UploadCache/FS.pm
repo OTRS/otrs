@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.18 2009-10-07 20:30:49 martin Exp $
+# $Id: FS.pm,v 1.19 2009-12-08 14:53:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,10 +76,10 @@ sub FormIDAddFile {
 
     # create content id
     my $ContentID = $Param{ContentID};
-    if ( !$ContentID ) {
-        my $Random      = rand 999999;
-        my $FQDN        = $Self->{ConfigObject}->Get('FQDN');
-        my $Disposition = $Param{Disposition} || '';
+    my $Disposition = $Param{Disposition} || '';
+    if ( !$ContentID && lc $Disposition eq 'inline' ) {
+        my $Random = rand 999999;
+        my $FQDN   = $Self->{ConfigObject}->Get('FQDN');
         $ContentID = "$Disposition$Random.$Param{FormID}\@$FQDN";
     }
 

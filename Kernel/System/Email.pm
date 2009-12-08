@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.67 2009-11-26 12:23:09 bes Exp $
+# $Id: Email.pm,v 1.68 2009-12-08 14:53:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -219,9 +219,8 @@ sub Send {
             CryptType    => $Param{Crypt}->{Type},
             MainObject   => $Self->{MainObject},
         );
-        if ( !$CryptObject ) {
-            return;
-        }
+        return !$CryptObject;
+
         my $Body = $CryptObject->Crypt(
             Message => $Param{Body},
             Key     => $Param{Crypt}->{Key},
@@ -348,70 +347,70 @@ sub Send {
         my $Count    = 0;
         my $PartType = '';
         my @NewAttachments;
-        ATTACHMENTS:
+        ATTACHMENT:
         for my $Upload ( @{ $Param{Attachment} } ) {
-            if ( defined $Upload->{Content} && defined $Upload->{Filename} ) {
 
-                # if it's a html email, add the first attachment as alternative (to show it
-                # as alternative content)
-                if ($HTMLEmail) {
-                    $Count++;
-                    if ( $Count == 1 ) {
-                        $Entity->make_multipart('alternative;');
-                        $PartType = 'alternative';
+            # ignore attachment if no content is given
+            next ATTACHMENT if !defined $Upload->{Content};
+
+            # ignore attachment if no filename is given
+            next ATTACHMENT if !defined $Upload->{Filename};
+
+            # if it's a html email, add the first attachment as alternative (to show it
+            # as alternative content)
+            if ($HTMLEmail) {
+                $Count++;
+                if ( $Count == 1 ) {
+                    $Entity->make_multipart('alternative;');
+                    $PartType = 'alternative';
+                }
+                else {
+
+                    # don't attach duplicate html attachment (aka file-2)
+                    next ATTACHMENT if
+                        $Upload->{Filename} eq 'file-2'
+                            && $Upload->{ContentType} =~ /html/i
+                            && $Upload->{Content} eq $Param{HTMLBody};
+
+                    # skip, but remember all attachments except inline images
+                    if ( !defined $Upload->{ContentID} ) {
+                        push @NewAttachments, \%{$Upload};
+                        next ATTACHMENT;
                     }
-                    else {
 
-                        # don't attach duplicate html attachment (aka file-2)
-                        next ATTACHMENTS if
-                            $Upload->{Filename} eq 'file-2'
-                                && $Upload->{ContentType} =~ /html/i
-                                && $Upload->{Content} eq $Param{HTMLBody};
-
-                        # skip, but remember all attachments except inline images
-                        if (
-                            !defined $Upload->{ContentID}
-                            || $Upload->{ContentID} !~ /^inline/
-                            )
-                        {
-                            push( @NewAttachments, \%{$Upload} );
-                            next ATTACHMENTS;
-                        }
-
-                        # add inline images as related
-                        if ( $PartType ne 'related' ) {
-                            $Entity->make_multipart( 'related;', Force => 1, );
-                            $PartType = 'related';
-                        }
+                    # add inline images as related
+                    if ( $PartType ne 'related' ) {
+                        $Entity->make_multipart( 'related;', Force => 1, );
+                        $PartType = 'related';
                     }
                 }
-
-                # content encode
-                $Self->{EncodeObject}->EncodeOutput( \$Upload->{Content} );
-
-                # filename encode
-                my $Filename = $Self->_EncodeMIMEWords(
-                    Field   => 'filename',
-                    Line    => $Upload->{Filename},
-                    Charset => $Param{Charset},
-                );
-
-                # format content id, leave undefined if no value
-                my $ContentID;
-                if ( $Upload->{ContentID} ) {
-                    $ContentID = '<' . $Upload->{ContentID} . '>';
-                }
-
-                # attach file to email
-                $Entity->attach(
-                    Filename    => $Filename,
-                    Data        => $Upload->{Content},
-                    Type        => $Upload->{ContentType},
-                    Id          => $ContentID,
-                    Disposition => $Upload->{Disposition} || 'inline',
-                    Encoding    => $Upload->{Encoding} || '-SUGGEST',
-                );
             }
+
+            # content encode
+            $Self->{EncodeObject}->EncodeOutput( \$Upload->{Content} );
+
+            # filename encode
+            my $Filename = $Self->_EncodeMIMEWords(
+                Field   => 'filename',
+                Line    => $Upload->{Filename},
+                Charset => $Param{Charset},
+            );
+
+            # format content id, leave undefined if no value
+            my $ContentID = $Upload->{ContentID};
+            if ( $ContentID && $ContentID !~ /^</ ) {
+                $ContentID = '<' . $ContentID . '>';
+            }
+
+            # attach file to email
+            $Entity->attach(
+                Filename    => $Filename,
+                Data        => $Upload->{Content},
+                Type        => $Upload->{ContentType},
+                Id          => $ContentID,
+                Disposition => $Upload->{Disposition} || 'inline',
+                Encoding    => $Upload->{Encoding} || '-SUGGEST',
+            );
         }
 
         # add all other attachments as multipart mixed (if we had html body)
@@ -454,9 +453,8 @@ sub Send {
             MainObject   => $Self->{MainObject},
             CryptType    => $Param{Sign}->{Type},
         );
-        if ( !$CryptObject ) {
-            return;
-        }
+        return if !$CryptObject;
+
         if ( $Param{Sign}->{Type} eq 'PGP' ) {
 
             # make_multipart -=> one attachment for sign
@@ -546,9 +544,7 @@ sub Send {
             MainObject   => $Self->{MainObject},
             CryptType    => $Param{Crypt}->{Type},
         );
-        if ( !$CryptObject ) {
-            return;
-        }
+        return if !$CryptObject;
 
         # make_multipart -=> one attachment for encryption
         $Entity->make_multipart(
@@ -599,9 +595,7 @@ sub Send {
             MainObject   => $Self->{MainObject},
             CryptType    => $Param{Crypt}->{Type},
         );
-        if ( !$CryptObject ) {
-            return;
-        }
+        return !$CryptObject;
 
         # make_multipart -=> one attachment for encryption
         $Entity->make_multipart( 'mixed;', Force => 1, );
@@ -858,6 +852,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.68 $ $Date: 2009-12-08 14:53:01 $
 
 =cut

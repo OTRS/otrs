@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.122 2009-12-08 09:41:15 ub Exp $
+# $Id: AgentTicketPhone.pm,v 1.123 2009-12-08 14:53:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -822,13 +822,18 @@ sub Run {
             $MimeType = 'text/html';
 
             # remove unused inline images
-            my @NewAttachmentData = ();
-            REMOVEINLINE:
-            for my $TmpAttachment (@AttachmentData) {
-                next REMOVEINLINE if $TmpAttachment->{ContentID}
-                        && $TmpAttachment->{ContentID} =~ /^inline/
-                        && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
-                push @NewAttachmentData, \%{$TmpAttachment};
+            my @NewAttachmentData;
+            for my $Attachment (@AttachmentData) {
+                my $ContentID = $Attachment->{ContentID};
+                if ($ContentID) {
+                    my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
+                        Text => $ContentID,
+                    );
+                    next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                }
+
+                # remember inline images and normal attachments
+                push @NewAttachmentData, \%{$Attachment};
             }
             @AttachmentData = @NewAttachmentData;
 

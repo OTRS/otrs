@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.86 2009-11-25 15:19:51 mg Exp $
+# $Id: AgentTicketCompose.pm,v 1.87 2009-12-08 14:53:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -196,7 +196,7 @@ sub Run {
         # check pending date
         if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                $Error{"Date invalid"} = 'invalid';
+                $Error{'Date invalid'} = 'invalid';
             }
         }
 
@@ -257,7 +257,7 @@ sub Run {
             Subject => $GetParam{Subject} || '',
         );
 
-        my %ArticleParam = ();
+        my %ArticleParam;
 
         # run compose modules
         if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' )
@@ -355,6 +355,7 @@ sub Run {
                 ResponseFormat => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Body} ),
                 Errors         => \%Error,
                 Attachments    => \@Attachments,
+                GetParam       => \%GetParam,
                 %Ticket,
                 %TicketFreeTextHTML,
                 %TicketFreeTimeHTML,
@@ -401,13 +402,18 @@ sub Run {
             $MimeType = 'text/html';
 
             # remove unused inline images
-            my @NewAttachmentData = ();
-            REMOVEINLINE:
-            for my $TmpAttachment (@AttachmentData) {
-                next REMOVEINLINE if $TmpAttachment->{ContentID}
-                        && $TmpAttachment->{ContentID} =~ /^inline/
-                        && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
-                push @NewAttachmentData, \%{$TmpAttachment};
+            my @NewAttachmentData;
+            for my $Attachment (@AttachmentData) {
+                my $ContentID = $Attachment->{ContentID};
+                if ($ContentID) {
+                    my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
+                        Text => $ContentID,
+                    );
+                    next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                }
+
+                # remember inline images and normal attachments
+                push @NewAttachmentData, \%{$Attachment};
             }
             @AttachmentData = @NewAttachmentData;
 
@@ -594,7 +600,7 @@ sub Run {
         );
 
         # get last customer article or selecte article ...
-        my %Data = ();
+        my %Data;
         if ( $GetParam{ArticleID} ) {
             %Data = $Self->{TicketObject}->ArticleGet( ArticleID => $GetParam{ArticleID} );
         }
@@ -1005,8 +1011,8 @@ sub _Mask {
         $Param{NextStates}->{''} = '-';
     }
     my %State;
-    if ( $Param{StateID} ) {
-        $State{SelectedID} = $Param{StateID};
+    if ( $Param{GetParams}->{StateID} ) {
+        $State{SelectedID} = $Param{GetParams}->{StateID};
     }
     else {
         $State{Selected} = $Param{NextState} || $Self->{Config}->{StateDefault};
@@ -1020,7 +1026,7 @@ sub _Mask {
     # prepare errors!
     if ( $Param{Errors} ) {
         for ( keys %{ $Param{Errors} } ) {
-            $Param{$_} = "* " . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
+            $Param{$_} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
         }
     }
 

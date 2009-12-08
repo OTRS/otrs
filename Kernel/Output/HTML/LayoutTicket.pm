@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.55 2009-12-08 10:32:44 mb Exp $
+# $Id: LayoutTicket.pm,v 1.56 2009-12-08 14:53:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -755,7 +755,7 @@ sub ArticleQuote {
             my %Attachments = %{ $ArticleTmp->{Atms} };
             my $SessionID   = '';
             if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-                $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
+                $SessionID = '&' . $Self->{SessionName} . '=' . $Self->{SessionID};
             }
             my $AttachmentLink = $Self->{Baselink}
                 . 'Action=PictureUpload'
@@ -772,6 +772,7 @@ sub ArticleQuote {
 
                 # find attachment to include
                 my $ContentID = $1;
+
                 ATMCOUNT:
                 for my $AttachmentID ( keys %Attachments ) {
 
@@ -786,6 +787,11 @@ sub ArticleQuote {
                         ArticleID => $Param{ArticleID},
                         FileID    => $AttachmentID,
                     );
+
+                    # content id cleanup
+                    $AttachmentPicture{ContentID} =~ s/^<//;
+                    $AttachmentPicture{ContentID} =~ s/>$//;
+
                     $Param{UploadCachObject}->FormIDAddFile(
                         FormID      => $Param{FormID},
                         Disposition => 'inline',
@@ -950,11 +956,9 @@ sub TicketListShow {
         );
     }
 
-    # nav bar
-    my $StartHit = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
-
     # check start option, if higher then tickets available, set
     # it to the last ticket page (Thanks to Stefan Schmidt!)
+    my $StartHit = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
     my $PageShown = $Backends->{$View}->{PageShown};
     if ( $StartHit > $Param{Total} ) {
         my $Pages = int( ( $Param{Total} / $PageShown ) + 0.99999 );
@@ -971,6 +975,7 @@ sub TicketListShow {
         Link      => $Param{LinkPage},
     );
 
+    # nav bar at the beginning of a overview
     $Env->{LayoutObject}->Block(
         Name => 'OverviewNavBar',
         Data => \%Param,
@@ -984,7 +989,7 @@ sub TicketListShow {
         );
     }
 
-    # filter
+    # filter selection
     if ( $Param{Filters} ) {
         my @NavBarFilters;
         for my $Prio ( sort keys %{ $Param{Filters} } ) {
@@ -1036,7 +1041,7 @@ sub TicketListShow {
         }
     }
 
-    # mode
+    # view mode
     for my $Backend ( keys %{$Backends} ) {
         $Env->{LayoutObject}->Block(
             Name => 'OverviewNavBarViewMode',
@@ -1121,27 +1126,26 @@ sub TicketListShow {
         $OutputRaw .= $Output;
     }
 
-    if (1) {
+    # nav bar at the end of a overview
+    $Env->{LayoutObject}->Block(
+        Name => 'OverviewNavBar',
+        Data => \%Param,
+    );
+    if (%PageNav) {
         $Env->{LayoutObject}->Block(
-            Name => 'OverviewNavBar',
-            Data => \%Param,
+            Name => 'OverviewNavBarPageNavBar',
+            Data => \%PageNav,
         );
-        if (%PageNav) {
-            $Env->{LayoutObject}->Block(
-                Name => 'OverviewNavBarPageNavBar',
-                Data => \%PageNav,
-            );
-        }
-        my $OutputNavBarSmall = $Env->{LayoutObject}->Output(
-            TemplateFile => 'AgentTicketOverviewNavBarSmall',
-            Data         => { %Param, },
-        );
-        if ( !$Param{Output} ) {
-            $Env->{LayoutObject}->Print( Output => \$OutputNavBarSmall );
-        }
-        else {
-            $OutputRaw .= $OutputNavBarSmall;
-        }
+    }
+    my $OutputNavBarSmall = $Env->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketOverviewNavBarSmall',
+        Data         => { %Param, },
+    );
+    if ( !$Param{Output} ) {
+        $Env->{LayoutObject}->Print( Output => \$OutputNavBarSmall );
+    }
+    else {
+        $OutputRaw .= $OutputNavBarSmall;
     }
 
     return $OutputRaw;

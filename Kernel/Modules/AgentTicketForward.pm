@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.58 2009-11-25 15:19:51 mg Exp $
+# $Id: AgentTicketForward.pm,v 1.59 2009-12-08 14:53:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -598,13 +598,18 @@ sub SendEmail {
         $MimeType = 'text/html';
 
         # remove unused inline images
-        my @NewAttachmentData = ();
-        REMOVEINLINE:
-        for my $TmpAttachment (@AttachmentData) {
-            next REMOVEINLINE if $TmpAttachment->{ContentID}
-                    && $TmpAttachment->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
-            push @NewAttachmentData, \%{$TmpAttachment};
+        my @NewAttachmentData;
+        for my $Attachment (@AttachmentData) {
+            my $ContentID = $Attachment->{ContentID};
+            if ($ContentID) {
+                my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
+                    Text => $ContentID,
+                );
+                next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+            }
+
+            # remember inline images and normal attachments
+            push @NewAttachmentData, \%{$Attachment};
         }
         @AttachmentData = @NewAttachmentData;
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketNote.pm,v 1.76 2009-11-25 15:19:51 mg Exp $
+# $Id: AgentTicketNote.pm,v 1.77 2009-12-08 14:53:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -572,10 +572,14 @@ sub Run {
             # write attachments
             for my $Attachment (@Attachments) {
 
-                # skip deleted inline images
-                next if $Attachment->{ContentID}
-                        && $Attachment->{ContentID} =~ /^inline/
-                        && $GetParam{Body} !~ /$Attachment->{ContentID}/;
+                # skip, deleted not used inline images
+                my $ContentID = $Attachment->{ContentID};
+                if ($ContentID) {
+                    my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
+                        Text => $ContentID,
+                    );
+                    next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                }
 
                 # write existing file to backend
                 $Self->{TicketObject}->ArticleWriteAttachment(

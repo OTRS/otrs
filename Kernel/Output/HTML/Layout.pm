@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.195 2009-12-08 13:26:08 mg Exp $
+# $Id: Layout.pm,v 1.196 2009-12-08 14:53:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.195 $) [1];
+$VERSION = qw($Revision: 1.196 $) [1];
 
 =head1 NAME
 
@@ -3255,6 +3255,44 @@ sub RichTextDocumentComplete {
     return $Param{String};
 }
 
+=begin Internal:
+
+=cut
+
+=item _RichTextReplaceLinkOfInlineContent()
+
+replace links of inline content e. g. images
+
+    $HTMLBodyStringRef = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
+        String => $HTMLBodyStringRef,
+    );
+
+=cut
+
+sub _RichTextReplaceLinkOfInlineContent {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # replace image link with content id for uploaded images
+    ${ $Param{String} } =~ s{
+        (<img.+?src=("|')).+?ContentID=(.+?)("|')(.*?>)
+    }
+    {
+        $1 . 'cid:' . $3 . $4 . $5;
+    }esgxi;
+
+    return $Param{String};
+}
+
+=end Internal:
+
 =item RichTextDocumentCleanup()
 
 1)  replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
@@ -4247,38 +4285,6 @@ sub _DisableBannerCheck {
     return 1
 }
 
-=item _RichTextReplaceLinkOfInlineContent()
-
-replace links of inline content e. g. images
-
-    $HTMLBodyStringRef = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
-        String => $HTMLBodyStringRef,
-    );
-
-=cut
-
-sub _RichTextReplaceLinkOfInlineContent {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(String)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # replace image link with content id for uploaded images
-    ${ $Param{String} } =~ s{
-        (<img.+?src=("|')).+?ContentID=(.+?)("|')(.*?>)
-    }
-    {
-        $1 . 'cid:' . $3 . $4 . $5;
-    }esgxi;
-
-    return $Param{String};
-}
-
 1;
 
 =end Internal:
@@ -4295,6 +4301,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.195 $ $Date: 2009-12-08 13:26:08 $
+$Revision: 1.196 $ $Date: 2009-12-08 14:53:01 $
 
 =cut
