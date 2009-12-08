@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.16 2009-12-08 09:37:10 ub Exp $
+# $Id: Type.pm,v 1.17 2009-12-08 18:04:17 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -141,6 +141,7 @@ sub TypeAdd {
     # delete cache
     my @CacheKeys = ( 'TypeGet::Name::' . $Param{Name}, 'TypeGet::ID::' . $ID );
     push @CacheKeys, 'TypeLookup::Name::' . $Param{Name}, 'TypeLookup::ID::' . $ID;
+    push @CacheKeys, 'TypeList';
     for my $CacheKey (@CacheKeys) {
         $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
     }
@@ -188,6 +189,13 @@ sub TypeGet {
         $Param{ID} = $Self->TypeLookup(
             Type => $Param{Name},
         );
+        if ( !$Param{ID} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "TypeID for Type '$Param{Name}' not found!",
+            );
+            return;
+        }
     }
 
     # check cache
@@ -202,20 +210,20 @@ sub TypeGet {
     );
 
     # fetch the result
-    my %Data;
+    my %Type;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        $Data{ID}         = $Data[0];
-        $Data{Name}       = $Data[1];
-        $Data{ValidID}    = $Data[2];
-        $Data{ChangeTime} = $Data[3];
-        $Data{CreateTime} = $Data[4];
+        $Type{ID}         = $Data[0];
+        $Type{Name}       = $Data[1];
+        $Type{ValidID}    = $Data[2];
+        $Type{ChangeTime} = $Data[3];
+        $Type{CreateTime} = $Data[4];
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Get( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Get( Key => $CacheKey, Value => \%Type );
 
     # no data found
-    if ( !%Data ) {
+    if ( !%Type ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "TypeID '$Param{ID}' not found!",
@@ -223,7 +231,7 @@ sub TypeGet {
         return;
     }
 
-    return %Data;
+    return %Type;
 }
 
 =item TypeUpdate()
@@ -262,6 +270,7 @@ sub TypeUpdate {
     # delete cache
     my @CacheKeys = ( 'TypeGet::Name::' . $Param{Name}, 'TypeGet::ID::' . $Param{ID} );
     push @CacheKeys, 'TypeLookup::Name::' . $Param{Name}, 'TypeLookup::ID::' . $Param{ID};
+    push @CacheKeys, 'TypeList';
     for my $CacheKey (@CacheKeys) {
         $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
     }
@@ -292,13 +301,37 @@ sub TypeList {
         $Valid = 0;
     }
 
-    # sql
-    return $Self->{DBObject}->GetTableData(
-        What  => 'id, name',
-        Valid => $Valid,
-        Clamp => 1,
-        Table => 'ticket_type',
+    # check cache
+    my $CacheKey = 'TypeList';
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
+
+    # create the valid list
+    my $ValidIDs = join ', ', $Self->{ValidObject}->ValidIDsGet();
+
+    # build SQL
+    my $SQL = 'SELECT id, name FROM ticket_type';
+
+    # add WHERE statement
+    if ($Valid) {
+        $SQL .= ' WHERE valid_id IN (' . $ValidIDs . ')';
+    }
+
+    # ask database
+    return if !$Self->{DBObject}->Prepare(
+        SQL => $SQL,
     );
+
+    # fetch the result
+    my %TypeList;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $TypeList{ $Row[0] } = $Row[1];
+    }
+
+    # set cache
+    $Self->{CacheInternalObject}->Get( Key => $CacheKey, Value => \%TypeList );
+
+    return %TypeList;
 }
 
 =item TypeLookup()
@@ -316,7 +349,10 @@ sub TypeLookup {
 
     # check needed stuff
     if ( !$Param{Type} && !$Param{TypeID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Type or TypeID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no Type or TypeID!',
+        );
         return;
     }
 
@@ -395,6 +431,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2009-12-08 09:37:10 $
+$Revision: 1.17 $ $Date: 2009-12-08 18:04:17 $
 
 =cut
