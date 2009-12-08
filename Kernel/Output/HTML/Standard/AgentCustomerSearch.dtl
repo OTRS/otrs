@@ -2,7 +2,7 @@
 # AgentCustomerSearch.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.dtl,v 1.16 2009-11-27 11:51:55 mn Exp $
+# $Id: AgentCustomerSearch.dtl,v 1.17 2009-12-08 13:58:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,6 +87,9 @@ function GetCustomerTickets( CustomerUserID, CustomerID ) {
     } } );
 }
 
+var CustomerInfoBackup = '';
+var CustomerEmailBackup = '';
+
 $(document).ready(function() {
     // get customer tickets for AgentTicketCustomer
     if (document.compose.CustomerUserID && document.compose.CustomerUserID.value) {
@@ -96,6 +99,11 @@ $(document).ready(function() {
     // get customer tickets for AgentTicketPhone and AgentTicketEmail
     if (document.compose.SelectedCustomerUser && document.compose.SelectedCustomerUser.value) {
         GetCustomerTickets( document.compose.SelectedCustomerUser.value );
+    }
+
+    // just save the initial state of the customer info
+    if ( document.getElementById('CustomerTable') ) {
+        CustomerInfoBackup = document.getElementById('CustomerTable').innerHTML;
     }
 
 <!-- dtl:block:CustomerSearchAutoComplete -->
@@ -131,6 +139,7 @@ $(document).ready(function() {
     });
     $("#myAutoCompleteInput").result(function(event, data, formatted) {
         var CustomerKey = data[0];
+        CustomerEmailBackup = data[2];
 
         // set hidden field SelectedCustomerUser
         if (document.compose.SelectedCustomerUser) {
@@ -154,6 +163,32 @@ $(document).ready(function() {
 
         // get customer data for customer info table
         GetCustomerInfo(CustomerKey);
+    });
+
+    $("#myAutoCompleteInput").blur(function() {
+        var FieldValue = $('#myAutoCompleteInput').val();
+        if (FieldValue != CustomerEmailBackup) {
+            if (document.compose.SelectedCustomerUser) {
+                document.compose.SelectedCustomerUser.value = '';
+            }
+            if (document.compose.CustomerUserID) {
+                document.compose.CustomerUserID.value = '';
+            }
+            if (document.compose.CustomerUserOption) {
+                document.compose.CustomerUserOption.value = '';
+            }
+
+            $('#CustomerTickets').empty();
+
+            if ( document.getElementById('ShowCustomerID') ) {
+                document.getElementById('ShowCustomerID').innerHTML = '';
+            }
+
+            // show customer info table
+            if ( document.getElementById('CustomerTable') ) {
+                document.getElementById('CustomerTable').innerHTML = CustomerInfoBackup;
+            }
+        }
     });
 <!-- dtl:block:CustomerSearchAutoComplete -->
 });

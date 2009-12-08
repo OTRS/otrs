@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1092 2009-12-08 09:55:28 ub Exp $
+# $Id: CHANGES,v 1.1093 2009-12-08 13:58:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -122,6 +122,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/08) Fixed bug#4384 - Customer User Info not deleted when From in
+    AgentTicketPhone is changed.
  - (2009/12/08) Fixed bug#4482 - Owner update possible with no new owner set.
  - (2009/12/07) Fixed bug#4246 - Response Templates fail to populate for certain
     email tickets. - (2009/12/07) Fixed bug#4381 - Function change_selection in AgentTicketMove.
