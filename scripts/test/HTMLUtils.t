@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.15 2009-12-07 16:58:31 martin Exp $
+# $Id: HTMLUtils.t,v 1.16 2009-12-08 14:39:01 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -482,6 +482,100 @@ for my $Test (@Tests) {
         Name      => 'LinkQuote - simple',
         Target    => '',
         TargetAdd => 1,
+    },
+    {
+        Input => '<html>www.heise.de</html>',
+        Result =>
+            '<html><a href="http://www.heise.de" title="http://www.heise.de">www.heise.de</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>ftp.heise.de</html>',
+        Result =>
+            '<html><a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>www.heise.de/Suffix</html>',
+        Result =>
+            '<html><a href="http://www.heise.de/Suffix" title="http://www.heise.de/Suffix">www.heise.de/Suffix</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>ftp.heise.de/Suffix</html>',
+        Result =>
+            '<html><a href="ftp://ftp.heise.de/Suffix" title="ftp://ftp.heise.de/Suffix">ftp.heise.de/Suffix</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input  => '<html>Prefixwww.heise.de</html>',
+        Result => '<html>Prefixwww.heise.de</html>',
+        Name   => 'LinkQuote with prefix plain domains.',
+        Target => '',
+    },
+    {
+        Input  => '<html>Prefixftp.heise.de</html>',
+        Result => '<html>Prefixftp.heise.de</html>',
+        Name   => 'LinkQuote with prefix plain domains.',
+        Target => '',
+    },
+    {
+        Input  => '<html>Prefixwww.heise.deSuffix</html>',
+        Result => '<html>Prefixwww.heise.deSuffix</html>',
+        Name   => 'LinkQuote with prefix and suffix plain domains.',
+        Target => '',
+    },
+    {
+        Input  => '<html>Prefixftp.heise.deSuffix</html>',
+        Result => '<html>Prefixftp.heise.deSuffix</html>',
+        Name   => 'LinkQuote with prefix and suffix plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html> www.heise.de </html>',
+        Result =>
+            '<html> <a href="http://www.heise.de" title="http://www.heise.de">www.heise.de</a> </html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html> ftp.heise.de </html>',
+        Result =>
+            '<html> <a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a> </html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>&nbsp;www.heise.de&nbsp;</html>',
+        Result =>
+            '<html>&nbsp;<a href="http://www.heise.de" title="http://www.heise.de">www.heise.de</a>&nbsp;</html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>&nbsp;ftp.heise.de&nbsp;</html>',
+        Result =>
+            '<html>&nbsp;<a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a>&nbsp;</html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>&nbsp;www.heise.de&nbsp;www.heise.de</html>',
+        Result =>
+            '<html>&nbsp;<a href="http://www.heise.de" title="http://www.heise.de">www.heise.de</a>&nbsp;<a href="http://www.heise.de" title="http://www.heise.de">www.heise.de</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>&nbsp;ftp.heise.de&nbsp;ftp.heise.de</html>',
+        Result =>
+            '<html>&nbsp;<a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a>&nbsp;<a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
     },
 );
 
