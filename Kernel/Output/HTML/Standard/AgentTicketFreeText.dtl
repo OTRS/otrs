@@ -2,7 +2,7 @@
 # AgentTicketFreeText.dtl - provides HTML form for free text mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.dtl,v 1.36 2009-12-02 10:41:35 mn Exp $
+# $Id: AgentTicketFreeText.dtl,v 1.37 2009-12-08 09:17:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,6 +69,24 @@ function submit_compose() {
         return false;
     }
 <!-- dtl:block:TimeUnitsJs -->
+
+    if (document.getElementsByName('NewOwnerType').length) {
+        // new owner
+        if (document.getElementsByName('NewOwnerType').item(0).checked
+            && document.compose.NewOwnerID.value == '') {
+
+            alert('$JSText{"Please set a new owner!"}');
+            return false;
+        }
+        // previous owner
+        else if (document.getElementsByName('NewOwnerType').item(1).checked
+            && document.compose.OldOwnerID.value == '') {
+
+            alert('$JSText{"Please set a new owner!"}');
+            return false;
+        }
+    }
+
     return true;
 }
 //-->
