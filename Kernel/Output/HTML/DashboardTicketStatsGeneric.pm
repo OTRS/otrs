@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.12 2009-12-04 10:44:24 mn Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.13 2009-12-08 17:34:45 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -104,7 +104,7 @@ sub Run {
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID => $Self->{UserID},
         );
-        push @TicketsCreated, [ $Key, $CountCreated ];
+        push @TicketsCreated, [ 6 - $Key, $CountCreated ];
 
         my $CountClosed = $Self->{TicketObject}->TicketSearch(
 
@@ -124,12 +124,8 @@ sub Run {
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID => $Self->{UserID},
         );
-        push @TicketsClosed, [ $Key, $CountClosed ];
+        push @TicketsClosed, [ 6 - $Key, $CountClosed ];
     }
-
-    # add line elements
-    @TicketsClosed  = reverse @TicketsClosed;
-    @TicketsCreated = reverse @TicketsCreated;
 
     my $TicketsClosedJSON = $Self->{LayoutObject}->JSON(
         Data => \@TicketsClosed,
