@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.25 2009-11-25 17:13:55 mg Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.26 2009-12-08 14:35:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -197,14 +197,14 @@
     </tr>
     <tr>
         <td class="mainbody">
-            <p>
+            <div style="margin: 20px 0">
                 $Text{"Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible."}
                 <br/>
                 $Text{"If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc."}
                 <br/>
                 $Text{"If you use RegExp, you also can use the matched value in () as [***] in 'Set'."}
-            </p>
-            <p>
+            </div>
+            <div style="margin: 20px 0">
                 $Text{"Example"}:
                 <hr/>
                 <form action="/">
@@ -226,7 +226,7 @@
                                     <option value="Resent-From">Resent-From</option>
                                     <option value="Resent-To">Resent-To</option>
                                     <option value="Subject">Subject</option>
-                                    <option selected value="To">To</option>
+                                    <option selected="selected" value="To">To</option>
                                     <option value="X-Loop">X-Loop</option>
                                     <option value="X-No-Loop">X-No-Loop</option>
                                     <option value="X-OTRS-ArticleKey1">X-OTRS-ArticleKey1</option>
@@ -258,7 +258,7 @@
                                     <option value="X-Loop">X-Loop</option>
                                     <option value="X-No-Loop">X-No-Loop</option>
                                     <option value="X-OTRS-ArticleKey1">X-OTRS-ArticleKey1</option>
-                                    <option selected value="X-OTRS-Queue">X-OTRS-Queue</option>
+                                    <option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option>
                                 </select>
                             </td>
                             <td>$Text{"Value"}: </td>
@@ -267,7 +267,7 @@
                     </table>
                 </form>
                 <hr/>
-            </p>
+            </div>
         </td>
     </tr>
 </table>
