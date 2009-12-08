@@ -2,7 +2,7 @@
 # AdminNotificationEventForm.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEventForm.dtl,v 1.10 2009-12-08 16:18:38 ud Exp $
+# $Id: AdminNotificationEventForm.dtl,v 1.11 2009-12-08 17:40:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -281,11 +281,11 @@ function submit_compose() {
     </tr>
     <tr>
         <td class="mainbody">
-            <p>
+            <div style="margin: 20px 0">
                 $Text{"Notifications are sent to an agent or a customer."}
-            </p>
+            </div>
             <hr/>
-            <p>
+            <div style="margin: 20px 0">
                 $Text{"Useable options"}:
                 <table>
                     <tr>
@@ -341,21 +341,20 @@ function submit_compose() {
                         <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
                     </tr>
                 </table>
-            </p>
-            <p>
+            </div>
+            <div style="margin: 20px 0">
                 $Text{"Example"}:
                 <hr/>
-                <form action="/">
-                    <table>
-                        <tr>
-                            <td>$Text{"Subject"}:</td>
-                            <td><input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                $Text{"Text"}:
-                            </td>
-                            <td>
+                <table>
+                    <tr>
+                        <td>$Text{"Subject"}:</td>
+                        <td><input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            $Text{"Text"}:
+                        </td>
+                        <td>
                   <textarea rows="12" cols="70" name="Response">
 Hi &lt;OTRS_CURRENT_UserFirstname&gt;,
 
@@ -370,12 +369,11 @@ there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
 
 Your OTRS Notification Master
                     </textarea>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                        </td>
+                    </tr>
+                </table>
                 <hr/>
-            </p>
+            </div>
         </td>
     </tr>
 </table>
