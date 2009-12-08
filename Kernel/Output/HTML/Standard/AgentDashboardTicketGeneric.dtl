@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.14 2009-11-25 15:39:47 mg Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.15 2009-12-08 13:26:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@
                 <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
                 <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
                     <td width="10%">
-                        <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
+                        <table border="0" width="100%" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td class="PriorityID-$Data{"PriorityID"}" title="$Text{"Priority"}: $Text{"$Data{"Priority"}"}" width="1%">&nbsp;</td>
                                 <td>
