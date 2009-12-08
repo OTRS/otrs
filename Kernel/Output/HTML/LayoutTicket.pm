@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.54 2009-12-07 13:29:45 mg Exp $
+# $Id: LayoutTicket.pm,v 1.55 2009-12-08 10:32:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -52,7 +52,7 @@ sub TicketStdResponseString {
             # build html string
             $Param{StdResponsesStrg}
                 .= "\n<li><a href=\"$Self->{Baselink}"
-                . "Action=AgentTicketCompose&"
+                . "Action=AgentTicketCompose;"
                 . "ResponseID=$_;TicketID=$Param{TicketID};ArticleID=$Param{ArticleID}\" "
                 . 'onmouseover="window.status=\'$Text{"Compose"}\'; return true;" '
                 . 'onmouseout="window.status=\'\';">'
@@ -231,7 +231,7 @@ sub AgentQueueListOption {
     my $SelectedID = defined( $Param{SelectedID} ) ? $Param{SelectedID}    : '';
     my $Selected   = defined( $Param{Selected} )   ? $Param{Selected}      : '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
-    my $Multiple = $Param{Multiple} ? 'multiple' : '';
+    my $Multiple = $Param{Multiple} ? 'multiple = "multiple"' : '';
     my $OnChangeSubmit = defined( $Param{OnChangeSubmit} ) ? $Param{OnChangeSubmit} : '';
     if ($OnChangeSubmit) {
         $OnChangeSubmit = " onchange=\"submit()\"";
