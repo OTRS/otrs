@@ -3,7 +3,7 @@
  # agent.css - css file
  # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
  # --
- # $Id: agent.css,v 1.8 2009-12-04 10:44:24 mn Exp $
+ # $Id: agent.css,v 1.9 2009-12-08 15:08:52 mg Exp $
  # --
  # --
  # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -604,4 +604,28 @@ div.login-box {
     padding: 2px;
     background-color: #ccc;
     opacity: 0.80;
+}
+
+/*
+ * Dashboard
+ */
+#sortable-large {
+    list-style-type: none;
+    margin: 0; padding: 0;
+}
+
+#sortable-large li {
+}
+
+#sortable-small {
+    list-style-type: none;
+    margin: 0; padding: 0;
+}
+
+#sortable-small li {
+}
+
+.ui-state-highlight {
+    border: 1px dotted #cdcdcd;
+    margin: 2;
 }
