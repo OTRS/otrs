@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.27 2009-11-25 23:13:23 mh Exp $
+# $Id: AdminSMIME.pm,v 1.28 2009-12-08 15:29:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -281,7 +281,7 @@ sub Run {
                 Priority => 'Error',
                 Data     => '$Text{"You need to activate %s first to use it!", "SMIME"}',
                 Link =>
-                    '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME"',
+                    '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
             );
         }
 
@@ -294,7 +294,7 @@ sub Run {
                         . "$PathKey "
                         . $Self->{ConfigObject}->Get($PathKey) . '"}',
                     Link =>
-                        '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME"',
+                        '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
                 );
             }
         }
@@ -303,7 +303,7 @@ sub Run {
                 Priority => 'Error',
                 Data     => '$Text{"Cannot create %s!", "CryptObject"}',
                 Link =>
-                    '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME"',
+                    '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
             );
         }
         if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {
