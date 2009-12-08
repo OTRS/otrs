@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.23 2009-11-25 15:15:28 mg Exp $
+# $Id: AdminAttachment.pm,v 1.24 2009-12-08 19:02:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -168,12 +168,15 @@ sub _Mask {
     );
 
     # build ResponseOption string
-    $Param{ResponseOption} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => $Param{AttachmentIndex},
-        Name       => 'ID',
-        Size       => 15,
-        SelectedID => $Param{ID},
-    );
+    if ( %{ $Param{AttachmentIndex} } ) {
+        $Param{ResponseOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data       => $Param{AttachmentIndex},
+            Name       => 'ID',
+            Size       => 15,
+            SelectedID => $Param{ID},
+        );
+    }
+
     $Param{Subaction} = "Add" if ( !$Param{Subaction} );
 
     return $Self->{LayoutObject}->Output( TemplateFile => 'AdminAttachmentForm', Data => \%Param );
