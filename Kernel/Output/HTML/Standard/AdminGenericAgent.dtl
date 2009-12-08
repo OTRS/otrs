@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.48 2009-11-25 15:34:55 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.49 2009-12-08 14:22:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -112,7 +112,7 @@
                         <td class="contenthead">$Text{"Save Job as?"}</td>
                         <td class="contenthead">$Text{"Is Job Valid?"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">
                             $Text{"Name"}:
                             <input type="text" name="Profile" size="20" value="$QData{"Profile"}"/>
@@ -122,10 +122,10 @@
                         </td>
                     </tr>
 <!-- job schedule -->
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contenthead">$Text{"Schedule"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             $Text{"minutes"}: $Data{"ScheduleMinutesList"} $Text{"hours"}: $Data{"ScheduleHoursList"}
                             $Text{"days"}: $Data{"ScheduleDaysList"}
@@ -138,11 +138,11 @@
 <!-- dtl:block:JobScheduleWarning-->
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contenthead">$Config{"Ticket::Hook"} $Text{"and"} $Text{"CustomerID"}</td>
                         <td class="contenthead">$Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">
                             <table width="100%" border="0" cellspacing="1" cellpadding="1">
                                 <tr>
@@ -231,190 +231,190 @@
                         </td>
                     </tr>
 <!-- dtl:block:TicketService -->
-                    <tr>
+                    <tr align="left">
                         <td class="contenthead">$Text{"Service"}</td>
                         <td class="contenthead">$Text{"SLA"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">$Data{"ServicesStrg"}</td>
                         <td class="contentbody">$Data{"SLAsStrg"}</td>
                     </tr>
 <!-- dtl:block:TicketService -->
-                    <tr>
+                    <tr align="left">
                         <td class="contenthead" width="50%">$Text{"Priority"}</td>
                         <td class="contenthead" width="50%">$Text{"Queue"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">$Data{"PrioritiesStrg"}</td>
                         <td class="contentbody">$Data{"QueuesStrg"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contenthead">$Text{"State"}</td>
                         <td class="contenthead">$Text{"Agent"}/$Text{"Owner"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">$Data{"StatesStrg"}</td>
                         <td class="contentbody">$Data{"OwnerStrg"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contenthead">$Text{"Ticket Lock"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody" colspan="2">$Data{"LockOption"}</td>
                     </tr>
 <!-- dtl:block:TicketFreeField -->
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contenthead">$Text{"TicketFreeFields"}</td>
                     </tr>
 <!-- dtl:block:TicketFreeFieldElement -->
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">$Data{"TicketFreeKey"}</td>
                         <td class="contentbody">$Data{"TicketFreeText"}</td>
                     </tr>
 <!-- dtl:block:TicketFreeFieldElement -->
 <!-- dtl:block:TicketFreeField -->
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contenthead">$Text{"Create Times"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="TimeSearchType" value="" $Data{"TimeSearchType::None"}/>
                             $Text{"No create time settings."}
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}/>
                             $Text{"Ticket created"} $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}/>
                             $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contenthead">$Text{"Close Times"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="CloseTimeSearchType" value="" $Data{"CloseTimeSearchType::None"}/>
                             $Text{"No close time settings."}
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="CloseTimeSearchType" value="TimePoint" $Data{"CloseTimeSearchType::TimePoint"}/>
                             $Text{"Ticket closed"} $Data{"TicketCloseTimePointStart"} $Data{"TicketCloseTimePoint"} $Data{"TicketCloseTimePointFormat"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="CloseTimeSearchType" value="TimeSlot" $Data{"CloseTimeSearchType::TimeSlot"}/>
                             $Text{"Ticket closed between"} $Data{"TicketCloseTimeStart"} $Text{"and"} $Data{"TicketCloseTimeStop"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contenthead">$Text{"Pending Times"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="TimePendingSearchType" value="" $Data{"TimePendingSearchType::None"}/>
                             $Text{"No pending time settings."}
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="TimePendingSearchType" value="TimePoint" $Data{"TimePendingSearchType::TimePoint"}/>
                             $Text{"Ticket pending time reached"} $Data{"TicketPendingTimePointStart"} $Data{"TicketPendingTimePoint"} $Data{"TicketPendingTimePointFormat"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="TimePendingSearchType" value="TimeSlot" $Data{"TimePendingSearchType::TimeSlot"}/>
                             $Text{"Ticket pending time reached between"} $Data{"TicketPendingTimeStart"} $Text{"and"} $Data{"TicketPendingTimeStop"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contenthead">$Text{"Escalation Times"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationTimeSearchType" value="" $Data{"EscalationTimeSearchType::None"}/>
                             $Text{"No escalation time settings."}
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationTimeSearchType" value="TimePoint" $Data{"EscalationTimeSearchType::TimePoint"}/>
                             $Text{"Ticket escalation time reached"} $Data{"TicketEscalationTimePointStart"} $Data{"TicketEscalationTimePoint"} $Data{"TicketEscalationTimePointFormat"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationTimeSearchType" value="TimeSlot" $Data{"EscalationTimeSearchType::TimeSlot"}/>
                             $Text{"Ticket escalation time reached between"} $Data{"TicketEscalationTimeStart"} $Text{"and"} $Data{"TicketEscalationTimeStop"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contenthead">$Text{"Escalation - First Response Time"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationResponseTimeSearchType" value="" $Data{"EscalationResponseTimeSearchType::None"}/>
                             $Text{"No escalation time settings."}
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationResponseTimeSearchType" value="TimePoint" $Data{"EscalationResponseTimeSearchType::TimePoint"}/>
                             $Text{"Ticket first response time reached"} $Data{"TicketEscalationResponseTimePointStart"} $Data{"TicketEscalationResponseTimePoint"} $Data{"TicketEscalationResponseTimePointFormat"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationResponseTimeSearchType" value="TimeSlot" $Data{"EscalationResponseTimeSearchType::TimeSlot"}/>
                             $Text{"Ticket first response time reached between"} $Data{"TicketEscalationResponseTimeStart"} $Text{"and"} $Data{"TicketEscalationResponseTimeStop"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contenthead">$Text{"Escalation - Update Time"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationUpdateTimeSearchType" value="" $Data{"EscalationUpdateTimeSearchType::None"}/>
                             $Text{"No escalation time settings."}
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationUpdateTimeSearchType" value="TimePoint" $Data{"EscalationUpdateTimeSearchType::TimePoint"}/>
                             $Text{"Ticket update time reached"} $Data{"TicketEscalationUpdateTimePointStart"} $Data{"TicketEscalationUpdateTimePoint"} $Data{"TicketEscalationUpdateTimePointFormat"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationUpdateTimeSearchType" value="TimeSlot" $Data{"EscalationUpdateTimeSearchType::TimeSlot"}/>
                             $Text{"Ticket update time reached between"} $Data{"TicketEscalationUpdateTimeStart"} $Text{"and"} $Data{"TicketEscalationUpdateTimeStop"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contenthead">$Text{"Escalation - Solution Time"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationSolutionTimeSearchType" value="" $Data{"EscalationSolutionTimeSearchType::None"}/>
                             $Text{"No escalation time settings."}
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationSolutionTimeSearchType" value="TimePoint" $Data{"EscalationSolutionTimeSearchType::TimePoint"}/>
                             $Text{"Ticket solution time reached"} $Data{"TicketEscalationSolutionTimePointStart"} $Data{"TicketEscalationSolutionTimePoint"} $Data{"TicketEscalationSolutionTimePointFormat"}.
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <input type="radio" name="EscalationSolutionTimeSearchType" value="TimeSlot" $Data{"EscalationSolutionTimeSearchType::TimeSlot"}/>
                             $Text{"Ticket solution time reached between"} $Data{"TicketEscalationSolutionTimeStart"} $Text{"and"} $Data{"TicketEscalationSolutionTimeStop"}.
@@ -422,36 +422,36 @@
                     </tr>
 <!-- new options -->
 <!-- dtl:block:NewTicketService -->
-                    <tr>
+                    <tr align="left">
                         <td class="mainhead">$Text{"New Service"}</td>
                         <td class="mainhead">$Text{"New SLA"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">$Data{"NewServicesStrg"}</td>
                         <td class="contentbody">$Data{"NewSLAsStrg"}</td>
                     </tr>
 <!-- dtl:block:NewTicketService -->
-                    <tr>
+                    <tr align="left">
                         <td class="mainhead" width="50%">$Text{"New Priority"}</td>
                         <td class="mainhead" width="50%">$Text{"New Queue"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">$Data{"NewPrioritiesStrg"}</td>
                         <td class="contentbody">$Data{"NewQueuesStrg"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="mainhead">$Text{"New State"}</td>
                         <td class="mainhead">$Text{"New Agent"}/$Text{"New Owner"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">$Data{"NewStatesStrg"}</td>
                         <td class="contentbody">$Data{"NewOwnerStrg"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="mainhead" width="50%">$Text{"New Customer"}</td>
                         <td class="mainhead" width="50%">$Text{"New Ticket Lock"} & $Text{"New Type"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">
                             <table>
                                 <tr>
@@ -500,20 +500,20 @@
                         </td>
                     </tr>
 <!-- dtl:block:NewTicketFreeField -->
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="mainhead">$Text{"New TicketFreeFields"}</td>
                     </tr>
 <!-- dtl:block:NewTicketFreeFieldElement -->
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">$Data{"NewTicketFreeKey"}</td>
                         <td class="contentbody">$Data{"NewTicketFreeText"}</td>
                     </tr>
 <!-- dtl:block:NewTicketFreeFieldElement -->
 <!-- dtl:block:NewTicketFreeField -->
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="mainhead" width="50%">$Text{"Add Note"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentbody">
                             <table>
                                 <tr>
@@ -537,7 +537,7 @@
                                         $Text{"Text"}:
                                     </td>
                                     <td>
-                                        <textarea name="NewNoteBody" rows="7" cols="60" wrap="hard">$QData{"NewNoteBody"}</textarea>
+                                        <textarea name="NewNoteBody" rows="7" cols="60">$QData{"NewNoteBody"}</textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -551,11 +551,11 @@
                             </table>
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="mainhead" width="50%">$Text{"CMD"}</td>
                         <td class="mainhead" width="50%">$Text{"Delete"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">
                             <input type="text" name="NewCMD" value="$QData{"NewCMD"}" size="40"/>
                             <br/>
@@ -569,11 +569,11 @@
                             </font>
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="mainhead" width="50%">$Text{"Module"}</td>
                         <td class="mainhead" width="50%">$Text{"Send Notification"}</td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td class="contentbody">
                             <table>
                                 <tr>
@@ -628,7 +628,7 @@
                             $Text{"Send agent/customer notifications on changes"}: $Data{"SendNoNotificationOption"}
                         </td>
                     </tr>
-                    <tr>
+                    <tr align="left">
                         <td colspan="2" class="contentfooter">
                             <input class="button" type="submit" value="$Text{"Save"}"/>
                         </td>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.73 2009-11-25 15:23:21 mg Exp $
+# $Id: AdminGenericAgent.pm,v 1.74 2009-12-08 14:22:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -592,13 +592,13 @@ sub Run {
         {
             my $SearchType = $Map{$Type} . 'SearchType';
             if ( !$Param{$SearchType} ) {
-                $Param{ $SearchType . '::None' } = 'checked';
+                $Param{ $SearchType . '::None' } = 'checked="checked"';
             }
             elsif ( $Param{$SearchType} eq 'TimePoint' ) {
-                $Param{ $SearchType . '::TimePoint' } = 'checked';
+                $Param{ $SearchType . '::TimePoint' } = 'checked="checked"';
             }
             elsif ( $Param{$SearchType} eq 'TimeSlot' ) {
-                $Param{ $SearchType . '::TimeSlot' } = 'checked';
+                $Param{ $SearchType . '::TimeSlot' } = 'checked="checked"';
             }
 
             my %Counter = ();
