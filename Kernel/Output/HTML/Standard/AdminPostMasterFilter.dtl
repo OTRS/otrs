@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.26 2009-12-08 14:35:02 mg Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.27 2009-12-08 14:37:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -89,11 +89,11 @@
                             <table border="0" cellspacing="0" cellpadding="3">
                                 <tr>
                                     <td class="contentkey">$Text{"Filtername"}:</td>
-                                    <td celspan="3" class="contentvalue"><input type="text" name="Name" value="$QData{"Name"}"/></td>
+                                    <td colspan="3" class="contentvalue"><input type="text" name="Name" value="$QData{"Name"}"/></td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Stop after match"}:</td>
-                                    <td celspan="3" class="contentvalue">$Data{"StopAfterMatch"}</td>
+                                    <td colspan="3" class="contentvalue">$Data{"StopAfterMatch"}</td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey" colspan="4">$Text{"Match"}:</td>
