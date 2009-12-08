@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.281 2009-11-25 15:47:04 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.282 2009-12-08 19:30:17 mae Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6583,6 +6583,27 @@ $QData{"Signature"}
                 <Item Key="Required">0</Item>
                 <Item Key="Granted">1</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::UseAgentRealNameForEmailFrom" Required="1" Valid="1">
+        <Description Lang="en">Insert the real name of the current agent in the emails from field.</Description>
+        <Description Lang="de">In dem Absenderfeld wird der Name des aktuellen Agenten vorn angestellt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::UseAgentRealNameForEmailFromSeparator" Required="1" Valid="1">
+        <Description Lang="en">Defines the separator between the appended agents real name and the given queues email address.</Description>
+        <Description Lang="de">Definiert den Trenner im Absenderfeld zwischen dem Agentennamen und der konfigurierten Email-Adresse.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <String RegEx="">via</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0100-TicketPendingReminder" Required="0" Valid="1">
