@@ -2,7 +2,7 @@
 # Service.t - Service tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.t,v 1.10 2009-02-16 12:40:23 tr Exp $
+# $Id: Service.t,v 1.11 2009-12-08 09:38:03 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -608,7 +608,7 @@ for my $Item ( @{$ItemData} ) {
 
     if ( $Item->{Update} ) {
 
-        # check last service id varaible
+        # check last service id variable
         if ( !$LastAddedServiceID ) {
             $Self->False(
                 1,
