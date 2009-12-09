@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.284 2009-12-09 12:16:08 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.285 2009-12-09 12:38:34 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1384,7 +1384,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::NumberGenerator::CheckSystemID" Required="1" Valid="1">
-        <Description Lang="en">Check SystemID in ticket number detection for follow ups (use "No" if SystemID has been changed after using the system).</Description>
+        <Description Lang="en">Check SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).</Description>
         <Description Lang="de">SystemID benutzen um Nachfragen zu erkennen (auf "Nein" stellen, wenn die SystemID im Betrieb verändert wurde).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1415,7 +1415,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::StorageModule" Required="1" Valid="1">
-        <Description Lang="en">Select your TicketStorageModule to safe the attachments of articles. "DB" stores all data in the database. Don't use this module if big attachments will be stored. "FS" stores the data in the filesystem. This is faster but webserver user should be the otrs user. You can switch between the modules even on a running system without any loss of data.</Description>
+        <Description Lang="en">Select your TicketStorageModule to safe the attachments of articles. "DB" stores all data in the database. Don't use this module to store big attachments. "FS" stores the data on the filesystem. This is faster but the webserver should run under the otrs user. You can switch between the modules even on a system that is already in production without any loss of data.</Description>
         <Description Lang="de">Wählen Sie das TicketStorage-Modul aus und legen sie fest, wie die Anhänge zu Artikeln gespeichert werden sollen. "DB" speichert alle Daten in der Datenbank. Wird nur mit kleinen Anhängen gearbeitet, ist das kein Problem. "FS" legt die Daten im Filesystem ab, der Zugriff ist schneller. Allerdings sollte bei Verwendung von "FS" der WEB-Server unter dem selben Benutzer laufen, der auch für OTRS verwendet wird. Sie können das Modul auch für laufende Systeme ändern, es wird trotzdem weiter auf alle Daten zugegriffen und auch die Daten, die mit Hilfe des anderen Moduls gespeichert wurden, bleiben verfügbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1425,7 +1425,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleDir" Required="1" Valid="1">
-        <Description Lang="en">If you have selected "FS" for TicketStorageModule, you have to specify the directory where to store the data.</Description>
+        <Description Lang="en">If you have selected "FS" for TicketStorageModule, specify the directory to store the data.</Description>
         <Description Lang="de">Wurde "FS" als ArticleStorageModule ausgewählt, muss das Verzeichnis angegeben werden, in dem die Daten abgelegt werden sollen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1434,7 +1434,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###100-ArchiveRestore" Required="0" Valid="1">
-        <Description Lang="en">Ticket event module restors the ticket from the archive.</Description>
+        <Description Lang="en">Ticket event module that restores the ticket from the archive.</Description>
         <Description Lang="de">Ticket Event Modul holt das Ticket aus dem Archive.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1446,7 +1446,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###110-AcceleratorUpdate" Required="0" Valid="1">
-        <Description Lang="en">Ticket event module updates the ticket accelerator index.</Description>
+        <Description Lang="en">Ticket event module which updates the ticket accelerator index.</Description>
         <Description Lang="de">Ticket Event Modul aktualisiert den Ticket Übersichts-Index.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1458,7 +1458,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###120-ForceOwnerResetOnMove" Required="0" Valid="0">
-        <Description Lang="en">Ticket event module to reset and unlock the owner if ticket gets moved to another queue.</Description>
+        <Description Lang="en">Ticket event module to reset and unlock the owner if ticket is moved to another queue.</Description>
         <Description Lang="de">Ticket Event Modul um Besitzer zurück zu setzen Ticket zu entsperren wenn das Ticket verschoben wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1483,7 +1483,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###140-ResponsibleAutoSet" Required="0" Valid="1">
-        <Description Lang="en">Ticket event module to set the responsible (if not already set) automatically on owner update after first owner update.</Description>
+        <Description Lang="en">Ticket event module to set the responsible (if not already set) automatically on owner update after the first owner update.</Description>
         <Description Lang="de">Ticket Event Modul um den Verantwortlichen (wenn noch nicht gesetzt) automatisch nach dem ersten Besitzer Update zu aktualisieren.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1508,7 +1508,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###900-EscalationIndex" Required="0" Valid="1">
-        <Description Lang="en">Ticket event module updates the ticket escalation index.</Description>
+        <Description Lang="en">Ticket event module which updates the ticket escalation index.</Description>
         <Description Lang="de">Ticket Event Modul aktualisiert den Ticket Eskalations-Index.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1541,7 +1541,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SearchIndexModule" Required="1" Valid="1">
-        <Description Lang="en">Select your TicketSearchIndexModule to increase your full text search of article (From, To, Cc, Subject and Body search). Runtime will do fulltext searches on live data on runtime (fine till about 50.000 tickets). StaticDB will strip all articles and will build and index (all uniq words of an article) after article creation (this will increase fulltext searches about 50%). To create initial index use "bin/otrs.RebuildFulltextIndex.pl".</Description>
+        <Description Lang="en">Select your TicketSearchIndexModule to increase your full-text search of article (From, To, Cc, Subject and Body search). Runtime will do fulltext searches on live data on runtime (fine till about 50.000 tickets). StaticDB will strip all articles and will build and index (all uniq words of an article) after article creation (this will increase fulltext searches about 50%). To create initial index use "bin/otrs.RebuildFulltextIndex.pl".</Description>
         <Description Lang="de">Wählen Sie das TicketSearchIndex-Modul um die Volltextsuch-Geschwindigkeit der Artikel (Von, An, Cc, Betreff und Body Suche) zu verbessern. Runtime sicht in dem allen aktuellen Datensätzen zur Laufzeit (bis ca. 50.000 Tickets). StaticDB entfernt unnötige oder doppelte Wörter und baut einen Index direkt nach der Artikel Erstellung (dies verbessert Volltextsuchen um bis zu ca. 50%). Um einen initialen Index zu erstellen kann "bin/otrs.RebuildFulltextIndex.pl" benutzt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::FulltextSearch</SubGroup>
