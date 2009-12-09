@@ -1,12 +1,12 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2009-12-09 09:12:11
+--  driver: ingres, generated: 2009-12-09 12:33:59
 -- ----------------------------------------------------------
-CREATE SEQUENCE valid_135;\g
+CREATE SEQUENCE valid_747;\g
 -- ----------------------------------------------------------
 --  create table valid
 -- ----------------------------------------------------------
 CREATE TABLE valid (
-    id SMALLINT NOT NULL DEFAULT valid_135.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT valid_747.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -16,12 +16,12 @@ CREATE TABLE valid (
 );\g
 MODIFY valid TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE valid ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE ticket_priority_307;\g
+CREATE SEQUENCE ticket_priority_938;\g
 -- ----------------------------------------------------------
 --  create table ticket_priority
 -- ----------------------------------------------------------
 CREATE TABLE ticket_priority (
-    id SMALLINT NOT NULL DEFAULT ticket_priority_307.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT ticket_priority_938.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -32,12 +32,12 @@ CREATE TABLE ticket_priority (
 );\g
 MODIFY ticket_priority TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE ticket_priority ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE ticket_type_264;\g
+CREATE SEQUENCE ticket_type_984;\g
 -- ----------------------------------------------------------
 --  create table ticket_type
 -- ----------------------------------------------------------
 CREATE TABLE ticket_type (
-    id SMALLINT NOT NULL DEFAULT ticket_type_264.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT ticket_type_984.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -48,12 +48,12 @@ CREATE TABLE ticket_type (
 );\g
 MODIFY ticket_type TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE ticket_type ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE ticket_lock_type_669;\g
+CREATE SEQUENCE ticket_lock_type_362;\g
 -- ----------------------------------------------------------
 --  create table ticket_lock_type
 -- ----------------------------------------------------------
 CREATE TABLE ticket_lock_type (
-    id SMALLINT NOT NULL DEFAULT ticket_lock_type_669.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT ticket_lock_type_362.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -64,12 +64,12 @@ CREATE TABLE ticket_lock_type (
 );\g
 MODIFY ticket_lock_type TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE ticket_lock_type ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE users_748;\g
+CREATE SEQUENCE users_142;\g
 -- ----------------------------------------------------------
 --  create table users
 -- ----------------------------------------------------------
 CREATE TABLE users (
-    id INTEGER NOT NULL DEFAULT users_748.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT users_142.NEXTVAL,
     login VARCHAR(200) NOT NULL,
     pw VARCHAR(50) NOT NULL,
     title VARCHAR(50),
@@ -94,12 +94,12 @@ CREATE TABLE user_preferences (
 );\g
 MODIFY user_preferences TO btree;\g
 CREATE INDEX user_preferences_user_id ON user_preferences (user_id);\g
-CREATE SEQUENCE groups_498;\g
+CREATE SEQUENCE groups_151;\g
 -- ----------------------------------------------------------
 --  create table groups
 -- ----------------------------------------------------------
 CREATE TABLE groups (
-    id INTEGER NOT NULL DEFAULT groups_498.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT groups_151.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     comments VARCHAR(250),
     valid_id SMALLINT NOT NULL,
@@ -159,12 +159,12 @@ CREATE TABLE group_customer_user (
 MODIFY group_customer_user TO btree;\g
 CREATE INDEX group_customer_user_group_id ON group_customer_user (group_id);\g
 CREATE INDEX group_customer_user_user_id ON group_customer_user (user_id);\g
-CREATE SEQUENCE roles_721;\g
+CREATE SEQUENCE roles_940;\g
 -- ----------------------------------------------------------
 --  create table roles
 -- ----------------------------------------------------------
 CREATE TABLE roles (
-    id INTEGER NOT NULL DEFAULT roles_721.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT roles_940.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     comments VARCHAR(250),
     valid_id SMALLINT NOT NULL,
@@ -200,12 +200,12 @@ CREATE TABLE personal_queues (
 MODIFY personal_queues TO btree;\g
 CREATE INDEX personal_queues_queue_id ON personal_queues (queue_id);\g
 CREATE INDEX personal_queues_user_id ON personal_queues (user_id);\g
-CREATE SEQUENCE theme_894;\g
+CREATE SEQUENCE theme_248;\g
 -- ----------------------------------------------------------
 --  create table theme
 -- ----------------------------------------------------------
 CREATE TABLE theme (
-    id SMALLINT NOT NULL DEFAULT theme_894.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT theme_248.NEXTVAL,
     theme VARCHAR(100) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -216,12 +216,12 @@ CREATE TABLE theme (
 );\g
 MODIFY theme TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE theme ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE ticket_state_658;\g
+CREATE SEQUENCE ticket_state_276;\g
 -- ----------------------------------------------------------
 --  create table ticket_state
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state (
-    id SMALLINT NOT NULL DEFAULT ticket_state_658.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT ticket_state_276.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     comments VARCHAR(250),
     type_id SMALLINT NOT NULL,
@@ -234,12 +234,12 @@ CREATE TABLE ticket_state (
 );\g
 MODIFY ticket_state TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE ticket_state ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE ticket_state_type_718;\g
+CREATE SEQUENCE ticket_state_type_143;\g
 -- ----------------------------------------------------------
 --  create table ticket_state_type
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state_type (
-    id SMALLINT NOT NULL DEFAULT ticket_state_type_718.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT ticket_state_type_143.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     comments VARCHAR(250),
     create_time TIMESTAMP NOT NULL,
@@ -250,12 +250,12 @@ CREATE TABLE ticket_state_type (
 );\g
 MODIFY ticket_state_type TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE ticket_state_type ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE salutation_680;\g
+CREATE SEQUENCE salutation_558;\g
 -- ----------------------------------------------------------
 --  create table salutation
 -- ----------------------------------------------------------
 CREATE TABLE salutation (
-    id SMALLINT NOT NULL DEFAULT salutation_680.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT salutation_558.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     text VARCHAR(3000) NOT NULL,
     content_type VARCHAR(250),
@@ -269,12 +269,12 @@ CREATE TABLE salutation (
 );\g
 MODIFY salutation TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE salutation ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE signature_812;\g
+CREATE SEQUENCE signature_10;\g
 -- ----------------------------------------------------------
 --  create table signature
 -- ----------------------------------------------------------
 CREATE TABLE signature (
-    id SMALLINT NOT NULL DEFAULT signature_812.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT signature_10.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     text VARCHAR(3000) NOT NULL,
     content_type VARCHAR(250),
@@ -288,12 +288,12 @@ CREATE TABLE signature (
 );\g
 MODIFY signature TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE signature ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE system_address_682;\g
+CREATE SEQUENCE system_address_600;\g
 -- ----------------------------------------------------------
 --  create table system_address
 -- ----------------------------------------------------------
 CREATE TABLE system_address (
-    id SMALLINT NOT NULL DEFAULT system_address_682.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT system_address_600.NEXTVAL,
     value0 VARCHAR(200) NOT NULL,
     value1 VARCHAR(200) NOT NULL,
     value2 VARCHAR(200),
@@ -308,12 +308,12 @@ CREATE TABLE system_address (
 );\g
 MODIFY system_address TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE system_address ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE follow_up_possible_147;\g
+CREATE SEQUENCE follow_up_possible_394;\g
 -- ----------------------------------------------------------
 --  create table follow_up_possible
 -- ----------------------------------------------------------
 CREATE TABLE follow_up_possible (
-    id SMALLINT NOT NULL DEFAULT follow_up_possible_147.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT follow_up_possible_394.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     comments VARCHAR(250),
     valid_id SMALLINT NOT NULL,
@@ -325,12 +325,12 @@ CREATE TABLE follow_up_possible (
 );\g
 MODIFY follow_up_possible TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE follow_up_possible ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE queue_217;\g
+CREATE SEQUENCE queue_327;\g
 -- ----------------------------------------------------------
 --  create table queue
 -- ----------------------------------------------------------
 CREATE TABLE queue (
-    id INTEGER NOT NULL DEFAULT queue_217.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT queue_327.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     group_id INTEGER NOT NULL,
     unlock_timeout INTEGER,
@@ -368,12 +368,12 @@ CREATE TABLE queue_preferences (
 );\g
 MODIFY queue_preferences TO btree;\g
 CREATE INDEX queue_preferences_queue_id ON queue_preferences (queue_id);\g
-CREATE SEQUENCE ticket_536;\g
+CREATE SEQUENCE ticket_222;\g
 -- ----------------------------------------------------------
 --  create table ticket
 -- ----------------------------------------------------------
 CREATE TABLE ticket (
-    id BIGINT NOT NULL DEFAULT ticket_536.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT ticket_222.NEXTVAL,
     tn VARCHAR(50) NOT NULL,
     title VARCHAR(255),
     queue_id INTEGER NOT NULL,
@@ -438,6 +438,7 @@ CREATE TABLE ticket (
     freetime5 TIMESTAMP,
     freetime6 TIMESTAMP,
     valid_id SMALLINT NOT NULL,
+    archive_flag SMALLINT NOT NULL,
     create_time_unix BIGINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -462,16 +463,18 @@ CREATE INDEX ticket_customer_id ON ticket (customer_id);\g
 CREATE INDEX ticket_answered ON ticket (ticket_answered);\g
 CREATE INDEX ticket_escalation_solution_time ON ticket (escalation_solution_time);\g
 CREATE INDEX ticket_escalation_update_time ON ticket (escalation_update_time);\g
+CREATE INDEX ticket_archive_flag ON ticket (archive_flag);\g
+CREATE INDEX ticket_create_time ON ticket (create_time);\g
 CREATE INDEX ticket_escalation_response_time ON ticket (escalation_response_time);\g
 CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);\g
 CREATE INDEX ticket_escalation_time ON ticket (escalation_time);\g
 CREATE INDEX ticket_queue_id ON ticket (queue_id);\g
-CREATE SEQUENCE link_type_504;\g
+CREATE SEQUENCE link_type_279;\g
 -- ----------------------------------------------------------
 --  create table link_type
 -- ----------------------------------------------------------
 CREATE TABLE link_type (
-    id SMALLINT NOT NULL DEFAULT link_type_504.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT link_type_279.NEXTVAL,
     name VARCHAR(50) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -482,12 +485,12 @@ CREATE TABLE link_type (
 );\g
 MODIFY link_type TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE link_type ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE link_state_169;\g
+CREATE SEQUENCE link_state_577;\g
 -- ----------------------------------------------------------
 --  create table link_state
 -- ----------------------------------------------------------
 CREATE TABLE link_state (
-    id SMALLINT NOT NULL DEFAULT link_state_169.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT link_state_577.NEXTVAL,
     name VARCHAR(50) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -498,12 +501,12 @@ CREATE TABLE link_state (
 );\g
 MODIFY link_state TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE link_state ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE link_object_476;\g
+CREATE SEQUENCE link_object_719;\g
 -- ----------------------------------------------------------
 --  create table link_object
 -- ----------------------------------------------------------
 CREATE TABLE link_object (
-    id SMALLINT NOT NULL DEFAULT link_object_476.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT link_object_719.NEXTVAL,
     name VARCHAR(100) NOT NULL,
     UNIQUE (name)
 );\g
@@ -524,12 +527,12 @@ CREATE TABLE link_relation (
     UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
 );\g
 MODIFY link_relation TO btree;\g
-CREATE SEQUENCE ticket_history_559;\g
+CREATE SEQUENCE ticket_history_869;\g
 -- ----------------------------------------------------------
 --  create table ticket_history
 -- ----------------------------------------------------------
 CREATE TABLE ticket_history (
-    id BIGINT NOT NULL DEFAULT ticket_history_559.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT ticket_history_869.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     history_type_id SMALLINT NOT NULL,
     ticket_id BIGINT NOT NULL,
@@ -555,12 +558,12 @@ CREATE INDEX ticket_history_state_id ON ticket_history (state_id);\g
 CREATE INDEX ticket_history_type_id ON ticket_history (type_id);\g
 CREATE INDEX ticket_history_owner_id ON ticket_history (owner_id);\g
 CREATE INDEX ticket_history_queue_id ON ticket_history (queue_id);\g
-CREATE SEQUENCE ticket_history_type_29;\g
+CREATE SEQUENCE ticket_history_type_882;\g
 -- ----------------------------------------------------------
 --  create table ticket_history_type
 -- ----------------------------------------------------------
 CREATE TABLE ticket_history_type (
-    id SMALLINT NOT NULL DEFAULT ticket_history_type_29.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT ticket_history_type_882.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     comments VARCHAR(250),
     valid_id SMALLINT NOT NULL,
@@ -572,12 +575,12 @@ CREATE TABLE ticket_history_type (
 );\g
 MODIFY ticket_history_type TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE ticket_history_type ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE article_type_548;\g
+CREATE SEQUENCE article_type_381;\g
 -- ----------------------------------------------------------
 --  create table article_type
 -- ----------------------------------------------------------
 CREATE TABLE article_type (
-    id SMALLINT NOT NULL DEFAULT article_type_548.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT article_type_381.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     comments VARCHAR(250),
     valid_id SMALLINT NOT NULL,
@@ -589,12 +592,12 @@ CREATE TABLE article_type (
 );\g
 MODIFY article_type TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE article_type ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE article_sender_type_309;\g
+CREATE SEQUENCE article_sender_type_117;\g
 -- ----------------------------------------------------------
 --  create table article_sender_type
 -- ----------------------------------------------------------
 CREATE TABLE article_sender_type (
-    id SMALLINT NOT NULL DEFAULT article_sender_type_309.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT article_sender_type_117.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     comments VARCHAR(250),
     valid_id SMALLINT NOT NULL,
@@ -618,12 +621,12 @@ CREATE TABLE article_flag (
 MODIFY article_flag TO btree;\g
 CREATE INDEX article_flag_create_by ON article_flag (create_by);\g
 CREATE INDEX article_flag_article_id ON article_flag (article_id);\g
-CREATE SEQUENCE article_826;\g
+CREATE SEQUENCE article_104;\g
 -- ----------------------------------------------------------
 --  create table article
 -- ----------------------------------------------------------
 CREATE TABLE article (
-    id BIGINT NOT NULL DEFAULT article_826.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT article_104.NEXTVAL,
     ticket_id BIGINT NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,
@@ -685,12 +688,12 @@ CREATE INDEX article_search_article_sender_type_id ON article_search (article_se
 CREATE INDEX article_search_message_id ON article_search (a_message_id);\g
 CREATE INDEX article_search_ticket_id ON article_search (ticket_id);\g
 CREATE INDEX article_search_article_type_id ON article_search (article_type_id);\g
-CREATE SEQUENCE article_plain_650;\g
+CREATE SEQUENCE article_plain_204;\g
 -- ----------------------------------------------------------
 --  create table article_plain
 -- ----------------------------------------------------------
 CREATE TABLE article_plain (
-    id BIGINT NOT NULL DEFAULT article_plain_650.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT article_plain_204.NEXTVAL,
     article_id BIGINT NOT NULL,
     body LONG BYTE NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -701,12 +704,12 @@ CREATE TABLE article_plain (
 MODIFY article_plain TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE article_plain ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
 CREATE INDEX article_plain_article_id ON article_plain (article_id);\g
-CREATE SEQUENCE article_attachment_940;\g
+CREATE SEQUENCE article_attachment_813;\g
 -- ----------------------------------------------------------
 --  create table article_attachment
 -- ----------------------------------------------------------
 CREATE TABLE article_attachment (
-    id BIGINT NOT NULL DEFAULT article_attachment_940.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT article_attachment_813.NEXTVAL,
     article_id BIGINT NOT NULL,
     filename VARCHAR(250),
     content_size VARCHAR(30),
@@ -722,12 +725,12 @@ CREATE TABLE article_attachment (
 MODIFY article_attachment TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE article_attachment ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
 CREATE INDEX article_attachment_article_id ON article_attachment (article_id);\g
-CREATE SEQUENCE standard_response_434;\g
+CREATE SEQUENCE standard_response_577;\g
 -- ----------------------------------------------------------
 --  create table standard_response
 -- ----------------------------------------------------------
 CREATE TABLE standard_response (
-    id INTEGER NOT NULL DEFAULT standard_response_434.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT standard_response_577.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     text VARCHAR(10000),
     content_type VARCHAR(250),
@@ -753,12 +756,12 @@ CREATE TABLE queue_standard_response (
     change_by INTEGER NOT NULL
 );\g
 MODIFY queue_standard_response TO btree;\g
-CREATE SEQUENCE standard_attachment_128;\g
+CREATE SEQUENCE standard_attachment_95;\g
 -- ----------------------------------------------------------
 --  create table standard_attachment
 -- ----------------------------------------------------------
 CREATE TABLE standard_attachment (
-    id INTEGER NOT NULL DEFAULT standard_attachment_128.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT standard_attachment_95.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     content_type VARCHAR(250) NOT NULL,
     content LONG BYTE NOT NULL,
@@ -788,12 +791,12 @@ CREATE TABLE standard_response_attachment (
 );\g
 MODIFY standard_response_attachment TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE standard_response_attachment ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE auto_response_type_41;\g
+CREATE SEQUENCE auto_response_type_526;\g
 -- ----------------------------------------------------------
 --  create table auto_response_type
 -- ----------------------------------------------------------
 CREATE TABLE auto_response_type (
-    id SMALLINT NOT NULL DEFAULT auto_response_type_41.NEXTVAL,
+    id SMALLINT NOT NULL DEFAULT auto_response_type_526.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     comments VARCHAR(250),
     valid_id SMALLINT NOT NULL,
@@ -805,12 +808,12 @@ CREATE TABLE auto_response_type (
 );\g
 MODIFY auto_response_type TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE auto_response_type ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE auto_response_408;\g
+CREATE SEQUENCE auto_response_4;\g
 -- ----------------------------------------------------------
 --  create table auto_response
 -- ----------------------------------------------------------
 CREATE TABLE auto_response (
-    id INTEGER NOT NULL DEFAULT auto_response_408.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT auto_response_4.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     text0 VARCHAR(6000),
     text1 VARCHAR(6000),
@@ -829,12 +832,12 @@ CREATE TABLE auto_response (
 );\g
 MODIFY auto_response TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE auto_response ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE queue_auto_response_262;\g
+CREATE SEQUENCE queue_auto_response_662;\g
 -- ----------------------------------------------------------
 --  create table queue_auto_response
 -- ----------------------------------------------------------
 CREATE TABLE queue_auto_response (
-    id INTEGER NOT NULL DEFAULT queue_auto_response_262.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT queue_auto_response_662.NEXTVAL,
     queue_id INTEGER NOT NULL,
     auto_response_id INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -844,12 +847,12 @@ CREATE TABLE queue_auto_response (
 );\g
 MODIFY queue_auto_response TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE queue_auto_response ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE time_accounting_946;\g
+CREATE SEQUENCE time_accounting_693;\g
 -- ----------------------------------------------------------
 --  create table time_accounting
 -- ----------------------------------------------------------
 CREATE TABLE time_accounting (
-    id BIGINT NOT NULL DEFAULT time_accounting_946.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT time_accounting_693.NEXTVAL,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT,
     time_unit DECIMAL (10,2) NOT NULL,
@@ -875,12 +878,12 @@ CREATE TABLE ticket_watcher (
 MODIFY ticket_watcher TO btree;\g
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);\g
 CREATE INDEX ticket_watcher_ticket_id ON ticket_watcher (ticket_id);\g
-CREATE SEQUENCE service_448;\g
+CREATE SEQUENCE service_505;\g
 -- ----------------------------------------------------------
 --  create table service
 -- ----------------------------------------------------------
 CREATE TABLE service (
-    id INTEGER NOT NULL DEFAULT service_448.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT service_505.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     valid_id SMALLINT NOT NULL,
     comments VARCHAR(250),
@@ -914,12 +917,12 @@ CREATE TABLE service_customer_user (
 MODIFY service_customer_user TO btree;\g
 CREATE INDEX service_customer_user_customer_user_login ON service_customer_user (customer_user_login);\g
 CREATE INDEX service_customer_user_service_id ON service_customer_user (service_id);\g
-CREATE SEQUENCE sla_238;\g
+CREATE SEQUENCE sla_781;\g
 -- ----------------------------------------------------------
 --  create table sla
 -- ----------------------------------------------------------
 CREATE TABLE sla (
-    id INTEGER NOT NULL DEFAULT sla_238.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT sla_781.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     calendar_name VARCHAR(100),
     first_response_time INTEGER NOT NULL,
@@ -990,12 +993,12 @@ CREATE TABLE ticket_lock_index (
 );\g
 MODIFY ticket_lock_index TO btree;\g
 CREATE INDEX ticket_lock_index_ticket_id ON ticket_lock_index (ticket_id);\g
-CREATE SEQUENCE customer_user_683;\g
+CREATE SEQUENCE customer_user_654;\g
 -- ----------------------------------------------------------
 --  create table customer_user
 -- ----------------------------------------------------------
 CREATE TABLE customer_user (
-    id INTEGER NOT NULL DEFAULT customer_user_683.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT customer_user_654.NEXTVAL,
     login VARCHAR(200) NOT NULL,
     email VARCHAR(150) NOT NULL,
     customer_id VARCHAR(150) NOT NULL,
@@ -1061,12 +1064,12 @@ CREATE TABLE ticket_loop_protection (
 MODIFY ticket_loop_protection TO btree;\g
 CREATE INDEX ticket_loop_protection_sent_date ON ticket_loop_protection (sent_date);\g
 CREATE INDEX ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);\g
-CREATE SEQUENCE mail_account_625;\g
+CREATE SEQUENCE mail_account_57;\g
 -- ----------------------------------------------------------
 --  create table mail_account
 -- ----------------------------------------------------------
 CREATE TABLE mail_account (
-    id INTEGER NOT NULL DEFAULT mail_account_625.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT mail_account_57.NEXTVAL,
     login VARCHAR(200) NOT NULL,
     pw VARCHAR(200) NOT NULL,
     host VARCHAR(200) NOT NULL,
@@ -1140,12 +1143,12 @@ CREATE TABLE web_upload_cache (
     create_time_unix BIGINT NOT NULL
 );\g
 MODIFY web_upload_cache TO btree;\g
-CREATE SEQUENCE notifications_624;\g
+CREATE SEQUENCE notifications_737;\g
 -- ----------------------------------------------------------
 --  create table notifications
 -- ----------------------------------------------------------
 CREATE TABLE notifications (
-    id INTEGER NOT NULL DEFAULT notifications_624.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT notifications_737.NEXTVAL,
     notification_type VARCHAR(200) NOT NULL,
     notification_charset VARCHAR(60) NOT NULL,
     notification_language VARCHAR(60) NOT NULL,
@@ -1159,12 +1162,12 @@ CREATE TABLE notifications (
 );\g
 MODIFY notifications TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE notifications ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE notification_event_735;\g
+CREATE SEQUENCE notification_event_218;\g
 -- ----------------------------------------------------------
 --  create table notification_event
 -- ----------------------------------------------------------
 CREATE TABLE notification_event (
-    id INTEGER NOT NULL DEFAULT notification_event_735.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT notification_event_218.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     subject VARCHAR(200) NOT NULL,
     text VARCHAR(4000) NOT NULL,
@@ -1204,12 +1207,12 @@ CREATE TABLE xml_storage (
 MODIFY xml_storage TO btree;\g
 CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);\g
 CREATE INDEX xml_storage_key_type ON xml_storage (xml_key, xml_type);\g
-CREATE SEQUENCE virtual_fs_29;\g
+CREATE SEQUENCE virtual_fs_732;\g
 -- ----------------------------------------------------------
 --  create table virtual_fs
 -- ----------------------------------------------------------
 CREATE TABLE virtual_fs (
-    id BIGINT NOT NULL DEFAULT virtual_fs_29.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_732.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     backend VARCHAR(60) NOT NULL,
     backend_key VARCHAR(160) NOT NULL,
@@ -1229,12 +1232,12 @@ CREATE TABLE virtual_fs_preferences (
 );\g
 MODIFY virtual_fs_preferences TO btree;\g
 CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);\g
-CREATE SEQUENCE virtual_fs_db_736;\g
+CREATE SEQUENCE virtual_fs_db_366;\g
 -- ----------------------------------------------------------
 --  create table virtual_fs_db
 -- ----------------------------------------------------------
 CREATE TABLE virtual_fs_db (
-    id BIGINT NOT NULL DEFAULT virtual_fs_db_736.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_db_366.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     content LONG BYTE NOT NULL,
     create_time TIMESTAMP NOT NULL
@@ -1242,12 +1245,12 @@ CREATE TABLE virtual_fs_db (
 MODIFY virtual_fs_db TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE virtual_fs_db ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
 CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);\g
-CREATE SEQUENCE package_repository_709;\g
+CREATE SEQUENCE package_repository_884;\g
 -- ----------------------------------------------------------
 --  create table package_repository
 -- ----------------------------------------------------------
 CREATE TABLE package_repository (
-    id INTEGER NOT NULL DEFAULT package_repository_709.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT package_repository_884.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     version VARCHAR(250) NOT NULL,
     vendor VARCHAR(250) NOT NULL,

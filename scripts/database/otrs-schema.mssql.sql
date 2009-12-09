@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-12-09 09:12:12
+--  driver: mssql, generated: 2009-12-09 12:33:59
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -400,6 +400,7 @@ CREATE TABLE ticket (
     freetime5 DATETIME NULL,
     freetime6 DATETIME NULL,
     valid_id SMALLINT NOT NULL,
+    archive_flag SMALLINT NOT NULL,
     create_time_unix BIGINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -408,7 +409,10 @@ CREATE TABLE ticket (
     PRIMARY KEY(id),
     CONSTRAINT ticket_tn UNIQUE (tn)
 );
+ALTER TABLE ticket ADD CONSTRAINT DF_ticket_archive_flag DEFAULT (0) FOR archive_flag;
 CREATE INDEX ticket_answered ON ticket (ticket_answered);
+CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
+CREATE INDEX ticket_create_time ON ticket (create_time);
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 CREATE INDEX ticket_customer_id ON ticket (customer_id);
 CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);

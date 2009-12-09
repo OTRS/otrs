@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2009-12-09 09:12:13
+--  driver: postgresql, generated: 2009-12-09 12:34:00
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -400,6 +400,7 @@ CREATE TABLE ticket (
     freetime5 timestamp(0) NULL,
     freetime6 timestamp(0) NULL,
     valid_id INTEGER NOT NULL,
+    archive_flag INTEGER DEFAULT 0 NOT NULL,
     create_time_unix INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
@@ -409,6 +410,8 @@ CREATE TABLE ticket (
     CONSTRAINT ticket_tn UNIQUE (tn)
 );
 CREATE INDEX ticket_answered ON ticket (ticket_answered);
+CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
+CREATE INDEX ticket_create_time ON ticket (create_time);
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 CREATE INDEX ticket_customer_id ON ticket (customer_id);
 CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);

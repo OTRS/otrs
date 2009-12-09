@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2009-09-21 18:21:53
+--  driver: ingres, generated: 2009-12-09 12:28:01
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -631,6 +631,12 @@ INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, cha
 INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     (39, 'SLAUpdate', 1, 1, current_timestamp, 1, current_timestamp);\g
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    (40, 'ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);\g
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------

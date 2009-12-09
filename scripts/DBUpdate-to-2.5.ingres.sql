@@ -1,9 +1,19 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2009-12-09 09:13:12
+--  driver: ingres, generated: 2009-12-09 12:36:19
 -- ----------------------------------------------------------
-CREATE SEQUENCE virtual_fs_129;\g
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ADD COLUMN archive_flag SMALLINT NOT NULL WITH DEFAULT;\g
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    (40, 'ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);\g
+CREATE SEQUENCE virtual_fs_652;\g
 CREATE TABLE virtual_fs (
-    id BIGINT NOT NULL DEFAULT virtual_fs_129.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_652.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     backend VARCHAR(60) NOT NULL,
     backend_key VARCHAR(160) NOT NULL,
@@ -20,9 +30,9 @@ CREATE TABLE virtual_fs_preferences (
 );\g
 MODIFY virtual_fs_preferences TO btree;\g
 CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);\g
-CREATE SEQUENCE virtual_fs_db_107;\g
+CREATE SEQUENCE virtual_fs_db_441;\g
 CREATE TABLE virtual_fs_db (
-    id BIGINT NOT NULL DEFAULT virtual_fs_db_107.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_db_441.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     content LONG BYTE NOT NULL,
     create_time TIMESTAMP NOT NULL

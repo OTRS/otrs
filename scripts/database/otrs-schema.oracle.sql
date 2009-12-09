@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-12-09 09:12:12
+--  driver: oracle, generated: 2009-12-09 12:34:00
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -666,6 +666,7 @@ CREATE TABLE ticket (
     freetime5 DATE NULL,
     freetime6 DATE NULL,
     valid_id NUMBER (5, 0) NOT NULL,
+    archive_flag NUMBER (5, 0) DEFAULT 0 NOT NULL,
     create_time_unix NUMBER (20, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -694,6 +695,8 @@ CREATE INDEX FK_ticket_service_id ON ticket (service_id);
 CREATE INDEX FK_ticket_sla_id ON ticket (sla_id);
 CREATE INDEX FK_ticket_valid_id ON ticket (valid_id);
 CREATE INDEX ticket_answered ON ticket (ticket_answered);
+CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
+CREATE INDEX ticket_create_time ON ticket (create_time);
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 CREATE INDEX ticket_customer_id ON ticket (customer_id);
 CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-09-21 18:21:54
+--  driver: mssql, generated: 2009-12-09 12:28:07
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -631,6 +631,12 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
 INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('SLAUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------

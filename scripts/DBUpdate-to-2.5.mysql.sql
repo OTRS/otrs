@@ -1,8 +1,22 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2009-12-09 09:13:12
+#  driver: mysql, generated: 2009-12-09 12:36:20
 # ----------------------------------------------------------
+# ----------------------------------------------------------
+#  alter table ticket
+# ----------------------------------------------------------
+ALTER TABLE ticket ADD archive_flag SMALLINT NULL;
+UPDATE ticket SET archive_flag = 0 WHERE archive_flag IS NULL;
+ALTER TABLE ticket CHANGE archive_flag archive_flag SMALLINT DEFAULT 0 NOT NULL;
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
+CREATE INDEX ticket_create_time ON ticket (create_time);
 CREATE INDEX ticket_until_time ON ticket (until_time);
+CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
+# ----------------------------------------------------------
+#  insert into table ticket_history_type
+# ----------------------------------------------------------
+INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    (40, 'ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  create table virtual_fs
 # ----------------------------------------------------------
