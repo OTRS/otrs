@@ -2,7 +2,7 @@
 # AgentStatsOverview.dtl - provides HTML form for lists stats
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsOverview.dtl,v 1.10 2009-11-25 16:19:58 mg Exp $
+# $Id: AgentStatsOverview.dtl,v 1.11 2009-12-09 08:40:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,16 +27,16 @@
                 <tr><td></td></tr>
                 <tr class="contenthead">
                     <td>$Text{"$Config{"Stats::StatsHook"}"}
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=ID;Direction=ASC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" /></a>&nbsp;/
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=ID;Direction=DESC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" /></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=ID;Direction=ASC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"/></a>&nbsp;/
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=ID;Direction=DESC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
                     </td>
                     <td>$Text{"Title"}
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Title;Direction=ASC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" /></a>&nbsp;/
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Title;Direction=DESC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" /></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Title;Direction=ASC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}" /></a>&nbsp;/
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Title;Direction=DESC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
                     </td>
                     <td>$Text{"Object"}
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Object;Direction=ASC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" /></a>&nbsp;/
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Object;Direction=DESC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" /></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Object;Direction=ASC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}" /></a>&nbsp;/
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Object;Direction=DESC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
                     </td>
                     <td>$Text{"Description"}</td>
                 </tr>
