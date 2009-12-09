@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.200 2009-12-09 17:06:37 mh Exp $
+# $Id: Layout.pm,v 1.201 2009-12-09 18:13:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.200 $) [1];
+$VERSION = qw($Revision: 1.201 $) [1];
 
 =head1 NAME
 
@@ -1305,7 +1305,7 @@ convert ascii to html string
 also string ref is possible
 
     my $HTMLStringRef = $LayoutObject->Ascii2Html(
-        Text            => \$Sting,
+        Text => \$Sting,
     );
 
 =cut
@@ -1313,19 +1313,11 @@ also string ref is possible
 sub Ascii2Html {
     my ( $Self, %Param ) = @_;
 
-    my $Max             = $Param{Max}             || '';
-    my $VMax            = $Param{VMax}            || '';
-    my $NewLine         = $Param{NewLine}         || '';
-    my $HTMLMode        = $Param{HTMLResultMode}  || '';
-    my $StripEmptyLines = $Param{StripEmptyLines} || '';
-    my $Type            = $Param{Type}            || '';
-
     return '' if !defined $Param{Text};
 
-    # check ref
+    # check text
     my $TextScalar;
     my $Text;
-
     if ( !ref $Param{Text} ) {
         $TextScalar = 1;
         $Text       = \$Param{Text};
@@ -1339,45 +1331,54 @@ sub Ascii2Html {
 
     my @Filters;
     if ( $Param{LinkFeature} && $Self->{FilterText} ) {
+
         my %Filters = %{ $Self->{FilterText} };
+
+        FILTER:
         for my $Filter ( sort keys %Filters ) {
 
             # load module
             my $Module = $Filters{$Filter}->{Module};
-            if ( !$Self->{MainObject}->Require($Module) ) {
-                $Self->FatalDie();
-            }
+
+            $Self->FatalDie() if !$Self->{MainObject}->Require($Module);
+
+            # create new instance
             my $Object = $Module->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next if !$Object;
+
+            next FILTER if !$Object;
+
             push(
                 @Filters,
                 {
                     Object => $Object,
-                    Filter => $Filters{$Filter}
+                    Filter => $Filters{$Filter},
                 },
             );
         }
 
         # pre run
         for my $Filter (@Filters) {
-            $Text = $Filter->{Object}->Pre( Filter => $Filter->{Filter}, Data => $Text );
+            $Text = $Filter->{Object}->Pre(
+                Filter => $Filter->{Filter},
+                Data   => $Text,
+            );
         }
     }
 
     # max width
-    if ($Max) {
-        ${$Text} =~ s/^(.{$Max}).+?$/$1\[\.\.\]/gs;
+    if ( $Param{Max} ) {
+        ${$Text} =~ s/^(.{$Param{Max}}).+?$/$1\[\.\.\]/gs;
     }
 
     # newline
-    if ( $NewLine && length($Text) < 140_000 ) {
+    if ( $Param{NewLine} && length($Text) < 140_000 ) {
         ${$Text} =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
         ${$Text} =~ s/\r/\n/g;
-        ${$Text} =~ s/(.{4,$NewLine})(?:\s|\z)/$1\n/gm;
-        my $ForceNewLine = $NewLine + 10;
+        ${$Text} =~ s/(.{4,$Param{NewLine}})(?:\s|\z)/$1\n/gm;
+        my $ForceNewLine = $Param{NewLine} + 10;
         ${$Text} =~ s/(.{$ForceNewLine})(.+?)/$1\n$2/g;
     }
 
@@ -1385,22 +1386,22 @@ sub Ascii2Html {
     ${$Text} =~ s/\t/ /g;
 
     # strip empty lines
-    if ($StripEmptyLines) {
+    if ( $Param{StripEmptyLines} ) {
         ${$Text} =~ s/^\s*\n//mg;
     }
 
     # max lines
-    if ($VMax) {
+    if ( $Param{VMax} ) {
         my @TextList = split( "\n", ${$Text} );
         ${$Text} = '';
         my $Counter = 1;
         for (@TextList) {
-            if ( $Counter <= $VMax ) {
+            if ( $Counter <= $Param{VMax} ) {
                 ${$Text} .= $_ . "\n";
             }
             $Counter++;
         }
-        if ( $Counter >= $VMax ) {
+        if ( $Counter >= $Param{VMax} ) {
             ${$Text} .= "[...]\n";
         }
     }
@@ -1414,25 +1415,24 @@ sub Ascii2Html {
     # text -> html format quoting
     if ( $Param{LinkFeature} ) {
         for my $Filter (@Filters) {
-            $Text = $Filter->{Object}->Post( Filter => $Filter->{Filter}, Data => $Text );
+            $Text = $Filter->{Object}->Post(
+                Filter => $Filter->{Filter},
+                Data   => $Text,
+            );
         }
     }
 
-    if ($HTMLMode) {
+    if ( $Param{HTMLResultMode} ) {
         ${$Text} =~ s/\n/<br\/>\n/g;
         ${$Text} =~ s/  /&nbsp;&nbsp;/g;
     }
-    if ( $Type eq 'JSText' ) {
+
+    if ( $Param{Type} && $Param{Type} eq 'JSText' ) {
         ${$Text} =~ s/'/\\'/g;
     }
 
-    # check ref && return result like called
-    if ( defined $TextScalar ) {
-        return ${$Text};
-    }
-    else {
-        return $Text;
-    }
+    return $Text if ref $Param{Text};
+    return ${$Text};
 }
 
 =item LinkQuote()
@@ -4313,6 +4313,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.200 $ $Date: 2009-12-09 17:06:37 $
+$Revision: 1.201 $ $Date: 2009-12-09 18:13:21 $
 
 =cut
