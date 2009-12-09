@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.67.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: fa.pm,v 1.67.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67.2.3 $) [1];
+$VERSION = qw($Revision: 1.67.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -575,7 +575,7 @@ sub Data {
         'New ticket notification' => 'اعلام درخواست جدید',
         'Send me a notification if there is a new ticket in "My Queues".' => 'دریافت درخواست جدید را به من اطلاع بده.',
         'Follow up notification' => 'اعلام پیگیری درخواست',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'در صورت ارسال یک پیگیری از طرف مشترک به من اطلاع بده.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'در صورت ارسال یک پیگیری از طرف مشترک به من اطلاع بده.',
         'Ticket lock timeout notification' => 'پایان مهلت تحویل گرفتن درخواست را به من اطلاع بده',
         'Send me a notification if a ticket is unlocked by the system.' => 'اگر درخواست توسط سیستم تحویل داده شد به من اطلاع بده',
         'Move notification' => 'اعلام انتقال',

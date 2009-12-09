@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.27.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: et.pm,v 1.27.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27.2.3 $) [1];
+$VERSION = qw($Revision: 1.27.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -567,7 +567,7 @@ sub Data {
         'New ticket notification' => 'Teavitus uuest intsidendist',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Saada mulle teavitus, kui "Minu järjekordades" on uusi intsidente.',
         'Follow up notification' => 'Teavitus vastusest',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Saada mulle teavitus, kui klient vastab ja mina olen intsidendi omanik.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Saada mulle teavitus, kui klient vastab ja mina olen intsidendi omanik.',
         'Ticket lock timeout notification' => 'Intsidendi luku aegumise teavitus',
         'Send me a notification if a ticket is unlocked by the system.' => 'Saada mulle teavitus, kui intsidendilt eemaldatakse automaatselt lukk.',
         'Move notification' => 'Järjekorravahetuse teavitus',

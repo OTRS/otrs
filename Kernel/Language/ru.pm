@@ -5,7 +5,7 @@
 # Copyright (C) 2008-2009 Egor Tsilenko <bg8s at symlink.ru>
 # Copyright (C) 2009 Andrey Cherepanov <cas at altlinux.ru>
 # --
-# $Id: ru.pm,v 1.87.2.3 2009-11-24 10:34:59 mb Exp $
+# $Id: ru.pm,v 1.87.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87.2.3 $) [1];
+$VERSION = qw($Revision: 1.87.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -575,7 +575,7 @@ sub Data {
         'New ticket notification' => '”ведомление о новой за€вке',
         'Send me a notification if there is a new ticket in "My Queues".' => '”ведомление о новых за€вках',
         'Follow up notification' => '”ведомление об обновлени€х',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'ѕрислать мне уведомление, если клиент прислал ответ и € владелец за€вки.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'ѕрислать мне уведомление, если клиент прислал ответ и € владелец за€вки.',
         'Ticket lock timeout notification' => '”ведомление об истечении срока блокировки за€вки системой',
         'Send me a notification if a ticket is unlocked by the system.' => 'ѕрислать мне уведомление, если за€вка освобождена системой.',
         'Move notification' => '”ведомление о перемещении',

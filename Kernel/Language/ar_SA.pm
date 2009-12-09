@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.38.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: ar_SA.pm,v 1.38.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38.2.3 $) [1];
+$VERSION = qw($Revision: 1.38.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -570,7 +570,7 @@ sub Data {
         'New ticket notification' => 'ÊäÈíå ÈØÇŞÉ ÌÏíÏÉ',
         'Send me a notification if there is a new ticket in "My Queues".' => 'ÃÑÓáí ÊäÈíå ÅĞÇ æÌÏÊ ÈØÇŞÉ ÌÏíÏÉ İí ŞÇÆãÉ "ÈØÇŞÇÊí".',
         'Follow up notification' => 'ÊäÈíå ÇáãÊÇÈÚÉ',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'ÃÑÓá Åáí ÊäÈíå ÅĞÇÃÑÓá ÇáÚãíá ãáÍŞ ãÊÇÈÚÉ ááÈØÇŞÉ ÅĞÇ ßÇäÊ ãáß áí.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'ÃÑÓá Åáí ÊäÈíå ÅĞÇÃÑÓá ÇáÚãíá ãáÍŞ ãÊÇÈÚÉ ááÈØÇŞÉ ÅĞÇ ßÇäÊ ãáß áí.',
         'Ticket lock timeout notification' => 'ÊäÈíå ÅäÊåÇÁ æŞÊ ÅŞİÇá ÇáÈØÇŞÉ',
         'Send me a notification if a ticket is unlocked by the system.' => 'ÃÑÓá Åáí ÊäÈíå ÚäÏ İÊÍ ÈØÇŞÉ ÈæÇÓØÉ ÇáäÙÇã ÈÚÏ ÅäÊåÇÁ ÇáæŞÊ ÇáãÎÕÕ áÅŞİÇáåÇ.',
         'Move notification' => 'ÊäÈíå ÚäÏ äŞá ÈØÇŞÉ',

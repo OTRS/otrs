@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.55.2.3 2009-11-24 10:34:59 mb Exp $
+# $Id: sk_SK.pm,v 1.55.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55.2.3 $) [1];
+$VERSION = qw($Revision: 1.55.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -568,7 +568,7 @@ sub Data {
         'New ticket notification' => 'Hlásenie novej po¾iadavky.',
         'Send me a notification if there is a new ticket in "My Queues".' => '',
         'Follow up notification' => 'Nasleduj hlásenie.',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Po¹li mi oznámenie =>  ak klient po¹le overenie a ja som vlastník tejto po¾iadavky.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Po¹li mi oznámenie =>  ak klient po¹le overenie a ja som vlastník tejto po¾iadavky.',
         'Ticket lock timeout notification' => 'Po¾iadavka blokuje èasovı limit oznámenia.',
         'Send me a notification if a ticket is unlocked by the system.' => 'Po¹li mi oznámenie =>  ak je po¾iadavka odblokovaná systémom.',
         'Move notification' => 'Premiestni hlásenie',

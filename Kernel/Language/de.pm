@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.208.2.7 2009-12-09 10:20:09 mg Exp $
+# $Id: de.pm,v 1.208.2.8 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.208.2.7 $) [1];
+$VERSION = qw($Revision: 1.208.2.8 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -572,7 +572,7 @@ sub Data {
         'New ticket notification' => 'Mitteilung bei neuem Ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Zusenden einer Mitteilung bei neuem Ticket in "Meine Queues".',
         'Follow up notification' => 'Mitteilung bei Nachfragen',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Zusenden einer Mitteilung, wenn ein Kunde eine Nachfrage stellt und ich der Besitzer bin.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Zusenden einer Mitteilung, wenn ein Kunde eine Nachfrage stellt und ich der Besitzer bin.',
         'Ticket lock timeout notification' => 'Mitteilung bei Überschreiten der Sperrzeit',
         'Send me a notification if a ticket is unlocked by the system.' => 'Zusenden einer Mitteilung, wenn ein Ticket vom System freigegeben ("unlocked") wird.',
         'Move notification' => 'Mitteilung bei Queue-Wechsel',

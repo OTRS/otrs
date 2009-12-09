@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.94.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: bg.pm,v 1.94.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94.2.3 $) [1];
+$VERSION = qw($Revision: 1.94.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -569,7 +569,7 @@ sub Data {
         'New ticket notification' => 'Напомняне за нов билет',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Изпратете уведомление ако има нов билет в "Собствени опашки".',
         'Follow up notification' => 'Известие за наличност на следене на отговорът',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Изпратете ми известие, ако клиентът изпрати заявка за следене на отговора и аз съм собственик на билета',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Изпратете ми известие, ако клиентът изпрати заявка за следене на отговора и аз съм собственик на билета',
         'Ticket lock timeout notification' => 'Известие за продължителността на заключване на билетът',
         'Send me a notification if a ticket is unlocked by the system.' => 'Изпратете ми известие, ако билетът е отключен от системата.',
         'Move notification' => 'Известие за преместване',

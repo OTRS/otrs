@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.83.2.4 2009-11-24 10:34:58 mb Exp $
+# $Id: nb_NO.pm,v 1.83.2.5 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.83.2.4 $;
+$VERSION = q$Revision: 1.83.2.5 $;
 
 sub Data {
     my $Self = shift;
@@ -571,7 +571,7 @@ sub Data {
         'New ticket notification' => 'Merknad ved nyopprettet sak',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Send meg en melding dersom det kommer en ny sak i mine utvalgte mapper.',
         'Follow up notification' => 'Oppfølgingsmerknad',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Send meg en melding ved kundekorrespondanse på saker jeg står som saksbehandler av.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Send meg en melding ved kundekorrespondanse på saker jeg står som saksbehandler av.',
         'Ticket lock timeout notification' => 'Melding ved overskridelse av tidsfrist for avslutting av sak',
         'Send me a notification if a ticket is unlocked by the system.' => 'Send meg en melding dersom systemet åpner en avsluttet sak.',
         'Move notification' => 'Merknad ved mappe-endring',

@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.81.2.3 2009-11-24 10:34:59 mb Exp $
+# $Id: pt.pm,v 1.81.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81.2.3 $) [1];
+$VERSION = qw($Revision: 1.81.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -568,7 +568,7 @@ sub Data {
         'New ticket notification' => 'Notificação de novo ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Envie-me uma notificação se houver um novo ticket nas "Minhas Filas".',
         'Follow up notification' => 'Notificação de seguimento',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Notifique-me se um cliente enviar um seguimento e eu for proprietário deste ticket.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Notifique-me se um cliente enviar um seguimento e eu for proprietário deste ticket.',
         'Ticket lock timeout notification' => 'Notificação por expiração do tempo de bloqueio',
         'Send me a notification if a ticket is unlocked by the system.' => 'Notifique-me se um ticket for desbloqueado pelo sistema.',
         'Move notification' => 'Notificação de movimentos',

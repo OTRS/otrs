@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.104.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: nl.pm,v 1.104.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104.2.3 $) [1];
+$VERSION = qw($Revision: 1.104.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -590,21 +590,21 @@ sub Data {
         'New ticket notification' => 'Melding bij een nieuw ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Stuur mij een melding als er een nieuw ticket in Mijn wachtrijen komt.',
         'Follow up notification' => 'Melding bij vervolgvragen',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Stuur mij een melding als een klant een vervolgvraag stelt en ik de eigenaar van het ticket ben',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Stuur mij een melding als een klant een vervolgvraag stelt en ik de eigenaar van het ticket ben, of als het ticket niet vergrendeld is en in Mijn Wachtrijen staat.',
         'Ticket lock timeout notification' => 'Stuur mij een melding van tijdsoverschrijding van een vergrendeld ticket',
-        'Send me a notification if a ticket is unlocked by the system.' => 'Stuur mij een melding van een bericht als een ticket wordt ontgrendeld door het systeem',
+        'Send me a notification if a ticket is unlocked by the system.' => 'Stuur mij een melding van een bericht als een ticket wordt ontgrendeld door het systeem.',
         'Move notification' => 'Stuur mij een melding bij het verplaatsen van een ticket',
-        'Send me a notification if a ticket is moved into one of "My Queues".' => ' Stuur mij een melding als een ticket wordt verplaatst in een gewijzigde wachtrij',
+        'Send me a notification if a ticket is moved into one of "My Queues".' => ' Stuur mij een melding als een ticket wordt verplaatst in een gewijzigde wachtrij.',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Uw selectie van favoriete wachtrijen. U ontvangt automatisch een melding van nieuwe tickets in deze wachtrij, als u hiervoor heeft gekozen.',
         'Custom Queue' => 'Aangepaste wachtrij.',
         'QueueView refresh time' => 'Verversingstijd wachtrij',
         'Screen after new ticket' => 'Scherm na het aanmaken van een nieuw ticket',
-        'Select your screen after creating a new ticket.' => 'Selecteer het vervolgscherm na het invoeren van een nieuw ticket',
+        'Select your screen after creating a new ticket.' => 'Selecteer het vervolgscherm na het invoeren van een nieuw ticket.',
         'Closed Tickets' => 'Afgesloten tickets',
         'Show closed tickets.' => 'Toon gesloten tickets',
-        'Max. shown Tickets a page in QueueView.' => 'Max. getoonde tickets per pagina in wachtrijscherm',
+        'Max. shown Tickets a page in QueueView.' => 'Max. getoonde tickets per pagina in wachtrijscherm.',
         'Watch notification' => 'Gevolgde tickets',
-        'Send me a notification of an watched ticket like an owner of an ticket.' => 'Stuur mij notificaties van gevolgde tickets alsof ik de eigenaar ben',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => 'Stuur mij notificaties van gevolgde tickets alsof ik de eigenaar ben.',
         'Out Of Office' => 'Afwezigheid',
         'Select your out of office time.' => 'Geef hieronder het tijdvak aan waarin u afwezig bent. Gedurende deze periode zien andere behandelaars uw afwezigheid.',
         'CompanyTickets' => 'Tickets van bedrijf',

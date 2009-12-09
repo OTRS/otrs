@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.59.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: da.pm,v 1.59.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.59.2.3 $) [1];
+$VERSION = qw($Revision: 1.59.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -569,7 +569,7 @@ sub Data {
         'New ticket notification' => 'Besked om ny sag',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Send mig en besked, hvis der er en ny sag i "Mine køer".',
         'Follow up notification' => 'Besked om opfølgning',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Send mig en besked, hvis en kunde sender en opfølgning, og jeg er denne sags indehaver.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Send mig en besked, hvis en kunde sender en opfølgning, og jeg er denne sags indehaver.',
         'Ticket lock timeout notification' => 'Besked om saglås efter tidsfristens udløb',
         'Send me a notification if a ticket is unlocked by the system.' => 'Send mig en besked, hvis systemet låser en sag op.',
         'Move notification' => 'Besked om flytning',

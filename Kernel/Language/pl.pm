@@ -3,7 +3,7 @@
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.83.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: pl.pm,v 1.83.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83.2.3 $) [1];
+$VERSION = qw($Revision: 1.83.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -571,7 +571,7 @@ sub Data {
         'New ticket notification' => 'Powiadomienie o nowym zg³oszeniu',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Powiadom o nowym zg³oszeniu w moich kolejkach.',
         'Follow up notification' => 'Powiadomienie o odpowiedzi',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Wy¶lij mi wiadomo¶æ, gdy klient odpowie na zg³oszenie, którego ja jestem w³a¶cicielem.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Wy¶lij mi wiadomo¶æ, gdy klient odpowie na zg³oszenie, którego ja jestem w³a¶cicielem.',
         'Ticket lock timeout notification' => 'Powiadomienie o przekroczonym czasie blokady zg³oszenia',
         'Send me a notification if a ticket is unlocked by the system.' => 'Wy¶lij mi wiadomo¶æ, gdy zg³oszenie zostanie odblokowane przez system.',
         'Move notification' => 'Powiadomienie o przesuniêciu',

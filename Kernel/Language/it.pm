@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Emiliano Coletti <e.coletti at gmail.com>
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # --
-# $Id: it.pm,v 1.88.2.4 2009-11-24 10:34:58 mb Exp $
+# $Id: it.pm,v 1.88.2.5 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88.2.4 $) [1];
+$VERSION = qw($Revision: 1.88.2.5 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -575,7 +575,7 @@ sub Data {
         'New ticket notification' => 'Notifica nuova richiesta',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Mandami una notifica se viene inserita una nuova richiesta in una coda della lista "Le mie Code"',
         'Follow up notification' => 'Notifica di risposta',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Mandami una notifica se un cliente risponde ad una richiesta che ho io in gestione.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Mandami una notifica se un cliente risponde ad una richiesta che ho io in gestione.',
         'Ticket lock timeout notification' => 'Notifica scadenza gestione richieste',
         'Send me a notification if a ticket is unlocked by the system.' => 'Mandami una notifica se una richiesta viene sbloccata dal sistema.',
         'Move notification' => 'Notifica spostamento',

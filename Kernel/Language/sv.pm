@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.72.2.3 2009-11-24 10:34:59 mb Exp $
+# $Id: sv.pm,v 1.72.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72.2.3 $) [1];
+$VERSION = qw($Revision: 1.72.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -569,7 +569,7 @@ sub Data {
         'New ticket notification' => 'Meddelande om nyskapat ärende',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Skicka mig ett meddelande om det finns nya ärenden i "Mina Köer".',
         'Follow up notification' => 'Meddelande om uppföljning',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Skicka mig ett meddelande om kundkorrespondens för ärenden som jag är ägare till.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Skicka mig ett meddelande om kundkorrespondens för ärenden som jag är ägare till.',
         'Ticket lock timeout notification' => 'Meddela mig då tiden gått ut för ett ärende-lås',
         'Send me a notification if a ticket is unlocked by the system.' => 'Skicka mig ett meddelande ifall systemet tar bort låset på ett ärende.',
         'Move notification' => 'Meddelande om ändring av kö',

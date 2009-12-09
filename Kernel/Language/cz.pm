@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # --
-# $Id: cz.pm,v 1.78.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: cz.pm,v 1.78.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78.2.3 $) [1];
+$VERSION = qw($Revision: 1.78.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -569,7 +569,7 @@ sub Data {
         'New ticket notification' => 'Nové oznámení tiketu',
         'Send me a notification if there is a new ticket in "My Queues".' => '',
         'Follow up notification' => 'Následující oznámení',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Po¹li mi oznámení, pokud klient po¹le následující a jsem vlastník tohoto tiketu.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Po¹li mi oznámení, pokud klient po¹le následující a jsem vlastník tohoto tiketu.',
         'Ticket lock timeout notification' => 'Oznámení o vypr¹ení èasu uzamèení tiketu',
         'Send me a notification if a ticket is unlocked by the system.' => 'Po¹li mi oznámení, pokud je tiket odemknut systémem.',
         'Move notification' => 'Pøesunout oznámení',

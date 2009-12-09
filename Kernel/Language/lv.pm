@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.6.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: lv.pm,v 1.6.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6.2.3 $) [1];
+$VERSION = qw($Revision: 1.6.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -570,7 +570,7 @@ sub Data {
         'New ticket notification' => 'Jauna pieteikuma paziņojums',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Sūtīt man paziņojumu ja manās rindās parādās jauns pieteikums.',
         'Follow up notification' => 'Sekošanas paziņojums',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Sūtīt man paziņojumu, ja klients nosūta papildinformāciju un es esmu šī pieteikuma īpašnieks.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Sūtīt man paziņojumu, ja klients nosūta papildinformāciju un es esmu šī pieteikuma īpašnieks.',
         'Ticket lock timeout notification' => 'Pieteikuma slēgšanas noilguma paziņojums',
         'Send me a notification if a ticket is unlocked by the system.' => 'Sūtīt man paziņojumu, ja sistēma ir atslēgusi pieteikumu.',
         'Move notification' => 'Pārvietošanas paziņojums',

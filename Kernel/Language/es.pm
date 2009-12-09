@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.95.2.6 2009-11-24 10:34:58 mb Exp $
+# $Id: es.pm,v 1.95.2.7 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95.2.6 $) [1];
+$VERSION = qw($Revision: 1.95.2.7 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -581,7 +581,7 @@ sub Data {
         'New ticket notification' => 'Notificación de nuevos tickets',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Notifíqueme si hay un nuevo ticket en "Mis Colas".',
         'Follow up notification' => 'Notificación de seguimiento',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Notifíqueme si un cliente solicita un seguimiento y yo soy el dueño del ticket.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Notifíqueme si un cliente solicita un seguimiento y yo soy el dueño del ticket.',
         'Ticket lock timeout notification' => 'Notificación de bloqueo de tickets por tiempo',
         'Send me a notification if a ticket is unlocked by the system.' => 'Notifíqueme si un ticket es desbloqueado por el sistema',
         'Move notification' => 'Notificación de movimientos',

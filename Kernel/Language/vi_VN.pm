@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.29.2.3 2009-11-24 10:36:02 mb Exp $
+# $Id: vi_VN.pm,v 1.29.2.4 2009-12-09 12:03:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29.2.3 $) [1];
+$VERSION = qw($Revision: 1.29.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -567,7 +567,7 @@ sub Data {
         'New ticket notification' => 'Thông báo thë m¾i',
         'Send me a notification if there is a new ticket in "My Queues".' => 'GØi thông báo cho tôi nªu có thë m¾i trong "Hàng ðþi cüa tôi".',
         'Follow up notification' => 'Thông báo theo dõi',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'GØi thông báo cho tôi nªu có khách hàng gØi theo dõi và tôi là phø trách cüa thë này.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'GØi thông báo cho tôi nªu có khách hàng gØi theo dõi và tôi là phø trách cüa thë này.',
         'Ticket lock timeout notification' => 'Thông báo th¶i gian ch¶ khóa thë',
         'Send me a notification if a ticket is unlocked by the system.' => 'GØi thông báo cho tôi nªu mµt thë chßa ðßþc khóa b·i h® th¯ng.',
         'Move notification' => 'Thông báo chuy¬n',

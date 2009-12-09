@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.118.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: fr.pm,v 1.118.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118.2.3 $) [1];
+$VERSION = qw($Revision: 1.118.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -579,7 +579,7 @@ sub Data {
         'New ticket notification' => 'Notification de nouveau ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Me prévenir si il y a un nouveau ticket dans une de "Mes files".',
         'Follow up notification' => 'Notification de suivi',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Me prévenir si un client envoie un suivi (follow-up) sur un ticket dont je suis propriétaire.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Me prévenir si un client envoie un suivi (follow-up) sur un ticket dont je suis propriétaire.',
         'Ticket lock timeout notification' => 'Prévenir du dépassement du délai d\'un verrou',
         'Send me a notification if a ticket is unlocked by the system.' => 'Me prévenir si un ticket est déverrouillé par le système',
         'Move notification' => 'Notification de mouvement',

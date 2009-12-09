@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.28.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: ct.pm,v 1.28.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28.2.3 $) [1];
+$VERSION = qw($Revision: 1.28.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -568,7 +568,7 @@ sub Data {
         'New ticket notification' => 'Notificació de nous tiquets',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Notifiqui\'m si hi ha un nou tiquet en "Les meves Cues".',
         'Follow up notification' => 'Seguir notificació',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Notifiqui\'m si un client envia un seguiment i jo sóc el propietari del tiquet.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Notifiqui\'m si un client envia un seguiment i jo sóc el propietari del tiquet.',
         'Ticket lock timeout notification' => 'Notificació de bloqueig de tiquets per temps',
         'Send me a notification if a ticket is unlocked by the system.' => 'Notifiqui\'m si un tiquet és desbloquejat pel sistema',
         'Move notification' => 'Notificació de moviments',

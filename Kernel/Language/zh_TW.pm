@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.3.2.3 2009-11-24 10:36:02 mb Exp $
+# $Id: zh_TW.pm,v 1.3.2.4 2009-12-09 12:03:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3.2.3 $) [1];
+$VERSION = qw($Revision: 1.3.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -569,7 +569,7 @@ sub Data {
         'New ticket notification' => '新 Ticket 通知',
         'Send me a notification if there is a new ticket in "My Queues".' => '如果我的隊列中有新的 Ticket，請通知我.',
         'Follow up notification' => '跟蹤通知',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => '如果客戶發送了 Ticket 回復，並且我是該 Ticket 的所有者.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => '如果客戶發送了 Ticket 回復，並且我是該 Ticket 的所有者.',
         'Ticket lock timeout notification' => 'Ticket 鎖定超時通知 ',
         'Send me a notification if a ticket is unlocked by the system.' => '如果 Ticket 被系統解鎖，請通知我.',
         'Move notification' => '移動通知',

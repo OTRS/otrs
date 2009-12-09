@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.29.2.3 2009-11-24 10:34:59 mb Exp $
+# $Id: tr.pm,v 1.29.2.4 2009-12-09 12:03:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29.2.3 $)[1];
+$VERSION = qw($Revision: 1.29.2.4 $)[1];
 
 sub Data {
     my $Self = shift;
@@ -567,7 +567,7 @@ sub Data {
         'New ticket notification' => 'Yeni bilet bildirimi',
         'Send me a notification if there is a new ticket in "My Queues".' => '"Kuyruklarým"da yeni bir bilet olduðunda bana bildirim gönder.',
         'Follow up notification' => 'Takip bildirimi',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Eðer bu biletin sahibi bensem ve bir müþteri takip eden mesaj gönderirse bana bildirim gönder.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Eðer bu biletin sahibi bensem ve bir müþteri takip eden mesaj gönderirse bana bildirim gönder.',
         'Ticket lock timeout notification' => 'Bilet kilidi zaman aþýmý bildirimi',
         'Send me a notification if a ticket is unlocked by the system.' => 'Bir biletin kilidi sistem tarafýndan kaldýrýldýðýnda bana bildirim gönder.',
         'Move notification' => 'Taþýma bildirimi',

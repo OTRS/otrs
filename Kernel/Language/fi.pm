@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.94.2.3 2009-11-24 10:34:58 mb Exp $
+# $Id: fi.pm,v 1.94.2.4 2009-12-09 12:01:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94.2.3 $) [1];
+$VERSION = qw($Revision: 1.94.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -569,7 +569,7 @@ sub Data {
         'New ticket notification' => 'Ilmoitus uusista viesteistä',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Lähetä minulle ilmoitus jos minun jonoihini saapuu uusi tiketti',
         'Follow up notification' => 'Ilmoitus jatkokysymyksistä',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Lähetä ilmoitus jatkokysymyksistä, jos olen kyseisen tiketin omistaja',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Lähetä ilmoitus jatkokysymyksistä, jos olen kyseisen tiketin omistaja',
         'Ticket lock timeout notification' => 'Ilmoitus tiketin lukituksen vanhenemisesta',
         'Send me a notification if a ticket is unlocked by the system.' => 'Lähetä minulle ilmoitus, jos järjestelmä poistaa tiketin lukituksen.',
         'Move notification' => 'Siirtoilmoitus',
