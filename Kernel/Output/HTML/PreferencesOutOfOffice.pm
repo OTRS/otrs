@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesOutOfOffice.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesOutOfOffice.pm,v 1.3 2009-02-16 11:16:22 tr Exp $
+# $Id: PreferencesOutOfOffice.pm,v 1.3.2.1 2009-12-09 08:58:12 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.3.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,9 +46,9 @@ sub Param {
         Format                 => 'DateInputFormat',
         Area                   => 'no',
         Prefix                 => 'OutOfOfficeStart',
-        OutOfOfficeStartYear   => $Self->{OutOfOfficeStartYear},
-        OutOfOfficeStartMonth  => $Self->{OutOfOfficeStartMonth},
-        OutOfOfficeStartDay    => $Self->{OutOfOfficeStartDay},
+        OutOfOfficeStartYear   => $Param{UserData}->{OutOfOfficeStartYear},
+        OutOfOfficeStartMonth  => $Param{UserData}->{OutOfOfficeStartMonth},
+        OutOfOfficeStartDay    => $Param{UserData}->{OutOfOfficeStartDay},
         OutOfOfficeStartHour   => 0,
         OutOfOfficeStartMinute => 0,
     );
@@ -57,9 +57,9 @@ sub Param {
         Area                 => 'no',
         DiffTime             => 60 * 60 * 24 * 1,
         Prefix               => 'OutOfOfficeEnd',
-        OutOfOfficeEndYear   => $Self->{OutOfOfficeEndYear},
-        OutOfOfficeEndMonth  => $Self->{OutOfOfficeEndMonth},
-        OutOfOfficeEndDay    => $Self->{OutOfOfficeEndDay},
+        OutOfOfficeEndYear   => $Param{UserData}->{OutOfOfficeEndYear},
+        OutOfOfficeEndMonth  => $Param{UserData}->{OutOfOfficeEndMonth},
+        OutOfOfficeEndDay    => $Param{UserData}->{OutOfOfficeEndDay},
         OutOfOfficeEndHour   => 0,
         OutOfOfficeEndMinute => 0,
     );
