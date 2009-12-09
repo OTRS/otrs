@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.270.2.5 2009-09-29 11:47:48 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.270.2.6 2009-12-09 10:38:29 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6127,7 +6127,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###000-Back" Required="0" Valid="1">
         <Description Lang="en">Module to show back link in menu.</Description>
-        <Description Lang="de">Über dieses Modul wird der Zurück-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
+        <Description Lang="de">Mit diesem Modul wird der Zurück-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6142,7 +6142,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###100-Lock" Required="0" Valid="1">
         <Description Lang="en">Module to show lock/unlock link in menu.</Description>
-        <Description Lang="de">Über dieses Modul wird der Sperren- bzw. Freigeben-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
+        <Description Lang="de">Mit diesem Modul wird der Sperren- bzw. Freigeben-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6155,7 +6155,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###200-History" Required="0" Valid="1">
         <Description Lang="en">Module to show history link in menu.</Description>
-        <Description Lang="de">Über dieses Modul wird der Historie-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
+        <Description Lang="de">Mit diesem Modul wird der Historie-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6170,7 +6170,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###210-Print" Required="0" Valid="1">
         <Description Lang="en">Module to show print link in menu.</Description>
-        <Description Lang="de">Über dieses Modul wird der Drucken-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
+        <Description Lang="de">Mit diesem Modul wird der Drucken-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6186,7 +6186,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###300-Priority" Required="0" Valid="1">
         <Description Lang="en">Module to show priority link in menu.</Description>
-        <Description Lang="de">Über dieses Modul wird der Priorität-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
+        <Description Lang="de">Mit diesem Modul wird der Priorität-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6216,7 +6216,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###320-Link" Required="0" Valid="1">
         <Description Lang="en">Module to show a link to link a ticket with another object.</Description>
-        <Description Lang="de">Über dieses Modul wird ein Link im Menü der Ticketansicht angezeigt, mit dem ein Ticket mit einem anderen Objekt verknüpft werden kann.</Description>
+        <Description Lang="de">Mit diesem Modul wird ein Link im Menü der Ticketansicht angezeigt, mit dem ein Ticket mit einem anderen Objekt verknüpft werden kann.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6291,7 +6291,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###430-Merge" Required="0" Valid="1">
         <Description Lang="en">Module to show merge link in menu.</Description>
-        <Description Lang="de">Über dieses Modul kann der Link für "Merge" im Menü der Ticketansicht angezeigt werden.</Description>
+        <Description Lang="de">Mit diesem Modul kann der Link für "Merge" im Menü der Ticketansicht angezeigt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6306,7 +6306,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###440-Pending" Required="0" Valid="1">
         <Description Lang="en">Module to show pending link in menu.</Description>
-        <Description Lang="de">Über dieses Modul kann der Link für "Warten" (pending) im Menü der Ticketansicht angezeigt werden.</Description>
+        <Description Lang="de">Mit diesem Modul kann der Link für "Warten" (pending) im Menü der Ticketansicht angezeigt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6321,7 +6321,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###448-Watch" Required="0" Valid="1">
         <Description Lang="en">Module to show subscribe/unsubscribe link in menu.</Description>
-        <Description Lang="de">Über dieses Modul werden die Subscribe- bzw. Unsubscribe-Links in der Linkleiste angezeigt.</Description>
+        <Description Lang="de">Mit diesem Modul werden die Subscribe- bzw. Unsubscribe-Links in der Linkleiste angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6334,7 +6334,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###450-Close" Required="0" Valid="1">
         <Description Lang="en">Module to show close link in menu.</Description>
-        <Description Lang="de">Über dieses Modul wird der Link zum schließen eines Tickets im Menü der Ticketansicht angezeigt.</Description>
+        <Description Lang="de">Mit diesem Modul wird der Link zum schließen eines Tickets im Menü der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6763,7 +6763,7 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Mail Management</Item>
                 <Item Key="Label">Follow up notification</Item>
-                <Item Key="Desc">Send me a notification if a customer sends a follow up and I'm the owner of this ticket.</Item>
+                <Item Key="Desc">Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">No</Item>
