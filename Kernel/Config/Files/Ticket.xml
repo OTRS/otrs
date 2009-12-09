@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.285 2009-12-09 12:38:34 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.286 2009-12-09 12:41:22 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1551,7 +1551,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SearchIndex::Attribute" Required="1" Valid="1">
-        <Description Lang="en">Attributes to configure fulltext index (note: after changeing one, "bin/otrs.RebuildFulltextIndex.pl" need to be executed to generate new index).</Description>
+        <Description Lang="en">Attributes to configure fulltext index (note: after changing these, you'd need to execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index).</Description>
         <Description Lang="de">Attribute um den Volltext-Index zu konfigurieren (Notiz: Nach einer Änderung muss "bin/otrs.RebuildFulltextIndex.pl" aufgerufen werden um den Index neu zu generieren).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::FulltextSearch</SubGroup>
@@ -1564,7 +1564,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###98-ArticleSearchIndex" Required="0" Valid="1">
-        <Description Lang="en">Ticket event module to build article index on the fly (directly after article creation).</Description>
+        <Description Lang="en">Ticket event module to build an article index on the fly (directly after article creation).</Description>
         <Description Lang="de">Ticket Event Modul für automatisches erstellen des Artikel-Index nach eine Artikel-Erstellung.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::FulltextSearch</SubGroup>
@@ -1591,7 +1591,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::OverviewSmall###ColumnHeader" Required="0" Valid="1">
-        <Description Lang="en">Show in the small view the subject of the last customer article or the ticket title.</Description>
+        <Description Lang="en">Show the subject of the last customer article or the ticket title in the small view.</Description>
         <Description Lang="de">Anzeige des Betreffs des letzten Kundenartikels oder des Ticket-Titels in der Small-Ansicht.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
