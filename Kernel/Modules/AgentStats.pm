@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.82 2009-12-09 09:32:49 mg Exp $
+# $Id: AgentStats.pm,v 1.83 2009-12-09 18:11:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2311,52 +2311,60 @@ sub _Timeoutput {
         $Timeoutput{CheckedAbsolut} = 'checked="checked"';
     }
 
-    my $Data = _TimeScale();
-    if ( $Param{SelectedValues}[0] ) {
-        $Data->{ $Param{SelectedValues}[0] }{Selected} = 1;
-    }
+    my %TimeScale = _TimeScaleBuildSelection();
 
     $Timeoutput{TimeScaleUnit} = $Self->{LayoutObject}->BuildSelection(
-        Name => $Element,
-        Data => $Data,
+        %TimeScale,
+        Name       => $Element,
+        SelectedID => $Param{SelectedValues}[0],
     );
-
-    $Data = _TimeScale();
-    if ( $Param{TimeRelativeUnit} ) {
-        $Data->{ $Param{TimeRelativeUnit} }{Selected} = 1;
-    }
 
     $Timeoutput{TimeRelativeUnit} = $Self->{LayoutObject}->BuildSelection(
-        Name     => $Element . 'TimeRelativeUnit',
-        Data     => $Data,
-        OnChange => "SelectRadiobutton('Relativ', '$Element" . "TimeSelect')",
+        %TimeScale,
+        Name       => $Element . 'TimeRelativeUnit',
+        SelectedID => $Param{TimeRelativeUnit},
+        OnChange   => "SelectRadiobutton('Relativ', '$Element" . "TimeSelect')",
     );
 
-    $Data = _TimeScale();
+    # to show only the selected Attributes in the view mask
     my $Multiple = 1;
     my $Size     = 5;
-    for ( @{ $Param{SelectedValues} } ) {
-        $Data->{$_}{Selected} = 1;
-    }
 
-    # to show only the selected Attributes in the view mask
     if ( $Param{OnlySelectedAttributes} ) {
-        for ( keys %{$Data} ) {
-            if ( !$Data->{$_}{Selected} ) {
-                delete $Data->{$_};
-            }
-        }
+
+        $TimeScale{Data} = $Param{SelectedValues};
+
         $Multiple = 0;
-        $Size     = 0;
+        $Size     = 1;
     }
 
     $Timeoutput{TimeSelectField} = $Self->{LayoutObject}->BuildSelection(
-        Name     => $Element,
-        Data     => $Data,
-        Multiple => $Multiple,
-        Size     => $Size,
+        %TimeScale,
+        Name       => $Element,
+        SelectedID => $Param{SelectedValues},
+        Multiple   => $Multiple,
+        Size       => $Size,
     );
+
     return %Timeoutput;
+}
+
+sub _TimeScaleBuildSelection {
+
+    my %TimeScaleBuildSelection = (
+        Data => {
+            Second => 'second(s)',
+            Minute => 'minute(s)',
+            Hour   => 'hour(s)',
+            Day    => 'day(s)',
+            Month  => 'month(s)',
+            Year   => 'year(s)',
+        },
+        Sort => 'IndividualKey',
+        SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Month', 'Year' ]
+    );
+
+    return %TimeScaleBuildSelection;
 }
 
 sub _TimeScale {
