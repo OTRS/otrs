@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.43 2009-08-28 16:41:17 martin Exp $
+# $Id: AAATicket.dtl,v 1.44 2009-12-09 12:07:31 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -155,7 +155,8 @@ $Text{"Send me a notification if there is a new ticket in "My Queues"."}
 
 $Text{"Follow up notification"}
 #$Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
-$Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
+#$Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
+$Text{'Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.'}
 
 $Text{"Ticket lock timeout notification"}
 $Text{"Send me a notification if a ticket is unlocked by the system."}
