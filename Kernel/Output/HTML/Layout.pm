@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.197 2009-12-08 17:22:30 mn Exp $
+# $Id: Layout.pm,v 1.198 2009-12-09 08:38:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.197 $) [1];
+$VERSION = qw($Revision: 1.198 $) [1];
 
 =head1 NAME
 
@@ -2200,7 +2200,7 @@ generates a page nav bar
         PageShown   => 15,          # number of shown items a page
         AllHits     => 56,          # number of total hits
         Action      => 'AgentXXX',  # e. g. 'Action=' . $Self->{LayoutObject}->{Action}
-        Link        => $Link,       # e. g. 'Subaction=View'
+        Link        => $Link,       # e. g. 'Subaction=View;'
         AJAXReplace => 'IDElement', # IDElement which should be replaced
     );
 
@@ -2242,7 +2242,9 @@ sub PageNavBar {
     my $WindowStart = sprintf( "%.0f", ( $Param{StartHit} / $Param{PageShown} ) );
     $WindowStart = int( ( $WindowStart / $WindowSize ) ) + 1;
     $WindowStart = ( $WindowStart * $WindowSize ) - ($WindowSize);
-    my $Baselink = "$Self->{Baselink}$Param{Action};$Param{Link}";
+    my $Action = $Param{Action} || '';
+    my $Link   = $Param{Link}   || '';
+    my $Baselink = "$Self->{Baselink}$Action;$Link";
     my $i        = 0;
     while ( $i <= ( $Pages - 1 ) ) {
         $i++;
@@ -4307,6 +4309,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.197 $ $Date: 2009-12-08 17:22:30 $
+$Revision: 1.198 $ $Date: 2009-12-09 08:38:52 $
 
 =cut

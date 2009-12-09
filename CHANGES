@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1099 2009-12-09 08:14:30 martin Exp $
+# $Id: CHANGES,v 1.1100 2009-12-09 08:38:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -127,6 +127,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/09) Fixed bug#4363 - Layout.pm -> PageNavBar() mistakes because of
+    missing checks and descriptions
  - (2009/12/08) Fixed bug#4361 - Umlauts in Dashboard are not displayed correcty
     after refresh on non-unicode databases.
  - (2009/12/08) Fixed bug#4323 - Customer Interface shows last customer article
