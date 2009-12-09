@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1108 2009-12-09 14:29:32 mg Exp $
+# $Id: CHANGES,v 1.1109 2009-12-09 17:07:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -129,6 +129,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/09) Fixed crash in Ascii2Html() if no scalar reference is given.
  - (2009/12/09) Fixed bug#4551 - GenericAgent appends leading zeros to dates
     if TimeInputFormat is "Input".
  - (2009/12/09) Fixed bug#4584 - Auto response does not use selected from e-mail
