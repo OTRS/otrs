@@ -2,7 +2,7 @@
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.25 2009-11-25 16:19:58 mg Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.26 2009-12-09 07:53:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
 $Data{"Notification"}
 <!-- end Notifications -->
 <!-- start NavigationBar -->
-<table order="0" width="100%" cellspacing="0" cellpadding="3">
+<table width="100%" cellspacing="0" cellpadding="3">
     <tr>
         <td valign="top" align="left" width="70%" class="nav">
             <table cellspacing="2" cellpadding="2">

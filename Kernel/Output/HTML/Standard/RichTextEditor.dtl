@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.26 2009-11-27 11:51:55 mn Exp $
+# $Id: RichTextEditor.dtl,v 1.27 2009-12-09 07:53:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,7 @@ window.onload = function() {
 
 function FCKeditor_OnComplete( editorInstance ) {
     // workaround for http://dev.fckeditor.net/ticket/3053
-    // see also http://www.fckeditor.net/forums/viewtopic.php?f=6&t=13222
+    // see also http://www.fckeditor.net/forums/viewtopic.php?f=6&amp;t=13222
     var fck_iframe = document.getElementById('RichText___Frame');
     if ( fck_iframe && fck_iframe.contentDocument ) {
         var fck_editing_area = fck_iframe.contentDocument.getElementById('xEditingArea');

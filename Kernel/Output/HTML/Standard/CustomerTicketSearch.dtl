@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.14 2009-02-16 11:07:25 tr Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.15 2009-12-09 07:53:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,60 +11,60 @@
 
 <!-- dtl:block:Search -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Ticket Search"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <br/>
-      <form action="$Env{"CGIHandle"}" method="get" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="Search"/>
-        <table border="0" width="650" align="center" cellspacing="0" cellpadding="4">
-          <tr class="contenthead">
-            <td colspan="2">$Config{"Ticket::Hook"}</td>
-          </tr>
-          <tr class="contentbody">
-            <td class="contentkey" width="50%">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
-            <td class="contentvalue" width="50%"><input type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}"/></td>
-          </tr>
-          <tr class="contenthead">
-            <td colspan="2">$Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}</td>
-          </tr>
-          <tr class="contentbody">
-            <td class="contentkey">$Text{"From"}</td>
-            <td class="contentvalue"><input type="text" name="From" size="30" value="$QData{"From"}"/></td>
-          </tr>
-          <tr class="contentbody">
-            <td class="contentkey">$Text{"To"}</td>
-            <td class="contentvalue"><input type="text" name="To" size="30" value="$QData{"To"}"/></td>
-          </tr>
-          <tr class="contentbody">
-            <td class="contentkey">$Text{"Cc"}</td>
-            <td class="contentvalue"><input type="text" name="Cc" size="30" value="$QData{"Cc"}"/></td>
-          </tr>
-          <tr class="contentbody">
-            <td class="contentkey">$Text{"Subject"}</td>
-            <td class="contentvalue"><input type="text" name="Subject" size="30" value="$QData{"Subject"}"/></td>
-          </tr>
-          <tr class="contentbody">
-            <td class="contentkey">$Text{"Text"}</td>
-            <td class="contentvalue"><input type="text" name="Body" size="30" value="$QData{"Body"}"/></td>
-          </tr>
-          <tr class="contentbody">
-            <td class="contentkey">$Text{"CustomerID"}</td>
-            <td class="contentvalue"><input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}"/></td>
-          </tr>
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Ticket Search"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <br/>
+            <form action="$Env{"CGIHandle"}" method="get" name="compose">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Search"/>
+                <table border="0" width="650" align="center" cellspacing="0" cellpadding="4">
+                    <tr class="contenthead">
+                        <td colspan="2">$Config{"Ticket::Hook"}</td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td class="contentkey" width="50%">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
+                        <td class="contentvalue" width="50%"><input type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}"/></td>
+                    </tr>
+                    <tr class="contenthead">
+                        <td colspan="2">$Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}</td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td class="contentkey">$Text{"From"}</td>
+                        <td class="contentvalue"><input type="text" name="From" size="30" value="$QData{"From"}"/></td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td class="contentkey">$Text{"To"}</td>
+                        <td class="contentvalue"><input type="text" name="To" size="30" value="$QData{"To"}"/></td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td class="contentkey">$Text{"Cc"}</td>
+                        <td class="contentvalue"><input type="text" name="Cc" size="30" value="$QData{"Cc"}"/></td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td class="contentkey">$Text{"Subject"}</td>
+                        <td class="contentvalue"><input type="text" name="Subject" size="30" value="$QData{"Subject"}"/></td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td class="contentkey">$Text{"Text"}</td>
+                        <td class="contentvalue"><input type="text" name="Body" size="30" value="$QData{"Body"}"/></td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td class="contentkey">$Text{"CustomerID"}</td>
+                        <td class="contentvalue"><input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}"/></td>
+                    </tr>
 #          <tr class="contenthead">
 #            <td colspan="2">$Text{"TicketFreeText"}</td>
 #          </tr>
 <!-- dtl:block:FreeText -->
-          <tr class="contentbody">
-            <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
-            <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
-          </tr>
+                    <tr class="contentbody">
+                        <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+                        <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+                    </tr>
 <!-- dtl:block:FreeText -->
 #          <tr class="contentbody">
 #            <td class="contentkey">$Data{"TicketFreeKeyField1"}</td>
@@ -83,12 +83,12 @@
 #            <td class="contentbody">$Data{"TicketFreeTextField4"}</td>
 #          </tr>
 <!-- dtl:block:FreeTime -->
-          <tr class="contentbody">
-            <td colspan="2" class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}
-              <input type="checkbox" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}/>
-              $Text{"Between"} $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"}.
-            </td>
-          </tr>
+                    <tr class="contentbody">
+                        <td colspan="2" class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}
+                            <input type="checkbox" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}/>
+                            $Text{"Between"} $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"}.
+                        </td>
+                    </tr>
 <!-- dtl:block:FreeTime -->
 #          <tr class="contentbody">
 #            <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}</td>
@@ -102,51 +102,51 @@
 #              $Data{"TicketFreeTime2Start"} $Text{"and"} $Data{"TicketFreeTime2Stop"}
 #            </td>
 #          </tr>
-          <tr class="contenthead">
-            <td width="50%">$Text{"Priority"}</td>
-            <td width="50%">$Text{"State"}</td>
-          </tr>
-          <tr class="contentbody">
-            <td class="contentkey">$Data{"PrioritiesStrg"}</td>
-            <td class="contentvalue">$Data{"StatesStrg"}</td>
-          </tr>
-          <tr>
-            <td colspan="2" class="contenthead">$Text{"Times"}</td>
-          </tr>
-          <tr class="contentbody">
-            <td colspan="2" class="contentkey">
-              <input type="radio" name="TimeSearchType" value="" $Data{"TimeSearchType::None"}/>
-              $Text{"No time settings."}
-            </td>
-          </tr>
-          <tr class="contentbody">
-            <td colspan="2" class="contentkey">
-              <input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}/>
-              $Text{"Ticket created"} $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}.
-            </td>
-          </tr>
-          <tr class="contentbody">
-            <td colspan="2" class="contentkey">
-              <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}/>
-              $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
-            </td>
-          </tr>
-          <tr class="contenthead">
-            <td colspan="2">$Text{"Result Form"}</td>
-          </tr>
-          <tr class="contentbody">
-            <td class="contentkey">$Data{"ResultFormStrg"}</td>
-            <td class="contentvalue"></td>
-          </tr>
-          <tr>
-            <td colspan="2" class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Search"}"/>
-            </td>
-          </tr>
-        </table>
-      </form>
-      <br/>
-    </td>
-  </tr>
+                    <tr class="contenthead">
+                        <td width="50%">$Text{"Priority"}</td>
+                        <td width="50%">$Text{"State"}</td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td class="contentkey">$Data{"PrioritiesStrg"}</td>
+                        <td class="contentvalue">$Data{"StatesStrg"}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="contenthead">$Text{"Times"}</td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td colspan="2" class="contentkey">
+                            <input type="radio" name="TimeSearchType" value="" checked="$Data{"TimeSearchType::None"}"/>
+                            $Text{"No time settings."}
+                        </td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td colspan="2" class="contentkey">
+                            <input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}/>
+                            $Text{"Ticket created"} $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}.
+                        </td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td colspan="2" class="contentkey">
+                            <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}/>
+                            $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
+                        </td>
+                    </tr>
+                    <tr class="contenthead">
+                        <td colspan="2">$Text{"Result Form"}</td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td class="contentkey">$Data{"ResultFormStrg"}</td>
+                        <td class="contentvalue"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="contentfooter">
+                            <input class="button" type="submit" value="$Text{"Search"}"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <br/>
+        </td>
+    </tr>
 </table>
 <!-- dtl:block:Search -->
