@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.50 2009-12-08 17:41:16 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.51 2009-12-09 11:06:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -420,6 +420,15 @@
                             $Text{"Ticket solution time reached between"} $Data{"TicketEscalationSolutionTimeStart"} $Text{"and"} $Data{"TicketEscalationSolutionTimeStop"}.
                         </td>
                     </tr>
+<!-- dtl:block:SearchInArchive -->
+                    <tr>
+                        <td colspan="2" class="contenthead">$Text{"Archive Search"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">$Text{"Archive search option"}</td>
+                        <td class="contentbody">$Data{"SearchInArchiveStrg"}</td>
+                    </tr>
+<!-- dtl:block:SearchInArchive -->
 <!-- new options -->
 <!-- dtl:block:NewTicketService -->
                     <tr align="left">
@@ -551,6 +560,19 @@
                             </table>
                         </td>
                     </tr>
+<!-- dtl:block:NewArchiveFlag -->
+                    <tr align="left">
+                        <td colspan="2" class="mainhead">$Text{"Archive"}</td>
+                    </tr>
+                    <tr align="left">
+                        <td class="contentbody">
+                            $Text{"Selected tickets"}
+                        </td>
+                        <td class="contentbody">
+                            $Data{"NewArchiveFlagStrg"}
+                        </td>
+                    </tr>
+<!-- dtl:block:NewArchiveFlag -->
                     <tr align="left">
                         <td class="mainhead" width="50%">$Text{"CMD"}</td>
                         <td class="mainhead" width="50%">$Text{"Delete"}</td>

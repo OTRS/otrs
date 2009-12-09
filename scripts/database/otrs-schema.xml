@@ -572,6 +572,7 @@
     <Column Name="freetime5" Required="false" Type="DATE"/>
     <Column Name="freetime6" Required="false" Type="DATE"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="archive_flag" Required="true" Default="0" Type="SMALLINT"/>
     <Column Name="create_time_unix" Required="true" Type="BIGINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -633,11 +634,17 @@
     <Index Name="ticket_create_time_unix">
         <IndexColumn Name="create_time_unix"/>
     </Index>
+    <Index Name="ticket_create_time">
+        <IndexColumn Name="create_time"/>
+    </Index>
     <Index Name="ticket_until_time">
         <IndexColumn Name="until_time"/>
     </Index>
     <Index Name="ticket_timeout">
         <IndexColumn Name="timeout"/>
+    </Index>
+    <Index Name="ticket_archive_flag">
+        <IndexColumn Name="archive_flag"/>
     </Index>
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>

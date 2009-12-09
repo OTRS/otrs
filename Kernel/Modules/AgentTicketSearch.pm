@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.75 2009-11-25 15:39:15 mg Exp $
+# $Id: AgentTicketSearch.pm,v 1.76 2009-12-09 11:06:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -150,7 +150,7 @@ sub Run {
         for (
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin StateType
             Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType UseSubQueues
-            ArticleTimeSearchType
+            ArticleTimeSearchType SearchInArchive
             Fulltext
             TicketFreeTime1
             TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
@@ -703,6 +703,21 @@ sub Run {
             }
         }
 
+        # prepare archive flag
+        if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+
+            $GetParam{SearchInArchive} ||= '';
+            if ( $GetParam{SearchInArchive} eq 'AllTickets' ) {
+                $GetParam{ArchiveFlags} = [ 'y', 'n' ];
+            }
+            elsif ( $GetParam{SearchInArchive} eq 'ArchivedTickets' ) {
+                $GetParam{ArchiveFlags} = ['y'];
+            }
+            else {
+                $GetParam{ArchiveFlags} = ['n'];
+            }
+        }
+
         # perform ticket search
         my @ViewableTicketIDs = $Self->{TicketObjectSearch}->TicketSearch(
             Result          => 'ARRAY',
@@ -1182,6 +1197,20 @@ sub MaskForm {
         Name => 'ResultForm',
         SelectedID => $Param{ResultForm} || 'Normal',
     );
+
+    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+
+        $Param{'SearchInArchiveStrg'} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                ArchivedTickets    => 'Search in archived tickets only',
+                NotArchivedTickets => 'Search in not archived tickets only',
+                AllTickets         => 'Search in all tickets',
+            },
+            Name => 'SearchInArchive',
+            SelectedID => $Param{SearchInArchive} || 'NotArchivedTickets',
+        );
+    }
+
     $Param{'ProfilesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             '', '-',
@@ -1808,6 +1837,14 @@ sub MaskForm {
             Data => {%Param},
         );
     }
+
+    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'SearchInArchive',
+            Data => {%Param},
+        );
+    }
+
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketSearch',
         Data         => \%Param,

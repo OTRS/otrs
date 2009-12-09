@@ -1120,6 +1120,15 @@ Your OTRS Team
         <Data Key="change_by">1</Data>
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
+    <Insert Table="ticket_history_type">
+        <Data Key="id" Type="AutoIncrement">40</Data>
+        <Data Key="name" Type="Quote">ArchiveFlagUpdate</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
 
     <Insert Table="article_type">
         <Data Key="id" Type="AutoIncrement">1</Data>

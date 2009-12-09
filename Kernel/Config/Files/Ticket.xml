@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.282 2009-12-08 19:30:17 mae Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.283 2009-12-09 11:06:49 mh Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -122,6 +122,18 @@
     <ConfigItem Name="Ticket::Service" Required="1" Valid="1">
         <Description Lang="en">If ticket service/SLA feature is enabled, you can define ticket services and SLAs for tickets (e. g. email, desktop, network, ...).</Description>
         <Description Lang="de">Wenn das Ticket-Service/SLA Feature aktiviert ist, können Ticket Services und SLAs pro Ticket gesetzt werden (z. B. Email, Arbeitsplatz, Netzwerk, ...).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::ArchiveSystem" Required="1" Valid="1">
+        <Description Lang="en">This option activates the ticket archive system.</Description>
+        <Description Lang="de">Diese Option aktiviert das Ticket-Archivierungssystem.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -1421,7 +1433,19 @@
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/article</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###1-AcceleratorUpdate" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###100-ArchiveRestore" Required="0" Valid="1">
+        <Description Lang="en">Ticket event module restors the ticket from the archive.</Description>
+        <Description Lang="de">Ticket Event Modul holt das Ticket aus dem Archive.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::ArchiveRestore</Item>
+                <Item Key="Event">(TicketStateUpdate)</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###110-AcceleratorUpdate" Required="0" Valid="1">
         <Description Lang="en">Ticket event module updates the ticket accelerator index.</Description>
         <Description Lang="de">Ticket Event Modul aktualisiert den Ticket Übersichts-Index.</Description>
         <Group>Ticket</Group>
@@ -1433,7 +1457,19 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###1-ForceStateChangeOnLock" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::EventModulePost###120-ForceOwnerResetOnMove" Required="0" Valid="0">
+        <Description Lang="en">Ticket event module to reset and unlock the owner if ticket gets moved to another queue.</Description>
+        <Description Lang="de">Ticket Event Modul um Besitzer zurück zu setzen Ticket zu entsperren wenn das Ticket verschoben wird.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::ForceOwnerReset</Item>
+                <Item Key="Event">TicketQueueUpdate</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###130-ForceStateChangeOnLock" Required="0" Valid="0">
         <Description Lang="en">Ticket event module to force a new ticket state after lock action. As key you have to define the current state and the next state as content after lock action.</Description>
         <Description Lang="de">Ticket Event Modul für automatisches Setzen eines neuen Ticketstatus nach dem das Ticket gesperrt wurde. Der Schlüssel ist der aktuelle Status, der Inhalt der Status nach dem Sperren.</Description>
         <Group>Ticket</Group>
@@ -1446,19 +1482,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###1-ForceOwnerResetOnMove" Required="0" Valid="0">
-        <Description Lang="en">Ticket event module to reset and unlock the owner if ticket gets moved to another queue.</Description>
-        <Description Lang="de">Ticket Event Modul um Besitzer zurück zu setzen Ticket zu entsperren wenn das Ticket verschoben wird.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::System::Ticket::Event::ForceOwnerReset</Item>
-                <Item Key="Event">TicketQueueUpdate</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###1-ResponsibleAutoSet" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###140-ResponsibleAutoSet" Required="0" Valid="1">
         <Description Lang="en">Ticket event module to set the responsible (if not already set) automatically on owner update after first owner update.</Description>
         <Description Lang="de">Ticket Event Modul um den Verantwortlichen (wenn noch nicht gesetzt) automatisch nach dem ersten Besitzer Update zu aktualisieren.</Description>
         <Group>Ticket</Group>
@@ -1470,7 +1494,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###5-NotificationEvent" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###500-NotificationEvent" Required="0" Valid="1">
         <Description Lang="en">Ticket event module to send notifications.</Description>
         <Description Lang="de">Ticket Event Modul um Benachrichtigungen zu versenden.</Description>
         <Group>Ticket</Group>
@@ -1483,19 +1507,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###99-ForceUnlockOnMove" Required="0" Valid="1">
-        <Description Lang="en">Ticket event module to force tickets to be unlocked after moving to another queue.</Description>
-        <Description Lang="de">Ticket Event Modul für automatische Aufhebung der Sperrung eines Tickets nach dem verschieben in eine andere Queue.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::System::Ticket::Event::ForceUnlock</Item>
-                <Item Key="Event">TicketQueueUpdate</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###99-EscalationIndex" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###900-EscalationIndex" Required="0" Valid="1">
         <Description Lang="en">Ticket event module updates the ticket escalation index.</Description>
         <Description Lang="de">Ticket Event Modul aktualisiert den Ticket Eskalations-Index.</Description>
         <Group>Ticket</Group>
@@ -1504,6 +1516,18 @@
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketEscalationIndex</Item>
                 <Item Key="Event">(TicketSLAUpdate|TicketQueueUpdate|TicketStateUpdate|TicketCreate|ArticleCreate)</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###910-ForceUnlockOnMove" Required="0" Valid="1">
+        <Description Lang="en">Ticket event module to force tickets to be unlocked after moving to another queue.</Description>
+        <Description Lang="de">Ticket Event Modul für automatische Aufhebung der Sperrung eines Tickets nach dem verschieben in eine andere Queue.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::ForceUnlock</Item>
+                <Item Key="Event">TicketQueueUpdate</Item>
             </Hash>
         </Setting>
     </ConfigItem>

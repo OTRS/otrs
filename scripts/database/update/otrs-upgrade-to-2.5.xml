@@ -2,13 +2,30 @@
 <database Name="otrs">
 
     <TableAlter Name="ticket">
+        <ColumnAdd Name="archive_flag" Required="true" Default="0" Type="SMALLINT"/>
         <IndexCreate Name="ticket_create_time_unix">
             <IndexColumn Name="create_time_unix"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_create_time">
+            <IndexColumn Name="create_time"/>
         </IndexCreate>
         <IndexCreate Name="ticket_until_time">
             <IndexColumn Name="until_time"/>
         </IndexCreate>
+        <IndexCreate Name="ticket_archive_flag">
+            <IndexColumn Name="archive_flag"/>
+        </IndexCreate>
     </TableAlter>
+
+    <Insert Table="ticket_history_type">
+        <Data Key="id" Type="AutoIncrement">40</Data>
+        <Data Key="name" Type="Quote">ArchiveFlagUpdate</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
 
     <TableCreate Name="virtual_fs">
         <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>

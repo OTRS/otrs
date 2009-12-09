@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.64 2009-11-26 12:41:51 bes Exp $
+# $Id: GenericAgent.pm,v 1.65 2009-12-09 11:06:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -1062,6 +1062,23 @@ sub _JobRunTicket {
         }
     }
 
+    # set new archive flag
+    if (
+        $Param{Config}->{New}->{ArchiveFlag}
+        && $Self->{ConfigObject}->Get('Ticket::ArchiveSystem')
+        )
+    {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print
+                "  - set archive flag of Ticket $Ticket to '$Param{Config}->{New}->{ArchiveFlag}'\n";
+        }
+        $Self->{TicketObject}->TicketArchiveFlagSet(
+            TicketID    => $Param{TicketID},
+            UserID      => $Param{UserID},
+            ArchiveFlag => $Param{Config}->{New}->{ArchiveFlag},
+        );
+    }
+
     # cmd
     if ( $Param{Config}->{New}->{CMD} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -1157,6 +1174,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2009-11-26 12:41:51 $
+$Revision: 1.65 $ $Date: 2009-12-09 11:06:49 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.74 2009-12-08 14:22:47 mg Exp $
+# $Id: AdminGenericAgent.pm,v 1.75 2009-12-09 11:06:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -119,7 +119,8 @@ sub Run {
         # get single params
         my %GetParam = ();
         for (
-            qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin Agent
+            qw(TicketNumber Title From To Cc Subject Body CustomerID
+            CustomerUserLogin Agent SearchInArchive
             NewTitle
             NewCustomerID NewCustomerUserLogin
             NewStateID NewQueueID NewPriorityID NewOwnerID
@@ -129,7 +130,7 @@ sub Run {
             NewParamValue1 NewParamValue2 NewParamValue3 NewParamValue4
             NewParamKey5 NewParamKey6 NewParamKey7 NewParamKey8
             NewParamValue5 NewParamValue6 NewParamValue7 NewParamValue8
-            NewLockID NewDelete NewCMD NewSendNoNotification
+            NewLockID NewDelete NewCMD NewSendNoNotification NewArchiveFlag
             ScheduleLastRun Valid
             )
             )
@@ -356,6 +357,20 @@ sub Run {
                         $GetParam{ $Type . 'TimeNewerMinutes' } = $Time;
                     }
                 }
+            }
+        }
+
+        if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+
+            $GetParam{SearchInArchive} ||= '';
+            if ( $GetParam{SearchInArchive} eq 'AllTickets' ) {
+                $GetParam{ArchiveFlags} = [ 'y', 'n' ];
+            }
+            elsif ( $GetParam{SearchInArchive} eq 'ArchivedTickets' ) {
+                $GetParam{ArchiveFlags} = ['y'];
+            }
+            else {
+                $GetParam{ArchiveFlags} = ['n'];
             }
         }
 
@@ -799,6 +814,40 @@ sub Run {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'NewTicketService',
+                Data => {%Param},
+            );
+        }
+
+        # prepare archive
+        if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+
+            $Param{'SearchInArchiveStrg'} = $Self->{LayoutObject}->BuildSelection(
+                Data => {
+                    ArchivedTickets    => 'Search in archived tickets only',
+                    NotArchivedTickets => 'Search in not archived tickets only',
+                    AllTickets         => 'Search in all tickets',
+                },
+                Name => 'SearchInArchive',
+                SelectedID => $Param{SearchInArchive} || 'AllTickets',
+            );
+
+            $Self->{LayoutObject}->Block(
+                Name => 'SearchInArchive',
+                Data => {%Param},
+            );
+
+            $Param{'NewArchiveFlagStrg'} = $Self->{LayoutObject}->BuildSelection(
+                Data => {
+                    y => 'archive tickets',
+                    n => 'restore tickets from archive',
+                },
+                Name         => 'NewArchiveFlag',
+                PossibleNone => 1,
+                SelectedID   => $Param{NewArchiveFlag} || '',
+            );
+
+            $Self->{LayoutObject}->Block(
+                Name => 'NewArchiveFlag',
                 Data => {%Param},
             );
         }

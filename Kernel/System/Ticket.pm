@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.439 2009-12-09 10:10:23 mae Exp $
+# $Id: Ticket.pm,v 1.440 2009-12-09 11:06:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::EventHandler;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.439 $) [1];
+$VERSION = qw($Revision: 1.440 $) [1];
 
 =head1 NAME
 
@@ -312,6 +312,7 @@ creates a new ticket
         CustomerUser  => 'customer@example.com',
         OwnerID       => 123,
         ResponsibleID => 123,                # not required
+        ArchiveFlag   => 'y',                # (y|n) not required
         UserID        => 123,
     );
 
@@ -335,6 +336,11 @@ sub TicketCreate {
     my $GroupID = $Param{GroupID} || 1;
     my $ValidID = $Param{ValidID} || 1;
     my $Age     = $Self->{TimeObject}->SystemTime();
+
+    my $ArchiveFlag = 0;
+    if ( $Param{ArchiveFlag} && $Param{ArchiveFlag} eq 'y' ) {
+        $ArchiveFlag = 1;
+    }
 
     $Param{ResponsibleID} ||= 1;
 
@@ -461,14 +467,14 @@ sub TicketCreate {
             . ' user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id,'
             . ' ticket_answered, escalation_time, escalation_update_time, escalation_response_time,'
             . ' escalation_solution_time, timeout, service_id, sla_id, until_time,'
-            . ' valid_id, create_time, create_by, change_time, change_by)'
-            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0, 0, 0, ?, ?, 0, ?,'
+            . ' valid_id, archive_flag, create_time, create_by, change_time, change_by)'
+            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0, 0, 0, ?, ?, 0, ?, ?,'
             . ' current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{TN}, \$Param{Title}, \$Age, \$Param{TypeID}, \$Param{QueueID},
             \$Param{LockID}, \$Param{OwnerID}, \$Param{ResponsibleID}, \$GroupID,
             \$Param{PriorityID}, \$Param{StateID}, \$Param{ServiceID},
-            \$Param{SLAID}, \$ValidID, \$Param{UserID}, \$Param{UserID},
+            \$Param{SLAID}, \$ValidID, \$ArchiveFlag, \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -851,6 +857,7 @@ Returns:
         Created            => '2010-10-27 20:15:00'
         CreateTimeUnix     => '1231414141',
         Changed            => '2010-10-27 20:15:15',
+        ArchiveFlag        => 'y',
         TicketFreeKey1-16
         TicketFreeText1-16
         TicketFreeTime1-6
@@ -949,7 +956,7 @@ sub TicketGet {
             . ' st.freetime5, st.freetime6,'
             . ' st.change_time, st.title, st.escalation_update_time, st.timeout,'
             . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time,'
-            . ' st.escalation_solution_time, st.escalation_time'
+            . ' st.escalation_solution_time, st.escalation_time, st.archive_flag'
             . ' FROM ticket st, ticket_priority sp, queue sq'
             . ' WHERE sp.id = st.ticket_priority_id AND sq.id = st.queue_id AND st.id = ?',
         Bind  => [ \$Param{TicketID} ],
@@ -967,8 +974,10 @@ sub TicketGet {
         $Ticket{PriorityID}     = $Row[5];
         $Ticket{Priority}       = $Row[6];
         $Ticket{CreateTimeUnix} = $Row[7];
-        $Ticket{Created}
-            = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Ticket{CreateTimeUnix} );
+        $Ticket{Created}        = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $Ticket{CreateTimeUnix},
+        );
+        $Ticket{ArchiveFlag}            = $Row[64] ? 'y' : 'n';
         $Ticket{Changed}                = $Row[54];
         $Ticket{EscalationTime}         = $Row[63];
         $Ticket{EscalationUpdateTime}   = $Row[56];
@@ -1207,7 +1216,7 @@ sub TicketUnlockTimeoutUpdate {
         Bind => [ \$Param{UnlockTimeout}, \$Param{TicketID} ],
     );
 
-    # reset ticket cache
+    # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # add history
@@ -3448,6 +3457,9 @@ To find tickets in your system.
         # tickets with escalation time before ... (optional)
         TicketEscalationTimeOlderDate => '2006-01-09 23:59:59',
 
+        # search in archive (optional)
+        ArchiveFlags => ['y', 'n'],
+
         # OrderBy and SortBy (optional)
         OrderBy => 'Down',  # Down|Up
         SortBy  => 'Age',   # Owner|Responsible|CustomerID|State|TicketNumber|Queue|Priority|Age|Type|Lock
@@ -3498,6 +3510,7 @@ sub TicketSearch {
     my $OrderBy = $Param{OrderBy} || 'Down';
     my $SortBy  = $Param{SortBy}  || 'Age';
     my $Limit   = $Param{Limit}   || 10000;
+
     if ( !$Param{ContentSearch} ) {
         $Param{ContentSearch} = 'AND';
     }
@@ -4668,6 +4681,33 @@ sub TicketSearch {
         $SQLExt .= " AND st.until_time >= $TimeStamp";
     }
 
+    # archive flag
+    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+
+        if ( $Param{ArchiveFlags} && ref $Param{ArchiveFlags} eq 'ARRAY' ) {
+
+            # prepare options
+            my %Options;
+            for my $Element ( @{ $Param{ArchiveFlags} } ) {
+                $Options{$Element} = 1;
+            }
+
+            if ( $Options{y} && !$Options{n} ) {
+                $SQLExt .= ' AND archive_flag = 1';
+            }
+            elsif ( $Options{y} && $Options{n} ) {
+
+                # do nothing
+            }
+            else {
+                $SQLExt .= ' AND archive_flag = 0';
+            }
+        }
+        else {
+            $SQLExt .= ' AND archive_flag = 0';
+        }
+    }
+
     # database query for sort/order by option
     if ( $Result ne 'COUNT' ) {
         $SQLExt .= ' ORDER BY';
@@ -4927,6 +4967,82 @@ sub LockSet {
     # trigger event
     $Self->EventHandler(
         Event => 'TicketLockUpdate',
+        Data  => {
+            TicketID => $Param{TicketID},
+        },
+        UserID => $Param{UserID},
+    );
+
+    return 1;
+}
+
+=item TicketArchiveFlagSet()
+
+to set the ticket archive flag
+
+    my $Success = $TicketObject->TicketArchiveFlagSet(
+        ArchiveFlag => 'y',  # (y|n)
+        TicketID    => 123,
+        UserID      => 123,
+    );
+
+Events:
+    TicketArchiveFlagUpdate
+
+=cut
+
+sub TicketArchiveFlagSet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TicketID UserID ArchiveFlag)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
+            return;
+        }
+    }
+
+    # check given archive flag
+    if ( $Param{ArchiveFlag} ne 'y' && $Param{ArchiveFlag} ne 'n' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The given ArchiveFlag is invalid!",
+        );
+        return;
+    }
+
+    # check if update is needed
+    my %Ticket = $Self->TicketGet(%Param);
+
+    return 1 if $Ticket{ArchiveFlag} && $Ticket{ArchiveFlag} eq $Param{ArchiveFlag};
+
+    # translate archive flag
+    my $ArchiveFlag = $Param{ArchiveFlag} eq 'y' ? 1 : 0;
+
+    # set new archive flag
+    return if !$Self->{DBObject}->Do(
+        SQL => 'UPDATE ticket SET archive_flag = ?, '
+            . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
+        Bind => [ \$ArchiveFlag, \$Param{UserID}, \$Param{TicketID} ],
+    );
+
+    # clear ticket cache
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+
+    # add history
+    $Self->HistoryAdd(
+        TicketID     => $Param{TicketID},
+        CreateUserID => $Param{UserID},
+        HistoryType  => 'ArchiveFlagUpdate',
+        Name         => "\%\%$Param{ArchiveFlag}",
+    );
+
+    # trigger event
+    $Self->EventHandler(
+        Event => 'TicketArchiveFlagUpdate',
         Data  => {
             TicketID => $Param{TicketID},
         },
@@ -7567,6 +7683,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.439 $ $Date: 2009-12-09 10:10:23 $
+$Revision: 1.440 $ $Date: 2009-12-09 11:06:49 $
 
 =cut
