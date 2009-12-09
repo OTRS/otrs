@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.65 2009-12-09 11:06:49 mh Exp $
+# $Id: GenericAgent.pm,v 1.66 2009-12-09 14:29:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 =head1 NAME
 
@@ -506,14 +506,8 @@ sub JobGet {
                 delete $Data{ $Type . $_ };
             }
             for (qw(Month Day)) {
-                if ( $Data{ $Type . "TimeStart$_" } <= 9 ) {
-                    $Data{ $Type . "TimeStart$_" } = '0' . $Data{ $Type . "TimeStart$_" };
-                }
-            }
-            for (qw(Month Day)) {
-                if ( $Data{ $Type . "TimeStop$_" } <= 9 ) {
-                    $Data{ $Type . "TimeStop$_" } = '0' . $Data{ $Type . "TimeStop$_" };
-                }
+                $Data{ $Type . "TimeStart$_" } = sprintf( '%02d', $Data{ $Type . "TimeStart$_" } );
+                $Data{ $Type . "TimeStop$_" }  = sprintf( '%02d', $Data{ $Type . "TimeStop$_" } );
             }
             if (
                 $Data{ $Type . 'TimeStartDay' }
@@ -1174,6 +1168,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2009-12-09 11:06:49 $
+$Revision: 1.66 $ $Date: 2009-12-09 14:29:32 $
 
 =cut
