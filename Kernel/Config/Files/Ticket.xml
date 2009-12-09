@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.283 2009-12-09 11:06:49 mh Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.284 2009-12-09 12:16:08 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6790,7 +6790,7 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Mail Management</Item>
                 <Item Key="Label">Follow up notification</Item>
-                <Item Key="Desc">Send me a notification if a customer sends a follow up and I'm the owner of this ticket.</Item>
+                <Item Key="Desc">Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">No</Item>
