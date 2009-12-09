@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-11-12 16:42:32
+--  driver: mssql, generated: 2009-12-09 09:13:12
 -- ----------------------------------------------------------
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 CREATE INDEX ticket_until_time ON ticket (until_time);
@@ -272,4 +272,7 @@ GO
 UPDATE package_repository SET name = '' WHERE name IS NULL;
 GO
 ALTER TABLE package_repository ALTER COLUMN name VARCHAR (200) NOT NULL;
+GO
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_article_attachment_content_type' )
+ALTER TABLE article_attachment DROP CONSTRAINT DF_article_attachment_content_type;
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virtual_fs_id_id FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);

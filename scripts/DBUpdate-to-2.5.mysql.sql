@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2009-11-12 16:42:32
+#  driver: mysql, generated: 2009-12-09 09:13:12
 # ----------------------------------------------------------
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 CREATE INDEX ticket_until_time ON ticket (until_time);
@@ -294,4 +294,9 @@ ALTER TABLE package_repository CHANGE name name VARCHAR (200) NULL;
 ALTER TABLE package_repository ALTER name DROP DEFAULT;
 UPDATE package_repository SET name = '' WHERE name IS NULL;
 ALTER TABLE package_repository CHANGE name name VARCHAR (200) NOT NULL;
+# ----------------------------------------------------------
+#  alter table article_attachment
+# ----------------------------------------------------------
+ALTER TABLE article_attachment CHANGE content_type content_type TEXT NULL;
+ALTER TABLE article_attachment ALTER content_type DROP DEFAULT;
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virtual_fs_id_id FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);

@@ -144,4 +144,8 @@
         <ColumnChange NameOld="name" NameNew="name" Required="true" Size="200" Type="VARCHAR"/>
     </TableAlter>
 
+    <TableAlter Name="article_attachment">
+        <ColumnChange NameOld="content_type" NameNew="content_type" Required="false" Size="450" Type="VARCHAR"/>
+    </TableAlter>
+
 </database>

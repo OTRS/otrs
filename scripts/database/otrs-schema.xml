@@ -1037,7 +1037,7 @@
     <Column Name="article_id" Required="true" Type="BIGINT"/>
     <Column Name="filename" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="content_size" Required="false" Size="30" Type="VARCHAR"/>
-    <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="content_type" Required="false" Size="450" Type="VARCHAR"/>
     <Column Name="content_id" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="content_alternative" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="content" Required="true" Type="LONGBLOB"/>

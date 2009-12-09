@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1098 2009-12-08 19:31:42 mae Exp $
+# $Id: CHANGES,v 1.1099 2009-12-09 08:14:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,10 +10,13 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/08) Fixed bug#4570 - Not processed attachment on incoming email
+    (value too long for type).
+    Increased varchar of article_attachment.content_type from 250 to 450.
  - (2009/12/08) Fixed bug#1698 - Send emails with the real name from the agent.
  - (2009/12/08) Fixed bug#2153 - Recognize domain names only if they are words.
  - (2009/12/08) Fixed bug#4399 - Phone- / Email-Ticket AJAX reload does not
-    consider ACL in Config.pm.
+    consider ACL in Kernel/Config.pm.
  - (2009/12/08) Fixed bug#4330 - Added new history-get results.
  - (2009/12/07) Fixed bug#3887 - Processing headers with faulty charset definitions.
  - (2009/12/04) Removed OptionElement() from Layout.pm. Use BuildSelection()
@@ -27,9 +30,9 @@
  - (2009/11/27) Updated CPAN module Text::Diff to version 1.37.
  - (2009/11/27) Updated CPAN module Text::CSV to version 1.15.
  - (2009/11/27) Updated CPAN module Authen::SASL to version 2.13.
- - (2009/11/27) changed directory structure for thirdparty javascript modules
- - (2009/11/27) switched AutoCompletion and Dialog from YUI to jQuery
- - (2009/11/25) switched to XHTML doctype
+ - (2009/11/27) Changed directory structure for thirdparty javascript modules.
+ - (2009/11/27) Switched AutoCompletion and Dialog from YUI to jQuery.
+ - (2009/11/25) Switched to XHTML doctype
     - not all of the generated HTML is valid yet, but much
     - from now on, ";" will be used as a query parameter separator in URLs
         (old: index.pl?Action=AgentExample&Subaction=Test,

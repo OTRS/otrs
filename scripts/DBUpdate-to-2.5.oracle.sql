@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-11-12 16:42:32
+--  driver: oracle, generated: 2009-12-09 09:13:12
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
@@ -117,5 +117,6 @@ ALTER TABLE notification_event MODIFY content_type VARCHAR2 (250) DEFAULT NULL;
 -- ----------------------------------------------------------
 ALTER TABLE notification_event ADD comments VARCHAR2 (250) NULL;
 ALTER TABLE package_repository MODIFY name VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE article_attachment MODIFY content_type VARCHAR2 (450) DEFAULT NULL;
 SET DEFINE OFF;
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_vib1 FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);
