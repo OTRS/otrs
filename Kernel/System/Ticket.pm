@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.438 2009-12-08 18:09:25 ub Exp $
+# $Id: Ticket.pm,v 1.439 2009-12-09 10:10:23 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,12 +31,12 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Email;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::Valid;
-use Kernel::System::HTMLUtils;
 use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
+use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.438 $) [1];
+$VERSION = qw($Revision: 1.439 $) [1];
 
 =head1 NAME
 
@@ -148,14 +148,15 @@ sub new {
         $Self->{QueueObject} = $Param{QueueObject};
     }
 
-    $Self->{SendmailObject} = Kernel::System::Email->new( %{$Self} );
-    $Self->{TypeObject}     = Kernel::System::Type->new( %{$Self} );
-    $Self->{PriorityObject} = Kernel::System::Priority->new( %{$Self} );
-    $Self->{ServiceObject}  = Kernel::System::Service->new( %{$Self} );
-    $Self->{SLAObject}      = Kernel::System::SLA->new( %{$Self} );
-    $Self->{StateObject}    = Kernel::System::State->new( %{$Self} );
-    $Self->{LockObject}     = Kernel::System::Lock->new( %{$Self} );
-    $Self->{ValidObject}    = Kernel::System::Valid->new( %{$Self} );
+    $Self->{SendmailObject}     = Kernel::System::Email->new( %{$Self} );
+    $Self->{TypeObject}         = Kernel::System::Type->new( %{$Self} );
+    $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
+    $Self->{ServiceObject}      = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}          = Kernel::System::SLA->new( %{$Self} );
+    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
+    $Self->{LockObject}         = Kernel::System::Lock->new( %{$Self} );
+    $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
+    $Self->{NotificationObject} = Kernel::System::Notification->new( %{$Self} );
 
     # init of event handler
     push @ISA, 'Kernel::System::EventHandler';
@@ -7566,6 +7567,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.438 $ $Date: 2009-12-08 18:09:25 $
+$Revision: 1.439 $ $Date: 2009-12-09 10:10:23 $
 
 =cut

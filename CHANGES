@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1102 2009-12-09 09:36:22 mg Exp $
+# $Id: CHANGES,v 1.1103 2009-12-09 10:10:23 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -127,6 +127,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/09) Fixed bug#4184 - Can't call method "NotificationGet" on
+    an undefined value.
  - (2009/12/09) Fixed bug#4371 - DataSelected value for
     PreferencesGroups###WatcherNotify doesn't work
  - (2009/12/09) Fixed bug#4486 - Some preferences displayed in AdminUser are not correct.
