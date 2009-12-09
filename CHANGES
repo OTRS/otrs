@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1106 2009-12-09 11:06:49 mh Exp $
+# $Id: CHANGES,v 1.1107 2009-12-09 14:23:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -129,6 +129,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/08) Fixed bug#4584 - Auto response does not use selected from e-mail
+    address.
  - (2009/12/09) Fixed bug#4556 - translation "Accounted Time" to german "Zugewiesene Zeit".
  - (2009/12/09) Fixed bug#4184 - Can't call method "NotificationGet" on
     an undefined value.
