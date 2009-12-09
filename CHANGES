@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1104 2009-12-09 10:15:18 mg Exp $
+# $Id: CHANGES,v 1.1105 2009-12-09 10:22:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/09) Updated CPAN module Text::CSV to version 1.16.
  - (2009/12/08) Fixed bug#4570 - Not processed attachment on incoming email
     (value too long for type).
     Increased varchar of article_attachment.content_type from 250 to 450.

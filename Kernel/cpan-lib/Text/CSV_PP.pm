@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.23';
+$VERSION = '1.24';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -26,6 +26,7 @@ my $ERRORS = {
         1000 => "INI - constructor failed",
         1001 => "sep_char is equal to quote_char or escape_char",
         1002 => "INI - allow_whitespace with escape_char or quote_char SP or TAB",
+        1003 => "INI - \r or \n in main attr not allowed",
 
         2010 => "ECR - QUO char inside quotes followed by CR not part of EOL",
         2011 => "ECR - Characters after end of quoted field",
@@ -84,6 +85,7 @@ my %def_attr = (
     blank_is_undef      => 0,
     empty_is_undef      => 0,
     auto_diag           => 0,
+    quote_space         => 1,
 
     _EOF                => 0,
     _STATUS             => undef,
@@ -137,6 +139,28 @@ sub version {
 ################################################################################
 # new
 ################################################################################
+
+sub _check_sanity {
+    my ( $self ) = @_;
+
+    for ( qw( sep_char quote_char escape_char ) ) {
+        ( exists $self->{$_} && defined $self->{$_} && $self->{$_} =~ m/[\r\n]/ ) and return 1003;
+    }
+
+    if ( $self->{allow_whitespace} and
+           ( defined $self->{quote_char}  && $self->{quote_char}  =~ m/^[ \t]$/ ) 
+           ||
+           ( defined $self->{escape_char} && $self->{escape_char} =~ m/^[ \t]$/ )
+    ) {
+       #$last_new_error = "INI - allow_whitespace with escape_char or quote_char SP or TAB";
+       #$last_new_err_num = 1002;
+       return 1002;
+    }
+
+    return 0;
+}
+
+
 sub new {
     my $proto = shift;
     my $attr  = @_ > 0 ? shift : {};
@@ -157,6 +181,18 @@ sub new {
         $self->{$prop} = $attr->{$prop};
     }
 
+    my $ec = _check_sanity( $self );
+
+    if ( $ec ) {
+        $last_new_error   = $ERRORS->{ $ec };
+        $last_new_err_num = $ec;
+        return;
+        #$class->SetDiag ($ec);
+    }
+
+
+=pod
+
     if ( $self->{allow_whitespace} and
            ( defined $self->{quote_char}  && $self->{quote_char}  =~ m/^[ \t]$/ ) 
            ||
@@ -166,6 +202,8 @@ sub new {
        $last_new_err_num = 1002;
        return;
     }
+
+=cut
 
     $last_new_error = '';
 
@@ -247,15 +285,16 @@ sub _combine {
     $self->{_STRING}      = '';
     $self->{_STATUS}      = 0;
 
-    my ($always_quote, $binary, $quot, $sep, $esc, $empty_is_undef)
-            = @{$self}{qw/always_quote binary quote_char sep_char escape_char empty_is_undef/};
+    my ($always_quote, $binary, $quot, $sep, $esc, $empty_is_undef, $quote_space)
+            = @{$self}{qw/always_quote binary quote_char sep_char escape_char empty_is_undef quote_space/};
 
     if(!defined $quot){ $quot = ''; }
 
     return $self->_set_error_diag(1001) if ($sep eq $esc or $sep eq $quot);
 
     my $re_esc = $self->{_re_comb_escape}->{$quot}->{$esc} ||= qr/(\Q$quot\E|\Q$esc\E)/;
-    my $re_sp  = $self->{_re_comb_sp}->{$sep}              ||= qr/[\s\Q$sep\E]/;
+#    my $re_sp  = $self->{_re_comb_sp}->{$sep}              ||= qr/[\s\Q$sep\E]/;
+    my $re_sp  = $self->{_re_comb_sp}->{$sep}->{$quote_space} ||= ( $quote_space ? qr/[\s\Q$sep\E]/ : qr/[\Q$sep\E]/ );
 
     my $must_be_quoted;
     for my $column (@part) {
@@ -281,7 +320,7 @@ sub _combine {
             $must_be_quoted++;
         }
         if($column =~ /$re_sp/){
-            $must_be_quoted++;
+            $must_be_quoted++ if $quote_space;
         }
 
         if($binary){
@@ -289,8 +328,8 @@ sub _combine {
             $must_be_quoted++ if ( $column =~ s/\0/${esc}0/g || $column =~ /[\x00-\x1f\x7f-\xa0]/ );
         }
 
-        if ( $empty_is_undef and defined $column and not length $column ) {
-        }
+        #if ( $empty_is_undef and defined $column and not length $column ) {
+        #}
         #elsif($always_quote or $must_be_quoted){
         if($always_quote or $must_be_quoted){
             $column = $quot . $column . $quot;
@@ -807,8 +846,8 @@ sub _set_error_diag {
 ################################################################################
 
 BEGIN {
-    for my $method ( qw/sep_char always_quote binary keep_meta_info allow_loose_quotes allow_loose_escapes
-                            verbatim blank_is_undef empty_is_undef auto_diag/ ) {
+    for my $method ( qw/always_quote binary keep_meta_info allow_loose_quotes allow_loose_escapes
+                            verbatim blank_is_undef empty_is_undef auto_diag quote_space/ ) {
         eval qq|
             sub $method {
                 \$_[0]->{$method} = defined \$_[1] ? \$_[1] : 0 if (\@_ > 1);
@@ -819,12 +858,24 @@ BEGIN {
 }
 
 
+
+sub sep_char {
+    my $self = shift;
+    if ( @_ ) {
+        $self->{sep_char} = $_[0];
+        my $ec = _check_sanity( $self );
+        $ec and Carp::croak( $self->SetDiag( $ec ) );
+    }
+    $self->{sep_char};
+}
+
+
 sub quote_char {
     my $self = shift;
     if ( @_ ) {
-        my $qc = shift;
-        defined $qc && $qc =~ m/^[ \t]$/ && $self->{allow_whitespace} and Carp::croak( $self->SetDiag(1002) );
-        $self->{quote_char} = $qc;
+        $self->{quote_char} = $_[0];
+        my $ec = _check_sanity( $self );
+        $ec and Carp::croak( $self->SetDiag( $ec ) );
     }
     $self->{quote_char};
 }
@@ -833,9 +884,9 @@ sub quote_char {
 sub escape_char {
     my $self = shift;
     if ( @_ ) {
-        my $es = shift;
-        defined $es && $es =~ m/^[ \t]$/ && $self->{allow_whitespace} and Carp::croak( $self->SetDiag(1002) );
-        $self->{escape_char} = $es;
+        $self->{escape_char} = $_[0];
+        my $ec = _check_sanity( $self );
+        $ec and Carp::croak( $self->SetDiag( $ec ) );
     }
     $self->{escape_char};
 }
@@ -943,7 +994,7 @@ is a XS module and Text::CSV_PP is a Puer Perl one.
 
 =head1 VERSION
 
-    1.22
+    1.24
 
 This module is compatible with Text::CSV_XS B<0.68> and later.
 
@@ -1151,6 +1202,13 @@ example, if they contain the separator. If you set this attribute to
 a TRUE value, then all fields will be quoted. This is typically easier
 to handle in external applications.
 
+=item quote_space
+
+By default, a space in a field would trigger quotation. As no rule
+exists this to be forced in CSV, nor any for the opposite, the default
+is true for safety. You can exclude the space from this trigger by
+setting this option to 0.
+
 =item keep_meta_info
 
 By default, the parsing of input lines is as simple and fast as
@@ -1218,6 +1276,7 @@ is equivalent to
      sep_char            => ',',
      eol                 => $\,
      always_quote        => 0,
+     quote_space         => 1,
      binary              => 0,
      keep_meta_info      => 0,
      allow_loose_quotes  => 0,
@@ -1550,6 +1609,11 @@ or the escape character, as that will invalidate all parsing rules.
 
 Using C<allow_whitespace> when either C<escape_char> or C<quote_char> is
 equal to SPACE or TAB is too ambiguous to allow.
+
+=item 1003 "INI - \r or \n in main attr not allowed"
+
+Using default C<eol> characters in either C<sep_char>, C<quote_char>, or
+C<escape_char> is not allowed.
 
 =item 2010 "ECR - QUO char inside quotes followed by CR not part of EOL"
 

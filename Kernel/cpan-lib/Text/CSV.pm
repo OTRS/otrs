@@ -5,14 +5,14 @@ use strict;
 use Carp ();
 
 BEGIN {
-    $Text::CSV::VERSION = '1.15';
+    $Text::CSV::VERSION = '1.16';
     $Text::CSV::DEBUG   = 0;
 }
 
 # if use CSV_XS, requires version
 my $Module_XS  = 'Text::CSV_XS';
 my $Module_PP  = 'Text::CSV_PP';
-my $XS_Version = '0.69';
+my $XS_Version = '0.70';
 
 my $Is_Dynamic = 0;
 
@@ -25,7 +25,7 @@ my @PublicMethods = qw/
     version types quote_char escape_char sep_char eol always_quote binary allow_whitespace
     keep_meta_info allow_loose_quotes allow_loose_escapes verbatim meta_info is_quoted is_binary eof
     getline print parse combine fields string error_diag error_input status blank_is_undef empty_is_undef
-    getline_hr column_names bind_columns auto_diag
+    getline_hr column_names bind_columns auto_diag quote_space
     PV IV NV
 /;
 #
@@ -286,9 +286,9 @@ perhaps better called ASV (anything separated values) rather than just CSV.
 
 =head1 VERSION
 
-    1.15
+    1.16
 
-This module is compatible with Text::CSV_XS B<0.69> and later.
+This module is compatible with Text::CSV_XS B<0.70> and later.
 
 =head2 Embedded newlines
 
@@ -544,6 +544,13 @@ example, if they contain the separator. If you set this attribute to
 a TRUE value, then all fields will be quoted. This is typically easier
 to handle in external applications.
 
+=item quote_space
+
+By default, a space in a field would trigger quotation. As no rule
+exists this to be forced in CSV, nor any for the opposite, the default
+is true for safety. You can exclude the space from this trigger by
+setting this option to 0.
+
 =item keep_meta_info
 
 By default, the parsing of input lines is as simple and fast as
@@ -611,6 +618,7 @@ is equivalent to
      sep_char            => ',',
      eol                 => $\,
      always_quote        => 0,
+     quote_space         => 1,
      binary              => 0,
      keep_meta_info      => 0,
      allow_loose_quotes  => 0,
