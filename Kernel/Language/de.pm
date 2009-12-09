@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.222 2009-12-09 10:15:18 mg Exp $
+# $Id: de.pm,v 1.223 2009-12-09 10:20:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.222 $) [1];
+$VERSION = qw($Revision: 1.223 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1401,7 +1401,7 @@ sub Data {
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Ticket-Info',
-        'Accounted time' => 'Zeiterfassung',
+        'Accounted time' => 'Erfasste Zeit',
         'Linked-Object' => 'Verknüpfte-Objekte',
         'by' => 'von',
 
