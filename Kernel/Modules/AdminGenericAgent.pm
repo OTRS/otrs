@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.69.2.1 2009-09-16 12:35:06 mb Exp $
+# $Id: AdminGenericAgent.pm,v 1.69.2.2 2009-12-09 14:30:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69.2.1 $) [1];
+$VERSION = qw($Revision: 1.69.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,6 +169,15 @@ sub Run {
                 my $Key = $Type . $Attribut;
                 $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
             }
+
+            # validate data
+            for my $Attribut (
+                qw(TimeStartDay TimeStartMonth TimeStopMonth TimeStopDay)
+                )
+            {
+                my $Key = $Type . $Attribut;
+                $GetParam{$Key} = sprintf( '%02d', $GetParam{$Key} ) if $GetParam{$Key};
+            }
         }
 
         # get new free field params
@@ -288,15 +297,10 @@ sub Run {
             }
             elsif ( $GetParam{$SearchType} eq 'TimeSlot' ) {
                 for (qw(Month Day)) {
-                    if ( $GetParam{ $Type . "TimeStart$_" } <= 9 ) {
-                        $GetParam{ $Type . "TimeStart$_" }
-                            = '0' . $GetParam{ $Type . "TimeStart$_" };
-                    }
-                }
-                for (qw(Month Day)) {
-                    if ( $GetParam{ $Type . "TimeStop$_" } <= 9 ) {
-                        $GetParam{ $Type . "TimeStop$_" } = '0' . $GetParam{ $Type . "TimeStop$_" };
-                    }
+                    $GetParam{ $Type . "TimeStart$_" }
+                        = sprintf( '%02d', $GetParam{ $Type . "TimeStart$_" } );
+                    $GetParam{ $Type . "TimeStop$_" }
+                        = sprintf( '%02d', $GetParam{ $Type . "TimeStop$_" } );
                 }
                 if (
                     $GetParam{ $Type . 'TimeStartDay' }

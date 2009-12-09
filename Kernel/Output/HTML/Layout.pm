@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.176.2.10 2009-12-09 08:39:22 mg Exp $
+# $Id: Layout.pm,v 1.176.2.11 2009-12-09 14:30:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.176.2.10 $) [1];
+$VERSION = qw($Revision: 1.176.2.11 $) [1];
 
 =head1 NAME
 
@@ -3718,7 +3718,7 @@ sub BuildDateSelection {
             . $Prefix
             . "Day\" id=\"" . $Prefix . "Day\" size=\"2\" maxlength=\"2\" "
             . "value=\""
-            . ( $Param{ $Prefix . 'Day' } || $D ) . "\"/>";
+            . sprintf( "%02d", ( $Param{ $Prefix . 'Day' } || $D ) ) . "\"/>";
     }
     if ( $Format eq 'DateInputFormatLong' ) {
 
@@ -4396,6 +4396,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.176.2.10 $ $Date: 2009-12-09 08:39:22 $
+$Revision: 1.176.2.11 $ $Date: 2009-12-09 14:30:12 $
 
 =cut
