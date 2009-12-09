@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesTicketWatcher.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesTicketWatcher.pm,v 1.1 2009-02-17 00:19:32 martin Exp $
+# $Id: PreferencesTicketWatcher.pm,v 1.1.2.1 2009-12-09 09:37:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.1.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,13 +60,15 @@ sub Param {
     # return on no access
     return if !$Access;
 
-    my @Params = ();
-    push(
-        @Params,
+    my $SelectedID = $Param{UserData}->{UserSendWatcherNotification};
+    $SelectedID = $Self->{ConfigItem}->{DataSelected} if !defined $SelectedID;
+    $SelectedID = 0 if !defined $SelectedID;
+
+    my @Params = (
         {
             %Param,
             Name       => $Self->{ConfigItem}->{PrefKey},
-            SelectedID => $Param{UserData}->{UserSendWatcherNotification} || 0,
+            SelectedID => $SelectedID,
             Block      => 'Option',
         },
     );
