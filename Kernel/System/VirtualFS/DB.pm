@@ -2,7 +2,7 @@
 # Kernel/System/VirtualFS/DB.pm - all virtual fs functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.1 2009-09-23 22:11:59 martin Exp $
+# $Id: DB.pm,v 1.2 2009-12-10 11:59:54 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,8 +15,8 @@ use strict;
 use warnings;
 use MIME::Base64;
 
-use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
