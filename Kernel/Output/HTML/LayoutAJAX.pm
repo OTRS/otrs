@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.23 2009-12-02 08:44:09 mn Exp $
+# $Id: LayoutAJAX.pm,v 1.24 2009-12-11 17:45:51 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =item JSON()
 
@@ -88,10 +88,10 @@ sub JSON {
     # string
     else {
         if ( $Param{Data} =~ /^\d+$/ ) {
-            $JSON .= $Self->JSONQuote( Data => $Param{Data} ) . ',';
+            $JSON .= $Self->JSONQuote( Data => $Param{Data} );
         }
         else {
-            $JSON .= '"' . $Self->JSONQuote( Data => $Param{Data} ) . '",';
+            $JSON .= '"' . $Self->JSONQuote( Data => $Param{Data} ) . '"';
         }
     }
 
