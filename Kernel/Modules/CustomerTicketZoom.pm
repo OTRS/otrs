@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.54 2009-12-08 15:25:22 ub Exp $
+# $Id: CustomerTicketZoom.pm,v 1.55 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -655,7 +655,7 @@ sub _Mask {
             else {
                 $StateSelected{Selected} = $Self->{Config}->{StateDefault};
             }
-            $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data => \%NextStates,
                 Name => 'StateID',
                 %StateSelected,
@@ -679,7 +679,7 @@ sub _Mask {
             else {
                 $PrioritySelected{Selected} = $Self->{Config}->{PriorityDefault} || '3 normal';
             }
-            $Param{PriorityStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data => \%Priorities,
                 Name => 'PriorityID',
                 %PrioritySelected,

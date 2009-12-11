@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.34 2009-12-08 18:07:27 mg Exp $
+# $Id: AdminResponse.pm,v 1.35 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -181,14 +181,14 @@ sub _Mask {
     my ( $Self, %Param ) = @_;
 
     # build ValidID string
-    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'ValidOption'} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
 
     # build ResponseOption string
-    $Param{'ResponseOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'ResponseOption'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{DBObject}->GetTableData(
                 What  => 'id, name, id',

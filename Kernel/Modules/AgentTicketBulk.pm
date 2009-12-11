@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.42 2009-11-26 08:02:17 mg Exp $
+# $Id: AgentTicketBulk.pm,v 1.43 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -381,7 +381,7 @@ sub _Mask {
             delete $NoteTypes{$_};
         }
     }
-    $Param{NoteStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{NoteStrg} = $Self->{LayoutObject}->BuildSelection(
         Data     => \%NoteTypes,
         Name     => 'ArticleTypeID',
         Selected => $Self->{Config}->{ArticleTypeDefault},
@@ -408,7 +408,7 @@ sub _Mask {
             $State{SelectedID} = $Param{StateID};
         }
 
-        $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => \%StateList,
             Name => 'StateID',
             %State,
@@ -457,7 +457,7 @@ sub _Mask {
                 %AllGroupsMembers = %AllGroupsMembersNew;
             }
         }
-        $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => { '' => '-', %AllGroupsMembers },
             Name => 'OwnerID',
             LanguageTranslation => 0,
@@ -491,7 +491,7 @@ sub _Mask {
                 %AllGroupsMembers = %AllGroupsMembersNew;
             }
         }
-        $Param{ResponsibleStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => { '' => '-', %AllGroupsMembers },
             Name => 'ResponsibleID',
             LanguageTranslation => 0,
@@ -536,7 +536,7 @@ sub _Mask {
         else {
             $Priority{SelectedID} = $Param{PriorityID};
         }
-        $Param{PriorityStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => \%PriorityList,
             Name => 'PriorityID',
             %Priority,
@@ -559,13 +559,13 @@ sub _Mask {
         );
     }
 
-    $Param{LinkTogetherYesNoOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{LinkTogetherYesNoOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'LinkTogether',
         SelectedID => 0,
     );
 
-    $Param{UnlockYesNoOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{UnlockYesNoOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'Unlock',
         SelectedID => 1,

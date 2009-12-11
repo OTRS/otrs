@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.pm,v 1.65 2009-12-08 14:53:02 martin Exp $
+# $Id: AgentTicketFreeText.pm,v 1.66 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -921,7 +921,7 @@ sub _Mask {
 
         # get old owner
         my @OldUserInfo = $Self->{TicketObject}->OwnerList( TicketID => $Self->{TicketID} );
-        $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%ShownUsers,
             SelectedID => $Param{NewOwnerID},
             Name       => 'NewOwnerID',
@@ -950,7 +950,7 @@ sub _Mask {
         }
 
         # build string
-        $Param{OldOwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{OldOwnerStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%UserHash,
             SelectedID => $OldOwnerSelectedID,
             Name       => 'OldOwnerID',
@@ -996,7 +996,7 @@ sub _Mask {
         }
 
         # get responsible
-        $Param{ResponsibleStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%ShownUsers,
             SelectedID => $Param{NewResponsibleID} || $Ticket{ResponsibleID},
             Name       => 'NewResponsibleID',
@@ -1027,7 +1027,7 @@ sub _Mask {
         }
 
         # build next states string
-        $Param{StateStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{StateStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => \%StateList,
             Name => 'NewStateID',
             %State,
@@ -1075,7 +1075,7 @@ sub _Mask {
         else {
             $Priority{SelectedID} = $Param{NewPriorityID};
         }
-        $Param{PriorityStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => \%PriorityList,
             Name => 'NewPriorityID',
             %Priority,
@@ -1120,7 +1120,7 @@ sub _Mask {
             for my $UserID ( keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
             }
-            $Param{OptionStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Param{OptionStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data               => \%ShownUsers,
                 SelectedIDRefArray => $Self->{InformUserID},
                 Name               => 'InformUserID',
@@ -1144,7 +1144,7 @@ sub _Mask {
                 $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
                     . "$User->{UserFirstname} ($User->{UserLogin})";
             }
-            $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data               => \%UserHash,
                 SelectedIDRefArray => $Self->{InvolvedUserID},
                 Name               => 'InvolvedUserID',
@@ -1190,7 +1190,7 @@ sub _Mask {
                 delete $NoteTypes{$_};
             }
         }
-        $Param{ArticleTypeStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ArticleTypeStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => \%NoteTypes,
             Name => 'ArticleTypeID',
             %ArticleType,

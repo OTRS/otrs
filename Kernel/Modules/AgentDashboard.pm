@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.19 2009-12-08 17:22:30 mn Exp $
+# $Id: AgentDashboard.pm,v 1.20 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -343,7 +343,7 @@ sub Run {
                     },
                 );
                 if ( $Param->{Block} eq 'Option' ) {
-                    $Param->{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
+                    $Param->{Option} = $Self->{LayoutObject}->BuildSelection(
                         Data       => $Param->{Data},
                         Name       => $Param->{Name},
                         SelectedID => $Param->{SelectedID},

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.20 2009-12-08 16:04:29 mg Exp $
+# $Id: AdminService.pm,v 1.21 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,7 +132,7 @@ sub Run {
                         || ref( $Preferences{$Item}->{Data} ) eq 'HASH'
                         )
                     {
-                        $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                        $ParamItem->{'Option'} = $Self->{LayoutObject}->BuildSelection(
                             %{ $Preferences{$Item} },
                             %{$ParamItem},
                         );

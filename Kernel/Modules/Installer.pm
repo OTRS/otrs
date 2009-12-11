@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.66 2009-12-09 14:01:47 mn Exp $
+# $Id: Installer.pm,v 1.67 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -581,18 +581,18 @@ sub Run {
             my $Tmp = sprintf( "%02d", $_ );
             $SystemIDs{"$Tmp"} = "$Tmp";
         }
-        $Param{SystemIDString} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{SystemIDString} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%SystemIDs,
             Name       => 'SystemID',
             SelectedID => $Self->{ConfigObject}->Get('SystemID'),
         );
-        $Param{LanguageString} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{LanguageString} = $Self->{LayoutObject}->BuildSelection(
             Data       => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
             Name       => 'DefaultLanguage',
             HTMLQuote  => 0,
             SelectedID => $Self->{LayoutObject}->{UserLanguage},
         );
-        $Param{LogModuleString} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{LogModuleString} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 'Kernel::System::Log::SysLog' => 'Syslog',
                 'Kernel::System::Log::File'   => 'File',

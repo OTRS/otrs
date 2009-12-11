@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.83 2009-12-08 10:16:08 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.84 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -750,7 +750,7 @@ sub Run {
     my %List = $Self->{SysConfigObject}->ConfigGroupList();
 
     # create select Box
-    $Data{Liste} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Data{Liste} = $Self->{LayoutObject}->BuildSelection(
         Data                => \%List,
         SelectedID          => $Group,
         Name                => 'SysConfigGroup',
@@ -849,7 +849,7 @@ sub ListConfigItem {
                 $Default = $Option->{Item}->[$Index]->{Content};
             }
         }
-        my $PulldownMenue = $Self->{LayoutObject}->OptionStrgHashRef(
+        my $PulldownMenue = $Self->{LayoutObject}->BuildSelection(
             Data       => \%Hash,
             SelectedID => $Option->{SelectedID},
             Name       => $ItemHash{Name},
@@ -950,7 +950,7 @@ sub ListConfigItem {
                     $Hash{ $Hash->{Item}->[$Index]->{Option}->[1]->{Item}->[$Index2]->{Key} }
                         = $Hash->{Item}->[$Index]->{Option}->[1]->{Item}->[$Index2]->{Content};
                 }
-                my $PulldownMenue = $Self->{LayoutObject}->OptionStrgHashRef(
+                my $PulldownMenue = $Self->{LayoutObject}->BuildSelection(
                     Data       => \%Hash,
                     SelectedID => $Hash->{Item}->[$Index]->{Option}->[1]->{SelectedID},
                     Name       => $ItemHash{Name} . 'Content[]',

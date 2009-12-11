@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.76 2009-12-09 11:06:49 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.77 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1174,21 +1174,21 @@ sub MaskForm {
             }
         }
     }
-    $Param{'UserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'UserStrg'} = $Self->{LayoutObject}->BuildSelection(
         Data               => \%ShownUsers,
         Name               => 'OwnerIDs',
         Multiple           => 1,
         Size               => 5,
         SelectedIDRefArray => $Param{OwnerIDs},
     );
-    $Param{'CreatedUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'CreatedUserStrg'} = $Self->{LayoutObject}->BuildSelection(
         Data               => \%ShownUsers,
         Name               => 'CreatedUserIDs',
         Multiple           => 1,
         Size               => 5,
         SelectedIDRefArray => $Param{CreatedUserIDs},
     );
-    $Param{'ResultFormStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'ResultFormStrg'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             Normal => 'Normal',
             Print  => 'Print',
@@ -1211,7 +1211,7 @@ sub MaskForm {
         );
     }
 
-    $Param{'ProfilesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'ProfilesStrg'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             '', '-',
             $Self->{SearchProfileObject}->SearchProfileList(
@@ -1222,7 +1222,7 @@ sub MaskForm {
         Name       => 'Profile',
         SelectedID => $Param{Profile},
     );
-    $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'StatesStrg'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{StateObject}->StateList(
                 UserID => $Self->{UserID},
@@ -1254,7 +1254,7 @@ sub MaskForm {
         SelectedIDRefArray => $Param{CreatedQueueIDs},
         OnChangeSubmit     => 0,
     );
-    $Param{'PrioritiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'PrioritiesStrg'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{PriorityObject}->PriorityList(
                 UserID => $Self->{UserID},
@@ -1267,7 +1267,7 @@ sub MaskForm {
         SelectedIDRefArray => $Param{PriorityIDs},
     );
 
-    $Param{'ArticleCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'ArticleCreateTimePoint'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             1  => ' 1',
             2  => ' 2',
@@ -1332,7 +1332,7 @@ sub MaskForm {
         Name       => 'ArticleCreateTimePoint',
         SelectedID => $Param{ArticleCreateTimePoint},
     );
-    $Param{'ArticleCreateTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'ArticleCreateTimePointStart'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             'Last'   => 'last',
             'Before' => 'before',
@@ -1340,7 +1340,7 @@ sub MaskForm {
         Name => 'ArticleCreateTimePointStart',
         SelectedID => $Param{ArticleCreateTimePointStart} || 'Last',
     );
-    $Param{'ArticleCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'ArticleCreateTimePointFormat'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             minute => 'minute(s)',
             hour   => 'hour(s)',
@@ -1363,7 +1363,7 @@ sub MaskForm {
         Prefix => 'ArticleCreateTimeStop',
         Format => 'DateInputFormat',
     );
-    $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             1  => ' 1',
             2  => ' 2',
@@ -1428,7 +1428,7 @@ sub MaskForm {
         Name       => 'TicketCreateTimePoint',
         SelectedID => $Param{TicketCreateTimePoint},
     );
-    $Param{'TicketCreateTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'TicketCreateTimePointStart'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             'Last'   => 'last',
             'Before' => 'before',
@@ -1436,7 +1436,7 @@ sub MaskForm {
         Name => 'TicketCreateTimePointStart',
         SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
     );
-    $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             minute => 'minute(s)',
             hour   => 'hour(s)',
@@ -1475,7 +1475,7 @@ sub MaskForm {
         );
     }
 
-    $Param{'TicketChangeTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'TicketChangeTimePoint'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             1  => ' 1',
             2  => ' 2',
@@ -1540,7 +1540,7 @@ sub MaskForm {
         Name       => 'TicketChangeTimePoint',
         SelectedID => $Param{TicketChangeTimePoint},
     );
-    $Param{'TicketChangeTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'TicketChangeTimePointStart'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             'Last'   => 'last',
             'Before' => 'before',
@@ -1548,7 +1548,7 @@ sub MaskForm {
         Name => 'TicketChangeTimePointStart',
         SelectedID => $Param{TicketChangeTimePointStart} || 'Last',
     );
-    $Param{'TicketChangeTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'TicketChangeTimePointFormat'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             minute => 'minute(s)',
             hour   => 'hour(s)',
@@ -1572,7 +1572,7 @@ sub MaskForm {
         Format => 'DateInputFormat',
     );
 
-    $Param{'TicketCloseTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'TicketCloseTimePoint'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             1  => ' 1',
             2  => ' 2',
@@ -1637,7 +1637,7 @@ sub MaskForm {
         Name       => 'TicketCloseTimePoint',
         SelectedID => $Param{TicketCloseTimePoint},
     );
-    $Param{'TicketCloseTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'TicketCloseTimePointStart'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             'Last'   => 'last',
             'Before' => 'before',
@@ -1645,7 +1645,7 @@ sub MaskForm {
         Name => 'TicketCloseTimePointStart',
         SelectedID => $Param{TicketCloseTimePointStart} || 'Last',
     );
-    $Param{'TicketCloseTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'TicketCloseTimePointFormat'} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             minute => 'minute(s)',
             hour   => 'hour(s)',

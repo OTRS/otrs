@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.33 2009-07-20 10:36:04 mh Exp $
+# $Id: AdminAutoResponse.pm,v 1.34 2009-12-11 09:42:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -134,13 +134,13 @@ sub _Mask {
     my ( $Self, %Param ) = @_;
 
     # build ValidID string
-    $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
 
-    $Param{AutoResponseOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{AutoResponseOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{AutoResponseObject}->AutoResponseList(), },
         Name       => 'ID',
         Max        => 75,
@@ -148,13 +148,13 @@ sub _Mask {
         SelectedID => $Param{ID},
     );
 
-    $Param{TypeOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{TypeOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{AutoResponseObject}->AutoResponseTypeList(), },
         Name       => 'TypeID',
         SelectedID => $Param{TypeID},
     );
 
-    $Param{SystemAddressOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
         Name => 'AddressID',
         SelectedID => $Param{AddressID},

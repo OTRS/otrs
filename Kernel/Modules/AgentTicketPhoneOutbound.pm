@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.34 2009-12-08 14:53:01 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.35 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -810,7 +810,7 @@ sub _MaskPhone {
     else {
         $Param{NextStates}->{''} = '-';
     }
-    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->BuildSelection(
         Data => $Param{NextStates},
         Name => 'NextStateID',
         %Selected,

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarTicketSearchProfile.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarTicketSearchProfile.pm,v 1.3 2009-04-06 21:19:17 martin Exp $
+# $Id: NavBarTicketSearchProfile.pm,v 1.4 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,7 +46,7 @@ sub Run {
     );
 
     # create search profiles string
-    my $ProfilesStrg = $Self->{LayoutObject}->OptionStrgHashRef(
+    my $ProfilesStrg = $Self->{LayoutObject}->BuildSelection(
         Data => {
             '', '-',
             $Self->{SearchProfileObject}->SearchProfileList(

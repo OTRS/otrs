@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.59 2009-12-08 14:53:02 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.60 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -772,7 +772,7 @@ sub _Mask {
         $State{SelectedID} = $Param{ComposeStateID};
     }
 
-    $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => $Param{NextStates},
         Name => 'ComposeStateID',
         %State,
@@ -783,14 +783,14 @@ sub _Mask {
         $ArticleTypes{ $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $_ ) } = $_;
     }
     if ( $Self->{GetParam}->{ArticleTypeID} ) {
-        $Param{ArticleTypesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%ArticleTypes,
             Name       => 'ArticleTypeID',
             SelectedID => $Self->{GetParam}->{ArticleTypeID},
         );
     }
     else {
-        $Param{ArticleTypesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data     => \%ArticleTypes,
             Name     => 'ArticleTypeID',
             Selected => $Self->{Config}->{ArticleTypeDefault},

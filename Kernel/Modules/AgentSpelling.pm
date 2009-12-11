@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentSpelling.pm - spelling module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.pm,v 1.24 2009-08-26 13:05:05 martin Exp $
+# $Id: AgentSpelling.pm,v 1.25 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -163,7 +163,7 @@ sub _Mask {
     my ( $Self, %Param ) = @_;
 
     # dict language selection
-    $Param{SpellLanguageString} .= $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SpellLanguageString} .= $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('PreferencesGroups')->{SpellDict}->{Data},
         Name       => 'SpellLanguage',
         SelectedID => $Param{SpellLanguage},
@@ -189,7 +189,7 @@ sub _Mask {
                 else {
                     $ReplaceWords{''} = 'No suggestions';
                 }
-                $Param{SpellCheckString} = $Self->{LayoutObject}->OptionStrgHashRef(
+                $Param{SpellCheckString} = $Self->{LayoutObject}->BuildSelection(
                     Data     => \%ReplaceWords,
                     Name     => "SpellCheckOption::$Param{SpellCounter}",
                     OnChange => "change_selected($Param{SpellCounter})"

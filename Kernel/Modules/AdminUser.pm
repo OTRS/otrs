@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.57 2009-11-25 15:15:28 mg Exp $
+# $Id: AdminUser.pm,v 1.58 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -363,7 +363,7 @@ sub _Edit {
         Name => 'Overview',
         Data => \%Param,
     );
-    $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
@@ -431,7 +431,7 @@ sub _Edit {
                             || ref( $Preference{Data} ) eq 'HASH'
                             )
                         {
-                            $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                            $ParamItem->{'Option'} = $Self->{LayoutObject}->BuildSelection(
                                 %Preference, %{$ParamItem},
                             );
                         }

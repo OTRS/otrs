@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.83 2009-11-25 15:39:15 mg Exp $
+# $Id: AdminPackageManager.pm,v 1.84 2009-12-11 09:42:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1039,7 +1039,7 @@ sub Run {
         if ( $Self->{ConfigObject}->Get('Package::RepositoryRoot') ) {
             %RepositoryRoot = $Self->{PackageObject}->PackageOnlineRepositories();
         }
-        $Frontend{SourceList} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Frontend{SourceList} = $Self->{LayoutObject}->BuildSelection(
             Data => { %List, %RepositoryRoot, },
             Name => 'Source',
             Max  => 40,

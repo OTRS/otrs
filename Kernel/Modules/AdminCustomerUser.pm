@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.59 2009-11-25 15:39:15 mg Exp $
+# $Id: AdminCustomerUser.pm,v 1.60 2009-12-11 09:42:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -413,7 +413,7 @@ sub _Overview {
     my $Output = '';
 
     # build source string
-    $Param{'SourceOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'SourceOption'} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{CustomerUserObject}->CustomerSourceList() },
         Name       => 'Source',
         SelectedID => $Param{Source} || '',
@@ -486,14 +486,14 @@ sub _Edit {
     my $Output = '';
 
     # build source string
-    $Param{'CompanyOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'CompanyOption'} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{CustomerCompanyObject}->CustomerCompanyList() },
         Name       => 'CustomerID',
         SelectedID => $Param{CustomerID},
     );
 
     # build source string
-    $Param{'SourceOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'SourceOption'} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{CustomerUserObject}->CustomerSourceList() },
         Name       => 'Source',
         SelectedID => $Param{Source},
@@ -535,7 +535,7 @@ sub _Edit {
             # build selections or input fields
             if ( $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] } ) {
                 $Block = 'Option';
-                $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
+                $Param{Option} = $Self->{LayoutObject}->BuildSelection(
                     Data =>
                         $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] },
                     Name                => $Entry->[0],
@@ -548,7 +548,7 @@ sub _Edit {
 
                 # build ValidID string
                 $Block = 'Option';
-                $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
+                $Param{Option} = $Self->{LayoutObject}->BuildSelection(
                     Data       => { $Self->{ValidObject}->ValidList(), },
                     Name       => $Entry->[0],
                     SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
@@ -573,7 +573,7 @@ sub _Edit {
                     }
                 }
                 $Block = 'Option';
-                $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
+                $Param{Option} = $Self->{LayoutObject}->BuildSelection(
                     Data       => \%CompanyList,
                     Name       => $Entry->[0],
                     Max        => 80,
@@ -672,7 +672,7 @@ sub _Edit {
                                 || ref( $Preference{Data} ) eq 'HASH'
                                 )
                             {
-                                $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                $ParamItem->{'Option'} = $Self->{LayoutObject}->BuildSelection(
                                     %Preference, %{$ParamItem},
                                 );
                             }

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.58 2009-12-08 17:57:24 mg Exp $
+# $Id: LayoutTicket.pm,v 1.59 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -40,7 +40,7 @@ sub TicketStdResponseString {
             . $Param{ArticleID} . '"/>'
             . '<input type="hidden" name="TicketID" value="'
             . $Param{TicketID} . '"/>'
-            . $Self->OptionStrgHashRef(
+            . $Self->BuildSelection(
             Name => 'ResponseID',
             Data => $Param{StdResponsesRef},
             ) . '<input class="button" type="submit" value="$Text{"Compose"}"/></form>';
@@ -269,7 +269,7 @@ sub AgentQueueListOption {
 
     # just show a simple list
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'list' ) {
-        $Param{'MoveQueuesStrg'} = $Self->OptionStrgHashRef( %Param, HTMLQuote => 0, );
+        $Param{'MoveQueuesStrg'} = $Self->BuildSelection( %Param, HTMLQuote => 0, );
         return $Param{MoveQueuesStrg};
     }
 
@@ -390,7 +390,7 @@ sub AgentFreeText {
                 }
             }
             elsif ( $Counter > 1 ) {
-                $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
+                $Data{"TicketFreeKeyField$_"} = $Self->BuildSelection(
                     Data => { %NullOption, %{ $Config{"TicketFreeKey$_"} }, },
                     Name => "TicketFreeKey$_",
                     SelectedID          => $Ticket{"TicketFreeKey$_"},
@@ -436,7 +436,7 @@ sub AgentFreeText {
 
         # value
         if ( ref $Config{"TicketFreeText$_"} eq 'HASH' ) {
-            $Data{"TicketFreeTextField$_"} = $Self->OptionStrgHashRef(
+            $Data{"TicketFreeTextField$_"} = $Self->BuildSelection(
                 Data => { %NullOption, %{ $Config{"TicketFreeText$_"} }, },
                 Name => "TicketFreeText$_",
                 SelectedID          => $Ticket{"TicketFreeText$_"},
@@ -546,7 +546,7 @@ sub TicketArticleFreeText {
                 }
             }
             elsif ( $Counter > 1 ) {
-                $Data{"ArticleFreeKeyField$_"} = $Self->OptionStrgHashRef(
+                $Data{"ArticleFreeKeyField$_"} = $Self->BuildSelection(
                     Data => { %NullOption, %{ $Config{"ArticleFreeKey$_"} }, },
                     Name => "ArticleFreeKey$_",
                     SelectedID          => $Article{"ArticleFreeKey$_"},
@@ -592,7 +592,7 @@ sub TicketArticleFreeText {
 
         # value
         if ( ref $Config{"ArticleFreeText$_"} eq 'HASH' ) {
-            $Data{"ArticleFreeTextField$_"} = $Self->OptionStrgHashRef(
+            $Data{"ArticleFreeTextField$_"} = $Self->BuildSelection(
                 Data => { %NullOption, %{ $Config{"ArticleFreeText$_"} }, },
                 Name => "ArticleFreeText$_",
                 SelectedID          => $Article{"ArticleFreeText$_"},

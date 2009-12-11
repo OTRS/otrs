@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.58 2009-11-25 15:15:28 mg Exp $
+# $Id: AdminQueue.pm,v 1.59 2009-12-11 09:42:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -261,13 +261,13 @@ sub _Mask {
     my ( $Self, %Param ) = @_;
 
     # build ValidID string
-    $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
 
-    $Param{GroupOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{GroupOption} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{DBObject}->GetTableData(
                 What  => 'id, name',
@@ -348,12 +348,12 @@ sub _Mask {
         SelectedID   => $Param{SolutionNotify},
         PossibleNone => 1,
     );
-    $Param{SignatureOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SignatureOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
         Name => 'SignatureID',
         SelectedID => $Param{SignatureID},
     );
-    $Param{FollowUpLockYesNoOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{FollowUpLockYesNoOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'FollowUpLock',
         SelectedID => $Param{FollowUpLock},
@@ -370,7 +370,7 @@ sub _Mask {
     if ( $Param{DefaultSignKeyList} ) {
         %DefaultSignKeyList = %{ $Param{DefaultSignKeyList} };
     }
-    $Param{DefaultSignKeyOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{DefaultSignKeyOption} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             '' => '-none-',
             %DefaultSignKeyList
@@ -379,12 +379,12 @@ sub _Mask {
         Max        => 50,
         SelectedID => $Param{DefaultSignKey},
     );
-    $Param{SalutationOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SalutationOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
         Name => 'SalutationID',
         SelectedID => $Param{SalutationID},
     );
-    $Param{FollowUpOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{FollowUpOption} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{DBObject}->GetTableData(
                 What  => 'id, name',
@@ -405,7 +405,7 @@ sub _Mask {
                 . $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $_ . "Name" );
         }
     }
-    $Param{CalendarOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{CalendarOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => \%Calendar,
         Name       => 'Calendar',
         SelectedID => $Param{Calendar},
@@ -441,7 +441,7 @@ sub _Mask {
                     || ref( $Preferences{$Item}->{Data} ) eq 'HASH'
                     )
                 {
-                    $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                    $ParamItem->{'Option'} = $Self->{LayoutObject}->BuildSelection(
                         %{ $Preferences{$Item} },
                         %{$ParamItem},
                     );

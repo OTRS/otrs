@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.201 2009-12-09 18:13:21 mh Exp $
+# $Id: Layout.pm,v 1.202 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.201 $) [1];
+$VERSION = qw($Revision: 1.202 $) [1];
 
 =head1 NAME
 
@@ -846,7 +846,7 @@ sub Login {
     }
 
     # get language options
-    $Param{Language} = $Self->OptionStrgHashRef(
+    $Param{Language} = $Self->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
         Name       => 'Lang',
         SelectedID => $Self->{UserLanguage},
@@ -1636,163 +1636,6 @@ sub CustomerAge {
         }
     }
     return $AgeStrg;
-}
-
-# OptionStrgHashRef()
-#
-# !! DONT USE THIS FUNCTION !! Use BuildSelection() instead.
-#
-# Due to compatibility reason this function is still in use and will be removed
-# in a further release.
-
-sub OptionStrgHashRef {
-    my ( $Self, %Param ) = @_;
-
-    my $Output     = '';
-    my $Name       = $Param{Name} || '';
-    my $Max        = $Param{Max} || 80;
-    my $Multiple   = $Param{Multiple} ? 'multiple="multiple"' : '';
-    my $HTMLQuote  = defined( $Param{HTMLQuote} ) ? $Param{HTMLQuote} : 1;
-    my $LT         = defined( $Param{LanguageTranslation} ) ? $Param{LanguageTranslation} : 1;
-    my $Selected   = defined( $Param{Selected} ) ? $Param{Selected} : '-not-possible-to-use-';
-    my $SelectedID = defined( $Param{SelectedID} ) ? $Param{SelectedID} : '-not-possible-to-use-';
-    my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
-    my $PossibleNone       = $Param{PossibleNone} || '';
-    my $SortBy             = $Param{SortBy} || 'Value';
-    my $Size               = $Param{Size} || '';
-    $Size = "size=\"$Size\"" if ($Size);
-
-    # set OnChange if AJAX is used
-    if ( $Param{Ajax} ) {
-        if ( !$Param{Ajax}->{Depend} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'Need Depend Param Ajax option!',
-            );
-            $Self->FatalError();
-        }
-        if ( !$Param{Ajax}->{Update} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'Need Update Param Ajax option()!',
-            );
-            $Self->FatalError();
-        }
-        $Param{OnChange} = "AJAXUpdate('" . $Param{Ajax}->{Subaction} . "', "
-            . " '$Name',"
-            . "['"
-            . join( "', '", @{ $Param{Ajax}->{Depend} } ) . "'], ['"
-            . join( "', '", @{ $Param{Ajax}->{Update} } ) . "']);";
-    }
-
-    # check data
-    if ( !$Param{Data} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Got no Data Param ref in OptionStrgHashRef()!',
-        );
-        $Self->FatalError();
-    }
-    elsif ( ref $Param{Data} ne 'HASH' ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
-        );
-        $Self->FatalError();
-    }
-    my %Data    = %{ $Param{Data} };
-    my $OnStuff = '';
-    if ( $Param{OnChangeSubmit} ) {
-        $OnStuff .= ' onchange="submit()" ';
-    }
-    if ( $Param{OnChange} ) {
-        $OnStuff = " onchange=\"$Param{OnChange}\" ";
-    }
-    if ( $Param{OnClick} ) {
-        $OnStuff = " onclick=\"$Param{OnClick}\" ";
-    }
-
-    # set default value
-    my $NoSelectedDataGiven = 0;
-    if ( $Selected eq '-not-possible-to-use-' && $SelectedID eq '-not-possible-to-use-' ) {
-        $NoSelectedDataGiven = 1;
-    }
-    if ( ( $Name eq 'ValidID' || $Name eq 'Valid' ) && $NoSelectedDataGiven ) {
-        $Selected = $Self->{ConfigObject}->Get('DefaultValid');
-    }
-    elsif ( ( $Name eq 'LanguageID' || $Name eq 'Language' ) && $NoSelectedDataGiven ) {
-        $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
-    }
-    elsif ( ( $Name eq 'ThemeID' || $Name eq 'Theme' ) && $NoSelectedDataGiven ) {
-        $Selected = $Self->{ConfigObject}->Get('DefaultTheme');
-    }
-    elsif ( ( $Name eq 'LanguageID' || $Name eq 'Language' ) && $NoSelectedDataGiven ) {
-        $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
-    }
-
-    #    elsif ($NoSelectedDataGiven) {
-    #        # else set 1?
-    #        $SelectedID = 1;
-    #    }
-    # build select string
-    $Output .= "<select id=\"$Name\" name=\"$Name\" $Multiple $OnStuff $Size>\n";
-    if ($PossibleNone) {
-        $Output .= '<option value="">-$Text{"none"}-</option>';
-    }
-
-    # hash cleanup
-    for ( keys %Data ) {
-        if ( !defined $Data{$_} ) {
-            delete $Data{$_};
-        }
-    }
-
-    my @Order = ();
-    if ( $SortBy eq 'Key' ) {
-        for ( sort keys %Data ) {
-            push @Order, $_;
-        }
-    }
-    else {
-        for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
-            push @Order, $_;
-        }
-    }
-    for (@Order) {
-        if ( defined $_ && defined $Data{$_} ) {
-
-            # check if SelectedIDRefArray exists
-            if ( $SelectedIDRefArray && ref $SelectedIDRefArray eq 'ARRAY' ) {
-                for my $ID ( @{$SelectedIDRefArray} ) {
-                    if ( $ID eq $_ ) {
-                        $Param{SelectedIDRefArrayOK}->{$_} = 1;
-                    }
-                }
-            }
-
-            # build select string
-            if ( $_ eq $SelectedID || $Data{$_} eq $Selected || $Param{SelectedIDRefArrayOK}->{$_} )
-            {
-                $Output .= '  <option selected="selected" value="'
-                    . $Self->Ascii2Html( Text => $_ ) . '">';
-            }
-            else {
-                $Output .= '  <option value="' . $Self->Ascii2Html( Text => $_ ) . '">';
-            }
-            if ($LT) {
-                $Data{$_} = $Self->{LanguageObject}->Get( $Data{$_} );
-            }
-            if ($HTMLQuote) {
-                $Output .= $Self->Ascii2Html( Text => $Data{$_}, Max => $Max );
-            }
-            else {
-                $Output .= $Data{$_};
-            }
-            $Output .= "</option>\n";
-        }
-    }
-    $Output .= "</select><a id=\"AJAXImage$Name\"></a>\n";
-    return $Output;
 }
 
 =item BuildSelection()
@@ -2632,7 +2475,7 @@ sub BuildDateSelection {
                 $Year{$_} = $_;
             }
         }
-        $Param{Year} = $Self->OptionStrgHashRef(
+        $Param{Year} = $Self->BuildSelection(
             Name                => $Prefix . 'Year',
             Data                => \%Year,
             SelectedID          => int( $Param{ $Prefix . 'Year' } || $Y ),
@@ -2654,7 +2497,7 @@ sub BuildDateSelection {
             my $Tmp = sprintf( "%02d", $_ );
             $Month{$_} = $Tmp;
         }
-        $Param{Month} = $Self->OptionStrgHashRef(
+        $Param{Month} = $Self->BuildSelection(
             Name                => $Prefix . 'Month',
             Data                => \%Month,
             SelectedID          => int( $Param{ $Prefix . 'Month' } || $M ),
@@ -2679,7 +2522,7 @@ sub BuildDateSelection {
             my $Tmp = sprintf( "%02d", $_ );
             $Day{$_} = $Tmp;
         }
-        $Param{Day} = $Self->OptionStrgHashRef(
+        $Param{Day} = $Self->BuildSelection(
             Name                => $Prefix . 'Day',
             Data                => \%Day,
             SelectedID          => int( $Param{ $Prefix . 'Day' } || $D ),
@@ -2702,7 +2545,7 @@ sub BuildDateSelection {
                 my $Tmp = sprintf( "%02d", $_ );
                 $Hour{$_} = $Tmp;
             }
-            $Param{Hour} = $Self->OptionStrgHashRef(
+            $Param{Hour} = $Self->BuildSelection(
                 Name       => $Prefix . 'Hour',
                 Data       => \%Hour,
                 SelectedID => defined( $Param{ $Prefix . 'Hour' } )
@@ -2730,7 +2573,7 @@ sub BuildDateSelection {
                 my $Tmp = sprintf( "%02d", $_ );
                 $Minute{$_} = $Tmp;
             }
-            $Param{Minute} = $Self->OptionStrgHashRef(
+            $Param{Minute} = $Self->BuildSelection(
                 Name       => $Prefix . 'Minute',
                 Data       => \%Minute,
                 SelectedID => defined( $Param{ $Prefix . 'Minute' } )
@@ -2822,7 +2665,7 @@ sub CustomerLogin {
     }
 
     # get language options
-    $Param{Language} = $Self->OptionStrgHashRef(
+    $Param{Language} = $Self->BuildSelection(
         Data                => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
         Name                => 'Lang',
         SelectedID          => $Self->{UserLanguage},
@@ -4313,6 +4156,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.201 $ $Date: 2009-12-09 18:13:21 $
+$Revision: 1.202 $ $Date: 2009-12-11 09:42:09 $
 
 =cut

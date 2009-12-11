@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.76 2009-12-09 14:29:32 mg Exp $
+# $Id: AdminGenericAgent.pm,v 1.77 2009-12-11 09:42:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -471,14 +471,14 @@ sub Run {
             Type  => 'Long',
             Valid => 1,
         );
-        $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
             Data               => \%ShownUsers,
             Name               => 'OwnerIDs',
             Multiple           => 1,
             Size               => 5,
             SelectedIDRefArray => $Param{OwnerIDs},
         );
-        $Param{NewOwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{NewOwnerStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%ShownUsers,
             Name       => 'NewOwnerID',
             Size       => 5,
@@ -489,14 +489,14 @@ sub Run {
         for ( 0 .. 23 ) {
             $Hours{$_} = sprintf( "%02d", $_ );
         }
-        $Param{ScheduleHoursList} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleHoursList} = $Self->{LayoutObject}->BuildSelection(
             Data               => \%Hours,
             Name               => 'ScheduleHours',
             Size               => 6,
             Multiple           => 1,
             SelectedIDRefArray => $Param{ScheduleHours},
         );
-        $Param{ScheduleMinutesList} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleMinutesList} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 '00' => '00',
                 10   => '10',
@@ -510,7 +510,7 @@ sub Run {
             Multiple           => 1,
             SelectedIDRefArray => $Param{ScheduleMinutes},
         );
-        $Param{ScheduleDaysList} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleDaysList} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 1 => 'Mon',
                 2 => 'Tue',
@@ -527,7 +527,7 @@ sub Run {
             SelectedIDRefArray => $Param{ScheduleDays},
         );
 
-        $Param{StatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{StatesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{StateObject}->StateList(
                     UserID => 1,
@@ -539,7 +539,7 @@ sub Run {
             Size               => 5,
             SelectedIDRefArray => $Param{StateIDs},
         );
-        $Param{NewStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{NewStatesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{StateObject}->StateList(
                     UserID => 1,
@@ -567,7 +567,7 @@ sub Run {
             SelectedID     => $Param{NewQueueID},
             OnChangeSubmit => 0,
         );
-        $Param{PrioritiesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{PriorityObject}->PriorityList(
                     UserID => 1,
@@ -579,7 +579,7 @@ sub Run {
             Size               => 5,
             SelectedIDRefArray => $Param{PriorityIDs},
         );
-        $Param{NewPrioritiesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{NewPrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{PriorityObject}->PriorityList(
                     UserID => 1,
@@ -626,12 +626,12 @@ sub Run {
             }
 
             # time
-            $Param{ $Type . 'TimePoint' } = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Param{ $Type . 'TimePoint' } = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%Counter,
                 Name       => $Type . 'TimePoint',
                 SelectedID => $Param{ $Type . 'TimePoint' },
             );
-            $Param{ $Type . 'TimePointStart' } = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Param{ $Type . 'TimePointStart' } = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     Last   => 'last',
                     Before => 'before',
@@ -639,7 +639,7 @@ sub Run {
                 Name => $Type . 'TimePointStart',
                 SelectedID => $Param{ $Type . 'TimePointStart' } || 'Last',
             );
-            $Param{ $Type . 'TimePointFormat' } = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Param{ $Type . 'TimePointFormat' } = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     minute => 'minute(s)',
                     hour   => 'hour(s)',
@@ -664,17 +664,17 @@ sub Run {
             );
         }
 
-        $Param{DeleteOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{DeleteOption} = $Self->{LayoutObject}->BuildSelection(
             Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
             Name       => 'NewDelete',
             SelectedID => $Param{NewDelete},
         );
-        $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
             Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
             Name       => 'Valid',
             SelectedID => defined( $Param{Valid} ) ? $Param{Valid} : 1,
         );
-        $Param{LockOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{LockOption} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{LockObject}->LockList(
                     UserID => 1,
@@ -686,7 +686,7 @@ sub Run {
             Size               => 3,
             SelectedIDRefArray => $Param{LockIDs},
         );
-        $Param{NewLockOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{NewLockOption} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{LockObject}->LockList(
                     UserID => 1,
@@ -703,7 +703,7 @@ sub Run {
         # "Send agent/customer notifications on changes" in frontend.
         # But the backend code is still the same (compatiblity).
         # Because of this case we changed 1=>'Yes' to 1=>'No'
-        $Param{SendNoNotificationOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{SendNoNotificationOption} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 '1' => 'No',
                 '0' => 'Yes'
@@ -927,7 +927,7 @@ sub Run {
                     $NewTicketFreeKey = $TicketFreeKey{ $FreeKey[0] };
                 }
                 else {
-                    $NewTicketFreeKey = $Self->{LayoutObject}->OptionStrgHashRef(
+                    $NewTicketFreeKey = $Self->{LayoutObject}->BuildSelection(
                         Data                => \%TicketFreeKey,
                         Name                => 'NewTicketFreeKey' . $ID,
                         Size                => 4,
@@ -949,7 +949,7 @@ sub Run {
                 }
                 else {
                     my %TicketFreeText = %{ $Self->{ConfigObject}->Get( 'TicketFreeText' . $ID ) };
-                    $NewTicketFreeText = $Self->{LayoutObject}->OptionStrgHashRef(
+                    $NewTicketFreeText = $Self->{LayoutObject}->BuildSelection(
                         Data                => \%TicketFreeText,
                         Name                => 'NewTicketFreeText' . $ID,
                         Size                => 4,

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.17 2009-08-26 13:33:44 martin Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.18 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -81,7 +81,7 @@ sub Run {
     }
 
     # add crypt options
-    my $List = $Self->{LayoutObject}->OptionStrgHashRef(
+    my $List = $Self->{LayoutObject}->BuildSelection(
         Data       => \%KeyList,
         Name       => 'CryptKeyID',
         SelectedID => $Param{CryptKeyID}

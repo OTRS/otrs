@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.110 2009-12-09 14:01:47 mn Exp $
+# $Id: AgentTicketEmail.pm,v 1.111 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1401,14 +1401,14 @@ sub _MaskEmailNew {
 
     # build string
     $Param{Users}->{''} = '-';
-    $Param{OptionStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{OptionStrg} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Param{Users},
         SelectedID => $Param{UserSelected},
         Name       => 'NewUserID',
     );
 
     # build next states string
-    $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data     => $Param{NextStates},
         Name     => 'NextStateID',
         Selected => $Param{NextState} || $Self->{Config}->{StateDefault},
@@ -1416,7 +1416,7 @@ sub _MaskEmailNew {
 
     # build from string
     if ( $Param{ToOptions} && %{ $Param{ToOptions} } ) {
-        $Param{CustomerUserStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{CustomerUserStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => $Param{ToOptions},
             Name => 'CustomerUser',
             Max  => 70,
@@ -1508,7 +1508,7 @@ sub _MaskEmailNew {
         );
     }
     else {
-        $Param{FromStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{FromStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%NewTo,
             Name       => 'Dest',
             SelectedID => $Param{FromSelected},
@@ -1858,7 +1858,7 @@ sub _MaskEmailNew {
     if ( !$Param{PriorityID} ) {
         $Param{Priority} = $Self->{Config}->{Priority};
     }
-    $Param{PriorityStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Param{Priorities},
         Name       => 'PriorityID',
         SelectedID => $Param{PriorityID},
@@ -1909,7 +1909,7 @@ sub _MaskEmailNew {
         )
     {
         $Param{ResponsibleUsers}->{''} = '-';
-        $Param{ResponsibleOptionStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ResponsibleOptionStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => $Param{ResponsibleUsers},
             SelectedID => $Param{ResponsibleUsersSelected},
             Name       => 'NewResponsibleID',

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.11 2009-12-08 15:19:10 mg Exp $
+# $Id: AdminMailAccount.pm,v 1.12 2009-12-11 09:42:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -142,7 +142,7 @@ sub Run {
         my $Ok      = $Self->{ParamObject}->GetParam( Param => 'Ok' );
         my %Backend = $Self->{MailAccount}->MailAccountBackendList();
         my %List    = $Self->{MailAccount}->MailAccountList( Valid => 0 );
-        $Param{TypeOptionAdd} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{TypeOptionAdd} = $Self->{LayoutObject}->BuildSelection(
             Data       => { $Self->{MailAccount}->MailAccountBackendList() },
             Name       => 'TypeAdd',
             SelectedID => $Param{TypeAdd} || 'POP3',
@@ -185,31 +185,31 @@ sub _MaskUpdate {
     my ( $Self, %Param ) = @_;
 
     # build ValidID string
-    $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
 
-    $Param{TypeOptionAdd} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{TypeOptionAdd} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{MailAccount}->MailAccountBackendList() },
         Name       => 'TypeAdd',
         SelectedID => $Param{Type} || $Param{TypeAdd} || '',
     );
 
-    $Param{TypeOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{TypeOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{MailAccount}->MailAccountBackendList() },
         Name       => 'Type',
         SelectedID => $Param{Type} || $Param{TypeAdd} || '',
     );
 
-    $Param{TrustedOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{TrustedOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'Trusted',
         SelectedID => $Param{Trusted},
     );
 
-    $Param{DispatchingOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{DispatchingOption} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             From  => 'Dispatching by email To: field.',
             Queue => 'Dispatching by selected Queue.',

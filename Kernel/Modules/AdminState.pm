@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminState.pm - to add/update/delete state
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.pm,v 1.26 2009-02-17 23:37:11 martin Exp $
+# $Id: AdminState.pm,v 1.27 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -197,12 +197,12 @@ sub _Edit {
         Name => 'Overview',
         Data => \%Param,
     );
-    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'ValidOption'} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
-    $Param{StateTypeOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{StateTypeOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{StateObject}->StateTypeList( UserID => 1 ), },
         Name => 'TypeID',
         SelectedID => $Param{TypeID},

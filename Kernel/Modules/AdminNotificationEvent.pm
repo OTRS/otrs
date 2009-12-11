@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to add/update/delete state
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.8 2009-11-16 09:08:09 mb Exp $
+# $Id: AdminNotificationEvent.pm,v 1.9 2009-12-11 09:42:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -285,7 +285,7 @@ sub _Edit {
         Data => \%Param,
     );
 
-    $Param{RecipientsStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{RecipientsStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
 
             #            Agent                 => 'Agent',
@@ -304,7 +304,7 @@ sub _Edit {
         Type  => 'Long',
         Valid => 1,
     );
-    $Param{RecipientAgentsStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{RecipientAgentsStrg} = $Self->{LayoutObject}->BuildSelection(
         Data               => \%AllAgents,
         Name               => 'RecipientAgents',
         Multiple           => 1,
@@ -312,7 +312,7 @@ sub _Edit {
         SelectedIDRefArray => $Param{Data}->{RecipientAgents},
     );
 
-    $Param{EventsStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{EventsStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             TicketStateUpdate         => 'TicketStateUpdate',
             TicketQueueUpdate         => 'TicketQueueUpdate',
@@ -345,7 +345,7 @@ sub _Edit {
         SelectedIDRefArray => $Param{Data}->{Events},
     );
 
-    $Param{StatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{StatesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{StateObject}->StateList(
                 UserID => 1,
@@ -367,7 +367,7 @@ sub _Edit {
         OnChangeSubmit     => 0,
     );
 
-    $Param{PrioritiesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{PriorityObject}->PriorityList(
                 UserID => 1,
@@ -380,7 +380,7 @@ sub _Edit {
         SelectedIDRefArray => $Param{Data}->{PriorityID},
     );
 
-    $Param{LocksStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{LocksStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{LockObject}->LockList(
                 UserID => 1,
@@ -393,7 +393,7 @@ sub _Edit {
         SelectedIDRefArray => $Param{Data}->{LockID},
     );
 
-    $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.29 2009-11-25 15:15:28 mg Exp $
+# $Id: AgentTicketCustomer.pm,v 1.30 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -251,7 +251,7 @@ sub Form {
 
         # build from string
         if ( $Param{CustomerUserOptions} && %{ $Param{CustomerUserOptions} } ) {
-            $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->BuildSelection(
                 Data => $Param{CustomerUserOptions},
                 Name => 'CustomerUserOption',
                 Max  => 70,

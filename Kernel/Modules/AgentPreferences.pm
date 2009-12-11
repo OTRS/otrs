@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.41 2009-11-25 15:23:21 mg Exp $
+# $Id: AgentPreferences.pm,v 1.42 2009-12-11 09:42:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -201,7 +201,7 @@ sub AgentPreferencesForm {
             );
             for my $ParamItem (@Params) {
                 if ( ref $ParamItem->{Data} eq 'HASH' || ref $Preference{Data} eq 'HASH' ) {
-                    $ParamItem->{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
+                    $ParamItem->{Option} = $Self->{LayoutObject}->BuildSelection(
                         %Preference, %{$ParamItem},
                     );
                 }
