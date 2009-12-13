@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1110 2009-12-11 09:42:08 mh Exp $
+# $Id: CHANGES,v 1.1111 2009-12-13 12:50:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -130,12 +130,13 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/13) Fixed bug#4393 - AgentTicketQueue - Small view takes long to load.
  - (2009/12/09) Fixed crash in Ascii2Html() if no scalar reference is given.
  - (2009/12/09) Fixed bug#4551 - GenericAgent appends leading zeros to dates
     if TimeInputFormat is "Input".
  - (2009/12/09) Fixed bug#4584 - Auto response does not use selected from e-mail
     address.
- - (2009/12/09) Fixed bug#4556 - translation "Accounted Time" to german "Zugewiesene Zeit".
+ - (2009/12/09) Fixed bug#4556 - Translation "Accounted Time" to german "Zugewiesene Zeit".
  - (2009/12/09) Fixed bug#4184 - Can't call method "NotificationGet" on
     an undefined value.
  - (2009/12/09) Fixed bug#4371 - DataSelected value for

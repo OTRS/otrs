@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.13 2009-07-01 19:18:21 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.14 2009-12-13 12:50:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -138,16 +138,18 @@ sub Run {
             }
 
             # customer info (customer name)
-            my %CustomerData = ();
-            if ( $Article{CustomerUserID} ) {
-                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                    User => $Article{CustomerUserID},
-                );
-            }
-            if ( $CustomerData{UserLogin} ) {
-                $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
-                    UserLogin => $CustomerData{UserLogin},
-                );
+            my %CustomerData;
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue') ) {
+                if ( $Article{CustomerUserID} ) {
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        User => $Article{CustomerUserID},
+                    );
+                }
+                if ( $CustomerData{UserLogin} ) {
+                    $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+                        UserLogin => $CustomerData{UserLogin},
+                    );
+                }
             }
 
             # user info
