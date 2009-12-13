@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.52 2009-12-08 09:24:33 ud Exp $
+# $Id: Ticket.t,v 1.53 2009-12-13 12:13:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4068,13 +4068,14 @@ for my $Test (@Tests) {
     );
 }
 
+# ticket history tests
 use Kernel::System::State;
 my $StateObject = Kernel::System::State->new( %{$Self} );
 
 use Kernel::System::Type;
 my $TypeObject = Kernel::System::Type->new( %{$Self} );
 
-my $HistoryCreate = [
+@Tests = (
     {
         CreateData => [
             {
@@ -4173,15 +4174,15 @@ my $HistoryCreate = [
             },
         ],
     },
-];
+);
 
 my @HistoryCreateTicketIDs;
-for my $HistoryCreateTest ( @{$HistoryCreate} ) {
+for my $Test (@Tests) {
     my $HistoryCreateTicketID;
     my @HistoryCreateArticleIDs;
 
-    if ( $HistoryCreateTest->{CreateData} ) {
-        for my $CreateData ( @{ $HistoryCreateTest->{CreateData} } ) {
+    if ( $Test->{CreateData} ) {
+        for my $CreateData ( @{ $Test->{CreateData} } ) {
             if ( $CreateData->{TicketCreate} ) {
                 $HistoryCreateTicketID = $TicketObject->TicketCreate(
                     %{ $CreateData->{TicketCreate} },
@@ -4211,81 +4212,72 @@ for my $HistoryCreateTest ( @{$HistoryCreate} ) {
         }
     }
 
-    if ( $HistoryCreateTest->{ReferenceData} ) {
+    if ( $Test->{ReferenceData} ) {
 
         REFERENCEDATA:
-        for my $ReferenceData ( @{ $HistoryCreateTest->{ReferenceData} } ) {
+        for my $ReferenceData ( @{ $Test->{ReferenceData} } ) {
             $HistoryCreateTicketID = $HistoryCreateTicketIDs[ $ReferenceData->{TicketIndex} ];
 
-            if ( $ReferenceData->{HistoryGet} ) {
-                my @ReferenceResults = @{ $ReferenceData->{HistoryGet} };
+            next REFERENCEDATA if !$ReferenceData->{HistoryGet};
+            my @ReferenceResults = @{ $ReferenceData->{HistoryGet} };
 
-                my @HistoryGet = $TicketObject->HistoryGet(
-                    UserID   => 1,
-                    TicketID => $HistoryCreateTicketID,
-                );
+            my @HistoryGet = $TicketObject->HistoryGet(
+                UserID   => 1,
+                TicketID => $HistoryCreateTicketID,
+            );
 
-                $Self->True(
-                    @HistoryGet,
-                    'HistoryGet - HistoryGet()',
-                );
+            $Self->True(
+                @HistoryGet,
+                'HistoryGet - HistoryGet()',
+            );
 
-                next REFERENCEDATA if !@HistoryGet;
+            next REFERENCEDATA if !@HistoryGet;
 
-                for my $ResultCount ( 0 .. ( ( scalar @ReferenceResults ) - 1 ) ) {
+            for my $ResultCount ( 0 .. ( ( scalar @ReferenceResults ) - 1 ) ) {
 
-                    RESULTENTRY:
-                    for my $ResultEntry ( keys %{ $ReferenceData->{HistoryGet}->[$ResultCount] } ) {
-                        next RESULTENTRY
-                            if !$ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry};
+                my $Result = $ReferenceData->{HistoryGet}->[$ResultCount];
+                RESULTENTRY:
+                for my $ResultEntry ( keys %{$Result} ) {
+                    next RESULTENTRY if !$Result->{$ResultEntry};
 
-                        if ( $ResultEntry eq "Queue" ) {
-                            my $HistoryQueueID = $QueueObject->QueueLookup(
-                                Queue =>
-                                    $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry},
-                            );
-
-                            $ResultEntry = 'QueueID';
-                            $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry}
-                                = $HistoryQueueID;
-                        }
-
-                        if ( $ResultEntry eq "State" ) {
-                            my %HistoryState = $StateObject->StateGet(
-                                Name =>
-                                    $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry},
-                            );
-                            $ResultEntry = 'StateID';
-                            $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry}
-                                = $HistoryState{ID};
-                        }
-
-                        if ( $ResultEntry eq "HistoryType" ) {
-                            my $HistoryTypeID = $TicketObject->HistoryTypeLookup(
-                                Type =>
-                                    $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry},
-                            );
-                            $ResultEntry = 'HistoryTypeID';
-                            $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry}
-                                = $HistoryTypeID;
-                        }
-
-                        if ( $ResultEntry eq "Type" ) {
-                            my $TypeID = $TypeObject->TypeLookup(
-                                Type =>
-                                    $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry},
-                            );
-                            $ResultEntry = 'TypeID';
-                            $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry}
-                                = $TypeID;
-                        }
-
-                        $Self->Is(
-                            $ReferenceData->{HistoryGet}->[$ResultCount]->{$ResultEntry},
-                            $HistoryGet[$ResultCount]->{$ResultEntry},
-                            'HistoryGet - Check returned content',
+                    if ( $ResultEntry eq 'Queue' ) {
+                        my $HistoryQueueID = $QueueObject->QueueLookup(
+                            Queue => $Result->{$ResultEntry},
                         );
+
+                        $ResultEntry = 'QueueID';
+                        $Result->{$ResultEntry} = $HistoryQueueID;
                     }
+
+                    if ( $ResultEntry eq 'State' ) {
+                        my %HistoryState = $StateObject->StateGet(
+                            Name => $Result->{$ResultEntry},
+                        );
+                        $ResultEntry = 'StateID';
+                        $Result->{$ResultEntry} = $HistoryState{ID};
+                    }
+
+                    if ( $ResultEntry eq 'HistoryType' ) {
+                        my $HistoryTypeID = $TicketObject->HistoryTypeLookup(
+                            Type => $Result->{$ResultEntry},
+                        );
+                        $ResultEntry = 'HistoryTypeID';
+                        $Result->{$ResultEntry} = $HistoryTypeID;
+                    }
+
+                    if ( $ResultEntry eq 'Type' ) {
+                        my $TypeID = $TypeObject->TypeLookup(
+                            Type => $Result->{$ResultEntry},
+                        );
+                        $ResultEntry = 'TypeID';
+                        $Result->{$ResultEntry} = $TypeID;
+                    }
+
+                    $Self->Is(
+                        $Result->{$ResultEntry},
+                        $HistoryGet[$ResultCount]->{$ResultEntry},
+                        'HistoryGet - Check returned content',
+                    );
                 }
             }
         }
@@ -4294,11 +4286,12 @@ for my $HistoryCreateTest ( @{$HistoryCreate} ) {
 
 # clean up created tickets
 for my $HistoryTicketID (@HistoryCreateTicketIDs) {
+    my $Delete = $TicketObject->TicketDelete(
+        UserID   => 1,
+        TicketID => $HistoryTicketID,
+    );
     $Self->True(
-        $TicketObject->TicketDelete(
-            UserID   => 1,
-            TicketID => $HistoryTicketID,
-        ),
+        $Delete,
         'HistoryGet - TicketDelete()',
     );
 }
