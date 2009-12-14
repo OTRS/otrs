@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.24 2009-12-08 15:20:40 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.25 2009-12-14 16:27:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,7 +50,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
                         url = url + ';Backend=' + $(this).attr('id');
                     }
                 );
-                AJAXContentUpdate('asd', url );
+                AJAXContentUpdate('', url );
             }
         });
         $("#sortable-large").disableSelection();
@@ -66,7 +66,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
                         url = url + ';Backend=' + $(this).attr('id');
                     }
                 );
-                AJAXContentUpdate('asdsmall', url );
+                AJAXContentUpdate('', url );
             }
         });
         $("#sortable-small").disableSelection();

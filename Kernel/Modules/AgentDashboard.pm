@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.20 2009-12-11 09:42:09 mh Exp $
+# $Id: AgentDashboard.pm,v 1.21 2009-12-14 16:27:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -180,10 +180,9 @@ sub Run {
         my $Key  = 'UserDashboardPosition';
         my $Data = '';
         for my $Backend (@Backends) {
-            $Backend =~ s/-box$//g;
+            $Backend =~ s/^Dashboard(.+?)-box$/$1/g;
             $Data .= $Backend . ';';
         }
-        print STDERR $Data . "KKKKKKKK\n";
 
         # update ssession
         $Self->{SessionObject}->UpdateSessionID(
@@ -194,7 +193,6 @@ sub Run {
 
         # update preferences
         if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
-            print STDERR "LLLLLLL $Key :  $Data\n";
             $Self->{UserObject}->SetPreferences(
                 UserID => $Self->{UserID},
                 Key    => $Key,

@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.9 2009-11-26 08:57:18 mn Exp $
+// $Id: otrs.js,v 1.10 2009-12-14 16:27:11 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -39,11 +39,13 @@ function AJAXContentUpdate(Element, url, OnLoad, OnLoaded ) {
             if (!Response) {
                 alert("ERROR: No content from: " + url);
             }
-            if ( document.getElementById(Element) ) {
-                document.getElementById(Element).innerHTML = Response;
-            }
-            else {
-                alert("ERROR: No such element id: " + Element + " in page!");
+            if ( Element ) {
+                if ( document.getElementById(Element) ) {
+                    document.getElementById(Element).innerHTML = Response;
+                }
+                else {
+                    alert("ERROR: No such element id: " + Element + " in page!");
+                }
             }
         },
         beforeSend: OnLoad,
