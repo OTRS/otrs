@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.48 2009-09-29 14:11:26 martin Exp $
+# $Id: DB.t,v 1.49 2009-12-14 15:29:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1010,16 +1010,23 @@ for my $Character (@SpecialCharacters) {
     $Self->{EncodeObject}->Encode( \$Character );
     my $name_b = $Self->{DBObject}->Quote($Character);
 
-    my $SQLInsert = "INSERT INTO test_d (name_a, name_b) VALUES ( '$Counter', '$name_b' )";
-
+    my $Result = $Self->{DBObject}->Do(
+        SQL => "INSERT INTO test_d (name_a, name_b) VALUES ( '$Counter', '$name_b' )",
+    );
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
+        $Result,
         "#5.$Counter Do() INSERT",
     );
 
-    my $SQLSelect = "SELECT name_b FROM test_d WHERE name_a = '$Counter'";
+    $Result = $Self->{DBObject}->Prepare(
+        SQL   => "SELECT name_b FROM test_d WHERE name_a = '$Counter'",
+        Limit => 1,
+    );
 
-    $Self->{DBObject}->Prepare( SQL => $SQLSelect, Limit => 1 );
+    $Self->True(
+        $Result,
+        "#5.$Counter Prepare() SELECT",
+    );
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Self->True(
