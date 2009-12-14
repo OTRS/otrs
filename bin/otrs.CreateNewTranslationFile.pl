@@ -3,7 +3,7 @@
 # bin/otrs.CreateNewTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateNewTranslationFile.pl,v 1.1 2009-11-03 16:07:19 mn Exp $
+# $Id: otrs.CreateNewTranslationFile.pl,v 1.2 2009-12-14 15:54:13 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,13 +31,14 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Opts);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
+use Kernel::System::Time;
 use Kernel::Language;
 
 # get opts
@@ -57,6 +58,7 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     %CommonObject,
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 
 # check params
 if ( !$Opts{l} ) {
@@ -208,7 +210,12 @@ while (<$In>) {
     }
     if ( $_ =~ /\$\$START\$\$/ && !$MetaData{DataPrinted} ) {
         $MetaData{DataPrinted} = 1;
-        $NewOut .= "    # Last translation file sync: " . scalar localtime() . "\n\n";
+
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $CommonObject{TimeObject}->SystemTime2Date(
+            SystemTime => $CommonObject{TimeObject}->SystemTime(),
+        );
+
+        $NewOut .= "    # Last translation file sync: $Year-$Month-$Day $Hour:$Min:$Sec\n\n";
         $NewOut .= "    # possible charsets\n" . "    \$Self->{Charset} = [";
         for ( $CommonObject{LanguageObject}->GetPossibleCharsets() ) {
             $NewOut .= "'$_', ";
@@ -220,7 +227,9 @@ while (<$In>) {
             . "    \$Self->{DateFormatLong}      = '$CommonObject{LanguageObject}->{DateFormatLong}';\n"
             . "    \$Self->{DateFormatShort}     = '$CommonObject{LanguageObject}->{DateFormatShort}';\n"
             . "    \$Self->{DateInputFormat}     = '$CommonObject{LanguageObject}->{DateInputFormat}';\n"
-            . "    \$Self->{DateInputFormatLong} = '$CommonObject{LanguageObject}->{DateInputFormatLong}';\n\n";
+            . "    \$Self->{DateInputFormatLong} = '$CommonObject{LanguageObject}->{DateInputFormatLong}';\n\n"
+            . "    # csv seperator\n"
+            . "    \$Self->{Separator} = '$CommonObject{LanguageObject}->{Separator}';\n\n";
 
         if ( $CommonObject{LanguageObject}->{TextDirection} ) {
             $NewOut .= "    # TextDirection rtl or ltr\n";
@@ -241,7 +250,7 @@ close $In;
 if ( $Opts{SubTranslation} ) {
     $NewOut = '';
     $NewOut .= "\n";
-    $NewOut .= "package Kernel::Language::$Opts{'l'}_$Opts{Out};\n";
+    $NewOut .= "package Kernel::Language::$Opts{l}_$Opts{Out};\n";
     $NewOut .= "\n";
     $NewOut .= "use strict;\n";
     $NewOut .= "\n";
@@ -266,4 +275,3 @@ print "INFO: Writing $Opts{LanguageOutFile}\n";
 open( my $Out, '>', $Opts{LanguageOutFile} ) || die $!;
 print $Out $NewOut;
 close $Out;
-
