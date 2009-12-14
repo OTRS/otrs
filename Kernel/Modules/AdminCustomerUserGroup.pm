@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.25 2009-11-26 08:02:17 mg Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.26 2009-12-14 09:21:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,10 +53,12 @@ sub Run {
     if ( !$Self->{ConfigObject}->Get('CustomerGroupSupport') ) {
         $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Warning(
-            Message => 'Sorry, feature not active!',
-            Comment =>
-                'CustomerGroupSupport needs to be active in Kernel/Config.pm, read more about this feature in the documentation. Take care!',
+        $Output .= $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Data =>
+                'You should activate CustomerGroupSupport in SysConfig before you\'ll be able to use this feature.',
+            Link =>
+                '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Frontend::Customer',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
