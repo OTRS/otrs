@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1111 2009-12-13 12:50:05 martin Exp $
+# $Id: CHANGES,v 1.1112 2009-12-14 19:50:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,12 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/14) Fixed bug#4660 - Admin Notification module does not send mail
+    to customer users in groups.
+ - (2009/12/14) Added the ability to use AdminEmail to send notifications based
+    on roles.
+ - (2009/12/14) Updated SysConfig to have toolbars and Admin section to use
+    plural in interface where appropriate.
  - (2009/12/11) Replaced all OptionStrgHashRef() with the newer BuildSelection().
  - (2009/12/09) Added archive feature to improve performance.
  - (2009/12/09) Updated CPAN module Text::CSV to version 1.16.
