@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.80 2009-11-24 10:22:16 mb Exp $
+# $Id: AAABase.dtl,v 1.81 2009-12-14 13:53:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,7 +106,9 @@ $Text{"Language"}
 $Text{"Languages"}
 $Text{"Password"}
 $Text{"Salutation"}
+$Text{"Salutations"}
 $Text{"Signature"}
+$Text{"Signatures"}
 $Text{"Customer"}
 $Text{"CustomerID"}
 $Text{"CustomerIDs"}
@@ -115,6 +117,7 @@ $Text{"agent"}
 $Text{"system"}
 $Text{"Customer Info"}
 $Text{"Customer Company"}
+$Text{"Customer Companies"}
 $Text{"Company"}
 $Text{"go!"}
 $Text{"go"}
@@ -203,7 +206,7 @@ $Text{"Invalid SessionID!"}
 $Text{"Feature not active!"}
 
 # misc
-$Text{"Notification (Event)"}
+$Text{"Notifications (Event)"}
 $Text{"Login is needed!"}
 $Text{"Password is needed!"}
 $Text{"License"}
@@ -247,6 +250,13 @@ $Text{"Signed"}
 $Text{"Sign"}
 $Text{"Crypted"}
 $Text{"Crypt"}
+
+$Text{"PGP"}
+$Text{"PGP Key"}
+$Text{"PGP Keys"}
+$Text{"S/MIME"}
+$Text{"S/MIME Certificate"}
+$Text{"S/MIME Certificates"}
 
 $Text{"Office"}
 $Text{"Phone"}

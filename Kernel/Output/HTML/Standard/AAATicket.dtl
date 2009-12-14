@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.44 2009-12-09 12:07:31 mb Exp $
+# $Id: AAATicket.dtl,v 1.45 2009-12-14 13:53:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,9 +23,23 @@ $Text{"Bcc"}
 $Text{"Subject"}
 $Text{"Move"}
 $Text{"Queue"}
+$Text{"Queues"}
 $Text{"Priority"}
+$Text{"Priorities"}
 $Text{"Priority Update"}
+$Text{"SLA"}
+$Text{"Service Level Agreement"}
+$Text{"Service Level Agreements"}
+$Text{"Service"}
+$Text{"Services"}
 $Text{"State"}
+$Text{"States"}
+$Text{"Status"}
+$Text{"Statuses"}
+$Text{"Ticket Type"}
+$Text{"Ticket Types"}
+$Text{"Priority"}
+$Text{"Priorities"}
 $Text{"Compose"}
 $Text{"Pending"}
 $Text{"Owner"}
@@ -201,9 +215,9 @@ $Text{"All tickets where the reminder date has reached!"}
 
 # admin nav bar
 $Text{"Responses"}
-$Text{"Responses <-> Queue"}
+$Text{"Responses <-> Queues"}
 $Text{"Auto Responses"}
-$Text{"Auto Responses <-> Queue"}
+$Text{"Auto Responses <-> Queues"}
 $Text{"Attachments"}
 $Text{"Attachments <-> Responses"}
 $Text{""}

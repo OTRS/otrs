@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.286 2009-12-09 12:41:22 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.287 2009-12-14 13:50:55 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -7623,13 +7623,13 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Overview of all open Tickets</Description>
                 <Title>QueueView</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <NavBar>
                     <Description>Overview of all open Tickets</Description>
                     <Name>QueueView</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketQueue</Link>
-                    <NavBar>Ticket</NavBar>
+                    <NavBar>Tickets</NavBar>
                     <Type></Type>
                     <Block></Block>
                     <AccessKey>o</AccessKey>
@@ -7639,10 +7639,10 @@ $QData{"Signature"}
                     <Description>Ticket-Area</Description>
                     <Type>Menu</Type>
                     <Block>ItemArea</Block>
-                    <Name>Ticket</Name>
+                    <Name>Tickets</Name>
                     <Image>desktop.png</Image>
                     <Link>Action=AgentTicketQueue</Link>
-                    <NavBar>Ticket</NavBar>
+                    <NavBar>Tickets</NavBar>
                     <AccessKey>t</AccessKey>
                     <Prio>200</Prio>
                 </NavBar>
@@ -7658,13 +7658,13 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Create new Phone Ticket</Description>
                 <Title>Phone-Ticket</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <NavBar>
                     <Description>Create new Phone Ticket (Inbound)</Description>
                     <Name>Phone-Ticket</Name>
                     <Image>phone-new.png</Image>
                     <Link>Action=AgentTicketPhone</Link>
-                    <NavBar>Ticket</NavBar>
+                    <NavBar>Tickets</NavBar>
                     <Type></Type>
                     <Block></Block>
                     <AccessKey>n</AccessKey>
@@ -7682,7 +7682,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Phone Call</Description>
                 <Title>Phone-Ticket</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7695,13 +7695,13 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Create new email Ticket</Description>
                 <Title>Email-Ticket</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <NavBar>
                     <Description>Create new Email Ticket and send this out (Outbound)</Description>
                     <Name>Email-Ticket</Name>
                     <Image>mail_new.png</Image>
                     <Link>Action=AgentTicketEmail</Link>
-                    <NavBar>Ticket</NavBar>
+                    <NavBar>Tickets</NavBar>
                     <Type></Type>
                     <Block></Block>
                     <AccessKey>e</AccessKey>
@@ -7719,13 +7719,13 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Search Tickets</Description>
                 <Title>Search</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <NavBar>
                     <Description>Search Tickets</Description>
                     <Name>Search</Name>
                     <Image>search.png</Image>
                     <Link>Action=AgentTicketSearch</Link>
-                    <NavBar>Ticket</NavBar>
+                    <NavBar>Tickets</NavBar>
                     <Type></Type>
                     <Block></Block>
                     <AccessKey>s</AccessKey>
@@ -7742,7 +7742,7 @@ $QData{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>compat module for AgentTicketMailbox to AgentTicketLockedView</Description>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <Title></Title>
             </FrontendModuleReg>
         </Setting>
@@ -7756,7 +7756,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Locked Tickets</Description>
                 <Title>Locked Tickets</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7769,7 +7769,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Responsible Tickets</Description>
                 <Title>Responsible Tickets</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7782,7 +7782,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Watched Tickets</Description>
                 <Title>Watched Tickets</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7795,7 +7795,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>AgentCustomerSearch</Description>
                 <Title>AgentCustomerSearch</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7808,13 +7808,13 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Overview of all open tickets</Description>
                 <Title>Status View</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <NavBar>
                     <Description>Overview of all open Tickets</Description>
                     <Name>StatusView</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketStatusView</Link>
-                    <NavBar>Ticket</NavBar>
+                    <NavBar>Tickets</NavBar>
                     <Type></Type>
                     <Block></Block>
                     <AccessKey>v</AccessKey>
@@ -7832,13 +7832,13 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Overview of all escalated tickets</Description>
                 <Title>Escalation View</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <NavBar>
                     <Description>Overview Escalated Tickets</Description>
                     <Name>EscalationView</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketEscalationView</Link>
-                    <NavBar>Ticket</NavBar>
+                    <NavBar>Tickets</NavBar>
                     <Type></Type>
                     <Block></Block>
                     <AccessKey>e</AccessKey>
@@ -7855,7 +7855,7 @@ $QData{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>compat module for AgentZoom to AgentTicketZoom</Description>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <Title></Title>
             </FrontendModuleReg>
         </Setting>
@@ -7869,7 +7869,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Zoom</Description>
                 <Title>Zoom</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7881,7 +7881,7 @@ $QData{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Title></Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <Description>To download attachments</Description>
             </FrontendModuleReg>
         </Setting>
@@ -7895,7 +7895,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket plain view of an email</Description>
                 <Title>Plain</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7908,7 +7908,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Note</Description>
                 <Title>Note</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7921,7 +7921,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Merge</Description>
                 <Title>Merge</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7934,7 +7934,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Pending</Description>
                 <Title>Pending</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7960,7 +7960,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Priority</Description>
                 <Title>Priority</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7973,7 +7973,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Lock</Description>
                 <Title>Lock</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7986,7 +7986,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Move</Description>
                 <Title>Move</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7999,7 +7999,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket History</Description>
                 <Title>History</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8012,7 +8012,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Owner</Description>
                 <Title>Owner</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8025,7 +8025,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Responsible</Description>
                 <Title>Responsible</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8038,7 +8038,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Compose email Answer</Description>
                 <Title>Compose</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8051,7 +8051,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Compose Bounce Email</Description>
                 <Title>Bounce</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8064,7 +8064,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Forward Email</Description>
                 <Title>Forward</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8077,7 +8077,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Customer</Description>
                 <Title>Customer</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8090,7 +8090,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Close</Description>
                 <Title>Close</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8103,7 +8103,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket FreeText</Description>
                 <Title>Free Fields</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8116,7 +8116,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Print</Description>
                 <Title>Print</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8129,7 +8129,7 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket bulk module</Description>
                 <Title>Bulk-Action</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8146,7 +8146,7 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Queue</Name>
+                    <Name>Queues</Name>
                     <Block>Block2</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
@@ -8182,11 +8182,11 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Responses &lt;-&gt; Queue</Title>
+                <Title>Responses &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Responses &lt;-&gt; Queue</Name>
+                    <Name>Responses &lt;-&gt; Queues</Name>
                     <Block>Block2</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
@@ -8222,11 +8222,11 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Auto Responses &lt;-&gt; Queue</Title>
+                <Title>Auto Responses &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Auto Responses &lt;-&gt; Queue</Name>
+                    <Name>Auto Responses &lt;-&gt; Queues</Name>
                     <Block>Block2</Block>
                     <Prio>500</Prio>
                 </NavBarModule>
@@ -8283,11 +8283,11 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Salutation</Title>
+                <Title>Salutations</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Salutation</Name>
+                    <Name>Salutations</Name>
                     <Block>Block3</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
@@ -8303,11 +8303,11 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Signature</Title>
+                <Title>Signatures</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Signature</Name>
+                    <Name>Signatures</Name>
                     <Block>Block3</Block>
                     <Prio>200</Prio>
                 </NavBarModule>
@@ -8343,11 +8343,11 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Notification</Title>
+                <Title>Notifications</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Notification</Name>
+                    <Name>Notifications</Name>
                     <Block>Block3</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
@@ -8363,11 +8363,11 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Notification</Title>
+                <Title>Notifications</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Notification (Event)</Name>
+                    <Name>Notifications (Event)</Name>
                     <Block>Block3</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
@@ -8383,11 +8383,11 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Service</Title>
+                <Title>Services</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Service</Name>
+                    <Name>Services</Name>
                     <Block>Block3</Block>
                     <Prio>900</Prio>
                 </NavBarModule>
@@ -8403,11 +8403,11 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>SLA</Title>
+                <Title>Service Level Agreements</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>SLA</Name>
+                    <Name>Service Level Agreements</Name>
                     <Block>Block3</Block>
                     <Prio>1000</Prio>
                 </NavBarModule>
@@ -8423,11 +8423,11 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Type</Title>
+                <Title>Ticket Types</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Type</Name>
+                    <Name>Ticket Types</Name>
                     <Block>Block3</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
@@ -8443,11 +8443,11 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>State</Title>
+                <Title>Statuses</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Status</Name>
+                    <Name>Statuses</Name>
                     <Block>Block3</Block>
                     <Prio>800</Prio>
                 </NavBarModule>
@@ -8463,11 +8463,11 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Priority</Title>
+                <Title>Priorities</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Priority</Name>
+                    <Name>Priorities</Name>
                     <Block>Block3</Block>
                     <Prio>850</Prio>
                 </NavBarModule>
@@ -8502,7 +8502,7 @@ $QData{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>Overview of customer tickets</Description>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <Title>Overview</Title>
                 <NavBar>
                     <Description>MyTickets</Description>
@@ -8537,7 +8537,7 @@ $QData{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>Create tickets</Description>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <Title>New Ticket</Title>
                 <NavBar>
                     <Description>Create new Ticket</Description>
@@ -8561,7 +8561,7 @@ $QData{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>Ticket zoom view</Description>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <Title>Zoom</Title>
             </FrontendModuleReg>
         </Setting>
@@ -8613,7 +8613,7 @@ $QData{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>Customer ticket search</Description>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName>Tickets</NavBarName>
                 <Title>Search</Title>
                 <NavBar>
                     <Description>Search</Description>

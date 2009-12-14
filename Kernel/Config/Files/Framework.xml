@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.253 2009-12-02 11:17:46 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.254 2009-12-14 13:52:26 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -3277,10 +3277,10 @@ Your OTRS Notification Master
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Frontend</Item>
                 <Item Key="Label">CSV Separator</Item>
-                <Item Key="Desc">Select the separator character used in CSV files (stats and searches).</Item>
+                <Item Key="Desc">Select the separator character used in CSV files (stats and searches). If you don't select a separator here, the default separator for your language will be used.</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="">default</Item>
+                        <Item Key=""></Item>
                         <Item Key=",">,</Item>
                         <Item Key=";">;</Item>
                         <Item Key="|">|</Item>
@@ -4248,14 +4248,14 @@ Your OTRS Notification Master
                 <Group>admin</Group>
                 <Group>users</Group>
                 <Description>Edit Customer Users</Description>
-                <Title>Customer User</Title>
-                <NavBarName>Customer</NavBarName>
+                <Title>Customer Users</Title>
+                <NavBarName>Customers</NavBarName>
                 <NavBar>
                     <Description>Edit Customer Users</Description>
-                    <Name>Customer</Name>
+                    <Name>Customers</Name>
                     <Image>folder_yellow.png</Image>
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
-                    <NavBar>Customer</NavBar>
+                    <NavBar>Customers</NavBar>
                     <Type>Menu</Type>
                     <Block>ItemArea</Block>
                     <AccessKey>c</AccessKey>
@@ -4281,7 +4281,7 @@ Your OTRS Notification Master
                 <Group>admin</Group>
                 <Group>users</Group>
                 <Description>Admin</Description>
-                <Title>Customer Company</Title>
+                <Title>Customer Companies</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBar>
                     <Description>Edit Customer Company</Description>
@@ -4296,7 +4296,7 @@ Your OTRS Notification Master
                 </NavBar>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Customer Company</Name>
+                    <Name>Customer Companies</Name>
                     <Block>Block1</Block>
                     <Prio>310</Prio>
                 </NavBarModule>
@@ -4427,7 +4427,7 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>S/MIME</Name>
+                    <Name>S/MIME certificates</Name>
                     <Block>Block3</Block>
                     <Prio>1100</Prio>
                 </NavBarModule>
@@ -4447,7 +4447,7 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>PGP</Name>
+                    <Name>PGP Keys</Name>
                     <Block>Block3</Block>
                     <Prio>1200</Prio>
                 </NavBarModule>
@@ -4712,6 +4712,18 @@ Your OTRS Notification Master
                 <Title>Spell Checker</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Themes" Required="0" Valid="1">
+        <Description Lang="en">Specify the available themes on your system. Value 1 means active, 0 means inactive.</Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Standard">1</Item>
+                <Item Key="Lite">0</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NavBarStyle" Required="1" Valid="1">
