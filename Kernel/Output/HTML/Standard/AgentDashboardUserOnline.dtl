@@ -2,7 +2,7 @@
 # AgentDashboardUserOnline.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardUserOnline.dtl,v 1.9 2009-11-25 15:39:47 mg Exp $
+# $Id: AgentDashboardUserOnline.dtl,v 1.10 2009-12-14 16:40:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +13,9 @@
 <!-- dtl:block:ContentSmallUserOnlineFilter -->
     <tr>
         <td class="small" widh="50%">
-            <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Agent'); return false;" style="$QData{"Agent::Style"}">$Text{"Agent"} ($QData{"Agent"})</a>
+            <a href="#" onclick="AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Agent'); return false;" style="$QData{"Agent::Style"}">$Text{"Agent"} ($QData{"Agent"})</a>
             |
-            <a href="#" onclick="AJAXContentUpdate('$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Customer'); return false;" style="$QData{"Customer::Style"}">$Text{"Customer"} ($QData{"Customer"})</a>
+            <a href="#" onclick="AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Customer'); return false;" style="$QData{"Customer::Style"}">$Text{"Customer"} ($QData{"Customer"})</a>
         </td>
         <td class="small" align="right">
 <!-- dtl:block:ContentSmallTicketGenericFilterNavBar -->
