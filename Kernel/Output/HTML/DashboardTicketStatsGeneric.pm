@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.13 2009-12-08 17:34:45 mn Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.14 2009-12-14 07:56:13 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -70,6 +70,8 @@ sub Run {
     my @TicketsCreated = ();
     my @TicketsClosed  = ();
     my @TicketWeekdays = ();
+    my @TicketYAxis    = ();
+    my $Max            = 0;
     for my $Key ( 0 .. 6 ) {
 
         my $TimeNow = $Self->{TimeObject}->SystemTime();
@@ -104,6 +106,9 @@ sub Run {
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID => $Self->{UserID},
         );
+        if ( $CountCreated > $Max ) {
+            $Max = $CountCreated;
+        }
         push @TicketsCreated, [ 6 - $Key, $CountCreated ];
 
         my $CountClosed = $Self->{TicketObject}->TicketSearch(
@@ -124,7 +129,37 @@ sub Run {
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID => $Self->{UserID},
         );
+        if ( $CountClosed > $Max ) {
+            $Max = $CountClosed;
+        }
         push @TicketsClosed, [ 6 - $Key, $CountClosed ];
+    }
+
+    # calculate the maximum height and the tick steps of y axis
+    if ( $Max <= 10 ) {
+        for ( my $i = 0; $i <= 10; $i += 2 ) {
+            push @TicketYAxis, $i
+        }
+    }
+    elsif ( $Max <= 20 ) {
+        for ( my $i = 0; $i <= 20; $i += 4 ) {
+            push @TicketYAxis, $i
+        }
+    }
+    elsif ( $Max <= 100 ) {
+        for ( my $i = 0; $i <= ( ( ( $Max - $Max % 10 ) / 10 ) + 1 ) * 10; $i += 10 ) {
+            push @TicketYAxis, $i
+        }
+    }
+    elsif ( $Max <= 1000 ) {
+        for ( my $i = 0; $i <= ( ( ( $Max - $Max % 100 ) / 100 ) + 1 ) * 100; $i += 100 ) {
+            push @TicketYAxis, $i
+        }
+    }
+    else {
+        for ( my $i = 0; $i <= ( ( ( $Max - $Max % 1000 ) / 1000 ) + 1 ) * 1000; $i += 1000 ) {
+            push @TicketYAxis, $i
+        }
     }
 
     my $TicketsClosedJSON = $Self->{LayoutObject}->JSON(
@@ -139,6 +174,10 @@ sub Run {
         Data => \@TicketWeekdays,
     );
 
+    my $TicketYAxisJSON = $Self->{LayoutObject}->JSON(
+        Data => \@TicketYAxis,
+    );
+
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardTicketStats',
         Data         => {
@@ -147,6 +186,7 @@ sub Run {
             TicketsClosed  => $TicketsClosedJSON,
             TicketsCreated => $TicketsCreatedJSON,
             TicketWeekdays => $TicketWeekdaysJSON,
+            TicketYAxis    => $TicketYAxisJSON
         },
     );
 
