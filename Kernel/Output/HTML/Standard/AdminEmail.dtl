@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.26 2009-12-08 13:48:54 mg Exp $
+# $Id: AdminEmail.dtl,v 1.27 2009-12-14 19:35:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,14 +72,16 @@ function submit_compose() {
                                     <td class="contentvalue">
                                         <table border="0" cellspacing="0" cellpadding="1" width="70%">
                                             <tr>
-                                                <td rowspan="2" valign="top">$Text{"User"}:<br/>$Data{"UserOption"}</td>
-                                                <td valign="top">$Text{"Group"}:<br/>$Data{"GroupOption"}</td>
+                                                <td rowspan="2" valign="top">$Text{"Users"}:<br/>$Data{"UserOption"}</td>
+                                                <td valign="top">$Text{"Groups"}:<br/>$Data{"GroupOption"}</td>
+                                                <td rowspan="2" valign="top">$Text{"Roles"}:<br/>$Data{"RoleOption"}</td>
                                             </tr>
                                             <tr>
                                                 <td valign="top">
                                                     $Text{"Permission"}:<br/>ro <input type="radio" name="GroupPermission" value="ro" checked="checked" /> - rw <input type="radio" name="GroupPermission" value="rw"/>
                                                 </td>
                                             </tr>
+                                            <tr><td><input type="checkbox" name="NotifyCustomerUsers" />$Text{"Also send CustomerUsers in Groups"}</td></tr>
                                         </table>
                                     </td>
                                 </tr>
@@ -101,6 +103,7 @@ function submit_compose() {
                     <tr>
                         <td class="contentfooter"><input class="button" id="submitRichText" type="submit" value="$Text{"Send"}" onclick="return submit_compose();"/></td>
                     </tr>
+
                 </table>
             </form>
 <!-- dtl:block:Form -->

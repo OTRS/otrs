@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.pm,v 1.40 2009-12-11 09:42:08 mh Exp $
+# $Id: AdminEmail.pm,v 1.41 2009-12-14 19:35:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,13 +35,18 @@ sub new {
 
     $Self->{SendmailObject} = Kernel::System::Email->new(%Param);
 
+    if ( $Self->{ConfigObject}->Get('CustomerGroupSupport') ) {
+        $Self->{CustomerUserObject}  = Kernel::System::CustomerUser->new(%Param);
+        $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
+    }
+
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    for (qw(From Subject Body Bcc GroupPermission)) {
+    for (qw(From Subject Body Bcc GroupPermission NotifyCustomerUsers)) {
         $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || $Param{$_} || '';
     }
 
@@ -83,6 +88,39 @@ sub Run {
                 my %UserData = $Self->{UserObject}->GetUserData( UserID => $_, Valid => 1 );
                 if ( $UserData{UserEmail} ) {
                     $Bcc{ $UserData{UserLogin} } = $UserData{UserEmail};
+                }
+            }
+        }
+
+        # get customerusers that are a member of the groups
+        if ( $Param{NotifyCustomerUsers} ) {
+            for ( $Self->{ParamObject}->GetArray( Param => 'GroupIDs' ) ) {
+                my @GroupCustomerUserMemberList = $Self->{CustomerGroupObject}->GroupMemberList(
+                    Result  => 'ID',
+                    Type    => $Param{GroupPermission},
+                    GroupID => $_,
+                );
+                for (@GroupCustomerUserMemberList) {
+                    my %CustomerUserData = $Self->{CustomerUserObject}
+                        ->CustomerUserDataGet( User => $_, Valid => 1 );
+                    if ( $CustomerUserData{UserEmail} ) {
+                        $Bcc{ $CustomerUserData{UserLogin} } = $CustomerUserData{UserEmail};
+                    }
+                }
+            }
+        }
+
+        # get role recipients addresses
+        for ( $Self->{ParamObject}->GetArray( Param => 'RoleIDs' ) ) {
+            my @RoleMemberList = $Self->{GroupObject}->GroupUserRoleMemberList(
+                Result => 'ID',
+                RoleID => $_,
+            );
+            for (@RoleMemberList) {
+                my %UserData = $Self->{UserObject}->GetUserData( UserID => $_, Valid => 1 );
+                if ( $UserData{UserEmail} ) {
+                    $Bcc{ $UserData{UserLogin} } = $UserData{UserEmail};
+                    use Data::Dumper;
                 }
             }
         }
@@ -168,6 +206,12 @@ sub Run {
             Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
             Size => 6,
             Name => 'GroupIDs',
+            Multiple => 1,
+        );
+        $Param{RoleOption} = $Self->{LayoutObject}->BuildSelection(
+            Data => { $Self->{GroupObject}->RoleList( Valid => 1 ) },
+            Size => 6,
+            Name => 'RoleIDs',
             Multiple => 1,
         );
 
