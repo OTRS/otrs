@@ -2,7 +2,7 @@
 # Kernel/Modules/PictureUpload.pm - get picture uploads
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PictureUpload.pm,v 1.4 2009-11-25 15:39:15 mg Exp $
+# $Id: PictureUpload.pm,v 1.5 2009-12-14 12:23:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,7 +35,8 @@ sub new {
 
     $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
 
-    $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
+    $Self->{FormID}          = $Self->{ParamObject}->GetParam( Param => 'FormID' );
+    $Self->{CKEditorFuncNum} = $Self->{ParamObject}->GetParam( Param => 'CKEditorFuncNum' );
 
     return $Self;
 }
@@ -76,17 +77,23 @@ sub Run {
 
     # upload new picture
     my %File = $Self->{ParamObject}->GetUploadAll(
-        Param  => 'NewFile',
+        Param  => 'upload',
         Source => 'string',
     );
 
     if ( !%File ) {
-        $Output .= "window.parent.OnUploadCompleted(404,\"-\",\"-\",\"\") ;</script>";
+        $Output
+            .= "window.parent.CKEDITOR.tools.callFunction("
+            . $Self->{CKEditorFuncNum}
+            . ", ''); </script>";
         return $Output;
     }
 
     if ( $File{Filename} !~ /\.(png|gif|jpg|jpeg)$/i ) {
-        $Output .= "window.parent.OnUploadCompleted(202,\"-\",\"-\",\"\") ;</script>";
+        $Output
+            .= "window.parent.CKEDITOR.tools.callFunction("
+            . $Self->{CKEditorFuncNum}
+            . ", ''); </script>";
         return $Output;
     }
 
@@ -143,8 +150,11 @@ sub Run {
         . ";ContentID="
         . $ContentID
         . $SessionID;
-    $Output .= "window.parent.OnUploadCompleted(0,\"$URL\",\"$URL\",\"\") ;</script>";
-
+    $Output
+        .= "window.parent.CKEDITOR.tools.callFunction("
+        . $Self->{CKEditorFuncNum} . ", '"
+        . $URL
+        . "'); </script>";
     return $Output;
 }
 
