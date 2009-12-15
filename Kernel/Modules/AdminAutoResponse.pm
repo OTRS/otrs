@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.34 2009-12-11 09:42:08 mh Exp $
+# $Id: AdminAutoResponse.pm,v 1.35 2009-12-15 21:09:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -133,11 +133,18 @@ sub Run {
 sub _Mask {
     my ( $Self, %Param ) = @_;
 
-    # build ValidID string
+    # get valid list
+    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidListReverse = reverse %ValidList;
+
     $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{ValidObject}->ValidList(), },
+        Data       => \%ValidList,
         Name       => 'ValidID',
-        SelectedID => $Param{ValidID},
+        SelectedID => $Param{ValidID} || $ValidListReverse{valid},
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => \%Param,
     );
 
     $Param{AutoResponseOption} = $Self->{LayoutObject}->BuildSelection(

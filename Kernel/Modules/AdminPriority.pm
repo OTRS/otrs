@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPriority.pm - admin frontend of ticket priority
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.pm,v 1.4 2009-02-17 23:37:11 martin Exp $
+# $Id: AdminPriority.pm,v 1.5 2009-12-15 21:09:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -70,12 +70,18 @@ sub Run {
             },
         );
 
-        # generate ValidOptionStrg
-        my %ValidList = $Self->{ValidObject}->ValidList();
+        # get valid list
+        my %ValidList        = $Self->{ValidObject}->ValidList();
+        my %ValidListReverse = reverse %ValidList;
+
         $PriorityData{ValidOptionStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%ValidList,
             Name       => 'ValidID',
-            SelectedID => $PriorityData{ValidID},
+            SelectedID => $PriorityData{ValidID} || $ValidListReverse{valid},
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewUpdate',
+            Data => \%Param,
         );
 
         # output service edit

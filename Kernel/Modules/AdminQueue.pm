@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.59 2009-12-11 09:42:08 mh Exp $
+# $Id: AdminQueue.pm,v 1.60 2009-12-15 21:09:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -260,11 +260,14 @@ sub Run {
 sub _Mask {
     my ( $Self, %Param ) = @_;
 
-    # build ValidID string
+    # get valid list
+    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidListReverse = reverse %ValidList;
+
     $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{ValidObject}->ValidList(), },
+        Data       => \%ValidList,
         Name       => 'ValidID',
-        SelectedID => $Param{ValidID},
+        SelectedID => $Param{ValidID} || $ValidListReverse{valid},
     );
 
     $Param{GroupOption} = $Self->{LayoutObject}->BuildSelection(
