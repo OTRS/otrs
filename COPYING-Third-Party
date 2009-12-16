@@ -1,8 +1,12 @@
 # --
-# $Id: COPYING-Third-Party,v 1.5 2009-12-04 10:44:24 mn Exp $
+# $Id: COPYING-Third-Party,v 1.6 2009-12-16 11:12:17 mn Exp $
 # --
 # A list of all included third party libraries.
 # --
+
+o Name:    CKEditor
+  Web:     http://www.ckeditor.com/
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    Flot
   Web:     http://code.google.com/p/flot/
@@ -30,10 +34,6 @@ o Name:    jQuery UI
 
 o Name:    jQuery
   Web:     http://www.jquery.com/
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-
-o Name:    fckeditor
-  Web:     http://www.fckeditor.net/
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN CGI
