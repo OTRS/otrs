@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.81 2009-07-30 14:40:13 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.81.2.1 2009-12-16 08:03:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.81.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,16 +64,22 @@ sub Run {
                 if ( !$ApacheReload ) {
                     return $Self->{LayoutObject}->ErrorScreen(
                         Message =>
-                            'Sorry, Apache::Reload or Apache2::Reload is needed as PerlModule and ".
-                            "PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf!'
+                            'Sorry, Apache::Reload or Apache2::Reload is needed as PerlModule and '
+                            .
+                            'PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. '
+                            .
+                            'Alternatively, you can use the cmd tool bin/opm.pl to install packages!'
                     );
                 }
             }
+
+            # mod_perl v1 detected
             else {
                 return $Self->{LayoutObject}->ErrorScreen(
                     Message =>
-                        'Sorry, for this interface is mod_perl2 with Apache2::Reload required. ".
-                        "Other way you need to use the cmd tool bin/opm.pl to install packages!'
+                        'In order to use this interface you need to run mod_perl2 and Apache::Reload. '
+                        .
+                        'Please use the cmd tool bin/opm.pl to install packages!'
                 );
             }
         }
