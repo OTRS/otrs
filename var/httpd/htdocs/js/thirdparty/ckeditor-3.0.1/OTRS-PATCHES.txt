@@ -1,8 +1,14 @@
 # --
-# $Id: OTRS-PATCHES.txt,v 1.1 2009-12-16 11:12:17 mn Exp $
+# $Id: OTRS-PATCHES.txt,v 1.2 2009-12-16 14:43:52 mn Exp $
 # --
 # A list of all patches applied to CKEditor for OTRS.
 # --
+
+-   _sources/plugins/image/dialogs/patch-20091216-image-js.patch
+    OTRS Bug#4503: Removes Border Option from Image Dialog
+
+-   plugins/image/dialogs/patch-20091216-image-js.patch
+    OTRS Bug#4503: Removes Border Option from Image Dialog
 
 -	_sources/plugins/dialogui/patch-20091216-plugin-js.patch
 	Adds additional hidden fields to the image upload

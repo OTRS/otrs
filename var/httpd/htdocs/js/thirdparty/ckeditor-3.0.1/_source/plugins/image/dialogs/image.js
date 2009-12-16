@@ -694,48 +694,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											[
 												{
 													type : 'text',
-													id : 'txtBorder',
-													width: '60px',
-													labelLayout : 'horizontal',
-													label : editor.lang.image.border,
-													'default' : '',
-													onKeyUp : function()
-													{
-														updatePreview( this.getDialog() );
-													},
-													validate: function()
-													{
-														var func = CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed );
-														return func.apply( this );
-													},
-													setup : function( type, element )
-													{
-														if ( type == IMAGE )
-															this.setValue( element.getAttribute( 'border' ) );
-													},
-													commit : function( type, element )
-													{
-														if ( type == IMAGE )
-														{
-															if ( this.getValue() || this.isChanged() )
-																element.setAttribute( 'border', this.getValue() );
-														}
-														else if ( type == PREVIEW )
-														{
-															var value = parseInt( this.getValue(), 10 );
-															value = isNaN( value ) ? 0 : value;
-															element.setAttribute( 'border', value );
-															element.setStyle( 'border', value + 'px solid black' );
-														}
-														else if ( type == CLEANUP )
-														{
-															element.removeAttribute( 'border' );
-															element.removeStyle( 'border' );
-														}
-													}
-												},
-												{
-													type : 'text',
 													id : 'txtHSpace',
 													width: '60px',
 													labelLayout : 'horizontal',
