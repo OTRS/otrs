@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.24 2009-12-08 13:48:54 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.25 2009-12-21 15:35:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,6 +84,7 @@ function submit_compose() {
                                     <td class="contentvalue"> $Data{"TypeStrg"}</td>
                                 </tr>
 <!-- dtl:block:TicketType -->
+<!-- dtl:block:Queue -->
                                 <tr>
                                     <td width="15%" class="contentkey">$Text{"To"}:</td>
                                     <td width="85%" class="contentvalue">
@@ -91,6 +92,7 @@ function submit_compose() {
                                         <font color="red" size="-2">$Text{"$Data{"Queue invalid"}"}</font>
                                     </td>
                                 </tr>
+<!-- dtl:block:Queue -->
 <!-- dtl:block:TicketService -->
                                 <tr>
                                     <td class="contentkey">$Text{"Service"}:</td>

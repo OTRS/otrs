@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.51 2009-12-11 09:42:09 mh Exp $
+# $Id: CustomerTicketMessage.pm,v 1.52 2009-12-21 15:35:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -137,7 +137,7 @@ sub Run {
         my $NextScreen = $Self->{Config}->{NextScreenAfterNewTicket};
         my %Error      = ();
 
-        # get dest queue
+        # get destination queue
         my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
         my ( $NewQueueID, $To ) = split( /\|\|/, $Dest );
         if ( !$To ) {
@@ -145,9 +145,12 @@ sub Run {
             $To = 'System';
         }
 
-        # fallback, if no dest is given
+        # fallback, if no destination is given
         if ( !$NewQueueID ) {
-            my $Queue = $Self->{ParamObject}->GetParam( Param => 'Queue' ) || '';
+            my $Queue
+                = $Self->{ParamObject}->GetParam( Param => 'Queue' )
+                || $Self->{Config}->{'QueueDefault'}
+                || '';
             if ($Queue) {
                 my $QueueID = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
                 $NewQueueID = $QueueID;
@@ -290,7 +293,7 @@ sub Run {
             return $Output;
         }
 
-        # if customer is not alown to set priority, set it to default
+        # if customer is not alowed to set priority, set it to default
         if ( !$Self->{Config}->{Priority} ) {
             $GetParam{PriorityID} = '';
             $GetParam{Priority}   = $Self->{Config}->{PriorityDefault};
@@ -460,41 +463,50 @@ sub _MaskNew {
         $TreeView = 1;
     }
 
-    # check own selection
-    my %NewTos = ( '', '-' );
-    my $Module = $Self->{ConfigObject}->Get('CustomerPanel::NewTicketQueueSelectionModule')
-        || 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
-    if ( $Self->{MainObject}->Require($Module) ) {
-        my $Object = $Module->new( %{$Self}, Debug => $Self->{Debug}, );
+    if ( $Self->{Config}->{Queue} ) {
 
-        # log loaded module
-        if ( $Self->{Debug} > 1 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => "Module: $Module loaded!",
-            );
-        }
-        %NewTos = ( $Object->Run( Env => $Self ), ( '', => '-' ) );
-    }
-    else {
-        return $Self->{LayoutObject}->FatalError();
-    }
+        # check own selection
+        my %NewTos = ( '', '-' );
+        my $Module = $Self->{ConfigObject}->Get('CustomerPanel::NewTicketQueueSelectionModule')
+            || 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
+        if ( $Self->{MainObject}->Require($Module) ) {
+            my $Object = $Module->new( %{$Self}, Debug => $Self->{Debug}, );
 
-    # build to string
-    if (%NewTos) {
-        for ( keys %NewTos ) {
-            $NewTos{"$_||$NewTos{$_}"} = $NewTos{$_};
-            delete $NewTos{$_};
+            # log loaded module
+            if ( $Self->{Debug} > 1 ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message  => "Module: $Module loaded!",
+                );
+            }
+            %NewTos = ( $Object->Run( Env => $Self ), ( '', => '-' ) );
         }
+        else {
+            return $Self->{LayoutObject}->FatalError();
+        }
+
+        # build to string
+        if (%NewTos) {
+            for ( keys %NewTos ) {
+                $NewTos{"$_||$NewTos{$_}"} = $NewTos{$_};
+                delete $NewTos{$_};
+            }
+        }
+        $Param{ToStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+            Data       => \%NewTos,
+            Multiple   => 0,
+            Size       => 0,
+            Name       => 'Dest',
+            SelectedID => $Param{ToSelected},
+            OnChange =>
+                "document.compose.Expand.value='3'; document.compose.submit(); return false;",
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'Queue',
+            Data => \%Param,
+        );
+
     }
-    $Param{ToStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data       => \%NewTos,
-        Multiple   => 0,
-        Size       => 0,
-        Name       => 'Dest',
-        SelectedID => $Param{ToSelected},
-        OnChange   => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
-    );
 
     # get priority
     if ( $Self->{Config}->{Priority} ) {
@@ -546,7 +558,7 @@ sub _MaskNew {
     }
 
     # services
-    if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service} ) {
         my %Service = ();
         if ( $Param{QueueID} || $Param{TicketID} ) {
             %Service = $Self->{TicketObject}->TicketServiceList(
@@ -572,7 +584,7 @@ sub _MaskNew {
             Data => \%Param,
         );
         my %SLA = ();
-        if ( $Param{ServiceID} ) {
+        if ( $Param{ServiceID} && $Self->{Config}->{Queue} ) {
             %SLA = $Self->{TicketObject}->TicketSLAList(
                 %Param,
                 Action         => $Self->{Action},
