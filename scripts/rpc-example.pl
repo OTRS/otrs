@@ -3,7 +3,7 @@
 # scripts/rpc-example.pl - soap example client
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: rpc-example.pl,v 1.6 2009-03-27 17:36:33 mh Exp $
+# $Id: rpc-example.pl,v 1.6.2.1 2009-12-22 11:18:19 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -20,6 +20,9 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+use strict;
+use warnings;
 
 # config
 use SOAP::Lite( 'autodispatch', proxy => 'http://otrs.example.com/otrs/rpc.pl' );
@@ -54,7 +57,8 @@ my %TicketData = (
 );
 
 print "NOTICE: TicketObject->TicketCreate(%TicketData)\n";
-my $TicketID = $RPC->Dispatch( $User, $Pw, 'TicketObject', 'TicketCreate', %TicketData => 1 );
+my $TicketID = $RPC->Dispatch( $User, $Pw, 'TicketObject', 'TicketCreate', %TicketData => 1 )
+    || die "$!";
 print "NOTICE: TicketID is $TicketID\n";
 
 # delete the ticket
@@ -64,6 +68,7 @@ my $Feedback = $RPC->Dispatch(
     TicketID => $TicketID,
     UserID   => 1
 );
+
 my $Message = $Feedback ? 'was successful' : 'was not successful';
 print "NOTICE: Delete Ticket with ID $TicketID $Message\n";
 
