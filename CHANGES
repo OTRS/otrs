@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1113 2009-12-16 14:43:52 mn Exp $
+# $Id: CHANGES,v 1.1114 2009-12-22 15:32:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/21) Added the ability to hide the Queue, SLA and/or Service in
+    the Customer interface.
  - (2009/12/16) Fixed bug#4503 - Border around image does not display well
     in some email clients.
  - (2009/12/15) Changed rich text editor from FCKEditor 2.6.4.1 to CKEditor 3.0.1
