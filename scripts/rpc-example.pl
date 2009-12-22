@@ -3,7 +3,7 @@
 # scripts/rpc-example.pl - soap example client
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: rpc-example.pl,v 1.6 2009-03-27 17:36:33 mh Exp $
+# $Id: rpc-example.pl,v 1.7 2009-12-22 11:19:52 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,8 +21,11 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+use strict;
+use warnings;
+
 # config
-use SOAP::Lite( 'autodispatch', proxy => 'http://otrs.example.com/otrs/rpc.pl' );
+use SOAP::Lite( 'autodispatch', proxy => 'http://127.0.0.1/otrs/rpc.pl' );
 my $User = 'some_user';
 my $Pw   = 'some_pass';
 
@@ -45,7 +48,7 @@ my %TicketData = (
     Title        => 'rpc-example.pl test ticket',
     Queue        => 'Raw',
     Lock         => 'unlock',
-    Priority     => '3 normal',
+    Priority     => 'low',
     State        => 'new',
     CustomerID   => 'www.otrs.com',
     CustomerUser => 'customer@example.com',
@@ -54,7 +57,8 @@ my %TicketData = (
 );
 
 print "NOTICE: TicketObject->TicketCreate(%TicketData)\n";
-my $TicketID = $RPC->Dispatch( $User, $Pw, 'TicketObject', 'TicketCreate', %TicketData => 1 );
+my $TicketID = $RPC->Dispatch( $User, $Pw, 'TicketObject', 'TicketCreate', %TicketData => 1 )
+    || die "Failed to create ticket: $!";
 print "NOTICE: TicketID is $TicketID\n";
 
 # delete the ticket
