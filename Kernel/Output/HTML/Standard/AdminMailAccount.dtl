@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.7 2009-12-08 15:19:10 mg Exp $
+# $Id: AdminMailAccount.dtl,v 1.8 2009-12-22 15:04:15 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -125,15 +125,15 @@
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Username"}: </td>
-                                    <td class="contentvalue"> <input type="text" name="Login" value="$QData{"Login"}" size="35" maxlength="50"/></td>
+                                    <td class="contentvalue"> <input type="text" name="Login" value="$QData{"Login"}" maxlength="200"/></td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Password"}: </td>
-                                    <td class="contentvalue"> <input type="password" name="Password" value="$QData{"Password"}" size="35" maxlength="50"/></td>
+                                    <td class="contentvalue"> <input type="password" name="Password" value="$QData{"Password"}" maxlength="200"/></td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Host"}: </td>
-                                    <td class="contentvalue"> <input type="text" name="Host" value="$QData{"Host"}" size="35" maxlength="50"/></td>
+                                    <td class="contentvalue"> <input type="text" name="Host" value="$QData{"Host"}" maxlength="200"/></td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Trusted"}: </td>
@@ -153,7 +153,7 @@
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Comment"}: </td>
-                                    <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/></td>
+                                    <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" maxlength="250"/></td>
                                 </tr>
                             </table>
                         </td>
