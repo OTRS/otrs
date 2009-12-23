@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.232 2009-09-08 16:14:48 martin Exp $
+# $Id: Article.pm,v 1.232.2.1 2009-12-23 22:48:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,11 @@ package Kernel::System::Ticket::Article;
 use strict;
 use warnings;
 
+use Kernel::System::TemplateGenerator;
+use Kernel::System::Notification;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.232 $) [1];
+$VERSION = qw($Revision: 1.232.2.1 $) [1];
 
 =head1 NAME
 
@@ -2328,7 +2331,15 @@ sub SendCustomerNotification {
     }
 
     # get notification data
-    my %Notification = $Self->{NotificationObject}->NotificationGet(
+    my $NotificationObject = Kernel::System::Notification->new(
+        MainObject   => $Self->{MainObject},
+        DBObject     => $Self->{DBObject},
+        EncodeObject => $Self->{EncodeObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject    => $Self->{LogObject},
+        UserObject   => $Self->{UserObject},
+    );
+    my %Notification = $NotificationObject->NotificationGet(
         Name => $Language . '::Customer::' . $Param{Type},
     );
 
@@ -3053,6 +3064,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.232 $ $Date: 2009-09-08 16:14:48 $
+$Revision: 1.232.2.1 $ $Date: 2009-12-23 22:48:22 $
 
 =cut
