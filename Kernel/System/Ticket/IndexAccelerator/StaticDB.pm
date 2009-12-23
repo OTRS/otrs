@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.71 2009-10-07 20:30:49 martin Exp $
+# $Id: StaticDB.pm,v 1.72 2009-12-23 22:15:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -300,11 +300,12 @@ sub TicketAcceleratorIndex {
     }
 
     # CustomQueue add on
-    my $SQL = "SELECT count(*) FROM ticket_index ti, personal_queues suq WHERE "
-        . " suq.queue_id = ti.queue_id AND "
-        . " ti.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
-        . " suq.user_id = $Param{UserID}";
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT count(*) FROM ticket_index ti, personal_queues suq WHERE "
+            . " suq.queue_id = ti.queue_id AND "
+            . " ti.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
+            . " suq.user_id = $Param{UserID}",
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Hashes;
         $Hashes{QueueID} = 0;
@@ -321,11 +322,11 @@ sub TicketAcceleratorIndex {
     }
 
     # prepare the tickets in Queue bar (all data only with my/your Permission)
-    $SQL = "SELECT queue_id, queue, min(create_time_unix), count(*) "
-        . " FROM ticket_index WHERE "
-        . " group_id IN ( ${\(join ', ', @GroupIDs)} ) "
-        . " GROUP BY queue_id, queue ORDER BY queue";
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT queue_id, queue, min(create_time_unix), count(*) "
+            . " FROM ticket_index WHERE group_id IN ( ${\(join ', ', @GroupIDs)} ) "
+            . " GROUP BY queue_id, queue ORDER BY queue",
+    );
 
     while ( my @RowTmp = $Self->{DBObject}->FetchrowArray() ) {
 
@@ -521,25 +522,32 @@ sub GetLockedCount {
     # put all tickets to ToDo where last sender type is customer / system or ! UserID
     # and article type is not a email-notification
     for my $Article (@ArticleLocked) {
+
+        # next if article already checked
+        next if $TicketIDs{ $Article->[2] };
+
+        # lookup sender and article type
         my $SenderType = $Self->ArticleSenderTypeLookup( SenderTypeID => $Article->[1] );
         my $ArticleType = $Self->ArticleTypeLookup( ArticleTypeID => $Article->[7] );
-        if ( !$TicketIDs{ $Article->[2] } ) {
-            if ( $SenderType eq 'system' && $ArticleType =~ /^email-extern/i ) {
-                next;
-            }
-            if (
-                (
-                    $Article->[3] ne $Param{UserID}
-                    || $SenderType eq 'customer'
-                )
-                && $ArticleType !~ /^email-notification/i
-                )
-            {
-                $Data{'New'}++;
-                $Data{'NewTicketIDs'}->{ $Article->[2] } = 1;
-            }
 
+        # only if sender is system and article type was notification
+        next if $SenderType eq 'system' && $ArticleType =~ /^email-extern/i;
+
+        # count ticket as new if last article is not from current agent or last article
+        # is from customer
+        if (
+            (
+                $Article->[3] ne $Param{UserID}
+                || $SenderType eq 'customer'
+            )
+            && $ArticleType !~ /^email-notification/i
+            )
+        {
+            $Data{New}++;
+            $Data{NewTicketIDs}->{ $Article->[2] } = 1;
         }
+
+        # remember already used article
         $TicketIDs{ $Article->[2] } = 1;
     }
 
