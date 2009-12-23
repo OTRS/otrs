@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.440 2009-12-09 11:06:49 mh Exp $
+# $Id: Ticket.pm,v 1.441 2009-12-23 22:40:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,14 +29,12 @@ use Kernel::System::Cache;
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Email;
-use Kernel::System::TemplateGenerator;
 use Kernel::System::Valid;
 use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
-use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.440 $) [1];
+$VERSION = qw($Revision: 1.441 $) [1];
 
 =head1 NAME
 
@@ -148,15 +146,14 @@ sub new {
         $Self->{QueueObject} = $Param{QueueObject};
     }
 
-    $Self->{SendmailObject}     = Kernel::System::Email->new( %{$Self} );
-    $Self->{TypeObject}         = Kernel::System::Type->new( %{$Self} );
-    $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
-    $Self->{ServiceObject}      = Kernel::System::Service->new( %{$Self} );
-    $Self->{SLAObject}          = Kernel::System::SLA->new( %{$Self} );
-    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
-    $Self->{LockObject}         = Kernel::System::Lock->new( %{$Self} );
-    $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
-    $Self->{NotificationObject} = Kernel::System::Notification->new( %{$Self} );
+    $Self->{SendmailObject} = Kernel::System::Email->new( %{$Self} );
+    $Self->{TypeObject}     = Kernel::System::Type->new( %{$Self} );
+    $Self->{PriorityObject} = Kernel::System::Priority->new( %{$Self} );
+    $Self->{ServiceObject}  = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}      = Kernel::System::SLA->new( %{$Self} );
+    $Self->{StateObject}    = Kernel::System::State->new( %{$Self} );
+    $Self->{LockObject}     = Kernel::System::Lock->new( %{$Self} );
+    $Self->{ValidObject}    = Kernel::System::Valid->new( %{$Self} );
 
     # init of event handler
     push @ISA, 'Kernel::System::EventHandler';
@@ -1122,6 +1119,194 @@ sub TicketGet {
     $Self->{$CacheKey}->{ $Param{Extended} } = \%Ticket;
 
     return %Ticket;
+}
+
+sub _TicketGetExtended {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TicketID Ticket)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # get extended attributes
+    my %FirstResponse   = $Self->_TicketGetFirstResponse(%Param);
+    my %FirstLock       = $Self->_TicketGetFirstLock(%Param);
+    my %TicketGetClosed = $Self->_TicketGetClosed(%Param);
+
+    # return all as hash
+    return ( %TicketGetClosed, %FirstResponse, %FirstLock );
+}
+
+sub _TicketGetFirstResponse {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TicketID Ticket)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # check if first response is already done
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT a.create_time,a.id FROM article a, article_sender_type ast, article_type art'
+            . ' WHERE a.article_sender_type_id = ast.id AND a.article_type_id = art.id AND'
+            . ' a.ticket_id = ? AND ast.name = \'agent\' AND'
+            . ' (art.name LIKE \'email-ext%\' OR art.name LIKE \'note-ext%\' OR art.name = \'phone\' OR art.name = \'fax\' OR art.name = \'sms\')'
+            . ' ORDER BY a.create_time',
+        Bind  => [ \$Param{TicketID} ],
+        Limit => 1,
+    );
+    my %Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{FirstResponse} = $Row[0];
+
+        # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+        # and 0000-00-00 00:00:00 time stamps)
+        $Data{FirstResponse} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+    }
+
+    return if !$Data{FirstResponse};
+
+    # get escalation properties
+    my %Escalation = $Self->TicketEscalationPreferences(
+        Ticket => $Param{Ticket},
+        UserID => $Param{UserID} || 1,
+    );
+
+    if ( $Escalation{FirstResponseTime} ) {
+
+        # get unix time stamps
+        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{Ticket}->{Created},
+        );
+        my $FirstResponseTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Data{FirstResponse},
+        );
+
+        # get time between creation and first response
+        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+            StartTime => $CreateTime,
+            StopTime  => $FirstResponseTime,
+            Calendar  => $Escalation{Calendar},
+        );
+
+        $Data{FirstResponseInMin} = int( $WorkingTime / 60 );
+        my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
+        $Data{FirstResponseDiffInMin} = int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
+    }
+    return %Data;
+}
+
+sub _TicketGetClosed {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TicketID Ticket)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # get close time
+    my @List = $Self->{StateObject}->StateGetStatesByType(
+        StateType => ['closed'],
+        Result    => 'ID',
+    );
+    return if !@List;
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT create_time FROM ticket_history WHERE ticket_id = ? AND "
+            . " state_id IN (${\(join ', ', sort @List)}) ORDER BY create_time DESC",
+        Bind  => [ \$Param{TicketID} ],
+        Limit => 1,
+    );
+
+    my %Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{Closed} = $Row[0];
+
+        # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+        # and 0000-00-00 00:00:00 time stamps)
+        $Data{Closed} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+    }
+
+    return if !$Data{Closed};
+
+    # for compat. wording reasons
+    $Data{SolutionTime} = $Data{Closed};
+
+    # get escalation properties
+    my %Escalation = $Self->TicketEscalationPreferences(
+        Ticket => $Param{Ticket},
+        UserID => $Param{UserID} || 1,
+    );
+
+    if ( $Escalation{SolutionTime} ) {
+
+        # get unix time stamps
+        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{Ticket}->{Created},
+        );
+        my $SolutionTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Data{Closed},
+        );
+
+        # get time between creation and solution
+        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+            StartTime => $CreateTime,
+            StopTime  => $SolutionTime,
+            Calendar  => $Escalation{Calendar},
+        );
+
+        $Data{SolutionInMin} = int( $WorkingTime / 60 );
+
+        my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
+        $Data{SolutionDiffInMin} = int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
+    }
+
+    return %Data;
+}
+
+sub _TicketGetFirstLock {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TicketID Ticket)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # first lock
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT th.name, tht.name, th.create_time '
+            . 'FROM ticket_history th, ticket_history_type tht '
+            . 'WHERE th.history_type_id = tht.id AND th.ticket_id = ? '
+            . 'AND tht.name = \'Lock\' ORDER BY th.create_time, th.id ASC',
+        Bind  => [ \$Param{TicketID} ],
+        Limit => 100,
+    );
+
+    my %Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if ( !$Data{FirstLock} ) {
+            $Data{FirstLock} = $Row[2];
+
+            # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+            # and 0000-00-00 00:00:00 time stamps)
+            $Data{FirstLock} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+        }
+    }
+
+    return %Data;
 }
 
 =item TicketTitleUpdate()
@@ -4806,6 +4991,49 @@ sub TicketSearch {
     }
 }
 
+=begin Internal:
+
+=cut
+
+=item _TicketSearchSqlAndStringCreate()
+
+internal function to create a sql and string
+
+    my $SQLPart = $TicketObject->_TicketSearchSqlAndStringCreate(
+        TableColumn => '',
+        IDRef       => $ArrayRef,
+    )
+
+=cut
+
+sub _TicketSearchSqlAndStringCreate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(TableColumn IDRef)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # sort ids to cache the SQL query
+    my @SortedIDs = sort { $a <=> $b } @{ $Param{IDRef} };
+
+    # create the id string
+    my $TypeIDString = join q{, }, @SortedIDs;
+
+    # create the sql part
+    my $SQL = " AND $Param{TableColumn} IN ($TypeIDString)";
+
+    return $SQL;
+}
+
+=end Internal:
+
 =item LockIsTicketLocked()
 
 check if a ticket is locked or not
@@ -7438,238 +7666,7 @@ sub DESTROY {
     return 1;
 }
 
-=begin Internal:
-
-=cut
-
-sub _TicketGetExtended {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(TicketID Ticket)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # get extended attributes
-    my %FirstResponse   = $Self->_TicketGetFirstResponse(%Param);
-    my %FirstLock       = $Self->_TicketGetFirstLock(%Param);
-    my %TicketGetClosed = $Self->_TicketGetClosed(%Param);
-
-    # return all as hash
-    return ( %TicketGetClosed, %FirstResponse, %FirstLock );
-}
-
-sub _TicketGetFirstResponse {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(TicketID Ticket)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # check if first response is already done
-    return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT a.create_time,a.id FROM article a, article_sender_type ast, article_type art'
-            . ' WHERE a.article_sender_type_id = ast.id AND a.article_type_id = art.id AND'
-            . ' a.ticket_id = ? AND ast.name = \'agent\' AND'
-            . ' (art.name LIKE \'email-ext%\' OR art.name LIKE \'note-ext%\' OR art.name = \'phone\' OR art.name = \'fax\' OR art.name = \'sms\')'
-            . ' ORDER BY a.create_time',
-        Bind  => [ \$Param{TicketID} ],
-        Limit => 1,
-    );
-    my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data{FirstResponse} = $Row[0];
-
-        # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
-        # and 0000-00-00 00:00:00 time stamps)
-        $Data{FirstResponse} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
-    }
-
-    return if !$Data{FirstResponse};
-
-    # get escalation properties
-    my %Escalation = $Self->TicketEscalationPreferences(
-        Ticket => $Param{Ticket},
-        UserID => $Param{UserID} || 1,
-    );
-
-    if ( $Escalation{FirstResponseTime} ) {
-
-        # get unix time stamps
-        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $Param{Ticket}->{Created},
-        );
-        my $FirstResponseTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $Data{FirstResponse},
-        );
-
-        # get time between creation and first response
-        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
-            StartTime => $CreateTime,
-            StopTime  => $FirstResponseTime,
-            Calendar  => $Escalation{Calendar},
-        );
-
-        $Data{FirstResponseInMin} = int( $WorkingTime / 60 );
-        my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
-        $Data{FirstResponseDiffInMin} = int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
-    }
-    return %Data;
-}
-
-sub _TicketGetClosed {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(TicketID Ticket)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # get close time
-    my @List = $Self->{StateObject}->StateGetStatesByType(
-        StateType => ['closed'],
-        Result    => 'ID',
-    );
-    return if !@List;
-
-    return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT create_time FROM ticket_history WHERE ticket_id = ? AND "
-            . " state_id IN (${\(join ', ', sort @List)}) ORDER BY create_time DESC",
-        Bind  => [ \$Param{TicketID} ],
-        Limit => 1,
-    );
-
-    my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data{Closed} = $Row[0];
-
-        # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
-        # and 0000-00-00 00:00:00 time stamps)
-        $Data{Closed} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
-    }
-
-    return if !$Data{Closed};
-
-    # for compat. wording reasons
-    $Data{SolutionTime} = $Data{Closed};
-
-    # get escalation properties
-    my %Escalation = $Self->TicketEscalationPreferences(
-        Ticket => $Param{Ticket},
-        UserID => $Param{UserID} || 1,
-    );
-
-    if ( $Escalation{SolutionTime} ) {
-
-        # get unix time stamps
-        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $Param{Ticket}->{Created},
-        );
-        my $SolutionTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $Data{Closed},
-        );
-
-        # get time between creation and solution
-        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
-            StartTime => $CreateTime,
-            StopTime  => $SolutionTime,
-            Calendar  => $Escalation{Calendar},
-        );
-
-        $Data{SolutionInMin} = int( $WorkingTime / 60 );
-
-        my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
-        $Data{SolutionDiffInMin} = int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
-    }
-
-    return %Data;
-}
-
-sub _TicketGetFirstLock {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(TicketID Ticket)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # first lock
-    return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT th.name, tht.name, th.create_time '
-            . 'FROM ticket_history th, ticket_history_type tht '
-            . 'WHERE th.history_type_id = tht.id AND th.ticket_id = ? '
-            . 'AND tht.name = \'Lock\' ORDER BY th.create_time, th.id ASC',
-        Bind  => [ \$Param{TicketID} ],
-        Limit => 100,
-    );
-
-    my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ( !$Data{FirstLock} ) {
-            $Data{FirstLock} = $Row[2];
-
-            # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
-            # and 0000-00-00 00:00:00 time stamps)
-            $Data{FirstLock} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
-        }
-    }
-
-    return %Data;
-}
-
-=item _TicketSearchSqlAndStringCreate()
-
-internal function to create a sql and string
-
-    my $SQLPart = $TicketObject->_TicketSearchSqlAndStringCreate(
-        TableColumn => '',
-        IDRef       => $ArrayRef,
-    )
-
-=cut
-
-sub _TicketSearchSqlAndStringCreate {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Argument (qw(TableColumn IDRef)) {
-        if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!",
-            );
-            return;
-        }
-    }
-
-    # sort ids to cache the SQL query
-    my @SortedIDs = sort { $a <=> $b } @{ $Param{IDRef} };
-
-    # create the id string
-    my $TypeIDString = join q{, }, @SortedIDs;
-
-    # create the sql part
-    my $SQL = " AND $Param{TableColumn} IN ($TypeIDString)";
-
-    return $SQL;
-}
-
 1;
-
-=end Internal:
 
 =back
 
@@ -7683,6 +7680,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.440 $ $Date: 2009-12-09 11:06:49 $
+$Revision: 1.441 $ $Date: 2009-12-23 22:40:25 $
 
 =cut
