@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.108 2009-11-26 12:23:09 bes Exp $
+# $Id: DB.pm,v 1.109 2009-12-23 22:49:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.108 $) [1];
+$VERSION = qw($Revision: 1.109 $) [1];
 
 =head1 NAME
 
@@ -110,12 +110,12 @@ sub new {
     # decrypt pw (if needed)
     if ( $Self->{PW} =~ /^\{(.*)\}$/ ) {
         my $Length = length($1) * 4;
-        $Self->{PW} = pack( "h$Length", $1 );
-        $Self->{PW} = unpack( "B$Length", $Self->{PW} );
+        $Self->{PW} = pack "h$Length", $1;
+        $Self->{PW} = unpack "B$Length", $Self->{PW};
         $Self->{PW} =~ s/1/A/g;
         $Self->{PW} =~ s/0/1/g;
         $Self->{PW} =~ s/A/0/g;
-        $Self->{PW} = pack( "B$Length", $Self->{PW} );
+        $Self->{PW} = pack "B$Length", $Self->{PW};
     }
 
     # get database type (auto detection)
@@ -147,10 +147,8 @@ sub new {
 
     # load backend module
     if ( $Self->{'DB::Type'} ) {
-        my $GenericModule = "Kernel::System::DB::$Self->{'DB::Type'}";
-        if ( !$Self->{MainObject}->Require($GenericModule) ) {
-            return;
-        }
+        my $GenericModule = 'Kernel::System::DB::' . $Self->{'DB::Type'};
+        return if !$Self->{MainObject}->Require($GenericModule);
         $Self->{Backend} = $GenericModule->new( %{$Self} );
 
         # set database functions
@@ -159,8 +157,8 @@ sub new {
     else {
         $Self->{LogObject}->Log(
             Priority => 'Error',
-            Message  => "Unknown database type! Set option Database::Type in "
-                . "Kernel/Config.pm to (mysql|postgresql|oracle|db2|mssql).",
+            Message  => 'Unknown database type! Set option Database::Type in '
+                . 'Kernel/Config.pm to (mysql|postgresql|oracle|db2|mssql).',
         );
         return;
     }
@@ -278,9 +276,8 @@ to quote sql params
 sub Quote {
     my ( $Self, $Text, $Type ) = @_;
 
-    if ( !defined $Text ) {
-        return;
-    }
+    # return undef if undef
+    return if !defined $Text;
 
     # do quote string
     if ( !defined $Type ) {
@@ -1175,6 +1172,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.108 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.109 $ $Date: 2009-12-23 22:49:07 $
 
 =cut
