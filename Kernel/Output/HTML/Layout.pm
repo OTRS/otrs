@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.176.2.12 2009-12-09 17:05:14 mh Exp $
+# $Id: Layout.pm,v 1.176.2.13 2009-12-23 22:33:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.176.2.12 $) [1];
+$VERSION = qw($Revision: 1.176.2.13 $) [1];
 
 =head1 NAME
 
@@ -296,6 +296,11 @@ sub new {
             Key   => 'Frontend::RichText',
             Value => 0,
         );
+    }
+
+    # check if rich text is active
+    if ( !$Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        $Self->{BrowserRichText} = 0;
     }
 
     # check if spell check should be active
@@ -4400,6 +4405,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.176.2.12 $ $Date: 2009-12-09 17:05:14 $
+$Revision: 1.176.2.13 $ $Date: 2009-12-23 22:33:59 $
 
 =cut
