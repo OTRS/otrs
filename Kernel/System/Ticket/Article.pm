@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.238 2009-11-26 12:23:09 bes Exp $
+# $Id: Article.pm,v 1.239 2009-12-23 22:46:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,11 @@ use warnings;
 
 use Kernel::System::HTMLUtils;
 use Kernel::System::PostMaster::LoopProtection;
+use Kernel::System::TemplateGenerator;
+use Kernel::System::Notifiaction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.238 $) [1];
+$VERSION = qw($Revision: 1.239 $) [1];
 
 =head1 NAME
 
@@ -1805,6 +1807,53 @@ sub ArticleGet {
     return @Content;
 }
 
+=begin Internal:
+
+=cut
+
+sub _ArticleGetId {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TicketID MessageID From Subject IncomingTime)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # sql query
+    my @Bind = ( \$Param{TicketID} );
+    my $SQL  = 'SELECT id FROM article WHERE ticket_id = ? AND ';
+    if ( $Param{MessageID} ) {
+        $SQL .= 'a_message_id = ? AND ';
+        push @Bind, \$Param{MessageID};
+    }
+    if ( $Param{From} ) {
+        $SQL .= 'a_from = ? AND ';
+        push @Bind, \$Param{From};
+    }
+    if ( $Param{Subject} ) {
+        $SQL .= 'a_subject = ? AND ';
+        push @Bind, \$Param{Subject};
+    }
+    $SQL .= ' incoming_time = ?';
+    push @Bind, \$Param{IncomingTime};
+
+    # start query
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind,
+    );
+    my $ID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $ID = $Row[0];
+    }
+    return $ID;
+}
+
+=end Internal:
+
 =item ArticleUpdate()
 
 update a article item
@@ -2159,6 +2208,7 @@ sub SendAgentNotification {
     return if $User{UserEmail} !~ /@/;
 
     my $TemplateGeneratorObject = Kernel::System::TemplateGenerator->new(
+        MainObject         => $Self->{MainObject},
         DBObject           => $Self->{DBObject},
         ConfigObject       => $Self->{ConfigObject},
         EncodeObject       => $Self->{EncodeObject},
@@ -2166,7 +2216,6 @@ sub SendAgentNotification {
         CustomerUserObject => $Self->{CustomerUserObject},
         QueueObject        => $Self->{QueueObject},
         UserObject         => $Self->{UserObject},
-        MainObject         => $Self->{MainObject},
         TicketObject       => $Self,
     );
 
@@ -2321,7 +2370,15 @@ sub SendCustomerNotification {
     }
 
     # get notification data
-    my %Notification = $Self->{NotificationObject}->NotificationGet(
+    my $NotificationObject = Kernel::System::Notification->new(
+        MainObject   => $Self->{MainObject},
+        DBObject     => $Self->{DBObject},
+        EncodeObject => $Self->{EncodeObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject    => $Self->{LogObject},
+        UserObject   => $Self->{UserObject},
+    );
+    my %Notification = $NotificationObject->NotificationGet(
         Name => $Language . '::Customer::' . $Param{Type},
     );
 
@@ -2564,6 +2621,7 @@ sub SendAutoResponse {
 
     # get auto default responses
     my $TemplateGeneratorObject = Kernel::System::TemplateGenerator->new(
+        MainObject         => $Self->{MainObject},
         DBObject           => $Self->{DBObject},
         EncodeObject       => $Self->{EncodeObject},
         ConfigObject       => $Self->{ConfigObject},
@@ -2571,7 +2629,6 @@ sub SendAutoResponse {
         CustomerUserObject => $Self->{CustomerUserObject},
         QueueObject        => $Self->{QueueObject},
         UserObject         => $Self->{UserObject},
-        MainObject         => $Self->{MainObject},
         TicketObject       => $Self,
     );
     my %AutoResponse = $TemplateGeneratorObject->AutoResponse(
@@ -2972,54 +3029,7 @@ sub ArticleAccountedTimeDelete {
     return 1;
 }
 
-=begin Internal:
-
-=cut
-
-sub _ArticleGetId {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(TicketID MessageID From Subject IncomingTime)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # sql query
-    my @Bind = ( \$Param{TicketID} );
-    my $SQL  = 'SELECT id FROM article WHERE ticket_id = ? AND ';
-    if ( $Param{MessageID} ) {
-        $SQL .= 'a_message_id = ? AND ';
-        push @Bind, \$Param{MessageID};
-    }
-    if ( $Param{From} ) {
-        $SQL .= 'a_from = ? AND ';
-        push @Bind, \$Param{From};
-    }
-    if ( $Param{Subject} ) {
-        $SQL .= 'a_subject = ? AND ';
-        push @Bind, \$Param{Subject};
-    }
-    $SQL .= ' incoming_time = ?';
-    push @Bind, \$Param{IncomingTime};
-
-    # start query
-    return if !$Self->{DBObject}->Prepare(
-        SQL  => $SQL,
-        Bind => \@Bind,
-    );
-    my $ID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $ID = $Row[0];
-    }
-    return $ID;
-}
-
 1;
-
-=end Internal:
 
 =cut
 
@@ -3120,6 +3130,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.238 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.239 $ $Date: 2009-12-23 22:46:03 $
 
 =cut
