@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.18 2009-12-11 09:42:09 mh Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.19 2009-12-23 22:25:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -133,10 +133,14 @@ sub Data {
                 if ( $DataRef->{Expires} ) {
                     $Expires = "[$DataRef->{Expires}]";
                 }
+
+                # disable inline pgp if rich text is enabled
+                if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
+                    $KeyList{"PGP::Inline::$DataRef->{Key}"}
+                        = "PGP-Inline: $DataRef->{Key} $Expires $DataRef->{Identifier}";
+                }
                 $KeyList{"PGP::Detached::$DataRef->{Key}"}
                     = "PGP-Detached: $DataRef->{Key} $Expires $DataRef->{Identifier}";
-                $KeyList{"PGP::Inline::$DataRef->{Key}"}
-                    = "PGP-Inline: $DataRef->{Key} $Expires $DataRef->{Identifier}";
             }
         }
 

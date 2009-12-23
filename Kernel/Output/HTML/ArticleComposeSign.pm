@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeSign.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeSign.pm,v 1.19 2009-12-11 09:42:09 mh Exp $
+# $Id: ArticleComposeSign.pm,v 1.20 2009-12-23 22:25:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -112,8 +112,12 @@ sub Data {
                 if ( $DataRef->{Expires} ) {
                     $Expires = "[$DataRef->{Expires}]";
                 }
-                $KeyList{"PGP::Inline::$DataRef->{Key}"}
-                    = "PGP-Inline: $DataRef->{Key} $Expires $DataRef->{Identifier}";
+
+                # disable inline pgp if rich text is enabled
+                if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
+                    $KeyList{"PGP::Inline::$DataRef->{Key}"}
+                        = "PGP-Inline: $DataRef->{Key} $Expires $DataRef->{Identifier}";
+                }
                 $KeyList{"PGP::Detached::$DataRef->{Key}"}
                     = "PGP-Detached: $DataRef->{Key} $Expires $DataRef->{Identifier}";
             }
