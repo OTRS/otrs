@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.58 2009-12-24 10:20:46 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.59 2009-12-24 10:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -235,26 +235,56 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:Type -->
                 <tr>
                     <td class="contentkey">$Text{"State"}:</td>
-                    <td class="contentvalue"><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></font></td>
+                    <td class="contentvalue">
+                        <div title="$Quote{"$Text{"$Data{"State"}"}"}">
+                            <font color="red">
+                            $Quote{"$Text{"$Data{"State"}"}","18"}
+                            </font>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td class="contentkey">$Text{"Priority"}:</td>
-                    <td class="contentvalue"><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</div></font></td>
+                    <td class="contentvalue">
+                        <div title="$Quote{"$Text{"$Data{"Priority"}"}"}">
+                            <font color="red">
+                            $Quote{"$Text{"$Data{"Priority"}"}","18"}
+                            </font>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td class="contentkey">$Text{"Queue"}:</td>
-                    <td class="contentvalue"><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></font></td>
+                    <td class="contentvalue">
+                        <div title="$QData{"Queue"}">
+                            <font color="red">
+                            $QData{"Queue","18"}
+                            </font>
+                        </div>
+                    </td>
                 </tr>
 <!-- dtl:block:Service -->
                 <tr>
                     <td class="contentkey">$Text{"Service"}:</td>
-                    <td class="contentvalue"><font color="red"><div title="$QData{"Service"}">$QData{"Service","18"}</div></font></td>
+                    <td class="contentvalue">
+                        <div title="$QData{"Service"}">
+                            <font color="red">
+                            $QData{"Service","18"}
+                            </font>
+                        </div>
+                    </td>
                 </tr>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
                 <tr>
                     <td class="contentkey">$Text{"SLA"}:</td>
-                    <td class="contentvalue"><font color="red"><div title="$QData{"SLA"}">$QData{"SLA","18"}</div></font></td>
+                    <td class="contentvalue">
+                        <div title="$QData{"SLA"}">
+                            <font color="red">
+                            $QData{"SLA","18"}
+                            </font>
+                        </div>
+                    </td>
                 </tr>
 <!-- dtl:block:SLA -->
                 <tr>

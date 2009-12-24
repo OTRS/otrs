@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.7 2009-12-24 10:20:46 mg Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.8 2009-12-24 10:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,15 +88,33 @@
 <!-- dtl:block:Type -->
                 <tr valign="top">
                     <td><b>$Text{"State"}:</b></td>
-                    <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","14"}</div></font></td>
+                    <td>
+                        <div title="$Quote{"$Text{"$Data{"State"}"}"}">
+                            <font color="red">
+                            $Quote{"$Text{"$Data{"State"}"}","14"}
+                            </font>
+                        </div>
+                    </td>
                 </tr>
                 <tr valign="top">
                     <td><b>$Text{"Priority"}:</b></td>
-                    <td><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","14"}</div></font></td>
+                    <td>
+                        <div title="$Quote{"$Text{"$Data{"Priority"}"}"}">
+                            <font color="red">
+                            $Quote{"$Text{"$Data{"Priority"}"}","14"}
+                            </font>
+                        </div>
+                    </td>
                 </tr>
                 <tr valign="top">
                     <td><b>$Text{"Queue"}:</b></td>
-                    <td><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","14"}</div></font></td>
+                    <td>
+                        <div title="$QData{"Queue"}">
+                            <font color="red">
+                            $QData{"Queue","14"}
+                            </font>
+                        </div>
+                    </td>
                 </tr>
             </table>
         </td>

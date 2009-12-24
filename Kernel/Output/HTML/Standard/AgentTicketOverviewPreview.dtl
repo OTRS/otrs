@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.11 2009-12-24 10:20:46 mg Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.12 2009-12-24 10:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,7 +94,7 @@ $Data{"Body"}
             </div>
         </td>
         <td width="25%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
-            <p>
+            <div style="margin: 20px 0;">
                 <table border="0" cellspacing="0" cellpadding="1">
 <!-- dtl:block:Type -->
                     <tr valign="top">
@@ -104,15 +104,33 @@ $Data{"Body"}
 <!-- dtl:block:Type -->
                     <tr valign="top">
                         <td><b>$Text{"State"}:</b></td>
-                        <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></font></td>
+                        <td>
+                            <div title="$Quote{"$Text{"$Data{"State"}"}"}">
+                                <font color="red">
+                                $Quote{"$Text{"$Data{"State"}"}","18"}
+                                </font>
+                            </div>
+                        </td>
                     </tr>
                     <tr valign="top">
                         <td><b>$Text{"Priority"}:</b></td>
-                        <td><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</div></font></td>
+                        <td>
+                            <div title="$Quote{"$Text{"$Data{"Priority"}"}"}">
+                                <font color="red">
+                                $Quote{"$Text{"$Data{"Priority"}"}","18"}
+                                </font>
+                            </div>
+                        </td>
                     </tr>
                     <tr valign="top">
                         <td><b>$Text{"Queue"}:</b></td>
-                        <td><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></font></td>
+                        <td>
+                            <div title="$QData{"Queue"}">
+                                <font color="red">
+                                $QData{"Queue","18"}
+                                </font>
+                            </div>
+                        </td>
                     </tr>
 <!-- dtl:block:Service -->
                     <tr valign="top">
@@ -242,7 +260,7 @@ $Data{"Body"}
                 </table>
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-                <p><hr/><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr/></p>
+                <div style="margin: 20px 0;"><hr/><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr/></div>
 <!-- dtl:block:CustomerTable -->
                 <br/>
                 <table border="0" cellspacing="0" cellpadding="1" width="95%">
@@ -251,7 +269,7 @@ $Data{"Body"}
 # show compose links
 <!-- dtl:block:AgentAnswer -->
 <!-- dtl:block:AgentAnswerCompose -->
-                            <p>
+                            <div style="margin: 20px 0;">
                                 <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
                                 <br/>
                                 <table border="0">
@@ -261,28 +279,30 @@ $Data{"Body"}
                                         </td>
                                     </tr>
                                 </table>
-                            </p>
+                            </div>
 <!-- dtl:block:AgentAnswerCompose -->
 <!-- dtl:block:AgentAnswerPhoneOutbound -->
-                            <p>
+                            <div style="margin: 20px 0;">
                                 <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
                                 <br/>
                                 <table border="0">
                                     <tr align="left">
                                         <td>
-                                            <dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
+                                            <ul>
+                                                <dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
 $Data{"AgentPhoneStrg"}
+                                            </ul>
                                         </td>
                                     </tr>
                                 </table>
-                            </p>
+                            </div>
 <!-- dtl:block:AgentAnswerPhoneOutbound -->
 <!-- dtl:block:AgentAnswer -->
                         </td>
                     </tr>
                 </table>
-            </p>
-            <p>
+            </div>
+            <div style="margin: 20px 0;">
                 <table border="0" cellspacing="0" cellpadding="1" width="95%">
                     <tr>
                         <td>
@@ -299,7 +319,7 @@ $Data{"AgentPhoneStrg"}
                         </td>
                     </tr>
                 </table>
-            </p>
+            </div>
         </td>
     </tr>
 </table>
