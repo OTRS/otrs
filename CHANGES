@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1119 2009-12-24 00:51:34 martin Exp $
+# $Id: CHANGES,v 1.1120 2009-12-24 11:13:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,10 +10,13 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/24) Themes are now stored in SysConfig under Frontend::Themes rather
+    than in the database. This to enable administrators to add a new theme by
+    just modifying SysConfig instead of having to use mysql or isql or so.
  - (2009/12/23) Renamed inconsistent module name Kernel::System::Config to
     Kernel::System::SysConfig.
- - (2009/12/23) Added multible Kernel::System::Ticket::Custom module backend
-    support. Can now be defined via config key 'Ticket::CustomModule', e. g.
+ - (2009/12/23) Added support for multiple Kernel::System::Ticket::Custom
+    backends. Can now be defined via config key 'Ticket::CustomModule', e. g.
 
     <ConfigItem Name="Ticket::CustomModule###001-CustomModule" Required="0" Valid="0">
         <Description Lang="en">A module with custom functions to redefine ....</Description>
@@ -32,7 +35,7 @@
     to customer users in groups.
  - (2009/12/14) Added the ability to use AdminEmail to send notifications based
     on roles.
- - (2009/12/14) Updated SysConfig to have toolbars and Admin section to use
+ - (2009/12/14) Updated SysConfig to make sure OTRS toolbars and Admin section uses
     plural in interface where appropriate.
  - (2009/12/11) Replaced all OptionStrgHashRef() with the newer BuildSelection().
  - (2009/12/09) Added archive feature to improve performance.
