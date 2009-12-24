@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.78 2009-12-14 16:03:16 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.79 2009-12-24 11:18:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -256,46 +256,46 @@ sub Run {
 
     # get article create time option
     if ( !$GetParam{ArticleTimeSearchType} ) {
-        $GetParam{'ArticleTimeSearchType::None'} = 'checked';
+        $GetParam{'ArticleTimeSearchType::None'} = 'checked="checked"';
     }
     elsif ( $GetParam{ArticleTimeSearchType} eq 'TimePoint' ) {
-        $GetParam{'ArticleTimeSearchType::TimePoint'} = 'checked';
+        $GetParam{'ArticleTimeSearchType::TimePoint'} = 'checked="checked"';
     }
     elsif ( $GetParam{ArticleTimeSearchType} eq 'TimeSlot' ) {
-        $GetParam{'ArticleTimeSearchType::TimeSlot'} = 'checked';
+        $GetParam{'ArticleTimeSearchType::TimeSlot'} = 'checked="checked"';
     }
 
     # get create time option
     if ( !$GetParam{TimeSearchType} ) {
-        $GetParam{'TimeSearchType::None'} = 'checked';
+        $GetParam{'TimeSearchType::None'} = 'checked="checked"';
     }
     elsif ( $GetParam{TimeSearchType} eq 'TimePoint' ) {
-        $GetParam{'TimeSearchType::TimePoint'} = 'checked';
+        $GetParam{'TimeSearchType::TimePoint'} = 'checked="checked"';
     }
     elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
-        $GetParam{'TimeSearchType::TimeSlot'} = 'checked';
+        $GetParam{'TimeSearchType::TimeSlot'} = 'checked="checked"';
     }
 
     # get change time option
     if ( !$GetParam{ChangeTimeSearchType} ) {
-        $GetParam{'ChangeTimeSearchType::None'} = 'checked';
+        $GetParam{'ChangeTimeSearchType::None'} = 'checked="checked"';
     }
     elsif ( $GetParam{ChangeTimeSearchType} eq 'TimePoint' ) {
-        $GetParam{'ChangeTimeSearchType::TimePoint'} = 'checked';
+        $GetParam{'ChangeTimeSearchType::TimePoint'} = 'checked="checked"';
     }
     elsif ( $GetParam{ChangeTimeSearchType} eq 'TimeSlot' ) {
-        $GetParam{'ChangeTimeSearchType::TimeSlot'} = 'checked';
+        $GetParam{'ChangeTimeSearchType::TimeSlot'} = 'checked="checked"';
     }
 
     # get close time option
     if ( !$GetParam{CloseTimeSearchType} ) {
-        $GetParam{'CloseTimeSearchType::None'} = 'checked';
+        $GetParam{'CloseTimeSearchType::None'} = 'checked="checked"';
     }
     elsif ( $GetParam{CloseTimeSearchType} eq 'TimePoint' ) {
-        $GetParam{'CloseTimeSearchType::TimePoint'} = 'checked';
+        $GetParam{'CloseTimeSearchType::TimePoint'} = 'checked="checked"';
     }
     elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
-        $GetParam{'CloseTimeSearchType::TimeSlot'} = 'checked';
+        $GetParam{'CloseTimeSearchType::TimeSlot'} = 'checked="checked"';
     }
 
     # set result form env
@@ -660,7 +660,7 @@ sub Run {
                 $GetParam{ 'TicketFreeTime' . $_ . 'OlderDate' } = undef;
             }
             else {
-                $GetParam{ 'TicketFreeTime' . $_ } = 'checked';
+                $GetParam{ 'TicketFreeTime' . $_ } = 'checked="checked"';
                 if (
                     $GetParam{ 'TicketFreeTime' . $_ . 'StartDay' }
                     && $GetParam{ 'TicketFreeTime' . $_ . 'StartMonth' }
