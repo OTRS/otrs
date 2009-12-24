@@ -2,7 +2,7 @@
 # AgentTicketZoomArticleFilterDialog.dtl - provides a dialog to filter articles
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoomArticleFilterDialog.dtl,v 1.5 2009-11-27 11:52:30 mn Exp $
+# $Id: AgentTicketZoomArticleFilterDialog.dtl,v 1.6 2009-12-24 10:20:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ $Include{"AJAX"}
 <!-- UI CSS -->
 <link rel="stylesheet" type="text/css" href="$Config{"Frontend::CSSPath"}overcast/jquery-ui.css">
 
-<script type="text/javascript">
+<script type="text/javascript">//<![CDATA[
 var ArticleFilterDialogCallback = function() {
     location.reload();
 }
@@ -62,7 +62,7 @@ $(document).ready( function() {
         AJAXFunctionCall( { Url: url, Callback: ArticleFilterDialogCallback, Data: postdata } );
     });
 } );
-</script>
+//]]></script>
 
 <!-- filter dialog form-->
 <div id="ArticleFilterDialog">

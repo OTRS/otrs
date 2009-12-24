@@ -2,7 +2,7 @@
 # SpellingInline.dtl - provides HTML form for SpellingInline
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SpellingInline.dtl,v 1.3 2009-12-14 12:23:34 mn Exp $
+# $Id: SpellingInline.dtl,v 1.4 2009-12-24 10:20:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::JavaScriptPath"}/thirdparty/ckeditor-3.0.1/plugins/aspell/spellerpages/spellerStyle.css"/>
 <script src="$Config{"Frontend::JavaScriptPath"}/thirdparty/ckeditor-3.0.1/plugins/aspell/spellerpages/wordWindow.js" type="text/javascript"></script>
-<script type="text/javascript">
+<script type="text/javascript">//<![CDATA[
 var suggs = new Array();
 var words = new Array();
 var textinputs = new Array();
@@ -46,14 +46,14 @@ function init_spell() {
     }
 }
 
-</script>
+//]]></script>
 
     </head>
     <body onLoad="init_spell();">
 
-<script type="text/javascript">
+<script type="text/javascript">//<![CDATA[
 wordWindowObj.writeBody();
-</script>
+//]]></script>
     </body>
     </html>
 <!-- dtl:block:SpellCheckerInline -->

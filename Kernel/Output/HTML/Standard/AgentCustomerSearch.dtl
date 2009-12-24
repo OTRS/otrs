@@ -2,7 +2,7 @@
 # AgentCustomerSearch.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.dtl,v 1.18 2009-12-08 18:02:46 mn Exp $
+# $Id: AgentCustomerSearch.dtl,v 1.19 2009-12-24 10:20:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ $Include{"AJAX"}
 # include Autocompletion plugin
 <script src="$Config{"Frontend::JavaScriptPath"}thirdparty/jquery/jquery.bgiframe.min.js" type="text/javascript"></script>
 <script src="$Config{"Frontend::JavaScriptPath"}thirdparty/jquery/jquery.autocomplete.min.js" type="text/javascript"></script>
-<script type="text/javascript">
+<script type="text/javascript">//<![CDATA[
 function ReplaceOverviewControlLinks () {
     var ControlFields = document.getElementsByName("OverviewControl");
     for (var i = 0; i < ControlFields.length; i++) {
@@ -195,4 +195,4 @@ $(document).ready(function() {
     });
 <!-- dtl:block:CustomerSearchAutoComplete -->
 });
-</script>
+//]]></script>

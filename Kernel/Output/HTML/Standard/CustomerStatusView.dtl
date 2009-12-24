@@ -2,7 +2,7 @@
 # CustomerStatusView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerStatusView.dtl,v 1.38 2009-11-25 16:19:58 mg Exp $
+# $Id: CustomerStatusView.dtl,v 1.39 2009-12-24 10:20:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@
         <td class="menu">
             $Text{"Ticket"} <b>$Data{"Result"}</b> $Text{"of"} $Data{"TotalHits"} -
             $Text{"Page"}: $Data{"SiteNavBar"} -
-            (<a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=;Order=;Limit=$LQData{"Limit"}&$Data{"ClosedLink"};Type=$LQData{"Type"}">$Text{"$Data{"ClosedTicketText"}"}</a>)
+            (<a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=;Order=;Limit=$LQData{"Limit"};$Data{"ClosedLink"};Type=$LQData{"Type"}">$Text{"$Data{"ClosedTicketText"}"}</a>)
         </td>
     </tr>
 </table>

@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.73 2009-12-08 13:29:47 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.74 2009-12-24 10:20:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -177,7 +177,7 @@ $Data{"Body"}
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTML -->
                         <div class="message">
-                            <script type="text/javascript">
+                            <script type="text/javascript">//<![CDATA[
                             <!--
                             function IframeAutoHeight( IframeID ) {
                                 var iframe = document.getElementById(IframeID);
@@ -192,7 +192,7 @@ $Data{"Body"}
                                 iframe.style.height = newHeight + 'px';
                             }
                             //-->
-                            </script>
+                            //]]></script>
                             <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
                         </div>
 <!-- dtl:block:BodyHTML -->

@@ -2,7 +2,7 @@
 # AJAX.dtl - provides AJAX functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AJAX.dtl,v 1.22 2009-12-08 13:29:46 mg Exp $
+# $Id: AJAX.dtl,v 1.23 2009-12-24 10:20:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@
 <script src="$Config{"Frontend::JavaScriptPath"}otrs.js" type="text/javascript"></script>
 
 # fill init/needed config options
-<script type="text/javascript">
+<script type="text/javascript">//<![CDATA[
     OTRS.ConfigSet( 'Baselink', '$Env{"Baselink"}' );
     OTRS.ConfigSet( 'Action', '$Env{"Action"}');
     OTRS.ConfigSet( 'SessionIDCookie', '$Env{"SessionIDCookie"}' );
@@ -27,4 +27,4 @@
     OTRS.ConfigSet( 'CustomerPanelSessionName', '$Config{"CustomerPanelSessionName"}' );
     OTRS.ConfigSet( 'Images', '$Config{"Frontend::ImagePath"}' );
     AJAXInit();
-</script>
+//]]></script>

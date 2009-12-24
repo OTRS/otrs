@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.6 2009-09-23 10:02:29 ub Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.7 2009-12-24 10:20:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,7 @@
     <tr>
         <td align="left" width="1%" class="mainhead">
 <!-- dtl:block:Bulk -->
-            <form name="bulk">
+            <form name="bulk" action="">
                 <input type="checkbox" name="TicketID" value="$QData{"TicketID"}" onclick="select_item($QData{"Counter"},$QData{"TicketID"})" autocomplete="off"/>
             </form>
 <!-- dtl:block:Bulk -->

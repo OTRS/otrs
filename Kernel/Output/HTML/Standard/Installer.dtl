@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.29 2009-11-26 08:57:18 mn Exp $
+# $Id: Installer.dtl,v 1.30 2009-12-24 10:20:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -874,7 +874,7 @@ $Include{"AJAX"}
                     </tr>
                 </table>
             </form>
-            <script type="text/javascript">
+            <script type="text/javascript">//<![CDATA[
                 function CheckDBData() {
                     $('input[name=Subaction]').val('CheckRequirements');
                     var Data = $('#formdb').serialize();
@@ -896,7 +896,7 @@ $Include{"AJAX"}
                         $('tr.hidden').show();
                     }
                 }
-            </script>
+            //]]></script>
 <!-- dtl:block:DatabaseStart -->
 <!-- dtl:block:DatabaseResult -->
             <img border="0" src="$Config{"Frontend::ImagePath"}installer1.png" alt="" />
@@ -1163,7 +1163,7 @@ $Include{"AJAX"}
                         alert('$JSText{"Error in the mail settings. Please correct and try again."}');
                     }
                 }
-            </script>
+            //]]></script>
 <!-- dtl:block:ConfigureMail-->
 <!-- dtl:block:Finish -->
             <img border="0" src="$Config{"Frontend::ImagePath"}installer3.png" alt="" />

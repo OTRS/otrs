@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.69 2009-11-26 08:02:17 mg Exp $
+# $Id: AgentTicketQueue.pm,v 1.70 2009-12-24 10:20:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -176,16 +176,16 @@ sub Run {
     my $LinkSort = 'QueueID='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
         . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-        . '&';
+        . ';';
     my $LinkPage = 'QueueID='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
         . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
         . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
         . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
-        . '&';
+        . ';';
     my $LinkFilter = 'QueueID='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
-        . '&';
+        . ';';
 
     my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs );
 

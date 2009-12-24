@@ -2,14 +2,14 @@
 # AgentTicketOverviewPreviewMeta.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreviewMeta.dtl,v 1.19 2009-12-08 13:29:47 mg Exp $
+# $Id: AgentTicketOverviewPreviewMeta.dtl,v 1.20 2009-12-24 10:20:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!-- dtl:block:TicketHeader -->
-<script type="text/javascript">
+<script type="text/javascript">//<![CDATA[
 function select_items (Type) {
     for (var i = 0; i < document.matrix.elements[Type].length; i++) {
         if ( document.matrix.Check.checked ) {
@@ -39,7 +39,7 @@ function select_item_check () {
     alert('$JSText{"You need min. one selected Ticket!"}');
     return false;
 }
-</script>
+//]]></script>
 
 #<table border="0" width="100%" cellspacing="0" cellpadding="3">
 #  <tr class="contenthead" align="center">
@@ -88,7 +88,7 @@ function select_item_check () {
 <!-- dtl:block:TicketHeader -->
 
 <!-- dtl:block:TicketFooter -->
-<form name="bulk">
+<form name="bulk" action="">
     <input type="hidden" name="TicketID" value=""/>
 </form>
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
