@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.53 2009-12-13 12:13:41 martin Exp $
+# $Id: Ticket.t,v 1.54 2009-12-24 01:06:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -86,6 +86,24 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
             Subject => 'Re[5]: [' . $TicketHook . ': 2004040510440485] Re: RE: WG: Some Subject',
         );
         if ( $NewSubject !~ /^(Re:|\[$TicketHook)/ ) {
+            $Self->True(
+                1,
+                "TicketSubjectClean() (Re[5]: $NewSubject)",
+            );
+        }
+        else {
+            $Self->True(
+                0,
+                "TicketSubjectClean() (Re[5]: $NewSubject)",
+            );
+        }
+
+        # TicketSubjectClean()
+        $NewSubject = $TicketObject->TicketSubjectClean(
+            TicketNumber => '2004040510440485',
+            Subject => 'Re[5]: Re: RE: WG: Some Subject [' . $TicketHook . ': 2004040510440485]',
+        );
+        if ( $NewSubject !~ /2004040510440485/ ) {
             $Self->True(
                 1,
                 "TicketSubjectClean() (Re[5]: $NewSubject)",

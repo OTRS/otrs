@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.443 2009-12-24 00:40:18 martin Exp $
+# $Id: Ticket.pm,v 1.444 2009-12-24 01:06:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.443 $) [1];
+$VERSION = qw($Revision: 1.444 $) [1];
 
 =head1 NAME
 
@@ -795,23 +795,23 @@ sub TicketSubjectClean {
     my $TicketSubjectRe   = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
 
     # remove all possible ticket hook formats with []
-    $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\]\s//g;
-    $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\]\s//g;
-    $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\]\s//g;
+    $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\](\s+?|)//g;
+    $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\](\s+?|)//g;
+    $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\](\s+?|)//g;
 
     # remove all ticket numbers with []
     if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
-        $Subject =~ s/\[$TicketHook$TicketHookDivider\d+?\]\s//g;
+        $Subject =~ s/\[$TicketHook$TicketHookDivider\d+?\](\s+?|)//g;
     }
 
     # remove all possible ticket hook formats without []
-    $Subject =~ s/$TicketHook: $Param{TicketNumber}\s//g;
-    $Subject =~ s/$TicketHook:$Param{TicketNumber}\s//g;
-    $Subject =~ s/$TicketHook$TicketHookDivider$Param{TicketNumber}\s//g;
+    $Subject =~ s/$TicketHook: $Param{TicketNumber}(\s+?|)//g;
+    $Subject =~ s/$TicketHook:$Param{TicketNumber}(\s+?|)//g;
+    $Subject =~ s/$TicketHook$TicketHookDivider$Param{TicketNumber}(\s+?|)//g;
 
     # remove all ticket numbers without []
     if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
-        $Subject =~ s/$TicketHook$TicketHookDivider\d+?\s//g;
+        $Subject =~ s/$TicketHook$TicketHookDivider\d+?(\s+?|)//g;
     }
 
     # remove leading "..:\s" and "..[\d+]:\s" e. g. "Re: " or "Re[5]: "
@@ -7691,6 +7691,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.443 $ $Date: 2009-12-24 00:40:18 $
+$Revision: 1.444 $ $Date: 2009-12-24 01:06:46 $
 
 =cut
