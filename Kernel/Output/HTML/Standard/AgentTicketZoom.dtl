@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.75 2009-12-24 10:45:37 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.76 2009-12-24 11:07:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,17 +81,17 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                                     </div>
                                 </td>
                                 <td class="small" align="right">
-                                    <nobr>
+                                    <span style="white-space: nowrap;">
 <!-- dtl:block:TreeItemAttachmentMore -->
                                     [..]
 <!-- dtl:block:TreeItemAttachmentMore -->
 <!-- dtl:block:TreeItemAttachment -->
                                     <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Config{"Frontend::ImagePath"}attach-small.png" /></a>
 <!-- dtl:block:TreeItemAttachment -->
-                                    </nobr>
+                                    </span>
                                 </td>
                                 <td class="small" align="right">
-                                    <nobr>$Data{"Start"}$TimeShort{"$QData{"Created"}"}$Data{"Stop"}</nobr>
+                                    <span style="white-space: nowrap;">$Data{"Start"}$TimeShort{"$QData{"Created"}"}$Data{"Stop"}</span>
                                 </td>
                             </tr>
 <!-- dtl:block:TreeItem -->
@@ -100,7 +100,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                 </tr>
             </table>
 <!-- dtl:block:Tree -->
-            <hr size="2">
+            <hr size="2"/>
             <a name="$QData{"ArticleID"}"></a>
             <table border="0" width="100%" cellspacing="0" cellpadding="1">
                 <tr>
@@ -193,26 +193,26 @@ $Data{"Body"}
                             }
                             //-->
                             //]]></script>
-                            <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+                            <iframe width="100%" frameborder="0" style="width: 100%; margin: 0; border: 0px none;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
                         </div>
 <!-- dtl:block:BodyHTML -->
                     </td>
                     <td valign="top">
 <!-- dtl:block:Expand -->
                         <div title="$Text{"Expand View"}">
-                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=1" onmouseover="window.status='$JSText{"Expand View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}expand.png" /></a>
+                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=1" onmouseover="window.status='$JSText{"Expand View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}expand.png" alt="$Text{"Expand View"}" /></a>
                         </div>
 <!-- dtl:block:Expand -->
 <!-- dtl:block:Collapse -->
                         <div title="$Text{"Collapse View"}">
-                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=0" onmouseover="window.status='$JSText{"Collapse View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}collapse.png" /></a>
+                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=0" onmouseover="window.status='$JSText{"Collapse View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}collapse.png" alt="$Text{"Collapse View"}" /></a>
                         </div>
 <!-- dtl:block:Collapse -->
                     </td>
                 </tr>
             </table>
 <!-- dtl:block:LinkTableComplex -->
-            <hr size="2">
+            <hr size="2"/>
             <br/>
             <table width="98%" align="center" border="0" cellspacing="0" cellpadding="0">
                 <tr>
