@@ -102,23 +102,6 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
 
-    <Insert Table="theme">
-        <Data Key="theme" Type="Quote">Standard</Data>
-        <Data Key="valid_id">1</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
-    </Insert>
-    <Insert Table="theme">
-        <Data Key="theme" Type="Quote">Lite</Data>
-        <Data Key="valid_id">1</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
-    </Insert>
-
 <!-- link -->
     <Insert Table="link_type">
         <Data Key="name" Type="Quote">Normal</Data>
