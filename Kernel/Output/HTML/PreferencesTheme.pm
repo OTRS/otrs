@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesTheme.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesTheme.pm,v 1.9 2009-02-16 11:16:22 tr Exp $
+# $Id: PreferencesTheme.pm,v 1.10 2009-12-24 10:37:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,8 +25,11 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)) {
-        die "Got no $_!" if !$Self->{$_};
+    for (
+        qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)
+        )
+    {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     return $Self;
@@ -35,23 +38,39 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
+    my $PossibleThemesRef = $Self->{ConfigObject}->Get('Frontend::Themes')
+        || {};
+    my %PossibleThemes = %{$PossibleThemesRef};
+    my $Home           = $Self->{ConfigObject}->Get('Home');
+
+    my %ActiveThemes;
+
+    # prepare the list of active themes
+    for my $PossibleTheme ( keys %PossibleThemes ) {
+        if ( $PossibleThemes{$PossibleTheme} == 1 )
+        {    # only add a theme if it is set to 1 in sysconfig
+            my $ThemeDir = $Home . "/Kernel/Output/HTML/" . $PossibleTheme;
+            if ( -d $ThemeDir ) {    # .. and if the theme dir exists
+                $ActiveThemes{$PossibleTheme} = $PossibleTheme;
+            }
+        }
+    }
+
     my @Params = ();
     push(
         @Params,
         {
             %Param,
-            Name => $Self->{ConfigItem}->{PrefKey},
-            Data => {
-                $Self->{DBObject}->GetTableData(
-                    What  => 'theme, theme',
-                    Table => 'theme',
-                    Valid => 1,
-                ),
-            },
-            SelectedID => $Self->{ParamObject}->GetParam( Param => 'UserTheme' )
-                || $Param{UserData}->{UserTheme}
-                || $Self->{ConfigObject}->Get('DefaultTheme'),
+            Name      => $Self->{ConfigItem}->{PrefKey},
+            Data      => \%ActiveThemes,
+            HTMLQuote => 0,
+            SelectedID =>
+                $Self->{ParamObject}->GetParam( Param => 'UserLanguage' )
+                || $Param{UserData}->{UserLanguage}
+                || $Self->{LayoutObject}->{UserLanguage}
+                || $Self->{ConfigObject}->Get('DefaultLanguage'),
             Block => 'Option',
+            Max   => 100,
         },
     );
     return @Params;
@@ -83,7 +102,6 @@ sub Run {
             }
         }
     }
-
     $Self->{Message} = 'Preferences updated successfully!';
     return 1;
 }
