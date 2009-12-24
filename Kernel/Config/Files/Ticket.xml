@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.289 2009-12-24 00:40:43 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.290 2009-12-24 13:53:54 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6609,20 +6609,21 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::UseAgentRealNameForEmailFrom" Required="1" Valid="1">
-        <Description Lang="en">Insert the real name of the current agent in the emails from field.</Description>
-        <Description Lang="de">In dem Absenderfeld wird der Name des aktuellen Agenten vorn angestellt.</Description>
+    <ConfigItem Name="Ticket::DefineEmailFrom" Required="1" Valid="1">
+        <Description Lang="en">Define what the From field from the emails sent from answers and email tickets should look like.</Description>
+        <Description Lang="de"></Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+            <Option SelectedID="systemaddressname">
+                <Item Key="systemaddressname">System Address Display Name</Item>
+                <Item Key="agentnameplussystemaddressname">Agent Name + FromSeparator + System Address Display Name</Item>
+                <Item Key="agentname">Agent Name</Item>
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::UseAgentRealNameForEmailFromSeparator" Required="1" Valid="1">
-        <Description Lang="en">Defines the separator between the appended agents real name and the given queues email address.</Description>
+    <ConfigItem Name="Ticket::FromSeparator" Required="1" Valid="1">
+        <Description Lang="en">Defines the separator between the agents real name and the given queue email address.</Description>
         <Description Lang="de">Definiert den Trenner im Absenderfeld zwischen dem Agentennamen und der konfigurierten Email-Adresse.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
