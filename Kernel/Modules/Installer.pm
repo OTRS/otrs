@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.67 2009-12-11 09:42:09 mh Exp $
+# $Id: Installer.pm,v 1.68 2009-12-24 00:51:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,12 +18,12 @@ use strict;
 use warnings;
 
 use DBI;
-use Kernel::System::Config;
+use Kernel::System::SysConfig;
 use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -629,7 +629,7 @@ sub Run {
         else {
 
             # create sys config object
-            my $SysConfigObject = Kernel::System::Config->new(
+            my $SysConfigObject = Kernel::System::SysConfig->new(
                 %{$Self}
             );
 
@@ -683,7 +683,7 @@ sub Run {
         $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
 
         # create sys config object
-        my $SysConfigObject = Kernel::System::Config->new(
+        my $SysConfigObject = Kernel::System::SysConfig->new(
             %{$Self}
         );
 
@@ -947,7 +947,7 @@ sub CheckMailConfiguration {
     );
     %Result = $SendObject->Check();
 
-    my $SysConfigObject = Kernel::System::Config->new(
+    my $SysConfigObject = Kernel::System::SysConfig->new(
         %{$Self}
     );
 

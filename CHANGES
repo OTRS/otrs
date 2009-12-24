@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1118 2009-12-24 00:40:18 martin Exp $
+# $Id: CHANGES,v 1.1119 2009-12-24 00:51:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/23) Renamed inconsistent module name Kernel::System::Config to
+    Kernel::System::SysConfig.
  - (2009/12/23) Added multible Kernel::System::Ticket::Custom module backend
     support. Can now be defined via config key 'Ticket::CustomModule', e. g.
 

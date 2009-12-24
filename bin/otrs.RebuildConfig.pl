@@ -3,7 +3,7 @@
 # bin/otrs.RebuildConfig.pl - rebuild config
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RebuildConfig.pl,v 1.12 2009-04-03 14:15:00 martin Exp $
+# $Id: otrs.RebuildConfig.pl,v 1.13 2009-12-24 00:51:34 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -39,7 +39,7 @@ use Kernel::System::Time;
 use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::DB;
-use Kernel::System::Config;
+use Kernel::System::SysConfig;
 
 # ---
 # common objects
@@ -54,7 +54,7 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
 $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
 $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
-$CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
+$CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
 
 # ---
 # rebuild

@@ -3,7 +3,7 @@
 # DBUpdate-to-2.4.pl - update script to migrate OTRS 2.3.x to 2.4.x
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.4.pl,v 1.8 2009-09-08 08:51:59 martin Exp $
+# $Id: DBUpdate-to-2.4.pl,v 1.9 2009-12-24 00:51:34 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -41,7 +41,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 use Kernel::System::DB;
 use Kernel::System::Main;
-use Kernel::System::Config;
+use Kernel::System::SysConfig;
 use Kernel::System::Queue;
 use Kernel::System::Ticket;
 use Kernel::System::NotificationEvent;
@@ -68,7 +68,7 @@ $CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
-$CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
+$CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
 
 # initialization if config/xml files
 

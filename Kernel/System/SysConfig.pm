@@ -1,15 +1,15 @@
 # --
-# Kernel/System/Config.pm - all system config tool functions
+# Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.92 2009-12-24 00:38:06 martin Exp $
+# $Id: SysConfig.pm,v 1.1 2009-12-24 00:51:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::Config;
+package Kernel::System::SysConfig;
 
 use strict;
 use warnings;
@@ -18,11 +18,11 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::Config - to manage sys config settings
+Kernel::System::SysConfig - to manage sys config settings
 
 =head1 SYNOPSIS
 
@@ -44,7 +44,7 @@ create an object
     use Kernel::System::Main;
     use Kernel::System::Time;
     use Kernel::System::DB;
-    use Kernel::System::Config;
+    use Kernel::System::SysConfig;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject  = Kernel::System::Encode->new(
@@ -70,7 +70,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $SysConfigObject = Kernel::System::Config->new(
+    my $SysConfigObject = Kernel::System::SysConfig->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
@@ -1763,6 +1763,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.92 $ $Date: 2009-12-24 00:38:06 $
+$Revision: 1.1 $ $Date: 2009-12-24 00:51:34 $
 
 =cut

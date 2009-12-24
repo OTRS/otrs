@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.109 2009-11-26 12:23:09 bes Exp $
+# $Id: Package.pm,v 1.110 2009-12-24 00:51:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,11 +16,11 @@ use warnings;
 use MIME::Base64;
 use File::Copy;
 use Kernel::System::XML;
-use Kernel::System::Config;
+use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 =head1 NAME
 
@@ -438,7 +438,7 @@ sub PackageInstall {
     }
 
     # install config
-    $Self->{SysConfigObject} = Kernel::System::Config->new( %{$Self} );
+    $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
     $Self->{SysConfigObject}->WriteDefault();
 
     # install database (post)
@@ -507,7 +507,7 @@ sub PackageReinstall {
     }
 
     # install config
-    $Self->{SysConfigObject} = Kernel::System::Config->new( %{$Self} );
+    $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
     $Self->{SysConfigObject}->WriteDefault();
 
     # reinstall code (post)
@@ -723,7 +723,7 @@ sub PackageUpgrade {
     }
 
     # install config
-    $Self->{SysConfigObject} = Kernel::System::Config->new( %{$Self} );
+    $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
     $Self->{SysConfigObject}->WriteDefault();
 
     # upgrade database (post)
@@ -846,7 +846,7 @@ sub PackageUninstall {
     $Self->RepositoryRemove( Name => $Structure{Name}->{Content} );
 
     # install config
-    $Self->{SysConfigObject} = Kernel::System::Config->new( %{$Self} );
+    $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
     $Self->{SysConfigObject}->WriteDefault();
 
     # uninstall database (post)
@@ -2416,6 +2416,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.109 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.110 $ $Date: 2009-12-24 00:51:33 $
 
 =cut

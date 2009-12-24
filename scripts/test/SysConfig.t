@@ -2,16 +2,16 @@
 # SysConfig.t - SysConfig tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.t,v 1.6 2009-09-14 07:42:50 martin Exp $
+# $Id: SysConfig.t,v 1.7 2009-12-24 00:51:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-use Kernel::System::Config;
+use Kernel::System::SysConfig;
 
-$Self->{SystemConfigObject} = Kernel::System::Config->new( %{$Self} );
+$Self->{SystemConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
 
 my %Config = $Self->{SystemConfigObject}->ConfigItemGet(
     Name    => 'FQDN',

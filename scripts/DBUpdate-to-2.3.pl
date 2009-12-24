@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.22 2009-02-26 11:10:53 tr Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.23 2009-12-24 00:51:34 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -41,7 +41,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 use Kernel::System::DB;
 use Kernel::System::Main;
-use Kernel::System::Config;
+use Kernel::System::SysConfig;
 use Kernel::System::Ticket;
 
 # get options
@@ -49,7 +49,7 @@ my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{'h'} ) {
     print STDOUT "DBUpdate-to-2.3.pl <Revision $VERSION> - Database migration script\n";
-    print STDOUT "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print STDOUT "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     exit 1;
 }
 
@@ -67,7 +67,7 @@ $CommonObject{CheckItemObject} = Kernel::System::CheckItem->new(%CommonObject);
 $CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
-$CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
+$CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
 
 # define config dir
 my $ConfigDir = $CommonObject{ConfigObject}->Get('Home') . '/Kernel/Config/Files/';
