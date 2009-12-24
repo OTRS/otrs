@@ -2,7 +2,7 @@
 # AgentStatsEditXaxis.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditXaxis.dtl,v 1.17 2009-12-08 13:48:54 mg Exp $
+# $Id: AgentStatsEditXaxis.dtl,v 1.18 2009-12-24 09:03:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,7 +55,7 @@ function SelectRadiobutton(Value, Object) {
 <!-- dtl:block:MultiSelectField -->
                                 <tr>
                                     <td class="contentkey">
-                                        <input type="radio" name="Select" value="$QData{"Element"}" $QData{"Checked"}/>
+                                        <input type="radio" name="Select" value="$QData{"Element"}" $Data{"Checked"}/>
                                     </td>
                                     <td class="contentkey" width="200">
                                         $Text{"$QData{"Name"}"}:
@@ -65,7 +65,7 @@ function SelectRadiobutton(Value, Object) {
                                 <tr>
                                     <td colspan="2"></td>
                                     <td class="contentvalue">
-                                        <input type="Checkbox" name="Fixed$QData{"Element"}" value="1" $QData{"Fixed"}/>
+                                        <input type="checkbox" name="Fixed$QData{"Element"}" value="1" $Data{"Fixed"} />
                                         $Text{"Fixed"}
                                     </td>
                                 </tr>
@@ -115,7 +115,7 @@ function SelectRadiobutton(Value, Object) {
                                 <tr>
                                     <td colspan="2"></td>
                                     <td class="contentvalue">
-                                        <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}/>
+                                        <input type="checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}/>
                                         $Text{"Fixed"}
                                     </td>
                                 </tr>
@@ -149,7 +149,7 @@ function SelectRadiobutton(Value, Object) {
                                 <tr>
                                     <td colspan="2"></td>
                                     <td class="contentvalue">
-                                        <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}/>
+                                        <input type="checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}/>
                                         $Text{"Fixed"}
                                     </td>
                                 </tr>

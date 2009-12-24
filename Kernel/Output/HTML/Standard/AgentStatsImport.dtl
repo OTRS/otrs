@@ -2,7 +2,7 @@
 # AgentStatsImport.dtl - provides HTML form for import a stat
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsImport.dtl,v 1.5 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentStatsImport.dtl,v 1.6 2009-12-24 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,52 +11,56 @@
 
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Import"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <br/>
-      <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
-        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="Action"    value="$Env{"Action"}"/>
-          <input type="hidden" name="Subaction" value="Import"/>
-          <input type="hidden" name="Status"    value="Action"/>
-          <tr>
-            <td class="contenthead">$Text{"Import"}</td>
-          </tr>
-          <tr class="contentbody">
-            <td>
-              <table border="0">
-                <tr>
-                  <input type="hidden" name="ImportType" value="Upload"/>
-                  <td class="contentkey"  width="150">$Text{"File"}:</td>
-                  <td class="contentvalue"><input name="file_upload" type="file" size="30" class="fixed"/></td>
-                </tr>
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Import"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <br/>
+            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="Action"    value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Import"/>
+                <input type="hidden" name="Status"    value="Action"/>
+                <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">$Text{"Import"}</td>
+                    </tr>
+                    <tr class="contentbody">
+                        <td>
+                            <table border="0">
+                                <tr>
+                                    <td class="contentkey"  width="150">
+                                        $Text{"File"}:
+                                    </td>
+                                    <td class="contentvalue">
+                                        <input name="file_upload" type="file" size="30" class="fixed"/>
+                                        <input type="hidden" name="ImportType" value="Upload"/>
+                                    </td>
+                                </tr>
 <!-- dtl:block:ErrorDoctype1 -->
-                <tr>
-                  <td class="validity" colspan="2">$Text{"File is not a Stats config"}!</td>
-                </tr>
+                                <tr>
+                                    <td class="validity" colspan="2">$Text{"File is not a Stats config"}!</td>
+                                </tr>
 <!-- dtl:block:ErrorDoctype1 -->
 <!-- dtl:block:ErrorDoctype2 -->
-                <tr>
-                  <td class="validity" colspan="2">$Text{"No File selected"}!</td>
-                </tr>
+                                <tr>
+                                    <td class="validity" colspan="2">$Text{"No File selected"}!</td>
+                                </tr>
 <!-- dtl:block:ErrorDoctype2 -->
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"Import"}"/>
-            </td>
-          </tr>
-        </form>
-      </table>
-      <br/>
-    </td>
-  </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <input class="button" accesskey="g" type="submit" value="$Text{"Import"}"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <br/>
+        </td>
+    </tr>
 </table>
 <!-- end form -->

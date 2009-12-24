@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.17 2009-11-25 15:34:55 mg Exp $
+# $Id: AgentStatsView.dtl,v 1.18 2009-12-24 09:03:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,11 +32,11 @@
     <tr>
         <td class="mainbody">
             <br/>
-            <table border="0" width="700" align="center" cellspacing="0" cellpadding="4" class="contentbody">
-                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-                    <input type="hidden" name="Action"    value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Run"/>
-                    <input type="hidden" name="StatID"    value="$QData{"StatID"}"/>
+            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+                <input type="hidden" name="Action"    value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Run"/>
+                <input type="hidden" name="StatID"    value="$QData{"StatID"}"/>
+                <table border="0" width="700" align="center" cellspacing="0" cellpadding="4" class="contentbody">
                     <tr>
                         <td class="contenthead">$Text{"Information about the Stat"}</td>
                     </tr>
@@ -222,8 +222,8 @@
                             &nbsp;
                         </td>
                     </tr>
-                </form>
-            </table>
+                </table>
+            </form>
             <br/>
         </td>
         <td width="25%" class="menu">
