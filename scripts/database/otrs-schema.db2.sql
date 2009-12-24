@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2009-12-09 12:33:59
+--  driver: db2, generated: 2009-12-24 11:35:55
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -203,21 +203,6 @@ CREATE TABLE personal_queues (
 CREATE INDEX personal_queues_queue_id ON personal_queues (queue_id);
 
 CREATE INDEX personal_queues_user_id ON personal_queues (user_id);
-
--- ----------------------------------------------------------
---  create table theme
--- ----------------------------------------------------------
-CREATE TABLE theme (
-    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    theme VARCHAR (100) NOT NULL,
-    valid_id SMALLINT NOT NULL,
-    create_time TIMESTAMP NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time TIMESTAMP NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT theme_theme UNIQUE (theme)
-);
 
 -- ----------------------------------------------------------
 --  create table ticket_state

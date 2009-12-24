@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-12-09 12:28:17
+--  driver: oracle, generated: 2009-12-24 11:34:32
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -62,18 +62,6 @@ INSERT INTO group_user (user_id, group_id, permission_key, permission_value, cre
 INSERT INTO group_user (user_id, group_id, permission_key, permission_value, create_by, create_time, change_by, change_time)
     VALUES
     (1, 3, 'rw', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table theme
--- ----------------------------------------------------------
-INSERT INTO theme (theme, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('Standard', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table theme
--- ----------------------------------------------------------
-INSERT INTO theme (theme, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('Lite', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table link_type
 -- ----------------------------------------------------------
@@ -866,4 +854,3 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
     VALUES
     ('Agent::EscalationNotifyBefore', 'iso-8859-1', 'de', 'Ticket Eskalations-Warnung! (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Hallo <OTRS_UserFirstname> <OTRS_UserLastname>,das Ticket [<OTRS_TICKET_TicketNumber>] wird bald eskalieren!Eskalation um: <OTRS_TICKET_EscalationDestinationDate>Eskalation in: <OTRS_TICKET_EscalationDestinationIn><OTRS_CUSTOMER_FROM>schrieb:<snip><OTRS_CUSTOMER_EMAIL[30]><snip>Bitte um Bearbeitung:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', 'text/plain', 1, current_timestamp, 1, current_timestamp);
-SET DEFINE OFF;

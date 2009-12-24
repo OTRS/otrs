@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2009-12-09 12:34:00
+--  driver: postgresql, generated: 2009-12-24 11:35:56
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -180,20 +180,6 @@ CREATE TABLE personal_queues (
 );
 CREATE INDEX personal_queues_queue_id ON personal_queues (queue_id);
 CREATE INDEX personal_queues_user_id ON personal_queues (user_id);
--- ----------------------------------------------------------
---  create table theme
--- ----------------------------------------------------------
-CREATE TABLE theme (
-    id serial NOT NULL,
-    theme VARCHAR (100) NOT NULL,
-    valid_id INTEGER NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT theme_theme UNIQUE (theme)
-);
 -- ----------------------------------------------------------
 --  create table ticket_state
 -- ----------------------------------------------------------

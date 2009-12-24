@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-12-09 12:34:00
+--  driver: oracle, generated: 2009-12-24 11:35:56
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -306,37 +306,6 @@ CREATE TABLE personal_queues (
 );
 CREATE INDEX personal_queues_queue_id ON personal_queues (queue_id);
 CREATE INDEX personal_queues_user_id ON personal_queues (user_id);
--- ----------------------------------------------------------
---  create table theme
--- ----------------------------------------------------------
-CREATE TABLE theme (
-    id NUMBER (5, 0) NOT NULL,
-    theme VARCHAR2 (100) NOT NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT theme_theme UNIQUE (theme)
-);
-ALTER TABLE theme ADD CONSTRAINT PK_theme PRIMARY KEY (id);
-DROP SEQUENCE SE_theme;
-CREATE SEQUENCE SE_theme;
-CREATE OR REPLACE TRIGGER SE_theme_t
-before insert on theme
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_theme.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-CREATE INDEX FK_theme_change_by ON theme (change_by);
-CREATE INDEX FK_theme_create_by ON theme (create_by);
-CREATE INDEX FK_theme_valid_id ON theme (valid_id);
 -- ----------------------------------------------------------
 --  create table ticket_state
 -- ----------------------------------------------------------

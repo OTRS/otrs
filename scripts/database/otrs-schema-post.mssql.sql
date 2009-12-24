@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-12-09 09:12:12
+--  driver: mssql, generated: 2009-12-24 11:35:55
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE valid ADD CONSTRAINT FK_valid_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
@@ -37,9 +37,6 @@ ALTER TABLE role_user ADD CONSTRAINT FK_role_user_change_by_id FOREIGN KEY (chan
 ALTER TABLE role_user ADD CONSTRAINT FK_role_user_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);
 ALTER TABLE personal_queues ADD CONSTRAINT FK_personal_queues_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
 ALTER TABLE personal_queues ADD CONSTRAINT FK_personal_queues_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);
-ALTER TABLE theme ADD CONSTRAINT FK_theme_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE theme ADD CONSTRAINT FK_theme_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-ALTER TABLE theme ADD CONSTRAINT FK_theme_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE ticket_state ADD CONSTRAINT FK_ticket_state_type_id_id FOREIGN KEY (type_id) REFERENCES ticket_state_type (id);
 ALTER TABLE ticket_state ADD CONSTRAINT FK_ticket_state_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE ticket_state ADD CONSTRAINT FK_ticket_state_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

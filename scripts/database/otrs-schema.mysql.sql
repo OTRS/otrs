@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2009-12-09 12:34:00
+#  driver: mysql, generated: 2009-12-24 11:35:55
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -179,20 +179,6 @@ CREATE TABLE personal_queues (
     queue_id INTEGER NOT NULL,
     INDEX personal_queues_queue_id (queue_id),
     INDEX personal_queues_user_id (user_id)
-);
-# ----------------------------------------------------------
-#  create table theme
-# ----------------------------------------------------------
-CREATE TABLE theme (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    theme VARCHAR (100) NOT NULL,
-    valid_id SMALLINT NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX theme_theme (theme)
 );
 # ----------------------------------------------------------
 #  create table ticket_state

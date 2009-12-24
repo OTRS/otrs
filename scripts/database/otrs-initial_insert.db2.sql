@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2009-12-09 12:27:55
+--  driver: db2, generated: 2009-12-24 11:34:31
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -70,20 +70,6 @@ INSERT INTO group_user (user_id, group_id, permission_key, permission_value, cre
 INSERT INTO group_user (user_id, group_id, permission_key, permission_value, create_by, create_time, change_by, change_time)
     VALUES
     (1, 3, 'rw', 1, 1, current_timestamp, 1, current_timestamp);
-
--- ----------------------------------------------------------
---  insert into table theme
--- ----------------------------------------------------------
-INSERT INTO theme (theme, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('Standard', 1, 1, current_timestamp, 1, current_timestamp);
-
--- ----------------------------------------------------------
---  insert into table theme
--- ----------------------------------------------------------
-INSERT INTO theme (theme, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('Lite', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table link_type

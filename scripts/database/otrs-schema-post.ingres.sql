@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2009-12-09 09:12:11
+--  driver: ingres, generated: 2009-12-24 11:35:55
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
@@ -37,9 +37,6 @@ ALTER TABLE role_user ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
 ALTER TABLE role_user ADD FOREIGN KEY (user_id) REFERENCES users(id);\g
 ALTER TABLE personal_queues ADD FOREIGN KEY (queue_id) REFERENCES queue(id);\g
 ALTER TABLE personal_queues ADD FOREIGN KEY (user_id) REFERENCES users(id);\g
-ALTER TABLE theme ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
-ALTER TABLE theme ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
-ALTER TABLE theme ADD FOREIGN KEY (valid_id) REFERENCES valid(id);\g
 ALTER TABLE ticket_state ADD FOREIGN KEY (type_id) REFERENCES ticket_state_type(id);\g
 ALTER TABLE ticket_state ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE ticket_state ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
