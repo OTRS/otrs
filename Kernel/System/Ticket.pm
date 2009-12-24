@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.441 2009-12-23 22:40:25 martin Exp $
+# $Id: Ticket.pm,v 1.442 2009-12-24 00:08:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.441 $) [1];
+$VERSION = qw($Revision: 1.442 $) [1];
 
 =head1 NAME
 
@@ -6959,7 +6959,8 @@ sub TicketMerge {
     $Self->EventHandler(
         Event => 'TicketMerge',
         Data  => {
-            TicketID => $Param{MergeTicketID},
+            TicketID     => $Param{MergeTicketID},
+            MainTicketID => $Param{MainTicketID},
         },
         UserID => $Param{UserID},
     );
@@ -7680,6 +7681,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.441 $ $Date: 2009-12-23 22:40:25 $
+$Revision: 1.442 $ $Date: 2009-12-24 00:08:53 $
 
 =cut
