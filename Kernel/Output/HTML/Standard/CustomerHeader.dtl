@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.30 2009-11-25 17:13:55 mg Exp $
+# $Id: CustomerHeader.dtl,v 1.31 2009-12-24 09:46:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ Pragma: no-cache
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 # set some html variables
 #<dtl set $Env{"Box0"} = "&gt;&gt; ">
 #<dtl set $Env{"Box1"} = " &lt;&lt;">
@@ -31,20 +31,20 @@ $Include{"Copyright"}
 <!-- dtl:block:MetaLink -->
     <link rel="$QData{"Rel"}" type="$QData{"Type"}" title="$QData{"Title"}" href="$Data{"Href"}" />
 <!-- dtl:block:MetaLink -->
-    <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
+        <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
 # include css file
-    <link href="$Config{"Frontend::CSSPath"}Standard/customer.css" rel="stylesheet" type="text/css" />
-    <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
-</head>
-<body>
-<a name="top"></a>
+            <link href="$Config{"Frontend::CSSPath"}Standard/customer.css" rel="stylesheet" type="text/css" />
+                <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
+            </head>
+            <body>
+            <a name="top"></a>
 <!-- start CI layout -->
-<table border="0" width="880" cellspacing="0" cellpadding="8">
-    <tr>
-        <td width="120" class="header"> LOGO </td>
-        <td class="header"> <a href="" class="headeritem">COMPANY NAME</a> </td>
-    </tr>
-    <tr>
-        <td colspan="2">
+            <table border="0" width="880" cellspacing="0" cellpadding="8">
+                <tr>
+                    <td width="120" class="header"> LOGO </td>
+                    <td class="header"> <a href="" class="headeritem">COMPANY NAME</a> </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
 <!-- end CI layout -->
 <!-- end header -->

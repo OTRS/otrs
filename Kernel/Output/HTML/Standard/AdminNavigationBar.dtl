@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNavigationBar.dtl,v 1.35 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminNavigationBar.dtl,v 1.36 2009-12-24 09:46:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,42 +11,42 @@
 
 <!-- dtl:block:AdminNavBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">$Env{"Box0"}$Text{"Admin-Area"}$Env{"Box1"}</td>
-  </tr>
+    <tr>
+        <td class="mainhead">$Env{"Box0"}$Text{"Admin-Area"}$Env{"Box1"}</td>
+    </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <th class="menu">$Text{"Users"} & $Text{"Groups"} & $Text{"Roles"}</th>
-    <th class="menu">$Text{"Queue"} & $Text{"Responses"}</th>
-    <th class="menu">$Text{"System"}</th>
-    <th class="menu">$Text{"Misc"}</th>
-  </tr>
-  <tr>
-    <td class="nav">
+    <tr>
+        <th class="menu">$Text{"Users"} &amp; $Text{"Groups"} &amp; $Text{"Roles"}</th>
+        <th class="menu">$Text{"Queue"} &amp; $Text{"Responses"}</th>
+        <th class="menu">$Text{"System"}</th>
+        <th class="menu">$Text{"Misc"}</th>
+    </tr>
+    <tr>
+        <td class="nav">
 <!-- dtl:block:Block1 -->
-      $Env{"Box0"}<a href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
-      <br/>
+            $Env{"Box0"}<a href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
+            <br/>
 <!-- dtl:block:Block1 -->
-    </td>
-    <td class="nav">
+        </td>
+        <td class="nav">
 <!-- dtl:block:Block2 -->
-      $Env{"Box0"}<a href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
-      <br/>
+            $Env{"Box0"}<a href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
+            <br/>
 <!-- dtl:block:Block2 -->
-    </td>
-    <td class="nav">
+        </td>
+        <td class="nav">
 <!-- dtl:block:Block3 -->
-      $Env{"Box0"}<a href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
-      <br/>
+            $Env{"Box0"}<a href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
+            <br/>
 <!-- dtl:block:Block3 -->
-    </td>
-    <td class="nav">
+        </td>
+        <td class="nav">
 <!-- dtl:block:Block4 -->
-      $Env{"Box0"}<a href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
-      <br/>
+            $Env{"Box0"}<a href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
+            <br/>
 <!-- dtl:block:Block4 -->
-    </td>
-  </tr>
+        </td>
+    </tr>
 </table>
 <!-- dtl:block:AdminNavBar -->

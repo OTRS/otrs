@@ -2,7 +2,7 @@
 # HeaderSmall.dtl - provides global HTML header
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HeaderSmall.dtl,v 1.17 2009-11-25 17:13:55 mg Exp $
+# $Id: HeaderSmall.dtl,v 1.18 2009-12-24 09:46:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ Pragma: no-cache
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 $Include{"Copyright"}
 # --
 # set some html variables
@@ -33,8 +33,8 @@ $Include{"Copyright"}
 <!-- dtl:block:MetaHttpEquivRefresh -->
 # include css file
     <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css" />
-    <title>$Config{"ProductName"} $Data{"TitleArea"}</title>
-</head>
-<body>
-<a name="top"></a>
+        <title>$Config{"ProductName"} $Data{"TitleArea"}</title>
+    </head>
+    <body>
+    <a name="top"></a>
 <!-- end header -->

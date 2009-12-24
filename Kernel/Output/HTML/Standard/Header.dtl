@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.61 2009-11-25 17:13:55 mg Exp $
+# $Id: Header.dtl,v 1.62 2009-12-24 09:46:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ Pragma: no-cache
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 $Include{"Copyright"}
 # --
 # set some html variables
@@ -35,22 +35,22 @@ $Include{"Copyright"}
 <!-- dtl:block:MetaLink -->
     <link rel="$QData{"Rel"}" type="$QData{"Type"}" title="$QData{"Title"}" href="$Data{"Href"}" />
 <!-- dtl:block:MetaLink -->
-    <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
-    <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css" />
-    <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
-</head>
-<body>
-<a name="top"></a>
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td align="left" width="20%" class="header">
-            <b>
-            $Env{"Box0"}<a href="$Env{"Baselink"}" accesskey="h" onmouseover="window.status='$JSText{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">$Config{"ProductName"}</a>$Env{"Box1"}
-            </b>
-        </td>
-        <td align="right" width="80%" class="header">
-            $Env{"UserFirstname"} $Env{"UserLastname"} $Env{"UserLoginIdentifier"} $Env{"TimeLong"}
-        </td>
-    </tr>
-</table>
+        <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
+            <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css" />
+                <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
+            </head>
+            <body>
+            <a name="top"></a>
+            <table border="0" width="100%" cellspacing="0" cellpadding="3">
+                <tr>
+                    <td align="left" width="20%" class="header">
+                        <b>
+                        $Env{"Box0"}<a href="$Env{"Baselink"}" accesskey="h" onmouseover="window.status='$JSText{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">$Config{"ProductName"}</a>$Env{"Box1"}
+                        </b>
+                    </td>
+                    <td align="right" width="80%" class="header">
+                        $Env{"UserFirstname"} $Env{"UserLastname"} $Env{"UserLoginIdentifier"} $Env{"TimeLong"}
+                    </td>
+                </tr>
+            </table>
 <!-- end header -->
