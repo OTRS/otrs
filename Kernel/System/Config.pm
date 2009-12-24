@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.91 2009-11-26 12:23:09 bes Exp $
+# $Id: Config.pm,v 1.92 2009-12-24 00:38:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 =head1 NAME
 
@@ -540,7 +540,7 @@ sub ConfigItemGet {
     }
 
     # add current valid state
-    if ( !$Param{Default} && !defined( $Self->_ModGet( ConfigName => $ConfigItem->{Name} ) ) ) {
+    if ( !$Param{Default} && !defined $Self->_ModGet( ConfigName => $ConfigItem->{Name} ) ) {
         $ConfigItem->{Valid} = 0;
     }
     elsif ( !$Param{Default} ) {
@@ -1491,19 +1491,31 @@ sub _ModGet {
     else {
         $ConfigObject = $Self->{ConfigObject};
     }
+
+    # get config value of HASH->HASH->HASH
     if ( $Param{ConfigName} =~ /^(.*)###(.*)###(.*)$/ ) {
-        if ( defined $ConfigObject->Get($1) ) {
-            $Content = $ConfigObject->Get($1)->{$2}->{$3};
+        my $Config = $ConfigObject->Get($1);
+        if ( defined $Config && ref $Config eq 'HASH' ) {
+            my $ConfigSub = $Config->{$2};
+            if ( defined $ConfigSub && ref $ConfigSub eq 'HASH' ) {
+                $Content = $ConfigSub->{$3};
+            }
         }
     }
+
+    # get config value of HASH->HASH
     elsif ( $Param{ConfigName} =~ /^(.*)###(.*)$/ ) {
-        if ( defined $ConfigObject->Get($1) ) {
-            $Content = $ConfigObject->Get($1)->{$2};
+        my $Config = $ConfigObject->Get($1);
+        if ( defined $Config && ref $Config eq 'HASH' ) {
+            $Content = $Config->{$2};
         }
     }
+
+    # get config value
     else {
-        if ( defined $ConfigObject->Get( $Param{ConfigName} ) ) {
-            $Content = $ConfigObject->Get( $Param{ConfigName} );
+        my $Config = $ConfigObject->Get( $Param{ConfigName} );
+        if ( defined $Config ) {
+            $Content = $Config;
         }
     }
     return $Content;
@@ -1751,6 +1763,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.91 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.92 $ $Date: 2009-12-24 00:38:06 $
 
 =cut
