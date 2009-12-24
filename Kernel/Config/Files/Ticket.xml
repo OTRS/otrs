@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.288 2009-12-21 15:35:57 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.289 2009-12-24 00:40:43 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1531,7 +1531,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::CustomModule" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::CustomModule###001-CustomModule" Required="0" Valid="0">
         <Description Lang="en">A module with custom functions to redefine Kernel::System::Ticket functions (e.g. Kernel::System::Ticket::Custom).</Description>
         <Description Lang="de">Ein Modul mit angepassten Funktionen das Kernel::System::Ticket überschreibt (z. B. Kernel::System::Ticket::Custom).</Description>
         <Group>Ticket</Group>

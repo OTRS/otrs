@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.442 2009-12-24 00:08:53 martin Exp $
+# $Id: Ticket.pm,v 1.443 2009-12-24 00:40:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.442 $) [1];
+$VERSION = qw($Revision: 1.443 $) [1];
 
 =head1 NAME
 
@@ -200,12 +200,22 @@ sub new {
     # load ticket extension modules
     my $CustomModule = $Self->{ConfigObject}->Get('Ticket::CustomModule');
     if ($CustomModule) {
-        if ( !$Self->{MainObject}->Require($CustomModule) ) {
-            die "Can't load ticket custom module $CustomModule! $@";
+        my %ModuleList;
+        if ( ref $CustomModule eq 'HASH' ) {
+            %ModuleList = %{$CustomModule};
         }
-        push @ISA, $CustomModule;
+        else {
+            $ModuleList{Init} = $CustomModule;
+        }
+        for my $ModuleKey ( sort keys %ModuleList ) {
+            my $Module = $ModuleList{$ModuleKey};
+            next if !$Module;
+            next if !$Self->{MainObject}->Require($Module);
+            push @ISA, $Module;
+        }
     }
 
+    # init of article backend
     $Self->ArticleStorageInit();
 
     return $Self;
@@ -7681,6 +7691,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.442 $ $Date: 2009-12-24 00:08:53 $
+$Revision: 1.443 $ $Date: 2009-12-24 00:40:18 $
 
 =cut

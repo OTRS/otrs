@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1117 2009-12-23 22:56:20 martin Exp $
+# $Id: CHANGES,v 1.1118 2009-12-24 00:40:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,19 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/23) Added multible Kernel::System::Ticket::Custom module backend
+    support. Can now be defined via config key 'Ticket::CustomModule', e. g.
+
+    <ConfigItem Name="Ticket::CustomModule###001-CustomModule" Required="0" Valid="0">
+        <Description Lang="en">A module with custom functions to redefine ....</Description>
+        <Description Lang="de">Ein Modul mit angepassten Funktionen das ...</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <String Regex="">Kernel::System::Ticket::Custom</String>
+        </Setting>
+    </ConfigItem>
+
  - (2009/12/21) Added the ability to hide the Queue, SLA and/or Service in
     the Customer interface.
  - (2009/12/15) Changed rich text editor from FCKEditor 2.6.4.1 to CKEditor 3.0.1
