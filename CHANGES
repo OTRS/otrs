@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1122 2009-12-30 12:28:13 martin Exp $
+# $Id: CHANGES,v 1.1123 2009-12-30 12:37:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -175,11 +175,11 @@
  - (2009/12/09) Fixed bug#4556 - Translation "Accounted Time" to german "Zugewiesene Zeit".
  - (2009/12/09) Fixed bug#4184 - Can't call method "NotificationGet" on
     an undefined value.
- - (2009/12/09) Fixed bug#4371 - DataSelected value for
-    PreferencesGroups###WatcherNotify doesn't work
+ - (2009/12/09) Fixed bug#4371 - DataSelected value for config option
+    PreferencesGroups###WatcherNotify doesn't work.
  - (2009/12/09) Fixed bug#4486 - Some preferences displayed in AdminUser are not correct.
- - (2009/12/09) Fixed bug#4363 - Layout.pm -> PageNavBar() mistakes because of
-    missing checks and descriptions
+ - (2009/12/09) Fixed bug#4363 - Kernel/Output/HTML/Layout.pm -> PageNavBar()
+    mistakes because of missing checks and descriptions.
  - (2009/12/08) Fixed bug#4361 - Umlauts in Dashboard are not displayed correcty
     after refresh on non-unicode databases.
  - (2009/12/08) Fixed bug#4323 - Customer Interface shows last customer article
@@ -221,12 +221,12 @@
     saved.
  - (2009/11/06) Fixed bug#2069 - Update of CustomerCompany company_id is not
     working.
- - (2009/11/06) Fixed bug#2948 - Renamed crypt option "md5" to "md5-crypt" to
-    avoid missunderstanding.
+ - (2009/11/06) Fixed bug#2948 - Renamed crypt config option "md5" to "md5-crypt"
+    to avoid missunderstanding.
  - (2009/10/30) Fixed JS check for months, thanks to bes.
  - (2009/10/26) Fixed bug#4455 - Input field in Preferences of a Dashboard
     module doesn't save settings.
- - (2009/10/26) Fixed bug#4454 - restore.pl is not working.
+ - (2009/10/26) Fixed bug#4454 - scripts/restore.pl is not working.
  - (2009/10/26) Fixed bug#4447 - TimeUnits not saved in AgentTicketMove.pm when
     omitting a note.
  - (2009/10/22) Fixed bug#4188 - Restore original subject check in AgentTicketMerge.
