@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.124 2009-12-09 14:01:47 mn Exp $
+# $Id: AgentTicketPhone.pm,v 1.125 2009-12-30 13:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,10 +20,11 @@ use Kernel::System::CheckItem;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 use Kernel::System::LinkObject;
-use Mail::Address;
+
+#use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -394,8 +395,8 @@ sub Run {
 
     # create new ticket and article
     elsif ( $Self->{Subaction} eq 'StoreNew' ) {
-        my %Error     = ();
-        my %StateData = ();
+        my %Error;
+        my %StateData;
         if ( $GetParam{NextStateID} ) {
             %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
                 ID => $GetParam{NextStateID},
@@ -445,14 +446,14 @@ sub Run {
         # check pending date
         if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                $Error{"Date invalid"} = 'invalid';
+                $Error{'Date invalid'} = 'invalid';
             }
             if (
                 $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
                 < $Self->{TimeObject}->SystemTime()
                 )
             {
-                $Error{"Date invalid"} = 'invalid';
+                $Error{'Date invalid'} = 'invalid';
             }
         }
 
@@ -471,7 +472,7 @@ sub Run {
         if ( $GetParam{AttachmentUpload} ) {
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => "file_upload",
+                Param  => 'file_upload',
                 Source => 'string',
             );
             $Self->{UploadCachObject}->FormIDAddFile(
@@ -510,7 +511,7 @@ sub Run {
             # check required FreeTextField (if configured)
             if (
                 $Self->{Config}->{TicketFreeText}->{$Count} == 2
-                && $GetParam{"TicketFreeText$Count"} eq ''
+                && $GetParam{$Text} eq ''
                 && $ExpandCustomerName == 0
                 )
             {
@@ -570,7 +571,7 @@ sub Run {
             }
             if ( $Param{CustomerUserListCount} == 1 ) {
                 $GetParam{From} = $Param{CustomerUserListLast};
-                $Error{"ExpandCustomerName"} = 1;
+                $Error{'ExpandCustomerName'} = 1;
                 my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                     User => $Param{CustomerUserListLastUser},
                 );
@@ -589,13 +590,13 @@ sub Run {
                 # don't check email syntax on multi customer select
                 $Self->{ConfigObject}->Set( Key => 'CheckEmailAddresses', Value => 0 );
                 $CustomerID = '';
-                $Param{"FromOptions"} = \%CustomerUserList;
+                $Param{'FromOptions'} = \%CustomerUserList;
 
                 # clear from if there is no customer found
                 if ( !%CustomerUserList ) {
                     $GetParam{From} = '';
                 }
-                $Error{"ExpandCustomerName"} = 1;
+                $Error{'ExpandCustomerName'} = 1;
             }
         }
 
@@ -872,140 +873,137 @@ sub Run {
             },
             Queue => $Self->{QueueObject}->QueueLookup( QueueID => $NewQueueID ),
         );
-        if ($ArticleID) {
-
-            # set article free text
-            for my $Count ( 1 .. 3 ) {
-                my $Key  = 'ArticleFreeKey' . $Count;
-                my $Text = 'ArticleFreeText' . $Count;
-                if ( defined $GetParam{$Key} ) {
-                    $Self->{TicketObject}->ArticleFreeTextSet(
-                        TicketID  => $TicketID,
-                        ArticleID => $ArticleID,
-                        Key       => $GetParam{$Key},
-                        Value     => $GetParam{$Text},
-                        Counter   => $Count,
-                        UserID    => $Self->{UserID},
-                    );
-                }
-            }
-
-            # set owner (if new user id is given)
-            if ( $GetParam{NewUserID} ) {
-                $Self->{TicketObject}->OwnerSet(
-                    TicketID  => $TicketID,
-                    NewUserID => $GetParam{NewUserID},
-                    UserID    => $Self->{UserID},
-                );
-
-                # set lock
-                $Self->{TicketObject}->LockSet(
-                    TicketID => $TicketID,
-                    Lock     => 'lock',
-                    UserID   => $Self->{UserID},
-                );
-            }
-
-            # else set owner to current agent but do not lock it
-            else {
-                $Self->{TicketObject}->OwnerSet(
-                    TicketID           => $TicketID,
-                    NewUserID          => $Self->{UserID},
-                    SendNoNotification => 1,
-                    UserID             => $Self->{UserID},
-                );
-            }
-
-            # set responsible (if new user id is given)
-            if ( $GetParam{NewResponsibleID} ) {
-                $Self->{TicketObject}->ResponsibleSet(
-                    TicketID  => $TicketID,
-                    NewUserID => $GetParam{NewResponsibleID},
-                    UserID    => $Self->{UserID},
-                );
-            }
-
-            # time accounting
-            if ( $GetParam{TimeUnits} ) {
-                $Self->{TicketObject}->TicketAccountTime(
-                    TicketID  => $TicketID,
-                    ArticleID => $ArticleID,
-                    TimeUnit  => $GetParam{TimeUnits},
-                    UserID    => $Self->{UserID},
-                );
-            }
-
-            # write attachments
-            for my $Ref (@AttachmentData) {
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %{$Ref},
-                    ArticleID => $ArticleID,
-                    UserID    => $Self->{UserID},
-                );
-            }
-
-            # remove pre submited attachments
-            $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
-
-            # link tickets
-            if (
-                $GetParam{LinkTicketID}
-                && $Self->{Config}->{SplitLinkType}
-                && $Self->{Config}->{SplitLinkType}->{LinkType}
-                && $Self->{Config}->{SplitLinkType}->{Direction}
-                )
-            {
-
-                my $SourceKey = $GetParam{LinkTicketID};
-                my $TargetKey = $TicketID;
-
-                if ( $Self->{Config}->{SplitLinkType}->{Direction} eq 'Source' ) {
-                    $SourceKey = $TicketID;
-                    $TargetKey = $GetParam{LinkTicketID};
-                }
-
-                # link the tickets
-                $Self->{LinkObject}->LinkAdd(
-                    SourceObject => 'Ticket',
-                    SourceKey    => $SourceKey,
-                    TargetObject => 'Ticket',
-                    TargetKey    => $TargetKey,
-                    Type         => $Self->{Config}->{SplitLinkType}->{LinkType} || 'Normal',
-                    State        => 'Valid',
-                    UserID       => $Self->{UserID},
-                );
-            }
-
-            # should i set an unlock?
-            my %StateData = $Self->{StateObject}->StateGet( ID => $GetParam{NextStateID} );
-            if ( $StateData{TypeName} =~ /^close/i ) {
-                $Self->{TicketObject}->LockSet(
-                    TicketID => $TicketID,
-                    Lock     => 'unlock',
-                    UserID   => $Self->{UserID},
-                );
-            }
-
-            # set pending time
-            elsif ( $StateData{TypeName} =~ /^pending/i ) {
-                $Self->{TicketObject}->TicketPendingTimeSet(
-                    UserID   => $Self->{UserID},
-                    TicketID => $TicketID,
-                    %GetParam,
-                );
-            }
-
-            # get redirect screen
-            my $NextScreen = $Self->{UserCreateNextMask} || 'AgentTicketPhone';
-
-            # redirect
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=$NextScreen;Subaction=Created;TicketID=$TicketID",
-            );
-        }
-        else {
+        if ( !$ArticleID ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+
+        # set article free text
+        for my $Count ( 1 .. 3 ) {
+            my $Key  = 'ArticleFreeKey' . $Count;
+            my $Text = 'ArticleFreeText' . $Count;
+            if ( defined $GetParam{$Key} ) {
+                $Self->{TicketObject}->ArticleFreeTextSet(
+                    TicketID  => $TicketID,
+                    ArticleID => $ArticleID,
+                    Key       => $GetParam{$Key},
+                    Value     => $GetParam{$Text},
+                    Counter   => $Count,
+                    UserID    => $Self->{UserID},
+                );
+            }
+        }
+
+        # set owner (if new user id is given)
+        if ( $GetParam{NewUserID} ) {
+            $Self->{TicketObject}->OwnerSet(
+                TicketID  => $TicketID,
+                NewUserID => $GetParam{NewUserID},
+                UserID    => $Self->{UserID},
+            );
+
+            # set lock
+            $Self->{TicketObject}->LockSet(
+                TicketID => $TicketID,
+                Lock     => 'lock',
+                UserID   => $Self->{UserID},
+            );
+        }
+
+        # else set owner to current agent but do not lock it
+        else {
+            $Self->{TicketObject}->OwnerSet(
+                TicketID           => $TicketID,
+                NewUserID          => $Self->{UserID},
+                SendNoNotification => 1,
+                UserID             => $Self->{UserID},
+            );
+        }
+
+        # set responsible (if new user id is given)
+        if ( $GetParam{NewResponsibleID} ) {
+            $Self->{TicketObject}->ResponsibleSet(
+                TicketID  => $TicketID,
+                NewUserID => $GetParam{NewResponsibleID},
+                UserID    => $Self->{UserID},
+            );
+        }
+
+        # time accounting
+        if ( $GetParam{TimeUnits} ) {
+            $Self->{TicketObject}->TicketAccountTime(
+                TicketID  => $TicketID,
+                ArticleID => $ArticleID,
+                TimeUnit  => $GetParam{TimeUnits},
+                UserID    => $Self->{UserID},
+            );
+        }
+
+        # write attachments
+        for my $Attachment (@AttachmentData) {
+            $Self->{TicketObject}->ArticleWriteAttachment(
+                %{$Attachment},
+                ArticleID => $ArticleID,
+                UserID    => $Self->{UserID},
+            );
+        }
+
+        # remove pre submited attachments
+        $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
+
+        # link tickets
+        if (
+            $GetParam{LinkTicketID}
+            && $Self->{Config}->{SplitLinkType}
+            && $Self->{Config}->{SplitLinkType}->{LinkType}
+            && $Self->{Config}->{SplitLinkType}->{Direction}
+            )
+        {
+
+            my $SourceKey = $GetParam{LinkTicketID};
+            my $TargetKey = $TicketID;
+
+            if ( $Self->{Config}->{SplitLinkType}->{Direction} eq 'Source' ) {
+                $SourceKey = $TicketID;
+                $TargetKey = $GetParam{LinkTicketID};
+            }
+
+            # link the tickets
+            $Self->{LinkObject}->LinkAdd(
+                SourceObject => 'Ticket',
+                SourceKey    => $SourceKey,
+                TargetObject => 'Ticket',
+                TargetKey    => $TargetKey,
+                Type         => $Self->{Config}->{SplitLinkType}->{LinkType} || 'Normal',
+                State        => 'Valid',
+                UserID       => $Self->{UserID},
+            );
+        }
+
+        # should i set an unlock?
+        if ( $StateData{TypeName} =~ /^close/i ) {
+            $Self->{TicketObject}->LockSet(
+                TicketID => $TicketID,
+                Lock     => 'unlock',
+                UserID   => $Self->{UserID},
+            );
+        }
+
+        # set pending time
+        elsif ( $StateData{TypeName} =~ /^pending/i ) {
+            $Self->{TicketObject}->TicketPendingTimeSet(
+                UserID   => $Self->{UserID},
+                TicketID => $TicketID,
+                %GetParam,
+            );
+        }
+
+        # get redirect screen
+        my $NextScreen = $Self->{UserCreateNextMask} || 'AgentTicketPhone';
+
+        # redirect
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=$NextScreen;Subaction=Created;TicketID=$TicketID",
+        );
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
         my $Dest         = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
