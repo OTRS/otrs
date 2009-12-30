@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1120 2009-12-24 11:13:26 mb Exp $
+# $Id: CHANGES,v 1.1121 2009-12-30 01:41:31 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/30) Added proper removal of FormID in AgentTicketPhoneOutbound.
  - (2009/12/24) Themes are now stored in SysConfig under Frontend::Themes rather
     than in the database. This to enable administrators to add a new theme by
     just modifying SysConfig instead of having to use mysql or isql or so.
@@ -157,6 +158,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2009/12/30) Added proper removal of FormID in AgentTicketPhoneOutbound.
  - (2009/12/23) Fixed bug#3526 - Escalation emails are resent over and over again.
  - (2009/12/23) Fixed bug#4428 - PGP-inline signed messages can't be encoded
     correctly with rich text editor.

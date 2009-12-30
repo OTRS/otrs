@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.35 2009-12-11 09:42:09 mh Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.36 2009-12-30 01:41:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -556,6 +556,9 @@ sub Run {
                         UserID    => $Self->{UserID},
                     );
                 }
+
+                # remove pre submitted attachments
+                $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
 
                 # set ticket free text
                 for ( 1 .. 16 ) {
