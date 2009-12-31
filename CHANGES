@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1123 2009-12-30 12:37:53 martin Exp $
+# $Id: CHANGES,v 1.1124 2009-12-31 10:47:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2009/12/31) Added cpan module for JSON support, removed JSON function from LayoutAJAX
+    and changed all function calls to the new JSON wrapper.
  - (2009/12/24) Themes are now stored in SysConfig under Frontend::Themes rather
     than in the database. This to enable administrators to add a new theme by
     just modifying SysConfig instead of having to use mysql or isql or so.

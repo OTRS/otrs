@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.68 2009-12-24 00:51:33 martin Exp $
+# $Id: Installer.pm,v 1.69 2009-12-31 10:47:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -215,7 +215,7 @@ sub Run {
         }
 
         # return JSON-String because of AJAX-Mode
-        my $OutputJSON = $Self->{LayoutObject}->JSON( Data => \%Result );
+        my $OutputJSON = $Self->{LayoutObject}->JSONEncode( Data => \%Result );
 
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},

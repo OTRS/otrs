@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.24 2009-12-11 17:45:51 mn Exp $
+# $Id: LayoutAJAX.pm,v 1.25 2009-12-31 10:47:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,94 +15,13 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
-=item JSON()
-
-build a JSON output based on perl data
-
-    my $JSON = $LayoutObject->JSON(
-        Data => $DataRef,
-    );
-
-=cut
-
-sub JSON {
-    my ( $Self, %Param ) = @_;
-
-    my $JSON = '';
-
-    # check needed stuff
-    for (qw(Data)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # array
-    if ( ref $Param{Data} eq 'ARRAY' ) {
-        $JSON .= '[';
-        for my $Key ( @{ $Param{Data} } ) {
-            if ( ref $Key ) {
-                $JSON .= $Self->JSON( Data => $Key ) . ',';
-            }
-            else {
-                if ( $Key =~ /^\d+$/ ) {
-                    $JSON .= $Self->JSONQuote( Data => $Key ) . ',';
-                }
-                else {
-                    $JSON .= '"' . $Self->JSONQuote( Data => $Key ) . '",';
-                }
-            }
-        }
-
-        # delete comma at end of string
-        $JSON =~ s{ , \z }{}xms;
-        $JSON .= ']';
-    }
-
-    # hash
-    elsif ( ref $Param{Data} eq 'HASH' ) {
-        $JSON .= '{';
-        for my $Key ( sort keys %{ $Param{Data} } ) {
-            $JSON .= '"' . $Key . '":';
-            if ( ref $Param{Data}->{$Key} ) {
-                $JSON .= $Self->JSON( Data => $Param{Data}->{$Key} ) . ',';
-            }
-            else {
-                if ( $Param{Data}->{$Key} =~ /^\d+$/ ) {
-                    $JSON .= $Self->JSONQuote( Data => $Param{Data}->{$Key} ) . ',';
-                }
-                else {
-                    $JSON .= '"' . $Self->JSONQuote( Data => $Param{Data}->{$Key} ) . '",';
-                }
-            }
-        }
-
-        # delete comma at end of string
-        $JSON =~ s{ , \z }{}xms;
-        $JSON .= '}';
-    }
-
-    # string
-    else {
-        if ( $Param{Data} =~ /^\d+$/ ) {
-            $JSON .= $Self->JSONQuote( Data => $Param{Data} );
-        }
-        else {
-            $JSON .= '"' . $Self->JSONQuote( Data => $Param{Data} ) . '"';
-        }
-    }
-
-    return $JSON;
-}
-
-=item BuildJSON()
+=item BuildSelectionJSON()
 
 build a JSON output js witch can be used for e. g. data for pull downs
 
-    my $JSON = $LayoutObject->BuildJSON(
+    my $JSON = $LayoutObject->BuildSelectionJSON(
         [
             Data          => $ArrayRef,      # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
             Name          => 'TheName',      # name of element
@@ -121,10 +40,10 @@ build a JSON output js witch can be used for e. g. data for pull downs
 
 =cut
 
-sub BuildJSON {
+sub BuildSelectionJSON {
     my ( $Self, $Array ) = @_;
+    my %DataHash;
 
-    my $JSON = '';
     for my $Data ( @{$Array} ) {
         my %Param = %{$Data};
 
@@ -135,14 +54,9 @@ sub BuildJSON {
                 return;
             }
         }
-        if ($JSON) {
-            $JSON .= ',';
-        }
+
         if ( ref $Param{Data} eq '' ) {
-            $Param{Data} = $Self->JSONQuote( Data => $Param{Data} );
-            $JSON .= '"' . $Param{Name} . '": [';
-            $JSON .= '"' . $Param{Data} . '"';
-            $JSON .= ']';
+            $DataHash{ $Param{Name} } = $Param{Data};
         }
         else {
 
@@ -162,93 +76,36 @@ sub BuildJSON {
                 OptionRef    => $OptionRef,
             );
 
-            # generate output
-            $JSON .= ${
-                $Self->_BuildJSONOutput(
-                    AttributeRef => $AttributeRef,
-                    DataRef      => $DataRef,
-                    )
-                };
+            # create data structure
+            if ( $AttributeRef && $DataRef ) {
+                my @DataArray;
+                for my $Row ( @{$DataRef} ) {
+                    my $Key = '';
+                    if ( defined $Row->{Key} ) {
+                        $Key = $Row->{Key};
+                    }
+                    my $Value = '';
+                    if ( defined $Row->{Value} ) {
+                        $Value = $Row->{Value};
+                    }
+                    my $SelectedDisabled = 'false';
+                    if ( $Row->{Selected} ) {
+                        $SelectedDisabled = 'true';
+                    }
+                    elsif ( $Row->{Disabled} ) {
+                        $SelectedDisabled = 'false';
+                    }
+
+                    push @DataArray, [ $Key, $Value, $SelectedDisabled, $SelectedDisabled ];
+                }
+                $DataHash{ $AttributeRef->{name} } = \@DataArray;
+            }
         }
     }
-    return '{' . $JSON . '}';
-}
 
-sub JSONQuote {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Data)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # quote
-    my %Quote = (
-        "\n" => '\n',
-        "\r" => '\r',
-        "\t" => '\t',
-        "\f" => '\f',
-        "\b" => '\b',
-        "\"" => '\"',
-        "\\" => '\\\\',
+    return $Self->JSONEncode(
+        Data => \%DataHash,
     );
-    $Param{Data} =~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
-    return $Param{Data};
 }
-
-=begin Internal:
-
-=cut
-
-sub _BuildJSONOutput {
-    my ( $Self, %Param ) = @_;
-
-    my $String;
-
-    # start generation, if AttributeRef and DataRef was found
-    if ( $Param{AttributeRef} && $Param{DataRef} ) {
-        $String = '"' . $Param{AttributeRef}->{name} . '":[';
-        my $Count = 0;
-        for my $Row ( @{ $Param{DataRef} } ) {
-            if ($Count) {
-                $String .= ',';
-            }
-            my $Key = '';
-            if ( defined $Row->{Key} ) {
-                $Key = $Row->{Key};
-            }
-            my $Value = '';
-            if ( defined $Row->{Value} ) {
-                $Value = $Row->{Value};
-            }
-            my $SelectedDisabled = 'false';
-            if ( $Row->{Selected} ) {
-                $SelectedDisabled = 'true';
-            }
-            elsif ( $Row->{Disabled} ) {
-                $SelectedDisabled = 'false';
-            }
-
-            $Key   = $Self->JSONQuote( Data => $Key );
-            $Value = $Self->JSONQuote( Data => $Value );
-            $String
-                .= '["'
-                . $Key . '","'
-                . $Value . '",'
-                . $SelectedDisabled . ','
-                . $SelectedDisabled . ']';
-            $Count++;
-        }
-        $String .= ']';
-    }
-    return \$String;
-}
-
-=end Internal:
-
-=cut
 
 1;

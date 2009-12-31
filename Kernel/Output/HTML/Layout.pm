@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.202 2009-12-11 09:42:09 mh Exp $
+# $Id: Layout.pm,v 1.203 2009-12-31 10:47:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,10 @@ use warnings;
 
 use Kernel::Language;
 use Kernel::System::HTMLUtils;
+use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.202 $) [1];
+$VERSION = qw($Revision: 1.203 $) [1];
 
 =head1 NAME
 
@@ -113,6 +114,7 @@ sub new {
     }
 
     $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
+    $Self->{JSONObject}      = Kernel::System::JSON->new();
 
     # reset block data
     delete $Self->{BlockData};
@@ -711,6 +713,32 @@ sub Output {
     }
 
     return $Output;
+}
+
+=item JSONEncode()
+
+Encode perl data structure to JSON string
+
+    my $JSON = $LayoutObject->JSONEncode(
+        Data        => $Data,
+        NoQuotes    => 0|1, # optional: no double quotes at the start and the end of JSON string
+    );
+
+=cut
+
+sub JSONEncode {
+    my ( $Self, %Param ) = @_;
+    my $JSON = '';
+
+    $JSON = $Self->{JSONObject}->Encode(
+        Data => $Param{Data},
+    );
+
+    if ( $Param{NoQuotes} ) {
+        $JSON =~ s{^"(.*)"$}{$1}smx;
+    }
+
+    return $JSON;
 }
 
 =item Redirect()
@@ -4156,6 +4184,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.202 $ $Date: 2009-12-11 09:42:09 $
+$Revision: 1.203 $ $Date: 2009-12-31 10:47:25 $
 
 =cut

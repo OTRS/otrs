@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.81 2009-12-09 14:01:47 mn Exp $
+# $Id: AgentTicketZoom.pm,v 1.82 2009-12-31 10:47:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -156,7 +156,7 @@ sub Run {
         # build JSON output
         my $JSON = '';
         if ($Update) {
-            $JSON = $Self->{LayoutObject}->JSON(
+            $JSON = $Self->{LayoutObject}->JSONEncode(
                 Data => {
                     Message => 'Article filter settings were saved.',
                 },

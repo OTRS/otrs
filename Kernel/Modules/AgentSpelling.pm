@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentSpelling.pm - spelling module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.pm,v 1.25 2009-12-11 09:42:09 mh Exp $
+# $Id: AgentSpelling.pm,v 1.26 2009-12-31 10:47:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,8 +52,9 @@ sub Run {
 
         my $TextAll = '';
         for ( my $i = 0; $i <= $#Text; $i++ ) {
-            my $Line = $Self->{LayoutObject}->JSONQuote(
-                Data => $Text[$i],
+            my $Line = $Self->{LayoutObject}->JSONEncode(
+                Data     => $Text[$i],
+                NoQuotes => 1,
             );
             $JSData .= "textinputs[$i] = decodeURIComponent('$Line')\n";
 
@@ -85,7 +86,7 @@ sub Run {
                 Text => $SpellCheck{$_}->{Word},
                 Type => 'JSText',
             );
-            my $JS = $Self->{LayoutObject}->JSON(
+            my $JS = $Self->{LayoutObject}->JSONEncode(
                 Data => $SpellCheck{$_}->{Replace},
             );
 

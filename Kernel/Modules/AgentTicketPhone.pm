@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.125 2009-12-30 13:01:59 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.126 2009-12-31 10:47:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::LinkObject;
 #use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.125 $) [1];
+$VERSION = qw($Revision: 1.126 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1097,7 +1097,7 @@ sub Run {
                 );
             }
         }
-        my $JSON = $Self->{LayoutObject}->BuildJSON(
+        my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
             [
                 {
                     Name         => 'NewUserID',

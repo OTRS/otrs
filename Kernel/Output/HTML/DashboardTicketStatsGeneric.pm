@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.14 2009-12-14 07:56:13 mn Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.15 2009-12-31 10:47:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -162,19 +162,19 @@ sub Run {
         }
     }
 
-    my $TicketsClosedJSON = $Self->{LayoutObject}->JSON(
+    my $TicketsClosedJSON = $Self->{LayoutObject}->JSONEncode(
         Data => \@TicketsClosed,
     );
 
-    my $TicketsCreatedJSON = $Self->{LayoutObject}->JSON(
+    my $TicketsCreatedJSON = $Self->{LayoutObject}->JSONEncode(
         Data => \@TicketsCreated,
     );
 
-    my $TicketWeekdaysJSON = $Self->{LayoutObject}->JSON(
+    my $TicketWeekdaysJSON = $Self->{LayoutObject}->JSONEncode(
         Data => \@TicketWeekdays,
     );
 
-    my $TicketYAxisJSON = $Self->{LayoutObject}->JSON(
+    my $TicketYAxisJSON = $Self->{LayoutObject}->JSONEncode(
         Data => \@TicketYAxis,
     );
 
