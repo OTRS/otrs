@@ -1,8 +1,13 @@
 # --
-# $Id: COPYING-Third-Party,v 1.6 2009-12-16 11:12:17 mn Exp $
+# $Id: COPYING-Third-Party,v 1.7 2009-12-31 12:25:45 mn Exp $
 # --
 # A list of all included third party libraries.
 # --
+
+o Name:    CPAN JSON::PP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    Copyright 2007-2009 by Makamaka Hannyaharamitu
 
 o Name:    CKEditor
   Web:     http://www.ckeditor.com/
