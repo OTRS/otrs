@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.242.2.3 2009-12-30 12:25:51 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.242.2.4 2010-01-04 12:35:22 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -886,12 +886,12 @@
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Eve!</Item>
-                <Item Month="5" Day="1">1 St. May</Item>
-                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="1" Day="1">New Year's Day</Item>
+                <Item Month="5" Day="1">International Workers' Day</Item>
+                <Item Month="12" Day="24">Christmas Eve</Item>
                 <Item Month="12" Day="25">First Christmas Day</Item>
                 <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">Silvester</Item>
+                <Item Month="12" Day="31">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1046,12 +1046,12 @@
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Eve!</Item>
-                <Item Month="5" Day="1">1 St. May</Item>
-                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="1" Day="1">New Year's Day</Item>
+                <Item Month="5" Day="1">International Workers' Day</Item>
+                <Item Month="12" Day="24">Christmas Eve</Item>
                 <Item Month="12" Day="25">First Christmas Day</Item>
                 <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">Silvester</Item>
+                <Item Month="12" Day="31">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1206,12 +1206,12 @@
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Eve!</Item>
-                <Item Month="5" Day="1">1 St. May</Item>
-                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="1" Day="1">New Year's Day</Item>
+                <Item Month="5" Day="1">International Workers' Day</Item>
+                <Item Month="12" Day="24">Christmas Eve</Item>
                 <Item Month="12" Day="25">First Christmas Day</Item>
                 <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">Silvester</Item>
+                <Item Month="12" Day="31">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1366,12 +1366,12 @@
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Eve!</Item>
-                <Item Month="5" Day="1">1 St. May</Item>
-                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="1" Day="1">New Year's Day</Item>
+                <Item Month="5" Day="1">International Workers' Day</Item>
+                <Item Month="12" Day="24">Christmas Eve</Item>
                 <Item Month="12" Day="25">First Christmas Day</Item>
                 <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">Silvester</Item>
+                <Item Month="12" Day="31">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1526,12 +1526,12 @@
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Eve!</Item>
-                <Item Month="5" Day="1">1 St. May</Item>
-                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="1" Day="1">New Year's Day</Item>
+                <Item Month="5" Day="1">International Workers' Day</Item>
+                <Item Month="12" Day="24">Christmas Eve</Item>
                 <Item Month="12" Day="25">First Christmas Day</Item>
                 <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">Silvester</Item>
+                <Item Month="12" Day="31">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1686,12 +1686,12 @@
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Eve!</Item>
-                <Item Month="5" Day="1">1 St. May</Item>
-                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="1" Day="1">New Year's Day</Item>
+                <Item Month="5" Day="1">International Workers' Day</Item>
+                <Item Month="12" Day="24">Christmas Eve</Item>
                 <Item Month="12" Day="25">First Christmas Day</Item>
                 <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">Silvester</Item>
+                <Item Month="12" Day="31">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1846,12 +1846,12 @@
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Eve!</Item>
-                <Item Month="5" Day="1">1 St. May</Item>
-                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="1" Day="1">New Year's Day</Item>
+                <Item Month="5" Day="1">International Workers' Day</Item>
+                <Item Month="12" Day="24">Christmas Eve</Item>
                 <Item Month="12" Day="25">First Christmas Day</Item>
                 <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">Silvester</Item>
+                <Item Month="12" Day="31">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2006,12 +2006,12 @@
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Eve!</Item>
-                <Item Month="5" Day="1">1 St. May</Item>
-                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="1" Day="1">New Year's Day</Item>
+                <Item Month="5" Day="1">International Workers' Day</Item>
+                <Item Month="12" Day="24">Christmas Eve</Item>
                 <Item Month="12" Day="25">First Christmas Day</Item>
                 <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">Silvester</Item>
+                <Item Month="12" Day="31">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2166,12 +2166,12 @@
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Eve!</Item>
-                <Item Month="5" Day="1">1 St. May</Item>
-                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="1" Day="1">New Year's Day</Item>
+                <Item Month="5" Day="1">International Workers' Day</Item>
+                <Item Month="12" Day="24">Christmas Eve</Item>
                 <Item Month="12" Day="25">First Christmas Day</Item>
                 <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">Silvester</Item>
+                <Item Month="12" Day="31">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2326,12 +2326,12 @@
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Eve!</Item>
-                <Item Month="5" Day="1">1 St. May</Item>
-                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="1" Day="1">New Year's Day</Item>
+                <Item Month="5" Day="1">International Workers' Day</Item>
+                <Item Month="12" Day="24">Christmas Eve</Item>
                 <Item Month="12" Day="25">First Christmas Day</Item>
                 <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">Silvester</Item>
+                <Item Month="12" Day="31">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
