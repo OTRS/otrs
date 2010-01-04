@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.31 2009-05-11 18:20:55 martin Exp $
+# $Id: Request.pm,v 1.31.2.1 2010-01-04 13:13:44 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.31.2.1 $) [1];
 
 =head1 NAME
 
@@ -203,9 +203,15 @@ internal function for GetUploadAll()
 sub GetUploadInfo {
     my ( $Self, %Param ) = @_;
 
-    return 'application/octet-stream' if !$Self->{Query}->uploadInfo( $Param{Filename} );
-
-    return $Self->{Query}->uploadInfo( $Param{Filename} )->{ $Param{Header} };
+    my $ContentType = 'application/octet-stream';
+    if (
+        $Self->{Query}->uploadInfo( $Param{Filename} )
+        && $Self->{Query}->uploadInfo( $Param{Filename} )->{ $Param{Header} }
+        )
+    {
+        $ContentType = $Self->{Query}->uploadInfo( $Param{Filename} )->{ $Param{Header} };
+    }
+    return $ContentType;
 }
 
 =item GetUploadAll()
@@ -349,6 +355,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2009-05-11 18:20:55 $
+$Revision: 1.31.2.1 $ $Date: 2010-01-04 13:13:44 $
 
 =cut
