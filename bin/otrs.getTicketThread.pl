@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.getTicketThread.pl - to print the whole ticket thread to STDOUT
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.getTicketThread.pl,v 1.1 2009-11-03 16:08:23 mn Exp $
+# $Id: otrs.getTicketThread.pl,v 1.2 2010-01-05 08:37:42 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -56,7 +56,15 @@ $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
 
-my $TicketID = shift || die 'Got no ARG[0]';
+if ( !$ARGV[0] ) {
+    print "$0 <Revision $VERSION>\n";
+    print "Prints out a ticket with all its articles.\n";
+    print "Usage: $0 <TicketID>\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    exit 1;
+}
+
+my $TicketID = shift;
 my %Ticket = $CommonObject{TicketObject}->TicketGet( TicketID => $TicketID );
 if ( !%Ticket ) {
     exit 1;
@@ -70,7 +78,7 @@ print "---------------------------------------------------------------------\n";
 my @Index = $CommonObject{TicketObject}->ArticleIndex( TicketID => $TicketID );
 for (@Index) {
     my %Article = $CommonObject{TicketObject}->ArticleGet( ArticleID => $_ );
-    for (qw(From To Cc Subject ReplyTo InReplyTo Created SenderType )) {
+    for (qw(ArticleID From To Cc Subject ReplyTo InReplyTo Created SenderType)) {
         print "$_: $Article{$_}\n" if ( $Article{$_} );
     }
     print "Body:\n";
