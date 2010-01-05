@@ -1,8 +1,8 @@
 # --
-# Kernel/System/CustomerAuth/LDAP.pm - provides the ldap Authentication
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentication
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.34 2009-09-22 15:16:05 mb Exp $
+# $Id: LDAP.pm,v 1.35 2010-01-05 16:16:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -165,7 +165,7 @@ sub Auth {
     if ( $Self->{Debug} > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "CustomerUser: '$Param{User}' tried to authenticate with Pw: '$Param{Pw}' "
+            Message => "CustomerUser: '$Param{User}' tried to authentificate with Pw: '$Param{Pw}' "
                 . "(REMOTE_ADDR: $RemoteAddr)",
         );
     }
@@ -237,7 +237,7 @@ sub Auth {
         # failed login note
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "CustomerUser: $Param{User} Authentication failed, no LDAP entry found!"
+            Message  => "CustomerUser: $Param{User} authentication failed, no LDAP entry found!"
                 . "BaseDN='$Self->{BaseDN}', Filter='$Filter', (REMOTE_ADDR: $RemoteAddr).",
         );
 
@@ -300,7 +300,7 @@ sub Auth {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message =>
-                    "CustomerUser: $Param{User} Authentication failed, no LDAP group entry found"
+                    "CustomerUser: $Param{User} authentication failed, no LDAP group entry found"
                     . "GroupDN='$Self->{GroupDN}', Filter='$Filter2'! (REMOTE_ADDR: $RemoteAddr).",
             );
 
@@ -318,7 +318,7 @@ sub Auth {
         # failed login note
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "CustomerUser: $Param{User} ($UserDN) Authentication failed: '"
+            Message  => "CustomerUser: $Param{User} ($UserDN) authentication failed: '"
                 . $Result->error . "' (REMOTE_ADDR: $RemoteAddr).",
         );
 
@@ -332,7 +332,7 @@ sub Auth {
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message =>
-            "CustomerUser: $Param{User} ($UserDN) Authentication ok (REMOTE_ADDR: $RemoteAddr).",
+            "CustomerUser: $Param{User} ($UserDN) authentication ok (REMOTE_ADDR: $RemoteAddr).",
     );
 
     # take down session
@@ -344,14 +344,14 @@ sub Auth {
 sub _ConvertTo {
     my ( $Self, $Text, $Charset ) = @_;
 
+    return if !defined $Text;
+
     if ( !$Charset || !$Self->{DestCharset} ) {
         $Self->{EncodeObject}->Encode( \$Text );
         return $Text;
     }
-    if ( !defined($Text) ) {
-        return;
-    }
 
+    # convert from input charset ($Charset) to directory charset ($Self->{DestCharset})
     return $Self->{EncodeObject}->Convert(
         Text => $Text,
         From => $Charset,

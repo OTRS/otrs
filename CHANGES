@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1126 2010-01-04 13:13:32 mn Exp $
+# $Id: CHANGES,v 1.1127 2010-01-05 16:16:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,9 @@
 # --
 
 2.5.0 beta1 (????/??/??)
- - (2009/12/31) Added cpan module for JSON support (version 2.16), removed JSON function from LayoutAJAX
-    and changed all function calls to the new JSON wrapper.
+ - (2009/12/31) Added cpan module for JSON support (version 2.16), removed JSON
+    function from LayoutAJAX and changed all function calls to the new JSON
+    wrapper.
  - (2009/12/24) Themes are now stored in SysConfig under Frontend::Themes rather
     than in the database. This to enable administrators to add a new theme by
     just modifying SysConfig instead of having to use mysql or isql or so.
@@ -159,6 +160,10 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2009/??/??)
+ - (2010/01/05) Fixed bug#4718 - LDAP auth not possible with OTRS in iso-8859-1
+    and utf-8 ldap directory.
+ - (2010/01/05) Fixed bug#4708 - Added ArticleID to output of
+    bin/otrs.getTicketThread.
  - (2010/01/04) Fixed bug#4704 - Package Manager: upload install fails with
     "Message: Need ContentType!" with Google Chrome browser.
  - (2009/12/30) Added Ukrainian language translation, thanks to Belskii Artem!
