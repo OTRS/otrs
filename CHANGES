@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1127 2010-01-05 16:16:48 martin Exp $
+# $Id: CHANGES,v 1.1128 2010-01-06 19:23:16 jb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/01/06) Added dashboard widget for displaying external content via iframe
  - (2009/12/31) Added cpan module for JSON support (version 2.16), removed JSON
     function from LayoutAJAX and changed all function calls to the new JSON
     wrapper.
