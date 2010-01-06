@@ -1,8 +1,8 @@
 # --
 # Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.68 2009-08-15 10:12:13 martin Exp $
+# $Id: Language.pm,v 1.69 2010-01-06 11:27:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 =head1 NAME
 
@@ -209,9 +209,8 @@ sub new {
 
     # get source file charset
     # what charset shoud I use (take it from translation file)!
-    if ( $Self->{Charset} ) {
-        my @Chatsets = @{ $Self->{Charset} };
-        $Self->{TranslationCharset} = $Chatsets[-1];
+    if ( $Self->{Charset} && ref $Self->{Charset} eq 'ARRAY' ) {
+        $Self->{TranslationCharset} = $Self->{Charset}->[-1];
     }
 
     return $Self;
@@ -227,13 +226,13 @@ Translate a string.
 
 sub Get {
     my ( $Self, $What ) = @_;
-    my @Dyn = ();
 
     # check
     return if !defined $What;
     return '' if $What eq '';
 
     # check dyn spaces
+    my @Dyn;
     if ( $What && $What =~ /^(.+?)", "(.*?)$/ ) {
         $What = $1;
         @Dyn = split( /", "/, $2 );
@@ -258,7 +257,7 @@ sub Get {
             $Self->{TranslationConvert}->{$What} = 1;
 
             # convert it
-            $Self->{Translation}->{$What} = $Self->CharsetConvert(
+            $Self->{Translation}->{$What} = $Self->_CharsetConvert(
                 Text => $Self->{Translation}->{$What},
                 From => $Self->{TranslationCharset},
             );
@@ -268,7 +267,7 @@ sub Get {
             for ( 0 .. 3 ) {
 
                 # be careful $Dyn[$_] can be 0! bug#3826
-                last if ( !defined $Dyn[$_] );
+                last if !defined $Dyn[$_];
 
                 if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
                     $Dyn[$_] = $Self->Time(
@@ -301,7 +300,7 @@ sub Get {
         for ( 0 .. 3 ) {
 
             # be careful $Dyn[$_] can be 0! bug#3826
-            last if ( !defined $Dyn[$_] );
+            last if !defined $Dyn[$_];
 
             if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
                 $Dyn[$_] = $Self->Time(
@@ -329,6 +328,7 @@ Get date format in used language formate (based on translation file).
 
 sub FormatTimeString {
     my ( $Self, $String, $Config, $Short ) = @_;
+
     return '' if !$String;
 
     if ( !$Config ) {
@@ -390,9 +390,8 @@ sub GetRecommendedCharset {
     my $Self = shift;
 
     # should I use default frontend charset (e. g. utf-8)?
-    if ( $Self->{EncodeObject}->EncodeFrontendUsed() ) {
-        return $Self->{EncodeObject}->EncodeFrontendUsed();
-    }
+    my $Charset = $Self->{EncodeObject}->EncodeFrontendUsed();
+    return $Charset if $Charset;
 
     # if not, what charset shoud I use (take it from translation file)?
     if ( $Self->{Charset} ) {
@@ -435,10 +434,10 @@ Returns a time string in language formate (based on translation file).
     $TimeLong = $LanguageObject->Time(
         Action => 'RETURN',
         Format => 'DateFormatLong',
-        Year => 1977,
-        Month => 10,
-        Day => 27,
-        Hour => 20,
+        Year   => 1977,
+        Month  => 10,
+        Day    => 27,
+        Hour   => 20,
         Minute => 10,
     );
 
@@ -458,14 +457,14 @@ sub Time {
     my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst );
 
     # set or get time
-    if ( $Param{Action} =~ /^GET$/i ) {
+    if ( lc $Param{Action} eq 'get' ) {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
         ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst ) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $Self->{TimeObject}->SystemTime(),
         );
     }
-    elsif ( $Param{Action} =~ /^RETURN$/i ) {
+    elsif ( lc $Param{Action} eq 'return' ) {
         $m = $Param{Minute} || 0;
         $h = $Param{Hour}   || 0;
         $D = $Param{Day}    || 0;
@@ -474,7 +473,7 @@ sub Time {
     }
 
     # do replace
-    if ( $Param{Action} =~ /^(GET|RETURN)$/i ) {
+    if ( ( lc $Param{Action} eq 'get' ) || ( lc $Param{Action} eq 'return' ) ) {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
         my $Time = '';
@@ -504,12 +503,14 @@ sub Time {
     return $ReturnString;
 }
 
-=item CharsetConvert()
+=begin Internal:
+
+=item _CharsetConvert()
 
 Converts charset from a source string (if no To is given, the the
 GetRecommendedCharset() will be used).
 
-    my $Text = $LanguageObject->CharsetConvert(
+    my $Text = $LanguageObject->_CharsetConvert(
         Text => $String,
         From => 'iso-8859-15',
         To   => 'utf-8',
@@ -517,7 +518,7 @@ GetRecommendedCharset() will be used).
 
 =cut
 
-sub CharsetConvert {
+sub _CharsetConvert {
     my ( $Self, %Param ) = @_;
 
     my $Text = defined $Param{Text} ? $Param{Text} : return;
@@ -532,6 +533,8 @@ sub CharsetConvert {
         Text => $Text,
     );
 }
+
+=end Internal:
 
 1;
 
@@ -549,6 +552,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2009-08-15 10:12:13 $
+$Revision: 1.69 $ $Date: 2010-01-06 11:27:02 $
 
 =cut
