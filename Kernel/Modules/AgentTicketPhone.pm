@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.126 2009-12-31 10:47:25 mn Exp $
+# $Id: AgentTicketPhone.pm,v 1.127 2010-01-07 22:25:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,11 +20,10 @@ use Kernel::System::CheckItem;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 use Kernel::System::LinkObject;
-
-#use Mail::Address;
+use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.126 $) [1];
+$VERSION = qw($Revision: 1.127 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1103,7 +1102,7 @@ sub Run {
                     Name         => 'NewUserID',
                     Data         => $Users,
                     SelectedID   => $GetParam{NewUserID},
-                    Translation  => 1,
+                    Translation  => 0,
                     PossibleNone => 1,
                     Max          => 100,
                 },
@@ -1111,7 +1110,7 @@ sub Run {
                     Name         => 'NewResponsibleID',
                     Data         => $ResponsibleUsers,
                     SelectedID   => $GetParam{NewResponsibleID},
-                    Translation  => 1,
+                    Translation  => 0,
                     PossibleNone => 1,
                     Max          => 100,
                 },
@@ -1134,7 +1133,7 @@ sub Run {
                     Data         => $Services,
                     SelectedID   => $GetParam{ServiceID},
                     PossibleNone => 1,
-                    Translation  => 1,
+                    Translation  => 0,
                     TreeView     => $TreeView,
                     Max          => 100,
                 },
@@ -1143,7 +1142,7 @@ sub Run {
                     Data         => $SLAs,
                     SelectedID   => $GetParam{SLAID},
                     PossibleNone => 1,
-                    Translation  => 1,
+                    Translation  => 0,
                     Max          => 100,
                 },
                 @TicketFreeTextConfig,
