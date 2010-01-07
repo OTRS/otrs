@@ -1,0 +1,22 @@
+Index: plugin.js
+===================================================================
+RCS file: /home/cvs/otrs/var/httpd/htdocs/js/thirdparty/ckeditor-3.1/_source/plugins/dialogui/plugin.js,v
+retrieving revision 1.1
+diff -u -r1.1 plugin.js
+--- plugin.js	7 Jan 2010 12:28:38 -0000	1.1
++++ plugin.js	7 Jan 2010 12:38:24 -0000
+@@ -1267,7 +1267,13 @@
+ 								'<form enctype="multipart/form-data" method="POST" action="',
+ 								CKEDITOR.tools.htmlEncode( elementDefinition.action ),
+ 								'">',
+-								'<input type="file" name="',
++                                '<input type="hidden" name="Action" value="',
++                                CKEDITOR.config.action,
++                                '" /><input type="hidden" name="FormID" value="',
++                                CKEDITOR.config.formID,
++                                '"/><input type="hidden" name="CKEditorFuncNum" value="',
++                                CKEDITOR.instances.RichText._.filebrowserFn,
++                                '" /><input type="file" name="',
+ 								CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
+ 								'" size="',
+ 								CKEDITOR.tools.htmlEncode( size > 0 ? size : "" ),
