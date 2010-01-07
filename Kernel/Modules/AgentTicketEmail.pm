@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.99.2.2 2009-11-23 12:04:04 mn Exp $
+# $Id: AgentTicketEmail.pm,v 1.99.2.3 2010-01-07 22:26:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99.2.2 $) [1];
+$VERSION = qw($Revision: 1.99.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1073,7 +1073,7 @@ sub Run {
                     Name         => 'NewUserID',
                     Data         => $Users,
                     SelectedID   => $GetParam{NewUserID},
-                    Translation  => 1,
+                    Translation  => 0,
                     PossibleNone => 1,
                     Max          => 100,
                 },
@@ -1081,7 +1081,7 @@ sub Run {
                     Name         => 'NewResponsibleID',
                     Data         => $ResponsibleUsers,
                     SelectedID   => $GetParam{NewResponsibleID},
-                    Translation  => 1,
+                    Translation  => 0,
                     PossibleNone => 1,
                     Max          => 100,
                 },
@@ -1104,7 +1104,7 @@ sub Run {
                     Data         => $Services,
                     SelectedID   => $GetParam{ServiceID},
                     PossibleNone => 1,
-                    Translation  => 1,
+                    Translation  => 0,
                     TreeView     => $TreeView,
                     Max          => 100,
                 },
@@ -1113,7 +1113,7 @@ sub Run {
                     Data         => $SLAs,
                     SelectedID   => $GetParam{SLAID},
                     PossibleNone => 1,
-                    Translation  => 1,
+                    Translation  => 0,
                     Max          => 100,
                 },
                 @ExtendedData,
