@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1130 2010-01-07 22:25:16 martin Exp $
+# $Id: CHANGES,v 1.1131 2010-01-08 10:32:31 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -161,6 +161,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.6 (2010/01/12)
+ - (2010/01/08) Fixed bug#4730 - Unable to open Admin > Attachments in IE8.
  - (2010/01/07) Fixed bug#4731 - Service and SLA gets translated after AJAX
     reload in Phone an Email Ticket.
  - (2010/01/05) Fixed bug#4718 - LDAP auth not possible with OTRS in iso-8859-1

@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.203 2009-12-31 10:47:25 mn Exp $
+# $Id: Layout.pm,v 1.204 2010-01-08 10:32:31 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.203 $) [1];
+$VERSION = qw($Revision: 1.204 $) [1];
 
 =head1 NAME
 
@@ -222,7 +222,14 @@ sub new {
             if ( $1 =~ /(\d)\.(\d)/ ) {
                 $Self->{BrowserMajorVersion} = $1;
                 $Self->{BrowserMinorVersion} = $2;
-                if ( $1 == 5 && $2 == 5 || $1 == 6 && $2 == 0 || $1 == 7 && $2 == 0 ) {
+                if (
+                       $1 == 5
+                    && $2 == 5
+                    || $1 == 6 && $2 == 0
+                    || $1 == 7 && $2 == 0
+                    || $1 == 8 && $2 == 0
+                    )
+                {
                     $Self->{BrowserBreakDispositionHeader} = 1;
                 }
             }
@@ -4184,6 +4191,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.203 $ $Date: 2009-12-31 10:47:25 $
+$Revision: 1.204 $ $Date: 2010-01-08 10:32:31 $
 
 =cut
