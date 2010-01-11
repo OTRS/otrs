@@ -1,8 +1,8 @@
 # --
 # AgentCustomerSearch.dtl - provides autocomplete feature for customer search
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.dtl,v 1.19 2009-12-24 10:20:46 mg Exp $
+# $Id: AgentCustomerSearch.dtl,v 1.20 2010-01-11 09:27:58 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -89,6 +89,7 @@ function GetCustomerTickets( CustomerUserID, CustomerID ) {
 
 var CustomerInfoBackup = '';
 var CustomerEmailBackup = '';
+var CustomerKeyBackup = '';
 
 $(document).ready(function() {
     // get customer tickets for AgentTicketCustomer
@@ -139,6 +140,7 @@ $(document).ready(function() {
     });
     $("#myAutoCompleteInput").result(function(event, data, formatted) {
         var CustomerKey = data[0];
+        CustomerKeyBackup = data[0];
         CustomerEmailBackup = data[2];
 
         // set hidden field SelectedCustomerUser
@@ -167,7 +169,7 @@ $(document).ready(function() {
 
     $("#myAutoCompleteInput").blur(function() {
         var FieldValue = $('#myAutoCompleteInput').val();
-        if (FieldValue != CustomerEmailBackup) {
+        if (FieldValue != CustomerEmailBackup && FieldValue != CustomerKeyBackup) {
             if (document.compose.SelectedCustomerUser) {
                 document.compose.SelectedCustomerUser.value = '';
             }
