@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - all ticket functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.444 2009-12-24 01:06:46 martin Exp $
+# $Id: Ticket.pm,v 1.445 2010-01-12 17:45:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.444 $) [1];
+$VERSION = qw($Revision: 1.445 $) [1];
 
 =head1 NAME
 
@@ -4967,7 +4967,7 @@ sub TicketSearch {
                 Type  => 'TicketSearch',
                 Key   => $SQL . $SQLExt . $Result . $Limit,
                 Value => $Count,
-                TTL   => $Param{CacheTTL} || 60 * 5,
+                TTL   => $Param{CacheTTL} || 60 * 4,
             );
         }
         return $Count;
@@ -4980,7 +4980,7 @@ sub TicketSearch {
                 Type  => 'TicketSearch',
                 Key   => $SQL . $SQLExt . $Result . $Limit,
                 Value => \%Tickets,
-                TTL   => $Param{CacheTTL} || 60 * 5,
+                TTL   => $Param{CacheTTL} || 60 * 4,
             );
         }
         return %Tickets;
@@ -4994,7 +4994,7 @@ sub TicketSearch {
                 Type  => 'TicketSearch',
                 Key   => $SQL . $SQLExt . $Result . $Limit,
                 Value => \@TicketIDs,
-                TTL   => $Param{CacheTTL} || 60 * 5,
+                TTL   => $Param{CacheTTL} || 60 * 4,
             );
         }
         return @TicketIDs;
@@ -7691,6 +7691,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.444 $ $Date: 2009-12-24 01:06:46 $
+$Revision: 1.445 $ $Date: 2010-01-12 17:45:03 $
 
 =cut
