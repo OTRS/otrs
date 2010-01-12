@@ -1,5 +1,5 @@
 # --
-# $Id: COPYING-Third-Party,v 1.2 2009-08-27 19:14:16 mb Exp $
+# $Id: COPYING-Third-Party,v 1.2.2.1 2010-01-12 18:10:32 martin Exp $
 # --
 # A list of all included third party libraries.
 # --
@@ -86,6 +86,11 @@ o Name:    CPAN Net::IMAP::Simple
   License: # Copyright (c) 2005 Colin Faber.
            # Copyright (c) 2004 Casey West.
            # Copyright (c) 1999 Joao Fonseca.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    CPAN Net::IMAP::Simple::SSL
+  Web:     n/a
+  License: # Copyright (c) 2004 Casey West.
            # GNU v2 - http://www.gnu.org/licenses/gpl.html
 
 o Name:    CPAN Net::POP3::SSLWrapper
