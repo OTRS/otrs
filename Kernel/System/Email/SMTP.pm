@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email/SMTP.pm - the global email send module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTP.pm,v 1.28 2009-12-09 14:01:27 martin Exp $
+# $Id: SMTP.pm,v 1.29 2010-01-12 15:55:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -113,7 +113,7 @@ sub Send {
 
     # check mail configuration - is there a working smtp host?
     my %Result = $Self->Check();
-    if ( !$Result{Succcessful} ) {
+    if ( !$Result{Successful} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => $Result{Message},
