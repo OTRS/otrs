@@ -1,13 +1,8 @@
 # --
-# $Id: COPYING-Third-Party,v 1.7 2009-12-31 12:25:45 mn Exp $
+# $Id: COPYING-Third-Party,v 1.8 2010-01-12 18:11:02 martin Exp $
 # --
 # A list of all included third party libraries.
 # --
-
-o Name:    CPAN JSON::PP
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    Copyright 2007-2009 by Makamaka Hannyaharamitu
 
 o Name:    CKEditor
   Web:     http://www.ckeditor.com/
@@ -112,6 +107,11 @@ o Name:    CPAN Net::IMAP::Simple
            # Copyright (c) 2004 Casey West.
            # Copyright (c) 1999 Joao Fonseca.
 
+o Name:    CPAN Net::IMAP::Simple::SSL
+  Web:     n/a
+  License: # Copyright (c) 2004 Casey West.
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
+
 o Name:    CPAN Net::POP3::SSLWrapper
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
@@ -146,4 +146,9 @@ o Name:    CPAN XML::TreePP
 o Name:    CPAN XML::Parser::Lite
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    CPAN JSON::PP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    Copyright 2007-2009 by Makamaka Hannyaharamitu
 
