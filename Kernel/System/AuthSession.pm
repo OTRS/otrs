@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession.pm - provides session check and session data
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.41 2009-10-07 20:25:38 martin Exp $
+# $Id: AuthSession.pm,v 1.42 2010-01-12 19:53:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -66,7 +66,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $SesionObject = Kernel::System::AuthSession->new(
+    my $SessionObject = Kernel::System::AuthSession->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
@@ -75,7 +75,7 @@ create an object
         TimeObject   => $TimeObject,
     );
 
-(The session backend (DB, FS or IPC) is configures in Kernel/Config.pm)
+(The session backend (DB, FS or IPC) is configured in Kernel/Config.pm)
 
 =cut
 
@@ -307,6 +307,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2009-10-07 20:25:38 $
+$Revision: 1.42 $ $Date: 2010-01-12 19:53:03 $
 
 =cut
