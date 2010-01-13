@@ -1,16 +1,13 @@
 # --
 # Kernel/Modules/Installer.pm - provides the DB installer
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.69 2009-12-31 10:47:25 mn Exp $
+# $Id: Installer.pm,v 1.70 2010-01-13 15:53:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-# Note: this is the first version to support mysql. More databases
-# later.
 
 package Kernel::Modules::Installer;
 
@@ -23,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,18 +42,16 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
     # check env directories
     $Self->{Path} = $Self->{ConfigObject}->Get('Home');
     if ( !-d $Self->{Path} ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        $Self->{LayoutObject}->FatalError(
             Message => "Directory '$Self->{Path}' doesn't exist!",
             Comment => 'Configure Home in Kernel/Config.pm first!',
         );
     }
     if ( !-f "$Self->{Path}/Kernel/Config.pm" ) {
-        return $Self->{LayoutObject}->Error(
+        $Self->{LayoutObject}->FatalError(
             Message => "File '$Self->{Path}/Kernel/Config.pm' not found!",
             Comment => 'Contact your Admin!',
         );
@@ -65,20 +60,20 @@ sub Run {
     # check/get sql source files
     my $DirOfSQLFiles = $Self->{Path} . '/scripts/database';
     if ( !-d $DirOfSQLFiles ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        $Self->{LayoutObject}->FatalError(
             Message => "Directory '$DirOfSQLFiles' not found!",
             Comment => 'Contact your Admin!',
         );
     }
     elsif ( !-f "$DirOfSQLFiles/otrs-schema.xml" ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        $Self->{LayoutObject}->FatalError(
             Message => "File '$DirOfSQLFiles/otrs-schema.xml' not found!",
             Comment => 'Contact your Admin!',
         );
     }
 
     # check dist
-    my %Dist = ();
+    my %Dist;
     $Dist{Vendor}    = 'Unix/Linux';
     $Dist{Webserver} = 'restart your webserver';
     if ( -f '/etc/SuSE-release' ) {
@@ -128,7 +123,7 @@ sub Run {
 
     # print intro form
     if ( !$Self->{Subaction} ) {
-        $Output .= $Self->{LayoutObject}->Header( Title => 'Intro' );
+        my $Output = $Self->{LayoutObject}->Header( Title => 'Intro' );
         $Self->{LayoutObject}->Block(
             Name => 'Intro',
             Data => {}
@@ -143,13 +138,13 @@ sub Run {
 
     # print license from
     elsif ( $Self->{Subaction} eq 'License' ) {
-        $Output .= $Self->{LayoutObject}->Header( Title => 'License' );
+        my $Output = $Self->{LayoutObject}->Header( Title => 'License' );
         $Self->{LayoutObject}->Block(
             Name => 'License',
             Data => {
                 Item => 'License',
                 Step => '1/4',
-                }
+            },
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
@@ -162,7 +157,7 @@ sub Run {
     # do database settings
     elsif ( $Self->{Subaction} eq 'Start' ) {
         if ( $Self->ReConfigure() ) {
-            $Output .= $Self->{LayoutObject}->Header( Title => 'Error' );
+            my $Output = $Self->{LayoutObject}->Header( Title => 'Error' );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Kernel/Config.pm isn't writable!",
                 Comment => 'If you want to use the installer, set the '
@@ -172,22 +167,21 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        else {
-            $Output .= $Self->{LayoutObject}->Header( Title => 'Create Database' );
-            $Self->{LayoutObject}->Block(
-                Name => 'DatabaseStart',
-                Data => {
-                    Item => 'Create Database',
-                    Step => '2/4',
-                    }
-            );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'Installer',
-                Data         => {},
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
+
+        my $Output = $Self->{LayoutObject}->Header( Title => 'Create Database' );
+        $Self->{LayoutObject}->Block(
+            Name => 'DatabaseStart',
+            Data => {
+                Item => 'Create Database',
+                Step => '2/4',
+                }
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'Installer',
+            Data         => {},
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # check different requirements (AJAX)
@@ -227,14 +221,13 @@ sub Run {
 
     # do database settings
     elsif ( $Self->{Subaction} eq 'DB' ) {
-        $Output .= $Self->{LayoutObject}->Header( Title => 'Installer' );
 
         # get and check params and connect to DB
         my %Result = $Self->ConnectToDB();
         my %DB;
         my $DBH;
         if ( ref $Result{DB} ne 'HASH' || !$Result{DBH} ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            $Self->{LayoutObject}->FatalError(
                 Message => $Result{Message},
                 Comment => $Result{Comment},
             );
@@ -245,6 +238,8 @@ sub Run {
         }
 
         if ( $DB{DBAction} eq 'Create' ) {
+
+            my $Output = $Self->{LayoutObject}->Header( Title => 'Installer' );
 
             # FIXME !!! use $DB{Type}!!!
             $Self->{LayoutObject}->Block(
@@ -470,16 +465,14 @@ sub Run {
             }
 
             # ReConfigure Config.pm
-            if (
-                $Self->ReConfigure(
-                    DatabaseHost => $DB{DatabaseHost},
-                    Database     => $DB{Database},
-                    DatabaseUser => $DB{DatabaseUser},
-                    DatabasePw   => $DB{DatabasePw},
-                )
-                )
-            {
-                $Output .= $Self->{LayoutObject}->Header( Title => 'Error' );
+            my $ReConfigure = $Self->ReConfigure(
+                DatabaseHost => $DB{DatabaseHost},
+                Database     => $DB{Database},
+                DatabaseUser => $DB{DatabaseUser},
+                DatabasePw   => $DB{DatabasePw},
+            );
+            if ($ReConfigure) {
+                my $Output = $Self->{LayoutObject}->Header( Title => 'Error' );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Kernel/Config.pm isn't writable!",
                     Comment => 'If you want to use the installer, set the '
@@ -488,27 +481,29 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-            else {
 
-                # set default charset to utf8 it configured
-                if ( $DB{DBDefaultCharset} eq 'utf8' ) {
-                    $Self->ReConfigure( DefaultCharset => 'utf-8', );
-                }
-                $Self->{LayoutObject}->Block(
-                    Name => 'DatabaseResultItemMessage',
-                    Data => { Message => "Database setup successful!", },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'DatabaseResultNext',
-                    Data => {},
-                );
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'Installer',
-                    Data         => {},
-                );
+            # set default charset to utf8 it configured
+            if ( $DB{DBDefaultCharset} eq 'utf8' ) {
+                $Self->ReConfigure( DefaultCharset => 'utf-8', );
             }
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultItemMessage',
+                Data => { Message => 'Database setup successful!', },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultNext',
+                Data => {},
+            );
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'Installer',
+                Data         => {},
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
         elsif ( $DB{DBAction} eq 'Delete' ) {
+
+            my $Output = $Self->{LayoutObject}->Header( Title => 'Installer' );
 
             # drop database
             $Self->{LayoutObject}->Block(
@@ -549,7 +544,7 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => "Database deleted.", },
+                    Data => { Message => 'Database deleted.', },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -563,20 +558,35 @@ sub Run {
                     Step => '4/4',
                     }
             );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
-        else {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Unknown DBAction '$DB{DBAction}'!!",
-                Comment => 'Please go back',
-            );
-        }
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+        $Self->{LayoutObject}->FatalError(
+            Message => "Unknown DBAction '$DB{DBAction}'!!",
+            Comment => 'Please go back',
+        );
     }
 
     # do system settings
     elsif ( $Self->{Subaction} eq 'System' ) {
-        my %SystemIDs = ();
+
+        # save config values in DB
+        $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
+        if ( !$Self->{DBObject} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Can't write config to the database!", );
+        }
+
+        # create sys config object
+        my $SysConfigObject = Kernel::System::SysConfig->new(
+            %{$Self}
+        );
+
+        # take care that default config file is existing
+        if ( !$SysConfigObject->WriteDefault() ) {
+            return $Self->{LayoutObject}->FatalError();
+        }
+
+        my %SystemIDs;
         for ( 1 .. 99 ) {
             my $Tmp = sprintf( "%02d", $_ );
             $SystemIDs{"$Tmp"} = "$Tmp";
@@ -601,21 +611,22 @@ sub Run {
             HTMLQuote  => 0,
             SelectedID => $Self->{ConfigObject}->Get('LogModule'),
         );
-        $Param{DefaultCharset} = $Self->{ConfigObject}->Get('DefaultCharset') || 'iso-8859-1';
-        $Output .= $Self->{LayoutObject}->Header( Title => 'System Settings' );
+        $Param{DefaultCharset} = $Self->{ConfigObject}->Get('DefaultCharset') || 'utf-8';
+        my $Output = $Self->{LayoutObject}->Header( Title => 'System Settings' );
         $Self->{LayoutObject}->Block(
             Name => 'System',
             Data => {
                 Item => 'System Settings',
                 Step => '3/4',
                 %Param,
-                }
+            },
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
             Data         => {},
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # do system settings action
@@ -626,57 +637,56 @@ sub Run {
         if ( !$Self->{DBObject} ) {
             $Self->{LayoutObject}->FatalError( Message => "Can't write config to the database!", );
         }
-        else {
 
-            # create sys config object
-            my $SysConfigObject = Kernel::System::SysConfig->new(
-                %{$Self}
-            );
+        # create sys config object
+        my $SysConfigObject = Kernel::System::SysConfig->new(
+            %{$Self}
+        );
 
-            # take care that default config file is existing
-            if ( !$SysConfigObject->WriteDefault() ) {
-                return $Self->{LayoutObject}->FatalError();
-            }
+        # take care that default config file is existing
+        if ( !$SysConfigObject->WriteDefault() ) {
+            return $Self->{LayoutObject}->FatalError();
+        }
 
-            for my $Key (
-                qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile
-                DefaultCharset DefaultLanguage CheckMXRecord)
-                )
-            {
-                my $Value = $Self->{ParamObject}->GetParam( Param => $Key );
+        for my $Key (
+            qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile
+            DefaultCharset DefaultLanguage CheckMXRecord)
+            )
+        {
+            my $Value = $Self->{ParamObject}->GetParam( Param => $Key );
 
-                # update config item via sys config object
-                $SysConfigObject->ConfigItemUpdate(
-                    Valid => 1,
-                    Key   => $Key,
-                    Value => $Value,
-                );
-            }
-
-            # get mail account object and check available backends
-            my $MailAccount  = Kernel::System::MailAccount->new( %{$Self} );
-            my %MailBackends = $MailAccount->MailAccountBackendList();
-
-            my $InboundMailTypeSelection = $Self->{LayoutObject}->BuildSelection(
-                Data => \%MailBackends,
-                Name => 'InboundMailType',
-            );
-
-            $Output .= $Self->{LayoutObject}->Header( Title => 'Configure Mail' );
-            $Self->{LayoutObject}->Block(
-                Name => 'ConfigureMail',
-                Data => {
-                    Item            => 'Mail configuration',
-                    Step            => '3/4',
-                    InboundMailType => $InboundMailTypeSelection,
-                },
-            );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'Installer',
-                Data         => {},
+            # update config item via sys config object
+            $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $Key,
+                Value => $Value,
             );
         }
+
+        # get mail account object and check available backends
+        my $MailAccount  = Kernel::System::MailAccount->new( %{$Self} );
+        my %MailBackends = $MailAccount->MailAccountBackendList();
+
+        my $InboundMailTypeSelection = $Self->{LayoutObject}->BuildSelection(
+            Data => \%MailBackends,
+            Name => 'InboundMailType',
+        );
+
+        my $Output = $Self->{LayoutObject}->Header( Title => 'Configure Mail' );
+        $Self->{LayoutObject}->Block(
+            Name => 'ConfigureMail',
+            Data => {
+                Item            => 'Mail configuration',
+                Step            => '3/4',
+                InboundMailType => $InboundMailTypeSelection,
+            },
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'Installer',
+            Data         => {},
+        );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     elsif ( $Self->{Subaction} eq 'Finish' ) {
@@ -701,59 +711,55 @@ sub Run {
         if ( !$Result ) {
             $Self->{LayoutObject}->FatalError( Message => "Can't write Config file!" );
         }
-        else {
-            my $OTRSHandle = $ENV{SCRIPT_NAME};
-            $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
-            $Output .= $Self->{LayoutObject}->Header( Title => 'Finish' );
+
+        my $OTRSHandle = $ENV{SCRIPT_NAME};
+        $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
+        my $Output = $Self->{LayoutObject}->Header( Title => 'Finish' );
+        $Self->{LayoutObject}->Block(
+            Name => 'Finish',
+            Data => {
+                Item       => 'Finished',
+                Step       => '4/4',
+                OTRSHandle => $OTRSHandle,
+                %Dist,
+            },
+        );
+        if ( $Dist{Webserver} ) {
             $Self->{LayoutObject}->Block(
-                Name => 'Finish',
-                Data => {
-                    Item       => 'Finished',
-                    Step       => '4/4',
-                    OTRSHandle => $OTRSHandle,
-                    %Dist,
-                },
-            );
-            if ( $Dist{Webserver} ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Restart',
-                    Data => { %Dist, },
-                );
-            }
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'Installer',
-                Data         => {},
+                Name => 'Restart',
+                Data => \%Dist,,
             );
         }
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'Installer',
+            Data         => {},
+        );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # else! error!
-    else {
-        return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Unknown Subaction $Self->{Subaction}!",
-            Comment => 'Please contact your admin',
-        );
-    }
-
-    return $Output;
+    $Self->{LayoutObject}->FatalError(
+        Message => "Unknown Subaction $Self->{Subaction}!",
+        Comment => 'Please contact your admin',
+    );
 }
 
 sub ReConfigure {
     my ( $Self, %Param ) = @_;
 
-    my $Config = '';
-
     # perl quote
-    for ( keys %Param ) {
-        if ( $Param{$_} ) {
-            $Param{$_} =~ s/'/\\'/g;
+    for my $Key ( keys %Param ) {
+        if ( $Param{$Key} ) {
+            $Param{$Key} =~ s/'/\\'/g;
         }
     }
 
     # read config file
-    open( my $In, "< $Self->{Path}/Kernel/Config.pm" )
-        || return "Can't open $Self->{Path}/Kernel/Config.pm: $!";
+    my $ConfigFile = "$Self->{Path}/Kernel/Config.pm";
+    open( my $In, '<', $ConfigFile )
+        || return "Can't open $ConfigFile: $!";
+    my $Config = '';
     while (<$In>) {
         if ( $_ =~ /^#/ ) {
             $Config .= $_;
@@ -773,7 +779,7 @@ sub ReConfigure {
             $Config .= $NewConfig;
         }
     }
-    close($In);
+    close $In;
 
     # add new config settings
     for ( sort keys %Param ) {
@@ -788,10 +794,10 @@ sub ReConfigure {
     }
 
     # write new config file
-    open( my $Out, "> $Self->{Path}/Kernel/Config.pm" )
-        || return "Can't open $Self->{Path}/Kernel/Config.pm: $!";
+    open( my $Out, '>', $ConfigFile )
+        || return "Can't open $ConfigFile: $!";
     print $Out $Config;
-    close($Out);
+    close $Out;
 
     return;
 }
@@ -799,8 +805,8 @@ sub ReConfigure {
 sub ParseSQLFile {
     my ( $Self, $File ) = @_;
 
-    my @SQL = ();
-    if ( open( my $In, "< $File" ) ) {
+    my @SQL;
+    if ( open( my $In, '<', $File ) ) {
         my $SQLEnd    = 0;
         my $SQLSingel = '';
         while (<$In>) {
@@ -814,12 +820,12 @@ sub ParseSQLFile {
                 }
             }
             if ($SQLEnd) {
-                push( @SQL, $SQLSingel );
+                push @SQL, $SQLSingel;
                 $SQLEnd    = 0;
                 $SQLSingel = '';
             }
         }
-        close($In);
+        close $In;
     }
     else {
         if ( !$Self->{$_} ) {
@@ -832,7 +838,7 @@ sub ParseSQLFile {
 sub ConnectToDB {
     my ( $Self, %Param ) = @_;
 
-    my %DB = ();
+    my %DB;
     $DB{User}             = $Self->{ParamObject}->GetParam( Param => 'DBUser' )            || '';
     $DB{Password}         = $Self->{ParamObject}->GetParam( Param => 'DBPassword' )        || '';
     $DB{DatabaseHost}     = $Self->{ParamObject}->GetParam( Param => 'DBHost' )            || '';
@@ -845,11 +851,11 @@ sub ConnectToDB {
     $DB{NewHost}          = $Self->{ParamObject}->GetParam( Param => 'OTRSDBConnectHost' ) || '';
 
     # check params
-    for ( keys %DB ) {
-        if ( !$DB{$_} && $_ !~ /^(Password|DBDefaultCharset)$/ ) {
+    for my $Key ( keys %DB ) {
+        if ( !$DB{$Key} && $Key !~ /^(Password|DBDefaultCharset)$/ ) {
             return (
                 Successful => 0,
-                Message    => "You need '$_'!!",
+                Message    => "You need '$Key'!!",
                 Comment    => 'Please go back',
                 DB         => undef,
                 DBH        => undef,
@@ -895,8 +901,6 @@ sub CheckDBRequirements {
 sub CheckMailConfiguration {
     my ( $Self, %Param ) = @_;
 
-    my %Result = ();
-
     # first check outbound mail config
     my $OutboundMailType = $Self->{ParamObject}->GetParam( Param => 'OutboundMailType' );
     my $SMTPHost         = $Self->{ParamObject}->GetParam( Param => 'SMTPHost' );
@@ -937,7 +941,7 @@ sub CheckMailConfiguration {
 
     # if config option smtp and no smtp host given, return with error
     if ( $OutboundMailType eq 'smtp' && !$SMTPHost ) {
-        return ( Successful => 0, Message => "No SMTP Host given!" );
+        return ( Successful => 0, Message => 'No SMTP Host given!' );
     }
 
     # check outbound mail configuration
@@ -945,18 +949,15 @@ sub CheckMailConfiguration {
     my $SendObject = Kernel::System::Email->new(
         %{$Self}
     );
-    %Result = $SendObject->Check();
+    my %Result = $SendObject->Check();
 
     my $SysConfigObject = Kernel::System::SysConfig->new(
         %{$Self}
     );
 
     # if smtp check was successful, write data into config
-    if (
-        $Result{Successful}
-        && $Self->{ConfigObject}->Get('SendmailModule') eq 'Kernel::System::Email::SMTP'
-        )
-    {
+    my $SendmailModule = $Self->{ConfigObject}->Get('SendmailModule');
+    if ( $Result{Successful} && $SendmailModule eq 'Kernel::System::Email::SMTP' ) {
         my %NewConfigs = (
             'SendmailModule'       => $Self->{ConfigObject}->Get('SendmailModule'),
             'SendmailModule::Host' => $SMTPHost,
@@ -987,11 +988,7 @@ sub CheckMailConfiguration {
     }
 
     # if sendmail check was successful, write data into config
-    elsif (
-        $Result{Successful}
-        && $Self->{ConfigObject}->Get('SendmailModule') eq 'Kernel::System::Email::Sendmail'
-        )
-    {
+    elsif ( $Result{Successful} && $SendmailModule eq 'Kernel::System::Email::Sendmail' ) {
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'SendmailModule',
