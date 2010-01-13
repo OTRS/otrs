@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.70 2010-01-13 15:53:05 martin Exp $
+# $Id: Installer.pm,v 1.71 2010-01-13 17:07:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -573,7 +573,7 @@ sub Run {
         # save config values in DB
         $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
         if ( !$Self->{DBObject} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Can't write config to the database!", );
+            $Self->{LayoutObject}->FatalError();
         }
 
         # create sys config object
@@ -635,7 +635,7 @@ sub Run {
         # save config values in DB
         $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
         if ( !$Self->{DBObject} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Can't write config to the database!", );
+            $Self->{LayoutObject}->FatalError();
         }
 
         # create sys config object
@@ -768,12 +768,14 @@ sub ReConfigure {
             my $NewConfig = $_;
 
             # replace config with %Param
-            for ( keys %Param ) {
-                if ( $Param{$_} =~ /^[0-9]+$/ && $Param{$_} !~ /^0/ ) {
-                    $NewConfig =~ s/(\$Self->{$_} =.+?);/\$Self->{'$_'} = $Param{$_};/g;
+            for my $Key ( keys %Param ) {
+                if ( $Param{$Key} =~ /^[0-9]+$/ && $Param{$Key} !~ /^0/ ) {
+                    $NewConfig
+                        =~ s/(\$Self->{("|'|)$Key("|'|)} =.+?);/\$Self->{'$Key'} = $Param{$Key};/g;
                 }
                 else {
-                    $NewConfig =~ s/(\$Self->{$_} =.+?');/\$Self->{'$_'} = '$Param{$_}';/g;
+                    $NewConfig
+                        =~ s/(\$Self->{("|'|)$Key("|'|)} =.+?');/\$Self->{'$Key'} = '$Param{$Key}';/g;
                 }
             }
             $Config .= $NewConfig;
@@ -782,13 +784,13 @@ sub ReConfigure {
     close $In;
 
     # add new config settings
-    for ( sort keys %Param ) {
-        if ( $Config !~ /\$Self->{$_} =.+?;/ && $Config !~ /\$Self->{'$_'} =.+?;/ ) {
-            if ( $Param{$_} =~ /^[0-9]+$/ && $Param{$_} !~ /^0/ ) {
-                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$_'} = $Param{$_};/g;
+    for my $Key ( sort keys %Param ) {
+        if ( $Config !~ /\$Self->{("|'|)$Key("|'|)} =.+?;/ ) {
+            if ( $Param{$Key} =~ /^[0-9]+$/ && $Param{$Key} !~ /^0/ ) {
+                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$Key'} = $Param{$Key};/g;
             }
             else {
-                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$_'} = '$Param{$_}';/g;
+                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$Key'} = '$Param{$Key}';/g;
             }
         }
     }
