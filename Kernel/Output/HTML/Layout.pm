@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.204 2010-01-08 10:32:31 mn Exp $
+# $Id: Layout.pm,v 1.205 2010-01-13 22:18:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.204 $) [1];
+$VERSION = qw($Revision: 1.205 $) [1];
 
 =head1 NAME
 
@@ -223,7 +223,7 @@ sub new {
                 $Self->{BrowserMajorVersion} = $1;
                 $Self->{BrowserMinorVersion} = $2;
                 if (
-                       $1 == 5
+                    $1 == 5
                     && $2 == 5
                     || $1 == 6 && $2 == 0
                     || $1 == 7 && $2 == 0
@@ -1348,6 +1348,7 @@ also string ref is possible
 sub Ascii2Html {
     my ( $Self, %Param ) = @_;
 
+    # check needed param
     return '' if !defined $Param{Text};
 
     # check text
@@ -1361,6 +1362,10 @@ sub Ascii2Html {
         $Text = $Param{Text};
     }
     else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Invalid ref "' . ref $Param{Text} . '" of Text param!',
+        );
         return '';
     }
 
@@ -1678,30 +1683,31 @@ sub CustomerAge {
 build a html option element based on given data
 
     my $HTML = $LayoutObject->BuildSelection(
-        Data => $ArrayRef,                # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
+        Data       => $ArrayRef,             # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
+        Name       => 'TheName',             # name of element
+        Multiple   => 0,                     # (optional) default 0 (0|1)
+        Size       => 1,                     # (optional) default 1 element size
+        Class      => 'class',               # (optional) a css class
+        Disabled   => 0,                     # (optional) default 0 (0|1) disable the element
+        OnChange   => 'javascript',          # (optional)
+        OnClick    => 'javascript',          # (optional)
 
-        Name       => 'TheName',          # name of element
-        Multiple   => 0,                  # (optional) default 0 (0|1)
-        Size       => 1,                  # (optional) default 1 element size
-        Class      => 'class',            # (optional) a css class
-        Disabled   => 0,                  # (optional) default 0 (0|1) disable the element
-        OnChange   => 'javascript',       # (optional)
-        OnClick    => 'javascript',       # (optional)
+        SelectedID     => 1,                 # (optional) use integer or arrayref (unable to use with ArrayHashRef)
+        SelectedID     => [1, 5, 3],         # (optional) use integer or arrayref (unable to use with ArrayHashRef)
+        SelectedValue  => 'test',            # (optional) use string or arrayref (unable to use with ArrayHashRef)
+        SelectedValue  => ['test', 'test1'], # (optional) use string or arrayref (unable to use with ArrayHashRef)
 
-        SelectedID    => 1,               # (optional) use integer or arrayref (unable to use with ArrayHashRef)
-        SelectedID    => [1, 5, 3],       # (optional) use integer or arrayref (unable to use with ArrayHashRef)
-        SelectedValue => 'test',          # (optional) use string or arrayref (unable to use with ArrayHashRef)
-        SelectedValue => ['test', 'test1'], # (optional) use string or arrayref (unable to use with ArrayHashRef)
-        Sort => 'NumericValue',           # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView|IndividualKey|IndividualValue) unable to use with ArrayHashRef
-        SortIndividual => ['sec', 'min']  # (optional) only sort is set to IndividualKey or IndividualValue
-        SortReverse    => 0,              # (optional) reverse the list
-        Translation    => 1,              # (optional) default 1 (0|1) translate value
-        PossibleNone   => 0,              # (optional) default 0 (0|1) add a leading empty selection
-        TreeView       => 0,              # (optional) default 0 (0|1)
-        DisabledBranch => 'Branch',       # (optional) disable all elements of this branch (use string or arrayref)
-        Max            => 100,            # (optional) default 100 max size of the shown value
-        HTMLQuote      => 0,              # (optional) default 1 (0|1) disable html quote
-        Title          => 'Tooltip Text', # (optional) string will be shown as Tooltip on mouseover
+        Sort           => 'NumericValue',    # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView|IndividualKey|IndividualValue) unable to use with ArrayHashRef
+        SortIndividual => ['sec', 'min']     # (optional) only sort is set to IndividualKey or IndividualValue
+        SortReverse    => 0,                 # (optional) reverse the list
+
+        Translation    => 1,                 # (optional) default 1 (0|1) translate value
+        PossibleNone   => 0,                 # (optional) default 0 (0|1) add a leading empty selection
+        TreeView       => 0,                 # (optional) default 0 (0|1)
+        DisabledBranch => 'Branch',          # (optional) disable all elements of this branch (use string or arrayref)
+        Max            => 100,               # (optional) default 100 max size of the shown value
+        HTMLQuote      => 0,                 # (optional) default 1 (0|1) disable html quote
+        Title          => 'Tooltip Text',    # (optional) string will be shown as Tooltip on mouseover
     );
 
     my $HashRef = {
@@ -2145,7 +2151,7 @@ sub PageNavBar {
             $Param{SearchNavBar}
                 .= " <a name=\"OverviewControl\" href=\"$BaselinkAll\" $AJAXReplace";
             if ( $Page == $i ) {
-                $Param{SearchNavBar} .= 'style="text-decoration:none"><b>' . $i . '</b>';
+                $Param{SearchNavBar} .= 'style="text-decoration:underline"><b>' . $i . '</b>';
             }
             else {
                 $Param{SearchNavBar} .= '>' . $i;
@@ -2429,7 +2435,7 @@ sub TransfromDateSelection {
     my ( $Self, %Param ) = @_;
 
     my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
-    my $Prefix         = $Param{'Prefix'} || '';
+    my $Prefix         = $Param{Prefix} || '';
     my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
 
     # time zone translation
@@ -4191,6 +4197,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.204 $ $Date: 2010-01-08 10:32:31 $
+$Revision: 1.205 $ $Date: 2010-01-13 22:18:03 $
 
 =cut
