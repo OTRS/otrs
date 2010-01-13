@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.327 2009-12-30 12:30:27 martin Exp $
+# $Id: Defaults.pm,v 1.328 2010-01-13 22:23:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.327 $) [1];
+$VERSION = qw($Revision: 1.328 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -2245,10 +2245,10 @@ sub new {
         my @NewFileOrderPost = ();
         for my $File (@Files) {
             if ( $File =~ /Ticket/ ) {
-                push( @NewFileOrderPre, $File );
+                push @NewFileOrderPre, $File;
             }
             else {
-                push( @NewFileOrderPost, $File );
+                push @NewFileOrderPost, $File;
             }
         }
         @Files = ( @NewFileOrderPre, @NewFileOrderPost );
@@ -2357,29 +2357,27 @@ sub new {
     }
 
     # load RELEASE file
-    if ( -e "$Self->{Home}/RELEASE" ) {
-        if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) {
-            while (<$Product>) {
+    if ( -e ! "$Self->{Home}/RELEASE" ) {
+        print STDERR "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+        die;
+    }
+    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) {
+        while (<$Product>) {
 
-                # filtering of comment lines
-                if ( $_ !~ /^#/ ) {
-                    if ( $_ =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
-                        $Self->{Product} = $1;
-                    }
-                    elsif ( $_ =~ /^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
-                        $Self->{Version} = $1;
-                    }
+            # filtering of comment lines
+            if ( $_ !~ /^#/ ) {
+                if ( $_ =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
+                    $Self->{Product} = $1;
+                }
+                elsif ( $_ =~ /^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
+                    $Self->{Version} = $1;
                 }
             }
-            close($Product);
         }
-        else {
-            print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
-            die;
-        }
+        close($Product);
     }
     else {
-        print STDERR "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+        print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
         die;
     }
 
@@ -2390,14 +2388,13 @@ sub new {
     if ( !$Param{Level} ) {
 
         # replace config variables in config variables
-        for ( keys %{$Self} ) {
-            if ($_) {
-                if ( defined( $Self->{$_} ) ) {
-                    $Self->{$_} =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{$1}/g;
-                }
-                else {
-                    print STDERR "ERROR: $_ not defined!\n";
-                }
+        for my $Key ( keys %{$Self} ) {
+            next if !defined $Key;
+            if ( defined $Self->{$Key} ) {
+                $Self->{$Key} =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{$1}/g;
+            }
+            else {
+                print STDERR "ERROR: $Key not defined!\n";
             }
         }
     }
@@ -2419,6 +2416,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.327 $ $Date: 2009-12-30 12:30:27 $
+$Revision: 1.328 $ $Date: 2010-01-13 22:23:59 $
 
 =cut
