@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1134 2010-01-13 13:25:23 martin Exp $
+# $Id: CHANGES,v 1.1135 2010-01-13 17:02:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -162,6 +162,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.7 (2010/??/??)
+ - (2010/01/13) Fixed bug#4754 - Multiple tickets with a huge POP3 Mailbox
+    ("Deep recursion on subroutine").
  - (2010/01/13) Fixed bug#4713 - In ticket overview, after adding view=30 - no
     tickets are visible.
  - (2010/01/12) Upgrade of cpan Net::IMAP::Simple from 1.17 to 1.1910.

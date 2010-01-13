@@ -1,8 +1,8 @@
 # --
 # Kernel/System/MailAccount/IMAP.pm - lib for imap accounts
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: IMAP.pm,v 1.8 2009-11-18 15:13:03 mn Exp $
+# $Id: IMAP.pm,v 1.9 2010-01-13 17:02:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Net::IMAP::Simple;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,6 +74,17 @@ sub Connect {
 sub Fetch {
     my ( $Self, %Param ) = @_;
 
+    # fetch again if still messages on the account
+    for ( 1 .. 200 ) {
+        return if !$Self->_Fetch(%Param);
+        last   if !$Self->{Reconnect};
+    }
+    return 1;
+}
+
+sub _Fetch {
+    my ( $Self, %Param ) = @_;
+
     # check needed stuff
     for (qw(Login Password Host Trusted QueueID)) {
         if ( !defined $Param{$_} ) {
@@ -100,8 +111,9 @@ sub Fetch {
 
     my $Timeout      = 60;
     my $FetchCounter = 0;
-    my $Reconnect    = 0;
     my $AuthType     = 'IMAP';
+
+    $Self->{Reconnect} = 0;
 
     my %Connect = $Self->Connect(
         Host     => $Param{Host},
@@ -111,7 +123,6 @@ sub Fetch {
         Debug    => $Debug
     );
 
-    my $IMAPObject;
     if ( !$Connect{Successful} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -119,19 +130,22 @@ sub Fetch {
         );
         return;
     }
-    else {
-        $IMAPObject = $Connect{IMAPObject};
-    }
 
+    my $IMAPObject = $Connect{IMAPObject};
     my $NOM = $IMAPObject->select('INBOX') || 0;
 
     # fetch messages
-    if ( $NOM > 0 ) {
+    if ( !$NOM ) {
+        if ($CMD) {
+            print "$AuthType: No messages ($Param{Login}/$Param{Host})\n";
+        }
+    }
+    else {
         for ( my $Messageno = 1; $Messageno <= $NOM; $Messageno++ ) {
 
             # check if reconnect is needed
             if ( ( $FetchCounter + 1 ) > $MaxPopEmailSession ) {
-                $Reconnect = 1;
+                $Self->{Reconnect} = 1;
                 if ($CMD) {
                     print "$AuthType: Reconnect Session after $MaxPopEmailSession messages...\n";
                 }
@@ -146,9 +160,8 @@ sub Fetch {
             if ( $MessageSize > $MaxEmailSize ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message =>
-                        "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. Email to "
-                        . "big ($MessageSize KB - max $MaxEmailSize KB)!",
+                    Message => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
+                        . "Email to big ($MessageSize KB - max $MaxEmailSize KB)!",
                 );
             }
             else {
@@ -204,18 +217,13 @@ sub Fetch {
                 # check limit
                 $Self->{Limit}++;
                 if ( $Self->{Limit} >= $Limit ) {
-                    $Reconnect = 0;
+                    $Self->{Reconnect} = 0;
                     last;
                 }
             }
             if ($CMD) {
                 print "\n";
             }
-        }
-    }
-    else {
-        if ($CMD) {
-            print "$AuthType: No messages ($Param{Login}/$Param{Host})\n";
         }
     }
 
@@ -232,10 +240,7 @@ sub Fetch {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";
     }
 
-    # fetch again if still messages on the account
-    if ($Reconnect) {
-        $Self->Fetch(%Param);
-    }
+    # return it everything is done
     return 1;
 }
 
