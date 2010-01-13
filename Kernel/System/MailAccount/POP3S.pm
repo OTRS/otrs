@@ -1,8 +1,8 @@
 # --
 # Kernel/System/MailAccount/POP3S.pm - lib for pop3 accounts
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: POP3S.pm,v 1.10 2009-08-10 04:05:22 martin Exp $
+# $Id: POP3S.pm,v 1.10.2.1 2010-01-13 16:56:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use IO::Socket::SSL;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.10.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,6 +44,17 @@ sub new {
 }
 
 sub Fetch {
+    my ( $Self, %Param ) = @_;
+
+    # fetch again if still messages on the account
+    for ( 1 .. 200 ) {
+        return if !$Self->_Fetch(%Param);
+        last   if !$Self->{Reconnect};
+    }
+    return 1;
+}
+
+sub _Fetch {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -72,8 +83,9 @@ sub Fetch {
 
     my $Timeout      = 60;
     my $FetchCounter = 0;
-    my $Reconnect    = 0;
     my $AuthType     = 'POP3S';
+
+    $Self->{Reconnect} = 0;
 
     # Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
     #    my $PopObject
@@ -127,7 +139,7 @@ sub Fetch {
 
             # check if reconnect is needed
             if ( ( $FetchCounter + 1 ) > $MaxPopEmailSession ) {
-                $Reconnect = 1;
+                $Self->{Reconnect} = 1;
                 if ($CMD) {
                     print "$AuthType: Reconnect Session after $MaxPopEmailSession messages...\n";
                 }
@@ -217,7 +229,7 @@ sub Fetch {
                 # check limit
                 $Self->{Limit}++;
                 if ( $Self->{Limit} >= $Limit ) {
-                    $Reconnect = 0;
+                    $Self->{Reconnect} = 0;
                     last;
                 }
 
@@ -248,10 +260,7 @@ sub Fetch {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";
     }
 
-    # fetch again if still messages on the account
-    if ($Reconnect) {
-        $Self->Fetch(%Param);
-    }
+    # return it everything is done
     return 1;
 }
 

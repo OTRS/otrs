@@ -1,8 +1,8 @@
 # --
 # Kernel/System/MailAccount/IMAPS.pm - lib for imap accounts
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: IMAPS.pm,v 1.7 2009-08-10 04:05:22 martin Exp $
+# $Id: IMAPS.pm,v 1.7.2.1 2010-01-13 16:56:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Net::IMAP::Simple::SSL;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.7.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,6 +35,17 @@ sub new {
 }
 
 sub Fetch {
+    my ( $Self, %Param ) = @_;
+
+    # fetch again if still messages on the account
+    for ( 1 .. 200 ) {
+        return if !$Self->_Fetch(%Param);
+        last   if !$Self->{Reconnect};
+    }
+    return 1;
+}
+
+sub _Fetch {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -63,8 +74,9 @@ sub Fetch {
 
     my $Timeout      = 60;
     my $FetchCounter = 0;
-    my $Reconnect    = 0;
     my $AuthType     = 'IMAPS';
+
+    $Self->{Reconnect} = 0;
 
     # connect to host
     my $IMAPObject = Net::IMAP::Simple::SSL->new(
@@ -98,7 +110,7 @@ sub Fetch {
 
             # check if reconnect is needed
             if ( ( $FetchCounter + 1 ) > $MaxPopEmailSession ) {
-                $Reconnect = 1;
+                $Self->{Reconnect} = 1;
                 if ($CMD) {
                     print "$AuthType: Reconnect Session after $MaxPopEmailSession messages...\n";
                 }
@@ -138,8 +150,13 @@ sub Fetch {
                 }
 
                 # get message (header and body)
-                my $Lines = $IMAPObject->get($Messageno);
-                if ( !$Lines ) {
+                my @Lines = $IMAPObject->get($Messageno);
+
+                # compat. to Net::IMAP::Simple v1.17 get() was returning an array ref at this time
+                if ( $Lines[0] && !$Lines[1] && ref $Lines[0] eq 'ARRAY' ) {
+                    @Lines = @{ $Lines[0] };
+                }
+                if ( !@Lines ) {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
                         Message  => "$AuthType: Can't process mail, email no $Messageno is empty!",
@@ -148,14 +165,20 @@ sub Fetch {
                 else {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
                         %{$Self},
-                        Email   => $Lines,
+                        Email   => \@Lines,
                         Trusted => $Param{Trusted} || 0,
                         Debug   => $Debug,
                     );
                     my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
                     if ( !$Return[0] ) {
-                        my $Lines = $IMAPObject->get($Messageno);
-                        my $File = $Self->_ProcessFailed( Email => $Lines );
+                        my @Lines = $IMAPObject->get($Messageno);
+
+                        # compat. to Net::IMAP::Simple v1.17 get() was returning an array ref
+                        # at this time
+                        if ( $Lines[0] && !$Lines[1] && ref $Lines[0] eq 'ARRAY' ) {
+                            @Lines = @{ $Lines[0] };
+                        }
+                        my $File = $Self->_ProcessFailed( Email => \@Lines );
                         $Self->{LogObject}->Log(
                             Priority => 'error',
                             Message  => "$AuthType: Can't process mail, see log sub system ("
@@ -171,7 +194,7 @@ sub Fetch {
                 # check limit
                 $Self->{Limit}++;
                 if ( $Self->{Limit} >= $Limit ) {
-                    $Reconnect = 0;
+                    $Self->{Reconnect} = 0;
                     last;
                 }
             }
@@ -199,10 +222,7 @@ sub Fetch {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";
     }
 
-    # fetch again if still messages on the account
-    if ($Reconnect) {
-        $Self->Fetch(%Param);
-    }
+    # return it everything is done
     return 1;
 }
 
