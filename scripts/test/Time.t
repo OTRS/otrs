@@ -1,8 +1,8 @@
 # --
 # Time.t - Time tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.t,v 1.19 2009-06-05 18:18:56 martin Exp $
+# $Id: Time.t,v 1.20 2010-01-13 14:20:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -484,7 +484,7 @@ $Vacation = $Self->{TimeObject}->VacationCheck(
 
 $Self->Is(
     $Vacation || 0,
-    "New Year's Eve!",
+    "New Year's Day",
     'Vacation - 2005-01-01',
 );
 
@@ -497,7 +497,7 @@ $Vacation = $Self->{TimeObject}->VacationCheck(
 
 $Self->Is(
     $Vacation || 0,
-    "New Year's Eve!",
+    "New Year's Day",
     'Vacation - 2005-01-01',
 );
 
@@ -510,7 +510,7 @@ $Vacation = $Self->{TimeObject}->VacationCheck(
 
 $Self->Is(
     $Vacation || 0,
-    'Silvester',
+    'New Year\'s Eve',
     'Vacation - 2005-12-31',
 );
 
@@ -541,7 +541,7 @@ $Vacation = $Self->{TimeObject}->VacationCheck(
 
 $Self->Is(
     $Vacation || 0,
-    'New Year\'s Eve!',
+    'New Year\'s Day',
     'Vacation - 2005-01-01 (Calendar1)',
 );
 
@@ -555,7 +555,7 @@ $Vacation = $Self->{TimeObject}->VacationCheck(
 
 $Self->Is(
     $Vacation || 0,
-    'New Year\'s Eve!',
+    'New Year\'s Day',
     'Vacation - 2005-01-01 (Calendar1)',
 );
 
