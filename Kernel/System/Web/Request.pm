@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.34 2010-01-04 13:13:32 mn Exp $
+# $Id: Request.pm,v 1.35 2010-01-13 22:15:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -157,7 +157,7 @@ to get names of all parameters passed to the script.
 
 Example:
 
-Called URL: index.pl?Action=AdminSysConfig&Subaction=Save&Name=Config::Option::Valid
+Called URL: index.pl?Action=AdminSysConfig;Subaction=Save;Name=Config::Option::Valid
 
     my @ParamNames = $ParamObject->GetParamNames();
     print join " :: ", @ParamNames;
@@ -212,38 +212,6 @@ sub GetArray {
     return @Values;
 }
 
-=item GetUpload()
-
-internal function for GetUploadAll()
-
-=cut
-
-sub GetUpload {
-    my ( $Self, %Param ) = @_;
-
-    return $Self->{Query}->upload( $Param{Filename} );
-}
-
-=item GetUploadInfo()
-
-internal function for GetUploadAll()
-
-=cut
-
-sub GetUploadInfo {
-    my ( $Self, %Param ) = @_;
-
-    my $ContentType = 'application/octet-stream';
-    if (
-        $Self->{Query}->uploadInfo( $Param{Filename} )
-        && $Self->{Query}->uploadInfo( $Param{Filename} )->{ $Param{Header} }
-        )
-    {
-        $ContentType = $Self->{Query}->uploadInfo( $Param{Filename} )->{ $Param{Header} };
-    }
-    return $ContentType;
-}
-
 =item GetUploadAll()
 
 to get file upload
@@ -273,7 +241,7 @@ sub GetUploadAll {
     my ( $Self, %Param ) = @_;
 
     # get upload
-    my $Upload = $Self->GetUpload( Filename => $Param{Param} );
+    my $Upload = $Self->{Query}->upload( $Param{Param} );
     return if !$Upload;
 
     # get real file name
@@ -320,16 +288,32 @@ sub GetUploadAll {
     # without content
     return if !$Content;
 
-    my $ContentType = $Self->GetUploadInfo(
+    my $ContentType = $Self->_GetUploadInfo(
         Filename => $UploadFilenameOrig,
         Header   => 'Content-Type',
-    ) || '';
+    );
 
     return (
         Filename    => $NewFileName,
         Content     => $Content,
         ContentType => $ContentType,
     );
+}
+
+sub _GetUploadInfo {
+    my ( $Self, %Param ) = @_;
+
+    # get file upload info
+    my $FileInfo = $Self->{Query}->uploadInfo( $Param{Filename} );
+
+    # return if no upload info exists
+    return 'application/octet-stream' if !$FileInfo;
+
+    # return if no content type of upload info exists
+    return 'application/octet-stream' if !$FileInfo->{ $Param{Header} };
+
+    # return content type of upload info
+    return $FileInfo->{ $Param{Header} };
 }
 
 =item SetCookie()
@@ -366,7 +350,7 @@ get a cookie
 sub GetCookie {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Query}->cookie( $Param{Key} ) || '';
+    return $Self->{Query}->cookie( $Param{Key} );
 }
 
 1;
@@ -385,6 +369,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2010-01-04 13:13:32 $
+$Revision: 1.35 $ $Date: 2010-01-13 22:15:51 $
 
 =cut
