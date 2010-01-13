@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/DashboardCalendar.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.14 2009-11-25 15:49:32 mg Exp $
+# $Id: DashboardCalendar.pm,v 1.15 2010-01-13 21:54:59 jb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -94,6 +94,11 @@ sub Run {
     my %Date;
     for my $Type ( sort keys %Map ) {
 
+        my $UID;
+        if ( $Self->{Config}->{UserOnly} ) {
+            $UID = $Self->{UserID};
+        }
+
         # search tickets
         my @TicketIDs = $Self->{TicketObject}->TicketSearch(
 
@@ -103,6 +108,7 @@ sub Run {
             Result     => 'ARRAY',
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID     => $Self->{UserID},
+            OwnerID    => $UID,
             Limit      => 25,
         );
 
