@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.61 2009-12-24 10:45:37 mg Exp $
+# $Id: LayoutTicket.pm,v 1.62 2010-01-13 13:25:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -952,10 +952,20 @@ sub TicketListShow {
             Message => 'Config option Ticket::Frontend::Overview need to be HASH ref!',
         );
     }
+
+    # check if selected view is available
     if ( !$Backends->{$View} ) {
-        return $Env->{LayoutObject}->FatalError(
-            Message => "No Config option found for $View!",
-        );
+
+        # try to find fallback, take first configured view mode
+        for my $Key ( sort keys %{$Backends} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "No Config option found for view mode $View, took $Key instead!",
+                Message  => "Need Depend Param Ajax option!",
+            );
+            $View = $Key;
+            last;
+        }
     }
 
     # check start option, if higher then tickets available, set
