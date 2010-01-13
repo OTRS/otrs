@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Package.pm - lib package manager
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.110 2009-12-24 00:51:33 martin Exp $
+# $Id: Package.pm,v 1.111 2010-01-13 09:11:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,11 +20,11 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 =head1 NAME
 
-Kernel::System::Package - to application packages/modules
+Kernel::System::Package - to manage application packages/modules
 
 =head1 SYNOPSIS
 
@@ -917,7 +917,7 @@ sub PackageOnlineRepositories {
 
 =item PackageOnlineList()
 
-returns a list of available online packages
+returns a list of available on-line packages
 
     my @List = $PackageObject->PackageOnlineList();
 
@@ -1082,10 +1082,10 @@ sub PackageOnlineList {
 
 =item PackageOnlineGet()
 
-donwload of an online package and put it int to the local reposetory
+download of an online package and put it int to the local repository
 
     $PackageObject->PackageOnlineGet(
-        Source => 'http://host/',
+        Source => 'http://host.example.com/',
         File   => 'SomePackage-1.0.opm',
     );
 
@@ -1220,7 +1220,7 @@ sub PackageVerify {
         }
     }
 
-    # diable verifying
+    # disable verifying
     return 1;
 
     # check input type (not used at this moment)
@@ -1357,7 +1357,7 @@ sub PackageBuild {
         )
     {
 
-        # dont use CodeInstall CodeUpgrade CodeUninstall CodeReinstall in index mode
+        # don't use CodeInstall CodeUpgrade CodeUninstall CodeReinstall in index mode
         if ( $Param{Type} && $Tag =~ /(Code|Intro)(Install|Upgrade|Uninstall|Reinstall)/ ) {
             next;
         }
@@ -1413,7 +1413,7 @@ sub PackageBuild {
         }
     }
 
-    # dont use Build* in index mode
+    # don't use Build* in index mode
     if ( !$Param{Type} ) {
         my $Time = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $Self->{TimeObject}->SystemTime(),
@@ -1445,7 +1445,7 @@ sub PackageBuild {
                 }
             }
 
-            # dont use content in in index mode
+            # don't use content in in index mode
             if ( !$Param{Type} ) {
                 $XML .= " Encode=\"Base64\">";
                 my $FileContent = $Self->{MainObject}->FileRead(
@@ -1466,7 +1466,7 @@ sub PackageBuild {
         $XML .= "    </Filelist>\n";
     }
 
-    # dont use Database* in index mode
+    # don't use Database* in index mode
     return $XML if $Param{Type};
 
     for (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
@@ -2176,14 +2176,14 @@ sub _FileInstall {
                 }
             }
 
-            # if it's no reinstall or reinstall and framework file but different, backup it
+            # if it's no reinstall or reinstall and framework file but different, back it up
             if ( !$Param{Reinstall} || ( $Param{Reinstall} && $Save ) ) {
                 move( $RealFile, "$RealFile.save" );
             }
         }
     }
 
-    # check directory of loaction (in case create a directory)
+    # check directory of location (in case create a directory)
     if ( $Param{File}->{Location} =~ /^(.*)\/(.+?|)$/ ) {
         my $Directory        = $1;
         my @Directories      = split( /\//, $Directory );
@@ -2416,6 +2416,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.110 $ $Date: 2009-12-24 00:51:33 $
+$Revision: 1.111 $ $Date: 2010-01-13 09:11:08 $
 
 =cut
