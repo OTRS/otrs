@@ -1,8 +1,8 @@
 # --
 # Kernel/Config.pm - Config file for OTRS kernel
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm.dist,v 1.22 2009-11-09 15:24:13 mn Exp $
+# $Id: Config.pm.dist,v 1.23 2010-01-13 22:25:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -91,11 +91,10 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
+$VERSION = qw($Revision: 1.23 $)[1];
+
 use Kernel::Config::Defaults;
 push (@ISA, 'Kernel::Config::Defaults');
-
-use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $)[1];
 
 # -----------------------------------------------------#
 
