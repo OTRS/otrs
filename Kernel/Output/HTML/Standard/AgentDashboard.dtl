@@ -1,8 +1,8 @@
 # --
 # AgentDashboard.dtl - provides HTML for global dashboard
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.25 2009-12-14 16:27:11 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.26 2010-01-13 10:55:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,6 +41,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
             forcePlaceholderSize: true,
             opacity: 0.6,
             cursor: 'move',
+            handle: '.contenthead',
             update: function(event, ui) {
 //                $('.ui-state-default').css("border","3px solid red");
                 var url = '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition';
@@ -53,12 +54,12 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
                 AJAXContentUpdate('', url );
             }
         });
-        $("#sortable-large").disableSelection();
         $("#sortable-small").sortable({
             placeholder: 'ui-state-highlight',
             forcePlaceholderSize: true,
             opacity: 0.6,
             cursor: 'move',
+            handle: '.contenthead',
             update: function(event, ui) {
                 var url = '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition';
                 $('.ui-state-default').each(
@@ -69,7 +70,6 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
                 AJAXContentUpdate('', url );
             }
         });
-        $("#sortable-small").disableSelection();
     });
 //]]></script>
 
