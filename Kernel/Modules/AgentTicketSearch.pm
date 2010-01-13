@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.79 2009-12-24 11:18:18 mg Exp $
+# $Id: AgentTicketSearch.pm,v 1.80 2010-01-13 09:03:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -84,7 +84,7 @@ sub Run {
 
     my $Output;
 
-    # get confid data
+    # get config data
     $Self->{StartHit} = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
     $Self->{SearchLimit} = $Self->{Config}->{SearchLimit} || 500;
     $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
@@ -133,7 +133,7 @@ sub Run {
         );
     }
 
-    # get signle params
+    # get single params
     my %GetParam = ();
 
     # load profiles string params (press load profile)
@@ -356,7 +356,7 @@ sub Run {
         # get create time settings
         if ( !$GetParam{ArticleTimeSearchType} ) {
 
-            # do nothing on time stuff
+            # do nothing with time stuff
         }
         elsif ( $GetParam{ArticleTimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {
@@ -430,7 +430,7 @@ sub Run {
         # get create time settings
         if ( !$GetParam{TimeSearchType} ) {
 
-            # do noting ont time stuff
+            # do noting with time stuff
         }
         elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {
