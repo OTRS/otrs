@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.69 2010-01-06 11:27:02 martin Exp $
+# $Id: Language.pm,v 1.70 2010-01-13 10:13:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 =head1 NAME
 
@@ -322,7 +322,7 @@ sub Get {
 
 Get date format in used language formate (based on translation file).
 
-    my $Date = $LanguageObject->FormatTimeString('2005-12-12 12:12:12', 'DateFormat');
+    my $Date = $LanguageObject->FormatTimeString('2009-12-12 12:12:12', 'DateFormat');
 
 =cut
 
@@ -419,7 +419,7 @@ sub GetPossibleCharsets {
 
 =item Time()
 
-Returns a time string in language formate (based on translation file).
+Returns a time string in language format (based on translation file).
 
     $Time = $LanguageObject->Time(
         Action => 'GET',
@@ -507,7 +507,7 @@ sub Time {
 
 =item _CharsetConvert()
 
-Converts charset from a source string (if no To is given, the the
+Converts charset from a source string (if To is not given, then the
 GetRecommendedCharset() will be used).
 
     my $Text = $LanguageObject->_CharsetConvert(
@@ -552,6 +552,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2010-01-06 11:27:02 $
+$Revision: 1.70 $ $Date: 2010-01-13 10:13:11 $
 
 =cut
