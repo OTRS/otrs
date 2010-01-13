@@ -1,8 +1,8 @@
 # --
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.40 2009-12-24 13:53:54 mb Exp $
+# $Id: TemplateGenerator.pm,v 1.41 2010-01-13 22:20:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -442,33 +442,35 @@ sub Attributes {
 
     # check config for agent real name
     my $UseAgentRealName = $Self->{ConfigObject}->Get('Ticket::DefineEmailFrom');
-    if ( $UseAgentRealName eq 'agentname' || $UseAgentRealName eq 'agentnameplussystemaddressname' )
-    {
+    if ( $UseAgentRealName && $UseAgentRealName =~ /^(AgentName|AgentNameSystemAddressName)$/ ) {
 
         # get data from current agent
         my %UserData = $Self->{UserObject}->GetUserData(
             UserID => $Param{UserID},
         );
-        if ( $UseAgentRealName eq 'agentname' ) {
+
+        # set real name with user name
+        if ( $UseAgentRealName eq 'AgentName' ) {
 
             # check for user data
-            if ( %UserData && $UserData{UserLastname} && $UserData{UserFirstname} ) {
+            if ( $UserData{UserLastname} && $UserData{UserFirstname} ) {
 
-                # set real name with user name
-                $Address{RealName} =
-                    "$UserData{UserFirstname} $UserData{UserLastname}";
+                # rewrite RealName
+                $Address{RealName} = "$UserData{UserFirstname} $UserData{UserLastname}";
             }
         }
-        if ( $UseAgentRealName eq 'agentnameplussystemaddressname' ) {
-            my $SenderSeparator
-                = $Self->{ConfigObject}->Get('Ticket::FromSeparator') || '';
+
+        # set real name with user name
+        if ( $UseAgentRealName eq 'AgentNameSystemAddressName' ) {
 
             # check for user data
-            if ( %UserData && $UserData{UserLastname} && $UserData{UserFirstname} ) {
+            if ( $UserData{UserLastname} && $UserData{UserFirstname} ) {
 
-                # set real name with user name
-                $Address{RealName} =
-                    "$UserData{UserFirstname} $UserData{UserLastname} $SenderSeparator $Address{RealName}";
+                # rewrite RealName
+                my $Separator = $Self->{ConfigObject}->Get('Ticket::DefineEmailFromSeparator')
+                    || '';
+                $Address{RealName} = "$UserData{UserFirstname} $UserData{UserLastname}";
+                $Address{RealName} .= "$Separator $Address{RealName}";
             }
         }
 
@@ -1285,6 +1287,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2009-12-24 13:53:54 $
+$Revision: 1.41 $ $Date: 2010-01-13 22:20:56 $
 
 =cut
