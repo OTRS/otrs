@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/IMAPS.pm - lib for imap accounts
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: IMAPS.pm,v 1.9 2010-01-13 17:02:10 martin Exp $
+# $Id: IMAPS.pm,v 1.10 2010-01-13 17:06:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Net::IMAP::Simple::SSL;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -221,11 +221,9 @@ sub _Fetch {
                     }
                     undef $PostMasterObject;
                 }
-                print STDERR "DDD $Messageno\n";
 
                 # mark email to delete after processing
                 $IMAPObject->delete($Messageno);
-                print STDERR "DDD2\n";
 
                 # check limit
                 $Self->{Limit}++;
