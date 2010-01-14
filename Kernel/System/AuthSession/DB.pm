@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/DB.pm - provides session db backend
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.41 2009-10-07 17:34:08 martin Exp $
+# $Id: DB.pm,v 1.42 2010-01-14 02:46:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -257,7 +257,7 @@ sub RemoveSessionID {
 
     # reset cache
     if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        delete( $Self->{"Cache::$Param{SessionID}"} );
+        delete $Self->{"Cache::$Param{SessionID}"};
     }
 
     # log event
@@ -282,28 +282,24 @@ sub UpdateSessionID {
     my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     # check needed update! (no changes)
-    if (
-        ( ( exists $SessionData{$Key} ) && $SessionData{$Key} eq $Value )
-        || ( !exists $SessionData{$Key} && $Value eq '' )
-        )
-    {
-        return 1;
-    }
+    return 1 if exists $SessionData{$Key} && $SessionData{$Key} eq $Value;
+    return 1 if !exists $SessionData{$Key} && $Value eq '';
 
     # update the value
     $SessionData{$Key} = $Value;
 
     # set new data sting
-    my $NewDataToStore = '';
-    for ( keys %SessionData ) {
-        $Self->{EncodeObject}->EncodeOutput( \$SessionData{$_} );
-        $NewDataToStore .= "$_:" . encode_base64( $SessionData{$_}, '' ) . ':;';
+    my $NewData = '';
+    for my $Key ( keys %SessionData ) {
+        my $Value = $SessionData{$Key};
+        $Self->{EncodeObject}->EncodeOutput( \$Value );
+        $NewData .= "$Key:" . encode_base64( $Value, '' ) . ':;';
 
         # Debug
         if ( $Self->{Debug} ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message  => "UpdateSessionID: $_=$SessionData{$_}",
+                Message  => "UpdateSessionID: $Key=$SessionData{$Key}",
             );
         }
     }
@@ -312,12 +308,12 @@ sub UpdateSessionID {
     return if !$Self->{DBObject}->Do(
         SQL => "UPDATE $Self->{SQLSessionTable} SET "
             . " $Self->{SQLSessionTableValue} = ? WHERE $Self->{SQLSessionTableID} = ?",
-        Bind => [ \$NewDataToStore, \$Param{SessionID} ],
+        Bind => [ \$NewData, \$Param{SessionID} ],
     );
 
     # reset cache
     if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        delete $Self->{"Cache::$Param{SessionID}"};
+        $Self->{"Cache::$Param{SessionID}"} = \%SessionData;
     }
     return 1;
 }

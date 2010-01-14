@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.41 2009-11-26 10:54:16 bes Exp $
+# $Id: IPC.pm,v 1.42 2010-01-14 02:46:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -292,16 +292,11 @@ sub UpdateSessionID {
     my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     # check needed update! (no changes)
-    if (
-        ( ( exists $SessionData{$Key} ) && $SessionData{$Key} eq $Value )
-        || ( !exists $SessionData{$Key} && $Value eq '' )
-        )
-    {
-        return 1;
-    }
+    return 1 if exists $SessionData{$Key} && $SessionData{$Key} eq $Value;
+    return 1 if !exists $SessionData{$Key} && $Value eq '';
 
     # update the value
-    if ( defined($Value) ) {
+    if ( defined $Value ) {
         $SessionData{$Key} = $Value;
     }
     else {
@@ -309,22 +304,22 @@ sub UpdateSessionID {
     }
 
     # set new data sting
-    my $NewDataToStore = "SessionID:" . encode_base64( $Param{SessionID}, '' ) . ";";
-    for ( keys %SessionData ) {
-        $Self->{EncodeObject}->EncodeOutput( \$SessionData{$_} );
-        $SessionData{$_} = encode_base64( $SessionData{$_}, '' );
-        $NewDataToStore .= "$_:$SessionData{$_};";
-        chomp( $SessionData{$_} );
+    my $NewData = "SessionID:" . encode_base64( $Param{SessionID}, '' ) . ";";
+    for my $Key ( keys %SessionData ) {
+        my $Value = $SessionData{$Key};
+        $Self->{EncodeObject}->EncodeOutput( \$Value );
+        $NewData .= "$Key:" . encode_base64( $Value, '' ) . ';';
+        chomp $Value;
 
         # Debug
         if ( $Self->{Debug} ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message  => "UpdateSessionID: $_=$SessionData{$_}",
+                Message  => "UpdateSessionID: $Key=$SessionData{$Key}",
             );
         }
     }
-    $NewDataToStore .= "\n";
+    $NewData .= "\n";
 
     # read old session data (the rest)
     my $String = $Self->_ReadSHM();
@@ -334,16 +329,16 @@ sub UpdateSessionID {
     for my $Item (@Items) {
         my $SessionIDBase64 = encode_base64( $Param{SessionID}, '' );
         if ( $Item !~ /^SessionID:$SessionIDBase64;/ ) {
-            $NewDataToStore .= $Item . "\n";
+            $NewData .= $Item . "\n";
         }
     }
 
     # update shm
-    $Self->_WriteSHM( Data => $NewDataToStore );
+    $Self->_WriteSHM( Data => $NewData );
 
     # reset cache
     if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        delete $Self->{"Cache::$Param{SessionID}"};
+        $Self->{"Cache::$Param{SessionID}"} = \%SessionData;
     }
     return 1;
 }

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.35 2009-10-07 20:25:38 martin Exp $
+# $Id: FS.pm,v 1.36 2010-01-14 02:46:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -246,7 +246,7 @@ sub RemoveSessionID {
 
     # reset cache
     if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        delete( $Self->{"Cache::$Param{SessionID}"} );
+        delete $Self->{"Cache::$Param{SessionID}"};
     }
 
     # log event
@@ -270,34 +270,39 @@ sub UpdateSessionID {
     }
     my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
+    # check needed update! (no changes)
+    return 1 if exists $SessionData{$Key} && $SessionData{$Key} eq $Value;
+    return 1 if !exists $SessionData{$Key} && $Value eq '';
+
     # update the value
     $SessionData{$Key} = $Value;
 
     # set new data sting
-    my $NewDataToStore = '';
-    for ( keys %SessionData ) {
-        $Self->{EncodeObject}->EncodeOutput( \$SessionData{$_} );
-        $NewDataToStore .= "$_:" . encode_base64( $SessionData{$_}, '' ) . "\n";
+    my $NewData = '';
+    for my $Key ( keys %SessionData ) {
+        my $Value = $SessionData{$Key};
+        $Self->{EncodeObject}->EncodeOutput( \$Value );
+        $NewData .= "$Key:" . encode_base64( $Value, '' ) . "\n";
 
         # Debug
         if ( $Self->{Debug} ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message  => "UpdateSessionID: $_=$SessionData{$_}",
+                Message  => "UpdateSessionID: $Key=$SessionData{$Key}",
             );
         }
     }
 
     # reset cache
     if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        delete $Self->{"Cache::$Param{SessionID}"};
+        $Self->{"Cache::$Param{SessionID}"} = \%SessionData;
     }
 
     # update fs file
     return $Self->{MainObject}->FileWrite(
         Directory => $Self->{SessionSpool},
         Filename  => $Param{SessionID},
-        Content   => \$NewDataToStore,
+        Content   => \$NewData,
         Mode      => 'utf8',
     );
 }
