@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.97 2010-01-14 02:53:59 martin Exp $
+# $Id: User.pm,v 1.98 2010-01-14 09:03:55 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 =head1 NAME
 
@@ -700,7 +700,7 @@ user login or id lookup
     );
 
     my $UserID = $UserObject->UserLookup(
-        UserLogin => 1,
+        UserLogin => 'some_user_login',
     );
 
 =cut
@@ -1069,6 +1069,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.97 $ $Date: 2010-01-14 02:53:59 $
+$Revision: 1.98 $ $Date: 2010-01-14 09:03:55 $
 
 =cut
