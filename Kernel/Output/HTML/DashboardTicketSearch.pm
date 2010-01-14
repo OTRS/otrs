@@ -1,15 +1,15 @@
 # --
-# Kernel/Output/HTML/DashboardSearch.pm
+# Kernel/Output/HTML/DashboardTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardSearch.pm,v 1.1 2010-01-13 10:01:18 mb Exp $
+# $Id: DashboardTicketSearch.pm,v 1.1 2010-01-14 08:33:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardSearch;
+package Kernel::Output::HTML::DashboardTicketSearch;
 
 use strict;
 use warnings;
@@ -53,7 +53,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Content = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentDashboardSearch',
+        TemplateFile => 'AgentDashboardTicketSearch',
         Data         => {
             %{ $Self->{Config} },
         },

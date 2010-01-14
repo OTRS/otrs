@@ -1,8 +1,8 @@
 # --
-# AgentDashboardSearch.dtl - provides search for global dashboard
+# AgentDashboardTicketSearch.dtl - provides ticket search for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardSearch.dtl,v 1.1 2010-01-13 10:01:18 mb Exp $
+# $Id: AgentDashboardTicketSearch.dtl,v 1.1 2010-01-14 08:33:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
