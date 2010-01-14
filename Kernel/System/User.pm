@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.96 2009-10-01 09:07:08 mb Exp $
+# $Id: User.pm,v 1.97 2010-01-14 02:53:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,10 @@ use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
+use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 =head1 NAME
 
@@ -104,6 +105,12 @@ sub new {
     $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
 
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'User',
+        TTL  => 60 * 30,
+    );
+
     # load generator preferences module
     my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule')
         || 'Kernel::System::User::Preferences::DB';
@@ -120,18 +127,16 @@ get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 
     my %User = $UserObject->GetUserData(
         UserID => 123,
-        Cached => 1, # not required -> 0|1 (default 0)
     );
 
     or
 
     my %User = $UserObject->GetUserData(
-        User   => 'franz',
-        Cached => 1,        # not required -> 0|1 (default 0)
-        Valid  => 1,        # not required -> 0|1 (default 0)
-                            # returns only data if user is valid
-        NoOutOfOffice => 1, # not required -> 0|1 (default 0)
-                            # returns data without out of office infos
+        User          => 'franz',
+        Valid         => 1,       # not required -> 0|1 (default 0)
+                                  # returns only data if user is valid
+        NoOutOfOffice => 1,       # not required -> 0|1 (default 0)
+                                  # returns data without out of office infos
     );
 
 =cut
@@ -141,19 +146,28 @@ sub GetUserData {
 
     # check needed stuff
     if ( !$Param{User} && !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User or UserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User or UserID!' );
         return;
     }
 
     # check if result is cached
-    if ( $Param{Cached} ) {
-        if ( $Param{User} && $Self->{ 'GetUserData::User::' . $Param{User} } ) {
-            return %{ $Self->{ 'GetUserData::User::' . $Param{User} } };
-        }
-        elsif ( $Param{UserID} && $Self->{ 'GetUserData::UserID::' . $Param{UserID} } ) {
-            return %{ $Self->{ 'GetUserData::UserID::' . $Param{UserID} } };
-        }
+    if ( !$Param{Valid} ) {
+        $Param{Valid} = 0;
     }
+    else {
+        $Param{Valid} = '1';
+    }
+    my $CacheKey;
+    if ( $Param{User} ) {
+        $CacheKey = 'GetUserData::User::' . $Param{User} . '::' . $Param{Valid};
+    }
+    else {
+        $CacheKey = 'GetUserData::UserID::' . $Param{UserID} . '::' . $Param{Valid};
+    }
+
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
 
     # get initial data
     my @Bind;
@@ -163,11 +177,11 @@ sub GetUserData {
     if ( $Param{User} ) {
         my $User = lc $Param{User};
         $SQL .= " LOWER($Self->{UserTableUser}) = ?";
-        push( @Bind, \$User );
+        push @Bind, \$User;
     }
     else {
         $SQL .= " $Self->{UserTableUserID} = ?";
-        push( @Bind, \$Param{UserID} );
+        push @Bind, \$Param{UserID};
     }
     return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     my %Data;
@@ -207,7 +221,12 @@ sub GetUserData {
                 $Hit = 1;
             }
         }
-        return if !$Hit;
+        if ( !$Hit ) {
+
+            # set cache
+            $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => {} );
+            return;
+        }
     }
 
     # get preferences
@@ -261,13 +280,8 @@ sub GetUserData {
         }
     }
 
-    # cache user result
-    if ( $Param{User} ) {
-        $Self->{ 'GetUserData::User::' . $Param{User} } = \%Data;
-    }
-    elsif ( $Param{UserID} ) {
-        $Self->{ 'GetUserData::UserID::' . $Param{UserID} } = \%Data;
-    }
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
 
     # return data
     return %Data;
@@ -341,7 +355,7 @@ sub UserAdd {
             . " WHERE LOWER($Self->{UserTableUser}) = ?",
         Bind => [ \$UserLogin ],
     );
-    my $UserID = '';
+    my $UserID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $UserID = $Row[0];
     }
@@ -367,6 +381,24 @@ sub UserAdd {
 
     # set email address
     $Self->SetPreferences( UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail} );
+
+    # delete cache
+    my @CacheKeys = (
+        'GetUserData::User::' . $Param{UserLogin} . '::0',
+        'GetUserData::User::' . $Param{UserLogin} . '::1',
+        'GetUserData::UserID::' . $UserID . '::0',
+        'GetUserData::UserID::' . $UserID . '::1',
+        'UserLookup::Login::' . $UserID,
+        'UserLookup::ID::' . $Param{UserLogin},
+        'UserList::Short::0',
+        'UserList::Short::1',
+        'UserList::Long::0',
+        'UserList::Long::1',
+    );
+    for my $CacheKey (@CacheKeys) {
+        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+    }
+
     return $UserID;
 }
 
@@ -412,9 +444,6 @@ sub UserUpdate {
         return;
     }
 
-    # get old user data (pw)
-    my %UserData = $Self->GetUserData( UserID => $Param{UserID} );
-
     # update db
     return if !$Self->{DBObject}->Do(
         SQL => "UPDATE $Self->{UserTable} SET title = ?, first_name = ?, last_name = ?, "
@@ -444,6 +473,24 @@ sub UserUpdate {
         Key    => 'UserEmail',
         Value  => $Param{UserEmail}
     );
+
+    # delete cache
+    my @CacheKeys = (
+        'GetUserData::User::' . $Param{UserLogin} . '::0',
+        'GetUserData::User::' . $Param{UserLogin} . '::1',
+        'GetUserData::UserID::' . $Param{UserID} . '::0',
+        'GetUserData::UserID::' . $Param{UserID} . '::1',
+        'UserLookup::Login::' . $Param{UserID},
+        'UserLookup::ID::' . $Param{UserLogin},
+        'UserList::Short::0',
+        'UserList::Short::1',
+        'UserList::Long::0',
+        'UserList::Long::1',
+    );
+    for my $CacheKey (@CacheKeys) {
+        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+    }
+
     return 1;
 }
 
@@ -472,14 +519,14 @@ to search users
 sub UserSearch {
     my ( $Self, %Param ) = @_;
 
-    my %Users = ();
+    my %Users;
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
 
     # check needed stuff
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need Search, UserLogin or PostMasterSearch!",
+            Message  => 'Need Search, UserLogin or PostMasterSearch!',
         );
         return;
     }
@@ -515,7 +562,7 @@ sub UserSearch {
                 return %UserID;
             }
         }
-        return ();
+        return;
     }
     elsif ( $Param{UserLogin} ) {
         $Param{UserLogin} =~ s/\*/%/g;
@@ -561,14 +608,14 @@ sub SetPassword {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserLogin!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
         return;
     }
 
     # get old user data
     my %User = $Self->GetUserData( User => $Param{UserLogin} );
     if ( !$User{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "No such User!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'No such User!' );
         return;
     }
     my $CryptedPw = '';
@@ -663,15 +710,15 @@ sub UserLookup {
 
     # check needed stuff
     if ( !$Param{UserLogin} && !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserLogin or UserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin or UserID!' );
         return;
     }
     if ( $Param{UserLogin} ) {
 
         # check cache
-        if ( $Self->{ 'UserLookup::ID::' . $Param{UserLogin} } ) {
-            return $Self->{ 'UserLookup::ID::' . $Param{UserLogin} };
-        }
+        my $CacheKey = 'UserLookup::ID::' . $Param{UserLogin};
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return $Cache if $Cache;
 
         # build sql query
         my $UserLogin = lc $Param{UserLogin};
@@ -684,26 +731,25 @@ sub UserLookup {
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $ID = $Row[0];
         }
-        if ($ID) {
-
-            # cache request
-            $Self->{ 'UserLookup::ID::' . $Param{UserLogin} } = $ID;
-            return $ID;
-        }
-        else {
+        if ( !$ID ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "No UserID found for '$Param{UserLogin}'!",
             );
             return;
         }
+
+        # set cache
+        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $ID );
+
+        return $ID;
     }
     else {
 
         # check cache
-        if ( $Self->{ 'UserLookup::Login::' . $Param{UserID} } ) {
-            return $Self->{ 'UserLookup::Login::' . $Param{UserID} };
-        }
+        my $CacheKey = 'UserLookup::Login::' . $Param{UserID};
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return $Cache if $Cache;
 
         # build sql query
         return if !$Self->{DBObject}->Prepare(
@@ -715,19 +761,18 @@ sub UserLookup {
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Login = $Row[0];
         }
-        if ($Login) {
-
-            # cache request
-            $Self->{ 'UserLookup::Login::' . $Param{UserID} } = $Login;
-            return $Login;
-        }
-        else {
+        if ( !$Login ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "No UserLogin found for '$Param{UserID}'!",
             );
             return;
         }
+
+        # set cache
+        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Login );
+
+        return $Login;
     }
 }
 
@@ -751,9 +796,7 @@ sub UserName {
     my ( $Self, %Param ) = @_;
 
     my %User = $Self->GetUserData(%Param);
-    if ( !%User ) {
-        return;
-    }
+    return if !%User;
     return "$User{UserFirstname} $User{UserLastname}";
 }
 
@@ -762,8 +805,8 @@ sub UserName {
 return a hash with all users
 
     my %List = $UserObject->UserList(
-        Type => 'Short', # Short|Long, default Short
-        Valid => 1, # not required, default 0
+        Type  => 'Short', # Short|Long, default Short
+        Valid => 1,       # not required, default 0
     );
 
 =cut
@@ -771,8 +814,19 @@ return a hash with all users
 sub UserList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = $Param{Valid} || 0;
-    my $Type  = $Param{Type}  || 'Short';
+    my $Type = $Param{Type} || 'Short';
+    if ( $Param{Valid} ) {
+        $Param{Valid} = 1;
+    }
+    else {
+        $Param{Valid} = 0;
+    }
+
+    # check cache
+    my $CacheKey = 'UserList::' . $Type . '::' . $Param{Valid};
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
+
     if ( $Type eq 'Short' ) {
         $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
             . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
@@ -786,22 +840,23 @@ sub UserList {
         What  => $Param{What},
         Table => $Self->{ConfigObject}->{DatabaseUserTable},
         Clamp => 1,
-        Valid => $Valid,
+        Valid => $Param{Valid},
     );
 
     # check vacation option
-    USERID:
     for my $UserID ( sort keys %Users ) {
-        next USERID if !$Valid;
+        next if !$UserID;
 
         my %User = $Self->GetUserData(
             UserID => $UserID,
-            Cached => 1,
         );
         if ( $User{OutOfOfficeMessage} ) {
             $Users{$UserID} .= ' ' . $User{OutOfOfficeMessage};
         }
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Users );
 
     return %Users;
 }
@@ -857,9 +912,27 @@ set user preferences
 =cut
 
 sub SetPreferences {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->SetPreferences(@_);
+    # delete cache
+    my $Login = $Self->UserLookup( UserID => $Param{UserID} );
+    my @CacheKeys = (
+        'GetUserData::User::' . $Login . '::0',
+        'GetUserData::User::' . $Login . '::1',
+        'GetUserData::UserID::' . $Param{UserID} . '::0',
+        'GetUserData::UserID::' . $Param{UserID} . '::1',
+        'GetUserData::UserID::' . $Param{UserID} . '::1',
+        'UserList::Short::0',
+        'UserList::Short::1',
+        'UserList::Long::0',
+        'UserList::Long::1',
+    );
+    for my $CacheKey (@CacheKeys) {
+        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+    }
+
+    # set preferences
+    return $Self->{PreferencesObject}->SetPreferences(%Param);
 }
 
 =item GetPreferences()
@@ -873,9 +946,9 @@ get user preferences
 =cut
 
 sub GetPreferences {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->GetPreferences(@_);
+    return $Self->{PreferencesObject}->GetPreferences(%Param);
 }
 
 =item SearchPreferences()
@@ -953,7 +1026,7 @@ sub TokenCheck {
 
     # check needed stuff
     if ( !$Param{Token} || !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Token and UserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Token and UserID!' );
         return;
     }
 
@@ -975,11 +1048,9 @@ sub TokenCheck {
         # return true if token is valid
         return 1;
     }
-    else {
 
-        # return false if token is invalid
-        return;
-    }
+    # return false if token is invalid
+    return;
 }
 
 1;
@@ -998,6 +1069,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.96 $ $Date: 2009-10-01 09:07:08 $
+$Revision: 1.97 $ $Date: 2010-01-14 02:53:59 $
 
 =cut
