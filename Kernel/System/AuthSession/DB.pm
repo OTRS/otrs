@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.42 2010-01-14 02:46:22 martin Exp $
+# $Id: DB.pm,v 1.43 2010-01-14 02:56:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -256,9 +256,7 @@ sub RemoveSessionID {
     );
 
     # reset cache
-    if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        delete $Self->{"Cache::$Param{SessionID}"};
-    }
+    delete $Self->{"Cache::$Param{SessionID}"};
 
     # log event
     $Self->{LogObject}->Log(
@@ -312,9 +310,8 @@ sub UpdateSessionID {
     );
 
     # reset cache
-    if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        $Self->{"Cache::$Param{SessionID}"} = \%SessionData;
-    }
+    $Self->{"Cache::$Param{SessionID}"} = \%SessionData;
+
     return 1;
 }
 
