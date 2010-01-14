@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/DashboardRSS.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.12 2009-08-24 19:31:24 martin Exp $
+# $Id: DashboardRSS.pm,v 1.12.2.1 2010-01-14 14:09:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use XML::FeedPP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.12.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,6 +61,7 @@ sub Run {
     if ($Proxy) {
         $ENV{CGI_HTTP_PROXY} = $Proxy;
     }
+    print STDERR "UserCharset = $Self->{LayoutObject}->{UserCharset} \n";
 
     # get content
     my %Options;
@@ -90,11 +91,21 @@ sub Run {
                 Space => ' ',
             );
         }
+        my $Title = $Item->title();
+
+        # Feeds are always utf-8, Convert if needed
+        if ( $Self->{LayoutObject}->{UserCharset} ne 'utf-8' ) {
+            my $Title = $Self->{EncodeObject}->Convert(
+                Text => $Title,
+                From => 'utf-8',
+                To   => $Self->{LayoutObject}->{UserCharset},
+            );
+        }
 
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallRSSOverviewRow',
             Data => {
-                Title => $Item->title(),
+                Title => $Title,
                 Link  => $Item->link(),
                 Ago   => $Ago,
             },
