@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Type.pm - All type related function should be here eventually
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.17 2009-12-08 18:04:17 ub Exp $
+# $Id: Type.pm,v 1.18 2010-01-14 03:29:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -220,7 +220,7 @@ sub TypeGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Get( Key => $CacheKey, Value => \%Type );
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Type );
 
     # no data found
     if ( !%Type ) {
@@ -329,7 +329,7 @@ sub TypeList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Get( Key => $CacheKey, Value => \%TypeList );
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%TypeList );
 
     return %TypeList;
 }
@@ -401,7 +401,7 @@ sub TypeLookup {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Get( Key => $CacheKey, Value => $Data );
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
 
     # check if data exists
     if ( !$Data ) {
@@ -431,6 +431,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2009-12-08 18:04:17 $
+$Revision: 1.18 $ $Date: 2010-01-14 03:29:36 $
 
 =cut
