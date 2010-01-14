@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.74 2010-01-14 02:53:59 martin Exp $
+# $Id: Group.pm,v 1.75 2010-01-14 03:13:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 =head1 NAME
 
@@ -156,6 +156,7 @@ sub GroupLookup {
             Priority => 'error',
             Message  => "Found no \$$Suffix for $Param{What}!",
         );
+        return;
     }
 
     # set cache
@@ -1385,6 +1386,7 @@ sub RoleLookup {
             Priority => 'error',
             Message  => "Found no \$$Suffix for $Param{What}!",
         );
+        return;
     }
 
     # set cache
@@ -1597,6 +1599,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.74 $ $Date: 2010-01-14 02:53:59 $
+$Revision: 1.75 $ $Date: 2010-01-14 03:13:09 $
 
 =cut
