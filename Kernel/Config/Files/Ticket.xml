@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.293 2010-01-14 08:33:17 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.294 2010-01-15 10:42:28 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5980,7 +5980,7 @@ $QData{"Signature"}
     <ConfigItem Name="Frontend::HeaderMetaModule###2-TicketSearch" Required="0" Valid="1">
         <Description Lang="en">Module to generate html OpenSearch profile for short ticket search.</Description>
         <Description Lang="de">Modul zum generieren des HTML "OpenSearch" Profiles schnelle Ticket-Suchen über das Browser-Suchfeld anbieten zu können.</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleMetaHead</SubGroup>
         <Setting>
             <Hash>
@@ -6028,7 +6028,7 @@ $QData{"Signature"}
     <ConfigItem Name="Frontend::CustomerUser::Item###9-OpenTickets" Required="0" Valid="1">
         <Description Lang="en">A customer item (icon) which shows the open Tickets of this customer as customer info block.</Description>
         <Description Lang="de">Ein Kunden-Icon welche alle offenen Tickets eines Kunden unter den Kunden-Daten anzeigt.</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
             <Setting>
                 <Hash>
@@ -6722,7 +6722,7 @@ $QData{"Signature"}
     <ConfigItem Name="DashboardBackend###0210-TicketSearch" Required="0" Valid="1">
         <Description Lang="en">Parameters for the Dashboard Search. "Group" is used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
         <Description Lang="de"></Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
@@ -7668,7 +7668,7 @@ $QData{"Signature"}
     <ConfigItem Name="CustomerFrontend::HeaderMetaModule###2-TicketSearch" Required="0" Valid="1">
         <Description Lang="en">Module to generate html OpenSearch profile for short ticket search.</Description>
         <Description Lang="de">Modul zum generieren des HTML "OpenSearch" Profiles schnelle Ticket-Suchen über das Browser-Suchfeld anbieten zu können.</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleMetaHead</SubGroup>
         <Setting>
             <Hash>
@@ -9459,7 +9459,7 @@ Thanks for your help!
     <ConfigItem Name="LinkObject::PossibleLink###0200" Required="0" Valid="1">
         <Description Lang="en">This setting defines that a 'Ticket' object can be linked with other 'Ticket' objects using the 'Normal' link type.</Description>
         <Description Lang="de">Definiert, dass ein 'Ticket'-Objekt mit dem Linktyp 'Normal' mit anderen 'Ticket'-Objekten verlinkt werden kann.</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
             <Hash>
@@ -9472,7 +9472,7 @@ Thanks for your help!
     <ConfigItem Name="LinkObject::PossibleLink###0201" Required="0" Valid="1">
         <Description Lang="en">This setting defines that a 'Ticket' object can be linked with other 'Ticket' objects using the 'ParentChild' link type.</Description>
         <Description Lang="de">Definiert, dass ein 'Ticket'-Objekt mit dem Linktyp 'ParentChild' mit anderen 'Ticket'-Objekten verlinkt werden kann.</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
             <Hash>
@@ -9485,7 +9485,7 @@ Thanks for your help!
     <ConfigItem Name="Stats::DynamicObjectRegistration###Ticket" Required="0" Valid="1">
         <Description Lang="en">Here you can decide if the common stats module may generate stats about tickets.</Description>
         <Description Lang="de">Hier können Sie festlegen, ob das Statistik-Modul auch allgemeine Statistiken über Tickets generieren darf.</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Core::Stats</SubGroup>
         <Setting>
             <Hash>
@@ -9496,7 +9496,7 @@ Thanks for your help!
     <ConfigItem Name="Stats::DynamicObjectRegistration###TicketList" Required="0" Valid="1">
         <Description Lang="en">Here you can decide if the stats module may generate ticket lists.</Description>
         <Description Lang="de">Hier können Sie festlegen, ob das Statistik-Modul auch Ticketlisten generieren darf.</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Core::Stats</SubGroup>
         <Setting>
             <Hash>
@@ -9507,7 +9507,7 @@ Thanks for your help!
     <ConfigItem Name="Stats::DynamicObjectRegistration###TicketAccountedTime" Required="0" Valid="1">
         <Description Lang="en">Here you can decide if the stats module may generate stats about the accounted time for tickets.</Description>
         <Description Lang="de">Hier können Sie festlegen, ob das Statistik-Modul auch Statistiken über die benötigte Zeit zur Bearbeitung von Tickets generieren darf.</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Core::Stats</SubGroup>
         <Setting>
             <Hash>
@@ -9518,7 +9518,7 @@ Thanks for your help!
     <ConfigItem Name="Stats::DynamicObjectRegistration###TicketSolutionResponseTime" Required="0" Valid="1">
         <Description Lang="en">Here you can decide if the stats module may generate stats about the solution and response time for tickets.</Description>
         <Description Lang="de">Hier können Sie festlegen, ob das Statistik-Modul auch Statistiken über die Reaktions- und Lösungszeiten von Tickets generieren darf.</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Core::Stats</SubGroup>
         <Setting>
             <Hash>
