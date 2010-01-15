@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/DashboardRSS.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.12 2009-08-24 19:31:24 martin Exp $
+# $Id: DashboardRSS.pm,v 1.13 2010-01-15 11:16:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use XML::FeedPP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,11 +63,8 @@ sub Run {
     }
 
     # get content
-    my %Options;
-    if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
-        $Options{utf8_flag} = 1;
-    }
-    my $Feed = eval { XML::FeedPP->new( $Self->{Config}->{URL}, %Options ) };
+    my $Feed
+        = eval { XML::FeedPP->new( $Self->{Config}->{URL}, 'xml_deref' => 1, 'utf8_flag' => 1 ) };
 
     if ( !$Feed ) {
         my $Content = "Can't connect to " . $Self->{Config}->{URL};
@@ -79,7 +76,7 @@ sub Run {
         $Count++;
         last if $Count > $Self->{Config}->{Limit};
         my $Time = $Item->pubDate();
-        my $Ago  = '-';
+        my $Ago;
         if ($Time) {
             my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Time,
@@ -96,9 +93,14 @@ sub Run {
             Data => {
                 Title => $Item->title(),
                 Link  => $Item->link(),
-                Ago   => $Ago,
             },
         );
+        if ($Ago) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentSmallRSSTimeStamp',
+                Data => { Ago => $Ago },
+            );
+        }
     }
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardRSSOverview',
