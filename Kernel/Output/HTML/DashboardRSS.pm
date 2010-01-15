@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardRSS.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.12.2.3 2010-01-15 10:35:33 mb Exp $
+# $Id: DashboardRSS.pm,v 1.12.2.4 2010-01-15 12:14:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use XML::FeedPP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12.2.3 $) [1];
+$VERSION = qw($Revision: 1.12.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -87,12 +87,11 @@ sub Run {
                 Space => ' ',
             );
         }
-        my $Title = $Item->title();
 
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallRSSOverviewRow',
             Data => {
-                Title => $Title,
+                Title => $Item->title(),
                 Link  => $Item->link(),
             },
         );
