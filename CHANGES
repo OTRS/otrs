@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1139 2010-01-15 12:12:08 mb Exp $
+# $Id: CHANGES,v 1.1140 2010-01-15 13:06:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
- - (2010/01/15) Fixed bug#4758 - Dashboard RSS feeds doesn't display XML
-    encoded entities correctly.
+ - (2010/01/15) Fixed bug#4651 - Dashboard upcoming events does not look up
+    statetypes for Pending Reminder.
  - (2010/01/14) Removed not needed tool scripts/sync_node.sh.
  - (2010/01/13) Added Search to dashboard.
  - (2010/01/06) Added dashboard widget for displaying external content via iframe.
@@ -165,6 +165,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.7 (2010/??/??)
+ - (2010/01/15) Fixed bug#4758 - Dashboard RSS feeds doesn't display XML
+    encoded entities correctly.
  - (2010/01/13) Fixed bug#4754 - Multiple tickets with a huge POP3 Mailbox
     ("Deep recursion on subroutine").
  - (2010/01/13) Fixed bug#4713 - In ticket overview, after adding view=30 - no

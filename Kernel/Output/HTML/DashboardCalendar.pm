@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCalendar.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.16 2010-01-13 21:58:41 jb Exp $
+# $Id: DashboardCalendar.pm,v 1.17 2010-01-15 13:06:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,6 +54,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # find tickets with reached times in near future
+    my @PendingReminderStateTypes = $Self->{ConfigObject}->Get('Ticket::PendingReminderStateType');
+
     my %Map = (
         Escalation => [
 
@@ -80,7 +82,7 @@ sub Run {
             {
 
                 # only pending reminder tickets
-                StateType => ['pending reminder'],
+                StateType => @PendingReminderStateTypes,
 
                 # where pending time reached in
                 TicketPendingTimeNewerMinutes => (15),
