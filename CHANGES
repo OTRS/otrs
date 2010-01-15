@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1137 2010-01-15 11:16:22 mb Exp $
+# $Id: CHANGES,v 1.1138 2010-01-15 12:03:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-2.5.0 beta1 (????/??/??)
+2.5.0 beta1 (2010/??/??)
  - (2010/01/14) Removed not needed tool scripts/sync_node.sh.
  - (2010/01/13) Added Search to dashboard.
  - (2010/01/06) Added dashboard widget for displaying external content via iframe.
