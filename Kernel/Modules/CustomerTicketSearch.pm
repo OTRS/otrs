@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.37 2009-02-16 11:20:53 tr Exp $
+# $Id: CustomerTicketSearch.pm,v 1.37.2.1 2010-01-15 14:28:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.37.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -762,7 +762,6 @@ sub MaskForm {
         }
     }
     for my $Count ( 1 .. 6 ) {
-        $Count++;
         if ( $Self->{Config}->{'TicketFreeTime'}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeTime',
