@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardRSS.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.12.2.2 2010-01-14 14:20:59 mb Exp $
+# $Id: DashboardRSS.pm,v 1.12.2.3 2010-01-15 10:35:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use XML::FeedPP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12.2.2 $) [1];
+$VERSION = qw($Revision: 1.12.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,11 +63,8 @@ sub Run {
     }
 
     # get content
-    my %Options;
-    if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
-        $Options{utf8_flag} = 1;
-    }
-    my $Feed = eval { XML::FeedPP->new( $Self->{Config}->{URL}, %Options ) };
+    my $Feed
+        = eval { XML::FeedPP->new( $Self->{Config}->{URL}, 'xml_deref' => 1, 'utf8_flag' => 1 ) };
 
     if ( !$Feed ) {
         my $Content = "Can't connect to " . $Self->{Config}->{URL};
@@ -79,7 +76,7 @@ sub Run {
         $Count++;
         last if $Count > $Self->{Config}->{Limit};
         my $Time = $Item->pubDate();
-        my $Ago  = '-';
+        my $Ago;
         if ($Time) {
             my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Time,
@@ -92,23 +89,19 @@ sub Run {
         }
         my $Title = $Item->title();
 
-        # Feeds are always utf-8, Convert if needed
-        if ( $Self->{LayoutObject}->{UserCharset} ne 'utf-8' ) {
-            my $Title = $Self->{EncodeObject}->Convert(
-                Text => $Title,
-                From => 'utf-8',
-                To   => $Self->{LayoutObject}->{UserCharset},
-            );
-        }
-
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallRSSOverviewRow',
             Data => {
                 Title => $Title,
                 Link  => $Item->link(),
-                Ago   => $Ago,
             },
         );
+        if ($Ago) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentSmallRSSTimeStamp',
+                Data => { Ago => $Ago },
+            );
+        }
     }
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardRSSOverview',
