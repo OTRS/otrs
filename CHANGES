@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1140 2010-01-15 13:06:03 mb Exp $
+# $Id: CHANGES,v 1.1141 2010-01-15 14:24:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -165,6 +165,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.7 (2010/??/??)
+ - (2010/01/15) Fixed bug#4735 - TicketFreeTime search in Customer frontend
+    does not work as expected
  - (2010/01/15) Fixed bug#4758 - Dashboard RSS feeds doesn't display XML
     encoded entities correctly.
  - (2010/01/13) Fixed bug#4754 - Multiple tickets with a huge POP3 Mailbox
