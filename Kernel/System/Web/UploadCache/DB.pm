@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.20 2009-09-01 11:01:47 martin Exp $
+# $Id: DB.pm,v 1.20.2.1 2010-01-18 19:46:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.20.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -84,10 +84,10 @@ sub FormIDAddFile {
 
     # create content id
     my $ContentID = $Param{ContentID};
-    if ( !$ContentID ) {
-        my $Random      = rand 999999;
-        my $FQDN        = $Self->{ConfigObject}->Get('FQDN');
-        my $Disposition = $Param{Disposition} || '';
+    my $Disposition = $Param{Disposition} || '';
+    if ( !$ContentID && lc $Disposition eq 'inline' ) {
+        my $Random = rand 999999;
+        my $FQDN   = $Self->{ConfigObject}->Get('FQDN');
         $ContentID = "$Disposition$Random.$Param{FormID}\@$FQDN";
     }
 

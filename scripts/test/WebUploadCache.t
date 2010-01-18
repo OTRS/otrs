@@ -1,8 +1,8 @@
 # --
 # WebUploadCache.t - test of the web upload cache mechanism
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUploadCache.t,v 1.12 2009-09-01 10:54:55 martin Exp $
+# $Id: WebUploadCache.t,v 1.12.2.1 2010-01-18 19:48:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,6 +53,7 @@ for my $Module (qw(DB FS)) {
             Content     => $Content,
             ContentType => 'text/html',
             ContentID   => $ContentID,
+            Disposition => 'inline',
         );
 
         $Self->True(
