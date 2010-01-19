@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Priority.pm - all ticket priority function
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.23 2009-10-05 08:35:31 martin Exp $
+# $Id: Priority.pm,v 1.24 2010-01-19 21:02:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -150,8 +150,8 @@ sub PriorityGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT id, name, valid_id, create_time, create_by, change_time, change_by "
-            . "FROM ticket_priority WHERE id = ?",
+        SQL => 'SELECT id, name, valid_id, create_time, create_by, change_time, change_by '
+            . 'FROM ticket_priority WHERE id = ?',
         Bind => [ \$Param{PriorityID} ],
     );
     my %Data;
@@ -345,6 +345,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2009-10-05 08:35:31 $
+$Revision: 1.24 $ $Date: 2010-01-19 21:02:34 $
 
 =cut
