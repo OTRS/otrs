@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesOutOfOffice.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesOutOfOffice.pm,v 1.3.2.1 2009-12-09 08:58:12 mn Exp $
+# $Id: PreferencesOutOfOffice.pm,v 1.3.2.2 2010-01-19 23:12:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3.2.1 $) [1];
+$VERSION = qw($Revision: 1.3.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,7 +36,7 @@ sub Param {
     my ( $Self, %Param ) = @_;
 
     my @Params = ();
-    if ( $Self->{OutOfOffice} ) {
+    if ( $Param{UserData}->{OutOfOffice} ) {
         $Param{OutOfOfficeOn} = 'checked';
     }
     else {
