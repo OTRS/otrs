@@ -1,8 +1,8 @@
 # --
 # Kernel/System/StdResponse.pm - lib for std responses
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.36 2009-10-07 17:34:08 martin Exp $
+# $Id: StdResponse.pm,v 1.37 2010-01-19 21:02:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -157,8 +157,9 @@ sub StdResponseGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT name, valid_id, comments, text, content_type '
-            . ' FROM standard_response WHERE id = ?',
+        SQL => 'SELECT name, valid_id, comments, text, content_type, '
+            . 'create_time, create_by, change_time, change_by '
+            . 'FROM standard_response WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %Data;
@@ -170,6 +171,10 @@ sub StdResponseGet {
             Response    => $Data[3],
             ContentType => $Data[4] || 'text/plain',
             ValidID     => $Data[1],
+            CreateTime  => $Data[5],
+            CreateBy    => $Data[6],
+            ChangeTime  => $Data[7],
+            ChangeBy    => $Data[8],
         );
     }
     return %Data;
@@ -320,21 +325,21 @@ sub StdResponseLookup {
     return $Self->{"StdResponse$Suffix"};
 }
 
-=item GetAllStdResponses()
+=item StdResponseList()
 
 get all valid std responses
 
-    my %StdResponses = $StdResponseObject->GetAllStdResponses();
+    my %StdResponses = $StdResponseObject->StdResponseList();
 
 get all std responses
 
-    my %StdResponses = $StdResponseObject->GetAllStdResponses(
+    my %StdResponses = $StdResponseObject->StdResponseList(
         Valid => 0,
     );
 
 =cut
 
-sub GetAllStdResponses {
+sub StdResponseList {
     my ( $Self, %Param ) = @_;
 
     if ( !defined $Param{Valid} ) {
@@ -365,6 +370,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2009-10-07 17:34:08 $
+$Revision: 1.37 $ $Date: 2010-01-19 21:02:19 $
 
 =cut

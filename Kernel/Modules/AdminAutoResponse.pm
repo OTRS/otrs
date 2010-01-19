@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.35 2009-12-15 21:09:40 mb Exp $
+# $Id: AdminAutoResponse.pm,v 1.36 2010-01-19 21:02:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,92 +46,196 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Param{Subaction}  = $Self->{Subaction};
-    $Param{NextScreen} = 'AdminAutoResponse';
+    # ------------------------------------------------------------ #
+    # change
+    # ------------------------------------------------------------ #
+    if ( $Self->{Subaction} eq 'Change' ) {
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
 
-    my @Params = (
-        'ID', 'Name', 'Comment', 'ValidID', 'Response', 'Subject',
-        'TypeID', 'AddressID', 'Charset',
-    );
-    my %GetParam;
-    for (@Params) {
-        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
-    }
-
-    # get charset
-    $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
-
-    # get content type
-    my $ContentType = 'text/plain';
-    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
-        $ContentType = 'text/html';
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Self->_Edit(
+            Action => 'Change',
+            %Data,
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminAutoResponseForm',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # ------------------------------------------------------------ #
-    # get data
+    # change action
     # ------------------------------------------------------------ #
-    if ( $Param{Subaction} eq 'Change' ) {
+    elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        my %GetParam;
+        for (qw(ID Name Comment ValidID Response Subject TypeID AddressID)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        }
+
+        # get composed content type
+        $GetParam{ContentType} = 'text/plain';
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $GetParam{ContentType} = 'text/html';
+        }
+
+        # get charset
+        $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
+
+        # update group
+        if (
+            !$Self->{AutoResponseObject}->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID} )
+            )
+        {
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+            $Self->_Edit(
+                Action => 'Change',
+                %GetParam,
+            );
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminAutoResponseForm',
+                Data         => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+
+        $Self->_Overview();
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Info => 'Response updated!' );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminAutoResponseForm',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
+    # add
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Add' ) {
+        my %GetParam;
+        for (qw(Name)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+        }
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Self->_Edit(
+            Action => 'Add',
+            %GetParam,
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminAutoResponseForm',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
+    # add action
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        my %GetParam;
+        for (qw(ID Name Comment ValidID Response Subject TypeID AddressID)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        }
+
+        # get composed content type
+        $GetParam{ContentType} = 'text/plain';
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $GetParam{ContentType} = 'text/html';
+        }
+
+        # get charset
+        $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
+
+        # add state
+        my $AutoResponseID
+            = $Self->{AutoResponseObject}->AutoResponseAdd( %GetParam, UserID => $Self->{UserID} );
+        if ( !$AutoResponseID ) {
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+            $Self->_Edit(
+                Action => 'Add',
+                %GetParam,
+            );
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminAutoResponseForm',
+                Data         => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        $Self->_Overview();
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Info => 'Response added!' );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminAutoResponseForm',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
+    # delete action
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Delete' ) {
+
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_Mask(%Data);
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
 
-    # ------------------------------------------------------------ #
-    # update action
-    # ------------------------------------------------------------ #
-    elsif ( $Param{Subaction} eq 'ChangeAction' ) {
-
-        # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
-
-        my $Update = $Self->{AutoResponseObject}->AutoResponseUpdate(
-            %GetParam,
-            ContentType => $ContentType,
-            UserID      => $Self->{UserID},
+        my $Delete = $Self->{AutoResponseObject}->AutoResponseDelete(
+            ID => $ID,
         );
-        if ( !$Update ) {
+        if ( !$Delete ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
+
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
-    # ------------------------------------------------------------ #
-    # add new auto response
-    # ------------------------------------------------------------ #
-    elsif ( $Param{Subaction} eq 'AddAction' ) {
-
-        # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
-
-        my $Add = $Self->{AutoResponseObject}->AutoResponseAdd(
-            %GetParam,
-            ContentType => $ContentType,
-            UserID      => $Self->{UserID},
-        );
-        if ( !$Add ) {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
-    }
-
-    # ------------------------------------------------------------ #
-    # else ! print form
-    # ------------------------------------------------------------ #
+    # ------------------------------------------------------------
+    # overview
+    # ------------------------------------------------------------
     else {
+        $Self->_Overview();
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_Mask();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminAutoResponseForm',
+            Data         => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+
 }
 
-sub _Mask {
+sub _Edit {
     my ( $Self, %Param ) = @_;
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
+    );
 
     # get valid list
     my %ValidList        = $Self->{ValidObject}->ValidList();
@@ -141,10 +245,6 @@ sub _Mask {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-    );
-    $Self->{LayoutObject}->Block(
-        Name => 'OverviewUpdate',
-        Data => \%Param,
     );
 
     $Param{AutoResponseOption} = $Self->{LayoutObject}->BuildSelection(
@@ -166,11 +266,11 @@ sub _Mask {
         Name => 'AddressID',
         SelectedID => $Param{AddressID},
     );
-    $Param{Subaction} = 'Add' if ( !$Param{Subaction} );
-    if ( $Param{Charset} && $Param{Charset} !~ /$Self->{LayoutObject}->{UserCharset}/i ) {
-        $Param{Note}
-            = '(<i>$Text{"This message was written in a character set other than your own."}</i>)';
-    }
+
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => \%Param,
+    );
 
     # add rich text editor
     if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
@@ -195,11 +295,49 @@ sub _Mask {
             );
         }
     }
+    return 1;
+}
 
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminAutoResponseForm',
-        Data         => \%Param
+sub _Overview {
+    my ( $Self, %Param ) = @_;
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
     );
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewResult',
+        Data => \%Param,
+    );
+    my %List = $Self->{AutoResponseObject}->AutoResponseList(
+        UserID => 1,
+        Valid  => 0,
+    );
+
+    # get valid list
+    my %ValidList = $Self->{ValidObject}->ValidList();
+    my $CssClass  = '';
+    for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+        # set output class
+        if ( $CssClass && $CssClass eq 'searchactive' ) {
+            $CssClass = 'searchpassive';
+        }
+        else {
+            $CssClass = 'searchactive';
+        }
+        my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResultRow',
+            Data => {
+                Valid    => $ValidList{ $Data{ValidID} },
+                CssClass => $CssClass,
+                %Data,
+                Attachments => int rand 5,
+            },
+        );
+    }
+    return 1;
 }
 
 1;

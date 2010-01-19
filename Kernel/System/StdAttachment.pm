@@ -1,8 +1,8 @@
 # --
 # Kernel/System/StdAttachment.pm - lib for std attachment
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.33 2009-10-07 20:30:48 martin Exp $
+# $Id: StdAttachment.pm,v 1.34 2010-01-19 21:02:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -168,8 +168,9 @@ sub StdAttachmentGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT name, content_type, content, filename, valid_id, comments '
-            . ' FROM standard_attachment WHERE id = ?',
+        SQL => 'SELECT name, content_type, content, filename, valid_id, comments, '
+            . 'create_time, create_by, change_time, change_by '
+            . 'FROM standard_attachment WHERE id = ?',
         Bind   => [ \$Param{ID} ],
         Encode => [ 1, 1, 0, 1, 1, 1 ],
         Limit  => 1,
@@ -189,6 +190,10 @@ sub StdAttachmentGet {
             Filename    => $Row[3],
             ValidID     => $Row[4],
             Comment     => $Row[5],
+            CreateTime  => $Row[6],
+            CreateBy    => $Row[7],
+            ChangeTime  => $Row[8],
+            ChangeBy    => $Row[9],
         );
     }
     return %Data;
@@ -214,17 +219,11 @@ sub StdAttachmentUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ID Name ValidID Content ContentType Filename UserID)) {
+    for (qw(ID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
-    }
-
-    # encode attachment if it's a postgresql backend!!!
-    if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
-        $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
-        $Param{Content} = encode_base64( $Param{Content} );
     }
 
     # reset cache
@@ -238,14 +237,29 @@ sub StdAttachmentUpdate {
 
     # sql
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE standard_attachment SET name = ?, content = ?, content_type = ?, '
-            . ' comments = ?, filename = ?, valid_id = ?, change_time = current_timestamp, '
-            . ' change_by = ? WHERE id = ?',
+        SQL => 'UPDATE standard_attachment SET name = ?, comments = ?, valid_id = ?, '
+            . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name},     \$Param{Content}, \$Param{ContentType}, \$Param{Comment},
-            \$Param{Filename}, \$Param{ValidID}, \$Param{UserID},      \$Param{ID},
+            \$Param{Name}, \$Param{Comment},
+            \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
+    if ( $Param{Content} ) {
+
+        # encode attachment if it's a postgresql backend!!!
+        if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
+            $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
+            $Param{Content} = encode_base64( $Param{Content} );
+        }
+
+        return if !$Self->{DBObject}->Do(
+            SQL => 'UPDATE standard_attachment SET content = ?, content_type = ?, '
+                . ' filename = ? WHERE id = ?',
+            Bind => [
+                \$Param{Content}, \$Param{ContentType}, \$Param{Filename}, \$Param{ID},
+            ],
+        );
+    }
     return 1;
 }
 
@@ -393,7 +407,7 @@ sub StdAttachmentsByResponseID {
         What  => 'standard_attachment_id, standard_response_id',
         Where => "standard_response_id = $Param{ID}",
     );
-    my %AllStdAttachments = $Self->GetAllStdAttachments( Valid => 1 );
+    my %AllStdAttachments = $Self->StdAttachmentList( Valid => 1 );
     my %Data;
     for ( keys %Relation ) {
         if ( $AllStdAttachments{$_} ) {
@@ -406,17 +420,17 @@ sub StdAttachmentsByResponseID {
     return %Data;
 }
 
-=item GetAllStdAttachments()
+=item StdAttachmentList()
 
 return a hash (ID => Name) of std. attachment
 
-    my %List = $StdAttachmentObject->GetAllStdAttachments();
+    my %List = $StdAttachmentObject->StdAttachmentList();
 
-    my %List = $StdAttachmentObject->GetAllStdAttachments( Valid => 1 );
+    my %List = $StdAttachmentObject->StdAttachmentList( Valid => 1 );
 
 =cut
 
-sub GetAllStdAttachments {
+sub StdAttachmentList {
     my ( $Self, %Param ) = @_;
 
     if ( !defined $Param{Valid} ) {
@@ -432,11 +446,11 @@ sub GetAllStdAttachments {
     );
 }
 
-=item SetStdAttachmentsOfResponseID()
+=item StdAttachmentSetResponses()
 
 set std responses of response id
 
-    $StdAttachmentObject->SetStdAttachmentsOfResponseID(
+    $StdAttachmentObject->StdAttachmentSetResponses(
         ID               => 123,
         AttachmentIDsRef => [1, 2, 3],
         UserID           => 1,
@@ -444,7 +458,7 @@ set std responses of response id
 
 =cut
 
-sub SetStdAttachmentsOfResponseID {
+sub StdAttachmentSetResponses {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -461,6 +475,7 @@ sub SetStdAttachmentsOfResponseID {
         Bind => [ \$Param{ID} ],
     );
     for my $ID ( @{ $Param{AttachmentIDsRef} } ) {
+        next if !$ID;
         $Self->{DBObject}->Do(
             SQL => 'INSERT INTO standard_response_attachment (standard_attachment_id, '
                 . 'standard_response_id, create_time, create_by, change_time, change_by)'
@@ -489,6 +504,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2009-10-07 20:30:48 $
+$Revision: 1.34 $ $Date: 2010-01-19 21:02:19 $
 
 =cut

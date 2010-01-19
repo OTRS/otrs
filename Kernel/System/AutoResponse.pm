@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AutoResponse.pm - lib for auto responses
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.38 2009-11-26 12:23:09 bes Exp $
+# $Id: AutoResponse.pm,v 1.39 2010-01-19 21:02:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -181,7 +181,7 @@ sub AutoResponseGet {
     # select
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT name, valid_id, comments, text0, text1, type_id, system_address_id, '
-            . ' charset, content_type'
+            . ' charset, content_type, create_time, create_by, change_time, change_by'
             . ' FROM auto_response WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
@@ -223,8 +223,16 @@ sub AutoResponseGet {
             AddressID   => $Data[6],
             Charset     => $Data[7],
             ContentType => $Data[8] || 'text/plain',
+            CreateTime  => $Data[9],
+            CreateBy    => $Data[10],
+            ChangeTime  => $Data[11],
+            ChangeBy    => $Data[12],
+
         );
     }
+
+    my %Types = $Self->AutoResponseTypeList();
+    $Data{Type} = $Types{ $Data{TypeID} };
     return %Data;
 }
 
@@ -436,6 +444,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.39 $ $Date: 2010-01-19 21:02:19 $
 
 =cut
