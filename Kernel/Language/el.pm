@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.61 2009-10-30 09:44:04 mb Exp $
+# $Id: el.pm,v 1.62 2010-01-19 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -210,7 +210,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Επιτυχής έξοδος. Ευχαριστούμε που χρησιμοποιήσατε το OTRS!',
         'Invalid SessionID!' => 'Λανθασμενο SessionID!',
         'Feature not active!' => 'Μη ενεργή επιλογή!',
-        'Notification (Event)' => 'Ειδοποιήσεις (Event)',
+        'Notifications (Event)' => 'Ειδοποιήσεις (Event)',
         'Login is needed!' => 'Απαιτείται Σύνδεση !',
         'Password is needed!' => 'Ο κωδικός είναι απαραίτητος!',
         'License' => 'Αδεια',
@@ -607,9 +607,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Απαντήσεις',
-        'Responses <-> Queue' => 'Απαντήσεις <-> Ουρές',
+        'Responses <-> Queues' => 'Απαντήσεις <-> Ουρές',
         'Auto Responses' => 'Αυτόματες Απαντήσεις',
-        'Auto Responses <-> Queue' => 'Αυτόματες Απαντήσεις <-> Ουρές',
+        'Auto Responses <-> Queues' => 'Αυτόματες Απαντήσεις <-> Ουρές',
         'Attachments <-> Responses' => 'Συνημμένα <-> Απαντήσεις',
         'History::Move' => 'Μεταφορά δελτίου στην ουρά "%s" (%s) απο την ουρά "%s" (%s).',
         'History::TypeUpdate' => 'Ενημέρωση τύπου σε %s (ID=%s).',

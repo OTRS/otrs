@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.9 2009-10-30 09:45:27 mb Exp $
+# $Id: zh_TW.pm,v 1.10 2010-01-19 22:57:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -210,7 +210,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => '成功注銷，謝謝使用!',
         'Invalid SessionID!' => '無效的會話標識符!',
         'Feature not active!' => '該特性尚未激活!',
-        'Notification (Event)' => '通知（事件）',
+        'Notifications (Event)' => '通知（事件）',
         'Login is needed!' => '需要先登錄!',
         'Password is needed!' => '需要密碼!',
         'License' => '許可証',
@@ -603,9 +603,9 @@ sub Data {
         'All tickets which are escalated!' => '所有升級的tickets',
         'All tickets where the reminder date has reached!' => '所有已到提醒日期的Ticket',
         'Responses' => '回復',
-        'Responses <-> Queue' => '回復 <-> 隊列',
+        'Responses <-> Queues' => '回復 <-> 隊列',
         'Auto Responses' => '自動回復功能',
-        'Auto Responses <-> Queue' => '自動回復 <-> 隊列',
+        'Auto Responses <-> Queues' => '自動回復 <-> 隊列',
         'Attachments <-> Responses' => '附件 <-> 回復',
         'History::Move' => 'Ticket 移到隊列 "%s" (%s) 從隊列 "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',

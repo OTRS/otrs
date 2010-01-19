@@ -5,7 +5,7 @@
 # Copyright (C) 2008-2009 Egor Tsilenko <bg8s at symlink.ru>
 # Copyright (C) 2009 Andrey Cherepanov <cas at altlinux.ru>
 # --
-# $Id: ru.pm,v 1.93 2009-10-30 09:44:04 mb Exp $
+# $Id: ru.pm,v 1.94 2010-01-19 22:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -212,7 +212,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Вы успешно вышли из системы. Благодарим за пользование системой OTRS !',
         'Invalid SessionID!' => 'Неверный идентификатор сессии!',
         'Feature not active!' => 'Функция не активирована!',
-        'Notification (Event)' => 'Уведомление о событии',
+        'Notifications (Event)' => 'Уведомление о событии',
         'Login is needed!' => 'Необходимо ввести логин',
         'Password is needed!' => 'Необходимо ввести пароль',
         'License' => 'Лицензия',
@@ -609,9 +609,9 @@ sub Data {
         'All tickets which are escalated!' => 'Все эскалированные заявки',
         'All tickets where the reminder date has reached!' => 'Все заявки с наступившей датой напоминания',
         'Responses' => 'Ответы',
-        'Responses <-> Queue' => 'Ответы <-> Очередь',
+        'Responses <-> Queues' => 'Ответы <-> Очередь',
         'Auto Responses' => 'Автоответы',
-        'Auto Responses <-> Queue' => 'Автоответы <-> Очередь',
+        'Auto Responses <-> Queues' => 'Автоответы <-> Очередь',
         'Attachments <-> Responses' => 'Прикрепленные файлы <-> Ответы',
         'History::Move' => 'Заявка перемещена в очередь «%s» (%s) из очереди «%s» (%s).',
         'History::TypeUpdate' => 'Тип изменен на %s (ID=%s).',

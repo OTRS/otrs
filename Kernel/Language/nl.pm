@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.112 2010-01-13 09:34:22 mb Exp $
+# $Id: nl.pm,v 1.113 2010-01-19 22:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -225,7 +225,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'U bent afgemeld. Bedankt voor het gebruiken van OTRS!',
         'Invalid SessionID!' => 'Ongeldige SessieID',
         'Feature not active!' => 'Deze functie is niet actief!',
-        'Notification (Event)' => 'Melding (Event)',
+        'Notifications (Event)' => 'Melding (Event)',
         'Login is needed!' => 'Inloggen is nodig',
         'Password is needed!' => 'Een wachtwoord is vereist',
         'License' => 'Licentie',
@@ -624,9 +624,9 @@ sub Data {
         'All tickets which are escalated!' => 'Alle geëscaleerde tickets',
         'All tickets where the reminder date has reached!' => 'Alle tickets waar het herinnermoment is bereikt',
         'Responses' => 'Standaard antwoorden',
-        'Responses <-> Queue' => 'Standaard antwoorden <-> Wachtrijen',
+        'Responses <-> Queues' => 'Standaard antwoorden <-> Wachtrijen',
         'Auto Responses' => 'Automatische replies',
-        'Auto Responses <-> Queue' => 'Automatische replies <-> Wachtrijen',
+        'Auto Responses <-> Queues' => 'Automatische replies <-> Wachtrijen',
         'Attachments <-> Responses' => 'Bijlagen <-> Standaard antwoorden',
         'History::Move' => 'Ticket verplaatst naar wachtrij "%s" (%s) van wachtrij "%s" (%s).',
         'History::TypeUpdate' => 'Type gewijzigd naar %s (ID=%s).',

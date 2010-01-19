@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.100 2009-10-30 09:44:04 mb Exp $
+# $Id: fi.pm,v 1.101 2010-01-19 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -209,7 +209,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
         'Invalid SessionID!' => 'Virheellinen istuntotunnus',
         'Feature not active!' => 'Ominaisuus ei käytössä!',
-        'Notification (Event)' => 'Huomautus (Event)',
+        'Notifications (Event)' => 'Huomautus (Event)',
         'Login is needed!' => 'Käyttäjätunnus on pakollinen!',
         'Password is needed!' => 'Salasana on pakollinen!',
         'License' => 'Lisenssi',
@@ -603,9 +603,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Vastaukset',
-        'Responses <-> Queue' => 'Vastaukset <-> Jono',
+        'Responses <-> Queues' => 'Vastaukset <-> Jono',
         'Auto Responses' => 'Autom. vastaukset',
-        'Auto Responses <-> Queue' => 'Autom. vastaukset <-> Jono',
+        'Auto Responses <-> Queues' => 'Autom. vastaukset <-> Jono',
         'Attachments <-> Responses' => 'Liitteet <-> Vastaukset',
         'History::Move' => 'Tiketti siirretty jonoon "%s" (%s) Jonosta "%s" (%s).',
         'History::TypeUpdate' => 'Päivitetty tyyppi %s (ID=%s).',

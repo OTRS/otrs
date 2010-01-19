@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.35 2009-10-30 09:45:27 mb Exp $
+# $Id: vi_VN.pm,v 1.36 2010-01-19 22:57:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -207,7 +207,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Ðång xu¤t thành công! Cäm ½n bÕn ðã sØ døng OTRS!',
         'Invalid SessionID!' => 'Mã phiên không hþp l®!',
         'Feature not active!' => 'Tính nång không hoÕt ðµng!',
-        'Notification (Event)' => '',
+        'Notifications (Event)' => '',
         'Login is needed!' => 'C¥n ðång nh§p!',
         'Password is needed!' => 'C¥n m§t kh¦u!',
         'License' => 'Gi¤y phép',
@@ -601,9 +601,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Các trä l¶i',
-        'Responses <-> Queue' => 'Các trä l¶i <-> Hàng ðþi',
+        'Responses <-> Queues' => 'Các trä l¶i <-> Hàng ðþi',
         'Auto Responses' => 'Các trä l¶i tñ ðµng',
-        'Auto Responses <-> Queue' => 'Các trä l¶i tñ ðµng <-> Hàng ðþi',
+        'Auto Responses <-> Queues' => 'Các trä l¶i tñ ðµng <-> Hàng ðþi',
         'Attachments <-> Responses' => 'Các ðính kèm <-> Các trä l¶i',
         'History::Move' => 'L¸ch sØ::Chuy¬n.',
         'History::TypeUpdate' => 'L¸ch sØ::C§p nh§t loÕi.',

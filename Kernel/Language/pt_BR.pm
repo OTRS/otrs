@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.95 2009-10-30 09:44:04 mb Exp $
+# $Id: pt_BR.pm,v 1.96 2010-01-19 22:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -210,7 +210,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Encerrado com sucesso. Obrigado por utilizar o OTRS!',
         'Invalid SessionID!' => 'Identificação de Sessão Inválida',
         'Feature not active!' => 'Função não ativada!',
-        'Notification (Event)' => '',
+        'Notifications (Event)' => '',
         'Login is needed!' => '',
         'Password is needed!' => 'Senha é obrigatória!',
         'License' => 'Licença',
@@ -604,9 +604,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Respostas',
-        'Responses <-> Queue' => 'Respostas <-> Fila',
+        'Responses <-> Queues' => 'Respostas <-> Fila',
         'Auto Responses' => 'Auto respostas',
-        'Auto Responses <-> Queue' => 'Auto respostas <-> Fila',
+        'Auto Responses <-> Queues' => 'Auto respostas <-> Fila',
         'Attachments <-> Responses' => 'Anexos <-> respostas',
         'History::Move' => 'Chamado foi movido para a Fila "%s" (%s) vinda da Fila "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',

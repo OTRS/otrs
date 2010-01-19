@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/et.pm - provides Estonian language translation
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.33 2009-10-30 09:44:04 mb Exp $
+# $Id: et.pm,v 1.34 2010-01-19 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -207,7 +207,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Lahkusid OTRSist, täname kasutamise eest!',
         'Invalid SessionID!' => 'Vale SessionID!',
         'Feature not active!' => 'Omadus ei ole aktiveeritud!',
-        'Notification (Event)' => 'Teavitus (Event)',
+        'Notifications (Event)' => 'Teavitus (Event)',
         'Login is needed!' => 'Esmalt logi sisse!',
         'Password is needed!' => 'Sisesta parool!',
         'License' => 'Litsens',
@@ -601,9 +601,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Vastused',
-        'Responses <-> Queue' => 'Vastused <-> järjekorrad',
+        'Responses <-> Queues' => 'Vastused <-> järjekorrad',
         'Auto Responses' => 'Automaatvastused',
-        'Auto Responses <-> Queue' => 'Automaatvastused <-> järjekorrad',
+        'Auto Responses <-> Queues' => 'Automaatvastused <-> järjekorrad',
         'Attachments <-> Responses' => 'Manused <-> vastused',
         'History::Move' => 'Intsident viidi järjekorrast "%s" (%s) järjekorda "%s" (%s).',
         'History::TypeUpdate' => 'Tüüpi muudeti "%s" (ID=%s).',

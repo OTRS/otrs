@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.12 2009-10-30 09:44:04 mb Exp $
+# $Id: lv.pm,v 1.13 2010-01-19 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -208,7 +208,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Atteikšanās veiksmīga! Paldies, ka izmantojāt OTRS problēmu pieteikumu sistēmu!',
         'Invalid SessionID!' => 'Nederīgs sesijas ID!',
         'Feature not active!' => 'Papildiespēja nav aktivizēta!',
-        'Notification (Event)' => 'Paziņojums (notikums)',
+        'Notifications (Event)' => 'Paziņojums (notikums)',
         'Login is needed!' => 'Vispirms jāpiesakās sistēmā!',
         'Password is needed!' => 'Parole ir obligāta!',
         'License' => 'Licence',
@@ -604,9 +604,9 @@ sub Data {
         'All tickets which are escalated!' => 'Visi eskalētie pieteikumi',
         'All tickets where the reminder date has reached!' => 'Visi pieteikumi, kuriem pienācis atgādinājuma datums',
         'Responses' => 'Atbildes',
-        'Responses <-> Queue' => 'Atbildes <-> Rindas',
+        'Responses <-> Queues' => 'Atbildes <-> Rindas',
         'Auto Responses' => 'Automātiskas atbildes',
-        'Auto Responses <-> Queue' => 'Automātiskas atbildes <-> Rindas',
+        'Auto Responses <-> Queues' => 'Automātiskas atbildes <-> Rindas',
         'Attachments <-> Responses' => 'Pielikumi <-> Atbildes',
         'History::Move' => 'Problēmas pieteikums ievietots rindā "%s" (%s) pārceļot no rindas "%s" (%s).',
         'History::TypeUpdate' => 'Tips mainīts uz %s (ID=%s).',

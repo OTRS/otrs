@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.87 2009-10-30 09:44:04 mb Exp $
+# $Id: pt.pm,v 1.88 2010-01-19 22:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -208,7 +208,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Saiu com sucesso. Obrigado por utilizar o OTRS!',
         'Invalid SessionID!' => 'ID de Sessão Inválido',
         'Feature not active!' => 'Característica não activa!',
-        'Notification (Event)' => '',
+        'Notifications (Event)' => '',
         'Login is needed!' => 'Entrada necessária',
         'Password is needed!' => 'Palavra-passe indispensável!',
         'License' => 'Licença',
@@ -602,9 +602,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Respostas',
-        'Responses <-> Queue' => 'Respostas <-> Filas',
+        'Responses <-> Queues' => 'Respostas <-> Filas',
         'Auto Responses' => 'Respostas Automáticas',
-        'Auto Responses <-> Queue' => 'Respostas Automáticas <-> Filas',
+        'Auto Responses <-> Queues' => 'Respostas Automáticas <-> Filas',
         'Attachments <-> Responses' => 'Anexos <-> Respostas',
         'History::Move' => 'Ticket movido para Fila "%s" (%s) da Fila "%s" (%s).',
         'History::TypeUpdate' => 'Actualizado tipo para %s (ID=%s).',

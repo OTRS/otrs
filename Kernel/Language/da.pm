@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.65 2009-10-30 09:44:04 mb Exp $
+# $Id: da.pm,v 1.66 2010-01-19 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -209,7 +209,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Du er nu logget ud. Tak fordi du bruger OTRS.',
         'Invalid SessionID!' => 'Ugyldigt sessions-ID!',
         'Feature not active!' => 'Funktionen er ikke aktiv!',
-        'Notification (Event)' => 'Besked (Event)',
+        'Notifications (Event)' => 'Besked (Event)',
         'Login is needed!' => 'Login er påkrævet',
         'Password is needed!' => 'Adgangskode er påkrævet!',
         'License' => 'Licens',
@@ -603,9 +603,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Svar',
-        'Responses <-> Queue' => 'Svar <-> Kø',
+        'Responses <-> Queues' => 'Svar <-> Kø',
         'Auto Responses' => 'Autosvar',
-        'Auto Responses <-> Queue' => 'Autosvar <-> Kø',
+        'Auto Responses <-> Queues' => 'Autosvar <-> Kø',
         'Attachments <-> Responses' => 'Vedhæftede filer <-> Responssvar',
         'History::Move' => 'Historik::Flytning',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',

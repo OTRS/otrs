@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.78 2009-10-30 09:44:04 mb Exp $
+# $Id: sv.pm,v 1.79 2010-01-19 22:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -209,7 +209,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Utloggningen lyckades.  Tack för att du använde OTRS!',
         'Invalid SessionID!' => 'Ogiltigt SessionID!',
         'Feature not active!' => 'Funktion inte aktiverad!',
-        'Notification (Event)' => 'Meddelande (Akitivtet)',
+        'Notifications (Event)' => 'Meddelande (Akitivtet)',
         'Login is needed!' => 'Inloggning krävs!',
         'Password is needed!' => 'Lösenord krävs!',
         'License' => 'Licens',
@@ -603,9 +603,9 @@ sub Data {
         'All tickets which are escalated!' => 'Alla ärenden som har eskalerats!',
         'All tickets where the reminder date has reached!' => 'Alla ärenden där påmminnelsetiden nåtts!',
         'Responses' => 'Svar',
-        'Responses <-> Queue' => 'Svar <-> Kö',
+        'Responses <-> Queues' => 'Svar <-> Kö',
         'Auto Responses' => 'AutoSvar',
-        'Auto Responses <-> Queue' => 'AutoSvar <-> Kö',
+        'Auto Responses <-> Queues' => 'AutoSvar <-> Kö',
         'Attachments <-> Responses' => '<Bifogade filer <-> Svar',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',

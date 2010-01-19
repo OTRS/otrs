@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/tr.pm - provides Turkish language translation
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.35 2009-10-30 09:45:27 mb Exp $
+# $Id: tr.pm,v 1.36 2010-01-19 22:57:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $)[1];
+$VERSION = qw($Revision: 1.36 $)[1];
 
 sub Data {
     my $Self = shift;
@@ -207,7 +207,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Oturum kapatma baþarýlý! OTRS\'yi kullandýðýnýz için teþekkür ederiz!',
         'Invalid SessionID!' => 'Geçersiz oturum kimliði!',
         'Feature not active!' => 'Özellik etkin deðil!',
-        'Notification (Event)' => 'bildirim',
+        'Notifications (Event)' => 'bildirim',
         'Login is needed!' => 'Oturum açmanýz gerekli!',
         'Password is needed!' => 'Parola gerekli!',
         'License' => 'Lisans',
@@ -601,9 +601,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => 'hatýrlatma tarihi gelen tüm biletler',
         'Responses' => 'Yanýtlar',
-        'Responses <-> Queue' => 'Yanýtlar <-> Kuyruk',
+        'Responses <-> Queues' => 'Yanýtlar <-> Kuyruk',
         'Auto Responses' => 'Otomatik Yanýtlar',
-        'Auto Responses <-> Queue' => 'Otomatik Yanýtlar <-> Kuyruk',
+        'Auto Responses <-> Queues' => 'Otomatik Yanýtlar <-> Kuyruk',
         'Attachments <-> Responses' => 'Ekler <-> Yanýtlar',
         'History::Move' => 'Bilet "%s" (%s) kuyruðuna taþýndý, "%s" (%s) kuyruðundan.',
         'History::TypeUpdate' => '"%s" (Kimlik=%s) tipi güncellendi.',

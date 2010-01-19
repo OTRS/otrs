@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.78 2009-10-30 09:44:04 mb Exp $
+# $Id: hu.pm,v 1.79 2010-01-19 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -212,7 +212,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Kilépés megtörtént! Köszönjük, hogy az OTRS-t használja!',
         'Invalid SessionID!' => 'Hibás folyamat azonosító!',
         'Feature not active!' => 'Képesség nem aktív!',
-        'Notification (Event)' => 'Értesítés (Event)',
+        'Notifications (Event)' => 'Értesítés (Event)',
         'Login is needed!' => 'Belépés szükséges!',
         'Password is needed!' => 'Jelszó szükséges!',
         'License' => 'Licensz',
@@ -606,9 +606,9 @@ sub Data {
         'All tickets which are escalated!' => 'Összes eszkalált jegy!',
         'All tickets where the reminder date has reached!' => 'Összes jegy ahol az emlékeztetõ ideje lejárt!',
         'Responses' => 'Válaszok',
-        'Responses <-> Queue' => 'Válaszok <-> Várólista',
+        'Responses <-> Queues' => 'Válaszok <-> Várólista',
         'Auto Responses' => 'Automatikus válaszok',
-        'Auto Responses <-> Queue' => 'Automatikus válaszok <-> Várólista',
+        'Auto Responses <-> Queues' => 'Automatikus válaszok <-> Várólista',
         'Attachments <-> Responses' => 'Levélmellékletek <-> Válaszok',
         'History::Move' => 'Történet::Mozgat',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',

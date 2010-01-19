@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.224 2010-01-13 09:34:22 mb Exp $
+# $Id: de.pm,v 1.225 2010-01-19 22:57:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.224 $) [1];
+$VERSION = qw($Revision: 1.225 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -210,7 +210,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
         'Invalid SessionID!' => 'Ungültige SessionID!',
         'Feature not active!' => 'Funktion nicht aktiviert!',
-        'Notification (Event)' => 'Benachrichtigung (Ereignis)',
+        'Notifications (Event)' => 'Benachrichtigung (Ereignis)',
         'Login is needed!' => 'Login wird benötigt!',
         'Password is needed!' => 'Passwort wird benötigt!',
         'License' => 'Lizenz',
@@ -606,9 +606,9 @@ sub Data {
         'All tickets which are escalated!' => 'Alle eskalierten Tickets!',
         'All tickets where the reminder date has reached!' => 'Alle Tickets welche die Wiedervorlage erreicht haben!',
         'Responses' => 'Antworten',
-        'Responses <-> Queue' => 'Antworten <-> Queues',
+        'Responses <-> Queues' => 'Antworten <-> Queues',
         'Auto Responses' => 'Auto Antworten',
-        'Auto Responses <-> Queue' => 'Auto Antworten <-> Queues',
+        'Auto Responses <-> Queues' => 'Auto Antworten <-> Queues',
         'Attachments <-> Responses' => 'Anlagen <-> Antworten',
         'History::Move' => 'Ticket verschoben in Queue "%s" (%s) von Queue "%s" (%s).',
         'History::TypeUpdate' => 'Typ aktualisiert "%s" (ID=%s).',

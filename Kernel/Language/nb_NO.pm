@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.90 2009-10-30 09:44:04 mb Exp $
+# $Id: nb_NO.pm,v 1.91 2010-01-19 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.90 $;
+$VERSION = q$Revision: 1.91 $;
 
 sub Data {
     my $Self = shift;
@@ -211,7 +211,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Utlogging utført.  Takk for at du brukte OTRS!',
         'Invalid SessionID!' => 'Ugyldig SessionID!',
         'Feature not active!' => 'Funksjon ikke aktivert!',
-        'Notification (Event)' => 'Melding (Event)',
+        'Notifications (Event)' => 'Melding (Event)',
         'Login is needed!' => 'Innlogging kreves',
         'Password is needed!' => 'Passord er påkrevd!',
         'License' => 'Lisens',
@@ -605,9 +605,9 @@ sub Data {
         'All tickets which are escalated!' => 'Alle saker som er eskalert!',
         'All tickets where the reminder date has reached!' => 'Alle saker hvor påminnelsetiden er nådd',
         'Responses' => 'Ferdigsvar',
-        'Responses <-> Queue' => 'Ferdigsvar <-> Mapper',
+        'Responses <-> Queues' => 'Ferdigsvar <-> Mapper',
         'Auto Responses' => 'Autosvar',
-        'Auto Responses <-> Queue' => 'Autosvar <-> Mapper',
+        'Auto Responses <-> Queues' => 'Autosvar <-> Mapper',
         'Attachments <-> Responses' => 'Vedlegg <-> Ferdigsvar',
         'History::Move' => 'Sak flyttet inn i mappe "%s" (%s) fra mappe "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',

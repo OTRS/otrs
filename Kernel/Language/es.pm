@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.104 2009-10-30 09:44:04 mb Exp $
+# $Id: es.pm,v 1.105 2010-01-19 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -212,7 +212,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Desconexión satisfactoria. Gracias por utilizar OTRS!',
         'Invalid SessionID!' => 'Sesión no válida',
         'Feature not active!' => 'Característica no activa',
-        'Notification (Event)' => 'Notificaciones (Event)',
+        'Notifications (Event)' => 'Notificaciones (Event)',
         'Login is needed!' => 'Se requiere login',
         'Password is needed!' => 'Se requiere la contraseña!',
         'License' => 'Licencia',
@@ -615,9 +615,9 @@ sub Data {
         'All tickets which are escalated!' => 'Todos los tickets que estan escalados!',
         'All tickets where the reminder date has reached!' => 'Todos los tickes que han alcanzado la fecha de recordatorio!',
         'Responses' => 'Respuestas',
-        'Responses <-> Queue' => 'Respuestas <-> Colas',
+        'Responses <-> Queues' => 'Respuestas <-> Colas',
         'Auto Responses' => 'Respuestas Automáticas',
-        'Auto Responses <-> Queue' => 'Respuestas Automáticas <-> Colas',
+        'Auto Responses <-> Queues' => 'Respuestas Automáticas <-> Colas',
         'Attachments <-> Responses' => 'Anexos <-> Respuestas',
         'History::Move' => 'Ticket movido a la cola "%s" (%s) de la cola "%s" (%s).',
         'History::TypeUpdate' => 'Tipo actualizado a %s (ID=%s).',

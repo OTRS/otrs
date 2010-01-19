@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.124 2009-10-30 09:44:04 mb Exp $
+# $Id: fr.pm,v 1.125 2010-01-19 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -215,7 +215,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Déconnexion réussie. Merci d\'avoir utilisé OTRS !',
         'Invalid SessionID!' => 'ID de Session Invalide !',
         'Feature not active!' => 'Cette fonctionnalité n\'est pas activée !',
-        'Notification (Event)' => 'Notification (Evenement)',
+        'Notifications (Event)' => 'Notification (Evenement)',
         'Login is needed!' => 'Authentification requise !',
         'Password is needed!' => 'Le mot de passe est requis !',
         'License' => 'Licence',
@@ -613,9 +613,9 @@ sub Data {
         'All tickets which are escalated!' => 'Tous les tickets en escalade !',
         'All tickets where the reminder date has reached!' => 'Tous les tickets dont la date de rappel est atteinte',
         'Responses' => 'Réponses',
-        'Responses <-> Queue' => 'Réponses <-> Files',
+        'Responses <-> Queues' => 'Réponses <-> Files',
         'Auto Responses' => 'Réponses automatiques',
-        'Auto Responses <-> Queue' => 'Réponses automatiques <-> Files',
+        'Auto Responses <-> Queues' => 'Réponses automatiques <-> Files',
         'Attachments <-> Responses' => 'Pièces jointes <-> Réponses',
         'History::Move' => 'Le ticket a été déplacé dans la file "%s" (%s) - Ancienne file: "%s" (%s).',
         'History::TypeUpdate' => 'Type positionné à %s (ID=%s).',

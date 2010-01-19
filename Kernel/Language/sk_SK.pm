@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.61 2009-10-30 09:44:04 mb Exp $
+# $Id: sk_SK.pm,v 1.62 2010-01-19 22:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -208,7 +208,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Odhlásenie úspe¹né. Ïakujeme za pou¾ívanie OTRS!',
         'Invalid SessionID!' => 'Neplatný SessionID',
         'Feature not active!' => 'Funkcia neaktívna!',
-        'Notification (Event)' => '',
+        'Notifications (Event)' => '',
         'Login is needed!' => '',
         'Password is needed!' => 'Je potrebné heslo.',
         'License' => 'Licencia',
@@ -602,9 +602,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Odpovede',
-        'Responses <-> Queue' => 'Odpovede <-> rad',
+        'Responses <-> Queues' => 'Odpovede <-> rad',
         'Auto Responses' => 'Automatické odpovede',
-        'Auto Responses <-> Queue' => 'Automatické odpovede <-> rad',
+        'Auto Responses <-> Queues' => 'Automatické odpovede <-> rad',
         'Attachments <-> Responses' => 'Prílohy <-> Odpovede',
         'History::Move' => 'História: pohyb',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',

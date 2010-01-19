@@ -3,7 +3,7 @@
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.89 2009-10-30 09:44:04 mb Exp $
+# $Id: pl.pm,v 1.90 2010-01-19 22:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -209,7 +209,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Wylogowanie zakoñczone! Dziêkujemy za u¿ywanie OTRS!',
         'Invalid SessionID!' => 'Niepoprawne ID Sesji!',
         'Feature not active!' => 'Funkcja nie aktywna!',
-        'Notification (Event)' => '',
+        'Notifications (Event)' => '',
         'Login is needed!' => 'Wymagane zalogowanie!',
         'Password is needed!' => 'Has³o jest wymagane!',
         'License' => 'Licencja',
@@ -605,9 +605,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Odpowiedzi',
-        'Responses <-> Queue' => 'Odpowied¼ <-> Kolejka',
+        'Responses <-> Queues' => 'Odpowied¼ <-> Kolejka',
         'Auto Responses' => 'Automatyczna odpowied¼',
-        'Auto Responses <-> Queue' => 'Automatyczna odpowied¼ <-> Kolejka',
+        'Auto Responses <-> Queues' => 'Automatyczna odpowied¼ <-> Kolejka',
         'Attachments <-> Responses' => 'Za³±czniki <-> Odpowiedzi',
         'History::Move' => 'Zg³oszenie przeniesiono do kolejki "%s" (%s) z kolejki "%s" (%s).',
         'History::TypeUpdate' => 'Zaktualizowano typ do %s (ID=%s).',

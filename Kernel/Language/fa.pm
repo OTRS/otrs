@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.73 2009-10-30 09:44:04 mb Exp $
+# $Id: fa.pm,v 1.74 2010-01-19 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -212,7 +212,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'خروج از سیستم با موفقیت انجام شد . از همراهی شما متشکریم.',
         'Invalid SessionID!' => 'شناسه Session  نا معتبر!',
         'Feature not active!' => 'این ویژگی فعال نیست.',
-        'Notification (Event)' => 'اعلام -رویداد',
+        'Notifications (Event)' => 'اعلام -رویداد',
         'Login is needed!' => 'نیاز است به سیستم وارد شوید',
         'Password is needed!' => 'ورود رمز عبور الزامی است',
         'License' => 'مجوز بهره برداری سیستم',
@@ -608,9 +608,9 @@ sub Data {
         'All tickets which are escalated!' => 'همه درخواستهایی که اولویت آنها ارتقاء داده شده',
         'All tickets where the reminder date has reached!' => 'همه درخواست‌هایی که تاریخ یادآوری آنها فرا رسیده',
         'Responses' => 'پاسخ‌ها',
-        'Responses <-> Queue' => 'پاسخ <-> لیست درخواست',
+        'Responses <-> Queues' => 'پاسخ <-> لیست درخواست',
         'Auto Responses' => 'پاسخ خودکار',
-        'Auto Responses <-> Queue' => 'پاسخ خودکار <-> لیست درخواست',
+        'Auto Responses <-> Queues' => 'پاسخ خودکار <-> لیست درخواست',
         'Attachments <-> Responses' => 'پاسخ <-> پیوست‌ها',
         'History::Move' => 'سابقه::انتقال',
         'History::TypeUpdate' => 'نوع بروز شده به %s (ID=%s).',

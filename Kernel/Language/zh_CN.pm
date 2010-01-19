@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_CN.pm,v 1.74 2009-10-30 09:45:27 mb Exp $
+# $Id: zh_CN.pm,v 1.75 2010-01-19 22:57:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -212,7 +212,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',
         'Invalid SessionID!' => '无效的会话标识符!',
         'Feature not active!' => '该特性尚未激活!',
-        'Notification (Event)' => '通知（事件）',
+        'Notifications (Event)' => '通知（事件）',
         'Login is needed!' => '需要先登录!',
         'Password is needed!' => '需要密码!',
         'License' => '许可证',
@@ -610,9 +610,9 @@ sub Data {
         'All tickets which are escalated!' => '所有升级的tickets',
         'All tickets where the reminder date has reached!' => '所有已到提醒日期的Ticket',
         'Responses' => '回复',
-        'Responses <-> Queue' => '回复 <-> 队列',
+        'Responses <-> Queues' => '回复 <-> 队列',
         'Auto Responses' => '自动回复功能',
-        'Auto Responses <-> Queue' => '自动回复 <-> 队列',
+        'Auto Responses <-> Queues' => '自动回复 <-> 队列',
         'Attachments <-> Responses' => '附件 <-> 回复',
         'History::Move' => 'Ticket 移到队列 "%s" (%s) 从队列 "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
