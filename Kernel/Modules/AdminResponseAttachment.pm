@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.29 2009-12-08 19:02:29 mg Exp $
+# $Id: AdminResponseAttachment.pm,v 1.30 2010-01-19 21:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -133,7 +133,7 @@ sub Run {
     # update attachments of response
     elsif ( $Self->{Subaction} eq 'ChangeResponse' ) {
         my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
-        $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
+        $Self->{StdAttachmentObject}->StdAttachmentSetResponses(
             AttachmentIDsRef => \@NewIDs,
             ID               => $ID,
             UserID           => $Self->{UserID},
