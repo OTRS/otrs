@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.30 2010-01-19 21:17:23 martin Exp $
+# $Id: AdminResponseAttachment.pm,v 1.31 2010-01-19 21:39:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,10 +51,10 @@ sub Run {
     my $NextScreen = 'AdminResponseAttachment';
 
     # get StdResponses data
-    my %StdResponses = $Self->{StdResponseObject}->GetAllStdResponses( Valid => 1 );
+    my %StdResponses = $Self->{StdResponseObject}->StdResponseList( Valid => 1 );
 
     # get queue data
-    my %StdAttachments = $Self->{StdAttachmentObject}->GetAllStdAttachments( Valid => 1 );
+    my %StdAttachments = $Self->{StdAttachmentObject}->StdAttachmentList( Valid => 1 );
 
     # user <-> group 1:n
     if ( $Self->{Subaction} eq 'Response' ) {
