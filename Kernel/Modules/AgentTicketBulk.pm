@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.43 2009-12-11 09:42:09 mh Exp $
+# $Id: AgentTicketBulk.pm,v 1.44 2010-01-19 21:30:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -448,7 +448,6 @@ sub _Mask {
                     GroupID => $GroupID,
                     Type    => 'rw',
                     Result  => 'HASH',
-                    Cached  => 1,
                 );
                 for my $UserID ( sort keys %GroupMember ) {
                     next if !$AllGroupsMembers{$UserID};
@@ -482,7 +481,6 @@ sub _Mask {
                     GroupID => $GroupID,
                     Type    => 'rw',
                     Result  => 'HASH',
-                    Cached  => 1,
                 );
                 for my $UserID ( sort keys %GroupMember ) {
                     next if !$AllGroupsMembers{$UserID};

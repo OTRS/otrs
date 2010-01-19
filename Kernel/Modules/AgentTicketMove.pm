@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.42 2009-12-31 10:47:25 mn Exp $
+# $Id: AgentTicketMove.pm,v 1.43 2010-01-19 21:30:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -976,7 +976,6 @@ sub _GetUsers {
             GroupID => $GID,
             Type    => 'owner',
             Result  => 'HASH',
-            Cached  => 1,
         );
         for ( keys %MemberList ) {
             if ( $AllGroupsMembers{$_} ) {

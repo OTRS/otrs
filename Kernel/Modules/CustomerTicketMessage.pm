@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.53 2010-01-13 11:16:41 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.54 2010-01-19 21:30:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -422,10 +422,16 @@ sub Run {
         # write attachments
         for my $Attachment (@AttachmentData) {
 
-            # skip deleted inline images
-            next if $Attachment->{ContentID}
-                    && $Attachment->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$Attachment->{ContentID}/;
+            # skip, deleted not used inline images
+            my $ContentID = $Attachment->{ContentID};
+            if ($ContentID) {
+                my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
+                    Text => $ContentID,
+                );
+                next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+            }
+
+            # write existing file to backend
             $Self->{TicketObject}->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete role <-> users
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.23 2009-12-08 19:30:00 mg Exp $
+# $Id: AdminRoleUser.pm,v 1.24 2010-01-19 21:30:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,7 +75,7 @@ sub Run {
         for ( keys %UserData ) {
 
             # get user data
-            my %User = $Self->{UserObject}->GetUserData( UserID => $_, Cached => 1 );
+            my %User = $Self->{UserObject}->GetUserData( UserID => $_ );
             if ( $User{UserFirstname} && $User{UserLastname} ) {
                 $UserData{$_} .= " ($User{UserFirstname} $User{UserLastname})";
             }
@@ -164,7 +164,7 @@ sub Run {
         for ( keys %UserData ) {
 
             # get user data
-            my %User = $Self->{UserObject}->GetUserData( UserID => $_, Cached => 1 );
+            my %User = $Self->{UserObject}->GetUserData( UserID => $_ );
             if ( $User{UserFirstname} && $User{UserLastname} ) {
                 $UserData{$_} .= " ($User{UserFirstname} $User{UserLastname})";
             }

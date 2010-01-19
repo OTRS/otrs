@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.26 2009-12-14 09:21:52 mb Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.27 2010-01-19 21:30:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -103,7 +103,7 @@ sub Run {
         for ( keys %UserData ) {
 
             # get user data
-            my %User = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $_, Cached => 1 );
+            my %User = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $_ );
             if ( $User{UserFirstname} && $User{UserLastname} ) {
                 $UserData{$_} .= " ($User{UserFirstname} $User{UserLastname})";
             }
@@ -208,7 +208,7 @@ sub Run {
         for ( keys %UserData ) {
 
             # get user data
-            my %User = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $_, Cached => 1 );
+            my %User = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $_ );
             if ( $User{UserFirstname} && $User{UserLastname} ) {
                 $UserData{$_} .= " ($User{UserFirstname} $User{UserLastname})";
             }

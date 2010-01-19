@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.77 2009-12-11 09:42:08 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.78 2010-01-19 21:30:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -432,8 +432,7 @@ sub Run {
 
                 # user info
                 my %UserInfo = $Self->{UserObject}->GetUserData(
-                    User   => $Data{Owner},
-                    Cached => 1
+                    User => $Data{Owner},
                 );
                 $Data{UserLastname}  = $UserInfo{UserLastname};
                 $Data{UserFirstname} = $UserInfo{UserFirstname};

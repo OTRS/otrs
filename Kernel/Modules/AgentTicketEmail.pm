@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.114 2010-01-07 22:25:16 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.115 2010-01-19 21:30:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -181,7 +181,6 @@ sub Run {
                     %TicketFreeDefault,
                     $Self->{UserObject}->GetUserData(
                         UserID => $Self->{UserID},
-                        Cached => 1,
                     ),
                 },
             );
@@ -1209,7 +1208,6 @@ sub _GetUsers {
             GroupID => $GID,
             Type    => 'rw',
             Result  => 'HASH',
-            Cached  => 1,
         );
         for ( keys %MemberList ) {
             if ( $AllGroupsMembers{$_} ) {
@@ -1319,7 +1317,6 @@ sub _GetTos {
             UserID => $Self->{UserID},
             Type   => 'create',
             Result => 'HASH',
-            Cached => 1,
         );
 
         # build selection string

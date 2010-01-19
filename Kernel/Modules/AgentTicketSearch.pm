@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.80 2010-01-13 09:03:42 mb Exp $
+# $Id: AgentTicketSearch.pm,v 1.81 2010-01-19 21:30:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -770,8 +770,7 @@ sub Run {
 
                 # user info
                 my %UserInfo = $Self->{UserObject}->GetUserData(
-                    User   => $Data{Owner},
-                    Cached => 1,
+                    User => $Data{Owner},
                 );
 
                 # merge row data
@@ -844,8 +843,7 @@ sub Run {
 
                 # user info
                 my %UserInfo = $Self->{UserObject}->GetUserData(
-                    User   => $Data{Owner},
-                    Cached => 1
+                    User => $Data{Owner},
                 );
 
                 # get age

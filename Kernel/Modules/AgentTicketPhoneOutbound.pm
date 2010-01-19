@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.37 2009-12-30 13:01:59 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.38 2010-01-19 21:30:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -319,14 +319,14 @@ sub Run {
         }
 
         # check required FreeTextField (if configured)
-        for ( 1 .. 16 ) {
+        for my $Count ( 1 .. 16 ) {
             if (
-                $Self->{Config}{'TicketFreeText'}{$_} == 2
-                && $GetParam{"TicketFreeText$_"} eq ''
+                $Self->{Config}{'TicketFreeText'}{$Count} == 2
+                && $GetParam{"TicketFreeText$Count"} eq ''
                 && !$GetParam{AttachmentUpload}
                 )
             {
-                $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
+                $Error{"TicketFreeTextField$Count invalid"} = 'invalid';
             }
         }
 
@@ -714,7 +714,6 @@ sub _GetUsers {
             GroupID => $GID,
             Type    => 'rw',
             Result  => 'HASH',
-            Cached  => 1,
         );
         for ( keys %MemberList ) {
             $ShownUsers{$_} = $AllGroupsMembers{$_};
@@ -757,7 +756,6 @@ sub _GetTos {
             UserID => $Self->{UserID},
             Type   => 'create',
             Result => 'HASH',
-            Cached => 1,
         );
         for ( keys %Tos ) {
             if ( $UserGroups{ $Self->{QueueObject}->GetQueueGroupID( QueueID => $_ ) } ) {
