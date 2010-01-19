@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.205 2010-01-13 22:18:03 martin Exp $
+# $Id: Layout.pm,v 1.206 2010-01-19 01:54:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.205 $) [1];
+$VERSION = qw($Revision: 1.206 $) [1];
 
 =head1 NAME
 
@@ -3151,6 +3151,60 @@ sub RichTextDocumentComplete {
     return $Param{String};
 }
 
+=item RichTextDocumentSaftyCheck()
+
+check if content is safty
+
+    $HTMLBody = $LayoutObject->RichTextDocumentSaftyCheck(
+        String => $HTMLBody,
+    );
+
+=cut
+
+sub RichTextDocumentSaftyCheck {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # safty check
+    my %Safty = $Self->{HTMLUtilsObject}->Safty(
+        String       => \$Param{String},
+        NoApplet     => 1,
+        NoObject     => 1,
+        NoEmbed      => 1,
+        NoIntSrcLoad => 0,
+        NoExtSrcLoad => 1,
+        NoJavaScript => 1,
+        Debug        => 1,
+    );
+
+    # return if no safty change has been done
+    return $Param{String} if !$Safty{Replaced};
+
+    # generate blocker message
+    my $Message = $Self->Output(
+        TemplateFile => 'AttachmentBlocker',
+    );
+
+    # add it on top of page
+    if ( ${ $Safty{String} } =~ /<body.*?/si ) {
+        ${ $Safty{String} } =~ s/(<body.*?>)/$1\n$Message/si;
+    }
+
+    # add it to end of page
+    else {
+        ${ $Safty{String} } = $Message . ${ $Safty{String} };
+    }
+
+    return ${ $Safty{String} };
+}
+
 =begin Internal:
 
 =cut
@@ -4197,6 +4251,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.205 $ $Date: 2010-01-13 22:18:03 $
+$Revision: 1.206 $ $Date: 2010-01-19 01:54:19 $
 
 =cut

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1141 2010-01-15 14:24:06 mb Exp $
+# $Id: CHANGES,v 1.1142 2010-01-19 01:54:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,10 +10,13 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/01/19) Added security feature enhancement to block active elements
+    and external images as auto load of html articles in zoom view (agent
+    and customer interface).
  - (2010/01/15) Fixed bug#4651 - Dashboard upcoming events does not look up
     statetypes for Pending Reminder.
  - (2010/01/14) Removed not needed tool scripts/sync_node.sh.
- - (2010/01/13) Added Search to dashboard.
+ - (2010/01/13) Added ticket fulltext search to dashboard.
  - (2010/01/06) Added dashboard widget for displaying external content via iframe.
  - (2009/12/31) Added cpan module for JSON support (version 2.16), removed JSON
     function from LayoutAJAX and changed all function calls to the new JSON
@@ -165,12 +168,17 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.7 (2010/??/??)
+<<<<<<< CHANGES
+ - (2010/01/18) Fixed bug#4770 - Attachments are stripped/not shown from
+    outgoing emails in some scenarios with ms exchange.
+=======
  - (2010/01/15) Fixed bug#4735 - TicketFreeTime search in Customer frontend
     does not work as expected
  - (2010/01/15) Fixed bug#4758 - Dashboard RSS feeds doesn't display XML
     encoded entities correctly.
+>>>>>>> 1.1141
  - (2010/01/13) Fixed bug#4754 - Multiple tickets with a huge POP3 Mailbox
-    ("Deep recursion on subroutine").
+    - more then 2000 email in the box ("Deep recursion on subroutine").
  - (2010/01/13) Fixed bug#4713 - In ticket overview, after adding view=30 - no
     tickets are visible.
  - (2010/01/12) Upgrade of cpan Net::IMAP::Simple from 1.17 to 1.1910.

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.26 2009-11-25 15:39:15 mg Exp $
+# $Id: AgentTicketAttachment.pm,v 1.27 2010-01-19 01:54:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,9 +34,10 @@ sub new {
     }
 
     # get ArticleID
-    $Self->{ArticleID} = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
-    $Self->{FileID}    = $Self->{ParamObject}->GetParam( Param => 'FileID' );
-    $Self->{Viewer}    = $Self->{ParamObject}->GetParam( Param => 'Viewer' ) || 0;
+    $Self->{ArticleID}   = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
+    $Self->{FileID}      = $Self->{ParamObject}->GetParam( Param => 'FileID' );
+    $Self->{Viewer}      = $Self->{ParamObject}->GetParam( Param => 'Viewer' ) || 0;
+    $Self->{LoadBlocked} = $Self->{ParamObject}->GetParam( Param => 'LoadBlocked' ) || 0;
 
     return $Self;
 }
@@ -103,9 +104,9 @@ sub Run {
         # write tmp file
         my $FileTempObject = Kernel::System::FileTemp->new( %{$Self} );
         my ( $FH, $Filename ) = $FileTempObject->TempFile();
-        if ( open( DATA, '>', $Filename ) ) {
-            print DATA $Data{Content};
-            close(DATA);
+        if ( open( my $ViewerDataFH, '>', $Filename ) ) {
+            print $ViewerDataFH $Data{Content};
+            close $ViewerDataFH;
         }
         else {
 
@@ -119,11 +120,11 @@ sub Run {
 
         # use viewer
         my $Content = '';
-        if ( open( DATA, "$Viewer $Filename |" ) ) {
-            while (<DATA>) {
+        if ( open( my $ViewerFH, "$Viewer $Filename |" ) ) {
+            while (<$ViewerFH>) {
                 $Content .= $_;
             }
-            close(DATA);
+            close $ViewerFH;
         }
         else {
             return $Self->{LayoutObject}->FatalError(
@@ -184,6 +185,13 @@ sub Run {
         $Data{Content} = $Self->{LayoutObject}->RichTextDocumentCleanup(
             String => $Data{Content},
         );
+
+        # safty check only on customer articles
+        if ( !$Self->{LoadBlocked} && $Article{SenderType} eq 'customer' ) {
+            $Data{Content} = $Self->{LayoutObject}->RichTextDocumentSaftyCheck(
+                String => $Data{Content},
+            );
+        }
 
         # replace links to inline images in html content
         my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(

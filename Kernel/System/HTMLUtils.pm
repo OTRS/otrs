@@ -1,8 +1,8 @@
 # --
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.16 2009-12-08 14:37:21 mae Exp $
+# $Id: HTMLUtils.pm,v 1.17 2010-01-19 01:54:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -853,6 +853,239 @@ sub LinkQuote {
     return $String;
 }
 
+=item Safty()
+
+To remove/strip active html tags/addons (javascript, applets, embeds and objects)
+from html strings.
+
+    my %Safe = $HTMLUtilsObject->Safty(
+        String       => $HTMLString,
+        NoApplet     => 1,
+        NoObject     => 1,
+        NoEmbed      => 1,
+        NoIntSrcLoad => 0,
+        NoExtSrcLoad => 1,
+        NoJavaScript => 1,
+    );
+
+also string ref is possible
+
+    my %Safe = $HTMLUtilsObject->Safty(
+        String       => \$HTMLStringRef,
+        NoApplet     => 1,
+        NoObject     => 1,
+        NoEmbed      => 1,
+        NoIntSrcLoad => 0,
+        NoExtSrcLoad => 1,
+        NoJavaScript => 1,
+    );
+
+returns
+
+    my %Safe = (
+        String   => $HTMLString, # modified html string (scalar or ref)
+        Replaced => 1,           # 1|0 - info if something got replaced
+    );
+
+=cut
+
+sub Safty {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    my $String = $Param{String} || '';
+
+    # check ref
+    my $StringScalar;
+    if ( !ref $String ) {
+        $StringScalar = $String;
+        $String       = \$StringScalar;
+    }
+
+    my %Safty;
+
+    # remove script tags
+    if ( $Param{NoJavaScript} ) {
+        ${$String} =~ s{
+            <scrip.+?>(.+?)</script>
+        }
+        {
+            $Safty{Replaced} = 1;
+            if ($Param{Debug}) {
+                " # removed script tags # ";
+            }
+            else {
+                '';
+            }
+        }segxim;
+    }
+
+    # remove <applet> tags
+    if ( $Param{NoApplet} ) {
+        ${$String} =~ s{
+            <apple.+?>(.+?)</applet>
+        }
+        {
+            $Safty{Replaced} = 1;
+            if ($Param{Debug}) {
+                " # removed applet tags # ";
+            }
+            else {
+                '';
+            }
+        }segxim;
+    }
+
+    # remove <Object> tags
+    if ( $Param{NoObject} ) {
+        ${$String} =~ s{
+            <objec.+?>(.+?)</object>
+        }
+        {
+            $Safty{Replaced} = 1;
+            if ($Param{Debug}) {
+                " # removed object tags # ";
+            }
+            else {
+                '';
+            }
+        }segxim;
+    }
+
+    # remove style/javascript parts
+    if ( $Param{NoJavaScript} ) {
+        ${$String} =~ s{
+            <style.+?javascript(.+?|)>(.*)</style>
+        }
+        {
+            $Safty{Replaced} = 1;
+            if ($Param{Debug}) {
+                " # removed javascript style tag # ";
+            }
+            else {
+                '';
+            }
+        }segxim;
+    }
+
+    # check each html tag
+    ${$String} =~ s{
+        (<.+?>)
+    }
+    {
+        my $Tag = $1;
+        if ($Param{NoJavaScript}) {
+            # remove on action sub tags
+            $Tag =~ s{
+                \s(on.{4,10}=(".+?"|'.+?'|.+?))
+            }
+            {
+                $Safty{Replaced} = 1;
+                if ($Param{Debug}) {
+                    " # removed java script on action ($1) # ";
+                }
+                else {
+                    '';
+                }
+            }segxim;
+
+            # remove entities sub tags
+            $Tag =~ s{
+                (&\{.+?\})
+            }
+            {
+                $Safty{Replaced} = 1;
+                if ($Param{Debug}) {
+                    " # removed java script entities tag ($1) # ";
+                }
+                else {
+                    '';
+                }
+            }segxim;
+
+            # remove javascript in a href links or src links
+            $Tag =~ s{
+                (<(a\shref|src)=)("javascript.+?"|'javascript.+?'|javascript.+?)(\s>|>|.+?>)
+            }
+            {
+                $Safty{Replaced} = 1;
+                if ($Param{Debug}) {
+                    " # removed java script # ";
+                }
+                else {
+                    "$1$4";
+                }
+            }segxim;
+
+            # remove link javascript tags
+            $Tag =~ s{
+                (<link.+?javascript(.+?|)>)
+            }
+            {
+                $Safty{Replaced} = 1;
+                " # removed javascript link tag # ";
+            }segxim;
+        }
+
+        # remove <embed> tags
+        if ($Param{NoEmbed}) {
+            $Tag =~ s{
+                (<embed\s(.+?)>)
+            }
+            {
+                $Safty{Replaced} = 1;
+                if ($Param{Debug}) {
+                    " # removed embed tag ($1) # ";
+                }
+                else {
+                    '';
+                }
+            }segxim;
+        }
+
+        # remove load tags
+        if ($Param{NoIntSrcLoad} || $Param{NoExtSrcLoad}) {
+            $Tag =~ s{
+                (<(.+?)\ssrc=(.+?)(\s.+?|)>)
+            }
+            {
+                my $URL = $3;
+                if ($Param{NoIntSrcLoad} || ($Param{NoExtSrcLoad} && $URL =~ /(http|ftp|https):\//i)) {
+                    $Safty{Replaced} = 1;
+                    if ($Param{Debug}) {
+                        " # blocked '$URL' # ";
+                    }
+                    else {
+                       '';
+                    }
+                }
+                else {
+                    $1;
+                }
+            }segxim;
+        }
+
+        # replace original tag with clean tag
+        $Tag;
+    }segxim;
+
+    # check ref && return result like called
+    if ($StringScalar) {
+        $Safty{String} = ${$String};
+    }
+    else {
+        $Safty{String} = $String;
+    }
+    return %Safty;
+}
+
 1;
 
 =back
@@ -867,6 +1100,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2009-12-08 14:37:21 $
+$Revision: 1.17 $ $Date: 2010-01-19 01:54:19 $
 
 =cut

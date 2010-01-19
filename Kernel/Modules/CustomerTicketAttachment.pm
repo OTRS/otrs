@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketAttachment.pm,v 1.22 2009-12-07 16:19:34 martin Exp $
+# $Id: CustomerTicketAttachment.pm,v 1.23 2010-01-19 01:54:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,8 +35,9 @@ sub new {
     }
 
     # get ArticleID
-    $Self->{ArticleID} = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
-    $Self->{FileID}    = $Self->{ParamObject}->GetParam( Param => 'FileID' );
+    $Self->{ArticleID}   = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
+    $Self->{FileID}      = $Self->{ParamObject}->GetParam( Param => 'FileID' );
+    $Self->{LoadBlocked} = $Self->{ParamObject}->GetParam( Param => 'LoadBlocked' ) || 0;
 
     return $Self;
 }
@@ -148,6 +149,13 @@ sub Run {
         $Data{Content} = $Self->{LayoutObject}->RichTextDocumentCleanup(
             String => $Data{Content},
         );
+
+        # safty check
+        if ( !$Self->{LoadBlocked} && $Article{SenderType} eq 'customer' ) {
+            $Data{Content} = $Self->{LayoutObject}->RichTextDocumentSaftyCheck(
+                String => $Data{Content},
+            );
+        }
 
         # replace links to inline images in html content
         my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
