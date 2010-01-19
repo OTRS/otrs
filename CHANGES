@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1142 2010-01-19 01:54:19 martin Exp $
+# $Id: CHANGES,v 1.1143 2010-01-19 23:11:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -168,15 +168,14 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.7 (2010/??/??)
-<<<<<<< CHANGES
+ - (2010/01/20) Fixed bug#4486 - Some preferences displayed in AdminUser are not
+    correct.
  - (2010/01/18) Fixed bug#4770 - Attachments are stripped/not shown from
     outgoing emails in some scenarios with ms exchange.
-=======
  - (2010/01/15) Fixed bug#4735 - TicketFreeTime search in Customer frontend
     does not work as expected
  - (2010/01/15) Fixed bug#4758 - Dashboard RSS feeds doesn't display XML
     encoded entities correctly.
->>>>>>> 1.1141
  - (2010/01/13) Fixed bug#4754 - Multiple tickets with a huge POP3 Mailbox
     - more then 2000 email in the box ("Deep recursion on subroutine").
  - (2010/01/13) Fixed bug#4713 - In ticket overview, after adding view=30 - no
@@ -228,7 +227,8 @@
     AgentTicketPhone is changed.
  - (2009/12/08) Fixed bug#4482 - Owner update possible with no new owner set.
  - (2009/12/07) Fixed bug#4246 - Response Templates fail to populate for certain
-    email tickets. - (2009/12/07) Fixed bug#4381 - Function change_selection in AgentTicketMove.
+    email tickets.
+ - (2009/12/07) Fixed bug#4381 - Function change_selection in AgentTicketMove.
  - (2009/12/07) Fixed bug#4400 - OTRS switches back to phone view when closing
     ticket after split.
  - (2009/12/07) Fixed bug#4597 - Unnecessary slash in download links.
