@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.43 2009-10-30 09:44:04 mb Exp $
+# $Id: ar_SA.pm,v 1.44 2010-01-19 23:15:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -209,7 +209,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Êã ÇáÎÑæÌ ãä ÇáäÙÇã ÈäÌÇÍ. ÔßÑÇğ áÅÓÊÎÏÇãß OTRS!',
         'Invalid SessionID!' => '',
         'Feature not active!' => 'ÇáÎÇÕíÉ ÛíÑ ãİÚáÉ!',
-        'Notification (Event)' => 'ÇáÊäÈíåÇÊ (Event)',
+        'Notifications (Event)' => 'ÇáÊäÈíåÇÊ (Event)',
         'Login is needed!' => '',
         'Password is needed!' => 'ßáãÉ ÇáãÑæÑ ãØáæÈÉ!',
         'License' => 'ÇáÑÎÕÉ',
@@ -603,9 +603,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'ÇáÑÏæÏ',
-        'Responses <-> Queue' => 'ÇáÑÏæÏ <=> ŞÇÆãÉ ÇáÈØÇŞÇÊ',
+        'Responses <-> Queues' => 'ÇáÑÏæÏ <=> ŞÇÆãÉ ÇáÈØÇŞÇÊ',
         'Auto Responses' => 'ÇáÑÏæÏ ÇáÂáíÉáí',
-        'Auto Responses <-> Queue' => 'ÇáÑÏæÏ ÇáÂáíÉ <=> ŞÇÆãÉ ÇáÈØÇŞÇÊ',
+        'Auto Responses <-> Queues' => 'ÇáÑÏæÏ ÇáÂáíÉ <=> ŞÇÆãÉ ÇáÈØÇŞÇÊ',
         'Attachments <-> Responses' => 'ÇáãÑİŞÇÊ<=> ÇáÑÏæÏ',
         'History::Move' => 'ÇáÊÇÑíÎ::äŞá',
         'History::TypeUpdate' => '',

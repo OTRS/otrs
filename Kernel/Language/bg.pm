@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.100 2009-10-30 09:44:04 mb Exp $
+# $Id: bg.pm,v 1.101 2010-01-19 23:15:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -209,7 +209,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Изходът е успешен. Благодарим Ви, че използвахте системата.',
         'Invalid SessionID!' => 'Невалиден SessionID!',
         'Feature not active!' => 'Функцията не е активна',
-        'Notification (Event)' => 'Уведомление (Event)',
+        'Notifications (Event)' => 'Уведомление (Event)',
         'Login is needed!' => 'Логин-а е задължителен',
         'Password is needed!' => 'Паролата е задължителна',
         'License' => 'Лиценз',
@@ -603,9 +603,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Отговори',
-        'Responses <-> Queue' => 'Отговори <-> Опашки',
+        'Responses <-> Queues' => 'Отговори <-> Опашки',
         'Auto Responses' => 'Авто отговори',
-        'Auto Responses <-> Queue' => 'Авто отговори <-> Опашки',
+        'Auto Responses <-> Queues' => 'Авто отговори <-> Опашки',
         'Attachments <-> Responses' => 'Прикачени файлове <-> Опашки',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::TypeUpdate' => 'Промяна на типа "%s".',

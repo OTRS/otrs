@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # --
-# $Id: cz.pm,v 1.84 2009-10-30 09:44:04 mb Exp $
+# $Id: cz.pm,v 1.85 2010-01-19 23:15:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -209,7 +209,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Odhlá¹ení bylo úspìsné. Dìkujeme Vám za pou¾ívání OTRS!',
         'Invalid SessionID!' => 'Neplatné ID relace!',
         'Feature not active!' => 'Funkce je neaktivní!',
-        'Notification (Event)' => '',
+        'Notifications (Event)' => '',
         'Login is needed!' => '',
         'Password is needed!' => '',
         'License' => 'Licence',
@@ -603,9 +603,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Odpovìdi',
-        'Responses <-> Queue' => '',
+        'Responses <-> Queues' => '',
         'Auto Responses' => '',
-        'Auto Responses <-> Queue' => '',
+        'Auto Responses <-> Queues' => '',
         'Attachments <-> Responses' => '',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',

@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides Catalonian language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.34 2009-10-30 09:44:04 mb Exp $
+# $Id: ct.pm,v 1.35 2010-01-19 23:15:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -208,7 +208,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Desconnexió reeixida. Gràcies per utilitzar OTRS!',
         'Invalid SessionID!' => 'Sessió no vàlida',
         'Feature not active!' => 'Característica no activa',
-        'Notification (Event)' => 'Notificacions (Event)',
+        'Notifications (Event)' => 'Notificacions (Event)',
         'Login is needed!' => 'Es requereix login',
         'Password is needed!' => 'Falta la contrasenya!',
         'License' => 'Llicència',
@@ -602,9 +602,9 @@ sub Data {
         'All tickets which are escalated!' => '',
         'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Respostes',
-        'Responses <-> Queue' => 'Respostes <-> Cues',
+        'Responses <-> Queues' => 'Respostes <-> Cues',
         'Auto Responses' => 'Respostes Automàtiques',
-        'Auto Responses <-> Queue' => 'Respostes Automàtiques <-> Cues',
+        'Auto Responses <-> Queues' => 'Respostes Automàtiques <-> Cues',
         'Attachments <-> Responses' => 'Adjunts <-> Respostes',
         'History::Move' => 'Tiquet mogut a la cua "%s" (%s) de la cua "%s" (%s).',
         'History::TypeUpdate' => 'Tipus actualitzat a %s (ANEU=%s).',
