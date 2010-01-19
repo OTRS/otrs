@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.445 2010-01-12 17:45:03 martin Exp $
+# $Id: Ticket.pm,v 1.446 2010-01-19 21:10:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.445 $) [1];
+$VERSION = qw($Revision: 1.446 $) [1];
 
 =head1 NAME
 
@@ -1630,7 +1630,6 @@ sub MoveTicket {
                 $Used{$UserID} = 1;
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
-                    Cached => 1,
                     Valid  => 1,
                 );
                 next if !$UserData{UserSendMoveNotification};
@@ -4156,7 +4155,6 @@ sub TicketSearch {
             UserID => $Param{UserID},
             Type   => $Param{Permission} || 'ro',
             Result => 'ID',
-            Cached => 1,
         );
 
         # return if we have no permissions
@@ -4169,7 +4167,6 @@ sub TicketSearch {
             UserID => $Param{CustomerUserID},
             Type   => $Param{Permission} || 'ro',
             Result => 'ID',
-            Cached => 1,
         );
 
         # return if we have no permissions
@@ -6692,7 +6689,6 @@ sub HistoryGet {
     for my $Data (@Lines) {
         my %UserInfo = $Self->{UserObject}->GetUserData(
             UserID => $Data->{CreateBy},
-            Cached => 1
         );
         %{$Data} = ( %{$Data}, %UserInfo );
     }
@@ -7038,7 +7034,6 @@ sub TicketWatchGet {
         for my $UserID ( keys %Data ) {
             my %UserData = $Self->{UserObject}->GetUserData(
                 UserID => $UserID,
-                Cached => 1,
                 Valid  => 1,
             );
             if ( !$UserData{UserSendWatcherNotification} ) {
@@ -7100,7 +7095,6 @@ sub TicketWatchSubscribe {
     # get user data
     my %User = $Self->{UserObject}->GetUserData(
         UserID => $Param{WatchUserID},
-        Cached => 1,
     );
 
     # add history
@@ -7158,7 +7152,6 @@ sub TicketWatchUnsubscribe {
     # get user data
     my %User = $Self->{UserObject}->GetUserData(
         UserID => $Param{WatchUserID},
-        Cached => 1,
     );
 
     # add history
@@ -7250,14 +7243,12 @@ sub TicketAcl {
     if ( $Param{UserID} ) {
         my %User = $Self->{UserObject}->GetUserData(
             UserID => $Param{UserID},
-            Cached => 1,
         );
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
             my @Groups = $Self->{GroupObject}->GroupMemberList(
                 UserID => $Param{UserID},
                 Result => 'Name',
                 Type   => $Type,
-                Cached => 1,
             );
             $User{"Group_$Type"} = \@Groups;
         }
@@ -7274,7 +7265,6 @@ sub TicketAcl {
                 UserID => $Param{CustomerUserID},
                 Result => 'Name',
                 Type   => $Type,
-                Cached => 1,
             );
             $CustomerUser{"Group_$Type"} = \@Groups;
         }
@@ -7691,6 +7681,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.445 $ $Date: 2010-01-12 17:45:03 $
+$Revision: 1.446 $ $Date: 2010-01-19 21:10:35 $
 
 =cut

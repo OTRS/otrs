@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.240 2009-12-23 22:53:48 martin Exp $
+# $Id: Article.pm,v 1.241 2010-01-19 21:10:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::TemplateGenerator;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.240 $) [1];
+$VERSION = qw($Revision: 1.241 $) [1];
 
 =head1 NAME
 
@@ -399,7 +399,6 @@ sub ArticleCreate {
             # check personal settings
             my %UserData = $Self->{UserObject}->GetUserData(
                 UserID => $UserID,
-                Cached => 1,
                 Valid  => 1,
             );
             next if !$UserData{UserSendNewTicketNotification};
@@ -495,7 +494,6 @@ sub ArticleCreate {
                 # check personal settings
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
-                    Cached => 1,
                     Valid  => 1,
                 );
                 next if !$UserData{UserSendFollowUpNotification};
@@ -543,7 +541,6 @@ sub ArticleCreate {
                 # check personal settings
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
-                    Cached => 1,
                     Valid  => 1,
                 );
                 next if !$UserData{UserSendFollowUpNotification};
@@ -580,7 +577,6 @@ sub ArticleCreate {
                 # check personal settings
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
-                    Cached => 1,
                     Valid  => 1,
                 );
                 if (
@@ -651,7 +647,6 @@ sub ArticleCreate {
             for my $UserID ( keys %AlreadySent ) {
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
-                    Cached => 1,
                     Valid  => 1,
                 );
                 if ($NewTo) {
@@ -2199,7 +2194,6 @@ sub SendAgentNotification {
     # get recipient
     my %User = $Self->{UserObject}->GetUserData(
         UserID => $Param{RecipientID},
-        Cached => 1,
         Valid  => 1,
     );
 
@@ -3130,6 +3124,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.240 $ $Date: 2009-12-23 22:53:48 $
+$Revision: 1.241 $ $Date: 2010-01-19 21:10:35 $
 
 =cut

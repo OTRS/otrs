@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Ticket/CustomerPermission/GroupCheck.pm -
 # the sub module of the global ticket handle
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: GroupCheck.pm,v 1.14 2009-02-17 00:07:24 martin Exp $
+# $Id: GroupCheck.pm,v 1.15 2010-01-19 21:10:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,7 +58,6 @@ sub Run {
         UserID => $Param{UserID},
         Type   => $Param{Type},
         Result => 'HASH',
-        Cached => 1,
     );
 
     # return access if customer is in group

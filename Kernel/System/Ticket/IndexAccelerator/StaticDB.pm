@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.72 2009-12-23 22:15:44 martin Exp $
+# $Id: StaticDB.pm,v 1.73 2010-01-19 21:10:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -282,7 +282,6 @@ sub TicketAcceleratorIndex {
         UserID => $Param{UserID},
         Type   => $Type,
         Result => 'ID',
-        Cached => 1,
     );
 
     # get index
