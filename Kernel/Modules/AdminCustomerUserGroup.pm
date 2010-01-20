@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.27 2010-01-19 21:30:37 martin Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.28 2010-01-20 04:29:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -166,7 +166,7 @@ sub Run {
     }
 
     # groups to user
-    elsif ( $Self->{Subaction} eq 'ChangeUser' ) {
+    elsif ( $Self->{Subaction} eq 'ChangeCustomerUser' ) {
 
         # get new groups
         my %Permissions = ();
