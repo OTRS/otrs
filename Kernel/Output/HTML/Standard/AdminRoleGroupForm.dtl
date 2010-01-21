@@ -2,7 +2,7 @@
 # AdminRoleGroupForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleGroupForm.dtl,v 1.11 2010-01-20 23:40:33 martin Exp $
+# $Id: AdminRoleGroupForm.dtl,v 1.12 2010-01-21 10:12:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@
                         <table cellspacing="0" cellpadding="4" width="100%">
 <!-- dtl:block:List1n-->
                             <tr valign="top" class="$QData{"CssClass"}">
-                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"Subaction"}&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             </tr>
 <!-- dtl:block:List1n-->
                         </table>
@@ -42,7 +42,7 @@
                         <table cellspacing="0" cellpadding="4" width="100%">
 <!-- dtl:block:Listn1-->
                             <tr valign="top" class="$QData{"CssClass"}">
-                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"Subaction"}&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             </tr>
 <!-- dtl:block:Listn1-->
                         </table>
@@ -106,7 +106,7 @@ function select_items (Type) {
                                 <tr valign="top" class="$QData{"CssClass"}">
                                     <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
 <!-- dtl:block:ChangeRowItem -->
-                                    <td align="center"><nobr>$QData{"Mark"}<input type="checkbox" name="$QData{"Type"}" value="$QData{"ID"}" $Data{"Selected"}></nobr></td>
+                                    <td align="center"><nobr>$QData{"Mark"}<input type="checkbox" name="$QData{"Type"}" value="$QData{"ID"}" $Data{"Selected"}/></nobr></td>
 <!-- dtl:block:ChangeRowItem -->
                                 </tr>
 <!-- dtl:block:ChangeRow -->

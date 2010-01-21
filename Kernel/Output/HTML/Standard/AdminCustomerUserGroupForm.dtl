@@ -1,8 +1,8 @@
 # --
-# AdminCustomerUserGrouForm.dtl - provides HTML form for AdminInterface
+# AdminCustomerUserGroupForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroupForm.dtl,v 1.11 2010-01-21 00:05:33 martin Exp $
+# $Id: AdminCustomerUserGroupForm.dtl,v 1.12 2010-01-21 10:12:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@
                         <table cellspacing="0" cellpadding="4" width="100%">
 <!-- dtl:block:List1n-->
                             <tr valign="top" class="$QData{"CssClass"}">
-                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"Subaction"}&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             </tr>
 <!-- dtl:block:List1n-->
                         </table>
@@ -42,7 +42,7 @@
                         <table cellspacing="0" cellpadding="4" width="100%">
 <!-- dtl:block:Listn1-->
                             <tr valign="top" class="$QData{"CssClass"}">
-                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"Subaction"}&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             </tr>
 <!-- dtl:block:Listn1-->
                         </table>
