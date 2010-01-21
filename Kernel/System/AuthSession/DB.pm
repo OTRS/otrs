@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.43 2010-01-14 02:56:56 martin Exp $
+# $Id: DB.pm,v 1.44 2010-01-21 00:06:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -318,10 +318,9 @@ sub UpdateSessionID {
 sub GetAllSessionIDs {
     my ( $Self, %Param ) = @_;
 
-    my @SessionIDs;
-
     # read data
-    $Self->{DBObject}->Prepare(
+    my @SessionIDs;
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT $Self->{SQLSessionTableID} FROM $Self->{SQLSessionTable}",
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
