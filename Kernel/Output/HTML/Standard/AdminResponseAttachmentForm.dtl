@@ -1,47 +1,122 @@
 # --
-# AdminResponseAttachmentForm.dtl - provides HTML form for AdminResponseAttachment
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# AdminResponseAttachmentForm.dtl - provides HTML form for AdminInterface
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachmentForm.dtl,v 1.10 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminResponseAttachmentForm.dtl,v 1.11 2010-01-21 01:16:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- start form -->
+<!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Responses <-> Attachments Management"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td align="center" class="mainbody">
-      <br/>
-      <table cellspacing="0" cellpadding="4" border="0" width="700">
-        <tr class="contenthead">
-          <td width="50%">
-            $Text{"Response"}:$Text{"Attachment"} (1:n)
-          </td>
-          <td width="50%">
-            $Text{"Response"}:$Text{"Attachment"} (n:1)
-          </td>
-        </tr>
-        <tr class="contentbody">
-          <td align="left">
-            $Data{"AnswerQueueStrg"}
-          </td>
-          <td align="left">
-            $Data{"QueueAnswerStrg"}
-          </td>
-        </tr>
-        <tr class="contentfooter">
-          <td class="contentvalue" colspan="2">&nbsp;</td>
-        </tr>
-      </table>
-      <br/>
-    </td>
-  </tr>
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Responses <-> Attachments Management"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr class="mainbody">
+        <td align="center">
+            <br/>
+            <table width="700" cellspacing="0" cellpadding="4">
+                <tr>
+                    <td class="contenthead" width="50%">
+                        $Text{"User"}:$Text{"Role"} (1:n)
+                    </td>
+                    <td class="contenthead" width="50%">
+                        $Text{"User"}:$Text{"Role"} (n:1)
+                    </td>
+                </tr>
+                <tr class="contentbody">
+                    <td align="left">
+                        <table cellspacing="0" cellpadding="4" width="100%">
+<!-- dtl:block:List1n-->
+                            <tr valign="top" class="$QData{"CssClass"}">
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"Subaction"}&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                            </tr>
+<!-- dtl:block:List1n-->
+                        </table>
+                    </td>
+                    <td align="left">
+                        <table cellspacing="0" cellpadding="4" width="100%">
+<!-- dtl:block:Listn1-->
+                            <tr valign="top" class="$QData{"CssClass"}">
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"Subaction"}&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                            </tr>
+<!-- dtl:block:Listn1-->
+                        </table>
+                    </td>
+                </tr>
+                <tr class="contentfooter">
+                    <td class="contentvalue" colspan="2">&nbsp;</td>
+                </tr>
+            </table>
+            <br/>
+        </td>
+    </tr>
 </table>
-<!-- end form -->
+<!-- dtl:block:Overview -->
+<!-- dtl:block:Change -->
+
+<script type="text/javascript">//<![CDATA[
+function select_items (Type) {
+    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
+        if ( document.matrix.elements[Type][0].checked ) {
+            document.matrix.elements[Type][i].checked = true;
+        }
+        else {
+            document.matrix.elements[Type][i].checked = false;
+        }
+    }
+}
+//]]></script>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Responses <-> Attachments Management"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr align="center">
+        <td class="mainbody">
+            <br/>
+            <form action="$Env{"CGIHandle"}" method="post" name="matrix">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
+                <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                <table width="750" cellspacing="0" cellpadding="4">
+                    <tr valign="top">
+                        <td class="contenthead">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+
+                            <b>$Text{"$QData{"Type"}"}:</b> <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a> (id=$QData{"ID"})<br/>
+                            <br/>
+
+                            <table cellspacing="0" cellpadding="4" width="100%">
+                                <tr valign="top">
+                                    <td width="70%">$Text{"$QData{"NeType"}"}</td>
+                                    <td align="center">$Text{"Active"}<br/><input type="checkbox" name="Active" value="" onclick="select_items('Active');" /></td>
+                                </tr>
+<!-- dtl:block:ChangeRow -->
+                                <tr valign="top" class="$QData{"CssClass"}">
+                                    <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                                    <td align="center"><input type="checkbox" name="Active" value="$QData{"ID"}" $Data{"Selected"}></td>
+                                </tr>
+<!-- dtl:block:ChangeRow -->
+                            </table>
+                        </td>
+                    </tr>
+                    <tr class="contentfooter">
+                        <td class="contentvalue"><input class="button" type="submit" value="$Text{"Submit"}"/></td>
+                    </tr>
+                </table>
+            </form>
+            <br/>
+        </td>
+    </tr>
+</table>
+
+<!-- dtl:block:Change -->
