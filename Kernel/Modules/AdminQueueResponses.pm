@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Kernel/Modules/AdminQueueResponses.pm - to add/update/delete groups <-> users
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.34 2009-12-08 18:11:18 mg Exp $
+# $Id: AdminQueueResponses.pm,v 1.35 2010-01-21 00:44:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Queue;
+use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,13 +28,14 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+    for (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
 
-    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+    $Self->{QueueObject}       = Kernel::System::Queue->new(%Param);
+    $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
 
     return $Self;
 }
@@ -41,213 +43,255 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output    = '';
-    my $Subaction = $Self->{Subaction};
-    my $UserID    = $Self->{UserID};
-    my $ID        = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-    $ID = $Self->{DBObject}->Quote( $ID, 'Integer' ) if ($ID);
-    my $NextScreen = 'AdminQueueResponses';
-
+    # ------------------------------------------------------------ #
     # user <-> group 1:n
-    if ( $Subaction eq 'Response' ) {
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar( Type => 'Admin' );
+    # ------------------------------------------------------------ #
+    if ( $Self->{Subaction} eq 'StdResponse' ) {
 
-        # get StdResponses data
-        my %StdResponsesData = $Self->{DBObject}->GetTableData(
-            Table => 'standard_response',
-            What  => 'id, name',
-            Where => "id = $ID",
-        );
+        # get user data
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my %StdResponseData = $Self->{StdResponseObject}->StdResponseGet( ID => $ID );
 
         # get queue data
         my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
-        my %Data = $Self->{DBObject}->GetTableData(
-            Table => 'queue_standard_response',
-            What  => 'queue_id, standard_response_id',
-            Where => "standard_response_id = $ID"
-        );
-        $Output .= $Self->_Mask(
-            FirstData  => \%StdResponsesData,
-            SecondData => \%QueueData,
-            Data       => \%Data,
-            Type       => 'Response',
+
+        # get role member
+        my %Member = $Self->{QueueObject}->GetStdResponses(
+            StdResponseID => $ID,
         );
 
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->_Change(
+            Selected => \%Member,
+            Data     => \%QueueData,
+            ID       => $StdResponseData{ID},
+            Name     => $StdResponseData{Name},
+            Type     => 'StdResponse',
+        );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
+    # ------------------------------------------------------------ #
     # group <-> user n:1
-    elsif ( $Subaction eq 'Queue' ) {
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar( Type => 'Admin' );
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Queue' ) {
 
-        # get StdResponses data
-        my %StdResponsesData = $Self->{DBObject}->GetTableData(
-            Table => 'standard_response',
-            What  => 'id, name',
-            Valid => 1
+        # get group data
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my %QueueData = $Self->{QueueObject}->QueueGet( ID => $ID );
+
+        # get user list
+        my %StdResponseData = $Self->{StdResponseObject}->StdResponseList( Valid => 1 );
+
+        # get role member
+        my %Member = $Self->{QueueObject}->GetStdResponses(
+            QueueID => $ID,
         );
 
-        # get queue data
-        my %QueueData = $Self->{DBObject}->GetTableData(
-            Table => 'queue',
-            What  => 'id, name',
-            Where => "id = $ID",
-        );
-        my %Data = $Self->{DBObject}->GetTableData(
-            Table => 'queue_standard_response',
-            What  => 'standard_response_id, queue_id',
-            Where => "queue_id = $ID"
-        );
-        $Output .= $Self->_Mask(
-            FirstData  => \%QueueData,
-            SecondData => \%StdResponsesData,
-            Data       => \%Data,
-            Type       => 'Queue',
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->_Change(
+            Selected => \%Member,
+            Data     => \%StdResponseData,
+            ID       => $QueueData{QueueID},
+            Name     => $QueueData{Name},
+            Type     => 'Queue',
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
-    # queues to standard_responses
-    elsif ( $Subaction eq 'ChangeQueue' ) {
-        my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
-        $Self->{DBObject}->Do( SQL => "DELETE FROM queue_standard_response WHERE queue_id = $ID" );
-        for my $NewID (@NewIDs) {
+    # ------------------------------------------------------------ #
+    # add user to groups
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ChangeQueue' ) {
 
-            # db quote
-            $NewID = $Self->{DBObject}->Quote( $NewID, 'Integer' );
-            my $SQL
-                = "INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, "
-                . " change_time, change_by)"
-                . " VALUES "
-                . " ($ID, $NewID, current_timestamp, $UserID, current_timestamp, $UserID)";
-            $Self->{DBObject}->Do( SQL => $SQL );
+        # get new role member
+        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Active' );
+
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+
+        # get user list
+        my %StdResponseData = $Self->{StdResponseObject}->StdResponseList( Valid => 1 );
+        for my $StdResponseID ( keys %StdResponseData ) {
+            my $Active = 0;
+            for my $QueueID (@IDs) {
+                next if $QueueID ne $StdResponseID;
+                $Active = 1;
+                last;
+            }
+
+            # update db
+            $Self->{DBObject}->Do(
+                SQL  => 'DELETE FROM queue_standard_response WHERE queue_id = ?',
+                Bind => [ \$ID ],
+            );
+            for my $NewID (@IDs) {
+                $Self->{DBObject}->Do(
+                    SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
+                        . 'create_time, create_by, change_time, change_by) VALUES '
+                        . ' (?, ?, current_timestamp, ?, current_timestamp, ?)',
+                    Bind => [ \$ID, \$NewID, \$Self->{UserID}, \$Self->{UserID} ],
+                );
+            }
         }
-        $Output .= $Self->{LayoutObject}->Redirect( OP => "Action=$NextScreen" );
+
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
-    # standard_responses top queues
-    elsif ( $Subaction eq 'ChangeResponse' ) {
-        my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
-        $Self->{DBObject}->Do(
-            SQL => "DELETE FROM queue_standard_response WHERE standard_response_id = $ID"
-        );
-        for my $NewID (@NewIDs) {
+    # ------------------------------------------------------------ #
+    # groups to user
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ChangeStdResponse' ) {
 
-            # db quote
-            $NewID = $Self->{DBObject}->Quote( $NewID, 'Integer' );
-            my $SQL
-                = "INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, "
-                . " change_time, change_by)"
-                . " VALUES "
-                . " ($NewID, $ID, current_timestamp, $UserID, current_timestamp, $UserID)";
-            $Self->{DBObject}->Do( SQL => $SQL );
-        }
-        $Output .= $Self->{LayoutObject}->Redirect( OP => "Action=$NextScreen" );
-    }
+        # get new role member
+        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Active' );
 
-    # else ! print form
-    else {
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar( Type => 'Admin' );
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
-        # get StdResponses data
-        my %StdResponsesData = $Self->{DBObject}->GetTableData(
-            Table => 'standard_response',
-            What  => 'id, name',
-            Valid => 1
-        );
-
-        # get queue data
+        # get user list
         my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
-        $Output .= $Self->_MaskFrom(
-            FirstData  => \%StdResponsesData,
-            SecondData => \%QueueData
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
+        for my $QueueID ( keys %QueueData ) {
+            my $Active = 0;
+            for my $StdResponseID (@IDs) {
+                next if $StdResponseID ne $QueueID;
+                $Active = 1;
+                last;
+            }
+
+            # update db
+            $Self->{DBObject}->Do(
+                SQL  => 'DELETE FROM queue_standard_response WHERE standard_response_id = ?',
+                Bind => [ \$ID ],
+            );
+            for my $NewID (@IDs) {
+                $Self->{DBObject}->Do(
+                    SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
+                        . 'create_time, create_by, change_time, change_by) VALUES '
+                        . ' (?, ?, current_timestamp, ?, current_timestamp, ?)',
+                    Bind => [ \$NewID, \$ID, \$Self->{UserID}, \$Self->{UserID} ],
+                );
+            }
+        }
+
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
+
+    # ------------------------------------------------------------ #
+    # overview
+    # ------------------------------------------------------------ #
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+    $Output .= $Self->_Overview();
+    $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
 
-sub _Mask {
+sub _Change {
     my ( $Self, %Param ) = @_;
 
-    my $FirstData     = $Param{FirstData};
-    my %FirstDataTmp  = %$FirstData;
-    my $SecondData    = $Param{SecondData};
-    my %SecondDataTmp = %$SecondData;
-    my $Data          = $Param{Data};
-    my %DataTmp       = %$Data;
-    $Param{Type} = $Param{Type} || 'Response';
-    my $NeType = 'Response';
-    $NeType = 'Queue' if ( $Param{Type} eq 'Response' );
+    my %Data   = %{ $Param{Data} };
+    my $Type   = $Param{Type} || 'StdResponse';
+    my $NeType = $Type eq 'Queue' ? 'StdResponse' : 'Queue';
 
-    for ( sort keys %FirstDataTmp ) {
-        $FirstDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
-            Text                => $FirstDataTmp{$_},
-            HTMLQuote           => 1,
-            LanguageTranslation => 0,
-        ) || '';
-        $Param{OptionStrg0}
-            .= "<b>$Param{Type}:</b> <a href=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type};Subaction=Change;ID=$_\">"
-            . "$FirstDataTmp{$_}</a> (id=$_)<br/>";
-        $Param{OptionStrg0} .= "<input type=\"hidden\" name=\"ID\" value=\"$_\" /><br/>\n";
-    }
-    $Param{OptionStrg0}
-        .= "<b>$NeType:</b><br/> <select name=\"IDs\" size=\"10\" multiple=\"multiple\">\n";
-    for my $ID ( sort { $SecondDataTmp{$a} cmp $SecondDataTmp{$b} } keys %SecondDataTmp ) {
-        $SecondDataTmp{$ID} = $Self->{LayoutObject}->Ascii2Html(
-            Text                => $SecondDataTmp{$ID},
-            HTMLQuote           => 1,
-            LanguageTranslation => 0,
-        ) || '';
-        $Param{OptionStrg0} .= "<option ";
-        for ( sort keys %DataTmp ) {
-            if ( $_ eq $ID ) {
-                $Param{OptionStrg0} .= 'selected="selected"';
-            }
-        }
-        $Param{OptionStrg0} .= " value=\"$ID\">$SecondDataTmp{$ID} (id=$ID)</option>\n";
-    }
-    $Param{OptionStrg0} .= "</select>\n";
-
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminQueueResponsesChangeForm',
-        Data         => \%Param
+    $Self->{LayoutObject}->Block(
+        Name => 'Change',
+        Data => {
+            %Param,
+            ActionHome => 'Admin' . $Type,
+            NeType     => $NeType,
+        },
     );
-}
+    $Self->{LayoutObject}->Block(
+        Name => 'ChangeHeader',
+        Data => {
+            %Param,
+            Type => $Type,
+        },
+    );
 
-sub _MaskFrom {
-    my ( $Self, %Param ) = @_;
+    my $CssClass = 'searchpassive';
+    for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
-    my $UserData     = $Param{FirstData};
-    my %UserDataTmp  = %$UserData;
-    my $GroupData    = $Param{SecondData};
-    my %GroupDataTmp = %$GroupData;
-    my $BaseLink     = $Self->{LayoutObject}->{Baselink} . "Action=AdminQueueResponses;";
-    for ( sort { $UserDataTmp{$a} cmp $UserDataTmp{$b} } keys %UserDataTmp ) {
-        $UserDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
-            Text                => $UserDataTmp{$_},
-            HTMLQuote           => 1,
-            LanguageTranslation => 0,
+        # set output class
+        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
+        my $Selected = $Param{Selected}->{$ID} ? ' checked="checked"' : '';
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ChangeRow',
+            Data => {
+                %Param,
+                CssClass => $CssClass,
+                Name     => $Param{Data}->{$ID},
+                NeType   => $NeType,
+                Type     => $Type,
+                ID       => $ID,
+                Selected => $Selected,
+            },
         );
-        $Param{AnswerQueueStrg}
-            .= "<a href=\"$BaseLink" . "Subaction=Response;ID=$_\">$UserDataTmp{$_}</a><br/>";
-    }
-    for ( sort { $GroupDataTmp{$a} cmp $GroupDataTmp{$b} } keys %GroupDataTmp ) {
-        $GroupDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
-            Text                => $GroupDataTmp{$_},
-            HTMLQuote           => 1,
-            LanguageTranslation => 0,
-        );
-        $Param{QueueAnswerStrg}
-            .= "<a href=\"$BaseLink" . "Subaction=Queue;ID=$_\">$GroupDataTmp{$_}</a><br/>";
     }
 
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminQueueResponsesForm',
-        Data         => \%Param
+        Data         => \%Param,
+    );
+}
+
+sub _Overview {
+    my ( $Self, %Param ) = @_;
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => {},
+    );
+
+    # get std response list
+    my %StdResponseData = $Self->{StdResponseObject}->StdResponseList( Valid => 1 );
+    my $CssClass = 'searchpassive';
+    for my $StdResponseID (
+        sort { uc( $StdResponseData{$a} ) cmp uc( $StdResponseData{$b} ) }
+        keys %StdResponseData
+        )
+    {
+
+        # set output class
+        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
+        $Self->{LayoutObject}->Block(
+            Name => 'List1n',
+            Data => {
+                Name      => $StdResponseData{$StdResponseID},
+                Subaction => 'StdResponse',
+                ID        => $StdResponseID,
+                CssClass  => $CssClass,
+            },
+        );
+    }
+
+    $CssClass = 'searchpassive';
+
+    # get queue data
+    my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
+    for my $QueueID ( sort { uc( $QueueData{$a} ) cmp uc( $QueueData{$b} ) } keys %QueueData ) {
+
+        # set output class
+        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
+        $Self->{LayoutObject}->Block(
+            Name => 'Listn1',
+            Data => {
+                Name      => $QueueData{$QueueID},
+                Subaction => 'Queue',
+                ID        => $QueueID,
+                CssClass  => $CssClass,
+            },
+        );
+    }
+
+    # return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminQueueResponsesForm',
+        Data         => \%Param,
     );
 }
 
