@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.75 2010-01-14 03:13:09 martin Exp $
+# $Id: Group.pm,v 1.76 2010-01-21 00:06:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 =head1 NAME
 
@@ -89,7 +89,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
         Type => 'Group',
-        TTL  => 60 * 15,
+        TTL  => 60 * 60 * 3,
     );
 
     return $Self;
@@ -231,7 +231,7 @@ sub GroupAdd {
 
 returns a hash with group data
 
-    %GroupData = $GroupObject->GroupGet(ID => 2);
+    my %GroupData = $GroupObject->GroupGet( ID => 2 );
 
 =cut
 
@@ -268,7 +268,7 @@ sub GroupGet {
 
 update of a group
 
-    $GroupObject->GroupUpdate(
+    my $Success = $GroupObject->GroupUpdate(
         ID      => 123,
         Name    => 'example-group',
         ValidID => 1,
@@ -335,7 +335,7 @@ to add a member to a group
 
     Permission: ro,move_into,priority,create,rw
 
-    $GroupObject->GroupMemberAdd(
+    my $Success = $GroupObject->GroupMemberAdd(
         GID => 12,
         UID => 6,
         Permission => {
@@ -582,7 +582,7 @@ sub GroupMemberList {
 
 returns a list of users/groups with ro/move_into/create/owner/priority/rw permissions
 
-    %Users = $GroupObject->GroupMemberInvolvedList(
+    my %Users = $GroupObject->GroupMemberInvolvedList(
         UserID => $ID,
         Type   => 'move_into',
     );
@@ -1268,7 +1268,7 @@ sub GroupUserRoleMemberList {
 
 to add a member to a role
 
-    $GroupObject->GroupUserRoleMemberAdd(
+    my $Success = $GroupObject->GroupUserRoleMemberAdd(
         UID    => 12,
         RID    => 6,
         Active => 1,
@@ -1400,7 +1400,7 @@ sub RoleLookup {
 
 returns a hash with role data
 
-    %RoleData = $GroupObject->RoleGet( ID => 2 );
+    my %RoleData = $GroupObject->RoleGet( ID => 2 );
 
 =cut
 
@@ -1497,7 +1497,7 @@ sub RoleAdd {
 
 update of a role
 
-    $GroupObject->RoleUpdate(
+    my $Success = $GroupObject->RoleUpdate(
         ID      => 123,
         Name    => 'example-group',
         ValidID => 1,
@@ -1599,6 +1599,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.75 $ $Date: 2010-01-14 03:13:09 $
+$Revision: 1.76 $ $Date: 2010-01-21 00:06:31 $
 
 =cut
