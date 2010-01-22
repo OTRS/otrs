@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.85 2009-12-16 08:05:28 mb Exp $
+# $Id: AdminPackageManager.pm,v 1.86 2010-01-22 00:21:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -112,7 +112,7 @@ sub Run {
         if ( !$Location ) {
 
         }
-        if ( ref( $Structure{Filelist} ) eq 'ARRAY' ) {
+        if ( ref $Structure{Filelist} eq 'ARRAY' ) {
             for my $Hash ( @{ $Structure{Filelist} } ) {
                 if ( $Hash->{Location} eq $Location ) {
                     $File = $Hash->{Content};
@@ -177,7 +177,7 @@ sub Run {
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my $Location = $Self->{ParamObject}->GetParam( Param => 'Location' );
-        my %Frontend = ();
+        my %Frontend;
 
         # get package
         my $Package = $Self->{PackageObject}->RepositoryGet(
@@ -218,7 +218,7 @@ sub Run {
 
         # check if file is requested
         if ($Location) {
-            if ( ref( $Structure{Filelist} ) eq 'ARRAY' ) {
+            if ( ref $Structure{Filelist} eq 'ARRAY' ) {
                 for my $Hash ( @{ $Structure{Filelist} } ) {
                     if ( $Hash->{Location} eq $Location ) {
                         return $Self->{LayoutObject}->Attachment(
@@ -230,9 +230,9 @@ sub Run {
                 }
             }
         }
-        my @DatabaseBuffer = ();
+        my @DatabaseBuffer;
         for my $Key ( sort keys %Structure ) {
-            if ( ref( $Structure{$Key} ) eq 'HASH' ) {
+            if ( ref $Structure{$Key} eq 'HASH' ) {
                 if ( $Key =~ /^(Description|Filelist)$/ ) {
                     $Self->{LayoutObject}->Block(
                         Name => "PackageItem$Key",
@@ -248,23 +248,23 @@ sub Run {
                                         Name => "PackageItemDatabase",
                                         Data => { %{$Hash}, TagName => $Key, Type => $Type },
                                     );
-                                    push( @DatabaseBuffer, $Hash );
+                                    push @DatabaseBuffer, $Hash;
                                 }
                                 else {
                                     $Self->{LayoutObject}->Block(
                                         Name => "PackageItemDatabaseSub",
                                         Data => { %{$Hash}, TagName => $Key, },
                                     );
-                                    push( @DatabaseBuffer, $Hash );
+                                    push @DatabaseBuffer, $Hash;
                                 }
                             }
                             if ( $Hash->{Tag} =~ /^Table/ && $Hash->{TagType} eq 'End' ) {
-                                push( @DatabaseBuffer, $Hash );
+                                push @DatabaseBuffer, $Hash;
                                 my @SQL = $Self->{DBObject}->SQLProcessor(
                                     Database => \@DatabaseBuffer
                                 );
                                 my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
-                                push( @SQL, @SQLPost );
+                                push @SQL, @SQLPost;
                                 for my $SQL (@SQL) {
                                     $Self->{LayoutObject}->Block(
                                         Name => "PackageItemDatabaseSQL",
@@ -283,7 +283,7 @@ sub Run {
                     );
                 }
             }
-            elsif ( ref( $Structure{$Key} ) eq 'ARRAY' ) {
+            elsif ( ref $Structure{$Key} eq 'ARRAY' ) {
                 for my $Hash ( @{ $Structure{$Key} } ) {
                     if ( $Key =~ /^(Description|ChangeLog)$/ ) {
                         $Self->{LayoutObject}->Block(
@@ -421,9 +421,9 @@ sub Run {
     # view remote package
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'ViewRemote' ) {
-        my $File     = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
+        my $File = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
         my $Location = $Self->{ParamObject}->GetParam( Param => 'Location' );
-        my %Frontend = ();
+        my %Frontend;
 
         # download package
         my $Package = $Self->{PackageObject}->PackageOnlineGet(
@@ -445,7 +445,7 @@ sub Run {
 
         # check if file is requested
         if ($Location) {
-            if ( ref( $Structure{Filelist} ) eq 'ARRAY' ) {
+            if ( ref $Structure{Filelist} eq 'ARRAY' ) {
                 for my $Hash ( @{ $Structure{Filelist} } ) {
                     if ( $Hash->{Location} eq $Location ) {
                         return $Self->{LayoutObject}->Attachment(
@@ -457,9 +457,9 @@ sub Run {
                 }
             }
         }
-        my @DatabaseBuffer = ();
+        my @DatabaseBuffer;
         for my $Key ( sort keys %Structure ) {
-            if ( ref( $Structure{$Key} ) eq 'HASH' ) {
+            if ( ref $Structure{$Key} eq 'HASH' ) {
                 if ( $Key =~ /^(Description|Filelist)$/ ) {
                     $Self->{LayoutObject}->Block(
                         Name => "PackageItem$Key",
@@ -475,23 +475,23 @@ sub Run {
                                         Name => "PackageItemDatabase",
                                         Data => { %{$Hash}, TagName => $Key, Type => $Type },
                                     );
-                                    push( @DatabaseBuffer, $Hash );
+                                    push @DatabaseBuffer, $Hash;
                                 }
                                 else {
                                     $Self->{LayoutObject}->Block(
                                         Name => "PackageItemDatabaseSub",
                                         Data => { %{$Hash}, TagName => $Key, },
                                     );
-                                    push( @DatabaseBuffer, $Hash );
+                                    push @DatabaseBuffer, $Hash;
                                 }
                             }
                             if ( $Hash->{Tag} =~ /^Table/ && $Hash->{TagType} eq 'End' ) {
-                                push( @DatabaseBuffer, $Hash );
+                                push @DatabaseBuffer, $Hash;
                                 my @SQL = $Self->{DBObject}->SQLProcessor(
                                     Database => \@DatabaseBuffer
                                 );
                                 my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
-                                push( @SQL, @SQLPost );
+                                push @SQL, @SQLPost;
                                 for my $SQL (@SQL) {
                                     $Self->{LayoutObject}->Block(
                                         Name => "PackageItemDatabaseSQL",
@@ -510,7 +510,7 @@ sub Run {
                     );
                 }
             }
-            elsif ( ref( $Structure{$Key} ) eq 'ARRAY' ) {
+            elsif ( ref $Structure{$Key} eq 'ARRAY' ) {
                 for my $Hash ( @{ $Structure{$Key} } ) {
                     if ( $Key =~ /^(Description|ChangeLog)$/ ) {
                         $Self->{LayoutObject}->Block(
@@ -1034,14 +1034,14 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
-        my %Frontend      = ();
-        my %NeedReinstall = ();
-        my %List          = ();
-        my $OutputNotify  = '';
+        my %Frontend;
+        my %NeedReinstall;
+        my %List;
+        my $OutputNotify = '';
         if ( $Self->{ConfigObject}->Get('Package::RepositoryList') ) {
             %List = %{ $Self->{ConfigObject}->Get('Package::RepositoryList') };
         }
-        my %RepositoryRoot = ();
+        my %RepositoryRoot;
         if ( $Self->{ConfigObject}->Get('Package::RepositoryRoot') ) {
             %RepositoryRoot = $Self->{PackageObject}->PackageOnlineRepositories();
         }
