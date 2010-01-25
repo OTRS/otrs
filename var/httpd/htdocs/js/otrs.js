@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.11 2010-01-25 20:47:57 martin Exp $
+// $Id: otrs.js,v 1.12 2010-01-25 21:35:05 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,7 @@
 
 // create global OTRS name space
 var OTRS = {};
+var OTRSCore = {};
 var OTRSUI = {};
 var OTRSConfig = {};
 
@@ -23,7 +24,7 @@ OTRS.ConfigSet = function (Key, Value) {
 };
 
 // update content element
-function AJAXContentUpdate(Element, url, OnLoad, OnLoaded ) {
+OTRSCore.AJAXContentUpdate = function(Element, url, OnLoad, OnLoaded ) {
 
     // add sessionid if no cookies are used
     if ( !OTRS.ConfigGet('SessionIDCookie') ) {
@@ -59,8 +60,8 @@ function AJAXContentUpdate(Element, url, OnLoad, OnLoaded ) {
 };
 
 // update input and option fields
-function AJAXUpdate(Subaction, Changed, Depend, Update) {
-    var url = AJAXURLGet(Subaction, Changed, Depend, Update);
+OTRSCore.AJAXUpdate = function(Subaction, Changed, Depend, Update) {
+    var url = OTRSCore.AJAXURLGet(Subaction, Changed, Depend, Update);
     $.ajax({
         type:     'GET',
         url:      url,
@@ -71,14 +72,14 @@ function AJAXUpdate(Subaction, Changed, Depend, Update) {
                 alert("ERROR: Invalid JSON from: " + url);
             }
             else {
-                AJAXUpdateItems(Response, Update);
+                OTRSCore.AJAXUpdateItems(Response, Update);
             }
         },
         beforeSend: function() {
-            AJAXLoadingImage('Load', Update);
+            OTRSCore.AJAXLoadingImage('Load', Update);
         },
         complete: function() {
-            AJAXLoadingImage('Unload', Update);
+            OTRSCore.AJAXLoadingImage('Unload', Update);
         },
         error:      function() {
             alert('ERROR: Something went wrong!')
@@ -88,7 +89,7 @@ function AJAXUpdate(Subaction, Changed, Depend, Update) {
 }
 
 // generate requested url
-function AJAXURLGet (Subaction, Changed, FieldName, FieldName2) {
+OTRSCore.AJAXURLGet = function(Subaction, Changed, FieldName, FieldName2) {
     var ParamPart = '';
 
     // check if we need to fill some not used fields for Update
@@ -122,7 +123,7 @@ function AJAXURLGet (Subaction, Changed, FieldName, FieldName2) {
 }
 
 // update fields
-function AJAXUpdateItems (ObjectRef, FieldName) {
+OTRSCore.AJAXUpdateItems = function(ObjectRef, FieldName) {
     for (F=0;F<FieldName.length;F++) {
         if (document.compose[FieldName[F]]) {
             if ( document.compose[FieldName[F]].options ) {
@@ -153,7 +154,7 @@ function AJAXUpdateItems (ObjectRef, FieldName) {
 }
 
 // show loading image
-function AJAXLoadingImage (Type, FieldName) {
+OTRSCore.AJAXLoadingImage = function(Type, FieldName) {
     for (F=0;F<FieldName.length;F++) {
         if (document.compose[FieldName[F]] && document.getElementById('AJAXImage' + FieldName[F])) {
             if (Type == 'Load') {
@@ -168,7 +169,7 @@ function AJAXLoadingImage (Type, FieldName) {
 }
 
 // preload of loading image (to load it at page load time)
-function AJAXLoadingImagePreload (FieldName) {
+OTRSCore.AJAXLoadingImagePreload = function(FieldName) {
     for (F=0;F<FieldName.length;F++) {
         ImagePreload = new Image();
         ImagePreload.src = FieldName[F];
@@ -176,8 +177,8 @@ function AJAXLoadingImagePreload (FieldName) {
 }
 
 // init
-function AJAXInit () {
-    AJAXLoadingImagePreload( [OTRS.ConfigGet('Images') + 'loading.gif'] );
+OTRSCore.AJAXInit = function () {
+    OTRSCore.AJAXLoadingImagePreload( [OTRS.ConfigGet('Images') + 'loading.gif'] );
 }
 
 // start ajax request and call a callback when ready
@@ -247,8 +248,6 @@ function AJAXFunctionCall(Param)
 }
 
 OTRSUI.Settings = function( Element1, Element2 ) {
-//    $( '[name=' + Element1 + ']' ).toggle("slow");
-//    return true;
 
     var Icon1 = document.getElementById(Element1);
     if ( !Icon1.style.display || Icon1.style.display == 'block' ) {
@@ -262,6 +261,28 @@ OTRSUI.Settings = function( Element1, Element2 ) {
         });
     }
 
+    return true;
+}
+
+OTRSUI.Sortable = function( Data ) {
+    $(function() {
+        $(Data.Selector).sortable({
+            placeholder: Data.Placeholder,
+            forcePlaceholderSize: true,
+            opacity: 0.6,
+            cursor: 'move',
+            handle: Data.Handle,
+            update: function(event, ui) {
+                var url = Data.UpdateURL;
+                $(Data.UpdateOrder).each(
+                    function(i) {
+                        url = url + ';' + Data.UpdateAttribute + '=' + $(this).attr(Data.UpdateValue);
+                    }
+                );
+                OTRSCore.AJAXContentUpdate('', url );
+            }
+        });
+    });
     return true;
 }
 

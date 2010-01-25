@@ -1,8 +1,8 @@
 # --
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.16 2009-12-14 16:40:03 martin Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.17 2010-01-25 21:35:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,15 +13,15 @@
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
     <tr>
         <td class="small" width="70%">
-            <a href="#" onclick="AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked'); return false;" style="$QData{"Locked::Style"}">$Text{"Locked Tickets"} ($QData{"Locked"})</a>
+            <a href="#" onclick="OTRSCore.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked'); return false;" style="$QData{"Locked::Style"}">$Text{"Locked Tickets"} ($QData{"Locked"})</a>
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
-            | <a href="#" onclick="AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher'); return false;" style="$QData{"Watcher::Style"}">$Text{"Watched"} ($QData{"Watcher"})</a>
+            | <a href="#" onclick="OTRSCore.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher'); return false;" style="$QData{"Watcher::Style"}">$Text{"Watched"} ($QData{"Watcher"})</a>
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
-            | <a href="#" onclick="AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible'); return false;" style="$QData{"Responsible::Style"}">$Text{"Responsible"} ($QData{"Responsible"})</a>
+            | <a href="#" onclick="OTRSCore.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible'); return false;" style="$QData{"Responsible::Style"}">$Text{"Responsible"} ($QData{"Responsible"})</a>
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
-            | <a href="#" onclick="AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues'); return false;" style="$QData{"MyQueues::Style"}">$Text{"My Queues"} ($QData{"MyQueues"})</a>
-            | <a href="#" onclick="AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All'); return false;" style="$QData{"All::Style"}">$Text{"All"} ($QData{"All"})</a>
+            | <a href="#" onclick="OTRSCore.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues'); return false;" style="$QData{"MyQueues::Style"}">$Text{"My Queues"} ($QData{"MyQueues"})</a>
+            | <a href="#" onclick="OTRSCore.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All'); return false;" style="$QData{"All::Style"}">$Text{"All"} ($QData{"All"})</a>
 
         </td>
         <td class="small" align="right">

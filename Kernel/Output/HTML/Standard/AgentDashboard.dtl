@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.26 2010-01-13 10:55:58 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.27 2010-01-25 21:35:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,48 +29,34 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
     var onLoaded = function() {
         OTRSUI.Settings( Name + '-setting', Name );
     };
-    AJAXContentUpdate( Name, url, false, onLoaded );
+    OTRSCore.AJAXContentUpdate( Name, url, false, onLoaded );
     return true;
 }
 //]]></script>
 
 <script type="text/javascript">//<![CDATA[
-    $(function() {
-        $("#sortable-large").sortable({
-            placeholder: 'ui-state-highlight',
-            forcePlaceholderSize: true,
-            opacity: 0.6,
-            cursor: 'move',
-            handle: '.contenthead',
-            update: function(event, ui) {
-//                $('.ui-state-default').css("border","3px solid red");
-                var url = '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition';
-                $('.ui-state-default').each(
-                    function(i) {
-//    alert( $(this).attr('id') );
-                        url = url + ';Backend=' + $(this).attr('id');
-                    }
-                );
-                AJAXContentUpdate('', url );
-            }
-        });
-        $("#sortable-small").sortable({
-            placeholder: 'ui-state-highlight',
-            forcePlaceholderSize: true,
-            opacity: 0.6,
-            cursor: 'move',
-            handle: '.contenthead',
-            update: function(event, ui) {
-                var url = '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition';
-                $('.ui-state-default').each(
-                    function(i) {
-                        url = url + ';Backend=' + $(this).attr('id');
-                    }
-                );
-                AJAXContentUpdate('', url );
-            }
-        });
-    });
+    OTRSUI.Sortable(
+        {
+            Selector:    '#sortable-large',
+            Placeholder: 'ui-state-highlight',
+            Handle:      '.contenthead',
+            UpdateURL:   '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition',
+            UpdateOrder: '.ui-state-default',
+            UpdateAttribute: 'Backend',
+            UpdateValue:     'id'
+        }
+    );
+    OTRSUI.Sortable(
+        {
+            Selector:    '#sortable-small',
+            Placeholder: 'ui-state-highlight',
+            Handle:      '.contenthead',
+            UpdateURL:   '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition',
+            UpdateOrder: '.ui-state-default',
+            UpdateAttribute: 'Backend',
+            UpdateValue:     'id'
+        }
+    );
 //]]></script>
 
 <!-- dtl:block:Content -->
