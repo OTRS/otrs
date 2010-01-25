@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.241 2010-01-19 21:10:35 martin Exp $
+# $Id: Article.pm,v 1.242 2010-01-25 13:07:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::TemplateGenerator;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.241 $) [1];
+$VERSION = qw($Revision: 1.242 $) [1];
 
 =head1 NAME
 
@@ -733,23 +733,28 @@ sub ArticleGetContentPath {
         return;
     }
 
-    # check cache
+    # check key
     my $CacheKey = 'ArticleGetContentPath::' . $Param{ArticleID};
-    if ( $Self->{$CacheKey} ) {
-        return $Self->{$CacheKey};
-    }
+
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return $Cache if $Cache;
 
     # sql query
     return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT content_path FROM article WHERE id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
+    my $Result;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{$CacheKey} = $Row[0];
+        $Result = $Row[0];
     }
 
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+
     # return
-    return $Self->{$CacheKey};
+    return $Result;
 }
 
 =item ArticleSenderTypeList()
@@ -821,10 +826,9 @@ sub ArticleSenderTypeLookup {
         $CacheKey = 'ArticleSenderTypeLookup::' . $Param{SenderTypeID};
     }
 
-    # check if we ask the same request?
-    if ( $Self->{$CacheKey} ) {
-        return $Self->{$CacheKey};
-    }
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return $Cache if $Cache;
 
     # get data
     if ( $Param{SenderType} ) {
@@ -841,12 +845,13 @@ sub ArticleSenderTypeLookup {
     }
 
     # store result
+    my $Result;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{$CacheKey} = $Row[0];
+        $Result = $Row[0];
     }
 
     # check if data exists
-    if ( !$Self->{$CacheKey} ) {
+    if ( !$Result ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Found no SenderType(ID) for $Key!",
@@ -854,8 +859,11 @@ sub ArticleSenderTypeLookup {
         return;
     }
 
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+
     # return
-    return $Self->{$CacheKey};
+    return $Result;
 }
 
 =item ArticleTypeLookup()
@@ -896,10 +904,9 @@ sub ArticleTypeLookup {
         $CacheKey = 'ArticleTypeLookup::' . $Param{ArticleTypeID};
     }
 
-    # check if we ask the same request (cache)?
-    if ( $Self->{$CacheKey} ) {
-        return $Self->{$CacheKey};
-    }
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return $Cache if $Cache;
 
     # get data
     if ( $Param{ArticleType} ) {
@@ -916,12 +923,13 @@ sub ArticleTypeLookup {
     }
 
     # store result
+    my $Result;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{$CacheKey} = $Row[0];
+        $Result = $Row[0];
     }
 
     # check if data exists
-    if ( !$Self->{$CacheKey} ) {
+    if ( !$Result ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Found no ArticleType(ID) for $Key!",
@@ -929,8 +937,11 @@ sub ArticleTypeLookup {
         return;
     }
 
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+
     # return
-    return $Self->{$CacheKey};
+    return $Result;
 }
 
 =item ArticleTypeList()
@@ -3124,6 +3135,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.241 $ $Date: 2010-01-19 21:10:35 $
+$Revision: 1.242 $ $Date: 2010-01-25 13:07:23 $
 
 =cut

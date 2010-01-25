@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.446 2010-01-19 21:10:35 martin Exp $
+# $Id: Ticket.pm,v 1.447 2010-01-25 13:07:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,11 +30,12 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Email;
 use Kernel::System::Valid;
+use Kernel::System::CacheInternal;
 use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.446 $) [1];
+$VERSION = qw($Revision: 1.447 $) [1];
 
 =head1 NAME
 
@@ -121,6 +122,12 @@ sub new {
             die "Got no $_!";
         }
     }
+
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %Param,
+        Type => 'Ticket',
+        TTL  => 60 * 60 * 3,
+    );
 
     # create common needed module objects
     $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
@@ -7681,6 +7688,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.446 $ $Date: 2010-01-19 21:10:35 $
+$Revision: 1.447 $ $Date: 2010-01-25 13:07:23 $
 
 =cut
