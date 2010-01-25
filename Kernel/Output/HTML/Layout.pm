@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.206 2010-01-19 01:54:19 martin Exp $
+# $Id: Layout.pm,v 1.207 2010-01-25 07:39:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.206 $) [1];
+$VERSION = qw($Revision: 1.207 $) [1];
 
 =head1 NAME
 
@@ -881,13 +881,21 @@ sub Login {
     }
 
     # get language options
-    $Param{Language} = $Self->BuildSelection(
-        Data       => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
-        Name       => 'Lang',
-        SelectedID => $Self->{UserLanguage},
-        OnChange   => 'submit()',
-        HTMLQuote  => 0,
-    );
+    if ( $Self->{ConfigObject}->Get('LanguageSelectionLogin') ) {
+        $Self->Block(
+            Name => 'Language',
+            Data => \%Param,
+        );
+
+        # get language options
+        $Param{Language} = $Self->BuildSelection(
+            Data       => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
+            Name       => 'Lang',
+            SelectedID => $Self->{UserLanguage},
+            OnChange   => 'submit()',
+            HTMLQuote  => 0,
+        );
+    }
 
     # get lost password y
     if (
@@ -2706,14 +2714,20 @@ sub CustomerLogin {
     }
 
     # get language options
-    $Param{Language} = $Self->BuildSelection(
-        Data                => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
-        Name                => 'Lang',
-        SelectedID          => $Self->{UserLanguage},
-        OnChange            => 'submit()',
-        HTMLQuote           => 0,
-        LanguageTranslation => 0,
-    );
+    if ( $Self->{ConfigObject}->Get('CustomerPanelLanguage') ) {
+        $Self->Block(
+            Name => 'Language',
+            Data => \%Param,
+        );
+        $Param{Language} = $Self->BuildSelection(
+            Data                => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
+            Name                => 'Lang',
+            SelectedID          => $Self->{UserLanguage},
+            OnChange            => 'submit()',
+            HTMLQuote           => 0,
+            LanguageTranslation => 0,
+        );
+    }
 
     # get lost password output
     if (
@@ -4251,6 +4265,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.206 $ $Date: 2010-01-19 01:54:19 $
+$Revision: 1.207 $ $Date: 2010-01-25 07:39:00 $
 
 =cut
