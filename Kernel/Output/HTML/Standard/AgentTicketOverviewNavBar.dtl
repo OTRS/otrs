@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.17 2010-01-25 20:47:24 martin Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.18 2010-01-25 20:50:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 <!-- view settings start -->
 $Include{"AJAX"}
-<link rel="stylesheet" type="text/css" href="$Config{"Frontend::CSSPath"}overcast/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="$Config{"Frontend::CSSPath"}overcast/jquery-ui.css" />
 <script type="text/javascript">//<![CDATA[
     OTRSUI.Dialog(
         {
