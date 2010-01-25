@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AdminNotificationEvent.pm - to add/update/delete state
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.10 2009-12-15 21:09:40 mb Exp $
+# $Id: AdminNotificationEvent.pm,v 1.11 2010-01-25 07:47:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
