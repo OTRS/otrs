@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.47 2010-01-13 09:07:07 mb Exp $
+# $Id: AAATicket.dtl,v 1.48 2010-01-25 20:47:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -193,6 +193,10 @@ $Text{"Select your screen after creating a new ticket."}
 $Text{"Closed Tickets"}
 $Text{"Show closed tickets."};
 $Text{"Max. shown Tickets a page in QueueView."}
+$Text{"Ticket Overview "Small""}
+$Text{"Ticket Overview "Medium""}
+$Text{"Ticket Overview "Preview""}
+$Text{"Max. shown Tickets a page."}
 
 $Text{"Watch notification"}
 $Text{"Send me a notification of an watched ticket like an owner of an ticket."}

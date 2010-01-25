@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.294 2010-01-15 10:42:28 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.295 2010-01-25 20:47:24 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1576,15 +1576,14 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Overview###Small" Required="0" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module registration for ticket small overview.</Description>
+        <Description Lang="de">Modul Registrierung für Ticket Small Übersicht.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketOverviewSmall</Item>
                 <Item Key="Name">Small</Item>
-                <Item Key="PageShown">25</Item>
                 <Item Key="Image">overviewsmall.png</Item>
                 <Item Key="ImageSelected">overviewsmall-selected.png</Item>
             </Hash>
@@ -1603,30 +1602,28 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Overview###Medium" Required="0" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module registration for ticket medium overview.</Description>
+        <Description Lang="de">Modul Registrierung für Ticket Medium Übersicht.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketOverviewMedium</Item>
                 <Item Key="Name">Medium</Item>
-                <Item Key="PageShown">20</Item>
                 <Item Key="Image">overviewmedium.png</Item>
                 <Item Key="ImageSelected">overviewmedium-selected.png</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Overview###Preview" Required="0" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module registration for ticket preview overview.</Description>
+        <Description Lang="de">Modul Registrierung für Ticket Preview Übersicht.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketOverviewPreview</Item>
                 <Item Key="Name">Preview</Item>
-                <Item Key="PageShown">15</Item>
                 <Item Key="Image">overviewpreview.png</Item>
                 <Item Key="ImageSelected">overviewpreview-selected.png</Item>
             </Hash>
@@ -6936,6 +6933,93 @@ $QData{"Signature"}
                 <Item Key="PrefKey">UserRefreshTime</Item>
                 <Item Key="Prio">3000</Item>
                 <Item Key="Activ">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###TicketOverviewSmallPageShown" Required="0" Valid="1">
+        <Description Lang="en">Parameters for shown Tickets a page of the Ticket Overview "Small".</Description>
+        <Description Lang="de">Parameter der angezeigten Tickets pro Seite für die Ticket-Übersicht "Small".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
+                <Item Key="Colum">Frontend</Item>
+                <Item Key="Label">Ticket Overview "Small"</Item>
+                <Item Key="Desc">Max. shown Tickets a page.</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="5"> 5</Item>
+                        <Item Key="10">10</Item>
+                        <Item Key="15">15</Item>
+                        <Item Key="20">20</Item>
+                        <Item Key="25">25</Item>
+                        <Item Key="30">30</Item>
+                        <Item Key="35">35</Item>
+                    </Hash>
+                </Item>
+                <Item Key="DataSelected">25</Item>
+                <Item Key="PrefKey">UserTicketOverviewSmallPageShown</Item>
+                <Item Key="Prio">8000</Item>
+                <Item Key="Activ">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###TicketOverviewMediumPageShown" Required="0" Valid="1">
+        <Description Lang="en">Parameters for shown Tickets a page of the Ticket Overview "Medium".</Description>
+        <Description Lang="de">Parameter der angezeigten Tickets pro Seite für die Ticket-Übersicht "Medium".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
+                <Item Key="Colum">Frontend</Item>
+                <Item Key="Label">Ticket Overview "Medium"</Item>
+                <Item Key="Desc">Max. shown Tickets a page.</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="5"> 5</Item>
+                        <Item Key="10">10</Item>
+                        <Item Key="15">15</Item>
+                        <Item Key="20">20</Item>
+                        <Item Key="25">25</Item>
+                        <Item Key="30">30</Item>
+                        <Item Key="35">35</Item>
+                    </Hash>
+                </Item>
+                <Item Key="DataSelected">20</Item>
+                <Item Key="PrefKey">UserTicketOverviewMediumPageShown</Item>
+                <Item Key="Prio">8100</Item>
+                <Item Key="Activ">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###TicketOverviewPreviewPageShown" Required="0" Valid="1">
+        <Description Lang="en">Parameters for shown Tickets a page of the Ticket Overview "Preview".</Description>
+        <Description Lang="de">Parameter der angezeigten Tickets pro Seite für die Ticket-Übersicht "Preview".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
+                <Item Key="Colum">Frontend</Item>
+                <Item Key="Label">Ticket Overview "Preview"</Item>
+                <Item Key="Desc">Max. shown Tickets a page.</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="5"> 5</Item>
+                        <Item Key="10">10</Item>
+                        <Item Key="15">15</Item>
+                        <Item Key="20">20</Item>
+                        <Item Key="25">25</Item>
+                        <Item Key="30">30</Item>
+                        <Item Key="35">35</Item>
+                    </Hash>
+                </Item>
+                <Item Key="DataSelected">15</Item>
+                <Item Key="PrefKey">UserTicketOverviewPreviewPageShown</Item>
+                <Item Key="Prio">8200</Item>
+                <Item Key="Activ">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>

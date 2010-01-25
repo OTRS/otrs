@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1144 2010-01-20 04:29:17 mb Exp $
+# $Id: CHANGES,v 1.1145 2010-01-25 20:47:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/01/25) Added agent preferences for max. shown tickets a page in
+    ticket overviews.
  - (2010/01/19) Added security feature enhancement to block active elements
     and external images as auto load of html articles in zoom view (agent
     and customer interface).
@@ -168,6 +170,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.7 (2010/??/??)
+ - (2010/01/25) Fixed bug#4818 - Removed inline image of forwarded message gets
+    still included.
  - (2010/01/20) Fixed bug#4780 - Adding groups to a CustomerUser fails,
     adding CustomerUsers to a group works.
  - (2010/01/20) Fixed bug#4486 - Some preferences displayed in AdminUser are not

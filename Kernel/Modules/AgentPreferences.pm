@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.42 2009-12-11 09:42:09 mh Exp $
+# $Id: AgentPreferences.pm,v 1.43 2010-01-25 20:47:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -88,7 +88,15 @@ sub Run {
             $Message  = $Object->Error();
         }
 
-        # mk rediect
+        # check redirect
+        my $RedirectURL = $Self->{ParamObject}->GetParam( Param => 'RedirectURL' );
+        if ($RedirectURL) {
+            return $Self->{LayoutObject}->Redirect(
+                OP => $RedirectURL,
+            );
+        }
+
+        # redirect
         return $Self->{LayoutObject}->Redirect(
             OP => "Action=AgentPreferences;Priority=$Priority;Message=$Message",
         );

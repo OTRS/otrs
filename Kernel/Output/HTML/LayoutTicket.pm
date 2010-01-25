@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.62 2010-01-13 13:25:23 martin Exp $
+# $Id: LayoutTicket.pm,v 1.63 2010-01-25 20:47:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -971,12 +971,19 @@ sub TicketListShow {
     # check start option, if higher then tickets available, set
     # it to the last ticket page (Thanks to Stefan Schmidt!)
     my $StartHit = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
-    my $PageShown = $Backends->{$View}->{PageShown};
+
+    # get personal page shown count
+    my $PageShownPreferencesKey = 'UserTicketOverview' . $View . 'PageShown';
+    my $PageShown               = $Self->{$PageShownPreferencesKey} || 10;
+    my $Group                   = 'TicketOverview' . $View . 'PageShown';
+
+    # calculate max. sown page
     if ( $StartHit > $Param{Total} ) {
         my $Pages = int( ( $Param{Total} / $PageShown ) + 0.99999 );
         $StartHit = ( ( $Pages - 1 ) * $PageShown ) + 1;
     }
 
+    # build nav bar
     my $Limit = $Param{Limit} || 20_000;
     my %PageNav = $Env->{LayoutObject}->PageNavBar(
         Limit     => $Limit,
@@ -987,7 +994,24 @@ sub TicketListShow {
         Link      => $Param{LinkPage},
     );
 
+    # build shown ticket a page
+    $Param{RequestedURL}    = "Action=$Self->{Action}";
+    $Param{Group}           = $Group;
+    $Param{PageShown}       = $PageShown;
+    $Param{PageShownString} = $Self->BuildSelection(
+        Name       => $PageShownPreferencesKey,
+        SelectedID => $PageShown,
+        Data       => {
+            10 => 10,
+            15 => 15,
+            20 => 20,
+            25 => 25,
+            30 => 30,
+        },
+    );
+
     # nav bar at the beginning of a overview
+    $Param{View} = $View;
     $Env->{LayoutObject}->Block(
         Name => 'OverviewNavBar',
         Data => \%Param,

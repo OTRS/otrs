@@ -1,8 +1,8 @@
 // --
 // otrs.js - provides AJAX functions
-// Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.10 2009-12-14 16:27:11 martin Exp $
+// $Id: otrs.js,v 1.11 2010-01-25 20:47:57 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -293,6 +293,42 @@ OTRSUI.Accordion = function( Element1, Element2, Element3 ) {
             }
         });
     }
+
+    return true;
+}
+
+OTRSUI.Dialog = function( Data ) {
+
+    var Buttons = {};
+
+    Buttons[Data.Translation.Submit] = function() {
+        $(Data.Form).submit();
+    };
+    Buttons[Data.Translation.Cancel] = function() {
+        $(Data.Dialog).dialog('close');
+    };
+
+    // on document ready
+    $(Data.Document).ready( function() {
+
+        // instantiate the dialog
+        $(Data.Dialog).dialog( {
+            autoOpen:   false,
+            bgiframe:   true,
+            width:      350,
+            modal:      Data.Modal,
+            draggable:  false,
+            resizable:  false,
+            title:      Data.Title,
+            buttons:    Buttons
+        } );
+
+        // add event listener to show dialog
+        $(Data.Selector).click(function() {
+            $(Data.Dialog).dialog('open');
+        } );
+
+    } );
 
     return true;
 }
