@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesPassword.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.22 2009-07-07 15:45:19 mh Exp $
+# $Id: PreferencesPassword.pm,v 1.23 2010-01-25 07:49:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,7 +75,7 @@ sub Param {
         },
         {
             %Param,
-            Key   => 'New password again',
+            Key   => 'Repeat new password',
             Name  => 'NewPw1',
             Block => 'Password'
         },
@@ -104,7 +104,7 @@ sub Run {
     # compare pws
     if ( $Pw ne $Pw1 ) {
         $Self->{Error}
-            = 'Can\'t update password, your new passwords do not match! Please try again!';
+            = 'Can\'t update password, your new passwords do not match. Please try again!';
         return;
     }
 
@@ -116,7 +116,7 @@ sub Run {
 
     # check pw
     if ( $Self->{ConfigItem}->{PasswordRegExp} && $Pw !~ /$Self->{ConfigItem}->{PasswordRegExp}/ ) {
-        $Self->{Error} = 'Can\'t update password, invalid characters!';
+        $Self->{Error} = 'Can\'t update password, it contains invalid characters!';
         return;
     }
     if (
@@ -125,7 +125,7 @@ sub Run {
         )
     {
         $Self->{Error} = (
-            'Can\'t update password, must be at least %s characters!", "'
+            'Can\'t update password, it must be at least %s characters long!", "'
                 . $Self->{ConfigItem}->{PasswordMinSize}
         );
         return;
@@ -135,15 +135,16 @@ sub Run {
         && ( $Pw !~ /[A-Z]/ || $Pw !~ /[a-z]/ )
         )
     {
-        $Self->{Error} = 'Can\'t update password, must contain 2 lower and 2 upper characters!';
+        $Self->{Error}
+            = 'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!';
         return;
     }
     if ( $Self->{ConfigItem}->{PasswordNeedDigit} && $Pw !~ /\d/ ) {
-        $Self->{Error} = 'Can\'t update password, needs at least 1 digit!';
+        $Self->{Error} = 'Can\'t update password, it must contain at least 1 digit!';
         return;
     }
     if ( $Self->{ConfigItem}->{PasswordMin2Characters} && $Pw !~ /[A-z][A-z]/ ) {
-        $Self->{Error} = 'Can\'t update password, needs at least 2 characters!';
+        $Self->{Error} = 'Can\'t update password, it must contain at least 2 characters!';
         return;
     }
 
@@ -158,7 +159,8 @@ sub Run {
         && ( $MD5Pw eq $Param{UserData}->{UserLastPw} )
         )
     {
-        $Self->{Error} = "Password is already used! Please use an other password!";
+        $Self->{Error}
+            = "Can\'t update password, this password has already been used. Please choose a new one!";
         return;
     }
 

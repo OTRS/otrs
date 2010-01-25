@@ -1,8 +1,8 @@
 # --
 # AAAPreferences.dtl - $Text variable file
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAAPreferences.dtl,v 1.18 2009-06-25 18:17:05 ub Exp $
+# $Id: AAAPreferences.dtl,v 1.19 2010-01-25 07:49:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ $Text{"Other Options"}
 
 $Text{"Change Password"}
 $Text{"New password"}
-$Text{"New password again"}
+$Text{"Repeat new password"}
 
 $Text{"Select your QueueView refresh time."}
 $Text{"Select your frontend language."}
@@ -30,11 +30,10 @@ $Text{"Select your default spelling dictionary."}
 
 $Text{"Max. shown Tickets a page in Overview."}
 
-$Text{"Password is already used! Please use an other password!"}
-$Text{"Password is already in use! Please use an other password!"}
-$Text{"Can't update password, your new passwords do not match! Please try again!"}
-$Text{"Can't update password, invalid characters!"}
-$Text{"Can't update password, must be at least %s characters!"}
-$Text{"Can't update password, must contain 2 lower and 2 upper characters!"}
-$Text{"Can't update password, needs at least 1 digit!"}
-$Text{"Can't update password, needs at least 2 characters!"}
+$Text{"Can't update password, your new passwords do not match. Please try again!"}
+$Text{"Can't update password, it contains invalid characters!"}
+$Text{"Can't update password, it must be at least %s characters long!"}
+$Text{"Can't update password, it must contain at least 2 lowercase  and 2 uppercase characters!"}
+$Text{"Can't update password, it must contain at least 1 digit!"}
+$Text{"Can't update password, it must contain at least 2 characters!"}
+$Text{"Can't update password, this password has already been used. Please choose a new one!"}
