@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.993.2.99 2010-01-20 04:24:27 mb Exp $
+# $Id: CHANGES,v 1.993.2.100 2010-01-25 11:06:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.7 (2010/??/??)
+ - (2010/01/25) Fixed bug#4818 - Removed inline image of forwarded message gets
+    still included.
  - (2010/01/20) Fixed bug#4780 - Adding groups to a CustomerUser fails,
     adding CustomerUsers to a group works.
  - (2010/01/20) Fixed bug#4486 - Some preferences displayed in AdminUser are not
