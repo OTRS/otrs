@@ -1,8 +1,8 @@
 # --
 # Kernel/System/State.pm - All state related function should be here eventually
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.37 2009-10-05 08:35:31 martin Exp $
+# $Id: State.pm,v 1.38 2010-01-25 13:10:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -93,7 +93,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'State',
-        TTL  => 60 * 30,
+        TTL  => 60 * 60 * 3,
     );
 
     # check needed config options
@@ -490,6 +490,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2009-10-05 08:35:31 $
+$Revision: 1.38 $ $Date: 2010-01-25 13:10:46 $
 
 =cut

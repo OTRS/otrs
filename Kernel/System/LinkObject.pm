@@ -1,8 +1,8 @@
 # --
 # Kernel/System/LinkObject.pm - to link objects
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.55 2009-11-26 12:23:09 bes Exp $
+# $Id: LinkObject.pm,v 1.56 2010-01-25 13:10:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 =head1 NAME
 
@@ -97,7 +97,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
         Type => 'LinkObject',
-        TTL  => 60 * 60 * 1,
+        TTL  => 60 * 60 * 3,
     );
 
     return $Self;
@@ -2405,6 +2405,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.56 $ $Date: 2010-01-25 13:10:46 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.19 2010-01-14 13:46:51 martin Exp $
+# $Id: Type.pm,v 1.20 2010-01-25 13:10:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -88,7 +88,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
         Type => 'Type',
-        TTL  => 60 * 15,
+        TTL  => 60 * 60 * 3,
     );
 
     return $Self;
@@ -431,6 +431,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2010-01-14 13:46:51 $
+$Revision: 1.20 $ $Date: 2010-01-25 13:10:46 $
 
 =cut
