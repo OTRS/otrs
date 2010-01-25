@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.pm,v 1.41 2009-12-14 19:35:37 mb Exp $
+# $Id: AdminEmail.pm,v 1.42 2010-01-25 07:53:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +51,7 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # send email(s)
+    # send email
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Send' ) {
 
@@ -86,7 +86,7 @@ sub Run {
             );
             for (@GroupMemberList) {
                 my %UserData = $Self->{UserObject}->GetUserData( UserID => $_, Valid => 1 );
-                if ( $UserData{UserEmail} ) {
+                if ( $UserData{UserEmail} && $UserData{UserID} != 1 ) {
                     $Bcc{ $UserData{UserLogin} } = $UserData{UserEmail};
                 }
             }
@@ -195,7 +195,6 @@ sub Run {
                 Data => \%Param,
             );
         }
-
         $Param{UserOption} = $Self->{LayoutObject}->BuildSelection(
             Data => { $Self->{UserObject}->UserList( Valid => 1 ) },
             Name => 'UserIDs',
@@ -214,11 +213,17 @@ sub Run {
             Name => 'RoleIDs',
             Multiple => 1,
         );
-
         $Self->{LayoutObject}->Block(
             Name => 'Form',
             Data => \%Param,
         );
+        if ( $Self->{ConfigObject}->Get('CustomerGroupSupport') ) {
+            print STDERR "CustomerUserGroup is ON.\n";
+            $Self->{LayoutObject}->Block(
+                Name => 'CustomerUserGroups',
+                Data => \%Param,
+            );
+        }
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(

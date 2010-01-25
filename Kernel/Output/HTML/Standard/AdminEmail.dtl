@@ -1,8 +1,8 @@
 # --
 # AdminEmail.dtl - provides global HTML AdminEmail
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.27 2009-12-14 19:35:37 mb Exp $
+# $Id: AdminEmail.dtl,v 1.28 2010-01-25 07:53:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,7 +81,9 @@ function submit_compose() {
                                                     $Text{"Permission"}:<br/>ro <input type="radio" name="GroupPermission" value="ro" checked="checked" /> - rw <input type="radio" name="GroupPermission" value="rw"/>
                                                 </td>
                                             </tr>
+<!-- dtl:block:CustomerUserGroups -->
                                             <tr><td><input type="checkbox" name="NotifyCustomerUsers" />$Text{"Also send CustomerUsers in Groups"}</td></tr>
+<!-- dtl:block:CustomerUserGroups -->
                                         </table>
                                     </td>
                                 </tr>
