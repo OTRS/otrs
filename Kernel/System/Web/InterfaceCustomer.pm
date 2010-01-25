@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.43 2009-10-07 20:30:49 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.44 2010-01-25 17:24:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -114,7 +114,7 @@ sub Run {
 
     # drop old session id (if exists)
     my $QueryString = $ENV{QUERY_STRING} || '';
-    $QueryString =~ s/(\?|&|)$Param{SessionName}(=&|=.+?&|=.+?$)/&/g;
+    $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
     # definde frame work params
     my $FramworkPrams = {
@@ -942,6 +942,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2009-10-07 20:30:49 $
+$Revision: 1.44 $ $Date: 2010-01-25 17:24:13 $
 
 =cut
