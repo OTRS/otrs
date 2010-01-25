@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.63 2010-01-25 20:47:23 martin Exp $
+# $Id: LayoutTicket.pm,v 1.64 2010-01-25 20:59:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -977,6 +977,13 @@ sub TicketListShow {
     my $PageShown               = $Self->{$PageShownPreferencesKey} || 10;
     my $Group                   = 'TicketOverview' . $View . 'PageShown';
 
+    # get data selection
+    my %Data;
+    my $Config = $Self->{ConfigObject}->Get('PreferencesGroups');
+    if ( $Config && $Config->{$Group} && $Config->{$Group}->{Data} ) {
+        %Data = %{ $Config->{$Group}->{Data} };
+    }
+
     # calculate max. sown page
     if ( $StartHit > $Param{Total} ) {
         my $Pages = int( ( $Param{Total} / $PageShown ) + 0.99999 );
@@ -997,17 +1004,10 @@ sub TicketListShow {
     # build shown ticket a page
     $Param{RequestedURL}    = "Action=$Self->{Action}";
     $Param{Group}           = $Group;
-    $Param{PageShown}       = $PageShown;
     $Param{PageShownString} = $Self->BuildSelection(
         Name       => $PageShownPreferencesKey,
         SelectedID => $PageShown,
-        Data       => {
-            10 => 10,
-            15 => 15,
-            20 => 20,
-            25 => 25,
-            30 => 30,
-        },
+        Data       => \%Data,
     );
 
     # nav bar at the beginning of a overview
