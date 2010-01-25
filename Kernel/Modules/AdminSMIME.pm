@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.28 2009-12-08 15:29:33 mg Exp $
+# $Id: AdminSMIME.pm,v 1.29 2010-01-25 07:48:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -279,7 +279,7 @@ sub Run {
         if ( !$Self->{ConfigObject}->Get('SMIME') ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => '$Text{"You need to activate %s first to use it!", "SMIME"}',
+                Data     => '$Text{"Please activate %s first!", "SMIME"}',
                 Link =>
                     '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
             );

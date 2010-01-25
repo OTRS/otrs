@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.25 2009-12-15 21:09:40 mb Exp $
+# $Id: AdminSLA.pm,v 1.26 2010-01-25 07:48:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -313,7 +313,7 @@ sub Run {
         if ( !$Self->{ConfigObject}->Get('Ticket::Service') ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => '$Text{"You need to activate %s first to use it!", "Service"}',
+                Data     => '$Text{"Please activate %s first!", "Service"}',
                 Link =>
                     '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Ticket;SysConfigSubGroup=Core::Ticket#Ticket::Service',
             );
