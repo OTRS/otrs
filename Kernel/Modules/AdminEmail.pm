@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.pm,v 1.42 2010-01-25 07:53:48 mb Exp $
+# $Id: AdminEmail.pm,v 1.43 2010-01-26 18:20:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -218,7 +218,6 @@ sub Run {
             Data => \%Param,
         );
         if ( $Self->{ConfigObject}->Get('CustomerGroupSupport') ) {
-            print STDERR "CustomerUserGroup is ON.\n";
             $Self->{LayoutObject}->Block(
                 Name => 'CustomerUserGroups',
                 Data => \%Param,
