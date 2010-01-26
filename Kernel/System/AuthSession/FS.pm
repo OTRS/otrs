@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.38 2010-01-26 22:00:21 martin Exp $
+# $Id: FS.pm,v 1.39 2010-01-26 23:24:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -248,28 +248,21 @@ sub RemoveSessionID {
 sub UpdateSessionID {
     my ( $Self, %Param ) = @_;
 
-    # check session id
-    if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
-        return;
+    # check needed stuff
+    for (qw(SessionID Key)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
     }
 
-    # get attributes
-    my $Key   = defined $Param{Key}   ? $Param{Key}   : '';
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    # check cache
+    if ( !$Self->{Cache}->{ $Param{SessionID} } ) {
+        my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
+    }
 
-    # get current session data
-    my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
-
-    # check needed update! (no changes)
-    return 1 if exists $SessionData{$Key} && $SessionData{$Key} eq $Value;
-    return 1 if !exists $SessionData{$Key} && $Value eq '';
-
-    # update the value
-    $SessionData{$Key} = $Value;
-
-    # reset cache
-    $Self->{Cache}->{ $Param{SessionID} } = \%SessionData;
+    # update the value, set cache
+    $Self->{Cache}->{ $Param{SessionID} }->{ $Param{Key} } = $Param{Value};
 
     return 1;
 }
@@ -301,10 +294,10 @@ sub CleanUp {
 sub _Encode {
     my ( $Self, $Key, $Value ) = @_;
 
-    return '' if !$Value;
-
+    # set to bin string
     $Self->{EncodeObject}->EncodeOutput( \$Value );
 
+    # encode data
     my $Data = "$Key:" . encode_base64( $Value, '' ) . "\n";
     return $Data;
 }
@@ -312,11 +305,9 @@ sub _Encode {
 sub _Decode {
     my ( $Self, $Value ) = @_;
 
-    # return empty
-    if ( !${$Value} ) {
-        my $Empty = '';
-        return \$Empty;
-    }
+    # check empty case
+    my $Empty = '';
+    return \$Empty if ( !defined ${$Value} || ${$Value} eq '' );
 
     # decode and return
     ${$Value} = decode_base64( ${$Value} );

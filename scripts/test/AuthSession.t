@@ -1,8 +1,8 @@
 # --
 # AuthSession.t - auth session tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.11 2009-02-16 12:50:17 tr Exp $
+# $Id: AuthSession.t,v 1.12 2010-01-26 23:24:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,19 +12,14 @@
 use utf8;
 use Kernel::System::AuthSession;
 
-for my $Module (qw(DB FS IPC)) {
-
-    # don't use IPC on win
-    if ( $Module eq 'IPC' && $^O =~ /win/i ) {
-        next;
-    }
+for my $Module (qw(DB FS)) {
 
     $Self->{ConfigObject}->Set(
         Key   => 'SessionModule',
         Value => "Kernel::System::AuthSession::$Module"
     );
 
-    $Self->{SessionObject} = Kernel::System::AuthSession->new( %{$Self} );
+    my $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
 
     my $LongString = '';
     for my $Count ( 1 .. 2 ) {
@@ -43,7 +38,7 @@ for my $Module (qw(DB FS IPC)) {
             $Size = $Size . ' Bytes';
         }
 
-        my $SessionID = $Self->{SessionObject}->CreateSessionID(
+        my $SessionID = $SessionObject->CreateSessionID(
             UserLogin                => 'root',
             UserEmail                => 'root@example.com',
             'LongStringNew' . $Count => $LongString,
@@ -56,7 +51,7 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - CreateSessionID()",
         );
 
-        my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
+        my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
 
         $Self->Is(
             $Data{UserLogin} || 0,
@@ -64,7 +59,7 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - GetSessionIDData()",
         );
 
-        my $Update = $Self->{SessionObject}->UpdateSessionID(
+        my $Update = $SessionObject->UpdateSessionID(
             SessionID => $SessionID,
             Key       => 'LastScreenView',
             Value     => 'SomeInfo1234',
@@ -75,7 +70,51 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - UpdateSessionID() - #1",
         );
 
-        $Update = $Self->{SessionObject}->UpdateSessionID(
+        $Update = $SessionObject->UpdateSessionID(
+            SessionID => $SessionID,
+            Key       => 'Value0',
+            Value     => 0,
+        );
+
+        $Self->True(
+            $Update,
+            "#$Module - UpdateSessionID() - Value0",
+        );
+
+        $Update = $SessionObject->UpdateSessionID(
+            SessionID => $SessionID,
+            Key       => 'Value1',
+            Value     => 1,
+        );
+
+        $Self->True(
+            $Update,
+            "#$Module - UpdateSessionID() - Value1",
+        );
+
+        $Update = $SessionObject->UpdateSessionID(
+            SessionID => $SessionID,
+            Key       => "Value''",
+            Value     => '',
+        );
+
+        $Self->True(
+            $Update,
+            "#$Module - UpdateSessionID() - Value''",
+        );
+
+        $Update = $SessionObject->UpdateSessionID(
+            SessionID => $SessionID,
+            Key       => "Value-undef",
+            Value     => 'SomeValue',
+        );
+
+        $Self->True(
+            $Update,
+            "#$Module - UpdateSessionID() - Value''",
+        );
+
+        $Update = $SessionObject->UpdateSessionID(
             SessionID => $SessionID,
             Key       => 'LongString',
             Value     => "Some string with dyn. content: $Count",
@@ -86,7 +125,7 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - UpdateSessionID() - Long dyn.",
         );
 
-        $Update = $Self->{SessionObject}->UpdateSessionID(
+        $Update = $SessionObject->UpdateSessionID(
             SessionID => $SessionID,
             Key       => 'LongString' . $Count,
             Value     => $LongString,
@@ -97,11 +136,30 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - UpdateSessionID() - Long ($Size)",
         );
 
-        %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
+        %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
 
-        $Self->True(
-            $Data{"UserTest"} eq 'SomeÄÖÜß.',
+        $Self->Is(
+            $Data{"UserTest"},
+            'SomeÄÖÜß.',
             "#$Module - GetSessionIDData() - utf8",
+        );
+
+        $Self->Is(
+            $Data{"Value0"},
+            0,
+            "#$Module - GetSessionIDData() - Value0 ($Data{ 'Value0' })",
+        );
+
+        $Self->Is(
+            $Data{"Value1"},
+            1,
+            "#$Module - GetSessionIDData() - Value1 ($Data{ 'Value1' })",
+        );
+
+        $Self->Is(
+            $Data{"Value''"},
+            '',
+            "#$Module - GetSessionIDData() - Value'' (" . $Data{"Value''"} . ")",
         );
 
         $Self->True(
@@ -120,7 +178,7 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - GetSessionIDData() - Long dyn.",
         );
 
-        $Update = $Self->{SessionObject}->UpdateSessionID(
+        $Update = $SessionObject->UpdateSessionID(
             SessionID => $SessionID,
             Key       => 'UserTest',
             Value     => 'カスタ äüöß.',
@@ -131,7 +189,7 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - UpdateSessionID() - utf8",
         );
 
-        %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
+        %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
 
         $Self->Is(
             $Data{"UserTest"} || '',
@@ -139,7 +197,77 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - GetSessionIDData() - utf8",
         );
 
-        my $Remove = $Self->{SessionObject}->RemoveSessionID( SessionID => $SessionID );
+        # session reconnect 1
+        $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
+
+        %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
+
+        $Self->Is(
+            $Data{"UserTest"},
+            'カスタ äüöß.',
+            "#$Module - GetSessionIDData() - recconect 1 - utf8",
+        );
+
+        $Self->Is(
+            $Data{"Value0"},
+            0,
+            "#$Module - GetSessionIDData() - recconect 1 - Value0 ($Data{ 'Value0' })",
+        );
+
+        $Self->Is(
+            $Data{"Value1"},
+            1,
+            "#$Module - GetSessionIDData() - recconect 1 - Value1 ($Data{ 'Value1' })",
+        );
+
+        $Self->Is(
+            $Data{"Value''"},
+            '',
+            "#$Module - GetSessionIDData() - recconect 1 - Value'' (" . $Data{"Value''"} . ")",
+        );
+
+        $Update = $SessionObject->UpdateSessionID(
+            SessionID => $SessionID,
+            Key       => "Value-undef",
+            Value     => undef,
+        );
+
+        # session reconnect 2
+        $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
+
+        %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
+
+        $Self->Is(
+            $Data{"UserTest"},
+            'カスタ äüöß.',
+            "#$Module - GetSessionIDData() - recconect 2 - utf8",
+        );
+
+        $Self->Is(
+            $Data{"Value0"},
+            0,
+            "#$Module - GetSessionIDData() - recconect 2 - Value0 ($Data{ 'Value0' })",
+        );
+
+        $Self->Is(
+            $Data{"Value1"},
+            1,
+            "#$Module - GetSessionIDData() - recconect 2 - Value1 ($Data{ 'Value1' })",
+        );
+
+        $Self->Is(
+            $Data{"Value''"},
+            '',
+            "#$Module - GetSessionIDData() - recconect 2 - Value'' (" . $Data{"Value''"} . ")",
+        );
+
+        $Self->Is(
+            $Data{"Value-undef"},
+            undef,
+            "#$Module - GetSessionIDData() - recconect 2 - Value-undef (undef)",
+        );
+
+        my $Remove = $SessionObject->RemoveSessionID( SessionID => $SessionID );
 
         $Self->True(
             $Remove,
@@ -147,7 +275,7 @@ for my $Module (qw(DB FS IPC)) {
         );
     }
 
-    my $CleanUp = $Self->{SessionObject}->CleanUp();
+    my $CleanUp = $SessionObject->CleanUp();
 
     $Self->True(
         $CleanUp,

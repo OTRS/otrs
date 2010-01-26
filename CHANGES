@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1145 2010-01-25 20:47:24 martin Exp $
+# $Id: CHANGES,v 1.1146 2010-01-26 23:24:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/01/26) IPC session backend (Kernel::System::AuthSession::IPC) is not
+    longer supported. Increased performance of DB and FS backend (only sync
+    session data to storage at end of a session).
  - (2010/01/25) Added agent preferences for max. shown tickets a page in
     ticket overviews.
  - (2010/01/19) Added security feature enhancement to block active elements
