@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.43 2010-01-14 02:56:56 martin Exp $
+# $Id: IPC.pm,v 1.44 2010-01-26 21:58:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -151,8 +151,8 @@ sub GetSessionIDData {
     }
 
     # check cache
-    if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        return %{ $Self->{"Cache::$Param{SessionID}"} };
+    if ( $Self->{Cache}->{ $Param{SessionID} } ) {
+        return %{ $Self->{Cache}->{ $Param{SessionID} } };
     }
     my $SessionIDBase64 = encode_base64( $Param{SessionID}, '' );
 
@@ -185,7 +185,7 @@ sub GetSessionIDData {
     }
 
     # cache result
-    $Self->{"Cache::$Param{SessionID}"} = \%Data;
+    $Self->{Cache}->{ $Param{SessionID} } = \%Data;
     return %Data;
 }
 
@@ -213,17 +213,17 @@ sub CreateSessionID {
     my $ChallengeToken = $md5->hexdigest;
 
     # data 2 strg
-    my $DataToStore = "SessionID:" . encode_base64( $SessionID, '' ) . ";";
+    my $DataToStore = 'SessionID:' . encode_base64( $SessionID, '' ) . ';';
     for ( keys %Param ) {
-        if ( defined( $Param{$_} ) ) {
+        if ( defined $Param{$_} ) {
             $Self->{EncodeObject}->EncodeOutput( \$Param{$_} );
-            $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . ";";
+            $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . ';';
         }
     }
-    $DataToStore .= "UserSessionStart:" . encode_base64( $TimeNow, '' ) . ";";
-    $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr, '' ) . ";";
-    $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . ";";
-    $DataToStore .= "UserChallengeToken:" . encode_base64( $ChallengeToken, '' ) . ";\n";
+    $DataToStore .= 'UserSessionStart:' . encode_base64( $TimeNow, '' ) . ';';
+    $DataToStore .= 'UserRemoteAddr:' . encode_base64( $RemoteAddr, '' ) . ';';
+    $DataToStore .= 'UserRemoteUserAgent:' . encode_base64( $RemoteUserAgent, '' ) . ';';
+    $DataToStore .= 'UserChallengeToken:' . encode_base64( $ChallengeToken, '' ) . ";\n";
 
     # read old session data (the rest)
     my $String = $Self->_ReadSHM();
@@ -267,7 +267,7 @@ sub RemoveSessionID {
     $Self->_WriteSHM( Data => $DataToStore );
 
     # reset cache
-    delete( $Self->{"Cache::$Param{SessionID}"} );
+    delete $Self->{Cache}->{ $Param{SessionID} };
 
     # log event
     $Self->{LogObject}->Log(
@@ -285,8 +285,12 @@ sub UpdateSessionID {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
-    my $Key   = defined( $Param{Key} )   ? $Param{Key}   : '';
-    my $Value = defined( $Param{Value} ) ? $Param{Value} : '';
+
+    # get attributes
+    my $Key   = defined $Param{Key}   ? $Param{Key}   : '';
+    my $Value = defined $Param{Value} ? $Param{Value} : '';
+
+    # get current session data
     my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     # check needed update! (no changes)
@@ -302,7 +306,7 @@ sub UpdateSessionID {
     }
 
     # set new data sting
-    my $NewData = "SessionID:" . encode_base64( $Param{SessionID}, '' ) . ";";
+    my $NewData = 'SessionID:' . encode_base64( $Param{SessionID}, '' ) . ';';
     for my $Key ( keys %SessionData ) {
         my $Value = $SessionData{$Key};
         $Self->{EncodeObject}->EncodeOutput( \$Value );
@@ -335,7 +339,7 @@ sub UpdateSessionID {
     $Self->_WriteSHM( Data => $NewData );
 
     # reset cache
-    $Self->{"Cache::$Param{SessionID}"} = \%SessionData;
+    $Self->{Cache}->{ $Param{SessionID} } = \%SessionData;
 
     return 1;
 }
