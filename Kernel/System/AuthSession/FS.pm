@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.37 2010-01-14 02:56:56 martin Exp $
+# $Id: FS.pm,v 1.38 2010-01-26 22:00:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,19 +46,19 @@ sub CheckSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
 
     # set default message
-    $Self->{CheckSessionIDMessage} = "SessionID is invalid!!!";
+    $Self->{CheckSessionIDMessage} = 'SessionID is invalid!!!';
 
     # session id check
     my %Data = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     if ( !$Data{UserID} || !$Data{UserLogin} ) {
-        $Self->{CheckSessionIDMessage} = "SessionID invalid! Need user data!";
+        $Self->{CheckSessionIDMessage} = 'SessionID invalid! Need user data!';
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID: '$Param{SessionID}' is invalid!!!",
@@ -133,18 +133,15 @@ sub CheckSessionIDMessage {
 sub GetSessionIDData {
     my ( $Self, %Param ) = @_;
 
-    my $Strg = '';
-    my %Data;
-
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
 
     # check cache
-    if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        return %{ $Self->{"Cache::$Param{SessionID}"} };
+    if ( $Self->{Cache}->{ $Param{SessionID} } ) {
+        return %{ $Self->{Cache}->{ $Param{SessionID} } };
     }
 
     # read data
@@ -157,30 +154,25 @@ sub GetSessionIDData {
     if ( !$ContentRef ) {
         return;
     }
-    for ( @{$ContentRef} ) {
-        chomp;
+    my %Data;
+    for my $Line ( @{$ContentRef} ) {
+        chomp $Line;
 
         # split data
-        my @PaarData = split( /:/, $_ );
-        if ( defined( $PaarData[1] ) ) {
-            $Data{ $PaarData[0] } = decode_base64( $PaarData[1] );
-            $Self->{EncodeObject}->Encode( \$Data{ $PaarData[0] } );
-        }
-        else {
-            $Data{ $PaarData[0] } = '';
-        }
+        my @PaarData = split( /:/, $Line );
+        $Data{ $PaarData[0] } = ${ $Self->_Decode( \$PaarData[1] ) };
 
         # Debug
         if ( $Self->{Debug} ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message => "GetSessionIDData: '$PaarData[0]:" . decode_base64( $PaarData[1] ) . "'",
+                Message  => "GetSessionIDData: '$PaarData[0]:$Data{ $PaarData[0] }'",
             );
         }
     }
 
     # cache result
-    $Self->{"Cache::$Param{SessionID}"} = \%Data;
+    $Self->{Cache}->{ $Param{SessionID} } = \%Data;
     return %Data;
 }
 
@@ -208,16 +200,14 @@ sub CreateSessionID {
 
     # data 2 strg
     my $DataToStore = '';
-    for ( keys %Param ) {
-        if ( defined( $Param{$_} ) ) {
-            $Self->{EncodeObject}->EncodeOutput( \$Param{$_} );
-            $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . "\n";
-        }
+    for my $Key ( keys %Param ) {
+        next if !defined $Param{$Key};
+        $DataToStore .= $Self->_Encode( $Key, $Param{$Key} );
     }
-    $DataToStore .= "UserSessionStart:" . encode_base64( $TimeNow, '' ) . "\n";
-    $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr, '' ) . "\n";
-    $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . "\n";
-    $DataToStore .= "UserChallengeToken:" . encode_base64( $ChallengeToken, '' ) . "\n";
+    $DataToStore .= $Self->_Encode( 'UserSessionStart',    $TimeNow );
+    $DataToStore .= $Self->_Encode( 'UserRemoteAddr',      $RemoteAddr );
+    $DataToStore .= $Self->_Encode( 'UserRemoteUserAgent', $RemoteUserAgent );
+    $DataToStore .= $Self->_Encode( 'UserChallengeToken',  $ChallengeToken );
 
     # store SessionID + data
     return $Self->{MainObject}->FileWrite(
@@ -245,7 +235,7 @@ sub RemoveSessionID {
     return if !$Delete;
 
     # reset cache
-    delete $Self->{"Cache::$Param{SessionID}"};
+    delete $Self->{Cache}->{ $Param{SessionID} };
 
     # log event
     $Self->{LogObject}->Log(
@@ -258,14 +248,17 @@ sub RemoveSessionID {
 sub UpdateSessionID {
     my ( $Self, %Param ) = @_;
 
-    my $Key   = defined( $Param{Key} )   ? $Param{Key}   : '';
-    my $Value = defined( $Param{Value} ) ? $Param{Value} : '';
-
     # check session id
     if ( !$Param{SessionID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
+
+    # get attributes
+    my $Key   = defined $Param{Key}   ? $Param{Key}   : '';
+    my $Value = defined $Param{Value} ? $Param{Value} : '';
+
+    # get current session data
     my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     # check needed update! (no changes)
@@ -275,32 +268,10 @@ sub UpdateSessionID {
     # update the value
     $SessionData{$Key} = $Value;
 
-    # set new data sting
-    my $NewData = '';
-    for my $Key ( keys %SessionData ) {
-        my $Value = $SessionData{$Key};
-        $Self->{EncodeObject}->EncodeOutput( \$Value );
-        $NewData .= "$Key:" . encode_base64( $Value, '' ) . "\n";
-
-        # Debug
-        if ( $Self->{Debug} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => "UpdateSessionID: $Key=$SessionData{$Key}",
-            );
-        }
-    }
-
     # reset cache
-    $Self->{"Cache::$Param{SessionID}"} = \%SessionData;
+    $Self->{Cache}->{ $Param{SessionID} } = \%SessionData;
 
-    # update fs file
-    return $Self->{MainObject}->FileWrite(
-        Directory => $Self->{SessionSpool},
-        Filename  => $Param{SessionID},
-        Content   => \$NewData,
-        Mode      => 'utf8',
-    );
+    return 1;
 }
 
 sub GetAllSessionIDs {
@@ -311,7 +282,7 @@ sub GetAllSessionIDs {
     my @SessionIDs;
     for my $SessionID (@List) {
         $SessionID =~ s!^.*/!!;
-        push( @SessionIDs, $SessionID );
+        push @SessionIDs, $SessionID;
     }
     return @SessionIDs;
 }
@@ -324,6 +295,74 @@ sub CleanUp {
     for my $SessionID (@SessionIDs) {
         return if !$Self->RemoveSessionID( SessionID => $SessionID );
     }
+    return 1;
+}
+
+sub _Encode {
+    my ( $Self, $Key, $Value ) = @_;
+
+    return '' if !$Value;
+
+    $Self->{EncodeObject}->EncodeOutput( \$Value );
+
+    my $Data = "$Key:" . encode_base64( $Value, '' ) . "\n";
+    return $Data;
+}
+
+sub _Decode {
+    my ( $Self, $Value ) = @_;
+
+    # return empty
+    if ( !${$Value} ) {
+        my $Empty = '';
+        return \$Empty;
+    }
+
+    # decode and return
+    ${$Value} = decode_base64( ${$Value} );
+    $Self->{EncodeObject}->Encode($Value);
+    return $Value;
+}
+
+sub _SyncToStorage {
+    my ( $Self, %Param ) = @_;
+
+    return 1 if !$Self->{Cache};
+
+    for my $SessionID ( keys %{ $Self->{Cache} } ) {
+        my %SessionData = %{ $Self->{Cache}->{$SessionID} };
+
+        # set new data sting
+        my $Data = '';
+        for my $Key ( keys %SessionData ) {
+            next if !defined $SessionData{$Key};
+            $Data .= $Self->_Encode( $Key, $SessionData{$Key} );
+
+            # Debug
+            if ( $Self->{Debug} ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message  => "UpdateSessionID: $Key=$SessionData{$Key}",
+                );
+            }
+        }
+
+        # store SessionID + data
+        return $Self->{MainObject}->FileWrite(
+            Directory => $Self->{SessionSpool},
+            Filename  => $SessionID,
+            Content   => \$Data,
+            Mode      => 'utf8',
+        );
+    }
+    return 1;
+}
+
+sub DESTROY {
+    my ( $Self, %Param ) = @_;
+
+    $Self->_SyncToStorage();
+
     return 1;
 }
 

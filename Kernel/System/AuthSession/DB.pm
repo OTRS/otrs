@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.44 2010-01-21 00:06:01 martin Exp $
+# $Id: DB.pm,v 1.45 2010-01-26 22:00:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -153,8 +153,8 @@ sub GetSessionIDData {
     }
 
     # check cache
-    if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        return %{ $Self->{"Cache::$Param{SessionID}"} };
+    if ( $Self->{Cache}->{ $Param{SessionID} } ) {
+        return %{ $Self->{Cache}->{ $Param{SessionID} } };
     }
 
     # read data
@@ -169,27 +169,21 @@ sub GetSessionIDData {
 
     # split data
     my @StrgData = split( /;/, $Strg );
-    for (@StrgData) {
-        my @PaarData = split( /:/, $_ );
-        if ( $PaarData[1] ) {
-            $Data{ $PaarData[0] } = decode_base64( $PaarData[1] );
-            $Self->{EncodeObject}->Encode( \$Data{ $PaarData[0] } );
-        }
-        else {
-            $Data{ $PaarData[0] } = '';
-        }
+    for my $Line (@StrgData) {
+        my @PaarData = split( /:/, $Line );
+        $Data{ $PaarData[0] } = ${ $Self->_Decode( \$PaarData[1] ) };
 
         # Debug
         if ( $Self->{Debug} ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message => "GetSessionIDData: '$PaarData[0]:" . decode_base64( $PaarData[1] ) . "'",
+                Message  => "GetSessionIDData: '$PaarData[0]:$Data{ $PaarData[0] }'",
             );
         }
     }
 
     # cache result
-    $Self->{"Cache::$Param{SessionID}"} = \%Data;
+    $Self->{Cache}->{ $Param{SessionID} } = \%Data;
 
     # return data
     return %Data;
@@ -219,16 +213,14 @@ sub CreateSessionID {
 
     # data 2 strg
     my $DataToStore = '';
-    for ( keys %Param ) {
-        if ( defined $Param{$_} ) {
-            $Self->{EncodeObject}->EncodeOutput( \$Param{$_} );
-            $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . ":;";
-        }
+    for my $Key ( keys %Param ) {
+        next if !defined $Param{$Key};
+        $DataToStore .= $Self->_Encode( $Key, $Param{$Key} );
     }
-    $DataToStore .= "UserSessionStart:" . encode_base64( $TimeNow, '' ) . ":;";
-    $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr, '' ) . ":;";
-    $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . ":;";
-    $DataToStore .= "UserChallengeToken:" . encode_base64( $ChallengeToken, '' ) . ":;";
+    $DataToStore .= $Self->_Encode( 'UserSessionStart',    $TimeNow );
+    $DataToStore .= $Self->_Encode( 'UserRemoteAddr',      $RemoteAddr );
+    $DataToStore .= $Self->_Encode( 'UserRemoteUserAgent', $RemoteUserAgent );
+    $DataToStore .= $Self->_Encode( 'UserChallengeToken',  $ChallengeToken );
 
     # store SessionID + data
     return if !$Self->{DBObject}->Do(
@@ -256,7 +248,7 @@ sub RemoveSessionID {
     );
 
     # reset cache
-    delete $Self->{"Cache::$Param{SessionID}"};
+    delete $Self->{Cache}->{ $Param{SessionID} };
 
     # log event
     $Self->{LogObject}->Log(
@@ -269,14 +261,17 @@ sub RemoveSessionID {
 sub UpdateSessionID {
     my ( $Self, %Param ) = @_;
 
-    my $Key   = defined( $Param{Key} )   ? $Param{Key}   : '';
-    my $Value = defined( $Param{Value} ) ? $Param{Value} : '';
-
-    # check session id
+    # check session id param
     if ( !$Param{SessionID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
+
+    # get attributes
+    my $Key   = defined $Param{Key}   ? $Param{Key}   : '';
+    my $Value = defined $Param{Value} ? $Param{Value} : '';
+
+    # get current session data
     my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     # check needed update! (no changes)
@@ -286,31 +281,8 @@ sub UpdateSessionID {
     # update the value
     $SessionData{$Key} = $Value;
 
-    # set new data sting
-    my $NewData = '';
-    for my $Key ( keys %SessionData ) {
-        my $Value = $SessionData{$Key};
-        $Self->{EncodeObject}->EncodeOutput( \$Value );
-        $NewData .= "$Key:" . encode_base64( $Value, '' ) . ':;';
-
-        # Debug
-        if ( $Self->{Debug} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => "UpdateSessionID: $Key=$SessionData{$Key}",
-            );
-        }
-    }
-
-    # update db enrty
-    return if !$Self->{DBObject}->Do(
-        SQL => "UPDATE $Self->{SQLSessionTable} SET "
-            . " $Self->{SQLSessionTableValue} = ? WHERE $Self->{SQLSessionTableID} = ?",
-        Bind => [ \$NewData, \$Param{SessionID} ],
-    );
-
     # reset cache
-    $Self->{"Cache::$Param{SessionID}"} = \%SessionData;
+    $Self->{Cache}->{ $Param{SessionID} } = \%SessionData;
 
     return 1;
 }
@@ -334,6 +306,73 @@ sub CleanUp {
 
     # delete db recodes
     return if !$Self->{DBObject}->Do( SQL => "DELETE FROM $Self->{SQLSessionTable}" );
+    return 1;
+}
+
+sub _Encode {
+    my ( $Self, $Key, $Value ) = @_;
+
+    return '' if !$Value;
+
+    $Self->{EncodeObject}->EncodeOutput( \$Value );
+
+    my $Data = "$Key:" . encode_base64( $Value, '' ) . ':;';
+    return $Data;
+}
+
+sub _Decode {
+    my ( $Self, $Value ) = @_;
+
+    # return empty
+    if ( !${$Value} ) {
+        my $Empty = '';
+        return \$Empty;
+    }
+
+    # decode and return
+    ${$Value} = decode_base64( ${$Value} );
+    $Self->{EncodeObject}->Encode($Value);
+    return $Value;
+}
+
+sub _SyncToStorage {
+    my ( $Self, %Param ) = @_;
+
+    return 1 if !$Self->{Cache};
+
+    for my $SessionID ( keys %{ $Self->{Cache} } ) {
+        my %SessionData = %{ $Self->{Cache}->{$SessionID} };
+
+        # set new data sting
+        my $Data = '';
+        for my $Key ( keys %SessionData ) {
+            next if !defined $SessionData{$Key};
+            $Data .= $Self->_Encode( $Key, $SessionData{$Key} );
+
+            # Debug
+            if ( $Self->{Debug} ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message  => "UpdateSessionID: $Key=$SessionData{$Key}",
+                );
+            }
+        }
+
+        # update db enrty
+        return if !$Self->{DBObject}->Do(
+            SQL => "UPDATE $Self->{SQLSessionTable} SET "
+                . " $Self->{SQLSessionTableValue} = ? WHERE $Self->{SQLSessionTableID} = ?",
+            Bind => [ \$Data, \$SessionID ],
+        );
+    }
+    return 1;
+}
+
+sub DESTROY {
+    my ( $Self, %Param ) = @_;
+
+    $Self->_SyncToStorage();
+
     return 1;
 }
 
