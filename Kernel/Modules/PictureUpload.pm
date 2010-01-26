@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/PictureUpload.pm - get picture uploads
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PictureUpload.pm,v 1.5 2009-12-14 12:23:35 mn Exp $
+# $Id: PictureUpload.pm,v 1.6 2010-01-26 20:44:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,8 +44,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = "Content-Type: text/html; charset="
-        . $Self->{ConfigObject}->Get('DefaultCharset') . ";\n\n";
+    my $Charset = $Self->{LayoutObject}->{UserCharset};
+    my $Output  = "Content-Type: text/html; charset=$Charset;\n\n";
     $Output .= "
 <script type=\"text/javascript\">
 (function(){var d=document.domain;while (true){try{var A=window.parent.document.domain;break;}catch(e
@@ -54,107 +54,105 @@ sub Run {
 
 ";
 
+    # return if no form id exists
     if ( !$Self->{FormID} ) {
         $Output .= "window.parent.OnUploadCompleted(404,\"\",\"\",\"\") ;</script>";
         return $Output;
     }
 
-    if ( $Self->{ParamObject}->GetParam( Param => 'ContentID' ) ) {
-        my $ContentID = $Self->{ParamObject}->GetParam( Param => 'ContentID' ) || '';
+    # deliver file form for display inline content
+    my $ContentID = $Self->{ParamObject}->GetParam( Param => 'ContentID' );
+    if ($ContentID) {
 
         # return image inline
-        my @AttachmentData
-            = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID} );
-        ATTACHMENTDATA:
-        for my $TmpAttachment (@AttachmentData) {
-            next ATTACHMENTDATA if $TmpAttachment->{ContentID} ne $ContentID;
+        my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+            FormID => $Self->{FormID},
+        );
+        for my $Attachment (@AttachmentData) {
+            next if !$Attachment->{ContentID};
+            next if $Attachment->{ContentID} ne $ContentID;
             return $Self->{LayoutObject}->Attachment(
                 Type => 'inline',
-                %{$TmpAttachment},
+                %{$Attachment},
             );
         }
     }
 
-    # upload new picture
+    # get uploaded file
     my %File = $Self->{ParamObject}->GetUploadAll(
         Param  => 'upload',
         Source => 'string',
     );
 
+    # return error if no file is there
     if ( !%File ) {
         $Output
-            .= "window.parent.CKEDITOR.tools.callFunction("
-            . $Self->{CKEditorFuncNum}
-            . ", ''); </script>";
+            .= "window.parent.CKEDITOR.tools.callFunction($Self->{CKEditorFuncNum}, ''); </script>";
         return $Output;
     }
 
+    # return error if file is not possible to show inline
     if ( $File{Filename} !~ /\.(png|gif|jpg|jpeg)$/i ) {
         $Output
-            .= "window.parent.CKEDITOR.tools.callFunction("
-            . $Self->{CKEditorFuncNum}
-            . ", ''); </script>";
+            .= "window.parent.CKEDITOR.tools.callFunction($Self->{CKEditorFuncNum}, ''); </script>";
         return $Output;
     }
 
+    # check if name already exists
     my @AttachmentMeta = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
-        FormID => $Self->{FormID}
+        FormID => $Self->{FormID},
     );
-    my $TmpFilename    = $File{Filename};
-    my $TmpSuffix      = 0;
+    my $FilenameTmp    = $File{Filename};
+    my $SuffixTmp      = 0;
     my $UniqueFilename = '';
     while ( !$UniqueFilename ) {
-        $UniqueFilename = $TmpFilename;
+        $UniqueFilename = $FilenameTmp;
         NEWNAME:
-        for my $TmpAttachment ( reverse @AttachmentMeta ) {
-            next NEWNAME if $TmpFilename ne $TmpAttachment->{Filename};
+        for my $Attachment ( reverse @AttachmentMeta ) {
+            next NEWNAME if $FilenameTmp ne $Attachment->{Filename};
 
             # name exists -> change
-            ++$TmpSuffix;
+            ++$SuffixTmp;
             if ( $File{Filename} =~ /^(.*)\.(.+?)$/ ) {
-                $TmpFilename = "$1-$TmpSuffix.$2";
+                $FilenameTmp = "$1-$SuffixTmp.$2";
             }
             else {
-                $TmpFilename = "$File{Filename}-$TmpSuffix";
+                $FilenameTmp = "$File{Filename}-$SuffixTmp";
             }
             $UniqueFilename = '';
             last NEWNAME;
         }
     }
+
+    # add uploaded file to upload cache
     $Self->{UploadCachObject}->FormIDAddFile(
         FormID      => $Self->{FormID},
-        Filename    => $TmpFilename,
+        Filename    => $FilenameTmp,
         Content     => $File{Content},
-        ContentType => $File{ContentType} . '; name="' . $TmpFilename . '"',
+        ContentType => $File{ContentType} . '; name="' . $FilenameTmp . '"',
         Disposition => 'inline',
     );
-    my $ContentID = '';
+
+    # get new content id
+    my $ContentIDNew = '';
     @AttachmentMeta = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
         FormID => $Self->{FormID}
     );
-    CONTENTID:
-    for my $TmpAttachment (@AttachmentMeta) {
-        next CONTENTID if $TmpFilename ne $TmpAttachment->{Filename};
-        $ContentID = $TmpAttachment->{ContentID};
-        last CONTENTID;
+    for my $Attachment (@AttachmentMeta) {
+        next if $FilenameTmp ne $Attachment->{Filename};
+        $ContentIDNew = $Attachment->{ContentID};
+        last;
     }
 
-    my $SessionID = '';
+    # serve new content id to rte
+    my $Session = '';
     if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-        $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
+        $Session = '&' . $Self->{SessionName} . '=' . $Self->{SessionID};
     }
     my $URL = $Self->{LayoutObject}->{Baselink}
-        . "Action=PictureUpload"
-        . ";FormID="
-        . $Self->{FormID}
-        . ";ContentID="
-        . $ContentID
-        . $SessionID;
+        . "Action=PictureUpload;FormID=$Self->{FormID};ContentID=$ContentIDNew$Session";
     $Output
-        .= "window.parent.CKEDITOR.tools.callFunction("
-        . $Self->{CKEditorFuncNum} . ", '"
-        . $URL
-        . "'); </script>";
+        .= "window.parent.CKEDITOR.tools.callFunction($Self->{CKEditorFuncNum}, '$URL'); </script>";
     return $Output;
 }
 
