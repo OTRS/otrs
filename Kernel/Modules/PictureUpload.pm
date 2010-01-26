@@ -2,7 +2,7 @@
 # Kernel/Modules/PictureUpload.pm - get picture uploads
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PictureUpload.pm,v 1.6 2010-01-26 20:44:25 martin Exp $
+# $Id: PictureUpload.pm,v 1.7 2010-01-26 20:51:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,9 +35,6 @@ sub new {
 
     $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
 
-    $Self->{FormID}          = $Self->{ParamObject}->GetParam( Param => 'FormID' );
-    $Self->{CKEditorFuncNum} = $Self->{ParamObject}->GetParam( Param => 'CKEditorFuncNum' );
-
     return $Self;
 }
 
@@ -54,8 +51,12 @@ sub Run {
 
 ";
 
+    # get params
+    my $FormID          = $Self->{ParamObject}->GetParam( Param => 'FormID' );
+    my $CKEditorFuncNum = $Self->{ParamObject}->GetParam( Param => 'CKEditorFuncNum' );
+
     # return if no form id exists
-    if ( !$Self->{FormID} ) {
+    if ( !$FormID ) {
         $Output .= "window.parent.OnUploadCompleted(404,\"\",\"\",\"\") ;</script>";
         return $Output;
     }
@@ -66,7 +67,7 @@ sub Run {
 
         # return image inline
         my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-            FormID => $Self->{FormID},
+            FormID => $FormID,
         );
         for my $Attachment (@AttachmentData) {
             next if !$Attachment->{ContentID};
@@ -87,20 +88,20 @@ sub Run {
     # return error if no file is there
     if ( !%File ) {
         $Output
-            .= "window.parent.CKEDITOR.tools.callFunction($Self->{CKEditorFuncNum}, ''); </script>";
+            .= "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, ''); </script>";
         return $Output;
     }
 
     # return error if file is not possible to show inline
     if ( $File{Filename} !~ /\.(png|gif|jpg|jpeg)$/i ) {
         $Output
-            .= "window.parent.CKEDITOR.tools.callFunction($Self->{CKEditorFuncNum}, ''); </script>";
+            .= "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, ''); </script>";
         return $Output;
     }
 
     # check if name already exists
     my @AttachmentMeta = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
-        FormID => $Self->{FormID},
+        FormID => $FormID,
     );
     my $FilenameTmp    = $File{Filename};
     my $SuffixTmp      = 0;
@@ -126,7 +127,7 @@ sub Run {
 
     # add uploaded file to upload cache
     $Self->{UploadCachObject}->FormIDAddFile(
-        FormID      => $Self->{FormID},
+        FormID      => $FormID,
         Filename    => $FilenameTmp,
         Content     => $File{Content},
         ContentType => $File{ContentType} . '; name="' . $FilenameTmp . '"',
@@ -136,7 +137,7 @@ sub Run {
     # get new content id
     my $ContentIDNew = '';
     @AttachmentMeta = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
-        FormID => $Self->{FormID}
+        FormID => $FormID
     );
     for my $Attachment (@AttachmentMeta) {
         next if $FilenameTmp ne $Attachment->{Filename};
@@ -144,15 +145,15 @@ sub Run {
         last;
     }
 
-    # serve new content id to rte
+    # serve new content id and url to rte
     my $Session = '';
     if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
         $Session = '&' . $Self->{SessionName} . '=' . $Self->{SessionID};
     }
     my $URL = $Self->{LayoutObject}->{Baselink}
-        . "Action=PictureUpload;FormID=$Self->{FormID};ContentID=$ContentIDNew$Session";
+        . "Action=PictureUpload;FormID=$FormID;ContentID=$ContentIDNew$Session";
     $Output
-        .= "window.parent.CKEDITOR.tools.callFunction($Self->{CKEditorFuncNum}, '$URL'); </script>";
+        .= "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$URL'); </script>";
     return $Output;
 }
 
