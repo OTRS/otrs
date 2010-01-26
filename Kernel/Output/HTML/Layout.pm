@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.208 2010-01-25 21:35:05 martin Exp $
+# $Id: Layout.pm,v 1.209 2010-01-26 18:19:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.208 $) [1];
+$VERSION = qw($Revision: 1.209 $) [1];
 
 =head1 NAME
 
@@ -882,10 +882,6 @@ sub Login {
 
     # get language options
     if ( $Self->{ConfigObject}->Get('LanguageSelectionLogin') ) {
-        $Self->Block(
-            Name => 'Language',
-            Data => \%Param,
-        );
 
         # get language options
         $Param{Language} = $Self->BuildSelection(
@@ -895,6 +891,11 @@ sub Login {
             OnChange   => 'submit()',
             HTMLQuote  => 0,
         );
+        $Self->Block(
+            Name => 'Language',
+            Data => \%Param,
+        );
+
     }
 
     # get lost password y
@@ -1828,7 +1829,7 @@ sub NoPermission {
 
 =item Permission()
 
-check if access to an frontend module exists
+check if access to a frontend module exists
 
     my $Access = $LayoutObject->Permission(
         Action => 'AdminCustomerUser',
@@ -2715,10 +2716,6 @@ sub CustomerLogin {
 
     # get language options
     if ( $Self->{ConfigObject}->Get('CustomerPanelLanguage') ) {
-        $Self->Block(
-            Name => 'Language',
-            Data => \%Param,
-        );
         $Param{Language} = $Self->BuildSelection(
             Data                => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
             Name                => 'Lang',
@@ -2726,6 +2723,10 @@ sub CustomerLogin {
             OnChange            => 'submit()',
             HTMLQuote           => 0,
             LanguageTranslation => 0,
+        );
+        $Self->Block(
+            Name => 'Language',
+            Data => \%Param,
         );
     }
 
@@ -4265,6 +4266,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.208 $ $Date: 2010-01-25 21:35:05 $
+$Revision: 1.209 $ $Date: 2010-01-26 18:19:33 $
 
 =cut
