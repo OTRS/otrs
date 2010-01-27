@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.12 2010-01-26 23:24:14 martin Exp $
+# $Id: AuthSession.t,v 1.13 2010-01-27 14:09:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,8 +23,8 @@ for my $Module (qw(DB FS)) {
 
     my $LongString = '';
     for my $Count ( 1 .. 2 ) {
-        for ( 1 .. 4 ) {
-            $LongString .= $LongString . " $_ abcdefghijklmnopqrstuväöüß\n";
+        for ( 1 .. 5 ) {
+            $LongString .= $LongString . " $_ abcdefghijklmnopqrstuvwxy1234567890äöüß\n";
         }
         my $Length = length($LongString);
         my $Size   = $Length;
