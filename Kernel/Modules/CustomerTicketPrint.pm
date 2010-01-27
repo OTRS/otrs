@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.29 2009-11-26 08:02:17 mg Exp $
+# $Id: CustomerTicketPrint.pm,v 1.30 2010-01-27 20:20:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -607,7 +607,7 @@ sub _PDFOutputCustomerInfos {
 
         # output headline
         $Self->{PDFObject}->Text(
-            Text     => $Self->{LayoutObject}->{LanguageObject}->Get('Customer Infos'),
+            Text     => $Self->{LayoutObject}->{LanguageObject}->Get('Customer Information'),
             Height   => 7,
             Type     => 'Cut',
             Font     => 'ProportionalBoldItalic',

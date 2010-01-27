@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.67 2010-01-19 21:30:36 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.68 2010-01-27 20:20:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -871,7 +871,7 @@ sub _PDFOutputCustomerInfos {
 
         # output headline
         $Self->{PDFObject}->Text(
-            Text     => $Self->{LayoutObject}->{LanguageObject}->Get('Customer Infos'),
+            Text     => $Self->{LayoutObject}->{LanguageObject}->Get('Customer Information'),
             Height   => 7,
             Type     => 'Cut',
             Font     => 'ProportionalBoldItalic',
