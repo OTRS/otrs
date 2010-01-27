@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: apache-perl-startup.pl,v 1.31 2009-10-06 14:48:54 martin Exp $
+# $Id: apache-perl-startup.pl,v 1.32 2010-01-27 01:46:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -72,7 +72,6 @@ use Kernel::System::Auth::DB;
 #use Kernel::System::Auth::LDAP;
 use Kernel::System::AuthSession;
 
-#use Kernel::System::AuthSession::IPC;
 use Kernel::System::AuthSession::DB;
 
 #use Kernel::System::AuthSession::FS;

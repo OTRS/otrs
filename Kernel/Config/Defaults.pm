@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.328 2010-01-13 22:23:59 martin Exp $
+# $Id: Defaults.pm,v 1.329 2010-01-27 01:46:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.328 $) [1];
+$VERSION = qw($Revision: 1.329 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -631,11 +631,10 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # (How should be the session-data stored?
     # Advantage of DB is that you can split the
-    # Frontendserver from the db-server. fs or ipc is faster.)
+    # Frontendserver from the db-server. fs is faster.)
     $Self->{SessionModule} = 'Kernel::System::AuthSession::DB';
 
 #    $Self->{SessionModule} = 'Kernel::System::AuthSession::FS';
-#    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
 
     # SessionName
     # (Name of the session key. E. g. Session, SessionID, OTRS)
@@ -2416,6 +2415,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.328 $ $Date: 2010-01-13 22:23:59 $
+$Revision: 1.329 $ $Date: 2010-01-27 01:46:01 $
 
 =cut
