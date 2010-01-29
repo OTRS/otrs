@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.18 2008-07-20 12:14:05 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.19 2010-01-29 15:42:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.18 $';
+$VERSION = '$Revision: 1.275.2.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -3167,7 +3167,7 @@ sub TicketSearch {
             if ($Exists) {
                 $SQLExt .= ",";
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
             $Exists = 1;
         }
         $SQLExt .= ")";
@@ -3193,7 +3193,7 @@ sub TicketSearch {
                 if ($Exists) {
                     $SQLExt .= ",";
                 }
-                $SQLExt .= $Self->{DBObject}->Quote($_);
+                $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
                 $Exists = 1;
             }
             $SQLExt .= ") AND th.history_type_id = $ID ";
@@ -3219,7 +3219,7 @@ sub TicketSearch {
             if ($Exists) {
                 $SQLExt .= ",";
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
             $Exists = 1;
         }
         $SQLExt .= ")";
@@ -3246,7 +3246,7 @@ sub TicketSearch {
                 if ($Exists) {
                     $SQLExt .= ",";
                 }
-                $SQLExt .= $Self->{DBObject}->Quote($_);
+                $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
                 $Exists = 1;
             }
             $SQLExt .= ") AND th.history_type_id = $ID ";
@@ -3307,7 +3307,7 @@ sub TicketSearch {
             if ($Exists) {
                 $SQLExt .= ",";
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
             $Exists = 1;
         }
         $SQLExt .= ")";
@@ -3320,7 +3320,7 @@ sub TicketSearch {
             if ($Exists) {
                 $SQLExt .= ",";
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
             $Exists = 1;
         }
         $SQLExt .= ")";
@@ -3333,7 +3333,7 @@ sub TicketSearch {
             if ($Exists) {
                 $SQLExt .= ",";
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
             $Exists = 1;
         }
         $SQLExt .= ")";
@@ -3348,7 +3348,7 @@ sub TicketSearch {
                 if ($Exists) {
                     $SQLExt .= ",";
                 }
-                $SQLExt .= $Self->{DBObject}->Quote($_);
+                $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
                 $Exists = 1;
             }
             $SQLExt .= ") AND th.history_type_id = $ID ";
@@ -3387,7 +3387,7 @@ sub TicketSearch {
             if ($Exists) {
                 $SQLExt .= ",";
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
             $Exists = 1;
         }
         $SQLExt .= ")";
@@ -3413,7 +3413,7 @@ sub TicketSearch {
                 if ($Exists) {
                     $SQLExt .= ",";
                 }
-                $SQLExt .= $Self->{DBObject}->Quote($_);
+                $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
                 $Exists = 1;
             }
             $SQLExt .= ") AND th.history_type_id = $ID ";
@@ -3490,7 +3490,7 @@ sub TicketSearch {
             if ($Exists) {
                 $SQLExt .= ",";
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
             $Exists = 1;
         }
         $SQLExt .= ")";
@@ -3517,7 +3517,7 @@ sub TicketSearch {
                 if ($Exists) {
                     $SQLExt .= ",";
                 }
-                $SQLExt .= $Self->{DBObject}->Quote($_);
+                $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
                 $Exists = 1;
             }
             $SQLExt .= ") AND th.history_type_id = $ID ";
@@ -3543,7 +3543,7 @@ sub TicketSearch {
             if ($Exists) {
                 $SQLExt .= ",";
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
             $Exists = 1;
         }
         $SQLExt .= ")";
@@ -3568,7 +3568,7 @@ sub TicketSearch {
             if ($Exists) {
                 $SQLExt .= ",";
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
             $Exists = 1;
         }
         $SQLExt .= ")";
@@ -3581,7 +3581,7 @@ sub TicketSearch {
             if ($Exists) {
                 $SQLExt .= ",";
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $Self->{DBObject}->Quote($_, 'Integer');
             $Exists = 1;
         }
         $SQLExt .= ")";
@@ -6264,6 +6264,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.18 $ $Date: 2008-07-20 12:14:05 $
+$Revision: 1.275.2.19 $ $Date: 2010-01-29 15:42:36 $
 
 =cut
