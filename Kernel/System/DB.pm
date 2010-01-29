@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.109 2009-12-23 22:49:07 martin Exp $
+# $Id: DB.pm,v 1.110 2010-01-29 13:36:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 =head1 NAME
 
@@ -285,33 +285,33 @@ sub Quote {
     }
 
     # do quote integer
-    if ( $Type && $Type eq 'Integer' ) {
+    if ( $Type eq 'Integer' ) {
         if ( $Text !~ /^(\+|\-|)\d{1,16}$/ ) {
             $Self->{LogObject}->Log(
                 Caller   => 1,
                 Priority => 'error',
                 Message  => "Invalid integer in query '$Text'!",
             );
-            return '';
+            return;
         }
         return $Text;
     }
 
     # numbers
-    if ( $Type && $Type eq 'Number' ) {
+    if ( $Type eq 'Number' ) {
         if ( $Text !~ /^(\+|\-|)(\d{1,20}|\d{1,20}\.\d{1,20})$/ ) {
             $Self->{LogObject}->Log(
                 Caller   => 1,
                 Priority => 'error',
                 Message  => "Invalid number in query '$Text'!",
             );
-            return '';
+            return;
         }
         return $Text;
     }
 
     # do quote like string
-    if ( $Type && $Type eq 'Like' ) {
+    if ( $Type eq 'Like' ) {
         return ${ $Self->{Backend}->Quote( \$Text, $Type ) };
     }
 
@@ -320,7 +320,7 @@ sub Quote {
         Priority => 'error',
         Message  => "Invalid quote type '$Type'!",
     );
-    return '';
+    return;
 }
 
 =item Error()
@@ -859,7 +859,7 @@ sub GetTableData {
     if ( !$Where && $Valid ) {
         my @ValidIDs;
 
-        $Self->Prepare( SQL => 'SELECT id FROM valid WHERE name = \'valid\'' );
+        return if !$Self->Prepare( SQL => 'SELECT id FROM valid WHERE name = \'valid\'' );
         while ( my @Row = $Self->FetchrowArray() ) {
             push @ValidIDs, $Row[0];
         }
@@ -1172,6 +1172,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.109 $ $Date: 2009-12-23 22:49:07 $
+$Revision: 1.110 $ $Date: 2010-01-29 13:36:36 $
 
 =cut
