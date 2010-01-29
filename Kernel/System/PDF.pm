@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PDF.pm - PDF lib
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.36 2009-11-26 12:41:51 bes Exp $
+# $Id: PDF.pm,v 1.37 2010-01-29 08:57:29 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -23,11 +23,49 @@ Kernel::System::PDF - pdf lib
 
 =head1 SYNOPSIS
 
-All pdf functions.
+Functions for generating PDF files.
 
 =head1 PUBLIC INTERFACE
 
 =over 4
+
+=item new()
+
+create an object
+
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::Time;
+    use Kernel::System::PDF;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $PDFObject = Kernel::System::PDF->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        TimeObject   => $TimeObject,
+        MainObject   => $MainObject,
+    );
+
+C<undef> will be returned when the config option C<PDF> is not set,
+or when the L<PDF::API2> is not installed or has an unsupported version.
 
 =cut
 
@@ -74,7 +112,7 @@ sub new {
 
 Create a new PDF Document
 
-    This fonts aliases are available in all methods:
+These font aliases are available in all methods:
         Proportional
         ProportionalBold
         ProportionalItalic
@@ -3484,6 +3522,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2009-11-26 12:41:51 $
+$Revision: 1.37 $ $Date: 2010-01-29 08:57:29 $
 
 =cut
