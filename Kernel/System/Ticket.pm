@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.447 2010-01-25 13:07:23 martin Exp $
+# $Id: Ticket.pm,v 1.448 2010-01-29 13:39:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.447 $) [1];
+$VERSION = qw($Revision: 1.448 $) [1];
 
 =head1 NAME
 
@@ -3787,7 +3787,7 @@ sub TicketSearch {
 
     # check types of given arguments
     ARGUMENT:
-    for my $Argument (
+    for my $Key (
         qw(
         Types TypeIDs CreatedTypes CreatedTypeIDs States StateIDs CreatedStates CreatedStateIDs StateTypeIDs
         Locks LockIDs OwnerIDs ResponsibleIDs CreatedUserIDs Queues QueueIDs CreatedQueues CreatedQueueIDs
@@ -3795,34 +3795,39 @@ sub TicketSearch {
         )
         )
     {
-
-        next ARGUMENT if !$Param{$Argument};
-        next ARGUMENT if ref $Param{$Argument} eq 'ARRAY' && @{ $Param{$Argument} };
+        next ARGUMENT if !$Param{$Key};
+        next ARGUMENT if ref $Param{$Key} eq 'ARRAY' && @{ $Param{$Key} };
 
         # log error
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "The given param '$Argument' is invalid or an empty array reference!",
+            Message  => "The given param '$Key' is invalid or an empty array reference!",
         );
-
         return;
     }
 
-    # quote the array elements
+    # quote id array elements
     ARGUMENT:
-    for my $Argument (
+    for my $Key (
         qw(
         TypeIDs CreatedTypeIDs StateIDs CreatedStateIDs StateTypeIDs LockIDs OwnerIDs ResponsibleIDs CreatedUserIDs
         QueueIDs CreatedQueueIDs PriorityIDs CreatedPriorityIDs ServiceIDs SLAIDs WatchUserIDs
         )
         )
     {
-
-        next ARGUMENT if !$Param{$Argument};
+        next ARGUMENT if !$Param{$Key};
 
         # quote elements
-        for my $Element ( @{ $Param{$Argument} } ) {
-            $Self->{DBObject}->Quote( $Element, 'Integer' );
+        for my $Element ( @{ $Param{$Key} } ) {
+            if ( !defined $Self->{DBObject}->Quote( $Element, 'Integer' ) ) {
+
+                # log error
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "The given param '$Element' in '$Key' is invalid!",
+                );
+                return;
+            }
         }
     }
 
@@ -3874,8 +3879,8 @@ sub TicketSearch {
     # use also history table if required
     my $SQLExt = $ArticleSQLExt;
     ARGUMENT:
-    for my $Argument ( keys %Param ) {
-        if ( $Argument =~ /^(Ticket(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
+    for my $Key ( keys %Param ) {
+        if ( $Key =~ /^(Ticket(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
             $SQL    .= ', ticket_history th ';
             $SQLExt .= ' AND st.id = th.ticket_id';
             last ARGUMENT;
@@ -5024,11 +5029,11 @@ sub _TicketSearchSqlAndStringCreate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(TableColumn IDRef)) {
-        if ( !$Param{$Argument} ) {
+    for my $Key (qw(TableColumn IDRef)) {
+        if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Need $Argument!",
+                Message  => "Need $Key!",
             );
             return;
         }
@@ -5036,6 +5041,11 @@ sub _TicketSearchSqlAndStringCreate {
 
     # sort ids to cache the SQL query
     my @SortedIDs = sort { $a <=> $b } @{ $Param{IDRef} };
+
+    # quote values
+    for my $Value (@SortedIDs) {
+        return if !defined $Self->{DBObject}->Quote( $Value, 'Integer' );
+    }
 
     # create the id string
     my $TypeIDString = join q{, }, @SortedIDs;
@@ -7688,6 +7698,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.447 $ $Date: 2010-01-25 13:07:23 $
+$Revision: 1.448 $ $Date: 2010-01-29 13:39:37 $
 
 =cut
