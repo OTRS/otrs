@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.416.2.9 2010-01-12 17:49:46 martin Exp $
+# $Id: Ticket.pm,v 1.416.2.10 2010-01-29 15:45:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.416.2.9 $) [1];
+$VERSION = qw($Revision: 1.416.2.10 $) [1];
 
 =head1 NAME
 
@@ -3640,7 +3640,16 @@ sub TicketSearch {
 
         # quote elements
         for my $Element ( @{ $Param{$Argument} } ) {
-            $Self->{DBObject}->Quote( $Element, 'Integer' );
+            my $ElementQuote = $Self->{DBObject}->Quote( $Element, 'Integer' );
+
+            # log error
+            if ( !defined $ElementQuote || $ElementQuote eq '' ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "The given param '$Element' in '$Argument' is invalid!",
+                );
+                return;
+            }
         }
     }
 
@@ -7372,6 +7381,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.416.2.9 $ $Date: 2010-01-12 17:49:46 $
+$Revision: 1.416.2.10 $ $Date: 2010-01-29 15:45:19 $
 
 =cut
