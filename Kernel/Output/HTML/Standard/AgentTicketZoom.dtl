@@ -1,8 +1,8 @@
 # --
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.62.2.1 2009-10-14 21:29:51 ub Exp $
+# $Id: AgentTicketZoom.dtl,v 1.62.2.2 2010-01-31 16:41:01 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -477,7 +477,7 @@ $Data{"Body"}
                                 <tr>
                                     <td>
                                         <li>
-                                        <a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a>
+                                            <a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a>
                                         </li>
 $Data{"AgentPhoneStrg"}
                                     </td>
