@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # DBUpdate-to-2.5.pl - update script to migrate OTRS 2.4.x to 2.5.x
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.5.pl,v 1.1 2009-12-24 10:38:34 mb Exp $
+# $Id: DBUpdate-to-2.5.pl,v 1.2 2010-01-31 23:46:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -48,13 +48,12 @@ use Kernel::System::User;
 my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
-    print STDOUT
-        "DBUpdate-to-2.5.pl <Revision $VERSION> - Database migration script\n";
-    print STDOUT "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "DBUpdate-to-2.5.pl <Revision $VERSION> - Database migration script\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     exit 1;
 }
 
-print STDOUT "Start migration of the system...\n\n";
+print "Start migration of the system...\n\n";
 
 # instantiate needed objects (1/2)
 my %CommonObject;
@@ -72,8 +71,9 @@ $CommonObject{UserObject}      = Kernel::System::User->new(%CommonObject);
 
 # start migration process
 MigrateThemes();
+PermissionTableCleanup();
 
-print STDOUT "\nMigration of the system completed!\n";
+print "\nMigration of the system completed!\n";
 
 exit 0;
 
@@ -87,7 +87,7 @@ migrate all themes from the database to SysConfig
 
 sub MigrateThemes {
 
-    print STDOUT "NOTICE: Migrating themes...\n";
+    print "NOTICE: Migrating themes...\n";
 
     (
         my %Themes
@@ -104,6 +104,41 @@ sub MigrateThemes {
         Valid => 1,
 
     ) || die "Can't write SysConfig. Migration halted. $!\n";
+
+    return 1;
+}
+
+=item PermissionTableCleanup()
+
+remove all not necessary values from permission table
+
+    PermissionTableCleanup();
+
+=cut
+
+sub PermissionTableCleanup {
+
+    print "NOTICE: Permission table cleanup ...";
+
+    my $Success = $CommonObject{DBObject}->Do(
+        SQL => 'DELETE FROM group_user WHERE permission_value = \'0\'',
+    );
+
+    if ( !$Success ) {
+        print "failed!\n";
+        return;
+    }
+
+    $Success = $CommonObject{DBObject}->Do(
+        SQL => 'DELETE FROM group_customer_user WHERE permission_value = \'0\'',
+    );
+
+    if ( !$Success ) {
+        print "failed!\n";
+        return;
+    }
+
+    print "done!\n";
 
     return 1;
 }

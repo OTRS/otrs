@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.22 2009-09-25 11:39:55 martin Exp $
+# $Id: CustomerGroup.pm,v 1.23 2010-01-31 23:45:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -122,6 +122,11 @@ sub GroupMemberAdd {
         }
     }
 
+    # check rw rule (set only rw and remove rest, because it's including all in rw)
+    if ( $Param{Permission}->{rw} ) {
+        %{ $Param{Permission} } = ( rw => 1 );
+    }
+
     # update permission
     for my $Type ( keys %{ $Param{Permission} } ) {
 
@@ -141,12 +146,13 @@ sub GroupMemberAdd {
             );
         }
 
-        # insert new permission
+        # insert new permission (if needed)
+        next if !$Param{Permission}->{$Type};
         $Self->{DBObject}->Do(
             SQL => 'INSERT INTO group_customer_user '
-                . ' (user_id, group_id, permission_key, permission_value, '
-                . ' create_time, create_by, change_time, change_by) '
-                . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+                . '(user_id, group_id, permission_key, permission_value, '
+                . 'create_time, create_by, change_time, change_by) '
+                . 'VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
             Bind => [
                 \$Param{UID}, \$Param{GID}, \$Type, \$Param{Permission}->{$Type}, \$Param{UserID},
                 \$Param{UserID},
@@ -343,6 +349,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2009-09-25 11:39:55 $
+$Revision: 1.23 $ $Date: 2010-01-31 23:45:59 $
 
 =cut

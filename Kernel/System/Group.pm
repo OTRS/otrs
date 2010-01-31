@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.76 2010-01-21 00:06:31 martin Exp $
+# $Id: Group.pm,v 1.77 2010-01-31 23:45:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 =head1 NAME
 
@@ -362,7 +362,7 @@ sub GroupMemberAdd {
         }
     }
 
-    # check if update is needed
+    # check if update is needed (fetch current values)
     my %Value;
     if ( !$Self->{"GroupMemberAdd::GID::$Param{GID}"} ) {
         return if !$Self->{DBObject}->Prepare(
@@ -379,17 +379,22 @@ sub GroupMemberAdd {
         %Value = %{ $Self->{"GroupMemberAdd::GID::$Param{GID}"} };
     }
 
+    # check rw rule (set only rw and remove rest, because it's including all in rw)
+    if ( $Param{Permission}->{rw} ) {
+        %{ $Param{Permission} } = ( rw => 1 );
+    }
+
     # update permission
     TYPE:
     for my $Type ( keys %{ $Param{Permission} } ) {
 
         # check if update is needed
-        my $ValueType      = $Value{ $Param{GID} }->{ $Param{UID} }->{$Type};
-        my $PermissionType = $Param{Permission}->{$Type};
+        my $ValueCurrent = $Value{ $Param{GID} }->{ $Param{UID} }->{$Type};
+        my $ValueNew     = $Param{Permission}->{$Type};
 
         # No updated needed!
-        next TYPE if !$ValueType && !$PermissionType;
-        next TYPE if $ValueType  && $PermissionType;
+        next TYPE if !$ValueCurrent && !$ValueNew;
+        next TYPE if $ValueCurrent  && $ValueNew;
 
         # update done, reset current values of this group
         $Self->{"GroupMemberAdd::GID::$Param{GID}"} = undef;
@@ -405,18 +410,19 @@ sub GroupMemberAdd {
         if ( $Self->{Debug} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Add UID:$Param{UID} to GID:$Param{GID}, $Type:$PermissionType!",
+                Message  => "Add UID:$Param{UID} to GID:$Param{GID}, $Type:$ValueNew!",
             );
         }
 
-        # insert new permission
+        # insert new permission (if needed)
+        next TYPE if !$ValueNew;
         $Self->{DBObject}->Do(
             SQL => 'INSERT INTO group_user '
                 . '(user_id, group_id, permission_key, permission_value, '
                 . 'create_time, create_by, change_time, change_by) '
                 . 'VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
             Bind => [
-                \$Param{UID}, \$Param{GID}, \$Type, \$PermissionType,
+                \$Param{UID}, \$Param{GID}, \$Type, \$ValueNew,
                 \$Param{UserID}, \$Param{UserID},
             ],
         );
@@ -1049,7 +1055,7 @@ sub GroupRoleMemberAdd {
         }
     }
 
-    # check if update is needed
+    # check if update is needed (fetch current values)
     my %Value;
     if ( !$Self->{"GroupRoleMemberAdd::GID::$Param{GID}"} ) {
         $Self->{DBObject}->Prepare(
@@ -1066,17 +1072,22 @@ sub GroupRoleMemberAdd {
         %Value = %{ $Self->{"GroupRoleMemberAdd::GID::$Param{GID}"} };
     }
 
+    # check rw rule (set only rw and remove rest, because it's including all in rw)
+    if ( $Param{Permission}->{rw} ) {
+        %{ $Param{Permission} } = ( rw => 1 );
+    }
+
     # update permission
     TYPE:
     for my $Type ( keys %{ $Param{Permission} } ) {
 
         # check if update is needed
-        my $ValueType      = $Value{ $Param{GID} }->{ $Param{RID} }->{$Type};
-        my $PermissionType = $Param{Permission}->{$Type};
+        my $ValueCurrent = $Value{ $Param{GID} }->{ $Param{RID} }->{$Type};
+        my $ValueNew     = $Param{Permission}->{$Type};
 
         # no updated needed!
-        next TYPE if !$ValueType && !$PermissionType;
-        next TYPE if $ValueType  && $PermissionType;
+        next TYPE if !$ValueCurrent && !$ValueNew;
+        next TYPE if $ValueCurrent  && $ValueNew;
 
         # delete existing permission
         $Self->{DBObject}->Do(
@@ -1089,18 +1100,19 @@ sub GroupRoleMemberAdd {
         if ( $Self->{Debug} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Add RID:$Param{RID} to GID:$Param{GID}, $Type:$PermissionType!",
+                Message  => "Add RID:$Param{RID} to GID:$Param{GID}, $Type:$ValueNew!",
             );
         }
 
-        # insert new permission
+        # insert new permission (if needed)
+        next TYPE if !$ValueNew;
         $Self->{DBObject}->Do(
             SQL => 'INSERT INTO group_role '
                 . '(role_id, group_id, permission_key, permission_value, '
                 . 'create_time, create_by, change_time, change_by) '
                 . 'VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
             Bind => [
-                \$Param{RID}, \$Param{GID}, \$Type, \$PermissionType,
+                \$Param{RID}, \$Param{GID}, \$Type, \$ValueNew,
                 \$Param{UserID}, \$Param{UserID},
             ],
         );
@@ -1599,6 +1611,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.76 $ $Date: 2010-01-21 00:06:31 $
+$Revision: 1.77 $ $Date: 2010-01-31 23:45:59 $
 
 =cut
