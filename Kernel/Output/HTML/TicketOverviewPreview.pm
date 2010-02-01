@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketOverviewPreview.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.14 2009-04-23 13:47:27 mh Exp $
+# $Id: TicketOverviewPreview.pm,v 1.15 2010-02-01 01:12:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -98,6 +98,7 @@ sub Run {
                 TicketID => $TicketID,
                 Counter  => $CounterOnSite,
                 Bulk     => $BulkFeature,
+                Config   => $Param{Config},
             );
             $CounterOnSite++;
             if ( !$Param{Output} ) {
@@ -203,8 +204,8 @@ sub _Show {
     );
 
     # customer info
-    my %CustomerData = ();
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue') ) {
+    my %CustomerData;
+    if ( $Param{Config}->{CustomerInfo} ) {
         if ( $Article{CustomerUserID} ) {
             %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $Article{CustomerUserID},
@@ -241,20 +242,6 @@ sub _Show {
 
     # create human age
     $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
-
-    # customer info string
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue') ) {
-        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-            Data   => \%CustomerData,
-            Ticket => \%Article,
-            Type   => 'Lite',
-            Max    => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueueMaxSize'),
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'CustomerTable',
-            Data => \%Param,
-        );
-    }
 
     # check if just a only html email
     my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
@@ -391,6 +378,20 @@ sub _Show {
         }
     }
 
+    # customer info string
+    if ( $Param{Config}->{CustomerInfo} ) {
+        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+            Data   => \%CustomerData,
+            Ticket => \%Article,
+            Type   => 'Lite',
+            Max    => $Param{Config}->{CustomerInfoMaxSize},
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerTable',
+            Data => \%Param,
+        );
+    }
+
     # create output
     $Self->{LayoutObject}->Block(
         Name => 'AgentAnswer',
@@ -398,7 +399,7 @@ sub _Show {
     );
     if (
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
-        && ( !defined( $AclAction{AgentTicketCompose} ) || $AclAction{AgentTicketCompose} )
+        && ( !defined $AclAction{AgentTicketCompose} || $AclAction{AgentTicketCompose} )
         )
     {
         my $Access = 1;
@@ -424,7 +425,7 @@ sub _Show {
     if (
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound}
         && (
-            !defined( $AclAction{AgentTicketPhoneOutbound} )
+            !defined $AclAction{AgentTicketPhoneOutbound}
             || $AclAction{AgentTicketPhoneOutbound}
         )
         )
@@ -473,13 +474,13 @@ sub _Show {
     }
 
     # show first response time if needed
-    if ( defined( $Article{FirstResponseTime} ) ) {
+    if ( defined $Article{FirstResponseTime} ) {
         $Article{FirstResponseTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age   => $Article{'FirstResponseTime'},
+            Age   => $Article{FirstResponseTime},
             Space => ' ',
         );
         $Article{FirstResponseTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age   => $Article{'FirstResponseTimeWorkingTime'},
+            Age   => $Article{FirstResponseTimeWorkingTime},
             Space => ' ',
         );
         $Self->{LayoutObject}->Block(
@@ -499,13 +500,13 @@ sub _Show {
     }
 
     # show update time if needed
-    if ( defined( $Article{UpdateTime} ) ) {
+    if ( defined $Article{UpdateTime} ) {
         $Article{UpdateTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age   => $Article{'UpdateTime'},
+            Age   => $Article{UpdateTime},
             Space => ' ',
         );
         $Article{UpdateTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age   => $Article{'UpdateTimeWorkingTime'},
+            Age   => $Article{UpdateTimeWorkingTime},
             Space => ' ',
         );
         $Self->{LayoutObject}->Block(
@@ -525,13 +526,13 @@ sub _Show {
     }
 
     # show solution time if needed
-    if ( defined( $Article{SolutionTime} ) ) {
+    if ( defined $Article{SolutionTime} ) {
         $Article{SolutionTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age   => $Article{'SolutionTime'},
+            Age   => $Article{SolutionTime},
             Space => ' ',
         );
         $Article{SolutionTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age   => $Article{'SolutionTimeWorkingTime'},
+            Age   => $Article{SolutionTimeWorkingTime},
             Space => ' ',
         );
         $Self->{LayoutObject}->Block(
@@ -560,7 +561,7 @@ sub _Show {
     }
     if (
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
-        && ( !defined( $AclAction{AgentTicketMove} ) || $AclAction{AgentTicketMove} )
+        && ( !defined $AclAction{AgentTicketMove} || $AclAction{AgentTicketMove} )
         )
     {
         my $Access = $Self->{TicketObject}->Permission(

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.295 2010-01-25 20:47:24 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.296 2010-02-01 01:12:55 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1576,14 +1576,15 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Overview###Small" Required="0" Valid="1">
-        <Description Lang="en">Module registration for ticket small overview.</Description>
-        <Description Lang="de">Modul Registrierung für Ticket Small Übersicht.</Description>
+        <Description Lang="en">Module registration for ticket small overview (CustomerInfo =&gt; 1 - shows also Customer-Info).</Description>
+        <Description Lang="de">Modul Registrierung für Ticket Small Übersicht (CustomerInfo =&gt; 1 - zeigt auch Kunden-Info an).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketOverviewSmall</Item>
                 <Item Key="Name">Small</Item>
+                <Item Key="CustomerInfo">1</Item>
                 <Item Key="Image">overviewsmall.png</Item>
                 <Item Key="ImageSelected">overviewsmall-selected.png</Item>
             </Hash>
@@ -1602,28 +1603,31 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Overview###Medium" Required="0" Valid="1">
-        <Description Lang="en">Module registration for ticket medium overview.</Description>
-        <Description Lang="de">Modul Registrierung für Ticket Medium Übersicht.</Description>
+        <Description Lang="en">Module registration for ticket medium overview (CustomerInfo =&gt; 1 - shows also Customer-Info).</Description>
+        <Description Lang="de">Modul Registrierung für Ticket Medium Übersicht (CustomerInfo =&gt; 1 - zeigt auch Kunden-Info an).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketOverviewMedium</Item>
                 <Item Key="Name">Medium</Item>
+                <Item Key="CustomerInfo">0</Item>
                 <Item Key="Image">overviewmedium.png</Item>
                 <Item Key="ImageSelected">overviewmedium-selected.png</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Overview###Preview" Required="0" Valid="1">
-        <Description Lang="en">Module registration for ticket preview overview.</Description>
-        <Description Lang="de">Modul Registrierung für Ticket Preview Übersicht.</Description>
+        <Description Lang="en">Module registration for ticket preview overview (CustomerInfo =&gt; 1 - shows also Customer-Info, CustomerInfoMaxSize max. size (in characters) of Customer-Info).</Description>
+        <Description Lang="de">Modul Registrierung für Ticket Preview Übersicht (CustomerInfo =&gt; 1 - zeigt auch Kunden-Info an, CustomerInfoMaxSize max. Anzeige der Zeichen in der Kunden-Info).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketOverviewPreview</Item>
                 <Item Key="Name">Preview</Item>
+                <Item Key="CustomerInfo">0</Item>
+                <Item Key="CustomerInfoMaxSize">18</Item>
                 <Item Key="Image">overviewpreview.png</Item>
                 <Item Key="ImageSelected">overviewpreview-selected.png</Item>
             </Hash>
@@ -1943,18 +1947,6 @@
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,3}$">22</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::CustomerInfoQueue" Required="1" Valid="1">
-        <Description Lang="en">Show customer user info in QueueView?</Description>
-        <Description Lang="de">Anzeige der Customer-Info in der Queue-Ansicht?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoQueueMaxSize" Required="1" Valid="1">
@@ -2471,7 +2463,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchCSVData" Required="1" Valid="1">
-        <Description Lang="en">Used data to export the search result in CSV format..</Description>
+        <Description Lang="en">Used data to export the search result in CSV format.</Description>
         <Description Lang="de">Angaben für den Export des Suchergebnisses im CSV-Format.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
@@ -7570,7 +7562,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketSearch###SearchCSVData" Required="1" Valid="1">
-        <Description Lang="en">Used data to export the search result in CSV format..</Description>
+        <Description Lang="en">Used data to export the search result in CSV format.</Description>
         <Description Lang="de">Angaben für den Export des Suchergebnisses im CSV-Format.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>

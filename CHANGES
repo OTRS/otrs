@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1146 2010-01-26 23:24:15 martin Exp $
+# $Id: CHANGES,v 1.1147 2010-02-01 01:12:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -173,6 +173,9 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.7 (2010/??/??)
+ - (2010/02/01) Fixed bug#4393 - AgentTicketQueue - Small view takes long to
+    load. -> New solution with own config option for each view mode (S/M/L)
+    Admin -> SysConfig -> Ticket -> Frontend::Agent::TicketOverview.
  - (2010/01/25) Fixed bug#4818 - Removed inline image of forwarded message gets
     still included.
  - (2010/01/20) Fixed bug#4780 - Adding groups to a CustomerUser fails,
