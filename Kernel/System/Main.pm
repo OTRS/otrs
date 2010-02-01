@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Main.pm - main core components
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.37 2009-12-02 22:32:06 martin Exp $
+# $Id: Main.pm,v 1.38 2010-02-01 01:17:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Data::Dumper;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -646,12 +646,12 @@ sub Dump {
     }
 
     # check type
-    if ( $Type && $Type !~ /^(ascii|binary)$/ ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Invalid Type '$Type'!" );
-        return;
-    }
     if ( !$Type ) {
         $Type = 'binary';
+    }
+    if ( $Type ne 'ascii' && $Type ne 'binary' ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Invalid Type '$Type'!" );
+        return;
     }
 
     # mild pretty print
@@ -770,6 +770,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2009-12-02 22:32:06 $
+$Revision: 1.38 $ $Date: 2010-02-01 01:17:04 $
 
 =cut
