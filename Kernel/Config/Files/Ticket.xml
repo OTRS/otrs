@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.270.2.7 2010-02-01 00:57:38 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.270.2.8 2010-02-01 01:00:04 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1541,8 +1541,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Overview###Small" Required="0" Valid="1">
-        <Description Lang="en">Module registration for ticket small overview (CustomerInfo => 1 - shows also Customer-Info).</Description>
-        <Description Lang="de">Modul Registrierung für Ticket Small Übersicht (CustomerInfo => 1 - zeigt auch Kunden-Info an).</Description>
+        <Description Lang="en">Module registration for ticket small overview (CustomerInfo =&gt; 1 - shows also Customer-Info).</Description>
+        <Description Lang="de">Modul Registrierung für Ticket Small Übersicht (CustomerInfo =&gt; 1 - zeigt auch Kunden-Info an).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
@@ -1569,8 +1569,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Overview###Medium" Required="0" Valid="1">
-        <Description Lang="en">Module registration for ticket medium overview (CustomerInfo => 1 - shows also Customer-Info).</Description>
-        <Description Lang="de">Modul Registrierung für Ticket Medium Übersicht (CustomerInfo => 1 - zeigt auch Kunden-Info an).</Description>
+        <Description Lang="en">Module registration for ticket medium overview (CustomerInfo =&gt; 1 - shows also Customer-Info).</Description>
+        <Description Lang="de">Modul Registrierung für Ticket Medium Übersicht (CustomerInfo =&gt; 1 - zeigt auch Kunden-Info an).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
@@ -1585,8 +1585,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Overview###Preview" Required="0" Valid="1">
-        <Description Lang="en">Module registration for ticket preview overview (CustomerInfo => 1 - shows also Customer-Info, CustomerInfoMaxSize max. size (in characters) of Customer-Info).</Description>
-        <Description Lang="de">Modul Registrierung für Ticket Preview Übersicht (CustomerInfo => 1 - zeigt auch Kunden-Info an, CustomerInfoMaxSize max. Anzeige der Zeichen in der Kunden-Info).</Description>
+        <Description Lang="en">Module registration for ticket preview overview (CustomerInfo =&gt; 1 - shows also Customer-Info, CustomerInfoMaxSize max. size (in characters) of Customer-Info).</Description>
+        <Description Lang="de">Modul Registrierung für Ticket Preview Übersicht (CustomerInfo =&gt; 1 - zeigt auch Kunden-Info an, CustomerInfoMaxSize max. Anzeige der Zeichen in der Kunden-Info).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
