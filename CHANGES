@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.993.2.101 2010-02-01 00:57:39 martin Exp $
+# $Id: CHANGES,v 1.993.2.102 2010-02-02 16:11:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.7 (2010/??/??)
+ - (2010/02/02) Fixed issue with migrating Customer Queue notifications to
+    Event Based when upgrading OTRS 2.3 > 2.4.
  - (2010/02/01) Fixed bug#4393 - AgentTicketQueue - Small view takes long to
     load. -> New solution with own config option for each view mode (S/M/L)
     Admin -> SysConfig -> Ticket -> Frontend::Agent::TicketOverview.
