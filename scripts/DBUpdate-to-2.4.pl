@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # DBUpdate-to-2.4.pl - update script to migrate OTRS 2.3.x to 2.4.x
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.4.pl,v 1.9 2009-12-24 00:51:34 martin Exp $
+# $Id: DBUpdate-to-2.4.pl,v 1.10 2010-02-02 16:08:59 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -51,7 +51,7 @@ my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print STDOUT "DBUpdate-to-2.4.pl <Revision $VERSION> - Database migration script\n";
-    print STDOUT "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print STDOUT "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     exit 1;
 }
 
@@ -225,6 +225,7 @@ sub MigrateCustomerNotification {
                     Events     => [$Type],
                     QueueID    => $Events{$Type},
                 },
+                Type    => 'text/plain',
                 ValidID => 1,
                 UserID  => 1,
             );
