@@ -1,8 +1,8 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.93 2009-12-07 14:00:27 mn Exp $
+# $Id: EmailParser.pm,v 1.94 2010-02-03 14:57:25 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 =head1 NAME
 
@@ -726,11 +726,7 @@ sub PartsAttachments {
     }
 
     # get attachment size
-    {
-        use bytes;
-        $PartData{Filesize} = length $PartData{Content};
-        no bytes;
-    }
+    $PartData{Filesize} = bytes::length( $PartData{Content} );
 
     # store data
     push @{ $Self->{Attachments} }, \%PartData;
@@ -887,6 +883,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.93 $ $Date: 2009-12-07 14:00:27 $
+$Revision: 1.94 $ $Date: 2010-02-03 14:57:25 $
 
 =cut

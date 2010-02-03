@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/compress-mail.pl - compress email, zip attachments
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: compress-mail.pl,v 1.14 2009-04-16 11:20:40 tr Exp $
+# $Id: compress-mail.pl,v 1.15 2010-02-03 14:57:25 bes Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 # config
 my @Compress
@@ -95,9 +95,7 @@ if ( !$NoTouch ) {
                 if ( $Attachment->{Filename} =~ /\.$_$/i ) {
 
                     # just compress attachments within a size range
-                    use bytes;
-                    my $FileSize = length( $Attachment->{Content} );
-                    no bytes;
+                    my $FileSize = bytes::length( $Attachment->{Content} );
                     if (
                         $FileSize > $CompressAttachmentMinSize
                         && $FileSize < $CompressAttachmentMaxSize
