@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.448 2010-01-29 13:39:37 martin Exp $
+# $Id: Ticket.pm,v 1.449 2010-02-03 12:36:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.448 $) [1];
+$VERSION = qw($Revision: 1.449 $) [1];
 
 =head1 NAME
 
@@ -4458,7 +4458,7 @@ sub TicketSearch {
             {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "No valid time format '"
+                    Message  => "Invalid time format '"
                         . $Param{ 'TicketFreeTime' . $_ . 'OlderDate' } . "'!",
                 );
                 return;
@@ -4477,7 +4477,7 @@ sub TicketSearch {
             {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "No valid time format '"
+                    Message  => "Invalid time format '"
                         . $Param{ 'TicketFreeTime' . $_ . 'NewerDate' } . "'!",
                 );
                 return;
@@ -4529,7 +4529,7 @@ sub TicketSearch {
             {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "No valid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
+                    Message  => "Invalid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
                 );
                 return;
             }
@@ -4546,7 +4546,7 @@ sub TicketSearch {
             {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "No valid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
+                    Message  => "Invalid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
                 );
                 return;
             }
@@ -4610,7 +4610,7 @@ sub TicketSearch {
             {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "No valid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
+                    Message  => "Invalid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
                 );
                 return;
             }
@@ -4634,7 +4634,7 @@ sub TicketSearch {
             {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "No valid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
+                    Message  => "Invalid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
                 );
                 return;
             }
@@ -4687,7 +4687,7 @@ sub TicketSearch {
         {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "No valid time format '$Param{TicketChangeTimeOlderDate}'!",
+                Message  => "Invalid time format '$Param{TicketChangeTimeOlderDate}'!",
             );
             return;
         }
@@ -4705,7 +4705,7 @@ sub TicketSearch {
         {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "No valid time format '$Param{TicketChangeTimeNewerDate}'!",
+                Message  => "Invalid time format '$Param{TicketChangeTimeNewerDate}'!",
             );
             return;
         }
@@ -4751,7 +4751,7 @@ sub TicketSearch {
         {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "No valid time format '$Param{TicketCloseTimeOlderDate}'!",
+                Message  => "Invalid time format '$Param{TicketCloseTimeOlderDate}'!",
             );
             return;
         }
@@ -4780,7 +4780,7 @@ sub TicketSearch {
         {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "No valid time format '$Param{TicketCloseTimeNewerDate}'!",
+                Message  => "Invalid time format '$Param{TicketCloseTimeNewerDate}'!",
             );
             return;
         }
@@ -4856,7 +4856,7 @@ sub TicketSearch {
         {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "No valid time format '$Param{TicketPendingTimeOlderDate}'!",
+                Message  => "Invalid time format '$Param{TicketPendingTimeOlderDate}'!",
             );
             return;
         }
@@ -4875,7 +4875,7 @@ sub TicketSearch {
         {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "No valid time format '$Param{TicketPendingTimeNewerDate}'!",
+                Message  => "Invalid time format '$Param{TicketPendingTimeNewerDate}'!",
             );
             return;
         }
@@ -4888,26 +4888,33 @@ sub TicketSearch {
     # archive flag
     if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
 
-        if ( $Param{ArchiveFlags} && ref $Param{ArchiveFlags} eq 'ARRAY' ) {
-
-            # prepare options
-            my %Options;
-            for my $Element ( @{ $Param{ArchiveFlags} } ) {
-                $Options{$Element} = 1;
-            }
-
-            if ( $Options{y} && !$Options{n} ) {
-                $SQLExt .= ' AND archive_flag = 1';
-            }
-            elsif ( $Options{y} && $Options{n} ) {
-
-                # do nothing
-            }
-            else {
-                $SQLExt .= ' AND archive_flag = 0';
-            }
+        # if no flag is given, only search for not archived ticket
+        if ( !$Param{ArchiveFlags} ) {
+            $Param{ArchiveFlags} = ['n'];
         }
-        else {
+
+        # prepare search with archive flags, check arguments
+        if ( ref $Param{ArchiveFlags} ne 'ARRAY' ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Invalid attribute ArchiveFlags '$Param{ArchiveFlags}'!",
+            );
+            return;
+        }
+
+        # prepare options
+        my %Options;
+        for my $Key ( @{ $Param{ArchiveFlags} } ) {
+            $Options{$Key} = 1;
+        }
+
+        # search for archived
+        if ( $Options{y} && !$Options{n} ) {
+            $SQLExt .= ' AND archive_flag = 1';
+        }
+
+        # search for not rchived
+        elsif ( !$Options{y} && $Options{n} ) {
             $SQLExt .= ' AND archive_flag = 0';
         }
     }
@@ -4947,13 +4954,11 @@ sub TicketSearch {
             elsif ( ref $CacheData eq '' ) {
                 return $CacheData;
             }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => 'Invalid ref ' . ref($CacheData) . '!'
-                );
-                return;
-            }
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Invalid ref ' . ref($CacheData) . '!'
+            );
+            return;
         }
     }
 
@@ -4961,16 +4966,15 @@ sub TicketSearch {
     my %Tickets;
     my @TicketIDs;
     my $Count;
-
     return if !$Self->{DBObject}->Prepare( SQL => $SQL . $SQLExt, Limit => $Limit );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Count = $Row[0];
         $Tickets{ $Row[0] } = $Row[1];
         push @TicketIDs, $Row[0];
     }
-    if ( $Result eq 'COUNT' ) {
 
-        # fill cache
+    # return COUNT
+    if ( $Result eq 'COUNT' ) {
         if ($CacheObject) {
             $CacheObject->Set(
                 Type  => 'TicketSearch',
@@ -4981,9 +4985,9 @@ sub TicketSearch {
         }
         return $Count;
     }
-    elsif ( $Result eq 'HASH' ) {
 
-        # fill cache
+    # return HASH
+    elsif ( $Result eq 'HASH' ) {
         if ($CacheObject) {
             $CacheObject->Set(
                 Type  => 'TicketSearch',
@@ -4994,11 +4998,10 @@ sub TicketSearch {
         }
         return %Tickets;
     }
+
+    # return ARRAY
     else {
-
-        # fill cache
         if ($CacheObject) {
-
             $CacheObject->Set(
                 Type  => 'TicketSearch',
                 Key   => $SQL . $SQLExt . $Result . $Limit,
@@ -5261,7 +5264,7 @@ sub TicketArchiveFlagSet {
     if ( $Param{ArchiveFlag} ne 'y' && $Param{ArchiveFlag} ne 'n' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "The given ArchiveFlag is invalid!",
+            Message  => "ArchiveFlag is invalid '$Param{ArchiveFlag}'!",
         );
         return;
     }
@@ -5269,6 +5272,7 @@ sub TicketArchiveFlagSet {
     # check if update is needed
     my %Ticket = $Self->TicketGet(%Param);
 
+    # return if no update is needed
     return 1 if $Ticket{ArchiveFlag} && $Ticket{ArchiveFlag} eq $Param{ArchiveFlag};
 
     # translate archive flag
@@ -7698,6 +7702,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.448 $ $Date: 2010-01-29 13:39:37 $
+$Revision: 1.449 $ $Date: 2010-02-03 12:36:10 $
 
 =cut
