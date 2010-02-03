@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.209 2010-01-26 18:19:33 mb Exp $
+# $Id: Layout.pm,v 1.210 2010-02-03 09:06:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.209 $) [1];
+$VERSION = qw($Revision: 1.210 $) [1];
 
 =head1 NAME
 
@@ -2172,7 +2172,7 @@ sub PageNavBar {
         elsif ( $i > ( $WindowStart + $WindowSize ) ) {
             my $StartWindow     = $WindowStart + $WindowSize + 1;
             my $LastStartWindow = int( $Pages / $WindowSize );
-            my $BaselinkAllBack = $Baselink . "StartHit=" . $i * $Param{PageShown};
+            my $BaselinkAllBack = $Baselink . "StartHit=" . ( $i - 1 ) * $Param{PageShown};
             my $AJAXReplaceBack = '';
             if ( $Param{AJAXReplace} ) {
                 $AJAXReplaceBack
@@ -4266,6 +4266,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.209 $ $Date: 2010-01-26 18:19:33 $
+$Revision: 1.210 $ $Date: 2010-02-03 09:06:42 $
 
 =cut

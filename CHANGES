@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1148 2010-02-02 16:11:54 mb Exp $
+# $Id: CHANGES,v 1.1149 2010-02-03 09:06:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -173,6 +173,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.7 (2010/??/??)
+ - (2010/02/03) Fixed bug#4848 - Issue with TicketOverView object - does not
+    show all tickets when moving through list.
  - (2010/02/02) Fixed issue with migrating Customer Queue notifications to
     Event Based when upgrading OTRS 2.3 > 2.4.
  - (2010/02/01) Fixed bug#4393 - AgentTicketQueue - Small view takes long to
