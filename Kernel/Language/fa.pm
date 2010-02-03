@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.74 2010-01-19 22:57:49 martin Exp $
+# $Id: fa.pm,v 1.75 2010-02-03 18:29:29 shb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -222,7 +222,6 @@ sub Data {
         'reject' => 'خیر',
         'reverse' => 'برگردان',
         'Facility' => 'سهولت',
-        'Timeover' => 'پایان وقت',
         'Pending till' => 'تا زمانی که',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'با نام کاربری سیستم کار نکنید برای ادامه یک نام کاربری جدید بسازید.!',
         'Dispatching by email To: field.' => 'ارسال با پست الکترونیکی به:فیلد',

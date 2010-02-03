@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.34 2010-01-19 22:57:49 martin Exp $
+# $Id: et.pm,v 1.35 2010-02-03 18:29:02 shb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -217,7 +217,6 @@ sub Data {
         'reject' => 'lükka tagasi',
         'reverse' => 'pööra ümber',
         'Facility' => 'Facility',
-        'Timeover' => 'Aeg läbi',
         'Pending till' => 'Ootel kuni',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'Ära tööta kasutades UserID 1 (System Account)! Tee uus kasutaja!',
         'Dispatching by email To: field.' => 'Jaotamine To: päiserea järgi.',
