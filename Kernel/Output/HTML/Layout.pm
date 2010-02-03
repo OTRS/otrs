@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.176.2.15 2010-02-03 09:10:02 mb Exp $
+# $Id: Layout.pm,v 1.176.2.16 2010-02-03 09:20:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.176.2.15 $) [1];
+$VERSION = qw($Revision: 1.176.2.16 $) [1];
 
 =head1 NAME
 
@@ -1977,7 +1977,7 @@ sub LinkEncode {
     $Link =~ s/\+/%2B/g;
     $Link =~ s/\?/%3F/g;
     $Link =~ s/\|/%7C/g;
-    $Link =~ s/�/\%A7/g;
+    $Link =~ s/§/\%A7/g;
     $Link =~ s/ /\+/g;
     return $Link;
 }
@@ -3306,7 +3306,7 @@ sub PageNavBar {
         elsif ( $i > ( $WindowStart + $WindowSize ) ) {
             my $StartWindow     = $WindowStart + $WindowSize + 1;
             my $LastStartWindow = int( $Pages / $WindowSize );
-            my $BaselinkAllBack = $Baselink . "StartHit=" . ( $i - 1 ) * $Param{PageShown};
+            my $BaselinkAllBack = "StartHit=" . ( $i - 1 ) * $Param{PageShown};
             my $AJAXReplaceBack = '';
             if ( $Param{AJAXReplace} ) {
                 $AJAXReplaceBack
@@ -4412,6 +4412,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.176.2.15 $ $Date: 2010-02-03 09:10:02 $
+$Revision: 1.176.2.16 $ $Date: 2010-02-03 09:20:26 $
 
 =cut
