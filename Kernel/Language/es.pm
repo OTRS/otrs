@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.105 2010-01-19 22:57:49 martin Exp $
+# $Id: es.pm,v 1.106 2010-02-03 14:07:40 shb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -222,7 +222,6 @@ sub Data {
         'reject' => 'rechazar',
         'reverse' => 'revertir',
         'Facility' => 'Instalación',
-        'Timeover' => 'Vencimiento',
         'Pending till' => 'Pendiente hasta',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'No trabaje con el Identificador 1 (cuenta de sistema)! Cree nuevos usuarios! ',
         'Dispatching by email To: field.' => 'Despachar por correo del campo Para:',

@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.66 2010-01-19 22:57:49 martin Exp $
+# $Id: da.pm,v 1.67 2010-02-03 14:05:14 shb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -219,7 +219,6 @@ sub Data {
         'reject' => 'afvis',
         'reverse' => 'omvendt',
         'Facility' => 'Facilitet',
-        'Timeover' => 'Tidsoverskridelse',
         'Pending till' => 'Afventer til',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'Arbejd ikke med bruger-ID 1 (systemkonto)! Opret nye brugere!',
         'Dispatching by email To: field.' => 'Sendes via e-mail til: felt.',

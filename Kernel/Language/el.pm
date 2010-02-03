@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.62 2010-01-19 22:57:49 martin Exp $
+# $Id: el.pm,v 1.63 2010-02-03 14:06:48 shb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -220,7 +220,6 @@ sub Data {
         'reject' => 'άρνηση',
         'reverse' => 'Ανάποδα',
         'Facility' => 'Οργανισμός',
-        'Timeover' => 'Υπέρβαση Χρόνου',
         'Pending till' => 'Εκρεμμεί μέχρι',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'Δεν δουλευει με τον Χρήστη# 1 (λογαριασμός συστήματος) !',
         'Dispatching by email To: field.' => 'Αποστολή με ηλεκτρονικό ταχυδρομείο προς (πεδίο email To:).',
