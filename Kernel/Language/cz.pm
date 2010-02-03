@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # --
-# $Id: cz.pm,v 1.85 2010-01-19 23:15:57 martin Exp $
+# $Id: cz.pm,v 1.86 2010-02-03 13:30:30 shb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -219,7 +219,6 @@ sub Data {
         'reject' => 'zamítnout',
         'reverse' => '',
         'Facility' => 'Funkce',
-        'Timeover' => 'Èas vypr¹el',
         'Pending till' => 'Èekání na vyøízení do',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'Z bezpeènostních dùvodù nepracujte se superu¾ivatelským úètem - vytvoøte si nového u¾ivatele!',
         'Dispatching by email To: field.' => 'Pøiøadit podle e-mailu - pole KOMU:.',

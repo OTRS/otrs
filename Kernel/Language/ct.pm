@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides Catalonian language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.35 2010-01-19 23:15:57 martin Exp $
+# $Id: ct.pm,v 1.36 2010-02-03 13:27:09 shb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -218,7 +218,6 @@ sub Data {
         'reject' => 'rebutjar',
         'reverse' => 'capgirar',
         'Facility' => 'Facilitat',
-        'Timeover' => 'Vencimient',
         'Pending till' => 'Pendent fins a',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'No treballi amb l\'Identificador 1 (compte de sistema)! Creï nous usuaris!',
         'Dispatching by email To: field.' => 'Despatxar pel camp To: del correu',

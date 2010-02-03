@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.101 2010-01-19 23:15:57 martin Exp $
+# $Id: bg.pm,v 1.102 2010-02-03 13:26:28 shb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -219,7 +219,6 @@ sub Data {
         'reject' => 'отхвърлен',
         'reverse' => 'обърнато',
         'Facility' => 'Приспособление',
-        'Timeover' => 'Надхвърляне на времето',
         'Pending till' => 'В очакване до',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'Не работете с UserID 1 (Системен акаунт)! Създайте нови потребители.',
         'Dispatching by email To: field.' => 'Разпределяне по поле To: от писмото.',
