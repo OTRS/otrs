@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.23 2009-12-08 14:53:01 martin Exp $
+# $Id: DB.pm,v 1.24 2010-02-03 14:51:03 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,11 +71,7 @@ sub FormIDAddFile {
     }
 
     # get file size
-    {
-        use bytes;
-        $Param{Filesize} = length( $Param{Content} );
-        no bytes;
-    }
+    $Param{Filesize} = bytes::length( $Param{Content} );
 
     # encode attachment if it's a postgresql backend!!!
     if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {

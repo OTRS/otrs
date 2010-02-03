@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.210 2010-02-03 09:06:42 mb Exp $
+# $Id: Layout.pm,v 1.211 2010-02-03 14:51:03 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.210 $) [1];
+$VERSION = qw($Revision: 1.211 $) [1];
 
 =head1 NAME
 
@@ -2050,11 +2050,7 @@ sub Attachment {
     $Output .= "\n";
 
     # get attachment size
-    {
-        use bytes;
-        $Param{Size} = length $Param{Content};
-        no bytes;
-    }
+    $Param{Size} = bytes::length( $Param{Content} );
 
     # add no cache headers
     if ( $Param{NoCache} ) {
@@ -4266,6 +4262,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.210 $ $Date: 2010-02-03 09:06:42 $
+$Revision: 1.211 $ $Date: 2010-02-03 14:51:03 $
 
 =cut
