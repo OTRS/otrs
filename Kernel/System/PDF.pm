@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.39 2010-02-04 08:48:08 bes Exp $
+# $Id: PDF.pm,v 1.40 2010-02-04 09:03:59 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -715,8 +715,8 @@ sub Table {
     my %Position = $Self->_CurPositionGet();
 
     # set default values
-    $Param{ColumnData} = $Param{ColumnData} || [];
-    $Param{RowData}    = $Param{RowData}    || [];
+    $Param{ColumnData} ||= [];
+    $Param{RowData}    ||= [];
 
     if (
         ref( $Param{CellData} )      eq 'ARRAY'
@@ -727,8 +727,8 @@ sub Table {
         if ( !defined( $Param{OutputCount} ) ) {
 
             # set default values
-            $Param{Type} = $Param{Type} || 'ReturnLeftOver';
-            $Param{Font} = $Param{Font} || 'Proportional';
+            $Param{Type} ||= 'ReturnLeftOver';
+            $Param{Font} ||= 'Proportional';
             if ( !defined( $Param{FontSize} ) || $Param{FontSize} <= 0 ) {
                 $Param{FontSize} = 10;
             }
@@ -738,24 +738,24 @@ sub Table {
                     $Param{Lead} = 1;
                 }
             }
-            $Param{FontColor}     = $Param{FontColor}     || 'black';
-            $Param{FontColorOdd}  = $Param{FontColorOdd}  || $Param{FontColor};
-            $Param{FontColorEven} = $Param{FontColorEven} || $Param{FontColor};
+            $Param{FontColor}     ||= 'black';
+            $Param{FontColorOdd}  ||= $Param{FontColor};
+            $Param{FontColorEven} ||= $Param{FontColor};
 
-            $Param{BackgroundColor}     = $Param{BackgroundColor}     || 'NULL';
-            $Param{BackgroundColorOdd}  = $Param{BackgroundColorOdd}  || $Param{BackgroundColor};
-            $Param{BackgroundColorEven} = $Param{BackgroundColorEven} || $Param{BackgroundColor};
+            $Param{BackgroundColor}     ||= 'NULL';
+            $Param{BackgroundColorOdd}  ||= $Param{BackgroundColor};
+            $Param{BackgroundColorEven} ||= $Param{BackgroundColor};
 
             $Param{Align} = $Param{Align} || 'left';
 
             if ( !defined( $Param{Border} ) || $Param{Border} < 0 ) {
                 $Param{Border} = 1;
             }
-            $Param{BorderColor}   = $Param{BorderColor}   || 'black';
-            $Param{PaddingTop}    = $Param{PaddingTop}    || $Param{Padding} || 3;
-            $Param{PaddingRight}  = $Param{PaddingRight}  || $Param{Padding} || 3;
-            $Param{PaddingBottom} = $Param{PaddingBottom} || $Param{Padding} || 3;
-            $Param{PaddingLeft}   = $Param{PaddingLeft}   || $Param{Padding} || 3;
+            $Param{BorderColor}   ||= 'black';
+            $Param{PaddingTop}    ||= $Param{Padding} || 3;
+            $Param{PaddingRight}  ||= $Param{Padding} || 3;
+            $Param{PaddingBottom} ||= $Param{Padding} || 3;
+            $Param{PaddingLeft}   ||= $Param{Padding} || 3;
 
             # check given Width
             my $DefaultWidth = $Dim{Left} + $Dim{Width} - $Position{X};
@@ -1668,7 +1668,7 @@ sub DimGet {
 
 =item _TableCalculate()
 
- calculate params of table
+calculate params of table
 
     Return  # normally no return required, only references
         %Param
@@ -1700,13 +1700,13 @@ sub DimGet {
     $CellData = [
         [
             {
-                Content => "Cell 1 (Row 1, Column 1)",  # (optional)
-                Font => 'Monospaced',                   # (optional)
-                FontSize => 13,                         # (optional)
-                FontColor => '#00FF00',                 # (optional)
-                Align => 'center',                      # (optional)
-                Lead => 7,                              # (optional)
-                BackgroundColor => '#101010',           # (optional)
+                Content         => "Cell 1 (Row 1, Column 1)",  # (optional)
+                Font            => 'Monospaced',                # (optional)
+                FontSize        => 13,                          # (optional)
+                FontColor       => '#00FF00',                   # (optional)
+                Align           => 'center',                    # (optional)
+                Lead            => 7,                           # (optional)
+                BackgroundColor => '#101010',                   # (optional)
             },
             {
                 Content => "Cell 2 (Row 1, Column 2)",
@@ -3522,6 +3522,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2010-02-04 08:48:08 $
+$Revision: 1.40 $ $Date: 2010-02-04 09:03:59 $
 
 =cut
