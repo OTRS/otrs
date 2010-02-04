@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.37 2010-01-29 08:57:29 bes Exp $
+# $Id: PDF.pm,v 1.38 2010-02-04 08:16:27 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -233,14 +233,14 @@ sub DocumentNew {
 Create a new, blank Page
 
     $True = $PDFObject->PageBlankNew(
-        Width => 200,                    # (optional) default 595 (Din A4) - _ both or nothing
-        Height => 300,                   # (optional) default 842 (Din A4) -
+        Width           => 200,          # (optional) default 595 (Din A4) - _ both or nothing
+        Height          => 300,          # (optional) default 842 (Din A4) -
         PageOrientation => 'landscape',  # (optional) default normal (normal|landscape)
-        MarginTop => 40,                 # (optional) default 0 -
-        MarginRight => 40,               # (optional) default 0  |_ all or nothing
-        MarginBottom => 40,              # (optional) default 0  |
-        MarginLeft => 40,                # (optional) default 0 -
-        ShowPageNumber => 0,             # (optional) default 1
+        MarginTop       => 40,           # (optional) default 0 -
+        MarginRight     => 40,           # (optional) default 0  |_ all or nothing
+        MarginBottom    => 40,           # (optional) default 0  |
+        MarginLeft      => 40,           # (optional) default 0 -
+        ShowPageNumber  => 0,            # (optional) default 1
     );
 
 =cut
@@ -313,20 +313,20 @@ sub PageBlankNew {
 Create a new Page
 
     $PDFObject->PageNew(
-        Width => 200,                       # (optional) default 595 (Din A4)
-        Height => 300,                      # (optional) default 842 (Din A4)
-        PageOrientation => 'landscape',     # (optional) default normal (normal|landscape)
-        MarginTop => 40,                    # (optional) default 0
-        MarginRight => 40,                  # (optional) default 0
-        MarginBottom => 40,                 # (optional) default 0
-        MarginLeft => 40,                   # (optional) default 0
-        ShowPageNumber => 0,                # (optional) default 1
-        LogoFile => '/path/to/file.jpg',    # (optional) you can use jpg, gif and png-Images
-        HeaderRight => 'Header Right Text', # (optional)
-        HeadlineLeft => 'Headline Text',    # (optional)
-        HeadlineRight => 'Headline Text',   # (optional)
-        FooterLeft => 'Footer Left Text',   # (optional)
-        FooterRight => 'Footer Right Text', # (optional)
+        Width           => 200,                 # (optional) default 595 (Din A4)
+        Height          => 300,                 # (optional) default 842 (Din A4)
+        PageOrientation => 'landscape',         # (optional) default normal (normal|landscape)
+        MarginTop       => 40,                  # (optional) default 0
+        MarginRight     => 40,                  # (optional) default 0
+        MarginBottom    => 40,                  # (optional) default 0
+        MarginLeft      => 40,                  # (optional) default 0
+        ShowPageNumber  => 0,                   # (optional) default 1
+        LogoFile        => '/path/to/file.jpg', # (optional) you can use jpg, gif and png-Images
+        HeaderRight     => 'Header Right Text', # (optional)
+        HeadlineLeft    => 'Headline Text',     # (optional)
+        HeadlineRight   => 'Headline Text',     # (optional)
+        FooterLeft      => 'Footer Left Text',  # (optional)
+        FooterRight     => 'Footer Right Text', # (optional)
     );
 
 =cut
@@ -609,29 +609,29 @@ Add a table
         $ColumnData              # (reference) complete calculated
 
     (%Return, $CellData, $ColumnData) = $PDFObject->Table(
-        CellData => $CellData,            # 2D arrayref (see example)
-        ColumnData => $ColumnData,        # arrayref (see example)
-        RowData => $RowData,              # arrayref (see example)
-        Type => 'Cut',                    # (optional) default ReturnLeftOver (ReturnLeftOver|ReturnLeftOverHard|Cut)
-        Width => 300,                     # (optional) default maximal width
-        Height => 400,                    # (optional) default minimal height
-        Font => 'Monospaced',             # (optional) default Proportional (see DocumentNew())
-        FontSize => 9,                    # (optional) default 11
-        FontColor => 'red',               # (optional) default black
-        FontColorEven => 'blue',          # (optional) cell font color for even rows
-        FontColorOdd => 'green',          # (optional) cell font color for odd rows
-        Align => 'right',                 # (optional) default left (left|center|right)
-        Lead => 3,                        # (optional) default 1
-        Padding => 18,                    # (optional) default 3
-        PaddingTop => 10,                 # (optional) top cell padding, overides Padding
-        PaddingRight => 30,               # (optional) right cell padding, overides Padding
-        PaddingBottom => 30,              # (optional) bottom cell padding, overides Padding
-        PaddingLeft => 10,                # (optional) left cell padding, overides Padding
-        BackgroundColor => '#101010',     # (optional) default white
-        BackgroundColorEven => '#F0F0F0', # (optional) cell background color for even rows
-        BackgroundColorOdd => '#A0A0A0',  # (optional) cell background color for odd rows
-        Border => 1,                      # (optional) default 1 (values between 0 and 20)
-        BorderColor => '#FF0000',         # (optional) default black
+        CellData            => $CellData,    # 2D arrayref (see example)
+        ColumnData          => $ColumnData,  # arrayref (see example)
+        RowData             => $RowData,     # arrayref (see example)
+        Type                => 'Cut',        # (optional) default ReturnLeftOver (ReturnLeftOver|ReturnLeftOverHard|Cut)
+        Width               => 300,          # (optional) default maximal width
+        Height              => 400,          # (optional) default minimal height
+        Font                => 'Monospaced', # (optional) default Proportional (see DocumentNew())
+        FontSize            => 9,            # (optional) default 11
+        FontColor           => 'red',        # (optional) default black
+        FontColorEven       => 'blue',       # (optional) cell font color for even rows
+        FontColorOdd        => 'green',      # (optional) cell font color for odd rows
+        Align               => 'right',      # (optional) default left (left|center|right)
+        Lead                => 3,            # (optional) default 1
+        Padding             => 18,           # (optional) default 3
+        PaddingTop          => 10,           # (optional) top cell padding, overides Padding
+        PaddingRight        => 30,           # (optional) right cell padding, overides Padding
+        PaddingBottom       => 30,           # (optional) bottom cell padding, overides Padding
+        PaddingLeft         => 10,           # (optional) left cell padding, overides Padding
+        BackgroundColor     => '#101010',    # (optional) default white
+        BackgroundColorEven => '#F0F0F0',    # (optional) cell background color for even rows
+        BackgroundColorOdd  => '#A0A0A0',    # (optional) cell background color for odd rows
+        Border              => 1,            # (optional) default 1 (values between 0 and 20)
+        BorderColor         => '#FF0000',    # (optional) default black
     );
 
     $CellData = [
@@ -1059,15 +1059,15 @@ Output a textline
         $Return{LeftOver}
 
     %Return = $PDFObject->Text(
-        Text => 'Text',              # Text
-        Width => 300,                # (optional) available width of textblock
-        Height => 200,               # (optional) available height of textblock
-        Type => 'Cut',               # (optional) default ReturnLeftOver (ReturnLeftOver|ReturnLeftOverHard|Cut)
-        Font => 'ProportionalBold',  # (optional) default Proportional  (see DocumentNew())
-        FontSize => 15,              # (optional) default 10
-        Color => '#FF0000',          # (optional) default #000000
-        Align => 'center',           # (optional) default left (left|center|right)
-        Lead => 20,                  # (optional) default 1 distance between lines
+        Text     => 'Text',              # Text
+        Width    => 300,                 # (optional) available width of textblock
+        Height   => 200,                 # (optional) available height of textblock
+        Type     => 'Cut',               # (optional) default ReturnLeftOver (ReturnLeftOver|ReturnLeftOverHard|Cut)
+        Font     => 'ProportionalBold',  # (optional) default Proportional  (see DocumentNew())
+        FontSize => 15,                  # (optional) default 10
+        Color    => '#FF0000',           # (optional) default #000000
+        Align    => 'center',            # (optional) default left (left|center|right)
+        Lead     => 20,                  # (optional) default 1 distance between lines
     );
 
 =cut
@@ -1217,10 +1217,10 @@ sub Text {
 Output a image
 
     $True = $PDFObject->Image(
-        File => '/path/image.gif',  # (gif|jpg|png)
-        Type => 'ReturnFalse'       # (optional) default Reduce (ReturnFalse|Reduce)
-        Width => 300,               # width of image
-        Height => 150,              # height of image
+        File   => '/path/image.gif',  # (gif|jpg|png)
+        Type   => 'ReturnFalse'       # (optional) default Reduce (ReturnFalse|Reduce)
+        Width  => 300,                # width of image
+        Height => 150,                # height of image
     );
 
 =cut
@@ -1337,10 +1337,10 @@ sub Image {
 Output a horizontal line
 
     $True = $PDFObject->HLine(
-        Width => 300,          # (optional) default 'end of printable dimension'
-        Type => 'ReturnFalse'  # (optional) default Cut (ReturnFalse|Cut)
-        Color => '#101010',    # (optional) default black
-        LineWidth => 1,        # (optional) default 1
+        Width     => 300,           # (optional) default 'end of printable dimension'
+        Type      => 'ReturnFalse'  # (optional) default Cut (ReturnFalse|Cut)
+        Color     => '#101010',     # (optional) default black
+        LineWidth => 1,             # (optional) default 1
     );
 
 =cut
@@ -1457,8 +1457,8 @@ Set new position on current page
 
     $True = $PDFObject->PositionSet(
         Move => 'absolut',  # (optional) default absolut (absolut|relativ)
-        X => 10,            # (optional) (<integer>|left|center|right)
-        Y => 20,            # (optional) (<integer>|top|middle|bottom)
+        X    => 10,         # (optional) (<integer>|left|center|right)
+        Y    => 20,         # (optional) (<integer>|top|middle|bottom)
     );
 
 =cut
@@ -1674,27 +1674,27 @@ sub DimGet {
         %Param
 
     (%Return, $CellData, $ColumnData) = $PDFObject->_TableCalculate(
-        CellData => $CellData,            # 2D arrayref (see example)
-        ColumnData => $ColumnData,        # arrayref (see example)
-        RowData => $RowData,              # arrayref (see example)
-        Width => 300,                     # (optional) default default maximal width
-        Height => 400,                    # (optional) default minimal height
-        Font => 'Monospaced',             # (optional) default Proportional (see DocumentNew())
-        FontSize => 9,                    # (optional) default 11
-        FontColor => 'red',               # (optional) default black
-        FontColorEven => 'blue',          # (optional) cell font color for even rows
-        FontColorOdd => 'green',          # (optional) cell font color for odd rows
-        Align => 'right',                 # (optional) default left (left|center|right)
-        Lead => 3,                        # (optional) default 1
-        PaddingTop => 10,                 # (optional) top cell padding, overides Padding
-        PaddingRight => 30,               # (optional) right cell padding, overides Padding
-        PaddingBottom => 30,              # (optional) bottom cell padding, overides Padding
-        PaddingLeft => 10,                # (optional) left cell padding, overides Padding
-        BackgroundColor => '#101010',     # (optional) default white
-        BackgroundColorEven => '#F0F0F0', # (optional) cell background color for even rows
-        BackgroundColorOdd => '#A0A0A0',  # (optional) cell background color for odd rows
-        Border => 1,                      # (optional) default 1 (values between 0 and 20)
-        BorderColor => '#FF0000',         # (optional) default black
+        CellData            => $CellData,     # 2D arrayref (see example)
+        ColumnData          => $ColumnData,   # arrayref (see example)
+        RowData             => $RowData,      # arrayref (see example)
+        Width               => 300,           # (optional) default default maximal width
+        Height              => 400,           # (optional) default minimal height
+        Font                => 'Monospaced',  # (optional) default Proportional (see DocumentNew())
+        FontSize            => 9,             # (optional) default 11
+        FontColor           => 'red',         # (optional) default black
+        FontColorEven       => 'blue',        # (optional) cell font color for even rows
+        FontColorOdd        => 'green',       # (optional) cell font color for odd rows
+        Align               => 'right',       # (optional) default left (left|center|right)
+        Lead                => 3,             # (optional) default 1
+        PaddingTop          => 10,            # (optional) top cell padding, overides Padding
+        PaddingRight        => 30,            # (optional) right cell padding, overides Padding
+        PaddingBottom       => 30,            # (optional) bottom cell padding, overides Padding
+        PaddingLeft         => 10,            # (optional) left cell padding, overides Padding
+        BackgroundColor     => '#101010',     # (optional) default white
+        BackgroundColorEven => '#F0F0F0',     # (optional) cell background color for even rows
+        BackgroundColorOdd  => '#A0A0A0',     # (optional) cell background color for odd rows
+        Border              => 1,             # (optional) default 1 (values between 0 and 20)
+        BorderColor         => '#FF0000',     # (optional) default black
     );
 
     $CellData = [
@@ -2090,7 +2090,7 @@ sub _TableCalculate {
 #        $Return{ReturnColumnStop}
 #
 #    %Return = $PDFObject->_TableBlockNextCalculate(
-#        CellData => $CellData,      # 2D arrayref
+#        CellData   => $CellData,    # 2D arrayref
 #        ColumnData => $ColumnData,  # arrayref
 #    );
 #
@@ -2200,10 +2200,10 @@ sub _TableBlockNextCalculate {
 #        %Param
 #
 #    %Return = $PDFObject->_TableRowCalculate(
-#        CellData => $CellData,      # 2D arrayref
-#        RowData => $RowData,        # arrayref
+#        CellData   => $CellData,    # 2D arrayref
+#        RowData    => $RowData,     # arrayref
 #        ColumnData => $ColumnData,  # arrayref
-#        Row => 3,                   # current row
+#        Row        => 3,            # current row
 #    );
 #
 
@@ -2292,22 +2292,22 @@ sub _TableRowCalculate {
 #        $Return{LeftOver}
 #
 #    %Return = $PDFObject->_TableCellOutput(
-#        Width => 70,
-#        Height => 40,
-#        Text => 'Text',
-#        Type => 'Cut',
-#        Font => 'ProportionalBold',
-#        FontSize => 15,
-#        FontColor => '#FF0000',
-#        Align => 'center',
-#        Lead => 20,
-#        PaddingTop => 10,
-#        PaddingRight => 30,
-#        PaddingBottom => 30,
-#        PaddingLeft => 10,
+#        Width           => 70,
+#        Height          => 40,
+#        Text            => 'Text',
+#        Type            => 'Cut',
+#        Font            => 'ProportionalBold',
+#        FontSize        => 15,
+#        FontColor       => '#FF0000',
+#        Align           => 'center',
+#        Lead            => 20,
+#        PaddingTop      => 10,
+#        PaddingRight    => 30,
+#        PaddingBottom   => 30,
+#        PaddingLeft     => 10,
 #        BackgroundColor => '#101010',
-#        Border => 1,
-#        BorderColor => '#FF0000',
+#        Border          => 1,
+#        BorderColor     => '#FF0000',
 #    );
 #
 
@@ -2494,13 +2494,13 @@ sub _TableCellOnCount {
 #        $Return{PossibleRows}  # (Array Ref)
 #
 #    %Return = $PDFObject->_TextCalculate(
-#        Text => $Text,               # text
-#        Type => 'Cut',               # (ReturnLeftOver|ReturnLeftOverHard|Cut)
-#        Width => 300,                # available width
-#        Height => 200,               # available height
-#        Font => 'ProportionalBold',  # font of text
-#        FontSize => 6,               # fontsize of text
-#        Lead => 20,                  # lead
+#        Text     => $Text,               # text
+#        Type     => 'Cut',               # (ReturnLeftOver|ReturnLeftOverHard|Cut)
+#        Width    => 300,                 # available width
+#        Height   => 200,                 # available height
+#        Font     => 'ProportionalBold',  # font of text
+#        FontSize => 6,                   # fontsize of text
+#        Lead     => 20,                  # lead
 #    );
 #
 
@@ -2733,9 +2733,9 @@ sub _TextCalculate {
 # calculate width of given text
 #
 #    $Width = $PDFObject->_StringWidth(
-#        Text => 'Text',              # text
-#        Font => 'ProportionalBold',  # font of text
-#        FontSize => 6,               # fontsize of text
+#        Text     => 'Text',              # text
+#        Font     => 'ProportionalBold',  # font of text
+#        FontSize => 6,                   # fontsize of text
 #    );
 #
 
@@ -2877,8 +2877,8 @@ sub _CurPageNumberSet {
 # Set current Page Dimension
 #
 #    $PDFObject->_CurPageDimSet(
-#        Width => 123,                    # (optional) default 595 (Din A4)
-#        Height => 321,                   # (optional) default 842 (Din A4)
+#        Width           => 123,          # (optional) default 595 (Din A4)
+#        Height          => 321,          # (optional) default 842 (Din A4)
 #        PageOrientation => 'landscape',  # (optional) (normal|landscape)
 #    );
 #
@@ -3045,10 +3045,10 @@ sub _CurPageDimCheck {
 # Set current Printable Dimension
 #
 #    $True = $PDFObject->_CurPrintableDimSet(
-#        Top => 20,     # (optional)
-#        Right => 20,   # (optional)
+#        Top    => 20,  # (optional)
+#        Right  => 20,  # (optional)
 #        Bottom => 20,  # (optional)
-#        Left => 20,    # (optional)
+#        Left   => 20,  # (optional)
 #    );
 #
 
@@ -3237,10 +3237,10 @@ sub _CurPrintableDimCheck {
 # Set current Content Dimension
 #
 #    $True = $PDFObject->_CurContentDimSet(
-#        Top => 20,     # (optional)
-#        Right => 20,   # (optional)
+#        Top    => 20,  # (optional)
+#        Right  => 20,  # (optional)
 #        Bottom => 20,  # (optional)
-#        Left => 20,    # (optional)
+#        Left   => 20,  # (optional)
 #    );
 #
 
@@ -3522,6 +3522,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2010-01-29 08:57:29 $
+$Revision: 1.38 $ $Date: 2010-02-04 08:16:27 $
 
 =cut
