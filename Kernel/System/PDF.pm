@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.38 2010-02-04 08:16:27 bes Exp $
+# $Id: PDF.pm,v 1.39 2010-02-04 08:48:08 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -2077,23 +2077,23 @@ sub _TableCalculate {
     return %Param;
 }
 
-#
-# _TableBlockNextCalculate()
-#
-# calculate what block can output next
-#
-#    Return
-#        $Return{State}
-#        $Return{ReturnBlock}
-#        $Return{ReturnRowStart}
-#        $Return{ReturnColumnStart}
-#        $Return{ReturnColumnStop}
-#
-#    %Return = $PDFObject->_TableBlockNextCalculate(
-#        CellData   => $CellData,    # 2D arrayref
-#        ColumnData => $ColumnData,  # arrayref
-#    );
-#
+=item _TableBlockNextCalculate()
+
+calculate what block can output next
+
+   Return
+       $Return{State}
+       $Return{ReturnBlock}
+       $Return{ReturnRowStart}
+       $Return{ReturnColumnStart}
+       $Return{ReturnColumnStop}
+
+   %Return = $PDFObject->_TableBlockNextCalculate(
+       CellData   => $CellData,    # 2D arrayref
+       ColumnData => $ColumnData,  # arrayref
+   );
+
+=cut
 
 sub _TableBlockNextCalculate {
     my ( $Self, %Param ) = @_;
@@ -2191,21 +2191,21 @@ sub _TableBlockNextCalculate {
     return %Return;
 }
 
-#
-# _TableRowCalculate()
-#
-# calculate row of table
-#
-#    Return  # normally no return required, only references
-#        %Param
-#
-#    %Return = $PDFObject->_TableRowCalculate(
-#        CellData   => $CellData,    # 2D arrayref
-#        RowData    => $RowData,     # arrayref
-#        ColumnData => $ColumnData,  # arrayref
-#        Row        => 3,            # current row
-#    );
-#
+=item _TableRowCalculate()
+
+calculate row of table
+
+   Return  # normally no return required, only references
+       %Param
+
+   %Return = $PDFObject->_TableRowCalculate(
+       CellData   => $CellData,    # 2D arrayref
+       RowData    => $RowData,     # arrayref
+       ColumnData => $ColumnData,  # arrayref
+       Row        => 3,            # current row
+   );
+
+=cut
 
 sub _TableRowCalculate {
     my ( $Self, %Param ) = @_;
@@ -2280,36 +2280,36 @@ sub _TableRowCalculate {
     return %Param;
 }
 
-#
-# _TableCellOutput()
-#
-# output a cell of a table
-#
-#    Return
-#        $Return{State}
-#        $Return{RequiredWidth}
-#        $Return{RequiredHeight}
-#        $Return{LeftOver}
-#
-#    %Return = $PDFObject->_TableCellOutput(
-#        Width           => 70,
-#        Height          => 40,
-#        Text            => 'Text',
-#        Type            => 'Cut',
-#        Font            => 'ProportionalBold',
-#        FontSize        => 15,
-#        FontColor       => '#FF0000',
-#        Align           => 'center',
-#        Lead            => 20,
-#        PaddingTop      => 10,
-#        PaddingRight    => 30,
-#        PaddingBottom   => 30,
-#        PaddingLeft     => 10,
-#        BackgroundColor => '#101010',
-#        Border          => 1,
-#        BorderColor     => '#FF0000',
-#    );
-#
+=item _TableCellOutput()
+
+output a cell of a table
+
+   Return
+       $Return{State}
+       $Return{RequiredWidth}
+       $Return{RequiredHeight}
+       $Return{LeftOver}
+
+   %Return = $PDFObject->_TableCellOutput(
+       Width           => 70,
+       Height          => 40,
+       Text            => 'Text',
+       Type            => 'Cut',
+       Font            => 'ProportionalBold',
+       FontSize        => 15,
+       FontColor       => '#FF0000',
+       Align           => 'center',
+       Lead            => 20,
+       PaddingTop      => 10,
+       PaddingRight    => 30,
+       PaddingBottom   => 30,
+       PaddingLeft     => 10,
+       BackgroundColor => '#101010',
+       Border          => 1,
+       BorderColor     => '#FF0000',
+   );
+
+=cut
 
 sub _TableCellOutput {
     my ( $Self, %Param ) = @_;
@@ -2430,18 +2430,18 @@ sub _TableCellOutput {
     return %Return;
 }
 
-#
-# _TableCellOnCount()
-#
-# count all aktive cells
-#
-#    Return
-#        $CellCount
-#
-#    $Count = $PDFObject->_TableCellOnCount(
-#        CellData => $CellData,  # 2D arrayref
-#    );
-#
+=item _TableCellOnCount()
+
+count all aktive cells
+
+   Return
+       $CellCount
+
+   $Count = $PDFObject->_TableCellOnCount(
+       CellData => $CellData,  # 2D arrayref
+   );
+
+=cut
 
 sub _TableCellOnCount {
     my ( $Self, %Param ) = @_;
@@ -2481,28 +2481,28 @@ sub _TableCellOnCount {
     return $Return;
 }
 
-#
-# _TextCalculate()
-#
-# calculate required values of given text
-#
-#    Return
-#        $Return{State}
-#        $Return{RequiredWidth}
-#        $Return{RequiredHeight}
-#        $Return{LeftOver}
-#        $Return{PossibleRows}  # (Array Ref)
-#
-#    %Return = $PDFObject->_TextCalculate(
-#        Text     => $Text,               # text
-#        Type     => 'Cut',               # (ReturnLeftOver|ReturnLeftOverHard|Cut)
-#        Width    => 300,                 # available width
-#        Height   => 200,                 # available height
-#        Font     => 'ProportionalBold',  # font of text
-#        FontSize => 6,                   # fontsize of text
-#        Lead     => 20,                  # lead
-#    );
-#
+=item _TextCalculate()
+
+calculate required values of given text
+
+   Return
+       $Return{State}
+       $Return{RequiredWidth}
+       $Return{RequiredHeight}
+       $Return{LeftOver}
+       $Return{PossibleRows}  # (Array Ref)
+
+   %Return = $PDFObject->_TextCalculate(
+       Text     => $Text,               # text
+       Type     => 'Cut',               # (ReturnLeftOver|ReturnLeftOverHard|Cut)
+       Width    => 300,                 # available width
+       Height   => 200,                 # available height
+       Font     => 'ProportionalBold',  # font of text
+       FontSize => 6,                   # fontsize of text
+       Lead     => 20,                  # lead
+   );
+
+=cut
 
 sub _TextCalculate {
     my ( $Self, %Param ) = @_;
@@ -2727,17 +2727,17 @@ sub _TextCalculate {
     return %Return;
 }
 
-#
-# _StringWidth()
-#
-# calculate width of given text
-#
-#    $Width = $PDFObject->_StringWidth(
-#        Text     => 'Text',              # text
-#        Font     => 'ProportionalBold',  # font of text
-#        FontSize => 6,                   # fontsize of text
-#    );
-#
+=item _StringWidth()
+
+calculate width of given text
+
+   $Width = $PDFObject->_StringWidth(
+       Text     => 'Text',              # text
+       Font     => 'ProportionalBold',  # font of text
+       FontSize => 6,                   # fontsize of text
+   );
+
+=cut
 
 sub _StringWidth {
     my ( $Self, %Param ) = @_;
@@ -2781,15 +2781,15 @@ sub _StringWidth {
     return $StringWidth;
 }
 
-#
-# _PrepareText()
-#
-# prepare given text for output
-#
-#    $Width = $PDFObject->_PrepareText(
-#        Text => 'Text',  # text
-#    );
-#
+=item _PrepareText()
+
+prepare given text for output
+
+   $Width = $PDFObject->_PrepareText(
+       Text => 'Text',  # text
+   );
+
+=cut
 
 sub _PrepareText {
     my ( $Self, %Param ) = @_;
@@ -2823,15 +2823,15 @@ sub _PrepareText {
     return $Param{Text};
 }
 
-#
-# _CurPageNumberSet()
-#
-# set number of current page
-#
-#    $PDFObject->_CurPageNumberSet(
-#        ShowPageNumber => 0,  # (optional) default 1
-#    );
-#
+=item _CurPageNumberSet()
+
+set number of current page
+
+   $PDFObject->_CurPageNumberSet(
+       ShowPageNumber => 0,  # (optional) default 1
+   );
+
+=cut
 
 sub _CurPageNumberSet {
     my ( $Self, %Param ) = @_;
@@ -2871,17 +2871,17 @@ sub _CurPageNumberSet {
     return 1;
 }
 
-#
-# _CurPageDimSet()
-#
-# Set current Page Dimension
-#
-#    $PDFObject->_CurPageDimSet(
-#        Width           => 123,          # (optional) default 595 (Din A4)
-#        Height          => 321,          # (optional) default 842 (Din A4)
-#        PageOrientation => 'landscape',  # (optional) (normal|landscape)
-#    );
-#
+=item _CurPageDimSet()
+
+Set current Page Dimension
+
+   $PDFObject->_CurPageDimSet(
+       Width           => 123,          # (optional) default 595 (Din A4)
+       Height          => 321,          # (optional) default 842 (Din A4)
+       PageOrientation => 'landscape',  # (optional) (normal|landscape)
+   );
+
+=cut
 
 sub _CurPageDimSet {
     my ( $Self, %Param ) = @_;
@@ -2961,17 +2961,17 @@ sub _CurPageDimSet {
     return 1;
 }
 
-#
-# _CurPageDimGet()
-#
-# Get current Page Dimension (Width, Height)
-#
-#    Return
-#        $CurPageDim{Width}
-#        $CurPageDim{Height}
-#
-#    %CurPageDim = $PDFObject->_CurPageDimGet();
-#
+=item _CurPageDimGet()
+
+Get current Page Dimension (Width, Height)
+
+   Return
+       $CurPageDim{Width}
+       $CurPageDim{Height}
+
+   %CurPageDim = $PDFObject->_CurPageDimGet();
+
+=cut
 
 sub _CurPageDimGet {
     my ( $Self, %Param ) = @_;
@@ -2998,16 +2998,16 @@ sub _CurPageDimGet {
     return %Data;
 }
 
-#
-# _CurPageDimCheck()
-#
-# Check given X an/or Y if inside the page dimension
-#
-#    $True = $PDFObject->_CurPageDimCheck(
-#        X => 200,  # (optional)
-#        Y => 100,  # (optional)
-#    );
-#
+=item _CurPageDimCheck()
+
+Check given X an/or Y if inside the page dimension
+
+   $True = $PDFObject->_CurPageDimCheck(
+       X => 200,  # (optional)
+       Y => 100,  # (optional)
+   );
+
+=cut
 
 sub _CurPageDimCheck {
     my ( $Self, %Param ) = @_;
@@ -3039,18 +3039,18 @@ sub _CurPageDimCheck {
     return $Return;
 }
 
-#
-# _CurPrintableDimSet()
-#
-# Set current Printable Dimension
-#
-#    $True = $PDFObject->_CurPrintableDimSet(
-#        Top    => 20,  # (optional)
-#        Right  => 20,  # (optional)
-#        Bottom => 20,  # (optional)
-#        Left   => 20,  # (optional)
-#    );
-#
+=item _CurPrintableDimSet()
+
+Set current Printable Dimension
+
+   $True = $PDFObject->_CurPrintableDimSet(
+       Top    => 20,  # (optional)
+       Right  => 20,  # (optional)
+       Bottom => 20,  # (optional)
+       Left   => 20,  # (optional)
+   );
+
+=cut
 
 sub _CurPrintableDimSet {
     my ( $Self, %Param ) = @_;
@@ -3141,21 +3141,21 @@ sub _CurPrintableDimSet {
     return 1;
 }
 
-#
-# _CurPrintableDimGet()
-#
-# Get current Printable Dimension
-#
-#    Return
-#        $CurPrintableDim{Top}
-#        $CurPrintableDim{Right}
-#        $CurPrintableDim{Bottom}
-#        $CurPrintableDim{Left}
-#        $CurPrintableDim{Width}
-#        $CurPrintableDim{Height}
-#
-#    %CurPrintableDim = $PDFObject->_CurPrintableDimGet();
-#
+=item _CurPrintableDimGet()
+
+Get current Printable Dimension
+
+   Return
+       $CurPrintableDim{Top}
+       $CurPrintableDim{Right}
+       $CurPrintableDim{Bottom}
+       $CurPrintableDim{Left}
+       $CurPrintableDim{Width}
+       $CurPrintableDim{Height}
+
+   %CurPrintableDim = $PDFObject->_CurPrintableDimGet();
+
+=cut
 
 sub _CurPrintableDimGet {
     my ( $Self, %Param ) = @_;
@@ -3182,16 +3182,16 @@ sub _CurPrintableDimGet {
     return %Data;
 }
 
-#
-# _CurPrintableDimCheck()
-#
-# Check given X an/or Y if inside the printable dimension
-#
-#    $True = $PDFObject->_CurPrintableDimCheck(
-#        X => 200,  # (optional)
-#        Y => 100,  # (optional)
-#    );
-#
+=item _CurPrintableDimCheck()
+
+Check given X an/or Y if inside the printable dimension
+
+   $True = $PDFObject->_CurPrintableDimCheck(
+       X => 200,  # (optional)
+       Y => 100,  # (optional)
+   );
+
+=cut
 
 sub _CurPrintableDimCheck {
     my ( $Self, %Param ) = @_;
@@ -3231,18 +3231,18 @@ sub _CurPrintableDimCheck {
     return $Return;
 }
 
-#
-# _CurContentDimSet()
-#
-# Set current Content Dimension
-#
-#    $True = $PDFObject->_CurContentDimSet(
-#        Top    => 20,  # (optional)
-#        Right  => 20,  # (optional)
-#        Bottom => 20,  # (optional)
-#        Left   => 20,  # (optional)
-#    );
-#
+=item _CurContentDimSet()
+
+Set current Content Dimension
+
+   $True = $PDFObject->_CurContentDimSet(
+       Top    => 20,  # (optional)
+       Right  => 20,  # (optional)
+       Bottom => 20,  # (optional)
+       Left   => 20,  # (optional)
+   );
+
+=cut
 
 sub _CurContentDimSet {
     my ( $Self, %Param ) = @_;
@@ -3325,21 +3325,21 @@ sub _CurContentDimSet {
     return 1;
 }
 
-#
-# _CurContentDimGet()
-#
-# Get current Content Dimension
-#
-#    Return
-#        $CurContentDim{Top}
-#        $CurContentDim{Right}
-#        $CurContentDim{Bottom}
-#        $CurContentDim{Left}
-#        $CurContentDim{Width}
-#        $CurContentDim{Height}
-#
-#    %CurContentDim = $PDFObject->_CurContentDimGet();
-#
+=item _CurContentDimGet()
+
+Get current Content Dimension
+
+   Return
+       $CurContentDim{Top}
+       $CurContentDim{Right}
+       $CurContentDim{Bottom}
+       $CurContentDim{Left}
+       $CurContentDim{Width}
+       $CurContentDim{Height}
+
+   %CurContentDim = $PDFObject->_CurContentDimGet();
+
+=cut
 
 sub _CurContentDimGet {
     my ( $Self, %Param ) = @_;
@@ -3366,16 +3366,16 @@ sub _CurContentDimGet {
     return %Data;
 }
 
-#
-# _CurContentDimCheck()
-#
-# Check given X an/or Y if inside the content dimension
-#
-#    $True = $PDFObject->_CurContentDimCheck(
-#        X => 200,  # (optional)
-#        Y => 100,  # (optional)
-#    );
-#
+=item _CurContentDimCheck()
+
+Check given X an/or Y if inside the content dimension
+
+   $True = $PDFObject->_CurContentDimCheck(
+       X => 200,  # (optional)
+       Y => 100,  # (optional)
+   );
+
+=cut
 
 sub _CurContentDimCheck {
     my ( $Self, %Param ) = @_;
@@ -3408,16 +3408,16 @@ sub _CurContentDimCheck {
     return $Return;
 }
 
-#
-# _CurPositionSet()
-#
-# Set current Position
-#
-#    $True = $PDFObject->_CurPositionSet(
-#        X => 20,  # (optional)
-#        Y => 20,  # (optional)
-#    );
-#
+=item _CurPositionSet()
+
+Set current Position
+
+   $True = $PDFObject->_CurPositionSet(
+       X => 20,  # (optional)
+       Y => 20,  # (optional)
+   );
+
+=cut
 
 sub _CurPositionSet {
     my ( $Self, %Param ) = @_;
@@ -3473,17 +3473,17 @@ sub _CurPositionSet {
     return 1;
 }
 
-#
-# _CurPositionGet()
-#
-# Get current Position
-#
-#    Return
-#        $CurPosition{X}
-#        $CurPosition{Y}
-#
-#    %CurPosition = $PDFObject->_CurPositionGet();
-#
+=item _CurPositionGet()
+
+Get current Position
+
+   Return
+       $CurPosition{X}
+       $CurPosition{Y}
+
+   %CurPosition = $PDFObject->_CurPositionGet();
+
+=cut
 
 sub _CurPositionGet {
     my ( $Self, %Param ) = @_;
@@ -3522,6 +3522,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2010-02-04 08:16:27 $
+$Revision: 1.39 $ $Date: 2010-02-04 08:48:08 $
 
 =cut
