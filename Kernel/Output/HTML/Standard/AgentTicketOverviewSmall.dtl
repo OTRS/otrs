@@ -1,8 +1,8 @@
 # --
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.25 2009-12-24 10:20:46 mg Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.26 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -156,7 +156,7 @@ function select_item_check () {
                         <td align="left" colspan="9">
 <!-- dtl:block:BulkFooter -->
                             <input type="checkbox" name="Check" value="" onclick="select_items('TicketID')" autocomplete="off"/>
-                            <input type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();" />
+                            <button type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();" >$Text{"Bulk Action"}</button>
 <!-- dtl:block:BulkFooter -->
                             &nbsp;
                         </td>

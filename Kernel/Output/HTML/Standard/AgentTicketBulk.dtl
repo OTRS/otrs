@@ -1,8 +1,8 @@
 # --
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.28 2009-12-08 13:48:54 mg Exp $
+# $Id: AgentTicketBulk.dtl,v 1.29 2010-02-05 13:58:22 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -163,7 +163,7 @@ $Include{"RichTextEditor"}
                     </tr>
                     <tr>
                         <td colspan="2" class="contentfooter">
-                            <input class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
+                            <button class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">$Text{"Submit"}</button>
                         </td>
                     </tr>
                 </table>

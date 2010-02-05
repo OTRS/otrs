@@ -1,8 +1,8 @@
 # --
 # AdminSession.dtl - provides global HTML AdminSession
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.23 2009-11-25 15:34:55 mg Exp $
+# $Id: AdminSession.dtl,v 1.24 2010-02-05 13:58:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,7 +54,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Kill all sessions"}"/>
+                            <button class="button" type="submit" value="$Text{"Kill all sessions"}">$Text{"Kill all sessions"}</button>
                         </td>
                     </tr>
                 </table>

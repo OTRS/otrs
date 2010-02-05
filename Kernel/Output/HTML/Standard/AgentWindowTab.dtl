@@ -1,8 +1,8 @@
 # --
 # AgentWindowTab.dtl - provides HTML form for window tabs
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentWindowTab.dtl,v 1.10 2009-11-25 16:19:58 mg Exp $
+# $Id: AgentWindowTab.dtl,v 1.11 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@
                                                 <tr>
                                                     <td class="tab$Data{"Active"}">
                                                         <p align="center">
-                                                            <input class="tab$QData{"Active"}" type="submit" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}"/>
+                                                            <button class="tab$QData{"Active"}" type="submit" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}">$Text{"$QData{"Text"}"}</button>
                                                             <img border="0" src="$Config{"Frontend::ImagePath"}$Data{"Image"}" />
                                                         </p>
                                                     </td>
@@ -53,7 +53,7 @@
                                                 <td>&nbsp;</td>
                                                 <td align="right">
 <!-- dtl:block:Layer1Footer -->
-                                                    <input class="button" type="submit" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}"/>
+                                                    <button class="button" type="submit" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}">$Text{"$QData{"Text"}"}</button>
 <!-- dtl:block:Layer1Footer -->
                                                 </td>
                                             </tr>
@@ -65,7 +65,7 @@
                                 <tr>
 <!-- dtl:block:Layer0Footer -->
                                     <td>
-                                        <input class="button" type="submit" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}"/>
+                                        <button class="button" type="submit" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}">$Text{"$QData{"Text"}"}</button>
                                     </td>
 <!-- dtl:block:Layer0Footer -->
                                 </tr>

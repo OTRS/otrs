@@ -1,8 +1,8 @@
 # --
 # LinkObject.dtl - provides HTML elements for link object lists
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.13 2009-12-24 11:18:18 mg Exp $
+# $Id: LinkObject.dtl,v 1.14 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,14 +90,14 @@ $TimeLong{"$Data{"Content"}"}
                     <td class="contentfooter" colspan="$QData{"Colspan"}">
                         $Data{"LinkTypeStrg"}
                         &nbsp;
-                        <input class="button" type="submit" name="SubmitLink" value="$Text{"Link"}"/>
+                        <button class="button" type="submit" name="SubmitLink" value="$Text{"Link"}">$Text{"Link"}</button>
                     </td>
                 </tr>
 <!-- dtl:block:TableComplexBlockFooterAdd -->
 <!-- dtl:block:TableComplexBlockFooterDelete -->
                 <tr>
                     <td class="contentfooter" colspan="$QData{"Colspan"}">
-                        <input class="button" type="submit" name="SubmitDelete" value="$Text{"Delete"}"/>
+                        <button class="button" type="submit" name="SubmitDelete" value="$Text{"Delete"}">$Text{"Delete"}</button>
                     </td>
                 </tr>
 <!-- dtl:block:TableComplexBlockFooterDelete -->

@@ -1,8 +1,8 @@
 # --
 # AgentStatsDelete.dtl - provides HTML form for delete a Stats
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsDelete.dtl,v 1.10 2009-12-24 09:03:14 mg Exp $
+# $Id: AgentStatsDelete.dtl,v 1.11 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,8 +55,8 @@
                             <input type="hidden" name="Subaction" value="Delete"/>
                             <input type="hidden" name="Status" value="Action"/>
                             <input type="hidden" name="StatID" value="$QData{"StatID"}"/>
-                            <input class="button" type="submit" name="Yes" value="$Text{"Yes"}"/>&nbsp;
-                            <input class="button" type="submit" name="No" value="$Text{"No"}"/>
+                            <button class="button" type="submit" name="Yes" value="$Text{"Yes"}">$Text{"Yes"}</button>&nbsp;
+                            <button class="button" type="submit" name="No" value="$Text{"No"}">$Text{"No"}</button>
                         </td>
                     </tr>
                 </table>

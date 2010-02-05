@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.30 2010-01-25 07:39:01 mb Exp $
+# $Id: CustomerLogin.dtl,v 1.31 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,7 +54,7 @@ function submit_form() {
                             <td><input type="password" name="Password" size="18"/></td>
                         </tr>
                     </table>
-                    <input class="button" type="submit" value="$Text{"Login"}" onclick="return submit_form();"/>
+                    <button class="button" type="submit" value="$Text{"Login"}" onclick="return submit_form();">$Text{"Login"}</button>
                 </form>
             </td>
         </tr>
@@ -80,7 +80,7 @@ function submit_form() {
                             <td colspan="2"><i class="small">($Text{"Request new password"})</i></td>
                         </tr>
                     </table>
-                    <input class="button" type="submit" value="$Text{"Submit"}"/>
+                    <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                 </form>
             </td>
         </tr>
@@ -104,7 +104,7 @@ function submit_form() {
                             <td>$Data{"Language"}</td>
                         </tr>
                     </table>
-                    <input class="button" type="submit" value="$Text{"Submit"}"/>
+                    <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                 </td>
             </tr>
         </table>
@@ -148,7 +148,7 @@ function submit_form() {
 #              <td> <input type="text" name="CustomerID" value="$QData{"UserCustomerID"}" size="25" maxlength="50"/></td>
 #            </tr>
                     </table>
-                    <input class="button" type="submit" value="$Text{"Create"}"/>
+                    <button class="button" type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
                 </form>
             </td>
         </tr>

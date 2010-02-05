@@ -1,8 +1,8 @@
 # --
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.32 2009-12-08 17:44:46 mg Exp $
+# $Id: AdminNotificationForm.dtl,v 1.33 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ $Include{"RichTextEditor"}
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            &nbsp;<input class="button" type="submit" value="$Text{"Change"}"/>
+                            &nbsp;<button class="button" type="submit" value="$Text{"Change"}">$Text{"Change"}</button>
                         </td>
                     </tr>
                 </table>
@@ -43,7 +43,7 @@ $Include{"RichTextEditor"}
         </td>
         <td width="70%" class="mainbody">
 # check subaction
-            <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" id="submitRichText" type="submit" value="$Text{"Update"}"/>"; }>
+            <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<button class="button" id="submitRichText" type="submit" value="$Text{"Update"}">$Text{"Update"}</button>"; }>
             <form action="$Env{"CGIHandle"}" method="post">
                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                 <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action"/>

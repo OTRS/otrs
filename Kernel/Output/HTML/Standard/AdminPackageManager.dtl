@@ -1,8 +1,8 @@
 # --
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.51 2009-11-25 16:19:58 mg Exp $
+# $Id: AdminPackageManager.dtl,v 1.52 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@
                                     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                         <input type="hidden" name="Subaction" value=""/>
-                                        <input class="button" type="submit" value="$Text{"No"}"/>
+                                        <button class="button" type="submit" value="$Text{"No"}">$Text{"No"}</button>
                                     </form>
                                 </td>
                                 <td width="10" class="contentfooter">
@@ -65,7 +65,7 @@
                                         <input type="hidden" name="Subaction" value="UninstallAction"/>
                                         <input type="hidden" name="Name" value="$QData{"Name"}"/>
                                         <input type="hidden" name="Version" value="$QData{"Version"}"/>
-                                        <input class="button" type="submit" value="$Text{"Yes"}"/>
+                                        <button class="button" type="submit" value="$Text{"Yes"}">$Text{"Yes"}</button>
                                     </form>
                                 </td>
                             </tr>
@@ -125,7 +125,7 @@
                                     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                         <input type="hidden" name="Subaction" value=""/>
-                                        <input class="button" type="submit" value="$Text{"No"}"/>
+                                        <button class="button" type="submit" value="$Text{"No"}">$Text{"No"}</button>
                                     </form>
                                 </td>
                                 <td width="10" class="contentfooter">
@@ -134,7 +134,7 @@
                                         <input type="hidden" name="Subaction" value="ReinstallAction"/>
                                         <input type="hidden" name="Name" value="$QData{"Name"}"/>
                                         <input type="hidden" name="Version" value="$QData{"Version"}"/>
-                                        <input class="button" type="submit" value="$Text{"Yes"}"/>
+                                        <button class="button" type="submit" value="$Text{"Yes"}">$Text{"Yes"}</button>
                                     </form>
                                 </td>
                             </tr>
@@ -175,7 +175,7 @@
                                     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                         <input type="hidden" name="Subaction" value=""/>
-                                        <input class="button" type="submit" value="$Text{"Cancel"}"/>
+                                        <button class="button" type="submit" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
                                     </form>
 <!-- dtl:block:IntroCancel -->
                                 </td>
@@ -189,7 +189,7 @@
                                         <input type="hidden" name="$QData{"Type"}" value="1"/>
                                         <input type="hidden" name="Name" value="$QData{"Name"}"/>
                                         <input type="hidden" name="Version" value="$QData{"Version"}"/>
-                                        <input class="button" type="submit" value="$Text{"Continue"}"/>
+                                        <button class="button" type="submit" value="$Text{"Continue"}">$Text{"Continue"}</button>
                                     </form>
                                 </td>
                             </tr>
@@ -232,7 +232,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Install"}"/>
+                            <button class="button" type="submit" value="$Text{"Install"}">$Text{"Install"}</button>
                         </td>
                     </tr>
                 </table>
@@ -258,7 +258,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" name="GetRepositoryList" value="$Text{"Update"}"/>
+                            <button class="button" type="submit" name="GetRepositoryList" value="$Text{"Update"}">$Text{"Update"}</button>
                         </td>
                     </tr>
                 </table>

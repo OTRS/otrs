@@ -1,8 +1,8 @@
 # --
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.30 2009-12-08 13:48:54 mg Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.31 2010-02-05 13:58:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -158,14 +158,14 @@ $Include{"RichTextEditor"}
                                         <td>$QData{"Filename"}</td>
                                         <td>$QData{"Filesize"}</td>
                                         <td align="right">
-                                            <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
+                                            <button class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                         </td>
                                     </tr>
 <!-- dtl:block:Attachment -->
                                     <tr>
                                         <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
                                         <td align="right">
-                                            <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
+                                            <button class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
                                             <a name="attachment"></a>
                                         </td>
                                     </tr>
@@ -244,7 +244,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                     </table>
                     <br/>
-                    <input accesskey="g" class="button" id="submitRichText" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
+                    <button accesskey="g" class="button" id="submitRichText" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">$Text{"Submit"}</button>
                 </form>
                 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
                     <input type="hidden" name="Action" value="AgentSpelling"/>

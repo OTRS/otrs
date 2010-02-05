@@ -1,8 +1,8 @@
 # --
 # Error.dtl - provides HTML Error screen
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Error.dtl,v 1.19 2009-02-16 11:07:25 tr Exp $
+# $Id: Error.dtl,v 1.20 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,45 +11,45 @@
 
 <center>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="contenthead">
-      <p>
-        <font color="red" size="+1">$Text{"Error"}: $Data{"Message"}</font>
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <table cellspacing="0" cellpadding="2" width="100%">
-        <tr>
-          <td class="mainkey" width="100">$Text{"Comment"}:</td>
-          <td class="mainvalue">$Data{"Comment"}</td>
-        </tr>
-        <tr>
-          <td class="mainkey">$Text{"Bug Report"}:</td>
-          <td class="mainvalue">
-            <form action="http://bugs.otrs.org/enter_bug.cgi">
-              <input type="hidden" name="comment" value="
-              Message:
+    <tr>
+        <td class="contenthead">
+            <p>
+                <font color="red" size="+1">$Text{"Error"}: $Data{"Message"}</font>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <table cellspacing="0" cellpadding="2" width="100%">
+                <tr>
+                    <td class="mainkey" width="100">$Text{"Comment"}:</td>
+                    <td class="mainvalue">$Data{"Comment"}</td>
+                </tr>
+                <tr>
+                    <td class="mainkey">$Text{"Bug Report"}:</td>
+                    <td class="mainvalue">
+                        <form action="http://bugs.otrs.org/enter_bug.cgi">
+                            <input type="hidden" name="comment" value="
+                            Message:
 $Data{"Message"}
 
-              Comment:
+                            Comment:
 $Data{"Comment"}
 
-              Traceback:
+                            Traceback:
 $Data{"BackendTraceback"}
-              "/>
-              <input type="hidden" name="bug_file_loc" value="$QEnv{"SERVER_NAME"}$QEnv{"REQUEST_URI"}"/>
-              <input class="button" type="submit" value="$Text{"Click here to report a bug!"}"/>
-            </form>
-          </td>
-        </tr>
-        <tr>
-          <td class="mainkey">$Text{"Traceback"}:</td>
-          <td class="mainvalue">$Data{"BackendTraceback"}</td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+                            "/>
+                            <input type="hidden" name="bug_file_loc" value="$QEnv{"SERVER_NAME"}$QEnv{"REQUEST_URI"}"/>
+                            <button class="button" type="submit" value="$Text{"Click here to report a bug!"}">$Text{"Click here to report a bug!"}</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="mainkey">$Text{"Traceback"}:</td>
+                    <td class="mainvalue">$Data{"BackendTraceback"}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 </center>

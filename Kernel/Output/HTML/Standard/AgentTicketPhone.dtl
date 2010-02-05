@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.64 2010-01-25 21:35:05 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.65 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -125,7 +125,7 @@ function clear_field() {
 #        <input type="hidden" name="Body" value="Name:
 #        Product:
 #        Comment:"/>
-#        <input class="button" type="submit" name="" value="$Text{"Example Template"}"/>
+#        <button class="button" type="submit" name="" value="$Text{"Example Template"}">$Text{"Example Template"}</button>
 #      </form>
 #      <hr/>
             <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
@@ -164,11 +164,11 @@ function clear_field() {
                             <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font>
                             <br/>
                             $Data{"CustomerUserStrg"}
-                            <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br/><input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}"/>"; }>
+                            <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br/><button class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">$Text{"Take this Customer"}</button>"; }>
                             $Data{"TakeThisCustomer"}
 <!-- dtl:block:SearchCustomerButton -->
-                            <input class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}"/>
-                            <input class="button" type="submit" name="ClearFrom" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;"/>
+                            <button class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">$Text{"Search Customer"}</button>
+                            <button class="button" type="submit" name="ClearFrom" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;">$Text{"Clear From"}</button>
 <!-- dtl:block:SearchCustomerButton -->
                         </td>
                         <td width="20%" rowspan="10" class="contentvalue">
@@ -187,7 +187,7 @@ function clear_field() {
                         <td class="contentkey">$Text{"To"}:</td>
                         <td class="contentvalue">$Data{"ToStrg"} <font color="red" size="-2">$Text{"$Data{"Destination invalid"}"}</font>
 <!-- dtl:block:ToUpdateSubmit -->
-                            <input class="button" type="submit" value="$Text{"Refresh"}" name="ExpandCustomerName2"/>
+                            <button class="button" type="submit" value="$Text{"Refresh"}" name="ExpandCustomerName2">$Text{"Refresh"}</button>
 <!-- dtl:block:ToUpdateSubmit -->
                         </td>
                     </tr>
@@ -218,7 +218,7 @@ function clear_field() {
                             $Env{"Box0"}<a href="" onclick="document.compose.OwnerAll.value='1'; OTRSCore.AJAXUpdate('AJAXUpdate', 'OwnerAll', ['OwnerAll', 'Dest'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:OwnerSelectionAllJS -->
 <!-- dtl:block:OwnerSelectionAllSubmit -->
-                            <input class="button" type="submit" value="$Text{"All"}" name="OwnerAllRefresh"/>
+                            <button class="button" type="submit" value="$Text{"All"}" name="OwnerAllRefresh">$Text{"All"}</button>
 <!-- dtl:block:OwnerSelectionAllSubmit -->
                         </td>
                     </tr>
@@ -232,7 +232,7 @@ function clear_field() {
                             $Env{"Box0"}<a href="" onclick="document.compose.ResponsibleAll.value='1'; OTRSCore.AJAXUpdate('AJAXUpdate', 'ResponsibleAll', ['ResponsibleAll', 'Dest'], ['NewResponsibleID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:ResponsibleSelectionAllJS -->
 <!-- dtl:block:ResponsibleSelectionAllSubmit -->
-                            <input class="button" type="submit" value="$Text{"All"}" name="ResponsibleAllRefresh"/>
+                            <button class="button" type="submit" value="$Text{"All"}" name="ResponsibleAllRefresh">$Text{"All"}</button>
 <!-- dtl:block:ResponsibleSelectionAllSubmit -->
                         </td>
                     </tr>
@@ -275,7 +275,7 @@ $Include{"RichTextEditor"}
                                     <td>$QData{"Filename"}</td>
                                     <td>$QData{"Filesize"}</td>
                                     <td align="right">
-                                        <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
+                                        <button class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                     </td>
                                 </tr>
 <!-- dtl:block:Attachment -->
@@ -284,7 +284,7 @@ $Include{"RichTextEditor"}
                                         <input name="file_upload" type="file" size="40" class="fixed"/>
                                     </td>
                                     <td align="right">
-                                        <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
+                                        <button class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
                                         <a name="attachment"></a>
                                     </td>
                                 </tr>
@@ -369,7 +369,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                 </table>
                 <br/>
-                <input class="button" id="submitRichText" accesskey="g" type="submit" name="Create" value="$Text{"Create"}" onclick="return submit_compose();"/>
+                <button class="button" id="submitRichText" accesskey="g" type="submit" name="Create" value="$Text{"Create"}" onclick="return submit_compose();">$Text{"Create"}</button>
             </form>
             <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
                 <input type="hidden" name="Action" value="AgentSpelling"/>

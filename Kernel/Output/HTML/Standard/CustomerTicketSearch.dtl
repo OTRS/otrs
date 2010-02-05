@@ -1,8 +1,8 @@
 # --
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.15 2009-12-09 07:53:02 mb Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.16 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -140,7 +140,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Search"}"/>
+                            <button class="button" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                         </td>
                     </tr>
                 </table>

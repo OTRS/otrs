@@ -1,8 +1,8 @@
 # --
 # AdminNotificationEventForm.dtl - provides HTML form for AdminNotificationEvent
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEventForm.dtl,v 1.11 2009-12-08 17:40:37 mg Exp $
+# $Id: AdminNotificationEventForm.dtl,v 1.12 2010-02-05 13:58:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Add"}"/>
+                            <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
                         </td>
                     </tr>
                 </table>
@@ -264,7 +264,7 @@ function submit_compose() {
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
+                            <button class="button" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">$Text{"Submit"}</button>
                         </td>
                     </tr>
                 </table>

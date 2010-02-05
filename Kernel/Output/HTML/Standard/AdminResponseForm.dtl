@@ -2,7 +2,7 @@
 # AdminResponseForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseForm.dtl,v 1.36 2010-01-19 21:02:20 martin Exp $
+# $Id: AdminResponseForm.dtl,v 1.37 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Add"}"/>
+                            <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
                         </td>
                     </tr>
                 </table>
@@ -127,7 +127,7 @@ $Include{"RichTextEditor"}
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Submit"}"/>
+                            <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                         </td>
                     </tr>
                 </table>

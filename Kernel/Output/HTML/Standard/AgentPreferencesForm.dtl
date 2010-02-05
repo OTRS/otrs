@@ -1,8 +1,8 @@
 # --
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.33 2009-12-08 10:34:50 mb Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.34 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -95,7 +95,7 @@
 <!-- dtl:block:Block -->
                                 </table>
                             </div>
-                            <input class="button" type="submit" value="$Text{"Update"}"/>
+                            <button class="button" type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
                         </form>
                     </td>
                 </tr>

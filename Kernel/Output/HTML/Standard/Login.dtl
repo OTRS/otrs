@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.45 2010-01-25 07:39:01 mb Exp $
+# $Id: Login.dtl,v 1.46 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,7 +70,7 @@ function submit_form() {
                                     <td class="singleboxvalue"><input type="password" name="Password" size="18"/></td>
                                 </tr>
                             </table>
-                            <input class="button" type="submit" value="$Text{"Login"}" onclick="return submit_form();"/>
+                            <button class="button" type="submit" value="$Text{"Login"}" onclick="return submit_form();">$Text{"Login"}</button>
                         </td>
                     </tr>
                 </table>
@@ -93,7 +93,7 @@ function submit_form() {
                                     <td class="singleboxvalue">$Data{"Language"}</td>
                                 </tr>
                             </table>
-                            <input class="button" type="submit" value="$Text{"Submit"}"/>
+                            <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                         </td>
                     </tr>
                 </table>
@@ -118,7 +118,7 @@ function submit_form() {
                                     <td class="singleboxvalue"><input type="text" name="User" value="" size="18"/></td>
                                 </tr>
                             </table>
-                            <input class="button" type="submit" value="$Text{"Submit"}"/>
+                            <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                         </form>
                     </td>
                 </tr>

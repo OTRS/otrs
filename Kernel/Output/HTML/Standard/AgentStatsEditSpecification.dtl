@@ -1,8 +1,8 @@
 # --
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.14 2009-12-08 13:48:54 mg Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.15 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -133,7 +133,7 @@ function FormatGraphSizeRelation() {
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" name="Next" value="$Text{"Next..."}" accesskey="g"/>
+                            <button class="button" type="submit" name="Next" value="$Text{"Next..."}" accesskey="g">$Text{"Next..."}</button>
                         </td>
                     </tr>
                     <tr><td><div class="required">* $Text{"Required Field"}</div></td></tr>

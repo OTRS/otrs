@@ -1,8 +1,8 @@
 # --
 # AdminCustomerUserForm.dtl - provides HTML form for AdminCustomerUser
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.48 2009-12-08 13:48:54 mg Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.49 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,7 +67,7 @@ $Data{"Back"}
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Search"}"/>
+                            <button class="button" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                         </td>
                     </tr>
                 </table>
@@ -93,7 +93,7 @@ $Data{"Back"}
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Create"}"/>
+                            <button class="button" type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
                         </td>
                     </tr>
                 </table>
@@ -257,7 +257,7 @@ $Data{"Back"}
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Submit"}"/>
+                            <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                         </td>
                     </tr>
                 </table>

@@ -1,8 +1,8 @@
 # --
 # Installer.dtl - provides HTML form for Installer
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.30 2009-12-24 10:20:46 mg Exp $
+# $Id: Installer.dtl,v 1.31 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,7 +68,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Next..."}"/>
+                            <button class="button" type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
                         </td>
                     </tr>
                 </table>
@@ -756,12 +756,12 @@ For more information on this, and how to apply and follow the GNU AGPL, see
                                 <td class="contentfooter">
                                     <form action="$Env{"CGIHandle"}" method="post">
                                         <input type="hidden" name="Subaction" value="Start"/>
-                                        <input class="button" type="submit" value="$Text{"Accept license"}"/>
+                                        <button class="button" type="submit" value="$Text{"Accept license"}">$Text{"Accept license"}</button>
                                     </form>
                                 </td>
                                 <td width="10" class="contentfooter">
                                     <form action="$Env{"CGIHandle"}" method="post">
-                                        <input class="button" type="submit" value="$Text{"Don't accept license"}"/>
+                                        <button class="button" type="submit" value="$Text{"Don't accept license"}">$Text{"Don't accept license"}</button>
                                     </form>
                                 </td>
                             </tr>
@@ -854,7 +854,7 @@ $Include{"AJAX"}
                                 </tr>
                                 <tr class="checkdb">
                                     <td class="contentkey"></td>
-                                    <td class="contentvalue"><input class="button" type="button" onclick="CheckDBData();" value="$Text{"Check database settings"}"/></td>
+                                    <td class="contentvalue"><button class="button" type="button" onclick="CheckDBData();" value="$Text{"Check database settings"}">$Text{"Check database settings"}</button></td>
                                     <td class="contentvalue"></td>
                                 </tr>
                                 <tr class="errormsg" style="display: none">
@@ -869,7 +869,7 @@ $Include{"AJAX"}
                     </tr>
                     <tr class="hidden">
                         <td class="contentfooter">
-                            <input class="button" type="submit" id="formdbsubmit" disabled="disabled" value="$Text{"Next..."}"/>
+                            <button class="button" type="submit" id="formdbsubmit" disabled="disabled" value="$Text{"Next..."}">$Text{"Next..."}</button>
                         </td>
                     </tr>
                 </table>
@@ -932,11 +932,11 @@ $Include{"AJAX"}
                         <td class="contentfooter">
 <!-- dtl:block:DatabaseResultBack -->
                             <input type="hidden" name="Subaction" value="Start"/>
-                            <input class="button" type="submit" value="$Text{"...Back"}"/>
+                            <button class="button" type="submit" value="$Text{"...Back"}">$Text{"...Back"}</button>
 <!-- dtl:block:DatabaseResultBack -->
 <!-- dtl:block:DatabaseResultNext -->
                             <input type="hidden" name="Subaction" value="System"/>
-                            <input class="button" type="submit" value="$Text{"Next..."}"/>
+                            <button class="button" type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
 <!-- dtl:block:DatabaseResultNext -->
                         </td>
                     </tr>
@@ -1018,7 +1018,7 @@ $Include{"AJAX"}
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Next..."}"/>
+                            <button class="button" type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
                         </td>
                     </tr>
                 </table>
@@ -1109,8 +1109,8 @@ $Include{"AJAX"}
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="button" onclick="SkipMailConfig()" value="$Text{"Skip this step"}"/>
-                            <input class="button" type="button" onclick="CheckMailConfig()" value="$Text{"Check Mail Configuration"}"/>
+                            <button class="button" type="button" onclick="SkipMailConfig()" value="$Text{"Skip this step"}">$Text{"Skip this step"}</button>
+                            <button class="button" type="button" onclick="CheckMailConfig()" value="$Text{"Check Mail Configuration"}">$Text{"Check Mail Configuration"}</button>
                         </td>
                     </tr>
                 </table>

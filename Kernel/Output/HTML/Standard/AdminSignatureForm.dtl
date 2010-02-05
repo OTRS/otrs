@@ -1,8 +1,8 @@
 # --
 # AdminSignatureForm.dtl - provides HTML form for AdminSignature
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignatureForm.dtl,v 1.37 2009-12-08 17:50:14 mg Exp $
+# $Id: AdminSignatureForm.dtl,v 1.38 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ $Include{"RichTextEditor"}
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Add"}"/>
+                            <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
                         </td>
                     </tr>
                 </table>
@@ -117,7 +117,7 @@ $Include{"RichTextEditor"}
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" id="submitRichText" type="submit" value="$Text{"Submit"}"/>
+                            <button class="button" id="submitRichText" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                         </td>
                     </tr>
                 </table>

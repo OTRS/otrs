@@ -1,8 +1,8 @@
 # --
 # AgentLookup.dtl - provides HTML form for AgentLookup
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLookup.dtl,v 1.11 2009-12-08 13:48:54 mg Exp $
+# $Id: AgentLookup.dtl,v 1.12 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,9 +48,9 @@ function updateMessage(x) {
                     <tr>
                         <td>
                             <input type="text" name="Search"    value="$QData{"Search"}" size="40"/>
-                            <input class="button" type="submit" value="$Text{"Search"}"/>
-                            <input class="button" type="reset"  value="$Text{"Reset"}"/>
-                            <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}"/>
+                            <button class="button" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                            <button class="button" type="reset"  value="$Text{"Reset"}">$Text{"Reset"}</button>
+                            <button class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
                         </td>
                     </tr>
                 </table>

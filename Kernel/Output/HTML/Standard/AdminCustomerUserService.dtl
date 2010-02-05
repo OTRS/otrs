@@ -1,8 +1,8 @@
 # --
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.9 2009-11-25 15:34:55 mg Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.10 2010-02-05 13:58:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Search"}"/>
+                            <button class="button" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                         </td>
                     </tr>
                 </table>
@@ -62,7 +62,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Edit"}"/>
+                            <button class="button" type="submit" value="$Text{"Edit"}">$Text{"Edit"}</button>
                         </td>
                     </tr>
                 </table>
@@ -161,7 +161,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Submit"}"/>
+                            <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                         </td>
                     </tr>
                 </table>
@@ -208,7 +208,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Submit"}"/>
+                            <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                         </td>
                     </tr>
                 </table>

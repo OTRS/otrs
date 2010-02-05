@@ -1,8 +1,8 @@
 # --
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.47 2009-10-01 14:36:01 ub Exp $
+# $Id: AdminQueueForm.dtl,v 1.48 2010-02-05 13:58:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"Change"}"/>
+                            <button class="button" type="submit" value="$Text{"Change"}">$Text{"Change"}</button>
                         </td>
                     </tr>
                 </table>
@@ -218,7 +218,7 @@
                     </tr>
                     <tr>
                         <td class="contentfooter">
-                            <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"/>
+                            <button class="button" type="submit" value="$Text{"$Data{"Headline"}"}">$Text{"$Data{"Headline"}"}</button>
                         </td>
                     </tr>
                 </table>

@@ -1,8 +1,8 @@
 # --
 # AgentStatsView.dtl - provides HTML form for view IDMEF
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.18 2009-12-24 09:03:14 mg Exp $
+# $Id: AgentStatsView.dtl,v 1.19 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -217,7 +217,7 @@
                     <tr>
                         <td class="contentfooter">
 <!--dtl:block:FormSubmit -->
-                            <input class="button" type="submit" name="Start" value="$Text{"Start"}"/>
+                            <button class="button" type="submit" name="Start" value="$Text{"Start"}">$Text{"Start"}</button>
 <!--dtl:block:FormSubmit -->
                             &nbsp;
                         </td>

@@ -1,8 +1,8 @@
 # --
 # AgentBook.dtl - provides HTML form for AgentSpelling
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentBook.dtl,v 1.14 2009-12-08 13:48:54 mg Exp $
+# $Id: AgentBook.dtl,v 1.15 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,17 +81,17 @@ function AddBccAddress(x) {
                     </tr>
                 </table>
                 <br/>
-                <input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}"/>
+                <button class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">$Text{"Done"}</button>
                 <i>($Text{"Return to the compose screen"})</i>
-                <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}"/>
+                <button class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
                 <i>($Text{"Discard all changes and return to the compose screen"})</i>
                 <hr/>
                 <table border="0" cellspacing="0" cellpadding="1">
                     <tr>
                         <td>
                             <input type="text" name="Search" value=""/>
-                            <input class="button" type="submit" value="$Text{"Search"}"/>
-                            <input class="button" type="reset" value="$Text{"Reset"}"/>
+                            <button class="button" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                            <button class="button" type="reset" value="$Text{"Reset"}">$Text{"Reset"}</button>
                         </td>
                     </tr>
                 </table>

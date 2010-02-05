@@ -1,8 +1,8 @@
 # --
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.76 2009-12-24 11:07:49 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.77 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -537,7 +537,7 @@ $Data{"AgentPhoneStrg"}
                     <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
                     <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
                     $Data{"MoveQueuesStrg"}
-                    <input class="button" type="submit" value="$Text{"Move"}"/>
+                    <button class="button" type="submit" value="$Text{"Move"}">$Text{"Move"}</button>
                 </form>
             </div>
 <!-- dtl:block:Move -->

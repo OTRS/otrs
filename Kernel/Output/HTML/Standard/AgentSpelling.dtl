@@ -1,8 +1,8 @@
 # --
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.dtl,v 1.27 2009-12-24 10:20:46 mg Exp $
+# $Id: AgentSpelling.dtl,v 1.28 2010-02-05 13:58:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,8 +87,8 @@ function change_selected(sel) {
                 <table border="0" width="580" cellspacing="0" cellpadding="1">
                     <tr>
                         <td>
-                            <input class="button" type="submit" value="$Text{"Apply these changes"}"/>
-                            <input class="button" type="reset" value="$Text{"Reset"}"/>
+                            <button class="button" type="submit" value="$Text{"Apply these changes"}">$Text{"Apply these changes"}</button>
+                            <button class="button" type="reset" value="$Text{"Reset"}">$Text{"Reset"}</button>
                         </td>
                         <td>
                             $Text{"Language"}: $Data{"SpellLanguageString"}
@@ -97,9 +97,9 @@ function change_selected(sel) {
                 </table>
                 <textarea name="Body" rows="22" cols="78" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
                 <br/>
-                <input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}"/>
+                <button class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">$Text{"Done"}</button>
                 <i>($Text{"Return to the compose screen"})</i>
-                <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}"/>
+                <button class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
                 <i>($Text{"Discard all changes and return to the compose screen"})</i>
             </form>
             <hr/>

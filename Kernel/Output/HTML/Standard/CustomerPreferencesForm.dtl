@@ -1,8 +1,8 @@
 # --
 # CustomerPreferencesForm.dtl - provides HTML form for CustomerPreferences
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferencesForm.dtl,v 1.13 2009-10-30 10:18:38 mg Exp $
+# $Id: CustomerPreferencesForm.dtl,v 1.14 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,7 +78,7 @@
 <!-- dtl:block:Block -->
                                 </table>
                             </div>
-                            <input class="button" type="submit" value="$Text{"Update"}"/>
+                            <button class="button" type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
                         </form>
                     </td>
                 </tr>

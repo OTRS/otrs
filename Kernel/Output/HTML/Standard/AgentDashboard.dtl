@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.27 2010-01-25 21:35:05 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.28 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,8 +118,8 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 <!-- dtl:block:ContentLargePreferencesItem -->
                                                                     <tr>
                                                                         <td colspan="2">
-                                                                            <input class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;"/>
-                                                                            <input class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSUI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;"/>
+                                                                            <button class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;">$Text{"Submit"}</button>
+                                                                            <button class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSUI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -187,7 +187,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 <!-- dtl:block:ContentSettings -->
                                                 <tr>
                                                     <td>
-                                                        <input class="button" accesskey="g" type="submit" value="$Text{"Save"}"/>
+                                                        <button class="button" accesskey="g" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -246,8 +246,8 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 <!-- dtl:block:ContentSmallPreferencesItem -->
                                                                     <tr>
                                                                         <td colspan="2">
-                                                                            <input class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;"/>
-                                                                            <input class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSUI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;"/>
+                                                                            <button class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;">$Text{"Submit"}</button>
+                                                                            <button class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSUI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
                                                                         </td>
                                                                     </tr>
                                                                 </table>

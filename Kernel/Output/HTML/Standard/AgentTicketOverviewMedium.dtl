@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.9 2010-02-01 01:12:55 martin Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.10 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -252,7 +252,7 @@
 #        <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
 #        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
 #        $Data{"MoveQueuesStrg"}
-#        <input class="button" type="submit" value="$Text{"Move"}"/>
+#        <button class="button" type="submit" value="$Text{"Move"}">$Text{"Move"}</button>
 #      </form>
 #    </td>
 #  </tr>

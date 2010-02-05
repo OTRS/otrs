@@ -1,8 +1,8 @@
 # --
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.47 2009-12-08 10:10:28 mg Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.48 2010-02-05 13:58:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,7 +88,7 @@
                                     </td>
                                     <td>&nbsp;</td>
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#DeleteHashElement$Data{"Index"}" value="$Text{"Delete"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteHashElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                         <input type="hidden" name="$QData{"ElementKey"}DeleteNumber[]" value="$QData{"Index"}"/>
                                     </td>
                                 </tr>
@@ -118,7 +118,7 @@
                                                 </td>
                                                 <td>&nbsp;</td>
                                                 <td class="contentvalue">
-                                                    <input class="button" type="submit" name="$QData{"ElementKey"}#DeleteSubHashElement$Data{"Index2"}" value="$Text{"Delete"}"/>
+                                                    <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteSubHashElement$Data{"Index2"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                                 </td>
                                             </tr>
 <!-- dtl:block:ConfigElementSubHashContent -->
@@ -129,13 +129,13 @@
                                                 </td>
                                                 <td>&nbsp;</td>
                                                 <td class="contentvalue">
-                                                    <input class="button" type="submit" name="$QData{"ElementKey"}#DeleteSubArrayElement$Data{"Index2"}" value="$Text{"Delete"}"/>
+                                                    <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteSubArrayElement$Data{"Index2"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                                 </td>
                                             </tr>
 <!-- dtl:block:ConfigElementSubArrayContent -->
                                             <tr class="contentbody">
                                                 <td class="contentvalue">
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="button" type="submit" name="$QData{"ElementKey"}#$QData{"Key"}#NewSubElement" value="$Text{"New"}"/>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="button" type="submit" name="$QData{"ElementKey"}#$QData{"Key"}#NewSubElement" value="$Text{"New"}">$Text{"New"}</button>
                                                 </td>
                                             </tr>
                                         </table>
@@ -154,7 +154,7 @@
 <!-- dtl:block:ConfigElementHashContent3 -->
                                 <tr class="contentbody">
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#NewHashElement" value="$Text{"New"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#NewHashElement" value="$Text{"New"}">$Text{"New"}</button>
                                     </td>
                                 </tr>
                             </table>
@@ -170,13 +170,13 @@
                                     </td>
                                     <td>&nbsp;</td>
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#DeleteArrayElement$Data{"Index"}" value="$Text{"Delete"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteArrayElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                     </td>
                                 </tr>
 <!-- dtl:block:ConfigElementArrayContent -->
                                 <tr class="contentbody">
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#NewArrayElement" value="$Text{"New"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#NewArrayElement" value="$Text{"New"}">$Text{"New"}</button>
                                     </td>
                                 </tr>
                             </table>
@@ -197,7 +197,7 @@
                                     </td>
                                     <td></td>
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#DeleteGroupElement$Data{"Index"}" value="$Text{"Delete"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteGroupElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                     </td>
                                 </tr>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
@@ -205,7 +205,7 @@
                                     <td></td>
                                     <td></td>
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#NewGroupElement" value="$Text{"New Group"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#NewGroupElement" value="$Text{"New Group"}">$Text{"New Group"}</button>
                                     </td>
                                     <td></td>
                                     <td></td>
@@ -222,7 +222,7 @@
                                     </td>
                                     <td>&nbsp;</td>
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#DeleteGroupRoElement$Data{"Index"}" value="$Text{"Delete"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteGroupRoElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                     </td>
                                 </tr>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
@@ -230,7 +230,7 @@
                                     <td></td>
                                     <td></td>
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#NewGroupRoElement" value="$Text{"New Group Ro"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#NewGroupRoElement" value="$Text{"New Group Ro"}">$Text{"New Group Ro"}</button>
                                     </td>
                                     <td></td>
                                     <td></td>
@@ -281,7 +281,7 @@
                                                     <input type="text" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#Group[]" value="$QData{"Content"}" size="20"/>
                                                 </td>
                                                 <td class="contentvalue">
-                                                    <input class="button" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupElement$Data{"ArrayIndex"}" value="$Text{"Delete"}"/>
+                                                    <button class="button" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupElement$Data{"ArrayIndex"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                                 </td>
                                             </tr>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroup -->
@@ -290,7 +290,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td colspan="2" class="contentvalue">
-                                                    <input class="button" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupElement" value="$Text{"New Group"}"/>
+                                                    <button class="button" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupElement" value="$Text{"New Group"}">$Text{"New Group"}</button>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -309,7 +309,7 @@
                                                     <input type="text" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#GroupRo[]" value="$QData{"Content"}" size="20"/>
                                                 </td>
                                                 <td class="contentvalue">
-                                                    <input class="button" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupRoElement$Data{"ArrayIndex"}" value="$Text{"Delete"}"/>
+                                                    <button class="button" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupRoElement$Data{"ArrayIndex"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                                 </td>
                                             </tr>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroupRo -->
@@ -318,7 +318,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td colspan="2" class="contentvalue">
-                                                    <input class="button" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupRoElement" value="$Text{"New Group Ro"}"/>
+                                                    <button class="button" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupRoElement" value="$Text{"New Group Ro"}">$Text{"New Group Ro"}</button>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -399,7 +399,7 @@
                                 <tr>
                                     <td colspan="4"></td>
                                     <td colspan="1">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#$Data{"Index"}#DeleteElement" value="$Text{"Delete"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#$Data{"Index"}#DeleteElement" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -408,7 +408,7 @@
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBar -->
                                 <tr>
                                     <td colspan="5" class="contentvalue">
-                                        &nbsp;&nbsp;&nbsp;<input class="button" type="submit" name="$QData{"ElementKey"}#NavBar#AddElement" value="$Text{"Add"}"/>
+                                        &nbsp;&nbsp;&nbsp;<button class="button" type="submit" name="$QData{"ElementKey"}#NavBar#AddElement" value="$Text{"Add"}">$Text{"Add"}</button>
                                     </td>
                                 </tr>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarModule -->
@@ -497,13 +497,13 @@
                                     </td>
                                     <td>&nbsp;</td>
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#DeleteTimeVacationDaysOneTimeElement$Data{"Index"}" value="$Text{"Delete"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteTimeVacationDaysOneTimeElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                     </td>
                                 </tr>
 <!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContent -->
                                 <tr class="contentbody">
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#NewTimeVacationDaysOneTimeElement" value="$Text{"New"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#NewTimeVacationDaysOneTimeElement" value="$Text{"New"}">$Text{"New"}</button>
                                     </td>
                                 </tr>
                             </table>
@@ -536,13 +536,13 @@
                                     </td>
                                     <td>&nbsp;</td>
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#DeleteTimeVacationDaysElement$Data{"Index"}" value="$Text{"Delete"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteTimeVacationDaysElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                     </td>
                                 </tr>
 <!-- dtl:block:ConfigElementTimeVacationDaysContent -->
                                 <tr class="contentbody">
                                     <td class="contentvalue">
-                                        <input class="button" type="submit" name="$QData{"ElementKey"}#NewTimeVacationDaysElement" value="$Text{"New"}"/>
+                                        <button class="button" type="submit" name="$QData{"ElementKey"}#NewTimeVacationDaysElement" value="$Text{"New"}">$Text{"New"}</button>
                                     </td>
                                 </tr>
                             </table>
@@ -580,7 +580,7 @@
 <!-- dtl:block:ConfigElementBlock -->
                     <tr>
                         <td class="contentfooter" colspan="3">
-                            <input class="button" type="submit" value="$Text{"Update"}"/>
+                            <button class="button" type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
                         </td>
                     </tr>
                 </table>
