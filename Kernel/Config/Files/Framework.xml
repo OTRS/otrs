@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.261 2010-01-26 23:27:59 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.262 2010-02-05 11:24:55 mn Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -3121,8 +3121,8 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###SpellDict" Required="0" Valid="1">
-        <Description Lang="en">Parameters for the SpellDict object in the preference view.</Description>
-        <Description Lang="de">Parameter des SpellDict-Objekts in der Ansicht für die Einstellungen.</Description>
+        <Description Lang="en">Parameters for the SpellDict object in the preference view. Take care to maintain the dictionaries installed in the system in the data section.</Description>
+        <Description Lang="de">Parameter des SpellDict-Objekts in der Ansicht für die Einstellungen. Bitte beachten Sie, dass die Einstellungen im data-Bereich mit den im System installierten Wörterbüchern übereinstimmen.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
