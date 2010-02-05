@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.329 2010-01-27 01:46:01 martin Exp $
+# $Id: Defaults.pm,v 1.330 2010-02-05 16:42:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.329 $) [1];
+$VERSION = qw($Revision: 1.330 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -34,7 +34,7 @@ sub LoadDefaults {
     # system data                                         #
     # --------------------------------------------------- #
     # SecureMode
-    # Disables the use of web-installer (installer.pl). Also disables if not
+    # Disables the use of web-installer (installer.pl). If not
     # active, the GenericAgent, PackageManager and SQL Box, since it's possible
     # to use it for destructive write queries such as DROP DATABASE, and also to
     # steal user passwords.
@@ -69,7 +69,7 @@ sub LoadDefaults {
     $Self->{Organization} = '';
 
     # ProductName
-    # (Shown application name in frontend.)
+    # (Application name displayed in frontend.)
     $Self->{ProductName} = 'OTRS';
 
     # --------------------------------------------------- #
@@ -1245,7 +1245,7 @@ Your OTRS Notification Master
 #        AdminSetPreferences => 1,
 #        # use customer company support (reference to company, See CustomerCompany settings)
 #        CustomerCompanySupport => 1,
-#        # cache time to life in sec. - cache any database queris
+#        # cache time to live in sec. - cache any database queries
 #        CacheTTL => 0,
 #        # just a read only source
 #        ReadOnly => 1,
@@ -1304,8 +1304,11 @@ Your OTRS Notification Master
 #            # in case you want to add always one filter to each ldap query, use
 #            # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
 #            AlwaysFilter => '',
+#            # if both your frontend and your LDAP are unicode, use this:
+#            SourceCharset => 'utf-8',
+#            DestCharset   => 'utf-8',
 #            # if your frontend is e. g. iso-8859-1 and the charset of your
-#            # ldap server is utf-8, use this options (if not, ignore it)
+#            # ldap server is utf-8, use these options.
 #            SourceCharset => 'utf-8',
 #            DestCharset => 'iso-8859-1',
 #            # die if backend can't work, e. g. can't connect to server
@@ -1335,7 +1338,7 @@ Your OTRS Notification Master
 #        # CustomerUserValidFilter => '(!(description=gesperrt))',
 #        # admin can't change customer preferences
 #        AdminSetPreferences => 0,
-#        # cache time to life in sec. - cache any ldap queris
+#        # cache time to live in sec. - cache any ldap queries
 #        CacheTTL => 0,
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
@@ -2415,6 +2418,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.329 $ $Date: 2010-01-27 01:46:01 $
+$Revision: 1.330 $ $Date: 2010-02-05 16:42:49 $
 
 =cut
