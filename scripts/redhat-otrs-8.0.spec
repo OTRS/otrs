@@ -1,12 +1,12 @@
 # --
 # RPM spec file for RedHat Linux of the OTRS package
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: redhat-otrs-8.0.spec,v 1.14 2007-08-09 21:43:57 martin Exp $
+# $Id: redhat-otrs-8.0.spec,v 1.14.2.1 2010-02-06 01:24:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 #
 # please send bugfixes or comments to bugs+rpm@otrs.org
@@ -22,6 +22,7 @@ Requires:     perl perl-DBI perl-DBD-MySQL perl-URI mod_perl httpd mysql mysql-s
 Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
+BuildArch:    noarch
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -150,4 +151,3 @@ rm -rf $RPM_BUILD_ROOT
 - added rename of old /opt/otrs/Kernel/Config/Files/(Ticket|TicketPostMaster|FAQ).pm files
 * Thu Feb 12 2003 - martin+rpm@otrs.org
 - spec for RedHat 8.0 created
-
