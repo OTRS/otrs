@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.38 2010-02-01 01:17:04 martin Exp $
+# $Id: Main.pm,v 1.39 2010-02-07 13:30:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Data::Dumper;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -447,7 +447,7 @@ sub FileWrite {
     }
 
     # enable binmode
-    if ( !$Param{Mode} || $Param{Mode} =~ /^binmode/i ) {
+    if ( !$Param{Mode} || lc $Param{Mode} eq 'binmode' ) {
 
         # make sure, that no utf8 stamp exists (otherway perl will do auto convert to iso)
         $Self->{EncodeObject}->EncodeOutput( $Param{Content} );
@@ -770,6 +770,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2010-02-01 01:17:04 $
+$Revision: 1.39 $ $Date: 2010-02-07 13:30:51 $
 
 =cut
