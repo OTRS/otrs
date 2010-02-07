@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1150 2010-02-04 22:33:54 martin Exp $
+# $Id: CHANGES,v 1.1151 2010-02-07 13:43:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/02/07) Fixed bug#4918 - Delete only expired cache items by using
+    e. g. "bin/otrs.CacheDelete.pl --expired".
  - (2010/02/01) Added Kernel::System::Cache::FileStorable backend module for
     Kernel::System::Cache which is working with binary for dump and eval of
     perl data structures (a little bit faster the dump/eval in pure perl).

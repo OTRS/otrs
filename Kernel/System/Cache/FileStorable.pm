@@ -2,7 +2,7 @@
 # Kernel/System/Cache/FileStorable.pm - all cache functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FileStorable.pm,v 1.1 2010-02-01 01:27:31 martin Exp $
+# $Id: FileStorable.pm,v 1.2 2010-02-07 13:43:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ umask 002;
 use Storable qw(freeze thaw);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,7 +33,7 @@ sub new {
     }
 
     my $TempDir = $Self->{ConfigObject}->Get('TempDir');
-    $Self->{CacheDirectory} = $TempDir . '/Cache/';
+    $Self->{CacheDirectory} = $TempDir . '/CacheFileStorable/';
 
     # check if cache directory exists and in case create one
     for my $Directory ( $TempDir, $Self->{CacheDirectory} ) {
@@ -90,7 +90,7 @@ sub Set {
     }
     my $FileLocation = $Self->{MainObject}->FileWrite(
         Directory  => $CacheDirectory,
-        Filename   => $Param{Key} . '.storable',
+        Filename   => $Param{Key},
         Content    => \$Dump,
         Type       => 'MD5',
         Mode       => 'binmode',
@@ -116,9 +116,9 @@ sub Get {
     my $CacheDirectory = $Self->{CacheDirectory} . '/' . $Param{Type};
     my $Content        = $Self->{MainObject}->FileRead(
         Directory       => $CacheDirectory,
-        Filename        => $Param{Key} . '.storable',
+        Filename        => $Param{Key},
         Type            => 'MD5',
-        Mode            => 'binary',
+        Mode            => 'binmode',
         DisableWarnings => 1,
     );
 
@@ -150,7 +150,7 @@ sub Delete {
     my $CacheDirectory = $Self->{CacheDirectory} . '/' . $Param{Type};
     return $Self->{MainObject}->FileDelete(
         Directory       => $CacheDirectory,
-        Filename        => $Param{Key} . '.storable',
+        Filename        => $Param{Key},
         Type            => 'MD5',
         DisableWarnings => 1,
     );
@@ -174,10 +174,32 @@ sub CleanUp {
 
         # get all .cache files
         my @CacheList = glob( $Type . '/*' );
+        CacheFile:
         for my $CacheFile (@CacheList) {
 
             # only remove files
             next if ( !-f $CacheFile );
+
+            # only expired
+            if ( $Param{Expired} ) {
+                my $Content = $Self->{MainObject}->FileRead(
+                    Location        => $CacheFile,
+                    Mode            => 'binmode',
+                    DisableWarnings => 1,
+                );
+
+                # check if cache exists
+                if ($Content) {
+
+                    my $Storage = thaw( ${$Content} );
+
+                    # check ttl
+                    my $Now = time();
+                    if ( $Storage->{TTL} > $Now ) {
+                        next CacheFile;
+                    }
+                }
+            }
 
             # delete all cache files
             if ( !unlink $CacheFile ) {

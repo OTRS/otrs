@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.9 2010-02-01 01:27:31 martin Exp $
+# $Id: Cache.t,v 1.10 2010-02-07 13:43:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -384,8 +384,25 @@ for my $Module qw(FileStorable FileRaw) {
         "#7 - $Module - CacheGet()",
     );
 
+    # cleanup (expired)
+    my $CacheCleanUp = $CacheObject->CleanUp( Expired => 1 );
+    $Self->True(
+        $CacheCleanUp,
+        "#7 - $Module - CleanUp( Expired => 1 )",
+    );
+
+    # check get
+    $CacheGet = $CacheObject->Get(
+        Type => 'CacheTest2',
+        Key  => 'Test',
+    );
+    $Self->True(
+        $CacheGet,
+        "#7 - $Module - CacheGet() - Expired",
+    );
+
     # cleanup
-    my $CacheCleanUp = $CacheObject->CleanUp();
+    $CacheCleanUp = $CacheObject->CleanUp();
     $Self->True(
         $CacheCleanUp,
         "#7 - $Module - CleanUp()",

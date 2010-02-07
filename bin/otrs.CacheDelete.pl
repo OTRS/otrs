@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CacheDelete.pl - delete all caches
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CacheDelete.pl,v 1.1 2009-07-28 20:03:26 martin Exp $
+# $Id: otrs.CacheDelete.pl,v 1.2 2010-02-07 13:43:28 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,8 +31,9 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
+use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Time;
@@ -41,10 +42,30 @@ use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::Cache;
 
+# get options
+my %Opts = ();
+getopt( 'he', \%Opts );
+if ( $Opts{h} ) {
+    print "otrs.CacheDelete.pl <Revision $VERSION> - delete all caches\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "usage: otrs.CacheDelete.pl [--expired]\n";
+    exit 1;
+}
+my %Options;
+if ( $Opts{e} ) {
+    if ( $Opts{e} eq 'xpired' ) {
+        $Options{Expired} = 1;
+    }
+    else {
+        print STDERR "ERROR: Invalid option --e$Opts{e}!\n";
+        exit 1;
+    }
+}
+
 # ---
 # common objects
 # ---
-my %CommonObject = ();
+my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
@@ -59,9 +80,7 @@ $CommonObject{CacheObject} = Kernel::System::Cache->new(%CommonObject);
 # ---
 # cleanup
 # ---
-print "otrs.CacheDelete.pl <Revision $VERSION> - delete all caches\n";
-print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
-if ( !$CommonObject{CacheObject}->CleanUp() ) {
+if ( !$CommonObject{CacheObject}->CleanUp(%Options) ) {
     exit 1;
 }
 exit;

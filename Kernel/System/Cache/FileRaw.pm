@@ -2,7 +2,7 @@
 # Kernel/System/Cache/FileRaw.pm - all cache functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FileRaw.pm,v 1.1 2010-02-01 01:27:31 martin Exp $
+# $Id: FileRaw.pm,v 1.2 2010-02-07 13:43:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 umask 002;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,7 +31,12 @@ sub new {
     }
 
     my $TempDir = $Self->{ConfigObject}->Get('TempDir');
-    $Self->{CacheDirectory} = $TempDir . '/Cache/';
+    $Self->{CacheDirectory} = $TempDir . '/CacheFileRaw/';
+
+    # set mode
+    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
+        $Self->{Mode} = 'utf8';
+    }
 
     # check if cache directory exists and in case create one
     for my $Directory ( $TempDir, $Self->{CacheDirectory} ) {
@@ -68,11 +73,6 @@ sub Set {
     $Dump .= "#$Param{KeyNice}\n";
     $Dump .= $Self->{MainObject}->Dump( $Param{Value} ) . "\n1;";
 
-    my $Mode;
-    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
-        $Mode = 'utf8';
-    }
-
     # check for 7 bit chars in type
     if ( grep { $_ < 32 or $_ > 126 } unpack( "C*", $Param{Type} ) ) {
         $Self->{LogObject}->Log(
@@ -96,7 +96,7 @@ sub Set {
         Filename   => $Param{Key},
         Content    => \$Dump,
         Type       => 'MD5',
-        Mode       => $Mode,
+        Mode       => $Self->{Mode},
         Permission => '664',
     );
 
@@ -116,17 +116,12 @@ sub Get {
         }
     }
 
-    my $Mode;
-    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
-        $Mode = 'utf8';
-    }
-
     my $CacheDirectory = $Self->{CacheDirectory} . '/' . $Param{Type};
     my $Content        = $Self->{MainObject}->FileRead(
         Directory       => $CacheDirectory,
         Filename        => $Param{Key},
         Type            => 'MD5',
-        Mode            => $Mode,
+        Mode            => $Self->{Mode},
         DisableWarnings => 1,
     );
 
@@ -184,10 +179,33 @@ sub CleanUp {
 
         # get all .cache files
         my @CacheList = glob( $Type . '/*' );
+        CacheFile:
         for my $CacheFile (@CacheList) {
 
             # only remove files
-            next if ( !-f $CacheFile );
+            next CacheFile if ( !-f $CacheFile );
+
+            # only expired
+            if ( $Param{Expired} ) {
+                my $Content = $Self->{MainObject}->FileRead(
+                    Location        => $CacheFile,
+                    Mode            => $Self->{Mode},
+                    DisableWarnings => 1,
+                );
+
+                # check if cache exists
+                if ($Content) {
+                    my $TTL;
+                    my $VAR1;
+                    eval ${$Content};
+
+                    # check ttl
+                    my $Now = time();
+                    if ( $TTL > $Now ) {
+                        next CacheFile;
+                    }
+                }
+            }
 
             # delete all cache files
             if ( !unlink $CacheFile ) {
@@ -198,8 +216,10 @@ sub CleanUp {
             }
         }
 
-        # delete cache directory
-        rmdir $Type;
+        # delete cache directory (if whole cache got deleted)
+        if ( !$Param{Expired} ) {
+            rmdir $Type;
+        }
     }
 
     return 1;
