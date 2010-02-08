@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.27 2010-01-19 21:16:23 martin Exp $
+# $Id: AdminAttachment.pm,v 1.28 2010-02-08 20:41:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -77,12 +77,19 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
 
+        # get attachment
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param  => 'file_upload',
+            Source => 'string',
+        );
+
         # update group
-        if (
-            !$Self->{StdAttachmentObject}
-            ->StdAttachmentUpdate( %GetParam, UserID => $Self->{UserID} )
-            )
-        {
+        my $Update = $Self->{StdAttachmentObject}->StdAttachmentUpdate(
+            %GetParam,
+            %UploadStuff,
+            UserID => $Self->{UserID},
+        );
+        if ( !$Update ) {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
