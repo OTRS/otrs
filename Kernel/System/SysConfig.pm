@@ -1,8 +1,8 @@
 # --
 # Kernel/System/SysConfig.pm - all system config tool functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.1 2009-12-24 00:51:34 martin Exp $
+# $Id: SysConfig.pm,v 1.2 2010-02-08 19:25:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -930,7 +930,7 @@ sub ConfigGroupList {
     my %List;
     my %Count;
     for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
-        if ( $ConfigItem->{Group} && ref( $ConfigItem->{Group} ) eq 'ARRAY' ) {
+        if ( $ConfigItem->{Group} && ref $ConfigItem->{Group} eq 'ARRAY' ) {
             for my $Group ( @{ $ConfigItem->{Group} } ) {
                 if ( $Group->{Content} ) {
                     $Count{ $Group->{Content} }++;
@@ -1106,7 +1106,7 @@ sub ConfigItemSearch {
                             }
                         }
                     }
-                    elsif ( ref($Config) eq 'HASH' ) {
+                    elsif ( ref $Config eq 'HASH' ) {
                         for my $Key ( keys %{$Config} ) {
                             if ( !$Used{ $Group . '::' . $SubGroup } ) {
                                 if ( $Config->{$Key} && $Config->{$Key} =~ /\Q$Param{Search}\E/i ) {
@@ -1188,50 +1188,34 @@ sub DataDiff {
 
     # ''
     if ( ref $Param{Data1} eq '' && ref $Param{Data2} eq '' ) {
-        if ( !defined $Param{Data1} && !defined $Param{Data2} ) {
 
-            # do noting, it's ok
-            return;
-        }
-        elsif ( !defined $Param{Data1} || !defined $Param{Data2} ) {
+        # do noting, it's ok
+        return if !defined $Param{Data1} && !defined $Param{Data2};
 
-            # return diff, because its different
-            return 1;
-        }
-        elsif ( $Param{Data1} ne $Param{Data2} ) {
+        # return diff, because its different
+        return 1 if !defined $Param{Data1} || !defined $Param{Data2};
 
-            # return diff, because its different
-            return 1;
-        }
-        else {
+        # return diff, because its different
+        return 1 if $Param{Data1} ne $Param{Data2};
 
-            # return, because its not different
-            return;
-        }
+        # return, because its not different
+        return;
     }
 
     # SCALAR
     if ( ref $Param{Data1} eq 'SCALAR' && ref $Param{Data2} eq 'SCALAR' ) {
-        if ( !defined ${ $Param{Data1} } && !defined ${ $Param{Data2} } ) {
 
-            # do noting, it's ok
-            return;
-        }
-        elsif ( !defined ${ $Param{Data1} } || !defined ${ $Param{Data2} } ) {
+        # do noting, it's ok
+        return if !defined ${ $Param{Data1} } && !defined ${ $Param{Data2} };
 
-            # return diff, because its different
-            return 1;
-        }
-        elsif ( ${ $Param{Data1} } ne ${ $Param{Data2} } ) {
+        # return diff, because its different
+        return 1 if !defined ${ $Param{Data1} } || !defined ${ $Param{Data2} };
 
-            # return diff, because its different
-            return 1;
-        }
-        else {
+        # return diff, because its different
+        return 1 if ${ $Param{Data1} } ne ${ $Param{Data2} };
 
-            # return, because its not different
-            return;
-        }
+        # return, because its not different
+        return;
     }
 
     # ARRAY
@@ -1240,30 +1224,23 @@ sub DataDiff {
         my @B = @{ $Param{Data2} };
 
         # check if the count is different
-        if ( $#A ne $#B ) {
-            return 1;
-        }
+        return 1 if $#A ne $#B;
 
         # compare array
         for my $Count ( 0 .. $#A ) {
-            if ( !defined $A[$Count] && !defined $B[$Count] ) {
 
-                # do noting, it's ok
-            }
-            elsif ( !defined $A[$Count] || !defined $B[$Count] ) {
+            # do noting, it's ok
+            next if !defined $A[$Count] && !defined $B[$Count];
 
-                # return diff, because its different
-                return 1;
-            }
-            elsif ( $A[$Count] ne $B[$Count] ) {
+            # return diff, because its different
+            return 1 if !defined $A[$Count] || !defined $B[$Count];
+
+            if ( $A[$Count] ne $B[$Count] ) {
                 if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
-                    if ( $Self->DataDiff( Data1 => $A[$Count], Data2 => $B[$Count] ) ) {
-                        return 1;
-                    }
+                    return 1 if $Self->DataDiff( Data1 => $A[$Count], Data2 => $B[$Count] );
+                    next;
                 }
-                else {
-                    return 1;
-                }
+                return 1;
             }
         }
         return;
@@ -1276,44 +1253,32 @@ sub DataDiff {
 
         # compare %A with %B and remove it if checked
         for my $Key ( keys %A ) {
-            if ( !defined $A{$Key} && !defined $B{$Key} ) {
 
-                # do noting, it's ok
-            }
-            elsif ( !defined $A{$Key} || !defined $B{$Key} ) {
+            # do noting, it's ok
+            next if !defined $A{$Key} && !defined $B{$Key};
 
-                # return diff, because its different
-                return 1;
-            }
-            elsif ( $A{$Key} eq $B{$Key} ) {
+            # return diff, because its different
+            return 1 if !defined $A{$Key} || !defined $B{$Key};
+
+            if ( $A{$Key} eq $B{$Key} ) {
                 delete $A{$Key};
                 delete $B{$Key};
+                next;
             }
 
             # return if values are different
-            else {
-                if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
-                    if ( $Self->DataDiff( Data1 => $A{$Key}, Data2 => $B{$Key} ) ) {
-                        return 1;
-                    }
-                    else {
-                        delete $A{$Key};
-                        delete $B{$Key};
-                    }
-                }
-                else {
-                    return 1;
-                }
+            if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
+                return 1 if $Self->DataDiff( Data1 => $A{$Key}, Data2 => $B{$Key} );
+                delete $A{$Key};
+                delete $B{$Key};
+                next;
             }
+            return 1;
         }
 
         # check rest
-        if (%B) {
-            return 1;
-        }
-        else {
-            return;
-        }
+        return 1 if %B;
+        return;
     }
     return 1;
 }
@@ -1763,6 +1728,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2009-12-24 00:51:34 $
+$Revision: 1.2 $ $Date: 2010-02-08 19:25:20 $
 
 =cut
