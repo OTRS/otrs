@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.54 2009-10-07 20:41:50 martin Exp $
+# $Id: LDAP.pm,v 1.55 2010-02-08 23:14:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -156,8 +156,6 @@ sub new {
         return;
     }
 
-    $Self->{SourceCharset} = $Self->{CustomerUserMap}->{Params}->{SourceCharset} || '';
-    $Self->{DestCharset}   = $Self->{CustomerUserMap}->{Params}->{DestCharset}   || '';
     $Self->{ExcludePrimaryCustomerID}
         = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
@@ -168,6 +166,10 @@ sub new {
     if ( !defined $Self->{SearchSuffix} ) {
         $Self->{SearchSuffix} = '*';
     }
+
+    # charset settings
+    $Self->{SourceCharset} = $Self->{CustomerUserMap}->{Params}->{SourceCharset} || '';
+    $Self->{DestCharset}   = $Self->{CustomerUserMap}->{Params}->{DestCharset}   || '';
 
     # cache object
     if ( $Self->{CustomerUserMap}->{CacheTTL} ) {
@@ -229,12 +231,12 @@ sub CustomerName {
     }
     for my $Entry ( $Result->all_entries ) {
         for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserNameFields} } ) {
-            if ( defined( $Entry->get_value($Field) ) ) {
+            if ( defined $Entry->get_value($Field) ) {
                 if ( !$Name ) {
-                    $Name = $Self->_Convert( $Entry->get_value($Field) );
+                    $Name = $Self->_ConvertFrom( $Entry->get_value($Field) );
                 }
                 else {
-                    $Name .= ' ' . $Self->_Convert( $Entry->get_value($Field) );
+                    $Name .= ' ' . $Self->_ConvertFrom( $Entry->get_value($Field) );
                 }
             }
         }
@@ -343,7 +345,7 @@ sub CustomerSearch {
     for my $entry ( $Result->all_entries ) {
         my $CustomerString = '';
         for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} } ) {
-            my $Value = $Self->_Convert( $entry->get_value($Field) );
+            my $Value = $Self->_ConvertFrom( $entry->get_value($Field) );
             if ($Value) {
                 if ( $_ =~ /^targetaddress$/i ) {
                     $Value =~ s/SMTP:(.*)/$1/;
@@ -352,8 +354,8 @@ sub CustomerSearch {
             }
         }
         $CustomerString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
-        if ( defined( $entry->get_value( $Self->{CustomerKey} ) ) ) {
-            $Users{ $Self->_Convert( $entry->get_value( $Self->{CustomerKey} ) ) }
+        if ( defined $entry->get_value( $Self->{CustomerKey} ) ) {
+            $Users{ $Self->_ConvertFrom( $entry->get_value( $Self->{CustomerKey} ) ) }
                 = $CustomerString;
         }
     }
@@ -432,9 +434,11 @@ sub CustomerUserList {
         my $CustomerString = '';
         for my $Field (qw(CustomerKey CustomerID)) {
             $CustomerString
-                .= $Self->_Convert( $entry->get_value( $Self->{CustomerUserMap}->{$Field} ) ) . ' ';
+                .= $Self->_ConvertFrom( $entry->get_value( $Self->{CustomerUserMap}->{$Field} ) )
+                . ' ';
         }
-        $Users{ $Self->_Convert( $entry->get_value( $Self->{CustomerKey} ) ) } = $CustomerString;
+        $Users{ $Self->_ConvertFrom( $entry->get_value( $Self->{CustomerKey} ) ) }
+            = $CustomerString;
     }
 
     # check if user need to be in a group!
@@ -592,7 +596,7 @@ sub CustomerUserDataGet {
 
     # get customer user info
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        my $Value = $Self->_Convert( $Result2->get_value( $Entry->[2] ) ) || '';
+        my $Value = $Self->_ConvertFrom( $Result2->get_value( $Entry->[2] ) ) || '';
         if ( $Value && $Entry->[2] =~ /^targetaddress$/i ) {
             $Value =~ s/SMTP:(.*)/$1/;
         }
@@ -686,13 +690,15 @@ sub GenerateRandomPassword {
     return $Password;
 }
 
-sub _Convert {
+sub _ConvertFrom {
     my ( $Self, $Text ) = @_;
+
+    return if !defined $Text;
 
     if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
         return $Text;
     }
-    return if !defined $Text;
+
     return $Self->{EncodeObject}->Convert(
         Text => $Text,
         From => $Self->{SourceCharset},
@@ -703,11 +709,13 @@ sub _Convert {
 sub _ConvertTo {
     my ( $Self, $Text ) = @_;
 
+    return if !defined $Text;
+
     if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
         $Self->{EncodeObject}->Encode( \$Text );
         return $Text;
     }
-    return if !defined $Text;
+
     return $Self->{EncodeObject}->Convert(
         Text => $Text,
         To   => $Self->{SourceCharset},
