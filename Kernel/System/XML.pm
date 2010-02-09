@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.93 2010-02-09 14:25:46 bes Exp $
+# $Id: XML.pm,v 1.94 2010-02-09 14:51:44 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 =head1 NAME
 
@@ -397,16 +397,20 @@ sub XMLHashSearch {
         SQL  => 'SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ? GROUP BY xml_key',
         Bind => [ \$Param{Type} ],
     );
-    my %Hash;
+
+    my %Hash;    # the keys of this hash will be returned
+
+    # initially all keys with the correct type are possible
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        $Hash{ $Data[0] } = 1;
+        $Hash{$Key} = 1;
     }
 
-    my @Keys;
-    my %HashNew;
     if ( $Param{What} && ref $Param{What} eq 'ARRAY' ) {
+
+        # the array elements are 'and' combined
         for my $And ( @{ $Param{What} } ) {
-            my %HashNew;
+
+            # the key/value pairs are 'or' combined
             my $SQL = '';
             for my $Key ( sort keys %{$And} ) {
                 my $Value = $Self->{DBObject}->Quote( $And->{$Key} );
@@ -434,17 +438,21 @@ sub XMLHashSearch {
                     "SELECT DISTINCT(xml_key) FROM xml_storage WHERE $SQL AND xml_type = ? GROUP BY xml_key",
                 Bind => [ \$Param{Type} ],
             );
-            while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-                if ( $Hash{ $Data[0] } ) {
-                    $HashNew{ $Data[0] } = 1;
+
+            # intersection between the current key set, and the keys from the last 'SELECT'
+            # only the keys which are in all results survive
+            my %HashNew;
+            while ( my ($Key) = $Self->{DBObject}->FetchrowArray() ) {
+                if ( $Hash{$Key} ) {
+                    $HashNew{$Key} = 1;
                 }
             }
             %Hash = %HashNew;
         }
     }
-    for my $Key ( keys %Hash ) {
-        push @Keys, $Key;
-    }
+
+    my @Keys = keys %Hash;
+
     return @Keys;
 }
 
@@ -1469,6 +1477,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.93 $ $Date: 2010-02-09 14:25:46 $
+$Revision: 1.94 $ $Date: 2010-02-09 14:51:44 $
 
 =cut
