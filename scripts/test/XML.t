@@ -1,8 +1,8 @@
 # --
 # XML.t - XML tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.t,v 1.26 2009-10-30 10:48:45 martin Exp $
+# $Id: XML.t,v 1.27 2010-02-09 14:23:37 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ $Self->{XMLObject}    = Kernel::System::XML->new( %{$Self} );
 $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 my $Charset = $Self->{ConfigObject}->Get('DefaultCharset');
 
-# test with an iso-8859-1 encoded xml
+# test XMLParse2XMLHash() with an iso-8859-1 encoded xml
 my $String = '<?xml version="1.0" encoding="iso-8859-1" ?>
     <Contact>
       <Name type="long">' . "\x{00FC}" . ' Some Test</Name>
@@ -59,7 +59,7 @@ elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
     );
 }
 
-# test with utf-8 encoded xml
+# test XMLParse2XMLHash() with utf-8 encoded xml
 $String = '<?xml version="1.0" encoding="utf-8" ?>
     <Contact role="admin" type="organization">
       <GermanText>German Umlaute öäü ÄÜÖ ß</GermanText>
@@ -264,6 +264,7 @@ elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
     );
 }
 
+# enter the @XMLHash into the database, retrieve and delete it
 for my $Key ( 'Some\'Key', '123' ) {
     my $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
         Type    => 'SomeType',
@@ -463,7 +464,8 @@ for my $Key ( 'Some\'Key', '123' ) {
     );
 }
 
-my @XMLHashAdd = ();
+# add another XMLHash with the key '123'
+my @XMLHashAdd;
 $XMLHashAdd[1]->{Contact}->[1]->{role} = 'admin1';
 $XMLHashAdd[1]->{Contact}->[1]->{Name}->[1]->{Content} = 'Example Inc. 2';
 my $XMLHashUpdateAdd = $Self->{XMLObject}->XMLHashAdd(
@@ -494,7 +496,7 @@ $Self->True(
     '#4 XMLHashGet() (admin1)',
 );
 
-my @XMLHashUpdate = ();
+my @XMLHashUpdate;
 $XMLHashUpdate[1]->{Contact}->[1]->{role} = 'admin';
 $XMLHashUpdate[1]->{Contact}->[1]->{Name}->[1]->{Content} = 'Example Inc.';
 my $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
@@ -525,6 +527,65 @@ $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
     '#4 XMLHashGet() (admin) - without cache',
 );
+
+# Search for an XMLHash
+{
+    my @Keys = $Self->{XMLObject}->XMLHashSearch(
+        Type => 'SomeType',
+        What => [
+            {
+                "[%]{'Contact'}[%]{'role'}" => 'admin',
+            }
+            ]
+    );
+    $Self->True(
+        scalar @Keys == 1 && $Keys[0] eq '123',
+        "#1 XMLHashSearch() single matching condition",
+    );
+
+    @Keys = $Self->{XMLObject}->XMLHashSearch(
+        Type => 'SomeType',
+        What => [
+            {
+                "[%]{'Contact'}[%]{'role'}" => 'superuser',
+            },
+            ]
+    );
+    $Self->False(
+        scalar @Keys,
+        "#1 XMLHashSearch() single non-matching condition",
+    );
+
+    @Keys = $Self->{XMLObject}->XMLHashSearch(
+        Type => 'SomeType',
+        What => [
+            {
+                "[%]{'Contact'}[%]{'role'}" => 'superuser',
+                "[%]{'Contact'}[%]{'role'}" => 'admin',
+            },
+            ]
+    );
+    $Self->True(
+        scalar @Keys == 1 && $Keys[0] eq '123',
+        "#1 XMLHashSearch() matching or non-matching condition",
+    );
+
+    @Keys = $Self->{XMLObject}->XMLHashSearch(
+        Type => 'SomeType',
+        What => [
+            {
+                "[%]{'Contact'}[%]{'role'}" => 'superuser',
+            },
+            {
+                "[%]{'Contact'}[%]{'role'}" => 'admin',
+            },
+            ]
+    );
+    $Self->False(
+        scalar @Keys,
+        "#1 XMLHashSearch() matching and non-matching condition",
+    );
+}
 
 my $XML = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
 @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $XML );
