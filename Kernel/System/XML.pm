@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.94 2010-02-09 14:51:44 bes Exp $
+# $Id: XML.pm,v 1.95 2010-02-09 14:54:31 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 =head1 NAME
 
@@ -398,11 +398,12 @@ sub XMLHashSearch {
         Bind => [ \$Param{Type} ],
     );
 
-    my %Hash;    # the keys of this hash will be returned
+    # the keys of this hash will be returned
+    my %Hash;
 
     # initially all keys with the correct type are possible
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        $Hash{$Key} = 1;
+        $Hash{ $Data[0] } = 1;
     }
 
     if ( $Param{What} && ref $Param{What} eq 'ARRAY' ) {
@@ -442,9 +443,9 @@ sub XMLHashSearch {
             # intersection between the current key set, and the keys from the last 'SELECT'
             # only the keys which are in all results survive
             my %HashNew;
-            while ( my ($Key) = $Self->{DBObject}->FetchrowArray() ) {
-                if ( $Hash{$Key} ) {
-                    $HashNew{$Key} = 1;
+            while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+                if ( $Hash{ $Data[0] } ) {
+                    $HashNew{ $Data[0] } = 1;
                 }
             }
             %Hash = %HashNew;
@@ -1477,6 +1478,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.94 $ $Date: 2010-02-09 14:51:44 $
+$Revision: 1.95 $ $Date: 2010-02-09 14:54:31 $
 
 =cut
