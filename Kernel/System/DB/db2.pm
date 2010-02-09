@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/db2.pm - db2 database backend
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: db2.pm,v 1.54 2009-02-20 12:11:41 mh Exp $
+# $Id: db2.pm,v 1.55 2010-02-09 18:33:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,6 +37,7 @@ sub LoadPreferences {
     $Self->{'DB::QuoteBack'}            = 0;
     $Self->{'DB::QuoteSemicolon'}       = '';
     $Self->{'DB::NoLowerInLargeText'}   = 0;
+    $Self->{'DB::QuoteUnderscore'}      = '\\';
     $Self->{'DB::LcaseLikeInLargeText'} = 1;
 
     # dbi attributes
@@ -75,6 +76,11 @@ sub Quote {
         }
         if ( $Self->{'DB::QuoteSemicolon'} ) {
             ${$Text} =~ s/;/$Self->{'DB::QuoteSemicolon'};/g;
+        }
+        if ( $Type && $Type eq 'Like' ) {
+            if ( $Self->{'DB::QuoteUnderscore'} ) {
+                ${$Text} =~ s/_/$Self->{'DB::QuoteUnderscore'}_/g;
+            }
         }
     }
     return $Text;
