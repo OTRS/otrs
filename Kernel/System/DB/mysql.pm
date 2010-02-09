@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.51 2010-02-08 23:52:35 martin Exp $
+# $Id: mysql.pm,v 1.52 2010-02-09 06:56:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,12 +74,6 @@ sub LoadPreferences {
 sub Quote {
     my ( $Self, $Text, $Type ) = @_;
 
-    if ( $Type && $Type eq 'Like' ) {
-        if ( $Self->{'DB::QuoteUnderscore'} ) {
-            ${$Text} =~ s/_/$Self->{'DB::QuoteUnderscore'}_/g;
-        }
-    }
-
     if ( defined ${$Text} ) {
         if ( $Self->{'DB::QuoteBack'} ) {
             ${$Text} =~ s/\\/$Self->{'DB::QuoteBack'}\\/g;
@@ -89,6 +83,11 @@ sub Quote {
         }
         if ( $Self->{'DB::QuoteSemicolon'} ) {
             ${$Text} =~ s/;/$Self->{'DB::QuoteSemicolon'};/g;
+        }
+        if ( $Type && $Type eq 'Like' ) {
+            if ( $Self->{'DB::QuoteUnderscore'} ) {
+                ${$Text} =~ s/_/$Self->{'DB::QuoteUnderscore'}_/g;
+            }
         }
     }
     return $Text;
