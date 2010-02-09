@@ -1,8 +1,8 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.92 2009-12-02 16:47:09 martin Exp $
+# $Id: XML.pm,v 1.93 2010-02-09 14:25:46 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 =head1 NAME
 
@@ -99,13 +99,13 @@ sub new {
 
 add a XMLHash to storage
 
-    $XMLObject->XMLHashAdd(
+    my $Key = $XMLObject->XMLHashAdd(
         Type    => 'SomeType',
         Key     => '123',
         XMLHash => \@XMLHash,
     );
 
-    my $Key = $XMLObject->XMLHashAdd(
+    my $AutoKey = $XMLObject->XMLHashAdd(
         Type             => 'SomeType',
         KeyAutoIncrement => 1,
         XMLHash          => \@XMLHash,
@@ -761,6 +761,16 @@ sub XMLParse {
 }
 
 =begin Internal:
+
+=item  _XMLHashAddAutoIncrement()
+
+Generate a new integer key.
+All keys for that type must be integers.
+
+    my $Key = $XMLObject->_XMLHashAddAutoIncrement(
+        Type             => 'SomeType',
+        KeyAutoIncrement => 1,
+    );
 
 =cut
 
@@ -1459,6 +1469,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.92 $ $Date: 2009-12-02 16:47:09 $
+$Revision: 1.93 $ $Date: 2010-02-09 14:25:46 $
 
 =cut
