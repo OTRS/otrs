@@ -1,101 +1,131 @@
 # --
-# AdminAttachmentForm.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# AdminAttachmentForm.dtl - provides HTML form for AdminAttachment
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachmentForm.dtl,v 1.18 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminAttachmentForm.dtl,v 1.18.2.1 2010-02-09 12:43:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- start form -->
+<!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td colspan="2" class="mainhead">
-      $Env{"Box0"}$Text{"Attachment Management"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td width="30%" class="mainbody">
-      <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="Change"/>
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">$Text{"Change"}:</td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              $Data{"ResponseOption"}
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Change"}"/>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </td>
-    <td width="70%" class="mainbody">
-# check subaction
-      <dtl set $Data{"Headline"} = "Add">
-      <dtl if ($Data{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
-# check add link
-      <dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "add a attachment"; }>
-# delete link
-      <dtl if ($Data{"Subaction"} eq "Change") { $Data{"DeleteLink"} = "$Text{"delete this attachment"}"; }>
-      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="$QData{"Subaction"}Action"/>
-        <input type="hidden" name="ID" value="$QData{"ID"}"/>
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">
-              $Text{"$Data{"Headline"}"}:
-            </td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              <table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+        <td colspan="2" class="mainhead">
+            $Env{"Box0"}$Text{"Attachment Management"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" class="mainbody">
+            <form action="$Env{"CGIHandle"}" method="post">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Add"/>
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">$Text{"Add Attachment"}:</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            $Text{"Add a new Attachment."}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+        <td width="70%" class="mainbody">
+<!-- dtl:block:OverviewResult -->
+            <table width="100%" cellspacing="0" cellpadding="4">
                 <tr>
-                  <td class="contentkey">$Text{"Name"}: </td>
-                  <td class="contentvalue">
-                    <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"/>
-                  </td>
+                    <td class="contenthead">$Text{"List"}:</td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Attachment"}:</td>
-                  <td class="contentvalue">
-                    <input name="file_upload" type="file" size="40"/>
-                  </td>
+                    <td class="contentbody">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                            <tr>
+                                <td class="contentkey" width="20%">$Text{"Name"}</td>
+                                <td class="contentkey">$Text{"Filename"}</td>
+#                <td class="contentkey" width="25%">$Text{"Comment"}</td>
+                                <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
+                                <td class="contentkey">$Text{"Changed"}</td>
+                                <td class="contentkey">$Text{"Created"}</td>
+                                <td class="contentkey">$Text{"Delete"}</td>
+                            </tr>
+<!-- dtl:block:OverviewResultRow -->
+                            <tr>
+                                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                                <td class="$QData{"CssClass"}"><div title="$QData{"Filename"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;ID=$LQData{"ID"}">$QData{"Filename","30"}</a></div></td>
+#                <td class="$QData{"CssClass"}"><div title="$QData{"Comment"}">$QData{"Comment","20"}</div></td>
+                                <td align="center" class="$QData{"CssClass"}">$Text{"$QData{"Valid"}"}</td>
+                                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"ChangeTime"}"}</td>
+                                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"CreateTime"}"}</td>
+                                <td class="$QData{"CssClass"}" align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"}">x</a></td>
+                            </tr>
+<!-- dtl:block:OverviewResultRow -->
+                        </table>
+                    </td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Valid"}: </td>
-                  <td class="contentvalue">
-                    $Data{"ValidOption"}
-                  </td>
+                    <td class="contentfooter">
+                        &nbsp;
+                    </td>
                 </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Comment"}: </td>
-                  <td class="contentvalue">
-                    <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$QData{"ID"}">$Data{"DeleteLink"}</a>
-              <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>
-              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"/>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </td>
-  </tr>
+            </table>
+<!-- dtl:block:OverviewResult -->
+<!-- dtl:block:OverviewUpdate -->
+
+            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
+                <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                <table width="100%" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">
+                            $Text{"Edit"} ($Text{"$QData{"Action"}"}):
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            <table border="0" cellspacing="0" cellpadding="3">
+                                <tr>
+                                    <td class="contentkey">$Text{"Name"}: </td>
+                                    <td class="contentvalue">
+                                        <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Attachment"}:</td>
+                                    <td class="contentvalue">
+                                        <input name="file_upload" type="file" size="50"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Valid"}: </td>
+                                    <td class="contentvalue">$Data{"ValidOption"}</td>
+                                </tr>
+                                <tr>
+                                    <td class="contentkey">$Text{"Comment"}: </td>
+                                    <td class="contentvalue">
+                                        <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+<!-- dtl:block:OverviewUpdate -->
+        </td>
+    </tr>
 </table>
-<!-- end form -->
+<!-- dtl:block:Overview -->

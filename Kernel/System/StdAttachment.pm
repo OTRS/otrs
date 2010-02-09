@@ -1,8 +1,8 @@
 # --
-# Kernel/System/StdAttachment.pm - lib for std attachemnt
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Kernel/System/StdAttachment.pm - lib for std attachment
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.31 2009-04-17 08:36:44 tr Exp $
+# $Id: StdAttachment.pm,v 1.31.2.1 2010-02-09 12:43:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.31.2.1 $) [1];
 
 =head1 NAME
 
@@ -118,7 +118,7 @@ sub StdAttachmentAdd {
         }
     }
 
-    # encode attachemnt if it's a postgresql backend!!!
+    # encode attachment if it's a postgresql backend!!!
     if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
         $Param{Content} = encode_base64( $Param{Content} );
@@ -177,7 +177,7 @@ sub StdAttachmentGet {
     my %Data = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        # decode attachemnt if it's a postgresql backend!!!
+        # decode attachment if it's a postgresql backend!!!
         if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
             $Row[2] = decode_base64( $Row[2] );
         }
@@ -214,17 +214,11 @@ sub StdAttachmentUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ID Name ValidID Content ContentType Filename UserID)) {
+    for (qw(ID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
-    }
-
-    # encode attachemnt if it's a postgresql backend!!!
-    if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
-        $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
-        $Param{Content} = encode_base64( $Param{Content} );
     }
 
     # reset cache
@@ -246,6 +240,23 @@ sub StdAttachmentUpdate {
             \$Param{Filename}, \$Param{ValidID}, \$Param{UserID},      \$Param{ID},
         ],
     );
+    if ( $Param{Content} ) {
+
+        # encode attachment if it's a postgresql backend!!!
+        if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
+            $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
+            $Param{Content} = encode_base64( $Param{Content} );
+        }
+
+        return if !$Self->{DBObject}->Do(
+            SQL => 'UPDATE standard_attachment SET content = ?, content_type = ?, '
+                . ' filename = ? WHERE id = ?',
+            Bind => [
+                \$Param{Content}, \$Param{ContentType}, \$Param{Filename}, \$Param{ID},
+            ],
+        );
+    }
+    return 1;
 }
 
 =item StdAttachmentDelete()
@@ -487,6 +498,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.31.2.1 $ $Date: 2010-02-09 12:43:41 $
 
 =cut
