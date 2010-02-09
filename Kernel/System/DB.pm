@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.111 2010-02-03 14:51:03 bes Exp $
+# $Id: DB.pm,v 1.112 2010-02-09 00:22:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 =head1 NAME
 
@@ -73,6 +73,7 @@ create database object with database connect
             LongTruncOk => 1,
             LongReadLen => 100*1024,
         },
+        AutoConnectNo => 0, # 0|1 disable auto connect do database in constructor
     );
 
 =cut
@@ -109,13 +110,7 @@ sub new {
 
     # decrypt pw (if needed)
     if ( $Self->{PW} =~ /^\{(.*)\}$/ ) {
-        my $Length = length($1) * 4;
-        $Self->{PW} = pack "h$Length", $1;
-        $Self->{PW} = unpack "B$Length", $Self->{PW};
-        $Self->{PW} =~ s/1/A/g;
-        $Self->{PW} =~ s/0/1/g;
-        $Self->{PW} =~ s/A/0/g;
-        $Self->{PW} = pack "B$Length", $Self->{PW};
+        $Self->{PW} = $Self->_Decrypt($1);
     }
 
     # get database type (auto detection)
@@ -183,7 +178,9 @@ sub new {
     }
 
     # do database connect
-    return if !$Self->Connect();
+    if ( !$Param{AutoConnectNo} ) {
+        return if !$Self->Connect();
+    }
 
     return $Self;
 }
@@ -191,6 +188,8 @@ sub new {
 =item Connect()
 
 to connect to a database
+
+    $DBObject->Connect();
 
 =cut
 
@@ -231,6 +230,8 @@ sub Connect {
 =item Disconnect()
 
 to disconnect to a database
+
+    $DBObject->Disconnect();
 
 =cut
 
@@ -1112,6 +1113,43 @@ sub QueryCondition {
 
 =cut
 
+sub _Decrypt {
+    my ( $Self, $Pw ) = @_;
+
+    my $Length = length($Pw) * 4;
+    $Pw = pack "h$Length", $1;
+    $Pw = unpack "B$Length", $Pw;
+    $Pw =~ s/1/A/g;
+    $Pw =~ s/0/1/g;
+    $Pw =~ s/A/0/g;
+    $Pw = pack "B$Length", $Pw;
+
+    return $Pw;
+}
+
+sub _Encrypt {
+    my ( $Self, $Pw ) = @_;
+
+    my $Length = length($Pw) * 8;
+    chomp $Pw;
+
+    # get bit code
+    my $T = unpack( "B$Length", $Pw );
+
+    # crypt bit code
+    $T =~ s/1/A/g;
+    $T =~ s/0/1/g;
+    $T =~ s/A/0/g;
+
+    # get ascii code
+    $T = pack( "B$Length", $T );
+
+    # get hex code
+    my $H = unpack( "h$Length", $T );
+
+    return $H;
+}
+
 sub _TypeCheck {
     my ( $Self, $Tag ) = @_;
 
@@ -1170,6 +1208,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.111 $ $Date: 2010-02-03 14:51:03 $
+$Revision: 1.112 $ $Date: 2010-02-09 00:22:43 $
 
 =cut

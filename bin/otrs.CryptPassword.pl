@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CryptPassword.pl - to crypt database password for Kernel/Config.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CryptPassword.pl,v 1.2 2009-11-09 15:24:13 mn Exp $
+# $Id: otrs.CryptPassword.pl,v 1.3 2010-02-09 00:22:43 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -24,34 +24,43 @@
 use strict;
 use warnings;
 
+# use ../ as lib location
+use File::Basename;
+use FindBin qw($RealBin);
+use lib dirname($RealBin);
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
+
+use Kernel::Config;
+use Kernel::System::Encode;
+use Kernel::System::Log;
+use Kernel::System::Main;
+use Kernel::System::DB;
+
+# create common objects
+my %CommonObject = ();
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    LogPrefix    => 'OTRS-CheckDB',
+    ConfigObject => $CommonObject{ConfigObject},
+);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject} = Kernel::System::DB->new( %CommonObject, AutoConnectNo => 1 );
 
 # check args
 my $Password = shift;
 print
     "bin/otrs.CryptPassword.pl <Revision $VERSION> - to crypt database password for Kernel/Config.pm\n";
-print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 
 if ( !$Password ) {
     print STDERR "Usage: bin/otrs.CryptPassword.pl NEWPW\n";
 }
 else {
-    my $Length = length($Password) * 8;
     chomp $Password;
-
-    # get bit code
-    my $T = unpack( "B$Length", $Password );
-
-    # crypt bit code
-    $T =~ s/1/A/g;
-    $T =~ s/0/1/g;
-    $T =~ s/A/0/g;
-
-    # get ascii code
-    $T = pack( "B$Length", $T );
-
-    # get hex code
-    my $H = unpack( "h$Length", $T );
+    my $H = $CommonObject{DBObject}->_Encrypt($Password);
     print "Crypted password: {$H}\n";
 }
