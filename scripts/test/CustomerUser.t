@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.12 2010-02-10 11:28:09 mb Exp $
+# $Id: CustomerUser.t,v 1.13 2010-02-10 17:05:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -461,6 +461,65 @@ $Self->True(
 $Self->False(
     $UserList{$UserID} || '',
     "SearchPreferences() - $UserID",
+);
+
+#update existing prefs
+my $UpdatePreferences = $Self->{CustomerUserObject}->SetPreferences(
+    Key    => 'UserLanguage',
+    Value  => 'da',
+    UserID => $UserID,
+);
+
+$Self->True(
+    $UpdatePreferences || '',
+    "UpdatePreferences - $UserID",
+);
+
+%UserPreferences = $Self->{CustomerUserObject}->GetPreferences(
+    UserID => $UserID,
+);
+
+$Self->True(
+    %UserPreferences || '',
+    "GetPreferences - $UserID",
+);
+
+$Self->Is(
+    $UserPreferences{'UserLanguage'} || '',
+    "da",
+    "UpdatePreferences $UserID - da",
+);
+
+#update customer user
+my $Update = $Self->{CustomerUserObject}->CustomerUserUpdate(
+    Source         => 'CustomerUser',
+    UserLogin      => 'NewLogin' . $UserID,
+    ValidID        => 1,
+    UserFirstname  => 'Firstname Update' . $UserID,
+    UserLastname   => 'Lastname Update' . $UserID,
+    UserEmail      => $UserID . 'new@example.com',
+    UserCustomerID => $UserID . 'new@example.com',
+    ID             => $UserID,
+    UserID         => 1,
+);
+$Self->True(
+    $Update || '',
+    "CustomerUserUpdate - $UserID",
+);
+
+%UserPreferences = $Self->{CustomerUserObject}->GetPreferences(
+    UserID => 'NewLogin' . $UserID,
+);
+
+$Self->True(
+    %UserPreferences || '',
+    "GetPreferences for updated user - Updated NewLogin$UserID",
+);
+
+$Self->Is(
+    $UserPreferences{'UserLanguage'} || '',
+    "da",
+    "GetPreferences for updated user $UserID - da",
 );
 
 1;

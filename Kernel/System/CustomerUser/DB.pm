@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.79 2009-10-07 20:41:50 martin Exp $
+# $Id: DB.pm,v 1.80 2010-02-10 17:05:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -704,6 +704,26 @@ sub CustomerUserUpdate {
 
     return if !$Self->{DBObject}->Do( SQL => $SQL );
 
+    # check if we need to update Customer Preferences
+    if ( $Param{UserLogin} ne $UserData{UserLogin} ) {
+
+        # preferences table data
+        $Self->{PreferencesTable}
+            = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{Table}
+            || 'customer_preferences';
+        $Self->{PreferencesTableUserID}
+            = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
+            || 'user_id';
+
+        # update the preferences
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "UPDATE $Self->{PreferencesTable} "
+                . "SET $Self->{PreferencesTableUserID} = ? "
+                . "WHERE $Self->{PreferencesTableUserID} = ?",
+            Bind => [ \$Param{UserLogin}, \$Param{ID}, ],
+        );
+    }
+
     # log notice
     $Self->{LogObject}->Log(
         Priority => 'notice',
@@ -715,7 +735,7 @@ sub CustomerUserUpdate {
         $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPassword} );
     }
 
-    # cache resete
+    # cache reset
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Delete(
             Type => $Self->{CacheType},
