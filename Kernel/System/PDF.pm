@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.40 2010-02-04 09:03:59 bes Exp $
+# $Id: PDF.pm,v 1.41 2010-02-10 14:05:16 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -1881,7 +1881,7 @@ sub _TableCalculate {
                 $Cell->{Content} = $Self->_PrepareText( Text => $Cell->{Content}, );
             }
 
-            # set content blank, if not definied
+            # set content blank, if not defined
             if (
                 !defined( $Cell->{Content} )
                 || $Cell->{Content} eq ''
@@ -3522,6 +3522,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2010-02-04 09:03:59 $
+$Revision: 1.41 $ $Date: 2010-02-10 14:05:16 $
 
 =cut
