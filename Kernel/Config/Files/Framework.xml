@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.262 2010-02-05 11:24:55 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.263 2010-02-10 09:45:52 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -3986,7 +3986,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Logout" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the Logout object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des Logout-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des Logout-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4010,7 +4010,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentDashboard" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentDashboard object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentDashboard-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentDashboard-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4034,7 +4034,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentPreferences" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentPreference object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentPreference-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentPreference-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4058,7 +4058,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###PictureUpload" Required="1" Valid="1">
         <Description Lang="en">Frontend module registration for the PictureUpload object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des PictureUpload-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des PictureUpload-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4071,7 +4071,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentSpelling" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentSpelling object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentSpelling-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentSpelling-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4084,7 +4084,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###SpellingInline" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the SpellingInline object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des SpellingInline-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des SpellingInline-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4097,7 +4097,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentBook" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentBook object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentBook-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentBook-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4110,7 +4110,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentLookup" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentLookup object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentLookup-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentLookup-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4123,7 +4123,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentLinkObject" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentLinkObject object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentLinkObject-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentLinkObject-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4136,7 +4136,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentInfo" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentInfo object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentInfo-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentInfo-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4149,7 +4149,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentCalendarSmall" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentCalendarSmall object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentCalendarSmall-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentCalendarSmall-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4162,7 +4162,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Admin" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the Admin object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des Admin-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des Admin-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4204,7 +4204,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUser" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminUser object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminUser-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminUser-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4224,7 +4224,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGroup" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminGroup object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4244,7 +4244,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUserGroup" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminUserGroup object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminUserGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminUserGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4264,7 +4264,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUser" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminCustomerUser object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminCustomerUser-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminCustomerUser-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4297,7 +4297,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerCompany" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminCustomerCompany object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminCustomerCompany-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminCustomerCompany-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4330,7 +4330,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::NavBarModule###6-CustomerCompany" Required="0" Valid="1">
         <Description Lang="en">Module registration for the AdminCustomerCompany object in the agent interface (disable Company link if no Company Feature is used).</Description>
-        <Description Lang="de">Modul-Registration für das AdminCustomerCompany-Objekt im Agent-Interface (deaktivierung des Firmen-Links wenn kein Firmen-Feature aktiv).</Description>
+        <Description Lang="de">Modul-Registrierung für das AdminCustomerCompany-Objekt im Agent-Interface (deaktivierung des Firmen-Links wenn kein Firmen-Feature aktiv).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
         <Setting>
@@ -4341,7 +4341,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUserGroup" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminCustomerUserGroup object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminCustomerUserGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminCustomerUserGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4361,7 +4361,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUserService" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminCustomerUserService object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminCustomerUserService-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminCustomerUserService-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4381,7 +4381,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRole" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminRole object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminRole-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminRole-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4401,7 +4401,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleUser" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminRoleUser object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminRoleUser-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminRoleUser-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4421,7 +4421,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleGroup" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminRoleGroup object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminRoleGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminRoleGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4441,7 +4441,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSMIME" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSMIME object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminSMIME-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminSMIME-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4461,7 +4461,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPGP" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminPGP object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminPGP-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminPGP-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4481,7 +4481,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminMailAccount" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminMailAccount object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminMailAccount-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminMailAccount-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4501,7 +4501,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPostMasterFilter" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminPostMasterFilter object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminPostMasterFilter-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminPostMasterFilter-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4521,7 +4521,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminEmail" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminEmail object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminEmail-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminEmail-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4541,7 +4541,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSession" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSession object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminSession-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminSession-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4561,7 +4561,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPerformanceLog" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminPerformanceLog object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminPerformanceLog-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminPerformanceLog-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4581,7 +4581,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminLog" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminLog object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminLog-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminLog-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4601,7 +4601,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSelectBox" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSelectBox object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminSelectBox-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminSelectBox-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4621,7 +4621,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPackageManager" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminPackageManager object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminPackageManager-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminPackageManager-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4641,7 +4641,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###Logout" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the Logout object in the customer frontend.</Description>
-        <Description Lang="de">Frontendmodul-Registration des Logout-Objekts innerhalb des Customer-Frontends.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des Logout-Objekts innerhalb des Customer-Frontends.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4665,7 +4665,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerPreferences" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerPreferences object in the customer frontend.</Description>
-        <Description Lang="de">Frontendmodul-Registration des CustomerPreferences-Objekts innerhalb des Customer-Frontends.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des CustomerPreferences-Objekts innerhalb des Customer-Frontends.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4689,7 +4689,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerCalendarSmall" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerCalendarSmall object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des CustomerCalendarSmall-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des CustomerCalendarSmall-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4702,7 +4702,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerAccept" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerAccept object in the customer frontend.</Description>
-        <Description Lang="de">Frontendmodul-Registration des CustomerAccept-Objekts innerhalb des Customer-Frontends.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des CustomerAccept-Objekts innerhalb des Customer-Frontends.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4715,7 +4715,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###PictureUpload" Required="1" Valid="1">
         <Description Lang="en">Customer frontend module registration for the PictureUpload object in the agent interface.</Description>
-        <Description Lang="de">Kunden Frontendmodul-Registration des PictureUpload-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Kunden Frontendmodul-Registrierung des PictureUpload-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4728,7 +4728,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###SpellingInline" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the SpellingInline object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des SpellingInline-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des SpellingInline-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4795,7 +4795,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="PublicFrontend::Module###PublicDefault" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the PublicDefault object in the public interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des PublicDefault-Objekts im Public-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des PublicDefault-Objekts im Public-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Public::ModuleRegistration</SubGroup>
         <Setting>
@@ -4808,7 +4808,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="PublicFrontend::Module###PublicRepository" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the PublicRepository object in the public interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des PublicRepository-Objekts im Public-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des PublicRepository-Objekts im Public-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Public::ModuleRegistration</SubGroup>
         <Setting>
@@ -4821,7 +4821,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentStats" Required="0" Valid="1">
         <Description Lang="en">FrontendModuleRegistration for Stats to define the registration settings in the program and to set rights and positions of icons in the navigation bar.</Description>
-        <Description Lang="de">FrontendModulRegistration für das Modul Stats. Hier können Sie die Angaben für die Registrierung des Moduls im Programm tätigen. Ferner können die Rechte und die Positionen der Icons in der Navigationsleiste gesetzt werden.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung für das Modul Stats. Hier können Sie die Angaben für die Registrierung des Moduls im Programm tätigen. Ferner können die Rechte und die Positionen der Icons in der Navigationsleiste gesetzt werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>

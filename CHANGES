@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1153 2010-02-10 09:20:13 mb Exp $
+# $Id: CHANGES,v 1.1154 2010-02-10 09:45:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/02/10) Fixed bug#4828 - In SysConfig, changed "Registration" to
+    "Registrierung" in German description.
  - (2010/02/07) Fixed bug#4918 - Delete only expired cache items by using
     e. g. "bin/otrs.CacheDelete.pl --expired".
  - (2010/02/01) Added Kernel::System::Cache::FileStorable backend module for

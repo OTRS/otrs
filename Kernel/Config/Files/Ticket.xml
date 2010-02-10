@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.296 2010-02-01 01:12:55 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.297 2010-02-10 09:45:52 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -7755,7 +7755,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketQueue" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketQueue object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketQueue-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketQueue-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7790,7 +7790,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPhone" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPhone object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketPhone-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketPhone-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7814,7 +7814,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPhoneOutbound" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPhoneOutbound object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketPhoneOutbound-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketPhoneOutbound-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7827,7 +7827,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketEmail" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketEmail object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketEmail-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketEmail-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7851,7 +7851,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketSearch" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketSearch object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketSearch-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketSearch-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7875,7 +7875,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketMailbox" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketMailbox object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketMailbox-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketMailbox-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7888,7 +7888,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketLockedView" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketLockedView object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketLockedView-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketLockedView-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7901,7 +7901,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketResponsibleView" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketResponsibleView object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketResponsibleView-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketResponsibleView-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7914,7 +7914,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketWatchView" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketWatchView object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketWatchView-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketWatchView-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7927,7 +7927,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentCustomerSearch" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentCustomerSearch object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentCustomerSearch-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentCustomerSearch-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7940,7 +7940,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketStatusView" Required="0" Valid="0">
         <Description Lang="en">Frontend module registration for the AgentTicketStatusView object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketStatusView-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketStatusView-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7964,7 +7964,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketEscalationView" Required="0" Valid="0">
         <Description Lang="en">Frontend module registration for the AgentTicketEscalationView object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketEscalationView-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketEscalationView-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7988,7 +7988,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentZoom object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentZoom-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentZoom-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8001,7 +8001,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketZoom object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketZoom-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketZoom-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8014,7 +8014,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketAttachment" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketAtachment object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketAttachment-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketAttachment-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8027,7 +8027,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPlain" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPlain object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketPlain-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketPlain-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8040,7 +8040,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketNote" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketNote object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketNote-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketNote-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8053,7 +8053,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketMerge" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketNote object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketNote-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketNote-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8066,7 +8066,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPending" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPending object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketPending-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketPending-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8092,7 +8092,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPriority" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPriority object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketPriority-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketPriority-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8105,7 +8105,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketLock" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketLock object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketLock-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketLock-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8118,7 +8118,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketMove" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketMove object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketMove-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketMove-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8131,7 +8131,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketHistory" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketHistory object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketHistory-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketHistory-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8144,7 +8144,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketOwner" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketOwner object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketOwner-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketOwner-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8157,7 +8157,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketResponsible" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketResponsible object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketResponsible-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketResponsible-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8170,7 +8170,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCompose" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketCompose object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketCompose-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketCompose-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8183,7 +8183,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketBounce" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketBounce object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketBounce-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketBounce-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8196,7 +8196,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketForward" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketForward object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketForward-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketForward-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8209,7 +8209,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCustomer" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketCustomer object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketCustomer-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketCustomer-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8222,7 +8222,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketClose" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketClose object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketClose-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketClose-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8235,7 +8235,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketFreeText" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketFreeText object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketFreeText-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketFreeText-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8248,7 +8248,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPrint" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPrint object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketPrint-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketPrint-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8261,7 +8261,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketBulk" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketBulk object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketBulk-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AgentTicketBulk-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -8274,7 +8274,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueue" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminQueue object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminQueue-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminQueue-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8294,7 +8294,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminResponse" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminResponse object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminResponse-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminResponse-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8314,7 +8314,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueueResponses" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminQueueResponses object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminQueueRespnses-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminQueueRespnses-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8334,7 +8334,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminAutoResponse" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminAutoResponses object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminAutoResponses-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminAutoResponses-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8354,7 +8354,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueueAutoResponse" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminQueueAutoResponses object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminQueueAutoResponses-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminQueueAutoResponses-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8375,7 +8375,7 @@ $QData{"Signature"}
     <ConfigItem Name="Frontend::Module###AdminAttachment" Required="0" Valid="1">
         <Description Lang="en">Describe if the module "Attachment" (AdminAttachment) is shown in the admin interface. Describe also the notation of the module.</Description>
         <Description Lang="en">Frontend module registration for the AdminAttachment object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminAttachment-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminAttachment-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8395,7 +8395,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminResponseAttachment" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminResponseAttachment object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminResponseAttachment-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminResponseAttachment-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8415,7 +8415,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSalutation" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSalutation object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminSalutation-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminSalutation-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8435,7 +8435,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSignature" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSignature object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminSignature-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminSignature-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8455,7 +8455,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSystemAddress" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSystemAddress object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminSystemAddress-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminSystemAddress-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8475,7 +8475,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminNotification" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminNotification object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminNotification-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminNotification-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8495,7 +8495,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminNotificationEvent" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminNotificationEvent object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminNotificationEvent-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminNotificationEvent-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8515,7 +8515,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminService" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminService configuration in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration der AdminService Konfiguration im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung der AdminService Konfiguration im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8535,7 +8535,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSLA" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSLA configuration in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration der AdminSLA Konfiguration im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung der AdminSLA Konfiguration im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8555,7 +8555,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminType" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminType object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminType-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminType-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8575,7 +8575,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminState" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminState object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminState-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminState-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8595,7 +8595,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPriority" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminPriority object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminPriority-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminPriority-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8615,7 +8615,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGenericAgent" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminGenericAgent object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminGenericAgent-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des AdminGenericAgent-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8635,7 +8635,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverView" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketOverview object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des CustomerTicketOverview-Objekts im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des CustomerTicketOverview-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8670,7 +8670,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketMessage" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketMessage object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des CustomerTicketMessage-Objekts im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des CustomerTicketMessage-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8694,7 +8694,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketZoom object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des CustomerTicketZoom-Objekts im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des CustomerTicketZoom-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8707,7 +8707,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketPrint" Required="0" Valid="1">
         <Description Lang="en">Customer Frontend module registration for the Customer Ticket Print Module.</Description>
-        <Description Lang="de">Frontendmodul-Registration des CustomerTicketPrint-Objekts im Kunden-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des CustomerTicketPrint-Objekts im Kunden-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8720,7 +8720,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerZoom object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des CustomerZoom-Objekts im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des CustomerZoom-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8733,7 +8733,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketAttachment" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketAttachment object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des CustomerTicketAttachment-Objekts im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des CustomerTicketAttachment-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8746,7 +8746,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketSearch" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketSearch object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des CustomerTicketSearch-Objekts im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registrierung des CustomerTicketSearch-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
