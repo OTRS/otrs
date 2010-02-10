@@ -1,8 +1,8 @@
 # --
 # CustomerUser.t - CustomerUser tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.11 2009-04-02 13:50:01 mh Exp $
+# $Id: CustomerUser.t,v 1.12 2010-02-10 11:28:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use Kernel::System::CustomerAuth;
 
 $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
-# add tree users
+# add three users
 $Self->{ConfigObject}->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
@@ -408,6 +408,59 @@ $TokenValid = $Self->{CustomerUserObject}->TokenCheck(
 $Self->True(
     !$TokenValid || 0,
     "TokenCheck() - $Token" . "123",
+);
+
+# testing preferences
+
+my $SetPreferences = $Self->{CustomerUserObject}->SetPreferences(
+    Key    => 'UserLanguage',
+    Value  => 'fr',
+    UserID => $UserID,
+);
+
+$Self->True(
+    $SetPreferences || '',
+    "SetPreferences - $UserID",
+);
+
+my %UserPreferences = $Self->{CustomerUserObject}->GetPreferences(
+    UserID => $UserID,
+);
+
+$Self->True(
+    %UserPreferences || '',
+    "GetPreferences - $UserID",
+);
+
+$Self->Is(
+    $UserPreferences{'UserLanguage'} || '',
+    "fr",
+    "GetPreferences $UserID - fr",
+);
+
+my %UserList = $Self->{CustomerUserObject}->SearchPreferences(
+    Key   => 'UserLanguage',
+    Value => 'fr',
+);
+
+$Self->True(
+    %UserList || '',
+    "SearchPreferences - $UserID",
+);
+
+$Self->True(
+    $UserList{$UserID} || '',
+    "SearchPreferences() - $UserID",
+);
+
+%UserList = $Self->{CustomerUserObject}->SearchPreferences(
+    Key   => 'UserLanguage',
+    Value => 'de',
+);
+
+$Self->False(
+    $UserList{$UserID} || '',
+    "SearchPreferences() - $UserID",
 );
 
 1;
