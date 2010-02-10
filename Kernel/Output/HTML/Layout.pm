@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.211 2010-02-03 14:51:03 bes Exp $
+# $Id: Layout.pm,v 1.212 2010-02-10 11:25:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.211 $) [1];
+$VERSION = qw($Revision: 1.212 $) [1];
 
 =head1 NAME
 
@@ -3162,6 +3162,44 @@ sub RichTextDocumentComplete {
     return $Param{String};
 }
 
+=begin Internal:
+
+=cut
+
+=item _RichTextReplaceLinkOfInlineContent()
+
+replace links of inline content e. g. images
+
+    $HTMLBodyStringRef = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
+        String => $HTMLBodyStringRef,
+    );
+
+=cut
+
+sub _RichTextReplaceLinkOfInlineContent {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # replace image link with content id for uploaded images
+    ${ $Param{String} } =~ s{
+        (<img.+?src=("|')).+?ContentID=(.+?)("|')(.*?>)
+    }
+    {
+        $1 . 'cid:' . $3 . $4 . $5;
+    }esgxi;
+
+    return $Param{String};
+}
+
+=end Internal:
+
 =item RichTextDocumentSaftyCheck()
 
 check if content is safty
@@ -3216,43 +3254,109 @@ sub RichTextDocumentSaftyCheck {
     return ${ $Safty{String} };
 }
 
-=begin Internal:
+=item RichTextDocumentServe()
 
-=cut
+serve a rich text document for local view in correct charset and with correct
+links for inline document
 
-=item _RichTextReplaceLinkOfInlineContent()
-
-replace links of inline content e. g. images
-
-    $HTMLBodyStringRef = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
-        String => $HTMLBodyStringRef,
+    my %HTMLFile = $LayoutObject->RichTextDocumentServe(
+        Data => {
+            Content     => $HTMLBodyRef,
+            ContentType => 'text/html; charset="iso-8859-1"',
+        },
+        URL               => 'AgentTicketAttachment;Subaction=HTMLView;ArticleID=123;FileID=',
+        Attachments       => \%AttachmentListOfInlineAttachments,
+        LoadInlineContent => 1,
     );
 
 =cut
 
-sub _RichTextReplaceLinkOfInlineContent {
+sub RichTextDocumentServe {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String)) {
-        if ( !$Param{$_} ) {
+    for (qw(Data URL Attachments)) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    # replace image link with content id for uploaded images
-    ${ $Param{String} } =~ s{
-        (<img.+?src=("|')).+?ContentID=(.+?)("|')(.*?>)
+    # get charset and convert content to internal charset
+    if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+        my $Charset = $Param{Data}->{ContentType};
+        $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
+        $Charset =~ s/"|'//g;
+        $Charset =~ s/(.+?);.*/$1/g;
+
+        # convert charset
+        if ($Charset) {
+            $Param{Data}->{Content} = $Self->{EncodeObject}->Convert(
+                Text => $Param{Data}->{Content},
+                From => $Charset,
+                To   => $Self->{UserCharset},
+            );
+
+            # replace charset in content
+            $Param{Data}->{Content}     =~ s/$Charset/utf-8/gi;
+            $Param{Data}->{ContentType} =~ s/$Charset/utf-8/gi;
+        }
+    }
+
+    # add html links
+    $Param{Data}->{Content} = $Self->HTMLLinkQuote(
+        String => $Param{Data}->{Content},
+    );
+
+    # cleanup some html tags to be cross browser compat.
+    $Param{Data}->{Content} = $Self->RichTextDocumentCleanup(
+        String => $Param{Data}->{Content},
+    );
+
+    # safty check
+    if ( !$Param{LoadInlineContent} ) {
+        $Param{Data}->{Content} = $Self->RichTextDocumentSaftyCheck(
+            String => $Param{Data}->{Content},
+        );
+    }
+
+    # build base url for inline images
+    my $SessionID = '';
+    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
+        $SessionID = '&' . $Self->{SessionName} . '=' . $Self->{SessionID};
+    }
+
+    # replace inline images in content with runtime url to images
+    my $AttachmentLink = $Self->{Baselink} . $Param{URL};
+    $Param{Data}->{Content} =~ s{
+        (=|"|')cid:(.*?)("|'|>|\/>|\s)
     }
     {
-        $1 . 'cid:' . $3 . $4 . $5;
-    }esgxi;
+        my $Start= $1;
+        my $ContentID = $2;
+        my $End = $3;
 
-    return $Param{String};
+        # improve html quality
+        if ( $Start ne '"' && $Start ne '\'' ) {
+            $Start .= '"';
+        }
+        if ( $End ne '"' && $End ne '\'' ) {
+            $End = '"' . $End;
+        }
+
+        # find matching attachment and replace it with runtlime url to image
+        for my $AttachmentID ( keys %{ $Param{Attachments} }) {
+            next if lc $Param{Attachments}->{$AttachmentID}->{ContentID} ne lc "<$ContentID>";
+            $ContentID = $AttachmentLink . $AttachmentID . ';' . $SessionID;
+            last;
+        }
+
+        # return new runtime url
+        $Start . $ContentID . $End;
+    }egxi;
+
+    return %{ $Param{Data} };
 }
-
-=end Internal:
 
 =item RichTextDocumentCleanup()
 
@@ -4262,6 +4366,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.211 $ $Date: 2010-02-03 14:51:03 $
+$Revision: 1.212 $ $Date: 2010-02-10 11:25:29 $
 
 =cut

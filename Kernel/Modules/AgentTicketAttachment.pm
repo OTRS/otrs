@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.28 2010-02-10 09:20:13 mb Exp $
+# $Id: AgentTicketAttachment.pm,v 1.29 2010-02-10 11:25:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,10 +34,11 @@ sub new {
     }
 
     # get ArticleID
-    $Self->{ArticleID}   = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
-    $Self->{FileID}      = $Self->{ParamObject}->GetParam( Param => 'FileID' );
-    $Self->{Viewer}      = $Self->{ParamObject}->GetParam( Param => 'Viewer' ) || 0;
-    $Self->{LoadBlocked} = $Self->{ParamObject}->GetParam( Param => 'LoadBlocked' ) || 0;
+    $Self->{ArticleID}         = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
+    $Self->{FileID}            = $Self->{ParamObject}->GetParam( Param => 'FileID' );
+    $Self->{Viewer}            = $Self->{ParamObject}->GetParam( Param => 'Viewer' ) || 0;
+    $Self->{LoadInlineContent} = $Self->{ParamObject}->GetParam( Param => 'LoadInlineContent' )
+        || 0;
 
     return $Self;
 }
@@ -155,78 +156,28 @@ sub Run {
         # set filename for inline viewing
         $Data{Filename} = "Ticket-$Article{TicketNumber}-ArticleID-$Article{ArticleID}.html";
 
-        # get charset and convert content to internal charset
-        if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
-            my $Charset = $Data{ContentType};
-            $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
-            $Charset =~ s/"|'//g;
-            $Charset =~ s/(.+?);.*/$1/g;
-
-            # convert charset
-            if ($Charset) {
-                $Data{Content} = $Self->{EncodeObject}->Convert(
-                    Text => $Data{Content},
-                    From => $Charset,
-                    To   => $Self->{LayoutObject}->{UserCharset},
-                );
-
-                # replace charset in content
-                $Data{Content}     =~ s/$Charset/utf-8/gi;
-                $Data{ContentType} =~ s/$Charset/utf-8/gi;
-            }
+        # safty check only on customer article
+        if ( !$Self->{LoadInlineContent} && $Article{SenderType} ne 'customer' ) {
+            $Self->{LoadInlineContent} = 1;
         }
 
-        # add html links
-        $Data{Content} = $Self->{LayoutObject}->HTMLLinkQuote(
-            String => $Data{Content},
-        );
-
-        # cleanup some html tags to be cross browser compat.
-        $Data{Content} = $Self->{LayoutObject}->RichTextDocumentCleanup(
-            String => $Data{Content},
-        );
-
-        # safty check only on customer articles
-        if ( !$Self->{LoadBlocked} && $Article{SenderType} eq 'customer' ) {
-            $Data{Content} = $Self->{LayoutObject}->RichTextDocumentSaftyCheck(
-                String => $Data{Content},
-            );
-        }
+        # generate base url
+        my $URL = 'Action=AgentTicketAttachment;Subaction=HTMLView'
+            . ";ArticleID=$Self->{ArticleID};FileID=";
 
         # replace links to inline images in html content
         my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
             ArticleID => $Self->{ArticleID},
         );
 
-        # build base url for inline images
-        my $SessionID = '';
-        if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-            $SessionID = '&' . $Self->{SessionName} . '=' . $Self->{SessionID};
-        }
-        my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
-            . 'Action=AgentTicketAttachment;Subaction=HTMLView'
-            . ';ArticleID='
-            . $Self->{ArticleID}
-            . $SessionID
-            . ';FileID=';
-
-        # replace inline images in content with runtime url to images
-        $Data{Content} =~ s{
-            "?cid:([^>"\s]+)"?
-        }
-        {
-            my $ContentID = $1;
-
-            # find matching attachment and replace it with runtime url to image
-            for my $AttachmentID ( keys %AtmBox ) {
-                next if $AtmBox{$AttachmentID}->{ContentID} ne "<$ContentID>";
-                $ContentID = $AttachmentLink . $AttachmentID;
-                last;
-            }
-
-            # return new runtime url
-            '"' . $ContentID . '"';
-        }egxi;
+        # reformat rich text document to have correct charset and links to
+        # inline documents
+        %Data = $Self->{LayoutObject}->RichTextDocumentServe(
+            Data              => \%Data,
+            URL               => $URL,
+            Attachments       => \%AtmBox,
+            LoadInlineContent => $Self->{LoadInlineContent},
+        );
 
         # return html attachment
         return $Self->{LayoutObject}->Attachment(%Data);
