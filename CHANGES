@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1152 2010-02-09 12:56:29 mb Exp $
+# $Id: CHANGES,v 1.1153 2010-02-10 09:20:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -179,6 +179,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/02/10) Fixed bug#4889 - Inline images from Lotus Notes are not
+    displayed in ticket zoom.
  - (2010/02/09) Fixed bug#4658 - Cannot delete attachment from AdminAttachment
     interface.
 
