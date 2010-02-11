@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.113 2010-02-11 14:18:04 mb Exp $
+# $Id: DB.pm,v 1.114 2010-02-11 15:45:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.114 $) [1];
 
 =head1 NAME
 
@@ -962,12 +962,6 @@ sub QueryCondition {
     # replace OR by ||
     $Param{Value} =~ s/(\s|\)|\()OR(\s|\(|\))/||/g;
 
-    if ( !$Param{NotRemoveSpaces} ) {
-
-        # remove any spaces
-        $Param{Value} =~ s/\s//g;
-    }
-
     # replace * with % (for SQL)
     $Param{Value} =~ s/\*/%/g;
 
@@ -983,6 +977,10 @@ sub QueryCondition {
     # remove leading/tailing conditions
     $Param{Value} =~ s/(&&|\|\|)\)$/)/g;
     $Param{Value} =~ s/^\((&&|\|\|)/(/g;
+
+    # clean up not needed spaces in condistions
+    $Param{Value} =~ s/(\s(\(|\)|\||&))/$2/g;
+    $Param{Value} =~ s/((\(|\)|\||&)\s)/$2/g;
 
     # get col.
     my @Keys;
@@ -1212,6 +1210,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.113 $ $Date: 2010-02-11 14:18:04 $
+$Revision: 1.114 $ $Date: 2010-02-11 15:45:51 $
 
 =cut
