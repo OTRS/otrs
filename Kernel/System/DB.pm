@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.112 2010-02-09 00:22:43 martin Exp $
+# $Id: DB.pm,v 1.113 2010-02-11 14:18:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 =head1 NAME
 
@@ -897,6 +897,7 @@ generate SQL condition query based on a search expration
     my $SQL = $DBObject->QueryCondition(
         Key   => 'some_col',
         Value => '(ABC+DEF)',
+        NotRemoveSpaces => 0 # if set to 1, will remove spaces inside the value
     );
 
     add SearchPrefix and SearchSuffix to search in this case automaticaly
@@ -961,8 +962,11 @@ sub QueryCondition {
     # replace OR by ||
     $Param{Value} =~ s/(\s|\)|\()OR(\s|\(|\))/||/g;
 
-    # remove any spaces
-    $Param{Value} =~ s/\s//g;
+    if ( !$Param{NotRemoveSpaces} ) {
+
+        # remove any spaces
+        $Param{Value} =~ s/\s//g;
+    }
 
     # replace * with % (for SQL)
     $Param{Value} =~ s/\*/%/g;
@@ -1208,6 +1212,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.112 $ $Date: 2010-02-09 00:22:43 $
+$Revision: 1.113 $ $Date: 2010-02-11 14:18:04 $
 
 =cut
