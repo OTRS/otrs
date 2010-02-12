@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Main.pm - main core components
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.33.2.1 2009-12-02 22:32:51 martin Exp $
+# $Id: Main.pm,v 1.33.2.2 2010-02-12 16:44:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Data::Dumper;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33.2.1 $) [1];
+$VERSION = qw($Revision: 1.33.2.2 $) [1];
 
 =head1 NAME
 
@@ -422,10 +422,20 @@ sub FileWrite {
         );
     }
 
-    # set open mode
+    # set open mode (if file exists, lock it on open, done by '+<')
+    my $Exists;
+    if ( -f $Param{Location} ) {
+        $Exists = 1;
+    }
     my $Mode = '>';
+    if ($Exists) {
+        $Mode = '+<';
+    }
     if ( $Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i ) {
         $Mode = '>:utf8';
+        if ($Exists) {
+            $Mode = '+<:utf8';
+        }
     }
 
     # return if file can not open
@@ -445,6 +455,9 @@ sub FileWrite {
             Message  => "Can't lock '$Param{Location}': $!",
         );
     }
+
+    # empty file first (needed if file is open by '+<')
+    truncate( $FH, 0 );
 
     # enable binmode
     if ( !$Param{Mode} || $Param{Mode} =~ /^binmode/i ) {
@@ -765,6 +778,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33.2.1 $ $Date: 2009-12-02 22:32:51 $
+$Revision: 1.33.2.2 $ $Date: 2010-02-12 16:44:57 $
 
 =cut
