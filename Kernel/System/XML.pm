@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.95 2010-02-09 14:54:31 bes Exp $
+# $Id: XML.pm,v 1.96 2010-02-15 14:24:33 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 =head1 NAME
 
@@ -359,7 +359,7 @@ sub XMLHashMove {
 
 =item XMLHashSearch()
 
-search a xml hash from database
+Search a xml hash from database.
 
     my @Keys = $XMLObject->XMLHashSearch(
         Type => 'SomeType',
@@ -412,31 +412,41 @@ sub XMLHashSearch {
         for my $And ( @{ $Param{What} } ) {
 
             # the key/value pairs are 'or' combined
-            my $SQL = '';
+            my @OrConditions;
             for my $Key ( sort keys %{$And} ) {
                 my $Value = $Self->{DBObject}->Quote( $And->{$Key} );
                 $Key = $Self->{DBObject}->Quote( $Key, 'Like' );
                 if ( $Value && ref $Value eq 'ARRAY' ) {
+
+                    # when an array of possible values is given,
+                    # we use 'LIKE'-conditions and combine them with 'OR'
                     for my $Element ( @{$Value} ) {
                         $Element = $Self->{DBObject}->Quote( $Element, 'Like' );
-                        if ($SQL) {
-                            $SQL .= ' OR ';
-                        }
-                        $SQL
-                            .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Element')";
+                        push @OrConditions,
+                            " (xml_content_key LIKE '$Key' "
+                            . "AND xml_content_value LIKE '$Element')";
                     }
                 }
                 else {
+
+                    # when a single  possible value is given,
+                    # we use a 'LIKE'-condition
                     $Value = $Self->{DBObject}->Quote( $Value, 'Like' );
-                    if ($SQL) {
-                        $SQL .= ' OR ';
-                    }
-                    $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
+                    push @OrConditions,
+                        " (xml_content_key LIKE '$Key' "
+                        . "AND xml_content_value LIKE '$Value' )";
                 }
             }
+
+            # assemble the SQL
+            my $SQL = 'SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ?';
+            if (@OrConditions) {
+                $SQL .= 'AND ( ' . join( ' OR ', @OrConditions ) . ' )';
+            }
+
+            # execute
             $Self->{DBObject}->Prepare(
-                SQL =>
-                    "SELECT DISTINCT(xml_key) FROM xml_storage WHERE $SQL AND xml_type = ? GROUP BY xml_key",
+                SQL  => $SQL,
                 Bind => [ \$Param{Type} ],
             );
 
@@ -1478,6 +1488,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.95 $ $Date: 2010-02-09 14:54:31 $
+$Revision: 1.96 $ $Date: 2010-02-15 14:24:33 $
 
 =cut
