@@ -1,8 +1,8 @@
 # --
 # RPM spec file for Fedora of the OTRS package
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: fedora-otrs-4.spec,v 1.6 2009-02-16 12:50:17 tr Exp $
+# $Id: fedora-otrs-4.spec,v 1.7 2010-02-15 10:02:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,10 @@
 Summary:      The Open Ticket Request System.
 Name:         otrs
 Version:      0.0
-Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     perl perl-DBI perl-DBD-MySQL perl-URI mod_perl httpd mysql mysql-server procmail perl-libwww-perl
+Requires:     perl perl-DBI perl-DBD-MySQL perl-URI mod_perl httpd mysql mysql-server procmail perl-libwww-perl perl-Net-DNS perl-IO-Socket-SSL perl-XML-Parser
 Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
@@ -59,8 +59,8 @@ install -d -m 755 $RPM_BUILD_ROOT/etc/httpd/conf.d
 install -m 755 scripts/redhat-rcotrs $RPM_BUILD_ROOT/etc/rc.d/init.d/otrs
 install -m 644 scripts/redhat-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
 
-# copy apache2-httpd.include.conf to /etc/httpd/conf.d/otrs.conf
-install -m 644 scripts/apache2-httpd-new.include.conf $RPM_BUILD_ROOT/etc/httpd/conf.d/otrs.conf
+# copy apache2-httpd.include.conf to /etc/httpd/conf.d/zzz_otrs.conf
+install -m 644 scripts/apache2-httpd-new.include.conf $RPM_BUILD_ROOT/etc/httpd/conf.d/zzz_otrs.conf
 
 # set permission
 export OTRSUSER=otrs
@@ -142,7 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %config(noreplace) /etc/sysconfig/otrs
-%config /etc/httpd/conf.d/otrs.conf
+%config /etc/httpd/conf.d/zzz_otrs.conf
 /etc/rc.d/init.d/otrs
 <FILES>
 
