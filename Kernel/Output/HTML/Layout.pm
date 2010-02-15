@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.212 2010-02-10 11:25:29 martin Exp $
+# $Id: Layout.pm,v 1.213 2010-02-15 23:50:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.212 $) [1];
+$VERSION = qw($Revision: 1.213 $) [1];
 
 =head1 NAME
 
@@ -2240,6 +2240,7 @@ sub NavigationBar {
                 %{$Self},
                 LayoutObject => $Self,
             );
+            next if !$Object;
 
             # run module
             $Output .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -2938,31 +2939,13 @@ sub CustomerNavigationBar {
         my %Jobs = %{$FrontendNotifyModuleConfig};
         for my $Job ( sort keys %Jobs ) {
 
-            # log try of load module
-            if ( $Self->{Debug} > 1 ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message  => "Try to load module: $Jobs{$Job}->{Module}!",
-                );
-            }
-            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Can't load module $Jobs{$Job}->{Module}!",
-                );
-            }
+            # load module
+            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-
-            # log loaded module
-            if ( $Self->{Debug} > 1 ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message  => "Module: $Jobs{$Job}->{Module} loaded!",
-                );
-            }
+            next if !$Object;
 
             # run module
             $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -4366,6 +4349,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.212 $ $Date: 2010-02-10 11:25:29 $
+$Revision: 1.213 $ $Date: 2010-02-15 23:50:07 $
 
 =cut
