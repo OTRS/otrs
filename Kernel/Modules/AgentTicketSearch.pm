@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.81 2010-01-19 21:30:36 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.82 2010-02-15 23:26:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1124,7 +1124,6 @@ sub Run {
 
         # generate search mask
         my $Output = $Self->{LayoutObject}->Header();
-        my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
 
         # get free text config options
         my %TicketFreeText = ();
@@ -1147,7 +1146,7 @@ sub Run {
             Ticket     => \%GetParam,
             Config     => \%TicketFreeText,
         );
-        $Output .= $Self->{LayoutObject}->NavigationBar( LockData => \%LockedData );
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->MaskForm( %GetParam, %TicketFreeTextHTML, Profile => $Self->{Profile}, );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
