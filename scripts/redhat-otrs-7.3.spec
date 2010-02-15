@@ -1,8 +1,8 @@
 # --
 # RPM spec file for RedHat Linux of the OTRS package
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: redhat-otrs-7.3.spec,v 1.17 2009-02-16 12:50:17 tr Exp $
+# $Id: redhat-otrs-7.3.spec,v 1.18 2010-02-15 10:45:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
 Summary:      The Open Ticket Request System.
 Name:         otrs
 Version:      0.0
-Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
 Requires:     perl perl-DBI perl-DBD-MySQL perl-Digest-MD5 perl-URI perl-MIME-Base64 mod_perl apache mysql mysqlclient9 mysql-server procmail perl-libwww-perl

@@ -2,7 +2,7 @@
 # RPM spec file for OpenSUSE 11.x of the OTRS package
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-otrs-11.0.spec,v 1.2 2010-01-11 19:18:20 mb Exp $
+# $Id: suse-otrs-11.0.spec,v 1.3 2010-02-15 10:45:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
 Summary:      The Open Ticket Request System.
 Name:         otrs
 Version:      0.0
-Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
 Requires:     perl perl-DBI perl-GD perl-GDGraph perl-GDTextUtil perl-Net-DNS perl-Digest-MD5 apache2 apache2-mod_perl mysql mysql-client perl-DBD-mysql procmail perl-libwww-perl perl-Encode-HanExtra perl-ldap perl-IO-Socket-SSL perl-SOAP-Lite
