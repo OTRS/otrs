@@ -1,8 +1,8 @@
 # --
 # Ticket.t - ticket module testscript
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.54 2009-12-24 01:06:46 martin Exp $
+# $Id: Ticket.t,v 1.55 2010-02-15 23:32:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -308,6 +308,69 @@ $Self->Is(
     '1',
     'TicketGet() (TypeID)',
 );
+
+# ticket flag tests
+my @Tests = (
+    {
+        Name   => 'seen flag',
+        Key    => 'seen',
+        Value  => 1,
+        UserID => 1,
+    },
+    {
+        Name   => 'not seend flag',
+        Key    => 'not seen',
+        Value  => 2,
+        UserID => 1,
+    },
+);
+
+for my $Test (@Tests) {
+    my %Flag = $TicketObject->TicketFlagGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+    $Self->False(
+        $Flag{ $Test->{Key} },
+        'TicketFlagGet()',
+    );
+    my $Set = $TicketObject->TicketFlagSet(
+        TicketID => $TicketID,
+        Key      => $Test->{Key},
+        Value    => $Test->{Value},
+        UserID   => 1,
+    );
+    $Self->True(
+        $Set,
+        'TicketFlagSet()',
+    );
+    %Flag = $TicketObject->TicketFlagGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+    $Self->Is(
+        $Flag{ $Test->{Key} },
+        $Test->{Value},
+        'TicketFlagGet()',
+    );
+    my $Delete = $TicketObject->TicketFlagDelete(
+        TicketID => $TicketID,
+        Key      => $Test->{Key},
+        UserID   => 1,
+    );
+    $Self->True(
+        $Delete,
+        'TicketFlagDelete()',
+    );
+    %Flag = $TicketObject->TicketFlagGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+    $Self->False(
+        $Flag{ $Test->{Key} },
+        'TicketFlagGet()',
+    );
+}
 
 my $ArticleID = $TicketObject->ArticleCreate(
     TicketID    => $TicketID,
@@ -4028,15 +4091,17 @@ $Self->Is(
 );
 
 # article flag tests
-my @Tests = (
+@Tests = (
     {
         Name   => 'seen flag',
-        Flag   => 'seen',
+        Key    => 'seen',
+        Value  => 1,
         UserID => 1,
     },
     {
         Name   => 'not seend flag',
-        Flag   => 'not seen',
+        Key    => 'not seen',
+        Value  => 2,
         UserID => 1,
     },
 );
@@ -4047,33 +4112,35 @@ for my $Test (@Tests) {
         UserID    => 1,
     );
     $Self->False(
-        $Flag{ $Test->{Flag} } || 0,
+        $Flag{ $Test->{Key} },
         'ArticleFlagGet()',
     );
     my $Set = $TicketObject->ArticleFlagSet(
         ArticleID => $ArticleID,
-        Flag      => $Test->{Flag},
+        Key       => $Test->{Key},
+        Value     => $Test->{Value},
         UserID    => 1,
     );
     $Self->True(
-        $Set || 0,
+        $Set,
         'ArticleFlagSet()',
     );
     %Flag = $TicketObject->ArticleFlagGet(
         ArticleID => $ArticleID,
         UserID    => 1,
     );
-    $Self->True(
-        $Flag{ $Test->{Flag} } || 0,
+    $Self->Is(
+        $Flag{ $Test->{Key} },
+        $Test->{Value},
         'ArticleFlagGet()',
     );
     my $Delete = $TicketObject->ArticleFlagDelete(
         ArticleID => $ArticleID,
-        Flag      => $Test->{Flag},
+        Key       => $Test->{Key},
         UserID    => 1,
     );
     $Self->True(
-        $Delete || 0,
+        $Delete,
         'ArticleFlagDelete()',
     );
     %Flag = $TicketObject->ArticleFlagGet(
@@ -4081,7 +4148,7 @@ for my $Test (@Tests) {
         UserID    => 1,
     );
     $Self->False(
-        $Flag{ $Test->{Flag} } || 0,
+        $Flag{ $Test->{Key} },
         'ArticleFlagGet()',
     );
 }

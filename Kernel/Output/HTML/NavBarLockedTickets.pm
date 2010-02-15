@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarLockedTickets.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarLockedTickets.pm,v 1.16 2009-12-07 13:57:01 martin Exp $
+# $Id: NavBarLockedTickets.pm,v 1.17 2010-02-15 23:32:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -70,7 +70,7 @@ sub Run {
         Link        => 'Action=AgentTicketLockedView',
         AccessKey   => 'k',
     };
-    $Text = $Self->{LayoutObject}->{LanguageObject}->Get('New message') . " ($Locked{New})";
+    $Text = $Self->{LayoutObject}->{LanguageObject}->Get('Need Action') . " ($Locked{New})";
     $Return{'0999989'} = {
         Block       => 'ItemPersonal',
         Description => $Text,

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.297 2010-02-10 09:45:52 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.298 2010-02-15 23:32:34 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5975,28 +5975,6 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::HeaderMetaTicketSearch</Item>
                 <Item Key="Action">AgentTicketSearch</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###3-Ticket::AgentTicketSeen" Required="0" Valid="1">
-        <Description Lang="en">Modul for the agent interface that to sets tickets to "seen".</Description>
-        <Description Lang="de">Modul für das Agent-Interface, das Tickets in den Status "seen" setzt.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationAgentTicketSeen</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###4-Ticket::TicketNotify" Required="0" Valid="0">
-        <Description Lang="en">Module to show agents important tickets via the agent interface.</Description>
-        <Description Lang="de">Modul, das den Agents auf wichtige Tickets aufmerksam macht.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationAgentTicket</Item>
             </Hash>
         </Setting>
     </ConfigItem>

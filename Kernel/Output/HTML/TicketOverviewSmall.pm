@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.16 2010-02-01 01:12:54 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.17 2010-02-15 23:32:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -81,6 +81,7 @@ sub Run {
         );
     }
 
+    # show escalation
     if ( $Param{Escalation} ) {
         $Self->{LayoutObject}->Block(
             Name => 'RecordEscalationHeader',
@@ -171,6 +172,24 @@ sub Run {
                 );
             }
 
+            # show ticket flags
+            my %TicketFlag = $Self->{TicketObject}->TicketFlagGet(
+                TicketID => $TicketID,
+                UserID   => $Self->{UserID},
+            );
+
+            # show if now message is in there
+            if ( !$TicketFlag{Seen} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeTicketGenericRowMeta',
+                    Data => {
+                        Image => 'meta-new.png',
+                        Title => 'New Article!',
+                    },
+                );
+            }
+
+            # show escalation
             if ( $Param{Escalation} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'RecordEscalation',

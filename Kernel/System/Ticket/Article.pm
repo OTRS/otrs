@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.243 2010-02-03 14:51:03 bes Exp $
+# $Id: Article.pm,v 1.244 2010-02-15 23:32:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::TemplateGenerator;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.243 $) [1];
+$VERSION = qw($Revision: 1.244 $) [1];
 
 =head1 NAME
 
@@ -2834,7 +2834,8 @@ set article flags
 
     my $Success = $TicketObject->ArticleFlagSet(
         ArticleID => 123,
-        Flag      => 'seen',
+        Key       => 'seen',
+        Value     => 1,
         UserID    => 123,
     );
 
@@ -2847,8 +2848,8 @@ sub ArticleFlagSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID Flag UserID)) {
-        if ( !$Param{$_} ) {
+    for (qw(ArticleID Key Value UserID)) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -2857,16 +2858,19 @@ sub ArticleFlagSet {
     my %Flag = $Self->ArticleFlagGet(%Param);
 
     # check if set is needed
-    if ( defined $Flag{ $Param{Flag} } ) {
-        return 1;
-    }
+    return 1 if defined $Flag{ $Param{Key} } && $Flag{ $Param{Key} } eq $Param{Value};
 
-    # set falg
-    $Self->{DBObject}->Do(
+    # set flag
+    return if !$Self->{DBObject}->Do(
+        SQL => 'DELETE FROM article_flag WHERE '
+            . 'article_id = ? AND article_key = ? AND create_by = ?',
+        Bind => [ \$Param{ArticleID}, \$Param{Key}, \$Param{Value}, \$Param{UserID} ],
+    );
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO article_flag '
-            . ' (article_id, article_flag, create_time, create_by) '
-            . ' VALUES (?, ?, current_timestamp, ?)',
-        Bind => [ \$Param{ArticleID}, \$Param{Flag}, \$Param{UserID} ],
+            . ' (article_id, article_key, article_value, create_time, create_by) '
+            . ' VALUES (?, ?, ?, current_timestamp, ?)',
+        Bind => [ \$Param{ArticleID}, \$Param{Key}, \$Param{Value}, \$Param{UserID} ],
     );
 
     # event
@@ -2879,6 +2883,9 @@ sub ArticleFlagSet {
         Data  => {
             TicketID  => $Article{TicketID},
             ArticleID => $Param{ArticleID},
+            Key       => $Param{Key},
+            Value     => $Param{Value},
+            UserID    => $Param{UserID},
         },
         UserID => $Param{UserID},
     );
@@ -2888,11 +2895,11 @@ sub ArticleFlagSet {
 
 =item ArticleFlagDelete()
 
-delete article flags
+delete article flag
 
     my $Success = $TicketObject->ArticleFlagDelete(
         ArticleID => 123,
-        Flag      => 'seen',
+        Key       => 'seen',
         UserID    => 123,
     );
 
@@ -2905,7 +2912,7 @@ sub ArticleFlagDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID Flag UserID)) {
+    for (qw(ArticleID Key UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -2913,10 +2920,10 @@ sub ArticleFlagDelete {
     }
 
     # do db insert
-    $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'DELETE FROM article_flag WHERE article_id = ? AND '
-            . 'create_by = ? AND article_flag = ?',
-        Bind => [ \$Param{ArticleID}, \$Param{UserID}, \$Param{Flag} ],
+            . 'create_by = ? AND article_key = ?',
+        Bind => [ \$Param{ArticleID}, \$Param{UserID}, \$Param{Key} ],
     );
 
     # event
@@ -2929,6 +2936,8 @@ sub ArticleFlagDelete {
         Data  => {
             TicketID  => $Article{TicketID},
             ArticleID => $Param{ArticleID},
+            Key       => $Param{Key},
+            UserID    => $Param{UserID},
         },
         UserID => $Param{UserID},
     );
@@ -2939,7 +2948,7 @@ sub ArticleFlagDelete {
 
 get article flags
 
-    my %Article = $TicketObject->ArticleFlagGet(
+    my %Flags = $TicketObject->ArticleFlagGet(
         ArticleID => 123,
         UserID    => 123,
     );
@@ -2959,13 +2968,14 @@ sub ArticleFlagGet {
 
     # sql query
     return if !$Self->{DBObject}->Prepare(
-        SQL   => 'SELECT article_flag FROM article_flag WHERE article_id = ? AND create_by = ?',
-        Bind  => [ \$Param{ArticleID}, \$Param{UserID} ],
+        SQL => 'SELECT article_key, article_value FROM article_flag WHERE '
+            . 'article_id = ? AND create_by = ?',
+        Bind => [ \$Param{ArticleID}, \$Param{UserID} ],
         Limit => 1500,
     );
     my %Flag;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Flag{ $Row[0] } = 1;
+        $Flag{ $Row[0] } = $Row[1];
     }
     return %Flag;
 }
@@ -3130,6 +3140,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.243 $ $Date: 2010-02-03 14:51:03 $
+$Revision: 1.244 $ $Date: 2010-02-15 23:32:33 $
 
 =cut

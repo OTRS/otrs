@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.17 2010-01-25 21:35:05 martin Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.18 2010-02-15 23:32:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,15 +37,26 @@
 <!-- dtl:block:ContentLargeTicketGenericRow -->
                 <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
                 <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
-                    <td width="10%">
-                        <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <td width="2%">
+                        <table border="0" cellspacing="0" cellpadding="1">
                             <tr>
-                                <td class="PriorityID-$Data{"PriorityID"}" title="$Text{"Priority"}: $Text{"$Data{"Priority"}"}" width="1%">&nbsp;</td>
                                 <td>
-                                    &nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
+                                    <table border="0" width="10" height="10" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td class="PriorityID-$Data{"PriorityID"}" title="$Text{"Priority"}: $Text{"$Data{"Priority"}"}">&nbsp;&nbsp;</td>
+                                        </tr>
+                                    </table>
                                 </td>
+<!-- dtl:block:ContentLargeTicketGenericRowMeta -->
+                                <td>
+                                    <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="" title="$Text{"$QData{"Title"}"}"/>
+                                </td>
+<!-- dtl:block:ContentLargeTicketGenericRowMeta -->
                             </tr>
                         </table>
+                    </td>
+                    <td width="10%">
+                        <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
                     </td>
                     <td width="60%">
                         <div title="$QData{"Title"}">$QData{"Title","70"}</div>

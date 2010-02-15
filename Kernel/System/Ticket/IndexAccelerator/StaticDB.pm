@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.73 2010-01-19 21:10:34 martin Exp $
+# $Id: StaticDB.pm,v 1.74 2010-02-15 23:32:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -511,10 +511,8 @@ sub GetLockedCount {
     }
     my %TicketIDs;
     my %Data = (
-        Reminder => 0,
-        Pending  => 0,
-        All      => 0,
-        New      => 0,
+        All => 0,
+        New => 0,
     );
 
     # find only new messages
@@ -524,6 +522,8 @@ sub GetLockedCount {
 
         # next if article already checked
         next if $TicketIDs{ $Article->[2] };
+
+        $Data{All}++;
 
         # lookup sender and article type
         my $SenderType = $Self->ArticleSenderTypeLookup( SenderTypeID => $Article->[1] );
@@ -550,29 +550,6 @@ sub GetLockedCount {
         $TicketIDs{ $Article->[2] } = 1;
     }
 
-    # find all and reminder tickets
-    %TicketIDs = ();
-    for my $Article (@ArticleLocked) {
-        if ( !$TicketIDs{ $Article->[2] } ) {
-            $Data{All}++;
-
-            if ( $Article->[5] && $Article->[6] =~ /^pending/i ) {
-                $Data{Pending}++;
-                $Data{PendingTicketIDs}->{ $Article->[2] } = 1;
-                if (
-                    $Article->[6] !~ /^pending auto/i
-                    && $Article->[5] <= $Self->{TimeObject}->SystemTime()
-                    )
-                {
-                    $Data{ReminderTicketIDs}->{ $Article->[2] } = 1;
-                    $Data{Reminder}++;
-                }
-            }
-        }
-        $Data{MaxAge} = $Article->[4];
-        $TicketIDs{ $Article->[2] } = 1;
-    }
-
     # show just unseen tickets as new
     if ( $Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen' ) {
 
@@ -580,12 +557,11 @@ sub GetLockedCount {
         $Data{New}          = 0;
         $Data{NewTicketIDs} = undef;
         for my $TicketID ( keys %TicketIDs ) {
-            my @Index = $Self->ArticleIndex( TicketID => $TicketID );
-            my %Flag = $Self->ArticleFlagGet(
-                ArticleID => $Index[-1],
-                UserID    => $Param{UserID},
+            my %Flag = $Self->TicketFlagGet(
+                TicketID => $TicketID,
+                UserID   => $Param{UserID},
             );
-            if ( !$Flag{seen} ) {
+            if ( !$Flag{Seen} ) {
                 $Data{NewTicketIDs}->{$TicketID} = 1;
                 $Data{New}++;
             }

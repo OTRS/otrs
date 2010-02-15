@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketWatchView.pm - to view all locked tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketWatchView.pm,v 1.7 2009-11-25 15:39:15 mg Exp $
+# $Id: AgentTicketWatchView.pm,v 1.8 2010-02-15 23:32:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -107,15 +107,38 @@ sub Run {
     if ($Access) {
         $Filters{All} = {
             Name   => 'All',
-            Prio   => 1005,
+            Prio   => 1000,
             Search => {
-                Result       => 'ARRAY',
-                Limit        => 1000,
                 OrderBy      => $OrderBy,
                 SortBy       => $SortByS,
                 WatchUserIDs => [ $Self->{UserID} ],
                 UserID       => 1,
                 Permission   => 'ro',
+            },
+        };
+        $Filters{Reminder} = {
+            Name   => 'Pending',
+            Prio   => 1002,
+            Search => {
+                StateType => [ 'pending reminder', 'pending auto' ],
+                WatchUserIDs => [ $Self->{UserID} ],
+                OrderBy      => $OrderBy,
+                SortBy       => $SortByS,
+                UserID       => 1,
+                Permission   => 'ro',
+            },
+        };
+        $Filters{ReminderReached} = {
+            Name   => 'Reminder Reached',
+            Prio   => 1003,
+            Search => {
+                StateType                     => ['pending reminder'],
+                TicketPendingTimeOlderMinutes => 1,
+                WatchUserIDs                  => [ $Self->{UserID} ],
+                OrderBy                       => $OrderBy,
+                SortBy                        => $SortByS,
+                UserID                        => 1,
+                Permission                    => 'ro',
             },
         };
     }
@@ -133,42 +156,12 @@ sub Run {
 
     my %NavBarFilter;
     for my $Filter ( keys %Filters ) {
-        my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+        my $Count = $Self->{TicketObject}->TicketSearch(
             %{ $Filters{$Filter}->{Search} },
-            Result => 'ARRAY',
-            Limit  => 1000,
+            Result => 'COUNT',
         );
-
-        if ( $Filter eq 'New' ) {
-            my @ViewableTicketsTmp;
-            my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
-
-            # check what tickets are new
-            for my $TicketID (@ViewableTickets) {
-                my $Message = '';
-                if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
-                    $Message = 'New message!';
-                    push( @ViewableTicketsTmp, $TicketID );
-                }
-            }
-            @ViewableTickets = @ViewableTicketsTmp;
-        }
-        elsif ( $Filter eq 'ReminderReached' ) {
-            my @ViewableTicketsTmp;
-            for my $TicketID (@ViewableTickets) {
-                my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
-                if (@Index) {
-                    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[-1] );
-                    if ( $Article{UntilTime} < 1 ) {
-                        push( @ViewableTicketsTmp, $TicketID );
-                    }
-                }
-            }
-            @ViewableTickets = @ViewableTicketsTmp;
-        }
-
         $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
-            Count  => scalar @ViewableTickets,
+            Count  => $Count,
             Filter => $Filter,
             %{ $Filters{$Filter} },
         };
