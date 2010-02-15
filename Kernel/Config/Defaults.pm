@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.330 2010-02-05 16:42:49 mb Exp $
+# $Id: Defaults.pm,v 1.331 2010-02-15 11:56:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.330 $) [1];
+$VERSION = qw($Revision: 1.331 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -259,7 +259,7 @@ sub LoadDefaults {
 
     # CheckEmailInvalidAddress
     # (regexp of invalid email addresses)
-    $Self->{CheckEmailInvalidAddress} = '@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$';
+    $Self->{CheckEmailInvalidAddress} = '@(example)\.(..|...)$';
 
     # --------------------------------------------------- #
     # LogModule                                           #
@@ -2418,6 +2418,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.330 $ $Date: 2010-02-05 16:42:49 $
+$Revision: 1.331 $ $Date: 2010-02-15 11:56:06 $
 
 =cut
