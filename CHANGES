@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1158 2010-02-15 11:56:06 mb Exp $
+# $Id: CHANGES,v 1.1159 2010-02-15 12:45:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/02/15) Removed example config files for Apache1, switched to only
+    one config file for Apache2 instead of two.
  - (2010/02/15) Fixed bug#4924 - Incorrect email address syntax check.
  - (2010/02/10) Fixed bug#2376 - Customer preferences are lost after update
     of customer login.
