@@ -2,7 +2,7 @@
 # AttachmentBlocker.dtl - provides attachment blocker message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AttachmentBlocker.dtl,v 1.1 2010-01-19 01:54:19 martin Exp $
+# $Id: AttachmentBlocker.dtl,v 1.2 2010-02-15 23:28:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <table border="0" width="100%" bgcolor="#dfdfdf" style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 10px;">
         <tr>
             <td align="center">
-                $Text{"To protect your privacy, active or/and remote content has blocked."} <a href="$Env{"Baselink"}$Env{"RequestedURL"};LoadBlocked=1">$Text{"Load blocked content."}</a>
+                $Text{"To protect your privacy, active or/and remote content has blocked."} <a href="$Env{"Baselink"}$Env{"RequestedURL"};LoadInlineContent=1">$Text{"Load blocked content."}</a>
             </td>
         </tr>
     </table>
