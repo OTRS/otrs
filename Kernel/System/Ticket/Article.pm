@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.244 2010-02-15 23:32:33 martin Exp $
+# $Id: Article.pm,v 1.245 2010-02-16 23:45:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::TemplateGenerator;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.244 $) [1];
+$VERSION = qw($Revision: 1.245 $) [1];
 
 =head1 NAME
 
@@ -2864,7 +2864,7 @@ sub ArticleFlagSet {
     return if !$Self->{DBObject}->Do(
         SQL => 'DELETE FROM article_flag WHERE '
             . 'article_id = ? AND article_key = ? AND create_by = ?',
-        Bind => [ \$Param{ArticleID}, \$Param{Key}, \$Param{Value}, \$Param{UserID} ],
+        Bind => [ \$Param{ArticleID}, \$Param{Key}, \$Param{UserID} ],
     );
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO article_flag '
@@ -3140,6 +3140,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.244 $ $Date: 2010-02-15 23:32:33 $
+$Revision: 1.245 $ $Date: 2010-02-16 23:45:00 $
 
 =cut
