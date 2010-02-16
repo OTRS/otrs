@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2010-02-16 01:29:47
+--  driver: ingres, generated: 2010-02-16 15:28:33
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -35,9 +35,9 @@ ALTER TABLE article_flag DROP COLUMN article_flag RESTRICT;\g
 --  alter table article_flag
 -- ----------------------------------------------------------
 ALTER TABLE article_flag ADD COLUMN article_value VARCHAR(50);\g
-CREATE SEQUENCE virtual_fs_388;\g
+CREATE SEQUENCE virtual_fs_594;\g
 CREATE TABLE virtual_fs (
-    id BIGINT NOT NULL DEFAULT virtual_fs_388.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_594.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     backend VARCHAR(60) NOT NULL,
     backend_key VARCHAR(160) NOT NULL,
@@ -55,9 +55,9 @@ CREATE TABLE virtual_fs_preferences (
 MODIFY virtual_fs_preferences TO btree;\g
 CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);\g
 CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);\g
-CREATE SEQUENCE virtual_fs_db_265;\g
+CREATE SEQUENCE virtual_fs_db_742;\g
 CREATE TABLE virtual_fs_db (
-    id BIGINT NOT NULL DEFAULT virtual_fs_db_265.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_db_742.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     content LONG BYTE NOT NULL,
     create_time TIMESTAMP NOT NULL

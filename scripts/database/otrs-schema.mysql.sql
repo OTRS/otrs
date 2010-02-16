@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2010-02-16 11:45:51
+#  driver: mysql, generated: 2010-02-16 15:25:49
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -1122,7 +1122,7 @@ CREATE TABLE virtual_fs_preferences (
     virtual_fs_id BIGINT NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value TEXT NULL,
-    INDEX virtual_fs_preferences_key_value (preferences_key, preferences_value),
+    INDEX virtual_fs_preferences_key_value (preferences_key, preferences_value(350)),
     INDEX virtual_fs_preferences_virtual_fs_id (virtual_fs_id)
 );
 # ----------------------------------------------------------

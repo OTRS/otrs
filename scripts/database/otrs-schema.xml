@@ -1712,7 +1712,7 @@
     </Index>
     <Index Name="virtual_fs_preferences_key_value">
         <IndexColumn Name="preferences_key"/>
-        <IndexColumn Name="preferences_value"/>
+        <IndexColumn Name="preferences_value" Size="350"/>
     </Index>
     <ForeignKey ForeignTable="virtual_fs">
         <Reference Local="virtual_fs_id" Foreign="id"/>
