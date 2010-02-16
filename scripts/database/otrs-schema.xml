@@ -17,66 +17,6 @@
     </ForeignKey>
 </Table>
 
-<!-- ticket_priority - all ticket priorites -->
-<Table Name="ticket_priority">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="ticket_priority_name">
-        <UniqueColumn Name="name"/>
-    </Unique>
-    <ForeignKey ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
-<!-- ticket_type - all ticket types -->
-<Table Name="ticket_type">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="ticket_type_name">
-        <UniqueColumn Name="name"/>
-    </Unique>
-    <ForeignKey ForeignTable="valid">
-        <Reference Local="valid_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
-<!-- ticket_lock_type - all ticket lock types -->
-<Table Name="ticket_lock_type">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="ticket_lock_type_name">
-        <UniqueColumn Name="name"/>
-    </Unique>
-    <ForeignKey ForeignTable="valid">
-        <Reference Local="valid_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
 <!-- user - all user -->
 <Table Name="users">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
@@ -277,50 +217,6 @@
     </ForeignKey>
 </Table>
 
-<!-- ticket_state - all ticket states -->
-<Table Name="ticket_state">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="type_id" Required="true" Type="SMALLINT"/>
-    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="ticket_state_name">
-        <UniqueColumn Name="name"/>
-    </Unique>
-    <ForeignKey ForeignTable="valid">
-        <Reference Local="valid_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="ticket_state_type">
-        <Reference Local="type_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
-<!-- ticket_state_type - all ticket states types -->
-<Table Name="ticket_state_type">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="ticket_state_type_name">
-        <UniqueColumn Name="name"/>
-    </Unique>
-    <ForeignKey ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
 <!-- salutation - all salutation for the queues -->
 <Table Name="salutation">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
@@ -481,6 +377,110 @@
     </Index>
     <ForeignKey ForeignTable="queue">
         <Reference Local="queue_id" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- ticket_priority - all ticket priorites -->
+<Table Name="ticket_priority">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="ticket_priority_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- ticket_type - all ticket types -->
+<Table Name="ticket_type">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="ticket_type_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- ticket_lock_type - all ticket lock types -->
+<Table Name="ticket_lock_type">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="ticket_lock_type_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- ticket_state - all ticket states -->
+<Table Name="ticket_state">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="type_id" Required="true" Type="SMALLINT"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="ticket_state_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="ticket_state_type">
+        <Reference Local="type_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- ticket_state_type - all ticket states types -->
+<Table Name="ticket_state_type">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="ticket_state_type_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
 </Table>
 
@@ -657,83 +657,26 @@
     </ForeignKey>
 </Table>
 
-<!-- link_type - all link object types -->
-<Table Name="link_type">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
-    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+<!-- ticket_flag -->
+<Table Name="ticket_flag">
+    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
+    <Column Name="ticket_key" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="ticket_value" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="link_type_name">
-        <UniqueColumn Name="name"/>
-    </Unique>
-    <ForeignKey ForeignTable="valid">
-        <Reference Local="valid_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
-<!-- link_state - all link object states -->
-<Table Name="link_state">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
-    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="link_state_name">
-        <UniqueColumn Name="name"/>
-    </Unique>
-    <ForeignKey ForeignTable="valid">
-        <Reference Local="valid_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
-<!-- link_object - all link objects -->
-<Table Name="link_object">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
-    <Unique Name="link_object_name">
-        <UniqueColumn Name="name"/>
-    </Unique>
-</Table>
-
-<!-- link_relation - all links between objects -->
-<Table Name="link_relation">
-    <Column Name="source_object_id" Required="true" Type="SMALLINT"/>
-    <Column Name="source_key" Required="true" Size="50" Type="VARCHAR"/>
-    <Column Name="target_object_id" Required="true" Type="SMALLINT"/>
-    <Column Name="target_key" Required="true" Size="50" Type="VARCHAR"/>
-    <Column Name="type_id" Required="true" Type="SMALLINT"/>
-    <Column Name="state_id" Required="true" Type="SMALLINT"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Unique Name="link_relation_view">
-        <UniqueColumn Name="source_object_id"/>
-        <UniqueColumn Name="source_key"/>
-        <UniqueColumn Name="target_object_id"/>
-        <UniqueColumn Name="target_key"/>
-        <UniqueColumn Name="type_id"/>
-    </Unique>
-    <ForeignKey ForeignTable="link_object">
-        <Reference Local="source_object_id" Foreign="id"/>
-        <Reference Local="target_object_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="link_type">
-        <Reference Local="type_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="link_state">
-        <Reference Local="state_id" Foreign="id"/>
+    <Index Name="ticket_flag_ticket_id_create_by">
+        <IndexColumn Name="ticket_id"/>
+        <IndexColumn Name="create_by"/>
+    </Index>
+    <Index Name="ticket_flag_ticket_id_ticket_key">
+        <IndexColumn Name="ticket_id"/>
+        <IndexColumn Name="ticket_key"/>
+    </Index>
+    <Index Name="ticket_flag_ticket_id">
+        <IndexColumn Name="ticket_id"/>
+    </Index>
+    <ForeignKey ForeignTable="ticket">
+        <Reference Local="ticket_id" Foreign="id"/>
     </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
@@ -834,6 +777,82 @@
     </ForeignKey>
 </Table>
 
+<!-- ticket_watcher -->
+<Table Name="ticket_watcher">
+    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
+    <Column Name="user_id" Required="true" Type="INTEGER"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Index Name="ticket_watcher_ticket_id">
+        <IndexColumn Name="ticket_id"/>
+    </Index>
+    <Index Name="ticket_watcher_user_id">
+        <IndexColumn Name="user_id"/>
+    </Index>
+    <ForeignKey ForeignTable="ticket">
+        <Reference Local="ticket_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="user_id" Foreign="id"/>
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- ticket_index -->
+<Table Name="ticket_index">
+    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
+    <Column Name="queue_id" Required="true" Type="INTEGER"/>
+    <Column Name="queue" Required="true" Size="70" Type="VARCHAR"/>
+    <Column Name="group_id" Required="true" Type="INTEGER"/>
+    <Column Name="s_lock" Required="true" Size="70" Type="VARCHAR"/>
+    <Column Name="s_state" Required="true" Size="70" Type="VARCHAR"/>
+    <Column Name="create_time_unix" Required="true" Type="BIGINT"/>
+    <Index Name="ticket_index_ticket_id">
+        <IndexColumn Name="ticket_id"/>
+    </Index>
+    <Index Name="ticket_index_queue_id">
+        <IndexColumn Name="queue_id"/>
+    </Index>
+    <Index Name="ticket_index_group_id">
+        <IndexColumn Name="group_id"/>
+    </Index>
+    <ForeignKey ForeignTable="ticket">
+        <Reference Local="ticket_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="queue">
+        <Reference Local="queue_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="groups">
+        <Reference Local="group_id" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- ticket_lock_index -->
+<Table Name="ticket_lock_index">
+    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
+    <Index Name="ticket_lock_index_ticket_id">
+        <IndexColumn Name="ticket_id"/>
+    </Index>
+    <ForeignKey ForeignTable="ticket">
+        <Reference Local="ticket_id" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- ticket_loop_protection -->
+<Table Name="ticket_loop_protection">
+    <Column Name="sent_to" Required="true" Size="250" Type="VARCHAR"/>
+    <Column Name="sent_date" Required="true" Size="150" Type="VARCHAR"/>
+    <Index Name="ticket_loop_protection_sent_to">
+        <IndexColumn Name="sent_to"/>
+    </Index>
+    <Index Name="ticket_loop_protection_sent_date">
+        <IndexColumn Name="sent_date"/>
+    </Index>
+</Table>
+
 <!-- article_type - all types of articles (e. g. email, fax, phonecall, ...) -->
 <Table Name="article_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
@@ -882,14 +901,26 @@
 <Table Name="article_flag">
     <Column Name="article_id" Required="true" Type="BIGINT"/>
     <Column Name="article_flag" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="article_value" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Index Name="article_flag_article_id_create_by">
+        <IndexColumn Name="article_id"/>
+        <IndexColumn Name="create_by"/>
+    </Index>
+    <Index Name="article_flag_article_id_article_key">
+        <IndexColumn Name="article_id"/>
+        <IndexColumn Name="article_key"/>
+    </Index>
     <Index Name="article_flag_create_by">
         <IndexColumn Name="create_by"/>
     </Index>
     <Index Name="article_flag_article_id">
         <IndexColumn Name="article_id"/>
     </Index>
+    <ForeignKey ForeignTable="article">
+        <Reference Local="article_id" Foreign="id"/>
+    </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
     </ForeignKey>
@@ -1034,6 +1065,31 @@
     <Index Name="article_attachment_article_id">
         <IndexColumn Name="article_id"/>
     </Index>
+    <ForeignKey ForeignTable="article">
+        <Reference Local="article_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- time_accounting - the whole time accounting of all tickets -->
+<Table Name="time_accounting">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
+    <Column Name="article_id" Required="false" Type="BIGINT"/>
+    <Column Name="time_unit" Required="true" Size="10,2"  Type="DECIMAL"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Index Name="time_accounting_ticket_id">
+        <IndexColumn Name="ticket_id"/>
+    </Index>
+    <ForeignKey ForeignTable="ticket">
+        <Reference Local="ticket_id" Foreign="id"/>
+    </ForeignKey>
     <ForeignKey ForeignTable="article">
         <Reference Local="article_id" Foreign="id"/>
     </ForeignKey>
@@ -1211,55 +1267,6 @@
     </ForeignKey>
 </Table>
 
-<!-- time_accounting - the whole time accounting of all tickets -->
-<Table Name="time_accounting">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
-    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
-    <Column Name="article_id" Required="false" Type="BIGINT"/>
-    <Column Name="time_unit" Required="true" Size="10,2"  Type="DECIMAL"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Index Name="time_accounting_ticket_id">
-        <IndexColumn Name="ticket_id"/>
-    </Index>
-    <ForeignKey ForeignTable="ticket">
-        <Reference Local="ticket_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="article">
-        <Reference Local="article_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
-<!-- ticket_watcher -->
-<Table Name="ticket_watcher">
-    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
-    <Column Name="user_id" Required="true" Type="INTEGER"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Index Name="ticket_watcher_ticket_id">
-        <IndexColumn Name="ticket_id"/>
-    </Index>
-    <Index Name="ticket_watcher_user_id">
-        <IndexColumn Name="user_id"/>
-    </Index>
-    <ForeignKey ForeignTable="ticket">
-        <Reference Local="ticket_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="users">
-        <Reference Local="user_id" Foreign="id"/>
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
 <!-- service - service -->
 <Table Name="service">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
@@ -1374,46 +1381,6 @@
     <Column Name="session_value" Required="true" Size="25000" Type="VARCHAR"/>
 </Table>
 
-<!-- ticket_index -->
-<Table Name="ticket_index">
-    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
-    <Column Name="queue_id" Required="true" Type="INTEGER"/>
-    <Column Name="queue" Required="true" Size="70" Type="VARCHAR"/>
-    <Column Name="group_id" Required="true" Type="INTEGER"/>
-    <Column Name="s_lock" Required="true" Size="70" Type="VARCHAR"/>
-    <Column Name="s_state" Required="true" Size="70" Type="VARCHAR"/>
-    <Column Name="create_time_unix" Required="true" Type="BIGINT"/>
-    <Index Name="ticket_index_ticket_id">
-        <IndexColumn Name="ticket_id"/>
-    </Index>
-    <Index Name="ticket_index_queue_id">
-        <IndexColumn Name="queue_id"/>
-    </Index>
-    <Index Name="ticket_index_group_id">
-        <IndexColumn Name="group_id"/>
-    </Index>
-    <ForeignKey ForeignTable="ticket">
-        <Reference Local="ticket_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="queue">
-        <Reference Local="queue_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="groups">
-        <Reference Local="group_id" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
-<!-- ticket_lock_index -->
-<Table Name="ticket_lock_index">
-    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
-    <Index Name="ticket_lock_index_ticket_id">
-        <IndexColumn Name="ticket_id"/>
-    </Index>
-    <ForeignKey ForeignTable="ticket">
-        <Reference Local="ticket_id" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
 <!-- customer user -->
 <Table Name="customer_user">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
@@ -1477,18 +1444,6 @@
     <Unique Name="customer_company_name">
         <UniqueColumn Name="name"/>
     </Unique>
-</Table>
-
-<!-- ticket_loop_protection -->
-<Table Name="ticket_loop_protection">
-    <Column Name="sent_to" Required="true" Size="250" Type="VARCHAR"/>
-    <Column Name="sent_date" Required="true" Size="150" Type="VARCHAR"/>
-    <Index Name="ticket_loop_protection_sent_to">
-        <IndexColumn Name="sent_to"/>
-    </Index>
-    <Index Name="ticket_loop_protection_sent_date">
-        <IndexColumn Name="sent_date"/>
-    </Index>
 </Table>
 
 <!-- mail_account -->
@@ -1635,6 +1590,90 @@
     </Index>
 </Table>
 
+<!-- link_type - all link object types -->
+<Table Name="link_type">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="link_type_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- link_state - all link object states -->
+<Table Name="link_state">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="link_state_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- link_object - all link objects -->
+<Table Name="link_object">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Unique Name="link_object_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+</Table>
+
+<!-- link_relation - all links between objects -->
+<Table Name="link_relation">
+    <Column Name="source_object_id" Required="true" Type="SMALLINT"/>
+    <Column Name="source_key" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="target_object_id" Required="true" Type="SMALLINT"/>
+    <Column Name="target_key" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="type_id" Required="true" Type="SMALLINT"/>
+    <Column Name="state_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Unique Name="link_relation_view">
+        <UniqueColumn Name="source_object_id"/>
+        <UniqueColumn Name="source_key"/>
+        <UniqueColumn Name="target_object_id"/>
+        <UniqueColumn Name="target_key"/>
+        <UniqueColumn Name="type_id"/>
+    </Unique>
+    <ForeignKey ForeignTable="link_object">
+        <Reference Local="source_object_id" Foreign="id"/>
+        <Reference Local="target_object_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="link_type">
+        <Reference Local="type_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="link_state">
+        <Reference Local="state_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+
 <!-- xml - xml_storage-->
 <Table Name="xml_storage">
     <Column Name="xml_type" Required="true" Size="200" Type="VARCHAR"/>
@@ -1670,6 +1709,10 @@
     <Column Name="preferences_value" Required="false" Size="350" Type="VARCHAR"/>
     <Index Name="virtual_fs_preferences_virtual_fs_id">
         <IndexColumn Name="virtual_fs_id"/>
+    </Index>
+    <Index Name="virtual_fs_preferences_key_value">
+        <IndexColumn Name="preferences_key"/>
+        <IndexColumn Name="preferences_value"/>
     </Index>
     <ForeignKey ForeignTable="virtual_fs">
         <Reference Local="virtual_fs_id" Foreign="id"/>

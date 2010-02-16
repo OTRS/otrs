@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2009-12-09 12:36:19
+--  driver: ingres, generated: 2010-02-16 01:29:47
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -11,9 +11,33 @@ ALTER TABLE ticket ADD COLUMN archive_flag SMALLINT NOT NULL WITH DEFAULT;\g
 INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     (40, 'ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);\g
-CREATE SEQUENCE virtual_fs_652;\g
+CREATE TABLE ticket_flag (
+    ticket_id BIGINT NOT NULL,
+    ticket_key VARCHAR(50) NOT NULL,
+    ticket_value VARCHAR(50),
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL
+);\g
+MODIFY ticket_flag TO btree;\g
+CREATE INDEX ticket_flag_ticket_id_ticket_key ON ticket_flag (ticket_id, ticket_key);\g
+CREATE INDEX ticket_flag_ticket_id ON ticket_flag (ticket_id);\g
+CREATE INDEX ticket_flag_ticket_id_create_by ON ticket_flag (ticket_id, create_by);\g
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag ADD COLUMN article_key VARCHAR(50) NOT NULL WITH DEFAULT;\g
+UPDATE article_flag SET article_key = article_flag WHERE 1=1;\g
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag DROP COLUMN article_flag RESTRICT;\g
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag ADD COLUMN article_value VARCHAR(50);\g
+CREATE SEQUENCE virtual_fs_388;\g
 CREATE TABLE virtual_fs (
-    id BIGINT NOT NULL DEFAULT virtual_fs_652.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_388.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     backend VARCHAR(60) NOT NULL,
     backend_key VARCHAR(160) NOT NULL,
@@ -30,9 +54,10 @@ CREATE TABLE virtual_fs_preferences (
 );\g
 MODIFY virtual_fs_preferences TO btree;\g
 CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);\g
-CREATE SEQUENCE virtual_fs_db_441;\g
+CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);\g
+CREATE SEQUENCE virtual_fs_db_265;\g
 CREATE TABLE virtual_fs_db (
-    id BIGINT NOT NULL DEFAULT virtual_fs_db_441.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_db_265.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     content LONG BYTE NOT NULL,
     create_time TIMESTAMP NOT NULL
@@ -218,4 +243,6 @@ ALTER TABLE package_repository ALTER COLUMN name VARCHAR(200);\g
 --  alter table article_attachment
 -- ----------------------------------------------------------
 ALTER TABLE article_attachment ALTER COLUMN content_type VARCHAR(450);\g
+ALTER TABLE ticket_flag ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
+ALTER TABLE ticket_flag ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);\g
 ALTER TABLE virtual_fs_preferences ADD FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs(id);\g

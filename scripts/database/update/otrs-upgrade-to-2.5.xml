@@ -27,6 +27,48 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
 
+    <TableCreate Name="ticket_flag">
+        <Column Name="ticket_id" Required="true" Type="BIGINT"/>
+        <Column Name="ticket_key" Required="true" Size="50" Type="VARCHAR"/>
+        <Column Name="ticket_value" Required="false" Size="50" Type="VARCHAR"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Index Name="ticket_flag_ticket_id_create_by">
+            <IndexColumn Name="ticket_id"/>
+            <IndexColumn Name="create_by"/>
+        </Index>
+        <Index Name="ticket_flag_ticket_id_ticket_key">
+            <IndexColumn Name="ticket_id"/>
+            <IndexColumn Name="ticket_key"/>
+        </Index>
+        <Index Name="ticket_flag_ticket_id">
+            <IndexColumn Name="ticket_id"/>
+        </Index>
+        <ForeignKey ForeignTable="ticket">
+            <Reference Local="ticket_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="users">
+            <Reference Local="create_by" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+
+    <TableAlter Name="article_flag">
+        <ColumnChange NameOld="article_flag" NameNew="article_key" Required="true" Size="50" Type="VARCHAR"/>
+        <ColumnAdd Name="article_value" Required="false" Size="50" Type="VARCHAR"/>
+        <IndexCreate Name="article_flag_article_id_create_by">
+            <IndexColumn Name="article_id"/>
+            <IndexColumn Name="create_by"/>
+        </IndexCreate>
+        <IndexCreate Name="article_flag_article_id_article_key">
+            <IndexColumn Name="article_id"/>
+            <IndexColumn Name="article_key"/>
+        </IndexCreate>
+        <IndexDrop Name="article_flag_create_by"/>
+        <ForeignKey ForeignTable="article">
+            <Reference Local="article_id" Foreign="id"/>
+        </ForeignKey>
+    </TableAlter>
+
     <TableCreate Name="virtual_fs">
         <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
         <Column Name="filename" Required="true" Size="350" Type="VARCHAR"/>
@@ -46,6 +88,10 @@
         <Column Name="preferences_value" Required="false" Size="350" Type="VARCHAR"/>
         <Index Name="virtual_fs_preferences_virtual_fs_id">
             <IndexColumn Name="virtual_fs_id"/>
+        </Index>
+        <Index Name="virtual_fs_preferences_key_value">
+            <IndexColumn Name="preferences_key"/>
+            <IndexColumn Name="preferences_value"/>
         </Index>
         <ForeignKey ForeignTable="virtual_fs">
             <Reference Local="virtual_fs_id" Foreign="id"/>

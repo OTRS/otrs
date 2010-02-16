@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2009-12-24 11:35:56
+--  driver: postgresql, generated: 2010-02-16 01:31:37
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -13,48 +13,6 @@ CREATE TABLE valid (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT valid_name UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table ticket_priority
--- ----------------------------------------------------------
-CREATE TABLE ticket_priority (
-    id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
-    valid_id INTEGER NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT ticket_priority_name UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table ticket_type
--- ----------------------------------------------------------
-CREATE TABLE ticket_type (
-    id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
-    valid_id INTEGER NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT ticket_type_name UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table ticket_lock_type
--- ----------------------------------------------------------
-CREATE TABLE ticket_lock_type (
-    id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
-    valid_id INTEGER NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT ticket_lock_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table users
@@ -181,36 +139,6 @@ CREATE TABLE personal_queues (
 CREATE INDEX personal_queues_queue_id ON personal_queues (queue_id);
 CREATE INDEX personal_queues_user_id ON personal_queues (user_id);
 -- ----------------------------------------------------------
---  create table ticket_state
--- ----------------------------------------------------------
-CREATE TABLE ticket_state (
-    id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
-    type_id INTEGER NOT NULL,
-    valid_id INTEGER NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT ticket_state_name UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table ticket_state_type
--- ----------------------------------------------------------
-CREATE TABLE ticket_state_type (
-    id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT ticket_state_type_name UNIQUE (name)
-);
--- ----------------------------------------------------------
 --  create table salutation
 -- ----------------------------------------------------------
 CREATE TABLE salutation (
@@ -318,6 +246,78 @@ CREATE TABLE queue_preferences (
 );
 CREATE INDEX queue_preferences_queue_id ON queue_preferences (queue_id);
 -- ----------------------------------------------------------
+--  create table ticket_priority
+-- ----------------------------------------------------------
+CREATE TABLE ticket_priority (
+    id serial NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT ticket_priority_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table ticket_type
+-- ----------------------------------------------------------
+CREATE TABLE ticket_type (
+    id serial NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT ticket_type_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table ticket_lock_type
+-- ----------------------------------------------------------
+CREATE TABLE ticket_lock_type (
+    id serial NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT ticket_lock_type_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table ticket_state
+-- ----------------------------------------------------------
+CREATE TABLE ticket_state (
+    id serial NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    comments VARCHAR (250) NULL,
+    type_id INTEGER NOT NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT ticket_state_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table ticket_state_type
+-- ----------------------------------------------------------
+CREATE TABLE ticket_state_type (
+    id serial NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    comments VARCHAR (250) NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT ticket_state_type_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
 --  create table ticket
 -- ----------------------------------------------------------
 CREATE TABLE ticket (
@@ -417,56 +417,18 @@ CREATE INDEX ticket_type_id ON ticket (type_id);
 CREATE INDEX ticket_until_time ON ticket (until_time);
 CREATE INDEX ticket_user_id ON ticket (user_id);
 -- ----------------------------------------------------------
---  create table link_type
+--  create table ticket_flag
 -- ----------------------------------------------------------
-CREATE TABLE link_type (
-    id serial NOT NULL,
-    name VARCHAR (50) NOT NULL,
-    valid_id INTEGER NOT NULL,
+CREATE TABLE ticket_flag (
+    ticket_id INTEGER NOT NULL,
+    ticket_key VARCHAR (50) NOT NULL,
+    ticket_value VARCHAR (50) NULL,
     create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT link_type_name UNIQUE (name)
+    create_by INTEGER NOT NULL
 );
--- ----------------------------------------------------------
---  create table link_state
--- ----------------------------------------------------------
-CREATE TABLE link_state (
-    id serial NOT NULL,
-    name VARCHAR (50) NOT NULL,
-    valid_id INTEGER NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT link_state_name UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table link_object
--- ----------------------------------------------------------
-CREATE TABLE link_object (
-    id serial NOT NULL,
-    name VARCHAR (100) NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT link_object_name UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table link_relation
--- ----------------------------------------------------------
-CREATE TABLE link_relation (
-    source_object_id INTEGER NOT NULL,
-    source_key VARCHAR (50) NOT NULL,
-    target_object_id INTEGER NOT NULL,
-    target_key VARCHAR (50) NOT NULL,
-    type_id INTEGER NOT NULL,
-    state_id INTEGER NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    CONSTRAINT link_relation_view UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
-);
+CREATE INDEX ticket_flag_ticket_id ON ticket_flag (ticket_id);
+CREATE INDEX ticket_flag_ticket_id_create_by ON ticket_flag (ticket_id, create_by);
+CREATE INDEX ticket_flag_ticket_id_ticket_key ON ticket_flag (ticket_id, ticket_key);
 -- ----------------------------------------------------------
 --  create table ticket_history
 -- ----------------------------------------------------------
@@ -512,6 +474,50 @@ CREATE TABLE ticket_history_type (
     CONSTRAINT ticket_history_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
+--  create table ticket_watcher
+-- ----------------------------------------------------------
+CREATE TABLE ticket_watcher (
+    ticket_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL
+);
+CREATE INDEX ticket_watcher_ticket_id ON ticket_watcher (ticket_id);
+CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
+-- ----------------------------------------------------------
+--  create table ticket_index
+-- ----------------------------------------------------------
+CREATE TABLE ticket_index (
+    ticket_id INTEGER NOT NULL,
+    queue_id INTEGER NOT NULL,
+    queue VARCHAR (70) NOT NULL,
+    group_id INTEGER NOT NULL,
+    s_lock VARCHAR (70) NOT NULL,
+    s_state VARCHAR (70) NOT NULL,
+    create_time_unix INTEGER NOT NULL
+);
+CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
+CREATE INDEX ticket_index_queue_id ON ticket_index (queue_id);
+CREATE INDEX ticket_index_ticket_id ON ticket_index (ticket_id);
+-- ----------------------------------------------------------
+--  create table ticket_lock_index
+-- ----------------------------------------------------------
+CREATE TABLE ticket_lock_index (
+    ticket_id INTEGER NOT NULL
+);
+CREATE INDEX ticket_lock_index_ticket_id ON ticket_lock_index (ticket_id);
+-- ----------------------------------------------------------
+--  create table ticket_loop_protection
+-- ----------------------------------------------------------
+CREATE TABLE ticket_loop_protection (
+    sent_to VARCHAR (250) NOT NULL,
+    sent_date VARCHAR (150) NOT NULL
+);
+CREATE INDEX ticket_loop_protection_sent_date ON ticket_loop_protection (sent_date);
+CREATE INDEX ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);
+-- ----------------------------------------------------------
 --  create table article_type
 -- ----------------------------------------------------------
 CREATE TABLE article_type (
@@ -547,10 +553,13 @@ CREATE TABLE article_sender_type (
 CREATE TABLE article_flag (
     article_id INTEGER NOT NULL,
     article_flag VARCHAR (50) NOT NULL,
+    article_value VARCHAR (50) NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL
 );
 CREATE INDEX article_flag_article_id ON article_flag (article_id);
+CREATE INDEX article_flag_article_id_article_key ON article_flag (article_id, article_key);
+CREATE INDEX article_flag_article_id_create_by ON article_flag (article_id, create_by);
 CREATE INDEX article_flag_create_by ON article_flag (create_by);
 -- ----------------------------------------------------------
 --  create table article
@@ -649,6 +658,21 @@ CREATE TABLE article_attachment (
     PRIMARY KEY(id)
 );
 CREATE INDEX article_attachment_article_id ON article_attachment (article_id);
+-- ----------------------------------------------------------
+--  create table time_accounting
+-- ----------------------------------------------------------
+CREATE TABLE time_accounting (
+    id serial NOT NULL,
+    ticket_id INTEGER NOT NULL,
+    article_id INTEGER NULL,
+    time_unit DECIMAL (10,2) NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+CREATE INDEX time_accounting_ticket_id ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 --  create table standard_response
 -- ----------------------------------------------------------
@@ -759,34 +783,6 @@ CREATE TABLE queue_auto_response (
     PRIMARY KEY(id)
 );
 -- ----------------------------------------------------------
---  create table time_accounting
--- ----------------------------------------------------------
-CREATE TABLE time_accounting (
-    id serial NOT NULL,
-    ticket_id INTEGER NOT NULL,
-    article_id INTEGER NULL,
-    time_unit DECIMAL (10,2) NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
-);
-CREATE INDEX time_accounting_ticket_id ON time_accounting (ticket_id);
--- ----------------------------------------------------------
---  create table ticket_watcher
--- ----------------------------------------------------------
-CREATE TABLE ticket_watcher (
-    ticket_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL
-);
-CREATE INDEX ticket_watcher_ticket_id ON ticket_watcher (ticket_id);
-CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
--- ----------------------------------------------------------
 --  create table service
 -- ----------------------------------------------------------
 CREATE TABLE service (
@@ -869,28 +865,6 @@ CREATE TABLE sessions (
     PRIMARY KEY(session_id)
 );
 -- ----------------------------------------------------------
---  create table ticket_index
--- ----------------------------------------------------------
-CREATE TABLE ticket_index (
-    ticket_id INTEGER NOT NULL,
-    queue_id INTEGER NOT NULL,
-    queue VARCHAR (70) NOT NULL,
-    group_id INTEGER NOT NULL,
-    s_lock VARCHAR (70) NOT NULL,
-    s_state VARCHAR (70) NOT NULL,
-    create_time_unix INTEGER NOT NULL
-);
-CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
-CREATE INDEX ticket_index_queue_id ON ticket_index (queue_id);
-CREATE INDEX ticket_index_ticket_id ON ticket_index (ticket_id);
--- ----------------------------------------------------------
---  create table ticket_lock_index
--- ----------------------------------------------------------
-CREATE TABLE ticket_lock_index (
-    ticket_id INTEGER NOT NULL
-);
-CREATE INDEX ticket_lock_index_ticket_id ON ticket_lock_index (ticket_id);
--- ----------------------------------------------------------
 --  create table customer_user
 -- ----------------------------------------------------------
 CREATE TABLE customer_user (
@@ -947,15 +921,6 @@ CREATE TABLE customer_company (
     PRIMARY KEY(customer_id),
     CONSTRAINT customer_company_name UNIQUE (name)
 );
--- ----------------------------------------------------------
---  create table ticket_loop_protection
--- ----------------------------------------------------------
-CREATE TABLE ticket_loop_protection (
-    sent_to VARCHAR (250) NOT NULL,
-    sent_date VARCHAR (150) NOT NULL
-);
-CREATE INDEX ticket_loop_protection_sent_date ON ticket_loop_protection (sent_date);
-CREATE INDEX ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);
 -- ----------------------------------------------------------
 --  create table mail_account
 -- ----------------------------------------------------------
@@ -1076,6 +1041,57 @@ CREATE INDEX notification_event_item_event_key ON notification_event_item (event
 CREATE INDEX notification_event_item_event_value ON notification_event_item (event_value);
 CREATE INDEX notification_event_item_notification_id ON notification_event_item (notification_id);
 -- ----------------------------------------------------------
+--  create table link_type
+-- ----------------------------------------------------------
+CREATE TABLE link_type (
+    id serial NOT NULL,
+    name VARCHAR (50) NOT NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT link_type_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table link_state
+-- ----------------------------------------------------------
+CREATE TABLE link_state (
+    id serial NOT NULL,
+    name VARCHAR (50) NOT NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT link_state_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table link_object
+-- ----------------------------------------------------------
+CREATE TABLE link_object (
+    id serial NOT NULL,
+    name VARCHAR (100) NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT link_object_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table link_relation
+-- ----------------------------------------------------------
+CREATE TABLE link_relation (
+    source_object_id INTEGER NOT NULL,
+    source_key VARCHAR (50) NOT NULL,
+    target_object_id INTEGER NOT NULL,
+    target_key VARCHAR (50) NOT NULL,
+    type_id INTEGER NOT NULL,
+    state_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    CONSTRAINT link_relation_view UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
+);
+-- ----------------------------------------------------------
 --  create table xml_storage
 -- ----------------------------------------------------------
 CREATE TABLE xml_storage (
@@ -1107,6 +1123,7 @@ CREATE TABLE virtual_fs_preferences (
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (350) NULL
 );
+CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);
 CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);
 -- ----------------------------------------------------------
 --  create table virtual_fs_db

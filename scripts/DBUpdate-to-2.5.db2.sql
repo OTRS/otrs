@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2009-12-09 12:36:19
+--  driver: db2, generated: 2010-02-16 01:29:47
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -32,6 +32,69 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
     ('ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
+--  create table ticket_flag
+-- ----------------------------------------------------------
+CREATE TABLE ticket_flag (
+    ticket_id BIGINT NOT NULL,
+    ticket_key VARCHAR (50) NOT NULL,
+    ticket_value VARCHAR (50),
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL
+);
+
+CREATE INDEX ticket_flag_ticket_id ON ticket_flag (ticket_id);
+
+CREATE INDEX ticket_flag_ticket_id_create_by ON ticket_flag (ticket_id, create_by);
+
+CREATE INDEX ticket_flag_ticket_id_ticket_key ON ticket_flag (ticket_id, ticket_key);
+
+SET INTEGRITY FOR article_flag OFF;
+
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag ADD COLUMN article_key VARCHAR (50) GENERATED ALWAYS AS (article_flag);
+
+SET INTEGRITY FOR article_flag IMMEDIATE CHECKED FORCE GENERATED;
+
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag ALTER article_key DROP EXPRESSION;
+
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag DROP COLUMN article_flag;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE article_flag');
+
+ALTER TABLE article_flag ALTER COLUMN article_key SET DEFAULT '';
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE article_flag');
+
+ALTER TABLE article_flag ALTER COLUMN article_key DROP DEFAULT;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE article_flag');
+
+UPDATE article_flag SET article_key = '' WHERE article_key IS NULL;
+
+ALTER TABLE article_flag ALTER COLUMN article_key SET NOT NULL;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE article_flag');
+
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag ADD article_value VARCHAR (50);
+
+CREATE INDEX article_flag_article_id_create15 ON article_flag (article_id, create_by);
+
+CREATE INDEX article_flag_article_id_articlf0 ON article_flag (article_id, article_key);
+
+DROP INDEX article_flag_create_by;
+
+-- ----------------------------------------------------------
 --  create table virtual_fs
 -- ----------------------------------------------------------
 CREATE TABLE virtual_fs (
@@ -55,6 +118,8 @@ CREATE TABLE virtual_fs_preferences (
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (350)
 );
+
+CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);
 
 CREATE INDEX virtual_fs_preferences_virtualf6 ON virtual_fs_preferences (virtual_fs_id);
 
@@ -607,5 +672,9 @@ CALL SYSPROC.ADMIN_CMD ('REORG TABLE article_attachment');
 ALTER TABLE article_attachment ALTER COLUMN content_type DROP DEFAULT;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE article_attachment');
+
+ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+
+ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virtual_fs_id_id FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);

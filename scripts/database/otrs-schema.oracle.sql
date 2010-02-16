@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-12-24 11:35:56
+--  driver: oracle, generated: 2010-02-16 01:31:37
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -31,98 +31,6 @@ end;
 --;
 CREATE INDEX FK_valid_change_by ON valid (change_by);
 CREATE INDEX FK_valid_create_by ON valid (create_by);
--- ----------------------------------------------------------
---  create table ticket_priority
--- ----------------------------------------------------------
-CREATE TABLE ticket_priority (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_priority_name UNIQUE (name)
-);
-ALTER TABLE ticket_priority ADD CONSTRAINT PK_ticket_priority PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_priority;
-CREATE SEQUENCE SE_ticket_priority;
-CREATE OR REPLACE TRIGGER SE_ticket_priority_t
-before insert on ticket_priority
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_ticket_priority.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-CREATE INDEX FK_ticket_priority_change_by ON ticket_priority (change_by);
-CREATE INDEX FK_ticket_priority_create_by ON ticket_priority (create_by);
--- ----------------------------------------------------------
---  create table ticket_type
--- ----------------------------------------------------------
-CREATE TABLE ticket_type (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_type_name UNIQUE (name)
-);
-ALTER TABLE ticket_type ADD CONSTRAINT PK_ticket_type PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_type;
-CREATE SEQUENCE SE_ticket_type;
-CREATE OR REPLACE TRIGGER SE_ticket_type_t
-before insert on ticket_type
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_ticket_type.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-CREATE INDEX FK_ticket_type_change_by ON ticket_type (change_by);
-CREATE INDEX FK_ticket_type_create_by ON ticket_type (create_by);
-CREATE INDEX FK_ticket_type_valid_id ON ticket_type (valid_id);
--- ----------------------------------------------------------
---  create table ticket_lock_type
--- ----------------------------------------------------------
-CREATE TABLE ticket_lock_type (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_lock_type_name UNIQUE (name)
-);
-ALTER TABLE ticket_lock_type ADD CONSTRAINT PK_ticket_lock_type PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_lock_type;
-CREATE SEQUENCE SE_ticket_lock_type;
-CREATE OR REPLACE TRIGGER SE_ticket_lock_type_t
-before insert on ticket_lock_type
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_ticket_lock_type.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-CREATE INDEX FK_ticket_lock_type_change_by ON ticket_lock_type (change_by);
-CREATE INDEX FK_ticket_lock_type_create_by ON ticket_lock_type (create_by);
-CREATE INDEX FK_ticket_lock_type_valid_id ON ticket_lock_type (valid_id);
 -- ----------------------------------------------------------
 --  create table users
 -- ----------------------------------------------------------
@@ -306,70 +214,6 @@ CREATE TABLE personal_queues (
 );
 CREATE INDEX personal_queues_queue_id ON personal_queues (queue_id);
 CREATE INDEX personal_queues_user_id ON personal_queues (user_id);
--- ----------------------------------------------------------
---  create table ticket_state
--- ----------------------------------------------------------
-CREATE TABLE ticket_state (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    comments VARCHAR2 (250) NULL,
-    type_id NUMBER (5, 0) NOT NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_state_name UNIQUE (name)
-);
-ALTER TABLE ticket_state ADD CONSTRAINT PK_ticket_state PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_state;
-CREATE SEQUENCE SE_ticket_state;
-CREATE OR REPLACE TRIGGER SE_ticket_state_t
-before insert on ticket_state
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_ticket_state.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-CREATE INDEX FK_ticket_state_change_by ON ticket_state (change_by);
-CREATE INDEX FK_ticket_state_create_by ON ticket_state (create_by);
-CREATE INDEX FK_ticket_state_type_id ON ticket_state (type_id);
-CREATE INDEX FK_ticket_state_valid_id ON ticket_state (valid_id);
--- ----------------------------------------------------------
---  create table ticket_state_type
--- ----------------------------------------------------------
-CREATE TABLE ticket_state_type (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    comments VARCHAR2 (250) NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_state_type_name UNIQUE (name)
-);
-ALTER TABLE ticket_state_type ADD CONSTRAINT PK_ticket_state_type PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_state_type;
-CREATE SEQUENCE SE_ticket_state_type;
-CREATE OR REPLACE TRIGGER SE_ticket_state_type_t
-before insert on ticket_state_type
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_ticket_state_type.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-CREATE INDEX FK_ticket_state_type_change_by ON ticket_state_type (change_by);
-CREATE INDEX FK_ticket_state_type_create_by ON ticket_state_type (create_by);
 -- ----------------------------------------------------------
 --  create table salutation
 -- ----------------------------------------------------------
@@ -567,6 +411,162 @@ CREATE TABLE queue_preferences (
 );
 CREATE INDEX queue_preferences_queue_id ON queue_preferences (queue_id);
 -- ----------------------------------------------------------
+--  create table ticket_priority
+-- ----------------------------------------------------------
+CREATE TABLE ticket_priority (
+    id NUMBER (5, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT ticket_priority_name UNIQUE (name)
+);
+ALTER TABLE ticket_priority ADD CONSTRAINT PK_ticket_priority PRIMARY KEY (id);
+DROP SEQUENCE SE_ticket_priority;
+CREATE SEQUENCE SE_ticket_priority;
+CREATE OR REPLACE TRIGGER SE_ticket_priority_t
+before insert on ticket_priority
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_ticket_priority.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_ticket_priority_change_by ON ticket_priority (change_by);
+CREATE INDEX FK_ticket_priority_create_by ON ticket_priority (create_by);
+-- ----------------------------------------------------------
+--  create table ticket_type
+-- ----------------------------------------------------------
+CREATE TABLE ticket_type (
+    id NUMBER (5, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT ticket_type_name UNIQUE (name)
+);
+ALTER TABLE ticket_type ADD CONSTRAINT PK_ticket_type PRIMARY KEY (id);
+DROP SEQUENCE SE_ticket_type;
+CREATE SEQUENCE SE_ticket_type;
+CREATE OR REPLACE TRIGGER SE_ticket_type_t
+before insert on ticket_type
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_ticket_type.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_ticket_type_change_by ON ticket_type (change_by);
+CREATE INDEX FK_ticket_type_create_by ON ticket_type (create_by);
+CREATE INDEX FK_ticket_type_valid_id ON ticket_type (valid_id);
+-- ----------------------------------------------------------
+--  create table ticket_lock_type
+-- ----------------------------------------------------------
+CREATE TABLE ticket_lock_type (
+    id NUMBER (5, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT ticket_lock_type_name UNIQUE (name)
+);
+ALTER TABLE ticket_lock_type ADD CONSTRAINT PK_ticket_lock_type PRIMARY KEY (id);
+DROP SEQUENCE SE_ticket_lock_type;
+CREATE SEQUENCE SE_ticket_lock_type;
+CREATE OR REPLACE TRIGGER SE_ticket_lock_type_t
+before insert on ticket_lock_type
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_ticket_lock_type.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_ticket_lock_type_change_by ON ticket_lock_type (change_by);
+CREATE INDEX FK_ticket_lock_type_create_by ON ticket_lock_type (create_by);
+CREATE INDEX FK_ticket_lock_type_valid_id ON ticket_lock_type (valid_id);
+-- ----------------------------------------------------------
+--  create table ticket_state
+-- ----------------------------------------------------------
+CREATE TABLE ticket_state (
+    id NUMBER (5, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    comments VARCHAR2 (250) NULL,
+    type_id NUMBER (5, 0) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT ticket_state_name UNIQUE (name)
+);
+ALTER TABLE ticket_state ADD CONSTRAINT PK_ticket_state PRIMARY KEY (id);
+DROP SEQUENCE SE_ticket_state;
+CREATE SEQUENCE SE_ticket_state;
+CREATE OR REPLACE TRIGGER SE_ticket_state_t
+before insert on ticket_state
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_ticket_state.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_ticket_state_change_by ON ticket_state (change_by);
+CREATE INDEX FK_ticket_state_create_by ON ticket_state (create_by);
+CREATE INDEX FK_ticket_state_type_id ON ticket_state (type_id);
+CREATE INDEX FK_ticket_state_valid_id ON ticket_state (valid_id);
+-- ----------------------------------------------------------
+--  create table ticket_state_type
+-- ----------------------------------------------------------
+CREATE TABLE ticket_state_type (
+    id NUMBER (5, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    comments VARCHAR2 (250) NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT ticket_state_type_name UNIQUE (name)
+);
+ALTER TABLE ticket_state_type ADD CONSTRAINT PK_ticket_state_type PRIMARY KEY (id);
+DROP SEQUENCE SE_ticket_state_type;
+CREATE SEQUENCE SE_ticket_state_type;
+CREATE OR REPLACE TRIGGER SE_ticket_state_type_t
+before insert on ticket_state_type
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_ticket_state_type.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_ticket_state_type_change_by ON ticket_state_type (change_by);
+CREATE INDEX FK_ticket_state_type_create_by ON ticket_state_type (create_by);
+-- ----------------------------------------------------------
 --  create table ticket
 -- ----------------------------------------------------------
 CREATE TABLE ticket (
@@ -685,109 +685,19 @@ CREATE INDEX ticket_type_id ON ticket (type_id);
 CREATE INDEX ticket_until_time ON ticket (until_time);
 CREATE INDEX ticket_user_id ON ticket (user_id);
 -- ----------------------------------------------------------
---  create table link_type
+--  create table ticket_flag
 -- ----------------------------------------------------------
-CREATE TABLE link_type (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (50) NOT NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
+CREATE TABLE ticket_flag (
+    ticket_id NUMBER (20, 0) NOT NULL,
+    ticket_key VARCHAR2 (50) NOT NULL,
+    ticket_value VARCHAR2 (50) NULL,
     create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT link_type_name UNIQUE (name)
+    create_by NUMBER (12, 0) NOT NULL
 );
-ALTER TABLE link_type ADD CONSTRAINT PK_link_type PRIMARY KEY (id);
-DROP SEQUENCE SE_link_type;
-CREATE SEQUENCE SE_link_type;
-CREATE OR REPLACE TRIGGER SE_link_type_t
-before insert on link_type
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_link_type.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-CREATE INDEX FK_link_type_change_by ON link_type (change_by);
-CREATE INDEX FK_link_type_create_by ON link_type (create_by);
-CREATE INDEX FK_link_type_valid_id ON link_type (valid_id);
--- ----------------------------------------------------------
---  create table link_state
--- ----------------------------------------------------------
-CREATE TABLE link_state (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (50) NOT NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT link_state_name UNIQUE (name)
-);
-ALTER TABLE link_state ADD CONSTRAINT PK_link_state PRIMARY KEY (id);
-DROP SEQUENCE SE_link_state;
-CREATE SEQUENCE SE_link_state;
-CREATE OR REPLACE TRIGGER SE_link_state_t
-before insert on link_state
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_link_state.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-CREATE INDEX FK_link_state_change_by ON link_state (change_by);
-CREATE INDEX FK_link_state_create_by ON link_state (create_by);
-CREATE INDEX FK_link_state_valid_id ON link_state (valid_id);
--- ----------------------------------------------------------
---  create table link_object
--- ----------------------------------------------------------
-CREATE TABLE link_object (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
-    CONSTRAINT link_object_name UNIQUE (name)
-);
-ALTER TABLE link_object ADD CONSTRAINT PK_link_object PRIMARY KEY (id);
-DROP SEQUENCE SE_link_object;
-CREATE SEQUENCE SE_link_object;
-CREATE OR REPLACE TRIGGER SE_link_object_t
-before insert on link_object
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_link_object.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
--- ----------------------------------------------------------
---  create table link_relation
--- ----------------------------------------------------------
-CREATE TABLE link_relation (
-    source_object_id NUMBER (5, 0) NOT NULL,
-    source_key VARCHAR2 (50) NOT NULL,
-    target_object_id NUMBER (5, 0) NOT NULL,
-    target_key VARCHAR2 (50) NOT NULL,
-    type_id NUMBER (5, 0) NOT NULL,
-    state_id NUMBER (5, 0) NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT link_relation_view UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
-);
-CREATE INDEX FK_link_relation_create_by ON link_relation (create_by);
-CREATE INDEX FK_link_relation_source_obje3c ON link_relation (source_object_id);
-CREATE INDEX FK_link_relation_state_id ON link_relation (state_id);
-CREATE INDEX FK_link_relation_target_obje99 ON link_relation (target_object_id);
-CREATE INDEX FK_link_relation_type_id ON link_relation (type_id);
+CREATE INDEX FK_ticket_flag_create_by ON ticket_flag (create_by);
+CREATE INDEX ticket_flag_ticket_id ON ticket_flag (ticket_id);
+CREATE INDEX ticket_flag_ticket_id_create7d ON ticket_flag (ticket_id, create_by);
+CREATE INDEX ticket_flag_ticket_id_ticketca ON ticket_flag (ticket_id, ticket_key);
 -- ----------------------------------------------------------
 --  create table ticket_history
 -- ----------------------------------------------------------
@@ -868,6 +778,52 @@ CREATE INDEX FK_ticket_history_type_chang16 ON ticket_history_type (change_by);
 CREATE INDEX FK_ticket_history_type_creat39 ON ticket_history_type (create_by);
 CREATE INDEX FK_ticket_history_type_validad ON ticket_history_type (valid_id);
 -- ----------------------------------------------------------
+--  create table ticket_watcher
+-- ----------------------------------------------------------
+CREATE TABLE ticket_watcher (
+    ticket_id NUMBER (20, 0) NOT NULL,
+    user_id NUMBER (12, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
+);
+CREATE INDEX FK_ticket_watcher_change_by ON ticket_watcher (change_by);
+CREATE INDEX FK_ticket_watcher_create_by ON ticket_watcher (create_by);
+CREATE INDEX ticket_watcher_ticket_id ON ticket_watcher (ticket_id);
+CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
+-- ----------------------------------------------------------
+--  create table ticket_index
+-- ----------------------------------------------------------
+CREATE TABLE ticket_index (
+    ticket_id NUMBER (20, 0) NOT NULL,
+    queue_id NUMBER (12, 0) NOT NULL,
+    queue VARCHAR2 (70) NOT NULL,
+    group_id NUMBER (12, 0) NOT NULL,
+    s_lock VARCHAR2 (70) NOT NULL,
+    s_state VARCHAR2 (70) NOT NULL,
+    create_time_unix NUMBER (20, 0) NOT NULL
+);
+CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
+CREATE INDEX ticket_index_queue_id ON ticket_index (queue_id);
+CREATE INDEX ticket_index_ticket_id ON ticket_index (ticket_id);
+-- ----------------------------------------------------------
+--  create table ticket_lock_index
+-- ----------------------------------------------------------
+CREATE TABLE ticket_lock_index (
+    ticket_id NUMBER (20, 0) NOT NULL
+);
+CREATE INDEX ticket_lock_index_ticket_id ON ticket_lock_index (ticket_id);
+-- ----------------------------------------------------------
+--  create table ticket_loop_protection
+-- ----------------------------------------------------------
+CREATE TABLE ticket_loop_protection (
+    sent_to VARCHAR2 (250) NOT NULL,
+    sent_date VARCHAR2 (150) NOT NULL
+);
+CREATE INDEX ticket_loop_protection_sent_37 ON ticket_loop_protection (sent_date);
+CREATE INDEX ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);
+-- ----------------------------------------------------------
 --  create table article_type
 -- ----------------------------------------------------------
 CREATE TABLE article_type (
@@ -937,10 +893,13 @@ CREATE INDEX FK_article_sender_type_validfb ON article_sender_type (valid_id);
 CREATE TABLE article_flag (
     article_id NUMBER (20, 0) NOT NULL,
     article_flag VARCHAR2 (50) NOT NULL,
+    article_value VARCHAR2 (50) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL
 );
 CREATE INDEX article_flag_article_id ON article_flag (article_id);
+CREATE INDEX article_flag_article_id_artif0 ON article_flag (article_id, article_key);
+CREATE INDEX article_flag_article_id_crea15 ON article_flag (article_id, create_by);
 CREATE INDEX article_flag_create_by ON article_flag (create_by);
 -- ----------------------------------------------------------
 --  create table article
@@ -1088,6 +1047,38 @@ end;
 CREATE INDEX FK_article_attachment_change1e ON article_attachment (change_by);
 CREATE INDEX FK_article_attachment_create01 ON article_attachment (create_by);
 CREATE INDEX article_attachment_article_id ON article_attachment (article_id);
+-- ----------------------------------------------------------
+--  create table time_accounting
+-- ----------------------------------------------------------
+CREATE TABLE time_accounting (
+    id NUMBER (20, 0) NOT NULL,
+    ticket_id NUMBER (20, 0) NOT NULL,
+    article_id NUMBER (20, 0) NULL,
+    time_unit DECIMAL (10,2) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
+);
+ALTER TABLE time_accounting ADD CONSTRAINT PK_time_accounting PRIMARY KEY (id);
+DROP SEQUENCE SE_time_accounting;
+CREATE SEQUENCE SE_time_accounting;
+CREATE OR REPLACE TRIGGER SE_time_accounting_t
+before insert on time_accounting
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_time_accounting.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_time_accounting_article_id ON time_accounting (article_id);
+CREATE INDEX FK_time_accounting_change_by ON time_accounting (change_by);
+CREATE INDEX FK_time_accounting_create_by ON time_accounting (create_by);
+CREATE INDEX time_accounting_ticket_id ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 --  create table standard_response
 -- ----------------------------------------------------------
@@ -1308,53 +1299,6 @@ CREATE INDEX FK_queue_auto_response_changc3 ON queue_auto_response (change_by);
 CREATE INDEX FK_queue_auto_response_creat75 ON queue_auto_response (create_by);
 CREATE INDEX FK_queue_auto_response_queue7a ON queue_auto_response (queue_id);
 -- ----------------------------------------------------------
---  create table time_accounting
--- ----------------------------------------------------------
-CREATE TABLE time_accounting (
-    id NUMBER (20, 0) NOT NULL,
-    ticket_id NUMBER (20, 0) NOT NULL,
-    article_id NUMBER (20, 0) NULL,
-    time_unit DECIMAL (10,2) NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL
-);
-ALTER TABLE time_accounting ADD CONSTRAINT PK_time_accounting PRIMARY KEY (id);
-DROP SEQUENCE SE_time_accounting;
-CREATE SEQUENCE SE_time_accounting;
-CREATE OR REPLACE TRIGGER SE_time_accounting_t
-before insert on time_accounting
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_time_accounting.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-CREATE INDEX FK_time_accounting_article_id ON time_accounting (article_id);
-CREATE INDEX FK_time_accounting_change_by ON time_accounting (change_by);
-CREATE INDEX FK_time_accounting_create_by ON time_accounting (create_by);
-CREATE INDEX time_accounting_ticket_id ON time_accounting (ticket_id);
--- ----------------------------------------------------------
---  create table ticket_watcher
--- ----------------------------------------------------------
-CREATE TABLE ticket_watcher (
-    ticket_id NUMBER (20, 0) NOT NULL,
-    user_id NUMBER (12, 0) NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL
-);
-CREATE INDEX FK_ticket_watcher_change_by ON ticket_watcher (change_by);
-CREATE INDEX FK_ticket_watcher_create_by ON ticket_watcher (create_by);
-CREATE INDEX ticket_watcher_ticket_id ON ticket_watcher (ticket_id);
-CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
--- ----------------------------------------------------------
 --  create table service
 -- ----------------------------------------------------------
 CREATE TABLE service (
@@ -1472,28 +1416,6 @@ CREATE TABLE sessions (
 );
 ALTER TABLE sessions ADD CONSTRAINT PK_sessions PRIMARY KEY (session_id);
 -- ----------------------------------------------------------
---  create table ticket_index
--- ----------------------------------------------------------
-CREATE TABLE ticket_index (
-    ticket_id NUMBER (20, 0) NOT NULL,
-    queue_id NUMBER (12, 0) NOT NULL,
-    queue VARCHAR2 (70) NOT NULL,
-    group_id NUMBER (12, 0) NOT NULL,
-    s_lock VARCHAR2 (70) NOT NULL,
-    s_state VARCHAR2 (70) NOT NULL,
-    create_time_unix NUMBER (20, 0) NOT NULL
-);
-CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
-CREATE INDEX ticket_index_queue_id ON ticket_index (queue_id);
-CREATE INDEX ticket_index_ticket_id ON ticket_index (ticket_id);
--- ----------------------------------------------------------
---  create table ticket_lock_index
--- ----------------------------------------------------------
-CREATE TABLE ticket_lock_index (
-    ticket_id NUMBER (20, 0) NOT NULL
-);
-CREATE INDEX ticket_lock_index_ticket_id ON ticket_lock_index (ticket_id);
--- ----------------------------------------------------------
 --  create table customer_user
 -- ----------------------------------------------------------
 CREATE TABLE customer_user (
@@ -1567,15 +1489,6 @@ CREATE TABLE customer_company (
     CONSTRAINT customer_company_name UNIQUE (name)
 );
 ALTER TABLE customer_company ADD CONSTRAINT PK_customer_company PRIMARY KEY (customer_id);
--- ----------------------------------------------------------
---  create table ticket_loop_protection
--- ----------------------------------------------------------
-CREATE TABLE ticket_loop_protection (
-    sent_to VARCHAR2 (250) NOT NULL,
-    sent_date VARCHAR2 (150) NOT NULL
-);
-CREATE INDEX ticket_loop_protection_sent_37 ON ticket_loop_protection (sent_date);
-CREATE INDEX ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);
 -- ----------------------------------------------------------
 --  create table mail_account
 -- ----------------------------------------------------------
@@ -1746,6 +1659,110 @@ CREATE INDEX notification_event_item_even64 ON notification_event_item (event_ke
 CREATE INDEX notification_event_item_evene4 ON notification_event_item (event_value);
 CREATE INDEX notification_event_item_notidc ON notification_event_item (notification_id);
 -- ----------------------------------------------------------
+--  create table link_type
+-- ----------------------------------------------------------
+CREATE TABLE link_type (
+    id NUMBER (5, 0) NOT NULL,
+    name VARCHAR2 (50) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT link_type_name UNIQUE (name)
+);
+ALTER TABLE link_type ADD CONSTRAINT PK_link_type PRIMARY KEY (id);
+DROP SEQUENCE SE_link_type;
+CREATE SEQUENCE SE_link_type;
+CREATE OR REPLACE TRIGGER SE_link_type_t
+before insert on link_type
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_link_type.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_link_type_change_by ON link_type (change_by);
+CREATE INDEX FK_link_type_create_by ON link_type (create_by);
+CREATE INDEX FK_link_type_valid_id ON link_type (valid_id);
+-- ----------------------------------------------------------
+--  create table link_state
+-- ----------------------------------------------------------
+CREATE TABLE link_state (
+    id NUMBER (5, 0) NOT NULL,
+    name VARCHAR2 (50) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT link_state_name UNIQUE (name)
+);
+ALTER TABLE link_state ADD CONSTRAINT PK_link_state PRIMARY KEY (id);
+DROP SEQUENCE SE_link_state;
+CREATE SEQUENCE SE_link_state;
+CREATE OR REPLACE TRIGGER SE_link_state_t
+before insert on link_state
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_link_state.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_link_state_change_by ON link_state (change_by);
+CREATE INDEX FK_link_state_create_by ON link_state (create_by);
+CREATE INDEX FK_link_state_valid_id ON link_state (valid_id);
+-- ----------------------------------------------------------
+--  create table link_object
+-- ----------------------------------------------------------
+CREATE TABLE link_object (
+    id NUMBER (5, 0) NOT NULL,
+    name VARCHAR2 (100) NOT NULL,
+    CONSTRAINT link_object_name UNIQUE (name)
+);
+ALTER TABLE link_object ADD CONSTRAINT PK_link_object PRIMARY KEY (id);
+DROP SEQUENCE SE_link_object;
+CREATE SEQUENCE SE_link_object;
+CREATE OR REPLACE TRIGGER SE_link_object_t
+before insert on link_object
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_link_object.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+-- ----------------------------------------------------------
+--  create table link_relation
+-- ----------------------------------------------------------
+CREATE TABLE link_relation (
+    source_object_id NUMBER (5, 0) NOT NULL,
+    source_key VARCHAR2 (50) NOT NULL,
+    target_object_id NUMBER (5, 0) NOT NULL,
+    target_key VARCHAR2 (50) NOT NULL,
+    type_id NUMBER (5, 0) NOT NULL,
+    state_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT link_relation_view UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
+);
+CREATE INDEX FK_link_relation_create_by ON link_relation (create_by);
+CREATE INDEX FK_link_relation_source_obje3c ON link_relation (source_object_id);
+CREATE INDEX FK_link_relation_state_id ON link_relation (state_id);
+CREATE INDEX FK_link_relation_target_obje99 ON link_relation (target_object_id);
+CREATE INDEX FK_link_relation_type_id ON link_relation (type_id);
+-- ----------------------------------------------------------
 --  create table xml_storage
 -- ----------------------------------------------------------
 CREATE TABLE xml_storage (
@@ -1791,6 +1808,7 @@ CREATE TABLE virtual_fs_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (350) NULL
 );
+CREATE INDEX virtual_fs_preferences_key_v7c ON virtual_fs_preferences (preferences_key, preferences_value);
 CREATE INDEX virtual_fs_preferences_virtuf6 ON virtual_fs_preferences (virtual_fs_id);
 -- ----------------------------------------------------------
 --  create table virtual_fs_db

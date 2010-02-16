@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-12-09 12:36:20
+--  driver: mssql, generated: 2010-02-16 01:29:48
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -22,6 +22,35 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
     VALUES
     ('ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
+--  create table ticket_flag
+-- ----------------------------------------------------------
+CREATE TABLE ticket_flag (
+    ticket_id BIGINT NOT NULL,
+    ticket_key VARCHAR (50) NOT NULL,
+    ticket_value VARCHAR (50) NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL
+);
+CREATE INDEX ticket_flag_ticket_id ON ticket_flag (ticket_id);
+CREATE INDEX ticket_flag_ticket_id_create_by ON ticket_flag (ticket_id, create_by);
+CREATE INDEX ticket_flag_ticket_id_ticket_key ON ticket_flag (ticket_id, ticket_key);
+GO
+EXECUTE sp_rename N'article_flag.article_flag', N'article_key', 'COLUMN';
+GO
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_article_flag_article_key' )
+ALTER TABLE article_flag DROP CONSTRAINT DF_article_flag_article_key;
+GO
+UPDATE article_flag SET article_key = '' WHERE article_key IS NULL;
+GO
+ALTER TABLE article_flag ALTER COLUMN article_key VARCHAR (50) NOT NULL;
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag ADD article_value VARCHAR (50) NULL;
+CREATE INDEX article_flag_article_id_create_by ON article_flag (article_id, create_by);
+CREATE INDEX article_flag_article_id_article_key ON article_flag (article_id, article_key);
+DROP INDEX article_flag.article_flag_create_by;
+-- ----------------------------------------------------------
 --  create table virtual_fs
 -- ----------------------------------------------------------
 CREATE TABLE virtual_fs (
@@ -42,6 +71,7 @@ CREATE TABLE virtual_fs_preferences (
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (350) NULL
 );
+CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);
 CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);
 -- ----------------------------------------------------------
 --  create table virtual_fs_db
@@ -293,4 +323,6 @@ ALTER TABLE package_repository ALTER COLUMN name VARCHAR (200) NOT NULL;
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_article_attachment_content_type' )
 ALTER TABLE article_attachment DROP CONSTRAINT DF_article_attachment_content_type;
+ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virtual_fs_id_id FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);

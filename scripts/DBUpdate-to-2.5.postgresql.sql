@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2009-12-09 12:36:20
+--  driver: postgresql, generated: 2010-02-16 01:29:48
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -18,6 +18,37 @@ CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
 INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  create table ticket_flag
+-- ----------------------------------------------------------
+CREATE TABLE ticket_flag (
+    ticket_id INTEGER NOT NULL,
+    ticket_key VARCHAR (50) NOT NULL,
+    ticket_value VARCHAR (50) NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL
+);
+CREATE INDEX ticket_flag_ticket_id ON ticket_flag (ticket_id);
+CREATE INDEX ticket_flag_ticket_id_create_by ON ticket_flag (ticket_id, create_by);
+CREATE INDEX ticket_flag_ticket_id_ticket_key ON ticket_flag (ticket_id, ticket_key);
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag RENAME article_flag TO article_key;
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag ALTER article_key TYPE VARCHAR (50);
+ALTER TABLE article_flag ALTER article_key DROP DEFAULT;
+UPDATE article_flag SET article_key = '' WHERE article_key IS NULL;
+ALTER TABLE article_flag ALTER article_key SET NOT NULL;
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag ADD article_value VARCHAR (50) NULL;
+CREATE INDEX article_flag_article_id_create_by ON article_flag (article_id, create_by);
+CREATE INDEX article_flag_article_id_article_key ON article_flag (article_id, article_key);
+DROP INDEX article_flag_create_by;
 -- ----------------------------------------------------------
 --  create table virtual_fs
 -- ----------------------------------------------------------
@@ -39,6 +70,7 @@ CREATE TABLE virtual_fs_preferences (
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (350) NULL
 );
+CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);
 CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);
 -- ----------------------------------------------------------
 --  create table virtual_fs_db
@@ -322,4 +354,6 @@ ALTER TABLE package_repository ALTER name SET NOT NULL;
 -- ----------------------------------------------------------
 ALTER TABLE article_attachment ALTER content_type TYPE VARCHAR (450);
 ALTER TABLE article_attachment ALTER content_type DROP DEFAULT;
+ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virtual_fs_id_id FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);

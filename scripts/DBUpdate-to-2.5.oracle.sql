@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-12-09 12:36:20
+--  driver: oracle, generated: 2010-02-16 01:29:48
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -18,6 +18,32 @@ CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
 INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  create table ticket_flag
+-- ----------------------------------------------------------
+CREATE TABLE ticket_flag (
+    ticket_id NUMBER (20, 0) NOT NULL,
+    ticket_key VARCHAR2 (50) NOT NULL,
+    ticket_value VARCHAR2 (50) NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL
+);
+CREATE INDEX FK_ticket_flag_create_by ON ticket_flag (create_by);
+CREATE INDEX ticket_flag_ticket_id ON ticket_flag (ticket_id);
+CREATE INDEX ticket_flag_ticket_id_create7d ON ticket_flag (ticket_id, create_by);
+CREATE INDEX ticket_flag_ticket_id_ticketca ON ticket_flag (ticket_id, ticket_key);
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag RENAME COLUMN article_flag TO article_key;
+ALTER TABLE article_flag MODIFY article_key VARCHAR2 (50) DEFAULT NULL;
+-- ----------------------------------------------------------
+--  alter table article_flag
+-- ----------------------------------------------------------
+ALTER TABLE article_flag ADD article_value VARCHAR2 (50) NULL;
+CREATE INDEX article_flag_article_id_crea15 ON article_flag (article_id, create_by);
+CREATE INDEX article_flag_article_id_artif0 ON article_flag (article_id, article_key);
+DROP INDEX article_flag_create_by;
 -- ----------------------------------------------------------
 --  create table virtual_fs
 -- ----------------------------------------------------------
@@ -53,6 +79,7 @@ CREATE TABLE virtual_fs_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (350) NULL
 );
+CREATE INDEX virtual_fs_preferences_key_v7c ON virtual_fs_preferences (preferences_key, preferences_value);
 CREATE INDEX virtual_fs_preferences_virtuf6 ON virtual_fs_preferences (virtual_fs_id);
 -- ----------------------------------------------------------
 --  create table virtual_fs_db
@@ -133,4 +160,6 @@ ALTER TABLE notification_event ADD comments VARCHAR2 (250) NULL;
 ALTER TABLE package_repository MODIFY name VARCHAR2 (200) DEFAULT NULL;
 ALTER TABLE article_attachment MODIFY content_type VARCHAR2 (450) DEFAULT NULL;
 SET DEFINE OFF;
+ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_vib1 FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);

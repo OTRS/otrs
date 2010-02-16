@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2009-12-24 11:35:55
+#  driver: mysql, generated: 2010-02-16 01:31:36
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -13,48 +13,6 @@ CREATE TABLE valid (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE INDEX valid_name (name)
-);
-# ----------------------------------------------------------
-#  create table ticket_priority
-# ----------------------------------------------------------
-CREATE TABLE ticket_priority (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    valid_id SMALLINT NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX ticket_priority_name (name)
-);
-# ----------------------------------------------------------
-#  create table ticket_type
-# ----------------------------------------------------------
-CREATE TABLE ticket_type (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    valid_id SMALLINT NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX ticket_type_name (name)
-);
-# ----------------------------------------------------------
-#  create table ticket_lock_type
-# ----------------------------------------------------------
-CREATE TABLE ticket_lock_type (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    valid_id SMALLINT NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX ticket_lock_type_name (name)
 );
 # ----------------------------------------------------------
 #  create table users
@@ -181,36 +139,6 @@ CREATE TABLE personal_queues (
     INDEX personal_queues_user_id (user_id)
 );
 # ----------------------------------------------------------
-#  create table ticket_state
-# ----------------------------------------------------------
-CREATE TABLE ticket_state (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
-    type_id SMALLINT NOT NULL,
-    valid_id SMALLINT NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX ticket_state_name (name)
-);
-# ----------------------------------------------------------
-#  create table ticket_state_type
-# ----------------------------------------------------------
-CREATE TABLE ticket_state_type (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX ticket_state_type_name (name)
-);
-# ----------------------------------------------------------
 #  create table salutation
 # ----------------------------------------------------------
 CREATE TABLE salutation (
@@ -318,6 +246,78 @@ CREATE TABLE queue_preferences (
     INDEX queue_preferences_queue_id (queue_id)
 );
 # ----------------------------------------------------------
+#  create table ticket_priority
+# ----------------------------------------------------------
+CREATE TABLE ticket_priority (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX ticket_priority_name (name)
+);
+# ----------------------------------------------------------
+#  create table ticket_type
+# ----------------------------------------------------------
+CREATE TABLE ticket_type (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX ticket_type_name (name)
+);
+# ----------------------------------------------------------
+#  create table ticket_lock_type
+# ----------------------------------------------------------
+CREATE TABLE ticket_lock_type (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX ticket_lock_type_name (name)
+);
+# ----------------------------------------------------------
+#  create table ticket_state
+# ----------------------------------------------------------
+CREATE TABLE ticket_state (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    comments VARCHAR (250) NULL,
+    type_id SMALLINT NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX ticket_state_name (name)
+);
+# ----------------------------------------------------------
+#  create table ticket_state_type
+# ----------------------------------------------------------
+CREATE TABLE ticket_state_type (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    comments VARCHAR (250) NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX ticket_state_type_name (name)
+);
+# ----------------------------------------------------------
 #  create table ticket
 # ----------------------------------------------------------
 CREATE TABLE ticket (
@@ -417,55 +417,17 @@ CREATE TABLE ticket (
     INDEX ticket_user_id (user_id)
 );
 # ----------------------------------------------------------
-#  create table link_type
+#  create table ticket_flag
 # ----------------------------------------------------------
-CREATE TABLE link_type (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (50) NOT NULL,
-    valid_id SMALLINT NOT NULL,
+CREATE TABLE ticket_flag (
+    ticket_id BIGINT NOT NULL,
+    ticket_key VARCHAR (50) NOT NULL,
+    ticket_value VARCHAR (50) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX link_type_name (name)
-);
-# ----------------------------------------------------------
-#  create table link_state
-# ----------------------------------------------------------
-CREATE TABLE link_state (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (50) NOT NULL,
-    valid_id SMALLINT NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX link_state_name (name)
-);
-# ----------------------------------------------------------
-#  create table link_object
-# ----------------------------------------------------------
-CREATE TABLE link_object (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (100) NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX link_object_name (name)
-);
-# ----------------------------------------------------------
-#  create table link_relation
-# ----------------------------------------------------------
-CREATE TABLE link_relation (
-    source_object_id SMALLINT NOT NULL,
-    source_key VARCHAR (50) NOT NULL,
-    target_object_id SMALLINT NOT NULL,
-    target_key VARCHAR (50) NOT NULL,
-    type_id SMALLINT NOT NULL,
-    state_id SMALLINT NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    UNIQUE INDEX link_relation_view (source_object_id, source_key, target_object_id, target_key, type_id)
+    INDEX ticket_flag_ticket_id (ticket_id),
+    INDEX ticket_flag_ticket_id_create_by (ticket_id, create_by),
+    INDEX ticket_flag_ticket_id_ticket_key (ticket_id, ticket_key)
 );
 # ----------------------------------------------------------
 #  create table ticket_history
@@ -512,6 +474,50 @@ CREATE TABLE ticket_history_type (
     UNIQUE INDEX ticket_history_type_name (name)
 );
 # ----------------------------------------------------------
+#  create table ticket_watcher
+# ----------------------------------------------------------
+CREATE TABLE ticket_watcher (
+    ticket_id BIGINT NOT NULL,
+    user_id INTEGER NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    INDEX ticket_watcher_ticket_id (ticket_id),
+    INDEX ticket_watcher_user_id (user_id)
+);
+# ----------------------------------------------------------
+#  create table ticket_index
+# ----------------------------------------------------------
+CREATE TABLE ticket_index (
+    ticket_id BIGINT NOT NULL,
+    queue_id INTEGER NOT NULL,
+    queue VARCHAR (70) NOT NULL,
+    group_id INTEGER NOT NULL,
+    s_lock VARCHAR (70) NOT NULL,
+    s_state VARCHAR (70) NOT NULL,
+    create_time_unix BIGINT NOT NULL,
+    INDEX ticket_index_group_id (group_id),
+    INDEX ticket_index_queue_id (queue_id),
+    INDEX ticket_index_ticket_id (ticket_id)
+);
+# ----------------------------------------------------------
+#  create table ticket_lock_index
+# ----------------------------------------------------------
+CREATE TABLE ticket_lock_index (
+    ticket_id BIGINT NOT NULL,
+    INDEX ticket_lock_index_ticket_id (ticket_id)
+);
+# ----------------------------------------------------------
+#  create table ticket_loop_protection
+# ----------------------------------------------------------
+CREATE TABLE ticket_loop_protection (
+    sent_to VARCHAR (250) NOT NULL,
+    sent_date VARCHAR (150) NOT NULL,
+    INDEX ticket_loop_protection_sent_date (sent_date),
+    INDEX ticket_loop_protection_sent_to (sent_to)
+);
+# ----------------------------------------------------------
 #  create table article_type
 # ----------------------------------------------------------
 CREATE TABLE article_type (
@@ -547,9 +553,12 @@ CREATE TABLE article_sender_type (
 CREATE TABLE article_flag (
     article_id BIGINT NOT NULL,
     article_flag VARCHAR (50) NOT NULL,
+    article_value VARCHAR (50) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     INDEX article_flag_article_id (article_id),
+    INDEX article_flag_article_id_article_key (article_id, article_key),
+    INDEX article_flag_article_id_create_by (article_id, create_by),
     INDEX article_flag_create_by (create_by)
 );
 # ----------------------------------------------------------
@@ -648,6 +657,21 @@ CREATE TABLE article_attachment (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     INDEX article_attachment_article_id (article_id)
+);
+# ----------------------------------------------------------
+#  create table time_accounting
+# ----------------------------------------------------------
+CREATE TABLE time_accounting (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    ticket_id BIGINT NOT NULL,
+    article_id BIGINT NULL,
+    time_unit DECIMAL (10,2) NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    INDEX time_accounting_ticket_id (ticket_id)
 );
 # ----------------------------------------------------------
 #  create table standard_response
@@ -759,34 +783,6 @@ CREATE TABLE queue_auto_response (
     PRIMARY KEY(id)
 );
 # ----------------------------------------------------------
-#  create table time_accounting
-# ----------------------------------------------------------
-CREATE TABLE time_accounting (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    ticket_id BIGINT NOT NULL,
-    article_id BIGINT NULL,
-    time_unit DECIMAL (10,2) NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    INDEX time_accounting_ticket_id (ticket_id)
-);
-# ----------------------------------------------------------
-#  create table ticket_watcher
-# ----------------------------------------------------------
-CREATE TABLE ticket_watcher (
-    ticket_id BIGINT NOT NULL,
-    user_id INTEGER NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    INDEX ticket_watcher_ticket_id (ticket_id),
-    INDEX ticket_watcher_user_id (user_id)
-);
-# ----------------------------------------------------------
 #  create table service
 # ----------------------------------------------------------
 CREATE TABLE service (
@@ -869,28 +865,6 @@ CREATE TABLE sessions (
     PRIMARY KEY(session_id)
 );
 # ----------------------------------------------------------
-#  create table ticket_index
-# ----------------------------------------------------------
-CREATE TABLE ticket_index (
-    ticket_id BIGINT NOT NULL,
-    queue_id INTEGER NOT NULL,
-    queue VARCHAR (70) NOT NULL,
-    group_id INTEGER NOT NULL,
-    s_lock VARCHAR (70) NOT NULL,
-    s_state VARCHAR (70) NOT NULL,
-    create_time_unix BIGINT NOT NULL,
-    INDEX ticket_index_group_id (group_id),
-    INDEX ticket_index_queue_id (queue_id),
-    INDEX ticket_index_ticket_id (ticket_id)
-);
-# ----------------------------------------------------------
-#  create table ticket_lock_index
-# ----------------------------------------------------------
-CREATE TABLE ticket_lock_index (
-    ticket_id BIGINT NOT NULL,
-    INDEX ticket_lock_index_ticket_id (ticket_id)
-);
-# ----------------------------------------------------------
 #  create table customer_user
 # ----------------------------------------------------------
 CREATE TABLE customer_user (
@@ -946,15 +920,6 @@ CREATE TABLE customer_company (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(customer_id),
     UNIQUE INDEX customer_company_name (name)
-);
-# ----------------------------------------------------------
-#  create table ticket_loop_protection
-# ----------------------------------------------------------
-CREATE TABLE ticket_loop_protection (
-    sent_to VARCHAR (250) NOT NULL,
-    sent_date VARCHAR (150) NOT NULL,
-    INDEX ticket_loop_protection_sent_date (sent_date),
-    INDEX ticket_loop_protection_sent_to (sent_to)
 );
 # ----------------------------------------------------------
 #  create table mail_account
@@ -1076,6 +1041,57 @@ CREATE TABLE notification_event_item (
     INDEX notification_event_item_notification_id (notification_id)
 );
 # ----------------------------------------------------------
+#  create table link_type
+# ----------------------------------------------------------
+CREATE TABLE link_type (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (50) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX link_type_name (name)
+);
+# ----------------------------------------------------------
+#  create table link_state
+# ----------------------------------------------------------
+CREATE TABLE link_state (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (50) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX link_state_name (name)
+);
+# ----------------------------------------------------------
+#  create table link_object
+# ----------------------------------------------------------
+CREATE TABLE link_object (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (100) NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX link_object_name (name)
+);
+# ----------------------------------------------------------
+#  create table link_relation
+# ----------------------------------------------------------
+CREATE TABLE link_relation (
+    source_object_id SMALLINT NOT NULL,
+    source_key VARCHAR (50) NOT NULL,
+    target_object_id SMALLINT NOT NULL,
+    target_key VARCHAR (50) NOT NULL,
+    type_id SMALLINT NOT NULL,
+    state_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    UNIQUE INDEX link_relation_view (source_object_id, source_key, target_object_id, target_key, type_id)
+);
+# ----------------------------------------------------------
 #  create table xml_storage
 # ----------------------------------------------------------
 CREATE TABLE xml_storage (
@@ -1106,6 +1122,7 @@ CREATE TABLE virtual_fs_preferences (
     virtual_fs_id BIGINT NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value TEXT NULL,
+    INDEX virtual_fs_preferences_key_value (preferences_key, preferences_value),
     INDEX virtual_fs_preferences_virtual_fs_id (virtual_fs_id)
 );
 # ----------------------------------------------------------
