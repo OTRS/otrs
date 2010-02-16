@@ -3,7 +3,7 @@
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: apache2-perl-startup.pl,v 1.42 2010-02-16 00:39:04 martin Exp $
+# $Id: apache2-perl-startup.pl,v 1.43 2010-02-16 10:33:17 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,9 +25,13 @@ use strict;
 use warnings;
 
 # make sure we are in a sane environment.
-#$ENV{GATEWAY_INTERFACE} =~ /^CGI-Perl/ or die "GATEWAY_INTERFACE not Perl!";
-# check $ENV{MOD_PERL}, $ENV{GATEWAY_INTERFACE} is deprecated for mod_perl2
 $ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
+
+# switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
+BEGIN {
+    $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';
+}
+use ModPerl::Util;
 
 # set otrs lib path!
 use lib "/opt/otrs/";
