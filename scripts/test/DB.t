@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.54 2010-02-16 13:58:03 bes Exp $
+# $Id: DB.t,v 1.55 2010-02-16 21:23:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1785,15 +1785,24 @@ my %Fill = (
 );
 for my $Key ( sort keys %Fill ) {
     my $SQL = "INSERT INTO test_condition (name_a, name_b) VALUES ('$Key', '$Fill{$Key}')";
+    my $Do  = $Self->{DBObject}->Do(
+        SQL => $SQL,
+    );
     $Self->True(
-        $Self->{DBObject}->Do(
-            SQL => $SQL,
-            )
-            || 0,
+        $Do,
         "#8 Do() INSERT ($SQL)",
     );
 }
 my @Queries = (
+    {
+        Query  => 'franz ferdinand',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+            Some4 => 1,
+            }
+    },
     {
         Query  => 'john+smith',
         Result => {
@@ -2068,6 +2077,33 @@ my @Queries = (
         Query  => '((john+smith)  OR     ( meier+ john))',
         Result => {
             Some1 => 1,
+            Some2 => 1,
+            Some3 => 0,
+            Some4 => 0,
+        },
+    },
+    {
+        Query  => '((john+smith)  OR     (meier+ john))',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 0,
+            Some4 => 0,
+        },
+    },
+    {
+        Query  => '(("john smith")  OR     (meier+ john))',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 0,
+            Some4 => 0,
+        },
+    },
+    {
+        Query  => '(("john NOTHING smith")  OR     (meier+ john))',
+        Result => {
+            Some1 => 0,
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,

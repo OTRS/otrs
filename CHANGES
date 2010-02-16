@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1161 2010-02-16 10:33:17 mb Exp $
+# $Id: CHANGES,v 1.1162 2010-02-16 21:23:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,11 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/02/16) Extended QueryCondition() of Kernel::System::DB to allow
+    also "some praise" exprations for search conditions to search this string
+    1:1 in database.
  - (2010/02/15) Added "New Article" feature. Shows any agent in dashboard and
-    globle ticket overviews if there is a new article in a ticket which is not
+    global ticket overviews if there is a new article in a ticket which is not
     seen (like unread feature in email clients).
     Notice: Use scripts/DBUpdate-to-2.5.*.sql for upgrading!
  - (2010/02/15) Removed example config files for Apache1, switched to only

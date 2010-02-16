@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.114 2010-02-11 15:45:51 martin Exp $
+# $Id: DB.pm,v 1.115 2010-02-16 21:23:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 =head1 NAME
 
@@ -897,7 +897,6 @@ generate SQL condition query based on a search expration
     my $SQL = $DBObject->QueryCondition(
         Key   => 'some_col',
         Value => '(ABC+DEF)',
-        NotRemoveSpaces => 0 # if set to 1, will remove spaces inside the value
     );
 
     add SearchPrefix and SearchSuffix to search in this case automaticaly
@@ -950,17 +949,31 @@ sub QueryCondition {
         $Param{Value} = '(' . $Param{Value} . ')';
     }
 
+    # quote ".+?" expirations
+    # for example ("some and me" AND !some), so "some and me" gets used for search 1:1
+    my $Count = 0;
+    my %Expiration;
+    $Param{Value} =~ s{
+        "(.+?)"
+    }
+    {
+        $Count++;
+        my $Item = $1;
+        $Expiration{"###$Count###"} = $Item;
+        "###$Count###";
+    }egx;
+
     # remove double spaces
-    $Param{Value} =~ s/\s\s/ /g;
+    $Param{Value} =~ s/\s+/ /g;
 
     # replace + by &&
     $Param{Value} =~ s/\+/&&/g;
 
     # replace AND by &&
-    $Param{Value} =~ s/(\s|\)|\()AND(\s|\(|\))/&&/g;
+    $Param{Value} =~ s/(\s|\)|\()AND(\s|\(|\))/$1&&$2/g;
 
     # replace OR by ||
-    $Param{Value} =~ s/(\s|\)|\()OR(\s|\(|\))/||/g;
+    $Param{Value} =~ s/(\s|\)|\()OR(\s|\(|\))/$1||$2/g;
 
     # replace * with % (for SQL)
     $Param{Value} =~ s/\*/%/g;
@@ -1010,6 +1023,11 @@ sub QueryCondition {
 
         # if word exists, do something with it
         if ($Word) {
+
+            # replace word if it's an "some expration" expration
+            if ( $Expiration{$Word} ) {
+                $Word = $Expiration{$Word};
+            }
 
             # database quote
             $Word = $SearchPrefix . $Word . $SearchSuffix;
@@ -1210,6 +1228,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.114 $ $Date: 2010-02-11 15:45:51 $
+$Revision: 1.115 $ $Date: 2010-02-16 21:23:16 $
 
 =cut
