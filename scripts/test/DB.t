@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.55 2010-02-16 21:23:16 martin Exp $
+# $Id: DB.t,v 1.56 2010-02-16 21:54:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2096,6 +2096,33 @@ my @Queries = (
         Result => {
             Some1 => 1,
             Some2 => 1,
+            Some3 => 0,
+            Some4 => 0,
+        },
+    },
+    {
+        Query  => '"john smith"',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+            Some4 => 0,
+        },
+    },
+    {
+        Query  => '( "john smith" )',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+            Some4 => 0,
+        },
+    },
+    {
+        Query  => '"smith john"',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
             Some3 => 0,
             Some4 => 0,
         },
