@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.53 2010-02-11 16:01:41 mb Exp $
+# $Id: DB.t,v 1.54 2010-02-16 13:58:03 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2454,6 +2454,107 @@ for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do( SQL => $SQL ) || 0,
         "#9 Do() DROP TABLE ($SQL)",
+    );
+}
+
+# ------------------------------------------------------------ #
+# XML test 10 - SQL functions: LOWER(), UPPER()
+# ------------------------------------------------------------ #
+$XML = '
+<TableCreate Name="test_j">
+    <Column Name="name_a" Required="true" Size="6"    Type="VARCHAR"/>
+    <Column Name="name_b" Required="true" Size="60"   Type="VARCHAR"/>
+    <Column Name="name_c" Required="true" Size="600"  Type="VARCHAR"/>
+    <Column Name="name_d" Required="true" Size="6000" Type="VARCHAR"/>
+</TableCreate>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#10 SQLProcessor() CREATE TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#10 Do() CREATE TABLE ($SQL)",
+    );
+}
+
+my @Sizes = ( 3, 30, 300, 3000 );
+my @Values = map { 'Ab' x $_ } @Sizes;
+
+# insert
+my $Result = $Self->{DBObject}->Do(
+    SQL  => 'INSERT INTO test_j (name_a, name_b, name_c, name_d) VALUES ( ?, ?, ?, ? )',
+    Bind => [ \(@Values) ],
+);
+$Self->True(
+    $Result,
+    "#10 Do() INSERT",
+);
+
+$Result = $Self->{DBObject}->Prepare(
+    SQL   => 'SELECT LOWER(name_a), LOWER(name_b), LOWER(name_c), LOWER(name_d) FROM test_j',
+    Limit => 1,
+);
+$Self->True(
+    $Result,
+    '#10 Prepare() - LOWER() - SELECT',
+);
+while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    $Self->Is(
+        scalar(@Row),
+        scalar(@Values),
+        "#10 - LOWER() - Check number of fetched elements",
+    );
+
+    for my $Index ( 0 .. 3 ) {
+        $Self->Is(
+            $Row[$Index],
+            lc( $Values[$Index] ),
+            "#10.$Index - LOWER() - result",
+        );
+    }
+}
+
+$Result = $Self->{DBObject}->Prepare(
+    SQL   => 'SELECT UPPER(name_a), UPPER(name_b), UPPER(name_c), UPPER(name_d) FROM test_j',
+    Limit => 1,
+);
+$Self->True(
+    $Result,
+    '#10 Prepare() - UPPER() - SELECT',
+);
+while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    $Self->Is(
+        scalar(@Row),
+        scalar(@Values),
+        "#10 - UPPER() - Check number of fetched elements",
+    );
+
+    for my $Index ( 0 .. 3 ) {
+        $Self->Is(
+            $Row[$Index],
+            uc( $Values[$Index] ),
+            "#10.$Index - UPPER() - result",
+        );
+    }
+}
+
+$XML      = '<TableDrop Name="test_j"/>';
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#10 SQLProcessor() DROP TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#10 Do() DROP TABLE ($SQL)",
     );
 }
 
