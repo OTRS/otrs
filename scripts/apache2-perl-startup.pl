@@ -3,7 +3,7 @@
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: apache2-perl-startup.pl,v 1.36.2.1 2010-02-16 10:28:42 mb Exp $
+# $Id: apache2-perl-startup.pl,v 1.36.2.2 2010-02-16 10:53:54 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,6 +30,7 @@ use warnings;
 $ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
 
 # switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
+# see http://rt.perl.org/rt3//Public/Bug/Display.html?id=72866
 BEGIN {
     $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';
 }
