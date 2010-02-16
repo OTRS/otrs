@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2010-02-16 01:31:37
+--  driver: oracle, generated: 2010-02-16 11:45:51
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -892,7 +892,7 @@ CREATE INDEX FK_article_sender_type_validfb ON article_sender_type (valid_id);
 -- ----------------------------------------------------------
 CREATE TABLE article_flag (
     article_id NUMBER (20, 0) NOT NULL,
-    article_flag VARCHAR2 (50) NOT NULL,
+    article_key VARCHAR2 (50) NOT NULL,
     article_value VARCHAR2 (50) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL

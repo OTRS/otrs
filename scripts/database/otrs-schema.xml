@@ -900,7 +900,7 @@
 <!-- article_flag -->
 <Table Name="article_flag">
     <Column Name="article_id" Required="true" Type="BIGINT"/>
-    <Column Name="article_flag" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="article_key" Required="true" Size="50" Type="VARCHAR"/>
     <Column Name="article_value" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2010-02-16 01:31:36
+--  driver: mssql, generated: 2010-02-16 11:45:51
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -553,7 +553,7 @@ CREATE TABLE article_sender_type (
 -- ----------------------------------------------------------
 CREATE TABLE article_flag (
     article_id BIGINT NOT NULL,
-    article_flag VARCHAR (50) NOT NULL,
+    article_key VARCHAR (50) NOT NULL,
     article_value VARCHAR (50) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL
