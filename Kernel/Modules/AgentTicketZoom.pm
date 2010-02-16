@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.83 2010-01-19 21:30:37 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.84 2010-02-16 00:40:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -80,12 +80,10 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-
     # check needed stuff
     if ( !$Self->{TicketID} ) {
         return $Self->{LayoutObject}->ErrorScreen(
-            Message => "No TicketID is given!",
+            Message => 'No TicketID is given!',
             Comment => 'Please contact the admin.',
         );
     }
@@ -185,7 +183,7 @@ sub Run {
     if ( $Self->{ArticleFilterActive} ) {
 
         # get article filter settings from session string
-        my $ArticleFilterSessionString = $Self->{ "ArticleFilter" . $Self->{TicketID} };
+        my $ArticleFilterSessionString = $Self->{ 'ArticleFilter' . $Self->{TicketID} };
 
         # set article filter for this ticket from user preferences
         if ( !$ArticleFilterSessionString ) {
@@ -242,7 +240,7 @@ sub Run {
         }
 
         # get article data
-        my %Article = ();
+        my %Article;
         for my $ArticleTmp (@ArticleBox) {
             if ( $ArticleTmp->{ArticleID} eq $Self->{ArticleID} ) {
                 %Article = %{$ArticleTmp};
@@ -277,7 +275,7 @@ sub Run {
     my %StdResponses = $Self->{QueueObject}->GetStdResponses( QueueID => $Ticket{QueueID} );
 
     # customer info
-    my %CustomerData = ();
+    my %CustomerData;
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom') ) {
         if ( $Ticket{CustomerUserID} ) {
             %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -292,7 +290,7 @@ sub Run {
     }
 
     # generate output
-    $Output .= $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
+    my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
     # show ticket
@@ -307,8 +305,6 @@ sub Run {
 
     # add footer
     $Output .= $Self->{LayoutObject}->Footer();
-
-    # return output
     return $Output;
 }
 
@@ -402,24 +398,46 @@ sub MaskAgentZoom {
     my @ArticleBox = @{ $Param{ArticleBox} };
 
     # get selected or last customer article
-    my $CounterArray = 0;
     my $ArticleID;
     if ( $Self->{ArticleID} ) {
         $ArticleID = $Self->{ArticleID};
     }
     else {
 
-        # set first article
-        if (@ArticleBox) {
-            $ArticleID = $ArticleBox[0]->{ArticleID};
+        # find latest not seen article
+        for my $Article (@ArticleBox) {
+            my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
+                ArticleID => $Article->{ArticleID},
+                UserID    => $Self->{UserID},
+            );
+            next if $ArticleFlag{Seen} || $ArticleFlag{seen};
+            $ArticleID = $Article->{ArticleID};
+            last;
         }
 
-        # get last customer article
-        for my $ArticleTmp (@ArticleBox) {
-            if ( $ArticleTmp->{SenderType} eq 'customer' ) {
-                $ArticleID = $ArticleTmp->{ArticleID};
+        # set first article as default
+        if ( !$ArticleID ) {
+            if (@ArticleBox) {
+                $ArticleID = $ArticleBox[0]->{ArticleID};
+            }
+
+            # get last customer article
+            for my $ArticleTmp (@ArticleBox) {
+                if ( $ArticleTmp->{SenderType} eq 'customer' ) {
+                    $ArticleID = $ArticleTmp->{ArticleID};
+                }
             }
         }
+    }
+
+    # mark shown article as seen
+    if ($ArticleID) {
+        $Self->{TicketObject}->ArticleFlagSet(
+            ArticleID => $ArticleID,
+            Key       => 'Seen',
+            Value     => 1,
+            UserID    => $Self->{UserID},
+        );
     }
 
     # remember shown article ids if article filter is activated in sysconfig
@@ -517,16 +535,13 @@ sub MaskAgentZoom {
         my %Article = %$ArticleTmp;
 
         # # article filter is activated in sysconfig and there are articles that passed the filter
-        if (
-            $Self->{ArticleFilterActive}
-            && $Self->{ArticleFilter}
-            && $Self->{ArticleFilter}->{ShownArticleIDs}
-            )
-        {
+        if ( $Self->{ArticleFilterActive} ) {
+            if ( $Self->{ArticleFilter} && $Self->{ArticleFilter}->{ShownArticleIDs} ) {
 
-            # do not show article if it does not match the filter
-            if ( !$Self->{ArticleFilter}->{ShownArticleIDs}->{ $Article{ArticleID} } ) {
-                next ARTICLE;
+                # do not show article if it does not match the filter
+                if ( !$Self->{ArticleFilter}->{ShownArticleIDs}->{ $Article{ArticleID} } ) {
+                    next ARTICLE;
+                }
             }
         }
 
@@ -577,10 +592,10 @@ sub MaskAgentZoom {
             $Article{Body} = $Article{BodyPlain};
         }
 
-        # show article tree
+        # meta info
         if ( $Count == 1 ) {
 
-            # show status info
+            # ticket status
             $Self->{LayoutObject}->Block(
                 Name => 'Status',
                 Data => { %Param, %AclAction },
@@ -611,11 +626,11 @@ sub MaskAgentZoom {
             # show first response time if needed
             if ( defined $Param{FirstResponseTime} ) {
                 $Param{FirstResponseTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age   => $Param{'FirstResponseTime'},
+                    Age   => $Param{FirstResponseTime},
                     Space => ' ',
                 );
                 $Param{FirstResponseTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age   => $Param{'FirstResponseTimeWorkingTime'},
+                    Age   => $Param{FirstResponseTimeWorkingTime},
                     Space => ' ',
                 );
                 $Self->{LayoutObject}->Block(
@@ -637,11 +652,11 @@ sub MaskAgentZoom {
             # show update time if needed
             if ( defined $Param{UpdateTime} ) {
                 $Param{UpdateTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age   => $Param{'UpdateTime'},
+                    Age   => $Param{UpdateTime},
                     Space => ' ',
                 );
                 $Param{UpdateTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age   => $Param{'UpdateTimeWorkingTime'},
+                    Age   => $Param{UpdateTimeWorkingTime},
                     Space => ' ',
                 );
                 $Self->{LayoutObject}->Block(
@@ -663,11 +678,11 @@ sub MaskAgentZoom {
             # show solution time if needed
             if ( defined $Param{SolutionTime} ) {
                 $Param{SolutionTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age   => $Param{'SolutionTime'},
+                    Age   => $Param{SolutionTime},
                     Space => ' ',
                 );
                 $Param{SolutionTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age   => $Param{'SolutionTimeWorkingTime'},
+                    Age   => $Param{SolutionTimeWorkingTime},
                     Space => ' ',
                 );
                 $Self->{LayoutObject}->Block(
@@ -721,13 +736,27 @@ sub MaskAgentZoom {
 
             # ticket free text
             for my $Count ( 1 .. 16 ) {
-                if ( $Param{ 'TicketFreeText' . $Count } ) {
+                next if !$Param{ 'TicketFreeText' . $Count };
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketFreeText' . $Count,
+                    Data => { %Param, %AclAction },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketFreeText',
+                    Data => {
+                        %Param, %AclAction,
+                        TicketFreeKey  => $Param{ 'TicketFreeKey' . $Count },
+                        TicketFreeText => $Param{ 'TicketFreeText' . $Count },
+                        Count          => $Count,
+                    },
+                );
+                if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $Count . '::Link' ) ) {
                     $Self->{LayoutObject}->Block(
-                        Name => 'TicketFreeText' . $Count,
+                        Name => 'TicketFreeTextPlain' . $Count,
                         Data => { %Param, %AclAction },
                     );
                     $Self->{LayoutObject}->Block(
-                        Name => 'TicketFreeText',
+                        Name => 'TicketFreeTextPlain',
                         Data => {
                             %Param, %AclAction,
                             TicketFreeKey  => $Param{ 'TicketFreeKey' . $Count },
@@ -735,63 +764,49 @@ sub MaskAgentZoom {
                             Count          => $Count,
                         },
                     );
-                    if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $Count . '::Link' ) ) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'TicketFreeTextPlain' . $Count,
-                            Data => { %Param, %AclAction },
-                        );
-                        $Self->{LayoutObject}->Block(
-                            Name => 'TicketFreeTextPlain',
-                            Data => {
-                                %Param, %AclAction,
-                                TicketFreeKey  => $Param{ 'TicketFreeKey' . $Count },
-                                TicketFreeText => $Param{ 'TicketFreeText' . $Count },
-                                Count          => $Count,
-                            },
-                        );
-                    }
-                    else {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'TicketFreeTextLink' . $Count,
-                            Data => { %Param, %AclAction },
-                        );
-                        $Self->{LayoutObject}->Block(
-                            Name => 'TicketFreeTextLink',
-                            Data => {
-                                %Param, %AclAction,
-                                TicketFreeTextLink => $Self->{ConfigObject}->Get(
-                                    'TicketFreeText' . $Count . '::Link'
-                                ),
-                                TicketFreeKey  => $Param{ 'TicketFreeKey' . $Count },
-                                TicketFreeText => $Param{ 'TicketFreeText' . $Count },
-                                Count          => $Count,
-                            },
-                        );
-                    }
                 }
-            }
-
-            # ticket free time
-            for my $Count ( 1 .. 6 ) {
-                if ( $Param{ 'TicketFreeTime' . $Count } ) {
+                else {
                     $Self->{LayoutObject}->Block(
-                        Name => 'TicketFreeTime' . $Count,
+                        Name => 'TicketFreeTextLink' . $Count,
                         Data => { %Param, %AclAction },
                     );
                     $Self->{LayoutObject}->Block(
-                        Name => 'TicketFreeTime',
+                        Name => 'TicketFreeTextLink',
                         Data => {
                             %Param, %AclAction,
-                            TicketFreeTimeKey =>
-                                $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                            TicketFreeTime => $Param{ 'TicketFreeTime' . $Count },
+                            TicketFreeTextLink => $Self->{ConfigObject}->Get(
+                                'TicketFreeText' . $Count . '::Link'
+                            ),
+                            TicketFreeKey  => $Param{ 'TicketFreeKey' . $Count },
+                            TicketFreeText => $Param{ 'TicketFreeText' . $Count },
                             Count          => $Count,
                         },
                     );
                 }
             }
 
-            # build thread string
+            # ticket free time
+            for my $Count ( 1 .. 6 ) {
+                next if !$Param{ 'TicketFreeTime' . $Count };
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketFreeTime' . $Count,
+                    Data => { %Param, %AclAction },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketFreeTime',
+                    Data => {
+                        %Param, %AclAction,
+                        TicketFreeTimeKey =>
+                            $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                        TicketFreeTime => $Param{ 'TicketFreeTime' . $Count },
+                        Count          => $Count,
+                    },
+                );
+            }
+        }
+
+        # build thread string
+        if ( $Count == 1 ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Tree',
                 Data => { %Param, %Article, %AclAction },
@@ -824,12 +839,12 @@ sub MaskAgentZoom {
                 }
             }
 
+            # show article tree
             my $CounterTree    = 0;
             my $Counter        = '';
             my $Space          = '';
             my $LastSenderType = '';
 
-            TREEARTICLE:
             for my $ArticleTmp (@ArticleBox) {
                 my %Article = %$ArticleTmp;
                 my $Start   = '';
@@ -845,20 +860,18 @@ sub MaskAgentZoom {
                     $Counter .= "&nbsp;";
                     $Space = "$Counter&nbsp;|--&gt;";
                 }
+
                 $LastSenderType = $Article{SenderType};
 
                 # article filter is activated in sysconfig and there are articles
                 # that passed the filter
-                if (
-                    $Self->{ArticleFilterActive}
-                    && $Self->{ArticleFilter}
-                    && $Self->{ArticleFilter}->{ShownArticleIDs}
-                    )
-                {
+                if ( $Self->{ArticleFilterActive} ) {
+                    if ( $Self->{ArticleFilter} && $Self->{ArticleFilter}->{ShownArticleIDs} ) {
 
-                    # do not show article in tree if it does not match the filter
-                    if ( !$Self->{ArticleFilter}->{ShownArticleIDs}->{ $Article{ArticleID} } ) {
-                        next TREEARTICLE;
+                        # do not show article in tree if it does not match the filter
+                        if ( !$Self->{ArticleFilter}->{ShownArticleIDs}->{ $Article{ArticleID} } ) {
+                            next;
+                        }
                     }
                 }
 
@@ -887,59 +900,57 @@ sub MaskAgentZoom {
                     },
                 );
 
-                # show plain link
-                if (
-                    $Self->{ConfigObject}->Get('Ticket::Frontend::PlainView')
-                    && $Article{ArticleType} =~ /^email/
-                    )
-                {
+                # show article flags
+                my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
+                    ArticleID => $Article{ArticleID},
+                    UserID    => $Self->{UserID},
+                );
+                if ( !$ArticleFlag{Seen} && !$ArticleFlag{seen} ) {
                     $Self->{LayoutObject}->Block(
-                        Name => 'TreeItemEmail',
-                        Data => { %Article, },
+                        Name => 'TreeItemMeta',
+                        Data => {
+                            %Article,
+                            %ArticleFlag,
+                            Image => 'meta-new.png',
+                            Title => 'New Article!',
+                        },
                     );
                 }
 
-                # add attachment icons
-                if (
-                    $Article{Atms}
-                    && %{ $Article{Atms} }
-                    && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')
-                    )
-                {
-
-                    # download type
-                    my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType')
-                        || 'attachment';
-
-                    # if attachment will be forced to download, don't open a new download window!
-                    my $Target = '';
-                    if ( $Type =~ /inline/i ) {
-                        $Target = 'target="attachment" ';
-                    }
-                    my $ZoomAttachmentDisplayCount
-                        = $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount');
-                    my $CountShown = 0;
-                    for my $Count ( 1 .. ( $ZoomAttachmentDisplayCount + 2 ) ) {
-                        next if !$Article{Atms}->{$Count};
-                        $CountShown++;
-
-                        # show more logo
-                        if ( $CountShown > $ZoomAttachmentDisplayCount ) {
-                            $Self->{LayoutObject}->Block(
-                                Name => 'TreeItemAttachmentMore',
-                                Data => {
-                                    %Article,
-                                    %{ $Article{Atms}->{$Count} },
-                                    FileID => $Count,
-                                    Target => $Target,
-                                },
-                            );
-                            last;
-                        }
-
-                        # show attachment logo
+                # show plain link
+                if ( $Self->{ConfigObject}->Get('Ticket::Frontend::PlainView') ) {
+                    if ( $Article{ArticleType} =~ /^email/ ) {
                         $Self->{LayoutObject}->Block(
-                            Name => 'TreeItemAttachment',
+                            Name => 'TreeItemEmail',
+                            Data => { %Article, },
+                        );
+                    }
+                }
+
+                # show attachment info
+                next if !$Article{Atms};
+                next if !%{ $Article{Atms} };
+                next if !$Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay');
+
+                # download type
+                my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
+
+                # if attachment will be forced to download, don't open a new download window!
+                my $Target = '';
+                if ( $Type =~ /inline/i ) {
+                    $Target = 'target="attachment" ';
+                }
+                my $ZoomAttachmentDisplayCount
+                    = $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount');
+                my $CountShown = 0;
+                for my $Count ( 1 .. ( $ZoomAttachmentDisplayCount + 2 ) ) {
+                    next if !$Article{Atms}->{$Count};
+                    $CountShown++;
+
+                    # show more info
+                    if ( $CountShown > $ZoomAttachmentDisplayCount ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'TreeItemAttachmentMore',
                             Data => {
                                 %Article,
                                 %{ $Article{Atms}->{$Count} },
@@ -947,7 +958,19 @@ sub MaskAgentZoom {
                                 Target => $Target,
                             },
                         );
+                        last;
                     }
+
+                    # show attachment info
+                    $Self->{LayoutObject}->Block(
+                        Name => 'TreeItemAttachment',
+                        Data => {
+                            %Article,
+                            %{ $Article{Atms}->{$Count} },
+                            FileID => $Count,
+                            Target => $Target,
+                        },
+                    );
                 }
             }
         }
@@ -978,17 +1001,24 @@ sub MaskAgentZoom {
             }
         }
 
+        # mark shown article as seen
+        $Self->{TicketObject}->ArticleFlagSet(
+            ArticleID => $ArticleID,
+            Key       => 'Seen',
+            Value     => 1,
+            UserID    => $Self->{UserID},
+        );
+
         # do some strips && quoting
-        for (qw(From To Cc Subject)) {
-            if ( $Article{$_} ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Row',
-                    Data => {
-                        Key   => $_,
-                        Value => $Article{$_},
-                    },
-                );
-            }
+        for my $Key (qw(From To Cc Subject)) {
+            next if !$Article{$Key};
+            $Self->{LayoutObject}->Block(
+                Name => 'Row',
+                Data => {
+                    Key   => $Key,
+                    Value => $Article{$Key},
+                },
+            );
         }
 
         # show accounted article time
@@ -997,7 +1027,7 @@ sub MaskAgentZoom {
                 ArticleID => $Article{ArticleID}
             );
             $Self->{LayoutObject}->Block(
-                Name => "Row",
+                Name => 'Row',
                 Data => {
                     Key   => 'Time',
                     Value => $ArticleTime,
@@ -1006,21 +1036,21 @@ sub MaskAgentZoom {
         }
 
         # show article free text
-        for ( 1 .. 3 ) {
-            if ( $Article{"ArticleFreeText$_"} ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'ArticleFreeText',
-                    Data => {
-                        Key   => $Article{"ArticleFreeKey$_"},
-                        Value => $Article{"ArticleFreeText$_"},
-                    },
-                );
-            }
+        for my $Count ( 1 .. 3 ) {
+            next if !$Article{"ArticleFreeText$Count"};
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleFreeText',
+                Data => {
+                    Key   => $Article{"ArticleFreeKey$Count"},
+                    Value => $Article{"ArticleFreeText$Count"},
+                },
+            );
         }
 
-        # run article modules
-        if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleViewModule') eq 'HASH' ) {
-            my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleViewModule') };
+        # run article view modules
+        my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleViewModule');
+        if ( ref $Config eq 'HASH' ) {
+            my %Jobs = %{$Config};
             for my $Job ( sort keys %Jobs ) {
 
                 # load module
@@ -1069,35 +1099,25 @@ sub MaskAgentZoom {
             ArticleID       => $Article{ArticleID},
         );
 
-        # get attachment string
-        my %AtmIndex = ();
-        if ( $Article{Atms} ) {
-
-            %AtmIndex = %{ $Article{Atms} };
-        }
-
         # add block for attachments
-        if (%AtmIndex) {
+        if ( $Article{Atms} ) {
+            my %AtmIndex = %{ $Article{Atms} };
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleAttachment',
                 Data => { Key => 'Attachment', },
             );
-        }
-        for my $FileID ( sort keys %AtmIndex ) {
-            my %File = %{ $AtmIndex{$FileID} };
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticleAttachmentRow',
-                Data => { %File, },
-            );
 
-            # run article attachment modules
-            if (
-                ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleAttachmentModule') eq
-                'HASH'
-                )
-            {
-                my %Jobs
-                    = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleAttachmentModule') };
+            my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleAttachmentModule');
+            for my $FileID ( sort keys %AtmIndex ) {
+                my %File = %{ $AtmIndex{$FileID} };
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleAttachmentRow',
+                    Data => {%File},
+                );
+
+                # run article attachment modules
+                next if ref $Config ne 'HASH';
+                my %Jobs = %{$Config};
                 for my $Job ( sort keys %Jobs ) {
 
                     # load module
@@ -1112,15 +1132,17 @@ sub MaskAgentZoom {
 
                     # run module
                     my %Data = $Object->Run(
-                        File => { %File, FileID => $FileID, },
+                        File => {
+                            %File,
+                            FileID => $FileID,
+                        },
                         Article => \%Article,
                     );
-                    if (%Data) {
-                        $Self->{LayoutObject}->Block(
-                            Name => $Data{Block} || 'ArticleAttachmentRowLink',
-                            Data => {%Data},
-                        );
-                    }
+                    next if !%Data;
+                    $Self->{LayoutObject}->Block(
+                        Name => $Data{Block} || 'ArticleAttachmentRowLink',
+                        Data => {%Data},
+                    );
                 }
             }
         }
@@ -1173,7 +1195,7 @@ sub MaskAgentZoom {
                 )
             {
                 my $Access = 1;
-                my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketCompose");
+                my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketCompose');
                 if ( $Config->{Permission} ) {
                     my $Ok = $Self->{TicketObject}->Permission(
                         Type     => $Config->{Permission},
@@ -1186,12 +1208,10 @@ sub MaskAgentZoom {
                     }
                 }
                 if ( $Config->{RequiredLock} ) {
-                    if (
-                        $Self->{TicketObject}->LockIsTicketLocked(
-                            TicketID => $Param{TicketID}
-                        )
-                        )
-                    {
+                    my $Locked = $Self->{TicketObject}->LockIsTicketLocked(
+                        TicketID => $Param{TicketID}
+                    );
+                    if ($Locked) {
                         my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                             TicketID => $Param{TicketID},
                             OwnerID  => $Self->{UserID},
@@ -1220,7 +1240,7 @@ sub MaskAgentZoom {
             {
                 my $Access = 1;
                 my $Config
-                    = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketPhoneOutbound");
+                    = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketPhoneOutbound');
                 if ( $Config->{Permission} ) {
                     my $OK = $Self->{TicketObject}->Permission(
                         Type     => $Config->{Permission},
@@ -1233,12 +1253,10 @@ sub MaskAgentZoom {
                     }
                 }
                 if ( $Config->{RequiredLock} ) {
-                    if (
-                        $Self->{TicketObject}->LockIsTicketLocked(
-                            TicketID => $Param{TicketID}
-                        )
-                        )
-                    {
+                    my $Locked = $Self->{TicketObject}->LockIsTicketLocked(
+                        TicketID => $Param{TicketID}
+                    );
+                    if ($Locked) {
                         my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                             TicketID => $Param{TicketID},
                             OwnerID  => $Self->{UserID},
@@ -1287,7 +1305,7 @@ sub MaskAgentZoom {
                 )
             {
                 my $Access = 1;
-                my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketForward");
+                my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketForward');
                 if ( $Config->{Permission} ) {
                     my $OK = $Self->{TicketObject}->Permission(
                         Type     => $Config->{Permission},
@@ -1326,7 +1344,7 @@ sub MaskAgentZoom {
                 )
             {
                 my $Access = 1;
-                my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketBounce");
+                my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketBounce');
                 if ( $Config->{Permission} ) {
                     my $OK = $Self->{TicketObject}->Permission(
                         Type     => $Config->{Permission},
@@ -1412,7 +1430,7 @@ sub MaskAgentZoom {
         );
 
         # build article type list for filter dialog
-        $Param{'ArticleTypeFilterString'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{ArticleTypeFilterString} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%ArticleTypes,
             SelectedID  => [ keys %{ $Self->{ArticleFilter}->{ArticleTypeID} } ],
             Translation => 1,
@@ -1427,7 +1445,7 @@ sub MaskAgentZoom {
         );
 
         # build article sender type list for filter dialog
-        $Param{'ArticleSenderTypeFilterString'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{ArticleSenderTypeFilterString} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%ArticleSenderTypes,
             SelectedID  => [ keys %{ $Self->{ArticleFilter}->{SenderTypeID} } ],
             Translation => 1,
@@ -1439,6 +1457,31 @@ sub MaskAgentZoom {
         $Self->{LayoutObject}->Block(
             Name => 'ArticleFilterDialog',
             Data => {%Param},
+        );
+    }
+
+    # check if ticket need to be marked as seen
+    my $ArticleAllSeen = 1;
+    for my $Article (@ArticleBox) {
+        my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
+            ArticleID => $Article->{ArticleID},
+            UserID    => $Self->{UserID},
+        );
+
+        # last if article was not shown
+        if ( !$ArticleFlag{Seen} && !$ArticleFlag{seen} ) {
+            $ArticleAllSeen = 0;
+            last;
+        }
+    }
+
+    # mark ticket as seen if all article are shown
+    if ($ArticleAllSeen) {
+        $Self->{TicketObject}->TicketFlagSet(
+            TicketID => $Self->{TicketID},
+            Key      => 'Seen',
+            Value    => 1,
+            UserID   => $Self->{UserID},
         );
     }
 

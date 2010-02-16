@@ -3,7 +3,7 @@
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: apache2-perl-startup.pl,v 1.41 2010-01-27 01:46:00 martin Exp $
+# $Id: apache2-perl-startup.pl,v 1.42 2010-02-16 00:39:04 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -198,8 +198,6 @@ use Kernel::Output::HTML::NotificationUIDCheck;
 use Kernel::Output::HTML::NotificationCharsetCheck;
 use Kernel::Output::HTML::NotificationAgentOnline;
 use Kernel::Output::HTML::NotificationCustomerOnline;
-use Kernel::Output::HTML::NotificationAgentTicket;
-use Kernel::Output::HTML::NotificationAgentTicketSeen;
 use Kernel::Output::HTML::TicketMenuGeneric;
 use Kernel::Output::HTML::TicketMenuLock;
 use Kernel::Output::HTML::NavBarLockedTickets;
