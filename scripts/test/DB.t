@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.56 2010-02-16 21:54:20 martin Exp $
+# $Id: DB.t,v 1.57 2010-02-17 08:19:35 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2545,8 +2545,7 @@ for my $SQL (@SQL) {
     );
 }
 
-my @Sizes = ( 3, 30, 300, 3000 );
-my @Values = map { 'Ab' x $_ } @Sizes;
+my @Values = map { 'Ab' x $_ } ( 3, 30, 300, 3000 );
 
 # insert
 my $Result = $Self->{DBObject}->Do(
@@ -2558,8 +2557,15 @@ $Self->True(
     "#10 Do() INSERT",
 );
 
+my $SQL = 'SELECT LOWER(name_a), LOWER(name_b), LOWER(name_c), LOWER(name_d) FROM test_j';
+if ( $Self->{ConfigObject}->Get('DatabaseDSN') =~ /oracle/i ) {
+
+    # On Oracle, the attribute 'name_d' is a CLOB, which isn't accepted by LOWER().
+    $SQL
+        = 'SELECT LOWER(name_a), LOWER(name_b), LOWER(name_c), LOWER( TO_CHAR(name_d) ) FROM test_j';
+}
 $Result = $Self->{DBObject}->Prepare(
-    SQL   => 'SELECT LOWER(name_a), LOWER(name_b), LOWER(name_c), LOWER(name_d) FROM test_j',
+    SQL   => $SQL,
     Limit => 1,
 );
 $Self->True(
@@ -2582,8 +2588,15 @@ while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
     }
 }
 
+$SQL = 'SELECT UPPER(name_a), UPPER(name_b), UPPER(name_c), UPPER(name_d) FROM test_j';
+if ( $Self->{ConfigObject}->Get('DatabaseDSN') =~ /oracle/i ) {
+
+    # On Oracle, the attribute 'name_d' is a CLOB, which isn't accepted by UPPER().
+    $SQL
+        = 'SELECT UPPER(name_a), UPPER(name_b), UPPER(name_c), UPPER( TO_CHAR(name_d) ) FROM test_j';
+}
 $Result = $Self->{DBObject}->Prepare(
-    SQL   => 'SELECT UPPER(name_a), UPPER(name_b), UPPER(name_c), UPPER(name_d) FROM test_j',
+    SQL   => $SQL,
     Limit => 1,
 );
 $Self->True(
