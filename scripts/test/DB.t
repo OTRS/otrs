@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.57 2010-02-17 08:19:35 bes Exp $
+# $Id: DB.t,v 1.58 2010-02-17 08:59:36 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,7 +103,7 @@ $Self->Is(
     'Quote() Number - -0.23',
 );
 
-if ( $Self->{ConfigObject}->Get('DatabaseDSN') =~ /pg/i ) {
+if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'postgresql' ) {
     $Self->Is(
         $Self->{DBObject}->Quote("Test'l"),
         'Test\'\'l',
@@ -122,7 +122,7 @@ if ( $Self->{ConfigObject}->Get('DatabaseDSN') =~ /pg/i ) {
         'Quote() Like-String - Block[12]Block[12]',
     );
 }
-elsif ( $Self->{ConfigObject}->Get('DatabaseDSN') =~ /oracle/i ) {
+elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
     $Self->Is(
         $Self->{DBObject}->Quote("Test'l"),
         'Test\'\'l',
@@ -141,7 +141,7 @@ elsif ( $Self->{ConfigObject}->Get('DatabaseDSN') =~ /oracle/i ) {
         'Quote() Like-String - Block[12]Block[12]',
     );
 }
-elsif ( $Self->{DBObject}->{'DB::Type'} =~ /mssql/i ) {
+elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'mssql' ) {
     $Self->Is(
         $Self->{DBObject}->Quote("Test'l"),
         'Test\'\'l',
@@ -160,7 +160,7 @@ elsif ( $Self->{DBObject}->{'DB::Type'} =~ /mssql/i ) {
         'Quote() Like-String - Block[12]Block[12]',
     );
 }
-elsif ( $Self->{DBObject}->{'DB::Type'} =~ /db2/i ) {
+elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'db2' ) {
     $Self->Is(
         $Self->{DBObject}->Quote("Test'l"),
         'Test\'\'l',
@@ -179,7 +179,7 @@ elsif ( $Self->{DBObject}->{'DB::Type'} =~ /db2/i ) {
         'Quote() Like-String - Block[12]Block[12]',
     );
 }
-elsif ( $Self->{DBObject}->{'DB::Type'} =~ /ingres/i ) {
+elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'ingres' ) {
     $Self->Is(
         $Self->{DBObject}->Quote("Test'l"),
         'Test\'\'l',
@@ -2558,7 +2558,7 @@ $Self->True(
 );
 
 my $SQL = 'SELECT LOWER(name_a), LOWER(name_b), LOWER(name_c), LOWER(name_d) FROM test_j';
-if ( $Self->{ConfigObject}->Get('DatabaseDSN') =~ /oracle/i ) {
+if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
 
     # On Oracle, the attribute 'name_d' is a CLOB, which isn't accepted by LOWER().
     $SQL
@@ -2589,7 +2589,7 @@ while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 }
 
 $SQL = 'SELECT UPPER(name_a), UPPER(name_b), UPPER(name_c), UPPER(name_d) FROM test_j';
-if ( $Self->{ConfigObject}->Get('DatabaseDSN') =~ /oracle/i ) {
+if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
 
     # On Oracle, the attribute 'name_d' is a CLOB, which isn't accepted by UPPER().
     $SQL
