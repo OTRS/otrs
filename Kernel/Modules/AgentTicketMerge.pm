@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.40 2009-11-25 15:15:28 mg Exp $
+# $Id: AgentTicketMerge.pm,v 1.41 2010-02-17 13:43:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -140,7 +140,7 @@ sub Run {
         my $Access = $Self->{TicketObject}->Permission(
             Type     => $Self->{Config}->{Permission},
             TicketID => $MainTicketID,
-            UserID   => $Self->{UserID}
+            UserID   => $Self->{UserID},
         );
 
         # error screen, don't show ticket
