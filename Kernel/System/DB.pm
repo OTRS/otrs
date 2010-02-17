@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.115 2010-02-16 21:23:16 martin Exp $
+# $Id: DB.pm,v 1.116 2010-02-17 07:37:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 =head1 NAME
 
@@ -892,7 +892,7 @@ sub GetTableData {
 
 =item QueryCondition()
 
-generate SQL condition query based on a search expration
+generate SQL condition query based on a search expression
 
     my $SQL = $DBObject->QueryCondition(
         Key   => 'some_col',
@@ -949,17 +949,17 @@ sub QueryCondition {
         $Param{Value} = '(' . $Param{Value} . ')';
     }
 
-    # quote ".+?" expirations
+    # quote ".+?" expressions
     # for example ("some and me" AND !some), so "some and me" gets used for search 1:1
     my $Count = 0;
-    my %Expiration;
+    my %Expression;
     $Param{Value} =~ s{
         "(.+?)"
     }
     {
         $Count++;
         my $Item = $1;
-        $Expiration{"###$Count###"} = $Item;
+        $Expression{"###$Count###"} = $Item;
         "###$Count###";
     }egx;
 
@@ -1024,9 +1024,9 @@ sub QueryCondition {
         # if word exists, do something with it
         if ($Word) {
 
-            # replace word if it's an "some expration" expration
-            if ( $Expiration{$Word} ) {
-                $Word = $Expiration{$Word};
+            # replace word if it's an "some expression" expression
+            if ( $Expression{$Word} ) {
+                $Word = $Expression{$Word};
             }
 
             # database quote
@@ -1228,6 +1228,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.115 $ $Date: 2010-02-16 21:23:16 $
+$Revision: 1.116 $ $Date: 2010-02-17 07:37:38 $
 
 =cut
