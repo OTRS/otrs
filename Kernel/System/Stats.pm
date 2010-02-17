@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats.pm - all stats core functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.86 2009-11-26 12:41:51 bes Exp $
+# $Id: Stats.pm,v 1.87 2010-02-17 20:10:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 SYNOPSIS
 
@@ -661,31 +661,66 @@ sub SumBuild {
 
     # add sum y
     if ( $Param{SumRow} ) {
+
         push @{ $Data[1] }, 'Sum';
+
         for my $Index1 ( 2 .. $#Data ) {
+
             my $Sum = 0;
+            INDEX2:
             for my $Index2 ( 1 .. $#{ $Data[$Index1] } ) {
-                if ( $Data[$Index1][$Index2] =~ m{^-?\d+(\.\d+)?$} ) {
-                    $Sum += $Data[$Index1][$Index2];
+
+                next INDEX2 if !$Data[$Index1][$Index2];
+
+                # extract the value
+                my $Value = $Data[$Index1][$Index2];
+
+                # clean the string
+                $Value =~ s{ \A \s+ }{}xms;
+                $Value =~ s{ \s+ \z }{}xms;
+                $Value =~ s{ , }{.}xms;
+
+                # add value to summery
+                if ( $Value =~ m{^-?\d+(\.\d+)?$} ) {
+                    $Sum += $Value;
                 }
             }
+
             push @{ $Data[$Index1] }, $Sum;
         }
     }
 
     # add sum x
     if ( $Param{SumCol} ) {
-        my @SumRow;
+
+        my @SumRow = ();
         $SumRow[0] = 'Sum';
+
         for my $Index1 ( 2 .. $#Data ) {
+
+            INDEX2:
             for my $Index2 ( 1 .. $#{ $Data[$Index1] } ) {
-                if ( $Data[$Index1][$Index2] =~ m{^-?\d+(\.\d+)?$} ) {
-                    $SumRow[$Index2] += $Data[$Index1][$Index2];
+
+                next INDEX2 if !$Data[$Index1][$Index2];
+
+                # extract the value
+                my $Value = $Data[$Index1][$Index2];
+
+                # clean the string
+                $Value =~ s{ \A \s+ }{}xms;
+                $Value =~ s{ \s+ \z }{}xms;
+                $Value =~ s{ , }{.}xms;
+
+                # add value to summery
+                if ( $Value =~ m{^-?\d+(\.\d+)?$} ) {
+                    $SumRow[$Index2] += $Value;
                 }
             }
         }
+
         push @Data, \@SumRow;
     }
+
     return \@Data;
 }
 
@@ -3238,6 +3273,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2009-11-26 12:41:51 $
+$Revision: 1.87 $ $Date: 2010-02-17 20:10:05 $
 
 =cut
