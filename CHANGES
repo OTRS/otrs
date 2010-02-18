@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1162 2010-02-16 21:23:16 martin Exp $
+# $Id: CHANGES,v 1.1163 2010-02-18 16:23:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -193,6 +193,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/02/18) Fixed bug#4969 - Event Based Notification: Body Match field displays
+    Subject Match value.
  - (2010/02/16) Fixed bug#4967 - Can't locate object method "new" via package
     error when using Perl 5.10.1.
  - (2010/02/15) Fixed bug#4977 - mod_perl is not used in fedora with RPM.
