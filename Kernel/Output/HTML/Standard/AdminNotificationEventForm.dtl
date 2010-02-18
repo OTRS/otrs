@@ -1,8 +1,8 @@
 # --
 # AdminNotificationEventForm.dtl - provides HTML form for AdminNotificationEvent
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEventForm.dtl,v 1.4.2.2 2009-11-16 08:51:52 mb Exp $
+# $Id: AdminNotificationEventForm.dtl,v 1.4.2.3 2010-02-18 16:22:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -218,7 +218,7 @@ function submit_compose() {
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Body match"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
-                                    <td class="contentvalue"> <input type="text" name="ArticleBodyMatch" size="50" value="$QData{"ArticleSubjectMatch"}"/></td>
+                                    <td class="contentvalue"> <input type="text" name="ArticleBodyMatch" size="50" value="$QData{"ArticleBodyMatch"}"/></td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Include Attachments to Notification"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
