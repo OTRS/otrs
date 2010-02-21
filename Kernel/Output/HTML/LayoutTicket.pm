@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.66 2010-02-01 01:12:54 martin Exp $
+# $Id: LayoutTicket.pm,v 1.67 2010-02-21 21:26:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -1186,6 +1186,57 @@ sub TicketListShow {
     }
 
     return $OutputRaw;
+}
+
+sub TicketMetaItems {
+    my ( $Self, %Param ) = @_;
+
+    if ( ref $Param{Ticket} ne 'HASH' ) {
+        $Self->FatalError( Message => 'Need Hash ref in Ticket param!' );
+    }
+
+    # return attributes
+    my @Result;
+
+    # show ticket flags
+    my %TicketFlag = $Self->{TicketObject}->TicketFlagGet(
+        TicketID => $Param{Ticket}->{TicketID},
+        UserID   => $Self->{UserID},
+    );
+
+    # show if now message is in there
+    if ( !$TicketFlag{Seen} ) {
+
+        # just show ticket flags if agent belongs to the ticket
+        my $ShowMeta;
+        if (
+            $Self->{UserID} == $Param{Ticket}->{OwnerID}
+            || $Self->{UserID} == $Param{Ticket}->{ResponsibleID}
+            )
+        {
+            $ShowMeta = 1;
+        }
+        if ( !$ShowMeta && $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
+            my %Watch = $Self->{TicketObject}->TicketWatchGet(
+                TicketID => $Param{Ticket}->{TicketID},
+            );
+            if ( $Watch{ $Self->{UserID} } ) {
+                $ShowMeta = 1;
+            }
+        }
+
+        # show ticket flags
+        my $Image = 'meta-new-inactive.png';
+        if ($ShowMeta) {
+            $Image = 'meta-new.png';
+        }
+        push @Result, {
+            Image => $Image,
+            Title => 'New Article!2',
+        };
+    }
+
+    return @Result;
 }
 
 1;
