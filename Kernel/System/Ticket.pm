@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.451 2010-02-16 23:44:59 martin Exp $
+# $Id: Ticket.pm,v 1.452 2010-02-21 15:45:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.451 $) [1];
+$VERSION = qw($Revision: 1.452 $) [1];
 
 =head1 NAME
 
@@ -3599,7 +3599,7 @@ To find tickets in your system.
         # content search suffix (optional)
         ContentSearchSuffix => '*',
 
-        # content conditions for From,To,Cc,Subject,Body,TicketNumber,
+        # content conditions for From,To,Cc,Subject,Body
         # Title,CustomerID and CustomerUserLogin (all optional)
         ConditionInline => 1,
 
@@ -4366,21 +4366,24 @@ sub TicketSearch {
                 $SQLExt .= ' OR ';
             }
 
-            # check if search condition extention is used
-            if ( $Param{ConditionInline} && $Value =~ /(&&|\|\||\!|\+|AND|OR)/ ) {
-                $SQLExt .= $Self->{DBObject}->QueryCondition(
-                    Key   => $FieldSQLMap{$Key},
-                    Value => $Value,
-                );
+            # add * to prefix/suffix on title search
+            my %ConditionFocus;
+            if ( $Param{ConditionInline} && $Key eq 'Title' ) {
+                $ConditionFocus{Extended} = 1;
+                if ( $Param{ContentSearchPrefix} ) {
+                    $ConditionFocus{SearchPrefix} = $Param{ContentSearchPrefix};
+                }
+                if ( $Param{ContentSearchSuffix} ) {
+                    $ConditionFocus{SearchSuffix} = $Param{ContentSearchSuffix};
+                }
             }
-            elsif ( $Value !~ /%/ ) {
-                $SQLExt .= " LOWER($FieldSQLMap{$Key}) = LOWER('"
-                    . $Self->{DBObject}->Quote($Value) . "')";
-            }
-            else {
-                $SQLExt .= " LOWER($FieldSQLMap{$Key}) LIKE LOWER('"
-                    . $Self->{DBObject}->Quote( $Value, 'Like' ) . "')";
-            }
+
+            # use search condition extention
+            $SQLExt .= $Self->{DBObject}->QueryCondition(
+                Key   => $FieldSQLMap{$Key},
+                Value => $Value,
+                %ConditionFocus,
+            );
         }
         if ($Used) {
             $SQLExt .= ')';
@@ -7887,6 +7890,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.451 $ $Date: 2010-02-16 23:44:59 $
+$Revision: 1.452 $ $Date: 2010-02-21 15:45:50 $
 
 =cut
