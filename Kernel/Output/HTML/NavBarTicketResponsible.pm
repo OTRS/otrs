@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarTicketResponsible.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarTicketResponsible.pm,v 1.1 2010-02-21 18:32:14 martin Exp $
+# $Id: NavBarTicketResponsible.pm,v 1.2 2010-02-21 21:56:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,7 +57,13 @@ sub Run {
     );
     $CountNew = $Count - $CountNew;
 
-    my $Text = $Self->{LayoutObject}->{LanguageObject}->Get('Responsible') . " ($Count/$CountNew)";
+    my $Text = $Self->{LayoutObject}->{LanguageObject}->Get('Responsible');
+    if ($CountNew) {
+        $Text .= " ($CountNew*/$Count)";
+    }
+    else {
+        $Text .= " ($CountNew)";
+    }
     my %Return;
     $Return{'0999899'} = {
         Block       => 'ItemPersonal',
