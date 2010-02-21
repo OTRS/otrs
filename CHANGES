@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1163 2010-02-18 16:23:06 mb Exp $
+# $Id: CHANGES,v 1.1164 2010-02-21 15:33:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,14 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/02/21) Extended QueryCondition() of Kernel::System::DB to allow
+    also "some praise" expression as "some&&praise", to be compat. just add
+    "Extended => 1" to QueryCondition(). Short summary:
+        some praise   -> search for "some" and "praise" in a text (order of words
+                         is not importand)
+        "some praise" -> search for "some praise" in a text as one string
  - (2010/02/16) Extended QueryCondition() of Kernel::System::DB to allow
-    also "some praise" exprations for search conditions to search this string
+    also "some praise" expression for search conditions to search this string
     1:1 in database.
  - (2010/02/15) Added "New Article" feature. Shows any agent in dashboard and
     global ticket overviews if there is a new article in a ticket which is not
