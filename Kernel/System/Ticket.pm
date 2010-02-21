@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.452 2010-02-21 15:45:50 martin Exp $
+# $Id: Ticket.pm,v 1.453 2010-02-21 18:52:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.452 $) [1];
+$VERSION = qw($Revision: 1.453 $) [1];
 
 =head1 NAME
 
@@ -3577,7 +3577,7 @@ To find tickets in your system.
 
         # search for ticket flags
         TicketFlag => {
-            Seen => undef,
+            Seen => 1,
         }
 
         # article stuff (optional)
@@ -3897,9 +3897,17 @@ sub TicketSearch {
             last ARGUMENT;
         }
     }
+
+    # add ticket watcher table
     if ( $Param{WatchUserIDs} ) {
         $SQL    .= ', ticket_watcher tw ';
         $SQLExt .= ' AND st.id = tw.ticket_id';
+    }
+
+    # add ticket flag table
+    if ( $Param{TicketFlag} ) {
+        $SQL    .= ', ticket_flag tf ';
+        $SQLExt .= ' AND st.id = tf.ticket_id';
     }
     $SQLExt = ' WHERE sq.id = st.queue_id' . $SQLExt;
 
@@ -4326,6 +4334,25 @@ sub TicketSearch {
             TableColumn => 'tw.user_id',
             IDRef       => $Param{WatchUserIDs},
         );
+    }
+
+    # add ticket flag extention
+    if ( $Param{TicketFlag} ) {
+        my @Values;
+        for my $Key ( sort keys %{ $Param{TicketFlag} } ) {
+            my $Value = $Param{TicketFlag}->{$Key};
+            $Value = $Self->{DBObject}->Quote($Value);
+            return if !defined $Value;
+            push @Values, $Value;
+        }
+
+        # create the id string
+        my $TypeString = "'" . join "', '", @Values . "'";
+
+        # create the sql part
+        my $TicketFlagUserID = $Param{TicketFlagUserID} || $Param{UserID};
+        return if !defined $Self->{DBObject}->Quote($TicketFlagUserID);
+        $SQLExt .= " AND tf.create_by = $TicketFlagUserID AND tf.ticket_value IN ($TypeString)";
     }
 
     # other ticket stuff
@@ -4985,18 +5012,6 @@ sub TicketSearch {
         $Count = $Row[0];
         $Tickets{ $Row[0] } = $Row[1];
         push @TicketIDs, $Row[0];
-    }
-
-    # ticket flag extention
-    if ( $Param{TicketFlag} ) {
-        for my $TicketID (@TicketIDs) {
-            my %TicketFlag = $Self->TicketFlagGet(
-                TicketID => $TicketID,
-            );
-            for my $Key ( keys %{ $Param{TicketFlag} } ) {
-
-            }
-        }
     }
 
     # return COUNT
@@ -7890,6 +7905,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.452 $ $Date: 2010-02-21 15:45:50 $
+$Revision: 1.453 $ $Date: 2010-02-21 18:52:04 $
 
 =cut
