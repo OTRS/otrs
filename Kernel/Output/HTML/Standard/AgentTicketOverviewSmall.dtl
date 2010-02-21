@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.27 2010-02-15 23:43:44 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.28 2010-02-21 21:40:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -117,7 +117,7 @@ function select_item_check () {
                             </table>
                         </td>
                         <td>
-                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
+                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
                         </td>
                         <td>
                             $Data{"StartFont"}$QData{"Age"}$Data{"StopFont"}
