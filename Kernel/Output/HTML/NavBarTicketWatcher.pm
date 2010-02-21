@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarTicketWatcher.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarTicketWatcher.pm,v 1.16 2010-02-21 21:56:56 martin Exp $
+# $Id: NavBarTicketWatcher.pm,v 1.17 2010-02-21 22:14:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,11 +43,8 @@ sub Run {
     if ( $Self->{ConfigObject}->Get('Ticket::WatcherGroup') ) {
         @Groups = @{ $Self->{ConfigObject}->Get('Ticket::WatcherGroup') };
     }
-    my $Access = 0;
-    if ( !@Groups ) {
-        $Access = 1;
-    }
-    else {
+    if (@Groups) {
+        my $Access = 0;
         for my $Group (@Groups) {
             next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
             if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
@@ -55,22 +52,20 @@ sub Run {
                 last;
             }
         }
-    }
 
-    # return on no access
-    return if !$Access;
+        # return on no access
+        return if !$Access;
+    }
 
     # find watched tickets
     my $Count = $Self->{TicketObject}->TicketSearch(
         Result       => 'COUNT',
-        Limit        => 1000,
         WatchUserIDs => [ $Self->{UserID} ],
         UserID       => 1,
         Permission   => 'ro',
     );
     my $CountNew = $Self->{TicketObject}->TicketSearch(
         Result       => 'COUNT',
-        Limit        => 1000,
         WatchUserIDs => [ $Self->{UserID} ],
         TicketFlag   => {
             Seen => 1,
@@ -81,11 +76,14 @@ sub Run {
     );
     $CountNew = $Count - $CountNew;
     my $Text = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets');
+    my $URL;
     if ($CountNew) {
-        $Text .= " ($CountNew*/$Count)";
+        $Text .= " (*$CountNew/$Count)";
+        $URL = 'Action=AgentTicketWatchView;Filter=New';
     }
     else {
-        $Text .= " ($CountNew)";
+        $Text .= " ($Count)";
+        $URL = 'Action=AgentTicketWatchView';
     }
     my %Return;
     $Return{'0999978'} = {
@@ -93,7 +91,7 @@ sub Run {
         Description => $Text,
         Name        => $Text,
         Image       => 'watcher.png',
-        Link        => 'Action=AgentTicketWatchView',
+        Link        => $URL,
         AccessKey   => '',
     };
     return %Return;
