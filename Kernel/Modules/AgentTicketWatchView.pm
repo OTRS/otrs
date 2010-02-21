@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketWatchView.pm - to view all locked tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketWatchView.pm,v 1.8 2010-02-15 23:32:34 martin Exp $
+# $Id: AgentTicketWatchView.pm,v 1.9 2010-02-21 18:32:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -102,10 +102,11 @@ sub Run {
         }
     }
 
-    my %Filters = ();
-
-    if ($Access) {
-        $Filters{All} = {
+    if ( !$Access ) {
+        $Self->{LayoutObject}->FatalError( Message => 'Feature not enabled!' );
+    }
+    my %Filters = (
+        All => {
             Name   => 'All',
             Prio   => 1000,
             Search => {
@@ -115,8 +116,24 @@ sub Run {
                 UserID       => 1,
                 Permission   => 'ro',
             },
-        };
-        $Filters{Reminder} = {
+        },
+        New => {
+            Name   => 'New Article',
+            Prio   => 1001,
+            Search => {
+                Locks        => ['lock'],
+                WatchUserIDs => [ $Self->{UserID} ],
+                TicketFlag   => {
+                    Seen => 1,
+                },
+                TicketFlagUserID => $Self->{UserID},
+                OrderBy          => $OrderBy,
+                SortBy           => $SortByS,
+                UserID           => 1,
+                Permission       => 'ro',
+            },
+        },
+        Reminder => {
             Name   => 'Pending',
             Prio   => 1002,
             Search => {
@@ -127,8 +144,8 @@ sub Run {
                 UserID       => 1,
                 Permission   => 'ro',
             },
-        };
-        $Filters{ReminderReached} = {
+        },
+        ReminderReached => {
             Name   => 'Reminder Reached',
             Prio   => 1003,
             Search => {
@@ -140,8 +157,8 @@ sub Run {
                 UserID                        => 1,
                 Permission                    => 'ro',
             },
-        };
-    }
+        },
+    );
 
     # check if filter is valid
     if ( !$Filters{ $Self->{Filter} } ) {
@@ -151,8 +168,28 @@ sub Run {
     my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
         %{ $Filters{ $Self->{Filter} }->{Search} },
         Result => 'ARRAY',
-        Limit  => 1000,
+        Limit  => 1_000,
     );
+
+    # prepare shown tickets for new article tickets
+    if ( $Self->{Filter} eq 'New' ) {
+        my @ViewableTicketsAll = $Self->{TicketObject}->TicketSearch(
+            %{ $Filters{All}->{Search} },
+            Result => 'ARRAY',
+            Limit  => 1_000,
+        );
+        my %ViewableTicketsNotNew;
+        for my $TicketID (@ViewableTickets) {
+            $ViewableTicketsNotNew{$TicketID} = 1;
+        }
+
+        my @ViewableTicketsTmp;
+        for my $TicketIDAll (@ViewableTicketsAll) {
+            next if $ViewableTicketsNotNew{$TicketIDAll};
+            push @ViewableTicketsTmp, $TicketIDAll;
+        }
+        @ViewableTickets = @ViewableTicketsTmp;
+    }
 
     my %NavBarFilter;
     for my $Filter ( keys %Filters ) {
@@ -160,6 +197,16 @@ sub Run {
             %{ $Filters{$Filter}->{Search} },
             Result => 'COUNT',
         );
+
+        # prepare count for new article tickets
+        if ( $Filter eq 'New' ) {
+            my $CountAll = $Self->{TicketObject}->TicketSearch(
+                %{ $Filters{All}->{Search} },
+                Result => 'COUNT',
+            );
+            $Count = $CountAll - $Count;
+        }
+
         $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
             Count  => $Count,
             Filter => $Filter,

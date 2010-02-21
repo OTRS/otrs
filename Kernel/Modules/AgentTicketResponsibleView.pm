@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsibleView.pm - to view all locked tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsibleView.pm,v 1.6 2010-02-15 23:32:34 martin Exp $
+# $Id: AgentTicketResponsibleView.pm,v 1.7 2010-02-21 18:32:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -92,6 +92,22 @@ sub Run {
                 Permission     => 'ro',
             },
         },
+        New => {
+            Name   => 'New Article',
+            Prio   => 1001,
+            Search => {
+                Locks          => ['lock'],
+                ResponsibleIDs => [ $Self->{UserID} ],
+                TicketFlag     => {
+                    Seen => 1,
+                },
+                TicketFlagUserID => $Self->{UserID},
+                OrderBy          => $OrderBy,
+                SortBy           => $SortByS,
+                UserID           => 1,
+                Permission       => 'ro',
+            },
+        },
         Reminder => {
             Name   => 'Pending',
             Prio   => 1002,
@@ -127,8 +143,28 @@ sub Run {
     my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
         %{ $Filters{ $Self->{Filter} }->{Search} },
         Result => 'ARRAY',
-        Limit  => 1000,
+        Limit  => 1_000,
     );
+
+    # prepare shown tickets for new article tickets
+    if ( $Self->{Filter} eq 'New' ) {
+        my @ViewableTicketsAll = $Self->{TicketObject}->TicketSearch(
+            %{ $Filters{'All'}->{Search} },
+            Result => 'ARRAY',
+            Limit  => 1_000,
+        );
+        my %ViewableTicketsNotNew;
+        for my $TicketID (@ViewableTickets) {
+            $ViewableTicketsNotNew{$TicketID} = 1;
+        }
+
+        my @ViewableTicketsTmp;
+        for my $TicketIDAll (@ViewableTicketsAll) {
+            next if $ViewableTicketsNotNew{$TicketIDAll};
+            push @ViewableTicketsTmp, $TicketIDAll;
+        }
+        @ViewableTickets = @ViewableTicketsTmp;
+    }
 
     my %NavBarFilter;
     for my $Filter ( keys %Filters ) {
@@ -136,6 +172,16 @@ sub Run {
             %{ $Filters{$Filter}->{Search} },
             Result => 'COUNT',
         );
+
+        # prepare count for new article tickets
+        if ( $Filter eq 'New' ) {
+            my $CountAll = $Self->{TicketObject}->TicketSearch(
+                %{ $Filters{All}->{Search} },
+                Result => 'COUNT',
+            );
+            $Count = $CountAll - $Count;
+        }
+
         $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
             Count  => $Count,
             Filter => $Filter,

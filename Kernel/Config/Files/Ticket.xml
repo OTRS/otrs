@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.298 2010-02-15 23:32:34 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.299 2010-02-21 18:32:14 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5944,6 +5944,17 @@ $QData{"Signature"}
             <String Regex=""></String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::TicketLocked" Required="0" Valid="1">
+        <Description Lang="en">Agent interface notification module to check the used charset.</Description>
+        <Description Lang="de">Modul mit dem Agents über das Agent-Interface über den Zeichensatz von Tickets benachrichtigt werden.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NavBarTicketLocked</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::NavBarModule###1-Ticket::TicketWatcher" Required="0" Valid="1">
         <Description Lang="en">Agent interface notification module to see the number of watched tickets.</Description>
         <Description Lang="de">Modul mit dem Agents über das Agent-Interface über die Anzahl von beobachteten Tickets benachrichtigt werden.</Description>
@@ -5955,14 +5966,14 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::LockedTickets" Required="0" Valid="1">
-        <Description Lang="en">Agent interface notification module to check the used charset.</Description>
-        <Description Lang="de">Modul mit dem Agents über das Agent-Interface über den Zeichensatz von Tickets benachrichtigt werden.</Description>
+    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::TicketResponsible" Required="0" Valid="1">
+        <Description Lang="en">Agent interface notification module to see the number of responsible tickets.</Description>
+        <Description Lang="de">Modul mit dem Agents über das Agent-Interface über die Anzahl der Verantwortlichen Tickets benachrichtigt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarLockedTickets</Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBarTicketResponsible</Item>
             </Hash>
         </Setting>
     </ConfigItem>
