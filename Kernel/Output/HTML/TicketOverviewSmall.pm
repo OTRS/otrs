@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.17 2010-02-15 23:32:33 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.18 2010-02-21 20:01:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -180,10 +180,34 @@ sub Run {
 
             # show if now message is in there
             if ( !$TicketFlag{Seen} ) {
+
+                # just show ticket flags if agent belongs to the ticket
+                my $ShowMeta;
+                if (
+                    $Self->{UserID} == $Article{OwnerID}
+                    || $Self->{UserID} == $Article{ResponsibleID}
+                    )
+                {
+                    $ShowMeta = 1;
+                }
+                if ( !$ShowMeta && $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
+                    my %Watch = $Self->{TicketObject}->TicketWatchGet(
+                        TicketID => $TicketID,
+                    );
+                    if ( $Watch{ $Self->{UserID} } ) {
+                        $ShowMeta = 1;
+                    }
+                }
+
+                # show ticket flags
+                my $Image = 'meta-new-inactive.png';
+                if ($ShowMeta) {
+                    $Image = 'meta-new.png';
+                }
                 $Self->{LayoutObject}->Block(
                     Name => 'ContentLargeTicketGenericRowMeta',
                     Data => {
-                        Image => 'meta-new.png',
+                        Image => $Image,
                         Title => 'New Article!',
                     },
                 );

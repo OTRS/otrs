@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.84 2010-02-16 00:40:47 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.85 2010-02-21 20:01:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -509,7 +509,7 @@ sub MaskAgentZoom {
     }
 
     # get shown article(s)
-    my @NewArticleBox = ();
+    my @NewArticleBox;
     if ( !$Self->{ZoomExpand} ) {
         for my $ArticleTmp (@ArticleBox) {
             if ( $ArticleID eq $ArticleTmp->{ArticleID} ) {
@@ -906,12 +906,37 @@ sub MaskAgentZoom {
                     UserID    => $Self->{UserID},
                 );
                 if ( !$ArticleFlag{Seen} && !$ArticleFlag{seen} ) {
+
+                    # just show ticket flags if agent belongs to the ticket
+                    my $ShowMeta;
+                    if (
+                        $Self->{UserID} == $Article{OwnerID}
+                        || $Self->{UserID} == $Article{ResponsibleID}
+                        )
+                    {
+                        $ShowMeta = 1;
+                    }
+                    if ( !$ShowMeta && $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
+                        my %Watch = $Self->{TicketObject}->TicketWatchGet(
+                            TicketID => $Param{TicketID},
+                        );
+                        if ( $Watch{ $Self->{UserID} } ) {
+                            $ShowMeta = 1;
+                        }
+                    }
+
+                    # show ticket flags
+                    my $Image = 'meta-new-inactive.png';
+                    if ($ShowMeta) {
+                        $Image = 'meta-new.png';
+                    }
+
                     $Self->{LayoutObject}->Block(
                         Name => 'TreeItemMeta',
                         Data => {
                             %Article,
                             %ArticleFlag,
-                            Image => 'meta-new.png',
+                            Image => $Image,
                             Title => 'New Article!',
                         },
                     );
