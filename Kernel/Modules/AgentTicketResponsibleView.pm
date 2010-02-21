@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsibleView.pm - to view all locked tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsibleView.pm,v 1.7 2010-02-21 18:32:14 martin Exp $
+# $Id: AgentTicketResponsibleView.pm,v 1.8 2010-02-21 22:18:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -96,7 +96,7 @@ sub Run {
             Name   => 'New Article',
             Prio   => 1001,
             Search => {
-                Locks          => ['lock'],
+                StateType      => 'Open',
                 ResponsibleIDs => [ $Self->{UserID} ],
                 TicketFlag     => {
                     Seen => 1,
