@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.51 2010-02-09 13:52:01 martin Exp $
+# $Id: postgresql.pm,v 1.52 2010-02-21 15:25:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,13 +31,13 @@ sub LoadPreferences {
     my ( $Self, %Param ) = @_;
 
     # db settings
-    $Self->{'DB::Limit'}              = 'limit';
-    $Self->{'DB::DirectBlob'}         = 0;
-    $Self->{'DB::QuoteSingle'}        = '\'';
-    $Self->{'DB::QuoteBack'}          = '\\';
-    $Self->{'DB::QuoteSemicolon'}     = '\\';
-    $Self->{'DB::QuoteUnderscore'}    = '\\\\';
-    $Self->{'DB::NoLowerInLargeText'} = 0;
+    $Self->{'DB::Limit'}           = 'limit';
+    $Self->{'DB::DirectBlob'}      = 0;
+    $Self->{'DB::QuoteSingle'}     = '\'';
+    $Self->{'DB::QuoteBack'}       = '\\';
+    $Self->{'DB::QuoteSemicolon'}  = '\\';
+    $Self->{'DB::QuoteUnderscore'} = '\\\\';
+    $Self->{'DB::CaseInsensitive'} = 0;
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {};
