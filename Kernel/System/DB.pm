@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.117 2010-02-17 09:20:09 bes Exp $
+# $Id: DB.pm,v 1.118 2010-02-21 15:25:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 =head1 NAME
 
@@ -169,7 +169,7 @@ sub new {
     # check/get extra database config options
     # (overwrite with params)
     for (
-        qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode NoLowerInLargeText LcaseLikeInLargeText)
+        qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode CaseInsensitive LcaseLikeInLargeText)
         )
     {
         if ( defined $Param{$_} ) {
@@ -907,6 +907,7 @@ generate SQL condition query based on a search expression
         Value        => '(ABC+DEF)',
         SearchPrefix => '',
         SearchSuffix => '*'
+        Extended     => 1, # use also " " as "&&", e.g. "bob smith" -> "bob&&smith"
     );
 
     example of a more complex search condition
@@ -995,6 +996,12 @@ sub QueryCondition {
     $Param{Value} =~ s/(\s(\(|\)|\||&))/$2/g;
     $Param{Value} =~ s/((\(|\)|\||&)\s)/$2/g;
 
+    # use extended condition mode
+    # 1. replace " " by "&&"
+    if ( $Param{Extended} ) {
+        $Param{Value} =~ s/\s/&&/g;
+    }
+
     # get col.
     my @Keys;
     if ( ref $Param{Key} eq 'ARRAY' ) {
@@ -1045,15 +1052,21 @@ sub QueryCondition {
                         $SQLA .= ' AND ';
                     }
 
+                    # check if like is used
+                    my $Type = 'NOT LIKE';
+                    if ( $Word !~ /%/ ) {
+                        $Type = '!=';
+                    }
+
                     # check if database supports LIKE in large text types
-                    if ( $Self->GetDatabaseFunction('NoLowerInLargeText') ) {
-                        $SQLA .= "$Key NOT LIKE '$Word'";
+                    if ( $Self->GetDatabaseFunction('CaseInsensitive') ) {
+                        $SQLA .= "$Key $Type '$Word'";
                     }
                     elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {
-                        $SQLA .= "LCASE($Key) NOT LIKE LCASE('$Word')";
+                        $SQLA .= "LCASE($Key) $Type LCASE('$Word')";
                     }
                     else {
-                        $SQLA .= "LOWER($Key) NOT LIKE LOWER('$Word')";
+                        $SQLA .= "LOWER($Key) $Type LOWER('$Word')";
                     }
                 }
                 $SQL .= '(' . $SQLA . ') ';
@@ -1067,15 +1080,21 @@ sub QueryCondition {
                         $SQLA .= ' OR ';
                     }
 
+                    # check if like is used
+                    my $Type = 'LIKE';
+                    if ( $Word !~ /%/ ) {
+                        $Type = '=';
+                    }
+
                     # check if database supports LIKE in large text types
-                    if ( $Self->GetDatabaseFunction('NoLowerInLargeText') ) {
-                        $SQLA .= "$Key LIKE '$Word'";
+                    if ( $Self->GetDatabaseFunction('CaseInsensitive') ) {
+                        $SQLA .= "$Key $Type '$Word'";
                     }
                     elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {
-                        $SQLA .= "LCASE($Key) LIKE LCASE('$Word')";
+                        $SQLA .= "LCASE($Key) $Type LCASE('$Word')";
                     }
                     else {
-                        $SQLA .= "LOWER($Key) LIKE LOWER('$Word')";
+                        $SQLA .= "LOWER($Key) $Type LOWER('$Word')";
                     }
                 }
                 $SQL .= '(' . $SQLA . ') ';
@@ -1228,6 +1247,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.117 $ $Date: 2010-02-17 09:20:09 $
+$Revision: 1.118 $ $Date: 2010-02-21 15:25:49 $
 
 =cut

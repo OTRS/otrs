@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.15 2009-10-23 14:14:52 martin Exp $
+# $Id: StaticDB.pm,v 1.16 2010-02-21 15:25:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -181,16 +181,13 @@ sub _ArticleIndexQuerySQLExt {
         }
 
         # check if search condition extention is used
-        if (
-            $Param{Data}->{ConditionInline}
-            && $Param{Data}->{$Key} =~ /(&&|\|\||\!|\+|AND|OR)/
-            )
-        {
+        if ( $Param{Data}->{ConditionInline} ) {
             $FullTextSQL .= $Self->{DBObject}->QueryCondition(
                 Key          => $FieldSQLMapFullText{$Key},
                 Value        => $Param{Data}->{$Key},
                 SearchPrefix => $Param{Data}->{ContentSearchPrefix},
                 SearchSuffix => $Param{Data}->{ContentSearchSuffix},
+                Extended     => 1,
             );
         }
         else {
@@ -209,20 +206,13 @@ sub _ArticleIndexQuerySQLExt {
             $Param{Data}->{$Key} =~ s/%%/%/gi;
 
             # db quote
-            $Value = $Self->{DBObject}->Quote( $Value, 'Like' );
+            $Value = lc $Self->{DBObject}->Quote( $Value, 'Like' );
 
-            # check if database supports LIKE in large text types (in this case for body)
-            if ( $Self->{DBObject}->GetDatabaseFunction('NoLowerInLargeText') ) {
-                $FullTextSQL .= " $Field LIKE '$Value'";
-            }
-            elsif ( $Self->{DBObject}->GetDatabaseFunction('LcaseLikeInLargeText') ) {
+            if ( $Self->{DBObject}->GetDatabaseFunction('LcaseLikeInLargeText') ) {
                 $FullTextSQL .= " LCASE($Field) LIKE LCASE('$Value')";
             }
-            elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'ingres' ) {
-                $FullTextSQL .= " LOWER(VARCHAR($Field)) LIKE LOWER('$Value')";
-            }
             else {
-                $FullTextSQL .= " LOWER($Field) LIKE LOWER('$Value')";
+                $FullTextSQL .= " $Field LIKE '$Value'";
             }
         }
     }

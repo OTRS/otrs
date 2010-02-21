@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.55 2010-02-15 23:32:33 martin Exp $
+# $Id: Ticket.t,v 1.56 2010-02-21 15:25:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3529,11 +3529,14 @@ $Self->False(
     Result => 'HASH',
 
     # result limit
-    Limit      => 100,
-    Body       => '*write perl modules*',
-    StateType  => 'Closed',
-    UserID     => 1,
-    Permission => 'rw',
+    Limit               => 100,
+    Body                => 'write perl modules',
+    ConditionInline     => 1,
+    ContentSearchPrefix => '*',
+    ContentSearchSuffix => '*',
+    StateType           => 'Closed',
+    UserID              => 1,
+    Permission          => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3546,11 +3549,14 @@ $Self->True(
     Result => 'HASH',
 
     # result limit
-    Limit      => 100,
-    Body       => '*write perl modules*',
-    StateType  => 'Open',
-    UserID     => 1,
-    Permission => 'rw',
+    Limit               => 100,
+    Body                => 'write perl modules',
+    ConditionInline     => 1,
+    ContentSearchPrefix => '*',
+    ContentSearchSuffix => '*',
+    StateType           => 'Open',
+    UserID              => 1,
+    Permission          => 'rw',
 );
 $Self->True(
     !$TicketIDs{$TicketID},
@@ -3625,6 +3631,10 @@ for my $Condition (
     ' Some+Agent ',
     '(!SomeWordShouldNotFound||(Some+Agent))',
     '((Some+Agent)||(SomeAgentNotFound||AgentNotFound))',
+    '"Some Agent Some"',
+    '("Some Agent Some")',
+    '!"Some Some Agent"',
+    '(!"Some Some Agent")',
     )
 {
     %TicketIDs = $TicketObject->TicketSearch(
@@ -3642,7 +3652,7 @@ for my $Condition (
         Permission          => 'rw',
     );
     $Self->True(
-        $TicketIDs{$TicketID} || 0,
+        $TicketIDs{$TicketID},
         "TicketSearch() (HASH:From,ConditionInline,From='$Condition')",
     );
 }
@@ -3657,6 +3667,10 @@ for my $Condition (
     'SomeNotFoundWord&&AgentNotFoundWord',
     '(SomeWordShouldNotFound||(!Some+!Agent))',
     '((SomeNotFound&&Agent)||(SomeAgentNotFound||AgentNotFound))',
+    '!"Some Agent Some"',
+    '(!"Some Agent Some")',
+    '"Some Some Agent"',
+    '("Some Some Agent")',
     )
 {
     %TicketIDs = $TicketObject->TicketSearch(
@@ -3674,7 +3688,7 @@ for my $Condition (
         Permission          => 'rw',
     );
     $Self->True(
-        ( !$TicketIDs{$TicketID} ) || 0,
+        ( !$TicketIDs{$TicketID} ),
         "TicketSearch() (HASH:From,ConditionInline,From='$Condition')",
     );
 }
@@ -4312,7 +4326,7 @@ for my $Test (@Tests) {
             );
 
             $Self->True(
-                @HistoryGet,
+                scalar @HistoryGet,
                 'HistoryGet - HistoryGet()',
             );
 
