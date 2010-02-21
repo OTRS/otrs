@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.73 2010-02-15 23:32:33 martin Exp $
+# $Id: RuntimeDB.pm,v 1.74 2010-02-21 19:14:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -180,108 +180,6 @@ sub TicketAcceleratorRebuild {
     my ( $Self, %Param ) = @_;
 
     return 1;
-}
-
-sub GetLockedCount {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    if ( !exists( $Param{UserID} ) ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
-        return;
-    }
-
-    # check cache
-    if ( $Self->{ 'Cache::GetLockCount' . $Param{UserID} } ) {
-        return %{ $Self->{ 'Cache::GetLockCount' . $Param{UserID} } };
-    }
-
-    # db query
-    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(
-        Type => 'ID',
-    );
-
-    return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
-            . " ar.create_by, ti.create_time_unix, ti.until_time, "
-            . " tst.name, ar.article_type_id FROM "
-            . " ticket ti, article ar, ticket_state ts, ticket_state_type tst WHERE "
-            . " ti.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) AND "
-            . " ti.user_id = ? AND "
-            . " ar.ticket_id = ti.id AND "
-            . " ts.id = ti.ticket_state_id AND "
-            . " ts.type_id = tst.id "
-            . " ORDER BY ar.create_time DESC",
-        Bind => [ \$Param{UserID} ],
-    );
-    my @ArticleLocked;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push @ArticleLocked, \@Row;
-    }
-
-    my %TicketIDs;
-    my %Data = (
-        All => 0,
-        New => 0,
-    );
-
-    # find only new messages
-    # put all tickets to ToDo where last sender type is customer / system or ! UserID
-    # and article type is not a email-notification
-    for my $Article (@ArticleLocked) {
-
-        # next if article already checked
-        next if $TicketIDs{ $Article->[2] };
-
-        $Data{All}++;
-
-        # lookup sender and article type
-        my $SenderType = $Self->ArticleSenderTypeLookup( SenderTypeID => $Article->[1] );
-        my $ArticleType = $Self->ArticleTypeLookup( ArticleTypeID => $Article->[7] );
-
-        # only if sender is system and article type was notification
-        next if $SenderType eq 'system' && $ArticleType =~ /^email-extern/i;
-
-        # count ticket as new if last article is not from current agent or last article
-        # is from customer
-        if (
-            (
-                $Article->[3] ne $Param{UserID}
-                || $SenderType eq 'customer'
-            )
-            && $ArticleType !~ /^email-notification/i
-            )
-        {
-            $Data{New}++;
-            $Data{NewTicketIDs}->{ $Article->[2] } = 1;
-        }
-
-        # remember already used article
-        $TicketIDs{ $Article->[2] } = 1;
-    }
-
-    # show just unseen tickets as new
-    if ( $Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen' ) {
-
-        # reset new message count
-        $Data{New}          = 0;
-        $Data{NewTicketIDs} = undef;
-        for my $TicketID ( keys %TicketIDs ) {
-            my %Flag = $Self->TicketFlagGet(
-                TicketID => $TicketID,
-                UserID   => $Param{UserID},
-            );
-            if ( !$Flag{Seen} ) {
-                $Data{NewTicketIDs}->{$TicketID} = 1;
-                $Data{New}++;
-            }
-        }
-    }
-
-    # cache result
-    $Self->{ 'Cache::GetLockCount' . $Param{UserID} } = \%Data;
-
-    return %Data;
 }
 
 sub GetOverTimeTickets {
