@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # StatsExportToOPM.pl - export all stats of a system and create a package for the package manager
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StatsExportToOPM.pl,v 1.14 2009-03-18 19:06:20 martin Exp $
+# $Id: StatsExportToOPM.pl,v 1.14.2.1 2010-02-22 03:33:41 sb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -50,7 +50,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.14.2.1 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -84,7 +84,7 @@ getopt( 'dhvn', \%Opts );
 if ( $Opts{'h'} ) {
     print
         "StatsExportToOPM.pl <Revision $VERSION> - export all stats of a system and create a package for the package manager\n";
-    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     print "usage: StatsExportToOPM.pl [-n <PACKAGE_NAME>] [-v <PACKAGE_VERSION>]\n";
     print
         "       [-d 'yes' for delete existing stats if the opm will be installed] [-h for help]\n";
@@ -188,7 +188,7 @@ my ( $s, $m, $h, $D, $M, $Y )
 
 $OPMS{Version}{Content}   = $PackageVersion;
 $OPMS{Name}{Content}      = $PackageName;
-$OPMS{Framework}{Content} = '2.3.x';
+$OPMS{Framework}{Content} = '2.4.x';
 $OPMS{Vendor}{Content}    = 'OTRS AG';
 $OPMS{URL}{Content}       = 'http://otrs.org/';
 $OPMS{License}{Content}   = 'GNU GENERAL PUBLIC LICENSE Version 2, June 1991';
