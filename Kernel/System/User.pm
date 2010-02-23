@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.99 2010-01-25 13:10:46 martin Exp $
+# $Id: User.pm,v 1.100 2010-02-23 23:16:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 =head1 NAME
 
@@ -631,32 +631,11 @@ sub SetPassword {
     # crypt with unix crypt
     elsif ( $CryptType eq 'crypt' ) {
 
-        # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
-        # crypt() is working correctly) :-/
-        if ( crypt( 'root', 'root@localhost' ) eq 'roK20XGbWEsSM' ) {
+        # encode output, needed by crypt() only non utf8 signs
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+        $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
 
-            # encode output, needed by crypt() only non utf8 signs
-            $Self->{EncodeObject}->EncodeOutput( \$Pw );
-            $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
-
-            $CryptedPw = crypt( $Pw, $Param{UserLogin} );
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message =>
-                    'The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!',
-            );
-            my $TempUser = quotemeta( $Param{UserLogin} );
-            my $TempPw   = quotemeta($Pw);
-            my $CMD      = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
-            open( IO, " $CMD | " ) || print STDERR "Can't open $CMD: $!";
-            while (<IO>) {
-                $CryptedPw .= $_;
-            }
-            close(IO);
-            chomp $CryptedPw;
-        }
+        $CryptedPw = crypt( $Pw, $Param{UserLogin} );
     }
 
     # crypt with md5
@@ -1069,6 +1048,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.99 $ $Date: 2010-01-25 13:10:46 $
+$Revision: 1.100 $ $Date: 2010-02-23 23:16:44 $
 
 =cut
