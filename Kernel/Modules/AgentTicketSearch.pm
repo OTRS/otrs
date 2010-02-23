@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.82 2010-02-15 23:26:11 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.83 2010-02-23 12:39:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -696,13 +696,6 @@ sub Run {
             }
         }
 
-        # focus of "From To Cc Subject Body Title"
-        for (qw(From To Cc Subject Body Title)) {
-            if ( defined( $GetParam{$_} ) && $GetParam{$_} ne '' ) {
-                $GetParam{$_} = "*$GetParam{$_}*";
-            }
-        }
-
         # prepare archive flag
         if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
 
@@ -720,13 +713,15 @@ sub Run {
 
         # perform ticket search
         my @ViewableTicketIDs = $Self->{TicketObjectSearch}->TicketSearch(
-            Result          => 'ARRAY',
-            SortBy          => $Self->{SortBy},
-            OrderBy         => $Self->{OrderBy},
-            Limit           => $Self->{SearchLimit},
-            UserID          => $Self->{UserID},
-            ConditionInline => $Self->{Config}->{ExtendedSearchCondition},
-            FullTextIndex   => 1,
+            Result              => 'ARRAY',
+            SortBy              => $Self->{SortBy},
+            OrderBy             => $Self->{OrderBy},
+            Limit               => $Self->{SearchLimit},
+            UserID              => $Self->{UserID},
+            ConditionInline     => $Self->{Config}->{ExtendedSearchCondition},
+            ContentSearchPrefix => '*',
+            ContentSearchSuffix => '*',
+            FullTextIndex       => 1,
             %GetParam,
         );
 

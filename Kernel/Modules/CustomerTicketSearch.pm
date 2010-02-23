@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.44 2010-01-19 21:30:37 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.45 2010-02-23 12:39:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -363,22 +363,17 @@ sub Run {
             }
         }
 
-        # focus of "From To Cc Subject Body"
-        for (qw(From To Cc Subject Body)) {
-            if ( defined( $GetParam{$_} ) && $GetParam{$_} ne '' ) {
-                $GetParam{$_} = "*$GetParam{$_}*";
-            }
-        }
-
         # perform ticket search
         my @ViewableTicketIDs = $Self->{TicketObject}->TicketSearch(
-            Result          => 'ARRAY',
-            SortBy          => $Self->{SortBy},
-            OrderBy         => $Self->{Order},
-            Limit           => $Self->{SearchLimit},
-            CustomerUserID  => $Self->{UserID},
-            ConditionInline => $Self->{Config}->{ExtendedSearchCondition},
-            FullTextIndex   => 1,
+            Result              => 'ARRAY',
+            SortBy              => $Self->{SortBy},
+            OrderBy             => $Self->{Order},
+            Limit               => $Self->{SearchLimit},
+            CustomerUserID      => $Self->{UserID},
+            ConditionInline     => $Self->{Config}->{ExtendedSearchCondition},
+            ContentSearchPrefix => '*',
+            ContentSearchSuffix => '*',
+            FullTextIndex       => 1,
             %GetParam,
         );
 
