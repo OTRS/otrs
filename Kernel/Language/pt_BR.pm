@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.89.2.5 2010-02-23 14:37:05 mb Exp $
+# $Id: pt_BR.pm,v 1.89.2.6 2010-02-23 19:14:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89.2.5 $) [1];
+$VERSION = qw($Revision: 1.89.2.6 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1247,7 +1247,7 @@ sub Data {
         'No element selected.' => 'Nenhum elemento selecionado.',
         'maximal period from' => 'período máximo de',
         'to' => 'para',
-        'With the input and select fields you can configurate the stat at your needs. Os elementos que você pode editar dependem das permissões concedidas pelo administrador.',
+        'With the input and select fields you can configurate the stat at your needs.' =>  'Os elementos que você pode editar dependem das permissões concedidas pelo administrador.',
 
         # Template: AgentTicketBounce
         'A message should have a To: recipient!' => 'Uma mensagem deve possuir um Para: destinatário!',
