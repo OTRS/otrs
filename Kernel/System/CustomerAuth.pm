@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth.pm - provides the authentication
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.32 2009-10-14 09:12:14 martin Exp $
+# $Id: CustomerAuth.pm,v 1.33 2010-02-23 21:16:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -110,7 +110,7 @@ sub new {
 
 =item GetOption()
 
-Get module options. Currently exists just one option, "PreAuth".
+Get module options. Currently there is just one option, "PreAuth".
 
     if ($AuthObject->GetOption(What => 'PreAuth')) {
         print "No login screen is needed. Authentication is based on other options. E. g. $ENV{REMOTE_USER}\n";
@@ -126,7 +126,7 @@ sub GetOption {
 
 =item Auth()
 
-The autentificaion function.
+The authentication function.
 
     if ($AuthObject->Auth(User => $User, Pw => $Pw)) {
         print "Auth ok!\n";
@@ -161,7 +161,7 @@ sub Auth {
         }
     }
 
-    # check if recorde exists
+    # check if record exists
     if ( !$User ) {
         my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{User} );
         if (%CustomerData) {
@@ -231,6 +231,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2009-10-14 09:12:14 $
+$Revision: 1.33 $ $Date: 2010-02-23 21:16:01 $
 
 =cut
