@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1166 2010-02-23 15:08:19 mb Exp $
+# $Id: CHANGES,v 1.1167 2010-02-23 21:15:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/02/23) Fixed bug#4957 - Password Change dialog misses "Current Password"
+    option.
  - (2010/02/22) Fixed bug#5020 - Framework version for stats export is outdated.
  - (2010/02/21) Extended QueryCondition() of Kernel::System::DB to allow
     also "some praise" expression as "some&&praise", to be compat. just add

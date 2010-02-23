@@ -2,7 +2,7 @@
 # AAAPreferences.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAAPreferences.dtl,v 1.19 2010-01-25 07:49:55 mb Exp $
+# $Id: AAAPreferences.dtl,v 1.20 2010-02-23 21:15:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@ $Text{"Frontend"}
 $Text{"Other Options"}
 
 $Text{"Change Password"}
+$Text{"Current password"}
 $Text{"New password"}
 $Text{"Repeat new password"}
 
@@ -30,6 +31,7 @@ $Text{"Select your default spelling dictionary."}
 
 $Text{"Max. shown Tickets a page in Overview."}
 
+$Text{"The current password is not correct. Please try again!"}
 $Text{"Can't update password, your new passwords do not match. Please try again!"}
 $Text{"Can't update password, it contains invalid characters!"}
 $Text{"Can't update password, it must be at least %s characters long!"}

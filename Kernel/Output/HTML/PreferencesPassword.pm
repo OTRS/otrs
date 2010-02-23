@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.23 2010-01-25 07:49:55 mb Exp $
+# $Id: PreferencesPassword.pm,v 1.24 2010-02-23 21:15:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::Output::HTML::PreferencesPassword;
 use strict;
 use warnings;
 
+use Kernel::System::Auth;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,13 +71,19 @@ sub Param {
         @Params,
         {
             %Param,
+            Key   => 'Current password',
+            Name  => 'CurPw',
+            Block => 'Password'
+        },
+        {
+            %Param,
             Key   => 'New password',
             Name  => 'NewPw',
             Block => 'Password'
         },
         {
             %Param,
-            Key   => 'Repeat new password',
+            Key   => 'Retype new password',
             Name  => 'NewPw1',
             Block => 'Password'
         },
@@ -91,14 +99,62 @@ sub Run {
         return 1;
     }
 
-    my $Pw  = '';
-    my $Pw1 = '';
+    my $CurPw;
+    my $Pw;
+    my $Pw1;
 
+    if ( $Param{GetParam}->{CurPw} && $Param{GetParam}->{CurPw}->[0] ) {
+        $CurPw = $Param{GetParam}->{CurPw}->[0];
+    }
     if ( $Param{GetParam}->{NewPw} && $Param{GetParam}->{NewPw}->[0] ) {
         $Pw = $Param{GetParam}->{NewPw}->[0];
     }
     if ( $Param{GetParam}->{NewPw1} && $Param{GetParam}->{NewPw1}->[0] ) {
         $Pw1 = $Param{GetParam}->{NewPw1}->[0];
+    }
+    if ( $Self->{ConfigItem}->{Area} eq 'Agent' ) {
+
+        # create authentication object
+        my $AuthObject = Kernel::System::Auth->new(
+            ConfigObject => $Self->{ConfigObject},
+            EncodeObject => $Self->{EncodeObject},
+            LogObject    => $Self->{LogObject},
+            UserObject   => $Self->{UserObject},
+            GroupObject  => $Self->{GroupObject},
+            DBObject     => $Self->{DBObject},
+            MainObject   => $Self->{MainObject},
+            TimeObject   => $Self->{TimeObject},
+        );
+        return 1 if !$AuthObject;
+
+        # validate current password
+        if ( !$AuthObject->Auth( User => $Param{UserData}->{UserLogin}, Pw => $CurPw ) ) {
+            $Self->{Error}
+                = 'The current password is not correct. Please try again!';
+            return;
+        }
+    }
+    elsif ( $Self->{ConfigItem}->{Area} eq 'Customer' ) {
+
+        # create authentication object
+        my $AuthObject = Kernel::System::CustomerAuth->new(
+            ConfigObject => $Self->{ConfigObject},
+            EncodeObject => $Self->{EncodeObject},
+            LogObject    => $Self->{LogObject},
+            UserObject   => $Self->{UserObject},
+            GroupObject  => $Self->{GroupObject},
+            DBObject     => $Self->{DBObject},
+            MainObject   => $Self->{MainObject},
+            TimeObject   => $Self->{TimeObject},
+        );
+        return 1 if !$AuthObject;
+
+        # validate current password
+        if ( !$AuthObject->Auth( User => $Param{UserData}->{UserLogin}, Pw => $CurPw ) ) {
+            $Self->{Error}
+                = 'The current password is not correct. Please try again!';
+            return;
+        }
     }
 
     # compare pws
