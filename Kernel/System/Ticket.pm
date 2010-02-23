@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.453 2010-02-21 18:52:04 martin Exp $
+# $Id: Ticket.pm,v 1.454 2010-02-23 12:33:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.453 $) [1];
+$VERSION = qw($Revision: 1.454 $) [1];
 
 =head1 NAME
 
@@ -6500,48 +6500,46 @@ sub HistoryTicketGet {
         );
         return;
     }
-    else {
 
-        # update old ticket info
-        my %CurrentTicketData = $Self->TicketGet( TicketID => $Ticket{TicketID} );
-        for (qw(State Priority Queue TicketNumber)) {
-            if ( !$Ticket{$_} ) {
-                $Ticket{$_} = $CurrentTicketData{$_};
-            }
-            if ( !$Ticket{"Create$_"} ) {
-                $Ticket{"Create$_"} = $CurrentTicketData{$_};
-            }
+    # update old ticket info
+    my %CurrentTicketData = $Self->TicketGet( TicketID => $Ticket{TicketID} );
+    for (qw(State Priority Queue TicketNumber)) {
+        if ( !$Ticket{$_} ) {
+            $Ticket{$_} = $CurrentTicketData{$_};
         }
+        if ( !$Ticket{"Create$_"} ) {
+            $Ticket{"Create$_"} = $CurrentTicketData{$_};
+        }
+    }
 
-        # check if we should cache this ticket data
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $Self->{TimeObject}->SystemTime2Date(
-            SystemTime => $Self->{TimeObject}->SystemTime(),
-        );
+    # check if we should cache this ticket data
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
 
-        # if the request is for the last month or older, cache it
-        if ( $Year <= $Param{StopYear} && $Month > $Param{StopMonth} ) {
+    # if the request is for the last month or older, cache it
+    if ( $Year <= $Param{StopYear} && $Month > $Param{StopMonth} ) {
 
-            # create sub directory if needed
-            if ( !-e $Path && !File::Path::mkpath( [$Path], 0, 0775 ) ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Can't create directory: $Path: $!",
-                );
-            }
-
-            # write cache file
-            my $Content = '';
-            for my $Key ( keys %Ticket ) {
-                $Content .= "$Key:$Ticket{$Key}\n";
-            }
-            $Self->{MainObject}->FileWrite(
-                Directory => $Path,
-                Filename  => $File,
-                Content   => \$Content,
+        # create sub directory if needed
+        if ( !-e $Path && !File::Path::mkpath( [$Path], 0, 0775 ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't create directory: $Path: $!",
             );
         }
-        return %Ticket;
+
+        # write cache file
+        my $Content = '';
+        for my $Key ( keys %Ticket ) {
+            $Content .= "$Key:$Ticket{$Key}\n";
+        }
+        $Self->{MainObject}->FileWrite(
+            Directory => $Path,
+            Filename  => $File,
+            Content   => \$Content,
+        );
     }
+    return %Ticket;
 }
 
 =item HistoryTypeLookup()
@@ -7905,6 +7903,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.453 $ $Date: 2010-02-21 18:52:04 $
+$Revision: 1.454 $ $Date: 2010-02-23 12:33:38 $
 
 =cut
