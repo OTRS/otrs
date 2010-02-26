@@ -2,7 +2,7 @@
 # Kernel/System/Valid.pm - all valid functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Valid.pm,v 1.20 2010-02-26 20:48:21 martin Exp $
+# $Id: Valid.pm,v 1.21 2010-02-26 20:56:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,9 @@ use strict;
 use warnings;
 
 use Kernel::System::CacheInternal;
-use Kernel::System::Main;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -82,11 +81,10 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject EncodeObject)) {
+    for my $Object (qw(DBObject ConfigObject LogObject EncodeObject MainObject)) {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
-    $Self->{MainObject}          = Kernel::System::Main->new(%Param);
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
         Type => 'Valid',
@@ -247,6 +245,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2010-02-26 20:48:21 $
+$Revision: 1.21 $ $Date: 2010-02-26 20:56:54 $
 
 =cut
