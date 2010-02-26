@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.23 2010-01-31 23:45:59 martin Exp $
+# $Id: CustomerGroup.pm,v 1.24 2010-02-26 20:48:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -68,6 +68,7 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
+        EncodeObject => $EncodeObject,
     );
 
 =cut
@@ -80,7 +81,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{GroupObject} = Kernel::System::Group->new(%Param);
@@ -349,6 +350,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2010-01-31 23:45:59 $
+$Revision: 1.24 $ $Date: 2010-02-26 20:48:21 $
 
 =cut

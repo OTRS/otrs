@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.112 2010-01-25 12:48:39 martin Exp $
+# $Id: Queue.pm,v 1.113 2010-02-26 20:48:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 =head1 NAME
 
@@ -72,6 +72,7 @@ create an object
         LogObject           => $LogObject,
         DBObject            => $DBObject,
         MainObject          => $MainObject,
+        EncodeObject        => $EncodeObject,
         GroupObject         => $GroupObject, # if given
         CustomerGroupObject => $CustomerGroupObject, # if given
     );
@@ -88,7 +89,7 @@ sub new {
     $Self->{QueueID} = $Param{QueueID} || '';
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
@@ -1087,6 +1088,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.112 $ $Date: 2010-01-25 12:48:39 $
+$Revision: 1.113 $ $Date: 2010-02-26 20:48:21 $
 
 =cut

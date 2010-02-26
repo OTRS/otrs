@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CacheInternal.pm - all cache functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CacheInternal.pm,v 1.2 2009-10-01 18:29:32 martin Exp $
+# $Id: CacheInternal.pm,v 1.3 2010-02-26 20:48:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -59,6 +59,7 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         MainObject   => $MainObject,
+        EncodeObject => $EncodeObject,
         Type         => 'ObjectName', # only A-z chars usable
         TTL          => 60 * 60 * 24,
     );
@@ -76,7 +77,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    for (qw(MainObject ConfigObject LogObject)) {
+    for (qw(MainObject ConfigObject LogObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -87,6 +88,8 @@ sub new {
     $Self->{Type} = 'CacheInternal' . $Self->{Type};
 
     my $CachePermanent = 1;
+
+    #    $CachePermanent = 0;
 
     if ($CachePermanent) {
         $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
@@ -246,6 +249,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2009-10-01 18:29:32 $
+$Revision: 1.3 $ $Date: 2010-02-26 20:48:21 $
 
 =cut

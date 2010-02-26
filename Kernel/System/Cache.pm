@@ -2,7 +2,7 @@
 # Kernel/System/Cache.pm - all cache functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.pm,v 1.18 2010-02-07 13:43:28 martin Exp $
+# $Id: Cache.pm,v 1.19 2010-02-26 20:48:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -58,6 +58,7 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         MainObject   => $MainObject,
+        EncodeObject => $EncodeObject,
     );
 
 =cut
@@ -73,13 +74,15 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    for (qw(MainObject ConfigObject LogObject)) {
+    for (qw(MainObject ConfigObject LogObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # cache backend
     my $CacheModule = $Self->{ConfigObject}->Get('Cache::Module')
         || 'Kernel::System::Cache::FileStorable';
+
+    #        || 'Kernel::System::Cache::Memcached';
     if ( !$Self->{MainObject}->Require($CacheModule) ) {
         die "Can't load backend module $CacheModule! $@";
     }
@@ -245,6 +248,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2010-02-07 13:43:28 $
+$Revision: 1.19 $ $Date: 2010-02-26 20:48:21 $
 
 =cut
