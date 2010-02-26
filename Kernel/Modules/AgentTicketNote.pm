@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketNote.pm,v 1.79 2010-02-26 18:36:20 martin Exp $
+# $Id: AgentTicketNote.pm,v 1.80 2010-02-26 19:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -151,11 +151,6 @@ sub Run {
         NewStateID NewPriorityID TimeUnits ArticleTypeID Title Body Subject
         Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
         TypeID ServiceID SLAID Expand
-        AttachmentUpload
-        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
-        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
         )
         )
     {
@@ -309,8 +304,9 @@ sub Run {
         }
 
         # attachment delete
-        for my $Count ( 1 .. 16 ) {
-            next if !$GetParam{ 'AttachmentDelete' . $Count };
+        for my $Count ( 1 .. 32 ) {
+            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+            next if !$Delete;
             $Error{AttachmentDelete} = 1;
             $Self->{UploadCacheObject}->FormIDRemoveFile(
                 FormID => $Self->{FormID},
@@ -319,7 +315,7 @@ sub Run {
         }
 
         # attachment upload
-        if ( $GetParam{AttachmentUpload} ) {
+        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                 Param  => 'file_upload',
@@ -1167,6 +1163,7 @@ sub _Mask {
 
         # show attachments
         for my $Attachment ( @{ $Param{Attachments} } ) {
+            next if $Attachment->{ContentID};
             $Self->{LayoutObject}->Block(
                 Name => 'Attachment',
                 Data => $Attachment,

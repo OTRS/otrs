@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.129 2010-02-26 18:40:41 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.130 2010-02-26 19:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.129 $) [1];
+$VERSION = qw($Revision: 1.130 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,14 +65,10 @@ sub Run {
     # get params
     my %GetParam = ();
     for (
-        qw(AttachmentUpload ArticleID LinkTicketID PriorityID NewUserID
+        qw(ArticleID LinkTicketID PriorityID NewUserID
         From Subject Body NextStateID TimeUnits
         Year Month Day Hour Minute
         NewResponsibleID ResponsibleAll OwnerAll TypeID ServiceID SLAID
-        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
-        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
         )
         )
     {
@@ -457,17 +453,17 @@ sub Run {
 
         # attachment delete
         for my $Count ( 1 .. 16 ) {
-            if ( $GetParam{"AttachmentDelete$Count"} ) {
-                $Error{AttachmentDelete} = 1;
-                $Self->{UploadCacheObject}->FormIDRemoveFile(
-                    FormID => $Self->{FormID},
-                    FileID => $Count,
-                );
-            }
+            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+            next if !$Delete;
+            $Error{AttachmentDelete} = 1;
+            $Self->{UploadCacheObject}->FormIDRemoveFile(
+                FormID => $Self->{FormID},
+                FileID => $Count,
+            );
         }
 
         # attachment upload
-        if ( $GetParam{AttachmentUpload} ) {
+        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                 Param  => 'file_upload',
@@ -1966,6 +1962,7 @@ sub _MaskPhoneNew {
 
     # show attachments
     for my $Attachment ( @{ $Param{Attachments} } ) {
+        next if $Attachment->{ContentID};
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,

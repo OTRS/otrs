@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.44 2010-02-26 18:36:20 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.45 2010-02-26 19:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -101,16 +101,11 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # get params
-    my %GetParam = ();
+    my %GetParam;
     for (
         qw(Subject Body TimeUnits
         NewUserID OldUserID NewStateID NewPriorityID
         UserSelection OwnerAll NoSubmit DestQueueID DestQueue
-        AttachmentUpload
-        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
-        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
         )
         )
     {
@@ -118,10 +113,11 @@ sub Run {
     }
 
     # get ticket free text params
-    for ( 1 .. 16 ) {
-        $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
-        $GetParam{"TicketFreeText$_"}
-            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
+    for my $Count ( 1 .. 16 ) {
+        my $Key  = 'TicketFreeKey' . $Count;
+        my $Text = 'TicketFreeText' . $Count;
+        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
         if ( !defined $GetParam{"TicketFreeKey$_"} && $Ticket{"TicketFreeKey$_"} ) {
             $GetParam{"TicketFreeKey$_"} = $Ticket{"TicketFreeKey$_"};
         }
@@ -187,8 +183,8 @@ sub Run {
     }
 
     # error handling
-    my %Error = ();
-    if ( $GetParam{AttachmentUpload} ) {
+    my %Error;
+    if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
         $Error{AttachmentUpload} = 1;
     }
 
@@ -248,7 +244,7 @@ sub Run {
         );
 
         # get free text config options
-        my @TicketFreeTextConfig = ();
+        my @TicketFreeTextConfig;
         for ( 1 .. 16 ) {
             my $ConfigKey = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
@@ -330,7 +326,7 @@ sub Run {
     if (%Error) {
 
         # ticket free text
-        my %TicketFreeText = ();
+        my %TicketFreeText;
         for ( 1 .. 16 ) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
@@ -420,18 +416,18 @@ sub Run {
         my @OldUserInfo = $Self->{TicketObject}->OwnerList( TicketID => $Self->{TicketID} );
 
         # attachment delete
-        for ( 1 .. 16 ) {
-            if ( $GetParam{"AttachmentDelete$_"} ) {
-                $Error{AttachmentDelete} = 1;
-                $Self->{UploadCacheObject}->FormIDRemoveFile(
-                    FormID => $Self->{FormID},
-                    FileID => $_,
-                );
-            }
+        for my $Count ( 1 .. 32 ) {
+            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+            next if !$Delete;
+            $Error{AttachmentDelete} = 1;
+            $Self->{UploadCacheObject}->FormIDRemoveFile(
+                FormID => $Self->{FormID},
+                FileID => $Count,
+            );
         }
 
         # attachment upload
-        if ( $GetParam{AttachmentUpload} ) {
+        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                 Param  => "file_upload",
@@ -701,8 +697,8 @@ sub AgentMove {
 
     my %Data       = %{ $Param{MoveQueues} };
     my %MoveQueues = %Data;
-    my %UsedData   = ();
-    my %UserHash   = ();
+    my %UsedData;
+    my %UserHash;
     if ( $Param{OldUser} ) {
         my $Counter = 0;
         for my $User ( reverse @{ $Param{OldUser} } ) {
@@ -858,10 +854,11 @@ sub AgentMove {
     }
 
     # show attachments
-    for my $DataRef ( @{ $Param{Attachments} } ) {
+    for my $Attachment ( @{ $Param{Attachments} } ) {
+        next if $Attachment->{ContentID};
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
-            Data => $DataRef,
+            Data => $Attachment,
         );
     }
 
@@ -942,7 +939,7 @@ sub _GetUsers {
     my ( $Self, %Param ) = @_;
 
     # get users
-    my %ShownUsers       = ();
+    my %ShownUsers;
     my %AllGroupsMembers = $Self->{UserObject}->UserList(
         Type  => 'Long',
         Valid => 1,
@@ -989,9 +986,8 @@ sub _GetUsers {
 sub _GetPriorities {
     my ( $Self, %Param ) = @_;
 
-    my %Priorities = ();
-
     # get priority
+    my %Priorities;
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %Priorities = $Self->{TicketObject}->PriorityList(
             %Param,
@@ -1005,7 +1001,7 @@ sub _GetPriorities {
 sub _GetNextStates {
     my ( $Self, %Param ) = @_;
 
-    my %NextStates = ();
+    my %NextStates;
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %NextStates = $Self->{TicketObject}->StateList(
             %Param,

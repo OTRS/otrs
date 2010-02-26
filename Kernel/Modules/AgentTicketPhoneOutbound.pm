@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.39 2010-02-26 18:36:20 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.40 2010-02-26 19:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -138,12 +138,8 @@ sub Run {
     # get params
     my %GetParam = ();
     for (
-        qw(AttachmentUpload
-        Body Subject TimeUnits NextStateID
+        qw(Body Subject TimeUnits NextStateID
         Year Month Day Hour Minute
-        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10
         )
         )
     {
@@ -323,7 +319,7 @@ sub Run {
             if (
                 $Self->{Config}{'TicketFreeText'}{$Count} == 2
                 && $GetParam{"TicketFreeText$Count"} eq ''
-                && !$GetParam{AttachmentUpload}
+                && !$Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' )
                 )
             {
                 $Error{"TicketFreeTextField$Count invalid"} = 'invalid';
@@ -331,18 +327,18 @@ sub Run {
         }
 
         # attachment delete
-        for ( 1 .. 10 ) {
-            if ( $GetParam{"AttachmentDelete$_"} ) {
-                $Error{AttachmentDelete} = 1;
-                $Self->{UploadCacheObject}->FormIDRemoveFile(
-                    FormID => $Self->{FormID},
-                    FileID => $_,
-                );
-            }
+        for my $Count ( 1 .. 32 ) {
+            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+            next if !$Delete;
+            $Error{AttachmentDelete} = 1;
+            $Self->{UploadCacheObject}->FormIDRemoveFile(
+                FormID => $Self->{FormID},
+                FileID => $Count,
+            );
         }
 
         # attachment upload
-        if ( $GetParam{AttachmentUpload} ) {
+        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                 Param  => 'file_upload',
@@ -355,7 +351,8 @@ sub Run {
         }
 
         # check subject
-        if ( !$GetParam{Subject} && !$GetParam{AttachmentUpload} ) {
+        if ( !$GetParam{Subject} && !$Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) )
+        {
             $Error{'Subject invalid'} = 'invalid';
         }
 
@@ -915,6 +912,7 @@ sub _MaskPhone {
 
     # show attachments
     for my $Attachment ( @{ $Param{Attachments} } ) {
+        next if $Attachment->{ContentID};
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,

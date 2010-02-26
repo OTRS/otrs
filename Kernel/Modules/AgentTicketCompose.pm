@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.88 2009-12-11 09:42:09 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.89 2010-02-26 19:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +47,7 @@ sub new {
     $Self->{CheckItemObject}     = Kernel::System::CheckItem->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject}         = Kernel::System::State->new(%Param);
-    $Self->{UploadCachObject}    = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{UploadCacheObject}   = Kernel::System::Web::UploadCache->new(%Param);
     $Self->{SystemAddress}       = Kernel::System::SystemAddress->new(%Param);
 
     # get form id
@@ -55,7 +55,7 @@ sub new {
 
     # create form id
     if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
+        $Self->{FormID} = $Self->{UploadCacheObject}->FormIDCreate();
     }
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
@@ -142,16 +142,11 @@ sub Run {
     }
 
     # get params
-    my %GetParam = ();
+    my %GetParam;
     for (
         qw(
         From To Cc Bcc Subject Body InReplyTo References ResponseID ReplyArticleID StateID
-        ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
-        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
-        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
-        FormID
+        ArticleID TimeUnits Year Month Day Hour Minute FormID
         )
         )
     {
@@ -190,10 +185,10 @@ sub Run {
 
     # send email
     if ( $Self->{Subaction} eq 'SendEmail' ) {
-        my %Error = ();
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{StateID}, );
 
         # check pending date
+        my %Error;
         if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
                 $Error{'Date invalid'} = 'invalid';
@@ -212,31 +207,31 @@ sub Run {
         }
 
         # attachment delete
-        for my $Count ( 1 .. 16 ) {
-            if ( $GetParam{"AttachmentDelete$Count"} ) {
-                $Error{AttachmentDelete} = 1;
-                $Self->{UploadCachObject}->FormIDRemoveFile(
-                    FormID => $Self->{FormID},
-                    FileID => $Count,
-                );
-            }
+        for my $Count ( 1 .. 32 ) {
+            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+            next if !$Delete;
+            $Error{AttachmentDelete} = 1;
+            $Self->{UploadCacheObject}->FormIDRemoveFile(
+                FormID => $Self->{FormID},
+                FileID => $Count,
+            );
         }
 
         # attachment upload
-        if ( $GetParam{AttachmentUpload} ) {
+        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                 Param  => 'file_upload',
                 Source => 'string',
             );
-            $Self->{UploadCachObject}->FormIDAddFile(
+            $Self->{UploadCacheObject}->FormIDAddFile(
                 FormID => $Self->{FormID},
                 %UploadStuff,
             );
         }
 
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
 
@@ -297,7 +292,7 @@ sub Run {
         if (%Error) {
 
             # get free text config options
-            my %TicketFreeText = ();
+            my %TicketFreeText;
             for my $Count ( 1 .. 16 ) {
                 my $Key  = 'TicketFreeKey' . $Count;
                 my $Text = 'TicketFreeText' . $Count;
@@ -326,7 +321,7 @@ sub Run {
             );
 
             # article free text
-            my %ArticleFreeText = ();
+            my %ArticleFreeText;
             for my $Count ( 1 .. 3 ) {
                 my $Key  = 'ArticleFreeKey' . $Count;
                 my $Text = 'ArticleFreeText' . $Count;
@@ -373,7 +368,7 @@ sub Run {
         }
 
         # get pre loaded attachments
-        my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+        my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
             FormID => $Self->{FormID},
         );
 
@@ -564,7 +559,7 @@ sub Run {
         );
 
         # remove pre submited attachments
-        $Self->{UploadCachObject}->FormIDRemove( FormID => $GetParam{FormID} );
+        $Self->{UploadCacheObject}->FormIDRemove( FormID => $GetParam{FormID} );
 
         # redirect
         if ( $StateData{TypeName} =~ /^close/i ) {
@@ -577,7 +572,6 @@ sub Run {
         }
     }
     else {
-        my %Error = ();
         my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
 
         # add std. attachments to email
@@ -587,7 +581,7 @@ sub Run {
             );
             for ( sort keys %AllStdAttachments ) {
                 my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $_ );
-                $Self->{UploadCachObject}->FormIDAddFile(
+                $Self->{UploadCacheObject}->FormIDAddFile(
                     FormID => $Self->{FormID},
                     %Data,
                 );
@@ -595,7 +589,7 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
 
@@ -635,7 +629,7 @@ sub Run {
         $Data{OrigFromName} =~ s/( $)|(  $)//g;
 
         # get customer data
-        my %Customer = ();
+        my %Customer;
         if ( $Ticket{CustomerUserID} ) {
             %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $Ticket{CustomerUserID}
@@ -644,10 +638,10 @@ sub Run {
 
         # get article to quote
         $Data{Body} = $Self->{LayoutObject}->ArticleQuote(
-            TicketID         => $Self->{TicketID},
-            ArticleID        => $Data{ArticleID},
-            FormID           => $Self->{FormID},
-            UploadCachObject => $Self->{UploadCachObject},
+            TicketID          => $Self->{TicketID},
+            ArticleID         => $Data{ArticleID},
+            FormID            => $Self->{FormID},
+            UploadCacheObject => $Self->{UploadCacheObject},
         );
 
         if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
@@ -780,7 +774,7 @@ sub Run {
         }
 
         # find duplicate addresses
-        my %Recipient = ();
+        my %Recipient;
         for my $Type (qw(To Cc Bcc)) {
             if ( $Data{$Type} ) {
                 my $NewLine = '';
@@ -874,6 +868,7 @@ $QData{"Signature"}
         );
 
         # check some values
+        my %Error;
         for my $Line (qw(From To Cc Bcc)) {
             next if !$Data{$Line};
             for my $Email ( Mail::Address->parse( $Data{$Line} ) ) {
@@ -884,7 +879,7 @@ $QData{"Signature"}
         }
 
         # get free text config options
-        my %TicketFreeText = ();
+        my %TicketFreeText;
         for my $Count ( 1 .. 16 ) {
             my $Key  = 'TicketFreeKey' . $Count;
             my $Text = 'TicketFreeText' . $Count;
@@ -907,7 +902,7 @@ $QData{"Signature"}
         );
 
         # free time
-        my %TicketFreeTime = ();
+        my %TicketFreeTime;
         for ( 1 .. 6 ) {
             $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Optional' }
                 = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
@@ -936,7 +931,7 @@ $QData{"Signature"}
         );
 
         # get article free text default selections
-        my %ArticleFreeDefault = ();
+        my %ArticleFreeDefault;
         for my $Count ( 1 .. 3 ) {
             my $Key  = 'ArticleFreeKey' . $Count;
             my $Text = 'ArticleFreeText' . $Count;
@@ -947,7 +942,7 @@ $QData{"Signature"}
         }
 
         # article free text
-        my %ArticleFreeText = ();
+        my %ArticleFreeText;
         for my $Count ( 1 .. 3 ) {
             my $Key  = 'ArticleFreeKey' . $Count;
             my $Text = 'ArticleFreeText' . $Count;
@@ -1173,6 +1168,7 @@ sub _Mask {
 
     # show attachments
     for my $Attachment ( @{ $Param{Attachments} } ) {
+        next if $Attachment->{ContentID};
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,

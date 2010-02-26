@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.56 2010-02-26 18:36:20 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.57 2010-02-26 19:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,16 +97,7 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # get params
-    for (
-        qw(
-        Subject Body StateID PriorityID
-        AttachmentUpload
-        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10
-        )
-        )
-    {
+    for (qw( Subject Body StateID PriorityID)) {
         $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
     }
 
@@ -150,18 +141,18 @@ sub Run {
         }
 
         # attachment delete
-        for ( 1 .. 10 ) {
-            if ( $GetParam{"AttachmentDelete$_"} ) {
-                $Error{AttachmentDelete} = 1;
-                $Self->{UploadCacheObject}->FormIDRemoveFile(
-                    FormID => $Self->{FormID},
-                    FileID => $_,
-                );
-            }
+        for my $Count ( 1 .. 32 ) {
+            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+            next if !$Delete;
+            $Error{AttachmentDelete} = 1;
+            $Self->{UploadCacheObject}->FormIDRemoveFile(
+                FormID => $Self->{FormID},
+                FileID => $Count,
+            );
         }
 
         # attachment upload
-        if ( $GetParam{AttachmentUpload} ) {
+        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                 Param  => "file_upload",
@@ -696,6 +687,7 @@ sub _Mask {
             FormID => $Self->{FormID},
         );
         for my $Attachment (@Attachments) {
+            next if $Attachment->{ContentID};
             $Self->{LayoutObject}->Block(
                 Name => 'Attachment',
                 Data => $Attachment,

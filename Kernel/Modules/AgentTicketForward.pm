@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.60 2009-12-11 09:42:09 mh Exp $
+# $Id: AgentTicketForward.pm,v 1.61 2010-02-26 19:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,17 +46,12 @@ sub new {
     $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
     $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
-    $Self->{UploadCachObject}   = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
 
     # get params
     for (
         qw(From To Cc Bcc Subject Body InReplyTo References ComposeStateID ArticleTypeID
-        ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
-        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
-        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
-        FormID)
+        ArticleID TimeUnits Year Month Day Hour Minute FormID)
         )
     {
         my $Value = $Self->{ParamObject}->GetParam( Param => $_ );
@@ -67,7 +62,7 @@ sub new {
 
     # create form id
     if ( !$Self->{GetParam}->{FormID} ) {
-        $Self->{GetParam}->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
+        $Self->{GetParam}->{FormID} = $Self->{UploadCacheObject}->FormIDCreate();
     }
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
@@ -96,8 +91,7 @@ sub Run {
 sub Form {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-    my %Error    = ();
+    my %Error;
     my %GetParam = %{ $Self->{GetParam} };
 
     # check needed stuff
@@ -124,6 +118,7 @@ sub Form {
     }
 
     # get lock state
+    my $Output = '';
     if ( $Self->{Config}->{RequiredLock} ) {
         if ( !$Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
 
@@ -195,7 +190,7 @@ sub Form {
         TicketID           => $Data{TicketID},
         ArticleID          => $Data{ArticleID},
         FormID             => $Self->{GetParam}->{FormID},
-        UploadCachObject   => $Self->{UploadCachObject},
+        UploadCacheObject  => $Self->{UploadCacheObject},
         AttachmentsInclude => 1,
     );
 
@@ -267,7 +262,7 @@ sub Form {
     }
 
     # get all attachments meta data
-    my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+    my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
         FormID => $GetParam{FormID},
     );
 
@@ -312,7 +307,7 @@ sub Form {
     }
 
     # get free text config options
-    my %TicketFreeText = ();
+    my %TicketFreeText;
     for ( 1 .. 16 ) {
         $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
@@ -340,7 +335,7 @@ sub Form {
     }
 
     # free time
-    my %TicketFreeTime = ();
+    my %TicketFreeTime;
     for ( 1 .. 6 ) {
         $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Optional' }
             = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
@@ -391,12 +386,13 @@ sub Form {
 sub SendEmail {
     my ( $Self, %Param ) = @_;
 
-    my %Error    = ();
-    my %GetParam = %{ $Self->{GetParam} };
-    my $Output   = '';
-    my $QueueID  = $Self->{QueueID};
-    my %StateData
-        = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{ComposeStateID}, );
+    my %Error;
+    my %GetParam  = %{ $Self->{GetParam} };
+    my $Output    = '';
+    my $QueueID   = $Self->{QueueID};
+    my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+        ID => $GetParam{ComposeStateID},
+    );
     my $NextState = $StateData{Name};
 
     # check pending date
@@ -407,31 +403,31 @@ sub SendEmail {
     }
 
     # attachment delete
-    for ( 1 .. 16 ) {
-        if ( $GetParam{"AttachmentDelete$_"} ) {
-            $Error{AttachmentDelete} = 1;
-            $Self->{UploadCachObject}->FormIDRemoveFile(
-                FormID => $GetParam{FormID},
-                FileID => $_,
-            );
-        }
+    for my $Count ( 1 .. 32 ) {
+        my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+        next if !$Delete;
+        $Error{AttachmentDelete} = 1;
+        $Self->{UploadCacheObject}->FormIDRemoveFile(
+            FormID => $GetParam{FormID},
+            FileID => $Count,
+        );
     }
 
     # attachment upload
-    if ( $GetParam{AttachmentUpload} ) {
+    if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
         $Error{AttachmentUpload} = 1;
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'file_upload',
             Source => 'string',
         );
-        $Self->{UploadCachObject}->FormIDAddFile(
+        $Self->{UploadCacheObject}->FormIDAddFile(
             FormID => $GetParam{FormID},
             %UploadStuff,
         );
     }
 
     # get all attachments meta data
-    my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+    my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
         FormID => $GetParam{FormID},
     );
 
@@ -453,7 +449,7 @@ sub SendEmail {
     );
 
     # prepare free text
-    my %TicketFree = ();
+    my %TicketFree;
     for ( 1 .. 16 ) {
         $TicketFree{"TicketFreeKey$_"}
             = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
@@ -462,7 +458,7 @@ sub SendEmail {
     }
 
     # get free text config options
-    my %TicketFreeText = ();
+    my %TicketFreeText;
     for ( 1 .. 16 ) {
         $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
@@ -520,9 +516,8 @@ sub SendEmail {
         }
     }
 
-    my %ArticleParam = ();
-
     # run compose modules
+    my %ArticleParam;
     if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') ) eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
         for my $Job ( sort keys %Jobs ) {
@@ -580,7 +575,7 @@ sub SendEmail {
     }
 
     # get pre loaded attachments
-    my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+    my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
         FormID => $GetParam{FormID},
     );
 
@@ -735,7 +730,7 @@ sub SendEmail {
     }
 
     # remove pre submited attachments
-    $Self->{UploadCachObject}->FormIDRemove( FormID => $GetParam{FormID} );
+    $Self->{UploadCacheObject}->FormIDRemove( FormID => $GetParam{FormID} );
 
     # redirect
     if ( $StateData{TypeName} =~ /^close/i ) {
@@ -764,7 +759,7 @@ sub _Mask {
     my ( $Self, %Param ) = @_;
 
     # build next states string
-    my %State = ();
+    my %State;
     if ( !$Param{ComposeStateID} ) {
         $State{Selected} = $Self->{Config}->{StateDefault};
     }
@@ -777,7 +772,7 @@ sub _Mask {
         Name => 'ComposeStateID',
         %State,
     );
-    my %ArticleTypes         = ();
+    my %ArticleTypes;
     my @ArticleTypesPossible = @{ $Self->{Config}->{ArticleTypes} };
     for (@ArticleTypesPossible) {
         $ArticleTypes{ $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $_ ) } = $_;
@@ -876,10 +871,11 @@ sub _Mask {
     }
 
     # show attachments
-    for my $DataRef ( @{ $Param{Attachments} } ) {
+    for my $Attachment ( @{ $Param{Attachments} } ) {
+        next if $Attachment->{ContentID};
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
-            Data => $DataRef,
+            Data => $Attachment,
         );
     }
 

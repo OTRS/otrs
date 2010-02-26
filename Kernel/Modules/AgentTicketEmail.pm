@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.115 2010-01-19 21:30:36 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.116 2010-02-26 19:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +47,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{UploadCachObject}   = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
     $Self->{HTMLUtilsObject}    = Kernel::System::HTMLUtils->new(%Param);
 
     # get form id
@@ -55,7 +55,7 @@ sub new {
 
     # create form id
     if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
+        $Self->{FormID} = $Self->{UploadCacheObject}->FormIDCreate();
     }
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
@@ -78,17 +78,12 @@ sub Run {
     }
 
     # get params
-    my %GetParam = ();
+    my %GetParam;
     for (
-        qw(AttachmentUpload
-        Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
+        qw(Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
         TypeID ServiceID SLAID OwnerAll ResponsibleAll
         NewResponsibleID NewUserID
         NextStateID
-        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
-        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
         )
         )
     {
@@ -147,7 +142,7 @@ sub Run {
 
             # get split article if given
             # get default selections
-            my %TicketFreeDefault = ();
+            my %TicketFreeDefault;
             for my $Count ( 1 .. 16 ) {
                 my $Key  = 'TicketFreeKey' . $Count;
                 my $Text = 'TicketFreeText' . $Count;
@@ -158,7 +153,7 @@ sub Run {
             }
 
             # get free text config options
-            my %TicketFreeText = ();
+            my %TicketFreeText;
             for my $Count ( 1 .. 16 ) {
                 my $Key  = 'TicketFreeKey' . $Count;
                 my $Text = 'TicketFreeText' . $Count;
@@ -192,7 +187,7 @@ sub Run {
             );
 
             # get article free text default selections
-            my %ArticleFreeDefault = ();
+            my %ArticleFreeDefault;
             for my $Count ( 1 .. 3 ) {
                 my $Key  = 'ArticleFreeKey' . $Count;
                 my $Text = 'ArticleFreeText' . $Count;
@@ -203,7 +198,7 @@ sub Run {
             }
 
             # article free text
-            my %ArticleFreeText = ();
+            my %ArticleFreeText;
             for my $Count ( 1 .. 3 ) {
                 my $Key  = 'ArticleFreeKey' . $Count;
                 my $Text = 'ArticleFreeText' . $Count;
@@ -306,6 +301,30 @@ sub Run {
         return $Output;
     }
 
+    # deliver signature
+    elsif ( $Self->{Subaction} eq 'Signature' ) {
+        my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' );
+        if ( !$QueueID ) {
+            my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
+            ($QueueID) = split( /\|\|/, $Dest );
+        }
+        my $Signature = $Self->_GetSignature( QueueID => $QueueID || 1 );
+        my $MimeType = 'text/plain';
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $MimeType  = 'text/html';
+            $Signature = $Self->{LayoutObject}->RichTextDocumentComplete(
+                String => $Signature,
+            );
+        }
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => $MimeType . '; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $Signature,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
     # create new ticket and article
     elsif ( $Self->{Subaction} eq 'StoreNew' ) {
         my %Error;
@@ -324,7 +343,7 @@ sub Run {
         }
 
         # get sender queue from
-        my %Queue     = ();
+        my %Queue;
         my $Signature = '';
         if ($NewQueueID) {
             $Signature = $Self->_GetSignature( QueueID => $NewQueueID );
@@ -366,7 +385,7 @@ sub Run {
         }
 
         # get free text config options
-        my %TicketFreeText = ();
+        my %TicketFreeText;
         for my $Count ( 1 .. 16 ) {
             my $Key  = 'TicketFreeKey' . $Count;
             my $Text = 'TicketFreeText' . $Count;
@@ -404,7 +423,7 @@ sub Run {
         my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
 
         # article free text
-        my %ArticleFreeText = ();
+        my %ArticleFreeText;
         for my $Count ( 1 .. 3 ) {
             my $Key  = 'ArticleFreeKey' . $Count;
             my $Text = 'ArticleFreeText' . $Count;
@@ -427,40 +446,40 @@ sub Run {
         );
 
         # attachment delete
-        for my $Count ( 1 .. 16 ) {
-            if ( $GetParam{"AttachmentDelete$Count"} ) {
-                $Error{AttachmentDelete} = 1;
-                $Self->{UploadCachObject}->FormIDRemoveFile(
-                    FormID => $Self->{FormID},
-                    FileID => $Count,
-                );
-            }
+        for my $Count ( 1 .. 32 ) {
+            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+            next if !$Delete;
+            $Error{AttachmentDelete} = 1;
+            $Self->{UploadCacheObject}->FormIDRemoveFile(
+                FormID => $Self->{FormID},
+                FileID => $Count,
+            );
         }
 
         # attachment upload
-        if ( $GetParam{AttachmentUpload} ) {
+        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                 Param  => 'file_upload',
                 Source => 'string',
             );
-            $Self->{UploadCachObject}->FormIDAddFile(
+            $Self->{UploadCacheObject}->FormIDAddFile(
                 FormID => $Self->{FormID},
                 %UploadStuff,
             );
         }
 
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
 
         # Expand Customer Name
-        my %CustomerUserData = ();
+        my %CustomerUserData;
         if ( $ExpandCustomerName == 1 ) {
 
             # search customer
-            my %CustomerUserList = ();
+            my %CustomerUserList;
             %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
                 Search => $GetParam{To},
             );
@@ -531,7 +550,7 @@ sub Run {
         }
 
         # show customer info
-        my %CustomerData = ();
+        my %CustomerData;
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose') ) {
             if ($CustomerUser) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -596,7 +615,7 @@ sub Run {
         }
 
         # run compose modules
-        my %ArticleParam = ();
+        my %ArticleParam;
         if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
             my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
             for my $Job ( sort keys %Jobs ) {
@@ -694,7 +713,7 @@ sub Run {
                 Body         => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Body} ),
                 Errors       => \%Error,
                 Attachments  => \@Attachments,
-                Signature    => $Self->{HTMLUtilsObject}->ToAscii( String => $Signature, ),
+                Signature    => $Signature,
                 %GetParam,
                 %TicketFreeTextHTML,
                 %TicketFreeTimeHTML,
@@ -772,7 +791,7 @@ sub Run {
         }
 
         # get pre loaded attachment
-        @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+        @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
             FormID => $Self->{FormID},
         );
 
@@ -873,7 +892,7 @@ sub Run {
         }
 
         # remove pre submited attachments
-        $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
+        $Self->{UploadCacheObject}->FormIDRemove( FormID => $Self->{FormID} );
 
         # set owner (if new user id is given)
         if ($NewUserID) {
@@ -999,7 +1018,7 @@ sub Run {
         );
 
         # get free text config options
-        my @ExtendedData = ();
+        my @ExtendedData;
         for my $Count ( 1 .. 16 ) {
             my $Key       = 'TicketFreeKey' . $Count;
             my $Text      = 'TicketFreeText' . $Count;
@@ -1079,7 +1098,8 @@ sub Run {
 
         # convert Signature to ASCII, if RichText is on
         if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
-            $Signature = $Self->{HTMLUtilsObject}->ToAscii( String => $Signature, );
+
+            #            $Signature = $Self->{HTMLUtilsObject}->ToAscii( String => $Signature, );
         }
 
         my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
@@ -1159,7 +1179,7 @@ sub Run {
 sub _GetNextStates {
     my ( $Self, %Param ) = @_;
 
-    my %NextStates = ();
+    my %NextStates;
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %NextStates = $Self->{TicketObject}->StateList(
             %Param,
@@ -1174,7 +1194,7 @@ sub _GetUsers {
     my ( $Self, %Param ) = @_;
 
     # get users
-    my %ShownUsers       = ();
+    my %ShownUsers;
     my %AllGroupsMembers = $Self->{UserObject}->UserList(
         Type  => 'Long',
         Valid => 1,
@@ -1221,9 +1241,8 @@ sub _GetUsers {
 sub _GetPriorities {
     my ( $Self, %Param ) = @_;
 
-    my %Priorities = ();
-
     # get priority
+    my %Priorities;
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %Priorities = $Self->{TicketObject}->PriorityList(
             %Param,
@@ -1237,9 +1256,8 @@ sub _GetPriorities {
 sub _GetTypes {
     my ( $Self, %Param ) = @_;
 
-    my %Type = ();
-
     # get type
+    my %Type;
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %Type = $Self->{TicketObject}->TicketTypeList(
             %Param,
@@ -1253,9 +1271,8 @@ sub _GetTypes {
 sub _GetServices {
     my ( $Self, %Param ) = @_;
 
-    my %Service = ();
-
     # get service
+    my %Service;
     if ( ( $Param{QueueID} || $Param{TicketID} ) && $Param{CustomerUserID} ) {
         %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
@@ -1269,9 +1286,8 @@ sub _GetServices {
 sub _GetSLAs {
     my ( $Self, %Param ) = @_;
 
-    my %SLA = ();
-
     # get sla
+    my %SLA;
     if ( $Param{ServiceID} && $Param{Services} && %{ $Param{Services} } ) {
         if ( $Param{Services}->{ $Param{ServiceID} } ) {
             %SLA = $Self->{TicketObject}->TicketSLAList(
@@ -1288,14 +1304,14 @@ sub _GetTos {
     my ( $Self, %Param ) = @_;
 
     # check own selection
-    my %NewTos = ();
+    my %NewTos;
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') ) {
         %NewTos = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') };
     }
     else {
 
         # SelectionType Queue or SystemAddress?
-        my %Tos = ();
+        my %Tos;
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
             %Tos = $Self->{TicketObject}->MoveList(
                 Type   => 'create',
@@ -1423,7 +1439,7 @@ sub _MaskEmailNew {
     }
 
     # build to string
-    my %NewTo = ();
+    my %NewTo;
     if ( $Param{FromList} ) {
         for ( keys %{ $Param{FromList} } ) {
             $NewTo{"$_||$Param{FromList}->{$_}"} = $Param{FromList}->{$_};
@@ -1580,6 +1596,7 @@ sub _MaskEmailNew {
             },
         );
     }
+    $Param{FromStrg} =~ s/(onchange=")/$1ReloadSignature();/;
 
     # customer info string
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose') ) {
@@ -2026,6 +2043,7 @@ sub _MaskEmailNew {
 
     # show attachments
     for my $Attachment ( @{ $Param{Attachments} } ) {
+        next if $Attachment->{ContentID};
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
