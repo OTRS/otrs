@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.213 2010-02-15 23:50:07 martin Exp $
+# $Id: Layout.pm,v 1.214 2010-02-26 18:38:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.213 $) [1];
+$VERSION = qw($Revision: 1.214 $) [1];
 
 =head1 NAME
 
@@ -2511,7 +2511,7 @@ sub BuildDateSelection {
 
     # year
     if ( $DateInputStyle eq 'Option' ) {
-        my %Year = ();
+        my %Year;
         if ( defined $Param{YearPeriodPast} && defined $Param{YearPeriodFuture} ) {
             for ( $Y - $Param{YearPeriodPast} .. $Y + $Param{YearPeriodFuture} ) {
                 $Year{$_} = $_;
@@ -2539,7 +2539,7 @@ sub BuildDateSelection {
 
     # month
     if ( $DateInputStyle eq 'Option' ) {
-        my %Month = ();
+        my %Month;
         for ( 1 .. 12 ) {
             my $Tmp = sprintf( "%02d", $_ );
             $Month{$_} = $Tmp;
@@ -2564,7 +2564,7 @@ sub BuildDateSelection {
 
     # day
     if ( $DateInputStyle eq 'Option' ) {
-        my %Day = ();
+        my %Day;
         for ( 1 .. 31 ) {
             my $Tmp = sprintf( "%02d", $_ );
             $Day{$_} = $Tmp;
@@ -2587,7 +2587,7 @@ sub BuildDateSelection {
 
         # hour
         if ( $DateInputStyle eq 'Option' ) {
-            my %Hour = ();
+            my %Hour;
             for ( 0 .. 23 ) {
                 my $Tmp = sprintf( "%02d", $_ );
                 $Hour{$_} = $Tmp;
@@ -2615,7 +2615,7 @@ sub BuildDateSelection {
 
         # minute
         if ( $DateInputStyle eq 'Option' ) {
-            my %Minute = ();
+            my %Minute;
             for ( 0 .. 59 ) {
                 my $Tmp = sprintf( "%02d", $_ );
                 $Minute{$_} = $Tmp;
@@ -2881,7 +2881,7 @@ sub CustomerNavigationBar {
     my ( $Self, %Param ) = @_;
 
     # create menu items
-    my %NavBarModule         = ();
+    my %NavBarModule;
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::Module');
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
@@ -3381,14 +3381,14 @@ sub RichTextDocumentCleanup {
 sub _BlockTemplatePreferences {
     my ( $Self, %Param ) = @_;
 
-    my %TagsOpen       = ();
-    my @Preferences    = ();
+    my %TagsOpen;
+    my @Preferences;
     my $LastLayerCount = 0;
     my $Layer          = 0;
     my $LastLayer      = '';
     my $CurrentLayer   = '';
-    my %UsedNames      = ();
-    my $TemplateFile   = $Param{TemplateFile} || '';
+    my %UsedNames;
+    my $TemplateFile = $Param{TemplateFile} || '';
     if ( !defined $Param{Template} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
         return;
@@ -3457,9 +3457,6 @@ sub _BlockTemplatePreferences {
 sub _BlockTemplatesReplace {
     my ( $Self, %Param ) = @_;
 
-    my %BlockLayer     = ();
-    my %BlockTemplates = ();
-    my @BR             = ();
     if ( !$Param{Template} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
         return;
@@ -3471,6 +3468,8 @@ sub _BlockTemplatesReplace {
         Template => $$TemplateString,
         TemplateFile => $Param{TemplateFile} || '',
     );
+    my %BlockLayer;
+    my %BlockTemplates;
     for my $Block ( reverse @{$BlocksRef} ) {
         $$TemplateString =~ s{
             <!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->
@@ -3483,8 +3482,9 @@ sub _BlockTemplatesReplace {
     }
 
     # create block template string
+    my @BR;
     if ( $Self->{BlockData} && %BlockTemplates ) {
-        my @NotUsedBlockData = ();
+        my @NotUsedBlockData;
         for my $Block ( @{ $Self->{BlockData} } ) {
             if ( $BlockTemplates{ $Block->{Name} } ) {
                 push(
@@ -3539,9 +3539,9 @@ sub _Output {
         Template => \$TemplateString,
         TemplateFile => $Param{TemplateFile} || '',
     );
-    my $ID        = 0;
-    my %LayerHash = ();
-    my $OldLayer  = 1;
+    my $ID = 0;
+    my %LayerHash;
+    my $OldLayer = 1;
     for my $Block (@BR) {
 
         # reset layer counter if we switched on layer lower
@@ -4349,6 +4349,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.213 $ $Date: 2010-02-15 23:50:07 $
+$Revision: 1.214 $ $Date: 2010-02-26 18:38:14 $
 
 =cut

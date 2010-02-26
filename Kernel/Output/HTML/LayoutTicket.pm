@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.67 2010-02-21 21:26:57 martin Exp $
+# $Id: LayoutTicket.pm,v 1.68 2010-02-26 18:39:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -83,8 +83,8 @@ sub AgentCustomerViewTable {
         %{ $Param{Data} } = ( %{ $Param{Data} }, %{ $Param{Ticket} } );
     }
 
-    my @MapNew = ();
-    my $Map    = $Param{Data}->{Config}->{Map};
+    my @MapNew;
+    my $Map = $Param{Data}->{Config}->{Map};
     if ($Map) {
         @MapNew = ( @{$Map} );
     }
@@ -247,14 +247,14 @@ sub AgentQueueListOption {
         if ( !$Param{Ajax}->{Depend} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Need Depend Param Ajax option!",
+                Message  => 'Need Depend Param Ajax option!',
             );
             $Self->FatalError();
         }
         if ( !$Param{Ajax}->{Update} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Need Update Param Ajax option()!",
+                Message  => 'Need Update Param Ajax option()!',
             );
             $Self->FatalError();
         }
@@ -271,15 +271,15 @@ sub AgentQueueListOption {
 
     # just show a simple list
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'list' ) {
-        $Param{'MoveQueuesStrg'} = $Self->BuildSelection( %Param, HTMLQuote => 0, );
+        $Param{MoveQueuesStrg} = $Self->BuildSelection( %Param, HTMLQuote => 0, );
         return $Param{MoveQueuesStrg};
     }
 
     # build tree list
     $Param{MoveQueuesStrg}
         = '<select name="' . $Param{Name} . "\" $Size $Multiple $OnChangeSubmit>\n";
-    my %UsedData = ();
-    my %Data     = ();
+    my %UsedData;
+    my %Data;
     if ( $Param{Data} && ref $Param{Data} eq 'HASH' ) {
         %Data = %{ $Param{Data} };
     }
@@ -293,7 +293,7 @@ sub AgentQueueListOption {
     }
 
     # to show disabled queues only one time in the selection tree
-    my %DisabledQueueAlreadyUsed = ();
+    my %DisabledQueueAlreadyUsed;
 
     # build selection string
     for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
@@ -359,10 +359,10 @@ sub AgentQueueListOption {
 sub AgentFreeText {
     my ( $Self, %Param ) = @_;
 
-    my %NullOption = ();
-    my %SelectData = ();
-    my %Ticket     = ();
-    my %Config     = ();
+    my %NullOption;
+    my %SelectData;
+    my %Ticket;
+    my %Config;
     if ( $Param{NullOption} ) {
 
         #        $NullOption{''} = '-';
@@ -375,7 +375,7 @@ sub AgentFreeText {
     if ( $Param{Config} ) {
         %Config = %{ $Param{Config} };
     }
-    my %Data = ();
+    my %Data;
     for ( 1 .. 16 ) {
 
         # key
@@ -481,11 +481,10 @@ sub AgentFreeText {
 sub AgentFreeDate {
     my ( $Self, %Param ) = @_;
 
-    my %NullOption = ();
-    my %SelectData = ();
-    my %Ticket     = ();
-    my %Config     = ();
-
+    my %NullOption;
+    my %SelectData;
+    my %Ticket;
+    my %Config;
     if ( $Param{NullOption} ) {
         $SelectData{Size}     = 3;
         $SelectData{Multiple} = 1;
@@ -496,9 +495,9 @@ sub AgentFreeDate {
     if ( $Param{Config} ) {
         %Config = %{ $Param{Config} };
     }
-    my %Data = ();
+    my %Data;
     for my $Count ( 1 .. 6 ) {
-        my %TimePeriod = ();
+        my %TimePeriod;
         if ( $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) ) {
             %TimePeriod = %{ $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) };
         }
@@ -517,10 +516,10 @@ sub AgentFreeDate {
 sub TicketArticleFreeText {
     my ( $Self, %Param ) = @_;
 
-    my %NullOption = ();
-    my %SelectData = ();
-    my %Article    = ();
-    my %Config     = ();
+    my %NullOption;
+    my %SelectData;
+    my %Article;
+    my %Config;
     if ( $Param{NullOption} ) {
         $SelectData{Size}     = 3;
         $SelectData{Multiple} = 1;
@@ -531,7 +530,7 @@ sub TicketArticleFreeText {
     if ( $Param{Config} ) {
         %Config = %{ $Param{Config} };
     }
-    my %Data = ();
+    my %Data;
     for ( 1 .. 3 ) {
 
         # key
@@ -633,10 +632,10 @@ sub TicketArticleFreeText {
 sub CustomerFreeDate {
     my ( $Self, %Param ) = @_;
 
-    my %NullOption = ();
-    my %SelectData = ();
-    my %Ticket     = ();
-    my %Config     = ();
+    my %NullOption;
+    my %SelectData;
+    my %Ticket;
+    my %Config;
     if ( $Param{NullOption} ) {
         $SelectData{Size}     = 3;
         $SelectData{Multiple} = 1;
@@ -647,9 +646,9 @@ sub CustomerFreeDate {
     if ( $Param{Config} ) {
         %Config = %{ $Param{Config} };
     }
-    my %Data = ();
+    my %Data;
     for my $Count ( 1 .. 6 ) {
-        my %TimePeriod = ();
+        my %TimePeriod;
         if ( $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) ) {
             %TimePeriod = %{ $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) };
         }
@@ -677,7 +676,7 @@ for forward or split, get body and attach all attachments
         TicketID           => 123,
         ArticleID          => 123,
         FormID             => $Self->{FormID},
-        UploadCachObject   => $Self->{UploadCachObject},
+        UploadCacheObject   => $Self->{UploadCacheObject},
         AttachmentsInclude => 1,
     );
 
@@ -687,7 +686,7 @@ of just for including inline documents to upload cache
         TicketID           => 123,
         ArticleID          => 123,
         FormID             => $Self->{FormID},
-        UploadCachObject   => $Self->{UploadCachObject},
+        UploadCacheObject   => $Self->{UploadCacheObject},
         AttachmentsInclude => 0,
     );
 
@@ -700,7 +699,7 @@ sub ArticleQuote {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID ArticleID FormID UploadCachObject)) {
+    for (qw(TicketID ArticleID FormID UploadCacheObject)) {
         if ( !$Param{$_} ) {
             $Self->FatalError( Message => "Need $_!" );
         }
@@ -794,13 +793,13 @@ sub ArticleQuote {
                     $AttachmentPicture{ContentID} =~ s/^<//;
                     $AttachmentPicture{ContentID} =~ s/>$//;
 
-                    $Param{UploadCachObject}->FormIDAddFile(
+                    $Param{UploadCacheObject}->FormIDAddFile(
                         FormID      => $Param{FormID},
                         Disposition => 'inline',
                         %{ $Attachments{$AttachmentID} },
                         %AttachmentPicture,
                     );
-                    my @Attachments = $Param{UploadCachObject}->FormIDGetAllFilesMeta(
+                    my @Attachments = $Param{UploadCacheObject}->FormIDGetAllFilesMeta(
                         FormID => $Param{FormID},
                     );
                     CONTENTIDRETURN:
@@ -818,7 +817,7 @@ sub ArticleQuote {
             }egxi;
 
             # attach also other attachments (add all if no "cid:" was in html reply)
-            my @Attachments = $Param{UploadCachObject}->FormIDGetAllFilesMeta(
+            my @Attachments = $Param{UploadCacheObject}->FormIDGetAllFilesMeta(
                 FormID => $Param{FormID},
             );
             if ( !@Attachments ) {
@@ -841,7 +840,7 @@ sub ArticleQuote {
                 );
 
                 # add attachment
-                $Param{UploadCachObject}->FormIDAddFile(
+                $Param{UploadCacheObject}->FormIDAddFile(
                     FormID => $Param{FormID},
                     %Attachment,
                 );
@@ -882,7 +881,7 @@ sub ArticleQuote {
             );
 
             # add attachment
-            $Param{UploadCachObject}->FormIDAddFile(
+            $Param{UploadCacheObject}->FormIDAddFile(
                 FormID => $Param{FormID},
                 %Attachment,
             );
@@ -961,7 +960,7 @@ sub TicketListShow {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "No Config option found for view mode $View, took $Key instead!",
-                Message  => "Need Depend Param Ajax option!",
+                Message  => 'Need Depend Param Ajax option!',
             );
             $View = $Key;
             last;
@@ -1199,41 +1198,72 @@ sub TicketMetaItems {
     my @Result;
 
     # show ticket flags
-    my %TicketFlag = $Self->{TicketObject}->TicketFlagGet(
-        TicketID => $Param{Ticket}->{TicketID},
-        UserID   => $Self->{UserID},
-    );
+    if (1) {
+        my %TicketFlag = $Self->{TicketObject}->TicketFlagGet(
+            TicketID => $Param{Ticket}->{TicketID},
+            UserID   => $Self->{UserID},
+        );
 
-    # show if now message is in there
-    if ( !$TicketFlag{Seen} ) {
+        # show if now message is in there
+        if ( !$TicketFlag{Seen} ) {
 
-        # just show ticket flags if agent belongs to the ticket
-        my $ShowMeta;
-        if (
-            $Self->{UserID} == $Param{Ticket}->{OwnerID}
-            || $Self->{UserID} == $Param{Ticket}->{ResponsibleID}
-            )
-        {
-            $ShowMeta = 1;
-        }
-        if ( !$ShowMeta && $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
-            my %Watch = $Self->{TicketObject}->TicketWatchGet(
-                TicketID => $Param{Ticket}->{TicketID},
-            );
-            if ( $Watch{ $Self->{UserID} } ) {
+            # just show ticket flags if agent belongs to the ticket
+            my $ShowMeta;
+            if (
+                $Self->{UserID} == $Param{Ticket}->{OwnerID}
+                || $Self->{UserID} == $Param{Ticket}->{ResponsibleID}
+                )
+            {
                 $ShowMeta = 1;
             }
-        }
+            if ( !$ShowMeta && $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
+                my %Watch = $Self->{TicketObject}->TicketWatchGet(
+                    TicketID => $Param{Ticket}->{TicketID},
+                );
+                if ( $Watch{ $Self->{UserID} } ) {
+                    $ShowMeta = 1;
+                }
+            }
 
-        # show ticket flags
-        my $Image = 'meta-new-inactive.png';
-        if ($ShowMeta) {
-            $Image = 'meta-new.png';
+            # show ticket flags
+            my $Image = 'meta-new-inactive.png';
+            if ($ShowMeta) {
+                $Image = 'meta-new.png';
+            }
+            push @Result, {
+                Image => $Image,
+                Title => 'New Article!',
+            };
         }
-        push @Result, {
-            Image => $Image,
-            Title => 'New Article!2',
-        };
+    }
+
+    # show if it's locked
+    if ( 0 && $Param{Ticket}->{Lock} eq 'lock' ) {
+        if ( $Param{Ticket}->{OwnerID} == $Self->{UserID} ) {
+            push @Result, {
+                Image => 'meta-lock-own.gif',
+                Title => 'Locked by you!',
+            };
+        }
+        else {
+            push @Result, {
+                Image => 'meta-lock.gif',
+                Title => 'Locked by somebody else!',
+            };
+        }
+    }
+
+    # check if it get watched
+    if ( 0 && $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
+        my %Watch = $Self->{TicketObject}->TicketWatchGet(
+            TicketID => $Param{Ticket}->{TicketID},
+        );
+        if ( $Watch{ $Self->{UserID} } ) {
+            push @Result, {
+                Image => 'meta-watch.gif',
+                Title => 'Watched by you!',
+            };
+        }
     }
 
     return @Result;
