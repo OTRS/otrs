@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.42 2010-01-25 13:11:45 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.43 2010-02-26 18:37:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -262,28 +262,27 @@ sub Signature {
 
     # need ticket id or queue id
     if ( !$Param{TicketID} && !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID or QueueID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID or QueueID!' );
         return;
     }
 
+    # get salutation ticket based
     my %Queue;
     if ( $Param{TicketID} ) {
-
-        # get  queue
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
-
-        # get salutation
         %Queue = $Self->{QueueObject}->QueueGet(
             ID => $Ticket{QueueID},
         );
     }
-    else {
 
-        # get salutation
+    # get salutation queue based
+    else {
         %Queue = $Self->{QueueObject}->QueueGet(
             ID => $Param{QueueID},
         );
     }
+
+    # get signature
     my %Signature = $Self->{SignatureObject}->SignatureGet(
         ID => $Queue{SignatureID},
     );
@@ -1285,6 +1284,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2010-01-25 13:11:45 $
+$Revision: 1.43 $ $Date: 2010-02-26 18:37:31 $
 
 =cut
