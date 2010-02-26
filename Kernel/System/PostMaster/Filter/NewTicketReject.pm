@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/NewTicketReject.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicketReject.pm,v 1.13 2009-04-08 12:29:40 tr Exp $
+# $Id: NewTicketReject.pm,v 1.14 2010-02-26 18:32:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,11 +43,19 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for (qw(JobConfig GetParam)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
     # get config options
-    my %Config = ();
-    my %Match  = ();
-    my %Set    = ();
-    if ( $Param{JobConfig} && ref( $Param{JobConfig} ) eq 'HASH' ) {
+    my %Config;
+    my %Match;
+    my %Set;
+    if ( $Param{JobConfig} && ref $Param{JobConfig} eq 'HASH' ) {
         %Config = %{ $Param{JobConfig} };
         if ( $Config{Match} ) {
             %Match = %{ $Config{Match} };
@@ -112,9 +120,9 @@ sub Run {
             Loop       => 1,
             Attachment => [
                 {
-                    Filename    => "email.txt",
+                    Filename    => 'email.txt',
                     Content     => $Param{GetParam}->{Body},
-                    ContentType => "application/octet-stream",
+                    ContentType => 'application/octet-stream',
                 }
             ],
         );

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: MatchDBSource.pm,v 1.18 2009-08-16 11:41:00 martin Exp $
+# $Id: MatchDBSource.pm,v 1.19 2010-02-26 18:32:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,14 +41,22 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for (qw(JobConfig GetParam)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
     # get all db filters
     my %JobList = $Self->{PostMasterFilter}->FilterList();
     for ( sort keys %JobList ) {
 
         # get config options
         my %Config = $Self->{PostMasterFilter}->FilterGet( Name => $_ );
-        my %Match  = ();
-        my %Set    = ();
+        my %Match;
+        my %Set;
         if ( $Config{Match} ) {
             %Match = %{ $Config{Match} };
         }

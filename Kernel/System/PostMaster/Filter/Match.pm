@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/Match.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Match.pm,v 1.18 2009-08-18 12:52:54 mh Exp $
+# $Id: Match.pm,v 1.19 2010-02-26 18:32:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,12 +37,20 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for (qw(JobConfig GetParam)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
     # get config options
-    my %Config = ();
-    my %Match  = ();
-    my %Set    = ();
+    my %Config;
+    my %Match;
+    my %Set;
     my $StopAfterMatch;
-    if ( $Param{JobConfig} && ref( $Param{JobConfig} ) eq 'HASH' ) {
+    if ( $Param{JobConfig} && ref $Param{JobConfig} eq 'HASH' ) {
         %Config = %{ $Param{JobConfig} };
         if ( $Config{Match} ) {
             %Match = %{ $Config{Match} };
