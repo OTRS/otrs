@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.55 2009-12-11 09:42:09 mh Exp $
+# $Id: CustomerTicketZoom.pm,v 1.56 2010-02-26 18:36:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,8 +40,8 @@ sub new {
     }
 
     # needed objects
-    $Self->{StateObject}      = Kernel::System::State->new(%Param);
-    $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{StateObject}       = Kernel::System::State->new(%Param);
+    $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
 
     # get article id
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
@@ -51,7 +51,7 @@ sub new {
 
     # create form id
     if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
+        $Self->{FormID} = $Self->{UploadCacheObject}->FormIDCreate();
     }
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
@@ -153,7 +153,7 @@ sub Run {
         for ( 1 .. 10 ) {
             if ( $GetParam{"AttachmentDelete$_"} ) {
                 $Error{AttachmentDelete} = 1;
-                $Self->{UploadCachObject}->FormIDRemoveFile(
+                $Self->{UploadCacheObject}->FormIDRemoveFile(
                     FormID => $Self->{FormID},
                     FileID => $_,
                 );
@@ -167,7 +167,7 @@ sub Run {
                 Param  => "file_upload",
                 Source => 'string',
             );
-            $Self->{UploadCachObject}->FormIDAddFile(
+            $Self->{UploadCacheObject}->FormIDAddFile(
                 FormID => $Self->{FormID},
                 %UploadStuff,
             );
@@ -238,7 +238,7 @@ sub Run {
                 }
 
                 # get pre loaded attachment
-                my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
                     FormID => $Self->{FormID}
                 );
 
@@ -266,7 +266,7 @@ sub Run {
                 }
 
                 # remove pre submited attachments
-                $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
+                $Self->{UploadCacheObject}->FormIDRemove( FormID => $Self->{FormID} );
 
                 # redirect to zoom view
                 return $Self->{LayoutObject}->Redirect(
@@ -692,7 +692,7 @@ sub _Mask {
 
         # show attachments
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
         for my $Attachment (@Attachments) {

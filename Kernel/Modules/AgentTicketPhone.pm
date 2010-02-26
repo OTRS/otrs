@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.128 2010-01-19 21:30:36 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.129 2010-02-26 18:40:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,7 +43,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{UploadCachObject}   = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
     $Self->{LinkObject}         = Kernel::System::LinkObject->new(%Param);
 
     # get form id
@@ -51,7 +51,7 @@ sub new {
 
     # create form id
     if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
+        $Self->{FormID} = $Self->{UploadCacheObject}->FormIDCreate();
     }
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
@@ -192,7 +192,7 @@ sub Run {
                 TicketID           => $Article{TicketID},
                 ArticleID          => $GetParam{ArticleID},
                 FormID             => $Self->{FormID},
-                UploadCachObject   => $Self->{UploadCachObject},
+                UploadCacheObject  => $Self->{UploadCacheObject},
                 AttachmentsInclude => 1,
             );
             if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
@@ -310,7 +310,7 @@ sub Run {
         );
 
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
 
@@ -459,7 +459,7 @@ sub Run {
         for my $Count ( 1 .. 16 ) {
             if ( $GetParam{"AttachmentDelete$Count"} ) {
                 $Error{AttachmentDelete} = 1;
-                $Self->{UploadCachObject}->FormIDRemoveFile(
+                $Self->{UploadCacheObject}->FormIDRemoveFile(
                     FormID => $Self->{FormID},
                     FileID => $Count,
                 );
@@ -473,14 +473,14 @@ sub Run {
                 Param  => 'file_upload',
                 Source => 'string',
             );
-            $Self->{UploadCachObject}->FormIDAddFile(
+            $Self->{UploadCacheObject}->FormIDAddFile(
                 FormID => $Self->{FormID},
                 %UploadStuff,
             );
         }
 
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
 
@@ -803,7 +803,7 @@ sub Run {
         }
 
         # get pre loaded attachment
-        my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+        my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
             FormID => $Self->{FormID},
         );
 
@@ -946,7 +946,7 @@ sub Run {
         }
 
         # remove pre submited attachments
-        $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
+        $Self->{UploadCacheObject}->FormIDRemove( FormID => $Self->{FormID} );
 
         # link tickets
         if (

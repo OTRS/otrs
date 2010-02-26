@@ -2,7 +2,7 @@
 # Kernel/Modules/PictureUpload.pm - get picture uploads
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PictureUpload.pm,v 1.7 2010-01-26 20:51:23 martin Exp $
+# $Id: PictureUpload.pm,v 1.8 2010-02-26 18:36:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,7 +33,7 @@ sub new {
         }
     }
 
-    $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
 
     return $Self;
 }
@@ -66,7 +66,7 @@ sub Run {
     if ($ContentID) {
 
         # return image inline
-        my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+        my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
             FormID => $FormID,
         );
         for my $Attachment (@AttachmentData) {
@@ -100,7 +100,7 @@ sub Run {
     }
 
     # check if name already exists
-    my @AttachmentMeta = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+    my @AttachmentMeta = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
         FormID => $FormID,
     );
     my $FilenameTmp    = $File{Filename};
@@ -126,7 +126,7 @@ sub Run {
     }
 
     # add uploaded file to upload cache
-    $Self->{UploadCachObject}->FormIDAddFile(
+    $Self->{UploadCacheObject}->FormIDAddFile(
         FormID      => $FormID,
         Filename    => $FilenameTmp,
         Content     => $File{Content},
@@ -136,7 +136,7 @@ sub Run {
 
     # get new content id
     my $ContentIDNew = '';
-    @AttachmentMeta = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+    @AttachmentMeta = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
         FormID => $FormID
     );
     for my $Attachment (@AttachmentMeta) {
