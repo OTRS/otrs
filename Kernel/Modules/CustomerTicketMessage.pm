@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.56 2010-02-26 19:10:26 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.57 2010-02-26 19:42:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -220,7 +220,7 @@ sub Run {
         );
 
         # rewrap body if exists
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') && $GetParam{Body} ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} && $GetParam{Body} ) {
             $GetParam{Body}
                 =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
@@ -362,7 +362,7 @@ sub Run {
         }
 
         my $MimeType = 'text/plain';
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $MimeType = 'text/html';
 
             # verify html document
@@ -444,15 +444,13 @@ sub Run {
             OP => "Action=$NextScreen;TicketID=$TicketID",
         );
     }
-    else {
-        my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
-        $Output .= $Self->{LayoutObject}->CustomerError(
-            Message => 'No Subaction!!',
-            Comment => 'Please contact your admin',
-        );
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
-        return $Output;
-    }
+    my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
+    $Output .= $Self->{LayoutObject}->CustomerError(
+        Message => 'No Subaction!!',
+        Comment => 'Please contact your admin',
+    );
+    $Output .= $Self->{LayoutObject}->CustomerFooter();
+    return $Output;
 }
 
 sub _MaskNew {
@@ -690,7 +688,7 @@ sub _MaskNew {
     }
 
     # add rich text editor
-    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

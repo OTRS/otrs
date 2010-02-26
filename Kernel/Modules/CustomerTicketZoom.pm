@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.57 2010-02-26 19:10:26 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.58 2010-02-26 19:42:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -176,7 +176,7 @@ sub Run {
             my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
 
             my $MimeType = 'text/plain';
-            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
                 $MimeType = 'text/html';
 
                 # verify html document
@@ -285,7 +285,7 @@ sub Run {
     my $StripPlainBodyAsAttachment = 1;
 
     # check if rich text is enabled, if not only stip ascii attachments
-    if ( !$Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
         $StripPlainBodyAsAttachment = 2;
     }
 
@@ -574,7 +574,7 @@ sub _Mask {
 
     # in case show plain article body (if no html body as attachment exists of if rich
     # text is not enabled)
-    my $RichText = $Self->{ConfigObject}->Get('Frontend::RichText');
+    my $RichText = $Self->{LayoutObject}->{BrowserRichText};
     if ( $RichText && $Article{AttachmentIDOfHTMLBody} ) {
         $ViewType = 'HTML';
     }
@@ -625,7 +625,7 @@ sub _Mask {
         );
 
         # add rich text editor
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'RichText',
                 Data => \%Param,

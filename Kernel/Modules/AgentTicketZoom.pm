@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.85 2010-02-21 20:01:26 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.86 2010-02-26 19:42:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,7 +61,7 @@ sub new {
     # define if rich text should be used
     $Self->{RichText}
         = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomRichTextForce')
-        || $Self->{ConfigObject}->Get('Frontend::RichText')
+        || $Self->{LayoutObject}->{BrowserRichText}
         || 0;
 
     # ticket id lookup

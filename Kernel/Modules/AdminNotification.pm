@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.23 2009-12-11 09:42:08 mh Exp $
+# $Id: AdminNotification.pm,v 1.24 2010-02-26 19:42:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Notification;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,7 +56,7 @@ sub Run {
 
     # get content type
     my $ContentType = 'text/plain';
-    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
         $ContentType = 'text/html';
     }
 
@@ -146,7 +146,7 @@ sub _MaskNotificationForm {
     );
 
     # add rich text editor
-    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

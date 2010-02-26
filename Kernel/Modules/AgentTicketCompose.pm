@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.89 2010-02-26 19:10:26 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.90 2010-02-26 19:42:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -393,7 +393,7 @@ sub Run {
         }
 
         my $MimeType = 'text/plain';
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $MimeType = 'text/html';
 
             # remove unused inline images
@@ -644,7 +644,7 @@ sub Run {
             UploadCacheObject => $Self->{UploadCacheObject},
         );
 
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
 
             # prepare body, subject, ReplyTo ...
             # rewrap body if exists
@@ -832,7 +832,7 @@ $QData{"Signature"}
 
         # make sure body is rich text
         my %DataHTML = %Data;
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $ResponseFormat = $Self->{LayoutObject}->Ascii2RichText(
                 String => $ResponseFormat,
             );
@@ -1159,7 +1159,7 @@ sub _Mask {
     }
 
     # add rich text editor
-    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.61 2010-02-26 19:10:26 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.62 2010-02-26 19:42:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -194,7 +194,7 @@ sub Form {
         AttachmentsInclude => 1,
     );
 
-    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
 
         # prepare body, subject, ReplyTo ...
         $Data{Body} = '<br/>' . $Data{Body};
@@ -589,7 +589,7 @@ sub SendEmail {
     }
 
     my $MimeType = 'text/plain';
-    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
         $MimeType = 'text/html';
 
         # remove unused inline images
@@ -907,7 +907,7 @@ sub _Mask {
     }
 
     # add rich text editor
-    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

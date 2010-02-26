@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.40 2010-02-26 19:10:26 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.41 2010-02-26 19:42:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -279,7 +279,7 @@ sub Run {
         my $Body = $Self->{LayoutObject}->Output(
             Template => $Self->{Config}->{Body} || '',
         );
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $Body = $Self->{LayoutObject}->Ascii2RichText(
                 String => $Body,
             );
@@ -309,7 +309,7 @@ sub Run {
         my %Error = ();
 
         # rewrap body if exists
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') && $GetParam{Body} ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} && $GetParam{Body} ) {
             $GetParam{Body}
                 =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
@@ -490,7 +490,7 @@ sub Run {
             }
 
             my $MimeType = 'text/plain';
-            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
                 $MimeType = 'text/html';
 
                 # remove unused inline images
@@ -654,12 +654,10 @@ sub Run {
             return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
         }
     }
-    else {
-        return $Self->{LayoutObject}->ErrorScreen(
-            Message => 'No Subaction!!',
-            Comment => 'Please contact your admin',
-        );
-    }
+    return $Self->{LayoutObject}->ErrorScreen(
+        Message => 'No Subaction!!',
+        Comment => 'Please contact your admin',
+    );
 }
 
 sub _GetNextStates {
@@ -947,7 +945,7 @@ sub _MaskPhone {
     }
 
     # add rich text editor
-    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

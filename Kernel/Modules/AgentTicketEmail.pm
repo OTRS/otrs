@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.116 2010-02-26 19:10:26 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.117 2010-02-26 19:42:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -258,7 +258,7 @@ sub Run {
             );
 
             # make sure body is rich text
-            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
                 $Body = $Self->{LayoutObject}->Ascii2RichText(
                     String => $Body,
                 );
@@ -310,7 +310,7 @@ sub Run {
         }
         my $Signature = $Self->_GetSignature( QueueID => $QueueID || 1 );
         my $MimeType = 'text/plain';
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $MimeType  = 'text/html';
             $Signature = $Self->{LayoutObject}->RichTextDocumentComplete(
                 String => $Signature,
@@ -819,7 +819,7 @@ sub Run {
         }
 
         my $MimeType = 'text/plain';
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $MimeType = 'text/html';
             $GetParam{Body} .= '<br/><br/>' . $Signature;
 
@@ -1097,7 +1097,7 @@ sub Run {
         }
 
         # convert Signature to ASCII, if RichText is on
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
 
             #            $Signature = $Self->{HTMLUtilsObject}->ToAscii( String => $Signature, );
         }
@@ -2078,7 +2078,7 @@ sub _MaskEmailNew {
     }
 
     # add rich text editor
-    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

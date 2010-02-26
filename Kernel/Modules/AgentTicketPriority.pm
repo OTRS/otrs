@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPriority.pm - set ticket priority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.pm,v 1.67 2010-02-26 19:10:26 martin Exp $
+# $Id: AgentTicketPriority.pm,v 1.68 2010-02-26 19:42:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -230,8 +230,8 @@ sub Run {
         $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
     }
 
-    # rewrap body if exists
-    if ( $GetParam{Body} && !$Self->{ConfigObject}->Get('Frontend::RichText') ) {
+    # rewrap body if no rich text is used
+    if ( $GetParam{Body} && !$Self->{LayoutObject}->{BrowserRichText} ) {
         my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
         $GetParam{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
     }
@@ -242,7 +242,7 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # store action
-        my %Error = ();
+        my %Error;
 
         # check pending time
         if ( $GetParam{NewStateID} ) {
@@ -342,7 +342,7 @@ sub Run {
         if (%Error) {
 
             # ticket free text
-            my %TicketFreeText = ();
+            my %TicketFreeText;
             for my $Count ( 1 .. 16 ) {
                 my $Key  = 'TicketFreeKey' . $Count;
                 my $Text = 'TicketFreeText' . $Count;
@@ -368,7 +368,7 @@ sub Run {
             my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam );
 
             # article free text
-            my %ArticleFreeText = ();
+            my %ArticleFreeText;
             for my $Count ( 1 .. 3 ) {
                 my $Key  = 'ArticleFreeKey' . $Count;
                 my $Text = 'ArticleFreeText' . $Count;
@@ -513,7 +513,7 @@ sub Run {
         my $ArticleID = '';
         if ( $Self->{Config}->{Note} ) {
             my $MimeType = 'text/plain';
-            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
                 $MimeType = 'text/html';
 
                 # verify html document
@@ -713,7 +713,7 @@ sub Run {
             );
 
             # make sure body is rich text
-            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
                 $GetParam{Body} = $Self->{LayoutObject}->Ascii2RichText(
                     String => $GetParam{Body},
                 );
@@ -726,7 +726,7 @@ sub Run {
         }
 
         # get free text config options
-        my %TicketFreeText = ();
+        my %TicketFreeText;
         for my $Count ( 1 .. 16 ) {
             my $Key  = 'TicketFreeKey' . $Count;
             my $Text = 'TicketFreeText' . $Count;
@@ -752,7 +752,7 @@ sub Run {
         my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam );
 
         # get default selections
-        my %ArticleFreeDefault = ();
+        my %ArticleFreeDefault;
         for my $Count ( 1 .. 3 ) {
             my $Key  = 'ArticleFreeKey' . $Count;
             my $Text = 'ArticleFreeText' . $Count;
@@ -763,7 +763,7 @@ sub Run {
         }
 
         # get article free text config options
-        my %ArticleFreeText = ();
+        my %ArticleFreeText;
         for my $Count ( 1 .. 3 ) {
             my $Key  = 'ArticleFreeKey' . $Count;
             my $Text = 'ArticleFreeText' . $Count;
@@ -867,7 +867,7 @@ sub _Mask {
             Name => 'Service',
             Data => {%Param},
         );
-        my %SLA = ();
+        my %SLA;
         if ( $Param{ServiceID} ) {
             %SLA = $Self->{TicketObject}->TicketSLAList(
                 %Param,
@@ -894,7 +894,7 @@ sub _Mask {
     if ( $Self->{Config}->{Owner} ) {
 
         # get user of own groups
-        my %ShownUsers       = ();
+        my %ShownUsers;
         my %AllGroupsMembers = $Self->{UserObject}->UserList(
             Type  => 'Long',
             Valid => 1,
@@ -970,7 +970,7 @@ sub _Mask {
     if ( $Self->{Config}->{Responsible} ) {
 
         # get user of own groups
-        my %ShownUsers       = ();
+        my %ShownUsers;
         my %AllGroupsMembers = $Self->{UserObject}->UserList(
             Type  => 'Long',
             Valid => 1,
@@ -1004,7 +1004,7 @@ sub _Mask {
         );
     }
     if ( $Self->{Config}->{State} ) {
-        my %State     = ();
+        my %State;
         my %StateList = $Self->{TicketObject}->StateList(
             Action   => $Self->{Action},
             TicketID => $Self->{TicketID},
@@ -1092,7 +1092,7 @@ sub _Mask {
         );
 
         # add rich text editor
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'RichText',
                 Data => \%Param,
@@ -1101,7 +1101,7 @@ sub _Mask {
 
         # agent list
         if ( $Self->{Config}->{InformAgent} ) {
-            my %ShownUsers       = ();
+            my %ShownUsers;
             my %AllGroupsMembers = $Self->{UserObject}->UserList(
                 Type  => 'Long',
                 Valid => 1,
@@ -1131,9 +1131,9 @@ sub _Mask {
 
         # get involved
         if ( $Self->{Config}->{InvolvedAgent} ) {
-            my @UserIDs  = $Self->{TicketObject}->InvolvedAgents( TicketID => $Self->{TicketID} );
-            my %UserHash = ();
-            my $Counter  = 0;
+            my @UserIDs = $Self->{TicketObject}->InvolvedAgents( TicketID => $Self->{TicketID} );
+            my %UserHash;
+            my $Counter = 0;
             for my $User ( reverse @UserIDs ) {
                 $Counter++;
                 next if $UserHash{ $User->{UserID} };
@@ -1171,7 +1171,7 @@ sub _Mask {
         }
 
         # build ArticleTypeID string
-        my %ArticleType = ();
+        my %ArticleType;
         if ( !$Param{ArticleTypeID} ) {
             $ArticleType{Selected} = $Self->{Config}->{ArticleTypeDefault};
         }

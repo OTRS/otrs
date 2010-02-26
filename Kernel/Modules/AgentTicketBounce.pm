@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.36 2009-12-11 09:42:09 mh Exp $
+# $Id: AgentTicketBounce.pm,v 1.37 2010-02-26 19:42:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -170,7 +170,7 @@ sub Run {
         $Param{BounceText} = $Self->{ConfigObject}->Get('Ticket::Frontend::BounceText') || '';
 
         # make sure body is rich text
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
 
             # prepare bounce tags
             $Param{BounceText} =~ s/<OTRS_TICKET>/&lt;OTRS_TICKET&gt;/g;
@@ -182,7 +182,7 @@ sub Run {
         }
 
         # build InformationFormat
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $Param{InformationFormat} = "$Param{Salutation}<br/>
 <br/>
 $Param{BounceText}<br/>
@@ -219,7 +219,7 @@ $Param{Signature}";
         );
 
         # add rich text editor
-        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'RichText',
                 Data => \%Param,
@@ -290,7 +290,7 @@ $Param{Signature}";
 
             # set mime type
             my $MimeType = 'text/plain';
-            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
                 $MimeType = 'text/html';
 
                 # verify html document
@@ -357,12 +357,10 @@ $Param{Signature}";
             return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
         }
     }
-    else {
-        return $Self->{LayoutObject}->ErrorScreen(
-            Message => 'Wrong Subaction!!',
-            Comment => 'Please contact your admin',
-        );
-    }
+    return $Self->{LayoutObject}->ErrorScreen(
+        Message => 'Wrong Subaction!!',
+        Comment => 'Please contact your admin',
+    );
 }
 
 1;
