@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.65 2010-02-05 13:58:23 mn Exp $
+# $Id: AgentTicketPhone.dtl,v 1.66 2010-02-26 19:13:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,24 +84,18 @@ function submit_compose() {
         return true;
     }
 }
-//]]></script>
 
-<script type="text/javascript">//<![CDATA[
 function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
 }
-//]]></script>
 
-<script type="text/javascript">//<![CDATA[
 function CustomerSubmit() {
     window.open('', 'customer', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.customer.submit()
 }
-//]]></script>
 
-<script type="text/javascript">//<![CDATA[
 function clear_field() {
     document.compose.From.value = "";
     document.compose.From.focus();
