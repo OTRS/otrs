@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.332 2010-02-26 19:21:21 martin Exp $
+# $Id: Defaults.pm,v 1.333 2010-02-26 21:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.332 $) [1];
+$VERSION = qw($Revision: 1.333 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -1311,7 +1311,7 @@ Your OTRS Notification Master
 #            SourceCharset => 'utf-8',
 #            DestCharset => 'iso-8859-1',
 #            # die if backend can't work, e. g. can't connect to server
-#            Die => 1,
+#            Die => 0,
 #            # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
 #            Params => {
 #                port    => 389,
@@ -2416,6 +2416,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.332 $ $Date: 2010-02-26 19:21:21 $
+$Revision: 1.333 $ $Date: 2010-02-26 21:17:22 $
 
 =cut

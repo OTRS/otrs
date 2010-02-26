@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.55 2010-02-08 23:14:59 martin Exp $
+# $Id: LDAP.pm,v 1.56 2010-02-26 21:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,11 +40,9 @@ sub new {
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{CustomerUserSearchListLimit} || 200;
 
     # get ldap preferences
+    $Self->{Die} = 0;
     if ( defined $Self->{CustomerUserMap}->{Params}->{Die} ) {
         $Self->{Die} = $Self->{CustomerUserMap}->{Params}->{Die};
-    }
-    else {
-        $Self->{Die} = 1;
     }
 
     # host
@@ -117,45 +115,6 @@ sub new {
     # ldap filter always used
     $Self->{AlwaysFilter} = $Self->{CustomerUserMap}->{Params}->{AlwaysFilter} || '';
 
-    # Net::LDAP new params
-    if ( $Self->{CustomerUserMap}->{Params}->{Params} ) {
-        $Self->{Params} = $Self->{CustomerUserMap}->{Params}->{Params};
-    }
-    else {
-        $Self->{Params} = {};
-    }
-
-    # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
-    $Self->{LDAP} = Net::LDAP->new( $Self->{Host}, %{ $Self->{Params} } );
-    if ( !$Self->{LDAP} ) {
-        if ( $Self->{Die} ) {
-            die "Can't connect to $Self->{Host}: $@";
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't connect to $Self->{Host}: $@",
-            );
-            return;
-        }
-    }
-    my $Result = '';
-    if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
-        $Result
-            = $Self->{LDAP}->bind( dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw} );
-    }
-    else {
-        $Result = $Self->{LDAP}->bind();
-    }
-    if ( $Result->code ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "First bind failed! " . $Result->error(),
-        );
-        $Self->{LDAP}->disconnect;
-        return;
-    }
-
     $Self->{ExcludePrimaryCustomerID}
         = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
@@ -182,13 +141,57 @@ sub new {
     # get valid filter if used
     $Self->{ValidFilter} = $Self->{CustomerUserMap}->{CustomerUserValidFilter} || '';
 
+    # connect first if Die is enabled, make sure that connection is possible, else die
+    if ( $Self->{Die} ) {
+        return if !$Self->_Connect();
+    }
+
     return $Self;
+}
+
+sub _Connect {
+    my ( $Self, %Param ) = @_;
+
+    # return if connection is already open
+    return 1 if $Self->{LDAP};
+
+    # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
+    $Self->{LDAP} = Net::LDAP->new( $Self->{Host}, %{ $Self->{Params} } );
+    if ( !$Self->{LDAP} ) {
+        if ( $Self->{Die} ) {
+            die "Can't connect to $Self->{Host}: $@";
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't connect to $Self->{Host}: $@",
+            );
+            return;
+        }
+    }
+    my $Result;
+    if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
+        $Result = $Self->{LDAP}->bind(
+            dn       => $Self->{SearchUserDN},
+            password => $Self->{SearchUserPw},
+        );
+    }
+    else {
+        $Result = $Self->{LDAP}->bind();
+    }
+    if ( $Result->code ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'First bind failed! ' . $Result->error(),
+        );
+        $Self->{LDAP}->disconnect;
+        return;
+    }
+    return 1;
 }
 
 sub CustomerName {
     my ( $Self, %Param ) = @_;
-
-    my $Name = '';
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
@@ -205,15 +208,17 @@ sub CustomerName {
     }
 
     # check cache
+    my $Name = '';
     if ( $Self->{CacheObject} ) {
         my $Name = $Self->{CacheObject}->Get(
             Type => $Self->{CacheType},
             Key  => 'CustomerName::' . $Filter,
         );
-        if ( defined $Name ) {
-            return $Name;
-        }
+        return $Name if defined $Name;
     }
+
+    # create ldap connect
+    return if !$Self->_Connect();
 
     # perform user search
     my $Result = $Self->{LDAP}->search(
@@ -321,10 +326,11 @@ sub CustomerSearch {
             Type => $Self->{CacheType},
             Key  => 'CustomerSearch::' . $Filter,
         );
-        if ($Users) {
-            return %{$Users};
-        }
+        return %{$Users} if $Users;
     }
+
+    # create ldap connect
+    return if !$Self->_Connect();
 
     # perform user search
     my $Result = $Self->{LDAP}->search(
@@ -409,10 +415,11 @@ sub CustomerUserList {
             Type => $Self->{CacheType},
             Key  => "CustomerUserList::$Filter",
         );
-        if ($Users) {
-            return %{$Users};
-        }
+        return %{$Users} if $Users;
     }
+
+    # create ldap connect
+    return if !$Self->_Connect();
 
     # perform user search
     my $Result = $Self->{LDAP}->search(
@@ -483,9 +490,7 @@ sub CustomerIDs {
             Type => $Self->{CacheType},
             Key  => "CustomerIDs::$Param{User}",
         );
-        if ($CustomerIDs) {
-            return @{$CustomerIDs};
-        }
+        return @{$CustomerIDs} if $CustomerIDs;
     }
 
     # get customer data
@@ -566,10 +571,11 @@ sub CustomerUserDataGet {
             Type => $Self->{CacheType},
             Key  => 'CustomerUserDataGet::' . $Filter,
         );
-        if ($Data) {
-            return %{$Data};
-        }
+        return %{$Data} if $Data;
     }
+
+    # create ldap connect
+    return if !$Self->_Connect();
 
     # perform search
     my $Result = $Self->{LDAP}->search(
@@ -604,9 +610,7 @@ sub CustomerUserDataGet {
     }
 
     # check data
-    if ( !$Data{UserLogin} ) {
-        return;
-    }
+    return if !$Data{UserLogin};
 
     # compat!
     $Data{UserID} = $Data{UserLogin};

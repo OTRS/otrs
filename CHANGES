@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1168 2010-02-26 11:53:23 martin Exp $
+# $Id: CHANGES,v 1.1169 2010-02-26 21:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/02/26) Fixed bug#4874 - LDAP connection even if it is not needed.
+    Moved to "Die => 0" as default value if no connection to customer ldap
+    source was possible.
  - (2010/02/23) Fixed bug#4957 - Password Change dialog misses "Current Password"
     option.
  - (2010/02/22) Fixed bug#5020 - Framework version for stats export is outdated.
