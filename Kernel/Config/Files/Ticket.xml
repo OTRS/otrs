@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.299 2010-02-21 18:32:14 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.300 2010-02-26 11:53:23 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -9267,13 +9267,15 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PostFilterModule###000-FollowUpArticleTypeCheck" Required="0" Valid="1">
-        <Description Lang="en">Module to check if arrived email should be marked als email-internal (because of original forwared internal email it college).</Description>
-        <Description Lang="de">Modul um eingehende Email als "email-internal" zu setzen (wenn an diesen Sender die Email urspruenglich als "email-internal" weitergeleitet wirde).</Description>
+        <Description Lang="en">Module to check if arrived email should be marked als email-internal (because of original forwared internal email it college). ArticleType and SenderType are to define the values for the arrived email/article.</Description>
+        <Description Lang="de">Modul um eingehende Email als "email-internal" zu setzen (wenn an diesen Sender die Email urspruenglich als "email-internal" weitergeleitet wirde). ArticleType und SenderType definieren die Werte welche die neue eingehende Email haben soll.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck</Item>
+                <Item Key="ArticleType">email-internal</Item>
+                <Item Key="SenderType">customer</Item>
             </Hash>
         </Setting>
     </ConfigItem>

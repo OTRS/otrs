@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/FollowUpArticleTypeCheck.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUpArticleTypeCheck.pm,v 1.4 2009-04-08 12:29:40 tr Exp $
+# $Id: FollowUpArticleTypeCheck.pm,v 1.5 2010-02-26 11:53:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,9 +38,11 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
-        return;
+    for (qw(TicketID JobConfig GetParam)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
     }
 
     # get all article
@@ -49,13 +51,11 @@ sub Run {
     );
     return if !@ArticleIndex;
 
-    # check if current sender is not customer (do nothing)
-    if ( lc( $ArticleIndex[0]->{CustomerUserID} ) eq lc( $Param{GetParam}->{'X-Sender'} ) ) {
-        return 1;
-    }
+    # check if current sender is customer (do nothing)
+    return 1 if lc $ArticleIndex[0]->{CustomerUserID} eq lc $Param{GetParam}->{'X-Sender'};
 
     # check if current sender got an internal forward
-    my $ArticleType;
+    my $InternalForward;
     for my $Article ( reverse @ArticleIndex ) {
 
         # just check agent sent article
@@ -73,13 +73,13 @@ sub Run {
             my $Recipient = $Self->{ParserObject}->GetEmailAddress(
                 Email => $Email,
             );
-            if ( lc($Recipient) eq lc( $Param{GetParam}->{'X-Sender'} ) ) {
-                $ArticleType = 'email-internal';
+            if ( lc $Recipient eq lc $Param{GetParam}->{'X-Sender'} ) {
+                $InternalForward = 1;
                 last;
             }
         }
     }
-    return 1 if !$ArticleType;
+    return 1 if !$InternalForward;
 
     # get latest customer article (current arrival)
     my $ArticleID;
@@ -91,10 +91,21 @@ sub Run {
     return 1 if !$ArticleID;
 
     # set article type to email-internal
+    my $ArticleType = $Param{JobConfig}->{ArticleType} || 'email-internal';
     $Self->{TicketObject}->ArticleUpdate(
         ArticleID => $ArticleID,
         Key       => 'ArticleType',
         Value     => $ArticleType,
+        UserID    => 1,
+        TicketID  => $Param{TicketID},
+    );
+
+    # set sender type to agent/customer
+    my $SenderType = $Param{JobConfig}->{SenderType} || 'customer';
+    $Self->{TicketObject}->ArticleUpdate(
+        ArticleID => $ArticleID,
+        Key       => 'SenderType',
+        Value     => $SenderType,
         UserID    => 1,
         TicketID  => $Param{TicketID},
     );

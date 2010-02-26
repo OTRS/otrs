@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1167 2010-02-23 21:15:39 mb Exp $
+# $Id: CHANGES,v 1.1168 2010-02-26 11:53:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -202,8 +202,9 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
-  - (2010/02/23) Updated pt_BR translation file, thanks to Fabricio Luiz Machado
-     <soprobr gmail.com>.
+ - (2010/02/26) Fixed bug#4137 - Follow ups to internal forwarded message marked
+    as customer reply.
+ - (2010/02/23) Updated pt_BR translation file, thanks to Fabricio Luiz Machado!
  - (2010/02/22) Fixed bug#5020 - Framework version for stats export is outdated.
  - (2010/02/18) Fixed bug#4969 - Event Based Notification: Body Match field displays
     Subject Match value.
