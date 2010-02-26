@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.112 2010-02-03 14:51:03 bes Exp $
+# $Id: Package.pm,v 1.113 2010-02-26 13:06:31 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 =head1 NAME
 
@@ -1900,6 +1900,22 @@ sub _CheckFramework {
     return 1;
 }
 
+=item _CheckVersion()
+
+Compare the two version strings C<Version1> and C<Version2>.
+The C<Type> is either 'Min' or 'Max'.
+'Min' returns a true value when C<Version2> >= C<Version1>.
+'Max' returns a true value when C<Version2> < C<Version1>.
+Otherwise undef is returned in scalar context.
+
+    my $CheckOk = $PackageObject->_CheckVersion(
+        Version1 => '1.3.92',
+        Version2 => '1.3.91',
+        Type     => 'Min',    # 'Min' or 'Max' a
+    )
+
+=cut
+
 sub _CheckVersion {
     my ( $Self, %Param ) = @_;
 
@@ -2071,7 +2087,8 @@ sub _CheckPackageDepends {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
                         Message =>
-                            "Sorry, can't uninstall package, because package $Param{Name} is depends on package $Local->{Name}->{Content}!",
+                            "Sorry, can't uninstall package $Param{Name}, "
+                            . "because package $Local->{Name}->{Content} depends on it!",
                     );
                     return;
                 }
@@ -2414,6 +2431,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.112 $ $Date: 2010-02-03 14:51:03 $
+$Revision: 1.113 $ $Date: 2010-02-26 13:06:31 $
 
 =cut
