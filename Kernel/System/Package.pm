@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.113 2010-02-26 13:06:31 bes Exp $
+# $Id: Package.pm,v 1.114 2010-02-26 20:55:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.114 $) [1];
 
 =head1 NAME
 
@@ -884,8 +884,8 @@ sub PackageOnlineRepositories {
 
     # get repository list
     my $XML = '';
-    for ( @{ $Self->{ConfigObject}->Get('Package::RepositoryRoot') } ) {
-        $XML = $Self->_Download( URL => $_ );
+    for my $URL ( @{ $Self->{ConfigObject}->Get('Package::RepositoryRoot') } ) {
+        $XML = $Self->_Download( URL => $URL );
 
         last if $XML;
     }
@@ -919,7 +919,10 @@ sub PackageOnlineRepositories {
 
 returns a list of available on-line packages
 
-    my @List = $PackageObject->PackageOnlineList();
+    my @List = $PackageObject->PackageOnlineList(
+        URL  => '',
+        Lang => 'en',
+    );
 
 =cut
 
@@ -2431,6 +2434,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.113 $ $Date: 2010-02-26 13:06:31 $
+$Revision: 1.114 $ $Date: 2010-02-26 20:55:32 $
 
 =cut
