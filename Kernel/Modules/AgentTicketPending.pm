@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - set ticket to pending
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPending.pm,v 1.79 2010-02-26 19:42:10 martin Exp $
+# $Id: AgentTicketPending.pm,v 1.80 2010-02-26 20:35:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -123,7 +123,7 @@ sub Run {
             if ( !$AccessOk ) {
                 my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{Number} );
                 $Output .= $Self->{LayoutObject}->Warning(
-                    Message => "Sorry, you need to be the owner to do this action!",
+                    Message => 'Sorry, you need to be the owner to do this action!',
                     Comment => 'Please change the owner first.',
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -146,7 +146,7 @@ sub Run {
 
     # get params
     my %GetParam;
-    for (
+    for my $Key (
         qw(
         NewStateID NewPriorityID TimeUnits ArticleTypeID Title Body Subject
         Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
@@ -154,7 +154,7 @@ sub Run {
         )
         )
     {
-        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+        $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
     # get ticket free text params
@@ -593,15 +593,14 @@ sub Run {
         for my $Count ( 1 .. 16 ) {
             my $Key  = 'TicketFreeKey' . $Count;
             my $Text = 'TicketFreeText' . $Count;
-            if ( defined $GetParam{$Key} ) {
-                $Self->{TicketObject}->TicketFreeTextSet(
-                    TicketID => $Self->{TicketID},
-                    Key      => $GetParam{$Key},
-                    Value    => $GetParam{$Text},
-                    Counter  => $Count,
-                    UserID   => $Self->{UserID},
-                );
-            }
+            next if !defined $GetParam{$Key};
+            $Self->{TicketObject}->TicketFreeTextSet(
+                TicketID => $Self->{TicketID},
+                Key      => $GetParam{$Key},
+                Value    => $GetParam{$Text},
+                Counter  => $Count,
+                UserID   => $Self->{UserID},
+            );
         }
 
         # set ticket free time
@@ -641,16 +640,15 @@ sub Run {
         for my $Count ( 1 .. 3 ) {
             my $Key  = 'ArticleFreeKey' . $Count;
             my $Text = 'ArticleFreeText' . $Count;
-            if ( defined $GetParam{$Key} ) {
-                $Self->{TicketObject}->ArticleFreeTextSet(
-                    TicketID  => $Self->{TicketID},
-                    ArticleID => $ArticleID,
-                    Key       => $GetParam{$Key},
-                    Value     => $GetParam{$Text},
-                    Counter   => $Count,
-                    UserID    => $Self->{UserID},
-                );
-            }
+            next if !defined $GetParam{$Key};
+            $Self->{TicketObject}->ArticleFreeTextSet(
+                TicketID  => $Self->{TicketID},
+                ArticleID => $ArticleID,
+                Key       => $GetParam{$Key},
+                Value     => $GetParam{$Text},
+                Counter   => $Count,
+                UserID    => $Self->{UserID},
+            );
         }
 
         # set priority
@@ -1163,7 +1161,7 @@ sub _Mask {
 
         # show attachments
         for my $Attachment ( @{ $Param{Attachments} } ) {
-            next if $Attachment->{ContentID};
+            next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
             $Self->{LayoutObject}->Block(
                 Name => 'Attachment',
                 Data => $Attachment,
@@ -1212,82 +1210,77 @@ sub _Mask {
 
     # ticket free text
     for my $Count ( 1 .. 16 ) {
-        if ( $Self->{Config}->{TicketFreeText}->{$Count} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText',
-                Data => {
-                    TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
-                    TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
-                    Count               => $Count,
-                    %Param,
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText' . $Count,
-                Data => { %Param, Count => $Count },
-            );
-        }
+        next if !$Self->{Config}->{TicketFreeText}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText',
+            Data => {
+                TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
+                TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
+                Count               => $Count,
+                %Param,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText' . $Count,
+            Data => { %Param, Count => $Count },
+        );
     }
     for my $Count ( 1 .. 6 ) {
-        if ( $Self->{Config}->{TicketFreeTime}->{$Count} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime',
-                Data => {
-                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                    TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
-                    Count             => $Count,
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime' . $Count,
-                Data => { %Param, Count => $Count },
-            );
-        }
+        next if !$Self->{Config}->{TicketFreeTime}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime',
+            Data => {
+                TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
+                Count             => $Count,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime' . $Count,
+            Data => { %Param, Count => $Count },
+        );
     }
 
     # article free text
     for my $Count ( 1 .. 3 ) {
-        if ( $Self->{Config}->{ArticleFreeText}->{$Count} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticleFreeText',
-                Data => {
-                    ArticleFreeKeyField  => $Param{ 'ArticleFreeKeyField' . $Count },
-                    ArticleFreeTextField => $Param{ 'ArticleFreeTextField' . $Count },
-                    Count                => $Count,
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticleFreeText' . $Count,
-                Data => { %Param, Count => $Count },
-            );
-        }
+        next if !$Self->{Config}->{ArticleFreeText}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticleFreeText',
+            Data => {
+                ArticleFreeKeyField  => $Param{ 'ArticleFreeKeyField' . $Count },
+                ArticleFreeTextField => $Param{ 'ArticleFreeTextField' . $Count },
+                Count                => $Count,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticleFreeText' . $Count,
+            Data => { %Param, Count => $Count },
+        );
     }
 
     # java script check for required free text fields by form submit
     for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
-        if ( $Self->{Config}->{TicketFreeText}->{$Key} == 2 ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTextCheckJs',
-                Data => {
-                    TicketFreeTextField => "TicketFreeText$Key",
-                    TicketFreeKeyField  => "TicketFreeKey$Key",
-                },
-            );
-        }
+        next if $Self->{Config}->{TicketFreeText}->{$Key} != 2;
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTextCheckJs',
+            Data => {
+                TicketFreeTextField => "TicketFreeText$Key",
+                TicketFreeKeyField  => "TicketFreeKey$Key",
+            },
+        );
     }
 
     # java script check for required free time fields by form submit
     for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
-        if ( $Self->{Config}->{TicketFreeTime}->{$Key} == 2 ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTimeCheckJs',
-                Data => {
-                    TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
-                    TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
-                },
-            );
-        }
+        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTimeCheckJs',
+            Data => {
+                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
+                TicketFreeTimeField => 'TicketFreeTime' . $Key,
+                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
+            },
+        );
     }
 
     # get output back

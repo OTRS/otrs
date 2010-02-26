@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.117 2010-02-26 19:42:10 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.118 2010-02-26 20:35:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,7 +79,7 @@ sub Run {
 
     # get params
     my %GetParam;
-    for (
+    for my $Key (
         qw(Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
         TypeID ServiceID SLAID OwnerAll ResponsibleAll
         NewResponsibleID NewUserID
@@ -87,7 +87,7 @@ sub Run {
         )
         )
     {
-        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+        $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
     # get ticket free text params
@@ -1950,55 +1950,52 @@ sub _MaskEmailNew {
 
     # ticket free text
     for my $Count ( 1 .. 16 ) {
-        if ( $Self->{Config}->{TicketFreeText}->{$Count} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText',
-                Data => {
-                    TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
-                    TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
-                    Count               => $Count,
-                    %Param,
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText' . $Count,
-                Data => { %Param, Count => $Count, },
-            );
-        }
+        next if !$Self->{Config}->{TicketFreeText}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText',
+            Data => {
+                TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
+                TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
+                Count               => $Count,
+                %Param,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText' . $Count,
+            Data => { %Param, Count => $Count, },
+        );
     }
     for my $Count ( 1 .. 6 ) {
-        if ( $Self->{Config}->{TicketFreeTime}->{$Count} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime',
-                Data => {
-                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                    TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
-                    Count             => $Count,
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime' . $Count,
-                Data => { %Param, Count => $Count, },
-            );
-        }
+        next if !$Self->{Config}->{TicketFreeTime}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime',
+            Data => {
+                TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
+                Count             => $Count,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime' . $Count,
+            Data => { %Param, Count => $Count, },
+        );
     }
 
     # article free text
     for my $Count ( 1 .. 3 ) {
-        if ( $Self->{Config}->{ArticleFreeText}->{$Count} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticleFreeText',
-                Data => {
-                    ArticleFreeKeyField  => $Param{ 'ArticleFreeKeyField' . $Count },
-                    ArticleFreeTextField => $Param{ 'ArticleFreeTextField' . $Count },
-                    Count                => $Count,
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticleFreeText' . $Count,
-                Data => { %Param, Count => $Count, },
-            );
-        }
+        next if !$Self->{Config}->{ArticleFreeText}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticleFreeText',
+            Data => {
+                ArticleFreeKeyField  => $Param{ 'ArticleFreeKeyField' . $Count },
+                ArticleFreeTextField => $Param{ 'ArticleFreeTextField' . $Count },
+                Count                => $Count,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticleFreeText' . $Count,
+            Data => { %Param, Count => $Count, },
+        );
     }
 
     # show time accounting box
@@ -2043,7 +2040,7 @@ sub _MaskEmailNew {
 
     # show attachments
     for my $Attachment ( @{ $Param{Attachments} } ) {
-        next if $Attachment->{ContentID};
+        next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
@@ -2052,29 +2049,27 @@ sub _MaskEmailNew {
 
     # java script check for required free text fields by form submit
     for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
-        if ( $Self->{Config}->{TicketFreeText}->{$Key} == 2 ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTextCheckJs',
-                Data => {
-                    TicketFreeTextField => "TicketFreeText$Key",
-                    TicketFreeKeyField  => "TicketFreeKey$Key",
-                },
-            );
-        }
+        next if $Self->{Config}->{TicketFreeText}->{$Key} != 2;
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTextCheckJs',
+            Data => {
+                TicketFreeTextField => "TicketFreeText$Key",
+                TicketFreeKeyField  => "TicketFreeKey$Key",
+            },
+        );
     }
 
     # java script check for required free time fields by form submit
     for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
-        if ( $Self->{Config}->{TicketFreeTime}->{$Key} == 2 ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTimeCheckJs',
-                Data => {
-                    TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
-                    TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
-                },
-            );
-        }
+        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTimeCheckJs',
+            Data => {
+                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
+                TicketFreeTimeField => 'TicketFreeTime' . $Key,
+                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
+            },
+        );
     }
 
     # add rich text editor
