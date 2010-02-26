@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.331 2010-02-15 11:56:06 mb Exp $
+# $Id: Defaults.pm,v 1.332 2010-02-26 19:21:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.331 $) [1];
+$VERSION = qw($Revision: 1.332 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -906,7 +906,6 @@ sub LoadDefaults {
         Label           => 'Change Password',
         Prio            => 1000,
         Area            => 'Agent',
-        PasswordHistory => 0,
 
 #        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
         PasswordRegExp                    => '',
@@ -1670,7 +1669,6 @@ Your OTRS Notification Master
         Label           => 'Change Password',
         Prio            => 1000,
         Area            => 'Customer',
-        PasswordHistory => 0,
 
 #        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
         PasswordRegExp                    => '',
@@ -2418,6 +2416,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.331 $ $Date: 2010-02-15 11:56:06 $
+$Revision: 1.332 $ $Date: 2010-02-26 19:21:21 $
 
 =cut
