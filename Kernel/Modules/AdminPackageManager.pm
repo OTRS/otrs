@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.86 2010-01-22 00:21:40 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.87 2010-02-27 10:07:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,8 +34,8 @@ sub new {
         }
     }
 
-    $Self->{PackageObject}    = Kernel::System::Package->new(%Param);
-    $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{PackageObject}     = Kernel::System::Package->new(%Param);
+    $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
 
     return $Self;
 }
@@ -965,7 +965,7 @@ sub Run {
 
         # save package in upload cache
         if (%UploadStuff) {
-            my $Added = $Self->{UploadCachObject}->FormIDAddFile(
+            my $Added = $Self->{UploadCacheObject}->FormIDAddFile(
                 FormID => $FormID,
                 %UploadStuff,
             );
@@ -979,7 +979,7 @@ sub Run {
 
         # get package from upload cache
         else {
-            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+            my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
                 FormID => $FormID,
             );
             if ( !@AttachmentData || ( $AttachmentData[0] && !%{ $AttachmentData[0] } ) ) {
@@ -1195,7 +1195,7 @@ sub Run {
         if ( $Self->{ConfigObject}->Get('Package::FileUpload') ) {
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewFileUpload',
-                Data => { FormID => $Self->{UploadCachObject}->FormIDCreate(), }
+                Data => { FormID => $Self->{UploadCacheObject}->FormIDCreate(), }
             );
         }
 
