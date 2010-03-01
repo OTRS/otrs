@@ -1,8 +1,8 @@
 # --
 # AAANavBar.dtl - $Text variable file
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAANavBar.dtl,v 1.12 2009-02-16 11:07:25 tr Exp $
+# $Id: AAANavBar.dtl,v 1.12.2.1 2010-03-01 10:18:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,7 @@ $Text{"Admin"}
 # admin nav bar
 $Text{"Customer Users"}
 $Text{"Customer Users <-> Groups"}
+$Text{'Customer Users <-> Services'}
 $Text{"Users <-> Groups"}
 $Text{"Roles"}
 $Text{"Roles <-> Users"}
