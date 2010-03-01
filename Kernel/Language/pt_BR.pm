@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.97 2010-02-23 15:08:19 mb Exp $
+# $Id: pt_BR.pm,v 1.98 2010-03-01 10:26:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -220,7 +220,6 @@ sub Data {
         'reject' => 'rejeitar',
         'reverse' => 'reverso',
         'Facility' => 'Facilidade',
-        'Timeover' => 'Tempo esgotado',
         'Pending till' => 'Pendente até',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'Não trabalhe com o UserID 1(Conta do Sistema)! Crie novos usuários!',
         'Dispatching by email To: field.' => 'Despachar pelo campo "Para:"',
@@ -345,6 +344,7 @@ sub Data {
         'Admin' => '',
         'Customer Users' => 'Clientes',
         'Customer Users <-> Groups' => 'Clientes <-> Grupos',
+        'Customer Users <-> Services' => 'Clientes <-> Serviços',
         'Users <-> Groups' => 'Usuários <-> Grupos',
         'Roles' => 'Papéis',
         'Roles <-> Users' => 'Papéis <-> Usuários',
@@ -1262,7 +1262,7 @@ sub Data {
         'No element selected.' => 'Nenhum elemento selecionado.',
         'maximal period from' => 'período máximo de',
         'to' => 'para',
-        'With the input and select fields you can configurate the stat at your needs. Os elementos que você pode editar dependem das permissões concedidas pelo administrador.',
+        'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Com os campos de inserção e seleção, você pode configurar a estatística de acordo com a sua necessidade. Os elementos da estatística que você pode editar dependem das permissões concedidas a você pelo administrador do sistema.',
 
         # Template: AgentTicketBounce
         'A message should have a To: recipient!' => 'Uma mensagem deve possuir um Para: destinatário!',
