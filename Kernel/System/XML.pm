@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.96 2010-02-15 14:24:33 bes Exp $
+# $Id: XML.pm,v 1.97 2010-03-02 11:58:22 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 =head1 NAME
 
@@ -621,8 +621,6 @@ return a hash with long hash key and content
 sub XMLHash2D {
     my ( $Self, %Param ) = @_;
 
-    my @NewXMLStructure;
-
     # check needed stuff
     if ( !defined $Param{XMLHash} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'XMLHash not defined!' );
@@ -658,8 +656,6 @@ get a @XMLHash from a @XMLStructure with current TagKey param
 
 sub XMLStructure2XMLHash {
     my ( $Self, %Param ) = @_;
-
-    my @NewXMLStructure;
 
     # check needed stuff
     if ( !defined $Param{XMLStructure} ) {
@@ -1488,6 +1484,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.96 $ $Date: 2010-02-15 14:24:33 $
+$Revision: 1.97 $ $Date: 2010-03-02 11:58:22 $
 
 =cut
