@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.97 2010-03-02 11:58:22 bes Exp $
+# $Id: XML.pm,v 1.98 2010-03-02 12:04:01 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 =head1 NAME
 
@@ -608,11 +608,12 @@ sub XMLParse2XMLHash {
 
 =item XMLHash2D()
 
-return a hash with long hash key and content
+returns a simple hash with tag keys as keys and the values of C<XMLHash> as values.
+As a sideeffect the data structure C<XMLHash> is enriched with tag keys.
 
     my %Hash = $XMLObject->XMLHash2D(XMLHash => \@XMLHash);
 
-    for example:
+For example:
 
     $Hash{"[1]{'Planet'}[1]{'Content'}"'} = 'Sun';
 
@@ -623,7 +624,10 @@ sub XMLHash2D {
 
     # check needed stuff
     if ( !defined $Param{XMLHash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'XMLHash not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'XMLHash not defined!',
+        );
         return;
     }
 
@@ -643,6 +647,7 @@ sub XMLHash2D {
         $Count++;
     }
     $Self->{XMLHashReturn} = 0;
+
     return %{ $Self->{XMLHash} };
 }
 
@@ -919,7 +924,10 @@ sub _XMLHash2D {
             $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
             $Key .= "[" . $S->{XMLLevelCount}->{$_}->{ $S->{XMLLevelTag}->{$_} } . "]";
         }
+
+        # add tag key to the passed in data structure
         $Param{Item}->{TagKey} = $Key;
+
         for ( keys %{ $Param{Item} } ) {
             if ( defined $Param{Item}->{$_} && ref $Param{Item}->{$_} ne 'ARRAY' ) {
                 $Self->{XMLHash}->{ $Key . "{'$_'}" } = $Param{Item}->{$_};
@@ -1484,6 +1492,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.97 $ $Date: 2010-03-02 11:58:22 $
+$Revision: 1.98 $ $Date: 2010-03-02 12:04:01 $
 
 =cut
