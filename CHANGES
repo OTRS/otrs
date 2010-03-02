@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1169 2010-02-26 21:17:22 martin Exp $
+# $Id: CHANGES,v 1.1170 2010-03-02 16:07:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -205,6 +205,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/03/02) Updated Czech translation, thanks to O2BS.com, s r.o. Jakub Hanus!
  - (2010/02/26) Fixed bug#4137 - Follow ups to internal forwarded message marked
     as customer reply.
  - (2010/02/23) Updated pt_BR translation file, thanks to Fabricio Luiz Machado!
