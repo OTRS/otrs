@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.104.2.4 2009-12-09 12:01:00 mb Exp $
+# $Id: nl.pm,v 1.104.2.5 2010-03-02 15:49:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104.2.4 $) [1];
+$VERSION = qw($Revision: 1.104.2.5 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -248,6 +248,7 @@ sub Data {
         'Preview' => 'Voorbeeld',
         'Package not correctly deployed! You should reinstall the Package again!' => 'Pakket is niet goed geïnstalleerd! Installeer het pakket overnieuw!',
         'Added User "%s"' => 'Gebruiker "%s" toegevoegd.',
+        'Role added!' => 'Rol toegevoegd.',
         'Contract' => 'Contract',
         'Online Customer: %s' => 'Online klanten: %s',
         'Online Agent: %s' => 'Online behandelaars: %s',
@@ -950,9 +951,9 @@ sub Data {
         # Template: AdminQueueForm
         'Queue Management' => 'Beheer wachtrijen',
         'Sub-Queue of' => 'Subwachtrij van',
-        'Unlock timeout' => 'Ontgrendel tijdsoverschrijding',
+        'Unlock timeout' => 'Ontgrendel na',
         '0 = no unlock' => '0 = geen ontgrendeling',
-        'Only business hours are counted.' => 'Alleen openingstijden tellen mee',
+        'Only business hours are counted.' => 'Alleen kantooruren tellen mee',
         '0 = no escalation' => '0 = geen escalatie',
         'Notify by' => 'Notificatie op',
         'Follow up Option' => 'Follow up optie',
