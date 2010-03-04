@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.104.2.5 2010-03-02 15:49:10 mb Exp $
+# $Id: nl.pm,v 1.104.2.6 2010-03-04 15:46:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104.2.5 $) [1];
+$VERSION = qw($Revision: 1.104.2.6 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -664,6 +664,7 @@ sub Data {
         'History::TicketLinkDelete' => 'Link naar "%s" verwijderd.',
         'History::Subscribe' => 'Added subscription for user "%s".',
         'History::Unsubscribe' => 'Removed subscription for user "%s".',
+        'History::ResponsibleUpdate' => 'Nieuwe verantwoordelijke is "%s" (ID=%s).',
 
         # Template: AAAWeekDay
         'Sun' => 'zo',

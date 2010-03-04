@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/de.pm - provides de language translation
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.208.2.8 2009-12-09 12:01:00 mb Exp $
+# $Id: de.pm,v 1.208.2.9 2010-03-04 15:46:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.208.2.8 $) [1];
+$VERSION = qw($Revision: 1.208.2.9 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -645,6 +645,7 @@ sub Data {
         'History::TicketLinkDelete' => 'Verknüpfung zu "%s" gelöscht.',
         'History::Subscribe' => 'Abo für Benutzer "%s" eingetragen.',
         'History::Unsubscribe' => 'Abo für Benutzer "%s" ausgetragen.',
+        'History::ResponsibleUpdate' => 'Neuer Verantwortlicher ist "%s" (ID=%s).',
 
         # Template: AAAWeekDay
         'Sun' => 'Son',
