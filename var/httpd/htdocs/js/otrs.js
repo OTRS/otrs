@@ -2,33 +2,50 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.13 2010-01-29 09:43:42 mn Exp $
+// $Id: otrs.js,v 1.14 2010-03-08 19:18:26 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 // --
 
-// create global OTRS name space
-var OTRS = OTRS || {};
-var OTRSCore = {};
-var OTRSUI = {};
-var OTRSConfig = {};
+// create global name space
+var Config = {};
+var Core = {};
+var UI = {};
 
-// config settings
-OTRS.ConfigGet = function (Key) {
-    return OTRSConfig[Key];
+// set config hash
+Config.Storage = {};
+
+// config get
+Config.Get = function (Key) {
+    return Config.Storage[Key];
 };
-OTRS.ConfigSet = function (Key, Value) {
-    OTRSConfig[Key] = Value;
+
+// config set
+Config.Set = function (Key, Value) {
+    Config.Storage[Key] = Value;
 };
+
+// init
+Core.Init = function () {
+    Core.ImagePreload( [Config.Get('Images') + 'loading.gif'] );
+}
+
+// preload of loading image (to load it at page load time)
+Core.ImagePreload = function(FieldName) {
+    for (F=0;F<FieldName.length;F++) {
+        ImagePreload = new Image();
+        ImagePreload.src = FieldName[F];
+    }
+}
 
 // update content element
-OTRSCore.AJAXContentUpdate = function(Element, url, OnLoad, OnLoaded ) {
+Core.AJAXContentUpdate = function(Element, url, OnLoad, OnLoaded ) {
 
     // add sessionid if no cookies are used
-    if ( !OTRS.ConfigGet('SessionIDCookie') ) {
-        url = url + '&' + OTRS.ConfigGet('SessionName') + '=' + OTRS.ConfigGet('SessionID') + '&' + OTRS.ConfigGet('CustomerPanelSessionName') + '=' + OTRS.ConfigGet('SessionID');
+    if ( !Config.Get('SessionIDCookie') ) {
+        url = url + '&' + Config.Get('SessionName') + '=' + Config.Get('SessionID') + '&' + Config.Get('CustomerPanelSessionName') + '=' + Config.Get('SessionID');
     }
 
     $.ajax({
@@ -60,8 +77,8 @@ OTRSCore.AJAXContentUpdate = function(Element, url, OnLoad, OnLoaded ) {
 };
 
 // update input and option fields
-OTRSCore.AJAXUpdate = function(Subaction, Changed, Depend, Update) {
-    var url = OTRSCore.AJAXURLGet(Subaction, Changed, Depend, Update);
+Core.AJAXUpdate = function(Subaction, Changed, Depend, Update) {
+    var url = Core.AJAXURLGet(Subaction, Changed, Depend, Update);
     $.ajax({
         type:     'GET',
         url:      url,
@@ -72,14 +89,14 @@ OTRSCore.AJAXUpdate = function(Subaction, Changed, Depend, Update) {
                 alert("ERROR: Invalid JSON from: " + url);
             }
             else {
-                OTRSCore.AJAXUpdateItems(Response, Update);
+                Core.AJAXUpdateItems(Response, Update);
             }
         },
         beforeSend: function() {
-            OTRSCore.AJAXLoadingImage('Load', Update);
+            Core.AJAXLoadingImage('Load', Update);
         },
         complete: function() {
-            OTRSCore.AJAXLoadingImage('Unload', Update);
+            Core.AJAXLoadingImage('Unload', Update);
         },
         error:      function() {
             alert('ERROR: Something went wrong!')
@@ -89,7 +106,7 @@ OTRSCore.AJAXUpdate = function(Subaction, Changed, Depend, Update) {
 }
 
 // generate requested url
-OTRSCore.AJAXURLGet = function(Subaction, Changed, FieldName, FieldName2) {
+Core.AJAXURLGet = function(Subaction, Changed, FieldName, FieldName2) {
     var ParamPart = '';
 
     // check if we need to fill some not used fields for Update
@@ -113,19 +130,23 @@ OTRSCore.AJAXURLGet = function(Subaction, Changed, FieldName, FieldName2) {
             ParamPart = ParamPart + '&' + FieldName[F] + '=' + ParamEncode;
         }
     }
-    var url = OTRS.ConfigGet('Baselink') + 'Action=' + OTRS.ConfigGet('Action') + '&Subaction=' + Subaction + '&ElementChanged=' + Changed + ParamPart;
+    var url = Config.Get('Baselink') + 'Action=' + Config.Get('Action') + '&Subaction=' + Subaction + '&ElementChanged=' + Changed + ParamPart;
 
     // add sessionid if no cookies are used
-    if ( !OTRS.ConfigGet('SessionIDCookie') ) {
-        url = url + '&' + OTRS.ConfigGet('SessionName') + '=' + OTRS.ConfigGet('SessionID') + '&' + OTRS.ConfigGet('CustomerPanelSessionName') + '=' + OTRS.ConfigGet('SessionID');
+    if ( !Config.Get('SessionIDCookie') ) {
+        url = url + '&' + Config.Get('SessionName') + '=' + Config.Get('SessionID') + '&' + Config.Get('CustomerPanelSessionName') + '=' + Config.Get('SessionID');
     }
     return url;
 }
 
 // update fields
-OTRSCore.AJAXUpdateItems = function(ObjectRef, FieldName) {
+Core.AJAXUpdateItems = function(ObjectRef, FieldName) {
     for (F=0;F<FieldName.length;F++) {
+
+        // update form attributes
         if (document.compose[FieldName[F]]) {
+
+            // update form options
             if ( document.compose[FieldName[F]].options ) {
                 var Length = document.compose[FieldName[F]].length;
                 for(i=0; i<=Length; i++) {
@@ -143,22 +164,27 @@ OTRSCore.AJAXUpdateItems = function(ObjectRef, FieldName) {
                     }
                 }
             }
+
+            // update normal form input/textarea fields
             else {
                 if (ObjectRef && ObjectRef[FieldName[F]]) {
                     document.compose[FieldName[F]].value = ObjectRef[FieldName[F]];
                 }
             }
         }
+
+        // update iframe
+
     }
     return true;
 }
 
 // show loading image
-OTRSCore.AJAXLoadingImage = function(Type, FieldName) {
+Core.AJAXLoadingImage = function(Type, FieldName) {
     for (F=0;F<FieldName.length;F++) {
         if (document.compose[FieldName[F]] && document.getElementById('AJAXImage' + FieldName[F])) {
             if (Type == 'Load') {
-                document.getElementById('AJAXImage' + FieldName[F]).innerHTML="<img src=\"" + OTRS.ConfigGet('Images') + "loading.gif\" border=\"0\">";
+                document.getElementById('AJAXImage' + FieldName[F]).innerHTML="<img src=\"" + Config.Get('Images') + "loading.gif\" border=\"0\">";
             }
             else {
                 document.getElementById('AJAXImage' + FieldName[F]).innerHTML="";
@@ -168,27 +194,13 @@ OTRSCore.AJAXLoadingImage = function(Type, FieldName) {
     return true;
 }
 
-// preload of loading image (to load it at page load time)
-OTRSCore.AJAXLoadingImagePreload = function(FieldName) {
-    for (F=0;F<FieldName.length;F++) {
-        ImagePreload = new Image();
-        ImagePreload.src = FieldName[F];
-    }
-}
-
-// init
-OTRSCore.AJAXInit = function () {
-    OTRSCore.AJAXLoadingImagePreload( [OTRS.ConfigGet('Images') + 'loading.gif'] );
-}
-
 // start ajax request and call a callback when ready
 // AJAXFunctionCall({
-//     Url: 'http://otrs-installation/index.pl?Action=...' - URL for Request, optional (otherwise OTRS.Config is used)
+//     Url: 'http://otrs-installation/index.pl?Action=...' - URL for Request, optional (otherwise Config is used)
 //     Data: {name:'Value'} - JSON or Query String, optional
 //     Callback: CallbackFunc - JS function pointer, optional (otherwise no callback is called)
 // })
-function AJAXFunctionCall(Param)
-{
+Core.AJAXFunctionCall = function(Param) {
     var Url, Data, Callback;
 
     // use parameter Url or build a fallback manually
@@ -196,10 +208,10 @@ function AJAXFunctionCall(Param)
         Url = Param['Url'];
     }
     else {
-        Url = OTRS.ConfigGet('Baselink') + 'Action=' + OTRS.ConfigGet('Action');
+        Url = Config.Get('Baselink') + 'Action=' + Config.Get('Action');
         // add sessionid if no cookies are used
-        if ( !OTRS.ConfigGet('SessionIDCookie') ) {
-            Url = Url + '&' + OTRS.ConfigGet('SessionName') + '=' + OTRS.ConfigGet('SessionID') + '&' + OTRS.ConfigGet('CustomerPanelSessionName') + '=' + OTRS.ConfigGet('SessionID');
+        if ( !Config.Get('SessionIDCookie') ) {
+            Url = Url + '&' + Config.Get('SessionName') + '=' + Config.Get('SessionID') + '&' + Config.Get('CustomerPanelSessionName') + '=' + Config.Get('SessionID');
         }
     }
 
@@ -247,7 +259,7 @@ function AJAXFunctionCall(Param)
     });
 }
 
-OTRSUI.Settings = function( Element1, Element2 ) {
+UI.Settings = function( Element1, Element2 ) {
 
     var Icon1 = document.getElementById(Element1);
     if ( !Icon1.style.display || Icon1.style.display == 'block' ) {
@@ -264,7 +276,7 @@ OTRSUI.Settings = function( Element1, Element2 ) {
     return true;
 }
 
-OTRSUI.Sortable = function( Data ) {
+UI.Sortable = function( Data ) {
     $(function() {
         $(Data.Selector).sortable({
             placeholder: Data.Placeholder,
@@ -279,14 +291,14 @@ OTRSUI.Sortable = function( Data ) {
                         url = url + ';' + Data.UpdateAttribute + '=' + $(this).attr(Data.UpdateValue);
                     }
                 );
-                OTRSCore.AJAXContentUpdate('', url );
+                Core.AJAXContentUpdate('', url );
             }
         });
     });
     return true;
 }
 
-OTRSUI.Accordion = function( Element1, Element2, Element3 ) {
+UI.Accordion = function( Element1, Element2, Element3 ) {
 
     var Data = document.getElementById(Element1);
     var Icon1 = document.getElementById(Element2);
@@ -318,7 +330,7 @@ OTRSUI.Accordion = function( Element1, Element2, Element3 ) {
     return true;
 }
 
-OTRSUI.Dialog = function( Data ) {
+UI.Dialog = function( Data ) {
 
     var Buttons = {};
 
