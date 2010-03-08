@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.83 2010-02-23 12:39:49 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.84 2010-03-08 17:59:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -134,7 +134,7 @@ sub Run {
     }
 
     # get single params
-    my %GetParam = ();
+    my %GetParam;
 
     # load profiles string params (press load profile)
     if ( ( $Self->{Subaction} eq 'LoadProfile' && $Self->{Profile} ) || $Self->{TakeLastSearch} ) {
@@ -727,8 +727,8 @@ sub Run {
 
         # CSV output
         if ( $GetParam{ResultForm} eq 'CSV' ) {
-            my @CSVHead = ();
-            my @CSVData = ();
+            my @CSVHead;
+            my @CSVData;
 
             for (@ViewableTicketIDs) {
 
@@ -780,7 +780,7 @@ sub Run {
                 if ( !@CSVHead ) {
                     @CSVHead = @{ $Self->{Config}->{SearchCSVData} };
                 }
-                my @Data = ();
+                my @Data;
                 for (@CSVHead) {
                     push @Data, $Info{$_};
                 }
@@ -810,14 +810,14 @@ sub Run {
         }
         elsif ( $GetParam{ResultForm} eq 'Print' ) {
 
-            my @PDFData = ();
+            my @PDFData;
             for (@ViewableTicketIDs) {
 
                 # get first article data
                 my %Data = $Self->{TicketObjectSearch}->ArticleFirstArticle( TicketID => $_ );
 
                 # customer info
-                my %CustomerData = ();
+                my %CustomerData;
                 if ( $Data{CustomerUserID} ) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                         User => $Data{CustomerUserID},
@@ -1121,7 +1121,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
 
         # get free text config options
-        my %TicketFreeText = ();
+        my %TicketFreeText;
         for ( 1 .. 16 ) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 Type   => "TicketFreeKey$_",
@@ -1167,21 +1167,21 @@ sub MaskForm {
             }
         }
     }
-    $Param{'UserStrg'} = $Self->{LayoutObject}->BuildSelection(
-        Data               => \%ShownUsers,
-        Name               => 'OwnerIDs',
-        Multiple           => 1,
-        Size               => 5,
-        SelectedIDRefArray => $Param{OwnerIDs},
+    $Param{UserStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data       => \%ShownUsers,
+        Name       => 'OwnerIDs',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{OwnerIDs},
     );
-    $Param{'CreatedUserStrg'} = $Self->{LayoutObject}->BuildSelection(
-        Data               => \%ShownUsers,
-        Name               => 'CreatedUserIDs',
-        Multiple           => 1,
-        Size               => 5,
-        SelectedIDRefArray => $Param{CreatedUserIDs},
+    $Param{CreatedUserStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data       => \%ShownUsers,
+        Name       => 'CreatedUserIDs',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{CreatedUserIDs},
     );
-    $Param{'ResultFormStrg'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ResultFormStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             Normal => 'Normal',
             Print  => 'Print',
@@ -1193,7 +1193,7 @@ sub MaskForm {
 
     if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
 
-        $Param{'SearchInArchiveStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{SearchInArchiveStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 ArchivedTickets    => 'Search in archived tickets only',
                 NotArchivedTickets => 'Search in not archived tickets only',
@@ -1204,7 +1204,7 @@ sub MaskForm {
         );
     }
 
-    $Param{'ProfilesStrg'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ProfilesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             '', '-',
             $Self->{SearchProfileObject}->SearchProfileList(
@@ -1215,52 +1215,52 @@ sub MaskForm {
         Name       => 'Profile',
         SelectedID => $Param{Profile},
     );
-    $Param{'StatesStrg'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{StatesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{StateObject}->StateList(
                 UserID => $Self->{UserID},
                 Action => $Self->{Action},
             ),
         },
-        Name               => 'StateIDs',
-        Multiple           => 1,
-        Size               => 5,
-        SelectedIDRefArray => $Param{StateIDs},
+        Name       => 'StateIDs',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{StateIDs},
     );
     my %AllQueues = $Self->{QueueObject}->GetAllQueues(
         UserID => $Self->{UserID},
         Type   => 'ro',
     );
-    $Param{'QueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data               => \%AllQueues,
-        Size               => 5,
-        Multiple           => 1,
-        Name               => 'QueueIDs',
-        SelectedIDRefArray => $Param{QueueIDs},
-        OnChangeSubmit     => 0,
+    $Param{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+        Data           => \%AllQueues,
+        Size           => 5,
+        Multiple       => 1,
+        Name           => 'QueueIDs',
+        SelectedID     => $Param{QueueIDs},
+        OnChangeSubmit => 0,
     );
-    $Param{'CreatedQueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data               => \%AllQueues,
-        Size               => 5,
-        Multiple           => 1,
-        Name               => 'CreatedQueueIDs',
-        SelectedIDRefArray => $Param{CreatedQueueIDs},
-        OnChangeSubmit     => 0,
+    $Param{CreatedQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+        Data           => \%AllQueues,
+        Size           => 5,
+        Multiple       => 1,
+        Name           => 'CreatedQueueIDs',
+        SelectedID     => $Param{CreatedQueueIDs},
+        OnChangeSubmit => 0,
     );
-    $Param{'PrioritiesStrg'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{PriorityObject}->PriorityList(
                 UserID => $Self->{UserID},
                 Action => $Self->{Action},
             ),
         },
-        Name               => 'PriorityIDs',
-        Multiple           => 1,
-        Size               => 5,
-        SelectedIDRefArray => $Param{PriorityIDs},
+        Name       => 'PriorityIDs',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{PriorityIDs},
     );
 
-    $Param{'ArticleCreateTimePoint'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ArticleCreateTimePoint} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             1  => ' 1',
             2  => ' 2',
@@ -1325,7 +1325,7 @@ sub MaskForm {
         Name       => 'ArticleCreateTimePoint',
         SelectedID => $Param{ArticleCreateTimePoint},
     );
-    $Param{'ArticleCreateTimePointStart'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ArticleCreateTimePointStart} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             'Last'   => 'last',
             'Before' => 'before',
@@ -1333,7 +1333,7 @@ sub MaskForm {
         Name => 'ArticleCreateTimePointStart',
         SelectedID => $Param{ArticleCreateTimePointStart} || 'Last',
     );
-    $Param{'ArticleCreateTimePointFormat'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ArticleCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             minute => 'minute(s)',
             hour   => 'hour(s)',
@@ -1356,7 +1356,7 @@ sub MaskForm {
         Prefix => 'ArticleCreateTimeStop',
         Format => 'DateInputFormat',
     );
-    $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{TicketCreateTimePoint} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             1  => ' 1',
             2  => ' 2',
@@ -1421,7 +1421,7 @@ sub MaskForm {
         Name       => 'TicketCreateTimePoint',
         SelectedID => $Param{TicketCreateTimePoint},
     );
-    $Param{'TicketCreateTimePointStart'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{TicketCreateTimePointStart} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             'Last'   => 'last',
             'Before' => 'before',
@@ -1429,7 +1429,7 @@ sub MaskForm {
         Name => 'TicketCreateTimePointStart',
         SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
     );
-    $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             minute => 'minute(s)',
             hour   => 'hour(s)',
@@ -1468,7 +1468,7 @@ sub MaskForm {
         );
     }
 
-    $Param{'TicketChangeTimePoint'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{TicketChangeTimePoint} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             1  => ' 1',
             2  => ' 2',
@@ -1533,7 +1533,7 @@ sub MaskForm {
         Name       => 'TicketChangeTimePoint',
         SelectedID => $Param{TicketChangeTimePoint},
     );
-    $Param{'TicketChangeTimePointStart'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{TicketChangeTimePointStart} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             'Last'   => 'last',
             'Before' => 'before',
@@ -1541,7 +1541,7 @@ sub MaskForm {
         Name => 'TicketChangeTimePointStart',
         SelectedID => $Param{TicketChangeTimePointStart} || 'Last',
     );
-    $Param{'TicketChangeTimePointFormat'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{TicketChangeTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             minute => 'minute(s)',
             hour   => 'hour(s)',
@@ -1565,7 +1565,7 @@ sub MaskForm {
         Format => 'DateInputFormat',
     );
 
-    $Param{'TicketCloseTimePoint'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{TicketCloseTimePoint} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             1  => ' 1',
             2  => ' 2',
@@ -1630,7 +1630,7 @@ sub MaskForm {
         Name       => 'TicketCloseTimePoint',
         SelectedID => $Param{TicketCloseTimePoint},
     );
-    $Param{'TicketCloseTimePointStart'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{TicketCloseTimePointStart} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             'Last'   => 'last',
             'Before' => 'before',
@@ -1638,7 +1638,7 @@ sub MaskForm {
         Name => 'TicketCloseTimePointStart',
         SelectedID => $Param{TicketCloseTimePointStart} || 'Last',
     );
-    $Param{'TicketCloseTimePointFormat'} = $Self->{LayoutObject}->BuildSelection(
+    $Param{TicketCloseTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             minute => 'minute(s)',
             hour   => 'hour(s)',
@@ -1686,7 +1686,7 @@ sub MaskForm {
     # build type string
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
         my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
-        $Param{'TypesStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%Type,
             Name        => 'TypeIDs',
             SelectedID  => $Param{TypeIDs},
@@ -1710,7 +1710,7 @@ sub MaskForm {
             $TreeView = 1;
         }
         my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
-        $Param{'ServicesStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%Service,
             Name        => 'ServiceIDs',
             SelectedID  => $Param{ServiceIDs},
@@ -1722,7 +1722,7 @@ sub MaskForm {
             Max         => 200,
         );
         my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
-        $Param{'SLAsStrg'} = $Self->{LayoutObject}->BuildSelection(
+        $Param{SLAsStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%SLA,
             Name        => 'SLAIDs',
             SelectedID  => $Param{SLAIDs},
@@ -1791,40 +1791,38 @@ sub MaskForm {
         }
     }
     for my $Count ( 1 .. 16 ) {
-        if ( $Self->{Config}->{'TicketFreeText'}->{$Count} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText',
-                Data => {
-                    TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
-                    TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
-                    Count               => $Count,
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText' . $Count,
-                Data => { %Param, },
-            );
-        }
+        next if !$Self->{Config}->{TicketFreeText}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText',
+            Data => {
+                TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
+                TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
+                Count               => $Count,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText' . $Count,
+            Data => { %Param, },
+        );
     }
     for my $Count ( 1 .. 6 ) {
-        if ( $Self->{Config}->{'TicketFreeTime'}->{$Count} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime',
-                Data => {
-                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                    TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
-                    TicketFreeTimeStart => $Param{ 'TicketFreeTime' . $Count . 'Start' },
-                    TicketFreeTimeStop  => $Param{ 'TicketFreeTime' . $Count . 'Stop' },
-                    Count               => $Count,
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime' . $Count,
-                Data => { %Param, Count => $Count, },
-            );
-        }
+        next if !$Self->{Config}->{TicketFreeTime}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime',
+            Data => {
+                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                TicketFreeTime      => $Param{ 'TicketFreeTime' . $Count },
+                TicketFreeTimeStart => $Param{ 'TicketFreeTime' . $Count . 'Start' },
+                TicketFreeTimeStop  => $Param{ 'TicketFreeTime' . $Count . 'Stop' },
+                Count               => $Count,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime' . $Count,
+            Data => { %Param, Count => $Count, },
+        );
     }
-    if ( $Self->{Config}->{'ArticleCreateTime'} ) {
+    if ( $Self->{Config}->{ArticleCreateTime} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ArticleCreateTime',
             Data => {%Param},

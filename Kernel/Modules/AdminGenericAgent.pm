@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.78 2010-01-19 21:30:37 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.79 2010-03-08 17:59:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -117,7 +117,7 @@ sub Run {
         }
 
         # get single params
-        my %GetParam = ();
+        my %GetParam;
         for (
             qw(TicketNumber Title From To Cc Subject Body CustomerID
             CustomerUserLogin Agent SearchInArchive
@@ -471,11 +471,11 @@ sub Run {
             Valid => 1,
         );
         $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data               => \%ShownUsers,
-            Name               => 'OwnerIDs',
-            Multiple           => 1,
-            Size               => 5,
-            SelectedIDRefArray => $Param{OwnerIDs},
+            Data       => \%ShownUsers,
+            Name       => 'OwnerIDs',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $Param{OwnerIDs},
         );
         $Param{NewOwnerStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%ShownUsers,
@@ -484,16 +484,16 @@ sub Run {
             Multiple   => 1,
             SelectedID => $Param{NewOwnerID},
         );
-        my %Hours = ();
+        my %Hours;
         for ( 0 .. 23 ) {
             $Hours{$_} = sprintf( "%02d", $_ );
         }
         $Param{ScheduleHoursList} = $Self->{LayoutObject}->BuildSelection(
-            Data               => \%Hours,
-            Name               => 'ScheduleHours',
-            Size               => 6,
-            Multiple           => 1,
-            SelectedIDRefArray => $Param{ScheduleHours},
+            Data       => \%Hours,
+            Name       => 'ScheduleHours',
+            Size       => 6,
+            Multiple   => 1,
+            SelectedID => $Param{ScheduleHours},
         );
         $Param{ScheduleMinutesList} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -504,10 +504,10 @@ sub Run {
                 40   => '40',
                 50   => '50',
             },
-            Name               => 'ScheduleMinutes',
-            Size               => 6,
-            Multiple           => 1,
-            SelectedIDRefArray => $Param{ScheduleMinutes},
+            Name       => 'ScheduleMinutes',
+            Size       => 6,
+            Multiple   => 1,
+            SelectedID => $Param{ScheduleMinutes},
         );
         $Param{ScheduleDaysList} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -519,11 +519,11 @@ sub Run {
                 6 => 'Sat',
                 0 => 'Sun',
             },
-            SortBy             => 'Key',
-            Name               => 'ScheduleDays',
-            Size               => 6,
-            Multiple           => 1,
-            SelectedIDRefArray => $Param{ScheduleDays},
+            SortBy     => 'Key',
+            Name       => 'ScheduleDays',
+            Size       => 6,
+            Multiple   => 1,
+            SelectedID => $Param{ScheduleDays},
         );
 
         $Param{StatesStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -533,10 +533,10 @@ sub Run {
                     Action => $Self->{Action},
                 ),
             },
-            Name               => 'StateIDs',
-            Multiple           => 1,
-            Size               => 5,
-            SelectedIDRefArray => $Param{StateIDs},
+            Name       => 'StateIDs',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $Param{StateIDs},
         );
         $Param{NewStatesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -573,10 +573,10 @@ sub Run {
                     Action => $Self->{Action},
                 ),
             },
-            Name               => 'PriorityIDs',
-            Multiple           => 1,
-            Size               => 5,
-            SelectedIDRefArray => $Param{PriorityIDs},
+            Name       => 'PriorityIDs',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $Param{PriorityIDs},
         );
         $Param{NewPrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -619,7 +619,7 @@ sub Run {
                 $Param{ $SearchType . '::TimeSlot' } = 'checked="checked"';
             }
 
-            my %Counter = ();
+            my %Counter;
             for ( 1 .. 60 ) {
                 $Counter{$_} = sprintf( "%02d", $_ );
             }
@@ -680,10 +680,10 @@ sub Run {
                     Action => $Self->{Action},
                 ),
             },
-            Name               => 'LockIDs',
-            Multiple           => 1,
-            Size               => 3,
-            SelectedIDRefArray => $Param{LockIDs},
+            Name       => 'LockIDs',
+            Multiple   => 1,
+            Size       => 3,
+            SelectedID => $Param{LockIDs},
         );
         $Param{NewLockOption} = $Self->{LayoutObject}->BuildSelection(
             Data => {

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.68 2010-02-26 18:39:17 martin Exp $
+# $Id: LayoutTicket.pm,v 1.69 2010-03-08 18:02:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -258,7 +258,7 @@ sub AgentQueueListOption {
             );
             $Self->FatalError();
         }
-        $Param{OnChange} = "OTRSCore.AJAXUpdate('" . $Param{Ajax}->{Subaction} . "',"
+        $Param{OnChange} = "Core.AJAXUpdate('" . $Param{Ajax}->{Subaction} . "',"
             . " '$Param{Name}',"
             . " ['"
             . join( "', '", @{ $Param{Ajax}->{Depend} } ) . "'], ['"
@@ -396,7 +396,6 @@ sub AgentFreeText {
                     Data => { %NullOption, %{ $Config{"TicketFreeKey$_"} }, },
                     Name => "TicketFreeKey$_",
                     SelectedID          => $Ticket{"TicketFreeKey$_"},
-                    SelectedIDRefArray  => $Ticket{"TicketFreeKey$_"},
                     LanguageTranslation => 0,
                     HTMLQuote           => 1,
                     %SelectData,
@@ -442,7 +441,6 @@ sub AgentFreeText {
                 Data => { %NullOption, %{ $Config{"TicketFreeText$_"} }, },
                 Name => "TicketFreeText$_",
                 SelectedID          => $Ticket{"TicketFreeText$_"},
-                SelectedIDRefArray  => $Ticket{"TicketFreeText$_"},
                 LanguageTranslation => 0,
                 HTMLQuote           => 1,
                 %SelectData,
@@ -551,7 +549,6 @@ sub TicketArticleFreeText {
                     Data => { %NullOption, %{ $Config{"ArticleFreeKey$_"} }, },
                     Name => "ArticleFreeKey$_",
                     SelectedID          => $Article{"ArticleFreeKey$_"},
-                    SelectedIDRefArray  => $Article{"ArticleFreeKey$_"},
                     LanguageTranslation => 0,
                     HTMLQuote           => 1,
                     %SelectData,
@@ -597,7 +594,6 @@ sub TicketArticleFreeText {
                 Data => { %NullOption, %{ $Config{"ArticleFreeText$_"} }, },
                 Name => "ArticleFreeText$_",
                 SelectedID          => $Article{"ArticleFreeText$_"},
-                SelectedIDRefArray  => $Article{"ArticleFreeText$_"},
                 LanguageTranslation => 0,
                 HTMLQuote           => 1,
                 %SelectData,

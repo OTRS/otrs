@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - set ticket to pending
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPending.pm,v 1.80 2010-02-26 20:35:35 martin Exp $
+# $Id: AgentTicketPending.pm,v 1.81 2010-03-08 17:59:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1115,11 +1115,11 @@ sub _Mask {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
             }
             $Param{OptionStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data               => \%ShownUsers,
-                SelectedIDRefArray => $Self->{InformUserID},
-                Name               => 'InformUserID',
-                Multiple           => 1,
-                Size               => 3,
+                Data       => \%ShownUsers,
+                SelectedID => $Self->{InformUserID},
+                Name       => 'InformUserID',
+                Multiple   => 1,
+                Size       => 3,
             );
             $Self->{LayoutObject}->Block(
                 Name => 'InformAgent',
@@ -1139,11 +1139,11 @@ sub _Mask {
                     . "$User->{UserFirstname} ($User->{UserLogin})";
             }
             $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data               => \%UserHash,
-                SelectedIDRefArray => $Self->{InvolvedUserID},
-                Name               => 'InvolvedUserID',
-                Multiple           => 1,
-                Size               => 3,
+                Data       => \%UserHash,
+                SelectedID => $Self->{InvolvedUserID},
+                Name       => 'InvolvedUserID',
+                Multiple   => 1,
+                Size       => 3,
             );
             $Self->{LayoutObject}->Block(
                 Name => 'InvolvedAgent',

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.45 2010-02-23 12:39:49 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.46 2010-03-08 18:00:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -81,7 +81,7 @@ sub Run {
     }
 
     # get single params
-    my %GetParam = ();
+    my %GetParam;
 
     # load profiles string params (press load profile)
     if ( ( $Self->{Subaction} eq 'LoadProfile' && $Self->{Profile} ) || $Self->{TakeLastSearch} ) {
@@ -379,8 +379,8 @@ sub Run {
 
         # CSV output
         if ( $GetParam{ResultForm} eq 'CSV' ) {
-            my @CSVHead = ();
-            my @CSVData = ();
+            my @CSVHead;
+            my @CSVData;
 
             for (@ViewableTicketIDs) {
 
@@ -432,7 +432,7 @@ sub Run {
                 if ( !@CSVHead ) {
                     @CSVHead = @{ $Self->{Config}->{SearchCSVData} };
                 }
-                my @Data = ();
+                my @Data;
                 for (@CSVHead) {
                     push @Data, $Info{$_};
                 }
@@ -469,7 +469,7 @@ sub Run {
                 );
 
                 # customer info
-                my %CustomerData = ();
+                my %CustomerData;
                 if ( $Data{CustomerUserID} ) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                         User => $Data{CustomerUserID},
@@ -552,7 +552,7 @@ sub Run {
                 );
 
                 # customer info
-                my %CustomerData = ();
+                my %CustomerData;
                 if ( $Data{CustomerUserID} ) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                         User => $Data{CustomerUserID},
@@ -642,7 +642,7 @@ sub Run {
         }
 
         # get free text config options
-        my %TicketFreeText = ();
+        my %TicketFreeText;
         for ( 1 .. 16 ) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 Type           => "TicketFreeKey$_",
@@ -694,10 +694,10 @@ sub MaskForm {
                 Action => $Self->{Action},
                 )
         },
-        Name               => 'StateIDs',
-        Multiple           => 1,
-        Size               => 5,
-        SelectedIDRefArray => $Param{StateIDs},
+        Name       => 'StateIDs',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{StateIDs},
     );
     $Param{StateTypeStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
@@ -715,10 +715,10 @@ sub MaskForm {
                 Action => $Self->{Action},
             ),
         },
-        Name               => 'PriorityIDs',
-        Multiple           => 1,
-        Size               => 5,
-        SelectedIDRefArray => $Param{PriorityIDs},
+        Name       => 'PriorityIDs',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{PriorityIDs},
     );
     $Param{TicketCreateTimePoint} = $Self->{LayoutObject}->BuildSelection(
         Data => {
@@ -838,29 +838,27 @@ sub MaskForm {
         Data => { %Param, },
     );
     for my $Count ( 1 .. 16 ) {
-        if ( $Self->{Config}->{TicketFreeText}->{$Count} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'FreeText',
-                Data => {
-                    TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
-                    TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
-                },
-            );
-        }
+        next if !$Self->{Config}->{TicketFreeText}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'FreeText',
+            Data => {
+                TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
+                TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
+            },
+        );
     }
     for my $Count ( 1 .. 6 ) {
-        if ( $Self->{Config}->{TicketFreeTime}->{$Count} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'FreeTime',
-                Data => {
-                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                    TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
-                    TicketFreeTimeStart => $Param{ 'TicketFreeTime' . $Count . 'Start' },
-                    TicketFreeTimeStop  => $Param{ 'TicketFreeTime' . $Count . 'Stop' },
-                    Count               => $Count,
-                },
-            );
-        }
+        next if !$Self->{Config}->{TicketFreeTime}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'FreeTime',
+            Data => {
+                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                TicketFreeTime      => $Param{ 'TicketFreeTime' . $Count },
+                TicketFreeTimeStart => $Param{ 'TicketFreeTime' . $Count . 'Start' },
+                TicketFreeTimeStop  => $Param{ 'TicketFreeTime' . $Count . 'Stop' },
+                Count               => $Count,
+            },
+        );
     }
 
     # html search mask output
