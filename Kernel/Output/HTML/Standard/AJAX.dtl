@@ -2,7 +2,7 @@
 # AJAX.dtl - provides AJAX functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AJAX.dtl,v 1.25 2010-01-25 21:35:05 martin Exp $
+# $Id: AJAX.dtl,v 1.26 2010-03-08 19:19:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,12 +18,12 @@
 
 # fill init/needed config options
 <script type="text/javascript">//<![CDATA[
-    OTRS.ConfigSet( 'Baselink', '$Env{"Baselink"}' );
-    OTRS.ConfigSet( 'Action', '$Env{"Action"}');
-    OTRS.ConfigSet( 'SessionIDCookie', '$Env{"SessionIDCookie"}' );
-    OTRS.ConfigSet( 'SessionName', '$Config{"SessionName"}' );
-    OTRS.ConfigSet( 'SessionID', '$Env{"SessionID"}' );
-    OTRS.ConfigSet( 'CustomerPanelSessionName', '$Config{"CustomerPanelSessionName"}' );
-    OTRS.ConfigSet( 'Images', '$Config{"Frontend::ImagePath"}' );
-    OTRSCore.AJAXInit();
+    Config.Set( 'Baselink', '$Env{"Baselink"}' );
+    Config.Set( 'Action', '$Env{"Action"}');
+    Config.Set( 'SessionIDCookie', '$Env{"SessionIDCookie"}' );
+    Config.Set( 'SessionName', '$Config{"SessionName"}' );
+    Config.Set( 'SessionID', '$Env{"SessionID"}' );
+    Config.Set( 'CustomerPanelSessionName', '$Config{"CustomerPanelSessionName"}' );
+    Config.Set( 'Images', '$Config{"Frontend::ImagePath"}' );
+    Core.Init();
 //]]></script>

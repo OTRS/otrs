@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.28 2010-02-05 13:58:23 mn Exp $
+# $Id: AgentDashboard.dtl,v 1.29 2010-03-08 19:19:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +13,9 @@
 $Include{"AJAX"}
 
 <script type="text/javascript">//<![CDATA[
-var OTRSDashboard = {};
+var Dashboard = {};
 
-OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
+Dashboard.PreferencesUpdate = function( Name, FormName ) {
     var ParamPart = '';
     var Form      = document.forms[FormName];
     for ( F = 0; F < Form.length; F++ ) {
@@ -25,17 +25,17 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
             ParamPart = ParamPart + ';' + Form[F].name + '=' + ParamEncode;
         }
     }
-    var url = OTRS.ConfigGet('Baselink') + ParamPart;
+    var url = Config.Get('Baselink') + ParamPart;
     var onLoaded = function() {
-        OTRSUI.Settings( Name + '-setting', Name );
+        UI.Settings( Name + '-setting', Name );
     };
-    OTRSCore.AJAXContentUpdate( Name, url, false, onLoaded );
+    Core.AJAXContentUpdate( Name, url, false, onLoaded );
     return true;
 }
 //]]></script>
 
 <script type="text/javascript">//<![CDATA[
-    OTRSUI.Sortable(
+    UI.Sortable(
         {
             Selector:    '#sortable-large',
             Placeholder: 'ui-state-highlight',
@@ -46,7 +46,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
             UpdateValue:     'id'
         }
     );
-    OTRSUI.Sortable(
+    UI.Sortable(
         {
             Selector:    '#sortable-small',
             Placeholder: 'ui-state-highlight',
@@ -85,7 +85,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
                                                     <td title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</td>
                                                     <td align="right">
 <!-- dtl:block:ContentLargePreferences -->
-                                                        <a href="#" onclick="OTRSUI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
+                                                        <a href="#" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
 <!-- dtl:block:ContentLargePreferences -->
                                                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"/></a>
                                                     </td>
@@ -118,8 +118,8 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 <!-- dtl:block:ContentLargePreferencesItem -->
                                                                     <tr>
                                                                         <td colspan="2">
-                                                                            <button class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;">$Text{"Submit"}</button>
-                                                                            <button class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSUI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
+                                                                            <button class="button" type="submit" value="$Text{"Submit"}" onclick="Dashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;">$Text{"Submit"}</button>
+                                                                            <button class="button" type="submit" value="$Text{"Cancel"}" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -161,7 +161,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
                                         <input type="hidden" name="Subaction" value="UpdateSettings"/>
 
                                         <table border="0" width="100%" cellspacing="0" cellpadding="0">
-                                            <tr onclick="OTRSUI.Accordion('setting', 'setting-expand-down', 'setting-collapse-up'); return false;">
+                                            <tr onclick="UI.Accordion('setting', 'setting-expand-down', 'setting-collapse-up'); return false;">
                                                 <td class="contenthead" width="99%">
                                                     $Text{"Settings"}
                                                 </td>
@@ -213,7 +213,7 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
                                                     <td title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</td>
                                                     <td align="right">
 <!-- dtl:block:ContentSmallPreferences -->
-                                                        <a href="#" onclick="OTRSUI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
+                                                        <a href="#" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
 <!-- dtl:block:ContentSmallPreferences -->
                                                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}" /></a>
                                                     </td>
@@ -246,8 +246,8 @@ OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
 <!-- dtl:block:ContentSmallPreferencesItem -->
                                                                     <tr>
                                                                         <td colspan="2">
-                                                                            <button class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;">$Text{"Submit"}</button>
-                                                                            <button class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSUI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
+                                                                            <button class="button" type="submit" value="$Text{"Submit"}" onclick="Dashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;">$Text{"Submit"}</button>
+                                                                            <button class="button" type="submit" value="$Text{"Cancel"}" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
                                                                         </td>
                                                                     </tr>
                                                                 </table>

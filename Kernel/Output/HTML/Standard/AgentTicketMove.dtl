@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.35 2010-02-05 13:58:23 mn Exp $
+# $Id: AgentTicketMove.dtl,v 1.36 2010-03-08 19:19:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -151,7 +151,7 @@ function SpellCheckSubmit() {
                                     <td width="80%" class="contentvalue">
                                         $Data{"OwnerStrg"}
 #                    $Env{"Box0"}<a href="" onclick="document.compose.OwnerAll.value='3'; document.compose.NoSubmit.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
-                                        $Env{"Box0"}<a href="" onclick="change_selected(0); document.compose.OwnerAll.value='3'; OTRSCore.AJAXUpdate('AJAXUpdate', 'OwnerAll', ['TicketID', 'DestQueueID', 'NewStateID', 'OwnerAll'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+                                        $Env{"Box0"}<a href="" onclick="change_selected(0); document.compose.OwnerAll.value='3'; Core.AJAXUpdate('AJAXUpdate', 'OwnerAll', ['TicketID', 'DestQueueID', 'NewStateID', 'OwnerAll'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
                                     </td>
                                 </tr>
                                 <tr>

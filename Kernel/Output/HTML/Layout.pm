@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.214 2010-02-26 18:38:14 martin Exp $
+# $Id: Layout.pm,v 1.215 2010-03-08 19:20:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.214 $) [1];
+$VERSION = qw($Revision: 1.215 $) [1];
 
 =head1 NAME
 
@@ -1782,7 +1782,7 @@ sub BuildSelection {
             );
             $Self->FatalError();
         }
-        $Param{OnChange} = "OTRSCore.AJAXUpdate('" . $Param{Ajax}->{Subaction} . "',"
+        $Param{OnChange} = "Core.AJAXUpdate('" . $Param{Ajax}->{Subaction} . "',"
             . " '$Param{Name}',"
             . " ['"
             . join( "', '", @{ $Param{Ajax}->{Depend} } ) . "'], ['"
@@ -2151,7 +2151,7 @@ sub PageNavBar {
             my $AJAXReplace = '';
             if ( $Param{AJAXReplace} ) {
                 $AJAXReplace
-                    = "onclick=\"OTRSCore.AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAll'); return false;\" ";
+                    = "onclick=\"Core.AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAll'); return false;\" ";
             }
             $Param{SearchNavBar}
                 .= " <a name=\"OverviewControl\" href=\"$BaselinkAll\" $AJAXReplace";
@@ -2172,7 +2172,7 @@ sub PageNavBar {
             my $AJAXReplaceBack = '';
             if ( $Param{AJAXReplace} ) {
                 $AJAXReplaceBack
-                    = "onclick=\"OTRSCore.AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllBack'); return false;\" ";
+                    = "onclick=\"Core.AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllBack'); return false;\" ";
             }
             $Param{SearchNavBar}
                 .= "&nbsp;<a href=\"$BaselinkAllBack\" $AJAXReplaceBack>&gt;&gt;</a>&nbsp;";
@@ -2181,7 +2181,7 @@ sub PageNavBar {
             my $AJAXReplaceNext = '';
             if ( $Param{AJAXReplace} ) {
                 $AJAXReplaceNext
-                    = "onclick=\"OTRSCore.AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllNext'); return false;\" ";
+                    = "onclick=\"Core.AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllNext'); return false;\" ";
             }
             $Param{SearchNavBar} .= " <a href=\"$BaselinkAllNext\" $AJAXReplaceNext>&gt;|</a> ";
             $i = 99999999;
@@ -2194,7 +2194,7 @@ sub PageNavBar {
             my $AJAXReplaceBack = '';
             if ( $Param{AJAXReplace} ) {
                 $AJAXReplaceBack
-                    = "onclick=\"OTRSCore.AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllBack'); return false;\" ";
+                    = "onclick=\"Core.AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllBack'); return false;\" ";
             }
             $Param{SearchNavBar}
                 .= " <a href=\"$BaselinkAllBack\" $AJAXReplaceBack>|&lt;</a>&nbsp;";
@@ -2203,7 +2203,7 @@ sub PageNavBar {
             my $AJAXReplaceNext = '';
             if ( $Param{AJAXReplace} ) {
                 $AJAXReplaceNext
-                    = "onclick=\"OTRSCore.AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllNext'); return false;\" ";
+                    = "onclick=\"Core.AJAXContentUpdate('$Param{AJAXReplace}', '$BaselinkAllNext'); return false;\" ";
             }
             $Param{SearchNavBar}
                 .= " <a href=\"$BaselinkAllNext\" $AJAXReplaceNext>&lt;&lt;</a>&nbsp;";
@@ -4349,6 +4349,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.214 $ $Date: 2010-02-26 18:38:14 $
+$Revision: 1.215 $ $Date: 2010-03-08 19:20:39 $
 
 =cut
