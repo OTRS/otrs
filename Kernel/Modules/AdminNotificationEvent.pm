@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.12 2010-03-08 13:35:28 mb Exp $
+# $Id: AdminNotificationEvent.pm,v 1.13 2010-03-08 17:57:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -359,12 +359,12 @@ sub _Edit {
     );
 
     $Param{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data           => { $Self->{QueueObject}->GetAllQueues(), },
-        Size           => 5,
-        Multiple       => 1,
-        Name           => 'QueueID',
-        SelectedID     => $Param{Data}->{QueueID},
-        OnChangeSubmit => 0,
+        Data               => { $Self->{QueueObject}->GetAllQueues(), },
+        Size               => 5,
+        Multiple           => 1,
+        Name               => 'QueueID',
+        SelectedIDRefArray => $Param{Data}->{QueueID},
+        OnChangeSubmit     => 0,
     );
 
     $Param{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
