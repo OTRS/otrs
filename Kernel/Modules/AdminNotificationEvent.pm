@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.11 2010-01-25 07:47:44 mb Exp $
+# $Id: AdminNotificationEvent.pm,v 1.12 2010-03-08 13:35:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -294,10 +294,10 @@ sub _Edit {
             AgentWritePermissions => 'Agent (All with write permissions)',
             Customer              => 'Customer',
         },
-        Name               => 'Recipients',
-        Multiple           => 1,
-        Size               => 4,
-        SelectedIDRefArray => $Param{Data}->{Recipients},
+        Name       => 'Recipients',
+        Multiple   => 1,
+        Size       => 4,
+        SelectedID => $Param{Data}->{Recipients},
     );
 
     my %AllAgents = $Self->{UserObject}->UserList(
@@ -305,11 +305,11 @@ sub _Edit {
         Valid => 1,
     );
     $Param{RecipientAgentsStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data               => \%AllAgents,
-        Name               => 'RecipientAgents',
-        Multiple           => 1,
-        Size               => 4,
-        SelectedIDRefArray => $Param{Data}->{RecipientAgents},
+        Data       => \%AllAgents,
+        Name       => 'RecipientAgents',
+        Multiple   => 1,
+        Size       => 4,
+        SelectedID => $Param{Data}->{RecipientAgents},
     );
 
     $Param{EventsStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -339,10 +339,10 @@ sub _Edit {
             ArticleSend               => 'ArticleSend',
             ArticleBounce             => 'ArticleBounce',
         },
-        Name               => 'Events',
-        Multiple           => 1,
-        Size               => 5,
-        SelectedIDRefArray => $Param{Data}->{Events},
+        Name       => 'Events',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{Data}->{Events},
     );
 
     $Param{StatesStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -352,19 +352,19 @@ sub _Edit {
                 Action => $Self->{Action},
             ),
         },
-        Name               => 'StateID',
-        Multiple           => 1,
-        Size               => 5,
-        SelectedIDRefArray => $Param{Data}->{StateID},
+        Name       => 'StateID',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{Data}->{StateID},
     );
 
     $Param{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data               => { $Self->{QueueObject}->GetAllQueues(), },
-        Size               => 5,
-        Multiple           => 1,
-        Name               => 'QueueID',
-        SelectedIDRefArray => $Param{Data}->{QueueID},
-        OnChangeSubmit     => 0,
+        Data           => { $Self->{QueueObject}->GetAllQueues(), },
+        Size           => 5,
+        Multiple       => 1,
+        Name           => 'QueueID',
+        SelectedID     => $Param{Data}->{QueueID},
+        OnChangeSubmit => 0,
     );
 
     $Param{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -374,10 +374,10 @@ sub _Edit {
                 Action => $Self->{Action},
             ),
         },
-        Name               => 'PriorityID',
-        Multiple           => 1,
-        Size               => 5,
-        SelectedIDRefArray => $Param{Data}->{PriorityID},
+        Name       => 'PriorityID',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{Data}->{PriorityID},
     );
 
     $Param{LocksStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -387,10 +387,10 @@ sub _Edit {
                 Action => $Self->{Action},
             ),
         },
-        Name               => 'LockID',
-        Multiple           => 1,
-        Size               => 3,
-        SelectedIDRefArray => $Param{Data}->{LockID},
+        Name       => 'LockID',
+        Multiple   => 1,
+        Size       => 3,
+        SelectedID => $Param{Data}->{LockID},
     );
 
     # get valid list
