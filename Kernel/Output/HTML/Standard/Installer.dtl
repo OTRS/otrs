@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.31 2010-02-05 13:58:23 mn Exp $
+# $Id: Installer.dtl,v 1.32 2010-03-08 19:33:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -879,7 +879,7 @@ $Include{"AJAX"}
                     $('input[name=Subaction]').val('CheckRequirements');
                     var Data = $('#formdb').serialize();
                     Data += "&CheckMode=DB";
-                    AJAXFunctionCall( { Data: Data, Callback: CheckDBDataCallback } );
+                    Core.AJAXFunctionCall( { Data: Data, Callback: CheckDBDataCallback } );
                     $('input[name=Subaction]').val('DB');
                 }
 
@@ -1147,7 +1147,7 @@ $Include{"AJAX"}
                     $('input[name=Subaction]').val('CheckRequirements');
                     var Data = $('#formmail').serialize();
                     Data += "&CheckMode=Mail";
-                    AJAXFunctionCall( { Data: Data, Callback: CheckMailConfigCallback } );
+                    Core.AJAXFunctionCall( { Data: Data, Callback: CheckMailConfigCallback } );
                     $('input[name=Subaction]').val('Finish');
                 }
 
