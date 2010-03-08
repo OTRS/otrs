@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.9 2009-08-18 21:32:15 martin Exp $
+# $Id: NotificationEvent.pm,v 1.9.2.1 2010-03-08 18:30:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.9.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -220,8 +220,16 @@ sub SendCustomerNotification {
             elsif ( $Recipient eq 'Customer' ) {
                 my %Recipient;
 
-                $Recipient{Email} = $Article{From};
-                $Recipient{Type}  = 'Customer';
+                # ArticleLastCustomerArticle() returns the lastest customer article but if there
+                # is no customer acticle it returns the lastest agent article in this case
+                # notificication must not be send to the "From", but to the "To" article field.
+                if ( $Article{SenderType} eq 'customer' ) {
+                    $Recipient{Email} = $Article{From};
+                }
+                else {
+                    $Recipient{Email} = $Article{To};
+                }
+                $Recipient{Type} = 'Customer';
 
                 # check if customer notifications should be send
                 if (
