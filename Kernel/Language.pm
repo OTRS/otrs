@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.71 2010-01-31 12:04:45 reb Exp $
+# $Id: Language.pm,v 1.72 2010-03-08 18:03:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 NAME
 
@@ -125,14 +125,15 @@ sub new {
     @ISA = ("Kernel::Language::$Self->{UserLanguage}");
 
     # execute translation map
-    $Self->Data();
+    if ( eval { $Self->Data() } ) {
 
-    # debug info
-    if ( $Self->{Debug} > 0 ) {
-        $Self->{LogObject}->Log(
-            Priority => 'Debug',
-            Message  => "Kernel::Language::$Self->{UserLanguage} load ... done."
-        );
+        # debug info
+        if ( $Self->{Debug} > 0 ) {
+            $Self->{LogObject}->Log(
+                Priority => 'Debug',
+                Message  => "Kernel::Language::$Self->{UserLanguage} load ... done."
+            );
+        }
     }
 
     # load action text catalog ...
@@ -173,14 +174,15 @@ sub new {
             @ISA = ($File);
 
             # execute translation map
-            $Self->Data();
+            if ( eval { $Self->Data() } ) {
 
-            # debug info
-            if ( $Self->{Debug} > 0 ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'Debug',
-                    Message  => "$File load ... done."
-                );
+                # debug info
+                if ( $Self->{Debug} > 0 ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'Debug',
+                        Message  => "$File load ... done."
+                    );
+                }
             }
         }
 
@@ -191,14 +193,15 @@ sub new {
             @ISA = ($CustomTranslationModule);
 
             # execute translation map
-            $Self->Data();
+            if ( eval { $Self->Data() } ) {
 
-            # debug info
-            if ( $Self->{Debug} > 0 ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'Debug',
-                    Message  => "Kernel::Language::$Self->{UserLanguage}_Custom load ... done."
-                );
+                # debug info
+                if ( $Self->{Debug} > 0 ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'Debug',
+                        Message  => "Kernel::Language::$Self->{UserLanguage}_Custom load ... done."
+                    );
+                }
             }
         }
     }
@@ -234,9 +237,9 @@ sub Get {
 
     # check dyn spaces
     my @Dyn;
-    if ( $What && $What =~ /^(.+?)", "(.*?)$/ ) {
+    if ( $What && $What =~ /^(.+?)",\s{0,1}"(.*?)$/ ) {
         $What = $1;
-        @Dyn = split( /", "/, $2 );
+        @Dyn = split( /",\s{0,1}"/, $2 );
     }
 
     # check wanted param and returns the
@@ -257,15 +260,16 @@ sub Get {
             # remember that charset convert is already done
             $Self->{TranslationConvert}->{$What} = 1;
 
-            # convert it
-            $Self->{Translation}->{$What} = $Self->_CharsetConvert(
+            # convert
+            $Self->{Translation}->{$What} = $Self->{EncodeObject}->Convert(
                 Text => $Self->{Translation}->{$What},
                 From => $Self->{TranslationCharset},
+                To   => $Self->{ReturnCharset},
             );
         }
         my $Text = $Self->{Translation}->{$What};
         if (@Dyn) {
-            for ( 0 .. 3 ) {
+            for ( 0 .. 2 ) {
 
                 # be careful $Dyn[$_] can be 0! bug#3826
                 last if !defined $Dyn[$_];
@@ -298,7 +302,7 @@ sub Get {
     }
 
     if (@Dyn) {
-        for ( 0 .. 3 ) {
+        for ( 0 .. 2 ) {
 
             # be careful $Dyn[$_] can be 0! bug#3826
             last if !defined $Dyn[$_];
@@ -395,10 +399,7 @@ sub GetRecommendedCharset {
     return $Charset if $Charset;
 
     # if not, what charset shoud I use (take it from translation file)?
-    if ( $Self->{Charset} ) {
-        my @Chatsets = @{ $Self->{Charset} };
-        return $Chatsets[-1];
-    }
+    return $Self->{Charset}->[-1] if $Self->{Charset};
 
     return $Self->{ConfigObject}->Get('DefaultCharset') || 'iso-8859-1';
 }
@@ -504,37 +505,6 @@ sub Time {
     return $ReturnString;
 }
 
-=begin Internal:
-
-=item _CharsetConvert()
-
-Converts charset from a source string (if To is not given, then the
-GetRecommendedCharset() will be used).
-
-    my $Text = $LanguageObject->_CharsetConvert(
-        Text => $String,
-        From => 'iso-8859-15',
-        To   => 'utf-8',
-    );
-
-=cut
-
-sub _CharsetConvert {
-    my ( $Self, %Param ) = @_;
-
-    my $Text = defined $Param{Text} ? $Param{Text} : return;
-    my $From = $Param{From} || return $Text;
-    my $To = $Param{To} || $Self->{ReturnCharset} || return $Text;
-    $From =~ s/'|"//g;
-
-    # encode
-    return $Self->{EncodeObject}->Convert(
-        From => $From,
-        To   => $To,
-        Text => $Text,
-    );
-}
-
 =end Internal:
 
 1;
@@ -553,6 +523,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2010-01-31 12:04:45 $
+$Revision: 1.72 $ $Date: 2010-03-08 18:03:29 $
 
 =cut
