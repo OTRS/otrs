@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.266 2010-03-08 19:13:43 dz Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.267 2010-03-08 19:56:11 dz Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -24,7 +24,7 @@
     </ConfigItem>
     <ConfigItem Name="SystemID" Required="1" Valid="1">
         <Description Lang="en">The system identifier. Every ticket number contains this ID, and the session ID, of a http session string, starts with this number. This ensures that only tickets which belong to your system will be processed as follow-ups. This could be use full when communicating between two instances of OTRS. So be sure of what you choose when you set this setting.</Description>
-        <Description Lang="de">Identifikationsnummer fï¿½r das installierte System. Jede Ticketnummer und ID einer http-Session beginnt mit dieser Nummer.</Description>
+        <Description Lang="de">Identifikationsnummer für das installierte System. Jede Ticketnummer und ID einer http-Session beginnt mit dieser Nummer.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
