@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.242.2.5 2010-02-26 21:46:27 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.242.2.6 2010-03-09 09:37:46 dz Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -4981,14 +4981,14 @@ Your OTRS Notification Master
                 <Item Key="pink">pink</Item>
                 <Item Key="marine">marine</Item>
                 <Item Key="cyan">cyan</Item>
-                <Item Key="lgray">light gray</Item>
-                <Item Key="lblue">light blue</Item>
-                <Item Key="lyellow">light yellow</Item>
-                <Item Key="lgreen">light green</Item>
-                <Item Key="lred">light red</Item>
-                <Item Key="lpurple">light purple</Item>
-                <Item Key="lorange">light orange</Item>
-                <Item Key="lbrown">light brown</Item>
+                <Item Key="lgray">lgray</Item>
+                <Item Key="lblue">lblue</Item>
+                <Item Key="lyellow">lyellow</Item>
+                <Item Key="lgreen">lgreen</Item>
+                <Item Key="lred">lred</Item>
+                <Item Key="lpurple">lpurple</Item>
+                <Item Key="lorange">lorange</Item>
+                <Item Key="lbrown">lbrown</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -5022,14 +5022,14 @@ Your OTRS Notification Master
                 <Item Key="pink">pink</Item>
                 <Item Key="marine">marine</Item>
                 <Item Key="cyan">cyan</Item>
-                <Item Key="lgray">light gray</Item>
-                <Item Key="lblue">light blue</Item>
-                <Item Key="lyellow">light yellow</Item>
-                <Item Key="lgreen">light green</Item>
-                <Item Key="lred">light red</Item>
-                <Item Key="lpurple">light purple</Item>
-                <Item Key="lorange">light orange</Item>
-                <Item Key="lbrown">light brown</Item>
+                <Item Key="lgray">lgray</Item>
+                <Item Key="lblue">lblue</Item>
+                <Item Key="lyellow">lyellow</Item>
+                <Item Key="lgreen">lgreen</Item>
+                <Item Key="lred">lred</Item>
+                <Item Key="lpurple">lpurple</Item>
+                <Item Key="lorange">lorange</Item>
+                <Item Key="lbrown">lbrown</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -5051,14 +5051,14 @@ Your OTRS Notification Master
                 <Item Key="pink">pink</Item>
                 <Item Key="marine">marine</Item>
                 <Item Key="cyan">cyan</Item>
-                <Item Key="lgray">light gray</Item>
-                <Item Key="lblue">light blue</Item>
-                <Item Key="lyellow">light yellow</Item>
-                <Item Key="lgreen">light green</Item>
-                <Item Key="lred">light red</Item>
-                <Item Key="lpurple">light purple</Item>
-                <Item Key="lorange">light orange</Item>
-                <Item Key="lbrown">light brown</Item>
+                <Item Key="lgray">lgray</Item>
+                <Item Key="lblue">lblue</Item>
+                <Item Key="lyellow">lyellow</Item>
+                <Item Key="lgreen">lgreen</Item>
+                <Item Key="lred">lred</Item>
+                <Item Key="lpurple">lpurple</Item>
+                <Item Key="lorange">lorange</Item>
+                <Item Key="lbrown">lbrown</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -5080,14 +5080,14 @@ Your OTRS Notification Master
                 <Item Key="pink">pink</Item>
                 <Item Key="marine">marine</Item>
                 <Item Key="cyan">cyan</Item>
-                <Item Key="lgray">light gray</Item>
-                <Item Key="lblue">light blue</Item>
-                <Item Key="lyellow">light yellow</Item>
-                <Item Key="lgreen">light green</Item>
-                <Item Key="lred">light red</Item>
-                <Item Key="lpurple">light purple</Item>
-                <Item Key="lorange">light orange</Item>
-                <Item Key="lbrown">light brown</Item>
+                <Item Key="lgray">lgray</Item>
+                <Item Key="lblue">lblue</Item>
+                <Item Key="lyellow">lyellow</Item>
+                <Item Key="lgreen">lgreen</Item>
+                <Item Key="lred">lred</Item>
+                <Item Key="lpurple">lpurple</Item>
+                <Item Key="lorange">lorange</Item>
+                <Item Key="lbrown">lbrown</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -5109,14 +5109,14 @@ Your OTRS Notification Master
                 <Item Key="pink">pink</Item>
                 <Item Key="marine">marine</Item>
                 <Item Key="cyan">cyan</Item>
-                <Item Key="lgray">light gray</Item>
-                <Item Key="lblue">light blue</Item>
-                <Item Key="lyellow">light yellow</Item>
-                <Item Key="lgreen">light green</Item>
-                <Item Key="lred">light red</Item>
-                <Item Key="lpurple">light purple</Item>
-                <Item Key="lorange">light orange</Item>
-                <Item Key="lbrown">light brown</Item>
+                <Item Key="lgray">lgray</Item>
+                <Item Key="lblue">lblue</Item>
+                <Item Key="lyellow">lyellow</Item>
+                <Item Key="lgreen">lgreen</Item>
+                <Item Key="lred">lred</Item>
+                <Item Key="lpurple">lpurple</Item>
+                <Item Key="lorange">lorange</Item>
+                <Item Key="lbrown">lbrown</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -5138,14 +5138,14 @@ Your OTRS Notification Master
                 <Item Key="pink">pink</Item>
                 <Item Key="marine">marine</Item>
                 <Item Key="cyan">cyan</Item>
-                <Item Key="lgray">light gray</Item>
-                <Item Key="lblue">light blue</Item>
-                <Item Key="lyellow">light yellow</Item>
-                <Item Key="lgreen">light green</Item>
-                <Item Key="lred">light red</Item>
-                <Item Key="lpurple">light purple</Item>
-                <Item Key="lorange">light orange</Item>
-                <Item Key="lbrown">light brown</Item>
+                <Item Key="lgray">lgray</Item>
+                <Item Key="lblue">lblue</Item>
+                <Item Key="lyellow">lyellow</Item>
+                <Item Key="lgreen">lgreen</Item>
+                <Item Key="lred">lred</Item>
+                <Item Key="lpurple">lpurple</Item>
+                <Item Key="lorange">lorange</Item>
+                <Item Key="lbrown">lbrown</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -5166,14 +5166,14 @@ Your OTRS Notification Master
                 <Item>pink</Item>
                 <Item>marine</Item>
                 <Item>cyan</Item>
-                <Item>light gray</Item>
-                <Item>light blue</Item>
-                <Item>light yellow</Item>
-                <Item>light green</Item>
-                <Item>light red</Item>
-                <Item>light purple</Item>
-                <Item>light orange</Item>
-                <Item>light brown</Item>
+                <Item>lgray</Item>
+                <Item>lblue</Item>
+                <Item>lyellow</Item>
+                <Item>lgreen</Item>
+                <Item>lred</Item>
+                <Item>lpurple</Item>
+                <Item>lorange</Item>
+                <Item>lbrown</Item>
             </Array>
         </Setting>
     </ConfigItem>
