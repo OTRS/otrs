@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.215 2010-03-08 19:20:39 martin Exp $
+# $Id: Layout.pm,v 1.216 2010-03-09 13:59:46 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.215 $) [1];
+$VERSION = qw($Revision: 1.216 $) [1];
 
 =head1 NAME
 
@@ -102,17 +102,18 @@ sub new {
     $Self->{Debug} = 0;
 
     # check needed objects
-    # Attention the SessionObject is needet for NavigationBar()
-    for (qw(ConfigObject LogObject TimeObject MainObject EncodeObject ParamObject)) {
-        if ( !$Self->{$_} ) {
+    # Attention: NavigationBar() needs also SessionObject and some other objects
+    for my $Object (qw(ConfigObject LogObject TimeObject MainObject EncodeObject ParamObject)) {
+        if ( !$Self->{$$Object} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Got no $_!",
+                Message  => "Got no $Object!",
             );
             $Self->FatalError();
         }
     }
 
+    # create additional objects
     $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
     $Self->{JSONObject}      = Kernel::System::JSON->new();
 
@@ -4349,6 +4350,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.215 $ $Date: 2010-03-08 19:20:39 $
+$Revision: 1.216 $ $Date: 2010-03-09 13:59:46 $
 
 =cut
