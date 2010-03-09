@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.47 2010-01-20 21:20:30 martin Exp $
+# $Id: AdminUserGroup.pm,v 1.48 2010-03-09 11:18:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -172,7 +172,7 @@ sub Run {
                 $NewPermission{$Permission} = 0;
                 my @Array = @{ $Permissions{$Permission} };
                 for my $ID (@Array) {
-                    if ( $GroupID == $ID ) {
+                    if ( $GroupID eq $ID ) {
                         $NewPermission{$Permission} = 1;
                     }
                 }
