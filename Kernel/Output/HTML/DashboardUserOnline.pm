@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.12 2010-01-13 22:18:03 martin Exp $
+# $Id: DashboardUserOnline.pm,v 1.13 2010-03-10 20:18:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -150,7 +150,7 @@ sub Run {
         for (@Sessions) {
             my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $_ );
 
-            # use agent instand of user
+            # use agent instead of user
             if ( $Data{UserType} eq 'User' ) {
                 $Data{UserType} = 'Agent';
             }
