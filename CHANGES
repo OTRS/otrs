@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1178 2010-03-10 16:27:46 en Exp $
+# $Id: CHANGES,v 1.1179 2010-03-10 16:36:31 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,6 @@
 # --
 
 2.5.0 beta1 (????/??/??)
- - (2010/03/10) Fixed bug#4416 - Merge: whitespace before ticketnumber not removed.
  - (2010/03/09) Fixed bug#4996 - Rich Text Editor does not display in the Customer Frontend in IE8.
  - (2010/03/08) Fixed bug#5085 - Wrong colours codes in Stats::Graph::dclrs.
  - (2010/03/08) Fixed bug#5097 - AdminNotificationEvent does not display values
@@ -210,6 +209,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/03/10) Fixed bug#4416 - Merge: whitespace before ticketnumber not removed.
  - (2010/03/09) Fixed bug#5102 - Notification sent to OTRS instead of Customer.
  - (2010/03/08) Fixed bug#5085 - Wrong colours codes in Stats::Graph::dclrs.
  - (2010/03/02) Updated Czech translation, thanks to O2BS.com, s r.o. Jakub Hanus!
