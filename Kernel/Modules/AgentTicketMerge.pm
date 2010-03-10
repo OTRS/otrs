@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.43 2010-03-10 08:35:24 en Exp $
+# $Id: AgentTicketMerge.pm,v 1.44 2010-03-10 13:32:16 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,10 +17,11 @@ use warnings;
 use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::SystemAddress;
+use Kernel::System::CheckItem;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,6 +39,7 @@ sub new {
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
+    $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
@@ -133,9 +135,12 @@ sub Run {
 
         my $MainTicketNumber = $Self->{ParamObject}->GetParam( Param => 'MainTicketNumber' );
 
-        # removing leading and tailing blank spaces from the ticket number
-        $MainTicketNumber =~ s/^\s+//;
-        $MainTicketNumber =~ s/\s+$//;
+        # removing blank spaces from the ticket number
+        $Self->{CheckItemObject}->StringClean(
+            StringRef => \$MainTicketNumber,
+            TrimLeft  => 1,
+            TrimRight => 1,
+        );
 
         my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
             TicketNumber => $MainTicketNumber,
