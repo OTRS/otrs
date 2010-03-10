@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.39.2.1 2010-02-17 13:42:44 ub Exp $
+# $Id: AgentTicketMerge.pm,v 1.39.2.2 2010-03-10 08:36:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39.2.1 $) [1];
+$VERSION = qw($Revision: 1.39.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,6 +132,11 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $MainTicketNumber = $Self->{ParamObject}->GetParam( Param => 'MainTicketNumber' );
+
+        # removing leading and tailing blank spaces from the ticket number
+        $MainTicketNumber =~ s/^\s+//;
+        $MainTicketNumber =~ s/\s+$//;
+
         my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
             TicketNumber => $MainTicketNumber,
         );
