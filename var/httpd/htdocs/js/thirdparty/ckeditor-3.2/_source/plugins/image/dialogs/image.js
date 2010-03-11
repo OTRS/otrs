@@ -782,63 +782,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											[
 												{
 													type : 'text',
-													id : 'txtBorder',
-													width: '60px',
-													labelLayout : 'horizontal',
-													label : editor.lang.image.border,
-													'default' : '',
-													onKeyUp : function()
-													{
-														updatePreview( this.getDialog() );
-													},
-													onChange : function()
-													{
-														commitInternally.call( this, 'advanced:txtdlgGenStyle' );
-													},
-													validate : CKEDITOR.dialog.validate.integer( editor.lang.image.validateBorder ),
-													setup : function( type, element )
-													{
-														if ( type == IMAGE )
-														{
-															var value,
-																borderStyle = element.getStyle( 'border-width' );
-															borderStyle = borderStyle && borderStyle.match( /^(\d+px)(?: \1 \1 \1)?$/ );
-															value = borderStyle && parseInt( borderStyle[ 1 ], 10 );
-															isNaN ( parseInt( value, 10 ) ) && ( value = element.getAttribute( 'border' ) );
-															this.setValue( value );
-														}
-													},
-													commit : function( type, element, internalCommit )
-													{
-														var value = parseInt( this.getValue(), 10 );
-														if ( type == IMAGE || type == PREVIEW )
-														{
-															if ( !isNaN( value ) )
-															{
-																element.setStyle( 'border-width', CKEDITOR.tools.cssLength( value ) );
-																element.setStyle( 'border-style', 'solid' );
-															}
-															else if ( !value && this.isChanged() )
-															{
-																element.removeStyle( 'border-width' );
-																element.removeStyle( 'border-style' );
-																element.removeStyle( 'border-color' );
-															}
-
-															if ( !internalCommit && type == IMAGE )
-																element.removeAttribute( 'border' );
-														}
-														else if ( type == CLEANUP )
-														{
-															element.removeAttribute( 'border' );
-															element.removeStyle( 'border-width' );
-															element.removeStyle( 'border-style' );
-															element.removeStyle( 'border-color' );
-														}
-													}
-												},
-												{
-													type : 'text',
 													id : 'txtHSpace',
 													width: '60px',
 													labelLayout : 'horizontal',

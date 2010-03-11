@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.31 2010-01-07 14:46:39 mn Exp $
+# $Id: RichTextEditor.dtl,v 1.32 2010-03-11 13:39:53 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
 # - Patched ckeditor.js for image upload
 # - Aspell plugin added for SpellChecker support in CKEditor3 (including patched files for OTRS)
 
-<script src="$Config{"Frontend::JavaScriptPath"}thirdparty/ckeditor-3.1/ckeditor.js" type="text/javascript"></script>
+<script src="$Config{"Frontend::JavaScriptPath"}thirdparty/ckeditor-3.2/ckeditor.js" type="text/javascript"></script>
 <script type="text/javascript">//<![CDATA[
 function InitRichText() {
     var ToolbarSet = 'Simple';
@@ -32,7 +32,7 @@ function InitRichText() {
         width: '$Config{"Frontend::RichTextWidth"}' || 620,
         resize_minWidth: '$Config{"Frontend::RichTextWidth"}' || 620,
         height: '$Config{"Frontend::RichTextHeight"}' || 320,
-        baseHref: '$Config{"Frontend::JavaScriptPath"}/thirdparty/ckeditor-3.1/',
+        baseHref: '$Config{"Frontend::JavaScriptPath"}/thirdparty/ckeditor-3.2/',
         forcePasteAsPlainText: false,
         fontSize_sizes: '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
         enterMode: CKEDITOR.ENTER_BR,
