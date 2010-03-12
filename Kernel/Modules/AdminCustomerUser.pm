@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.57 2009-09-01 20:25:15 ub Exp $
+# $Id: AdminCustomerUser.pm,v 1.57.2.1 2010-03-12 09:47:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.57.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -115,20 +115,18 @@ sub Run {
         my %UserData    = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
         my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
         my $Module      = $Preferences{$Group}->{Module};
-        if ( $Self->{MainObject}->Require($Module) ) {
-            my $Object = $Module->new(
-                %{$Self},
-                ConfigItem => $Preferences{$Group},
-                UserObject => $Self->{CustomerUserObject},
-                Debug      => $Self->{Debug},
-            );
-            my %File = $Object->Download( UserData => \%UserData );
-
-            return $Self->{LayoutObject}->Attachment(%File);
-        }
-        else {
+        if ( !$Self->{MainObject}->Require($Module) ) {
             return $Self->{LayoutObject}->FatalError();
         }
+        my $Object = $Module->new(
+            %{$Self},
+            ConfigItem => $Preferences{$Group},
+            UserObject => $Self->{CustomerUserObject},
+            Debug      => $Self->{Debug},
+        );
+        my %File = $Object->Download( UserData => \%UserData );
+
+        return $Self->{LayoutObject}->Attachment(%File);
     }
 
     # ------------------------------------------------------------ #
@@ -142,7 +140,7 @@ sub Run {
         my $Output = $NavBar
             . $Self->_Edit(
             Nav    => $Nav,
-            Action => "Change",
+            Action => 'Change',
             Source => $Source,
             Nav    => $Nav,
             Search => $Search,
@@ -167,45 +165,41 @@ sub Run {
         }
 
         # update user
-        if (
-            $Self->{CustomerUserObject}->CustomerUserUpdate( %GetParam, UserID => $Self->{UserID} )
-            )
-        {
+        my $Update = $Self->{CustomerUserObject}->CustomerUserUpdate(
+            %GetParam,
+            UserID => $Self->{UserID},
+        );
+        if ($Update) {
 
             # update preferences
             my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
             for my $Group ( keys %Preferences ) {
-                if ( $Group eq 'Password' ) {
-                    next;
-                }
+                next if $Group eq 'Password';
 
                 # get user data
                 my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                     User => $GetParam{UserLogin}
                 );
                 my $Module = $Preferences{$Group}->{Module};
-                if ( $Self->{MainObject}->Require($Module) ) {
-                    my $Object = $Module->new(
-                        %{$Self},
-                        ConfigItem => $Preferences{$Group},
-                        UserObject => $Self->{CustomerUserObject},
-                        Debug      => $Self->{Debug},
-                    );
-                    my @Params = $Object->Param( UserData => \%UserData );
-                    if (@Params) {
-                        my %GetParam = ();
-                        for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
-                            $GetParam{ $ParamItem->{Name} } = \@Array;
-                        }
-                        if ( !$Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
-                            $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
-                        }
-                    }
-                }
-                else {
+                if ( !$Self->{MainObject}->Require($Module) ) {
                     return $Self->{LayoutObject}->FatalError();
+                }
+                my $Object = $Module->new(
+                    %{$Self},
+                    ConfigItem => $Preferences{$Group},
+                    UserObject => $Self->{CustomerUserObject},
+                    Debug      => $Self->{Debug},
+                );
+                my @Params = $Object->Param( UserData => \%UserData );
+                if (@Params) {
+                    my %GetParam;
+                    for my $ParamItem (@Params) {
+                        my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                        $GetParam{ $ParamItem->{Name} } = \@Array;
+                    }
+                    if ( !$Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+                        $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
+                    }
                 }
             }
 
@@ -232,7 +226,7 @@ sub Run {
         $Output .= $Note;
         $Output .= $Self->_Edit(
             Nav    => $Nav,
-            Action => "Change",
+            Action => 'Change',
             Nav    => $Nav,
             Source => $Source,
             Search => $Search,
@@ -253,7 +247,7 @@ sub Run {
         my $Output = $NavBar
             . $Self->_Edit(
             Nav    => $Nav,
-            Action => "Add",
+            Action => 'Add',
             Source => $Source,
             Search => $Search,
             %GetParam,
@@ -273,51 +267,43 @@ sub Run {
         }
 
         # add user
-        if (
-            my $User
-            = $Self->{CustomerUserObject}->CustomerUserAdd(
-                %GetParam,
-                UserID => $Self->{UserID},
-                Source => $Source
-            )
-            )
-        {
+        my $User = $Self->{CustomerUserObject}->CustomerUserAdd(
+            %GetParam,
+            UserID => $Self->{UserID},
+            Source => $Source
+        );
+        if ($User) {
 
             # update preferences
             my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
             for my $Group ( keys %Preferences ) {
-                if ( $Group eq 'Password' ) {
-                    next;
-                }
+                next if $Group eq 'Password';
 
                 # get user data
                 my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                     User => $GetParam{UserLogin}
                 );
                 my $Module = $Preferences{$Group}->{Module};
-                if ( $Self->{MainObject}->Require($Module) ) {
-                    my $Object = $Module->new(
-                        %{$Self},
-                        ConfigItem => $Preferences{$Group},
-                        UserObject => $Self->{CustomerUserObject},
-                        Debug      => $Self->{Debug},
-                    );
-                    my @Params
-                        = $Object->Param( %{ $Preferences{$Group} }, UserData => \%UserData );
-                    if (@Params) {
-                        my %GetParam = ();
-                        for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
-                            $GetParam{ $ParamItem->{Name} } = \@Array;
-                        }
-                        if ( !$Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
-                            $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
-                        }
-                    }
-                }
-                else {
+                if ( !$Self->{MainObject}->Require($Module) ) {
                     return $Self->{LayoutObject}->FatalError();
+                }
+                my $Object = $Module->new(
+                    %{$Self},
+                    ConfigItem => $Preferences{$Group},
+                    UserObject => $Self->{CustomerUserObject},
+                    Debug      => $Self->{Debug},
+                );
+                my @Params = $Object->Param( %{ $Preferences{$Group} }, UserData => \%UserData );
+                if (@Params) {
+                    my %GetParam;
+                    for my $ParamItem (@Params) {
+                        my @Array
+                            = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                        $GetParam{ $ParamItem->{Name} } = \@Array;
+                    }
+                    if ( !$Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+                        $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
+                    }
                 }
             }
 
@@ -332,10 +318,12 @@ sub Run {
                 if ( $Nav eq 'None' ) {
                     $OnClick = " onclick=\"updateMessage('$User')\"";
                 }
-                my $URL = '';
+                my $URL           = '';
+                my $UserHTMLQuote = $Self->{LayoutObject}->LinkEncode($User);
+                my $UserQuote     = $Self->{LayoutObject}->Ascii2Html( Text => $User );
                 if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone} ) {
                     $URL
-                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$User\"$OnClick>"
+                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote\"$OnClick>"
                         . $Self->{LayoutObject}->{LanguageObject}->Get('PhoneView') . "</a>";
                 }
                 if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketEmail} ) {
@@ -343,14 +331,14 @@ sub Run {
                         $URL .= " - ";
                     }
                     $URL
-                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$User\"$OnClick>"
+                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote\"$OnClick>"
                         . $Self->{LayoutObject}->{LanguageObject}->Get('Compose Email') . "</a>";
                 }
                 if ($URL) {
                     $Output
                         .= $Self->{LayoutObject}->Notify(
                         Data => $Self->{LayoutObject}->{LanguageObject}->Get(
-                            'Added User "%s"", "' . $User
+                            'Added User "%s"", "' . $UserQuote
                             )
                             . " ( $URL )!",
                         );
@@ -359,7 +347,7 @@ sub Run {
                     $Output
                         .= $Self->{LayoutObject}->Notify(
                         Data => $Self->{LayoutObject}->{LanguageObject}->Get(
-                            'Added User "%s"", "' . $User
+                            'Added User "%s"", "' . $UserQuote
                             )
                             . "!",
                         );
@@ -379,7 +367,7 @@ sub Run {
         $Output .= $Note;
         $Output .= $Self->_Edit(
             Nav    => $Nav,
-            Action => "Add",
+            Action => 'Add',
             Nav    => $Nav,
             Source => $Source,
             Search => $Search,
@@ -413,7 +401,7 @@ sub _Overview {
     my $Output = '';
 
     # build source string
-    $Param{'SourceOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SourceOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{CustomerUserObject}->CustomerSourceList() },
         Name       => 'Source',
         SelectedID => $Param{Source} || '',
@@ -486,14 +474,14 @@ sub _Edit {
     my $Output = '';
 
     # build source string
-    $Param{'CompanyOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{CompanyOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{CustomerCompanyObject}->CustomerCompanyList() },
         Name       => 'CustomerID',
         SelectedID => $Param{CustomerID},
     );
 
     # build source string
-    $Param{'SourceOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SourceOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{CustomerUserObject}->CustomerSourceList() },
         Name       => 'Source',
         SelectedID => $Param{Source},
@@ -507,116 +495,116 @@ sub _Edit {
         Data => \%Param,
     );
     for my $Entry ( @{ $Self->{ConfigObject}->Get( $Param{Source} )->{Map} } ) {
-        if ( $Entry->[0] ) {
-            my $Block = 'Input';
+        next if !$Entry->[0];
 
-            # check input type
-            if ( $Entry->[0] =~ /^UserPasswor/i ) {
-                $Block = 'Password';
-            }
+        my $Block = 'Input';
 
-            # check if login auto creation
-            if (
-                $Self->{ConfigObject}->Get( $Param{Source} )->{AutoLoginCreation}
-                && $Entry->[0] =~ /^UserLogin$/
-                )
-            {
-                $Block = 'InputHidden';
-            }
-            if ( $Entry->[7] ) {
-                $Param{ReadOnlyType} = 'readonly';
-                $Param{ReadOnly}     = '*';
-            }
-            else {
-                $Param{ReadOnlyType} = '';
-                $Param{ReadOnly}     = '';
-            }
+        # check input type
+        if ( $Entry->[0] =~ /^UserPasswor/i ) {
+            $Block = 'Password';
+        }
 
-            # build selections or input fields
-            if ( $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] } ) {
-                $Block = 'Option';
-                $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data =>
-                        $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] },
-                    Name                => $Entry->[0],
-                    LanguageTranslation => 0,
-                    SelectedID          => $Param{ $Entry->[0] },
+        # check if login auto creation
+        if (
+            $Self->{ConfigObject}->Get( $Param{Source} )->{AutoLoginCreation}
+            && $Entry->[0] =~ /^UserLogin$/
+            )
+        {
+            $Block = 'InputHidden';
+        }
+        if ( $Entry->[7] ) {
+            $Param{ReadOnlyType} = 'readonly';
+            $Param{ReadOnly}     = '*';
+        }
+        else {
+            $Param{ReadOnlyType} = '';
+            $Param{ReadOnly}     = '';
+        }
+
+        # build selections or input fields
+        if ( $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] } ) {
+            $Block = 'Option';
+            $Param{Option} = $Self->{LayoutObject}->BuildSelection(
+                Data =>
+                    $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] },
+                Name                => $Entry->[0],
+                LanguageTranslation => 0,
+                SelectedID          => $Param{ $Entry->[0] },
+            );
+
+        }
+        elsif ( $Entry->[0] =~ /^ValidID/i ) {
+
+            # build ValidID string
+            $Block = 'Option';
+            $Param{Option} = $Self->{LayoutObject}->BuildSelection(
+                Data       => { $Self->{ValidObject}->ValidList(), },
+                Name       => $Entry->[0],
+                SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
+            );
+        }
+        elsif (
+            $Entry->[0] =~ /^UserCustomerID$/i
+            && $Self->{ConfigObject}->Get( $Param{Source} )->{CustomerCompanySupport}
+            )
+        {
+            my %Company     = ();
+            my %CompanyList = (
+                $Self->{CustomerCompanyObject}->CustomerCompanyList(),
+                '' => '-',
+            );
+            if ( $Param{ $Entry->[0] } ) {
+                %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+                    CustomerID => $Param{ $Entry->[0] },
                 );
-
-            }
-            elsif ( $Entry->[0] =~ /^ValidID/i ) {
-
-                # build ValidID string
-                $Block = 'Option';
-                $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data       => { $Self->{ValidObject}->ValidList(), },
-                    Name       => $Entry->[0],
-                    SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
-                );
-            }
-            elsif (
-                $Entry->[0] =~ /^UserCustomerID$/i
-                && $Self->{ConfigObject}->Get( $Param{Source} )->{CustomerCompanySupport}
-                )
-            {
-                my %Company     = ();
-                my %CompanyList = (
-                    $Self->{CustomerCompanyObject}->CustomerCompanyList(),
-                    '' => '-',
-                );
-                if ( $Param{ $Entry->[0] } ) {
-                    %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
-                        CustomerID => $Param{ $Entry->[0] },
-                    );
-                    if ( !%Company ) {
-                        $CompanyList{ $Param{ $Entry->[0] } } = $Param{ $Entry->[0] } . ' (-)';
-                    }
+                if ( !%Company ) {
+                    $CompanyList{ $Param{ $Entry->[0] } } = $Param{ $Entry->[0] } . ' (-)';
                 }
-                $Block = 'Option';
-                $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data       => \%CompanyList,
-                    Name       => $Entry->[0],
-                    Max        => 80,
-                    SelectedID => $Param{ $Entry->[0] },
-                );
             }
-            else {
-                $Param{Value} = $Param{ $Entry->[0] } || '';
-            }
+            $Block = 'Option';
+            $Param{Option} = $Self->{LayoutObject}->BuildSelection(
+                Data       => \%CompanyList,
+                Name       => $Entry->[0],
+                Max        => 80,
+                SelectedID => $Param{ $Entry->[0] },
+            );
+        }
+        else {
+            $Param{Value} = $Param{ $Entry->[0] } || '';
+        }
 
-            # show required flag
-            if ( $Entry->[4] ) {
-                $Param{Required} = '*';
-            }
-            else {
-                $Param{Required} = '';
-            }
+        # show required flag
+        if ( $Entry->[4] ) {
+            $Param{Required} = '*';
+        }
+        else {
+            $Param{Required} = '';
+        }
 
-            # add form option
-            if ( $Param{Type} && $Param{Type} eq 'hidden' ) {
-                $Param{Preferences} .= $Param{Value};
-            }
-            else {
-                $Self->{LayoutObject}->Block(
-                    Name => 'PreferencesGeneric',
-                    Data => { Item => $Entry->[1], %Param },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => "PreferencesGeneric$Block",
-                    Data => {
-                        Item => $Entry->[1],
-                        Name => $Entry->[0],
-                        %Param,
-                    },
-                );
-            }
+        # add form option
+        if ( $Param{Type} && $Param{Type} eq 'hidden' ) {
+            $Param{Preferences} .= $Param{Value};
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'PreferencesGeneric',
+                Data => { Item => $Entry->[1], %Param },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => "PreferencesGeneric$Block",
+                Data => {
+                    Item => $Entry->[1],
+                    Name => $Entry->[0],
+                    %Param,
+                },
+            );
         }
     }
     my $PreferencesUsed = $Self->{ConfigObject}->Get( $Param{Source} )->{AdminSetPreferences};
-    if ( ( defined($PreferencesUsed) && $PreferencesUsed != 0 ) || !defined($PreferencesUsed) ) {
+    if ( ( defined $PreferencesUsed && $PreferencesUsed != 0 ) || !defined $PreferencesUsed ) {
         my @Groups = @{ $Self->{ConfigObject}->Get('CustomerPreferencesView') };
         for my $Colum (@Groups) {
-            my %Data        = ();
+            my %Data;
             my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
             for my $Group ( keys %Preferences ) {
                 if ( $Preferences{$Group}->{Colum} eq $Colum ) {
@@ -668,11 +656,11 @@ sub _Edit {
                                 Data => {%Param},
                             );
                             if (
-                                ref( $ParamItem->{Data} )   eq 'HASH'
-                                || ref( $Preference{Data} ) eq 'HASH'
+                                ref $ParamItem->{Data}   eq 'HASH'
+                                || ref $Preference{Data} eq 'HASH'
                                 )
                             {
-                                $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                $ParamItem->{Option} = $Self->{LayoutObject}->BuildSelection(
                                     %Preference, %{$ParamItem},
                                 );
                             }
