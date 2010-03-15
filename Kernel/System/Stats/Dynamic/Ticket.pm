@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.31 2009-10-07 20:30:48 martin Exp $
+# $Id: Ticket.pm,v 1.32 2010-03-15 08:17:14 reb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -87,6 +87,11 @@ sub GetObjectAttributes {
     my %LockList = $Self->{LockObject}->LockList(
         UserID => 1,
     );
+
+    # get current time to fix bug#3830
+    my $TimeStamp = $Self->{TimeObject}->CurrentTimestamp();
+    my ($Date) = split /\s+/, $TimeStamp;
+    my $Today = sprintf "%s 23:59:59", $Date;
 
     my @ObjectAttributes = (
         {
@@ -227,6 +232,7 @@ sub GetObjectAttributes {
             Element          => 'CreateTime',
             TimePeriodFormat => 'DateInputFormat',    # 'DateInputFormatLong',
             Block            => 'Time',
+            TimeStop         => $Today,
             Values           => {
                 TimeStart => 'TicketCreateTimeNewerDate',
                 TimeStop  => 'TicketCreateTimeOlderDate',
@@ -240,6 +246,7 @@ sub GetObjectAttributes {
             Element          => 'CloseTime2',
             TimePeriodFormat => 'DateInputFormat',    # 'DateInputFormatLong',
             Block            => 'Time',
+            TimeStop         => $Today,
             Values           => {
                 TimeStart => 'TicketCloseTimeNewerDate',
                 TimeStop  => 'TicketCloseTimeOlderDate',
@@ -253,6 +260,7 @@ sub GetObjectAttributes {
             Element          => 'EscalationTime',
             TimePeriodFormat => 'DateInputFormatLong',    # 'DateInputFormat',
             Block            => 'Time',
+            TimeStop         => $Today,
             Values           => {
                 TimeStart => 'TicketEscalationTimeNewerDate',
                 TimeStop  => 'TicketEscalationTimeOlderDate',
@@ -266,6 +274,7 @@ sub GetObjectAttributes {
             Element          => 'EscalationResponseTime',
             TimePeriodFormat => 'DateInputFormatLong',                # 'DateInputFormat',
             Block            => 'Time',
+            TimeStop         => $Today,
             Values           => {
                 TimeStart => 'TicketEscalationResponseTimeNewerDate',
                 TimeStop  => 'TicketEscalationResponseTimeOlderDate',
@@ -279,6 +288,7 @@ sub GetObjectAttributes {
             Element          => 'EscalationUpdateTime',
             TimePeriodFormat => 'DateInputFormatLong',        # 'DateInputFormat',
             Block            => 'Time',
+            TimeStop         => $Today,
             Values           => {
                 TimeStart => 'TicketEscalationUpdateTimeNewerDate',
                 TimeStop  => 'TicketEscalationUpdateTimeOlderDate',
@@ -292,6 +302,7 @@ sub GetObjectAttributes {
             Element          => 'EscalationSolutionTime',
             TimePeriodFormat => 'DateInputFormatLong',          # 'DateInputFormat',
             Block            => 'Time',
+            TimeStop         => $Today,
             Values           => {
                 TimeStart => 'TicketEscalationSolutionTimeNewerDate',
                 TimeStop  => 'TicketEscalationSolutionTimeOlderDate',
