@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1180 2010-03-11 13:39:53 mn Exp $
+# $Id: CHANGES,v 1.1181 2010-03-16 09:32:05 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4285,7 +4285,7 @@
 0.5 BETA7 (2002/08/06)
  - improved screen session management (next screen, last screen) added back
     buttons
- - improved ticket and article lib funktions (Kernel::System::Ticket::* and
+ - improved ticket and article lib functions (Kernel::System::Ticket::* and
     Kernel::System::Article)
  - improved fulltext search
  - added time accounting for tickets (added new database table - time_accounting!
@@ -4412,7 +4412,7 @@
     SQL) reported by Charles Wimmer. Added some variables for table names and columns
     to Kernel/Config.pm. Important: For existing installations you have to change the
     Config.pm or to rename the "user" table to "system_user"!
- - added "kill all sessions" funktion to Kernel::Modules::AdminSession.pm
+ - added "kill all sessions" function to Kernel::Modules::AdminSession.pm
  - added old subject ("subject snip") and old email ("body snip") to auto reply
  - added stats support Kernel::Modules::SystemStats and bin/mkStats.pl (with GD)
  - fixed missing html quoting in Kernel::Output::HTML::Agent->AgentHistory
@@ -4423,9 +4423,9 @@
 0.5 BETA3 (2002/04/17)
  - added AgentOwner Module
  - added AgentForward Module
- - added auto session delete funktions if remote ip or session time is invalid.
- - added mail (show-)attachment funktion
- - added permission check funktions for AgentZoom, AgentPlain and AgentAttachments
+ - added auto session delete functions if remote ip or session time is invalid.
+ - added mail (show-)attachment function
+ - added permission check functions for AgentZoom, AgentPlain and AgentAttachments
  - added README.application-module
 
 0.5 BETA2 (2002/04/11)

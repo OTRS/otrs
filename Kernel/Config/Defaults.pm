@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.333 2010-02-26 21:17:22 martin Exp $
+# $Id: Defaults.pm,v 1.334 2010-03-16 09:32:05 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.333 $) [1];
+$VERSION = qw($Revision: 1.334 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -311,7 +311,7 @@ sub LoadDefaults {
 
     # SendmailBcc
     # (Send all outgoing email via bcc to...
-    # Warning: use it only for external archive funktions)
+    # Warning: use it only for external archive functions)
     $Self->{'SendmailBcc'} = '';
 
     # SendmailNotificationEnvelopeFrom
@@ -2416,6 +2416,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.333 $ $Date: 2010-02-26 21:17:22 $
+$Revision: 1.334 $ $Date: 2010-03-16 09:32:05 $
 
 =cut

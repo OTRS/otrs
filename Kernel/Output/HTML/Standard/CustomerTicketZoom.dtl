@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.60 2010-02-05 13:58:23 mn Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.61 2010-03-16 09:32:06 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- start ticket $Data{"TicketNumber"} -->
-<!-- This java script is just for nice to have funktions! -->
+<!-- This java script is just for nice to have functions! -->
 <script type="text/javascript">//<![CDATA[
 function submit_compose() {
     // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
