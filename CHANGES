@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1181 2010-03-16 09:32:05 bes Exp $
+# $Id: CHANGES,v 1.1182 2010-03-17 19:43:18 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/03/17) Added HTMLUtils tests even bug #5041.
  - (2010/03/11) Upgraded CKEditor from version 3.1 to version 3.2.
  - (2010/03/09) Fixed bug#4996 - Rich Text Editor does not display in the Customer Frontend in IE8.
  - (2010/03/08) Fixed bug#5085 - Wrong colours codes in Stats::Graph::dclrs.

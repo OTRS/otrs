@@ -1,8 +1,8 @@
 # --
 # HTMLUtils.t - HTMLUtils tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.16 2009-12-08 14:39:01 mae Exp $
+# $Id: HTMLUtils.t,v 1.17 2010-03-17 19:43:18 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -575,6 +575,18 @@ for my $Test (@Tests) {
         Result =>
             '<html>&nbsp;<a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a>&nbsp;<a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a></html>',
         Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input  => 'Some Text with url thisisnotanftp.link',
+        Result => 'Some Text with url thisisnotanftp.link',
+        Name   => 'LinkQuote - Not valid ftp url ',
+        Target => '',
+    },
+    {
+        Input  => 'Some Text with url thisisnotanwww.link',
+        Result => 'Some Text with url thisisnotanwww.link',
+        Name   => 'LinkQuote - Not valid www url ',
         Target => '',
     },
 );
