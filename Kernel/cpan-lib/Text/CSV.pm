@@ -3,16 +3,17 @@ package Text::CSV;
 
 use strict;
 use Carp ();
+use vars qw( $VERSION $DEBUG );
 
 BEGIN {
-    $Text::CSV::VERSION = '1.16';
-    $Text::CSV::DEBUG   = 0;
+    $VERSION = '1.17';
+    $DEBUG   = 0;
 }
 
 # if use CSV_XS, requires version
 my $Module_XS  = 'Text::CSV_XS';
 my $Module_PP  = 'Text::CSV_PP';
-my $XS_Version = '0.70';
+my $XS_Version = '0.72';
 
 my $Is_Dynamic = 0;
 
@@ -25,7 +26,7 @@ my @PublicMethods = qw/
     version types quote_char escape_char sep_char eol always_quote binary allow_whitespace
     keep_meta_info allow_loose_quotes allow_loose_escapes verbatim meta_info is_quoted is_binary eof
     getline print parse combine fields string error_diag error_input status blank_is_undef empty_is_undef
-    getline_hr column_names bind_columns auto_diag quote_space
+    getline_hr column_names bind_columns auto_diag quote_space quote_null
     PV IV NV
 /;
 #
@@ -286,9 +287,9 @@ perhaps better called ASV (anything separated values) rather than just CSV.
 
 =head1 VERSION
 
-    1.16
+    1.17
 
-This module is compatible with Text::CSV_XS B<0.70> and later.
+This module is compatible with Text::CSV_XS B<0.72> and later.
 
 =head2 Embedded newlines
 
@@ -528,7 +529,7 @@ be escaped as C<"0>.) By default this feature is off.
 If a string is marked UTF8, binary will be turned on automatically when
 binary characters other than CR or NL are encountered. Note that a simple
 string like C<"\x{00a0}"> might still be binary, but not marked UTF8, so
-setting C<{ binary => 1 }> is still a wise option.
+setting C<{ binary =E<gt> 1 }> is still a wise option.
 
 =item types
 
@@ -550,6 +551,13 @@ By default, a space in a field would trigger quotation. As no rule
 exists this to be forced in CSV, nor any for the opposite, the default
 is true for safety. You can exclude the space from this trigger by
 setting this option to 0.
+
+=item quote_null
+
+By default, a NULL byte in a field would be escaped. This attribute
+enables you to treat the NULL byte as a simple binary character in
+binary mode (the C<{ binary =E<gt> 1 }> is set). The default is true.
+You can prevent NULL escapes by setting this attribute to 0.
 
 =item keep_meta_info
 
@@ -619,6 +627,7 @@ is equivalent to
      eol                 => $\,
      always_quote        => 0,
      quote_space         => 1,
+     quote_null          => 1,
      binary              => 0,
      keep_meta_info      => 0,
      allow_loose_quotes  => 0,
@@ -1081,12 +1090,12 @@ Copyright (C) 2007-2009 Makamaka Hannyaharamitu.
 
 Text::CSV_PP:
 
-Copyright (C) 2005-2009 Makamaka Hannyaharamitu.
+Copyright (C) 2005-2010 Makamaka Hannyaharamitu.
 
 
 Text:CSV_XS:
 
-Copyright (C) 2007-2009 H.Merijn Brand for PROCURA B.V.
+Copyright (C) 2007-2010 H.Merijn Brand for PROCURA B.V.
 Copyright (C) 1998-2001 Jochen Wiedmann. All rights reserved.
 Portions Copyright (C) 1997 Alan Citterman. All rights reserved.
 
