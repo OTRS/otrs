@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1184 2010-03-18 09:29:34 mb Exp $
+# $Id: CHANGES,v 1.1185 2010-03-18 23:04:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+ - (2010/03/18) Fixed bug#5060 - Get email notification for tickets created by myself (new feature)
  - (2010/03/18) Updated CPAN module Text::CSV to version 1.17.
  - (2010/03/18) Updated CPAN module MailTools to version 2.06.
  - (2010/03/18) Updated CPAN module CGI to version 3.49.

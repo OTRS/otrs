@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.300 2010-02-26 11:53:23 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.301 2010-03-18 22:59:00 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -7082,6 +7082,18 @@ $QData{"Signature"}
     <ConfigItem Name="CustomerNotifyJustToRealCustomer" Required="1" Valid="1">
         <Description Lang="en">Send customer notifications just to mapped customer. Normally if no customer is mapped, the latest customer sender gets the notification.</Description>
         <Description Lang="de">Customer-Benachrichtigungen an bestimmte gemapte Customer verschicken. Standardmäßig wird nur der letzte Customer-Sender benachrichtigt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+        <ConfigItem Name="AgentSelfNotifyOnAction" Required="1" Valid="1">
+        <Description Lang="en">Use this setting if an agent should receive email notification on his own actions.</Description>
+        <Description Lang="de">Ist dieses Einstellung auf "Nein" werden dem Agenten keine Email-Benachrichtigungen zugesendet welche er selbst durch eine Aktion erzeugt hat.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
