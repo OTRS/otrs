@@ -1,12 +1,12 @@
-# Copyrights 1995-2008 by Mark Overmeer <perl@overmeer.net>.
+# Copyrights 1995-2010 by Mark Overmeer <perl@overmeer.net>.
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 1.05.
+# Pod stripped from pm file by OODoc 1.06.
 use strict;
 
 package Mail::Mailer::rfc822;
 use vars '$VERSION';
-$VERSION = '2.04';
+$VERSION = '2.06';
 
 use base 'Mail::Mailer';
 
