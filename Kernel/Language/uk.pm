@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/uk.pm - provides Ukrainian language translation
-# Copyright (C) 2009 - Belskii Artem <admin at alliancebank.org.ua>
+# Copyright (C) 2009-2010 - Belskii Artem <admin at alliancebank.org.ua>
 # --
-# $Id: uk.pm,v 1.2 2009-12-30 12:28:13 martin Exp $
+# $Id: uk.pm,v 1.3 2010-03-18 09:29:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -25,7 +25,7 @@ sub Data {
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
-    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+ # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat}          = '%D.%M.%Y %T';
     $Self->{DateFormatLong}      = '%T, %A %D %B, %Y';
     $Self->{DateFormatShort}     = '%D.%M.%Y';
