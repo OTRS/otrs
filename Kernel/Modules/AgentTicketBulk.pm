@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.41 2009-08-25 14:32:55 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.41.2.1 2010-03-20 00:13:08 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.41.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -226,6 +226,19 @@ sub Run {
                 my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
                     ID => $Ticket{StateID},
                 );
+
+                # should i set the pending date?
+                if ( $Ticket{StateType} =~ /^pending/i ) {
+                    $Self->{TicketObject}->TicketPendingTimeSet(
+                        Year   => $Self->{ParamObject}->GetParam( Param => 'Year' ),
+                        Month  => $Self->{ParamObject}->GetParam( Param => 'Month' ),
+                        Day    => $Self->{ParamObject}->GetParam( Param => 'Day' ),
+                        Hour   => $Self->{ParamObject}->GetParam( Param => 'Hour' ),
+                        Minute => $Self->{ParamObject}->GetParam( Param => 'Minute' ),
+                        TicketID => $TicketID,
+                        UserID   => $Self->{UserID},
+                    );
+                }
 
                 # should I set an unlock?
                 if ( $Ticket{StateType} =~ /^close/i ) {
