@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1185 2010-03-18 23:04:00 cr Exp $
+# $Id: CHANGES,v 1.1186 2010-03-20 00:07:27 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -216,6 +216,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/03/19) Fixed bug#5094 - Bulk pending date/time do not get applied to tickets
  - (2010/03/18) Updated Ukrainian language translation, thanks to Belskii Artem!
  - (2010/03/10) Fixed bug#4416 - Merge: whitespace before ticketnumber not removed.
  - (2010/03/09) Fixed bug#5102 - Notification sent to OTRS instead of Customer.
