@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.301 2010-03-18 22:59:00 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.302 2010-03-22 15:56:23 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -9003,6 +9003,7 @@ $QData{"Signature"}
                 <Item>Organization</Item>
                 <Item>X-Original-To</Item>
                 <Item>Delivered-To</Item>
+                <Item>Envelope-To</Item>
                 <Item>Return-Path</Item>
                 <Item>X-OTRS-Loop</Item>
                 <Item>X-OTRS-Info</Item>

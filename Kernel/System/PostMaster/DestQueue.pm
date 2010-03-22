@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DestQueue.pm,v 1.26 2009-04-08 12:29:40 tr Exp $
+# $Id: DestQueue.pm,v 1.27 2010-03-22 15:56:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::System::PostMaster::DestQueue;
 use strict;
 use warnings;
 
+use Kernel::System::SystemAddress;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,9 +29,11 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject ParserObject QueueObject)) {
+    for (qw(ConfigObject LogObject DBObject ParserObject QueueObject EncodeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
 
     return $Self;
 }
@@ -38,57 +42,56 @@ sub new {
 sub GetQueueID {
     my ( $Self, %Param ) = @_;
 
-    my $Queue    = $Self->{ConfigObject}->Get('PostmasterDefaultQueue');
+    # get email headers
     my %GetParam = %{ $Param{Params} };
-    my $QueueID;
-
-    # get all system addresses
-    my %SystemAddresses = $Self->{DBObject}->GetTableData(
-        Table => 'system_address',
-        What  => 'value0, queue_id',
-        Valid => 1
-    );
 
     # check possible to, cc and resent-to emailaddresses
     my $Recipient = '';
-    for (qw(Cc To Resent-To)) {
-        if ( $GetParam{$_} ) {
-            if ($Recipient) {
-                $Recipient .= ', ';
-            }
-            $Recipient .= $GetParam{$_};
+    for my $Key (qw(Resent-To Envelope-To To Cc Delivered-To X-Original-To)) {
+        next if !$GetParam{$Key};
+        if ($Recipient) {
+            $Recipient .= ', ';
         }
+        $Recipient .= $GetParam{$Key};
     }
 
     # get addresses
-    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $Recipient, );
+    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $Recipient );
 
     # check addresses
-    for (@EmailAddresses) {
-        my $Address = $Self->{ParserObject}->GetEmailAddress( Email => $_ );
-        for ( keys %SystemAddresses ) {
-            if ( $_ =~ /^\Q$Address\E$/i ) {
-                if ( $Self->{Debug} > 1 ) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message =>
-                            "Match email: $_ (QueueID=$SystemAddresses{$_}/MessageID:$GetParam{'Message-ID'})!",
-                    );
-                }
-                $QueueID = $SystemAddresses{$_};
+    my $QueueID;
+    for my $Email (@EmailAddresses) {
+        next if !$Email;
+        my $Address = $Self->{ParserObject}->GetEmailAddress( Email => $Email );
+        next if !$Address;
+
+        # lookup queue id if recipiend address
+        $QueueID = $Self->{SystemAddressObject}->SystemAddressQueueID(
+            Address => $Address,
+        );
+
+        # debug
+        if ( $Self->{Debug} > 1 ) {
+            if ($QueueID) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message =>
+                        "Match email: $Email to QueueID $QueueID (MessageID:$GetParam{'Message-ID'})!",
+                );
             }
             else {
-                if ( $Self->{Debug} > 1 ) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message =>
-                            "Does not match email: $_ (QueueID=$SystemAddresses{$_}/MessageID:$GetParam{'Message-ID'})!",
-                    );
-                }
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message  => "Does not match email: $Email (MessageID:$GetParam{'Message-ID'})!",
+                );
             }
         }
+        last if $QueueID;
     }
+
+    # if no queue id got found, lookup postmaster queue id
     if ( !$QueueID ) {
+        my $Queue = $Self->{ConfigObject}->Get('PostmasterDefaultQueue');
         return $Self->{QueueObject}->QueueLookup( Queue => $Queue ) || 1;
     }
     return $QueueID;
@@ -98,9 +101,8 @@ sub GetQueueID {
 sub GetTrustedQueueID {
     my ( $Self, %Param ) = @_;
 
+    # get email headers
     my %GetParam = %{ $Param{Params} };
-    my $QueueID;
-    my $Queue;
 
     # if there exists a X-OTRS-Queue header
     if ( $GetParam{'X-OTRS-Queue'} ) {

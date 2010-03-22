@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.30 2010-02-26 20:48:21 martin Exp $
+# $Id: SystemAddress.pm,v 1.31 2010-03-22 15:56:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -250,7 +250,7 @@ sub SystemAddressList {
 
 check if used system address is a local address
 
-    if ($SystemAddressObject->SystemAddressIsLocalAddress(Address => 'info@example.com')) {
+    if ( $SystemAddressObject->SystemAddressIsLocalAddress( Address => 'info@example.com' ) ) {
         # is local
     }
     else {
@@ -269,19 +269,45 @@ sub SystemAddressIsLocalAddress {
             return;
         }
     }
-    my $SQL = "SELECT value0, value1, comments, valid_id, queue_id "
-        . " FROM system_address WHERE "
-        . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
 
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-    my $Hit = 0;
-    $Param{Address} =~ s/ //g;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ( $Row[0] =~ /^\Q$Param{Address}\E$/i ) {
-            $Hit = 1;
+    return $Self->SystemAddressQueueID(%Param);
+}
+
+=item SystemAddressQueueID()
+
+find dispatching queue id of email address
+
+    my $QueueID = $SystemAddressObject->SystemAddressQueueID( Address => 'info@example.com' );
+
+=cut
+
+sub SystemAddressQueueID {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Address)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
         }
     }
-    return $Hit;
+
+    # remove empty spaces
+    $Param{Address} =~ s/\s+//g;
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT queue_id FROM system_address WHERE "
+            . "valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) "
+            . "AND LOWER(value0) = LOWER(?)",
+        Bind => [
+            \$Param{Address}
+        ],
+    );
+    my $QueueID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $QueueID = $Row[0];
+    }
+    return $QueueID;
 }
 
 1;
@@ -300,6 +326,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2010-02-26 20:48:21 $
+$Revision: 1.31 $ $Date: 2010-03-22 15:56:22 $
 
 =cut
