@@ -1,8 +1,8 @@
 # --
 # scripts/test/Performance.t - a performance testscript
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.12 2009-04-05 21:45:59 mh Exp $
+# $Id: Performance.t,v 1.13 2010-03-22 16:04:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,6 +59,7 @@ $Self->{QueueObject} = Kernel::System::Queue->new(
     LogObject    => $Self->{LogObject},
     DBObject     => $Self->{DBObject},
     MainObject   => $Self->{MainObject},
+    EncodeObject => $Self->{EncodeObject},
 );
 $Self->{GroupObject} = Kernel::System::Group->new(
     ConfigObject => $Self->{ConfigObject},
