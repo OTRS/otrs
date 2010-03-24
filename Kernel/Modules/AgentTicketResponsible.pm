@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketResponsible.pm - set ticket responsible
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.pm,v 1.58.2.3 2009-09-30 16:16:50 ub Exp $
+# $Id: AgentTicketResponsible.pm,v 1.58.2.4 2010-03-24 11:21:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58.2.3 $) [1];
+$VERSION = qw($Revision: 1.58.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -691,10 +691,17 @@ sub Run {
 
             # set pending time
             elsif ( $StateData{TypeName} =~ /^pending/i ) {
+
+                # get time stamp based on user time zone
+                my %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                    %GetParam,
+                );
+
+                # set pending time
                 $Self->{TicketObject}->TicketPendingTimeSet(
                     UserID   => $Self->{UserID},
                     TicketID => $Self->{TicketID},
-                    %GetParam,
+                    %Time,
                 );
             }
 

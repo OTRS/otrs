@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.41.2.1 2010-03-20 00:13:08 mp Exp $
+# $Id: AgentTicketBulk.pm,v 1.41.2.2 2010-03-24 11:21:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41.2.1 $) [1];
+$VERSION = qw($Revision: 1.41.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -229,12 +229,19 @@ sub Run {
 
                 # should i set the pending date?
                 if ( $Ticket{StateType} =~ /^pending/i ) {
-                    $Self->{TicketObject}->TicketPendingTimeSet(
+
+                    # get time stamp based on user time zone
+                    my %Time = $Self->{LayoutObject}->TransfromDateSelection(
                         Year   => $Self->{ParamObject}->GetParam( Param => 'Year' ),
                         Month  => $Self->{ParamObject}->GetParam( Param => 'Month' ),
                         Day    => $Self->{ParamObject}->GetParam( Param => 'Day' ),
                         Hour   => $Self->{ParamObject}->GetParam( Param => 'Hour' ),
                         Minute => $Self->{ParamObject}->GetParam( Param => 'Minute' ),
+                    );
+
+                    # set pending time
+                    $Self->{TicketObject}->TicketPendingTimeSet(
+                        %Time,
                         TicketID => $TicketID,
                         UserID   => $Self->{UserID},
                     );

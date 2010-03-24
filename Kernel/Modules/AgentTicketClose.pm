@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.69.2.1 2009-09-23 09:51:58 martin Exp $
+# $Id: AgentTicketClose.pm,v 1.69.2.2 2010-03-24 11:21:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69.2.1 $) [1];
+$VERSION = qw($Revision: 1.69.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -691,10 +691,17 @@ sub Run {
 
             # set pending time
             elsif ( $StateData{TypeName} =~ /^pending/i ) {
+
+                # get time stamp based on user time zone
+                my %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                    %GetParam,
+                );
+
+                # set pending time
                 $Self->{TicketObject}->TicketPendingTimeSet(
                     UserID   => $Self->{UserID},
                     TicketID => $Self->{TicketID},
-                    %GetParam,
+                    %Time,
                 );
             }
 

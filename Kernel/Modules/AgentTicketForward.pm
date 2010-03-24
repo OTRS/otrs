@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.54.2.4 2010-02-26 19:10:46 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.54.2.5 2010-03-24 11:21:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54.2.4 $) [1];
+$VERSION = qw($Revision: 1.54.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -724,14 +724,17 @@ sub SendEmail {
 
     # set pending time
     elsif ( $StateData{TypeName} =~ /^pending/i ) {
+
+        # get time stamp based on user time zone
+        my %Time = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+        );
+
+        # set pending time
         $Self->{TicketObject}->TicketPendingTimeSet(
             UserID   => $Self->{UserID},
             TicketID => $Self->{TicketID},
-            Year     => $GetParam{Year},
-            Month    => $GetParam{Month},
-            Day      => $GetParam{Day},
-            Hour     => $GetParam{Hour},
-            Minute   => $GetParam{Minute},
+            %Time,
         );
     }
 
