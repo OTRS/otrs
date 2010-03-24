@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.100 2010-02-23 23:16:44 martin Exp $
+# $Id: User.pm,v 1.101 2010-03-24 22:47:52 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 =head1 NAME
 
@@ -238,7 +238,7 @@ sub GetUserData {
     }
 
     # out of office check
-    if ( !defined $Param{NoOutOfOffice} && !$Param{NoOutOfOffice} ) {
+    if ( !$Param{NoOutOfOffice} ) {
         if ( $Preferences{OutOfOffice} ) {
             my $Time = $Self->{TimeObject}->SystemTime();
             my $Start
@@ -1048,6 +1048,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.100 $ $Date: 2010-02-23 23:16:44 $
+$Revision: 1.101 $ $Date: 2010-03-24 22:47:52 $
 
 =cut

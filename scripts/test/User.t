@@ -1,8 +1,8 @@
 # --
 # User.t - User tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.t,v 1.5 2009-02-16 12:40:23 tr Exp $
+# $Id: User.t,v 1.6 2010-03-24 22:47:10 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -139,4 +139,69 @@ $Self->True(
     "TokenCheck() - $Token" . "123",
 );
 
+#check no out of office
+%UserData = $Self->{UserObject}->GetUserData(
+    UserID        => $UserID1,
+    Valid         => 0,
+    NoOutOfOffice => 0
+);
+
+$Self->False(
+    $UserData{OutOfOfficeMessage},
+    'GetUserData() - OutOfOfficeMessage',
+);
+
+%UserData = $Self->{UserObject}->GetUserData(
+    UserID => $UserID1,
+    Valid  => 0,
+
+    #       NoOutOfOffice => 0
+);
+
+$Self->False(
+    $UserData{OutOfOfficeMessage},
+    'GetUserData() - OutOfOfficeMessage',
+);
+
+my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $Self->{TimeObject}->SystemTime(),
+);
+
+my %Values = (
+    'OutOfOffice'           => 'on',
+    'OutOfOfficeStartYear'  => $Year,
+    'OutOfOfficeStartMonth' => $Month,
+    'OutOfOfficeStartDay'   => $Day,
+    'OutOfOfficeEndYear'    => $Year,
+    'OutOfOfficeEndMonth'   => $Month,
+    'OutOfOfficeEndDay'     => $Day,
+);
+
+for my $Key ( keys %Values ) {
+    $Self->{UserObject}->SetPreferences(
+        UserID => $UserID1,
+        Key    => $Key,
+        Value  => $Values{$Key},
+    );
+}
+%UserData = $Self->{UserObject}->GetUserData(
+    UserID        => $UserID1,
+    Valid         => 0,
+    NoOutOfOffice => 0
+);
+
+$Self->True(
+    $UserData{OutOfOfficeMessage},
+    'GetUserData() - OutOfOfficeMessage',
+);
+
+%UserData = $Self->{UserObject}->GetUserData(
+    UserID => $UserID1,
+    Valid  => 0,
+);
+
+$Self->True(
+    $UserData{OutOfOfficeMessage},
+    'GetUserData() - OutOfOfficeMessage',
+);
 1;
