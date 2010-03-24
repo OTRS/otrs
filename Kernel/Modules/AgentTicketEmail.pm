@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.118 2010-02-26 20:35:35 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.119 2010-03-24 11:15:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -427,7 +427,7 @@ sub Run {
         for my $Count ( 1 .. 3 ) {
             my $Key  = 'ArticleFreeKey' . $Count;
             my $Text = 'ArticleFreeText' . $Count;
-            $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
+            $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type     => $Key,
                 Action   => $Self->{Action},
@@ -950,10 +950,17 @@ sub Run {
 
         # set pending time
         elsif ( $StateData{TypeName} =~ /^pending/i ) {
+
+            # get time stamp based on user time zone
+            my %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                %GetParam,
+            );
+
+            # set pending time
             $Self->{TicketObject}->TicketPendingTimeSet(
                 UserID   => $Self->{UserID},
                 TicketID => $TicketID,
-                %GetParam,
+                %Time,
             );
         }
 

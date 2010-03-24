@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.42 2010-02-26 20:35:35 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.43 2010-03-24 11:15:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -637,10 +637,17 @@ sub Run {
 
             # set pending time if next state is a pending state
             elsif ( $StateData{TypeName} =~ /^pending/i ) {
+
+                # get time stamp based on user time zone
+                my %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                    %GetParam,
+                );
+
+                # set pending time
                 $Self->{TicketObject}->TicketPendingTimeSet(
                     UserID   => $Self->{UserID},
                     TicketID => $Self->{TicketID},
-                    %GetParam,
+                    %Time,
                 );
             }
 

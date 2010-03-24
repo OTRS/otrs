@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - set ticket to pending
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPending.pm,v 1.81 2010-03-08 17:59:51 martin Exp $
+# $Id: AgentTicketPending.pm,v 1.82 2010-03-24 11:15:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -604,33 +604,38 @@ sub Run {
         }
 
         # set ticket free time
-        for ( 1 .. 6 ) {
+        for my $Count ( 1 .. 6 ) {
             if (
-                defined $GetParam{ 'TicketFreeTime' . $_ . 'Year' }
-                && defined $GetParam{ 'TicketFreeTime' . $_ . 'Month' }
-                && defined $GetParam{ 'TicketFreeTime' . $_ . 'Day' }
-                && defined $GetParam{ 'TicketFreeTime' . $_ . 'Hour' }
-                && defined $GetParam{ 'TicketFreeTime' . $_ . 'Minute' }
+                defined $GetParam{ 'TicketFreeTime' . $Count . 'Year' }
+                && defined $GetParam{ 'TicketFreeTime' . $Count . 'Month' }
+                && defined $GetParam{ 'TicketFreeTime' . $Count . 'Day' }
+                && defined $GetParam{ 'TicketFreeTime' . $Count . 'Hour' }
+                && defined $GetParam{ 'TicketFreeTime' . $Count . 'Minute' }
                 )
             {
-                my %Time;
-                $Time{ 'TicketFreeTime' . $_ . 'Year' }    = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Month' }   = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Day' }     = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Hour' }    = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Minute' }  = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Secunde' } = 0;
 
-                if ( $GetParam{ 'TicketFreeTime' . $_ . 'Used' } ) {
+                my %Time;
+                $Time{ 'TicketFreeTime' . $Count . 'Year' }    = 0;
+                $Time{ 'TicketFreeTime' . $Count . 'Month' }   = 0;
+                $Time{ 'TicketFreeTime' . $Count . 'Day' }     = 0;
+                $Time{ 'TicketFreeTime' . $Count . 'Hour' }    = 0;
+                $Time{ 'TicketFreeTime' . $Count . 'Minute' }  = 0;
+                $Time{ 'TicketFreeTime' . $Count . 'Secunde' } = 0;
+
+                # get time stamp based on user time zone
+                if ( $GetParam{ 'TicketFreeTime' . $Count . 'Used' } ) {
                     %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                        %GetParam, Prefix => 'TicketFreeTime' . $_
+                        %GetParam,
+                        Prefix => 'TicketFreeTime' . $Count
                     );
                 }
+
+                # set ticket free time
                 $Self->{TicketObject}->TicketFreeTimeSet(
                     %Time,
                     Prefix   => 'TicketFreeTime',
                     TicketID => $Self->{TicketID},
-                    Counter  => $_,
+                    Counter  => $Count,
                     UserID   => $Self->{UserID},
                 );
             }
@@ -673,7 +678,7 @@ sub Run {
                 ID => $GetParam{NewStateID},
             );
 
-            # set unlock on close
+            # set unlock on close state
             if ( $StateData{TypeName} =~ /^close/i ) {
                 $Self->{TicketObject}->LockSet(
                     TicketID => $Self->{TicketID},
@@ -682,12 +687,19 @@ sub Run {
                 );
             }
 
-            # set pending time
+            # set pending time on pendig state
             elsif ( $StateData{TypeName} =~ /^pending/i ) {
+
+                # get time stamp based on user time zone
+                my %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                    %GetParam,
+                );
+
+                # set pending time
                 $Self->{TicketObject}->TicketPendingTimeSet(
                     UserID   => $Self->{UserID},
                     TicketID => $Self->{TicketID},
-                    %GetParam,
+                    %Time,
                 );
             }
 
