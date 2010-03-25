@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.118 2010-02-21 15:25:49 martin Exp $
+# $Id: DB.pm,v 1.119 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 =head1 NAME
 
@@ -629,7 +629,7 @@ sub FetchrowArray {
         }
 
         if ( !defined $Self->{Encode} || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
-            $Self->{EncodeObject}->Encode( \$Element );
+            $Self->{EncodeObject}->EncodeInput( \$Element );
         }
     }
     continue {
@@ -1247,6 +1247,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.118 $ $Date: 2010-02-21 15:25:49 $
+$Revision: 1.119 $ $Date: 2010-03-25 14:42:45 $
 
 =cut

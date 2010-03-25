@@ -1,8 +1,8 @@
 # --
 # Kernel/System/VirtualFS/DB.pm - all virtual fs functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.2 2009-12-10 11:59:54 bes Exp $
+# $Id: DB.pm,v 1.3 2010-03-25 14:44:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,7 +66,7 @@ sub Read {
         if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
             $Content = decode_base64( $Row[0] );
             if ($Encode) {
-                $Self->{EncodeObject}->Encode( \$Content );
+                $Self->{EncodeObject}->EncodeInput( \$Content );
             }
         }
         else {

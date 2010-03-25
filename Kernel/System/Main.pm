@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.41 2010-02-12 16:49:11 martin Exp $
+# $Id: Main.pm,v 1.42 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Data::Dumper;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -679,7 +679,7 @@ sub Dump {
     # workaround.
     # -> http://rt.cpan.org/Ticket/Display.html?id=28607
     if (
-        $Self->{EncodeObject}->EncodeInternalUsed()
+        $Self->{EncodeObject}->CharsetInternal()
         && $Self->Require('Storable')
         && $Type eq 'binary'
         )
@@ -782,6 +782,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2010-02-12 16:49:11 $
+$Revision: 1.42 $ $Date: 2010-03-25 14:42:45 $
 
 =cut

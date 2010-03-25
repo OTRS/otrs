@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.35 2010-01-13 22:15:51 martin Exp $
+# $Id: Request.pm,v 1.36 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -130,7 +130,7 @@ sub GetParam {
     my ( $Self, %Param ) = @_;
 
     my $Value = $Self->{Query}->param( $Param{Param} );
-    $Self->{EncodeObject}->Encode( \$Value );
+    $Self->{EncodeObject}->EncodeInput( \$Value );
 
     if (
         $Param{TrimLeft}
@@ -173,7 +173,7 @@ sub GetParamNames {
 
     # is encode needed?
     for my $Name (@ParamNames) {
-        $Self->{EncodeObject}->Encode( \$Name );
+        $Self->{EncodeObject}->EncodeInput( \$Name );
     }
 
     return @ParamNames;
@@ -191,7 +191,7 @@ sub GetArray {
     my ( $Self, %Param ) = @_;
 
     my @Values = $Self->{Query}->param( $Param{Param} );
-    $Self->{EncodeObject}->Encode( \@Values );
+    $Self->{EncodeObject}->EncodeInput( \@Values );
 
     if (
         $Param{TrimLeft}
@@ -247,7 +247,7 @@ sub GetUploadAll {
     # get real file name
     my $UploadFilenameOrig = $Self->GetParam( Param => $Param{Param} ) || 'unkown';
     my $NewFileName = "$UploadFilenameOrig";    # use "" to get filename of anony. object
-    $Self->{EncodeObject}->Encode( \$NewFileName );
+    $Self->{EncodeObject}->EncodeInput( \$NewFileName );
 
     # replace all devices like c: or d: and dirs for IE!
     $NewFileName =~ s/.:\\(.*)/$1/g;
@@ -369,6 +369,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2010-01-13 22:15:51 $
+$Revision: 1.36 $ $Date: 2010-03-25 14:42:45 $
 
 =cut

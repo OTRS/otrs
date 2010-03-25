@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.19 2009-12-08 14:53:01 martin Exp $
+# $Id: FS.pm,v 1.20 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -156,7 +156,7 @@ sub FormIDGetAllFilesData {
         my $FileSize = -s $File;
 
         # convert the file name in utf-8 if utf-8 is used
-        $File = $Self->{EncodeObject}->Decode(
+        $File = $Self->{EncodeObject}->Convert2CharsetInternal(
             Text => $File,
             From => 'utf-8',
         );
@@ -233,7 +233,7 @@ sub FormIDGetAllFilesMeta {
         my $FileSize = -s $File;
 
         # convert the file name in utf-8 if utf-8 is used
-        $File = $Self->{EncodeObject}->Decode(
+        $File = $Self->{EncodeObject}->Convert2CharsetInternal(
             Text => $File,
             From => 'utf-8',
         );

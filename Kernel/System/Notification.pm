@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.34 2009-10-07 20:30:48 martin Exp $
+# $Id: Notification.pm,v 1.35 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -133,13 +133,13 @@ sub NotificationGet {
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
         # convert to internal charset e. g. utf8
-        if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+        if ( $Self->{EncodeObject}->CharsetInternal() ) {
 
             # convert body
             $Data[5] = $Self->{EncodeObject}->Convert(
                 Text  => $Data[5],
                 From  => $Data[2],
-                To    => $Self->{EncodeObject}->EncodeInternalUsed(),
+                To    => $Self->{EncodeObject}->CharsetInternal(),
                 Force => 1,
             );
 
@@ -147,12 +147,12 @@ sub NotificationGet {
             $Data[3] = $Self->{EncodeObject}->Convert(
                 Text  => $Data[3],
                 From  => $Data[2],
-                To    => $Self->{EncodeObject}->EncodeInternalUsed(),
+                To    => $Self->{EncodeObject}->CharsetInternal(),
                 Force => 1,
             );
 
             # set new charset
-            $Data[2] = $Self->{EncodeObject}->EncodeInternalUsed();
+            $Data[2] = $Self->{EncodeObject}->CharsetInternal();
         }
 
         # fix some bad stuff from some browsers (Opera)!
@@ -317,6 +317,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2009-10-07 20:30:48 $
+$Revision: 1.35 $ $Date: 2010-03-25 14:42:45 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.72 2010-02-03 14:51:03 bes Exp $
+# $Id: ArticleStorageDB.pm,v 1.73 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -386,7 +386,7 @@ sub ArticleAttachmentIndex {
         next if $Filename =~ /\/plain.txt$/;
 
         # convert the file name in utf-8 if utf-8 is used
-        $Filename = $Self->{EncodeObject}->Decode(
+        $Filename = $Self->{EncodeObject}->Convert2CharsetInternal(
             Text => $Filename,
             From => 'utf-8',
         );
@@ -528,7 +528,7 @@ sub ArticleAttachment {
             if ( $Counter == $Param{FileID} ) {
 
                 # convert the file name in utf-8 if utf-8 is used
-                $Filename = $Self->{EncodeObject}->Decode(
+                $Filename = $Self->{EncodeObject}->Convert2CharsetInternal(
                     Text => $Filename,
                     From => 'utf-8',
                 );
@@ -592,7 +592,7 @@ sub ArticleAttachment {
                     && $Data{ContentType} =~ /(utf\-8|utf8)/i
                     )
                 {
-                    $Self->{EncodeObject}->Encode( \$Data{Content} );
+                    $Self->{EncodeObject}->EncodeInput( \$Data{Content} );
                 }
                 chomp $Data{ContentType};
                 return %Data;

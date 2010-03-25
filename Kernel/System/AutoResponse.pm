@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.39 2010-01-19 21:02:19 martin Exp $
+# $Id: AutoResponse.pm,v 1.40 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -190,13 +190,13 @@ sub AutoResponseGet {
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
         # convert to internal charset e. g. utf8
-        if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+        if ( $Self->{EncodeObject}->CharsetInternal() ) {
 
             # convert body
             $Data[3] = $Self->{EncodeObject}->Convert(
                 Text  => $Data[3],
                 From  => $Data[7],
-                To    => $Self->{EncodeObject}->EncodeInternalUsed(),
+                To    => $Self->{EncodeObject}->CharsetInternal(),
                 Force => 1,
             );
 
@@ -204,12 +204,12 @@ sub AutoResponseGet {
             $Data[4] = $Self->{EncodeObject}->Convert(
                 Text  => $Data[4],
                 From  => $Data[7],
-                To    => $Self->{EncodeObject}->EncodeInternalUsed(),
+                To    => $Self->{EncodeObject}->CharsetInternal(),
                 Force => 1,
             );
 
             # set new charset
-            $Data[7] = $Self->{EncodeObject}->EncodeInternalUsed();
+            $Data[7] = $Self->{EncodeObject}->CharsetInternal();
         }
 
         %Data = (
@@ -444,6 +444,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2010-01-19 21:02:19 $
+$Revision: 1.40 $ $Date: 2010-03-25 14:42:45 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.39 2010-01-26 23:24:13 martin Exp $
+# $Id: FS.pm,v 1.40 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -311,7 +311,7 @@ sub _Decode {
 
     # decode and return
     ${$Value} = decode_base64( ${$Value} );
-    $Self->{EncodeObject}->Encode($Value);
+    $Self->{EncodeObject}->EncodeInput($Value);
     return $Value;
 }
 

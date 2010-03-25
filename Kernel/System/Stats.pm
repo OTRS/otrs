@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.88 2010-03-15 08:17:14 reb Exp $
+# $Id: Stats.pm,v 1.89 2010-03-25 14:44:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1444,7 +1444,7 @@ sub Export {
         }
         close $Filehandle;
 
-        $Self->{EncodeObject}->Encode( \$FileContent );
+        $Self->{EncodeObject}->EncodeInput( \$FileContent );
         $StatsXML->{File}->[1]->{File}       = $StatsXML->{File}->[1]->{Content};
         $StatsXML->{File}->[1]->{Content}    = encode_base64( $FileContent, '' );
         $StatsXML->{File}->[1]->{Location}   = $FileLocation;
@@ -3117,7 +3117,7 @@ sub _GetResultCache {
             $CSVString .= $_;
         }
         close $Filehandle;
-        $Self->{EncodeObject}->Encode( \$CSVString );
+        $Self->{EncodeObject}->EncodeInput( \$CSVString );
     }
 
     my $ResultRef = $Self->{CSVObject}->CSV2Array(
@@ -3273,6 +3273,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.88 $ $Date: 2010-03-15 08:17:14 $
+$Revision: 1.89 $ $Date: 2010-03-25 14:44:11 $
 
 =cut

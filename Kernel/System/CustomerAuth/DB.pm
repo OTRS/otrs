@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentication
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.29 2009-09-22 15:16:05 mb Exp $
+# $Id: DB.pm,v 1.30 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -141,7 +141,7 @@ sub Auth {
         $Self->{EncodeObject}->EncodeOutput( \$Salt );
 
         $CryptedPw = unix_md5_crypt( $Pw, $Salt );
-        $Self->{EncodeObject}->Encode( \$CryptedPw );
+        $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
     }
 
     # crypt pw
@@ -160,7 +160,7 @@ sub Auth {
 
             # encode output, needed by crypt() only non utf8 signs
             $CryptedPw = crypt( $Pw, $Salt );
-            $Self->{EncodeObject}->Encode( \$CryptedPw );
+            $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
         }
         else {
             $Self->{LogObject}->Log(

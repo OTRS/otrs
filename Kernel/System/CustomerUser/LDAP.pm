@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.56 2010-02-26 21:17:22 martin Exp $
+# $Id: LDAP.pm,v 1.57 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -716,7 +716,7 @@ sub _ConvertTo {
     return if !defined $Text;
 
     if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
-        $Self->{EncodeObject}->Encode( \$Text );
+        $Self->{EncodeObject}->EncodeInput( \$Text );
         return $Text;
     }
 

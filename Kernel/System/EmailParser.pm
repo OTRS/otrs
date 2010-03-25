@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.94 2010-02-03 14:57:25 bes Exp $
+# $Id: EmailParser.pm,v 1.95 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 =head1 NAME
 
@@ -212,7 +212,7 @@ sub GetParam {
                         $Remember{ $Array->[0] } = 1;
                     }
                 }
-                $ReturnLine .= $Self->{EncodeObject}->Decode(
+                $ReturnLine .= $Self->{EncodeObject}->Convert2CharsetInternal(
                     Text  => $Array->[0],
                     From  => $Array->[1] || $Self->GetCharset() || 'us-ascii',
                     Check => 1,
@@ -398,8 +398,8 @@ sub GetReturnContentType {
     my $Self = shift;
 
     my $ContentType = $Self->GetContentType();
-    if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
-        my $InternalCharset = $Self->{EncodeObject}->EncodeInternalUsed();
+    if ( $Self->{EncodeObject}->CharsetInternal() ) {
+        my $InternalCharset = $Self->{EncodeObject}->CharsetInternal();
         $ContentType =~ s/(charset=)(.*)/$1$InternalCharset/ig;
 
         # debug
@@ -438,8 +438,8 @@ Returns the charset of the new message body "Charset"
 sub GetReturnCharset {
     my $Self = shift;
 
-    if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
-        return $Self->{EncodeObject}->EncodeInternalUsed();
+    if ( $Self->{EncodeObject}->CharsetInternal() ) {
+        return $Self->{EncodeObject}->CharsetInternal();
     }
 
     return $Self->GetCharset();
@@ -481,7 +481,7 @@ sub GetMessageBody {
 
         # charset decode
         if ( $Self->GetCharset() ) {
-            $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
+            $Self->{MessageBody} = $Self->{EncodeObject}->Convert2CharsetInternal(
                 Text  => $BodyStrg,
                 From  => $Self->GetCharset(),
                 Check => 1,
@@ -526,7 +526,7 @@ sub GetMessageBody {
 
             # check if charset exists
             if ( $Self->GetCharset() ) {
-                $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
+                $Self->{MessageBody} = $Self->{EncodeObject}->Convert2CharsetInternal(
                     Text  => $Attachments[0]->{Content},
                     From  => $Self->GetCharset(),
                     Check => 1,
@@ -706,7 +706,7 @@ sub PartsAttachments {
 
         # convert the file name in utf-8 if utf-8 is used
         if ( $PartData{Charset} ) {
-            $PartData{Filename} = $Self->{EncodeObject}->Decode(
+            $PartData{Filename} = $Self->{EncodeObject}->Convert2CharsetInternal(
                 Text  => $PartData{Filename},
                 From  => $PartData{Charset},
                 Check => 1,
@@ -883,6 +883,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.94 $ $Date: 2010-02-03 14:57:25 $
+$Revision: 1.95 $ $Date: 2010-03-25 14:42:45 $
 
 =cut

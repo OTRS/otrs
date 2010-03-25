@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.67 2009-11-26 10:50:00 bes Exp $
+# $Id: ArticleStorageFS.pm,v 1.68 2010-03-25 14:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -420,7 +420,7 @@ sub ArticleAttachmentIndex {
         next if $Filename =~ /\/plain.txt$/;
 
         # convert the file name in utf-8 if utf-8 is used
-        $Filename = $Self->{EncodeObject}->Decode(
+        $Filename = $Self->{EncodeObject}->Convert2CharsetInternal(
             Text => $Filename,
             From => 'utf-8',
         );
@@ -577,7 +577,7 @@ sub ArticleAttachment {
             if ( $Counter == $Param{FileID} ) {
 
                 # convert the file name in utf-8 if utf-8 is used
-                $Filename = $Self->{EncodeObject}->Decode(
+                $Filename = $Self->{EncodeObject}->Convert2CharsetInternal(
                     Text => $Filename,
                     From => 'utf-8',
                 );
@@ -641,7 +641,7 @@ sub ArticleAttachment {
                     && $Data{ContentType} =~ /(utf\-8|utf8)/i
                     )
                 {
-                    $Self->{EncodeObject}->Encode( \$Data{Content} );
+                    $Self->{EncodeObject}->EncodeInput( \$Data{Content} );
                 }
                 chomp $Data{ContentType};
                 return %Data;
