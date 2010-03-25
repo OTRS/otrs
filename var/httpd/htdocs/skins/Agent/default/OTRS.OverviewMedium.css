@@ -1,0 +1,155 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     OverviewMedium
+ */
+
+/**
+ * @subsection  Medium View Overview
+ */
+#TicketOverviewMedium {
+    margin-top: 0px;
+}
+
+.OverviewMedium {
+    margin: 6px;
+}
+
+.OverviewMedium li {
+    position: relative;
+    border-top: 1px solid #BBB;
+    border-left: 1px solid #BBB;
+    border-right: 1px solid #BBB;
+    border-bottom: none;
+    min-height: 105px;
+}
+
+.OverviewMedium li div.Content {
+    padding-top: 8px;
+    padding-bottom: 5px;
+}
+
+.OverviewMedium li div.Shadow {
+    height: 5px;
+    width: 100%;
+}
+
+.OverviewMedium li:hover div.Shadow {
+    background: transparent url(img/table_medium_hover_bottom.png) repeat-x;
+}
+
+.OverviewMedium li:hover div.Content {
+    background: transparent url(img/table_medium_hover.png) repeat-x;
+}
+
+.OverviewMedium li.Last {
+    border-bottom: 1px solid #BBB;
+}
+
+.OverviewMedium li.Even {
+    background-color: #EEE;
+}
+
+.OverviewMedium input.Checkbox {
+    position: absolute;
+    top: 7px;
+    left: 5px;
+}
+
+.RTL .OverviewMedium input.Checkbox {
+    left: auto;
+    right: 5px;
+}
+
+.OverviewMedium div.Flag {
+    position: absolute;
+    left: -3px;
+    top: 37px;
+}
+
+.RTL .OverviewMedium div.Flag {
+    left: auto;
+    right: -3px;
+}
+
+.OverviewMedium div.UnreadArticles {
+    position: absolute;
+    left: 4px;
+    top: 60px;
+}
+
+.RTL .OverviewMedium div.UnreadArticles {
+    left: auto;
+    right: 4px;
+}
+
+.OverviewMedium li:hover span.UnreadArticles {
+    background-position: 0px -40px;
+}
+
+.OverviewMedium h2 {
+    margin-left: 45px;
+    font-size: 14px;
+    font-weight: bold;
+    width: 97%;
+}
+
+.RTL .OverviewMedium h2 {
+    margin-left: 0px;
+    margin-right: 45px;
+}
+
+.OverviewMedium h2 a {
+    color: #000;
+    display: block;
+}
+
+.OverviewMedium table.Infos {
+    margin-top: 10px;
+    margin-left: 45px;
+    table-layout: fixed;
+    width: 97%;
+}
+
+.RTL .OverviewMedium table.Infos {
+    margin-left: 0px;
+    margin-right: 45px;
+}
+
+.OverviewMedium table.Infos tr.Last td {
+    padding: 0 0 0 10px;
+}
+
+.OverviewMedium table.Infos td {
+    width: 16.67%;
+    padding: 0 10px 10px 10px;
+    overflow: hidden;
+    border-left: 1px dotted #CCC;
+    line-height: 16px;
+}
+
+.OverviewMedium table.Infos td:first-child {
+    padding: 0 0 10px 0;
+    border-left: none;
+}
+
+.OverviewMedium table.Infos tr.Last td:first-child {
+    padding: 0;
+}
+
+.OverviewMedium li:hover table.Infos td label {
+    color: #634e2d;
+}
+
+.OverviewMedium table.Infos td label {
+    display: block;
+    margin-bottom: 2px;
+    color: #888;
+    font-weight: bold;
+}

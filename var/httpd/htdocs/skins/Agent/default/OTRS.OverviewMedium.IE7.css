@@ -1,0 +1,20 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ * @css-for     IE7
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     OverviewMedium
+ */
+
+/**
+ * @subsection  Compatibility IE7 for Medium View Overview
+ */
+
+.OverviewMedium li {
+    margin-bottom: -3px;
+}

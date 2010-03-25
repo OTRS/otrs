@@ -1,0 +1,206 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  AdminSysConfig
+ */
+
+/**
+ * @subsubsection     General
+ */
+
+form.SysConfig {
+}
+
+form.SysConfig fieldset {
+    border-bottom: 1px solid #888;
+    padding: 10px 0;
+}
+
+form.SysConfig fieldset.Inactive,
+form.SysConfig fieldset.Inactive * {
+    color: gray !important;
+}
+
+form.SysConfig fieldset h2 {
+    float: left;
+    padding-left: 0;
+    padding-right: 5px;
+    margin-top: 0px;
+    color: #333;
+}
+
+.RTL form.SysConfig fieldset h2 {
+    float: left;
+    padding-left: 5px;
+    padding-right: 0;
+}
+
+form.SysConfig fieldset .Description {
+    color: #333;
+    float: left;
+    width: 25%;
+}
+
+.RTL form.SysConfig fieldset .Description {
+    float: right;
+}
+
+form.SysConfig fieldset .Setting {
+    float: right;
+    width: 74%;
+}
+
+.RTL form.SysConfig fieldset .Setting {
+    float: left;
+    width: 74%;
+}
+
+form.SysConfig fieldset .Setting .DefaultValue {
+    margin-top: 3px;
+    color: gray;
+}
+
+/**
+ * @subsubsection     Simple Settings
+ */
+
+form.SysConfig fieldset .Setting .String,
+form.SysConfig fieldset .Setting .Array,
+form.SysConfig fieldset .Setting .Hash {
+    margin: 8px 0;
+}
+
+form.SysConfig fieldset .Setting .String input {
+    width: 100%;
+}
+
+form.SysConfig fieldset .Setting .Select select {
+}
+
+form.SysConfig fieldset .Setting .Array input.Entry {
+    width: 80%;
+}
+
+form.SysConfig fieldset .Setting .Hash label.Key,
+form.SysConfig fieldset .Setting .Hash label.Content {
+    float: left;
+    width: 40%;
+    margin: 0 5px 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.RTL form.SysConfig fieldset .Setting .Hash label.Key,
+.RTL form.SysConfig fieldset .Setting .Hash label.Content {
+    float: right;
+    margin: 0 0 5px 5px;
+}
+
+form.SysConfig fieldset .Setting .Hash input.Key {
+    width: 40%;
+    margin-left: 0;
+    margin-right: 5px;
+}
+
+.RTL form.SysConfig fieldset .Setting .Hash input.Key {
+    margin-left: 5px;
+    margin-right: 0;
+}
+
+form.SysConfig fieldset .Setting .Hash input.Content {
+    width: 40%;
+}
+
+/**
+ * @subsubsection     Sub-Hashes, Sub-Arrays
+ */
+form.SysConfig fieldset .Setting label.KeyWithComplexValue {
+    display: block;
+    margin: 8px 0;
+    font-size: 13px;
+    color: #000;
+    font-weight: bold;
+}
+
+form.SysConfig fieldset .Setting .Hash .Array,
+form.SysConfig fieldset .Setting .Hash .Hash {
+    margin-left: 30px;
+    margin-right: 0;
+}
+
+.RTL form.SysConfig fieldset .Setting .Hash .Array,
+.RTL form.SysConfig fieldset .Setting .Hash .Hash {
+    margin-left: 0;
+    margin-right: 30px;
+}
+
+/**
+ * @subsubsection     ModuleRegistrations
+ */
+form.SysConfig fieldset .ModuleRegistration label.SingleKey {
+    float: left;
+    width: 20%;
+    margin-left: 0;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.RTL form.SysConfig fieldset .ModuleRegistration label.SingleKey {
+    float: right;
+    margin-left: 5px;
+    margin-right: 0;
+}
+
+form.SysConfig fieldset .ModuleRegistration input.SingleContent {
+    width: 60%;
+    margin-bottom: 3px;
+}
+
+form.SysConfig fieldset .ModuleRegistration .Array {
+    margin-left: 30px;
+    margin-right: 0;
+}
+
+.RTL form.SysConfig fieldset .ModuleRegistration .Array {
+    margin-left: 0;
+    margin-right: 30px;
+}
+
+form.SysConfig fieldset .ModuleRegistration .NavBar {
+    margin: 10px 0 10px 30px;
+}
+
+.RTL form.SysConfig fieldset .ModuleRegistration .NavBar {
+    margin: 10px 30px 10px 0;
+}
+
+form.SysConfig fieldset .ModuleRegistration .NavBarListEntry {
+    border-bottom: 1px solid #888;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+/**
+ * @subsubsection     Calendar
+ * @note        This is a little box for putting text above a checkbox with many boxes in a row
+ */
+form.SysConfig fieldset .WorkingHours .FloatBox {
+    float: left;
+    text-align: center;
+}
+
+.RTL form.SysConfig fieldset .WorkingHours .FloatBox {
+    float: right;
+}
+
+form.SysConfig fieldset .WorkingHours .FloatBox input{
+    margin: 2px;
+    padding: 0;
+}

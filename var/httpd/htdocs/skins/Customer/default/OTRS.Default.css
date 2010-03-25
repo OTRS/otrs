@@ -1,0 +1,174 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     OTRS Framework
+ * @section     Default
+ */
+* {
+    margin:0;
+    padding: 0;
+}
+body {
+    font: 12px/14px Arial, sans-serif;
+    text-align: left;
+    background-color: #FFF;
+}
+img { border:none; }
+input {
+   font-family: Arial, sans-serif; 
+}
+ul { 
+    list-style: none;
+}
+a {
+    color: #F92;
+    text-decoration: none;
+}
+a:hover {
+    color: #F72;
+}
+p { 
+    margin-top: 13px;
+    padding: 3px;
+}
+h1 {
+    font-size: 21px;
+    font-weight: bold;
+}
+h2 { 
+    padding-left: 2px;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 2;
+}
+em {
+    font-style: normal;
+    font-weight: bold;
+}
+/**
+ * @subsection  Customer Header
+ */
+#Header {
+    padding: 18px 21px 15px;
+    background: #AAA url(img/GradientSmall.png) repeat-x 0 0;
+    position: relative;
+}
+#Header a {
+    color: transparent;
+    outline: none;
+}
+#Header h1 {
+    left: 124px;
+    top: 20px;
+    font-size: 21px;
+    position: absolute;
+    text-shadow: 0 1px 0 #EEE;
+}
+/**
+ * @subsection  forms
+ */
+form { 
+    margin: 5px 0;
+    position: relative;
+}
+
+label {
+    margin-right: 8px;
+    padding: 2px 0;
+    width: 80px;
+    text-align: right;
+    float: left;
+    font-size: 12px;
+}
+
+input[type=text] {
+    width: 250px;
+}
+
+button {
+    padding: 3px 7px;
+    line-height: 14px;
+}
+
+/**
+ * @subsection  Login Customer Slider
+ */
+#Slider > div {
+    margin-bottom: 21px;
+    display: none;
+}
+#Slider > div.Active {
+    display: block;
+}
+
+/**
+ * @subsection  Footer
+ */
+#Footer {
+    width: 100%;
+    color: #AAA;
+}
+
+#Footer > * {
+    margin: 8px;
+    float: left;
+}
+
+.RTL #Footer > * {
+    float: right;
+}
+
+#Footer ul {
+    margin-left: 13px;
+}
+
+#Footer ul li {
+    float: left;
+    padding: 0 4px 0 0;
+}
+
+.RTL #Footer ul li {
+    float: right;
+    padding: 0 0 0 4px;
+}
+
+#Footer a {
+    color: #999;
+    font-weight: bold;
+}
+
+#Footer a:hover {
+    color: #F92;
+}
+
+/**
+ * @subsection  Clear
+ */
+.Clear {
+    float: none !important;
+    clear: both !important;
+}
+
+.ClearLeft,
+.RTL .ClearRight {
+    float: none !important;
+    clear: left !important;
+}
+
+.ClearRight,
+.RTL .ClearLeft {
+    float: none !important;
+    clear: right !important;
+}
+
+br.Clear,
+br.ClearLeft,
+br.ClearRight {
+    height: 0;
+    line-height: 0;
+}

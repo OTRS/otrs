@@ -1,0 +1,58 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @author      Felix Niklas
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Moos"
+ */
+
+/**
+ * @section     Link color
+ */
+
+ a { color: #B4D92C; }
+
+/**
+ * @section     ToolBar sprite
+ */
+
+ #ToolBar span,
+ #ToolBar a {
+    background-image: url(img/toolbar_sprite.png);
+}
+
+/**
+ * @section     LogoutButton sprite
+ */
+
+#UserInfo a.LogoutButton {
+    background-image: url(img/logout_sprite.png);
+}
+
+/**
+ * @section     Navigation sprite
+ */
+
+#Navigation li,
+#Navigation li a {
+    background-image: url(img/navigation_sprite.png);
+}
+
+/**
+ * @section      Navigation underline
+ */
+#Navigation a span {
+    background-image: url(img/navigation_underline_bg.png);
+}
+
+/**
+ * @section      Navigation Level-1 to Level 3
+ */
+
+#Navigation li.Active ul a {
+    background-image: url(img/navigation_ul_bg.png);
+}

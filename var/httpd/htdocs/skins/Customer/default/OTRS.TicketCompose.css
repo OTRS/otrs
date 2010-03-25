@@ -1,0 +1,56 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     OTRS Framework - Skin "Default"
+ * @section     Customer
+ */
+
+.TicketCompose form,
+.Preferences form,
+.Search form {
+    margin: 0;
+    padding: 8px 0 0;
+    background: url(img/gradient_grey_bottom.png) repeat-x bottom;
+}
+
+form div {
+    padding: 5px 0 2px;
+    clear: left;
+}
+form div > div {
+    padding: 0;
+    position: absolute;
+}
+form div > div + div {
+    position: relative;
+    left: 133px;
+}
+
+form .ActionRow {
+    height: auto;
+    margin-top: 8px;
+    padding: 5px 0 5px 87px;
+    border-top: 1px solid #DDD;
+}
+
+.Preferences form .ActionRow {
+    padding-left: 147px;
+}
+
+.Paragraph {
+    margin-top: 21px;
+}
+
+.Success {
+    padding-left: 20px;
+    background: url(img/accept.png) no-repeat center left;
+}
+
+.Preferences label {
+    width: 140px;
+}

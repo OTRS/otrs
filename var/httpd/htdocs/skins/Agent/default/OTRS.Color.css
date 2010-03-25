@@ -1,0 +1,63 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ */
+
+/**
+ * @section     Colors
+ */
+
+/*
+ * Used colors in OTRS:
+ * ---------------------
+ *
+ * #XXXXXX  Description
+ *
+ * #000     Breadcrumb Link,
+ *          Navigation 3rd lebel background     Black
+ * #333     Top of page Link,
+ *          Navigation 1st level background     Grey
+ * #555     Filter font color,
+ *          DataTable border,
+ *          DataTable Head Link Color,
+ *          Content Widget H2 border,
+ *          Form Label                          Grey
+ * #888     AdminScreens Explanation Hover,
+ *          Form FieldExplanation,
+ *          WidgetGradient Headline font,
+ *          WidgetBox Headline font,
+ *          Content Widget Rule BG,
+ *          Overview Preview Info Tbl Label     Grey
+ * #999     Breadcrumb, Footer Font-Color,
+ *          Overview label font color,
+ *          Gradient Widget border color,
+ *          ControlRow background,
+ *          ActionRow background                Grey
+ * #BBB     Header UserInfo,
+ *          Overview Active Preview Border,
+ *          Content Widget border color,
+ *          Overview Table border               Grey
+ * #DDD     AdminScreens Explanation,
+ *          Navigation Font color,
+ *          Tabs Active font color,
+ *          DataTable background,
+ *          Content Widget H2 BG,
+ *          Content Widget Header BG,
+ *          Overview Preview Info Table BG,
+ *          PopUpWidget border                  Grey
+ * #EEE     Even Rows                           Grey
+ * #FFF     Header Font-Color
+ *          PopUpWidget background              White
+ * #202020  Navigation 2nd level background     Grey
+ * #634E2D  Overview Hover Label font color     Grey
+ * #8BEF4D  Overview flag new                   Green
+ * #E95F53  Overview flag escalated             Red
+ * #F39C19  Default Link Color                  Orange
+ * #FFDD50  Overview flag warning               Yellow
+ */

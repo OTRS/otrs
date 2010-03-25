@@ -1,0 +1,541 @@
+/**
+ * This file containts the CSS Styles for the header
+ * with it's toolbar, the userbar and the whole main navigation
+ *
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Header
+ */
+
+/**
+ * @subsection  Header
+ */
+#Header {
+    height: 72px; /* 94px height - 10px - 12px padding */
+    padding: 10px 0 12px;
+    background: url(img/header_bg.png) repeat-x;
+    color: #FFF;
+    position: relative;
+}
+
+/**
+ * @subsection  Logo
+ */
+#Logo {
+    top: -4px;
+    right: 38px;
+    width: 244px;
+    height: 67px;
+    background: url(img/logo_bg.png) no-repeat;
+    position: absolute;
+}
+
+.RTL #Logo {
+    right: auto;
+    left: 38px;
+}
+
+
+/**
+ * @subsection  Toolbar
+ */
+#ToolBar {
+    top: 12px;
+    left: 14px;
+    position: absolute;
+}
+
+.RTL #ToolBar {
+    left: auto;
+    right: 14px;
+}
+
+#ToolBar li {
+    width: 24px;
+    height: 34px;
+    margin: 0 5px;
+    float: left;
+    position: relative;
+}
+
+.RTL #ToolBar li {
+    float: right;
+}
+
+#ToolBar span,
+#ToolBar a {
+    background: url(img/toolbar_sprite.png) no-repeat;
+}
+
+#ToolBar span {
+    left: 0;
+    top: 22px;
+    height: 14px;
+    width: 24px;
+    position: absolute;
+}
+
+.RTL #ToolBar span {
+    left: auto;
+    right: 0;
+}
+
+#ToolBar a {
+    height: 22px;
+    width: 24px;
+    text-indent: -9999px;
+    position: relative;
+    display: block;
+}
+
+#ToolBar .Alerts a {
+    background-position: 0 0;
+    }
+
+#ToolBar .Stacks a {
+    background-position: -24px 0;
+}
+
+#ToolBar .Dates a {
+    background-position: -48px 0;
+}
+
+#ToolBar .Mails a {
+    background-position: -72px 0;
+}
+
+#ToolBar .Global a {
+    background-position: -96px 0;
+}
+
+#ToolBar .Alerts span {
+    background-position: 0 -22px;
+}
+
+#ToolBar .Stacks span {
+    background-position: -24px -22px;
+}
+
+#ToolBar .Dates span {
+    background-position: -48px -22px;
+}
+
+#ToolBar .Mails span {
+    background-position: -72px -22px;
+}
+
+#ToolBar .Global span {
+    background-position: -96px -22px;
+}
+
+#ToolBar a span {
+    right: -5px;
+    left: auto;
+    top: -5px;
+    width: auto;
+    font-size: 11px;
+    color: #FFF;
+    background: transparent;
+    text-indent: 0;
+}
+
+.RTL #ToolBar a span {
+    right: auto;
+    left: -5px;
+}
+
+/**
+ * @subsection  UserInfo
+ */
+#UserInfo {
+    top: 12px;
+    right: 40px;
+    padding: 4px 25px 0 0;
+    color: #BBB;
+    font-size: 11px;
+    position: absolute;
+    cursor: default;
+}
+
+.RTL #UserInfo {
+    right: auto;
+    left: 4px;
+    padding: 4px 0 0 25px;
+}
+
+#UserInfo a.LogoutButton {
+    top: 9px;
+    right: 0;
+    width: 20px;
+    height: 18px;
+    text-indent: -9999px;
+    background: url(img/logout_sprite.png) no-repeat left top;
+    position: absolute;
+}
+
+.RTL #UserInfo a.LogoutButton {
+    right: auto;
+    left: 0;
+}
+
+#UserInfo a:hover.LogoutButton {
+    background-position: left bottom;
+}
+
+.RTL #UserInfo a:hover.LogoutButton {
+    background-position: right bottom;
+}
+
+/**
+ * @subsection      Navigation Level-0
+ */
+#Navigation {
+    top: 51px;
+    left: 10px;
+    position: absolute;
+}
+
+.RTL #Navigation {
+    left: auto;
+    right: 10px;
+}
+
+/**
+ * @subsection      Main hover effect
+ */
+#Navigation > li,
+#Navigation > li > a {
+    background: url(img/navigation_sprite.png) repeat-x;
+}
+
+#Navigation > li {
+    padding-left: 2px;
+    padding-right: 0;
+    float: left;
+    background-position: top left;
+    position: relative;
+}
+
+.RTL #Navigation > li {
+    float: right;
+}
+
+#Navigation > li > a {
+    height: 26px;
+    padding: 5px 15px 3px 2px;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 12px;
+    color: #DDD;
+    background-position: top right;
+    text-transform: uppercase;
+    display: block;
+}
+
+.RTL #Navigation > li > a {
+    padding: 5px 5px 3px 12px;
+}
+
+#Navigation > li:hover > a {
+    color: #FFF;
+    background-position: right -34px;
+}
+
+.RTL #Navigation > li:hover > a {
+    background-position: right -34px;
+}
+
+#Navigation > li:hover {
+    background-position: left -34px;
+    cursor: pointer;
+}
+
+.RTL #Navigation > li:hover {
+    background-position: left -34px;
+}
+
+#Navigation > .Selected {
+    background-position: left -68px;
+    z-index: 110;
+}
+
+.RTL #Navigation > .Selected:hover {
+    background-position: left -68px;
+}
+
+#Navigation > .Selected > a {
+    color: #FFF;
+    background-position: right -68px;
+}
+
+.RTL #Navigation > .Selected:hover > a{
+    background-position: right -68px;
+}
+
+#Navigation > .Active {
+    background-position: left -103px;
+    z-index: 110;
+}
+
+.RTL #Navigation > .Active:hover {
+    background-position: left -103px;
+}
+
+#Navigation > .Active > a {
+    color: #F92;
+    background-position: right -103px;
+}
+
+.RTL #Navigation > .Active:hover > a {
+    background-position: right -103px;
+}
+
+/**
+ * @subsection      Navigation underline
+ */
+#Navigation > li > a > span {
+    display: block;
+    position: absolute;
+    top: 34px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: url(img/navigation_underline_bg.png) no-repeat right -5px;
+}
+
+#Navigation > li > a > span > span {
+    display: block;
+    position: absolute;
+    width: 2px;
+    height: 5px;
+    background: url(img/navigation_underline_bg.png) no-repeat left -5px;
+}
+
+#Navigation > li:hover > a > span {
+    background-position: right 0;
+}
+
+.RTL #Navigation > li:hover > a > span {
+    background-position: left 0;
+}
+
+#Navigation > li:hover > a > span > span {
+    background-position: left 0;
+}
+
+.RTL #Navigation > li:hover > a > span > span {
+    background-position: right 0;
+}
+
+/* No underline on active and selected element */
+#Navigation .Active a:hover > span {
+    background-position: right -5px;
+}
+
+#Navigation .Active a:hover > span > span {
+    background-position: left -5px;
+}
+
+#Navigation .Selected a:hover > span {
+    background-position: right -5px;
+}
+
+#Navigation .Selected a:hover > span > span {
+    background-position: left -5px;
+}
+
+.RTL #Navigation .Active a:hover > span {
+    background-position: right -5px;
+}
+
+.RTL #Navigation .Active a:hover > span > span {
+    background-position: left -5px;
+}
+
+.RTL #Navigation .Selected a:hover > span {
+    background-position: right -5px;
+}
+
+.RTL #Navigation .Selected a:hover > span > span {
+    background-position: left -5px;
+}
+/**
+ * @subsection      Search icon
+ */
+#Navigation .Search {
+    width: 28px;
+}
+
+#Navigation a span.SearchIcon {
+    top: 7px;
+    left: 15px;
+    width: 17px;
+    height: 16px;
+    text-indent: -9999px;
+    background: url(img/search_bg.png) no-repeat left top;
+}
+
+/**
+ * @subsection      Navigation Second level
+ */
+
+#Navigation > li > div {
+    display: none;
+}
+
+#Navigation > .Active > div {
+    position: absolute;
+    top: 28px;
+    left: -5px;
+    display: block;
+}
+
+.RTL #Navigation > .Active > div {
+    left: auto;
+    right: -9px;
+}
+
+#Navigation > .Active .ShadowTop {
+    height: 14px;
+    background: url(img/navigation_shadow_top.png) no-repeat;
+    width: 254px;
+}
+
+.RTL #Navigation > .Active .ShadowTop {
+    background-position: top right;
+}
+
+#Navigation > .Active .Footer {
+    position: absolute;
+    bottom: 10px;
+    height: 8px;
+    width: 240px;
+    margin-left: 5px;
+    background: #333;
+}
+
+.RTL #Navigation > .Active .Footer {
+    margin-left: 0px;
+    margin-right: 9px;
+}
+
+#Navigation > .Active .ShadowBottom {
+    height: 10px;
+    width: 254px;
+    background: url(img/navigation_shadow_bottom.png) no-repeat;
+}
+
+#Navigation > .Active .Shadow {
+    width: 254px;
+    background: url(img/navigation_shadow.png) repeat-y;
+}
+
+.RTL #Navigation > .Active .Shadow {
+    background-position: top right;
+}
+
+#Navigation > .Active .Shadow > ul {
+    position: relative;
+    top: -8px;
+    width: 240px;
+    margin-left: 5px;
+    margin-top: 1px;
+    background: #333;
+}
+
+.RTL #Navigation > .Active .Shadow > ul {
+    margin-right: 9px;
+}
+
+#Navigation > .Active .Shadow > ul > li {
+    font-size: 11px;
+    line-height: 11px;
+    margin-top: -1px;
+    position: relative;
+}
+
+#Navigation > .Active .Shadow > ul > li:hover {
+    background: url(img/navigation_hover.png) repeat-x;
+}
+
+#Navigation > .Active .Shadow > ul > li:hover > a {
+    color: #000;
+}
+
+#Navigation > .Active .Shadow > ul > li:hover > a > span {
+    background-position: bottom;
+}
+
+#Navigation > .Active .Shadow > ul > li > a {
+    display: block;
+    position: relative;
+    color: #DDD;
+    padding: 4px 10px 4px 8px;
+    background: transparent url(img/navigation_isolator.png) no-repeat top center;
+}
+
+#Navigation > .Active .Shadow > ul > li:first-child > a {
+    background-image: none;
+}
+
+#Navigation > .Active .Shadow > ul > li > a > span {
+    display: block;
+    position: absolute;
+    background: url(img/triangle_bg.png) no-repeat top;
+    height: 5px;
+    width: 9px;
+    right: 10px;
+    top: 7px;
+}
+
+.RTL #Navigation > .Active .Shadow > ul > li > a > span {
+    right: auto;
+    left: 10px;
+}
+
+/**
+ * @subsection      Navigation Third and Fourth level
+ */
+
+#Navigation > .Active li > div {
+    display: none;
+}
+
+#Navigation > .Active .Active > div {
+    position: absolute;
+    top:0px;
+    z-index: 1;
+    display: block;
+}
+
+#Navigation > .Active .Active > div.Right {
+    left: 232px;
+}
+
+.RTL #Navigation > .Active .Active > div.Right {
+    left: -242px;
+}
+
+#Navigation > .Active .Active > div.Left {
+    left: -242px;
+}
+
+.RTL #Navigation > .Active .Active > div.Left {
+    left: 232px;
+}
+
+#Navigation > .Active .Active .Shadow > ul,
+#Navigation > .Active .Active .Footer {
+    background: #202020;
+}
+
+#Navigation > .Active .Active .Active .Shadow > ul,
+#Navigation > .Active .Active .Active .Footer {
+    background: #000;
+}

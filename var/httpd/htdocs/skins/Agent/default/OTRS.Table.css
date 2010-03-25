@@ -1,0 +1,370 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Tables
+ */
+
+
+/**
+ * @subsection  Generic table elements
+ */
+tbody tr.UnreadArticles td {
+    font-weight: bold !important;
+}
+
+.DataTable td,
+.TableSmall td {
+    line-height: 15px;
+    vertical-align: middle;
+}
+
+.DataTable tr,
+.TableSmall tr {
+    height: 20px !important;
+}
+
+/**
+ * @subsection  Standard DataTable
+ */
+table.DataTable {
+    border: 1px solid #CCCCCC;
+    width: 100%;
+}
+
+table.DataTable thead {
+    background-color: #DDD;
+    border-bottom:1px solid #CCC;
+}
+
+table.DataTable thead th {
+    padding: 0px;
+    vertical-align: bottom;
+    border-right: 1px solid #AAA;
+}
+
+table.DataTable thead th.Last {
+    background: none;
+    border-right: none;
+}
+
+table.DataTable thead th {
+    background-image: none;
+    color: #444444;
+    font-size: 11px;
+    line-height: 12px;
+    padding: 3px 4px 0;
+    text-transform: uppercase;
+}
+
+table.DataTable thead th a {
+    background-image: none;
+    color: #444444;
+    font-size: 11px;
+    height: 12px;
+    line-height: 12px;
+}
+
+table.DataTable thead .SortAscending a,
+table.DataTable thead .SortDescending a {
+    color: #2A2A2A;
+    padding-right: 15px;
+}
+
+table.DataTable thead .SortAscending a {
+    background: url(img/thead_sortup_bg.png) no-repeat center right;
+}
+
+table.DataTable thead .SortDescending a {
+    background: url(img/thead_sortdown_bg.png) no-repeat center right;
+}
+
+table.DataTable tbody td {
+    padding: 0px 4px;
+    border-right: 1px dotted #CCC;
+}
+
+table.DataTable tbody td.Last {
+    border-right: none;
+}
+
+table.DataTable tr td {
+    background-color: #FFF;
+    line-height: 14px;
+}
+
+table.DataTable tr.Even td {
+    background-color: #F5F5F5;
+}
+
+table.DataTable tr:hover td {
+    background: url(img/table_small_hover_bg.png) repeat-x center;
+}
+
+table.DataTable tr:hover td a {
+    color: #000;
+}
+
+table.DataTable td:first-child input {
+    margin: 0;
+}
+
+/**
+ * @subsection  Overview Small View Table
+ */
+.TableSmall {
+    width: 99.8%;
+    font-size: 12px;
+    border: none;
+}
+
+th.Checkbox,
+td.Checkbox {
+    width: 30px;
+}
+
+th.Flags {
+    width: 34px;
+}
+
+td.Flags {
+    width: 29px;
+}
+
+th.UnreadArticles,
+td.UnreadArticles {
+    width: 30px;
+}
+
+th.Direction,
+td.Direction {
+    width: 40px;
+}
+
+th.Attachment,
+td.Attachment {
+    width: 40px;
+    padding-left: 5px !important;
+}
+
+.TableSmall thead th {
+    vertical-align: bottom;
+    border-right: 1px solid #AAA;
+}
+
+.TableSmall thead th.Last {
+    border-right: none;
+}
+
+.TableSmall thead a {
+    padding: 4px 5px;
+    color: #444;
+    font-size: 11px;
+    line-height: 18px;
+    height: 15px;
+    text-transform: uppercase;
+    display: block;
+    background-image: none;
+}
+
+.TableSmall thead .SortAscending a,
+.TableSmall thead .SortDescending a {
+    color: #2A2A2A;
+}
+
+.TableSmall thead .SortAscending a {
+    background: url(img/thead_sortup_bg.png) no-repeat center right;
+    padding-right: 20px;
+}
+
+.RTL .TableSmall thead .SortAscending a {
+    background: url(img/thead_sortup_bg_rtl.png) no-repeat center left;
+}
+
+.TableSmall thead .SortDescending a {
+    background: url(img/thead_sortdown_bg.png) no-repeat center right;
+    padding-right: 20px;
+}
+
+.RTL .TableSmall thead .SortDescending a {
+    background: url(img/thead_sortdown_bg_rtl.png) no-repeat center left;
+}
+
+.TableSmall thead a span {
+    display: block;
+    height: 15px;
+}
+
+.TableSmall thead a span.Direction {
+    background: url(img/direction_header.png) no-repeat center;
+}
+
+.TableSmall thead a span.Attachments {
+    background: url(img/attachment_header.png) no-repeat center;
+}
+
+.TableSmall thead a span.Flag {
+    height: 9px;
+    width: 16px;
+    background-color: #999;
+    margin-top: 6px;
+}
+
+.TableSmall thead a.UnreadArticles {
+    padding-left: 1px;
+}
+
+.TableSmall thead a span.UnreadArticles {
+    background-position: 0px -20px;
+}
+
+.TableSmall tbody tr.Last {
+    border-bottom: 1px solid #CCC;
+}
+
+.TableSmall tbody tr {
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+}
+
+.TableSmall tbody tr.Active {
+    border: 2px solid #F92;
+}
+
+.TableSmall tr.Active:hover td {
+    background-image: none;
+}
+
+.TableSmall td {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.TableSmall td.NonTextContent {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.TableSmall td a {
+    color: #000;
+}
+
+.TableSmall td.Last {
+    background: none;
+}
+
+.TableSmall tr.Even td {
+    background-color: #F5F5F5;
+}
+
+.TableSmall tr:hover td {
+    background: url(img/table_small_hover_bg.png) repeat-x center;
+}
+
+.TableSmall tr:hover + tr td {
+    background-image: url(img/tr_hover_next_shadow.png);
+    background-repeat: repeat-x;
+    backgrpund-position: top;
+}
+
+.TableSmall td:first-child {
+    padding-top: 1px;
+}
+
+.TableSmall tbody .Flags {
+    line-height: 11px;
+    padding-top: 2px;
+    padding-left: 5px;
+}
+
+.TableSmall tbody td span.Direction {
+    display: block;
+    width: 24px;
+    height: 15px;
+    text-indent: -9999px;
+}
+
+.TableSmall tbody td span.Direction.Incoming {
+    background: url(img/direction_incoming.png) no-repeat center;
+}
+
+.TableSmall tbody td span.Direction.Outgoing {
+    background: url(img/direction_outgoing.png) no-repeat center;
+}
+
+.TableSmall tbody td span.Direction.Internal {
+    background: url(img/direction_internal.png) no-repeat center;
+}
+
+.TableSmall tbody td span.Attachment {
+    display: block;
+    width: 24px;
+    height: 16px;
+    text-indent: -9999px;
+    background: url(img/attachment.png) no-repeat center;
+    cursor: pointer;
+}
+
+.TableSmall tbody td span.Attachment:hover {
+    background-image: url(img/attachment_hover.png);
+}
+
+.TableSmall td h2 {
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+/**
+ * @subsection  Table Context Settings
+ */
+.TableContextSettings {
+    position: absolute;
+    right: 0px;
+    top: 28px;
+}
+
+.TableContextSettings a {
+    display: block;
+    width: 18px;
+    height: 19px;
+    background: url(img/contextsettings.png) no-repeat 5px 4px;
+    text-indent: -9999px;
+}
+
+/**
+ * @subsection  Handle for resizing tables
+ */
+.Handle {
+    position: absolute;
+    bottom: 0 !important;
+    border-top: 1px solid #616161;
+    background-color: #FFF;
+    width: 100%;
+}
+
+.Handle a {
+    display: block;
+    margin: auto;
+    height: 9px;
+    width: 79px;
+    background: transparent url(img/handle.png) no-repeat;
+    text-indent: -9999px;
+    cursor: s-resize;
+}
+
+.Handle.ui-resizable-s {
+    cursor:auto;
+    height:auto; !important;
+    left:auto;
+}
+
+.Handle.ui-resizable-handle {
+    display:block;
+    font-size: inherit;
+    z-index:99999;
+}

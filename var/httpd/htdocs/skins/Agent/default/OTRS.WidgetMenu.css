@@ -1,0 +1,451 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     WidgetMenu
+ */
+
+/**
+ * @subsection  Control Row
+ */
+.ControlRow {
+    height: 25px;
+    background: url(img/controlrow.png) repeat-x;
+    width: 100%;
+    position: relative;
+}
+
+.ControlRow a {
+    color: #555;
+}
+
+.ControlRow a:hover {
+    color: #333;
+}
+
+/**
+ * @subsection  Control Row Tabs
+ */
+.RTL .ControlRow .Tabs {
+    float: right;
+}
+
+.ControlRow .Tabs li {
+    margin-left: -3px;
+    float: left;
+    position: relative;
+}
+
+.RTL .ControlRow .Tabs li {
+    float: right;
+}
+
+.ControlRow .Tabs a {
+    display: block;
+    background: url(img/tab_isolator.png) no-repeat center right;
+    padding: 7px 12px 6px 11px;
+    color: #111;
+    font-size: 11px;
+}
+
+.RTL .ControlRow .Tabs li:first-child a {
+    background-image: none;
+}
+
+.ControlRow .Tabs li.Active {
+    padding-left: 2px;
+    background: url(img/tabs_active_door.png) no-repeat top left;
+}
+
+.ControlRow .Tabs li.Active a {
+    color: #FFF;
+    background: url(img/tabs_active_bg.png) no-repeat bottom right;
+}
+
+.ControlRow .Tabs li:hover a {
+    background: url(img/overviewcontrol_hover1.png) no-repeat top right;
+}
+
+.ControlRow .Tabs li:hover {
+    background: url(img/overviewcontrol_hover2.png) no-repeat top left;
+}
+
+.ControlRow .Tabs li:active {
+    background: url(img/tabs_active_bg.png) no-repeat top right;
+}
+
+.ControlRow .Tabs li:active a {
+    background: none;
+}
+
+.ControlRow .Tabs a span {
+    padding-left: 4px;
+}
+
+/**
+ * @subsection  Context Functions
+ */
+ul.ContextFunctions {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.RTL ul.ContextFunctions {
+    right: auto;
+    left: 0px;
+}
+
+h1 ul.ContextFunctions {
+    top: -4px;
+}
+
+ul.ContextFunctions li {
+    float: left;
+    margin-left: -3px;
+    padding-left: 3px;
+}
+
+ul.ContextFunctions li span {
+    text-indent: -9999px;
+}
+
+.RTL ul.ContextFunctions li {
+    float: right;
+}
+
+ul.ContextFunctions li.ContextHelp {
+    background: url(img/tab_isolator.png) no-repeat center right;
+}
+
+.RTL ul.ContextFunctions li.ContextHelp {
+    background-position: center left;
+}
+
+ul.ContextFunctions li.ContextHelp a,
+ul.ContextFunctions li.ContextSettings a {
+    display: block;
+    width: 21px;
+    height: 24px;
+    padding: 0;
+}
+
+ul.ContextFunctions li.ContextHelp a span,
+ul.ContextFunctions li.ContextSettings a span {
+    display: block;
+    width: 21px;
+    height: 24px;
+}
+ul.ContextFunctions li.ContextHelp a span {
+    background: transparent url(img/contexthelp.png) no-repeat 6px center;
+}
+
+ul.ContextFunctions li.ContextSettings a span {
+    background: url(img/arrow_outlined_right.png) no-repeat center center;
+}
+
+.RTL ul.ContextFunctions li.ContextSettings a span {
+    background-image: url(img/arrow_outlined_left.png);
+}
+
+ul.ContextFunctions li.ContextSettings a:hover {
+    background: url(img/overviewcontrol_hover1.png) no-repeat top right;
+}
+
+ul.ContextFunctions li.ContextSettings:hover {
+    background: url(img/overviewcontrol_hover2.png) no-repeat top left;
+}
+
+ul.ContextFunctions li.ContextHelp a:hover {
+    background: url(img/overviewcontrol_hover1.png) no-repeat top right;
+}
+
+ul.ContextFunctions li.ContextHelp:hover {
+    background: url(img/overviewcontrol_hover2.png) no-repeat top left;
+}
+
+/**
+ * @subsection  Control Row DataSet Navigation (Previous / Next)
+ */
+.RTL .DataSetNavigation {
+    float: right;
+}
+
+.DataSetNavigation li {
+    float: left;
+    width: 26px;
+    height: 24px;
+    margin-left: -2px;
+}
+
+.DataSetNavigation li a{
+    display: block;
+    width: 26px;
+    height: 24px;
+    text-indent: -9999px;
+}
+
+.DataSetNavigation li a span{
+    margin: 9px 7px;
+    display: block;
+    width: 11px;
+    height: 9px;
+    background: transparent url(img/arrows.png) no-repeat;
+}
+
+.DataSetNavigation li.Previous a span {
+    background-position: left top;
+}
+
+.DataSetNavigation li.Next a span {
+    background-position: right top;
+}
+
+.DataSetNavigation li:first-child {
+    background: transparent url(img/tab_isolator.png) no-repeat 22px 6px;
+    margin-left: 0px;
+    width: 24px;
+}
+
+.RTL .DataSetNavigation li:first-child {
+    margin-right: 0px;
+}
+
+.DataSetNavigation li:first-child a {
+    width: 24px;
+}
+
+.DataSetNavigation li:hover a {
+    background: url(img/overviewcontrol_hover1.png) no-repeat top right;
+}
+
+.DataSetNavigation li:hover {
+    background: url(img/overviewcontrol_hover2.png) no-repeat top left;
+}
+
+/**
+ * @subsection  Control Row Headline
+ */
+.ControlRow h2 {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 24px;
+    height: 24px;
+    padding-top: 1px;
+    margin-left: 5px;
+}
+
+.ControlRow .DataSetNavigation + h2 {
+    margin-left: 60px;
+}
+
+.RTL .ControlRow .DataSetNavigation + h2 {
+    margin-left: 0px;
+    margin-right: 60px;
+}
+
+/**
+ * @subsection  Control Row Additional Information
+ */
+.ControlRow .AdditionalInformation {
+    position: absolute;
+    right: 6px;
+    top: 0px;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.RTL .ControlRow .AdditionalInformation {
+    right: auto;
+    left: 6px;
+}
+
+/**
+ * @subsection  Control Row Action Row
+ */
+.ActionRow {
+    background: url(img/actionrow_wrapper.png) repeat-x;
+    /* The background has a top dark grey line which is only needed, if this stands alone
+     * (without ControlRow above). With this margin/padding fix, it doesn't show this line
+     * in default use. */
+    margin-top: -1px;
+    padding-top: 1px;
+    border-bottom: 1px solid #666;
+    position: relative;
+}
+
+.ActionRow ul.Actions {
+    padding: 0;
+    float: left;
+}
+
+.RTL .ActionRow ul.Actions {
+    float: right;
+}
+
+.ActionRow ul.Actions li {
+    float: left;
+    height: 24px;
+    margin-left: -3px;
+    padding-left: 3px;
+}
+
+.RTL .ActionRow ul.Actions li {
+    float: right;
+}
+
+.ActionRow ul.Actions li:first-child {
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.ActionRow ul.Actions li a {
+    font-size: 11px;
+}
+
+.ActionRow ul.Actions li.Last a {
+    background: none;
+}
+
+.ActionRow ul.Actions li.NoHover:hover {
+    background: none;
+}
+
+.ActionRow ul.Actions li a {
+    color: #000000;
+    display: block;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 6px;
+    padding-bottom: 7px;
+    background: transparent url(img/tab_isolator.png) no-repeat center right;
+}
+
+.RTL .ActionRow ul.Actions li:first-child a {
+    background-image: none;
+}
+
+.ActionRow ul.Actions li:hover a {
+    background: url(img/overviewcontrol_hover1.png) no-repeat top right;
+}
+
+.ActionRow ul.Actions li:hover {
+    background: url(img/overviewcontrol_hover2.png) no-repeat top left;
+}
+
+.ActionRow ul.Actions form {
+    padding: 4px 8px;
+}
+
+.ActionRow ul.Actions li select {
+    font-size: 11px;
+}
+
+.ActionRow table tbody {
+    display: none;
+}
+
+.OverviewActions {
+    margin-bottom: 8px;
+}
+
+/**
+ * @subsection  Filter settings
+ */
+.Filter {
+    padding-top: 3px;
+    margin-left: 6px;
+    float: left;
+}
+
+.RTL .Filter {
+    margin-left: 0px;
+    margin-right: 6px;
+    float: right;
+}
+
+.Filter select {
+    font-size: 11px;
+}
+
+.Filter .Concat {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/**
+ * @subsection  Control Row Pagination
+ */
+.Pagination {
+    float: right;
+    margin-right: 0px;
+    font-size: 11px;
+}
+
+.RTL .Pagination {
+    float: left;
+}
+
+.Pagination > * {
+    float: left;
+}
+
+.RTL .Pagination > * {
+    float: right;
+}
+
+.Pagination > span {
+    margin-top: 3px;
+}
+
+.Pagination a {
+    height: 24px;
+    width: 24px;
+    display: block;
+}
+
+.Pagination a:hover {
+    background: url(img/overviewcontrol_hover2.png) no-repeat;
+}
+
+.Pagination a span {
+    margin: 7px 6px;
+    height: 9px;
+    width: 11px;
+    text-indent: -9999px;
+    background: url(img/arrows.png) no-repeat;
+    display: block;
+}
+
+.Pagination .ArrowLeft span {
+    background-position: left top;
+}
+
+.RTL .Pagination .ArrowLeft span {
+    background-position: right top;
+}
+
+.Pagination .ArrowRight span {
+    background-position: right top;
+}
+
+.RTL .Pagination .ArrowRight span {
+    background-position: left top;
+}
+
+.Pagination input {
+    width: 16px;
+    margin-right: 2px;
+    padding: 1px 3px;
+    font-size: 11px;
+    font-family: inherit;
+    text-align: right;
+}

@@ -1,0 +1,157 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @author      Felix Niklas
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Ivory"
+ */
+
+/**
+ * @section     Link color
+ */
+
+a {
+     color: #FFF;
+}
+
+/**
+ * @section     Header
+ */
+
+#Header {
+    background-image: none;
+    background-color: #000;
+}
+
+/**
+ * @section     Logo
+ * @note        place your company logo:
+ *              #Logo {
+ *                  top: logo_x_position;
+ *                  right: logo_y_poisition;
+ *                  height: logo_height;
+ *                  width: logo_width;
+ *                  background-image: url(../logo_path/logo.png);
+ *              }
+ */
+
+/**
+ * @section     ToolBar
+ */
+
+ #ToolBar span,
+ #ToolBar a {
+ background-image: none;
+}
+#ToolBar li {
+    width: auto;
+    margin-right: 5px;
+}
+#ToolBar a {
+    height: 12px;
+    width: auto;
+    padding: 5px;
+    color: #BBB;
+    text-indent: 0;
+}
+#ToolBar a:hover {
+    color: #FFF;
+}
+#ToolBar a span {
+    height: 12px;
+    padding: 1px 2px 0 2px;
+    background-color: #FF0000;
+    text-decoration: none;
+}
+
+/**
+ * @section     UserInfo LogoutButton
+ */
+
+#UserInfo {
+    top: 16px;
+    right: 40px;
+    margin-top: 4px;
+    padding: 0;
+    position: static;
+    cursor: default;
+    position: absolute;
+}
+#UserInfo a.LogoutButton {
+    text-indent: 0;
+    background-image: none;
+    position: static;
+}
+
+/**
+ * @section     Navigation
+ */
+
+#Navigation li,
+#Navigation li a {
+    background-image: none;
+}
+#Navigation li {
+    margin-right: 2px;
+    background-color: #1A1A1A;
+}
+#Navigation ul li {
+    margin: 0;
+}
+#Navigation li.Active ul a:hover {
+    color: #FFF;
+}
+#Navigation li:hover,
+#Navigation li.hover,
+#Navigation li.Active {
+    background-color: #444;
+}
+#Navigation li.Active ul li.Active a:hover {
+    color: #444;
+}
+
+/**
+ * @section      Navigation Triangle
+ */
+
+#Navigation li.Active a:hover.Triangle span {
+    background-color: transparent;
+}
+
+/**
+ * @section      Navigation underline
+ */
+#Navigation a span {
+    background-image: none;
+}
+#Navigation a:hover span {
+    background-color: #444;
+    border-top: 1px solid #000;
+}
+#Navigation a:hover span {
+    background-color: #444;
+    border-top: 1px solid #000;
+}
+#Navigation a span.SearchIcon,
+#Navigation ul a:hover span {
+    border-top: none;
+}
+
+/**
+ * @section      Navigation Level-1 to Level-3
+ */
+
+#Navigation li.Active ul a {
+    background-image: none;
+}
+#Navigation li.Active ul li.Active ul a:hover {
+    color: #FFF;
+    background-color: #333;
+}
+#Navigation li.Active ul li.Active ul ul a:hover {
+    background-color: #1A1A1A;
+}

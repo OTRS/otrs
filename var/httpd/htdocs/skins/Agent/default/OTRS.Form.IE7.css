@@ -1,0 +1,45 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ * @css-for     IE7
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Forms
+ */
+
+/**
+ * @subsection  Input focus
+ * @note        Fix for missing hover pseudoclass
+ */
+
+input.Focus,
+textarea.Focus {
+    border: 1px solid #F92;
+}
+
+/**
+ * @subsection  Input Readonly
+ * @note        Fix for missing attribute selector
+ */
+input.Readonly,
+textarea.Readonly {
+    background-color: #DDD;
+}
+
+/**
+ * @subsection  TableLike alignment
+ */
+fieldset.TableLike > .Value {
+    line-height: 20px;
+    margin: 0 0 0 30%;
+}
+
+fieldset.TableLike > label {
+    margin-bottom: 2px;
+    margin-top: 2px;
+    line-height: 16px;
+}

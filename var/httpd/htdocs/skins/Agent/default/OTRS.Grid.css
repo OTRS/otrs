@@ -1,0 +1,129 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Grid
+ */
+
+/**
+ * @subsection  LayoutFixedSidebar
+ */
+
+.LayoutFixedSidebar {
+    display: block;
+}
+
+.LayoutFixedSidebar > .ContentColumn {
+    /**
+     * @note    force own Block Formatting Context for nested floats
+     */
+    overflow: hidden;
+}
+
+.LayoutFixedSidebar.SidebarLast > .SidebarColumn {
+    width: 270px;
+    float: right;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.RTL .LayoutFixedSidebar.SidebarLast > .SidebarColumn {
+    float: left;
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.LayoutFixedSidebar.SidebarFirst > .SidebarColumn {
+    width: 270px;
+    float: left;
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.RTL .LayoutFixedSidebar.SidebarFirst > .SidebarColumn {
+    float: right;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+/**
+ * @subsection   LayoutGrid
+ */
+.LayoutGrid {
+    /**
+     * @note    force own Block Formatting Context for nested floats
+     */
+    overflow: hidden;
+}
+
+.LayoutGrid > div,
+.LayoutGrid > li {
+    float: left;
+}
+
+.RTL .LayoutGrid > div,
+.RTL .LayoutGrid > li {
+    float: right;
+}
+
+.LayoutGrid > .Size1of2 {
+    width: 50%;
+}
+
+.LayoutGrid > .Size1of3 {
+    width: 33.333%;
+}
+
+.LayoutGrid > .Size2of3 {
+    width: 66.666%;
+}
+
+.LayoutGrid > .Size1of4 {
+    width: 25%;
+}
+
+.LayoutGrid > .Size2of4 {
+    width: 50%;
+}
+
+.LayoutGrid > .Size3of4 {
+    width: 75%;
+}
+
+.LayoutGrid > div > div,
+.LayoutGrid > li > div {
+    /**
+     * @note    force own Block Formatting Context for nested floats
+     */
+    overflow: hidden;
+}
+
+/**
+ * @note        ColumnsWithSpacing: inserts margins between the grid elements,
+ *                  but not on the outside.
+ */
+
+.LayoutGrid.ColumnsWithSpacing > div > div {
+    margin-left: 10px;
+    margin-right: 0;
+    margin-bottom: 10px;
+}
+
+.RTL .LayoutGrid.ColumnsWithSpacing > div > div {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+/*
+ * do not add left margin for first element in each row
+ */
+.LayoutGrid.ColumnsWithSpacing > div:first-child > div,
+.LayoutGrid.ColumnsWithSpacing > div.Clear + div > div {
+    margin-left: 0px;
+    margin-right: 0px;
+}

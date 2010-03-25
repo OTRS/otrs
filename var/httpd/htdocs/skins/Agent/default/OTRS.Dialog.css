@@ -1,0 +1,150 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Dialogs
+ */
+
+/**
+ * @subsection  Overlay
+ */
+#Overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+    filter: alpha(opacity = 50);
+    z-index: 200;
+}
+
+/**
+ * @subsection  Dialog
+ */
+.Dialog {
+    position: absolute;
+    z-index: 99999;
+}
+
+.Dialog > .Header {
+    height: 25px;
+    cursor: move;
+}
+
+.Dialog > .Header > span.LeftCorner {
+    display: block;
+    height: 25px;
+    width: 7px;
+    background: transparent url(img/dialog_header.png) no-repeat top left;
+    float: left;
+}
+
+.Dialog > .Header > span.LeftCorner + span {
+    display: block;
+    position: relative;
+    height: 25px;
+    margin-left: 7px;
+    background: transparent url(img/dialog_header.png) no-repeat top right;
+}
+
+.Dialog > .Header > span.LeftCorner + span a.Close{
+    display: block;
+    position: absolute;
+    height: 12px;
+    width: 12px;
+    background: transparent url(img/dialog_close.png) no-repeat;
+    right: 16px;
+    top: 6px;
+}
+
+.Dialog > .Header > span.LeftCorner + span a.Close:hover{
+    background-position: bottom;
+}
+
+.Dialog > .Header > span > h1 {
+    font-weight: normal;
+    font-size: 14px;
+    padding-top: 5px;
+}
+
+.Dialog > .Content {
+    background: transparent url(img/dialog_content.png) repeat-y right;
+    padding: 10px 13px 0px 0px;
+    min-height: 100px;
+    overflow: hidden;
+}
+
+.Dialog > .Content > .InnerContent {
+    padding: 10px 10px 0px 10px;
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+.Dialog > .Content > .ContentFooter {
+    background: #E6E6E6 url(img/GradientSmall.png) repeat-x bottom;
+    min-height: 20px;
+    border-top: 1px solid #CCC;
+    padding-top: 6px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.Dialog > .Footer > span.LeftCorner {
+    display: block;
+    height: 18px;
+    width: 14px;
+    background: transparent url(img/dialog_footer.png) no-repeat top left;
+    float: left;
+}
+
+.Dialog > .Footer > span.LeftCorner + span {
+    display: block;
+    position: relative;
+    height: 18px;
+    margin-left: 14px;
+    background: transparent url(img/dialog_footer.png) no-repeat top right;
+}
+
+.Dialog > .Footer.ContentFooter > span.LeftCorner,
+.Dialog > .Footer.ContentFooter > span.LeftCorner + span {
+    background-image: url(img/dialog_footer_em.png);
+}
+
+/**
+ * subsection       Alert
+ */
+
+.Dialog.Alert span.Icon {
+    display: block;
+    width: 22px;
+    height: 35px;
+    float: left;
+    background: transparent url(img/dialog_alert.png) no-repeat;
+}
+
+.Dialog.Alert h2,
+.Dialog.Alert p {
+    margin-left: 35px;
+}
+
+.Dialog.Alert {
+    width: 450px;
+    top: 100px;
+    left: 300px;
+}
+
+/**
+ * subsection       Search
+ */
+
+.Dialog.Search {
+    width: 550px;
+}

@@ -1,0 +1,107 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     OTRS Framework - Skin "Default"
+ * @section     TicketZoom
+ */
+
+.Content {
+    padding: 10px 10px 0;
+}
+
+.TicketZoom h2 {
+    padding-right: 10px;
+    font-size: 24px;
+    display: inline;
+    line-height: 1.6;
+}
+
+.TicketZoom h2 + span {
+    color: #666;
+}
+
+.TicketZoom .Age {
+    width: auto;
+}
+
+.TicketZoom iframe {
+    width: 100%;
+    border: none;
+    height: 530px;
+}
+
+#Messages {
+    border: 1px solid #CCC;
+    border-bottom: none;
+}
+
+.Message {
+    background: #FFF;
+    border-bottom: 1px solid #CCC;
+}
+.Message:last-child .MessageHead {
+    padding-bottom: 5px;
+}
+
+.MessageHead {
+    padding: 5px 13px 1px;
+    cursor: pointer;
+}
+
+.Details {
+    margin: 3px 0 5px;
+    line-height: 16px;
+    border-collapse: collapse;
+}
+.Details td {
+    padding-right: 55px;
+}
+.Details td:first-child {
+    color: #999;
+}
+.Details span {
+    display: none;
+    padding-left: 5px;
+    color: #BBB;
+}
+
+.MessageBody {
+    padding: 0 13px;
+    display: none;
+}
+
+.Message.Visible .MessageBody {
+    display: block;
+}
+
+.MessageFooter {
+    margin: 13px 0 2px;
+}
+.MessageFooter form {
+    margin-top: 2px;
+    padding: 8px 0;
+    border-top: 1px solid #CCC;
+    display: none;
+}
+.MessageFooter.Visible form {
+    display: block;
+}
+.MessageFooter .Reply {
+    margin-left: 3px;
+    padding: 3px 8px;
+    border: 1px solid #CCC;
+    border-bottom: none;
+}
+
+/**
+ * @subsection  Mail colors
+ */
+
+.Agent {
+    background-color: #F5F5F5;
+}

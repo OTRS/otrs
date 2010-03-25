@@ -1,0 +1,75 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     OTRS Framework - Skin "Default"
+ * @section     Login
+ */
+
+.Login #Header {
+    border-bottom: 1px solid #FFF;
+}
+
+.Login #Body { 
+    padding: 34px 55px;
+    border-top: 1px solid #EEE;
+}
+
+.Login label, input[type=text], input[type=password] {
+    font-size: 14px;
+}
+
+.Login form label {
+    top: 4px;
+    left: 7px;
+    width: auto;
+    color: #222;
+    position: absolute;
+    z-index: -1;
+    float: none;
+    text-align: left;
+}
+
+.Login form label.focused {
+    color: #AAA;
+}
+
+.Login form input {
+    width: 180px;
+    padding: 3px 5px;
+    background-color: transparent;
+    border: 1px solid #AAA;
+    -moz-border-radius: 3px;
+}
+
+.Login form input:focused { 
+    border-color: #F92;
+}
+
+.Login .InfoRow { 
+    padding: 3px 1px;
+    position: relative;
+}
+
+.Login .InfoRow input { 
+    width: 13px;
+}
+
+.Login .PasswordLabel {
+    left: 202px;
+}
+
+#ForgotPassword {
+    left: 199px;
+    position: absolute;
+}
+
+.Login #Footer {
+    left: 0;
+    bottom: 0;
+    position: absolute;
+}

@@ -1,0 +1,344 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Default Settings
+ */
+
+/**
+ * @subsection  Fonts
+ */
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    text-align: left;
+}
+
+.RTL {
+    text-align: right;
+    /* this will inherit to all elemtents because of reset.css */
+    direction: rtl;
+}
+
+/**
+ * @subsection  Print elements - Only show when page is printed
+ */
+.PrintOnly {
+    display: none;
+}
+
+/**
+ * @subsection  Hidden elements - Elements that are hidden at first
+ */
+.Hidden {
+    display: none;
+}
+
+/**
+ * @subsection      ARIA (Accessibility)
+ * @subsubsection   AlertMessage
+ * @note            This definition allows to create text on the page
+ *                  which is not seen, but will be read by the screen reader.
+ *                  display: none; cannot be used in this case.
+ */
+
+.ARIAAlertMessage {
+    position: absolute;
+    left: -10000px;
+    right: auto;
+    top: -10000px;
+}
+
+.RTL .ARIAAlertMessage {
+    left: auto;
+    right: -10000px;
+}
+
+/**
+ * @subsection  ElementPool - Hide elements for later use with JavaScript
+ */
+#UIElementPool {
+    display: none;
+}
+
+/**
+ * @subsection  Links
+ */
+
+a {
+    color: #F92;
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    color: #F72;
+}
+
+a.AsBlock {
+    display: block;
+}
+
+/**
+ * @subsection  Headings
+ */
+h1 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+h4 {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+h5 {
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/**
+ * @subsection  Paragraphs
+ * @note        Use paragraphs instead of <div>s for text-only, multiline content!
+ */
+p {
+    /* increase line-height for readability */
+    line-height: 1.3em;
+}
+
+
+/**
+ * @subsection  Text
+ */
+.Center {
+    text-align: center;
+}
+
+.Error {
+    color: #ff505e;
+}
+
+.Notice {
+    color: #333;
+}
+
+.Confirmation {
+    color: #069d07;
+}
+
+/**
+ * @subsection  Spacings
+ */
+.Spacing {
+    margin: 15px;
+}
+
+.SpacingTop {
+    margin-top: 15px;
+}
+
+.SpacingTopSmall {
+    margin-top: 7px;
+}
+
+.SpacingTopLarge {
+    margin-top: 100px;
+}
+
+/**
+ * @subsection  Clear
+ */
+.Clear {
+    float: none !important;
+    clear: both !important;
+}
+
+.ClearLeft,
+.RTL .ClearRight {
+    float: none !important;
+    clear: left !important;
+}
+
+.ClearRight,
+.RTL .ClearLeft {
+    float: none !important;
+    clear: right !important;
+}
+
+br.Clear,
+br.ClearLeft,
+br.ClearRight {
+    height: 0;
+    line-height: 0;
+}
+
+/**
+ * @subsection  MainBox
+ */
+.MainBox {
+    position: relative;
+    margin: 6px;
+}
+
+.OverviewBox {
+    position: relative;
+    margin-top: 6px;
+}
+
+.MainBox > h1,
+.OverviewBox > h1 {
+    margin: 5px 0 10px 0;
+    position: relative;
+}
+
+.OverviewBox > h1 {
+    margin: 8px 11px 7px;
+}
+
+/**
+ * @subsection  Standard Widths
+ */
+.W20pc {
+    width: 20%;
+}
+
+.W25pc {
+    width: 25%;
+}
+
+.W33pc {
+    width: 33%;
+}
+
+.W50pc {
+    width: 50%;
+}
+
+.W75pc {
+    width: 75%;
+}
+
+.W100pc {
+    width: 100%;
+}
+
+/**
+ * @subsection  MessageBox
+ */
+
+div.MessageBox {
+    border: 1px solid #BBB;
+    padding: 5px 20px 5px 7px;
+    margin: 6px;
+    position: relative;
+}
+
+.RTL div.MessageBox {
+    padding: 5px 7px 5px 20px;
+}
+
+div.MessageBox > p + p {
+    margin-top: 2px;
+}
+
+div.MessageBox > a.Close {
+    display: block;
+    position: absolute;
+    top: 7px;
+    left: auto;
+    right: 5px;
+    background: url(img/messagebox_close.png) no-repeat;
+    width: 12px;
+    height: 12px;
+}
+
+div.MessageBox > a.Close:hover {
+    background-position: 0 -12px;
+}
+
+.RTL div.MessageBox > a.Close {
+    left: 5px;
+    right: auto;
+}
+
+/**
+ * @subsection  Flag
+ */
+.Flag {
+    background: transparent url(img/flag_shadow.png) no-repeat scroll 0 0;
+    height: 18px;
+    width: 24px;
+}
+
+.Flag.Small {
+    width: 17px;
+    height: 10px;
+    background-position: bottom right;
+}
+
+.Flag span {
+    display: block;
+    height: 16px;
+    margin-right: 2px;
+    text-indent: -9999px;
+    cursor: pointer;
+}
+
+.Flag.Small span {
+    height: 8px;
+}
+
+.Flag span.Escalated {
+    background-color:#ff505e;
+}
+
+.Flag span.New {
+    background-color: #8bef4d;
+}
+
+.Flag span.Warning {
+    background-color: #ffdd50;
+}
+
+/**
+ * @subsection  "Unread" star
+ */
+span.UnreadArticles {
+    display: block;
+    text-indent: -9999px;
+    background: transparent url(img/stars.png) no-repeat;
+    width: 16px;
+    height: 20px;
+}
+
+span.UnreadArticles.Important {
+    background-position: top;
+}
+
+span.UnreadArticles.Unimportant {
+    background-position: 0px -20px;
+}
+
+tbody tr:hover span.UnreadArticles {
+    background-position: 0px -40px;
+}
