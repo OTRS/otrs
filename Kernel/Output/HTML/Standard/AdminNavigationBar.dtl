@@ -1,14 +1,15 @@
 # --
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNavigationBar.dtl,v 1.36 2009-12-24 09:46:21 mg Exp $
+# $Id: AdminNavigationBar.dtl,v 1.37 2010-03-25 15:41:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+<!-- dtl:block:DISABLED -->
 <!-- dtl:block:AdminNavBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
@@ -50,3 +51,4 @@
     </tr>
 </table>
 <!-- dtl:block:AdminNavBar -->
+<!-- dtl:block:DISABLED -->

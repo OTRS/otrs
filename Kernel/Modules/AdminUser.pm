@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.59 2009-12-15 12:07:48 mh Exp $
+# $Id: AdminUser.pm,v 1.60 2010-03-25 15:41:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -484,16 +484,8 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
-        my $CssClass  = '';
         for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            # set output class
-            if ( $CssClass && $CssClass eq 'searchactive' ) {
-                $CssClass = 'searchpassive';
-            }
-            else {
-                $CssClass = 'searchactive';
-            }
             my %UserData = $Self->{UserObject}->GetUserData(
                 UserID        => $_,
                 NoOutOfOffice => 1,
@@ -501,9 +493,8 @@ sub _Overview {
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {
-                    Valid    => $ValidList{ $UserData{ValidID} },
-                    CssClass => $CssClass,
-                    Search   => $Param{Search},
+                    Valid  => $ValidList{ $UserData{ValidID} },
+                    Search => $Param{Search},
                     %UserData,
                 },
             );
@@ -511,8 +502,7 @@ sub _Overview {
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRowSwitchToUser',
                     Data => {
-                        CssClass => $CssClass,
-                        Search   => $Param{Search},
+                        Search => $Param{Search},
                         %UserData,
                     },
                 );

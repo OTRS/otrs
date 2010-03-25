@@ -1,37 +1,69 @@
 # --
 # Footer.dtl - provides global HTML footer
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.26 2009-11-25 16:19:58 mg Exp $
+# $Id: Footer.dtl,v 1.27 2010-03-25 15:41:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-<!-- start footer -->
-<table border="0" width="$Data{"Width"}" cellspacing="0" cellpadding="0">
-    <tr class="footer">
-        <td align="right" class="footer">
-            <table border="0">
-                <tr>
-                    <td align="center" class="footer">
-                        <a href="#top" onmouseover="window.status='$JSText{"Top of Page"}'; return true;" onmouseout="window.status='';" class="footeritem">
-                        <img border="0" src="$Config{"Frontend::ImagePath"}up.png" alt="$Text{"Top of Page"}" />
-                        </a>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td align="right" class="small">
-            $Text{"Powered by"} <a href="http://otrs.org/" class="small">$Config{"Product"} $Config{"Version"}</a>
-        </td>
-    </tr>
-</table>
+
+<div id="Footer" class="ARIARoleContentinfo">
+    $Config{"Product"} $Config{"Version"} &copy; OTRS AG 2010
+    <ul>
+        <li><a href="">$Text{"About OTRS"}&trade;</a></li>
+        <li><a href="">$Text{"FAQ"}</a></li>
+        <li><a href="">$Text{"Help"}</a></li>
+    </ul>
+    <div class="TopOfPage"><a href="#Top">$Text{"Top of page"}</a></div>
+</div>
 <a name="end"></a>
+
+
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-1.4.2/jquery.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-core.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-widget.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-mouse.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-draggable.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-sortable.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-datepicker.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-resizable.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-validate-1.7/jquery.validate.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.JavaScriptEnhancements.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Debug.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Accordion.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Navigation.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Datepicker.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Resizable.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.DnD.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Tables.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Accessibility.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Forms.ErrorTooltips.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Forms.Validate.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Dialog.js"></script>
+
+    <script type="text/javascript">//<![CDATA[
+        $(document).ready(function() {
+            OTRS.UI.Navigation.Init();
+            OTRS.UI.Tables.InitCSSPseudoClasses();
+            OTRS.Forms.Validate.Init();
+            // late execution of accessibility code
+            OTRS.UI.Accessibility.Init();
+        });
+    //]]></script>
+
+<!--[if IE 7]>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.IE7Fixes.js"></script>
+    <script type="text/javascript">//<![CDATA[
+        $(document).ready(function() {
+            OTRS.UI.IE7Fixes.InitIE7InputFocus('Focus');
+            OTRS.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
+        });
+    //]]></script>
+<![endif]-->
+
+
 </body>
 </html>
-<!-- end footer -->

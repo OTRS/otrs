@@ -1,38 +1,36 @@
 # --
 # Notify.dtl - provides HTML Notify for AgentNotify.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Notify.dtl,v 1.14 2009-11-25 16:19:58 mg Exp $
+# $Id: Notify.dtl,v 1.15 2010-03-25 15:41:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!-- start Notify -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr align="left">
-        <td width="25" align="right" class="contentbody">
-<!-- dtl:block:Warning -->
-            <img border="0" src="$Config{"Frontend::ImagePath"}warning.png" alt="$Text{"Info"}" />
-<!-- dtl:block:Warning -->
-<!-- dtl:block:Error -->
-            <img border="0" src="$Config{"Frontend::ImagePath"}error.png" alt="$Text{"Important"}" />
-<!-- dtl:block:Error -->
-        </td>
-        <td class="contentbody">:
+<div class="MessageBox $Data{"BoxClass"}">
+    <a class="Close" title="$Text{"Close this message"}" href=""></a>
+#<!-- dtl:block:Warning -->
+#            Notice
+#<!-- dtl:block:Warning -->
+#<!-- dtl:block:Error -->
+#            Error
+#<!-- dtl:block:Error -->
+
+    <p>
 <!-- dtl:block:LinkStart -->
-            <a href="$Data{"LinkStart"}">
+        <a href="$Data{"LinkStart"}">
 <!-- dtl:block:LinkStart -->
 <!-- dtl:block:Text -->
-            $Text{"$Data{"Info"}"}
+        $Text{"$Data{"Info"}"}
 <!-- dtl:block:Text -->
 <!-- dtl:block:Data -->
-            $Data{"Data"}
+        $Data{"Data"}
 <!-- dtl:block:Data -->
 <!-- dtl:block:LinkStop -->
-            </a>
+        </a>
 <!-- dtl:block:LinkStop -->
-        </td>
-    </tr>
-</table>
+    </p>
+</div>
 <!-- end Notify -->

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.218 2010-03-25 14:46:32 martin Exp $
+# $Id: Layout.pm,v 1.219 2010-03-25 15:41:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.218 $) [1];
+$VERSION = qw($Revision: 1.219 $) [1];
 
 =head1 NAME
 
@@ -1137,20 +1137,26 @@ sub Notify {
         # return if we have nothing to show
         return '' if !$Param{Info};
     }
+
+    my $BoxClass = 'Notice';
+
     if ( $Param{Info} ) {
         $Param{Info} =~ s/\n//g;
     }
     if ( $Param{Priority} && $Param{Priority} eq 'Error' ) {
-        $Self->Block(
-            Name => 'Error',
-            Data => {},
-        );
+
+        #        $Self->Block(
+        #            Name => 'Error',
+        #            Data => {},
+        #        );
+        $BoxClass = 'Error';
     }
     else {
-        $Self->Block(
-            Name => 'Warning',
-            Data => {},
-        );
+
+        #        $Self->Block(
+        #            Name => 'Warning',
+        #            Data => {},
+        #        );
     }
     if ( $Param{Link} ) {
         $Self->Block(
@@ -1176,7 +1182,13 @@ sub Notify {
             Data => { LinkStop => '</a>', },
         );
     }
-    return $Self->Output( TemplateFile => 'Notify', Data => \%Param );
+    return $Self->Output(
+        TemplateFile => 'Notify',
+        Data         => {
+            %Param,
+            BoxClass => $BoxClass,
+        },
+    );
 }
 
 sub Header {
@@ -4355,6 +4367,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.218 $ $Date: 2010-03-25 14:46:32 $
+$Revision: 1.219 $ $Date: 2010-03-25 15:41:40 $
 
 =cut

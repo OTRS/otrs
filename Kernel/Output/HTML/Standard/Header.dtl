@@ -1,8 +1,8 @@
 # --
 # Header.dtl - provides global HTML header
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.62 2009-12-24 09:46:21 mg Exp $
+# $Id: Header.dtl,v 1.63 2010-03-25 15:41:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,12 +21,6 @@ Pragma: no-cache
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 $Include{"Copyright"}
-# --
-# set some html variables
-# --
-<dtl set $Env{"Box0"} = "[ ">
-<dtl set $Env{"Box1"} = " ]">
-# --
 <head>
     <meta http-equiv="Content-type" content="text/html;charset=$Env{"UserCharset"}" />
 <!-- dtl:block:MetaHttpEquivRefresh -->
@@ -36,21 +30,70 @@ $Include{"Copyright"}
     <link rel="$QData{"Rel"}" type="$QData{"Type"}" title="$QData{"Title"}" href="$Data{"Href"}" />
 <!-- dtl:block:MetaLink -->
         <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
-            <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css" />
-                <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
-            </head>
-            <body>
-            <a name="top"></a>
-            <table border="0" width="100%" cellspacing="0" cellpadding="3">
-                <tr>
-                    <td align="left" width="20%" class="header">
-                        <b>
-                        $Env{"Box0"}<a href="$Env{"Baselink"}" accesskey="h" onmouseover="window.status='$JSText{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">$Config{"ProductName"}</a>$Env{"Box1"}
-                        </b>
-                    </td>
-                    <td align="right" width="80%" class="header">
-                        $Env{"UserFirstname"} $Env{"UserLastname"} $Env{"UserLoginIdentifier"} $Env{"TimeLong"}
-                    </td>
-                </tr>
-            </table>
-<!-- end header -->
+
+<!--<link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css" />-->
+
+            <link href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Reset.css" rel="stylesheet" type="text/css" />
+                <link href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Default.css" rel="stylesheet" type="text/css" />
+
+                    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Reset.css" />
+                        <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Default.css" />
+                            <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.css" />
+                                <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewControl.css" />
+                                    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.css" />
+                                        <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewMedium.css" />
+                                            <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewLarge.css" />
+                                                <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Footer.css" />
+                                                    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Grid.css" />
+                                                        <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Form.css" />
+                                                            <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Table.css" />
+                                                                <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Widget.css" />
+                                                                    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.WidgetMenu.css" />
+                                                                        <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.TicketDetail.css" />
+                                                                            <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Tooltip.css" />
+                                                                                <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Icon.css" />
+                                                                                    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Dialog.css" />
+
+                                                                                        <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/thirdparty/ui-theme/jquery-ui.css" />
+
+                                                                                            <link rel="stylesheet" media="print" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Reset.css" />
+                                                                                                <link rel="stylesheet" media="print" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Print.css" />
+
+<!--[if IE 7]>
+                                                                                                    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.IE7.css" />
+                                                                                                        <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Widget.IE7.css" />
+                                                                                                            <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Form.IE7.css" />
+                                                                                                                <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Grid.IE7.css" />
+                                                                                                                    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewControl.IE7.css" />
+                                                                                                                        <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.IE7.css" />
+                                                                                                                            <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewMedium.IE7.css" />
+                                                                                                                                <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewLarge.IE7.css" />
+                                                                                                                                    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.TicketDetail.IE7.css" />
+                                                                                                                                        <![endif]-->
+<!--[if IE 8]>
+                                                                                                                                        <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.IE8.css" />
+                                                                                                                                            <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.IE8.css" />
+                                                                                                                                                <![endif]-->
+
+                                                                                                                                                <title>$Config{"ProductName"} - $QData{"TitleArea"}</title>
+                                                                                                                                            </head>
+                                                                                                                                            <body>
+                                                                                                                                            <a name="Top"></a>
+                                                                                                                                            <div id="Header" class="ARIARoleBanner">
+                                                                                                                                                <div id="Logo"></div>
+                                                                                                                                                <ul id="ToolBar">
+                                                                                                                                                    <li class="Alerts"><span></span><a href="" title="Alerts"><span>9</span> Alerts</a></li>
+                                                                                                                                                    <li class="Stacks"><span></span><a href="" title="Stacks"><span>21</span> Stacks</a></li>
+                                                                                                                                                    <li class="Dates"><span></span><a href="" title="Date">Date</a></li>
+                                                                                                                                                    <li class="Mails"><span></span><a href="" title="Mails"><span>10</span> Mails</a></li>
+                                                                                                                                                    <li class="Global"><span></span><a href="" title="Global">Global</a></li>
+                                                                                                                                                </ul>
+
+                                                                                                                                                <div id="UserInfo">
+<!-- Debug -->
+                                                                                                                                                    <button type="button" onclick="OTRS.Debug.SimulateRTLPage();">Simulate RTL</button>
+<!-- /Debug -->
+                                                                                                                                                    You are logged in as
+                                                                                                                                                    <a href="" title="Edit personal preferences">Michael Cane</a>
+                                                                                                                                                    <a class="LogoutButton" href="" title="Logout"></a>
+                                                                                                                                                </div>
