@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.217 2010-03-11 11:58:59 mn Exp $
+# $Id: Layout.pm,v 1.218 2010-03-25 14:46:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.217 $) [1];
+$VERSION = qw($Revision: 1.218 $) [1];
 
 =head1 NAME
 
@@ -1596,11 +1596,16 @@ sub LinkEncode {
     $Link =~ s/\#/%23/g;
     $Link =~ s/\$/%24/g;
     $Link =~ s/'/%27/g;
+    $Link =~ s/,/%2C/g;
     $Link =~ s/\+/%2B/g;
     $Link =~ s/\?/%3F/g;
     $Link =~ s/\|/%7C/g;
+    $Link =~ s/\//\%2F/g;
     $Link =~ s/§/\%A7/g;
     $Link =~ s/ /\+/g;
+    $Link =~ s/:/\%3A/g;
+    $Link =~ s/;/\%3B/g;
+    $Link =~ s/@/\%40/g;
     return $Link;
 }
 
@@ -2443,7 +2448,7 @@ sub TransfromDateSelection {
 
     my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
     my $Prefix         = $Param{Prefix} || '';
-    my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
+    my $Format         = defined $Param{Format} ? $Param{Format} : 'DateInputFormatLong';
 
     # time zone translation
     if ( $Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
@@ -4350,6 +4355,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.217 $ $Date: 2010-03-11 11:58:59 $
+$Revision: 1.218 $ $Date: 2010-03-25 14:46:32 $
 
 =cut
