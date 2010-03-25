@@ -2,7 +2,7 @@
 # AAAPreferences.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAAPreferences.dtl,v 1.20 2010-02-23 21:15:39 mb Exp $
+# $Id: AAAPreferences.dtl,v 1.21 2010-03-25 14:47:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,9 @@ $Text{"Frontend"}
 $Text{"Other Options"}
 
 $Text{"Change Password"}
-$Text{"Current password"}
-$Text{"New password"}
-$Text{"Repeat new password"}
+$Text{"Current Password"}
+$Text{"New Password"}
+$Text{"Verify New Password"}
 
 $Text{"Select your QueueView refresh time."}
 $Text{"Select your frontend language."}
