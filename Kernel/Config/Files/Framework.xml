@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.269 2010-03-16 09:32:06 bes Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.270 2010-03-27 20:41:35 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -3994,17 +3994,6 @@ Your OTRS Notification Master
                 <Description>Logout</Description>
                 <Title></Title>
                 <NavBarName></NavBarName>
-                <NavBar>
-                    <Description>Logout</Description>
-                    <Name>Logout</Name>
-                    <Image>exit.png</Image>
-                    <Link>Action=Logout</Link>
-                    <NavBar></NavBar>
-                    <Type></Type>
-                    <Block>ItemPre</Block>
-                    <AccessKey>l</AccessKey>
-                    <Prio>100</Prio>
-                </NavBar>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -4019,7 +4008,7 @@ Your OTRS Notification Master
                 <Title></Title>
                 <NavBarName>Dashboard</NavBarName>
                 <NavBar>
-                    <Description>Agent Dashboard</Description>
+                    <Description>Dashboard</Description>
                     <Name>Dashboard</Name>
                     <Image>dashboard.png</Image>
                     <Link>Action=AgentDashboard</Link>
@@ -4042,17 +4031,6 @@ Your OTRS Notification Master
                 <Description>Agent Preferences</Description>
                 <Title></Title>
                 <NavBarName>Preferences</NavBarName>
-                <NavBar>
-                    <Description>Agent Preferences</Description>
-                    <Name>Preferences</Name>
-                    <Image>prefer.png</Image>
-                    <Link>Action=AgentPreferences</Link>
-                    <NavBar>Preferences</NavBar>
-                    <Type>Menu</Type>
-                    <Block>ItemArea</Block>
-                    <AccessKey>p</AccessKey>
-                    <Prio>9900</Prio>
-                </NavBar>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -4169,7 +4147,7 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin-Area</Description>
-                <Title>Admin</Title>
+                <Title></Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBar>
                     <Description>Admin-Area</Description>
@@ -4210,13 +4188,14 @@ Your OTRS Notification Master
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
-                <Title>User</Title>
+                <Description>Create and manage users.</Description>
+                <Title>Users</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Users</Name>
-                    <Block>Block1</Block>
+                    <Description>Create and manage users.</Description>
+                    <Block>Agent</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4231,12 +4210,13 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Group</Title>
+                <Title>Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Groups</Name>
-                    <Block>Block1</Block>
+                    <Block>Agent</Block>
+                    <Description>Create and manage groups.</Description>
                     <Prio>150</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4256,7 +4236,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Users &lt;-&gt; Groups</Name>
-                    <Block>Block1</Block>
+                    <Block>Agent</Block>
+                    <Description>Link users to groups.</Description>
                     <Prio>200</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4289,7 +4270,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Customer Users</Name>
-                    <Block>Block1</Block>
+                    <Block>Customer</Block>
+                    <Description>Create and manager customers.</Description>
                     <Prio>300</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4322,7 +4304,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Customer Companies</Name>
-                    <Block>Block1</Block>
+                    <Description>Create and manager companies.</Description>
+                    <Block>Customer</Block>
                     <Prio>310</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4353,7 +4336,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Customer Users &lt;-&gt; Groups</Name>
-                    <Block>Block1</Block>
+                    <Description>Link customers to groups.</Description>
+                    <Block>Customer</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4373,7 +4357,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Customer Users &lt;-&gt; Services</Name>
-                    <Block>Block1</Block>
+                    <Description>Link customers to services.</Description>
+                    <Block>Customer</Block>
                     <Prio>500</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4393,7 +4378,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Roles</Name>
-                    <Block>Block1</Block>
+                    <Description>Create and manage roles.</Description>
+                    <Block>Agent</Block>
                     <Prio>600</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4413,7 +4399,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Roles &lt;-&gt; Users</Name>
-                    <Block>Block1</Block>
+                    <Description>Link users to roles.</Description>
+                    <Block>Agent</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4433,7 +4420,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Roles &lt;-&gt; Groups</Name>
-                    <Block>Block1</Block>
+                    <Description>Link groups to roles.</Description>
+                    <Block>Agent</Block>
                     <Prio>800</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4453,7 +4441,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>S/MIME certificates</Name>
-                    <Block>Block3</Block>
+                    <Description>Manage S/MIME certificates for email encryption.</Description>
+                    <Block>Email</Block>
                     <Prio>1100</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4473,7 +4462,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>PGP Keys</Name>
-                    <Block>Block3</Block>
+                    <Description>Manage PGP keys for email encryption.</Description>
+                    <Block>Email</Block>
                     <Prio>1200</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4493,7 +4483,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>PostMaster Mail Accounts</Name>
-                    <Block>Block4</Block>
+                    <Description>Control where incoming emails are to be fetched from.</Description>
+                    <Block>Email</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4513,7 +4504,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>PostMaster Filters</Name>
-                    <Block>Block4</Block>
+                    <Description>Filter incoming emails.</Description>
+                    <Block>Email</Block>
                     <Prio>200</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4533,7 +4525,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Admin Notification</Name>
-                    <Block>Block4</Block>
+                    <Description>Send notifications to Users.</Description>
+                    <Block>System</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4553,7 +4546,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Session Management</Name>
-                    <Block>Block4</Block>
+                    <Description>Manage existing sessions.</Description>
+                    <Block>System</Block>
                     <Prio>500</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4573,7 +4567,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Performance Log</Name>
-                    <Block>Block4</Block>
+                    <Description>View performance benchmark results.</Description>
+                    <Block>System</Block>
                     <Prio>550</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4593,7 +4588,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>System Log</Name>
-                    <Block>Block4</Block>
+                    <Description>View system log messages.</Description>
+                    <Block>System</Block>
                     <Prio>600</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4613,7 +4609,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>SQL Box</Name>
-                    <Block>Block4</Block>
+                    <Description>Execute SQL statements.</Description>
+                    <Block>System</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4633,7 +4630,8 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Package Manager</Name>
-                    <Block>Block4</Block>
+                    <Description>Update and extend your system with software packages.</Description>
+                    <Block>System</Block>
                     <Prio>1000</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4751,30 +4749,6 @@ Your OTRS Notification Master
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NavBarStyle" Required="1" Valid="1">
-        <Description Lang="en">With this setting you can define how the icons in the Navbar are displayed.</Description>
-        <Description Lang="de">Hier können Sie die Darstellungsart der Icons in der Navigationszeile definieren.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <Option SelectedID="Modern">
-                <Item Key="Classic">Classic</Item>
-                <Item Key="Modern">Modern</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Frontend::NavBarStyle::ShowSelectedArea" Required="1" Valid="1">
-        <Description Lang="en">Do you want to highlight the link to the selected module in the NavBar?</Description>
-        <Description Lang="de">Auswahl, ob in der Navigationszeile der Link des aktuell ausgewählten Modules farblich hervorgehoben werden soll.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Frontend::CommonParam###Action" Required="0" Valid="1">
         <Description Lang="en">Default value for the Action parameter. The Frontend-Module which is used as default if no Action parameter given.</Description>
         <Description Lang="de">Standardwert des Action-Parameters. Dieses Frontend-Modul wird benutzt wenn kein Action-Parameter vorhanden ist.</Description>
@@ -4833,7 +4807,7 @@ Your OTRS Notification Master
                 <NavBarName>Stats</NavBarName>
                 <NavBar>
                     <Description>Stats</Description>
-                    <Name>Stats</Name>
+                    <Name>Statistics</Name>
                     <Image>stats.png</Image>
                     <Link>Action=AgentStats;Subaction=Overview</Link>
                     <NavBar>Stats</NavBar>

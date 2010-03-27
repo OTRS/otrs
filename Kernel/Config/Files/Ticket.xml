@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.303 2010-03-25 14:49:08 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.304 2010-03-27 20:41:35 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -7766,7 +7766,7 @@ $QData{"Signature"}
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description>Overview of all open Tickets</Description>
-                    <Name>QueueView</Name>
+                    <Name>Queue-View</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketQueue</Link>
                     <NavBar>Ticket</NavBar>
@@ -7939,7 +7939,7 @@ $QData{"Signature"}
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AgentTicketStatusView" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::Module###AgentTicketStatusView" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketStatusView object in the agent interface.</Description>
         <Description Lang="de">Frontendmodul-Registrierung des AgentTicketStatusView-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
@@ -7951,7 +7951,7 @@ $QData{"Signature"}
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description>Overview of all open Tickets</Description>
-                    <Name>StatusView</Name>
+                    <Name>Status-View</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketStatusView</Link>
                     <NavBar>Ticket</NavBar>
@@ -7963,7 +7963,7 @@ $QData{"Signature"}
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AgentTicketEscalationView" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::Module###AgentTicketEscalationView" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketEscalationView object in the agent interface.</Description>
         <Description Lang="de">Frontendmodul-Registrierung des AgentTicketEscalationView-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
@@ -7975,7 +7975,7 @@ $QData{"Signature"}
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description>Overview Escalated Tickets</Description>
-                    <Name>EscalationView</Name>
+                    <Name>Escalation-View</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketEscalationView</Link>
                     <NavBar>Ticket</NavBar>
@@ -8287,7 +8287,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Queues</Name>
-                    <Block>Block2</Block>
+                    <Description>Create and manage queues.</Description>
+                    <Block>Queue</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8307,7 +8308,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Responses</Name>
-                    <Block>Block2</Block>
+                    <Description>Create and manage response templates.</Description>
+                    <Block>Queue</Block>
                     <Prio>200</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8327,7 +8329,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Responses &lt;-&gt; Queues</Name>
-                    <Block>Block2</Block>
+                    <Description>Link responses to queues.</Description>
+                    <Block>Queue</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8347,7 +8350,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Auto Responses</Name>
-                    <Block>Block2</Block>
+                    <Description>Create and manage responses that are automatically sent.</Description>
+                    <Block>Queue</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8367,7 +8371,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Auto Responses &lt;-&gt; Queues</Name>
-                    <Block>Block2</Block>
+                    <Description>Link auto responses to queues.</Description>
+                    <Block>Queue</Block>
                     <Prio>500</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8388,7 +8393,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Attachments</Name>
-                    <Block>Block2</Block>
+                    <Description>Create and manage attachments.</Description>
+                    <Block>Queue</Block>
                     <Prio>600</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8408,7 +8414,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Attachments &lt;-&gt; Responses</Name>
-                    <Block>Block2</Block>
+                    <Description>Link attachments to responses templates.</Description>
+                    <Block>Queue</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8428,8 +8435,9 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Salutations</Name>
-                    <Block>Block3</Block>
-                    <Prio>100</Prio>
+                    <Description>Create and manage salutations.</Description>
+                    <Block>Queue</Block>
+                    <Prio>800</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
@@ -8448,8 +8456,9 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Signatures</Name>
-                    <Block>Block3</Block>
-                    <Prio>200</Prio>
+                    <Description>Create and manage signature.</Description>
+                    <Block>Queue</Block>
+                    <Prio>900</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
@@ -8468,7 +8477,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Email Addresses</Name>
-                    <Block>Block3</Block>
+                    <Description>Set sender email addresses of this system.</Description>
+                    <Block>Email</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8483,12 +8493,13 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Notifications</Title>
+                <Title>Agent Notifications</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Notifications</Name>
-                    <Block>Block3</Block>
+                    <Name>Agent Notifications</Name>
+                    <Description>Create and manage notifications that are sent to Agents.</Description>
+                    <Block>Ticket</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8503,12 +8514,13 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Notifications</Title>
+                <Title>Notifications (Event)</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Notifications (Event)</Name>
-                    <Block>Block3</Block>
+                    <Description>Create and manage event based notifications.</Description>
+                    <Block>Ticket</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8528,7 +8540,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Services</Name>
-                    <Block>Block3</Block>
+                    <Description>Create and manage services.</Description>
+                    <Block>Ticket</Block>
                     <Prio>900</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8548,7 +8561,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Service Level Agreements</Name>
-                    <Block>Block3</Block>
+                    <Description>Create and manage Service Level Agreements (SLAs).</Description>
+                    <Block>Ticket</Block>
                     <Prio>1000</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8568,7 +8582,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Ticket Types</Name>
-                    <Block>Block3</Block>
+                    <Description>Create and manage Ticket Types.</Description>
+                    <Block>Ticket</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8583,12 +8598,13 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Statuses</Title>
+                <Title>States</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Statuses</Name>
-                    <Block>Block3</Block>
+                    <Name>States</Name>
+                    <Description>Create and manage Ticket States.</Description>
+                    <Block>Ticket</Block>
                     <Prio>800</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8608,7 +8624,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Priorities</Name>
-                    <Block>Block3</Block>
+                    <Description>Create and manage Ticket Priority.</Description>
+                    <Block>Ticket</Block>
                     <Prio>850</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -8628,7 +8645,8 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>GenericAgent</Name>
-                    <Block>Block4</Block>
+                    <Description>Manage periodic tasks.</Description>
+                    <Block>System</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
             </FrontendModuleReg>

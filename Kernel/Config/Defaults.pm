@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.334 2010-03-16 09:32:05 bes Exp $
+# $Id: Defaults.pm,v 1.335 2010-03-27 20:41:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.334 $) [1];
+$VERSION = qw($Revision: 1.335 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -1639,83 +1639,6 @@ Your OTRS Notification Master
     };
 
     # --------------------------------------------------- #
-    #                                                     #
-    #             Start of config options!!!              #
-    #              CustomerPreferences stuff              #
-    #                                                     #
-    # --------------------------------------------------- #
-
-    # CustomerPreferences
-    # (customer preferences module)
-    $Self->{'CustomerPreferences'} = {
-        Module => 'Kernel::System::CustomerUser::Preferences::DB',
-        Params => {
-            Table       => 'customer_preferences',
-            TableKey    => 'preferences_key',
-            TableValue  => 'preferences_value',
-            TableUserID => 'user_id',
-        },
-    };
-
-    # CustomerPreferencesView
-    # (Order of shown items)
-    $Self->{CustomerPreferencesView} = [ 'Frontend', 'Other Options' ];
-
-    # CustomerPreferencesGroups
-    # (All possible items)
-    $Self->{CustomerPreferencesGroups}->{Password} = {
-        Module          => 'Kernel::Output::HTML::PreferencesPassword',
-        Colum           => 'Other Options',
-        Label           => 'Change Password',
-        Prio            => 1000,
-        Area            => 'Customer',
-
-#        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
-        PasswordRegExp                    => '',
-        PasswordMinSize                   => 0,
-        PasswordMin2Lower2UpperCharacters => 0,
-        PasswordMin2Characters            => 0,
-        PasswordNeedDigit                 => 0,
-        Activ                             => 1,
-    };
-    $Self->{CustomerPreferencesGroups}->{Language} = {
-        Module  => 'Kernel::Output::HTML::PreferencesLanguage',
-        Colum   => 'Frontend',
-        Label   => 'Language',
-        Desc    => 'Select your frontend language.',
-        PrefKey => 'UserLanguage',
-        Prio    => 2000,
-        Activ   => 1,
-    };
-    $Self->{CustomerPreferencesGroups}->{Theme} = {
-        Module  => 'Kernel::Output::HTML::PreferencesTheme',
-        Colum   => 'Frontend',
-        Label   => 'Theme',
-        Desc    => 'Select your frontend Theme.',
-        PrefKey => 'UserTheme',
-        Prio    => 1000,
-        Activ   => 0,
-    };
-    $Self->{CustomerPreferencesGroups}->{PGP} = {
-        Module  => 'Kernel::Output::HTML::PreferencesPGP',
-        Colum   => 'Other Options',
-        Label   => 'PGP Key',
-        Desc    => 'PGP Key Upload',
-        PrefKey => 'UserPGPKey',
-        Prio    => 10000,
-        Activ   => 1,
-    };
-    $Self->{CustomerPreferencesGroups}->{SMIME} = {
-        Module  => 'Kernel::Output::HTML::PreferencesSMIME',
-        Colum   => 'Other Options',
-        Label   => 'S/MIME Certificate',
-        Desc    => 'S/MIME Certificate Upload',
-        PrefKey => 'UserSMIMEKey',
-        Prio    => 11000,
-        Activ   => 1,
-    };
-
-    # --------------------------------------------------- #
     # misc
     # --------------------------------------------------- #
     # yes / no options
@@ -1772,65 +1695,8 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
     # Module (from Kernel/Modules/*.pm) => Group
 
-    $Self->{'Frontend::Module'}->{'Logout'} = {
-        Description => 'Logout',
-        NavBar      => [
-            {   Description => 'Logout',
-                Name        => 'Logout',
-                Image       => 'exit.png',
-                Link        => 'Action=Logout',
-                NavBar      => '',
-                Block       => 'ItemPre',
-                Prio        => 100,
-                AccessKey   => 'l',
-            },
-        ],
-    };
-
-    $Self->{'Frontend::Module'}->{'AgentPreferences'} = {
-        Description => 'Agent Preferences',
-        Title       => 'Preferences',
-        NavBar      => [
-            {   Description => 'Agent Preferences',
-                Name        => 'Preferences',
-                Image       => 'prefer.png',
-                Link        => 'Action=AgentPreferences',
-                NavBar      => 'Preferences',
-                Type        => 'Menu',
-                Block       => 'ItemArea',
-                Prio        => 9900,
-                AccessKey   => 'p',
-            },
-        ],
-    };
-    $Self->{'Frontend::Module'}->{'AgentSpelling'} = {
-        Description => 'Spell checker',
-        Title       => 'Spell Checker',
-    };
-    $Self->{'Frontend::Module'}->{'AgentBook'} = {
-        Description => 'Address book of CustomerUser sources',
-        Title       => 'Address Book',
-    };
-    $Self->{'Frontend::Module'}->{'AgentLookup'} = {
-        Description => 'Data table lookup module.',
-        Title       => 'Lookup',
-    };
-    $Self->{'Frontend::Module'}->{'AgentLinkObject'} = {
-        Description => 'Link Object',
-        Title       => 'Link Object',
-    };
-    $Self->{'Frontend::Module'}->{'AgentInfo'} = {
-        Description => 'Generic Info module',
-        Title       => 'Info',
-    };
-    $Self->{'Frontend::Module'}->{'AgentCalendarSmall'} = {
-        Description => 'Small calendar for date selection.',
-        NavBarName  => '',
-        Title       => 'Calendar',
-    };
-
     # admin interface
-    $Self->{'Frontend::Module'}->{'Admin'} = {
+    $Self->{'Frontend::Module'}->{Admin} = {
         Group       => ['admin'],
         Description => 'Admin-Area',
         Title       => '',
@@ -1849,214 +1715,12 @@ Your OTRS Notification Master
         ],
         NavBarModule => { Module => 'Kernel::Output::HTML::NavBarModuleAdmin', },
     };
-    $Self->{'Frontend::Module'}->{'AdminInit'} = {
+    $Self->{'Frontend::Module'}->{AdminInit} = {
         Group       => ['admin'],
         Description => 'Admin',
         Title       => 'Init',
     };
-    $Self->{'Frontend::Module'}->{'AdminUser'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'User',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Users',
-            Block  => 'Block1',
-            Prio   => 100,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminGroup'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'Group',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Groups',
-            Block  => 'Block1',
-            Prio   => 150,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminUserGroup'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'Users <-> Groups',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Users <-> Groups',
-            Block  => 'Block1',
-            Prio   => 200,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminCustomerUser'} = {
-        GroupRo     => [],
-        Group       => [ 'admin', 'users' ],
-        Description => 'Edit Customer Users',
-        Title       => 'Customer User',
-        NavBarName  => '',
-        NavBar      => [
-            {   Description => 'Edit Customer Users',
-                Name        => 'Customer',
-                Image       => 'folder_yellow.png',
-                Link        => 'Action=AdminCustomerUser&Nav=Agent',
-                NavBar      => 'Ticket',
-                Prio        => 9000,
-                AccessKey   => 'c',
-            }
-        ],
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Customer Users',
-            Block  => 'Block1',
-            Prio   => 300,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminCustomerCompany'} = {
-        GroupRo     => [],
-        Group       => [ 'admin', 'users' ],
-        Description => 'Edit Customer Users',
-        Title       => 'Customer User',
-        NavBarName  => '',
-        NavBar      => [
-            {   Description => 'Edit Customer Company',
-                Name        => 'Company',
-                Image       => 'folder_yellow.png',
-                Link        => 'Action=AdminCustomerCompany&Nav=Agent',
-                NavBar      => 'Ticket',
-                Prio        => 9000,
-                AccessKey   => 'c',
-            }
-        ],
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Customer Company',
-            Block  => 'Block1',
-            Prio   => 310,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminCustomerUserGroup'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'Customer Users <-> Groups',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Customer Users <-> Groups',
-            Block  => 'Block1',
-            Prio   => 400,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminRole'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'Role',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Roles',
-            Block  => 'Block1',
-            Prio   => 500,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminRoleUser'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'Roles <-> Users',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Roles <-> Users',
-            Block  => 'Block1',
-            Prio   => 600,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminRoleGroup'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'Roles <-> Groups',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Roles <-> Groups',
-            Block  => 'Block1',
-            Prio   => 700,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'S/MIME Management',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'S/MIME',
-            Block  => 'Block3',
-            Prio   => 1100,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminPGP'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'PGP Key Management',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'PGP',
-            Block  => 'Block3',
-            Prio   => 1200,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminMailAccount'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'Mail Account',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'PostMaster Mail Account',
-            Block  => 'Block4',
-            Prio   => 100,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminPostMasterFilter'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'PostMaster Filter',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'PostMaster Filter',
-            Block  => 'Block4',
-            Prio   => 200,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminEmail'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'Admin-Email',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Admin Notification',
-            Block  => 'Block4',
-            Prio   => 400,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminSession'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'Session Management',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Session Management',
-            Block  => 'Block4',
-            Prio   => 500,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminLog'} = {
+    $Self->{'Frontend::Module'}->{AdminLog} = {
         Group        => ['admin'],
         Description  => 'Admin',
         Title        => 'System Log',
@@ -2068,31 +1732,20 @@ Your OTRS Notification Master
             Prio   => 600,
         },
     };
-    $Self->{'Frontend::Module'}->{'AdminSelectBox'} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'SQL Box',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'SQL Box',
-            Block  => 'Block4',
-            Prio   => 700,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminSysConfig'} = {
+    $Self->{'Frontend::Module'}->{AdminSysConfig} = {
         Group        => ['admin'],
         Description  => 'Admin',
         Title        => 'SysConfig',
         NavBarName   => 'Admin',
         NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'SysConfig',
-            Block  => 'Block4',
-            Prio   => 800,
+            Module      => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name        => 'SysConfig',
+            Description => 'Edit the system configuration settings.',
+            Block       => 'System',
+            Prio        => 800,
         },
     };
-    $Self->{'Frontend::Module'}->{'AdminPackageManager'} = {
+    $Self->{'Frontend::Module'}->{AdminPackageManager} = {
         Group        => ['admin'],
         Description  => 'Software Package Manager',
         Title        => 'Package Manager',
@@ -2103,48 +1756,6 @@ Your OTRS Notification Master
             Block  => 'Block4',
             Prio   => 1000,
         },
-    };
-
-    # --------------------------------------------------- #
-    # Frontend Module Registry (Customer)
-    # --------------------------------------------------- #
-    $Self->{'CustomerFrontend::Module'}->{'Logout'} = {
-        Description => 'Logout of customer panel.',
-        NavBarName  => '',
-        Title       => 'Preferences',
-        NavBar      => [
-            {   Description => 'Logout',
-                Name        => 'Logout',
-                Image       => 'exit.png',
-                Link        => 'Action=Logout',
-                Prio        => 10,
-                AccessKey   => 'l',
-            },
-        ],
-    };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerPreferences'} = {
-        Description => 'Customer preferences.',
-        NavBarName  => '',
-        Title       => 'Preferences',
-        NavBar      => [
-            {   Description => 'Preferences',
-                Name        => 'Preferences',
-                Image       => 'prefer.png',
-                Link        => 'Action=CustomerPreferences',
-                Prio        => 1000,
-                AccessKey   => 'p',
-            },
-        ],
-    };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerCalendarSmall'} = {
-        Description => 'Small calendar for date selection.',
-        NavBarName  => '',
-        Title       => 'Calendar',
-    };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerAccept'} = {
-        Description => 'To accept login infos',
-        NavBarName  => '',
-        Title       => 'Info',
     };
 
     # --------------------------------------------------- #
@@ -2416,6 +2027,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.334 $ $Date: 2010-03-16 09:32:05 $
+$Revision: 1.335 $ $Date: 2010-03-27 20:41:35 $
 
 =cut

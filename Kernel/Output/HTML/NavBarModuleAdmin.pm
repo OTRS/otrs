@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NavBarModuleAdmin.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarModuleAdmin.pm,v 1.9 2009-02-16 11:16:22 tr Exp $
+# $Id: NavBarModuleAdmin.pm,v 1.10 2010-03-27 20:41:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,18 +34,16 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
+    # only show it on admin start screen
+    return '' if $Self->{LayoutObject}->{Action} ne 'Admin';
 
-    if ( $Param{Type} ne 'Admin' ) {
-        return '';
-    }
     $Self->{LayoutObject}->Block(
         Name => 'AdminNavBar',
         Data => {},
     );
 
     # get all Frontend::Module
-    my %NavBarModule         = ();
+    my %NavBarModule;
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
@@ -115,7 +113,7 @@ sub Run {
         );
     }
 
-    $Output .= $Self->{LayoutObject}->Output(
+    my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminNavigationBar',
         Data         => \%Param,
     );

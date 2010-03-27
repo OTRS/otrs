@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.48 2010-02-05 13:58:23 mn Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.49 2010-03-27 20:41:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -193,7 +193,7 @@
                                     <td></td>
                                     <td></td>
                                     <td class="contentvalue">
-                                        <input type="text" name="$QData{"ElementKey"}#Group[]" value="$QData{"Content"}" size="20"/>
+                                        <input type="text" name="$QData{"ElementKey"}#Group[]" value="$QData{"Content"}" size="30"/>
                                     </td>
                                     <td></td>
                                     <td class="contentvalue">
@@ -218,7 +218,7 @@
                                     <td></td>
                                     <td>&nbsp;</td>
                                     <td class="contentvalue">
-                                        <input type="text" name="$QData{"ElementKey"}#GroupRo[]" value="$QData{"Content"}" size="20"/>
+                                        <input type="text" name="$QData{"ElementKey"}#GroupRo[]" value="$QData{"Content"}" size="30"/>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td class="contentvalue">
@@ -239,21 +239,21 @@
                                     <td class="contentkey">$Text{"Title"}:</td>
                                     <td>&nbsp;</td>
                                     <td colspan="3" class="contentvalue">
-                                        <input type="text" name="$QData{"ElementKey"}#Title" value="$QData{"ContentTitle"}" size="20"/>
+                                        <input type="text" name="$QData{"ElementKey"}#Title" value="$QData{"ContentTitle"}" size="30"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Description"}:</td>
                                     <td>&nbsp;</td>
                                     <td colspan="3" class="contentvalue">
-                                        <input type="text" name="$QData{"ElementKey"}#Description" value="$QData{"ContentDescription"}" size="20"/>
+                                        <input type="text" name="$QData{"ElementKey"}#Description" value="$QData{"ContentDescription"}" size="30"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"NavBarName"}:</td>
                                     <td>&nbsp;</td>
                                     <td colspan="3" class="contentvalue">
-                                        <input type="text" name="$QData{"ElementKey"}#NavBarName" value="$QData{"ContentNavBarName"}" size="20"/>
+                                        <input type="text" name="$QData{"ElementKey"}#NavBarName" value="$QData{"ContentNavBarName"}" size="30"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -278,7 +278,7 @@
                                                 <td>&nbsp;</td>
                                                 <td>&nbsp;</td>
                                                 <td class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#Group[]" value="$QData{"Content"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#Group[]" value="$QData{"Content"}" size="30"/>
                                                 </td>
                                                 <td class="contentvalue">
                                                     <button class="button" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupElement$Data{"ArrayIndex"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
@@ -306,7 +306,7 @@
                                                 <td>&nbsp;</td>
                                                 <td>&nbsp;</td>
                                                 <td class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#GroupRo[]" value="$QData{"Content"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#GroupRo[]" value="$QData{"Content"}" size="30"/>
                                                 </td>
                                                 <td class="contentvalue">
                                                     <button class="button" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupRoElement$Data{"ArrayIndex"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
@@ -326,7 +326,7 @@
                                                 <td class="contentkey">$Text{"Description"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td colspan="2" class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#Description[]" value="$QData{"ContentDescription"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#Description[]" value="$QData{"ContentDescription"}" size="30"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -334,7 +334,7 @@
                                                 <td class="contentkey">$Text{"Name"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td colspan="2" class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}" size="30"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -342,7 +342,7 @@
                                                 <td class="contentkey">$Text{"Image"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#Image[]" value="$QData{"ContentImage"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#Image[]" value="$QData{"ContentImage"}" size="30"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -350,7 +350,7 @@
                                                 <td class="contentkey">$Text{"Link"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td colspan="2" class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#Link[]" value="$QData{"ContentLink"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#Link[]" value="$QData{"ContentLink"}" size="30"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -358,7 +358,7 @@
                                                 <td class="contentkey">$Text{"Type"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td colspan="2" class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#Type[]" value="$QData{"ContentType"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#Type[]" value="$QData{"ContentType"}" size="30"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -366,7 +366,7 @@
                                                 <td class="contentkey">$Text{"Prio"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td colspan="2" class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}" size="30"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -374,7 +374,7 @@
                                                 <td class="contentkey">$Text{"Block"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td colspan="2" class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}" size="30"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -382,7 +382,7 @@
                                                 <td class="contentkey">$Text{"NavBar"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td colspan="2" class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#NavBar[]" value="$QData{"ContentNavBar"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#NavBar[]" value="$QData{"ContentNavBar"}" size="30"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -390,7 +390,7 @@
                                                 <td class="contentkey">$Text{"AccessKey"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td colspan="2" class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#AccessKey[]" value="$QData{"ContentAccessKey"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#AccessKey[]" value="$QData{"ContentAccessKey"}" size="30"/>
                                                 </td>
                                             </tr>
                                         </table>
@@ -426,7 +426,7 @@
                                                 <td class="contentkey" width="80">$Text{"Module"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#Module[]" value="$QData{"ContentModule"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#Module[]" value="$QData{"ContentModule"}" size="30"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -434,7 +434,15 @@
                                                 <td class="contentkey">$Text{"Name"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}" size="30"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="contentkey">$Text{"Description"}:</td>
+                                                <td>&nbsp;</td>
+                                                <td class="contentvalue">
+                                                    <input type="text" name="$QData{"ElementKey"}#Description[]" value="$QData{"ContentDescription"}" size="30"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -442,7 +450,7 @@
                                                 <td class="contentkey">$Text{"Block"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}" size="30"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -450,7 +458,7 @@
                                                 <td class="contentkey">$Text{"Prio"}:</td>
                                                 <td>&nbsp;</td>
                                                 <td class="contentvalue">
-                                                    <input type="text" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}" size="20"/>
+                                                    <input type="text" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}" size="30"/>
                                                 </td>
                                             </tr>
                                         </table>
