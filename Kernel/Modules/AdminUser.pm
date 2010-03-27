@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.60 2010-03-25 15:41:40 mg Exp $
+# $Id: AdminUser.pm,v 1.61 2010-03-27 20:49:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,7 +131,7 @@ sub Run {
             %UserData,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminUserForm',
+            TemplateFile => 'AdminUser',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -194,7 +194,7 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->NavigationBar();
                 $Output .= $Self->{LayoutObject}->Notify( Info => 'Agent updated!' );
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AdminUserForm',
+                    TemplateFile => 'AdminUser',
                     Data         => \%Param,
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -211,7 +211,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminUserForm',
+                TemplateFile => 'AdminUser',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -236,7 +236,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminUserForm',
+            TemplateFile => 'AdminUser',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -332,7 +332,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminUserForm',
+                TemplateFile => 'AdminUser',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -348,7 +348,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminUserForm',
+            TemplateFile => 'AdminUser',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
