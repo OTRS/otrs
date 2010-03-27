@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminState.pm - to add/update/delete state
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.pm,v 1.30 2010-03-25 15:41:40 mg Exp $
+# $Id: AdminState.pm,v 1.31 2010-03-27 20:47:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,7 +55,7 @@ sub Run {
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminStateForm',
+            TemplateFile => 'AdminState',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -85,7 +85,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminStateForm',
+                TemplateFile => 'AdminState',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -96,7 +96,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => 'State updated!' );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminStateForm',
+            TemplateFile => 'AdminState',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -118,7 +118,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminStateForm',
+            TemplateFile => 'AdminState',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -149,7 +149,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminStateForm',
+                TemplateFile => 'AdminState',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -160,7 +160,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => 'State added!' );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminStateForm',
+            TemplateFile => 'AdminState',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -175,7 +175,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminStateForm',
+            TemplateFile => 'AdminState',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();

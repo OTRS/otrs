@@ -1,8 +1,8 @@
 # --
-# AdminStateForm.dtl - provides HTML form for AdminState
+# AdminState.dtl - provides HTML form for AdminState
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminStateForm.dtl,v 1.32 2010-03-25 15:41:40 mg Exp $
+# $Id: AdminState.dtl,v 1.1 2010-03-27 20:47:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- dtl:block:Overview -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Manage States"} - $Text{"Overview"}</h1>
+    <h1>$Text{"State Management"}</h1>
 
     <div class="SidebarColumn">
         <div class="WidgetGradient Short">
