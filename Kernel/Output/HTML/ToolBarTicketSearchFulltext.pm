@@ -1,15 +1,15 @@
 # --
-# Kernel/Output/HTML/NavBarTicketSearchFulltext.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Kernel/Output/HTML/ToolBarTicketSearchFulltext.pm
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarTicketSearchFulltext.pm,v 1.1 2009-06-19 08:19:02 martin Exp $
+# $Id: ToolBarTicketSearchFulltext.pm,v 1.1 2010-03-28 11:06:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::NavBarTicketSearchFulltext;
+package Kernel::Output::HTML::ToolBarTicketSearchFulltext;
 
 use strict;
 use warnings;
@@ -36,7 +36,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %Return = ();
-    $Return{'0990001'} = {
+    $Return{'1990001'} = {
         Block       => $Param{Config}->{Block},
         Description => $Param{Config}->{Description},
         Name        => $Param{Config}->{Name},

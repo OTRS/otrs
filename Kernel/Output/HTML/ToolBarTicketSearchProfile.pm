@@ -1,15 +1,15 @@
 # --
-# Kernel/Output/HTML/NavBarTicketSearchProfile.pm
+# Kernel/Output/HTML/ToolBarTicketSearchProfile.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarTicketSearchProfile.pm,v 1.5 2010-01-19 21:11:12 martin Exp $
+# $Id: ToolBarTicketSearchProfile.pm,v 1.1 2010-03-28 11:06:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::NavBarTicketSearchProfile;
+package Kernel::Output::HTML::ToolBarTicketSearchProfile;
 
 use strict;
 use warnings;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,7 +60,7 @@ sub Run {
     );
 
     my %Return = ();
-    $Return{'0990000'} = {
+    $Return{'1990000'} = {
         Block       => $Param{Config}->{Block},
         Description => $Param{Config}->{Description},
         Name        => $Param{Config}->{Name},
