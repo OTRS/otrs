@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NotificationUIDCheck.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationUIDCheck.pm,v 1.8 2009-02-16 11:16:22 tr Exp $
+# $Id: NotificationUIDCheck.pm,v 1.9 2010-03-28 18:13:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,14 +34,15 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    if ( $Self->{UserID} == 1 ) {
-        return $Self->{LayoutObject}->Notify(
-            Priority => 'Notice',
-            Link     => '$Env{"Baselink"}Action=AdminUser',
-            Data     => '$Text{"Don\'t work with UserID 1 (System account)! Create new users!"}',
-        );
-    }
-    return '';
+    # return if it's not root@localhost
+    return '' if $Self->{UserID} != 1;
+
+    # show error notfy, don't work with user id 1
+    return $Self->{LayoutObject}->Notify(
+        Priority => 'Error',
+        Link     => '$Env{"Baselink"}Action=AdminUser',
+        Data     => '$Text{"Don\'t work with UserID 1 (System account)! Create new users!"}',
+    );
 }
 
 1;
