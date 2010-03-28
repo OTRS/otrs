@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.219 2010-03-25 15:41:40 mg Exp $
+# $Id: Layout.pm,v 1.220 2010-03-28 11:16:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.219 $) [1];
+$VERSION = qw($Revision: 1.220 $) [1];
 
 =head1 NAME
 
@@ -1229,11 +1229,6 @@ sub Header {
         }
     }
 
-    # create the user login info (usually visible right on the top of the page)
-    if ( !$Self->{UserLoginIdentifier} ) {
-        $Self->{UserLoginIdentifier} = $Self->{UserLogin} ? "($Self->{UserEmail})" : '';
-    }
-
     # run header meta modules
     my $HeaderMetaModule = $Self->{ConfigObject}->Get('Frontend::HeaderMetaModule');
     if ( ref $HeaderMetaModule eq 'HASH' ) {
@@ -1242,10 +1237,49 @@ sub Header {
 
             # load and run module
             next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
-            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                LayoutObject => $Self,
+            );
             next if !$Object;
             $Object->Run( %Param, Config => $Jobs{$Job} );
         }
+    }
+
+    # run tool bar item modules
+    my $ToolBarModule = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
+    if ( ref $ToolBarModule eq 'HASH' ) {
+        my %Modules;
+        my %Jobs = %{$ToolBarModule};
+        for my $Job ( sort keys %Jobs ) {
+
+            # load and run module
+            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                LayoutObject => $Self,
+            );
+            next if !$Object;
+            %Modules = ( $Object->Run( %Param, Config => $Jobs{$Job} ), %Modules );
+        }
+
+        # show tool bar items
+        for my $Key ( sort keys %Modules ) {
+            next if !%{ $Modules{$Key} };
+
+            $Self->Block(
+                Name => $Modules{$Key}->{Block},
+                Data => $Modules{$Key},
+            );
+        }
+    }
+
+    # show logout button (if registured)
+    if ( $Self->{ConfigObject}->Get('Frontend::Module')->{Logout} ) {
+        $Self->Block(
+            Name => 'Logout',
+            Data => \%Param,
+        );
     }
 
     # create & return output
@@ -2241,10 +2275,148 @@ sub PageNavBar {
 sub NavigationBar {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     if ( !$Param{Type} ) {
         $Param{Type} = $Self->{ModuleReg}->{NavBarName} || 'Ticket';
     }
+
+    # create menu items
+    my %NavBar;
+    my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
+
+    for my $Module ( sort keys %{$FrontendModuleConfig} ) {
+        my %Hash = %{ $FrontendModuleConfig->{$Module} };
+        next if !$Hash{NavBar};
+        next if ref $Hash{NavBar} ne 'ARRAY';
+
+        my @Items = @{ $Hash{NavBar} };
+        for my $Item (@Items) {
+            next if !$Item->{NavBar};
+            $Item->{CSS} = '';
+
+            # highligt active area link
+            if (
+                ( $Item->{Type} && $Item->{Type} eq 'Menu' )
+                && ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} )
+                )
+            {
+                $Item->{CSS} .= ' Selected';
+            }
+
+            # get permissions from module if no permissions are defined for the icon
+            if ( !$Item->{GroupRo} && !$Item->{Group} ) {
+                if ( $Hash{GroupRo} ) {
+                    $Item->{GroupRo} = $Hash{GroupRo};
+                }
+                if ( $Hash{Group} ) {
+                    $Item->{Group} = $Hash{Group};
+                }
+            }
+
+            # check shown permission
+            my $Shown = 0;
+            for my $Permission (qw(GroupRo Group)) {
+
+                # array access restriction
+                if ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
+                    for ( @{ $Item->{$Permission} } ) {
+                        my $Key = 'UserIs' . $Permission . '[' . $_ . ']';
+                        if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
+                            $Shown = 1;
+                            last;
+                        }
+                    }
+                }
+
+                # scalar access restriction
+                elsif ( $Item->{$Permission} ) {
+                    my $Key = 'UserIs' . $Permission . '[' . $Item->{$Permission} . ']';
+                    if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
+                        $Shown = 1;
+                        last;
+                    }
+                }
+
+                # no access restriction
+                elsif ( !$Item->{GroupRo} && !$Item->{Group} ) {
+                    $Shown = 1;
+                    last;
+                }
+            }
+            next if !$Shown;
+
+            # set prio of item
+            my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
+            for ( 1 .. 51 ) {
+                last if !$NavBar{$Key};
+
+                $Item->{Prio}++;
+                $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
+            }
+
+            # show as main menu
+            if ( $Item->{Type} eq 'Menu' ) {
+                $NavBar{$Key} = $Item;
+            }
+
+            # show as sub of main menu
+            else {
+                $NavBar{Sub}->{ $Item->{NavBar} }->{$Key} = $Item;
+            }
+        }
+    }
+
+    # run menu item modules
+    if ( ref $Self->{ConfigObject}->Get('Frontend::NavBarModule') eq 'HASH' ) {
+        my %Jobs = %{ $Self->{ConfigObject}->Get('Frontend::NavBarModule') };
+        for my $Job ( sort keys %Jobs ) {
+
+            # load module
+            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                LayoutObject => $Self,
+            );
+            next if !$Object;
+
+            # run module
+            %NavBar = ( %NavBar, $Object->Run( %Param, Config => $Jobs{$Job} ) );
+        }
+    }
+
+    # show nav bar
+    for my $Key ( sort keys %NavBar ) {
+        next if $Key eq 'Sub';
+        next if !%{ $NavBar{$Key} };
+        my $Item = $NavBar{$Key};
+        my $Sub  = $NavBar{Sub}->{ $Item->{NavBar} };
+
+        # set css of sub nav is available
+        if ($Sub) {
+            $Item->{CSS} .= ' HasSubNavigation ARIAHasPopup';
+        }
+        $Self->Block(
+            Name => 'ItemArea',    #$NavBar{$_}->{Block} || 'Item',
+            Data => $Item,
+        );
+
+        # show sub menu
+        next if !$Sub;
+        $Self->Block(
+            Name => 'ItemAreaSub',
+            Data => $Item,
+        );
+        for my $Key ( sort keys %{$Sub} ) {
+            my $ItemSub = $Sub->{$Key};
+            $ItemSub->{NameTop} = $Item->{Name};
+            $Self->Block(
+                Name => 'ItemAreaSubItem',    #$Item->{Block} || 'Item',
+                Data => $ItemSub,
+            );
+        }
+    }
+
+    # create & return output
+    my $Output = $Self->Output( TemplateFile => 'AgentNavigationBar', Data => \%Param );
 
     # run notification modules
     my $FrontendNotifyModuleConfig = $Self->{ConfigObject}->Get('Frontend::NotifyModule');
@@ -2265,117 +2437,7 @@ sub NavigationBar {
         }
     }
 
-    # create menu items
-    my %NavBarModule;
-    my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
-
-    MODULE:
-    for my $Module ( sort keys %{$FrontendModuleConfig} ) {
-        my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        next MODULE if !$Hash{NavBar} || ref $Hash{NavBar} ne 'ARRAY';
-
-        my @Items = @{ $Hash{NavBar} };
-        for my $Item (@Items) {
-            if (
-                ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} )
-                || ( $Item->{Type} && $Item->{Type} eq 'Menu' )
-                || !$Item->{NavBar}
-                )
-            {
-
-                # highligt avtive area link
-                if (
-                    ( $Item->{Type} && $Item->{Type} eq 'Menu' )
-                    && ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} )
-                    )
-                {
-                    next if !$Self->{ConfigObject}->Get('Frontend::NavBarStyle::ShowSelectedArea');
-                    $Item->{ItemAreaCSSSuffix} = 'active';
-                }
-
-                # get permissions from module if no permissions are defined for the icon
-                if ( !$Item->{GroupRo} && !$Item->{Group} ) {
-                    if ( $Hash{GroupRo} ) {
-                        $Item->{GroupRo} = $Hash{GroupRo};
-                    }
-                    if ( $Hash{Group} ) {
-                        $Item->{Group} = $Hash{Group};
-                    }
-                }
-
-                # check shown permission
-                my $Shown = 0;
-                for my $Permission (qw(GroupRo Group)) {
-
-                    # array access restriction
-                    if ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
-                        for ( @{ $Item->{$Permission} } ) {
-                            my $Key = 'UserIs' . $Permission . '[' . $_ . ']';
-                            if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
-                                $Shown = 1;
-                            }
-                        }
-                    }
-
-                    # scalar access restriction
-                    elsif ( $Item->{$Permission} ) {
-                        my $Key = 'UserIs' . $Permission . '[' . $Item->{$Permission} . ']';
-                        if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
-                            $Shown = 1;
-                        }
-                    }
-
-                    # no access restriction
-                    elsif ( !$Item->{GroupRo} && !$Item->{Group} ) {
-                        $Shown = 1;
-                    }
-                }
-                next if !$Shown;
-
-                my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
-                for ( 1 .. 51 ) {
-                    last if !$NavBarModule{$Key};
-
-                    $Item->{Prio}++;
-                    $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
-                }
-                $NavBarModule{$Key} = $Item;
-            }
-        }
-    }
-
-    # run menu item modules
-    if ( ref $Self->{ConfigObject}->Get('Frontend::NavBarModule') eq 'HASH' ) {
-        my %Jobs = %{ $Self->{ConfigObject}->Get('Frontend::NavBarModule') };
-        for my $Job ( sort keys %Jobs ) {
-
-            # load module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
-            my $Object = $Jobs{$Job}->{Module}->new(
-                %{$Self},
-                LayoutObject => $Self,
-            );
-
-            # run module
-            %NavBarModule = ( %NavBarModule, $Object->Run( %Param, Config => $Jobs{$Job} ) );
-        }
-    }
-
-    my $NavBarType = $Self->{ConfigObject}->Get('Frontend::NavBarStyle') || 'Classic';
-    $Self->Block(
-        Name => $NavBarType,
-        Data => \%Param,
-    );
-    for ( sort keys %NavBarModule ) {
-        next if !%{ $NavBarModule{$_} };
-        $Self->Block(
-            Name => $NavBarModule{$_}->{Block} || 'Item',
-            Data => $NavBarModule{$_},
-        );
-    }
-
-    # create & return output
-    $Output = $Self->Output( TemplateFile => 'AgentNavigationBar', Data => \%Param ) . $Output;
+    # run nav bar modules
     if ( $Self->{ModuleReg}->{NavBarModule} ) {
 
         # run navbar modules
@@ -2387,6 +2449,7 @@ sub NavigationBar {
             %{$Self},
             LayoutObject => $Self,
         );
+        next if !$Object;
 
         # run module
         $Output .= $Object->Run( %Param, Config => \%Jobs );
@@ -4367,6 +4430,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.219 $ $Date: 2010-03-25 15:41:40 $
+$Revision: 1.220 $ $Date: 2010-03-28 11:16:26 $
 
 =cut

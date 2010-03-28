@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentNavigationBar.dtl,v 1.70 2010-03-25 15:41:40 mg Exp $
+# $Id: AgentNavigationBar.dtl,v 1.71 2010-03-28 11:16:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,13 +33,13 @@
 <!-- dtl:block:Item -->
                     <td valign="middle">&nbsp;<img border="0" src="$Config{"Frontend::ImagePath"}h-line.png" alt="-" />&nbsp;</td>
 #          <td>&nbsp;</td>
-<!-- dtl:block:ItemArea -->
+#<!-- dtl:block:ItemArea -->
                     <td valign="top" align="center" class="nav">
                         <div title="$Text{"$QData{"Description"}"}">
                             <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="" /><br/>$Text{"$QData{"Name"}"}</a>
                         </div>
                     </td>
-<!-- dtl:block:ItemArea -->
+#<!-- dtl:block:ItemArea -->
                 </tr>
             </table>
         </td>
@@ -90,13 +90,13 @@
                         </div>
                     </td>
 <!-- dtl:block:ItemPre -->
-<!-- dtl:block:ItemArea -->
+#<!-- dtl:block:ItemArea -->
                     <td valign="top" align="center" class="nav">
                         <div title="$Text{"$QData{"Description"}"}">
                             <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="" /><br/>$Text{"$QData{"Name"}"}</a>
                         </div>
                     </td>
-<!-- dtl:block:ItemArea -->
+#<!-- dtl:block:ItemArea -->
                     <td valign="middle">&nbsp;<img border="0" src="$Config{"Frontend::ImagePath"}h-line.png" alt="-" />&nbsp;</td>
 #      <td>&nbsp;</td>
 <!-- dtl:block:Item -->
@@ -156,163 +156,71 @@
 <!-- end NavigationBar -->
 <!-- dtl:block:DISABLED -->
 
-<ul id="Navigation" class="ARIARoleNavigation">
-    <li id="nav-1"><a href="">Dashboard<span><span></span></span></a></li>
-    <li id="nav-2" class="Selected HasSubNavigation ARIAHasPopup"><a href="">Ticket<span><span></span></span></a>
-        <div>
-            <div class="ShadowTop"></div>
-            <div class="Shadow">
-                <ul id="nav-2-container">
-                    <li id="nav-2-1"><a href="">Erster Eintrag</a></li>
-                    <li id="nav-2-2"><a href="">Zweiter Eintrag</a></li>
-                    <li id="nav-2-3"><a href="">Dritter Eintrag</a></li>
-                    <li id="nav-2-4"><a href="">Vierter Eintrag</a></li>
-                    <li id="nav-2-5"><a href="">Fünfter Eintrag</a></li>
-                    <li id="nav-2-6"><a href="">Sechster Eintrag</a></li>
-                </ul>
-                <div class="Footer"></div>
-            </div>
-            <div class="ShadowBottom"></div>
-        </div>
 
-    </li>
-    <li id="nav-3" class="HasSubNavigation ARIAHasPopup"><a href="">Customer<span><span></span></span></a>
+
+<ul id="Navigation" class="ARIARoleNavigation">
+<!-- dtl:block:ItemArea -->
+    <li id="nav-$QData{"Name"}" class="$QData{"CSS"}">
+        <a href="$Env{"Baselink"}$Data{"Link"}" title="$Text{"$QData{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$QData{"Name"}"}<span><span></span></span></a>
+<!-- dtl:block:ItemAreaSub -->
         <div>
             <div class="ShadowTop"></div>
             <div class="Shadow">
-                <ul id="nav-3-container">
-                    <li id="nav-3-1"><a href="">Erster Eintrag</a></li>
-                    <li id="nav-3-2"><a href="">Zweiter Eintrag</a></li>
-                    <li id="nav-3-3"><a href="">Dritter Eintrag</a></li>
-                    <li id="nav-3-4" class="HasSubNavigation ARIAHasPopup"><a href="">Vierter Eintrag<span></span></a>
-                        <div class="Right">
-                            <div class="ShadowTop"></div>
-                            <div class="Shadow">
-                                <ul id="nav-3-4-container">
-                                    <li id="nav-3-4-1"><a href="">Erster Eintrag</a></li>
-                                    <li id="nav-3-4-2"><a href="">Zweiter Eintrag</a></li>
-                                    <li id="nav-3-4-3"><a href="">Dritter Eintrag</a></li>
-                                    <li id="nav-3-4-4"><a href="">Vierter Eintrag</a></li>
-                                    <li id="nav-3-4-5" class="HasSubNavigation ARIAHasPopup"><a href="">Fünfter Eintrag<span></span></a>
-                                        <div class="Left">
-                                            <div class="ShadowTop"></div>
-                                            <div class="Shadow">
-                                                <ul id="nav-3-4-5-container">
-                                                    <li id="nav-3-4-5-1"><a href="">Erster Eintrag</a></li>
-                                                    <li id="nav-3-4-5-2"><a href="">Zweiter Eintrag</a></li>
-                                                    <li id="nav-3-4-5-3"><a href="">Dritter Eintrag</a></li>
-                                                    <li id="nav-3-4-5-4"><a href="">Vierter Eintrag</a></li>
-                                                    <li id="nav-3-4-5-5"><a href="">Fünfter Eintrag</a></li>
-                                                    <li id="nav-3-4-5-6"><a href="">Sechster Eintrag</a></li>
-                                                    <li id="nav-3-4-5-7"><a href="">Siebter Eintrag</a></li>
-                                                </ul>
-                                                <div class="Footer"></div>
-                                            </div>
-                                            <div class="ShadowBottom"></div>
-                                        </div>
-                                    </li>
-                                    <li id="nav-3-4-6"><a href="">Sechster Eintrag</a></li>
-                                </ul>
-                                <div class="Footer"></div>
-                            </div>
-                            <div class="ShadowBottom"></div>
-                        </div>
+                <ul id="nav-$QData{"Name"}-container">
+<!-- dtl:block:ItemAreaSubItem -->
+                    <li id="nav-$QData{"NameTop"}-$QData{"Name"}">
+                        <a href="$Env{"Baselink"}$Data{"Link"}" title="$Text{"$QData{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$QData{"Name"}"}</a>
                     </li>
-                    <li id="nav-3-5"><a href="">Fünfter Eintrag</a></li>
-                    <li id="nav-3-6"><a href="">Sechster Eintrag</a></li>
+<!-- dtl:block:ItemAreaSubItem -->
+#                    <li id="nav-$QData{"Name"}-4" class="HasSubNavigation ARIAHasPopup"><a href="">Vierter Eintrag<span></span></a>
+<!-- dtl:block:ItemAreaSub1 -->
+                    <div class="Right">
+                        <div class="ShadowTop"></div>
+                        <div class="Shadow">
+                            <ul id="nav-$QData{"Name"}-4-container">
+                                <li id="nav-$QData{"Name"}-4-1"><a href="">Erster Eintrag</a></li>
+                                <li id="nav-$QData{"Name"}-4-2"><a href="">Zweiter Eintrag</a></li>
+                                <li id="nav-$QData{"Name"}-4-3"><a href="">Dritter Eintrag</a></li>
+                                <li id="nav-$QData{"Name"}-4-4"><a href="">Vierter Eintrag</a></li>
+                                <li id="nav-$QData{"Name"}-4-5" class="HasSubNavigation ARIAHasPopup"><a href="">Fünfter Eintrag<span></span></a>
+<!-- dtl:block:ItemAreaSub2 -->
+                                    <div class="Left">
+                                        <div class="ShadowTop"></div>
+                                        <div class="Shadow">
+                                            <ul id="nav-$QData{"Name"}-4-5-container">
+                                                <li id="nav-$QData{"Name"}-4-5-1"><a href="">Erster Eintrag</a></li>
+                                                <li id="nav-$QData{"Name"}-4-5-2"><a href="">Zweiter Eintrag</a></li>
+                                                <li id="nav-$QData{"Name"}-4-5-3"><a href="">Dritter Eintrag</a></li>
+                                                <li id="nav-$QData{"Name"}-4-5-4"><a href="">Vierter Eintrag</a></li>
+                                                <li id="nav-$QData{"Name"}-4-5-5"><a href="">Fünfter Eintrag</a></li>
+                                                <li id="nav-$QData{"Name"}-4-5-6"><a href="">Sechster Eintrag</a></li>
+                                                <li id="nav-$QData{"Name"}-4-5-7"><a href="">Siebter Eintrag</a></li>
+                                            </ul>
+                                            <div class="Footer"></div>
+                                        </div>
+                                        <div class="ShadowBottom"></div>
+                                    </div>
+<!-- dtl:block:ItemAreaSub2 -->
+                                </li>
+                                <li id="nav-$QData{"Name"}-4-6"><a href="">Sechster Eintrag</a></li>
+                            </ul>
+                            <div class="Footer"></div>
+                        </div>
+                        <div class="ShadowBottom"></div>
+                    </div>
+<!-- dtl:block:ItemAreaSub1 -->
+#                    </li>
+#                    <li id="nav-$QData{"Name"}-5"><a href="">Fünfter Eintrag</a></li>
+#                    <li id="nav-$QData{"Name"}-6"><a href="">Sechster Eintrag</a></li>
                 </ul>
                 <div class="Footer"></div>
             </div>
             <div class="ShadowBottom"></div>
         </div>
+<!-- dtl:block:ItemAreaSub -->
     </li>
-    <li id="nav-4" class="HasSubNavigation ARIAHasPopup"><a href="">Knowledge Base<span><span></span></span></a>
-        <div>
-            <div class="ShadowTop"></div>
-            <div class="Shadow">
-                <ul id="nav-4-container">
-                    <li id="nav-4-1"><a href="">Erster Eintrag</a></li>
-                    <li id="nav-4-2" class="HasSubNavigation ARIAHasPopup"><a href="">Zweiter Eintrag<span></span></a>
-                        <div class="Right">
-                            <div class="ShadowTop"></div>
-                            <div class="Shadow">
-                                <ul id="nav-4-2-container">
-                                    <li id="nav-4-2-1"><a href="">Erster Eintrag</a></li>
-                                    <li id="nav-4-2-2"><a href="">Zweiter Eintrag</a></li>
-                                    <li id="nav-4-2-3"><a href="">Dritter Eintrag</a></li>
-                                    <li id="nav-4-2-4"><a href="">Vierter Eintrag</a></li>
-                                    <li id="nav-4-2-5" class="HasSubNavigation ARIAHasPopup"><a href="">Fünfter Eintrag<span></span></a>
-                                        <div class="Left">
-                                            <div class="ShadowTop"></div>
-                                            <div class="Shadow">
-                                                <ul id="nav-4-2-5-container">
-                                                    <li id="nav-4-2-5-1"><a href="">Erster Eintrag</a></li>
-                                                    <li id="nav-4-2-5-2"><a href="">Zweiter Eintrag</a></li>
-                                                    <li id="nav-4-2-5-3"><a href="">Dritter Eintrag</a></li>
-                                                    <li id="nav-4-2-5-4"><a href="">Vierter Eintrag</a></li>
-                                                    <li id="nav-4-2-5-5"><a href="">Fünfter Eintrag</a></li>
-                                                    <li id="nav-4-2-5-6"><a href="">Sechster Eintrag</a></li>
-                                                    <li id="nav-4-2-5-7"><a href="">Siebter Eintrag</a></li>
-                                                </ul>
-                                                <div class="Footer"></div>
-                                            </div>
-                                            <div class="ShadowBottom"></div>
-                                        </div>
-                                    </li>
-                                    <li id="nav-4-2-6"><a href="">Sechster Eintrag</a></li>
-                                </ul>
-                                <div class="Footer"></div>
-                            </div>
-                            <div class="ShadowBottom"></div>
-                        </div>
-                    </li>
-                    <li id="nav-4-3"><a href="">Dritter Eintrag</a></li>
-                    <li id="nav-4-4" class="HasSubNavigation ARIAHasPopup"><a href="">Vierter Eintrag<span></span></a>
-                        <div class="Right">
-                            <div class="ShadowTop"></div>
-                            <div class="Shadow">
-                                <ul id="nav-4-4-container">
-                                    <li id="nav-4-4-1"><a href="">Erster Eintrag</a></li>
-                                    <li id="nav-4-4-2"><a href="">Zweiter Eintrag</a></li>
-                                    <li id="nav-4-4-3"><a href="">Dritter Eintrag</a></li>
-                                    <li id="nav-4-4-4"><a href="">Vierter Eintrag</a></li>
-                                    <li id="nav-4-4-5" class="HasSubNavigation ARIAHasPopup"><a href="">Fünfter Eintrag<span></span></a>
-                                        <div class="Left">
-                                            <div class="ShadowTop"></div>
-                                            <div class="Shadow">
-                                                <ul id="nav-4-4-5-container">
-                                                    <li id="nav-4-4-5-1"><a href="">Erster Eintrag</a></li>
-                                                    <li id="nav-4-4-5-2"><a href="">Zweiter Eintrag</a></li>
-                                                    <li id="nav-4-4-5-3"><a href="">Dritter Eintrag</a></li>
-                                                    <li id="nav-4-4-5-4"><a href="">Vierter Eintrag</a></li>
-                                                    <li id="nav-4-4-5-5"><a href="">Fünfter Eintrag</a></li>
-                                                    <li id="nav-4-4-5-6"><a href="">Sechster Eintrag</a></li>
-                                                    <li id="nav-4-4-5-7"><a href="">Siebter Eintrag</a></li>
-                                                </ul>
-                                                <div class="Footer"></div>
-                                            </div>
-                                            <div class="ShadowBottom"></div>
-                                        </div>
-                                    </li>
-                                    <li id="nav-4-4-6"><a href="">Sechster Eintrag</a></li>
-                                </ul>
-                                <div class="Footer"></div>
-                            </div>
-                            <div class="ShadowBottom"></div>
-                        </div>
-                    </li>
-                    <li id="nav-4-5"><a href="">Fünfter Eintrag</a></li>
-                    <li id="nav-4-6"><a href="">Sechster Eintrag</a></li>
-                </ul>
-                <div class="Footer"></div>
-            </div>
-            <div class="ShadowBottom"></div>
-        </div>
-    </li>
-    <li id="nav1-5"><a href="">Statistics<span><span></span></span></a></li>
-    <li id="nav1-6"><a href="">Administration<span><span></span></span></a></li>
-    <li id="nav1-7">
+<!-- dtl:block:ItemArea -->
+    <li id="nav-search">
         <a class="Search ARIARoleSearch ARIAHasPopup" href="" title="Search"><span class="SearchIcon">Search</span><span><span></span></span></a>
     </li>
 </ul>
-</div>

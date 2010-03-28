@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.64 2010-03-25 21:30:33 martin Exp $
+# $Id: Header.dtl,v 1.65 2010-03-28 11:16:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,11 +81,42 @@ $Include{"Copyright"}
     <div id="Header" class="ARIARoleBanner">
         <div id="Logo"></div>
         <ul id="ToolBar">
-            <li class="Alerts"><span></span><a href="" title="Alerts"><span>9</span> Alerts</a></li>
-            <li class="Stacks"><span></span><a href="" title="Stacks"><span>21</span> Stacks</a></li>
-            <li class="Dates"><span></span><a href="" title="Date">Date</a></li>
-            <li class="Mails"><span></span><a href="" title="Mails"><span>10</span> Mails</a></li>
-            <li class="Global"><span></span><a href="" title="Global">Global</a></li>
+<!-- dtl:block:ToolBarItem -->
+            <li class="Alerts"><span></span><a href="$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$QData{"Count"} $Text{"$Data{"Description"}"}"><span>$QData{"Count"}</span> $Text{"Description"}</a></li>
+<!-- dtl:block:ToolBarItem -->
+#            <li class="Alerts"><span></span><a href="" title="Alerts"><span>9</span> Alerts</a></li>
+#            <li class="Stacks"><span></span><a href="" title="Stacks"><span>21</span> Stacks</a></li>
+#            <li class="Dates"><span></span><a href="" title="Date">Date</a></li>
+#            <li class="Mails"><span></span><a href="" title="Mails"><span>10</span> Mails</a></li>
+#            <li class="Global"><span></span><a href="" title="Global">Global</a></li>
+<!-- dtl:block:ToolBarSearchProfile -->
+            <li>
+                <div title="$Text{"$QData{"Description"}"}">
+                    <form action="$Env{"CGIHandle"}" method="post" name="SearchProfile">
+                        <input type="hidden" name="Action" value="AgentTicketSearch"/>
+                        <input type="hidden" name="Subaction" value="LoadProfile"/>
+                        <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
+                        $Data{"Link"}
+                        <br/>
+                        <a href="#" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem" onclick="document.SearchProfile.submit()">$Text{"$QData{"Name"}"}</a>
+                    </form>
+                </div>
+            </li>
+<!-- dtl:block:ToolBarSearchProfile -->
+<!-- dtl:block:ToolBarSearchFulltext -->
+            <li>
+                <div title="$Text{"$QData{"Description"}"}">
+                    <form action="$Env{"CGIHandle"}" method="post" name="SearchFulltext">
+                        <input type="hidden" name="Action" value="AgentTicketSearch"/>
+                        <input type="hidden" name="Subaction" value="Search"/>
+                        <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
+                        <input type="text" size="$QData{"Size"}" name="Fulltext" value="$QData{"Fulltext"}"/>
+                        <br/>
+                        <a href="#" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem" onclick="document.SearchFulltext.submit()">$Text{"$QData{"Name"}"}</a>
+                    </form>
+                </div>
+            </li>
+<!-- dtl:block:ToolBarSearchFulltext -->
         </ul>
 
         <div id="UserInfo">

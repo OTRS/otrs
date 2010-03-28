@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.304 2010-03-27 20:41:35 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.305 2010-03-28 11:16:25 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5944,36 +5944,36 @@ $QData{"Signature"}
             <String Regex=""></String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::TicketLocked" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::ToolBarModule###1-Ticket::TicketLocked" Required="0" Valid="1">
         <Description Lang="en">Agent interface notification module to check the used charset.</Description>
         <Description Lang="de">Modul mit dem Agents über das Agent-Interface über den Zeichensatz von Tickets benachrichtigt werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarTicketLocked</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketLocked</Item>
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::TicketWatcher" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::ToolBarModule###1-Ticket::TicketWatcher" Required="0" Valid="1">
         <Description Lang="en">Agent interface notification module to see the number of watched tickets.</Description>
         <Description Lang="de">Modul mit dem Agents über das Agent-Interface über die Anzahl von beobachteten Tickets benachrichtigt werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarTicketWatcher</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketWatcher</Item>
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::TicketResponsible" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::ToolBarModule###1-Ticket::TicketResponsible" Required="0" Valid="1">
         <Description Lang="en">Agent interface notification module to see the number of responsible tickets.</Description>
         <Description Lang="de">Modul mit dem Agents über das Agent-Interface über die Anzahl der Verantwortlichen Tickets benachrichtigt werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarTicketResponsible</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketResponsible</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9624,32 +9624,32 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::TicketSearchProfile" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::ToolBarModule###1-Ticket::TicketSearchProfile" Required="0" Valid="1">
         <Description Lang="en">Agent interface module to access search profiles via nav bar.</Description>
         <Description Lang="de">Modul im Agenten-Interface zum direkten Zugriff auf Such-Profile.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarTicketSearchProfile</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketSearchProfile</Item>
                 <Item Key="Description">Search-Template</Item>
                 <Item Key="Name">Search-Template</Item>
-                <Item Key="Block">ItemSearchProfile</Item>
+                <Item Key="Block">ToolBarSearchProfile</Item>
                 <Item Key="MaxWidth">40</Item>
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::TicketSearchFulltext" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::ToolBarModule###1-Ticket::TicketSearchFulltext" Required="0" Valid="1">
         <Description Lang="en">Agent interface module to access fulltext search via nav bar.</Description>
         <Description Lang="de">Modul im Agenten-Interface zum direkten Zugriff auf Volltext-Suche.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarTicketSearchFulltext</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketSearchFulltext</Item>
                 <Item Key="Description">Fulltext-Search</Item>
                 <Item Key="Name">Fulltext-Search</Item>
-                <Item Key="Block">ItemSearchFulltext</Item>
+                <Item Key="Block">ToolBarSearchFulltext</Item>
                 <Item Key="Size">10</Item>
             </Hash>
         </Setting>
