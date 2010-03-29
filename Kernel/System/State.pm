@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.39 2010-02-26 20:48:21 martin Exp $
+# $Id: State.pm,v 1.40 2010-03-29 17:36:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -328,7 +328,15 @@ sub StateGetStatesByType {
         $CacheKey .= 'Type::' . $Param{Type};
     }
     if ( $Param{StateType} ) {
-        $CacheKey .= 'StateType::' . join ':', sort @{ $Param{StateType} };
+
+        my @StateType;
+        if ( ref $Param{StateType} eq 'ARRAY' ) {
+            @StateType = @{ $Param{StateType} };
+        }
+        else {
+            push @StateType, $Param{StateType};
+        }
+        $CacheKey .= 'StateType::' . join ':', sort @StateType;
     }
 
     # check cache
@@ -361,7 +369,12 @@ sub StateGetStatesByType {
         }
     }
     else {
-        @StateType = @{ $Param{StateType} };
+        if ( ref $Param{StateType} eq 'ARRAY' ) {
+            @StateType = @{ $Param{StateType} };
+        }
+        else {
+            push @StateType, $Param{StateType};
+        }
     }
     my $SQL = "SELECT ts.id, ts.name, tst.name  "
         . " FROM ticket_state ts, ticket_state_type tst WHERE "
@@ -491,6 +504,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2010-02-26 20:48:21 $
+$Revision: 1.40 $ $Date: 2010-03-29 17:36:45 $
 
 =cut

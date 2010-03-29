@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1190 2010-03-25 14:42:45 martin Exp $
+# $Id: CHANGES,v 1.1191 2010-03-29 17:36:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.5.0 beta1 (????/??/??)
+
  - (2010/03/24) Reworked Kernel::System::Encode API to have more intuitive
     wording (is still compat. to OTRS 1.x and 2.x).
 
@@ -227,6 +228,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/03/29) Improved handling of the StateType attribute of
+    StateGetStatesByType() in Kernel/System/State.pm.
  - (2010/03/24) Fixed bug#5164 - Pending time not working if agent as an other
     timezone.
  - (2010/03/19) Fixed bug#5094 - Bulk pending date/time do not get applied to
