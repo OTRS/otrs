@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.221 2010-03-29 10:20:10 mn Exp $
+# $Id: Layout.pm,v 1.222 2010-03-29 12:15:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.221 $) [1];
+$VERSION = qw($Revision: 1.222 $) [1];
 
 =head1 NAME
 
@@ -1248,7 +1248,7 @@ sub Header {
 
     # run tool bar item modules
     my $ToolBarModule = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
-    if ( ref $ToolBarModule eq 'HASH' ) {
+    if ( $Self->{UserID} && ref $ToolBarModule eq 'HASH' ) {
         my %Modules;
         my %Jobs = %{$ToolBarModule};
         for my $Job ( sort keys %Jobs ) {
@@ -1274,8 +1274,16 @@ sub Header {
         }
     }
 
+    # show logged in notice
+    if ( $Self->{UserID} ) {
+        $Self->Block(
+            Name => 'Login',
+            Data => \%Param,
+        );
+    }
+
     # show logout button (if registured)
-    if ( $Self->{ConfigObject}->Get('Frontend::Module')->{Logout} ) {
+    if ( $Self->{UserID} && $Self->{ConfigObject}->Get('Frontend::Module')->{Logout} ) {
         $Self->Block(
             Name => 'Logout',
             Data => \%Param,
@@ -1867,11 +1875,10 @@ sub NoPermission {
     my ( $Self, %Param ) = @_;
 
     my $WithHeader = $Param{WithHeader} || 'yes';
-    my $Output = '';
     $Param{Message} = 'No Permission!' if ( !$Param{Message} );
 
     # create output
-    $Output = $Self->Header( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
+    my $Output = $Self->Header( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
     $Output .= $Self->Output( TemplateFile => 'NoPermission', Data => \%Param );
     $Output .= $Self->Footer() if ( $WithHeader eq 'yes' );
 
@@ -4426,6 +4433,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.221 $ $Date: 2010-03-29 10:20:10 $
+$Revision: 1.222 $ $Date: 2010-03-29 12:15:08 $
 
 =cut
