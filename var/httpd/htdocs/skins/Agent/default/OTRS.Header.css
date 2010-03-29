@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -251,15 +251,6 @@
     background-position: right -34px;
 }
 
-#Navigation > li:hover {
-    background-position: left -34px;
-    cursor: pointer;
-}
-
-.RTL #Navigation > li:hover {
-    background-position: left -34px;
-}
-
 #Navigation > .Selected {
     background-position: left -68px;
     z-index: 110;
@@ -274,8 +265,17 @@
     background-position: right -68px;
 }
 
-.RTL #Navigation > .Selected:hover > a{
+.RTL #Navigation > .Selected:hover > a {
     background-position: right -68px;
+}
+
+#Navigation > li:hover {
+    background-position: left -34px;
+    cursor: pointer;
+}
+
+.RTL #Navigation > li:hover {
+    background-position: left -34px;
 }
 
 #Navigation > .Active {
@@ -340,10 +340,6 @@
 
 #Navigation .Active a:hover > span > span {
     background-position: left -5px;
-}
-
-#Navigation .Selected a:hover > span {
-    background-position: right -5px;
 }
 
 #Navigation .Selected a:hover > span > span {

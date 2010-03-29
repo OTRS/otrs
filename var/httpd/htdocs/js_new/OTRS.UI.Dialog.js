@@ -2,7 +2,7 @@
 // OTRS.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Dialog.js,v 1.1 2010-03-25 15:04:37 mg Exp $
+// $Id: OTRS.UI.Dialog.js,v 1.2 2010-03-29 09:58:13 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ OTRS.UI = OTRS.UI || {};
  * @description
  *      Contains the code for the different dialogs.
  */
-OTRS.UI.Dialog = (function () {
+OTRS.UI.Dialog = (function (Namespace) {
 
     /**
      * @function
@@ -46,7 +46,7 @@ OTRS.UI.Dialog = (function () {
 
         // Alle offenen Dialogs schliessen
         if ($('.Dialog:visible').length) {
-            OTRS.UI.Dialog.CloseDialog($('.Dialog:visible'));
+            Namespace.CloseDialog($('.Dialog:visible'));
         }
 
         // If Dialog is a modal dialog, initialize overlay
@@ -151,7 +151,7 @@ OTRS.UI.Dialog = (function () {
                 Params.OnClose();
             }
             else {
-                OTRS.UI.Dialog.CloseDialog(this);
+                Namespace.CloseDialog(this);
             }
             return false;
         });
@@ -163,7 +163,7 @@ OTRS.UI.Dialog = (function () {
              */
             $(document).unbind('click.Dialog').bind('click.Dialog', function(event) {
                 if ($(event.target).closest('div.Dialog').length == 0) {
-                    OTRS.UI.Dialog.CloseDialog($('div.Dialog:visible'));
+                    Namespace.CloseDialog($('div.Dialog:visible'));
                 }
             });
         }
@@ -174,7 +174,7 @@ OTRS.UI.Dialog = (function () {
         });
 
         // Init KeyEvent-Logger
-        OTRS.UI.Dialog.$FocusableElements = GetFocusableElements();
+        Namespace.$FocusableElements = GetFocusableElements();
         InitKeyEvent(Params.CloseOnEscape);
 
         // Focus first focusable element
@@ -207,9 +207,9 @@ OTRS.UI.Dialog = (function () {
      *              Needs the Object "OTRS.UI.Dialog.$FocusableElements" to be initialized and filled (with function GetFocusableElements()).
      */
     function FocusElement(Position) {
-        if (typeof OTRS.UI.Dialog.$FocusableElements !== 'undefined' && OTRS.UI.Dialog.$FocusableElements.length > Position) {
-            $(OTRS.UI.Dialog.$FocusableElements[Position]).focus();
-            OTRS.UI.Dialog.FocusedElement = Position;
+        if (typeof Namespace.$FocusableElements !== 'undefined' && Namespace.$FocusableElements.length > Position) {
+            $(Namespace.$FocusableElements[Position]).focus();
+            Namespace.FocusedElement = Position;
         }
     }
 
@@ -255,11 +255,11 @@ OTRS.UI.Dialog = (function () {
                 }
                 else {
                     // Jump to the previous focusable element in the dialog
-                    if (OTRS.UI.Dialog.FocusedElement === 0) {
-                        FocusElement(OTRS.UI.Dialog.$FocusableElements.length - 1);
+                    if (Namespace.FocusedElement === 0) {
+                        FocusElement(Namespace.$FocusableElements.length - 1);
                     }
                     else {
-                        FocusElement(OTRS.UI.Dialog.FocusedElement - 1);
+                        FocusElement(Namespace.FocusedElement - 1);
                     }
                 }
                 event.preventDefault();
@@ -273,11 +273,11 @@ OTRS.UI.Dialog = (function () {
                 }
                 else {
                     // Jump to next focusable element in the dialog
-                    if (OTRS.UI.Dialog.FocusedElement === (OTRS.UI.Dialog.$FocusableElements.length - 1)) {
+                    if (Namespace.FocusedElement === (Namespace.$FocusableElements.length - 1)) {
                         FocusFirstElement();
                     }
                     else {
-                        FocusElement(OTRS.UI.Dialog.FocusedElement + 1);
+                        FocusElement(Namespace.FocusedElement + 1);
                     }
                 }
                 event.preventDefault();
@@ -286,7 +286,7 @@ OTRS.UI.Dialog = (function () {
             }
             // Escape pressed and CloseOnEscape is true
             else if (event.keyCode === 27 && CloseOnEscape) {
-                OTRS.UI.Dialog.CloseDialog($('div.Dialog:visible'));
+                Namespace.CloseDialog($('div.Dialog:visible'));
                 event.preventDefault();
                 event.stopPropagation();
                 return false;
@@ -306,78 +306,77 @@ OTRS.UI.Dialog = (function () {
         $('.Dialog:visible .Content .InnerContent').css('max-height', ContentScrollHeight);
     }
 
-    return {
+    /**
+     * @field
+     * @description This variable contains al focusable elements of the open dialog.
+     */
+    Namespace.$FocusableElements = [];
 
-        /**
-         * @field
-         * @description This variable contains al focusable elements of the open dialog.
-         */
-        $FocusableElements: [],
+    /**
+     * @field
+     * @description The latest focused element of the open dialog.
+     */
+    Namespace.FocusedElement = 0;
 
-        /**
-         * @field
-         * @description The latest focused element of the open dialog.
-         */
-        FocusedElement: 0,
-
-        /**
-         * @function
-         * @description
-         *      Shows a default dialog.
-         * @param HTML The content HTML which should be shown
-         * @param Title The title of the dialog
-         * @param PositionTop The top position the dialog is positioned initially
-         * @param PositionLeft The left position the dialog is positioned initially
-         * @param Modal If defined and set to true, an overlay is shown for a modal dialog
-         * @return nothing
-         */
-        ShowContentDialog: function (HTML, Title, PositionTop, PositionLeft, Modal) {
-            ShowDialog({
-                HTML: HTML,
-                Title: Title,
-                Modal: Modal,
-                CloseOnClickOutside: true,
-                CloseOnEscape: true,
-                PositionTop: PositionTop,
-                PositionLeft: PositionLeft
-            });
-        },
-
-        /**
-         * @function
-         * @description
-         *      Shows a alert dialog.
-         * @param Headline The bold headline
-         * @param Text The description
-         * @param CloseFunction The special function which is started on closing the dialog (optional, if used also the removing of the dialog itself must be handled)
-         * @return nothing
-         */
-        ShowAlert: function (Headline, Text, CloseFunction) {
-            ShowDialog({
-                Type: 'Alert',
-                Modal: true,
-                Headline: Headline,
-                Text: Text,
-                OnClose: CloseFunction
-            });
-        },
-
-        /**
-         * @function
-         * @description
-         *      Closes all dialogs specified.
-         * @param Object The javascript or jQuery object that defines the dialog or any child element of it, which should be closed
-         * @return nothing
-         */
-        CloseDialog: function (Object) {
-            $(Object).closest('.Dialog').remove();
-            $('#Overlay').remove();
-            $('body').css({
-                'overflow': 'auto',
-                'position': 'static'
-            });
-            $(document).unbind('keydown.Dialog').unbind('keypress.Dialog').unbind('click.Dialog');
-            $(window).unbind('resize.Dialog');
-        }
+    /**
+     * @function
+     * @description
+     *      Shows a default dialog.
+     * @param HTML The content HTML which should be shown
+     * @param Title The title of the dialog
+     * @param PositionTop The top position the dialog is positioned initially
+     * @param PositionLeft The left position the dialog is positioned initially
+     * @param Modal If defined and set to true, an overlay is shown for a modal dialog
+     * @return nothing
+     */
+    Namespace.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal) {
+        ShowDialog({
+            HTML: HTML,
+            Title: Title,
+            Modal: Modal,
+            CloseOnClickOutside: true,
+            CloseOnEscape: true,
+            PositionTop: PositionTop,
+            PositionLeft: PositionLeft
+        });
     };
-}());
+
+    /**
+     * @function
+     * @description
+     *      Shows a alert dialog.
+     * @param Headline The bold headline
+     * @param Text The description
+     * @param CloseFunction The special function which is started on closing the dialog (optional, if used also the removing of the dialog itself must be handled)
+     * @return nothing
+     */
+    Namespace.ShowAlert = function (Headline, Text, CloseFunction) {
+        ShowDialog({
+            Type: 'Alert',
+            Modal: true,
+            Headline: Headline,
+            Text: Text,
+            OnClose: CloseFunction
+        });
+    };
+
+    /**
+     * @function
+     * @description
+     *      Closes all dialogs specified.
+     * @param Object The javascript or jQuery object that defines the dialog or any child element of it, which should be closed
+     * @return nothing
+     */
+    Namespace.CloseDialog = function (Object) {
+        $(Object).closest('.Dialog').remove();
+        $('#Overlay').remove();
+        $('body').css({
+            'overflow': 'auto',
+            'position': 'static'
+        });
+        $(document).unbind('keydown.Dialog').unbind('keypress.Dialog').unbind('click.Dialog');
+        $(window).unbind('resize.Dialog');
+    };
+
+    return Namespace;
+}(OTRS.UI.Dialog || {}));

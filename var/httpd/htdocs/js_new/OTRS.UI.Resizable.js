@@ -2,7 +2,7 @@
 // OTRS.UI.Resizable.js - Resizable
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Resizable.js,v 1.1 2010-03-25 15:04:37 mg Exp $
+// $Id: OTRS.UI.Resizable.js,v 1.2 2010-03-29 09:58:14 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -19,31 +19,28 @@ OTRS.UI = OTRS.UI || {};
  * @description
  *      Contains the code for resizable elements.
  */
-OTRS.UI.Resizable = (function () {
-
-   return {
-
-        /**
-         * @function
-         * @description
-         *      This function initializes the resizability of the given element
-         * @param {String} Selector jQuery selector of the element, which should be resizable
-         * @return nothing
-         */
-        Init: function (Selector) {
-            var $Selector = $(Selector);
-            if ($Selector.length) {
-                $Selector.resizable({
-                    handles: {
-                        s: $Selector.find('.Handle a')
-                    },
-                    minHeight: 50,
-                    maxHeight: $Selector.find("table").height() + 10,
-                    resize: function(event, ui) {
-                        $Selector.find("div.Scroller").height((ui.size.height - 10) + 'px').width(ui.size.width + 'px');
-                    }
-                });
-            }
+OTRS.UI.Resizable = (function (Namespace) {
+    /**
+     * @function
+     * @description
+     *      This function initializes the resizability of the given element
+     * @param {String} Selector jQuery selector of the element, which should be resizable
+     * @return nothing
+     */
+    Namespace.Init = function (Selector) {
+        var $Selector = $(Selector);
+        if ($Selector.length) {
+            $Selector.resizable({
+                handles: {
+                    s: $Selector.find('.Handle a')
+                },
+                minHeight: 50,
+                maxHeight: $Selector.find("table").height() + 10,
+                resize: function(event, ui) {
+                    $Selector.find("div.Scroller").height((ui.size.height - 10) + 'px').width(ui.size.width + 'px');
+                }
+            });
         }
-    };
-}());
+    }
+    return Namespace;
+}(OTRS.UI.Resizable || {}));

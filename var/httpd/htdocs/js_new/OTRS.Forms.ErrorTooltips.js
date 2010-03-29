@@ -2,7 +2,7 @@
 // OTRS.UI.Tooltips.js - provides provides Tooltip functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.ErrorTooltips.js,v 1.1 2010-03-25 15:04:37 mg Exp $
+// $Id: OTRS.Forms.ErrorTooltips.js,v 1.2 2010-03-29 09:58:14 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -12,16 +12,14 @@
 "use strict";
 
 var OTRS = OTRS || {};
-
 OTRS.Forms = OTRS.Forms || {};
-
 
 /**
  * @namespace
  * @description
  *      This namespace contains the Tooltip initialization functions
  */
-OTRS.Forms.ErrorTooltips = (function () {
+OTRS.Forms.ErrorTooltips = (function (Namespace) {
 
     var TooltipContainerID = 'OTRS_UI_Tooltips_ErrorTooltip';
     var TooltipOffsetTop = 20;
@@ -67,39 +65,39 @@ OTRS.Forms.ErrorTooltips = (function () {
         $('#' + TooltipContainerID).hide().empty();
     }
 
-    return {
-        /**
-         * @function
-         * @description
-         *      This function initializes the tooltips on an input field
-         * @param {jQueryObject} $Elements
-         *      The elements (within a jQuery object) for whom the tooltips are initialized.
-         * @param {String} TooltipContent
-         *      Content of the tooltip, may contain HTML.
-         * @return nothing
-         */
-        InitTooltip: function($Element, TooltipContent){
-            $Element.unbind('focus.Tooltip');
-            $Element.bind(  'focus.Tooltip', function(){
-                ShowTooltip($Element, TooltipContent);
-            });
+    /**
+     * @function
+     * @description
+     *      This function initializes the tooltips on an input field
+     * @param {jQueryObject} $Elements
+     *      The elements (within a jQuery object) for whom the tooltips are initialized.
+     * @param {String} TooltipContent
+     *      Content of the tooltip, may contain HTML.
+     * @return nothing
+     */
+    Namespace.InitTooltip = function($Element, TooltipContent){
+        $Element.unbind('focus.Tooltip');
+        $Element.bind(  'focus.Tooltip', function(){
+            ShowTooltip($Element, TooltipContent);
+        });
 
-            $Element.unbind('blur.Tooltip');
-            $Element.bind(  'blur.Tooltip', HideTooltip);
-        },
-
-        /**
-         * @function
-         * @description
-         *      This function removes the tooltip from an input field
-         * @param {jQueryObject} $Element
-         *      The elements (within a jQuery object) for whom the tooltips are removed.
-         * @return nothing
-         */
-        RemoveTooltip: function($Element){
-            HideTooltip();
-            $Element.unbind('focus.Tooltip');
-            $Element.unbind('blur.Tooltip');
-        }
+        $Element.unbind('blur.Tooltip');
+        $Element.bind(  'blur.Tooltip', HideTooltip);
     };
-}());
+
+    /**
+     * @function
+     * @description
+     *      This function removes the tooltip from an input field
+     * @param {jQueryObject} $Element
+     *      The elements (within a jQuery object) for whom the tooltips are removed.
+     * @return nothing
+     */
+    Namespace.RemoveTooltip = function($Element){
+        HideTooltip();
+        $Element.unbind('focus.Tooltip');
+        $Element.unbind('blur.Tooltip');
+    }
+
+    return Namespace;
+}(OTRS.Forms.ErrorTooltips || {}));

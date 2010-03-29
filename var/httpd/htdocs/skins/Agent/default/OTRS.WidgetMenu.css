@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -330,12 +330,26 @@ ul.ContextFunctions li.ContextHelp:hover {
     background-image: none;
 }
 
+.ActionRow ul.Actions li.Inactive a {
+    color: #999;
+    text-shadow: 1px 1px #FFF;
+}
+
+.ActionRow ul.Actions li.Inactive:hover {
+    background: none;
+}
+
 .ActionRow ul.Actions li:hover a {
     background: url(img/overviewcontrol_hover1.png) no-repeat top right;
 }
 
 .ActionRow ul.Actions li:hover {
     background: url(img/overviewcontrol_hover2.png) no-repeat top left;
+}
+
+.ActionRow ul.Actions li.Inactive:hover a {
+    background: url(img/tab_isolator.png) no-repeat center right;
+    cursor: default;
 }
 
 .ActionRow ul.Actions form {

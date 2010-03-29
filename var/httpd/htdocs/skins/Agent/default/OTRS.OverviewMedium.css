@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -32,7 +32,7 @@
 
 .OverviewMedium li div.Content {
     padding-top: 8px;
-    padding-bottom: 5px;
+    padding-bottom: 0px;
 }
 
 .OverviewMedium li div.Shadow {
@@ -111,7 +111,7 @@
 }
 
 .OverviewMedium table.Infos {
-    margin-top: 10px;
+    margin-top: 2px;
     margin-left: 45px;
     table-layout: fixed;
     width: 97%;
@@ -128,14 +128,14 @@
 
 .OverviewMedium table.Infos td {
     width: 16.67%;
-    padding: 0 10px 10px 10px;
+    padding: 0 10px 5px 10px;
     overflow: hidden;
     border-left: 1px dotted #CCC;
     line-height: 16px;
 }
 
 .OverviewMedium table.Infos td:first-child {
-    padding: 0 0 10px 0;
+    padding: 0 0 5px 0;
     border-left: none;
 }
 

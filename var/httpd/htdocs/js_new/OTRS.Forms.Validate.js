@@ -1,8 +1,8 @@
 // --
-// OTRS.Validate.js - provides functions for validating form inputs
+// OTRS.Forms.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.Validate.js,v 1.1 2010-03-25 15:04:37 mg Exp $
+// $Id: OTRS.Forms.Validate.js,v 1.2 2010-03-29 09:58:14 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ OTRS.Forms = OTRS.Forms || {};
  * @requires
  *      OTRS.UI.Accessibility
  */
-OTRS.Forms.Validate = (function () {
+OTRS.Forms.Validate = (function (Namespace) {
     var Options = {
         FormClass:          'Validate',
         ErrorClass:         'Error',
@@ -166,104 +166,104 @@ OTRS.Forms.Validate = (function () {
         }
     });
 
-    return {
-        /**
-         * @function
-         * @description
-         *      This function initializes the validation on all forms on the page which have a class named "Validate"
-         * @return nothing
-         */
-        Init: function() {
-            var i = 0,
-                FormSelector,
-                $ServerErrors;
+    /**
+     * @function
+     * @description
+     *      This function initializes the validation on all forms on the page which have a class named "Validate"
+     * @return nothing
+     */
+    Namespace.Init = function() {
+        var i = 0,
+            FormSelector,
+            $ServerErrors;
 
-            if (Options.FormClass) {
-                FormSelector = 'form.' + Options.FormClass;
-            }
-            else {
-                FormSelector = 'form';
-            }
-            $(FormSelector).validate({
-                ignoreTitle: true,
-                errorClass: Options.ErrorClass,
-                highlight: HighlightError,
-                unhighlight: UnHighlightError,
-                errorPlacement: OnErrorElement,
-                submitHandler: OnSubmit
+        if (Options.FormClass) {
+            FormSelector = 'form.' + Options.FormClass;
+        }
+        else {
+            FormSelector = 'form';
+        }
+        $(FormSelector).validate({
+            ignoreTitle: true,
+            errorClass: Options.ErrorClass,
+            highlight: HighlightError,
+            unhighlight: UnHighlightError,
+            errorPlacement: OnErrorElement,
+            submitHandler: OnSubmit
+        });
+
+        /*
+         * If on document load there are Error classes present, there were validation errors on server side.
+         * Show an alert message and initialize the tooltips.
+         */
+        $ServerErrors = $('input, textarea, select').filter('.' + Options.ServerErrorClass);
+        if ($ServerErrors.length) {
+            $ServerErrors.each(function() {
+                HighlightError(this, 'ServerError');
             });
-
-            /*
-             * If on document load there are Error classes present, there were validation errors on server side.
-             * Show an alert message and initialize the tooltips.
-             */
-            $ServerErrors = $('input, textarea, select').filter('.' + Options.ServerErrorClass);
-            if ($ServerErrors.length) {
-                $ServerErrors.each(function() {
-                    HighlightError(this, 'ServerError');
-                });
-                OTRS.UI.Dialog.ShowAlert('Fehler!', 'Bei einem oder mehreren Formular-Eingaben sind Fehler aufgetreten!');
-            }
-        },
-
-        /**
-         * @function
-         * @description
-         *      This function defines the function which is executed when validation was successful on submitting the form
-         * @param {String} FormID the ID of the form, for which this submit function is used
-         * @param {Function} Func the function, which is executed on successful submitting the form. Gets the submitted form as a parameter.
-         * @return nothing
-         */
-        SetSubmitFunction: function(FormID, Func) {
-            if ($.isFunction(Func) && $('#' + FormID).length) {
-                Options.SubmitFunction[FormID] = Func;
-            }
-        },
-
-        /**
-         * @function
-         * @description
-         *      This function adds special validation methods, which check a special rule only, if another depending method returns true
-         * @param {String} Name The name of the rule aka the name of the class attribute used.
-         * @param {String} Basis The rule which should be applied
-         * @param {Function} Depends This function defined, if the given basis rule should be checked or not
-         *                   (parameter: the element which should be checked; returns true, if rule should be checked)
-         * @return nothing
-         */
-        AddDependingValidation: function(Name, Basis, Depends) {
-            var RuleHash = {};
-            RuleHash[Basis] = {
-                depends: Depends
-            };
-            $.validator.addClassRules(Name, RuleHash);
-        },
-
-        /**
-         * @function
-         * @description
-         *      This function is used to add special validation methods. The name can be used to define new rules.
-         * @param {String} Name The name of the method
-         * @param {Function} Function This function defines the specific validation method (parameter: value, element, params). Returns true if the element is valid.
-         * @return nothing
-         */
-        AddMethod: function(Name, Function) {
-            if (Name && $.isFunction(Function)) {
-                $.validator.addMethod(Name, Function, "");
-            }
-        },
-
-        /**
-         * @function
-         * @description
-         *      This function is used to add special validation rules. The name is also the class name you can use in the HTML.
-         * @param {String} Name The name of the rule
-         * @param {Object} MethodHash This JS object defines, which methods should be included in this rule, e.g. { OTRS_Validate_Required: true, OTRS-Validate_MinLength: 2 }
-         * @return nothing
-         */
-        AddRule: function(Name, MethodHash) {
-            if (Name && typeof MethodHash === "Object") {
-                $.validator.addClassRules(Name, MethodHash);
-            }
+            OTRS.UI.Dialog.ShowAlert('Fehler!', 'Bei einem oder mehreren Formular-Eingaben sind Fehler aufgetreten!');
         }
     };
-}());
+
+    /**
+     * @function
+     * @description
+     *      This function defines the function which is executed when validation was successful on submitting the form
+     * @param {String} FormID the ID of the form, for which this submit function is used
+     * @param {Function} Func the function, which is executed on successful submitting the form. Gets the submitted form as a parameter.
+     * @return nothing
+     */
+    Namespace.SetSubmitFunction = function(FormID, Func) {
+        if ($.isFunction(Func) && $('#' + FormID).length) {
+            Options.SubmitFunction[FormID] = Func;
+        }
+    };
+
+    /**
+     * @function
+     * @description
+     *      This function adds special validation methods, which check a special rule only, if another depending method returns true
+     * @param {String} Name The name of the rule aka the name of the class attribute used.
+     * @param {String} Basis The rule which should be applied
+     * @param {Function} Depends This function defined, if the given basis rule should be checked or not
+     *                   (parameter: the element which should be checked; returns true, if rule should be checked)
+     * @return nothing
+     */
+    Namespace.AddDependingValidation = function(Name, Basis, Depends) {
+        var RuleHash = {};
+        RuleHash[Basis] = {
+            depends: Depends
+        };
+        $.validator.addClassRules(Name, RuleHash);
+    };
+
+    /**
+     * @function
+     * @description
+     *      This function is used to add special validation methods. The name can be used to define new rules.
+     * @param {String} Name The name of the method
+     * @param {Function} Function This function defines the specific validation method (parameter: value, element, params). Returns true if the element is valid.
+     * @return nothing
+     */
+    Namespace.AddMethod = function(Name, Function) {
+        if (Name && $.isFunction(Function)) {
+            $.validator.addMethod(Name, Function, "");
+        }
+    };
+
+    /**
+     * @function
+     * @description
+     *      This function is used to add special validation rules. The name is also the class name you can use in the HTML.
+     * @param {String} Name The name of the rule
+     * @param {Object} MethodHash This JS object defines, which methods should be included in this rule, e.g. { OTRS_Validate_Required: true, OTRS-Validate_MinLength: 2 }
+     * @return nothing
+     */
+    Namespace.AddRule = function(Name, MethodHash) {
+        if (Name && typeof MethodHash === "Object") {
+            $.validator.addClassRules(Name, MethodHash);
+        }
+    }
+
+    return Namespace;
+}(OTRS.Forms.Validate || {}));
