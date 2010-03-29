@@ -2,7 +2,7 @@
 // OTRS.Debug.js - provides debugging functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Debug.js,v 1.2 2010-03-29 09:58:14 mn Exp $
+// $Id: OTRS.Debug.js,v 1.3 2010-03-29 14:09:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -72,6 +72,24 @@ OTRS.Debug = (function (Namespace) {
                 RequiredLabel + ' could not be found.');
         }
         return false;
+    };
+
+    /**
+     * @function
+     * @description
+     *      Checks, if the used browser is not on the OTRS browser blacklist.
+     * @return true if the used browser is *not* on the black list.
+     */
+    Namespace.BrowserCheck = function() {
+        var AppropriateBrowser = true;
+        if (typeof OTRS.Config.BrowserBlackList !== 'undefined') {
+            $.each(OTRS.Config.BrowserBlackList, function(Key, Value) {
+                if (Value()) {
+                    AppropriateBrowser = false;
+                }
+            });
+            return AppropriateBrowser;
+        }
     };
 
     /**
