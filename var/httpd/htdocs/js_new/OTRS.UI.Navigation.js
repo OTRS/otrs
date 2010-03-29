@@ -2,7 +2,7 @@
 // OTRS.UI.Navigation.js - provides JS code for navigation
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Navigation.js,v 1.2 2010-03-29 09:58:13 mn Exp $
+// $Id: OTRS.UI.Navigation.js,v 1.3 2010-03-29 10:20:11 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ OTRS.UI.Navigation = (function (Namespace) {
             }
         }
 
-        $('#Navigation li.HasSubNavigation')
+        $('#Navigation > li')
             .filter(function() {
                 return $('ul', this).length;
             })
@@ -97,6 +97,15 @@ OTRS.UI.Navigation = (function (Namespace) {
                     $Li.attr('aria-controls', ARIAControlsID).attr('aria-expanded', false);
                 }
             });
+
+            /*
+             * The navigation elements don't have a class "ARIAHasPopup" which automatically generates the aria-haspopup attribute,
+             * because of some code limitation while generating the nav data.
+             * Therefore, the aria-haspopup attribute for the navigation is generated manually.
+             */
+            $('#Navigation li').filter(function() {
+                return $('ul', this).length;
+            }).attr('aria-haspopup', 'true');
     };
     return Namespace;
 }(OTRS.UI.Navigation || {}));

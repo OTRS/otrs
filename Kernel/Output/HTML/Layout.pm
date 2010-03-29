@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.220 2010-03-28 11:16:26 martin Exp $
+# $Id: Layout.pm,v 1.221 2010-03-29 10:20:10 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.220 $) [1];
+$VERSION = qw($Revision: 1.221 $) [1];
 
 =head1 NAME
 
@@ -2390,10 +2390,6 @@ sub NavigationBar {
         my $Item = $NavBar{$Key};
         my $Sub  = $NavBar{Sub}->{ $Item->{NavBar} };
 
-        # set css of sub nav is available
-        if ($Sub) {
-            $Item->{CSS} .= ' HasSubNavigation ARIAHasPopup';
-        }
         $Self->Block(
             Name => 'ItemArea',    #$NavBar{$_}->{Block} || 'Item',
             Data => $Item,
@@ -4430,6 +4426,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.220 $ $Date: 2010-03-28 11:16:26 $
+$Revision: 1.221 $ $Date: 2010-03-29 10:20:10 $
 
 =cut
