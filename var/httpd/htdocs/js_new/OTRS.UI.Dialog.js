@@ -2,7 +2,7 @@
 // OTRS.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Dialog.js,v 1.3 2010-03-31 08:09:46 mn Exp $
+// $Id: OTRS.UI.Dialog.js,v 1.4 2010-03-31 09:59:21 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -409,14 +409,19 @@ OTRS.UI.Dialog = (function (Namespace) {
      * @description
      *      Registers the event for the special attachment dialog.
      * @param jQueryObject $Selector The jQuery Object on which elements the click event for the dialog should be registered
-     * @param String HTMLString The HTML data to be shown in the dialog
+     * @param String HTMLString The HTML data to be shown in the dialog, can also be the ID of a HTML containing element
      * @return nothing
      */
-    Namespace.RegisterAttachmentDialog = function ($Selector, HTMLString) {
+    Namespace.RegisterAttachmentDialog = function ($Selector) {
         $Selector.click(function(event){
-            var Position;
-            Position = $(this).offset();
-            OTRS.UI.Dialog.ShowContentDialog(HTMLString, 'Attachments', Position.top, parseInt(Position.left) + 25);
+            var Position, HTML, $HTMLObject;
+            if ($(this).attr('rel') && $('#' + $(this).attr('rel')).length){
+                Position = $(this).offset();
+                $HTMLObject = $('#UIElementPool .AttachmentDialog').clone().find('.AttachmentContent').unwrap();
+                $HTMLObject.append($('#' + $(this).attr('rel'))[0].innerHTML);
+                console.log($HTMLObject);
+                OTRS.UI.Dialog.ShowContentDialog($HTMLObject.html(), 'Attachments', Position.top, parseInt(Position.left) + 25);
+            }
             event.preventDefault();
             event.stopPropagation();
             return false;

@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -32,6 +32,7 @@
 .Dialog {
     position: absolute;
     z-index: 99999;
+    min-width: 150px;
 }
 
 .Dialog > .Header {
@@ -78,7 +79,7 @@
 .Dialog > .Content {
     background: transparent url(img/dialog_content.png) repeat-y right;
     padding: 10px 13px 0px 0px;
-    min-height: 100px;
+    min-height: 80px;
     overflow: hidden;
 }
 
