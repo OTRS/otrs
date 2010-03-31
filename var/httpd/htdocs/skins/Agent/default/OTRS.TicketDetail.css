@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -117,11 +117,11 @@ div.Headline .Flag {
 }
 
 .ArticleView li.Active a {
-    background: url(img/tabs_active_bg.png) no-repeat top right;
+    background: url(img/tabs_active_bg.png) no-repeat bottom right;
 }
 
 .ArticleView li.Active {
-    background: url(img/tabs_active_door.png) no-repeat top left;
+    background: url(img/tabs_active_door.png) no-repeat bottom left;
 }
 
 .ArticleView li.Active.OneArticle a span {

@@ -2,7 +2,7 @@
 // OTRS.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Dialog.js,v 1.2 2010-03-29 09:58:13 mn Exp $
+// $Id: OTRS.UI.Dialog.js,v 1.3 2010-03-31 08:09:46 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -30,11 +30,11 @@ OTRS.UI.Dialog = (function (Namespace) {
      *               Title: string (default: undefnied) Defines the title of the dialog window
      *               Headline: string (default: undefined) Defines a special headline within the dialog window
      *               Text: string (default: undefined) The text which is outputtet in the dialog window
-     *               HTML: string (default: undefnied) Used for content dialog windows. Contains a complete HTML snippet
+     *               HTML: string (default: undefined) Used for content dialog windows. Contains a complete HTML snippet or an ID of an element with containing HTML
      *               PositionTop: value (default: undefined) Defines the top position of the dilaog window
      *               PositionBottom: value (default: undefined) Defines the bottom position of the dilaog window
      *               PositionLeft: value|Center (default: undefined) Defines the left position of the dilaog window. Center centers the window
-     *               PositionRightp: value (default: undefined) Defines the right position of the dilaog window
+     *               PositionRight: value (default: undefined) Defines the right position of the dilaog window
      *               OnClose: function (default: undefined) Function for closing logic of dialog
      *               CloseOnClickOutside true|false (default: false) If true, clicking outside the dialog closes the dialog
      *               CloseOnEscape true|false (default: false) If true, pressing escape key closes the dialog
@@ -44,7 +44,7 @@ OTRS.UI.Dialog = (function (Namespace) {
     function ShowDialog(Params) {
         var $Dialog, $Content, ContentScrollHeight;
 
-        // Alle offenen Dialogs schliessen
+        // Close all opened dialogs
         if ($('.Dialog:visible').length) {
             Namespace.CloseDialog($('.Dialog:visible'));
         }
@@ -63,6 +63,15 @@ OTRS.UI.Dialog = (function (Namespace) {
 
         if (Params.Modal) {
             $Dialog.addClass('Modal');
+        }
+
+        // If Param HTML is provided, get the HTML data
+        // Data can be a HTML string or an ID of an element with containing HTML data
+        if (Params.HTML) {
+            // Get HTML with JS function innerhTML, because jQuery html() strips out the script blocks
+            if (!(Params.HTML.match(/</) || Params.HTML.match(/>/)) && $('#' + Params.HTML).length) {
+                Params.HTML = $('#' + Params.HTML)[0].innerHTML;
+            }
         }
 
         // Type 'Alert'
@@ -376,6 +385,42 @@ OTRS.UI.Dialog = (function (Namespace) {
         });
         $(document).unbind('keydown.Dialog').unbind('keypress.Dialog').unbind('click.Dialog');
         $(window).unbind('resize.Dialog');
+    };
+
+    /**
+     * @function
+     * @description
+     *      Registers the click event for the dialogs.
+     * @param jQueryObject $Selector The jQuery Object on which elements the click event for the dialog should be registered
+     * @param Object Params The dialog parameters
+     * @return nothing
+     */
+    Namespace.RegisterDialog = function ($Selector, Params) {
+        $Selector.click(function(event){
+            ShowDialog(Params);
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        });
+    };
+
+    /**
+     * @function
+     * @description
+     *      Registers the event for the special attachment dialog.
+     * @param jQueryObject $Selector The jQuery Object on which elements the click event for the dialog should be registered
+     * @param String HTMLString The HTML data to be shown in the dialog
+     * @return nothing
+     */
+    Namespace.RegisterAttachmentDialog = function ($Selector, HTMLString) {
+        $Selector.click(function(event){
+            var Position;
+            Position = $(this).offset();
+            OTRS.UI.Dialog.ShowContentDialog(HTMLString, 'Attachments', Position.top, parseInt(Position.left) + 25);
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        });
     };
 
     return Namespace;
