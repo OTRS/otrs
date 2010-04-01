@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.99.2.5 2010-04-01 16:28:56 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.99.2.6 2010-04-01 17:59:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99.2.5 $) [1];
+$VERSION = qw($Revision: 1.99.2.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -783,14 +783,17 @@ sub Run {
                 && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Minute' } )
                 )
             {
-                my %Time;
-                $Time{ 'TicketFreeTime' . $_ . 'Year' }    = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Month' }   = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Day' }     = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Hour' }    = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Minute' }  = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Secunde' } = 0;
 
+                # set time stamp to NULL if field is not used/checked
+                if ( !$GetParam{ 'TicketFreeTime' . $_ . 'Used' } ) {
+                    $GetParam{ 'TicketFreeTime' . $_ . 'Year' }   = 0;
+                    $GetParam{ 'TicketFreeTime' . $_ . 'Month' }  = 0;
+                    $GetParam{ 'TicketFreeTime' . $_ . 'Day' }    = 0;
+                    $GetParam{ 'TicketFreeTime' . $_ . 'Hour' }   = 0;
+                    $GetParam{ 'TicketFreeTime' . $_ . 'Minute' } = 0;
+                }
+
+                # set free time
                 $Self->{TicketObject}->TicketFreeTimeSet(
                     %GetParam,
                     Prefix   => 'TicketFreeTime',
