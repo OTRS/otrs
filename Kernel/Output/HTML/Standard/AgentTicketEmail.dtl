@@ -1,8 +1,8 @@
 # --
 # AgentTicketEmail.dtl - provides HTML form for agent email
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.50.2.5 2009-10-30 09:39:11 mb Exp $
+# $Id: AgentTicketEmail.dtl,v 1.50.2.6 2010-04-01 16:32:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -131,6 +131,16 @@ function CustomerSubmit() {
 function clear_field() {
     document.compose.To.value = "";
     document.compose.To.focus();
+}
+//-->
+</script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function ReloadSignature() {
+    var f = document.getElementById('Signature');
+    f.src = '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Signature&Dest=' + document.compose.Dest.value;
+    f.src = f.src;
 }
 //-->
 </script>
@@ -312,7 +322,8 @@ $Include{"RichTextEditor"}
                         <tr>
                             <td class="contentkey">$Text{"Signature"}:</td>
                             <td class="contentvalue">
-                                <textarea name="Signature" rows="5" cols="82" wrap="$Env{"BrowserWrap"}" readonly>$Data{"Signature"}</textarea>
+                                <input type="hidden" name="Signature" value="$QData{"Signature"}"/>
+                                <iframe height="140" width="620" frameborder="0" id="Signature" src="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Signature&QueueID=$QData{"QueueID"}"></iframe>
                             </td>
                         </tr>
                         <tr>
