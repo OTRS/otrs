@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.66 2010-03-31 13:06:08 mn Exp $
+# $Id: Header.dtl,v 1.67 2010-04-01 13:13:17 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -96,9 +96,25 @@ $Include{"Copyright"}
                     <input type="hidden" name="Subaction" value="LoadProfile"/>
                     <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
                     $Data{"Link"}
-                    <a href="#" title="$Text{"$QData{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"} onclick="document.SearchProfile.submit()">$Text{"$QData{"Name"}"}<span class="Gloss"></span></a>
+                    <a href="#" id="ToolbarProfileSearch" title="$Text{"$QData{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$QData{"Name"}"}<span class="Gloss"></span></a>
                 </form>
             </li>
+            <script type="text/javascript">
+                window.onload = (function() {
+                    OTRS.UI.Toolbar.RegisterEvent('click', 'ToolbarProfileSearch', function(Event) {
+                        $(Event.target).closest('form').submit();
+                        Event.preventDefault();
+                        Event.stopPropagation();
+                        return false;
+                    });
+                    OTRS.UI.Toolbar.RegisterEvent('change', 'Profile', function(Event) {
+                        $(Event.target).closest('form').submit();
+                        Event.preventDefault();
+                        Event.stopPropagation();
+                        return false;
+                    });
+                });
+            </script>
 <!-- dtl:block:ToolBarSearchProfile -->
 <!-- dtl:block:ToolBarSearchFulltext -->
             <li class="Extended SearchFulltext">
@@ -107,9 +123,19 @@ $Include{"Copyright"}
                     <input type="hidden" name="Subaction" value="Search"/>
                     <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
                     <input type="text" size="$QData{"Size"}" name="Fulltext" value="$QData{"Fulltext"}"/>
-                    <a href="#" title="$Text{"$QData{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"} onclick="document.SearchFulltext.submit()">$Text{"$QData{"Name"}"}<span class="Gloss"></span></a>
+                    <a href="#" id="ToolbarFulltextSearch" title="$Text{"$QData{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$QData{"Name"}"}<span class="Gloss"></span></a>
                 </form>
             </li>
+            <script type="text/javascript">
+                window.onload = (function() {
+                    OTRS.UI.Toolbar.RegisterEvent('click', 'ToolbarFulltextSearch', function(Event) {
+                        $(Event.target).closest('form').submit();
+                        Event.preventDefault();
+                        Event.stopPropagation();
+                        return false;
+                    });
+                });
+            </script>
 <!-- dtl:block:ToolBarSearchFulltext -->
         </ul>
 
