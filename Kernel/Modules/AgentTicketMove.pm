@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.37.2.5 2010-04-01 17:59:53 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.37.2.6 2010-04-01 19:16:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.5 $) [1];
+$VERSION = qw($Revision: 1.37.2.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -178,12 +178,13 @@ sub Run {
         my ( $Second, $Minute, $Hour, $Day, $Month, $Year )
             = $Self->{TimeObject}->SystemTime2Date( SystemTime => $TicketFreeTimeString );
 
-        $GetParam{ $FreeTimePrefix . 'Used' }   = 1;
-        $GetParam{ $FreeTimePrefix . 'Minute' } = $Minute;
-        $GetParam{ $FreeTimePrefix . 'Hour' }   = $Hour;
-        $GetParam{ $FreeTimePrefix . 'Day' }    = $Day;
-        $GetParam{ $FreeTimePrefix . 'Month' }  = $Month;
-        $GetParam{ $FreeTimePrefix . 'Year' }   = $Year;
+        $GetParam{ $FreeTimePrefix . 'UsedFromTicket' } = 1;
+        $GetParam{ $FreeTimePrefix . 'Used' }           = 1;
+        $GetParam{ $FreeTimePrefix . 'Minute' }         = $Minute;
+        $GetParam{ $FreeTimePrefix . 'Hour' }           = $Hour;
+        $GetParam{ $FreeTimePrefix . 'Day' }            = $Day;
+        $GetParam{ $FreeTimePrefix . 'Month' }          = $Month;
+        $GetParam{ $FreeTimePrefix . 'Year' }           = $Year;
     }
 
     # transform pending time, time stamp based on user time zone
@@ -203,6 +204,7 @@ sub Run {
     # transform free time, time stamp based on user time zone
     for my $Count ( 1 .. 6 ) {
         my $Prefix = 'TicketFreeTime' . $Count;
+        next if $GetParam{ $Prefix . 'UsedFromTicket' };
         next if !defined $GetParam{ $Prefix . 'Year' };
         next if !defined $GetParam{ $Prefix . 'Month' };
         next if !defined $GetParam{ $Prefix . 'Day' };
