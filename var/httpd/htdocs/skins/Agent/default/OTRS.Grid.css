@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -108,7 +108,7 @@
  *                  but not on the outside.
  */
 
-.LayoutGrid.ColumnsWithSpacing > div > div {
+.LayoutGrid.ColumnsWithSpacing > div > div  {
     margin-left: 10px;
     margin-right: 0;
     margin-bottom: 10px;
@@ -119,6 +119,10 @@
     margin-right: 10px;
 }
 
+.LayoutGrid.ColumnsWithSpacing > li > * {
+    padding-right: 10px;
+}
+
 /*
  * do not add left margin for first element in each row
  */
@@ -127,3 +131,5 @@
     margin-left: 0px;
     margin-right: 0px;
 }
+
+

@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -110,7 +110,6 @@ form label.Mandatory {
 }
 
 form label.Mandatory span.Marker {
-    color: #ff505e;
     font-size: 18px;
     font-weight: bold;
     position: relative;

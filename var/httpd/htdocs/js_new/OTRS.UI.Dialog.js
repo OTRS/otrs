@@ -2,7 +2,7 @@
 // OTRS.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Dialog.js,v 1.5 2010-04-01 09:48:33 mn Exp $
+// $Id: OTRS.UI.Dialog.js,v 1.6 2010-04-01 12:14:19 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@ OTRS.UI.Dialog = (function (Namespace) {
                 'overflow': 'hidden',
                 'position': 'relative'
             });
-            $('#Overlay').height($(window).height());
+            $('#Overlay').height($(window).height()).css('top', $(window).scrollTop());
         }
 
         // Build Dialog HTML
