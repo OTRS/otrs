@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -69,6 +69,7 @@
 
 .ControlRow .Tabs li:hover a {
     background: url(img/overviewcontrol_hover1.png) no-repeat top right;
+    color: #000;
 }
 
 .ControlRow .Tabs li:hover {
@@ -291,6 +292,7 @@ ul.ContextFunctions li.ContextHelp:hover {
 .ActionRow ul.Actions li {
     float: left;
     height: 24px;
+    line-height: 24px;
     margin-left: -3px;
     padding-left: 3px;
 }
@@ -316,14 +318,27 @@ ul.ContextFunctions li.ContextHelp:hover {
     background: none;
 }
 
-.ActionRow ul.Actions li a {
+.ActionRow ul.Actions li a,
+.ActionRow ul.Actions li label {
     color: #000000;
     display: block;
     padding-left: 8px;
     padding-right: 8px;
-    padding-top: 6px;
-    padding-bottom: 7px;
     background: transparent url(img/tab_isolator.png) no-repeat center right;
+}
+
+.ActionRow ul.Actions li label {
+    font-size:11px;
+    cursor: pointer;
+    font-size: 11px;
+    margin-left: 20px;
+}
+
+.ActionRow ul.Actions li input#SelectAll {
+    float: left;
+    padding: 0;
+    margin-top: 5px;
+    margin-left: 10px;
 }
 
 .RTL .ActionRow ul.Actions li:first-child a {
@@ -339,7 +354,8 @@ ul.ContextFunctions li.ContextHelp:hover {
     background: none;
 }
 
-.ActionRow ul.Actions li:hover a {
+.ActionRow ul.Actions li:hover a,
+.ActionRow ul.Actions li:hover label {
     background: url(img/overviewcontrol_hover1.png) no-repeat top right;
 }
 
@@ -365,7 +381,7 @@ ul.ContextFunctions li.ContextHelp:hover {
 }
 
 .OverviewActions {
-    margin-bottom: 8px;
+    height: 24px;
 }
 
 /**
@@ -398,17 +414,27 @@ ul.ContextFunctions li.ContextHelp:hover {
 /**
  * @subsection  Control Row Pagination
  */
+/*
+ * form.Pagination is the new style pagination, div.Pagination the old style
+ * Both should work with this CSS
+ */
 .Pagination {
     float: right;
     margin-right: 0px;
     font-size: 11px;
 }
 
+div.Pagination {
+    height: 24px;
+    line-height: 24px;
+    padding-right: 10px;
+}
+
 .RTL .Pagination {
     float: left;
 }
 
-.Pagination > * {
+form.Pagination > * {
     float: left;
 }
 
@@ -420,14 +446,22 @@ ul.ContextFunctions li.ContextHelp:hover {
     margin-top: 3px;
 }
 
-.Pagination a {
+form.Pagination a {
     height: 24px;
     width: 24px;
     display: block;
 }
 
-.Pagination a:hover {
+form.Pagination a:hover {
     background: url(img/overviewcontrol_hover2.png) no-repeat;
+}
+
+div.Pagination a {
+    color: #000 !important;
+}
+
+div.Pagination a:hover {
+    color: #F92 !important;
 }
 
 .Pagination a span {
