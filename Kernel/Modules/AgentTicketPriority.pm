@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPriority.pm - set ticket priority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.pm,v 1.58.2.2 2010-03-24 11:21:47 martin Exp $
+# $Id: AgentTicketPriority.pm,v 1.58.2.3 2010-04-01 16:28:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58.2.2 $) [1];
+$VERSION = qw($Revision: 1.58.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -233,6 +233,34 @@ sub Run {
         my $Value = 'ArticleFreeText' . $Count;
         $GetParam{$Key}   = $Self->{ParamObject}->GetParam( Param => $Key );
         $GetParam{$Value} = $Self->{ParamObject}->GetParam( Param => $Value );
+    }
+
+    # transform pending time, time stamp based on user time zone
+    if (
+        defined $GetParam{Year}
+        && defined $GetParam{Month}
+        && defined $GetParam{Day}
+        && defined $GetParam{Hour}
+        && defined $GetParam{Minute}
+        )
+    {
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+        );
+    }
+
+    # transform free time, time stamp based on user time zone
+    for my $Count ( 1 .. 6 ) {
+        my $Prefix = 'TicketFreeTime' . $Count;
+        next if !defined $GetParam{ $Prefix . 'Year' };
+        next if !defined $GetParam{ $Prefix . 'Month' };
+        next if !defined $GetParam{ $Prefix . 'Day' };
+        next if !defined $GetParam{ $Prefix . 'Hour' };
+        next if !defined $GetParam{ $Prefix . 'Minute' };
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+            Prefix => $Prefix
+        );
     }
 
     # rewrap body if exists
@@ -619,21 +647,8 @@ sub Run {
                 && defined $GetParam{ 'TicketFreeTime' . $_ . 'Minute' }
                 )
             {
-                my %Time;
-                $Time{ 'TicketFreeTime' . $_ . 'Year' }    = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Month' }   = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Day' }     = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Hour' }    = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Minute' }  = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Secunde' } = 0;
-
-                if ( $GetParam{ 'TicketFreeTime' . $_ . 'Used' } ) {
-                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                        %GetParam, Prefix => 'TicketFreeTime' . $_
-                    );
-                }
                 $Self->{TicketObject}->TicketFreeTimeSet(
-                    %Time,
+                    %GetParam,
                     Prefix   => 'TicketFreeTime',
                     TicketID => $Self->{TicketID},
                     Counter  => $_,
@@ -692,16 +707,11 @@ sub Run {
             # set pending time
             elsif ( $StateData{TypeName} =~ /^pending/i ) {
 
-                # get time stamp based on user time zone
-                my %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                    %GetParam,
-                );
-
                 # set pending time
                 $Self->{TicketObject}->TicketPendingTimeSet(
                     UserID   => $Self->{UserID},
                     TicketID => $Self->{TicketID},
-                    %Time,
+                    %GetParam,
                 );
             }
 

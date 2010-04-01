@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.54.2.5 2010-03-24 11:21:47 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.54.2.6 2010-04-01 16:28:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54.2.5 $) [1];
+$VERSION = qw($Revision: 1.54.2.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -499,6 +499,35 @@ sub SendEmail {
             $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
         }
     }
+
+    # transform pending time, time stamp based on user time zone
+    if (
+        defined $GetParam{Year}
+        && defined $GetParam{Month}
+        && defined $GetParam{Day}
+        && defined $GetParam{Hour}
+        && defined $GetParam{Minute}
+        )
+    {
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+        );
+    }
+
+    # transform free time, time stamp based on user time zone
+    for my $Count ( 1 .. 6 ) {
+        my $Prefix = 'TicketFreeTime' . $Count;
+        next if !defined $GetParam{ $Prefix . 'Year' };
+        next if !defined $GetParam{ $Prefix . 'Month' };
+        next if !defined $GetParam{ $Prefix . 'Day' };
+        next if !defined $GetParam{ $Prefix . 'Hour' };
+        next if !defined $GetParam{ $Prefix . 'Minute' };
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+            Prefix => $Prefix
+        );
+    }
+
     my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
 
     # check some values
@@ -682,21 +711,8 @@ sub SendEmail {
             && defined $GetParam{ 'TicketFreeTime' . $_ . 'Minute' }
             )
         {
-            my %Time;
-            $Time{ 'TicketFreeTime' . $_ . 'Year' }    = 0;
-            $Time{ 'TicketFreeTime' . $_ . 'Month' }   = 0;
-            $Time{ 'TicketFreeTime' . $_ . 'Day' }     = 0;
-            $Time{ 'TicketFreeTime' . $_ . 'Hour' }    = 0;
-            $Time{ 'TicketFreeTime' . $_ . 'Minute' }  = 0;
-            $Time{ 'TicketFreeTime' . $_ . 'Secunde' } = 0;
-
-            if ( $GetParam{ 'TicketFreeTime' . $_ . 'Used' } ) {
-                %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                    %GetParam, Prefix => 'TicketFreeTime' . $_,
-                );
-            }
             $Self->{TicketObject}->TicketFreeTimeSet(
-                %Time,
+                %GetParam,
                 Prefix   => 'TicketFreeTime',
                 TicketID => $Self->{TicketID},
                 Counter  => $_,
@@ -725,16 +741,11 @@ sub SendEmail {
     # set pending time
     elsif ( $StateData{TypeName} =~ /^pending/i ) {
 
-        # get time stamp based on user time zone
-        my %Time = $Self->{LayoutObject}->TransfromDateSelection(
-            %GetParam,
-        );
-
         # set pending time
         $Self->{TicketObject}->TicketPendingTimeSet(
             UserID   => $Self->{UserID},
             TicketID => $Self->{TicketID},
-            %Time,
+            %GetParam,
         );
     }
 

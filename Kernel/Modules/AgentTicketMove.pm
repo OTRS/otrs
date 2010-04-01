@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.37.2.3 2009-10-26 09:31:32 mb Exp $
+# $Id: AgentTicketMove.pm,v 1.37.2.4 2010-04-01 16:28:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.3 $) [1];
+$VERSION = qw($Revision: 1.37.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -184,6 +184,34 @@ sub Run {
         $GetParam{ $FreeTimePrefix . 'Day' }    = $Day;
         $GetParam{ $FreeTimePrefix . 'Month' }  = $Month;
         $GetParam{ $FreeTimePrefix . 'Year' }   = $Year;
+    }
+
+    # transform pending time, time stamp based on user time zone
+    if (
+        defined $GetParam{Year}
+        && defined $GetParam{Month}
+        && defined $GetParam{Day}
+        && defined $GetParam{Hour}
+        && defined $GetParam{Minute}
+        )
+    {
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+        );
+    }
+
+    # transform free time, time stamp based on user time zone
+    for my $Count ( 1 .. 6 ) {
+        my $Prefix = 'TicketFreeTime' . $Count;
+        next if !defined $GetParam{ $Prefix . 'Year' };
+        next if !defined $GetParam{ $Prefix . 'Month' };
+        next if !defined $GetParam{ $Prefix . 'Day' };
+        next if !defined $GetParam{ $Prefix . 'Hour' };
+        next if !defined $GetParam{ $Prefix . 'Minute' };
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+            Prefix => $Prefix
+        );
     }
 
     # error handling
@@ -651,14 +679,8 @@ sub Run {
             $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
             $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
 
-            if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
-                %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                    %GetParam,
-                    Prefix => "TicketFreeTime" . $_
-                );
-            }
             $Self->{TicketObject}->TicketFreeTimeSet(
-                %Time,
+                %GetParam,
                 Prefix   => "TicketFreeTime",
                 TicketID => $Self->{TicketID},
                 Counter  => $_,

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.176.2.17 2010-02-03 09:31:53 mb Exp $
+# $Id: Layout.pm,v 1.176.2.18 2010-04-01 16:28:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.176.2.17 $) [1];
+$VERSION = qw($Revision: 1.176.2.18 $) [1];
 
 =head1 NAME
 
@@ -1979,6 +1979,9 @@ sub LinkEncode {
     $Link =~ s/\|/%7C/g;
     $Link =~ s/§/\%A7/g;
     $Link =~ s/ /\+/g;
+    $Link =~ s/:/\%3A/g;
+    $Link =~ s/;/\%3B/g;
+    $Link =~ s/@/\%40/g;
     return $Link;
 }
 
@@ -3593,9 +3596,8 @@ sub WindowTabStop {
 sub TransfromDateSelection {
     my ( $Self, %Param ) = @_;
 
-    my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
-    my $Prefix         = $Param{'Prefix'} || '';
-    my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
+    # get key prefix
+    my $Prefix = $Param{'Prefix'} || '';
 
     # time zone translation
     if ( $Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
@@ -3617,6 +3619,10 @@ sub TransfromDateSelection {
             $Param{ $Prefix . 'Year' }
         ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp, );
     }
+
+    # reset prefix
+    $Param{Prefix} = '';
+
     return %Param;
 }
 
@@ -4412,6 +4418,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.176.2.17 $ $Date: 2010-02-03 09:31:53 $
+$Revision: 1.176.2.18 $ $Date: 2010-04-01 16:28:57 $
 
 =cut
