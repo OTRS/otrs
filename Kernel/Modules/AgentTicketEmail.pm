@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.119 2010-03-24 11:15:24 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.120 2010-04-01 18:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -118,6 +118,34 @@ sub Run {
         my $Text = 'ArticleFreeText' . $Count;
         $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
         $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+    }
+
+    # transform pending time, time stamp based on user time zone
+    if (
+        defined $GetParam{Year}
+        && defined $GetParam{Month}
+        && defined $GetParam{Day}
+        && defined $GetParam{Hour}
+        && defined $GetParam{Minute}
+        )
+    {
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+        );
+    }
+
+    # transform free time, time stamp based on user time zone
+    for my $Count ( 1 .. 6 ) {
+        my $Prefix = 'TicketFreeTime' . $Count;
+        next if !defined $GetParam{ $Prefix . 'Year' };
+        next if !defined $GetParam{ $Prefix . 'Month' };
+        next if !defined $GetParam{ $Prefix . 'Day' };
+        next if !defined $GetParam{ $Prefix . 'Hour' };
+        next if !defined $GetParam{ $Prefix . 'Minute' };
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+            Prefix => $Prefix
+        );
     }
 
     if ( !$Self->{Subaction} || $Self->{Subaction} eq 'Created' ) {
@@ -327,6 +355,7 @@ sub Run {
 
     # create new ticket and article
     elsif ( $Self->{Subaction} eq 'StoreNew' ) {
+
         my %Error;
         my $NextStateID = $Self->{ParamObject}->GetParam( Param => 'NextStateID' ) || '';
         my %StateData;
@@ -757,37 +786,30 @@ sub Run {
         }
 
         # set ticket free time
-        for ( 1 .. 6 ) {
-            if (
-                defined $GetParam{ 'TicketFreeTime' . $_ . 'Year' }
-                && defined $GetParam{ 'TicketFreeTime' . $_ . 'Month' }
-                && defined $GetParam{ 'TicketFreeTime' . $_ . 'Day' }
-                && defined $GetParam{ 'TicketFreeTime' . $_ . 'Hour' }
-                && defined $GetParam{ 'TicketFreeTime' . $_ . 'Minute' }
-                )
-            {
-                my %Time;
-                $Time{ 'TicketFreeTime' . $_ . 'Year' }    = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Month' }   = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Day' }     = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Hour' }    = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Minute' }  = 0;
-                $Time{ 'TicketFreeTime' . $_ . 'Secunde' } = 0;
+        for my $Count ( 1 .. 6 ) {
+            my $Prefix = 'TicketFreeTime' . $Count;
+            next if !defined $GetParam{ $Prefix . 'Year' };
+            next if !defined $GetParam{ $Prefix . 'Month' };
+            next if !defined $GetParam{ $Prefix . 'Day' };
+            next if !defined $GetParam{ $Prefix . 'Hour' };
+            next if !defined $GetParam{ $Prefix . 'Minute' };
 
-                if ( $GetParam{ 'TicketFreeTime' . $_ . 'Used' } ) {
-                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                        %GetParam,
-                        Prefix => 'TicketFreeTime' . $_,
-                    );
-                }
-                $Self->{TicketObject}->TicketFreeTimeSet(
-                    %Time,
-                    Prefix   => 'TicketFreeTime',
-                    TicketID => $TicketID,
-                    Counter  => $_,
-                    UserID   => $Self->{UserID},
-                );
+            # set time stamp to NULL if field is not used/checked
+            if ( !$GetParam{ $Prefix . 'Used' } ) {
+                $GetParam{ $Prefix . 'Year' }   = 0;
+                $GetParam{ $Prefix . 'Month' }  = 0;
+                $GetParam{ $Prefix . 'Day' }    = 0;
+                $GetParam{ $Prefix . 'Hour' }   = 0;
+                $GetParam{ $Prefix . 'Minute' } = 0;
             }
+
+            $Self->{TicketObject}->TicketFreeTimeSet(
+                %GetParam,
+                Prefix   => 'TicketFreeTime',
+                TicketID => $TicketID,
+                Counter  => $Count,
+                UserID   => $Self->{UserID},
+            );
         }
 
         # get pre loaded attachment
@@ -941,6 +963,8 @@ sub Run {
 
         # should i set an unlock?
         if ( $StateData{TypeName} =~ /^close/i ) {
+
+            # set lock
             $Self->{TicketObject}->LockSet(
                 TicketID => $TicketID,
                 Lock     => 'unlock',
@@ -951,16 +975,11 @@ sub Run {
         # set pending time
         elsif ( $StateData{TypeName} =~ /^pending/i ) {
 
-            # get time stamp based on user time zone
-            my %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                %GetParam,
-            );
-
             # set pending time
             $Self->{TicketObject}->TicketPendingTimeSet(
                 UserID   => $Self->{UserID},
                 TicketID => $TicketID,
-                %Time,
+                %GetParam,
             );
         }
 
@@ -1431,9 +1450,10 @@ sub _MaskEmailNew {
 
     # build next states string
     $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data     => $Param{NextStates},
-        Name     => 'NextStateID',
-        Selected => $Param{NextState} || $Self->{Config}->{StateDefault},
+        Data          => $Param{NextStates},
+        Name          => 'NextStateID',
+        Translation   => 1,
+        SelectedValue => $Param{NextState} || $Self->{Config}->{StateDefault},
     );
 
     # build from string
@@ -1882,10 +1902,11 @@ sub _MaskEmailNew {
         $Param{Priority} = $Self->{Config}->{Priority};
     }
     $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data       => $Param{Priorities},
-        Name       => 'PriorityID',
-        SelectedID => $Param{PriorityID},
-        Selected   => $Param{Priority},
+        Data          => $Param{Priorities},
+        Name          => 'PriorityID',
+        SelectedID    => $Param{PriorityID},
+        SelectedValue => $Param{Priority},
+        Translation   => 1,
     );
 
     # pending data string

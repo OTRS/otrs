@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.222 2010-03-29 12:15:08 martin Exp $
+# $Id: Layout.pm,v 1.223 2010-04-01 18:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +19,10 @@ use warnings;
 use Kernel::Language;
 use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
+use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.222 $) [1];
+$VERSION = qw($Revision: 1.223 $) [1];
 
 =head1 NAME
 
@@ -674,33 +675,6 @@ sub Output {
         }iegx;
     }
 
-    # do correct direction
-    if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
-        $Output =~ s{
-            <(table.+?)>
-        }
-        {
-            my $Table = $1;
-            if ($Table !~ /dir=/) {
-                "<$Table dir=\"".$Self->{TextDirection}."\">";
-            }
-            else {
-                "<$Table>";
-            }
-        }iegx;
-        $Output =~ s{
-            align="(left|right)"
-        }
-        {
-            if ($1 =~ /left/i) {
-                "align=\"right\"";
-            }
-            else {
-                "align=\"left\"";
-            }
-        }iegx;
-    }
-
     # custom post filters
     if ( $Self->{FilterElementPost} ) {
         my %Filters = %{ $Self->{FilterElementPost} };
@@ -1194,10 +1168,10 @@ sub Notify {
 sub Header {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     my $Type = $Param{Type} || '';
 
     # add cookies if exists
+    my $Output = '';
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
         for ( keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
@@ -1290,6 +1264,11 @@ sub Header {
         );
     }
 
+    # set rtl if needed
+    if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
+        $Param{BodyCSS} = 'RTL';
+    }
+
     # create & return output
     $Output .= $Self->Output( TemplateFile => "Header$Type", Data => \%Param );
 
@@ -1303,9 +1282,6 @@ sub Footer {
     my ( $Self, %Param ) = @_;
 
     my $Type = $Param{Type} || '';
-
-    # unless explicitly specified, we set the footer width to use the whole space
-    $Param{Width} ||= '100%';
 
     # create & return output
     return $Self->Output( TemplateFile => "Footer$Type", Data => \%Param );
@@ -1365,6 +1341,11 @@ sub PrintHeader {
         if ( $Param{$Word} ) {
             $Param{TitleArea} .= " :: " . $Self->{LanguageObject}->Get( $Param{$Word} );
         }
+    }
+
+    # set rtl if needed
+    if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
+        $Param{BodyCSS} = 'RTL';
     }
 
     my $Output = $Self->Output( TemplateFile => 'PrintHeader', Data => \%Param );
@@ -2524,11 +2505,10 @@ sub WindowTabStop {
 sub TransfromDateSelection {
     my ( $Self, %Param ) = @_;
 
-    my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
-    my $Prefix         = $Param{Prefix} || '';
-    my $Format         = defined $Param{Format} ? $Param{Format} : 'DateInputFormatLong';
+    # get key prefix
+    my $Prefix = $Param{Prefix} || '';
 
-    # time zone translation
+    # time zone translation if needed
     if ( $Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $Param{ $Prefix . 'Year' } . '-'
@@ -2548,6 +2528,10 @@ sub TransfromDateSelection {
             $Param{ $Prefix . 'Year' }
         ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp, );
     }
+
+    # reset prefix
+    $Param{Prefix} = '';
+
     return %Param;
 }
 
@@ -2849,10 +2833,10 @@ sub CustomerLogin {
 sub CustomerHeader {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     my $Type = $Param{Type} || '';
 
     # add cookies if exists
+    my $Output = '';
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
         for ( keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
@@ -2914,6 +2898,11 @@ sub CustomerHeader {
         }
     }
 
+    # set rtl if needed
+    if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
+        $Param{BodyCSS} = 'RTL';
+    }
+
     # create & return output
     $Output .= $Self->Output( TemplateFile => "CustomerHeader$Type", Data => \%Param );
 
@@ -2927,18 +2916,6 @@ sub CustomerFooter {
     my ( $Self, %Param ) = @_;
 
     my $Type = $Param{Type} || '';
-
-    # unless explicitly specified, we set the footer width to the defaults, which are:
-    # 800 pixel for the standard footer
-    # 100% for any others (small)
-    if ( !$Param{Width} ) {
-        if ( $Type eq '' ) {
-            $Param{Width} = '800';
-        }
-        else {
-            $Param{Width} = '100%';
-        }
-    }
 
     # create & return output
     return $Self->Output( TemplateFile => "CustomerFooter$Type", Data => \%Param );
@@ -3577,9 +3554,9 @@ sub _BlockTemplatesReplace {
                         Layer => $BlockLayer{ $Block->{Name} },
                         Name  => $Block->{Name},
                         Data  => $Self->_Output(
-                            Template => "\n<!--start $Block->{Name}-->"
+                            Template => "\n<!--$Block->{Name}-->"
                                 . $BlockTemplates{ $Block->{Name} }
-                                . "<!--stop $Block->{Name} -->",
+                                . "<!--/$Block->{Name}-->",
                             Data => $Block->{Data},
                         ),
                     }
@@ -3770,7 +3747,7 @@ sub _Output {
         my $Regexp = 1;
         while ($Regexp) {
             $Regexp = $Line =~ s{
-                \$((?:|Q|LQ|)Data|(?:|Q)Env|Config|Include){"(.+?)"}
+                \$((?:|Q|LQ|RQ|)Data|(?:|Q)Env|Config|Include){"(.+?)"}
             }
             {
                 if ($1 eq 'Data' || $1 eq 'Env') {
@@ -3823,6 +3800,64 @@ sub _Output {
                     else {
                         if ( defined $GlobalRef->{Data}->{$Text} ) {
                             $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$Text});
+                        }
+                        else {
+                            # output replace with nothing!
+                            '';
+                        }
+                    }
+                }
+                elsif ($1 eq 'RQData') {
+                    my $Text = $2;
+
+                    if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
+                        '';
+                    }
+                    elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
+                        if ( defined $GlobalRef->{Data}->{$1} ) {
+
+                            my $Data = $GlobalRef->{Data}->{$1};
+
+                            # strip real names
+                            my $Realname = '';
+                            for my $EmailSplit ( Mail::Address->parse( $Data ) ) {
+                                my $Name = $EmailSplit->name();
+                                if ( !$Name ) {
+                                    $Name = $EmailSplit->address();
+                                }
+                                next if !$Name;
+                                if ($Realname) {
+                                    $Realname .= ', ';
+                                }
+                                $Realname .= $Name;
+                            }
+                            $Data = $Realname;
+                            $Self->Ascii2Html(Text => $Data, Max => $2);
+                        }
+                        else {
+                            # output replace with nothing!
+                            '';
+                        }
+                    }
+                    else {
+                        if ( defined $GlobalRef->{Data}->{$Text} ) {
+                            my $Data = $GlobalRef->{Data}->{$Text};
+
+                            # strip real names
+                            my $Realname = '';
+                            for my $EmailSplit ( Mail::Address->parse( $Data ) ) {
+                                my $Name = $EmailSplit->name();
+                                if ( !$Name ) {
+                                    $Name = $EmailSplit->address();
+                                }
+                                next if !$Name;
+                                if ($Realname) {
+                                    $Realname .= ', ';
+                                }
+                                $Realname .= $Name;
+                            }
+                            $Data = $Realname;
+                            $Self->Ascii2Html(Text => $Data);
                         }
                         else {
                             # output replace with nothing!
@@ -4433,6 +4468,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.222 $ $Date: 2010-03-29 12:15:08 $
+$Revision: 1.223 $ $Date: 2010-04-01 18:10:26 $
 
 =cut

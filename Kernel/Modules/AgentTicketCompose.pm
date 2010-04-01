@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.91 2010-02-26 20:35:35 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.92 2010-04-01 18:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -183,14 +183,50 @@ sub Run {
         $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
     }
 
+    # transform pending time, time stamp based on user time zone
+    if (
+        defined $GetParam{Year}
+        && defined $GetParam{Month}
+        && defined $GetParam{Day}
+        && defined $GetParam{Hour}
+        && defined $GetParam{Minute}
+        )
+    {
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+        );
+    }
+
+    # transform free time, time stamp based on user time zone
+    for my $Count ( 1 .. 6 ) {
+        my $Prefix = 'TicketFreeTime' . $Count;
+        next if !defined $GetParam{ $Prefix . 'Year' };
+        next if !defined $GetParam{ $Prefix . 'Month' };
+        next if !defined $GetParam{ $Prefix . 'Day' };
+        next if !defined $GetParam{ $Prefix . 'Hour' };
+        next if !defined $GetParam{ $Prefix . 'Minute' };
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+            Prefix => $Prefix
+        );
+    }
+
     # send email
     if ( $Self->{Subaction} eq 'SendEmail' ) {
+
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{StateID}, );
 
         # check pending date
         my %Error;
         if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
+                $Error{'Date invalid'} = 'invalid';
+            }
+            if (
+                $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
+                < $Self->{TimeObject}->SystemTime()
+                )
+            {
                 $Error{'Date invalid'} = 'invalid';
             }
         }
@@ -471,37 +507,31 @@ sub Run {
         }
 
         # set ticket free time
-        for ( 1 .. 6 ) {
-            if (
-                defined $GetParam{ "TicketFreeTime" . $_ . "Year" }
-                && defined $GetParam{ "TicketFreeTime" . $_ . "Month" }
-                && defined $GetParam{ "TicketFreeTime" . $_ . "Day" }
-                && defined $GetParam{ "TicketFreeTime" . $_ . "Hour" }
-                && defined $GetParam{ "TicketFreeTime" . $_ . "Minute" }
-                )
-            {
-                my %Time;
-                $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
-                $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
-                $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
-                $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
-                $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
-                $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
+        for my $Count ( 1 .. 6 ) {
+            my $Prefix = 'TicketFreeTime' . $Count;
+            next if !defined $GetParam{ $Prefix . 'Year' };
+            next if !defined $GetParam{ $Prefix . 'Month' };
+            next if !defined $GetParam{ $Prefix . 'Day' };
+            next if !defined $GetParam{ $Prefix . 'Hour' };
+            next if !defined $GetParam{ $Prefix . 'Minute' };
 
-                if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
-                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                        %GetParam,
-                        Prefix => "TicketFreeTime" . $_,
-                    );
-                }
-                $Self->{TicketObject}->TicketFreeTimeSet(
-                    %Time,
-                    Prefix   => "TicketFreeTime",
-                    TicketID => $Self->{TicketID},
-                    Counter  => $_,
-                    UserID   => $Self->{UserID},
-                );
+            # set time stamp to NULL if field is not used/checked
+            if ( !$GetParam{ $Prefix . 'Used' } ) {
+                $GetParam{ $Prefix . 'Year' }   = 0;
+                $GetParam{ $Prefix . 'Month' }  = 0;
+                $GetParam{ $Prefix . 'Day' }    = 0;
+                $GetParam{ $Prefix . 'Hour' }   = 0;
+                $GetParam{ $Prefix . 'Minute' } = 0;
             }
+
+            # set free time
+            $Self->{TicketObject}->TicketFreeTimeSet(
+                %GetParam,
+                Prefix   => "TicketFreeTime",
+                TicketID => $Self->{TicketID},
+                Counter  => $Count,
+                UserID   => $Self->{UserID},
+            );
         }
 
         # set article free text
@@ -565,11 +595,9 @@ sub Run {
         if ( $StateData{TypeName} =~ /^close/i ) {
             return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
         }
-        else {
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID"
-            );
-        }
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID"
+        );
     }
     else {
         my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
@@ -1006,11 +1034,11 @@ sub _Mask {
         $Param{NextStates}->{''} = '-';
     }
     my %State;
-    if ( $Param{GetParams}->{StateID} ) {
-        $State{SelectedID} = $Param{GetParams}->{StateID};
+    if ( $Param{GetParam}->{StateID} ) {
+        $State{SelectedID} = $Param{GetParam}->{StateID};
     }
     else {
-        $State{Selected} = $Param{NextState} || $Self->{Config}->{StateDefault};
+        $State{SelectedValue} = $Param{NextState} || $Self->{Config}->{StateDefault};
     }
     $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => $Param{NextStates},

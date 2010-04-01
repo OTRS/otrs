@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.47 2010-02-26 20:35:35 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.48 2010-04-01 18:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -180,6 +180,34 @@ sub Run {
         $GetParam{ $FreeTimePrefix . 'Day' }    = $Day;
         $GetParam{ $FreeTimePrefix . 'Month' }  = $Month;
         $GetParam{ $FreeTimePrefix . 'Year' }   = $Year;
+    }
+
+    # transform pending time, time stamp based on user time zone
+    if (
+        defined $GetParam{Year}
+        && defined $GetParam{Month}
+        && defined $GetParam{Day}
+        && defined $GetParam{Hour}
+        && defined $GetParam{Minute}
+        )
+    {
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+        );
+    }
+
+    # transform free time, time stamp based on user time zone
+    for my $Count ( 1 .. 6 ) {
+        my $Prefix = 'TicketFreeTime' . $Count;
+        next if !defined $GetParam{ $Prefix . 'Year' };
+        next if !defined $GetParam{ $Prefix . 'Month' };
+        next if !defined $GetParam{ $Prefix . 'Day' };
+        next if !defined $GetParam{ $Prefix . 'Hour' };
+        next if !defined $GetParam{ $Prefix . 'Minute' };
+        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+            %GetParam,
+            Prefix => $Prefix
+        );
     }
 
     # error handling
@@ -635,37 +663,31 @@ sub Run {
     }
 
     # set ticket free time
-    for ( 1 .. 6 ) {
-        if (
-            defined $GetParam{ "TicketFreeTime" . $_ . "Year" }
-            && defined $GetParam{ "TicketFreeTime" . $_ . "Month" }
-            && defined $GetParam{ "TicketFreeTime" . $_ . "Day" }
-            && defined $GetParam{ "TicketFreeTime" . $_ . "Hour" }
-            && defined $GetParam{ "TicketFreeTime" . $_ . "Minute" }
-            )
-        {
-            my %Time;
-            $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
-            $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
-            $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
-            $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
-            $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
-            $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
+    for my $Count ( 1 .. 6 ) {
+        my $Prefix = 'TicketFreeTime' . $Count;
+        next if !defined $GetParam{ $Prefix . 'Year' };
+        next if !defined $GetParam{ $Prefix . 'Month' };
+        next if !defined $GetParam{ $Prefix . 'Day' };
+        next if !defined $GetParam{ $Prefix . 'Hour' };
+        next if !defined $GetParam{ $Prefix . 'Minute' };
 
-            if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
-                %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                    %GetParam,
-                    Prefix => "TicketFreeTime" . $_
-                );
-            }
-            $Self->{TicketObject}->TicketFreeTimeSet(
-                %Time,
-                Prefix   => "TicketFreeTime",
-                TicketID => $Self->{TicketID},
-                Counter  => $_,
-                UserID   => $Self->{UserID},
-            );
+        # set time stamp to NULL if field is not used/checked
+        if ( !$GetParam{ $Prefix . 'Used' } ) {
+            $GetParam{ $Prefix . 'Year' }   = 0;
+            $GetParam{ $Prefix . 'Month' }  = 0;
+            $GetParam{ $Prefix . 'Day' }    = 0;
+            $GetParam{ $Prefix . 'Hour' }   = 0;
+            $GetParam{ $Prefix . 'Minute' } = 0;
         }
+
+        # set free time
+        $Self->{TicketObject}->TicketFreeTimeSet(
+            %GetParam,
+            Prefix   => 'TicketFreeTime',
+            TicketID => $Self->{TicketID},
+            Counter  => $Count,
+            UserID   => $Self->{UserID},
+        );
     }
 
     # time accounting
