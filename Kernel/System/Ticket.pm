@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.455 2010-03-02 14:22:19 mb Exp $
+# $Id: Ticket.pm,v 1.456 2010-04-01 10:00:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.455 $) [1];
+$VERSION = qw($Revision: 1.456 $) [1];
 
 =head1 NAME
 
@@ -470,6 +470,11 @@ sub TicketCreate {
         $Param{Title} = '';
     }
 
+    # substitute tilte if needed
+    else {
+        $Param{Title} = substr( $Param{Title}, 0, 255 );
+    }
+
     # check database undef/NULL (set value to undef/NULL to prevent database errors)
     $Param{ServiceID} ||= undef;
     $Param{SLAID}     ||= undef;
@@ -657,7 +662,6 @@ sub TicketIDLookup {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
-
     return $ID;
 }
 
@@ -692,7 +696,6 @@ sub TicketNumberLookup {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Number = $Row[0];
     }
-
     return $Number;
 }
 
@@ -4018,6 +4021,9 @@ sub TicketSearch {
     }
 
     # current ticket state type
+    # NOTE: Open and Closed are not valid state types. It's for compat.
+    # Open   -> All states with are grouped as open (new, open, pending, ...)
+    # Closed -> All states with are grouped as closed (closed successful, closed unsuccessful)
     if ( $Param{StateType} && $Param{StateType} eq 'Open' ) {
         my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
             Type   => 'Viewable',
@@ -4032,6 +4038,8 @@ sub TicketSearch {
         );
         $SQLExt .= " AND st.ticket_state_id NOT IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
     }
+
+    # current ticket state type
     elsif ( $Param{StateType} ) {
         my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
             StateType => $Param{StateType},
@@ -7903,6 +7911,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.455 $ $Date: 2010-03-02 14:22:19 $
+$Revision: 1.456 $ $Date: 2010-04-01 10:00:50 $
 
 =cut
