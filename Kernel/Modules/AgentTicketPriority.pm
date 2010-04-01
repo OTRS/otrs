@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPriority.pm - set ticket priority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.pm,v 1.72 2010-04-01 18:10:26 martin Exp $
+# $Id: AgentTicketPriority.pm,v 1.73 2010-04-01 19:21:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -214,12 +214,13 @@ sub Run {
             SystemTime => $TicketFreeTimeString,
         );
 
-        $GetParam{ $FreeTimePrefix . 'Used' }   = 1;
-        $GetParam{ $FreeTimePrefix . 'Minute' } = $Minute;
-        $GetParam{ $FreeTimePrefix . 'Hour' }   = $Hour;
-        $GetParam{ $FreeTimePrefix . 'Day' }    = $Day;
-        $GetParam{ $FreeTimePrefix . 'Month' }  = $Month;
-        $GetParam{ $FreeTimePrefix . 'Year' }   = $Year;
+        $GetParam{ $FreeTimePrefix . 'UsedFromTicket' } = 1;
+        $GetParam{ $FreeTimePrefix . 'Used' }           = 1;
+        $GetParam{ $FreeTimePrefix . 'Minute' }         = $Minute;
+        $GetParam{ $FreeTimePrefix . 'Hour' }           = $Hour;
+        $GetParam{ $FreeTimePrefix . 'Day' }            = $Day;
+        $GetParam{ $FreeTimePrefix . 'Month' }          = $Month;
+        $GetParam{ $FreeTimePrefix . 'Year' }           = $Year;
     }
 
     # get article free text params
@@ -247,6 +248,7 @@ sub Run {
     # transform free time, time stamp based on user time zone
     for my $Count ( 1 .. 6 ) {
         my $Prefix = 'TicketFreeTime' . $Count;
+        next if $GetParam{ $Prefix . 'UsedFromTicket' };
         next if !defined $GetParam{ $Prefix . 'Year' };
         next if !defined $GetParam{ $Prefix . 'Month' };
         next if !defined $GetParam{ $Prefix . 'Day' };
