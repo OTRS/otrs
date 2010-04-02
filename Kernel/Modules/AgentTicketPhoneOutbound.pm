@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.31.2.4 2010-04-01 17:59:53 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.31.2.5 2010-04-02 15:21:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31.2.4 $) [1];
+$VERSION = qw($Revision: 1.31.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -160,13 +160,24 @@ sub Run {
     }
 
     # get ticket free time params
-    for ( 1 .. 6 ) {
+    for my $Count ( 1 .. 6 ) {
+
+        # create freetime prefix
+        my $FreeTimePrefix = 'TicketFreeTime' . $Count;
+
+        # get form params
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ "TicketFreeTime" . $_ . $Type }
-                = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $_ . $Type );
+            $GetParam{ $FreeTimePrefix . $Type } = $Self->{ParamObject}->GetParam(
+                Param => $FreeTimePrefix . $Type,
+            );
         }
-        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
-            $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+
+        # set additional params
+        $GetParam{ $FreeTimePrefix . 'Optional' } = 1;
+        $GetParam{ $FreeTimePrefix . 'Used' } = $GetParam{ $FreeTimePrefix . 'Used' } || 0;
+        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
+            $GetParam{ $FreeTimePrefix . 'Optional' } = 0;
+            $GetParam{ $FreeTimePrefix . 'Used' }     = 1;
         }
     }
 
