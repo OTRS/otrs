@@ -2,8 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.68 2010-03-08 19:19:54 martin Exp $
-# $OldId: AgentTicketPhone.dtl,v 1.50.2.4 2009/10/01 14:13:32 ub Exp $
+# $Id: AgentTicketPhone.dtl,v 1.69 2010-04-02 15:25:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,8 +15,7 @@ $Include{"AJAX"}
 $Include{"AgentCustomerSearch"}
 
 <!-- start form -->
-<script language="JavaScript" type="text/javascript">
-<!--
+<script type="text/javascript">//<![CDATA[
 
 function submit_compose() {
     // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
@@ -49,7 +47,7 @@ function submit_compose() {
         alert('$JSText{"Invalid date!"}');
         return false;
     }
-    else if (document.compose.Day.value < 1 || document.compose.Day.value > 31 || document.compose.Month.value < 1 || document.compose.Month.value > 31 || document.compose.Year.value < 999 || document.compose.Year.value > 10000 || document.compose.Hour.value < 0 || document.compose.Hour.value > 23 ||document.compose.Minute.value < 0 || document.compose.Minute.value > 59  ) {
+    else if (document.compose.Day.value < 1 || document.compose.Day.value > 31 || document.compose.Month.value < 1 || document.compose.Month.value > 12 || document.compose.Year.value < 999 || document.compose.Year.value > 10000 || document.compose.Hour.value < 0 || document.compose.Hour.value > 23 ||document.compose.Minute.value < 0 || document.compose.Minute.value > 59  ) {
         alert('$JSText{"Invalid date!"}');
         return false;
     }
@@ -86,51 +84,24 @@ function submit_compose() {
         return true;
     }
 }
-//-->
-</script>
 
-<script language="JavaScript" type="text/javascript">
-<!--
 function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
 }
-// -->
-</script>
 
-<script language="JavaScript" type="text/javascript">
-<!--
 function CustomerSubmit() {
     window.open('', 'customer', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.customer.submit()
 }
-// -->
-</script>
 
-<script language="JavaScript" type="text/javascript">
-<!--
 function clear_field() {
     document.compose.From.value = "";
     document.compose.From.focus();
 }
-//-->
-</script>
+//]]></script>
 
-# ---
-# Jamba!
-# ---
-<script language="JavaScript" type="text/javascript">
-<!--
-function TemplateSubmit() {
-    window.open('', 'template', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.template.Dest.value = document.compose.Dest.value;
-    document.template.submit()
-}
-// -->
-</script>
-
-# ---
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
         <td class="mainhead">
@@ -148,9 +119,9 @@ function TemplateSubmit() {
 #        <input type="hidden" name="Body" value="Name:
 #        Product:
 #        Comment:"/>
-#        <input class="button" type="submit" name="" value="$Text{"Example Template"}"/>
+#        <button class="button" type="submit" name="" value="$Text{"Example Template"}">$Text{"Example Template"}</button>
 #      </form>
-#      <hr>
+#      <hr/>
             <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                 <input type="hidden" name="Subaction" value="StoreNew"/>
@@ -185,26 +156,21 @@ function TemplateSubmit() {
 <!-- dtl:block:CustomerSearchAutoCompleteFromInvalid -->
 
                             <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font>
-                            <br/>
                             $Data{"CustomerUserStrg"}
-                            <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br/><input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}"/>"; }>
+                            <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br/><button class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">$Text{"Take this Customer"}</button>"; }>
                             $Data{"TakeThisCustomer"}
 <!-- dtl:block:SearchCustomerButton -->
-                            <input class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}"/>
-                            <input class="button" type="submit" name="ClearFrom" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;"/>
+                            <button class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">$Text{"Search Customer"}</button>
+                            <button class="button" type="submit" name="ClearFrom" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;">$Text{"Clear From"}</button>
 <!-- dtl:block:SearchCustomerButton -->
                         </td>
                         <td width="20%" rowspan="10" class="contentvalue">
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-                            <p>
-                                <div>
-                                    <b>$Text{"Customer Info"}</b>:<br/>
-                                    <div id="CustomerTable">
-                                        $Data{"CustomerTable"}
-                                    </div>
-                                </div>
-                            </p>
+                            <b>$Text{"Customer Info"}</b>:<br/>
+                            <div id="CustomerTable">
+                                $Data{"CustomerTable"}
+                            </div>
 <!-- dtl:block:CustomerTable -->
                         </td>
                     </tr>
@@ -212,7 +178,7 @@ function TemplateSubmit() {
                         <td class="contentkey">$Text{"To"}:</td>
                         <td class="contentvalue">$Data{"ToStrg"} <font color="red" size="-2">$Text{"$Data{"Destination invalid"}"}</font>
 <!-- dtl:block:ToUpdateSubmit -->
-                            <input class="button" type="submit" value="$Text{"Refresh"}" name="ExpandCustomerName2"/>
+                            <button class="button" type="submit" value="$Text{"Refresh"}" name="ExpandCustomerName2">$Text{"Refresh"}</button>
 <!-- dtl:block:ToUpdateSubmit -->
                         </td>
                     </tr>
@@ -240,10 +206,10 @@ function TemplateSubmit() {
                         <td class="contentvalue">$Data{"OptionStrg"}
 <!-- dtl:block:OwnerSelectionAllJS -->
 #              $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.OwnerAll.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
-                            $Env{"Box0"}<a href="" onclick="document.compose.OwnerAll.value='1'; AJAXUpdate('AJAXUpdate', 'OwnerAll', ['OwnerAll', 'Dest'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+                            $Env{"Box0"}<a href="" onclick="document.compose.OwnerAll.value='1'; Core.AJAXUpdate('AJAXUpdate', 'OwnerAll', ['OwnerAll', 'Dest'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:OwnerSelectionAllJS -->
 <!-- dtl:block:OwnerSelectionAllSubmit -->
-                            <input class="button" type="submit" value="$Text{"All"}" name="OwnerAllRefresh"/>
+                            <button class="button" type="submit" value="$Text{"All"}" name="OwnerAllRefresh">$Text{"All"}</button>
 <!-- dtl:block:OwnerSelectionAllSubmit -->
                         </td>
                     </tr>
@@ -254,10 +220,10 @@ function TemplateSubmit() {
                         <td class="contentvalue">$Data{"ResponsibleOptionStrg"}
 <!-- dtl:block:ResponsibleSelectionAllJS -->
 #              $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.ResponsibleAll.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
-                            $Env{"Box0"}<a href="" onclick="document.compose.ResponsibleAll.value='1'; AJAXUpdate('AJAXUpdate', 'ResponsibleAll', ['ResponsibleAll', 'Dest'], ['NewResponsibleID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+                            $Env{"Box0"}<a href="" onclick="document.compose.ResponsibleAll.value='1'; Core.AJAXUpdate('AJAXUpdate', 'ResponsibleAll', ['ResponsibleAll', 'Dest'], ['NewResponsibleID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:ResponsibleSelectionAllJS -->
 <!-- dtl:block:ResponsibleSelectionAllSubmit -->
-                            <input class="button" type="submit" value="$Text{"All"}" name="ResponsibleAllRefresh"/>
+                            <button class="button" type="submit" value="$Text{"All"}" name="ResponsibleAllRefresh">$Text{"All"}</button>
 <!-- dtl:block:ResponsibleSelectionAllSubmit -->
                         </td>
                     </tr>
@@ -273,32 +239,22 @@ function TemplateSubmit() {
                         <td class="contentkey">$Text{"Options"}:</td>
                         <td class="contentvalue">
 <!-- dtl:block:SpellCheck -->
-                            $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+                            $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png" alt="" />$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
-# ---
-# Jamba!
-# ---
-                            $Env{"Box0"}<a href="" onclick="TemplateSubmit(); return false;" onmouseover="window.status='$JSText{"Template"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}note.png">$Text{"Template"}</a>$Env{"Box1"}
-# ---
-                            $Env{"Box0"}<a href="" onclick="CustomerSubmit(); return false;" onmouseover="window.status='$JSText{"Customer"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}group-small.png">$Text{"Customer"}</a>$Env{"Box1"}
+<!-- dtl:block:OptionCustomer -->
+                            $Env{"Box0"}<a href="" onclick="CustomerSubmit(); return false;" onmouseover="window.status='$JSText{"Customer"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}group-small.png" alt="" />$Text{"Customer"}</a>$Env{"Box1"}
+<!-- dtl:block:OptionCustomer -->
                         </td>
                     </tr>
                     <tr>
                         <td class="contentkey">$Text{"Text"}:</td>
                         <td class="contentvalue">
-                            <div class="yui-skin-sam">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 # set white background for buttons
-<style type="text/css">
-<!--
-                                .yui-skin-sam .yui-toolbar-container { background-color: #FFFFFF; }
-                                -->
-                                </style>
 <!-- dtl:block:RichText -->
-                                <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                                <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
-                            </div>
+                            <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                            <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
                         </td>
                     </tr>
                     <tr>
@@ -310,7 +266,7 @@ $Include{"RichTextEditor"}
                                     <td>$QData{"Filename"}</td>
                                     <td>$QData{"Filesize"}</td>
                                     <td align="right">
-                                        <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
+                                        <button class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                                     </td>
                                 </tr>
 <!-- dtl:block:Attachment -->
@@ -319,7 +275,7 @@ $Include{"RichTextEditor"}
                                         <input name="file_upload" type="file" size="40" class="fixed"/>
                                     </td>
                                     <td align="right">
-                                        <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
+                                        <button class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
                                         <a name="attachment"></a>
                                     </td>
                                 </tr>
@@ -404,7 +360,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                 </table>
                 <br/>
-                <input class="button" id="submitRichText" accesskey="g" type="submit" name="Create" value="$Text{"Create"}" onclick="return submit_compose();"/>
+                <button class="button" id="submitRichText" accesskey="g" type="submit" name="Create" value="$Text{"Create"}" onclick="return submit_compose();">$Text{"Create"}</button>
             </form>
             <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
                 <input type="hidden" name="Action" value="AgentSpelling"/>
@@ -417,19 +373,6 @@ $Include{"RichTextEditor"}
                 <input type="hidden" name="Subject" value=""/>
                 <input type="hidden" name="What" value=""/>
             </form>
-# ---
-# Jamba!
-# ---
-            <form action="$Env{"CGIHandle"}" method="post" name="template" target="template">
-                <input type="hidden" name="Action" value="AgentJambaTemplate">
-                <input type="hidden" name="Subaction" value="OverviewSmall">
-                <input type="hidden" name="QueueID" value="">
-                <input type="hidden" name="Dest" value="">
-                <input type="hidden" name="Body" value="">
-                <input type="hidden" name="Subject" value="">
-                <input type="hidden" name="What" value="">
-            </form>
-# ---
         </td>
     </tr>
 </table>
