@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.29 2010-03-08 19:19:54 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.30 2010-04-02 16:27:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,22 +37,22 @@ Dashboard.PreferencesUpdate = function( Name, FormName ) {
 <script type="text/javascript">//<![CDATA[
     UI.Sortable(
         {
-            Selector:    '#sortable-large',
-            Placeholder: 'ui-state-highlight',
-            Handle:      '.contenthead',
-            UpdateURL:   '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition',
-            UpdateOrder: '.ui-state-default',
+            Selector:        '.ContentColumn',
+            Placeholder:     'DropPlaceholder',
+            Handle:          '.Header h2',
+            UpdateURL:       '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition',
+            UpdateOrder:     '.CanDrag',
             UpdateAttribute: 'Backend',
             UpdateValue:     'id'
         }
     );
     UI.Sortable(
         {
-            Selector:    '#sortable-small',
-            Placeholder: 'ui-state-highlight',
-            Handle:      '.contenthead',
-            UpdateURL:   '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition',
-            UpdateOrder: '.ui-state-default',
+            Selector:        '.SidebarColumn',
+            Placeholder:     'DropPlaceholder',
+            Handle:          '.Header h2',
+            UpdateURL:       '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition',
+            UpdateOrder:     '.CanDrag',
             UpdateAttribute: 'Backend',
             UpdateValue:     'id'
         }
@@ -60,229 +60,175 @@ Dashboard.PreferencesUpdate = function( Name, FormName ) {
 //]]></script>
 
 <!-- dtl:block:Content -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td class="mainhead">
-            $Env{"Box0"}$Text{"Dashboard"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarLast">
+    <h1>$Text{"Dashboard"}</h1>
 
-            <table width="100%" border="0">
-                <tr>
-                    <td valign="top">
+    <div class="SidebarColumn">
 
-                        <ul id="sortable-large">
-<!-- dtl:block:ContentLarge -->
-                            <li class="ui-state-default" id="Dashboard$QData{"Name"}-box">
-                                <table border="0" width="100%" align="center" cellspacing="2" cellpadding="0">
-                                    <tr>
-                                        <td>
+        <div class="WidgetGradient Medium">
+            <div class="Header">
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr onclick="UI.Accordion('setting', 'setting-expand-down', 'setting-collapse-up'); return false;">
+                        <td class="contenthead" width="99%">
+                            <h2>$Text{"Settings"}</h2>
+                        </td>
+                        <td>
+                            <div id="setting-expand-down"><a href="#" title="$Text{"Expand"}"><img border="0" src="$Config{"Frontend::ImagePath"}expand-down.png" alt="$Text{"Expand"}"/></a></div>
+                            <div id="setting-collapse-up" style="display:none;"><a href="#" title="$Text{"Collapse"}"><img border="0" src="$Config{"Frontend::ImagePath"}collapse-up.png" alt="$Text{"Collapse"}"/></a></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="Content">
 
-                                            <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
-                                                <tr class="contenthead">
-                                                    <td title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</td>
-                                                    <td align="right">
-<!-- dtl:block:ContentLargePreferences -->
-                                                        <a href="#" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
-<!-- dtl:block:ContentLargePreferences -->
-                                                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"/></a>
-                                                    </td>
-                                                </tr>
-                                                <tr class="contentbody">
-                                                    <td colspan="2">
-
-                                                        <div id="Dashboard$QData{"Name"}-setting" style="display:none;">
-
-                                                            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="Dashboard$QData{"NameForm"}_setting_form">
-                                                                <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                                                                <input type="hidden" name="Subaction" value="UpdatePreferences"/>
-                                                                <input type="hidden" name="Name" value="$QData{"Name"}"/>
-                                                                <table>
-<!-- dtl:block:ContentLargePreferencesItem -->
-                                                                    <tr>
-<!-- dtl:block:ContentLargePreferencesItemOption -->
-                                                                        <td>$Text{"$QData{"Desc"}"}:</td>
-                                                                        <td>$Data{"Option"}</td>
-<!-- dtl:block:ContentLargePreferencesItemOption -->
-<!-- dtl:block:ContentLargePreferencesItemInput -->
-                                                                        <td>$Text{"$QData{"Desc"}"}:</td>
-                                                                        <td><input type="text" size="$QData{"Size"}" name="$QData{"NamePref"}" value="$QData{"Data"}"/></td>
-<!-- dtl:block:ContentLargePreferencesItemInput -->
-<!-- dtl:block:ContentLargePreferencesItemTextArea -->
-                                                                        <td>$Text{"$QData{"Desc"}"}:</td>
-                                                                        <td><textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea></td>
-<!-- dtl:block:ContentLargePreferencesItemTextArea -->
-                                                                    </tr>
-<!-- dtl:block:ContentLargePreferencesItem -->
-                                                                    <tr>
-                                                                        <td colspan="2">
-                                                                            <button class="button" type="submit" value="$Text{"Submit"}" onclick="Dashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;">$Text{"Submit"}</button>
-                                                                            <button class="button" type="submit" value="$Text{"Cancel"}" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </form>
-
-                                                        </div>
-
-                                                        <div id="Dashboard$QData{"Name"}">
-                                                            $Data{"Content"}
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                                <tr class="contentfooter">
-                                                    <td colspan="2">
-                                                        &nbsp;
-<!-- dtl:block:ContentLargeMore -->
-                                                        <a href="$Data{"Link"}" title="$Text{"$Data{"LinkTitle"}"}" class="small">$Text{"more"} &#187;</a>
-<!-- dtl:block:ContentLargeMore -->
-                                                    </td>
-                                                </tr>
-                                            </table>
-
-                                        </td>
-                                    </tr>
-                                </table>
+                <div id="setting" style="display:none;" class="contenthead">
+                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                        <input type="hidden" name="Subaction" value="UpdateSettings"/>
+                        <ul>
+<!-- dtl:block:ContentSettings -->
+                            <li>
+                                <div title="$Text{"$QData{"Description"}"}">
+                                    <input type="checkbox" name="Backend" value="$QData{"Name"}" $Data{"Checked"}/> $Text{"$QData{"Title"}"}
+                                </div>
                             </li>
-<!-- dtl:block:ContentLarge -->
+<!-- dtl:block:ContentSettings -->
                         </ul>
-                    </td>
-                    <td width="340" valign="top">
+                        <button class="button" accesskey="g" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
+                    </form>
+                </div>
 
-                        <table border="0" width="100%" align="center" cellspacing="2" cellpadding="4">
+            </div>
+        </div>
+
+
+<!-- dtl:block:ContentSmall -->
+        <div class="WidgetGradient CanDrag Short" id="Dashboard$QData{"Name"}-box">
+            <div class="Header">
+<!-- dtl:block:ContentSmallPreferences -->
+                <div class="WidgetAction Settings">
+                    <a href="#" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;" title="$Text{"Settings"}"><span></span></a>
+                </div>
+<!-- dtl:block:ContentSmallPreferences -->
+                <div class="WidgetAction Close">
+                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><span></span></a>
+                </div>
+                <h2>
+                <div title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</div>
+                <h2>
+            </div>
+            <div class="Content">
+                <div id="Dashboard$QData{"Name"}-setting" style="display:none;">
+
+                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="Dashboard$QData{"NameForm"}_setting_form">
+                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                        <input type="hidden" name="Subaction" value="UpdatePreferences"/>
+                        <input type="hidden" name="Name" value="$QData{"Name"}"/>
+                        <table>
+<!-- dtl:block:ContentSmallPreferencesItem -->
                             <tr>
-                                <td class="contenthead">
-
-                                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                                        <input type="hidden" name="Subaction" value="UpdateSettings"/>
-
-                                        <table border="0" width="100%" cellspacing="0" cellpadding="0">
-                                            <tr onclick="UI.Accordion('setting', 'setting-expand-down', 'setting-collapse-up'); return false;">
-                                                <td class="contenthead" width="99%">
-                                                    $Text{"Settings"}
-                                                </td>
-                                                <td>
-                                                    <div id="setting-expand-down"><a href="#" title="$Text{"Expand"}"><img border="0" src="$Config{"Frontend::ImagePath"}expand-down.png" alt="$Text{"Expand"}"/></a></div>
-                                                    <div id="setting-collapse-up" style="display:none;"><a href="#" title="$Text{"Collapse"}"><img border="0" src="$Config{"Frontend::ImagePath"}collapse-up.png" alt="$Text{"Collapse"}"/></a></div>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                        <div id="setting" style="display:none;" class="contenthead">
-
-                                            <table border="0" width="100%" cellspacing="4" cellpadding="4" class="contentbody">
-<!-- dtl:block:ContentSettings -->
-                                                <tr>
-                                                    <td>
-                                                        <div title="$Text{"$QData{"Description"}"}">
-                                                            <input type="checkbox" name="Backend" value="$QData{"Name"}" $Data{"Checked"}/>
-                                                            $Text{"$QData{"Title"}"}
-                                                        </div>
-                                                    </td>
-                                                </tr>
-<!-- dtl:block:ContentSettings -->
-                                                <tr>
-                                                    <td>
-                                                        <button class="button" accesskey="g" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-
-                                    </form>
-
+<!-- dtl:block:ContentSmallPreferencesItemOption -->
+                                <td>$Text{"$QData{"Desc"}"}:</td>
+                                <td>$Data{"Option"}</td>
+<!-- dtl:block:ContentSmallPreferencesItemOption -->
+<!-- dtl:block:ContentSmallPreferencesItemInput -->
+                                <td>$Text{"$QData{"Desc"}"}:</td>
+                                <td><input type="text" size="$QData{"Size"}" name="$QData{"NamePref"}" value="$QData{"Data"}"/></td>
+<!-- dtl:block:ContentSmallPreferencesItemInput -->
+<!-- dtl:block:ContentSmallPreferencesItemTextArea -->
+                                <td>$Text{"$QData{"Desc"}"}:</td>
+                                <td><textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea></td>
+<!-- dtl:block:ContentSmallPreferencesItemTextArea -->
+                            </tr>
+<!-- dtl:block:ContentSmallPreferencesItem -->
+                            <tr>
+                                <td colspan="2">
+                                    <button class="button" type="submit" value="$Text{"Submit"}" onclick="Dashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;">$Text{"Submit"}</button>
+                                    <button class="button" type="submit" value="$Text{"Cancel"}" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
                                 </td>
                             </tr>
                         </table>
+                    </form>
 
-                        <hr/>
+                </div>
 
-                        <ul id="sortable-small">
-<!-- dtl:block:ContentSmall -->
-                            <li class="ui-state-default" id="Dashboard$QData{"Name"}-box">
-                                <table border="0" width="100%" align="center" cellspacing="2" cellpadding="0">
-                                    <tr>
-                                        <td>
+                <div id="Dashboard$QData{"Name"}">
+                    $Data{"Content"}
+                </div>
 
-                                            <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
-                                                <tr class="contenthead">
-                                                    <td title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</td>
-                                                    <td align="right">
-<!-- dtl:block:ContentSmallPreferences -->
-                                                        <a href="#" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
-<!-- dtl:block:ContentSmallPreferences -->
-                                                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}" /></a>
-                                                    </td>
-                                                </tr>
-                                                <tr class="contentbody">
-                                                    <td colspan="2">
-
-                                                        <div id="Dashboard$QData{"Name"}-setting" style="display:none;">
-
-                                                            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="Dashboard$QData{"NameForm"}_setting_form">
-                                                                <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                                                                <input type="hidden" name="Subaction" value="UpdatePreferences"/>
-                                                                <input type="hidden" name="Name" value="$QData{"Name"}"/>
-                                                                <table>
-<!-- dtl:block:ContentSmallPreferencesItem -->
-                                                                    <tr>
-<!-- dtl:block:ContentSmallPreferencesItemOption -->
-                                                                        <td>$Text{"$QData{"Desc"}"}:</td>
-                                                                        <td>$Data{"Option"}</td>
-<!-- dtl:block:ContentSmallPreferencesItemOption -->
-<!-- dtl:block:ContentSmallPreferencesItemInput -->
-                                                                        <td>$Text{"$QData{"Desc"}"}:</td>
-                                                                        <td><input type="text" size="$QData{"Size"}" name="$QData{"NamePref"}" value="$QData{"Data"}"/></td>
-<!-- dtl:block:ContentSmallPreferencesItemInput -->
-<!-- dtl:block:ContentSmallPreferencesItemTextArea -->
-                                                                        <td>$Text{"$QData{"Desc"}"}:</td>
-                                                                        <td><textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea></td>
-<!-- dtl:block:ContentSmallPreferencesItemTextArea -->
-                                                                    </tr>
-<!-- dtl:block:ContentSmallPreferencesItem -->
-                                                                    <tr>
-                                                                        <td colspan="2">
-                                                                            <button class="button" type="submit" value="$Text{"Submit"}" onclick="Dashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;">$Text{"Submit"}</button>
-                                                                            <button class="button" type="submit" value="$Text{"Cancel"}" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </form>
-
-                                                        </div>
-
-                                                        <div id="Dashboard$QData{"Name"}">
-                                                            $Data{"Content"}
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                                <tr class="contentfooter">
-                                                    <td colspan="2">
-                                                        &nbsp;
 <!-- dtl:block:ContentSmallMore -->
-                                                        <a href="$Data{"Link"}" title="$Text{"$Data{"LinkTitle"}"}" class="small">$Text{"more"} &#187;</a>
+                <a href="$Data{"Link"}" title="$Text{"$Data{"LinkTitle"}"}" class="small">$Text{"more"} &#187;</a>
 <!-- dtl:block:ContentSmallMore -->
-                                                    </td>
-                                                </tr>
-                                            </table>
-
-                                        </td>
-                                    </tr>
-                                </table>
-                            </li>
+            </div>
+        </div>
 <!-- dtl:block:ContentSmall -->
-                        </ul>
+    </div>
 
-                    </td>
-                </tr>
-            </table>
 
-        </td>
-    </tr>
-</table>
+
+
+    <div class="ContentColumn">
+<!-- dtl:block:ContentLarge -->
+        <div class="WidgetGradient CanDrag Short" id="Dashboard$QData{"Name"}-box">
+            <div class="Header">
+<!-- dtl:block:ContentLargePreferences -->
+                <div class="WidgetAction Settings">
+                    <a href="#" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;" title="$Text{"Settings"}"><span></span></a>
+                </div>
+<!-- dtl:block:ContentLargePreferences -->
+                <div class="WidgetAction Close">
+                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><span></span></a>
+                </div>
+                <h2>
+                <div title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</div>
+                </h2>
+            </div>
+
+            <div class="Content">
+                <div id="Dashboard$QData{"Name"}-setting" style="display:none;">
+
+                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="Dashboard$QData{"NameForm"}_setting_form">
+                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                        <input type="hidden" name="Subaction" value="UpdatePreferences"/>
+                        <input type="hidden" name="Name" value="$QData{"Name"}"/>
+                        <table>
+<!-- dtl:block:ContentLargePreferencesItem -->
+                            <tr>
+<!-- dtl:block:ContentLargePreferencesItemOption -->
+                                <td>$Text{"$QData{"Desc"}"}:</td>
+                                <td>$Data{"Option"}</td>
+<!-- dtl:block:ContentLargePreferencesItemOption -->
+<!-- dtl:block:ContentLargePreferencesItemInput -->
+                                <td>$Text{"$QData{"Desc"}"}:</td>
+                                <td><input type="text" size="$QData{"Size"}" name="$QData{"NamePref"}" value="$QData{"Data"}"/></td>
+<!-- dtl:block:ContentLargePreferencesItemInput -->
+<!-- dtl:block:ContentLargePreferencesItemTextArea -->
+                                <td>$Text{"$QData{"Desc"}"}:</td>
+                                <td><textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea></td>
+<!-- dtl:block:ContentLargePreferencesItemTextArea -->
+                            </tr>
+<!-- dtl:block:ContentLargePreferencesItem -->
+                            <tr>
+                                <td colspan="2">
+                                    <button class="button" type="submit" value="$Text{"Submit"}" onclick="Dashboard.PreferencesUpdate('Dashboard$QData{"Name"}','Dashboard$QData{"NameForm"}_setting_form'); return false;">$Text{"Submit"}</button>
+                                    <button class="button" type="submit" value="$Text{"Cancel"}" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                </div>
+
+                <div id="Dashboard$QData{"Name"}">
+                    $Data{"Content"}
+                </div>
+<!-- dtl:block:ContentLargeMore -->
+                <a href="$Data{"Link"}" title="$Text{"$Data{"LinkTitle"}"}" class="small">$Text{"more"} &#187;</a>
+<!-- dtl:block:ContentLargeMore -->
+            </div>
+        </div>
+<!-- dtl:block:ContentLarge -->
+    </div>
+
+</div>
 <!-- dtl:block:Content -->

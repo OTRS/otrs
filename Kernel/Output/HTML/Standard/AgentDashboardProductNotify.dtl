@@ -1,28 +1,30 @@
 # --
 # AgentDashboardProductNotify.dtl - provides HTML for global dashboard
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardProductNotify.dtl,v 1.2 2009-07-10 22:52:15 martin Exp $
+# $Id: AgentDashboardProductNotify.dtl,v 1.3 2010-04-02 16:27:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<table border="0" width="100%" cellspacing="0" cellpadding="2">
+<table class="DataTable">
+    <tbody>
 <!-- dtl:block:ContentProductMessage -->
-  <tr>
-    <td>
-      $Data{"Message"}
-      <hr width="100%"/>
-    </td>
-  </tr>
+        <tr>
+            <td>
+                $Data{"Message"}
+                <hr width="100%"/>
+            </td>
+        </tr>
 <!-- dtl:block:ContentProductMessage -->
 <!-- dtl:block:ContentProductRelease -->
-  <tr>
-    <td>
-      $Text{"%s %s is available!", "$QData{"Name"}", "$QData{"Version"}"} $Text{"Please update now."} (<a href="$Data{"Link"}" target="_blank">$Text{"Release Note"} - $Text{"Level"}: $Text{"$QData{"Severity"}"}</a>)
-    </td>
-  </tr>
+        <tr>
+            <td>
+                $Text{"%s %s is available!", "$QData{"Name"}", "$QData{"Version"}"} $Text{"Please update now."} (<a href="$Data{"Link"}" target="_blank">$Text{"Release Note"} - $Text{"Level"}: $Text{"$QData{"Severity"}"}</a>)
+            </td>
+        </tr>
 <!-- dtl:block:ContentProductRelease -->
+    </tbody>
 </table>

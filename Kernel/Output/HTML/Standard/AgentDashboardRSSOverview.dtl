@@ -2,27 +2,25 @@
 # AgentDashboardRSSOverview.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardRSSOverview.dtl,v 1.3 2010-01-15 11:16:22 mb Exp $
+# $Id: AgentDashboardRSSOverview.dtl,v 1.4 2010-04-02 16:27:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<table border="0" width="100%" cellspacing="0" cellpadding="2">
+<table class="DataTable">
+    <tbody>
 <!-- dtl:block:ContentSmallRSSOverviewRow -->
-    <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
-    <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
-
-        <td>
-            <a href="$Data{"Link"}" title="$QData{"Title"}" target="_blank">$QData{"Title","45"}</a>
+        <tr>
+            <td>
+                <a href="$Data{"Link"}" title="$QData{"Title"}" target="_blank">$QData{"Title","45"}</a>
 <!-- dtl:block:ContentSmallRSSTimeStamp -->
-            <br/>
-            <i class="small">($Text{"Posted %s ago.", "$QData{"Ago"}"})</i>
+                <br/>
+                <i class="small">($Text{"Posted %s ago.", "$QData{"Ago"}"})</i>
 <!-- dtl:block:ContentSmallRSSTimeStamp -->
-        </td>
-    </tr>
-    <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
-    <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
+            </td>
+        </tr>
 <!-- dtl:block:ContentSmallRSSOverviewRow -->
+    </tbody>
 </table>
