@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.58 2010-02-26 20:35:35 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.59 2010-04-02 15:48:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -110,6 +110,20 @@ sub Run {
             if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
                 $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' } = 1;
             }
+        }
+
+        # transform free time, time stamp based on user time zone
+        for my $Count ( 1 .. 6 ) {
+            my $Prefix = 'TicketFreeTime' . $Count;
+            next if !$TicketFreeTime{ $Prefix . 'Year' };
+            next if !$TicketFreeTime{ $Prefix . 'Month' };
+            next if !$TicketFreeTime{ $Prefix . 'Day' };
+            next if !$TicketFreeTime{ $Prefix . 'Hour' };
+            next if !$TicketFreeTime{ $Prefix . 'Minute' };
+            %TicketFreeTime = $Self->{LayoutObject}->TransfromDateSelection(
+                %TicketFreeTime,
+                Prefix => $Prefix
+            );
         }
 
         # free time
@@ -324,36 +338,31 @@ sub Run {
         }
 
         # set ticket free time
-        for ( 1 .. 6 ) {
-            if (
-                defined $TicketFreeTime{ "TicketFreeTime" . $_ . "Year" }
-                && defined $TicketFreeTime{ "TicketFreeTime" . $_ . "Month" }
-                && defined $TicketFreeTime{ "TicketFreeTime" . $_ . "Day" }
-                && defined $TicketFreeTime{ "TicketFreeTime" . $_ . "Hour" }
-                && defined $TicketFreeTime{ "TicketFreeTime" . $_ . "Minute" }
-                )
-            {
-                my %Time;
-                $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
-                $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
-                $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
-                $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
-                $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
-                $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
+        for my $Count ( 1 .. 6 ) {
+            my $Prefix = 'TicketFreeTime' . $Count;
+            next if !defined $TicketFreeTime{ $Prefix . 'Year' };
+            next if !defined $TicketFreeTime{ $Prefix . 'Month' };
+            next if !defined $TicketFreeTime{ $Prefix . 'Day' };
+            next if !defined $TicketFreeTime{ $Prefix . 'Hour' };
+            next if !defined $TicketFreeTime{ $Prefix . 'Minute' };
 
-                if ( $TicketFreeTime{ "TicketFreeTime" . $_ . "Used" } ) {
-                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                        %TicketFreeTime, Prefix => "TicketFreeTime" . $_,
-                    );
-                }
-                $Self->{TicketObject}->TicketFreeTimeSet(
-                    %Time,
-                    Prefix   => "TicketFreeTime",
-                    TicketID => $TicketID,
-                    Counter  => $_,
-                    UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                );
+            # set time stamp to NULL if field is not used/checked
+            if ( !$TicketFreeTime{ $Prefix . 'Used' } ) {
+                $TicketFreeTime{ $Prefix . 'Year' }   = 0;
+                $TicketFreeTime{ $Prefix . 'Month' }  = 0;
+                $TicketFreeTime{ $Prefix . 'Day' }    = 0;
+                $TicketFreeTime{ $Prefix . 'Hour' }   = 0;
+                $TicketFreeTime{ $Prefix . 'Minute' } = 0;
             }
+
+            # set free time
+            $Self->{TicketObject}->TicketFreeTimeSet(
+                %TicketFreeTime,
+                Prefix   => 'TicketFreeTime',
+                TicketID => $TicketID,
+                Counter  => $Count,
+                UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            );
         }
 
         my $MimeType = 'text/plain';
