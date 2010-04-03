@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.12 2010-04-03 09:06:54 martin Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.13 2010-04-03 09:09:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -109,23 +109,23 @@ function select_item_check () {
                         <td>
                             <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","14"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
                         </td>
-                        <td>
-<!-- dtl:block:TicketFreeText1 -->
-                            <label>$QData{"TicketFreeKey1","25"}</label>
-<!-- dtl:block:TicketFreeTextPlain1 -->
-                            <div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","25"}</div>
-<!-- dtl:block:TicketFreeTextPlain1 -->
-<!-- dtl:block:TicketFreeTextLink1 -->
-                            <div title="$QData{"TicketFreeText1"}"><a href="$Config{"TicketFreeTextLink1"}" target="_blank">$QData{"TicketFreeText1","25"}</a></div>
-<!-- dtl:block:TicketFreeTextLink1 -->
-<!-- dtl:block:TicketFreeText1 -->
-                        </td>
-                        <td>
-<!-- dtl:block:TicketFreeTime1 -->
-                            <label>$Text{"$Config{"TicketFreeTimeKey1"}"}</label>
-                            <div title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</div>
-<!-- dtl:block:TicketFreeTime1 -->
-                        </td>
+#                        <td>
+#<!-- dtl:block:TicketFreeText1 -->
+#                            <label>$QData{"TicketFreeKey1","25"}</label>
+#<!-- dtl:block:TicketFreeTextPlain1 -->
+#                            <div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","25"}</div>
+#<!-- dtl:block:TicketFreeTextPlain1 -->
+#<!-- dtl:block:TicketFreeTextLink1 -->
+#                            <div title="$QData{"TicketFreeText1"}"><a href="$Config{"TicketFreeTextLink1"}" target="_blank">$QData{"TicketFreeText1","25"}</a></div>
+#<!-- dtl:block:TicketFreeTextLink1 -->
+#<!-- dtl:block:TicketFreeText1 -->
+#                        </td>
+#                        <td>
+#<!-- dtl:block:TicketFreeTime1 -->
+#                            <label>$Text{"$Config{"TicketFreeTimeKey1"}"}</label>
+#                            <div title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</div>
+#<!-- dtl:block:TicketFreeTime1 -->
+#                        </td>
                         <td>
                             <label>$Text{"First Response Time"}</label>
 <!-- dtl:block:FirstResponseTime -->
@@ -154,23 +154,23 @@ function select_item_check () {
                             <label>$Text{"Service"}</label><div title="$QData{"Service"}">$QData{"Service","18"}</div>
 <!-- dtl:block:Service -->
                         </td>
-                        <td>
-<!-- dtl:block:TicketFreeText2 -->
-                            <label>$QData{"TicketFreeKey2","25"}</label>
-<!-- dtl:block:TicketFreeTextPlain2 -->
-                            <div title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","25"}</div>
-<!-- dtl:block:TicketFreeTextPlain2 -->
-<!-- dtl:block:TicketFreeTextLink2 -->
-                            <div title="$QData{"TicketFreeText2"}"><a href="$Config{"TicketFreeTextLink2"}" target="_blank">$QData{"TicketFreeText2","25"}</a></div>
-<!-- dtl:block:TicketFreeTextLink2 -->
-<!-- dtl:block:TicketFreeText2 -->
-                        </td>
-                        <td>
-<!-- dtl:block:TicketFreeTime2 -->
-                            <label>$Text{"$Config{"TicketFreeTimeKey2"}"}</label>
-                            <div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div>
-<!-- dtl:block:TicketFreeTime2 -->
-                        </td>
+#                        <td>
+#<!-- dtl:block:TicketFreeText2 -->
+#                            <label>$QData{"TicketFreeKey2","25"}</label>
+#<!-- dtl:block:TicketFreeTextPlain2 -->
+#                            <div title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","25"}</div>
+#<!-- dtl:block:TicketFreeTextPlain2 -->
+#<!-- dtl:block:TicketFreeTextLink2 -->
+#                            <div title="$QData{"TicketFreeText2"}"><a href="$Config{"TicketFreeTextLink2"}" target="_blank">$QData{"TicketFreeText2","25"}</a></div>
+#<!-- dtl:block:TicketFreeTextLink2 -->
+#<!-- dtl:block:TicketFreeText2 -->
+#                        </td>
+#                        <td>
+#<!-- dtl:block:TicketFreeTime2 -->
+#                            <label>$Text{"$Config{"TicketFreeTimeKey2"}"}</label>
+#                            <div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div>
+#<!-- dtl:block:TicketFreeTime2 -->
+#                        </td>
                         <td>
                             <label>$Text{"Update Time"}</label>
 <!-- dtl:block:UpdateTime -->
@@ -201,23 +201,23 @@ function select_item_check () {
                             <label>$Text{"SLA"}</label><div title="$QData{"SLA"}">$QData{"SLA","18"}</div>
 <!-- dtl:block:SLA -->
                         </td>
-                        <td>
-<!-- dtl:block:TicketFreeText3 -->
-                            <label>$QData{"TicketFreeKey3","25"}</label>
-<!-- dtl:block:TicketFreeTextPlain3 -->
-                            <div title="$QData{"TicketFreeText3"}">$QData{"TicketFreeText3","25"}</div>
-<!-- dtl:block:TicketFreeTextPlain3 -->
-<!-- dtl:block:TicketFreeTextLink3 -->
-                            <div title="$QData{"TicketFreeText3"}"><a href="$Config{"TicketFreeTextLink3"}" target="_blank">$QData{"TicketFreeText3","25"}</a></div>
-<!-- dtl:block:TicketFreeTextLink3 -->
-<!-- dtl:block:TicketFreeText3 -->
-                        </td>
-                        <td>
-<!-- dtl:block:TicketFreeTime3 -->
-                            <label>$Text{"$Config{"TicketFreeTimeKey3"}"}</label>
-                            <div title="$TimeShort{"$QData{"TicketFreeTime3"}"}">$TimeShort{"$QData{"TicketFreeTime3"}"}</div>
-<!-- dtl:block:TicketFreeTime3 -->
-                        </td>
+#                        <td>
+#<!-- dtl:block:TicketFreeText3 -->
+#                            <label>$QData{"TicketFreeKey3","25"}</label>
+#<!-- dtl:block:TicketFreeTextPlain3 -->
+#                            <div title="$QData{"TicketFreeText3"}">$QData{"TicketFreeText3","25"}</div>
+#<!-- dtl:block:TicketFreeTextPlain3 -->
+#<!-- dtl:block:TicketFreeTextLink3 -->
+#                            <div title="$QData{"TicketFreeText3"}"><a href="$Config{"TicketFreeTextLink3"}" target="_blank">$QData{"TicketFreeText3","25"}</a></div>
+#<!-- dtl:block:TicketFreeTextLink3 -->
+#<!-- dtl:block:TicketFreeText3 -->
+#                        </td>
+#                        <td>
+#<!-- dtl:block:TicketFreeTime3 -->
+#                            <label>$Text{"$Config{"TicketFreeTimeKey3"}"}</label>
+#                            <div title="$TimeShort{"$QData{"TicketFreeTime3"}"}">$TimeShort{"$QData{"TicketFreeTime3"}"}</div>
+#<!-- dtl:block:TicketFreeTime3 -->
+#                        </td>
                         <td>
                             <label>$Text{"Solution Time"}</label>
 <!-- dtl:block:SolutionTime -->
