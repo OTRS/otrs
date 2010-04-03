@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketEscalationView.pm - status for all open tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEscalationView.pm,v 1.13 2009-11-25 15:39:15 mg Exp $
+# $Id: AgentTicketEscalationView.pm,v 1.14 2010-04-03 12:20:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -185,6 +185,9 @@ sub Run {
         Env      => $Self,
         LinkPage => $LinkPage,
         LinkSort => $LinkSort,
+
+        OrderBy => $Self->{OrderBy},
+        SortBy  => $Self->{SortBy},
 
         Escalation => 1,
     );
