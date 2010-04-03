@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.13 2010-04-03 09:09:11 martin Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.14 2010-04-03 12:11:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,7 @@
 <!-- dtl:block:DocumentActionRowItem -->
 </ul>
 <!-- dtl:block:DocumentActionRow -->
+
 
 <!-- dtl:block:DocumentSortOrderBar -->
 # nothing to show
@@ -104,10 +105,10 @@ function select_item_check () {
                             <label>$Text{"Age"}</label>$Data{"Age"}
                         </td>
                         <td>
-                            <label>$Text{"Queue"}</label><div title="$QData{"Queue"}">$QData{"Queue","14"}</div>
+                            <label>$Text{"Queue"}</label><div title="$QData{"Queue"}">$QData{"Queue","26"}</div>
                         </td>
                         <td>
-                            <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","14"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+                            <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","26"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
                         </td>
 #                        <td>
 #<!-- dtl:block:TicketFreeText1 -->
@@ -147,12 +148,12 @@ function select_item_check () {
                             <label>$Text{"Created"}</label>$TimeLong{"$Data{"Created"}"}
                         </td>
                         <td>
-                            <label>$Text{"State"}</label><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","14"}</div>
+                            <label>$Text{"State"}</label><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","26"}</div>
                         </td>
                         <td>
-<!-- dtl:block:Service -->
-                            <label>$Text{"Service"}</label><div title="$QData{"Service"}">$QData{"Service","18"}</div>
-<!-- dtl:block:Service -->
+<!-- dtl:block:Type -->
+                            <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type","26"}</div>
+<!-- dtl:block:Type -->
                         </td>
 #                        <td>
 #<!-- dtl:block:TicketFreeText2 -->
@@ -192,13 +193,14 @@ function select_item_check () {
                             <label>$Text{"Owner"}</label><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
                         </td>
                         <td>
-<!-- dtl:block:Type -->
-                            <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type","18"}</div>
-<!-- dtl:block:Type -->
+                            <label>$Text{"Lock"}</label><div title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","26"}</div>
                         </td>
                         <td>
+<!-- dtl:block:Service -->
+                            <label>$Text{"Service"}</label><div title="$QData{"Service"}">$QData{"Service","26"}</div>
+<!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
-                            <label>$Text{"SLA"}</label><div title="$QData{"SLA"}">$QData{"SLA","18"}</div>
+                            <label>$Text{"SLA"}</label><div title="$QData{"SLA"}">$QData{"SLA","26"}</div>
 <!-- dtl:block:SLA -->
                         </td>
 #                        <td>
@@ -239,7 +241,7 @@ function select_item_check () {
 
 <!-- dtl:block:DISABLE -->
 #                <td>
-#                    <label>$Text{"Priority"}</label><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","14"}</div>
+#                    <label>$Text{"Priority"}</label><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","26"}</div>
 #                </td>
 # show the Article::FreeKey1-3 and Article::FreeText1-3
 #<!-- dtl:block:ArticleFreeText -->
