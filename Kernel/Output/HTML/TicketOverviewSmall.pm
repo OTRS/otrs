@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.19 2010-02-21 21:26:57 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.20 2010-04-03 09:06:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,6 +40,165 @@ sub new {
         = $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
 
     return $Self;
+}
+
+sub ActionRow {
+    my ( $Self, %Param ) = @_;
+
+    # check if bulk feature is enabled
+    my $BulkFeature = 0;
+    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
+        my @Groups;
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') ) {
+            @Groups = @{ $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') };
+        }
+        if ( !@Groups ) {
+            $BulkFeature = 1;
+        }
+        else {
+            for my $Group (@Groups) {
+                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+                    $BulkFeature = 1;
+                    last;
+                }
+            }
+        }
+    }
+
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentActionRow',
+        Data => \%Param,
+    );
+
+    if ($BulkFeature) {
+        $Self->{LayoutObject}->Block(
+            Name => 'DocumentActionRowBulk',
+            Data => {
+                %Param,
+                Name => 'Bulk',
+            },
+        );
+    }
+
+    for my $Key ( 1 .. 5 ) {
+        my $Class = '';
+        if ( $Key == 3 ) {
+            $Class = 'Inactive';
+        }
+        if ( $Key == 5 ) {
+            $Class = 'Last';
+        }
+        $Self->{LayoutObject}->Block(
+            Name => 'DocumentActionRowItem',
+            Data => {
+                Name => 'XXX' . $Key,
+                CSS  => $Class,
+            },
+        );
+    }
+
+    my $Output = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketOverviewSmall',
+        Data         => \%Param,
+    );
+
+    return $Output;
+}
+
+sub SortOrderBar {
+    my ( $Self, %Param ) = @_;
+
+    # check if bulk feature is enabled
+    my $BulkFeature = 0;
+    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
+        my @Groups;
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') ) {
+            @Groups = @{ $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') };
+        }
+        if ( !@Groups ) {
+            $BulkFeature = 1;
+        }
+        else {
+            for my $Group (@Groups) {
+                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+                    $BulkFeature = 1;
+                    last;
+                }
+            }
+        }
+    }
+
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentSortOrderBar',
+        Data => \%Param,
+    );
+
+    if ($BulkFeature) {
+        $Self->{LayoutObject}->Block(
+            Name => 'BulkNavBar',
+            Data => \%Param,
+        );
+    }
+
+    # meta items
+    my @TicketMetaItems = $Self->{LayoutObject}->TicketMetaItemsCount();
+    for my $Item (@TicketMetaItems) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewNavBarPageFlag',
+            Data => {
+                Name => $Item,
+            },
+        );
+    }
+
+    my @Col = (qw(TicketNumber Age State Lock Queue Owner CustomerID));
+
+    # show escalation
+    if ( $Param{Escalation} ) {
+        push @Col, 'EscalationTime';
+    }
+
+    # check if last customer subject or ticket title should be shown
+    if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
+        push @Col, 'LastCustomerSubject';
+    }
+    elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
+        push @Col, 'Title';
+    }
+
+    for my $Key (@Col) {
+
+        my $CSS = '';
+        my $OrderBy;
+        if ( $Param{SortBy} eq $Key ) {
+            if ( $Param{OrderBy} eq 'Up' ) {
+                $OrderBy = 'Down';
+                $CSS .= ' SortDescending';
+            }
+            else {
+                $OrderBy = 'Up';
+                $CSS .= ' SortAscending';
+            }
+        }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewNavBarPage' . $Key,
+            Data => {
+                %Param,
+                OrderBy => $OrderBy,
+                CSS     => $CSS,
+            },
+        );
+    }
+
+    my $Output = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketOverviewSmall',
+        Data         => \%Param,
+    );
+
+    return $Output;
 }
 
 sub Run {
@@ -74,17 +233,15 @@ sub Run {
         }
     }
 
-    if ($BulkFeature) {
-        $Self->{LayoutObject}->Block(
-            Name => 'BulkHead',
-            Data => \%Param,
-        );
-    }
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentContent',
+        Data => \%Param,
+    );
 
     # show escalation
     if ( $Param{Escalation} ) {
         $Self->{LayoutObject}->Block(
-            Name => 'RecordEscalationHeader',
+            Name => 'RecordEscalationTimeHeader',
             Data => \%Param,
         );
     }
@@ -149,16 +306,9 @@ sub Run {
 
             # user info
             my %UserInfo = $Self->{UserObject}->GetUserData(
-                User => $Article{Owner},
+                UserID => $Article{OwnerID},
             );
 
-            # seperate each searchresult line by using several css
-            if ( $Counter % 2 ) {
-                $Article{css} = "searchpassive";
-            }
-            else {
-                $Article{css} = "searchactive";
-            }
             $Self->{LayoutObject}->Block(
                 Name => 'Record',
                 Data => { %Article, %UserInfo },
@@ -181,21 +331,27 @@ sub Run {
                     Name => 'ContentLargeTicketGenericRowMeta',
                     Data => $Item,
                 );
+                if ($Item) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ContentLargeTicketGenericRowMetaImage',
+                        Data => $Item,
+                    );
+                }
             }
 
             # show escalation
             if ( $Param{Escalation} ) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'RecordEscalation',
+                    Name => 'RecordEscalationTime',
                     Data => { %Article, %UserInfo },
                 );
                 if ( $Article{EscalationTime} < 60 * 60 * 1 ) {
                     $Self->{LayoutObject}->Block(
-                        Name => 'RecordEscalationFontStart',
+                        Name => 'RecordEscalationTimeFontStart',
                         Data => { %Article, %UserInfo },
                     );
                     $Self->{LayoutObject}->Block(
-                        Name => 'RecordEscalationFontStop',
+                        Name => 'RecordEscalationTimeFontStop',
                         Data => { %Article, %UserInfo },
                     );
                 }
@@ -217,26 +373,20 @@ sub Run {
         }
     }
 
-    # check if bulk feature is enabled
-    if ($BulkFeature) {
-        $Self->{LayoutObject}->Block(
-            Name => 'BulkFooter',
-            Data => \%Param,
-        );
-    }
-
-    # increase footer size on escalation view
-    if ( $Param{Escalation} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'EscalationFooter',
-            Data => \%Param,
-        );
-    }
-
     # use template
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewSmall',
         Data => { %Param, Type => $Self->{ViewType}, },
+    );
+
+    # document ready
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentReady',
+        Data => \%Param,
+    );
+    $Self->{LayoutObject}->{EnvRef}->{DocumentReady} = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketOverviewSmall',
+        Data         => \%Param,
     );
 
     return $Output;

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.69 2010-03-08 18:02:33 martin Exp $
+# $Id: LayoutTicket.pm,v 1.70 2010-04-03 09:06:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -963,6 +963,25 @@ sub TicketListShow {
         }
     }
 
+    # load overview backend module
+    if ( !$Self->{MainObject}->Require( $Backends->{$View}->{Module} ) ) {
+        return $Env->{LayoutObject}->FatalError();
+    }
+    my $Object = $Backends->{$View}->{Module}->new( %{$Env} );
+    return if !$Object;
+
+    # run action row backend module
+    $Param{ActionRow} = $Object->ActionRow(
+        %Param,
+        Config => $Backends->{$View},
+    );
+
+    # run overview backend module
+    $Param{SortOrderBar} = $Object->SortOrderBar(
+        %Param,
+        Config => $Backends->{$View},
+    );
+
     # check start option, if higher then tickets available, set
     # it to the last ticket page (Thanks to Stefan Schmidt!)
     my $StartHit = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
@@ -1034,16 +1053,10 @@ sub TicketListShow {
         );
         my $Count = 0;
         for my $Filter (@NavBarFilters) {
-            if ($Count) {
-                $Env->{LayoutObject}->Block(
-                    Name => 'OverviewNavBarFilterItemSplit',
-                    Data => {
-                        %Param,
-                        %{$Filter},
-                    },
-                );
-            }
             $Count++;
+            if ( $Count == scalar @NavBarFilters ) {
+                $Filter->{CSS} = 'Last';
+            }
             $Env->{LayoutObject}->Block(
                 Name => 'OverviewNavBarFilterItem',
                 Data => {
@@ -1135,14 +1148,7 @@ sub TicketListShow {
         $OutputRaw .= $OutputNavBar;
     }
 
-    # load module
-    if ( !$Self->{MainObject}->Require( $Backends->{$View}->{Module} ) ) {
-        return $Env->{LayoutObject}->FatalError();
-    }
-    my $Object = $Backends->{$View}->{Module}->new( %{$Env} );
-    return if !$Object;
-
-    # run module
+    # run overview backend module
     my $Output = $Object->Run(
         %Param,
         Config    => $Backends->{$View},
@@ -1159,28 +1165,35 @@ sub TicketListShow {
     }
 
     # nav bar at the end of a overview
-    $Env->{LayoutObject}->Block(
-        Name => 'OverviewNavBar',
-        Data => \%Param,
-    );
-    if (%PageNav) {
-        $Env->{LayoutObject}->Block(
-            Name => 'OverviewNavBarPageNavBar',
-            Data => \%PageNav,
-        );
-    }
-    my $OutputNavBarSmall = $Env->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketOverviewNavBarSmall',
-        Data         => { %Param, },
-    );
-    if ( !$Param{Output} ) {
-        $Env->{LayoutObject}->Print( Output => \$OutputNavBarSmall );
-    }
-    else {
-        $OutputRaw .= $OutputNavBarSmall;
-    }
+    #    $Env->{LayoutObject}->Block(
+    #        Name => 'OverviewNavBar',
+    #        Data => \%Param,
+    #    );
+    #    if (%PageNav) {
+    #        $Env->{LayoutObject}->Block(
+    #            Name => 'OverviewNavBarPageNavBar',
+    #            Data => \%PageNav,
+    #        );
+    #    }
+    #    my $OutputNavBarSmall = $Env->{LayoutObject}->Output(
+    #        TemplateFile => 'AgentTicketOverviewNavBarSmall',
+    #        Data         => { %Param, },
+    #    );
+    #    if ( !$Param{Output} ) {
+    #        $Env->{LayoutObject}->Print( Output => \$OutputNavBarSmall );
+    #    }
+    #    else {
+    #        $OutputRaw .= $OutputNavBarSmall;
+    #    }
 
     return $OutputRaw;
+}
+
+sub TicketMetaItemsCount {
+    my ( $Self, %Param ) = @_;
+    return ( 'Priority', 'New Article' );
+
+    #    return ('New Article', 'Locked', 'Watched');
 }
 
 sub TicketMetaItems {
@@ -1193,7 +1206,19 @@ sub TicketMetaItems {
     # return attributes
     my @Result;
 
-    # show ticket flags
+    # show priority
+    if (1) {
+        push @Result, {
+
+            #            Image => $Image,
+            Title      => $Param{Ticket}->{Priority},
+            Class      => 'Flag',
+            ClassSpan  => 'PriorityID-' . $Param{Ticket}->{PriorityID},
+            ClassTable => 'Flags',
+        };
+    }
+
+    # show new article
     if (1) {
         my %TicketFlag = $Self->{TicketObject}->TicketFlagGet(
             TicketID => $Param{Ticket}->{TicketID},
@@ -1201,7 +1226,10 @@ sub TicketMetaItems {
         );
 
         # show if now message is in there
-        if ( !$TicketFlag{Seen} ) {
+        if ( $TicketFlag{Seen} ) {
+            push @Result, undef;
+        }
+        else {
 
             # just show ticket flags if agent belongs to the ticket
             my $ShowMeta;
@@ -1225,27 +1253,44 @@ sub TicketMetaItems {
             my $Image = 'meta-new-inactive.png';
             if ($ShowMeta) {
                 $Image = 'meta-new.png';
+                push @Result, {
+                    Image      => $Image,
+                    Title      => 'New Article!',
+                    Class      => 'UnreadArticles',
+                    ClassSpan  => 'UnreadArticles Important',
+                    ClassTable => 'UnreadArticles',
+                };
             }
-            push @Result, {
-                Image => $Image,
-                Title => 'New Article!',
-            };
+            else {
+                push @Result, {
+                    Image      => $Image,
+                    Title      => 'New Article!',
+                    Class      => 'UnreadArticles',
+                    ClassSpan  => 'UnreadArticles Unimportant',
+                    ClassTable => 'UnreadArticles',
+                };
+            }
         }
     }
 
     # show if it's locked
-    if ( 0 && $Param{Ticket}->{Lock} eq 'lock' ) {
-        if ( $Param{Ticket}->{OwnerID} == $Self->{UserID} ) {
-            push @Result, {
-                Image => 'meta-lock-own.gif',
-                Title => 'Locked by you!',
-            };
+    if (0) {
+        if ( $Param{Ticket}->{Lock} eq 'lock' ) {
+            if ( $Param{Ticket}->{OwnerID} == $Self->{UserID} ) {
+                push @Result, {
+                    Image => 'meta-lock-own.gif',
+                    Title => 'Locked by you!',
+                };
+            }
+            else {
+                push @Result, {
+                    Image => 'meta-lock.gif',
+                    Title => 'Locked by somebody else!',
+                };
+            }
         }
         else {
-            push @Result, {
-                Image => 'meta-lock.gif',
-                Title => 'Locked by somebody else!',
-            };
+            push @Result, undef;
         }
     }
 
@@ -1259,6 +1304,9 @@ sub TicketMetaItems {
                 Image => 'meta-watch.gif',
                 Title => 'Watched by you!',
             };
+        }
+        else {
+            push @Result, undef;
         }
     }
 

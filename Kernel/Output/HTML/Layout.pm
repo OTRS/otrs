@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.223 2010-04-01 18:10:26 martin Exp $
+# $Id: Layout.pm,v 1.224 2010-04-03 09:06:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.223 $) [1];
+$VERSION = qw($Revision: 1.224 $) [1];
 
 =head1 NAME
 
@@ -1658,11 +1658,16 @@ sub CustomerAgeInHours {
     # get hours
     if ( $Age >= 3600 ) {
         $AgeStrg .= int( ( $Age / 3600 ) ) . ' ';
-        if ( int( ( $Age / 3600 ) % 24 ) > 1 ) {
-            $AgeStrg .= $Self->{LanguageObject}->Get('hours');
+        if (1) {
+            $AgeStrg .= $Self->{LanguageObject}->Get('h');
         }
         else {
-            $AgeStrg .= $Self->{LanguageObject}->Get('hour');
+            if ( int( ( $Age / 3600 ) % 24 ) > 1 ) {
+                $AgeStrg .= $Self->{LanguageObject}->Get('hours');
+            }
+            else {
+                $AgeStrg .= $Self->{LanguageObject}->Get('hour');
+            }
         }
         $AgeStrg .= $Space;
     }
@@ -1670,11 +1675,16 @@ sub CustomerAgeInHours {
     # get minutes (just if age < 1 day)
     if ( $Age <= 3600 || int( ( $Age / 60 ) % 60 ) ) {
         $AgeStrg .= int( ( $Age / 60 ) % 60 ) . ' ';
-        if ( int( ( $Age / 60 ) % 60 ) > 1 ) {
-            $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
+        if (1) {
+            $AgeStrg .= $Self->{LanguageObject}->Get('m');
         }
         else {
-            $AgeStrg .= $Self->{LanguageObject}->Get('minute');
+            if ( int( ( $Age / 60 ) % 60 ) > 1 ) {
+                $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
+            }
+            else {
+                $AgeStrg .= $Self->{LanguageObject}->Get('minute');
+            }
         }
     }
     return $AgeStrg;
@@ -1694,11 +1704,16 @@ sub CustomerAge {
     # get days
     if ( $Age >= 86400 ) {
         $AgeStrg .= int( ( $Age / 3600 ) / 24 ) . ' ';
-        if ( int( ( $Age / 3600 ) / 24 ) > 1 ) {
-            $AgeStrg .= $Self->{LanguageObject}->Get('days');
+        if (1) {
+            $AgeStrg .= $Self->{LanguageObject}->Get('d');
         }
         else {
-            $AgeStrg .= $Self->{LanguageObject}->Get('day');
+            if ( int( ( $Age / 3600 ) / 24 ) > 1 ) {
+                $AgeStrg .= $Self->{LanguageObject}->Get('days');
+            }
+            else {
+                $AgeStrg .= $Self->{LanguageObject}->Get('day');
+            }
         }
         $AgeStrg .= $Space;
     }
@@ -1706,11 +1721,16 @@ sub CustomerAge {
     # get hours
     if ( $Age >= 3600 ) {
         $AgeStrg .= int( ( $Age / 3600 ) % 24 ) . ' ';
-        if ( int( ( $Age / 3600 ) % 24 ) > 1 ) {
-            $AgeStrg .= $Self->{LanguageObject}->Get('hours');
+        if (1) {
+            $AgeStrg .= $Self->{LanguageObject}->Get('h');
         }
         else {
-            $AgeStrg .= $Self->{LanguageObject}->Get('hour');
+            if ( int( ( $Age / 3600 ) % 24 ) > 1 ) {
+                $AgeStrg .= $Self->{LanguageObject}->Get('hours');
+            }
+            else {
+                $AgeStrg .= $Self->{LanguageObject}->Get('hour');
+            }
         }
         $AgeStrg .= $Space;
     }
@@ -1718,11 +1738,16 @@ sub CustomerAge {
     # get minutes (just if age < 1 day)
     if ( $Self->{ConfigObject}->Get('TimeShowAlwaysLong') || $Age < 86400 ) {
         $AgeStrg .= int( ( $Age / 60 ) % 60 ) . ' ';
-        if ( int( ( $Age / 60 ) % 60 ) > 1 ) {
-            $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
+        if (1) {
+            $AgeStrg .= $Self->{LanguageObject}->Get('m');
         }
         else {
-            $AgeStrg .= $Self->{LanguageObject}->Get('minute');
+            if ( int( ( $Age / 60 ) % 60 ) > 1 ) {
+                $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
+            }
+            else {
+                $AgeStrg .= $Self->{LanguageObject}->Get('minute');
+            }
         }
     }
     return $AgeStrg;
@@ -2196,7 +2221,8 @@ sub PageNavBar {
             $Param{SearchNavBar}
                 .= " <a name=\"OverviewControl\" href=\"$BaselinkAll\" $AJAXReplace";
             if ( $Page == $i ) {
-                $Param{SearchNavBar} .= 'style="text-decoration:underline"><b>' . $i . '</b>';
+                $Param{SearchNavBar}
+                    .= 'style="text-decoration:underline"><strong>' . $i . '</strong>';
             }
             else {
                 $Param{SearchNavBar} .= '>' . $i;
@@ -4468,6 +4494,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.223 $ $Date: 2010-04-01 18:10:26 $
+$Revision: 1.224 $ $Date: 2010-04-03 09:06:54 $
 
 =cut

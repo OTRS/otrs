@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.18 2010-02-21 21:26:57 martin Exp $
+# $Id: TicketOverviewMedium.pm,v 1.19 2010-04-03 09:06:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,6 +37,76 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     return $Self;
+}
+
+sub ActionRow {
+    my ( $Self, %Param ) = @_;
+
+    # check if bulk feature is enabled
+    my $BulkFeature = 0;
+    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
+        my @Groups;
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') ) {
+            @Groups = @{ $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') };
+        }
+        if ( !@Groups ) {
+            $BulkFeature = 1;
+        }
+        else {
+            for my $Group (@Groups) {
+                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+                    $BulkFeature = 1;
+                    last;
+                }
+            }
+        }
+    }
+
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentActionRow',
+        Data => \%Param,
+    );
+
+    if ($BulkFeature) {
+        $Self->{LayoutObject}->Block(
+            Name => 'DocumentActionRowBulk',
+            Data => {
+                %Param,
+                Name => 'Bulk',
+                }
+        );
+    }
+
+    for my $Key ( 1 .. 5 ) {
+        my $Class = '';
+        if ( $Key == 3 ) {
+            $Class = 'Inactive';
+        }
+        if ( $Key == 5 ) {
+            $Class = 'Last';
+        }
+        $Self->{LayoutObject}->Block(
+            Name => 'DocumentActionRowItem',
+            Data => {
+                Name => 'XXX' . $Key,
+                CSS  => $Class,
+            },
+        );
+    }
+
+    my $Output = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketOverviewMedium',
+        Data         => \%Param,
+    );
+
+    return $Output;
+}
+
+sub SortOrderBar {
+    my ( $Self, %Param ) = @_;
+
+    return '';
 }
 
 sub Run {
@@ -72,11 +142,11 @@ sub Run {
     }
 
     $Self->{LayoutObject}->Block(
-        Name => 'TicketHeader',
+        Name => 'DocumentHeader',
         Data => \%Param,
     );
     my $OutputMeta = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketOverviewMediumMeta',
+        TemplateFile => 'AgentTicketOverviewMedium',
         Data         => \%Param,
     );
     my $OutputRaw = '';
@@ -113,17 +183,17 @@ sub Run {
     # check if bulk feature is enabled
     if ($BulkFeature) {
         $Self->{LayoutObject}->Block(
-            Name => 'TicketFooter',
+            Name => 'DocumentFooter',
             Data => \%Param,
         );
         for my $TicketID (@TicketIDsShown) {
             $Self->{LayoutObject}->Block(
-                Name => 'TicketFooterBulkItem',
+                Name => 'DocumentFooterBulkItem',
                 Data => \%Param,
             );
         }
         my $OutputMeta = $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentTicketOverviewMediumMeta',
+            TemplateFile => 'AgentTicketOverviewMedium',
             Data         => \%Param,
         );
         if ( !$Param{Output} ) {
@@ -158,6 +228,37 @@ sub _Show {
         TicketID => $Param{TicketID},
     );
 
+    # user info
+    my %UserInfo = $Self->{UserObject}->GetUserData(
+        UserID => $Article{OwnerID},
+    );
+    %Article = ( %UserInfo, %Article );
+
+    # create human age
+    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+
+    # fetch all std. responses ...
+    my %StdResponses = $Self->{QueueObject}->GetStdResponses( QueueID => $Article{QueueID} );
+    $Param{StdResponsesStrg} = $Self->{LayoutObject}->TicketStdResponseString(
+        StdResponsesRef => \%StdResponses,
+        TicketID        => $Article{TicketID},
+        ArticleID       => $Article{ArticleID},
+    );
+
+    # customer info
+    if ( $Param{Config}->{CustomerInfo} ) {
+        if ( $Article{CustomerUserID} ) {
+            $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+                UserLogin => $Article{CustomerUserID},
+            );
+        }
+    }
+
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentContent',
+        Data => { %Param, %Article },
+    );
+
     # check if bulk feature is enabled
     if ( $Param{Bulk} ) {
         $Self->{LayoutObject}->Block(
@@ -175,6 +276,12 @@ sub _Show {
             Name => 'Meta',
             Data => $Item,
         );
+        if ($Item) {
+            $Self->{LayoutObject}->Block(
+                Name => 'MetaIcon',
+                Data => $Item,
+            );
+        }
     }
 
     # run article modules
@@ -208,47 +315,27 @@ sub _Show {
         }
     }
 
-    # fetch all std. responses ...
-    my %StdResponses = $Self->{QueueObject}->GetStdResponses( QueueID => $Article{QueueID} );
-    $Param{StdResponsesStrg} = $Self->{LayoutObject}->TicketStdResponseString(
-        StdResponsesRef => \%StdResponses,
-        TicketID        => $Article{TicketID},
-        ArticleID       => $Article{ArticleID},
-    );
-
-    # customer info
-    if ( $Param{Config}->{CustomerInfo} ) {
-        if ( $Article{CustomerUserID} ) {
-            $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
-                UserLogin => $Article{CustomerUserID},
-            );
-        }
-    }
-
     # build header lines
-    for (qw(From To Cc Subject)) {
-        next if !$Article{$_};
-        $Self->{LayoutObject}->Block(
-            Name => 'Row',
-            Data => {
-                Key   => $_,
-                Value => $Article{$_},
-            },
-        );
-    }
-    for ( 1 .. 3 ) {
-        next if !$Article{"ArticleFreeText$_"};
+    #    for (qw(From To Cc Subject)) {
+    #        next if !$Article{$_};
+    #        $Self->{LayoutObject}->Block(
+    #            Name => 'Row',
+    #            Data => {
+    #                Key   => $_,
+    #                Value => $Article{$_},
+    #            },
+    #        );
+    #    }
+    for my $Count ( 1 .. 3 ) {
+        next if !$Article{"ArticleFreeText$Count"};
         $Self->{LayoutObject}->Block(
             Name => 'ArticleFreeText',
             Data => {
-                Key   => $Article{"ArticleFreeKey$_"},
-                Value => $Article{"ArticleFreeText$_"},
+                Key   => $Article{"ArticleFreeKey$Count"},
+                Value => $Article{"ArticleFreeText$Count"},
             },
         );
     }
-
-    # create human age
-    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
     # check if just a only html email
     my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
@@ -293,7 +380,7 @@ sub _Show {
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
 
     # run ticket pre menu modules
-    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
+    if ( 0 && ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
         my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
         my $Counter = 0;
         for my $Menu ( sort keys %Menus ) {
@@ -317,13 +404,27 @@ sub _Show {
 
     # ticket free text
     for my $Count ( 1 .. 16 ) {
-        if ( $Article{ 'TicketFreeText' . $Count } ) {
+        next if !$Article{ 'TicketFreeText' . $Count };
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText' . $Count,
+            Data => { %Param, %Article, %AclAction },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText',
+            Data => {
+                %Param, %Article, %AclAction,
+                TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
+                TicketFreeText => $Article{ 'TicketFreeText' . $Count },
+                Count          => $Count,
+            },
+        );
+        if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $Count . '::Link' ) ) {
             $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText' . $Count,
+                Name => 'TicketFreeTextPlain' . $Count,
                 Data => { %Param, %Article, %AclAction },
             );
             $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText',
+                Name => 'TicketFreeTextPlain',
                 Data => {
                     %Param, %Article, %AclAction,
                     TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
@@ -331,58 +432,42 @@ sub _Show {
                     Count          => $Count,
                 },
             );
-            if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $Count . '::Link' ) ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTextPlain' . $Count,
-                    Data => { %Param, %Article, %AclAction },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTextPlain',
-                    Data => {
-                        %Param, %Article, %AclAction,
-                        TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
-                        TicketFreeText => $Article{ 'TicketFreeText' . $Count },
-                        Count          => $Count,
-                    },
-                );
-            }
-            else {
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTextLink' . $Count,
-                    Data => { %Param, %Article, %AclAction },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTextLink',
-                    Data => {
-                        %Param, %Article, %AclAction,
-                        TicketFreeTextLink =>
-                            $Self->{ConfigObject}->Get( 'TicketFreeText' . $Count . '::Link' ),
-                        TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
-                        TicketFreeText => $Article{ 'TicketFreeText' . $Count },
-                        Count          => $Count,
-                    },
-                );
-            }
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTextLink' . $Count,
+                Data => { %Param, %Article, %AclAction },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTextLink',
+                Data => {
+                    %Param, %Article, %AclAction,
+                    TicketFreeTextLink =>
+                        $Self->{ConfigObject}->Get( 'TicketFreeText' . $Count . '::Link' ),
+                    TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
+                    TicketFreeText => $Article{ 'TicketFreeText' . $Count },
+                    Count          => $Count,
+                },
+            );
         }
     }
 
     # ticket free time
     for my $Count ( 1 .. 6 ) {
-        if ( $Article{ 'TicketFreeTime' . $Count } ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime' . $Count,
-                Data => { %Param, %Article, %AclAction },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime',
-                Data => {
-                    %Param, %Article, %AclAction,
-                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                    TicketFreeTime    => $Article{ 'TicketFreeTime' . $Count },
-                    Count             => $Count,
-                },
-            );
-        }
+        next if !$Article{ 'TicketFreeTime' . $Count };
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime' . $Count,
+            Data => { %Param, %Article, %AclAction },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime',
+            Data => {
+                %Param, %Article, %AclAction,
+                TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                TicketFreeTime    => $Article{ 'TicketFreeTime' . $Count },
+                Count             => $Count,
+            },
+        );
     }
 
     # create output
@@ -576,6 +661,17 @@ sub _Show {
         TemplateFile => 'AgentTicketOverviewMedium',
         Data => { %Param, %Article, %AclAction },
     );
+
+    # document ready
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentReady',
+        Data => \%Param,
+    );
+    $Self->{LayoutObject}->{EnvRef}->{DocumentReady} = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketOverviewMedium',
+        Data         => \%Param,
+    );
+
     return \$Output;
 }
 1;
