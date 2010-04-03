@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.67 2010-04-01 13:13:17 mn Exp $
+# $Id: Header.dtl,v 1.68 2010-04-03 13:31:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,7 +76,7 @@ $Include{"Copyright"}
     <![endif]-->
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>
-<body>
+<body class="$QData{"BodyCSS"}">
     <a name="Top"></a>
     <div id="Header" class="ARIARoleBanner">
         <div id="Logo"></div>
@@ -143,8 +143,10 @@ $Include{"Copyright"}
 <!-- Debug -->
             <button type="button" onclick="OTRS.Debug.SimulateRTLPage();">Simulate RTL</button>
 <!-- /Debug -->
+<!-- dtl:block:Login -->
             $Text{"You are logged in as"}
             <a href="$Env{"Baselink"}Action=AgentPreferences" title="Edit personal preferences">$Env{"UserFirstname"} $Env{"UserLastname"}</a>
+<!-- dtl:block:Login -->
 <!-- dtl:block:Logout -->
             <a class="LogoutButton" href="$Env{"Baselink"}Action=Logout" title="Logout"></a>
 <!-- dtl:block:Logout -->
