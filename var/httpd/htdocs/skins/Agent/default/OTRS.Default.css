@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -317,6 +317,26 @@ div.MessageBox > a.Close:hover {
 
 .Flag span.Warning {
     background-color: #ffdd50;
+}
+
+.Flag span.PriorityID-1 {
+    background-color:#cdcdcd;
+}
+
+.Flag span.PriorityID-2 {
+    background-color:#cdcdcd;
+}
+
+.Flag span.PriorityID-3 {
+    background-color:#cdcdcd;
+}
+
+.Flag span.PriorityID-4 {
+    background-color:#ffaaaa;
+}
+
+.Flag span.PriorityID-5 {
+    background-color:#ff505e;
 }
 
 /**
