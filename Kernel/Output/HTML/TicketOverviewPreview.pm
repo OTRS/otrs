@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.18 2010-02-21 21:26:57 martin Exp $
+# $Id: TicketOverviewPreview.pm,v 1.19 2010-04-03 12:16:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,6 +37,75 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     return $Self;
+}
+
+sub ActionRow {
+    my ( $Self, %Param ) = @_;
+
+    # check if bulk feature is enabled
+    my $BulkFeature = 0;
+    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
+        my @Groups;
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') ) {
+            @Groups = @{ $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') };
+        }
+        if ( !@Groups ) {
+            $BulkFeature = 1;
+        }
+        else {
+            for my $Group (@Groups) {
+                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+                    $BulkFeature = 1;
+                    last;
+                }
+            }
+        }
+    }
+
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentActionRow',
+        Data => \%Param,
+    );
+
+    if ($BulkFeature) {
+        $Self->{LayoutObject}->Block(
+            Name => 'DocumentActionRowBulk',
+            Data => {
+                %Param,
+                Name => 'Bulk',
+                }
+        );
+    }
+
+    for my $Key ( 1 .. 5 ) {
+        my $Class = '';
+        if ( $Key == 3 ) {
+            $Class = 'Inactive';
+        }
+        if ( $Key == 5 ) {
+            $Class = 'Last';
+        }
+        $Self->{LayoutObject}->Block(
+            Name => 'DocumentActionRowItem',
+            Data => {
+                Name => 'XXX' . $Key,
+                CSS  => $Class,
+            },
+        );
+    }
+
+    my $Output = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketOverviewPreview',
+        Data         => \%Param,
+    );
+
+    return $Output;
+}
+
+sub SortOrderBar {
+    my ( $Self, %Param ) = @_;
+    return '';
 }
 
 sub Run {
@@ -72,11 +141,11 @@ sub Run {
     }
 
     $Self->{LayoutObject}->Block(
-        Name => 'TicketHeader',
+        Name => 'DocumentHeader',
         Data => \%Param,
     );
     my $OutputMeta = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketOverviewPreviewMeta',
+        TemplateFile => 'AgentTicketOverviewPreview',
         Data         => \%Param,
     );
     my $OutputRaw = '';
@@ -111,17 +180,17 @@ sub Run {
     }
     if ($BulkFeature) {
         $Self->{LayoutObject}->Block(
-            Name => 'TicketFooter',
+            Name => 'DocumentFooter',
             Data => \%Param,
         );
         for my $TicketID (@TicketIDsShown) {
             $Self->{LayoutObject}->Block(
-                Name => 'TicketFooterBulkItem',
+                Name => 'DocumentFooterBulkItem',
                 Data => \%Param,
             );
         }
         my $OutputMeta = $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentTicketOverviewPreviewMeta',
+            TemplateFile => 'AgentTicketOverviewPreview',
             Data         => \%Param,
         );
         if ( !$Param{Output} ) {
@@ -159,10 +228,53 @@ sub _Show {
         Type     => 'move_into',
     );
 
-    # get last article
-    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+    # get last 5 article
+    my @ArticleBody = $Self->{TicketObject}->ArticleGet(
         TicketID => $Param{TicketID},
+        UserID   => $Self->{UserID},
+        Order    => 'DESC',
+        Limit    => 5,
     );
+    my %Article = %{ $ArticleBody[0] };
+
+    # user info
+    my %UserInfo = $Self->{UserObject}->GetUserData(
+        UserID => $Article{OwnerID},
+    );
+    %Article = ( %UserInfo, %Article );
+
+    # create human age
+    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+
+    # fetch all std. responses ...
+    my %StdResponses = $Self->{QueueObject}->GetStdResponses( QueueID => $Article{QueueID} );
+    $Param{StdResponsesStrg} = $Self->{LayoutObject}->TicketStdResponseString(
+        StdResponsesRef => \%StdResponses,
+        TicketID        => $Article{TicketID},
+        ArticleID       => $Article{ArticleID},
+    );
+
+    # customer info
+    if ( $Param{Config}->{CustomerInfo} ) {
+        if ( $Article{CustomerUserID} ) {
+            $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+                UserLogin => $Article{CustomerUserID},
+            );
+        }
+    }
+
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentContent',
+        Data => { %Param, %Article },
+    );
+
+    # check if bulk feature is enabled
+    if ( $Param{Bulk} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Bulk',
+            Data => \%Param,
+        );
+    }
 
     # show ticket flags
     my @TicketMetaItems = $Self->{LayoutObject}->TicketMetaItems(
@@ -173,6 +285,12 @@ sub _Show {
             Name => 'Meta',
             Data => $Item,
         );
+        if ($Item) {
+            $Self->{LayoutObject}->Block(
+                Name => 'MetaIcon',
+                Data => $Item,
+            );
+        }
     }
 
     # run article modules
@@ -206,85 +324,6 @@ sub _Show {
         }
     }
 
-    # fetch all std. responses ...
-    my %StdResponses = $Self->{QueueObject}->GetStdResponses( QueueID => $Article{QueueID} );
-    $Param{StdResponsesStrg} = $Self->{LayoutObject}->TicketStdResponseString(
-        StdResponsesRef => \%StdResponses,
-        TicketID        => $Article{TicketID},
-        ArticleID       => $Article{ArticleID},
-    );
-
-    # customer info
-    my %CustomerData;
-    if ( $Param{Config}->{CustomerInfo} ) {
-        if ( $Article{CustomerUserID} ) {
-            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $Article{CustomerUserID},
-            );
-        }
-        elsif ( $Article{CustomerID} ) {
-            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                CustomerID => $Article{CustomerID},
-            );
-        }
-    }
-
-    # build header lines
-    for (qw(From To Cc Subject)) {
-        next if !$Article{$_};
-        $Self->{LayoutObject}->Block(
-            Name => 'Row',
-            Data => {
-                Key   => $_,
-                Value => $Article{$_},
-            },
-        );
-    }
-    for ( 1 .. 3 ) {
-        next if !$Article{"ArticleFreeText$_"};
-        $Self->{LayoutObject}->Block(
-            Name => 'ArticleFreeText',
-            Data => {
-                Key   => $Article{"ArticleFreeKey$_"},
-                Value => $Article{"ArticleFreeText$_"},
-            },
-        );
-    }
-
-    # create human age
-    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
-
-    # check if just a only html email
-    my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
-        %Article,
-        Action => 'AgentTicketZoom',
-    );
-    if ($MimeTypeText) {
-        $Article{BodyNote} = $MimeTypeText;
-        $Article{Body}     = '';
-    }
-    else {
-
-        # html quoting
-        $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine         => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-            Text            => $Article{Body},
-            VMax            => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
-            LinkFeature     => 1,
-            HTMLResultMode  => 1,
-            StripEmptyLines => $Self->{Config}->{StripEmptyLines},
-        );
-
-        # do charset check
-        my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-            %Article,
-            Action => 'AgentTicketZoom',
-        );
-        if ($CharsetText) {
-            $Article{BodyNote} = $CharsetText;
-        }
-    }
-
     # get acl actions
     $Self->{TicketObject}->TicketAcl(
         Data          => '-',
@@ -297,7 +336,7 @@ sub _Show {
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
 
     # run ticket pre menu modules
-    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
+    if ( 0 && ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
         my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
         my $Counter = 0;
         for my $Menu ( sort keys %Menus ) {
@@ -387,20 +426,6 @@ sub _Show {
                 },
             );
         }
-    }
-
-    # customer info string
-    if ( $Param{Config}->{CustomerInfo} ) {
-        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-            Data   => \%CustomerData,
-            Ticket => \%Article,
-            Type   => 'Lite',
-            Max    => $Param{Config}->{CustomerInfoMaxSize},
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'CustomerTable',
-            Data => \%Param,
-        );
     }
 
     # create output
@@ -589,11 +614,96 @@ sub _Show {
         }
     }
 
+    # show inline article
+    my $Count = 0;
+    for my $ArticleItem ( reverse @ArticleBody ) {
+        next if !$ArticleItem;
+        if ( $Count == $#ArticleBody ) {
+            $ArticleItem->{Class} = 'Active';
+        }
+        $Count++;
+
+        # check if just a only html email
+        my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
+            %{$ArticleItem},
+            Action => 'AgentTicketZoom',
+        );
+        if ($MimeTypeText) {
+            $ArticleItem->{BodyNote} = $MimeTypeText;
+            $ArticleItem->{Body}     = '';
+        }
+        else {
+
+            # html quoting
+            $ArticleItem->{Body} = $Self->{LayoutObject}->Ascii2Html(
+                NewLine => $Self->{Config}->{DefaultViewNewLine}  || 90,
+                Text    => $ArticleItem->{Body},
+                VMax    => $Self->{Config}->{DefaultPreViewLines} || 25,
+                LinkFeature     => 1,
+                HTMLResultMode  => 1,
+                StripEmptyLines => $Self->{Config}->{StripEmptyLines},
+            );
+
+            # do charset check
+            my $CharsetText = $Self->{LayoutObject}->CheckCharset(
+                %{$ArticleItem},
+                Action => 'AgentTicketZoom',
+            );
+            if ($CharsetText) {
+                $ArticleItem->{BodyNote} = $CharsetText;
+            }
+        }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticlePreview',
+            Data => {
+                From    => $ArticleItem->{From},
+                Subject => $ArticleItem->{Subject},
+                Created => $ArticleItem->{Created},
+                Body    => $ArticleItem->{Body},
+                Class   => $ArticleItem->{Class},
+            },
+        );
+        for my $Key (qw( From To Cc Subject )) {
+            next if !$ArticleItem->{$Key};
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticlePreviewRow',
+                Data => {
+                    Key   => $Key,
+                    Value => $ArticleItem->{$Key},
+                },
+            );
+
+        }
+        for my $Count ( 1 .. 3 ) {
+            next if !$ArticleItem->{"ArticleFreeText$Count"};
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticlePreviewFreeText',
+                Data => {
+                    Key   => $Article{"ArticleFreeKey$Count"},
+                    Value => $Article{"ArticleFreeText$Count"},
+                },
+            );
+        }
+
+    }
+
     # create & return output
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewPreview',
         Data => { %Param, %Article, %AclAction },
     );
+
+    # document ready
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentReady',
+        Data => \%Param,
+    );
+    $Self->{LayoutObject}->{EnvRef}->{DocumentReady} = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketOverviewPreview',
+        Data         => \%Param,
+    );
+
     return \$Output;
 }
 1;
