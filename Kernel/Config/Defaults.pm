@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.335 2010-03-27 20:41:35 martin Exp $
+# $Id: Defaults.pm,v 1.336 2010-04-03 11:17:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.335 $) [1];
+$VERSION = qw($Revision: 1.336 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -215,11 +215,6 @@ sub LoadDefaults {
     # (insert new line in text messages after max x chars and
     # the next word)
     $Self->{DefaultViewNewLine} = 90;
-
-    # DefaultPreViewLines
-    # (Max viewable lines in pre view text messages (like ticket
-    # lines in the QueueView)
-    $Self->{DefaultPreViewLines} = 18;
 
     # DefaultViewLines
     # (Max viewable lines in text messages (like ticket lines
@@ -2027,6 +2022,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.335 $ $Date: 2010-03-27 20:41:35 $
+$Revision: 1.336 $ $Date: 2010-04-03 11:17:07 $
 
 =cut
