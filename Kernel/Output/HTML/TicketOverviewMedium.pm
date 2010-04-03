@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.19 2010-04-03 09:06:54 martin Exp $
+# $Id: TicketOverviewMedium.pm,v 1.20 2010-04-03 11:19:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -335,37 +335,6 @@ sub _Show {
                 Value => $Article{"ArticleFreeText$Count"},
             },
         );
-    }
-
-    # check if just a only html email
-    my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
-        %Article,
-        Action => 'AgentTicketZoom',
-    );
-    if ($MimeTypeText) {
-        $Article{BodyNote} = $MimeTypeText;
-        $Article{Body}     = '';
-    }
-    else {
-
-        # html quoting
-        $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine         => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-            Text            => $Article{Body},
-            VMax            => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
-            LinkFeature     => 1,
-            HTMLResultMode  => 1,
-            StripEmptyLines => $Self->{Config}->{StripEmptyLines},
-        );
-
-        # do charset check
-        my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-            %Article,
-            Action => 'AgentTicketZoom',
-        );
-        if ($CharsetText) {
-            $Article{BodyNote} = $CharsetText;
-        }
     }
 
     # get acl actions
