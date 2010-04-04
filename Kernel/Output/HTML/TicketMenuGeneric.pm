@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketMenuGeneric.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuGeneric.pm,v 1.12 2009-08-27 11:32:25 martin Exp $
+# $Id: TicketMenuGeneric.pm,v 1.13 2010-04-04 17:09:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,16 +53,19 @@ sub Run {
         if ( $Config->{Permission} ) {
             my $AccessOk = $Self->{TicketObject}->Permission(
                 Type     => $Config->{Permission},
-                TicketID => $Param{TicketID},
+                TicketID => $Param{Ticket}->{TicketID},
                 UserID   => $Self->{UserID},
                 LogNo    => 1,
             );
             return $Param{Counter} if !$AccessOk;
         }
         if ( $Config->{RequiredLock} ) {
-            if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Param{TicketID} ) ) {
+            if (
+                $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Param{Ticket}->{TicketID} )
+                )
+            {
                 my $AccessOk = $Self->{TicketObject}->OwnerCheck(
-                    TicketID => $Param{TicketID},
+                    TicketID => $Param{Ticket}->{TicketID},
                     OwnerID  => $Self->{UserID},
                 );
                 return $Param{Counter} if !$AccessOk;

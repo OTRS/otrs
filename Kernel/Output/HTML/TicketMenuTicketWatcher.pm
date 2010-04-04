@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuTicketWatcher.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuTicketWatcher.pm,v 1.15 2010-03-25 14:45:27 martin Exp $
+# $Id: TicketMenuTicketWatcher.pm,v 1.16 2010-04-04 17:09:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -84,7 +84,7 @@ sub Run {
                 );
             }
             my %Watch = $Self->{TicketObject}->TicketWatchGet(
-                TicketID => $Param{TicketID},
+                TicketID => $Param{Ticket}->{TicketID},
             );
             if ( $Watch{ $Self->{UserID} } ) {
                 $Self->{LayoutObject}->Block(
