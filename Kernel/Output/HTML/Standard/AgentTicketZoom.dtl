@@ -2,303 +2,99 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.78 2010-02-15 23:54:32 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.79 2010-04-04 17:07:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+$Include{"AJAX"}
 <!-- dtl:block:ArticleFilterDialog -->
-$Include{"AgentTicketZoomArticleFilterDialog"}
+#$Include{"AgentTicketZoomArticleFilterDialog"}
 <!-- dtl:block:ArticleFilterDialog -->
 
 <!-- dtl:block:Header -->
-<!-- start ticket head $Data{"TicketNumber"} -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td width="70%" class="mainhead">
-            $Env{"Box0"}$Text{"Zoom"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} $Env{"Box1"}
-            $QData{"Title", "10"}
-        </td>
-        <td align="right" width="30%" class="mainhead">
-            $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
-        </td>
-    </tr>
-</table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td width="70%" class="menu">
+<div class="MainBox ARIARoleMain">
+    <div class="Headline">
+        <div class="Flag" title="$Text{"$Data{"Priority"}"}"><span class="PriorityID-$QData{"PriorityID"}">$Text{"$Data{"Priority"}"}</span></div>
+        <h1>$Text{"Zoom"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title", "40"}</h1>
+        <ul class="ContextFunctions">
+#                <li class="ContextHelp">
+#                    <a href="" title="Context Help"><span>Context Help</span></a>
+#                </li>
+#                <li class="ContextSettings">
+#                    <a href="" title="Context Settings"><span>Context Settings</span></a>
+#                </li>
+        </ul>
+    </div>
+
+    <div class="ControlRow">
+        <div class="AdditionalInformation">
+            $Text{"Age"}: $Data{"Age"} &ndash; $Text{"Created"}: $TimeLong{"$Data{"Created"}"}
+        </div>
+    </div>
+    <div class="ActionRow">
+        <ul class="Actions">
 <!-- dtl:block:Menu -->
 <!-- dtl:block:MenuItemSplit -->
-            -
+#            -
 <!-- dtl:block:MenuItemSplit -->
 <!-- dtl:block:MenuItem -->
-            <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
+            <li class="$QData{"Class"}">
+                <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
+            </li>
 <!-- dtl:block:MenuItem -->
 <!-- dtl:block:Menu -->
-        </td>
-        <td align="right" width="30%" class="menu">
-            <table border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                    <td class="mainkey">$Text{"Created"}:</td>
-                    <td class="mainvalue"> $TimeLong{"$Data{"Created"}"}</td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-<!-- dtl:block:Header -->
-<!-- dtl:block:Body -->
-    <tr>
-        <td rowspan="2" valign="top" width="75%" class="mainbody">
-<!-- dtl:block:Tree -->
-            <table border="0" width="100%" cellspacing="0" cellpadding="1">
-<!-- dtl:block:ArticleFilterDialogLink -->
-                <tr>
-                    <td class="$QData{"HighlightStyle"}">
-                        $Text{"Article"} $Text{"Filter"}:
-                        <a href="" id="SetArticleFilter" onclick="return false;">$Text{"Set"}</a>
-<!-- dtl:block:ArticleFilterResetLink -->
-                        <a href="" id="ResetArticleFilter" onclick="return false;">$Text{"Reset"}</a>
-<!-- dtl:block:ArticleFilterResetLink -->
-                    </td>
-                </tr>
-<!-- dtl:block:ArticleFilterDialogLink -->
-                <tr>
-                    <td>
-                        <table border="0" width="100%" cellspacing="0" cellpadding="1">
-<!-- dtl:block:TreeItem -->
-                            <tr class="$QData{"SenderType"}-$QData{"ArticleType"}" onmouseover="this.className='highlight';" onmouseout="this.className='$QData{"SenderType"}-$QData{"ArticleType"}';">
-                                <td class="small">
-                                    <div title="$QData{"From","70"}: $QData{"Subject","200"} - $TimeShort{"$QData{"Created"}"}">
-                                        $Data{"Start2"}$Data{"Space"}$Data{"Stop2"}$Data{"Start"}$Data{"Start2"}&nbsp;$QData{"Count"}.&nbsp;$Data{"Stop2"}&nbsp;
-<!-- dtl:block:TreeItemMeta -->
-                                        <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="" title="$Text{"$QData{"Title"}"}"/>
-<!-- dtl:block:TreeItemMeta -->
-                                        <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=$LQData{"ZoomExpand"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"}&nbsp;($Text{"$QData{"ArticleType"}"})</a>$Data{"Stop"}
-<!-- dtl:block:TreeItemEmail -->
-                                        (<a href="$Env{"Baselink"}Action=AgentTicketPlain;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"}" onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';" title="$Text{"plain"}">$Text{"plain"}</a>)
-<!-- dtl:block:TreeItemEmail -->
-                                        $Data{"Start"}$QData{"From","34"}: $QData{"Subject","36"}$Data{"Stop"}
-                                    </div>
-                                </td>
-                                <td class="small" align="right">
-                                    <span style="white-space: nowrap;">
-<!-- dtl:block:TreeItemAttachmentMore -->
-                                    [..]
-<!-- dtl:block:TreeItemAttachmentMore -->
-<!-- dtl:block:TreeItemAttachment -->
-                                    <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Config{"Frontend::ImagePath"}attach-small.png" /></a>
-<!-- dtl:block:TreeItemAttachment -->
-                                    </span>
-                                </td>
-                                <td class="small" align="right">
-                                    <span style="white-space: nowrap;">$Data{"Start"}$TimeShort{"$QData{"Created"}"}$Data{"Stop"}</span>
-                                </td>
-                            </tr>
-<!-- dtl:block:TreeItem -->
-                        </table>
-                    </td>
-                </tr>
-            </table>
-<!-- dtl:block:Tree -->
-            <hr size="2"/>
-            <a name="$QData{"ArticleID"}"></a>
-            <table border="0" width="100%" cellspacing="0" cellpadding="1">
-                <tr>
-                    <td width="98%" valign="top">
-                        <table border="0" width="100%" cellspacing="0" cellpadding="1">
-# From:, To:, Cc:
-<!-- dtl:block:Row -->
-                            <tr>
-                                <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
-                                <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","200"}</div></td>
-                            </tr>
-<!-- dtl:block:Row -->
-                            <tr>
-                                <td class="contentkey">$Text{"Created"}:</td>
-                                <td class="contentvalue"> <div title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</div></td>
-                            </tr>
-# show the ArticleFreeKey1-3 and ArticleFreeText1-3
-<!-- dtl:block:ArticleFreeText -->
-                            <tr>
-                                <td class="contentkey" width="15%">$QData{"Key"}:</td>
-                                <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
-                            </tr>
-<!-- dtl:block:ArticleFreeText -->
-# show ArticleFreeKey1-3 and ArticleFreeText1-3 (in other way like the block, so you could add link or somethin else)
-#       <dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey1"}:</td><td class="contentvalue"> $QData{"FreeText1"}</td></tr>"; }>
-#       <dtl if ($Data{"ArticleFreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey2"}:</td><td class="contentvalue"> $QData{"FreeText2"}</td></tr>"; }>
-#       <dtl if ($Data{"ArticleFreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey3"}:</td><td class="contentvalue"> $QData{"FreeText3"}</td></tr>"; }>
-#     $Data{"ArticleFreeString1"}
-#     $Data{"ArticleFreeString2"}
-#     $Data{"ArticleFreeString3"}
+        </ul>
+        <div class="ClearLeft"></div>
+    </div>
 
-# show article options like signed, crypted, ...
-<!-- dtl:block:ArticleOption -->
-                            <dtl if ($Data{"Successful"} eq "0") { $Data{"StartFont"} = "<font color="red">"; }>
-                            <dtl if ($Data{"Successful"} eq "0") { $Data{"StopFont"} = "</font>"; }>
-                            <dtl if ($Data{"Successful"} eq "1") { $Data{"StartFont"} = "<font color="green">"; }>
-                            <dtl if ($Data{"Successful"} eq "1") { $Data{"StopFont"} = "</font>"; }>
-                            <tr>
-                                <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
-                                <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$Data{"StartFont"}$QData{"Value","160"}$Data{"StopFont"}</div></td>
-                            </tr>
-<!-- dtl:block:ArticleOption -->
-# show attachments
-<!-- dtl:block:ArticleAttachment -->
-                            <tr>
-                                <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
-                                <td class="contentvalue" width="85%">
-                                    <table border="0" cellspacing="0" cellpadding="1">
-<!-- dtl:block:ArticleAttachmentRow -->
-                                        <tr>
-                                            <td>$QData{"Filename"}</td>
-                                            <td>
-<!-- dtl:block:ArticleAttachmentRowLink -->
-                                                <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $JSText{"$QData{"Filename"}"}';return true;" onmouseout="window.status='';"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" /></a>
-<!-- dtl:block:ArticleAttachmentRowLink -->
-<!-- dtl:block:ArticleAttachmentRowNoLink -->
-                                                <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" />
-<!-- dtl:block:ArticleAttachmentRowNoLink -->
-                                            </td>
-                                            <td align="right">$QData{"Filesize"}</td>
-                                        </tr>
-<!-- dtl:block:ArticleAttachmentRow -->
-                                    </table>
-                                </td>
-                            </tr>
-<!-- dtl:block:ArticleAttachment -->
-                        </table>
+    <div class="LayoutFixedSidebar SidebarLast">
+        <div class="SidebarColumn">
+            <div class="WidgetGradient Medium">
+                <div class="Header">
+                    <h2>Ticket Information</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike FixedLabelSmall Tight">
+<!-- dtl:block:Type -->
+                    <label>$Text{"Type"}:</label>
+                    <p class="Value"><div title="$QData{"Type"}">$QData{"Type","18"}</div></p>
+                    <div class="Clear"></div>
+<!-- dtl:block:Type -->
+                    <label>$Text{"State"}:</label>
+                    <p class="Value"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></p>
+                    <div class="Clear"></div>
 
-<!-- dtl:block:BodyPlain -->
-$Data{"BodyNote"}
-                        <div class="message">
-$Data{"Body"}
-                        </div>
-<!-- dtl:block:BodyPlain -->
-<!-- dtl:block:BodyHTML -->
-                        <div class="message">
-                            <script type="text/javascript">//<![CDATA[
-                            <!--
-                            function IframeAutoHeight( IframeID ) {
-                                var iframe = document.getElementById(IframeID);
-                                var newHeight = iframe.contentWindow.document.body.scrollHeight;
-                                if ( !newHeight || isNaN( newHeight ) ) {
-                                    newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightDefault"};
-                                }
-                                else
-                                    if ( newHeight > $Config{"Ticket::Frontend::HTMLArticleHeightMax"} ) {
-                                        newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightMax"};
-                                    }
-                                iframe.style.height = newHeight + 'px';
-                            }
-                            //-->
-                            //]]></script>
-                            <iframe width="100%" frameborder="0" style="width: 100%; margin: 0; border: 0px none;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
-                        </div>
-<!-- dtl:block:BodyHTML -->
-                    </td>
-                    <td valign="top">
-<!-- dtl:block:Expand -->
-                        <div title="$Text{"Expand View"}">
-                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=1" onmouseover="window.status='$JSText{"Expand View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}expand.png" alt="$Text{"Expand View"}" /></a>
-                        </div>
-<!-- dtl:block:Expand -->
-<!-- dtl:block:Collapse -->
-                        <div title="$Text{"Collapse View"}">
-                            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=0" onmouseover="window.status='$JSText{"Collapse View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}collapse.png" alt="$Text{"Collapse View"}" /></a>
-                        </div>
-<!-- dtl:block:Collapse -->
-                    </td>
-                </tr>
-            </table>
-<!-- dtl:block:LinkTableComplex -->
-            <hr size="2"/>
-            <br/>
-            <table width="98%" align="center" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                    <td>
-                        $Data{"LinkTableStrg"}
-                    </td>
-                </tr>
-            </table>
-<!-- dtl:block:LinkTableComplex -->
-        </td>
-        <td width="25%" valign="top" class="PriorityID-$Data{"PriorityID"}">
-# show ticket status (state, lock, ...)
-<!-- dtl:block:Status -->
-            <table border="0" cellspacing="1" cellpadding="0" width="100%">
-<!-- dtl:block:Type -->
-                <tr valign="top">
-                    <td><b>$Text{"Type"}:</b></td>
-                    <td>
-                        <div title="$QData{"Type"}">$QData{"Type","18"}</div>
-                    </td>
-                </tr>
-<!-- dtl:block:Type -->
-                <tr valign="top">
-                    <td><b>$Text{"State"}:</b></td>
-                    <td>
-                        <div title="$Quote{"$Text{"$Data{"State"}"}"}">
-                            <font color="red">
-                            $Quote{"$Text{"$Data{"State"}"}","18"}
-                            </font>
-                        </div>
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <td><b>$Text{"Locked"}:</b></td>
-                    <td>
-                        <div title="$Quote{"$Text{"$Data{"Lock"}"}"}">
-                            <font color="red">
-                            $Quote{"$Text{"$Data{"Lock"}"}","18"}
-                            </font>
-                        </div>
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <td><b>$Text{"Priority"}:</b></td>
-                    <td>
-                        <div title="$Quote{"$Text{"$Data{"Priority"}"}"}">
-                            <font color="red">
-                            $Quote{"$Text{"$Data{"Priority"}"}","18"}
-                            </font>
-                        </div>
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <td><b>$Text{"Queue"}:</b></td>
-                    <td>
-                        <div title="$QData{"Queue"}">
-                            <font color="red">
-                            $QData{"Queue","18"}
-                            </font>
-                        </div>
-                    </td>
-                </tr>
+                    <label>$Text{"Locked"}:</label>
+                    <p class="Value"><div title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","18"}</div></p>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Priority"}:</label>
+                    <p class="Value"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</div></p>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Queue"}:</label>
+                    <p class="Value"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></p>
+                    <div class="Clear"></div>
+
 <!-- dtl:block:Service -->
-                <tr valign="top">
-                    <td><b>$Text{"Service"}:</b></td>
-                    <td>
-                        <div title="$QData{"Service"}">$QData{"Service","18"}</div>
-                    </td>
-                </tr>
+                    <label>$Text{"Service"}:</label>
+                    <p class="Value"><div title="$QData{"Service"}">$QData{"Service","18"}</div></p>
+                    <div class="Clear"></div>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
-                <tr valign="top">
-                    <td><b>$Text{"SLA"}:</b></td>
-                    <td>
-                        <div title="$QData{"SLA"}">$QData{"SLA","18"}</div>
-                    </td>
-                </tr>
+                    <label>$Text{"SLA"}:</label>
+                    <p class="Value"><div title="$QData{"SLA"}">$QData{"SLA","18"}</div></p>
+                    <div class="Clear"></div>
 <!-- dtl:block:SLA -->
+                    </fieldset>
+
+                    <fieldset class="TableLike FixedLabelSmall Tight">
 <!-- dtl:block:FirstResponseTime -->
-                <tr valign="top">
-                    <td><b>$Text{"First Response Time"}:</b></td>
-                    <td>
+                    <label>$Text{"First Response Time"}:</label>
+                    <p class="Value">
 <!-- dtl:block:FirstResponseTimeFontStart -->
                         <font color="red">
 <!-- dtl:block:FirstResponseTimeFontStart -->
@@ -310,13 +106,12 @@ $Data{"Body"}
 <!-- dtl:block:FirstResponseTimeFontStop -->
                         </font>
 <!-- dtl:block:FirstResponseTimeFontStop -->
-                    </td>
-                </tr>
+                    </p>
+                    <div class="Clear"></div>
 <!-- dtl:block:FirstResponseTime -->
 <!-- dtl:block:UpdateTime -->
-                <tr valign="top">
-                    <td><b>$Text{"Update Time"}:</b></td>
-                    <td>
+                    <label>$Text{"Update Time"}:</label>
+                    <p class="Value">
 <!-- dtl:block:UpdateTimeFontStart -->
                         <font color="red">
 <!-- dtl:block:UpdateTimeFontStart -->
@@ -328,13 +123,12 @@ $Data{"Body"}
 <!-- dtl:block:UpdateTimeFontStop -->
                         </font>
 <!-- dtl:block:UpdateTimeFontStop -->
-                    </td>
-                </tr>
+                    </p>
+                    <div class="Clear"></div>
 <!-- dtl:block:UpdateTime -->
 <!-- dtl:block:SolutionTime -->
-                <tr valign="top">
-                    <td><b>$Text{"Solution Time"}:</b></td>
-                    <td>
+                    <label>$Text{"Solution Time"}:</label>
+                    <p class="Value">
 <!-- dtl:block:SolutionTimeFontStart -->
                         <font color="red">
 <!-- dtl:block:SolutionTimeFontStart -->
@@ -346,55 +140,51 @@ $Data{"Body"}
 <!-- dtl:block:SolutionTimeFontStop -->
                         </font>
 <!-- dtl:block:SolutionTimeFontStop -->
-                    </td>
-                </tr>
+                    </p>
+                    <div class="Clear"></div>
 <!-- dtl:block:SolutionTime -->
-                <tr valign="top">
-                    <td><b>$Text{"CustomerID"}:</b></td>
-                    <td>
-                        <a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a>
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <td><b>$Text{"Accounted time"}:</b></td>
-                    <td>$Data{"TicketTimeUnits"}</td>
-                </tr>
+                    </fieldset>
+
+                    <fieldset class="TableLike FixedLabelSmall Tight">
+                    <label>$Text{"CustomerID"}:</label>
+                    <p class="Value"><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a></p>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Accounted time"}:</label>
+                    <p class="Value">$Data{"TicketTimeUnits"}</p>
+                    <div class="Clear"></div>
+
 # use ticket is pending
-                <dtl if ($Data{"PendingUntil"} ne "") { $Data{"PendingUntilString"} = "<tr valign="top"><td><b>$Text{"Pending till"}:</b></td><td>$Data{"PendingUntil"}</td></tr>"; }>
-                $Data{"PendingUntilString"}
+                    <label>$Text{"Pending till"}:</label>
+                    <p class="Value">$Data{"PendingUntil"}</p>
+                    <div class="Clear"></div>
+
 <!-- dtl:block:Owner -->
-                <tr  valign="top">
-                    <td><b>$Text{"Owner"}:</b></td>
-                    <td>
-                        <div title="$QData{"UserLogin"} ($QData{"UserFirstname"}$QData{"UserLastname"})">
-                            $QData{"UserLogin","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})
-                        </div>
-                    </td>
-                </tr>
+                    <label>$Text{"Owner"}:</label>
+                    <p class="Value"><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</div></p>
+                    <div class="Clear"></div>
+
 <!-- dtl:block:Owner -->
 <!-- dtl:block:Responsible -->
-                <tr  valign="top">
-                    <td><b>$Text{"Responsible"}:</b></td>
-                    <td>
-                        <div title="$QData{"UserLogin"} ($QData{"UserFirstname"}$QData{"UserLastname"})">
-                            $QData{"UserLogin","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})
-                        </div>
-                    </td>
-                </tr>
+                    <label>$Text{"Responsible"}:</label>
+                    <p class="Value"><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</div></p>
+                    <div class="Clear"></div>
+
 <!-- dtl:block:Responsible -->
+                    </fieldset>
 # show TicketFreeKey1-16 and TicketFreeText1-16
+                    <fieldset class="TableLike FixedLabelSmall Tight">
 <!-- dtl:block:TicketFreeText -->
-                <tr valign="top">
-                    <td><b>$QData{"TicketFreeKey","25"}:</b></td>
-                    <td>
+                    <label>$QData{"TicketFreeKey","25"}:</label>
+                    <p class="Value">
 <!-- dtl:block:TicketFreeTextPlain -->
                         <div title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","25"}</div>
 <!-- dtl:block:TicketFreeTextPlain -->
 <!-- dtl:block:TicketFreeTextLink -->
                         <div title="$QData{"TicketFreeText"}"><a href="$Data{"TicketFreeTextLink"}" target="_blank">$QData{"TicketFreeText","25"}</a></div>
 <!-- dtl:block:TicketFreeTextLink -->
-                    </td>
-                </tr>
+                    </p>
+                    <div class="Clear"></div>
 <!-- dtl:block:TicketFreeText -->
 #<!-- dtl:block:TicketFreeText1 -->
 #          <tr valign="top">
@@ -425,10 +215,10 @@ $Data{"Body"}
 
 # use this if you want to show TicketFreeTime1-6
 <!-- dtl:block:TicketFreeTime -->
-                <tr valign="top">
-                    <td><b>$Text{"$QData{"TicketFreeTimeKey"}"}:</b></td>
-                    <td><div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div></td>
-                </tr>
+                    <label>$Text{"$QData{"TicketFreeTimeKey"}"}:</label>
+                    <p class="Value"><div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div></p>
+                    <div class="Clear"></div>
+
 <!-- dtl:block:TicketFreeTime -->
 #<!-- dtl:block:TicketFreeTime1 -->
 #          <tr valign="top">
@@ -442,112 +232,302 @@ $Data{"Body"}
 #            <td><div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div></td>
 #          </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
-
-# object links
-<!-- dtl:block:LinkTableSimple -->
-                $Data{"LinkTableStrg"}
-<!-- dtl:block:LinkTableSimple -->
-            </table>
+                    </fieldset>
+                </div>
+                <div class="WidgetGradient Medium">
+                    <div class="Header">
+                        <h2>$Text{"Customer Information"}</h2>
+                    </div>
+                    <div class="Content">
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-            <div style="margin: 20px 0;">
-                <hr/>
-                <b>$Text{"Customer Info"}:</b>
-                $Data{"CustomerTable"}
-                <hr/>
-            </div>
+                        $Data{"CustomerTable"}
 <!-- dtl:block:CustomerTable -->
-<!-- dtl:block:Status -->
-            <table border="0" cellspacing="0" cellpadding="1" width="95%">
-                <tr>
-                    <td>
-# show compose links
-<!-- dtl:block:AgentAnswer -->
-<!-- dtl:block:AgentAnswerCompose -->
-                        <div style="margin: 20px 0;">
-                            <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
-                            <br/>
-                            <table border="0">
-                                <tr>
-                                    <td>
-                                        $Data{"StdResponsesStrg"}
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-<!-- dtl:block:AgentAnswerCompose -->
-<!-- dtl:block:AgentAnswerPhoneOutbound -->
-                        <div style="margin: 20px 0;">
-                            <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
-                            <br/>
-                            <table border="0">
-                                <tr>
-                                    <td>
-                                        <ul>
-                                            <li>
-                                                <a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a>
-                                            </li>
-$Data{"AgentPhoneStrg"}
-                                        </ul>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-<!-- dtl:block:AgentAnswerPhoneOutbound -->
-<!-- dtl:block:AgentAnswer -->
-# show article links
-<!-- dtl:block:AgentArticleCom -->
-                        <div style="margin: 20px 0;">
-                            <b>$Text{"Article"}:</b>
-                            <table border="0">
-                                <tr>
-                                    <td>
-# check if print should be shown
-<!-- dtl:block:AgentArticleComPrint -->
-                                        <a href="$Env{"Baselink"}Action=AgentTicketPrint;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Print"}'; return true;" onmouseout="window.status='';" target="print">$Text{"Print"}</a>
-<!-- dtl:block:AgentArticleComPrint -->
-# check if forward should be shown
-<!-- dtl:block:AgentArticleComForward -->
-                                        <a href="$Env{"Baselink"}Action=AgentTicketForward;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
-<!-- dtl:block:AgentArticleComForward -->
-# check if bounce should be shown
-<!-- dtl:block:AgentArticleComBounce -->
-                                        <dtl if ($Data{"ArticleType"} eq "email-external") { $Data{"ArticleBounceString"} = "Bounce"; }>
-                                        <dtl if ($Data{"SenderType"} ne "customer") { $Data{"ArticleBounceString"} = ""; }>
-                                        <a href="$Env{"Baselink"}Action=AgentTicketBounce;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
-<!-- dtl:block:AgentArticleComBounce -->
-# check if split should be shown
-<!-- dtl:block:AgentArticleComPhone -->
-                                        <dtl if ($Data{"SenderType"} eq "customer") { $Data{"ArticleSplitString"} = "Split"; }>
-                                        <a href="$Env{"Baselink"}Action=AgentTicketPhone;ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"};LinkTicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
-<!-- dtl:block:AgentArticleComPhone -->
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-<!-- dtl:block:AgentArticleCom -->
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td valign="bottom" class="PriorityID-$Data{"PriorityID"}">
-<!-- dtl:block:Move -->
-            <div style="margin: 20px 0;">
-                <b>$Text{"Change queue"}:</b><br/>
-                <form action="$Env{"CGIHandle"}" method="get">
-                    <input type="hidden" name="Action" value="AgentTicketMove"/>
-                    <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
-                    <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-                    $Data{"MoveQueuesStrg"}
-                    <button class="button" type="submit" value="$Text{"Move"}">$Text{"Move"}</button>
-                </form>
+                    </div>
+                </div>
+                <div class="WidgetGradient Medium DontPrint">
+                    <div class="Header">
+                        <h2>$Text{"Linked Objects"}</h2>
+                    </div>
+                    <div class="Content">
+# object links
+<!-- dtl:block:LinkTableSimple -->
+                        $Data{"LinkTableStrg"}
+<!-- dtl:block:LinkTableSimple -->
+
+                    </div>
+                </div>
             </div>
+        </div>
+        <div class="ContentColumn">
+
+
+            <div id="ArticleTree">
+$Data{"ArticleTree"}
+            </div>
+
+
+            <div id="ArticleItems">
+$Data{"ArticleItems"}
+            </div>
+
+        </div>
+    </div>
+
+<!-- dtl:block:LinkTableComplex -->
+    <hr size="2"/>
+    <br/>
+    <table width="98%" align="center" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                $Data{"LinkTableStrg"}
+            </td>
+        </tr>
+    </table>
+<!-- dtl:block:LinkTableComplex -->
+<!-- dtl:block:Header -->
+
+
+
+<!-- dtl:block:Tree -->
+    <div class="ArticleTable SpacingTop">
+        <div class="ControlRow">
+            <ul class="ArticleView">
+<!-- dtl:block:Expand -->
+                <li class="OneArticle Active"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a></li>
+                <li class="AllArticles"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a></li>
+<!-- dtl:block:Expand -->
+<!-- dtl:block:Collapse -->
+                <li class="OneArticle"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a></li>
+                <li class="AllArticles Active"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a></li>
+<!-- dtl:block:Collapse -->
+            </ul>
+        </div>
+        <div class="ActionRow">
+            <div class="TableContextSettings">
+                <a href="" title="Context Settings">Context Settings</a>
+            </div>
+            <table class="TableSmall">
+                <thead>
+                    <tr>
+                        <th class="UnreadArticles Fixed"><a class="UnreadArticles" href=""><span class="UnreadArticles"></span></a></th>
+                        <th><a href="">$Text{"No."}</a></th>
+                        <th><a href="">$Text{"Type"}</a></th>
+                        <th class="Direction Fixed SortAscending"><a href="" title="Direction"><span class="Direction"><!--Direction--></span></a></th>
+                        <th><a href="">$Text{"From"}</a></th>
+                        <th><a href="">$Text{"Subject"}</a></th>
+                        <th class="SortAscending"><a href="">$Text{"Created"}</a></th>
+                        <th class="Last"><a href=""><span class="Attachments"><!--Attachments--></span></a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="ArticleTableBody">
+            <div class="Scroller">
+                <table class="TableSmall">
+                    <tbody>
+#<!-- dtl:block:ArticleFilterDialogLink -->
+#                <tr>
+#                    <td class="$QData{"HighlightStyle"}">
+#                        $Text{"Article"} $Text{"Filter"}:
+#                        <a href="" id="SetArticleFilter" onclick="return false;">$Text{"Set"}</a>
+#<!-- dtl:block:ArticleFilterResetLink -->
+#                        <a href="" id="ResetArticleFilter" onclick="return false;">$Text{"Reset"}</a>
+#<!-- dtl:block:ArticleFilterResetLink -->
+#                    </td>
+#                </tr>
+#<!-- dtl:block:ArticleFilterDialogLink -->
+<!-- dtl:block:TreeItem -->
+                        <tr class="$QData{"ClassRow"}" onclick="Core.AJAXContentUpdate('ArticleItems','$Env{"Baselink"}Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=$LQData{"Count"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};'); return false;">
+                            <td class="$QData{"Class"} Fixed NonTextContent">
+<!-- dtl:block:TreeItemNewArticle -->
+                                <span class="$QData{"Class"}" title="$Text{"Unread Article!"}">$Text{"Unread Article!"}</span>
+<!-- dtl:block:TreeItemNewArticle -->
+                            </td>
+                            <td>$QData{"Count"}</td>
+                            <td>$Text{"$QData{"SenderType"}"} &ndash; $Text{"$QData{"ArticleType"}"}</td>
+                            <td>dir</td>
+                            <td><div title="$QData{"From"}"><a href="#">$RQData{"From","34"}</a></div></td>
+                            <td><div title="$QData{"Subject"}"><a href="#">$QData{"Subject","36"}</a></div></td>
+                            <td class="Fixed"><a href="#">$TimeShort{"$QData{"Created"}"}</a></td>
+                            <td class="Attachment Fixed NonTextContent">
+
+<!-- dtl:block:TreeItemAttachment -->
+                                <a class="Attachment" title="Attachment" rel="TicketAttachment$QData{"Count"}"></a>
+                                <div id="TicketAttachment$QData{"Count"}" class="AttachmentData Hidden">
+<!-- dtl:block:TreeItemAttachmentItem -->
+                                    <div class="AttachmentElement">
+                                        <div class="AttachmentPreview" style="background-image: url(../skins/Agent/default/img/attachment_dummy1.jpg);"><a href=""></a></div>
+                                        <h3>
+                                        <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
+                                        </h3>
+                                        <p>PDF, $QData{"Filesize"}</p>
+                                    </div>
+<!-- dtl:block:TreeItemAttachmentItem -->
+                                </div>
+<!-- dtl:block:TreeItemAttachment -->
+                            </td>
+                        </tr>
+<!-- dtl:block:TreeItem -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="Handle ui-resizable-handle ui-resizable-s">
+                <a href="">Resize</a>
+            </div>
+        </div>
+    </div>
+<!-- dtl:block:Tree -->
+
+
+
+<!-- dtl:block:ArticleItem -->
+    <div>
+        <a name="$QData{"ArticleID"}"></a>
+        <div class="WidgetBox SpacingTop">
+            <div class="Header">
+                <div class="ControlRow">
+                    <div class="WidgetAction Toggle Expanded"><a href="#"><span></span></a></div>
+                    <h2>#$QData{"Count"} &ndash; $QData{"Subject","60"}</h2>
+                </div>
+                <div class="ActionRow">
+                    <ul class="Actions">
+<!-- dtl:block:ArticleMenu-->
+                        <li class="$QData{"Class"}">
+                            <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
+                        </li>
+<!-- dtl:block:ArticleMenu-->
+#                            <li><a href="">Print</a></li>
+#                            <li class="Last"><a href="">Split</a></li>
+                    </ul>
+                    <div class="ClearLeft"></div>
+                </div>
+            </div>
+            <div class="Content">
+                <div class="ArticleMailHeader">
+                    <fieldset class="TableLike FixedLabel Tight">
+<!-- dtl:block:Row -->
+                    <label>$Text{"$Data{"Key"}"}:</label>
+                    <p class="Value"><div title="$QData{"Value"}">$RQData{"Value","200"}</div></p>
+                    <div class="Clear"></div>
+<!-- dtl:block:Row -->
+                    <label>$Text{"Created"}:</label>
+                    <p class="Value"><div title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</div></p>
+                    <div class="Clear"></div>
+
+# show the ArticleFreeKey1-3 and ArticleFreeText1-3
+<!-- dtl:block:ArticleFreeText -->
+                    <label>$QData{"Key"}:</label>
+                    <p class="Value"><div title="$QData{"Value"}">$QData{"Value","160"}</div></p>
+                    <div class="Clear"></div>
+<!-- dtl:block:ArticleFreeText -->
+# show ArticleFreeKey1-3 and ArticleFreeText1-3 (in other way like the block, so you could add link or somethin else)
+#       <dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey1"}:</td><td class="contentvalue"> $QData{"FreeText1"}</td></tr>"; }>
+#       <dtl if ($Data{"ArticleFreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey2"}:</td><td class="contentvalue"> $QData{"FreeText2"}</td></tr>"; }>
+#       <dtl if ($Data{"ArticleFreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey3"}:</td><td class="contentvalue"> $QData{"FreeText3"}</td></tr>"; }>
+#     $Data{"ArticleFreeString1"}
+#     $Data{"ArticleFreeString2"}
+#     $Data{"ArticleFreeString3"}
+
+# show article options like signed, crypted, ...
+<!-- dtl:block:ArticleOption -->
+                    <dtl if ($Data{"Successful"} eq "0") { $Data{"StartFont"} = "<font color="red">"; }>
+                    <dtl if ($Data{"Successful"} eq "0") { $Data{"StopFont"} = "</font>"; }>
+                    <dtl if ($Data{"Successful"} eq "1") { $Data{"StartFont"} = "<font color="green">"; }>
+                    <dtl if ($Data{"Successful"} eq "1") { $Data{"StopFont"} = "</font>"; }>
+                    <tr>
+                        <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
+                        <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$Data{"StartFont"}$QData{"Value","160"}$Data{"StopFont"}</div></td>
+                    </tr>
+<!-- dtl:block:ArticleOption -->
+
+# show attachments
+<!-- dtl:block:ArticleAttachment -->
+                    <label>$Text{"Attachment"}:</label>
+                    <p class="Value">
+<!-- dtl:block:ArticleAttachmentRow -->
+                        $QData{"Filename"}
+<!-- dtl:block:ArticleAttachmentRowLink -->
+                        <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" /></a>
+<!-- dtl:block:ArticleAttachmentRowLink -->
+<!-- dtl:block:ArticleAttachmentRowNoLink -->
+                        <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" />
+<!-- dtl:block:ArticleAttachmentRowNoLink -->
+                        $QData{"Filesize"}
+                        <br/>
+<!-- dtl:block:ArticleAttachmentRow -->
+                    </p>
+                    <div class="Clear"></div>
+                    </fieldset>
+<!-- dtl:block:ArticleAttachment -->
+                </div>
+                <div class="ArticleMailContent">
+<!-- dtl:block:BodyPlain -->
+$Data{"BodyNote"}
+                    <div class="message">
+$Data{"Body"}
+                    </div>
+<!-- dtl:block:BodyPlain -->
+<!-- dtl:block:BodyHTML -->
+                    <div class="message">
+                            <script type="text/javascript">//<![CDATA[
+                            <!--
+                            function IframeAutoHeight( IframeID ) {
+                                var iframe = document.getElementById(IframeID);
+                                var newHeight = iframe.contentWindow.document.body.scrollHeight;
+                                if ( !newHeight || isNaN( newHeight ) ) {
+                                    newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightDefault"};
+                                }
+                                else
+                                    if ( newHeight > $Config{"Ticket::Frontend::HTMLArticleHeightMax"} ) {
+                                        newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightMax"};
+                                    }
+                                iframe.style.height = newHeight + 'px';
+                            }
+                            //-->
+                            //]]></script>
+                        <iframe width="100%" frameborder="0" style="width: 100%; margin: 0; border: 0px none;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+                    </div>
+<!-- dtl:block:BodyHTML -->
+                </div>
+# show compose links
+<!-- dtl:block:AgentAnswerCompose -->
+                <div style="margin: 20px 0;">
+                    <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
+                    <br/>
+                    <table border="0">
+                        <tr>
+                            <td>
+                                $Data{"StdResponsesStrg"}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+<!-- dtl:block:AgentAnswerCompose -->
 <!-- dtl:block:Move -->
-        </td>
-    </tr>
-<!-- dtl:block:Body -->
-<!-- dtl:block:Footer -->
-</table>
-<!-- dtl:block:Footer -->
+                <div style="margin: 20px 0;">
+                    <b>$Text{"Change queue"}:</b><br/>
+                    <form action="$Env{"CGIHandle"}" method="get">
+                        <input type="hidden" name="Action" value="AgentTicketMove"/>
+                        <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
+                        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+                        $Data{"MoveQueuesStrg"}
+                        <button class="button" type="submit" value="$Text{"Move"}">$Text{"Move"}</button>
+                    </form>
+                </div>
+<!-- dtl:block:Move -->
+            </div>
+<!-- dtl:block:ArticleItem -->
+
+
+<!-- dtl:block:DocumentReady -->
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Agent.TicketZoom.js"></script>
+    <script type="text/javascript">//<![CDATA[
+        $(document).ready(function() {
+            OTRS.Agent.TicketZoom.Init();
+        });
+    //]]></script>
+<!-- dtl:block:DocumentReady -->
