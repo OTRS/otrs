@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.59 2010-02-26 20:35:35 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.60 2010-04-05 11:52:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -292,6 +292,7 @@ sub Run {
         TicketID                   => $Self->{TicketID},
         ArticleType                => \@CustomerArticleTypes,
         StripPlainBodyAsAttachment => $StripPlainBodyAsAttachment,
+        UserID                     => $Self->{UserID},
     );
 
     # generate output
@@ -433,7 +434,6 @@ sub _Mask {
         if (
             $Article{Atms}
             && %{ $Article{Atms} }
-            && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')
             )
         {
             my $Title = '';
@@ -491,7 +491,7 @@ sub _Mask {
     }
 
     # get attachment string
-    my %AtmIndex = ();
+    my %AtmIndex;
     if ( $Article{Atms} ) {
         %AtmIndex = %{ $Article{Atms} };
     }

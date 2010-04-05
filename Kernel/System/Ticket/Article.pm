@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.247 2010-04-03 11:06:16 martin Exp $
+# $Id: Article.pm,v 1.248 2010-04-05 11:52:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::TemplateGenerator;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.247 $) [1];
+$VERSION = qw($Revision: 1.248 $) [1];
 
 =head1 NAME
 
@@ -1305,13 +1305,17 @@ sub ArticleContentIndex {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
-        return;
+    for (qw(TicketID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
     }
+
     my @ArticleBox = $Self->ArticleGet(
         TicketID    => $Param{TicketID},
         ArticleType => $Param{ArticleType},
+        UserID      => $Param{UserID},
     );
 
     # article attachments of each article
@@ -1319,82 +1323,12 @@ sub ArticleContentIndex {
 
         # get attachment index (without attachments)
         my %AtmIndex = $Self->ArticleAttachmentIndex(
-            ContentPath => $Article->{ContentPath},
-            ArticleID   => $Article->{ArticleID},
+            ContentPath                => $Article->{ContentPath},
+            ArticleID                  => $Article->{ArticleID},
+            StripPlainBodyAsAttachment => $Param{StripPlainBodyAsAttachment},
+            Article                    => $Article,
+            UserID                     => $Param{UserID},
         );
-
-        # stript plain attachments and e. g. html attachments
-        if ( $Param{StripPlainBodyAsAttachment} ) {
-
-            # plain attachment mime type vs. html attachment mime type check
-            # remove plain body, rename html attachment
-            my $AttachmentIDPlain = 0;
-            my $AttachmentIDHTML  = 0;
-            for my $AttachmentID ( keys %AtmIndex ) {
-                my %File = %{ $AtmIndex{$AttachmentID} };
-                if (
-                    $File{Filename} eq 'file-1'
-                    && $File{ContentType} =~ /text\/plain/i
-                    )
-                {
-                    $AttachmentIDPlain = $AttachmentID;
-                }
-                if (
-                    $File{Filename} =~ /^file-[12]$/
-                    && $File{ContentType} =~ /text\/html/i
-                    )
-                {
-                    $AttachmentIDHTML = $AttachmentID;
-                }
-            }
-            if ($AttachmentIDHTML) {
-                delete $AtmIndex{$AttachmentIDPlain};
-
-                # only strip html body attachment by "1"
-                if ( $Param{StripPlainBodyAsAttachment} eq 1 ) {
-                    delete $AtmIndex{$AttachmentIDHTML};
-                }
-                $Article->{AttachmentIDOfHTMLBody} = $AttachmentIDHTML;
-            }
-
-            # plain body size vs. attched body size check
-            # and remove attachment if it's email body
-            if ( !$AttachmentIDHTML ) {
-                my $AttachmentIDPlain = 0;
-                my %AttachmentFilePlain;
-                for my $AttachmentID ( keys %AtmIndex ) {
-                    my %File = %{ $AtmIndex{$AttachmentID} };
-
-                    # remember, file-1 got defined by parsing if no filename was given
-                    if (
-                        $File{Filename} eq 'file-1'
-                        && $File{ContentType} =~ /text\/plain/i
-                        )
-                    {
-                        $AttachmentIDPlain   = $AttachmentID;
-                        %AttachmentFilePlain = %File;
-                        last;
-                    }
-                }
-
-                # plain attachment detected and remove it from attachment index
-                if (%AttachmentFilePlain) {
-
-                    # check body size vs. attachment size to be sure
-                    my $BodySize = bytes::length( $Article->{Body} );
-
-                    # check size by tolerance of 1.1 factor (because of charset difs)
-                    if (
-                        $BodySize / 1.1 < $AttachmentFilePlain{FilesizeRaw}
-                        && $BodySize * 1.1 > $AttachmentFilePlain{FilesizeRaw}
-                        )
-                    {
-                        delete $AtmIndex{$AttachmentIDPlain};
-                    }
-                }
-            }
-
-        }
         $Article->{Atms} = \%AtmIndex;
     }
     return @ArticleBox;
@@ -3132,12 +3066,125 @@ write an article attachment to storage
 
 =item ArticleAttachmentIndex()
 
-get article attachment index as hash (ID => hashref (Filename, Filesize, ContentID (if exists), ContentAlternative(if exists) ))
+get article attachment index as hash
+
+ (ID => hashref (Filename, Filesize, ContentID (if exists), ContentAlternative(if exists) ))
 
     my %Index = $TicketObject->ArticleAttachmentIndex(
         ArticleID => 123,
         UserID    => 123,
     );
+
+or with "StripPlainBodyAsAttachment => 1" feature to not include first
+attachment / body and html body as attachment
+
+    my %Index = $TicketObject->ArticleAttachmentIndex(
+        ArticleID                  => 123,
+        UserID                     => 123,
+        Article                    => \%Article,
+        StripPlainBodyAsAttachment => 1,
+    );
+
+or with "StripPlainBodyAsAttachment => 2" feature to not include first
+attachment / body as attachment (html body will be shown as attachment)
+
+    my %Index = $TicketObject->ArticleAttachmentIndex(
+        ArticleID                  => 123,
+        UserID                     => 123,
+        Article                    => \%Article,
+        StripPlainBodyAsAttachment => 2,
+    );
+
+=cut
+
+sub ArticleAttachmentIndex {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(ArticleID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # get attachment index from backend
+    my %Attachments = $Self->ArticleAttachmentIndexRaw(%Param);
+
+    # stript plain attachments and e. g. html attachments
+    if ( $Param{StripPlainBodyAsAttachment} && $Param{Article} ) {
+
+        # plain attachment mime type vs. html attachment mime type check
+        # remove plain body, rename html attachment
+        my $AttachmentIDPlain = 0;
+        my $AttachmentIDHTML  = 0;
+        for my $AttachmentID ( keys %Attachments ) {
+            my %File = %{ $Attachments{$AttachmentID} };
+            if (
+                $File{Filename} eq 'file-1'
+                && $File{ContentType} =~ /text\/plain/i
+                )
+            {
+                $AttachmentIDPlain = $AttachmentID;
+            }
+            if (
+                $File{Filename} =~ /^file-[12]$/
+                && $File{ContentType} =~ /text\/html/i
+                )
+            {
+                $AttachmentIDHTML = $AttachmentID;
+            }
+        }
+        if ($AttachmentIDHTML) {
+            delete $Attachments{$AttachmentIDPlain};
+
+            # only strip html body attachment by "1"
+            if ( $Param{StripPlainBodyAsAttachment} eq 1 ) {
+                delete $Attachments{$AttachmentIDHTML};
+            }
+            $Param{Article}->{AttachmentIDOfHTMLBody} = $AttachmentIDHTML;
+        }
+
+        # plain body size vs. attched body size check
+        # and remove attachment if it's email body
+        if ( !$AttachmentIDHTML ) {
+            my $AttachmentIDPlain = 0;
+            my %AttachmentFilePlain;
+            for my $AttachmentID ( keys %Attachments ) {
+                my %File = %{ $Attachments{$AttachmentID} };
+
+                # remember, file-1 got defined by parsing if no filename was given
+                if (
+                    $File{Filename} eq 'file-1'
+                    && $File{ContentType} =~ /text\/plain/i
+                    )
+                {
+                    $AttachmentIDPlain   = $AttachmentID;
+                    %AttachmentFilePlain = %File;
+                    last;
+                }
+            }
+
+            # plain attachment detected and remove it from attachment index
+            if (%AttachmentFilePlain) {
+
+                # check body size vs. attachment size to be sure
+                my $BodySize = bytes::length( $Param{Article}->{Body} );
+
+                # check size by tolerance of 1.1 factor (because of charset difs)
+                if (
+                    $BodySize / 1.1 < $AttachmentFilePlain{FilesizeRaw}
+                    && $BodySize * 1.1 > $AttachmentFilePlain{FilesizeRaw}
+                    )
+                {
+                    delete $Attachments{$AttachmentIDPlain};
+                }
+            }
+        }
+    }
+
+    return %Attachments;
+}
 
 =item ArticleAttachment()
 
@@ -3165,6 +3212,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.247 $ $Date: 2010-04-03 11:06:16 $
+$Revision: 1.248 $ $Date: 2010-04-05 11:52:29 $
 
 =cut

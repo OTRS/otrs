@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.73 2010-03-25 14:42:45 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.74 2010-04-05 11:52:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -205,7 +205,10 @@ sub ArticleWriteAttachment {
     }
     my $NewFileName = $Param{Filename};
     my %UsedFile;
-    my %Index = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID} );
+    my %Index = $Self->ArticleAttachmentIndex(
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
     for ( keys %Index ) {
         $UsedFile{ $Index{$_}->{Filename} } = 1;
     }
@@ -311,7 +314,7 @@ sub ArticlePlain {
     return;
 }
 
-sub ArticleAttachmentIndex {
+sub ArticleAttachmentIndexRaw {
     my ( $Self, %Param ) = @_;
 
     # check ArticleContentPath
@@ -470,7 +473,7 @@ sub ArticleAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID FileID)) {
+    for (qw(ArticleID FileID UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -482,7 +485,10 @@ sub ArticleAttachment {
     $Param{ArticleID} =~ s/\0//g;
 
     # get attachment index
-    my %Index = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID} );
+    my %Index = $Self->ArticleAttachmentIndex(
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
     return if !$Index{ $Param{FileID} };
     my %Data = %{ $Index{ $Param{FileID} } };
 

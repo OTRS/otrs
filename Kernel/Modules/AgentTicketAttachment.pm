@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.29 2010-02-10 11:25:30 martin Exp $
+# $Id: AgentTicketAttachment.pm,v 1.30 2010-04-05 11:52:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,7 +56,10 @@ sub Run {
     }
 
     # check permissions
-    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID} );
+    my %Article = $Self->{TicketObject}->ArticleGet(
+        ArticleID => $Self->{ArticleID},
+        UserID    => $Self->{UserID},
+    );
     if ( !$Article{TicketID} ) {
         $Self->{LogObject}->Log(
             Message  => "No TicketID for ArticleID ($Self->{ArticleID})!",
@@ -79,6 +82,7 @@ sub Run {
     my %Data = $Self->{TicketObject}->ArticleAttachment(
         ArticleID => $Self->{ArticleID},
         FileID    => $Self->{FileID},
+        UserID    => $Self->{UserID},
     );
     if ( !%Data ) {
         $Self->{LogObject}->Log(
@@ -168,6 +172,7 @@ sub Run {
         # replace links to inline images in html content
         my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
             ArticleID => $Self->{ArticleID},
+            UserID    => $Self->{UserID},
         );
 
         # reformat rich text document to have correct charset and links to

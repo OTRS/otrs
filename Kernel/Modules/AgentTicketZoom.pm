@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.87 2010-04-04 17:07:55 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.88 2010-04-05 11:52:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,6 +63,14 @@ sub new {
         = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomRichTextForce')
         || $Self->{LayoutObject}->{BrowserRichText}
         || 0;
+
+    # strip html and ascii attachments of content
+    $Self->{StripPlainBodyAsAttachment} = 1;
+
+    # check if rich text is enabled, if not only stip ascii attachments
+    if ( !$Self->{RichText} ) {
+        $Self->{StripPlainBodyAsAttachment} = 2;
+    }
 
     # ticket id lookup
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
@@ -119,6 +127,16 @@ sub Run {
         my $Count = $Self->{ParamObject}->GetParam( Param => 'Count' );
         my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID} );
         $Article{Count} = $Count;
+
+        # get attachment index (without attachments)
+        my %AtmIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
+            ArticleID                  => $Self->{ArticleID},
+            StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
+            Article                    => \%Article,
+            UserID                     => $Self->{UserID},
+        );
+        $Article{Atms} = \%AtmIndex;
+
         my $Content = $Self->_ArticleItem(
             Ticket    => \%Ticket,
             Article   => \%Article,
@@ -330,18 +348,11 @@ sub MaskAgentZoom {
 
     # generate shown articles
 
-    # strip html and ascii attachments of content
-    my $StripPlainBodyAsAttachment = 1;
-
-    # check if rich text is enabled, if not only stip ascii attachments
-    if ( !$Self->{RichText} ) {
-        $StripPlainBodyAsAttachment = 2;
-    }
-
     # get content
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
-        StripPlainBodyAsAttachment => $StripPlainBodyAsAttachment,
+        StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
+        UserID                     => $Self->{UserID},
     );
 
     # add counter

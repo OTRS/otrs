@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.68 2010-03-25 14:42:45 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.69 2010-04-05 11:52:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -260,7 +260,10 @@ sub ArticleWriteAttachment {
     $Param{Filename} =~ s/^\.//g;
     my $NewFileName = $Param{Filename};
     my %UsedFile;
-    my %Index = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID}, );
+    my %Index = $Self->ArticleAttachmentIndex(
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
     for ( keys %Index ) {
         $UsedFile{ $Index{$_}->{Filename} } = 1;
     }
@@ -389,7 +392,7 @@ sub ArticlePlain {
     return $Data;
 }
 
-sub ArticleAttachmentIndex {
+sub ArticleAttachmentIndexRaw {
     my ( $Self, %Param ) = @_;
 
     # check ArticleContentPath
@@ -546,7 +549,7 @@ sub ArticleAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID FileID)) {
+    for (qw(ArticleID FileID UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -558,7 +561,10 @@ sub ArticleAttachment {
     $Param{ArticleID} =~ s/\0//g;
 
     # get attachment index
-    my %Index = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID} );
+    my %Index = $Self->ArticleAttachmentIndex(
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
 
     # get content path
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
