@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.29 2010-04-03 09:06:54 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.30 2010-04-05 12:27:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@
             <tr>
 <!-- dtl:block:BulkNavBar -->
                 <th class="Checkbox Fixed">
-                <form name="matrixnavbar">
+                <form name="matrixnavbar" action="">
                     <input type="checkbox" name="Check" value="" onclick="select_items('TicketID')" autocomplete="off"/>
 #           <button type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();" >$Text{"Bulk Action"}</button>
                 </form>
@@ -120,11 +120,11 @@ function select_item_check () {
 }
 //]]></script>
 <!-- start form -->
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
-    <input type="hidden" name="Action" value="AgentTicketBulk"/>
-    <input type="hidden" name="TicketID" value=""/>
+<div id="OverviewBody">
+    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
+        <input type="hidden" name="Action" value="AgentTicketBulk"/>
+        <input type="hidden" name="TicketID" value=""/>
 
-    <div id="OverviewBody">
         <table class="TableSmall">
             <tbody>
 <!-- dtl:block:Record -->
@@ -194,6 +194,7 @@ function select_item_check () {
         </table>
 #    <button type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();" >$Text{"Bulk Action"}</button>
     </form>
+</div>
 <!-- dtl:block:DocumentContent -->
 
 <!-- dtl:block:DocumentReady -->
