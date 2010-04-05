@@ -1,8 +1,8 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.22 2009-11-09 15:24:13 mn Exp $
+# $Id: Stats.t,v 1.23 2010-04-05 15:02:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -251,7 +251,7 @@ $Self->Is(
 );
 
 # ---
-# try to use the mkStats.pl
+# try to use otrs.GenerateStats.pl
 # ---
 
 # check the imported stat
@@ -273,12 +273,12 @@ if ( !qx(perl -v) ) {
     else {
         $Self->True(
             0,
-            "mkStats.pl - can't call perl via command line.\n",
+            "otrs.GenerateStats.pl - can't call perl via command line.\n",
         );
     }
 }
 
-my $Command = "$Perl $Home/bin/otrs.mkStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";
+my $Command = "$Perl $Home/bin/otrs.GenerateStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";
 
 if ( open my $Filehandle, '-|', $Command ) {
     @Lines = <$Filehandle>;
@@ -292,13 +292,13 @@ if ( open my $Filehandle, '-|', $Command ) {
 
     $Self->True(
         ( $Lines[0] && !$Lines[1] && $Lines[0] =~ /^NOTICE:/ ),
-        "mkStats.pl - Simple mkStats.pl check (check the program message)(Command: $Command ; OS: $^O )\n",
+        "otrs.GenerateStats.pl - Simple otrs.GenerateStats.pl check (check the program message)(Command: $Command ; OS: $^O )\n",
     );
 }
 else {
     $Self->True(
         0,
-        "mkStats.pl - Simple mkStats.pl check (open the file).\n",
+        "otrs.GenerateStats.pl - Simple otrs.GenerateStats.pl check (open the file).\n",
     );
 }
 

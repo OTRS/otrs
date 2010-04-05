@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.89 2010-03-25 14:44:11 martin Exp $
+# $Id: Stats.pm,v 1.90 2010-04-05 15:03:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1717,7 +1717,7 @@ sub GetParams {
     my $Stat = $Self->StatsGet( StatID => $Param{StatID} );
 
     # static
-    # don't remove this if clause, because is required for mkStats.pl
+    # don't remove this if clause, because is required for otrs.GenerateStats.pl
     my @Params;
     if ( $Stat->{StatType} eq 'static' ) {
 
@@ -2239,7 +2239,7 @@ sub _GenerateDynamicStats {
                 $TitleTimeStop  = $Element->{TimeStop};
             }
 
-            # Select All function needed from mkStats.pl and fixed values of the frontend
+            # Select All function needed from otrs.GenerateStats.pl and fixed values of the frontend
             elsif ( !$Element->{SelectedValues}[0] ) {
                 my @Values = keys( %{ $Element->{Values} } );
                 $Element->{SelectedValues} = \@Values;
@@ -3273,6 +3273,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.89 $ $Date: 2010-03-25 14:44:11 $
+$Revision: 1.90 $ $Date: 2010-04-05 15:03:48 $
 
 =cut
