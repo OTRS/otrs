@@ -3,7 +3,7 @@
 # bin/otrs.AddRole2Group.pl - Assign Roles to Groups from CLI
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addRole2Group.pl,v 1.3 2010-04-05 10:12:20 mb Exp $
+# $Id: otrs.AddRole2Group.pl,v 1.1 2010-04-05 10:33:56 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;

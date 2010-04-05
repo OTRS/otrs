@@ -3,7 +3,7 @@
 # bin/otrs.AddUser.pl - Add User from CLI
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addUser.pl,v 1.2 2010-04-05 10:12:20 mb Exp $
+# $Id: otrs.AddUser.pl,v 1.1 2010-04-05 10:33:56 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
