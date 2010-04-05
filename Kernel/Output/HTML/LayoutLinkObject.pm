@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.17 2009-11-26 12:23:09 bes Exp $
+# $Id: LayoutLinkObject.pm,v 1.18 2010-04-05 13:08:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -293,13 +293,16 @@ sub LinkObjectTableCreateComplex {
         my $CssClass = '';
         for my $Row ( @{ $Block->{ItemList} } ) {
 
+            # set the css class
+            $CssClass = $CssClass eq 'searchpassive' ? 'searchactive' : 'searchpassive';
+
             # output a table row block
             $LayoutObject->Block(
                 Name => 'TableComplexBlockRow',
+                Data => {
+                    CssClass => $CssClass,
+                },
             );
-
-            # set the css class
-            $CssClass = $CssClass eq 'searchpassive' ? 'searchactive' : 'searchpassive';
 
             for my $Column ( @{$Row} ) {
 
@@ -422,12 +425,16 @@ sub LinkObjectTableCreateSimple {
     my $LayoutObject  = Kernel::Output::HTML::Layout->new( %{$Self} );
     my $LayoutObject2 = Kernel::Output::HTML::Layout->new( %{$Self} );
 
-    # output the table simple block
-    $LayoutObject->Block(
-        Name => 'TableSimple',
-    );
-
+    my $Count = 0;
     for my $LinkTypeLinkDirection ( sort { lc $a cmp lc $b } keys %OutputData ) {
+        $Count++;
+
+        # output the table simple block
+        if ( $Count == 1 ) {
+            $LayoutObject->Block(
+                Name => 'TableSimple',
+            );
+        }
 
         # investigate link type name
         my @LinkData = split q{::}, $LinkTypeLinkDirection;
@@ -465,6 +472,14 @@ sub LinkObjectTableCreateSimple {
                 );
             }
         }
+    }
+
+    # show no linked object available
+    if ( !$Count ) {
+        $LayoutObject->Block(
+            Name => 'TableSimpleNone',
+            Data => {},
+        );
     }
 
     return $LayoutObject->Output(
