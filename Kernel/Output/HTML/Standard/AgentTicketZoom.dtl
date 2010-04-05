@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.81 2010-04-05 14:47:06 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.82 2010-04-05 14:59:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -154,11 +154,11 @@ $Include{"AJAX"}
                     <p class="Value">$Data{"TicketTimeUnits"}</p>
                     <div class="Clear"></div>
 
-# use ticket is pending
+<!-- dtl:block:PendingUntil -->
                     <label>$Text{"Pending till"}:</label>
                     <p class="Value">$Data{"PendingUntil"}</p>
                     <div class="Clear"></div>
-
+<!-- dtl:block:PendingUntil -->
 <!-- dtl:block:Owner -->
                     <label>$Text{"Owner"}:</label>
                     <p class="Value"><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</div></p>
