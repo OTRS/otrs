@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCalendar.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.17 2010-01-15 13:06:04 mb Exp $
+# $Id: DashboardCalendar.pm,v 1.18 2010-04-05 13:16:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -170,6 +170,14 @@ sub Run {
         );
     }
 
+    # fillup if not content exists
+    if ( !$Count ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentSmallCalendarOverviewNone',
+            Data => {},
+        );
+    }
+
     # render content
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardCalendarOverview',
@@ -177,11 +185,6 @@ sub Run {
             %{ $Self->{Config} },
         },
     );
-
-    # fillup if not content exists
-    if ( !%Date ) {
-        $Content = '$Text{"none"}';
-    }
 
     # return content
     return $Content;

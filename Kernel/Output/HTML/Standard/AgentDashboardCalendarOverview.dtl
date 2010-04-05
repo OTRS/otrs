@@ -2,7 +2,7 @@
 # AgentDashboardCalendarOverview.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardCalendarOverview.dtl,v 1.4 2010-04-02 16:27:36 martin Exp $
+# $Id: AgentDashboardCalendarOverview.dtl,v 1.5 2010-04-05 13:16:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,5 +20,12 @@
             </td>
         </tr>
 <!-- dtl:block:ContentSmallCalendarOverviewRow -->
+<!-- dtl:block:ContentSmallCalendarOverviewNone -->
+        <tr>
+            <td>
+                $Text{"none"}
+            </td>
+        </tr>
+<!-- dtl:block:ContentSmallCalendarOverviewNone -->
     </tbody>
 </table>
