@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.224 2010-04-03 09:06:54 martin Exp $
+# $Id: Layout.pm,v 1.225 2010-04-05 13:59:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.224 $) [1];
+$VERSION = qw($Revision: 1.225 $) [1];
 
 =head1 NAME
 
@@ -456,6 +456,9 @@ sub Output {
     if ( !$Self->{EnvRef} ) {
         %{ $Self->{EnvRef} } = %ENV;
 
+        # set empty DocumentReady
+        $Self->{EnvRef}->{DocumentReady} = '';
+
         # all $Self->{*}
         for ( keys %{$Self} ) {
             if ( defined $Self->{$_} && !ref $Self->{$_} ) {
@@ -674,6 +677,18 @@ sub Output {
             }
         }iegx;
     }
+
+    # find document ready
+    $Output =~ s{
+            <!--\s{0,1}dtl:document_ready\s{0,1}-->(.+?)<!--\s{0,1}dtl:document_ready\s{0,1}-->
+    }
+    {
+            if (!$Self->{DocumentReady}->{$1}) {
+                $Self->{DocumentReady}->{$1} = 1;
+                $Self->{EnvRef}->{DocumentReady} .= $1;
+            }
+            "";
+    }segxm;
 
     # custom post filters
     if ( $Self->{FilterElementPost} ) {
@@ -4494,6 +4509,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.224 $ $Date: 2010-04-03 09:06:54 $
+$Revision: 1.225 $ $Date: 2010-04-05 13:59:03 $
 
 =cut

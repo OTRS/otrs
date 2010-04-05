@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.79 2010-04-04 17:07:55 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.80 2010-04-05 13:59:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -523,11 +523,11 @@ $Data{"Body"}
 <!-- dtl:block:ArticleItem -->
 
 
-<!-- dtl:block:DocumentReady -->
+<!-- dtl:document_ready -->
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Agent.TicketZoom.js"></script>
     <script type="text/javascript">//<![CDATA[
         $(document).ready(function() {
             OTRS.Agent.TicketZoom.Init();
         });
     //]]></script>
-<!-- dtl:block:DocumentReady -->
+<!-- dtl:document_ready -->

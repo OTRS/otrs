@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.19 2010-04-03 12:16:21 martin Exp $
+# $Id: TicketOverviewPreview.pm,v 1.20 2010-04-05 13:59:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -693,17 +693,6 @@ sub _Show {
         TemplateFile => 'AgentTicketOverviewPreview',
         Data => { %Param, %Article, %AclAction },
     );
-
-    # document ready
-    $Self->{LayoutObject}->Block(
-        Name => 'DocumentReady',
-        Data => \%Param,
-    );
-    $Self->{LayoutObject}->{EnvRef}->{DocumentReady} = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketOverviewPreview',
-        Data         => \%Param,
-    );
-
     return \$Output;
 }
 1;

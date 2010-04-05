@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.14 2010-04-03 12:11:28 martin Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.15 2010-04-05 13:59:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -316,10 +316,10 @@ function select_item_check () {
 </form>
 <!-- dtl:block:DocumentFooter -->
 
-<!-- dtl:block:DocumentReady -->
+<!-- dtl:document_ready -->
 <script type="text/javascript">//<![CDATA[
         $(document).ready(function() {
             OTRS.UI.StaticTableControl($('#OverviewControl'));
         });
 //]]></script>
-<!-- dtl:block:DocumentReady -->
+<!-- dtl:document_ready -->
