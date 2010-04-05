@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.307 2010-04-03 12:16:20 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.308 2010-04-05 08:43:16 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -7957,7 +7957,7 @@ $QData{"Signature"}
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description>Overview of all open Tickets</Description>
-                    <Name>Status-View</Name>
+                    <Name>Status View</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketStatusView</Link>
                     <NavBar>Ticket</NavBar>
@@ -8462,7 +8462,7 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Signatures</Name>
-                    <Description>Create and manage signature.</Description>
+                    <Description>Create and manage signatures.</Description>
                     <Block>Queue</Block>
                     <Prio>900</Prio>
                 </NavBarModule>
@@ -8483,7 +8483,7 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Email Addresses</Name>
-                    <Description>Set sender email addresses of this system.</Description>
+                    <Description>Set sender email addresses for this system.</Description>
                     <Block>Email</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
@@ -8504,7 +8504,7 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Agent Notifications</Name>
-                    <Description>Create and manage notifications that are sent to Agents.</Description>
+                    <Description>Create and manage notifications that are sent to agents.</Description>
                     <Block>Ticket</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
@@ -8588,7 +8588,7 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Types</Name>
-                    <Description>Create and manage Ticket Types.</Description>
+                    <Description>Create and manage ticket types.</Description>
                     <Block>Ticket</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
@@ -8609,7 +8609,7 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>States</Name>
-                    <Description>Create and manage Ticket States.</Description>
+                    <Description>Create and manage ticket states.</Description>
                     <Block>Ticket</Block>
                     <Prio>800</Prio>
                 </NavBarModule>
@@ -8630,7 +8630,7 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Priorities</Name>
-                    <Description>Create and manage Ticket Priority.</Description>
+                    <Description>Create and manage ticket priorities.</Description>
                     <Block>Ticket</Block>
                     <Prio>850</Prio>
                 </NavBarModule>

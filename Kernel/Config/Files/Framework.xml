@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.271 2010-04-02 20:13:18 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.272 2010-04-05 08:43:15 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -4271,7 +4271,7 @@ Your OTRS Notification Master
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Customer Users</Name>
                     <Block>Customer</Block>
-                    <Description>Create and manager customers.</Description>
+                    <Description>Create and manage customers.</Description>
                     <Prio>300</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4304,7 +4304,7 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Customer Companies</Name>
-                    <Description>Create and manager companies.</Description>
+                    <Description>Create and manage companies.</Description>
                     <Block>Customer</Block>
                     <Prio>310</Prio>
                 </NavBarModule>
@@ -4440,7 +4440,7 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>S/MIME certificates</Name>
+                    <Name>S/MIME Certificates</Name>
                     <Description>Manage S/MIME certificates for email encryption.</Description>
                     <Block>Email</Block>
                     <Prio>1100</Prio>
@@ -4483,7 +4483,7 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>PostMaster Mail Accounts</Name>
-                    <Description>Control where incoming emails are to be fetched from.</Description>
+                    <Description>Manage POP3 or IMAP accounts to fetch email from.</Description>
                     <Block>Email</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
@@ -4525,7 +4525,7 @@ Your OTRS Notification Master
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Admin Notification</Name>
-                    <Description>Send notifications to Users.</Description>
+                    <Description>Send notifications to users.</Description>
                     <Block>System</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
