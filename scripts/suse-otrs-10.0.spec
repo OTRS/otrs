@@ -2,7 +2,7 @@
 # RPM spec file for SUSE Linux 9.1 of the OTRS package
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-otrs-10.0.spec,v 1.10 2010-02-15 10:45:38 martin Exp $
+# $Id: suse-otrs-10.0.spec,v 1.11 2010-04-05 10:32:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,7 +76,7 @@ export OTRSUSER=otrs
 useradd $OTRSUSER || :
 useradd wwwrun || :
 groupadd www || :
-$RPM_BUILD_ROOT/opt/otrs/bin/SetPermissions.sh $RPM_BUILD_ROOT/opt/otrs $OTRSUSER wwwrun www www
+$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --otrs-user=$OTRSUSER --web-user=wwwrun --otrs-group=www --web-group=www $RPM_BUILD_ROOT/opt/otrs
 
 %pre
 # remember about the installed version

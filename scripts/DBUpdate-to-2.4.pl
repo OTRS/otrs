@@ -3,7 +3,7 @@
 # DBUpdate-to-2.4.pl - update script to migrate OTRS 2.3.x to 2.4.x
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.4.pl,v 1.10 2010-02-02 16:08:59 mb Exp $
+# $Id: DBUpdate-to-2.4.pl,v 1.11 2010-04-05 10:32:13 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -86,7 +86,7 @@ my $Success = RebuildConfig();
 
 # error handling
 if ( !$Success ) {
-    print STDOUT "Can't write config files! Please run the SetPermissions.sh and try it again.";
+    print STDOUT "Can't write config files! Please run bin/otrs.SetPermissions.pl and try again.";
     exit 0;
 }
 

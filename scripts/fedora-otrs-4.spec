@@ -2,7 +2,7 @@
 # RPM spec file for Fedora of the OTRS package
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: fedora-otrs-4.spec,v 1.7 2010-02-15 10:02:57 martin Exp $
+# $Id: fedora-otrs-4.spec,v 1.8 2010-04-05 10:32:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,7 +67,7 @@ export OTRSUSER=otrs
 useradd $OTRSUSER || :
 useradd apache || :
 groupadd apache || :
-$RPM_BUILD_ROOT/opt/otrs/bin/SetPermissions.sh $RPM_BUILD_ROOT/opt/otrs $OTRSUSER apache apache apache
+$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --otrs-user=$OTRSUSER --otrs-group=apache --web-user=apache --web-group=apache $RPM_BUILD_ROOT/opt/otrs
 
 %pre
 # remember about the installed version
