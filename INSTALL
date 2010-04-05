@@ -1,8 +1,8 @@
 # --
 # INSTALL description of OTRS
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.52 2009-11-09 15:24:13 mn Exp $
+# $Id: INSTALL,v 1.53 2010-04-05 10:17:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ Software requirements?
     * Database (e. g. MySQL, PostgreSQL)
     * Webserver (mod_perl isn't required but "very nice" to have)
     * LDAPv2 compliant server (OpenLDAP for works fine, however LDAP isn't required)
-    * some CPAN-Module (DBI, DBD::mysql, Digest::MD5, Crypt::PasswdMD5, MIME::Base64 (if Perl < 5.8),
+    * some CPAN-Modules (DBI, DBD::mysql, Digest::MD5, Crypt::PasswdMD5, MIME::Base64 (if Perl < 5.8),
       Net::DNS, LWP::UserAgent) for LDAP (Net::LDAP), for stats (GD, GD::Text,
       GD::Graph, GD::Graph::lines, GD::Text::Align) and for PDF output (PDF::API2,
       Compress::Zlib)
@@ -37,7 +37,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
 2) Install CPAN Modules (if needed):
    ---------------------------------
-   Note: use "bin/otrs.checkModules" to get an overview of all installed and
+   Note: use "bin/otrs.CheckModules" to get an overview of all installed and
    required cpan modules.
 
    a) Install the RPMs if your distributions provides RPMs for
@@ -165,10 +165,10 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
       copy *.dist *.
 
 
-    Use $OTRS_HOME/bin/Cron.sh {start|stop|restart} to start or stop this cronjobs
+    Use $OTRS_HOME/bin/Cron.sh {start|stop|restart} to start or stop the cronjobs
     from $OTRS_HOME/var/cron/* (.dist will be ignored).
 
-    >> Note: Install this cronjobs as OTRS user. <<
+    >> Note: Install these cronjobs as OTRS user. <<
 
 Notes:
 ======
