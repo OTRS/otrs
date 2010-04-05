@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.87 2010-02-27 10:07:20 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.88 2010-04-05 10:52:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,7 +68,7 @@ sub Run {
                             .
                             'PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. '
                             .
-                            'Alternatively, you can use the cmd tool bin/opm.pl to install packages!'
+                            'Alternatively, you can use the cmd tool bin/otrs.PackageManager.pl to install packages!'
                     );
                 }
             }
