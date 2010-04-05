@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.addGroup.pl - add new system groups
+# bin/otrs.AddRole.pl - add new system roles
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addGroup.pl,v 1.1 2009-11-03 15:14:23 mn Exp $
+# $Id: otrs.AddRole.pl,v 1.1 2010-04-05 10:12:20 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -44,21 +44,21 @@ use Getopt::Std;
 getopts( 'c:n:h', \%opts );
 
 if ( $opts{h} ) {
-    print STDERR "Usage: bin/otrs.addGroup [-c <comment>] -n <groupname>\n";
+    print STDERR "Usage: bin/otrs.AddRole [-c <comment>] -n <rolename>\n";
     exit;
 }
 
 if ( !$opts{n} ) {
-    print STDERR "ERROR: Need -n groupname\n";
+    print STDERR "ERROR: Need -n <rolename>\n";
     exit 1;
 }
 
 # create common objects
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}  = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addGroup' );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+$CommonObject{LogObject}   = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.AddRole' );
+$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
 # user id of the person adding the record
@@ -69,11 +69,11 @@ $Param{ValidID} = '1';
 $Param{Comment} = $opts{c} || '';
 $Param{Name}    = $opts{n} || '';
 
-if ( my $GID = $CommonObject{GroupObject}->GroupAdd(%Param) ) {
-    print "Group '$opts{n}' added. Group id is '$GID'\n";
+if ( my $RID = $CommonObject{GroupObject}->RoleAdd(%Param) ) {
+    print "Role '$opts{n}' added. Role id is '$RID'\n";
 }
 else {
-    print STDERR "ERROR: Can't add group\n";
+    print STDERR "ERROR: Can't add role\n";
 }
 
 exit(0);

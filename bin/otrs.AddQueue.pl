@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.addQueue.pl - Add Queue from CLI
+# bin/otrs.AddQueue.pl - Add Queue from CLI
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addQueue.pl,v 1.2 2009-11-25 23:13:23 mh Exp $
+# $Id: otrs.AddQueue.pl,v 1.1 2010-04-05 10:12:20 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -47,11 +47,11 @@ use Kernel::System::Main;
 my %Opts = ();
 getopts( 'hg:n:s:c:r:u:l:C:', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.addQueue.pl <Revision $VERSION> - add new queue\n";
+    print "otrs.AddQueue.pl <Revision $VERSION> - add new queue\n";
     print "Copyright (C) 2002 Atif Ghaffar <aghaffar\@developer.ch>\n";
     print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print
-        "usage: otrs.addQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -c <COMMENT> -r <FirstResponseTime> -u <UpdateTime> -l <SolutionTime> -C <CalendarID>]\n";
+        "usage: otrs.AddQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -c <COMMENT> -r <FirstResponseTime> -u <UpdateTime> -l <SolutionTime> -C <CalendarID>]\n";
     exit 1;
 }
 
@@ -68,7 +68,7 @@ if ( !$Opts{g} ) {
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject} = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addQueue', );
+$CommonObject{LogObject} = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.AddQueue', );
 $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);

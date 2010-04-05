@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.getConfig.pl - get OTRS config vars
+# bin/otrs.GetConfig.pl - get OTRS config vars
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.getConfig.pl,v 1.1 2009-11-03 16:07:50 mn Exp $
+# $Id: otrs.GetConfig.pl,v 1.1 2010-04-05 10:12:20 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -42,7 +42,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'otrs.getConfig',
+    LogPrefix => 'otrs.GetConfig',
     %CommonObject,
 );
 

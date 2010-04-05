@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.addRole.pl - add new system roles
+# bin/otrs.AddGroup.pl - add new system groups
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addRole.pl,v 1.1 2009-11-03 15:54:28 mn Exp $
+# $Id: otrs.AddGroup.pl,v 1.1 2010-04-05 10:12:20 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -44,21 +44,21 @@ use Getopt::Std;
 getopts( 'c:n:h', \%opts );
 
 if ( $opts{h} ) {
-    print STDERR "Usage: bin/otrs.addRole [-c <comment>] -n <rolename>\n";
+    print STDERR "Usage: bin/otrs.AddGroup [-c <comment>] -n <groupname>\n";
     exit;
 }
 
 if ( !$opts{n} ) {
-    print STDERR "ERROR: Need -n <rolename>\n";
+    print STDERR "ERROR: Need -n groupname\n";
     exit 1;
 }
 
 # create common objects
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}   = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addRole' );
-$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
+$CommonObject{LogObject}  = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.AddGroup' );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
 $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
 # user id of the person adding the record
@@ -69,11 +69,11 @@ $Param{ValidID} = '1';
 $Param{Comment} = $opts{c} || '';
 $Param{Name}    = $opts{n} || '';
 
-if ( my $RID = $CommonObject{GroupObject}->RoleAdd(%Param) ) {
-    print "Role '$opts{n}' added. Role id is '$RID'\n";
+if ( my $GID = $CommonObject{GroupObject}->GroupAdd(%Param) ) {
+    print "Group '$opts{n}' added. Group id is '$GID'\n";
 }
 else {
-    print STDERR "ERROR: Can't add role\n";
+    print STDERR "ERROR: Can't add group\n";
 }
 
 exit(0);

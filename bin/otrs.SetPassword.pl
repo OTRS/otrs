@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.setPassword.pl - Changes or Sets password for a user
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# bin/otrs.SetPassword.pl - Changes or Sets password for a user
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.setPassword.pl,v 1.1 2009-11-03 16:13:38 mn Exp $
+# $Id: otrs.SetPassword.pl,v 1.1 2010-04-05 10:12:20 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -44,9 +44,9 @@ my $VERSION = qw($Revision: 1.1 $) [1];
 my %Opts = ();
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.setPassword <Revision $VERSION> - set a new agent password\n";
-    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
-    print "usage: otrs.setPassword user password\n";
+    print "otrs.SetPassword <Revision $VERSION> - set a new agent password\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "usage: otrs.SetPassword user password\n";
     exit 1;
 }
 
@@ -56,7 +56,7 @@ $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     %CommonObject,
-    LogPrefix => 'otrs.setPassword',
+    LogPrefix => 'otrs.SetPassword',
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);

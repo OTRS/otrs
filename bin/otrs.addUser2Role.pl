@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.addUser2Role.pl - Assign users to Roles from CLI
+# bin/otrs.AddUser2Role.pl - Assign users to Roles from CLI
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addUser2Role.pl,v 1.2 2009-11-25 23:13:23 mh Exp $
+# $Id: otrs.addUser2Role.pl,v 1.3 2010-04-05 10:12:20 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -48,7 +48,7 @@ use Kernel::System::User;
 my %Opts = ();
 getopts( 'hr:u:', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.addUser2Role <Revision $VERSION> - assign Users to Roles\n";
+    print "otrs.AddUser2Role <Revision $VERSION> - assign Users to Roles\n";
     print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.addUsers2Role -u <USER> -r <ROLE> \n";
     exit 1;
@@ -68,7 +68,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addUser2Role', );
+    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.AddUser2Role', );
 $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
