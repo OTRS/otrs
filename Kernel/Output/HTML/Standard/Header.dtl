@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.68 2010-04-03 13:31:35 martin Exp $
+# $Id: Header.dtl,v 1.69 2010-04-05 14:04:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,7 +99,8 @@ $Include{"Copyright"}
                     <a href="#" id="ToolbarProfileSearch" title="$Text{"$QData{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$QData{"Name"}"}<span class="Gloss"></span></a>
                 </form>
             </li>
-            <script type="text/javascript">
+<!-- dtl:document_ready -->
+            <script type="text/javascript">//<![CDATA[
                 window.onload = (function() {
                     OTRS.UI.Toolbar.RegisterEvent('click', 'ToolbarProfileSearch', function(Event) {
                         $(Event.target).closest('form').submit();
@@ -114,7 +115,8 @@ $Include{"Copyright"}
                         return false;
                     });
                 });
-            </script>
+            //]]></script>
+<!-- dtl:document_ready -->
 <!-- dtl:block:ToolBarSearchProfile -->
 <!-- dtl:block:ToolBarSearchFulltext -->
             <li class="Extended SearchFulltext">
@@ -126,7 +128,8 @@ $Include{"Copyright"}
                     <a href="#" id="ToolbarFulltextSearch" title="$Text{"$QData{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$QData{"Name"}"}<span class="Gloss"></span></a>
                 </form>
             </li>
-            <script type="text/javascript">
+<!-- dtl:document_ready -->
+            <script type="text/javascript">//<![CDATA[
                 window.onload = (function() {
                     OTRS.UI.Toolbar.RegisterEvent('click', 'ToolbarFulltextSearch', function(Event) {
                         $(Event.target).closest('form').submit();
@@ -135,7 +138,8 @@ $Include{"Copyright"}
                         return false;
                     });
                 });
-            </script>
+            //]]></script>
+<!-- dtl:document_ready -->
 <!-- dtl:block:ToolBarSearchFulltext -->
         </ul>
 
