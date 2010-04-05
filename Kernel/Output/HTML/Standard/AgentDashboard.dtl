@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.30 2010-04-02 16:27:36 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.31 2010-04-05 12:14:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -113,9 +113,7 @@ Dashboard.PreferencesUpdate = function( Name, FormName ) {
                 <div class="WidgetAction Close">
                     <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><span></span></a>
                 </div>
-                <h2>
-                <div title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</div>
-                <h2>
+                <h2 title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</h2>
             </div>
             <div class="Content">
                 <div id="Dashboard$QData{"Name"}-setting" style="display:none;">
@@ -179,9 +177,7 @@ Dashboard.PreferencesUpdate = function( Name, FormName ) {
                 <div class="WidgetAction Close">
                     <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><span></span></a>
                 </div>
-                <h2>
-                <div title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</div>
-                </h2>
+                <h2 title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</h2>
             </div>
 
             <div class="Content">

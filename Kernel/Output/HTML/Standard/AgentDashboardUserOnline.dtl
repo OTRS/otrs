@@ -2,7 +2,7 @@
 # AgentDashboardUserOnline.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardUserOnline.dtl,v 1.14 2010-04-02 16:27:36 martin Exp $
+# $Id: AgentDashboardUserOnline.dtl,v 1.15 2010-04-05 12:14:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- dtl:block:ContentSmallUserOnlineFilter -->
-<p>
+<div>
     <a href="#" onclick="Core.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Agent'); return false;" style="$QData{"Agent::Style"}">$Text{"Agents"} ($QData{"Agent"})</a>
     |
     <a href="#" onclick="Core.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Customer'); return false;" style="$QData{"Customer::Style"}">$Text{"Customers"} ($QData{"Customer"})</a>
@@ -19,7 +19,7 @@
         $Data{"SiteNavBar"}
     </div>
 <!-- dtl:block:ContentSmallTicketGenericFilterNavBar -->
-</p>
+</div>
 <!-- dtl:block:ContentSmallUserOnlineFilter -->
 <table class="DataTable">
     <tbody>

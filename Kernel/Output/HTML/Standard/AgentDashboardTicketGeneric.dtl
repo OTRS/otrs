@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.23 2010-04-02 20:18:03 martin Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.24 2010-04-05 12:14:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
-<p>
+<div>
     <a href="#" onclick="Core.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked'); return false;" style="$QData{"Locked::Style"}">$Text{"Locked Tickets"} ($QData{"Locked"})</a>
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
     | <a href="#" onclick="Core.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher'); return false;" style="$QData{"Watcher::Style"}">$Text{"Watched"} ($QData{"Watcher"})</a>
@@ -26,7 +26,7 @@
         $Data{"SiteNavBar"}
     </div>
 <!-- dtl:block:ContentLargeTicketGenericFilterNavBar -->
-</p>
+</div>
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
 <table class="DataTable">
     <tbody>
