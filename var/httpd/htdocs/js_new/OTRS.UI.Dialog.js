@@ -2,7 +2,7 @@
 // OTRS.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Dialog.js,v 1.6 2010-04-01 12:14:19 mn Exp $
+// $Id: OTRS.UI.Dialog.js,v 1.7 2010-04-06 09:39:02 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -420,7 +420,6 @@ OTRS.UI.Dialog = (function (Namespace) {
                 Position = $(this).offset();
                 $HTMLObject = $('#UIElementPool .AttachmentDialog').clone().find('.AttachmentContent').unwrap();
                 $HTMLObject.append($('#' + $(this).attr('rel'))[0].innerHTML);
-                console.log($HTMLObject);
                 OTRS.UI.Dialog.ShowContentDialog($HTMLObject.html(), 'Attachments', Position.top, parseInt(Position.left) + 25);
             }
             event.preventDefault();

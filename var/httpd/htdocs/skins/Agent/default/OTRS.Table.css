@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -336,8 +336,6 @@ td.Attachment {
  * @subsection  Handle for resizing tables
  */
 .Handle {
-    position: absolute;
-    bottom: 0 !important;
     border-top: 1px solid #616161;
     background-color: #FFF;
     width: 100%;
@@ -360,7 +358,8 @@ td.Attachment {
 }
 
 .Handle.ui-resizable-handle {
-    display:block;
+    display: block;
+    position: static !important;
     font-size: inherit;
     z-index:99999;
 }
