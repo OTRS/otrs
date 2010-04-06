@@ -1,28 +1,28 @@
 # --
 # Encode.t - Encode tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.t,v 1.3 2009-08-18 12:52:55 mh Exp $
+# $Id: Encode.t,v 1.4 2010-04-06 02:00:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-# EncodeInternalUsed & EncodeFrontendUsed tests
+# EncodeInternalUsed tests
 my @Tests = (
     {
-        Name    => 'EncodeInternalUsed() && EncodeFrontendUsed()',
+        Name    => 'EncodeInternalUsed()',
         Charset => 'UTF-8',
         Result  => 'utf-8',
     },
     {
-        Name    => 'EncodeInternalUsed() && EncodeFrontendUsed()',
+        Name    => 'EncodeInternalUsed()',
         Charset => 'UTF8',
         Result  => 'utf-8',
     },
     {
-        Name    => 'EncodeInternalUsed() && EncodeFrontendUsed()',
+        Name    => 'EncodeInternalUsed()',
         Charset => 'utF8',
         Result  => 'utf-8',
     },
@@ -33,12 +33,6 @@ for my $Test (@Tests) {
         Value => $Test->{Charset},
     );
     my $Charset = $Self->{EncodeObject}->EncodeInternalUsed();
-    $Self->Is(
-        $Charset,
-        $Test->{Result},
-        $Test->{Name} . " ($Test->{Charset})",
-    );
-    $Charset = $Self->{EncodeObject}->EncodeFrontendUsed();
     $Self->Is(
         $Charset,
         $Test->{Result},
@@ -55,6 +49,14 @@ for my $Test (@Tests) {
             Input         => 'abc123',
             Result        => 'abc123',
             InputCharset  => 'ascii',
+            ResultCharset => 'utf8',
+            UTF8          => 1,
+        },
+        {
+            Name          => 'Convert()',
+            Input         => 'abc123',
+            Result        => 'abc123',
+            InputCharset  => 'us-ascii',
             ResultCharset => 'utf8',
             UTF8          => 1,
         },
