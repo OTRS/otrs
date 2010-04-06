@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.56 2010-02-21 15:25:49 martin Exp $
+# $Id: Ticket.t,v 1.57 2010-04-06 04:05:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3272,6 +3272,7 @@ for my $Backend (qw(DB FS)) {
         my %Data = $TicketObject->ArticleAttachment(
             ArticleID => $ArticleID,
             FileID    => 1,
+            UserID    => 1,
         );
         $Self->True(
             $Data{Content},
