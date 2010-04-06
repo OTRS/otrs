@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachment
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.31.2.1 2010-02-09 12:43:41 mb Exp $
+# $Id: StdAttachment.pm,v 1.31.2.2 2010-04-06 12:35:31 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31.2.1 $) [1];
+$VERSION = qw($Revision: 1.31.2.2 $) [1];
 
 =head1 NAME
 
@@ -168,13 +168,14 @@ sub StdAttachmentGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT name, content_type, content, filename, valid_id, comments '
-            . ' FROM standard_attachment WHERE id = ?',
+        SQL => 'SELECT name, content_type, content, filename, valid_id, comments, '
+            . 'create_time, create_by, change_time, change_by '
+            . 'FROM standard_attachment WHERE id = ?',
         Bind   => [ \$Param{ID} ],
         Encode => [ 1, 1, 0, 1, 1, 1 ],
         Limit  => 1,
     );
-    my %Data = ();
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # decode attachment if it's a postgresql backend!!!
@@ -189,6 +190,10 @@ sub StdAttachmentGet {
             Filename    => $Row[3],
             ValidID     => $Row[4],
             Comment     => $Row[5],
+            CreateTime  => $Row[6],
+            CreateBy    => $Row[7],
+            ChangeTime  => $Row[8],
+            ChangeBy    => $Row[9],
         );
     }
     return %Data;
@@ -231,13 +236,12 @@ sub StdAttachmentUpdate {
     $Self->{ 'StdAttachmentLookupName::' . $Param{Name} } = 0;
 
     # sql
-    return $Self->{DBObject}->Do(
-        SQL => 'UPDATE standard_attachment SET name = ?, content = ?, content_type = ?, '
-            . ' comments = ?, filename = ?, valid_id = ?, change_time = current_timestamp, '
-            . ' change_by = ? WHERE id = ?',
+    return if !$Self->{DBObject}->Do(
+        SQL => 'UPDATE standard_attachment SET name = ?, comments = ?, valid_id = ?, '
+            . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name},     \$Param{Content}, \$Param{ContentType}, \$Param{Comment},
-            \$Param{Filename}, \$Param{ValidID}, \$Param{UserID},      \$Param{ID},
+            \$Param{Name}, \$Param{Comment},
+            \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
     if ( $Param{Content} ) {
@@ -294,10 +298,11 @@ sub StdAttachmentDelete {
     );
 
     # sql
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM standard_attachment WHERE ID = ?',
         Bind => [ \$Param{ID} ],
     );
+    return 1;
 }
 
 =item StdAttachmentLookup()
@@ -403,7 +408,7 @@ sub StdAttachmentsByResponseID {
         Where => "standard_response_id = $Param{ID}",
     );
     my %AllStdAttachments = $Self->GetAllStdAttachments( Valid => 1 );
-    my %Data = ();
+    my %Data;
     for ( keys %Relation ) {
         if ( $AllStdAttachments{$_} ) {
             $Data{$_} = $AllStdAttachments{$_};
@@ -470,6 +475,7 @@ sub SetStdAttachmentsOfResponseID {
         Bind => [ \$Param{ID} ],
     );
     for my $ID ( @{ $Param{AttachmentIDsRef} } ) {
+        next if !$ID;
         $Self->{DBObject}->Do(
             SQL => 'INSERT INTO standard_response_attachment (standard_attachment_id, '
                 . 'standard_response_id, create_time, create_by, change_time, change_by)'
@@ -498,6 +504,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31.2.1 $ $Date: 2010-02-09 12:43:41 $
+$Revision: 1.31.2.2 $ $Date: 2010-04-06 12:35:31 $
 
 =cut
