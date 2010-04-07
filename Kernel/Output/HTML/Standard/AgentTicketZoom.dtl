@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.82 2010-04-05 14:59:43 mb Exp $
+# $Id: AgentTicketZoom.dtl,v 1.83 2010-04-07 18:40:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,33 +60,33 @@ $Include{"AJAX"}
                     <fieldset class="TableLike FixedLabelSmall Tight">
 <!-- dtl:block:Type -->
                     <label>$Text{"Type"}:</label>
-                    <p class="Value"><div title="$QData{"Type"}">$QData{"Type","18"}</div></p>
+                    <p class="Value" title="$QData{"Type"}">$QData{"Type","18"}</p>
                     <div class="Clear"></div>
 <!-- dtl:block:Type -->
                     <label>$Text{"State"}:</label>
-                    <p class="Value"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></p>
+                    <p class="Value" title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</p>
                     <div class="Clear"></div>
 
                     <label>$Text{"Locked"}:</label>
-                    <p class="Value"><div title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","18"}</div></p>
+                    <p class="Value" title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","18"}</p>
                     <div class="Clear"></div>
 
                     <label>$Text{"Priority"}:</label>
-                    <p class="Value"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</div></p>
+                    <p class="Value" title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</p>
                     <div class="Clear"></div>
 
                     <label>$Text{"Queue"}:</label>
-                    <p class="Value"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></p>
+                    <p class="Value" title="$QData{"Queue"}">$QData{"Queue","18"}</p>
                     <div class="Clear"></div>
 
 <!-- dtl:block:Service -->
                     <label>$Text{"Service"}:</label>
-                    <p class="Value"><div title="$QData{"Service"}">$QData{"Service","18"}</div></p>
+                    <p class="Value" title="$QData{"Service"}">$QData{"Service","18"}</p>
                     <div class="Clear"></div>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
                     <label>$Text{"SLA"}:</label>
-                    <p class="Value"><div title="$QData{"SLA"}">$QData{"SLA","18"}</div></p>
+                    <p class="Value" title="$QData{"SLA"}">$QData{"SLA","18"}</p>
                     <div class="Clear"></div>
 <!-- dtl:block:SLA -->
                     </fieldset>
@@ -161,13 +161,13 @@ $Include{"AJAX"}
 <!-- dtl:block:PendingUntil -->
 <!-- dtl:block:Owner -->
                     <label>$Text{"Owner"}:</label>
-                    <p class="Value"><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</div></p>
+                    <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</p>
                     <div class="Clear"></div>
 
 <!-- dtl:block:Owner -->
 <!-- dtl:block:Responsible -->
                     <label>$Text{"Responsible"}:</label>
-                    <p class="Value"><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</div></p>
+                    <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</p>
                     <div class="Clear"></div>
 
 <!-- dtl:block:Responsible -->
@@ -178,10 +178,10 @@ $Include{"AJAX"}
                     <label>$QData{"TicketFreeKey","25"}:</label>
                     <p class="Value">
 <!-- dtl:block:TicketFreeTextPlain -->
-                        <div title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","25"}</div>
+                        <span title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","25"}</span>
 <!-- dtl:block:TicketFreeTextPlain -->
 <!-- dtl:block:TicketFreeTextLink -->
-                        <div title="$QData{"TicketFreeText"}"><a href="$Data{"TicketFreeTextLink"}" target="_blank">$QData{"TicketFreeText","25"}</a></div>
+                        <span title="$QData{"TicketFreeText"}"><a href="$Data{"TicketFreeTextLink"}" target="_blank">$QData{"TicketFreeText","25"}</a></span>
 <!-- dtl:block:TicketFreeTextLink -->
                     </p>
                     <div class="Clear"></div>
@@ -191,10 +191,10 @@ $Include{"AJAX"}
 #            <td><b>$QData{"TicketFreeKey1","25"}:</b></td>
 #            <td>
 #<!-- dtl:block:TicketFreeTextPlain1 -->
-#              <div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","25"}</div>
+#              <span title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","25"}</span>
 #<!-- dtl:block:TicketFreeTextPlain1 -->
 #<!-- dtl:block:TicketFreeTextLink1 -->
-#              <div title="$QData{"TicketFreeText1"}"><a href="$Config{"TicketFreeTextLink1"}" target="_blank">$QData{"TicketFreeText1","25"}</a></div>
+#              <span title="$QData{"TicketFreeText1"}"><a href="$Config{"TicketFreeTextLink1"}" target="_blank">$QData{"TicketFreeText1","25"}</a></span>
 #<!-- dtl:block:TicketFreeTextLink1 -->
 #            </td>
 #          </tr>
@@ -204,10 +204,10 @@ $Include{"AJAX"}
 #            <td><b>$QData{"TicketFreeKey2","25"}:</b></td>
 #            <td>
 #<!-- dtl:block:TicketFreeTextPlain2 -->
-#              <div title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","25"}</div>
+#              <span title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","25"}</span>
 #<!-- dtl:block:TicketFreeTextPlain2 -->
 #<!-- dtl:block:TicketFreeTextLink2 -->
-#              <div title="$QData{"TicketFreeText2"}"><a href="$Config{"TicketFreeTextLink2"}" target="_blank">$QData{"TicketFreeText2","25"}</a></div>
+#              <span title="$QData{"TicketFreeText2"}"><a href="$Config{"TicketFreeTextLink2"}" target="_blank">$QData{"TicketFreeText2","25"}</a></span>
 #<!-- dtl:block:TicketFreeTextLink2 -->
 #            </td>
 #          </tr>
@@ -216,7 +216,7 @@ $Include{"AJAX"}
 # use this if you want to show TicketFreeTime1-6
 <!-- dtl:block:TicketFreeTime -->
                     <label>$Text{"$QData{"TicketFreeTimeKey"}"}:</label>
-                    <p class="Value"><div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div></p>
+                    <p class="Value" title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</p>
                     <div class="Clear"></div>
 
 <!-- dtl:block:TicketFreeTime -->
@@ -400,8 +400,6 @@ $Data{"ArticleItems"}
                         <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
                     </li>
 <!-- dtl:block:ArticleMenu-->
-#                            <li><a href="">Print</a></li>
-#                            <li class="Last"><a href="">Split</a></li>
                 </ul>
                 <div class="ClearLeft"></div>
             </div>
@@ -409,19 +407,24 @@ $Data{"ArticleItems"}
         <div class="Content">
             <div class="ArticleMailHeader">
                 <fieldset class="TableLike FixedLabel Tight">
-<!-- dtl:block:Row -->
+<!-- dtl:block:RowRecipient -->
                 <label>$Text{"$Data{"Key"}"}:</label>
-                <p class="Value"><div title="$QData{"Value"}">$RQData{"Value","200"}</div></p>
+                <p class="Value" title="$QData{"Value"}">$RQData{"Value","200"}</p>
                 <div class="Clear"></div>
-<!-- dtl:block:Row -->
+<!-- dtl:block:RowRecipient -->
+<!-- dtl:block:RowData -->
+                <label>$Text{"$Data{"Key"}"}:</label>
+                <p class="Value" title="$QData{"Value"}">$QData{"Value","200"}</p>
+                <div class="Clear"></div>
+<!-- dtl:block:RowData -->
                 <label>$Text{"Created"}:</label>
-                <p class="Value"><div title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</div></p>
+                <p class="Value" title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</p>
                 <div class="Clear"></div>
 
 # show the ArticleFreeKey1-3 and ArticleFreeText1-3
 <!-- dtl:block:ArticleFreeText -->
                 <label>$QData{"Key"}:</label>
-                <p class="Value"><div title="$QData{"Value"}">$QData{"Value","160"}</div></p>
+                <p class="Value" title="$QData{"Value"}">$QData{"Value","160"}</p>
                 <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
 # show ArticleFreeKey1-3 and ArticleFreeText1-3 (in other way like the block, so you could add link or somethin else)
@@ -489,7 +492,7 @@ $Data{"Body"}
                             }
                             //-->
                             //]]></script>
-                    <iframe width="100%" frameborder="0" style="width: 100%; margin: 0; border: 0px none;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+                    <iframe width="100%" height="250" frameborder="0" style="width: 100%; margin: 0; border: 0px none;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
                 </div>
 <!-- dtl:block:BodyHTML -->
             </div>
@@ -520,6 +523,8 @@ $Data{"Body"}
             </div>
 <!-- dtl:block:Move -->
         </div>
+    </div>
+</div>
 <!-- dtl:block:ArticleItem -->
 
 
