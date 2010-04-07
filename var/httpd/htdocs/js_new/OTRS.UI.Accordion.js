@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Accordion.js,v 1.2 2010-03-29 09:58:14 mn Exp $
+// $Id: OTRS.UI.Accordion.js,v 1.3 2010-04-07 14:12:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,38 @@ OTRS.UI = OTRS.UI || {};
  *      This namespace contains the Accordion code
  */
 OTRS.UI.Accordion = (function (Namespace) {
+    var AccordionAnimationRunning = false;
+
+    /**
+     * @function
+     * @description
+     *      This function checks, if an accordion animation is currently running
+     * @return boolean
+     */
+    Namespace.AnimationIsRunning = function () {
+        return AccordionAnimationRunning;
+    }
+
+    /**
+     * @function
+     * @description
+     *      This function indicates that an accordion animation is now running
+     * @return nothing
+     */
+    Namespace.StartAnimation = function () {
+        AccordionAnimationRunning = true;
+    }
+
+    /**
+     * @function
+     * @description
+     *      This function indicates that all accordion animations have stopped now
+     * @return nothing
+     */
+    Namespace.StopAnimation = function () {
+        AccordionAnimationRunning = false;
+    }
+
     /**
      * @function
      * @description
@@ -47,6 +79,11 @@ OTRS.UI.Accordion = (function (Namespace) {
             // if clicked element is already active, do nothing
             if ($ListElement.hasClass('Active')) return false;
 
+            // if another accordion animation is currently running, so nothing
+            if (Namespace.AnimationIsRunning()) return false;
+
+            Namespace.StartAnimation();
+
             $AllListElements = $ListElement.parent('ul').find('li');
             $ActiveListElement = $AllListElements.filter('.Active');
 
@@ -55,6 +92,7 @@ OTRS.UI.Accordion = (function (Namespace) {
             $ActiveListElement.find(ContentSelector).add($ListElement.find(ContentSelector)).slideToggle("slow", function() {
                 $AllListElements.find('div.Content div').css('overflow', 'scroll');
                 $(this).closest('li').toggleClass('Active');
+                Namespace.StopAnimation();
             });
 
             // always return false, because otherwise the url in the clicked link would be loaded
