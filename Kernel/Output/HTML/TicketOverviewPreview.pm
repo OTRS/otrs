@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.20 2010-04-05 13:59:03 martin Exp $
+# $Id: TicketOverviewPreview.pm,v 1.21 2010-04-07 16:46:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -235,7 +235,8 @@ sub _Show {
         Order    => 'DESC',
         Limit    => 5,
     );
-    my %Article = %{ $ArticleBody[0] };
+    my %Article      = %{ $ArticleBody[0] };
+    my $ArticleCount = scalar @ArticleBody;
 
     # user info
     my %UserInfo = $Self->{UserObject}->GetUserData(
@@ -265,7 +266,7 @@ sub _Show {
 
     $Self->{LayoutObject}->Block(
         Name => 'DocumentContent',
-        Data => { %Param, %Article },
+        Data => { %Param, %Article, Class => 'ArticleCount' . $ArticleCount },
     );
 
     # check if bulk feature is enabled
@@ -654,6 +655,11 @@ sub _Show {
             }
         }
 
+        $ArticleItem->{Subject} = $Self->{TicketObject}->TicketSubjectClean(
+            TicketNumber => $ArticleItem->{TicketNumber},
+            Subject => $ArticleItem->{Subject} || '',
+        );
+
         $Self->{LayoutObject}->Block(
             Name => 'ArticlePreview',
             Data => {
@@ -664,28 +670,68 @@ sub _Show {
                 Class   => $ArticleItem->{Class},
             },
         );
-        for my $Key (qw( From To Cc Subject )) {
-            next if !$ArticleItem->{$Key};
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticlePreviewRow',
-                Data => {
-                    Key   => $Key,
-                    Value => $ArticleItem->{$Key},
-                },
-            );
 
-        }
-        for my $Count ( 1 .. 3 ) {
-            next if !$ArticleItem->{"ArticleFreeText$Count"};
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticlePreviewFreeText',
-                Data => {
-                    Key   => $Article{"ArticleFreeKey$Count"},
-                    Value => $Article{"ArticleFreeText$Count"},
-                },
-            );
-        }
+        # show actions
+        if ( $ArticleItem->{ArticleType} !~ /^(note|email-noti)/i ) {
 
+            # check if compose link should be shown
+            if (
+                $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
+                && (
+                    !defined $AclAction{AgentTicketCompose}
+                    || $AclAction{AgentTicketCompose}
+                )
+                )
+            {
+                my $Access = 1;
+                my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketCompose');
+                if ( $Config->{Permission} ) {
+                    my $Ok = $Self->{TicketObject}->Permission(
+                        Type     => $Config->{Permission},
+                        TicketID => $Article{TicketID},
+                        UserID   => $Self->{UserID},
+                        LogNo    => 1,
+                    );
+                    if ( !$Ok ) {
+                        $Access = 0;
+                    }
+                }
+                if ( $Config->{RequiredLock} ) {
+                    my $Locked = $Self->{TicketObject}->LockIsTicketLocked(
+                        TicketID => $Article{TicketID},
+                    );
+                    if ($Locked) {
+                        my $AccessOk = $Self->{TicketObject}->OwnerCheck(
+                            TicketID => $Article{TicketID},
+                            OwnerID  => $Self->{UserID},
+                        );
+                        if ( !$AccessOk ) {
+                            $Access = 0;
+                        }
+                    }
+                }
+                if ($Access) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticlePreviewActionRow',
+                        Data => {
+                            %{$ArticleItem}, %AclAction,
+                            Name => 'Reply',
+                            Link =>
+                                'Action=AgentTicketCompose;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
+                        },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticlePreviewActionRow',
+                        Data => {
+                            %{$ArticleItem}, %AclAction,
+                            Name => 'Reply All',
+                            Link =>
+                                'Action=AgentTicketCompose;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};RepplyAll=1'
+                        },
+                    );
+                }
+            }
+        }
     }
 
     # create & return output

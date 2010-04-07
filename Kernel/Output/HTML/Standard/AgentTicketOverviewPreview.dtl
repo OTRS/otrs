@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.16 2010-04-05 13:59:03 martin Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.17 2010-04-07 16:46:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -191,32 +191,22 @@ function select_item_check () {
                     </tr>
                 </tbody>
             </table>
-            <ul class="Preview">
+            <ul class="Preview $QData{"Class"}">
 <!-- dtl:block:ArticlePreview -->
                 <li class="$QData{"Class"}">
                     <h3>
-                    <span class="Wrapper"><a href="" title="$QData{"From"} &ndash; $QData{"Subject"} &ndash; $TimeShort{"$QData{"Created"}"}"><strong>reply</strong> $RQData{"From","50"} &ndash; $QData{"Subject","40"} &ndash; $TimeShort{"$QData{"Created"}"}</a></span><span class="RightEnd"></span>
+                    <span class="Wrapper"><a href="" title="$QData{"From"} &ndash; $QData{"Subject"} &ndash; $TimeShort{"$QData{"Created"}"}">$RQData{"From","50"} &ndash; $QData{"Subject","70"}<span class="DateTime">$TimeShort{"$QData{"Created"}"}</span></a></span><span class="RightEnd"></span>
                     </h3>
-                    <div class="Content">
-                        <table>
-                            <tbody>
-<!-- dtl:block:ArticlePreviewRow -->
-                                <tr>
-                                    <td class="Right"><label>$Text{"$Data{"Key"}"}</label></td>
-                                    <td>$RQData{"Value","74"}</td>
-#                                            <td><div title="$QData{"Value"}">$RQData{"Value","74"}</div></td>
-                                </tr>
-<!-- dtl:block:ArticlePreviewRow -->
-<!-- dtl:block:ArticlePreviewFreeText -->
-                                <tr>
-                                    <td class="Right"><label>$Text{"$Data{"Key"}"}</label></td>
-                                    <td>$RQData{"Value","74"}</td>
-#                                            <td><div title="$QData{"Value"}">$RQData{"Value","74"}</div></td>
-                                </tr>
-<!-- dtl:block:ArticlePreviewFreeText -->
-                            </tbody>
-                        </table>
-                        <div>
+                    <div class="HiddenBlock">
+                        <div class="ActionRow">
+                            <ul class="Actions">
+<!-- dtl:block:ArticlePreviewActionRow -->
+                                <li><a href="$Data{"Link"}">$Text{"$QData{"Name"}"}</a></li>
+<!-- dtl:block:ArticlePreviewActionRow -->
+                            </ul>
+                            <div class="ClearLeft"></div>
+                        </div>
+                        <div class="Content">
 $Data{"BodyNote"}
 $Data{"Body"}
                         </div>
@@ -405,7 +395,7 @@ $Data{"AgentPhoneStrg"}
     <script type="text/javascript">//<![CDATA[
         $(document).ready(function() {
             OTRS.UI.StaticTableControl($('#OverviewControl'));
-            OTRS.UI.Accordion.Init($('ul.Preview'), 'li h3 a', 'div.Content');
+            OTRS.UI.Accordion.Init($('ul.Preview'), 'li h3 a', 'div.HiddenBlock');
         });
     //]]></script>
 <!-- dtl:document_ready -->
