@@ -2,15 +2,34 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1192 2010-04-06 23:01:10 cr Exp $
+# $Id: CHANGES,v 1.1193 2010-04-07 14:21:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-2.5.0 beta1 (????/??/??)
+3.0.0 beta1 (2010/??/??)
+ - (2010/04/06) made command line scripts consistent. They now all
+     have the format 'otrs.DoThis.pl'. Also, SetPermissions.sh is removed
+     because we already have otrs.SetPermissions.pl.
+    otrs.mkStats.pl                 ->  otrs.GenerateStats.pl
+    otrs.addGroup.pl                ->  otrs.AddGroup.pl
+    otrs.addQueue.pl                ->  otrs.AddQueue.pl
+    otrs.addRole.pl                 ->  otrs.AddRole.pl
+    otrs.addRole2Group.pl           ->  otrs.AddRole2Group.pl
+    otrs.addUser.pl                 ->  otrs.AddUser.pl
+    otrs.addUser2Group.pl           ->  otrs.AddUser2Group.pl
+    otrs.addUser2Role.pl            ->  otrs.AddUser2Role.pl
+    otrs.checkModules.pl            ->  otrs.CheckModules.pl
+    otrs.CreateNewTranslationFile.pl->  otrs.CreateTranslationFile.pl
+    otrs.getConfig.pl               ->  otrs.GetConfig.pl
+    otrs.getTicketThread.pl         ->  otrs.GetTicketThread.pl
+    otrs.setPassword.pl             ->  otrs.SetPassword.pl
+    otrs.StatsExportToOPM.pl        ->  otrs.ExportStatsToOPM.pl
+    opm.pl                          ->  otrs.PackageManager.pl
 
+2.5.0 beta1 (????/??/??)
  - (2010/03/24) Reworked Kernel::System::Encode API to have more intuitive
     wording (is still compat. to OTRS 1.x and 2.x).
 
