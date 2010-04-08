@@ -2,7 +2,7 @@
 # AAAPreferences.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAAPreferences.dtl,v 1.21 2010-03-25 14:47:50 martin Exp $
+# $Id: AAAPreferences.dtl,v 1.22 2010-04-08 14:28:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,9 +11,9 @@
 
 $Text{"Preferences updated successfully!"}
 
-$Text{"Mail Management"}
-$Text{"Frontend"}
-$Text{"Other Options"}
+$Text{"User Profile"}
+$Text{"Email Settings"}
+$Text{"Other Settings"}
 
 $Text{"Change Password"}
 $Text{"Current Password"}
@@ -21,13 +21,13 @@ $Text{"New Password"}
 $Text{"Verify New Password"}
 
 $Text{"Select your QueueView refresh time."}
-$Text{"Select your frontend language."}
+$Text{"Frontend language"}
 $Text{"Select your frontend Charset."}
-$Text{"Select your frontend Theme."}
+$Text{"Frontend theme"}
 $Text{"Select your frontend QueueView."}
 
 $Text{"Spelling Dictionary"}
-$Text{"Select your default spelling dictionary."}
+$Text{"Default spelling dictionary"}
 
 $Text{"Max. shown Tickets a page in Overview."}
 
@@ -39,3 +39,8 @@ $Text{"Can't update password, it must contain at least 2 lowercase  and 2 upperc
 $Text{"Can't update password, it must contain at least 1 digit!"}
 $Text{"Can't update password, it must contain at least 2 characters!"}
 $Text{"Can't update password, this password has already been used. Please choose a new one!"}
+
+$Text{"Select the separator character used in CSV files (stats and searches). If you don't select a separator here, the default separator for your language will be used."}
+$Text{"CSV Separator"}
+
+$Text{"Time Zone"}

@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.48 2010-01-25 20:47:24 martin Exp $
+# $Id: AAATicket.dtl,v 1.49 2010-04-08 14:28:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -169,40 +169,47 @@ $Text{"There are more escalated tickets!"}
 # preferences
 $Text{"New ticket notification"}
 $Text{"Send me a notification if there is a new ticket in "My Queues"."}
+$Text{"Send new ticket notifications"}
 
-$Text{"Follow up notification"}
-#$Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
-#$Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
+$Text{"Ticket follow up notification"}
 $Text{'Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.'}
+$Text{'Send ticket follow up notifications'}
 
 $Text{"Ticket lock timeout notification"}
 $Text{"Send me a notification if a ticket is unlocked by the system."}
+$Text{"Send ticket lock timeout notifications"}
 
-$Text{"Move notification"}
+$Text{"Ticket move notification"}
 $Text{"Send me a notification if a ticket is moved into one of "My Queues"."}
+$Text{"Send ticket move notifications"}
+
+$Text{"Ticket move notification"}
 
 $Text{"Your queue selection of your favourite queues. You also get notified about those queues via email if enabled."}
 $Text{"Custom Queue"}
 
 $Text{"QueueView refresh time"}
-$Text{"Select your QueueView refresh time."}
+$Text{"If enabled, the QueueView will automatically refresh after the specified time."}
+$Text{"Refresh QueueView after"}
 
 $Text{"Screen after new ticket"}
-$Text{"Select your screen after creating a new ticket."}
+$Text{"Show this screen after I created a new ticket"}
 
 $Text{"Closed Tickets"}
 $Text{"Show closed tickets."};
 $Text{"Max. shown Tickets a page in QueueView."}
-$Text{"Ticket Overview "Small""}
-$Text{"Ticket Overview "Medium""}
-$Text{"Ticket Overview "Preview""}
-$Text{"Max. shown Tickets a page."}
+$Text{"Ticket Overview "Small" Limit"}
+$Text{"Ticket limit per page for Ticket Overview "Small""}
+$Text{"Ticket Overview "Medium" Limit"}
+$Text{"Ticket limit per page for Ticket Overview "Medium""}
+$Text{"Ticket Overview "Preview" Limit"}
+$Text{"Ticket limit per page for Ticket Overview "Preview""}
 
-$Text{"Watch notification"}
-$Text{"Send me a notification of an watched ticket like an owner of an ticket."}
+$Text{"Ticket watch notification"}
+$Text{"Send me the same notifications for my watched tickets that the ticket owners will get."}
+$Text{"Send ticket watch notifications"}
 
-$Text{"Out Of Office"}
-$Text{"Select your out of office time."}
+$Text{"Out Of Office Time"}
 
 $Text{"CompanyTickets"}
 $Text{"MyTickets"}
