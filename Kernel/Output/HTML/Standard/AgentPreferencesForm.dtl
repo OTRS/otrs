@@ -2,7 +2,7 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.37 2010-04-08 10:24:51 mg Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.38 2010-04-08 10:28:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,69 +39,69 @@
                         <fieldset class="TableLike LargeLabel">
 <!-- dtl:block:Block -->
 <!-- dtl:block:InputKey -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
-                        <div class="Field">
-                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" />
-                        </div>
-                        <div class="Clear"></div>
+                            <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
+                            <div class="Field">
+                                <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" />
+                            </div>
+                            <div class="Clear"></div>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
-                        <div class="Field">
-                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" />
-                        </div>
-                        <div class="Clear"></div>
+                            <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
+                            <div class="Field">
+                                <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" />
+                            </div>
+                            <div class="Clear"></div>
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
-                        <div class="Field">
-                            $Data{"Option"}
-                        </div>
-                        <div class="Clear"></div>
+                            <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
+                            <div class="Field">
+                                $Data{"Option"}
+                            </div>
+                            <div class="Clear"></div>
 <!-- dtl:block:Option -->
 <!-- dtl:block:Upload -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
-                        <div class="Field">
-                            <input name="$QData{"Name"}" id="$QData{"Name"}" type="file" size="20" class="fixed"/>
-                            <br/>
-                            <a href="">$QData{"Filename"}</a>
-                        </div>
-                        <div class="Clear"></div>
+                            <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
+                            <div class="Field">
+                                <input name="$QData{"Name"}" id="$QData{"Name"}" type="file" size="20" class="fixed"/>
+                                <br/>
+                                <a href="">$QData{"Filename"}</a>
+                            </div>
+                            <div class="Clear"></div>
 <!-- dtl:block:Upload -->
 <!-- dtl:block:Password -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
-                        <div class="Field">
-                            <input name="$QData{"Name"}" id="$QData{"Name"}" type="password"/>
-                        </div>
-                        <div class="Clear"></div>
+                            <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
+                            <div class="Field">
+                                <input name="$QData{"Name"}" id="$QData{"Name"}" type="password"/>
+                            </div>
+                            <div class="Clear"></div>
 <!-- dtl:block:Password -->
 <!-- dtl:block:OutOfOffice -->
-                        <fieldset class="TableLike"><!-- use another fieldset here for a different formatting -->
-                        <p class="FieldExplanation">$Text{"$Data{"Key"}"}</p>
-                        <label>$Text{"Active"}</label>
-                        <div class="Field">
-                            <input type="radio" name="OutOfOffice" id="OutOfOfficeOn" value="1" $Data{"OutOfOfficeOn"} />
-                            <label for="OutOfOfficeOn">$Text{"On"}</label>
-                            <input type="radio" name="OutOfOffice" id="OutOfOfficeOff" value="0" $Data{"OutOfOfficeOff"} />
-                            <label for="OutOfOfficeOff">$Text{"Off"}</label>
-                        </div>
-                        <div class="Clear"></div>
-                        <label>$Text{"Start"}</label>
-                        <div class="Field">
-                            $Data{"OptionStart"}
-                        </div>
-                        <div class="Clear"></div>
-                        <label>$Text{"End"}</label>
-                        <div class="Field">
-                            $Data{"OptionEnd"}
-                        </div>
-                        <div class="Clear"></div>
-                        </fieldset>
+                            <fieldset class="TableLike"><!-- use another fieldset here for a different formatting -->
+                                <p class="FieldExplanation">$Text{"$Data{"Key"}"}</p>
+                                <label>$Text{"Active"}</label>
+                                <div class="Field">
+                                    <input type="radio" name="OutOfOffice" id="OutOfOfficeOn" value="1" $Data{"OutOfOfficeOn"} />
+                                    <label for="OutOfOfficeOn">$Text{"On"}</label>
+                                    <input type="radio" name="OutOfOffice" id="OutOfOfficeOff" value="0" $Data{"OutOfOfficeOff"} />
+                                    <label for="OutOfOfficeOff">$Text{"Off"}</label>
+                                </div>
+                                <div class="Clear"></div>
+                                <label>$Text{"Start"}</label>
+                                <div class="Field">
+                                    $Data{"OptionStart"}
+                                </div>
+                                <div class="Clear"></div>
+                                <label>$Text{"End"}</label>
+                                <div class="Field">
+                                    $Data{"OptionEnd"}
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
 <!-- dtl:block:OutOfOffice -->
 <!-- dtl:block:Block -->
-                        <div class="Field">
-                            <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
-                        </div>
+                            <div class="Field">
+                                <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                            </div>
                         </fieldset>
                     </form>
 <!-- dtl:block:Item -->
