@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.17 2010-04-07 16:46:09 martin Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.18 2010-04-08 12:29:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -198,14 +198,16 @@ function select_item_check () {
                     <span class="Wrapper"><a href="" title="$QData{"From"} &ndash; $QData{"Subject"} &ndash; $TimeShort{"$QData{"Created"}"}">$RQData{"From","50"} &ndash; $QData{"Subject","70"}<span class="DateTime">$TimeShort{"$QData{"Created"}"}</span></a></span><span class="RightEnd"></span>
                     </h3>
                     <div class="HiddenBlock">
+<!-- dtl:block:ArticlePreviewActionRow -->
                         <div class="ActionRow">
                             <ul class="Actions">
-<!-- dtl:block:ArticlePreviewActionRow -->
+<!-- dtl:block:ArticlePreviewActionRowItem -->
                                 <li><a href="$Data{"Link"}">$Text{"$QData{"Name"}"}</a></li>
-<!-- dtl:block:ArticlePreviewActionRow -->
+<!-- dtl:block:ArticlePreviewActionRowItem -->
                             </ul>
                             <div class="ClearLeft"></div>
                         </div>
+<!-- dtl:block:ArticlePreviewActionRow -->
                         <div class="Content">
 $Data{"BodyNote"}
 $Data{"Body"}
