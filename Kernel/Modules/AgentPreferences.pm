@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.43 2010-01-25 20:47:24 martin Exp $
+# $Id: AgentPreferences.pm,v 1.44 2010-04-08 14:27:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -161,10 +161,6 @@ sub AgentPreferencesForm {
             }
         }
         $Self->{LayoutObject}->Block(
-            Name => 'Head',
-            Data => { Header => $Colum, },
-        );
-        $Self->{LayoutObject}->Block(
             Name => 'Colum',
             Data => {
                 Header => $Colum,
@@ -217,9 +213,23 @@ sub AgentPreferencesForm {
                     Name => 'Block',
                     Data => { %Preference, %{$ParamItem}, },
                 );
+                my $BlockName = $ParamItem->{Block} || $Preference{Block} || 'Option';
+
                 $Self->{LayoutObject}->Block(
-                    Name => $ParamItem->{Block} || $Preference{Block} || 'Option',
+                    Name => $BlockName,
                     Data => { %Preference, %{$ParamItem}, },
+                );
+
+                if ( scalar @Params == 1 ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => $BlockName . 'SingleBlock',
+                    );
+                }
+            }
+
+            if ( scalar @Params > 1 ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'MultipleBlocks',
                 );
             }
         }
