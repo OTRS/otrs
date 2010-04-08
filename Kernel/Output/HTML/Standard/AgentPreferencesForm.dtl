@@ -2,7 +2,7 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.36 2010-04-08 07:23:03 mg Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.37 2010-04-08 10:24:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,36 +36,30 @@
                         <p class="FieldExplanation">
                             $Text{"$Data{"Desc"}"}
                         </p>
+                        <fieldset class="TableLike LargeLabel">
 <!-- dtl:block:Block -->
 <!-- dtl:block:InputKey -->
-                        <fieldset class="TableLike LargeLabel">
                         <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
                         <div class="Field">
                             <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" />
                         </div>
                         <div class="Clear"></div>
-                        </fieldset>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
-                        <fieldset class="TableLike LargeLabel">
                         <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
                         <div class="Field">
                             <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" />
                         </div>
                         <div class="Clear"></div>
-                        </fieldset>
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
-                        <fieldset class="TableLike LargeLabel">
                         <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
                         <div class="Field">
                             $Data{"Option"}
                         </div>
                         <div class="Clear"></div>
-                        </fieldset>
 <!-- dtl:block:Option -->
 <!-- dtl:block:Upload -->
-                        <fieldset class="TableLike LargeLabel">
                         <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
                         <div class="Field">
                             <input name="$QData{"Name"}" id="$QData{"Name"}" type="file" size="20" class="fixed"/>
@@ -73,19 +67,16 @@
                             <a href="">$QData{"Filename"}</a>
                         </div>
                         <div class="Clear"></div>
-                        </fieldset>
 <!-- dtl:block:Upload -->
 <!-- dtl:block:Password -->
-                        <fieldset class="TableLike LargeLabel">
                         <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
                         <div class="Field">
                             <input name="$QData{"Name"}" id="$QData{"Name"}" type="password"/>
                         </div>
                         <div class="Clear"></div>
-                        </fieldset>
 <!-- dtl:block:Password -->
 <!-- dtl:block:OutOfOffice -->
-                        <fieldset class="TableLike">
+                        <fieldset class="TableLike"><!-- use another fieldset here for a different formatting -->
                         <p class="FieldExplanation">$Text{"$Data{"Key"}"}</p>
                         <label>$Text{"Active"}</label>
                         <div class="Field">
@@ -108,7 +99,6 @@
                         </fieldset>
 <!-- dtl:block:OutOfOffice -->
 <!-- dtl:block:Block -->
-                        <fieldset class="TableLike LargeLabel">
                         <div class="Field">
                             <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
                         </div>
