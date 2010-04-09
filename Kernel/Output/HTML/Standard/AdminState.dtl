@@ -2,7 +2,7 @@
 # AdminState.dtl - provides HTML form for AdminState
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.dtl,v 1.1 2010-03-27 20:47:13 martin Exp $
+# $Id: AdminState.dtl,v 1.2 2010-04-09 11:03:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,19 +23,19 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Add"/>
                     <fieldset>
-                    <h2>$Text{"Add State"}</h2>
-                    <p class="FieldExplanation">
-                        $Text{"Add a new State."}
-                    </p>
-                    <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
+                        <h2>$Text{"Add State"}</h2>
+                        <p class="FieldExplanation">
+                            $Text{"Add a new State."}
+                        </p>
+                        <button type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
 
-                    <h2 class="SpacingTop">$Text{"Note"}</h2>
-                    <p>
-                        $Text{"Attention"}: $Text{"Take care that you also updated the default states in you Kernel/Config.pm!"}
-                    </p>
-                    <p class="FieldExplanation">
-                        $Text{"See also"}: <a href="http://doc.otrs.org" target="doc">http://doc.otrs.org</a>
-                    </p>
+                        <h2 class="SpacingTop">$Text{"Note"}</h2>
+                        <p>
+                            $Text{"Attention"}: $Text{"Take care that you also updated the default states in you Kernel/Config.pm!"}
+                        </p>
+                        <p class="FieldExplanation">
+                            $Text{"See also"}: <a href="http://doc.otrs.org" target="doc">http://doc.otrs.org</a>
+                        </p>
 
                     </fieldset>
                 </form>
@@ -55,10 +55,10 @@
                 <table class="DataTable">
                     <thead>
                         <tr>
-                            <th width="20%">$Text{"Name"}</th>
+                            <th class="W25pc">$Text{"Name"}</th>
                             <th>$Text{"Type"}</th>
-#                                   <th width="25%">$Text{"Comment"}</th>
-                            <th align="center">$Text{"valid"}/$Text{"invalid"}</th>
+#                                   <th class="W25pc">$Text{"Comment"}</th>
+                            <th class="Center">$Text{"valid"}/$Text{"invalid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
@@ -67,7 +67,7 @@
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
-                            <td title="$Text{"$QData{"TypeName"}"}">$Text{"$QData{"TypeName"}"}</td>
+                            <td>$Text{"$QData{"TypeName"}"}</td>
 #                           <td title="$QData{"Comment"}">$QData{"Comment","20"}</td>
                             <td class="Center">$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
@@ -91,34 +91,34 @@
                     <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
                     <fieldset class="TableLike">
-                    <label for="Name">$Text{"Name"}:</label>
-                    <div class="Field">
-                        <input type="text" name="Name" id="Name" value="$QData{"Name"}" size="50" maxlength="50"/>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="Name">$Text{"Name"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc" maxlength="50"/>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="TypeID">$Text{"State Type"}:</label>
-                    <div class="Field">
-                        $Data{"StateTypeOption"}
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="TypeID">$Text{"State Type"}:</label>
+                        <div class="Field">
+                            $Data{"StateTypeOption"}
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="ValidID">$Text{"Valid"}:</label>
-                    <div class="Field">
-                        $Data{"ValidOption"}
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="ValidID">$Text{"Valid"}:</label>
+                        <div class="Field">
+                            $Data{"ValidOption"}
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="Comment">$Text{"Comment"}:</label>
-                    <div class="Field">
-                        <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="Comment">$Text{"Comment"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc" maxlength="150"/>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <div class="Field SpacingTop">
-                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                    </div>
-                    <div class="Clear"></div>
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        </div>
+                        <div class="Clear"></div>
                     </fieldset>
                 </form>
             </div>
