@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -28,7 +28,6 @@
     border-left: 1px solid #BBB;
     border-right: 1px solid #BBB;
     border-bottom: none;
-    min-height: 315px;
     width: 99.9%;
 }
 
@@ -36,9 +35,10 @@
     border-top: none;
 }
 
-.OverviewLarge > li div.Content {
+.OverviewLarge > li > div.Content {
     padding-top: 8px;
     padding-bottom: 5px;
+    min-height: 300px;
 }
 
 .OverviewLarge > li div.Shadow {

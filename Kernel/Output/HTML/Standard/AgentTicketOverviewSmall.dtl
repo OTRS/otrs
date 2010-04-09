@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.31 2010-04-05 13:59:03 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.32 2010-04-09 06:59:26 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -120,7 +120,7 @@ function select_item_check () {
 }
 //]]></script>
 <!-- start form -->
-<div id="OverviewBody">
+<div id="OverviewBody" class="Overview">
     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
         <input type="hidden" name="Action" value="AgentTicketBulk"/>
         <input type="hidden" name="TicketID" value=""/>
