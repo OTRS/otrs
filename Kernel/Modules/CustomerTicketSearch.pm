@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.46 2010-03-08 18:00:52 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.47 2010-04-09 17:07:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,7 +76,7 @@ sub Run {
     if ( $Self->{ParamObject}->GetParam( Param => 'SearchTemplate' ) && $Self->{Profile} ) {
         return $Self->{LayoutObject}->Redirect(
             OP =>
-                "Action=CustomerTicketSearchSubaction=Search;TakeLastSearch=1;SaveProfile=1;Profile=$Self->{Profile}",
+                "Action=CustomerTicketSearch;Subaction=Search;TakeLastSearch=1;SaveProfile=1;Profile=$Self->{Profile}",
         );
     }
 
@@ -250,7 +250,7 @@ sub Run {
         # get time settings
         if ( !$GetParam{TimeSearchType} ) {
 
-            # do noting ont time stuff
+            # do noting with time stuff
         }
         elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {
@@ -687,6 +687,18 @@ sub MaskForm {
         Name => 'ResultForm',
         SelectedID => $Param{ResultForm} || 'Normal',
     );
+    $Param{ProfilesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            '', '-',
+            $Self->{SearchProfileObject}->SearchProfileList(
+                Base      => 'CustomerTicketSearch',
+                UserLogin => $Self->{UserLogin},
+            ),
+        },
+        Name       => 'Profile',
+        SelectedID => $Param{Profile},
+    );
+
     $Param{StatesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{StateObject}->StateList(

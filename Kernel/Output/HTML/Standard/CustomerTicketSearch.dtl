@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.16 2010-02-05 13:58:23 mn Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.17 2010-04-09 17:07:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,37 @@
     </tr>
     <tr>
         <td class="mainbody">
+            <br/>
+            <form action="$Env{"CGIHandle"}" method="get">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="LoadProfile"/>
+                <table border="0" width="650" align="center" cellspacing="0" cellpadding="4">
+                    <tr>
+                        <td class="contenthead">$Text{"Profile"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+                            <table border="0" cellspacing="0" cellpadding="3">
+                                <tr>
+                                    <td class="contentkey">
+                                        $Text{"Search-Template"}
+                                    </td>
+                                    <td class="contentvalue">
+                                        $Data{"ProfilesStrg"}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentfooter">
+                            <button class="button" name="SelectTemplate" type="submit" value="$Text{"Select"}">$Text{"Select"}</button>
+                            <button class="button" name="EraseTemplate" type="submit" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                            <button class="button" name="SearchTemplate" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
             <br/>
             <form action="$Env{"CGIHandle"}" method="get" name="compose">
                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
@@ -132,12 +163,25 @@
                         </td>
                     </tr>
                     <tr class="contenthead">
-                        <td colspan="2">$Text{"Result Form"}</td>
+<!--                        <td colspan="2">$Text{"Result Form"}</td>
+
                     </tr>
                     <tr class="contentbody">
                         <td class="contentkey">$Data{"ResultFormStrg"}</td>
                         <td class="contentvalue"></td>
+                    </tr>-->
+                    <tr>
+                        <td class="contenthead">$Text{"Result Form"}</td>
+                        <td class="contenthead">$Text{"Save Search-Profile as Template?"}</td>
                     </tr>
+                    <tr>
+                        <td class="contentbody">$Data{"ResultFormStrg"}</td>
+                        <td class="contentbody">
+                            <input type="radio" name="SaveProfile" value="1"/> $Text{"Yes, save it with name"}
+                            <input type="text" name="Profile" size="10" value="$QData{"Profile"}"/>
+                        </td>
+                    </tr>
+
                     <tr>
                         <td colspan="2" class="contentfooter">
                             <button class="button" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>

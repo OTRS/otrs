@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1194 2010-04-07 22:05:58 dz Exp $
+# $Id: CHANGES,v 1.1195 2010-04-09 17:07:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/04/09) Added the feature to save searches in the Customer Frontend
  - (2010/04/06) made command line scripts consistent. They now all
      have the format 'otrs.DoThis.pl'. Also, SetPermissions.sh is removed
      because we already have otrs.SetPermissions.pl.
