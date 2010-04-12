@@ -2,7 +2,7 @@
 # AdminLog.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminLog.dtl,v 1.18 2010-03-27 21:10:38 martin Exp $
+# $Id: AdminLog.dtl,v 1.19 2010-04-12 21:33:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,19 +14,19 @@
     <table class="DataTable">
         <thead>
             <tr>
-                <th width="20%">$Text{"Time"}</th>
+                <th>$Text{"Time"}</th>
                 <th>$Text{"Priority"}</th>
                 <th>$Text{"Facility"}</th>
-                <th width="60%">$Text{"Message"}</th>
+                <th class="W75pc">$Text{"Message"}</th>
             </tr>
         </thead>
         <tbody>
 <!-- dtl:block:Row -->
-            <tr>
-                <td>$Data{"StartFont"}$QData{"Time"}$Data{"StopFont"}</td>
-                <td>$Data{"StartFont"}$QData{"Priority"}$Data{"StopFont"}</td>
-                <td>$Data{"StartFont"}$QData{"Facility"}$Data{"StopFont"}</td>
-                <td>$Data{"StartFont"}$QData{"Message"}$Data{"StopFont"}</td>
+            <tr class="$Data{"ErrorClass"}">
+                <td>$QData{"Time"}</td>
+                <td>$QData{"Priority"}</td>
+                <td>$QData{"Facility"}</td>
+                <td>$QData{"Message"}</td>
             </tr>
 <!-- dtl:block:Row -->
         </tbody>
