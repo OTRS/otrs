@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketWatcher.pm - a ticketwatcher module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketWatcher.pm,v 1.12 2010-03-24 11:28:45 martin Exp $
+# $Id: AgentTicketWatcher.pm,v 1.13 2010-04-12 23:44:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -99,7 +99,23 @@ sub Run {
         }
 
         # redirect
-        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
+        if ( $Self->{LastScreenView} =~ m/^Action=AgentTicketZoom/ ) {
+
+            # checks if the user has permissions to see the ticket
+            my $Access = $Self->{TicketObject}->Permission(
+                Type     => 'ro',
+                TicketID => $Self->{TicketID},
+                UserID   => $Self->{UserID},
+            );
+            if ( !$Access ) {
+
+                # generate output
+                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+            }
+            else {
+                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
+            }
+        }
     }
 }
 
