@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketWatchView.pm - to view all locked tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketWatchView.pm,v 1.11 2010-04-03 12:20:31 martin Exp $
+# $Id: AgentTicketWatchView.pm,v 1.12 2010-04-12 21:41:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -219,15 +219,15 @@ sub Run {
         . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
         . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
         . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
-        . '&';
+        . ';';
     my $LinkSort = 'Filter='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
         . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-        . '&';
+        . ';';
     my $LinkFilter = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
         . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
         . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-        . '&';
+        . ';';
     $Output .= $Self->{LayoutObject}->TicketListShow(
         TicketIDs => \@ViewableTickets,
         Total     => scalar @ViewableTickets,
