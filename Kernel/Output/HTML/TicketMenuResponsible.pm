@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuResponsible.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuResponsible.pm,v 1.13 2010-04-04 17:09:11 martin Exp $
+# $Id: TicketMenuResponsible.pm,v 1.14 2010-04-12 21:34:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,14 +42,12 @@ sub Run {
     }
 
     # check if feature is enabled
-    if ( !$Self->{ConfigObject}->Get('Ticket::Responsible') ) {
-        return $Param{Counter};
-    }
+    return if !$Self->{ConfigObject}->Get('Ticket::Responsible');
 
     # check if frontend module registered, if not, do not show action
     if ( $Param{Config}->{Action} ) {
         my $Module = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Param{Config}->{Action} };
-        return $Param{Counter} if !$Module;
+        return if !$Module;
     }
 
     # check permission
@@ -62,7 +60,7 @@ sub Run {
                 UserID   => $Self->{UserID},
                 LogNo    => 1,
             );
-            return $Param{Counter} if !$AccessOk;
+            return if !$AccessOk;
         }
         if ( $Config->{RequiredLock} ) {
             if (
@@ -73,31 +71,18 @@ sub Run {
                     TicketID => $Param{Ticket}->{TicketID},
                     OwnerID  => $Self->{UserID},
                 );
-                return $Param{Counter} if !$AccessOk;
+                return if !$AccessOk;
             }
         }
     }
-    if (
-        !defined $Param{ACL}->{ $Param{Config}->{Action} }
-        || $Param{ACL}->{ $Param{Config}->{Action} }
-        )
-    {
-        $Self->{LayoutObject}->Block(
-            Name => 'Menu',
-        );
-        if ( $Param{Counter} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'MenuItemSplit',
-            );
-        }
-        $Self->{LayoutObject}->Block(
-            Name => 'MenuItem',
-            Data => { %{ $Param{Config} }, %{ $Param{Ticket} }, %Param, },
-        );
-        $Param{Counter}++;
-    }
 
-    return $Param{Counter};
+    # check acl
+    return
+        if defined $Param{ACL}->{ $Param{Config}->{Action} }
+            && !$Param{ACL}->{ $Param{Config}->{Action} };
+
+    # return item
+    return { %{ $Param{Config} }, %{ $Param{Ticket} }, %Param };
 }
 
 1;

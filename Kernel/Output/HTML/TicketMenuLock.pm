@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuLock.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuLock.pm,v 1.16 2010-04-04 17:09:11 martin Exp $
+# $Id: TicketMenuLock.pm,v 1.17 2010-04-12 21:34:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,7 +44,7 @@ sub Run {
     # check if frontend module registered, if not, do not show action
     if ( $Param{Config}->{Action} ) {
         my $Module = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Param{Config}->{Action} };
-        return $Param{Counter} if !$Module;
+        return if !$Module;
     }
 
     # check permission
@@ -54,7 +54,7 @@ sub Run {
         UserID   => $Self->{UserID},
         LogNo    => 1,
     );
-    return $Param{Counter} if !$AccessOk;
+    return if !$AccessOk;
 
     # check permission
     if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Param{Ticket}->{TicketID} ) ) {
@@ -62,64 +62,40 @@ sub Run {
             TicketID => $Param{Ticket}->{TicketID},
             OwnerID  => $Self->{UserID},
         );
-        return $Param{Counter} if !$AccessOk;
+        return if !$AccessOk;
     }
 
     # check acl
-    if (
-        !defined $Param{ACL}->{ $Param{Config}->{Action} }
-        || $Param{ACL}->{ $Param{Config}->{Action} }
-        )
-    {
-        if ( $Param{Ticket}->{Lock} eq 'lock' ) {
-            if ( $Param{Ticket}->{OwnerID} eq $Self->{UserID} ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Menu',
-                );
-                if ( $Param{Counter} ) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'MenuItemSplit',
-                    );
-                }
-                $Self->{LayoutObject}->Block(
-                    Name => 'MenuItem',
-                    Data => {
-                        %{ $Param{Config} },
-                        %{ $Param{Ticket} },
-                        %Param,
-                        Name        => 'Unlock',
-                        Description => 'Unlock to give it back to the queue!',
-                        Link =>
-                            'Action=AgentTicketLock&amp;Subaction=Unlock&amp;TicketID=$QData{"TicketID"}',
-                    },
-                );
-                $Param{Counter}++;
-            }
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'Menu',
-            );
-            if ( $Param{Counter} ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'MenuItemSplit',
-                );
-            }
-            $Self->{LayoutObject}->Block(
-                Name => 'MenuItem',
-                Data => {
-                    %{ $Param{Config} },
-                    %Param,
-                    Name        => 'Lock',
-                    Description => 'Lock it to work on it!',
-                    Link =>
-                        'Action=AgentTicketLock&amp;Subaction=Lock&amp;TicketID=$QData{"TicketID"}',
-                },
-            );
-            $Param{Counter}++;
-        }
+    return
+        if defined $Param{ACL}->{ $Param{Config}->{Action} }
+            && !$Param{ACL}->{ $Param{Config}->{Action} };
+
+    # if ticket is locked
+    if ( $Param{Ticket}->{Lock} eq 'lock' ) {
+
+        # if it is locked for somebody else
+        return if $Param{Ticket}->{OwnerID} ne $Self->{UserID};
+
+        # show unlock action
+        return {
+            %{ $Param{Config} },
+            %{ $Param{Ticket} },
+            %Param,
+            Name        => 'Unlock',
+            Description => 'Unlock to give it back to the queue!',
+            Link        => 'Action=AgentTicketLock;Subaction=Unlock;TicketID=$QData{"TicketID"}',
+        };
     }
-    return $Param{Counter};
+
+    # if ticket is unlocked
+    return {
+        %{ $Param{Config} },
+        %{ $Param{Ticket} },
+        %Param,
+        Name        => 'Lock',
+        Description => 'Lock it to work on it!',
+        Link        => 'Action=AgentTicketLock;Subaction=Lock;TicketID=$QData{"TicketID"}',
+    };
 }
 
 1;
