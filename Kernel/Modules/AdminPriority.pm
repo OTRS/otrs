@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPriority.pm - admin frontend of ticket priority
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.pm,v 1.5 2009-12-15 21:09:40 mb Exp $
+# $Id: AdminPriority.pm,v 1.6 2010-04-12 22:57:45 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -172,11 +172,7 @@ sub Run {
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
 
-        my $CssClass = '';
         for my $PriorityID ( sort { $a <=> $b } keys %PriorityList ) {
-
-            # set output object
-            $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
             # get priority data
             my %PriorityData = $Self->{PriorityObject}->PriorityGet(
@@ -189,7 +185,6 @@ sub Run {
                 Data => {
                     %PriorityData,
                     PriorityID => $PriorityID,
-                    CssClass   => $CssClass,
                     Valid      => $ValidList{ $PriorityData{ValidID} },
                 },
             );
