@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.34 2010-04-12 22:59:38 mn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.35 2010-04-12 23:12:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -128,7 +128,7 @@ function select_item_check () {
         <table class="TableSmall">
             <tbody>
 <!-- dtl:block:Record -->
-                <tr id="ticket_id_$QData{"TicketID"}">
+                <tr id="TicketID_$QData{"TicketID"}">
 <!-- dtl:block:Bulk -->
                     <td class="Checkbox Fixed NonTextContent">
                         <input type="checkbox" name="TicketID" value="$LQData{"TicketID"}"/>
@@ -198,7 +198,7 @@ function select_item_check () {
 <!-- dtl:document_ready -->
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <script type="text/javascript">//<![CDATA[
-OTRS.UI.ActionRow.AddActions('ticket_id_$QData{"TicketID"}', $Data{"Data"});
+OTRS.UI.ActionRow.AddActions('TicketID_$QData{"TicketID"}', $Data{"Data"});
 //]]></script>
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <!-- dtl:block:DocumentReadyStart -->

@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.21 2010-04-12 22:59:38 mn Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.22 2010-04-12 23:12:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,7 +70,7 @@ function select_item_check () {
 
 
 <!-- dtl:block:DocumentContent -->
-    <li id="ticket_id_$QData{"TicketID"}">
+    <li id="TicketID_$QData{"TicketID"}">
         <div class="Content">
 <!-- dtl:block:Bulk -->
             <form name="bulk" action="">
@@ -391,7 +391,7 @@ $Data{"AgentPhoneStrg"}
 <!-- dtl:document_ready -->
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <script type="text/javascript">//<![CDATA[
-OTRS.UI.ActionRow.AddActions('ticket_id_$QData{"TicketID"}', $Data{"Data"});
+OTRS.UI.ActionRow.AddActions('TicketID_$QData{"TicketID"}', $Data{"Data"});
 //]]></script>
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <!-- dtl:block:DocumentReadyStart -->
