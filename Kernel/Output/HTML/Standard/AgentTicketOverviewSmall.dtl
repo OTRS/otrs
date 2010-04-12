@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.33 2010-04-12 18:43:14 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.34 2010-04-12 22:59:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@
 <!-- dtl:block:BulkNavBar -->
                 <th class="Checkbox Fixed">
                 <form name="matrixnavbar" action="">
-                    <input type="checkbox" name="Check" value="" onclick="select_items('TicketID')" autocomplete="off"/>
+                    <input type="checkbox" class="AutocompleteOff" name="Check" value="" onclick="select_items('TicketID')" />
 #           <button type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();" >$Text{"Bulk Action"}</button>
                 </form>
                 </th>

@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.js,v 1.3 2010-04-09 06:59:26 mn Exp $
+// $Id: OTRS.UI.js,v 1.4 2010-04-12 22:59:38 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -184,6 +184,17 @@ OTRS.UI = (function (Namespace) {
                 Event.preventDefault();
             });
     };
+
+    /**
+     * @function
+     * @description
+     *      This function adds special not valid attributes to HTML via javascript
+     * @return nothing
+     */
+    Namespace.InitClassInvalidThing = function () {
+        $('.AutocompleteOff')
+            .attr('autocomplete', 'off');
+    }
 
     /**
      * @function

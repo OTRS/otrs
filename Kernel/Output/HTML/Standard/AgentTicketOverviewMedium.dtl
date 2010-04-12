@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.17 2010-04-12 18:43:14 martin Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.18 2010-04-12 22:59:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,8 +13,8 @@
 <!-- dtl:block:DocumentActionRowBulk -->
     <li>
 #        <form action="" name="matrixnavbar">
-#            <input type="checkbox" name="Check" value="" onclick="select_items('TicketID')" autocomplete="off"/>
-        <input type="checkbox" title="Select all tickets" id="SelectAll" name="Check" onclick="select_items('TicketID')" autocomplete="off" /><label for="SelectAll">Select all tickets</label>
+#            <input type="checkbox" class="AutocompleteOff" name="Check" value="" onclick="select_items('TicketID')" />
+        <input type="checkbox" class="AutocompleteOff" title="Select all tickets" id="SelectAll" name="Check" onclick="select_items('TicketID')" /><label for="SelectAll">Select all tickets</label>
 #           <button type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();" >$Text{"Bulk Action"}</button>
 #        </form>
     </li>
@@ -72,7 +72,7 @@ function select_item_check () {
         <div class="Content">
 <!-- dtl:block:Bulk -->
             <form name="bulk" action="">
-                <input class="Checkbox" type="checkbox" name="TicketID" value="$QData{"TicketID"}" onclick="select_item($QData{"Counter"},$QData{"TicketID"})" autocomplete="off"/>
+                <input class="Checkbox AutocompleteOff" type="checkbox" name="TicketID" value="$QData{"TicketID"}" onclick="select_item($QData{"Counter"},$QData{"TicketID"})" />
             </form>
 <!-- dtl:block:Bulk -->
 <!-- dtl:block:Meta -->
