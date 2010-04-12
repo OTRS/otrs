@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.119 2010-03-25 14:42:45 martin Exp $
+# $Id: DB.pm,v 1.120 2010-04-12 20:51:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 =head1 NAME
 
@@ -63,8 +63,8 @@ create database object with database connect
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
         MainObject   => $MainObject,
-        # if you don't use the follow params, then this are used
-        # from Kernel/Config.pm!
+        # if you don't supply the following parameters, the ones found in
+        # Kernel/Config.pm are used instead:
         DatabaseDSN  => 'DBI:odbc:database=123;host=localhost;',
         DatabaseUser => 'user',
         DatabasePw   => 'somepass',
@@ -73,7 +73,7 @@ create database object with database connect
             LongTruncOk => 1,
             LongReadLen => 100*1024,
         },
-        AutoConnectNo => 0, # 0|1 disable auto connect do database in constructor
+        AutoConnectNo => 0, # 0|1 disable auto-connect to database in constructor
     );
 
 =cut
@@ -158,15 +158,15 @@ sub new {
         return;
     }
 
-    # check/get extra database config options
-    # (overwrite auto detection with config options)
+    # check/get extra database configuration options
+    # (overwrite auto-detection with config options)
     for (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode)) {
         if ( defined $Self->{ConfigObject}->Get("Database::$_") ) {
             $Self->{Backend}->{"DB::$_"} = $Self->{ConfigObject}->Get("Database::$_");
         }
     }
 
-    # check/get extra database config options
+    # check/get extra database configuration options
     # (overwrite with params)
     for (
         qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode CaseInsensitive LcaseLikeInLargeText)
@@ -229,7 +229,7 @@ sub Connect {
 
 =item Disconnect()
 
-to disconnect to a database
+to disconnect from a database
 
     $DBObject->Disconnect();
 
@@ -256,7 +256,7 @@ sub Disconnect {
 
 =item Quote()
 
-to quote sql params
+to quote sql parameters
 
     quote strings, date and time:
     =============================
@@ -280,12 +280,12 @@ sub Quote {
     # return undef if undef
     return if !defined $Text;
 
-    # do quote string
+    # quote strings
     if ( !defined $Type ) {
         return ${ $Self->{Backend}->Quote( \$Text ) };
     }
 
-    # do quote integer
+    # quote integers
     if ( $Type eq 'Integer' ) {
         if ( $Text !~ /^(\+|\-|)\d{1,16}$/ ) {
             $Self->{LogObject}->Log(
@@ -298,7 +298,7 @@ sub Quote {
         return $Text;
     }
 
-    # numbers
+    # quote numbers
     if ( $Type eq 'Number' ) {
         if ( $Text !~ /^(\+|\-|)(\d{1,20}|\d{1,20}\.\d{1,20})$/ ) {
             $Self->{LogObject}->Log(
@@ -311,7 +311,7 @@ sub Quote {
         return $Text;
     }
 
-    # do quote like string
+    # quote like strings
     if ( $Type eq 'Like' ) {
         return ${ $Self->{Backend}->Quote( \$Text, $Type ) };
     }
@@ -326,7 +326,7 @@ sub Quote {
 
 =item Error()
 
-to get database errors back
+to retrieve database errors
 
     my $ErrorMessage = $DBObject->Error();
 
@@ -340,7 +340,7 @@ sub Error {
 
 =item Do()
 
-to insert, update or delete something
+to insert, update or delete values
 
     $DBObject->Do( SQL => "INSERT INTO table (name) VALUES ('dog')" );
 
@@ -386,7 +386,7 @@ sub Do {
     }
     if ( !$Self->{ConfigObject}->Get('TimeZone') ) {
 
-        # doing timestamp workaround (if needed)
+        # timestamp workaround (if needed)
         if ( $Self->{Backend}->{'DB::CurrentTimestamp'} ) {
             $Param{SQL} =~ s/current_timestamp/$Self->{Backend}->{'DB::CurrentTimestamp'}/g;
         }
@@ -408,13 +408,13 @@ sub Do {
         );
     }
 
-    # check length, don't use more the 4 k
+    # check length, don't use more than 4 k
     if ( bytes::length( $Param{SQL} ) > 4 * 1024 ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'error',
-            Message  => 'Your SQL is longer the 4k, this probably not work on many '
-                . 'databases (use Bind instead)!',
+            Message  => 'Your SQL is longer than 4k, this does not work on many '
+                . 'databases. Use bind instead!',
         );
     }
 
@@ -432,14 +432,14 @@ sub Do {
 
 =item Prepare()
 
-to send a select something to the database
+to prepare a SELECT statement
 
     $DBObject->Prepare(
         SQL   => "SELECT id, name FROM table",
         Limit => 10,
     );
 
-or in case you want just to get row 10 till 30
+or in case you want just to get row 10 until 30
 
     $DBObject->Prepare(
         SQL   => "SELECT id, name FROM table",
@@ -447,15 +447,14 @@ or in case you want just to get row 10 till 30
         Limit => 20,
     );
 
-in case you wan't not utf-8 encoding for some column use this to do
-not encode content column
+in case you don't want utf-8 encoding for some columns, use this:
 
     $DBObject->Prepare(
         SQL    => "SELECT id, name, content FROM table",
         Encode => [ 1, 1, 0 ],
     );
 
-you also can use DBI bind values (used for large strings):
+you also can use DBI bind values, required for large strings:
 
     my $Var1 = 'dog1';
     my $Var2 = 'dog2';
@@ -490,7 +489,7 @@ sub Prepare {
     $Self->{LimitStart}   = 0;
     $Self->{LimitCounter} = 0;
 
-    # build finally select query
+    # build final select query
     if ($Limit) {
         if ($Start) {
             $Limit = $Limit + $Start;
@@ -576,7 +575,7 @@ sub Prepare {
 
 =item FetchrowArray()
 
-to get a select return
+to process the results of a SELECT statement
 
     $DBObject->Prepare(
         SQL   => "SELECT id, name FROM table",
@@ -667,7 +666,7 @@ sub GetDatabaseFunction {
 
 =item SQLProcessor()
 
-generate database based sql syntax (e. g. CREATE TABLE ...)
+generate database-specific sql syntax (e. g. CREATE TABLE ...)
 
     my @SQL = $DBObject->SQLProcessor(
         Database =>
@@ -817,7 +816,7 @@ sub SQLProcessor {
 
 =item SQLProcessorPost()
 
-generate database based sql syntax, post data of SQLProcessor(),
+generate database-specific sql syntax, post data of SQLProcessor(),
 e. g. foreign keys
 
     my @SQL = $DBObject->SQLProcessorPost();
@@ -839,8 +838,8 @@ sub SQLProcessorPost {
 #
 # !! DONT USE THIS FUNCTION !!
 #
-# Due to compatibility reason this function is still in use and will be removed
-# in a further release.
+# Due to compatibility reason this function is still available and it will be removed
+# in upcoming releases.
 
 sub GetTableData {
     my ( $Self, %Param ) = @_;
@@ -899,7 +898,7 @@ generate SQL condition query based on a search expression
         Value => '(ABC+DEF)',
     );
 
-    add SearchPrefix and SearchSuffix to search in this case automaticaly
+    add SearchPrefix and SearchSuffix to search, in this case
     for "(ABC*+DEF*)"
 
     my $SQL = $DBObject->QueryCondition(
@@ -917,7 +916,7 @@ generate SQL condition query based on a search expression
         Value => '((ABC&&DEF)&&!GHI)',
     );
 
-    for a earch condition over more col.
+    for a earch condition over more columns
 
     my $SQL = $DBObject->QueryCondition(
         Key   => [ 'some_col_a', 'some_col_b' ],
@@ -951,7 +950,7 @@ sub QueryCondition {
     }
 
     # quote ".+?" expressions
-    # for example ("some and me" AND !some), so "some and me" gets used for search 1:1
+    # for example ("some and me" AND !some), so "some and me" is used for search 1:1
     my $Count = 0;
     my %Expression;
     $Param{Value} =~ s{
@@ -982,10 +981,10 @@ sub QueryCondition {
     # remove double %%
     $Param{Value} =~ s/%%/%/g;
 
-    # replace '%!%' by '!%' (done if * gets added by search frontend)
+    # replace '%!%' by '!%' (done if * is added by search frontend)
     $Param{Value} =~ s/\%!\%/!%/g;
 
-    # replace '%!' by '!%' (done if * gets added by search frontend)
+    # replace '%!' by '!%' (done if * is added by search frontend)
     $Param{Value} =~ s/\%!/!%/g;
 
     # remove leading/tailing conditions
@@ -1247,6 +1246,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.119 $ $Date: 2010-03-25 14:42:45 $
+$Revision: 1.120 $ $Date: 2010-04-12 20:51:25 $
 
 =cut
