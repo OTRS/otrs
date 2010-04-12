@@ -2,7 +2,7 @@
 # AdminState.dtl - provides HTML form for AdminState
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.dtl,v 1.2 2010-04-09 11:03:22 mg Exp $
+# $Id: AdminState.dtl,v 1.3 2010-04-12 21:43:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -126,5 +126,6 @@
 
         </div>
     </div>
+    <div class="Clear"></div>
 </div>
 <!-- dtl:block:Overview -->
