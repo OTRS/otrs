@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.21 2010-04-05 13:59:03 martin Exp $
+# $Id: TicketOverviewMedium.pm,v 1.22 2010-04-12 18:43:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,7 +74,7 @@ sub ActionRow {
             Data => {
                 %Param,
                 Name => 'Bulk',
-                }
+            },
         );
     }
 
@@ -94,6 +94,12 @@ sub ActionRow {
             },
         );
     }
+
+    # init for table control
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentReadyStart',
+        Data => \%Param,
+    );
 
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewMedium',
@@ -203,6 +209,9 @@ sub Run {
             $OutputRaw .= $OutputMeta;
         }
     }
+
+    # add action row js data
+
     return $OutputRaw;
 }
 
@@ -347,29 +356,6 @@ sub _Show {
         UserID        => $Self->{UserID},
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
-
-    # run ticket pre menu modules
-    if ( 0 && ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
-        my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
-        my $Counter = 0;
-        for my $Menu ( sort keys %Menus ) {
-
-            # load module
-            if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
-                return $Self->{LayoutObject}->FatalError();
-            }
-            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Param{TicketID}, );
-
-            # run module
-            $Counter = $Object->Run(
-                %Param,
-                Ticket  => \%Article,
-                Counter => $Counter,
-                ACL     => \%AclAction,
-                Config  => $Menus{$Menu},
-            );
-        }
-    }
 
     # ticket free text
     for my $Count ( 1 .. 16 ) {
@@ -623,6 +609,49 @@ sub _Show {
                 Data => { %Param, %AclAction },
             );
         }
+    }
+
+    # run ticket pre menu modules
+    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
+        my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
+        my @Items;
+        for my $Menu ( sort keys %Menus ) {
+
+            # load module
+            if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
+                return $Self->{LayoutObject}->FatalError();
+            }
+            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Param{TicketID}, );
+
+            # run module
+            my $Item = $Object->Run(
+                %Param,
+                Ticket => \%Article,
+                ACL    => \%AclAction,
+                Config => $Menus{$Menu},
+            );
+            next if !$Item;
+            next if ref $Item ne 'HASH';
+            push @Items, {
+                Name        => $Item->{Name},
+                Baselink    => $Self->{LayoutObject}->{Baselink},
+                Link        => $Item->{Link},
+                Title       => $Item->{Title},
+                Description => $Item->{Description},
+            };
+        }
+
+        my $JSON = $Self->{LayoutObject}->JSONEncode(
+            Data => \@Items,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'DocumentReadyActionRowAdd',
+            Data => {
+                TicketID => $Param{TicketID},
+                Data     => $JSON,
+            },
+        );
     }
 
     # create & return output

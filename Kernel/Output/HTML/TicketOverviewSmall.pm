@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.21 2010-04-05 13:59:03 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.22 2010-04-12 18:43:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,7 +97,6 @@ sub ActionRow {
             },
         );
     }
-
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewSmall',
         Data         => \%Param,
@@ -370,8 +369,68 @@ sub Run {
                     Data => { %Article, %UserInfo },
                 );
             }
+
+            # get acl actions
+            $Self->{TicketObject}->TicketAcl(
+                Data          => '-',
+                Action        => $Self->{Action},
+                TicketID      => $Article{TicketID},
+                ReturnType    => 'Action',
+                ReturnSubType => '-',
+                UserID        => $Self->{UserID},
+            );
+            my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+            # run ticket pre menu modules
+            if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
+                my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
+                my @Items;
+                for my $Menu ( sort keys %Menus ) {
+
+                    # load module
+                    if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
+                        return $Self->{LayoutObject}->FatalError();
+                    }
+                    my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $TicketID, );
+
+                    # run module
+                    my $Item = $Object->Run(
+                        %Param,
+                        Ticket => \%Article,
+                        ACL    => \%AclAction,
+                        Config => $Menus{$Menu},
+                    );
+                    next if !$Item;
+                    next if ref $Item ne 'HASH';
+                    push @Items, {
+                        Name        => $Item->{Name},
+                        Baselink    => $Self->{LayoutObject}->{Baselink},
+                        Link        => $Item->{Link},
+                        Title       => $Item->{Title},
+                        Description => $Item->{Description},
+                    };
+                }
+
+                my $JSON = $Self->{LayoutObject}->JSONEncode(
+                    Data => \@Items,
+                );
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'DocumentReadyActionRowAdd',
+                    Data => {
+                        TicketID => $TicketID,
+                        Data     => $JSON,
+                    },
+                );
+            }
         }
     }
+
+    # init for table control
+    $Self->{LayoutObject}->Block(
+        Name => 'DocumentReadyStart',
+        Data => \%Param,
+    );
 
     # use template
     $Output .= $Self->{LayoutObject}->Output(

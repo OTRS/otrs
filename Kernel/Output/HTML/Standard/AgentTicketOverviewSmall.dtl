@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.32 2010-04-09 06:59:26 mn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.33 2010-04-12 18:43:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -128,7 +128,7 @@ function select_item_check () {
         <table class="TableSmall">
             <tbody>
 <!-- dtl:block:Record -->
-                <tr>
+                <tr id="ticket_id_$QData{"TicketID"}">
 <!-- dtl:block:Bulk -->
                     <td class="Checkbox Fixed NonTextContent">
                         <input type="checkbox" name="TicketID" value="$LQData{"TicketID"}"/>
@@ -195,9 +195,13 @@ function select_item_check () {
 #    <button type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();" >$Text{"Bulk Action"}</button>
     </form>
 </div>
-<!-- dtl:block:DocumentContent -->
-
 <!-- dtl:document_ready -->
+<!-- dtl:block:DocumentReadyActionRowAdd -->
+<script type="text/javascript">//<![CDATA[
+OTRS.UI.ActionRow.AddActions('ticket_id_$QData{"TicketID"}', $Data{"Data"});
+//]]></script>
+<!-- dtl:block:DocumentReadyActionRowAdd -->
+<!-- dtl:block:DocumentReadyStart -->
 <script type="text/javascript">//<![CDATA[
         $(document).ready(function() {
             OTRS.UI.AdjustTableHead($('#OverviewHeader thead'), $('#OverviewBody tbody'));
@@ -208,4 +212,6 @@ function select_item_check () {
             });
         });
 //]]></script>
+<!-- dtl:block:DocumentReadyStart -->
 <!-- dtl:document_ready -->
+<!-- dtl:block:DocumentContent -->
