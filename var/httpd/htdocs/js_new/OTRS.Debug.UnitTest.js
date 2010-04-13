@@ -2,7 +2,7 @@
 // OTRS.Debug.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Debug.UnitTest.js,v 1.2 2010-03-29 09:58:14 mn Exp $
+// $Id: OTRS.Debug.UnitTest.js,v 1.3 2010-04-13 17:09:14 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -23,10 +23,25 @@ OTRS.Debug = (function (Namespace) {
 
             expect(4);
 
-            equals(OTRS.Debug.CheckDependency('OTRS.Debug.RunUnitTests', 'OTRS.Debug.DummyFunction', 'existing_function', true), true);
-            equals(OTRS.Debug.CheckDependency('OTRS.Debug.RunUnitTests', 'OTRS.Debug.DummyFunction2', 'existing_function', true), false);
-            equals(OTRS.Debug.CheckDependency('OTRS.Debug.RunUnitTests', 'OTRS.Debug2.DummyFunction2', 'existing_function', true), false);
-            equals(OTRS.Debug.CheckDependency('OTRS.Debug.RunUnitTests', 'nonexisting_function', 'nonexisting_function', true), false);
+            equals(
+                OTRS.Debug.CheckDependency('OTRS.Debug.RunUnitTests', 'OTRS.Debug.DummyFunction', 'existing_function', true),
+                true
+            );
+
+            equals(
+                OTRS.Debug.CheckDependency('OTRS.Debug.RunUnitTests', 'OTRS.Debug.DummyFunction2', 'existing_function', true),
+                false
+            );
+
+            equals(
+                OTRS.Debug.CheckDependency('OTRS.Debug.RunUnitTests', 'OTRS.Debug2.DummyFunction2', 'existing_function', true),
+                false
+                );
+
+            equals(
+                OTRS.Debug.CheckDependency('OTRS.Debug.RunUnitTests', 'nonexisting_function', 'nonexisting_function', true),
+                false
+            );
 
             delete OTRS.Debug.DummyFunction;
         });
