@@ -2,7 +2,7 @@
 # AdminService.dtl - provides HTML form for AdminService
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.13 2010-04-13 15:16:22 cg Exp $
+# $Id: AdminService.dtl,v 1.14 2010-04-13 17:16:09 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -110,23 +110,26 @@
                         <div class="Clear"></div>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}: <br/><i class="small">($Text{"$Data{"Desc"}"})</i></label>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}: </label>
                         <div class="Field">
                             <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" class="W30pc"/>
+                            <p class="FieldExplanation">($Text{"$Data{"Desc"}"})</p>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:Input -->
 <!-- dtl:block:TextArea -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></label>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}: </label>
                         <div class="Field">
                             <textarea name="$QData{"Name"}" id="$QData{"Name"}" rows="$QData{"Rows"}" cols="$QData{"Cols"}">$QData{"SelectedID"}</textarea>
+                            <p class="FieldExplanation">($Text{"$Data{"Desc"}"})</p>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:TextArea -->
 <!-- dtl:block:Option -->
-                        <label for="OptionID">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></label>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</label>
                         <div class="Field">
                             $Data{"Option"}
+                            <p class="FieldExplanation">($Text{"$Data{"Desc"}"})</p>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:Option -->
