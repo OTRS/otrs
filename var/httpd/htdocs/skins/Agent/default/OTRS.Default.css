@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -125,6 +125,29 @@ p {
     line-height: 1.3em;
 }
 
+/**
+ * @subsection  Definition lists
+ */
+dl {
+    margin: 5px 0;
+}
+
+dt {
+    line-height: 1.3em;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+dd {
+    line-height: 1.3em;
+    margin-left: 15px;
+    margin-right: 0;
+}
+
+.RTL dd {
+    margin-left: 0;
+    margin-right: 15px;
+}
 
 /**
  * @subsection  Text
