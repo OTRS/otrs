@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -32,28 +32,32 @@ tbody tr.UnreadArticles td {
 /**
  * @subsection  Standard DataTable
  */
-table.DataTable {
+.DataTable {
     border: 1px solid #CCCCCC;
     width: 100%;
 }
 
-table.DataTable thead {
+.DataTable.VariableWidth {
+    width: auto;
+}
+
+.DataTable thead {
     background-color: #DDD;
     border-bottom:1px solid #CCC;
 }
 
-table.DataTable thead th {
+.DataTable thead th {
     padding: 0px;
     vertical-align: bottom;
     border-right: 1px solid #AAA;
 }
 
-table.DataTable thead th.Last {
+.DataTable thead th.Last {
     background: none;
     border-right: none;
 }
 
-table.DataTable thead th {
+.DataTable thead th {
     background-image: none;
     color: #444444;
     font-size: 11px;
@@ -62,7 +66,7 @@ table.DataTable thead th {
     text-transform: uppercase;
 }
 
-table.DataTable thead th a {
+.DataTable thead th a {
     background-image: none;
     color: #444444;
     font-size: 11px;
@@ -70,47 +74,59 @@ table.DataTable thead th a {
     line-height: 12px;
 }
 
-table.DataTable thead .SortAscending a,
-table.DataTable thead .SortDescending a {
+.DataTable thead .SortAscending a,
+.DataTable thead .SortDescending a {
     color: #2A2A2A;
     padding-right: 15px;
 }
 
-table.DataTable thead .SortAscending a {
+.DataTable thead .SortAscending a {
     background: url(img/thead_sortup_bg.png) no-repeat center right;
 }
 
-table.DataTable thead .SortDescending a {
+.DataTable thead .SortDescending a {
     background: url(img/thead_sortdown_bg.png) no-repeat center right;
 }
 
-table.DataTable tbody td {
+.DataTable tbody tr.Invalid {
+    color: #CCC;
+}
+
+.DataTable tbody td {
     padding: 0px 4px;
     border-right: 1px dotted #CCC;
 }
 
-table.DataTable tbody td.Last {
+.DataTable tbody td.Last {
     border-right: none;
 }
 
-table.DataTable tr td {
+.DataTable tr td {
     background-color: #FFF;
     line-height: 14px;
 }
 
-table.DataTable tr.Even td {
+.DataTable tr td.Highlight {
+    background-color: #EEE;
+}
+
+.DataTable tr.Even td {
     background-color: #F5F5F5;
 }
 
-table.DataTable tr:hover td {
+.DataTable tr.Even td.Highlight {
+    background-color: #E5E5E5;
+}
+
+.DataTable tr:hover td {
     background: url(img/table_small_hover_bg.png) repeat-x center;
 }
 
-table.DataTable tr:hover td a {
+.DataTable tr:hover td a {
     color: #000;
 }
 
-table.DataTable td:first-child input {
+.DataTable td:first-child input {
     margin: 0;
 }
 
