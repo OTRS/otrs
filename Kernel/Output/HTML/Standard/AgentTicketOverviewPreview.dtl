@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.22 2010-04-12 23:12:02 martin Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.23 2010-04-13 20:50:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,7 @@ function select_item_check () {
             </h2>
 #           <div>
 <!-- dtl:block:MenuItem -->
-            <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} class="menuitem" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
 <!-- dtl:block:MenuItem -->
 #           </div>
             <table class="Infos">
@@ -334,7 +334,7 @@ $Data{"Body"}
                         <tr align="left">
                             <td>
                                 <ul>
-                                    <dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
+                                    <dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"};QueueID=$Data{"QueueID"}">$Text{"Phone call"}</a></li>"; }>
 $Data{"AgentPhoneStrg"}
                                 </ul>
                             </td>
@@ -387,6 +387,12 @@ $Data{"AgentPhoneStrg"}
 #    <button type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();" >$Text{"Bulk Action"}</button>
 </form>
 <!-- dtl:block:DocumentFooter -->
+
+<!-- dtl:block:DocumentMenuItem -->
+<li id="$QData{"ID"}">
+<a href="" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
+</li>
+<!-- dtl:block:DocumentMenuItem -->
 
 <!-- dtl:document_ready -->
 <!-- dtl:block:DocumentReadyActionRowAdd -->

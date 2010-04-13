@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.24 2010-04-12 21:28:46 martin Exp $
+# $Id: TicketOverviewPreview.pm,v 1.25 2010-04-13 20:50:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -270,6 +270,71 @@ sub _Show {
         }
     }
 
+    # get acl actions
+    $Self->{TicketObject}->TicketAcl(
+        Data          => '-',
+        Action        => $Self->{Action},
+        TicketID      => $Article{TicketID},
+        ReturnType    => 'Action',
+        ReturnSubType => '-',
+        UserID        => $Self->{UserID},
+    );
+    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+    # run ticket pre menu modules
+    my @ActionItems;
+    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
+        my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
+        for my $Menu ( sort keys %Menus ) {
+
+            # load module
+            if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
+                return $Self->{LayoutObject}->FatalError();
+            }
+            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Param{TicketID}, );
+
+            # run module
+            my $Item = $Object->Run(
+                %Param,
+                Ticket => \%Article,
+                ACL    => \%AclAction,
+                Config => $Menus{$Menu},
+            );
+            next if !$Item;
+            next if ref $Item ne 'HASH';
+            for my $Key (qw(Name Link Description)) {
+                next if !$Item->{$Key};
+                $Item->{$Key} = $Self->{LayoutObject}->Output(
+                    Template => $Item->{$Key},
+                    Data     => \%Article,
+                );
+            }
+
+            # create id
+            $Item->{ID} = $Item->{Name};
+            $Item->{ID} =~ s/(\s|&|;)//ig;
+
+            $Self->{LayoutObject}->Block(
+                Name => 'DocumentMenuItem',
+                Data => $Item,
+            );
+            my $Output = $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentTicketOverviewPreview',
+                Data         => $Item,
+            );
+            $Output =~ s/\n+//g;
+            $Output =~ s/\s+/ /g;
+            $Output =~ s/<\!--.+?-->//g;
+
+            push @ActionItems, {
+                HTML        => $Output,
+                ID          => $Item->{ID},
+                Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
+                Description => $Item->{Description},
+            };
+        }
+    }
+
     $Self->{LayoutObject}->Block(
         Name => 'DocumentContent',
         Data => { %Param, %Article, Class => 'ArticleCount' . $ArticleCount },
@@ -330,17 +395,6 @@ sub _Show {
             $Object->Filter( Article => \%Article, %Param, Config => $Jobs{$Job} );
         }
     }
-
-    # get acl actions
-    $Self->{TicketObject}->TicketAcl(
-        Data          => '-',
-        Action        => $Self->{Action},
-        TicketID      => $Article{TicketID},
-        ReturnType    => 'Action',
-        ReturnSubType => '-',
-        UserID        => $Self->{UserID},
-    );
-    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
 
     # ticket free text
     for my $Count ( 1 .. 16 ) {
@@ -723,43 +777,10 @@ sub _Show {
         }
     }
 
-    # run ticket pre menu modules
-    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
-        my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
-        my @Items;
-        for my $Menu ( sort keys %Menus ) {
-
-            # load module
-            if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
-                return $Self->{LayoutObject}->FatalError();
-            }
-            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Param{TicketID}, );
-
-            # run module
-            my $Item = $Object->Run(
-                %Param,
-                Ticket => \%Article,
-                ACL    => \%AclAction,
-                Config => $Menus{$Menu},
-            );
-            next if !$Item;
-            next if ref $Item ne 'HASH';
-            for my $Key (qw(Name Link Description)) {
-                next if !$Item->{$Key};
-                $Item->{$Key} = $Self->{LayoutObject}->Output(
-                    Template => $Item->{$Key},
-                    Data     => \%Article,
-                );
-            }
-            push @Items, {
-                Name        => $Item->{Name},
-                Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
-                Description => $Item->{Description},
-            };
-        }
-
+    # add action items as js
+    if (@ActionItems) {
         my $JSON = $Self->{LayoutObject}->JSONEncode(
-            Data => \@Items,
+            Data => \@ActionItems,
         );
 
         $Self->{LayoutObject}->Block(

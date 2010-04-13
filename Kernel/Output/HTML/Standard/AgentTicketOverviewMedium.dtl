@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.19 2010-04-12 23:12:02 martin Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.20 2010-04-13 20:50:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -311,6 +311,12 @@ function select_item_check () {
 #    <button type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();" >$Text{"Bulk Action"}</button>
 </form>
 <!-- dtl:block:DocumentFooter -->
+
+<!-- dtl:block:DocumentMenuItem -->
+<li id="$QData{"ID"}">
+    <a href="" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
+</li>
+<!-- dtl:block:DocumentMenuItem -->
 
 <!-- dtl:document_ready -->
 <!-- dtl:block:DocumentReadyActionRowAdd -->
