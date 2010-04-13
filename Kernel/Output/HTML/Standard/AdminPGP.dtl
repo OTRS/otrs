@@ -1,0 +1,109 @@
+# --
+# AdminPGP.dtl - provides HTML form for AdminPGP html
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminPGP.dtl,v 1.1 2010-04-13 21:53:39 en Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"PGP Management"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header"></div>
+            <div class="Content">
+                <form action="$Env{"CGIHandle"}" method="post">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="Search"/>
+                    <h2>$Text{"Search"}</h2>
+                    <fieldset class="TableLike">
+                        <label for="Search">$Text{"Search for"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Search" id="Search" value="$QData{"Search"}" class="W25pc" maxlength="25"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </form>
+                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="Add"/>
+                    <h2>$Text{"Add"}</h2>
+                    <div class="Content">
+                        <fieldset class="TableLike">
+                            <label for="file_upload">$Text{"File"}:</label>
+                            <div class="Field">
+                                <input type="file" name="file_upload" id="file_upload" />
+                            </div>
+                            <div class="Clear"></div>
+
+                            <div class="Field SpacingTop">
+                                <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
+                            </div>
+                            <div class="Clear"></div>
+
+                        </fieldset>
+                    </div>
+                </form>
+
+                <h2>$Text{"Note"}</h2>
+                <p class="FieldExplanation">
+                    $Text{"In this way you can directly edit the keyring configured in SysConfig."}
+                </p>
+                <p class="FieldExplanation">
+                    $Text{"Description"}: <a href="http://en.wikipedia.org/wiki/Pretty_Good_Privacy" target="_blank">http://en.wikipedia.org/wiki/Pretty_Good_Privacy</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Result"}</h2>
+            </div>
+            <div class="Content">
+
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Type"}</th>
+                            <th>$Text{"Identifier"}</th>
+                            <th>$Text{"Bit"}</th>
+                            <th>$Text{"Key"}/$Text{"Fingerprint"}</th>
+                            <th>$Text{"Created"}/$Text{"Expires"}</th>
+                            <th>$Text{"Delete"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- dtl:block:Row -->
+                        <tr>
+                            <td>$QData{"Type"}</td>
+                            <td>$QData{"Identifier","80"}</td>
+                            <td>$QData{"Bit"}</td>
+                            <td>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Key=$LQData{"Key"}">$QData{"Key"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Key=$LQData{"Key"}"><span title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</span></a>
+                            </td>
+                            <td>$QData{"Created"}<br/>$QData{"Expires"}</td>
+                            <td class="Center">
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Key=$LQData{"FingerprintShort"}">$Text{"Delete this key"}</a>
+                            </td>
+                        </tr>
+<!-- dtl:block:Row -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>

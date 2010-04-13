@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.pm,v 1.26 2010-01-25 07:48:25 mb Exp $
+# $Id: AdminPGP.pm,v 1.27 2010-04-13 21:54:18 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -96,7 +96,7 @@ sub Run {
             );
         }
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGPForm', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -142,7 +142,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGPForm', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -235,7 +235,7 @@ sub Run {
                 Data     => '$Text{"' . $Self->{CryptObject}->Check() . '"}',
             );
         }
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGPForm', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
