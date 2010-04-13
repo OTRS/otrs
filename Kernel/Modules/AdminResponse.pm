@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.39 2010-02-26 19:42:10 martin Exp $
+# $Id: AdminResponse.pm,v 1.40 2010-04-13 22:39:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,7 +69,7 @@ sub Run {
             SelectedAttachments => \@SelectedAttachment,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminResponseForm',
+            TemplateFile => 'AdminResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -110,7 +110,7 @@ sub Run {
                 SelectedAttachments => \@NewIDs,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminResponseForm',
+                TemplateFile => 'AdminResponse',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -129,7 +129,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => 'Response updated!' );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminResponseForm',
+            TemplateFile => 'AdminResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -151,7 +151,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminResponseForm',
+            TemplateFile => 'AdminResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -191,7 +191,7 @@ sub Run {
                 SelectedAttachments => \@NewIDs,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminResponseForm',
+                TemplateFile => 'AdminResponse',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -202,7 +202,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => 'Response added!' );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminResponseForm',
+            TemplateFile => 'AdminResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -234,7 +234,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminResponseForm',
+            TemplateFile => 'AdminResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
