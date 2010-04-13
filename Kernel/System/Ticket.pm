@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.456 2010-04-01 10:00:50 martin Exp $
+# $Id: Ticket.pm,v 1.457 2010-04-13 07:12:37 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.456 $) [1];
+$VERSION = qw($Revision: 1.457 $) [1];
 
 =head1 NAME
 
@@ -1392,7 +1392,7 @@ sub TicketTitleUpdate {
 
 =item TicketUnlockTimeoutUpdate()
 
-update ticket unlock time to now
+set the ticket unlock time to the passed time
 
     my $Success = $TicketObject->TicketUnlockTimeoutUpdate(
         UnlockTimeout => $TimeObject->SystemTime(),
@@ -7911,6 +7911,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.456 $ $Date: 2010-04-01 10:00:50 $
+$Revision: 1.457 $ $Date: 2010-04-13 07:12:37 $
 
 =cut
