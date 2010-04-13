@@ -2,7 +2,7 @@
 # AdminRole.dtl - provides HTML form for AdminRole
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.dtl,v 1.1 2010-04-13 18:41:47 cg Exp $
+# $Id: AdminRole.dtl,v 1.2 2010-04-13 20:24:38 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,9 +32,10 @@
                         <button type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
 
                         <h2 class="SpacingTop">$Text{"Note"}</h2>
-                        <p>
-                            $Text{"Attention"}: $Text{" Create a role and put groups in it. Then add the role to the users."}
-                            <br/><br/>
+                        <p class="FieldExplanation">
+                            $Text{"Create a role and put groups in it. Then add the role to the users."}
+                        </p>
+                        <p class="FieldExplanation">
                             $Text{"It's useful for a lot of users and groups."}
                         </p>
 
