@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminRole.pm - to add/update/delete roles
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.pm,v 1.20 2009-12-15 21:09:40 mb Exp $
+# $Id: AdminRole.pm,v 1.21 2010-04-13 18:47:09 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,7 +56,7 @@ sub Run {
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminRoleForm',
+            TemplateFile => 'AdminRole',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -84,7 +84,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Info => 'Role updated!' );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminRoleForm',
+                TemplateFile => 'AdminRole',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -99,7 +99,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminRoleForm',
+                TemplateFile => 'AdminRole',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -122,7 +122,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminRoleForm',
+            TemplateFile => 'AdminRole',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -150,7 +150,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Info => 'Role added!' );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminRoleForm',
+                TemplateFile => 'AdminRole',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -165,7 +165,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminRoleForm',
+                TemplateFile => 'AdminRole',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -181,7 +181,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminRoleForm',
+            TemplateFile => 'AdminRole',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
