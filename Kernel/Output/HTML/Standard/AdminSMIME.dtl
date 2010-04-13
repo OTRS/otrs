@@ -1,0 +1,146 @@
+# --
+# AdminSMIME.dtl - provides HTML form for AdminSMIME html
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminSMIME.dtl,v 1.1 2010-04-13 18:35:24 dz Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<!-- start form -->
+    <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+        <h1>$Text{"S/MIME Management"}</h1>
+        <div class="SidebarColumn">
+            <div class="WidgetGradient Short">
+                <div class="Header">
+                    <h2>$Text{"Search"}</h2>
+                </div>
+                <div class="Content">
+                    <form action="$Env{"CGIHandle"}" method="post">
+                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                        <input type="hidden" name="Subaction" value="Search"/>
+                        <fieldset>
+
+                            <div class="Field">
+                                <input type="text" class="W50pc" id="Search" />
+                            </div>
+                            <div class="Clear"></div>
+
+                            <div class="Field">
+                                <button type="submit">$Text{"Search"}</button>
+                            </div>
+                            <div class="Clear"></div>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="WidgetGradient Short">
+                <div class="Header">
+                    <h2>$Text{"Add Certificate"}</h2>
+                </div>
+                <div class="Content">
+                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                        <input type="hidden" name="Subaction" value="AddCertificate"/>
+                        <fieldset>
+
+                            <p class="FieldExplanation">
+                                $Text{"Add a certificate file."}
+                            </p>
+
+                            <div class="Field">
+                                <input type="file" size="10" />
+                            </div>
+                            <div class="Clear"></div>
+
+                            <div class="Field">
+                                <button type="submit">$Text{"Add"}</button>
+                            </div>
+                            <div class="Clear"></div>
+
+                        </fieldset>
+                    </form>
+                        
+                </div>
+            </div>
+            <div class="WidgetGradient Short">
+                <div class="Header">
+                    <h2>$Text{"Add Private Key"}</h2>
+                </div>
+                <div class="Content">
+                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                        <input type="hidden" name="Subaction" value="AddPrivate"/>
+                        <fieldset class="TableLike">
+
+                            <label for="File">$Text{"File"}:</label>
+                             <div class="Field">
+                                <input type="file" size="5" name="File" id="File"/>
+                             </div>
+                            <div class="Clear"></div>
+
+                            <label for="Secret">$Text{"Secret"}:</label>
+                             <div class="Field">
+                                <input class="W50pc" type="password" name="Secret" id="Secret" maxlength="50"/>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <div class="Field">
+                                <button type="submit">$Text{"Add"}</button>
+                            </div>
+
+                            <h2 class="SpacingTop">$Text{"Note"}</h2>
+                            <p>
+                                $Text{"In this way you can directly edit the certification and private keys in file system."}
+                            </p>
+                            <p class="FieldExplanation">
+                                $Text{"See also"}: <a href="http://en.wikipedia.org/wiki/S/MIME" target="_blank">http://en.wikipedia.org/wiki/S/MIME</a>
+                            </p>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="ContentColumn">
+            <div class="WidgetBox">
+                <div class="Header ControlRow">
+                    <h2>Results</h2>
+                </div>
+                <div class="Content WithPadding">
+                    <table class="DataTable">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Subject</th>
+                                <th>Hash/Fingerprint</th>
+                                <th>Create/Expires</th>
+                                <th class="Center">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+<!-- dtl:block:Row -->
+                            <tr>
+                                <td>$QData{"Type"}</td>
+                                <td>$QData{"Subject"}</td>
+                                <td>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Hash=$LQData{"Hash"}">$QData{"Hash","80"}</a>
+                                    <br/>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Hash=$LQData{"Hash"}">$QData{"Fingerprint","12"}</a>
+                                </td>
+                                <td>$QData{"ShortStartDate"}<br/>$QData{"ShortEndDate"}</td>
+                                <td class="Center">
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Hash=$LQData{"Hash"}">x</a>
+                                </td>
+                            </tr>
+<!-- dtl:block:Row -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="Clear"></div>
+    </div>
+<!-- end form -->

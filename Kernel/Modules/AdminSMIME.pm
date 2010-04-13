@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.29 2010-01-25 07:48:25 mb Exp $
+# $Id: AdminSMIME.pm,v 1.30 2010-04-13 18:35:24 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -98,7 +98,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
         }
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSMIMEForm',
+            TemplateFile => 'AdminSMIME',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -147,7 +147,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSMIMEForm',
+            TemplateFile => 'AdminSMIME',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -200,7 +200,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSMIMEForm',
+            TemplateFile => 'AdminSMIME',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -313,7 +313,7 @@ sub Run {
             );
         }
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSMIMEForm',
+            TemplateFile => 'AdminSMIME',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
