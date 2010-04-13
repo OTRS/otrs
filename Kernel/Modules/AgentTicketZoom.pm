@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.91 2010-04-07 18:40:16 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.92 2010-04-13 00:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -518,8 +518,7 @@ sub MaskAgentZoom {
 
     # run ticket menu modules
     if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule') eq 'HASH' ) {
-        my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule') };
-        my $Counter = 0;
+        my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule') };
         for my $Menu ( sort keys %Menus ) {
 
             # load module
@@ -530,12 +529,16 @@ sub MaskAgentZoom {
             my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
 
             # run module
-            $Counter = $Object->Run(
+            my $Item = $Object->Run(
                 %Param,
-                Ticket  => \%Ticket,
-                Counter => $Counter,
-                ACL     => \%AclAction,
-                Config  => $Menus{$Menu},
+                Ticket => \%Ticket,
+                ACL    => \%AclAction,
+                Config => $Menus{$Menu},
+            );
+            next if !$Item;
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketMenu',
+                Data => $Item,
             );
         }
     }
