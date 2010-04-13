@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.pm,v 1.37 2009-12-15 21:09:40 mb Exp $
+# $Id: AdminGroup.pm,v 1.38 2010-04-13 22:26:06 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,7 +56,7 @@ sub Run {
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminGroupForm',
+            TemplateFile => 'AdminGroup',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -87,7 +87,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminGroupForm',
+                TemplateFile => 'AdminGroup',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -99,7 +99,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => 'Group updated!' );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminGroupForm',
+            TemplateFile => 'AdminGroup',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -121,7 +121,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminGroupForm',
+            TemplateFile => 'AdminGroup',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -155,7 +155,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminGroupForm',
+                TemplateFile => 'AdminGroup',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -188,7 +188,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminGroupForm',
+            TemplateFile => 'AdminGroup',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -236,18 +236,13 @@ sub _Overview {
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
-    my $CssClass  = 'searchactive';
     for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
-
-        # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
         my %Data = $Self->{GroupObject}->GroupGet( ID => $_, );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultRow',
             Data => {
-                Valid    => $ValidList{ $Data{ValidID} },
-                CssClass => $CssClass,
+                Valid => $ValidList{ $Data{ValidID} },
                 %Data,
             },
         );
