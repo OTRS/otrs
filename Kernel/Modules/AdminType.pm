@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminType.pm - to add/update/delete system addresses
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminType.pm,v 1.9 2009-12-15 21:09:40 mb Exp $
+# $Id: AdminType.pm,v 1.10 2010-04-13 15:18:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,7 +55,7 @@ sub Run {
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminTypeForm',
+            TemplateFile => 'AdminType',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -83,7 +83,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Info => 'Type updated!' );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminTypeForm',
+                TemplateFile => 'AdminType',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -98,7 +98,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminTypeForm',
+                TemplateFile => 'AdminType',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -121,7 +121,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminTypeForm',
+            TemplateFile => 'AdminType',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -150,7 +150,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Info => 'Type added!' );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminTypeForm',
+                TemplateFile => 'AdminType',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -165,7 +165,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminTypeForm',
+                TemplateFile => 'AdminType',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -181,7 +181,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminTypeForm',
+            TemplateFile => 'AdminType',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -244,22 +244,13 @@ sub _Overview {
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
-    my $CssClass  = '';
     for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-        # set output class
-        if ( $CssClass && $CssClass eq 'searchactive' ) {
-            $CssClass = 'searchpassive';
-        }
-        else {
-            $CssClass = 'searchactive';
-        }
         my %Data = $Self->{TypeObject}->TypeGet( ID => $_, );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultRow',
             Data => {
-                Valid    => $ValidList{ $Data{ValidID} },
-                CssClass => $CssClass,
+                Valid => $ValidList{ $Data{ValidID} },
                 %Data,
             },
         );
