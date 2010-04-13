@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.40 2010-04-13 22:39:32 mg Exp $
+# $Id: AdminResponse.pm,v 1.41 2010-04-13 22:41:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -321,16 +321,8 @@ sub _Overview {
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
-    my $CssClass  = '';
     for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-        # set output class
-        if ( $CssClass && $CssClass eq 'searchactive' ) {
-            $CssClass = 'searchpassive';
-        }
-        else {
-            $CssClass = 'searchactive';
-        }
         my %Data = $Self->{StdResponseObject}->StdResponseGet( ID => $ID, );
         my @SelectedAttachment;
         my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
@@ -342,8 +334,7 @@ sub _Overview {
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultRow',
             Data => {
-                Valid    => $ValidList{ $Data{ValidID} },
-                CssClass => $CssClass,
+                Valid => $ValidList{ $Data{ValidID} },
                 %Data,
                 Attachments => scalar @SelectedAttachment,
             },
