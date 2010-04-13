@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRole.pm - to add/update/delete roles
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.pm,v 1.21 2010-04-13 18:47:09 cg Exp $
+# $Id: AdminRole.pm,v 1.22 2010-04-13 21:03:54 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -232,22 +232,13 @@ sub _Overview {
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
-    my $CssClass  = '';
     for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-        # set output class
-        if ( $CssClass && $CssClass eq 'searchactive' ) {
-            $CssClass = 'searchpassive';
-        }
-        else {
-            $CssClass = 'searchactive';
-        }
         my %Data = $Self->{GroupObject}->RoleGet( ID => $_, );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultRow',
             Data => {
-                Valid    => $ValidList{ $Data{ValidID} },
-                CssClass => $CssClass,
+                Valid => $ValidList{ $Data{ValidID} },
                 %Data,
             },
         );
