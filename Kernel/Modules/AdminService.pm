@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.23 2010-01-25 07:48:25 mb Exp $
+# $Id: AdminService.pm,v 1.24 2010-04-13 21:04:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -280,16 +280,7 @@ sub Run {
         for ( keys %ServiceList ) {
             $ServiceList{$_} .= '::';
         }
-        my $CssClass;
         for my $ServiceID ( sort { $ServiceList{$a} cmp $ServiceList{$b} } keys %ServiceList ) {
-
-            # set output class
-            if ( $CssClass && $CssClass eq 'searchactive' ) {
-                $CssClass = 'searchpassive';
-            }
-            else {
-                $CssClass = 'searchactive';
-            }
 
             # get service data
             my %ServiceData = $Self->{ServiceObject}->ServiceGet(
@@ -312,7 +303,6 @@ sub Run {
                         %ServiceData,
                         LevelSpace => $LevelSpace,
                         Name       => $ServiceData{NameShort},
-                        CssClass   => $CssClass,
                         Valid      => $ValidList{ $ServiceData{ValidID} },
                     },
                 );
@@ -324,8 +314,7 @@ sub Run {
                     Name => 'OverviewListRow',
                     Data => {
                         %ServiceData,
-                        CssClass => $CssClass,
-                        Valid    => $ValidList{ $ServiceData{ValidID} },
+                        Valid => $ValidList{ $ServiceData{ValidID} },
                     },
                 );
             }
