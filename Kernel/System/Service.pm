@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Service.pm - all service function
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.39 2009-08-27 19:27:31 mb Exp $
+# $Id: Service.pm,v 1.39.2.1 2010-04-13 17:31:45 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.39.2.1 $) [1];
 
 =head1 NAME
 
@@ -859,7 +859,7 @@ sub CustomerUserServiceMemberAdd {
 
 =item ServicePreferencesSet()
 
-set queue preferences
+set service preferences
 
     $ServiceObject->ServicePreferencesSet(
         ServiceID => 123,
@@ -878,7 +878,7 @@ sub ServicePreferencesSet {
 
 =item ServicePreferencesGet()
 
-get queue preferences
+get service preferences
 
     my %Preferences = $ServiceObject->ServicePreferencesGet(
         ServiceID => 123,
@@ -909,6 +909,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2009-08-27 19:27:31 $
+$Revision: 1.39.2.1 $ $Date: 2010-04-13 17:31:45 $
 
 =cut
