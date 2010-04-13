@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.24 2010-02-05 13:58:24 mn Exp $
+# $Id: AdminSession.dtl,v 1.25 2010-04-13 23:47:13 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,93 +10,79 @@
 # --
 
 <!-- start -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td colspan="2" class="mainhead">
-            $Env{"Box0"}$Text{"Session Management"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td width="30%" class="mainbody">
-            <form action="$Env{"CGIHandle"}" method="post">
-                <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                <input type="hidden" name="Subaction" value="KillAll"/>
-                <input type="hidden" name="WantSessionID" value="$Env{"SessionID"}"/>
-                <table width="100%" cellspacing="0" cellpadding="4">
-                    <tr>
-                        <td class="contenthead">$Text{"Overview"}:</td>
-                    </tr>
-                    <tr>
-                        <td class="contentbody">
-                            <table>
-                                <tr>
-                                    <td>$Text{"All sessions"}:</td>
-                                    <td>$Data{"Counter"}</td>
-                                </tr>
-                                <tr>
-                                    <td>$Text{"Agent sessions"}:</td>
-                                    <td>$Data{"UserSession"}</td>
-                                </tr>
-                                <tr>
-                                    <td>$Text{"Customer sessions"}:</td>
-                                    <td>$Data{"CustomerSession"}</td>
-                                </tr>
-                                <tr>
-                                    <td>$Text{"Unique agents"}:</td>
-                                    <td>$Data{"UserSessionUniq"}</td>
-                                </tr>
-                                <tr>
-                                    <td>$Text{"Unique customers"}:</td>
-                                    <td>$Data{"CustomerSessionUniq"}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="contentfooter">
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Session Management"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header"></div>
+            <div class="Content">
+                <form action="$Env{"CGIHandle"}" method="post">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="KillAll"/>
+                    <input type="hidden" name="WantSessionID" value="$Env{"SessionID"}"/>
+                    <h2>$Text{"Overview"}</h2>
+                    <fieldset class="TableLike LargeLabel">
+                        <label>$Text{"All sessions"}:</label>
+                        <div class="Value">$Data{"Counter"}</div>
+                        <div class="Clear"></div>
+
+                        <label>$Text{"Agent sessions"}:</label>
+                        <div class="Value">$Data{"UserSession"}</div>
+                        <div class="Clear"></div>
+
+                        <label>$Text{"Customer sessions"}:</label>
+                        <div class="Value">$Data{"CustomerSession"}</div>
+                        <div class="Clear"></div>
+
+                        <label>$Text{"Unique agents"}:</label>
+                        <div class="Value">$Data{"UserSessionUniq"}</div>
+                        <div class="Clear"></div>
+
+                        <label>$Text{"Unique customers"}:</label>
+                        <div class="Value">$Data{"CustomerSessionUniq"}</div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
                             <button class="button" type="submit" value="$Text{"Kill all sessions"}">$Text{"Kill all sessions"}</button>
-                        </td>
-                    </tr>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"List"}</h2>
+            </div>
+            <div class="Content">
+
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th class="W25pc">$Text{"Session"}</th>
+                            <th class="W50pc">$Text{"Content"}</th>
+                            <th class="Center">$Text{"Kill session"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- dtl:block:Session -->
+                        <tr>
+                            <td>$QData{"SessionID"}</td>
+                            <td>$Data{"Output"}</td>
+                            <td class="Center">
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=AdminSession;Subaction=Kill;WantSessionID=$Data{"SessionID"}">Kill this session</a>
+                            </td>
+                        </tr>
+<!-- dtl:block:Session -->
+                    </tbody>
                 </table>
-            </form>
-        </td>
-        <td width="70%" class="mainbody">
-            <table width="100%" cellspacing="0" cellpadding="4">
-                <tr>
-                    <td class="contenthead">
-                        $Text{"List"}:
-                    </td>
-                </tr>
-                <tr>
-                    <td class="contentbody">
-                        <table width="100%" border="0" cellspacing="0" cellpadding="3">
-                            <tr>
-                                <td class="contentkey" width="25%">$Text{"Session"}</td>
-                                <td class="contentkey" width="60%">$Text{"Content"}</td>
-                                <td align="center" class="contentkey">$Text{"Kill session"}</td>
-                            </tr>
-<!-- dtl:block:Session -->
-                            <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
-                            <tr>
-                                <td class="$Env{"Color"}">$QData{"SessionID"}</td>
-                                <td class="$Env{"Color"}"><div class="small">$Data{"Output"}</div></td>
-                                <td align="center" class="$Env{"Color"}">
-                                    <a href="$Env{"Baselink"}Action=AdminSession;Subaction=Kill;WantSessionID=$Data{"SessionID"}">x</a>
-                                </td>
-                            </tr>
-                            <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
-                            <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
-<!-- dtl:block:Session -->
-                            <tr>
-                                <td class="contentfooter" colspan="3">
-                                    &nbsp;
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
 <!-- end -->
