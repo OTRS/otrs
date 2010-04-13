@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.pm,v 1.44 2010-02-26 19:42:10 martin Exp $
+# $Id: AdminEmail.pm,v 1.45 2010-04-13 00:28:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -198,7 +198,7 @@ sub Run {
         $Param{UserOption} = $Self->{LayoutObject}->BuildSelection(
             Data => { $Self->{UserObject}->UserList( Valid => 1 ) },
             Name => 'UserIDs',
-            Size => 8,
+            Size => 6,
             Multiple => 1,
         );
         $Param{GroupOption} = $Self->{LayoutObject}->BuildSelection(
@@ -207,16 +207,26 @@ sub Run {
             Name => 'GroupIDs',
             Multiple => 1,
         );
+
+        my %RoleList = $Self->{GroupObject}->RoleList( Valid => 1 );
         $Param{RoleOption} = $Self->{LayoutObject}->BuildSelection(
-            Data => { $Self->{GroupObject}->RoleList( Valid => 1 ) },
-            Size => 6,
-            Name => 'RoleIDs',
+            Data     => \%RoleList,
+            Size     => 6,
+            Name     => 'RoleIDs',
             Multiple => 1,
         );
+
         $Self->{LayoutObject}->Block(
             Name => 'Form',
             Data => \%Param,
         );
+        if ( \%RoleList ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'RoleRecipients',
+                Data => \%Param,
+            );
+        }
+
         if ( $Self->{ConfigObject}->Get('CustomerGroupSupport') ) {
             $Self->{LayoutObject}->Block(
                 Name => 'CustomerUserGroups',
