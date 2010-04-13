@@ -2,7 +2,7 @@
 // OTRS.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Config.js,v 1.1 2010-03-29 14:09:31 mn Exp $
+// $Id: OTRS.Config.js,v 1.2 2010-04-13 18:07:44 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -19,20 +19,96 @@ var OTRS = OTRS || {};
  *      This namespace contains the config options and functions.
  */
 OTRS.Config = (function (Namespace) {
+    var Config = {},
+        ConfigPrefix = 'Config';
+
+    /**
+     * @function
+     *      Sets a single option value
+     * @param {String} Key The name of the config option (also combined ones like Richtext.Width)
+     * @param {Object} Value The value of the option. Can be every kind of javascript variable type.
+     * @return nothing
+     */
+    Namespace.Set = function (Key, Value) {
+        var Keys = Key.split('.'),
+            KeyToken,
+            ConfigLevel = Config,
+            Count = 0;
+
+        for(KeyToken in Keys) {
+            if (Keys.length === Count + 1) {
+                ConfigLevel[ConfigPrefix + Keys[KeyToken]] = Value;
+            }
+            else if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
+                ConfigLevel[ConfigPrefix + Keys[KeyToken]] = {};
+                ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+            }
+            else {
+                ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+            }
+            Count++;
+        }
+    }
+
+    /**
+     * @function
+     *      Gets a single option value
+     * @param {String} Key The name of the config option (also combined ones like Richtext.Width)
+     * @return {Object} The value of the option. Can be every kind of javascript variable type.
+     */
+    Namespace.Get = function (Key) {
+        var Keys = Key.split('.'),
+            KeyToken,
+            ConfigLevel = Config,
+            Count = 0;
+
+        for(KeyToken in Keys) {
+            if (Keys.length === Count + 1)
+            {
+                return ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+            }
+            else
+            {
+                ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+            }
+            Count++;
+        }
+    }
+
     /**
      * @function
      * @return nothing
      *      This function includes the given data into the config hash
-     * @param {JSONString} JSONString The config data to include as a JSON string
+     * @param {String} Key The key in the config where the data structure is saved to
+     * @param {JSONString or Object} Data The config data to include as a JSON string or a javascript object
      */
-    Namespace.AddConfig = function (JSONString) {
-        var ConfigOptions = OTRS.JSON.Parse(JSONString);
-        // Add all new config options (and overwrite existing!), except one that is named like this function (and would overwrite it)
-        $.each(ConfigOptions, function(Key, Value) {
-            if (Key !== 'AddConfig') {
-                Namespace[Key] = Value;
+    Namespace.AddConfig = function (Key, Data) {
+        var ConfigOptions,
+            Keys = Key.split('.'),
+            KeyToken,
+            ConfigLevel = Config,
+            Count = 0;
+
+        if (typeof Data === 'String') {
+            ConfigOptions = OTRS.JSON.Parse(Data);
+        }
+        else {
+            ConfigOptions = Data;
+        }
+
+        for(KeyToken in Keys) {
+            if (Keys.length === Count + 1) {
+                ConfigLevel[ConfigPrefix + Keys[KeyToken]] = Data;
             }
-        });
+            else if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
+                ConfigLevel[ConfigPrefix + Keys[KeyToken]] = {};
+                ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+            }
+            else {
+                ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+            }
+            Count++;
+        }
     };
 
     /*
@@ -44,7 +120,7 @@ OTRS.Config = (function (Namespace) {
      * @description This variable contains a hash of blacklisted browsers and there recognition functions.
      * Each function returns true, if the browsers is detected
      */
-    Namespace.BrowserBlackList = {
+    Namespace.AddConfig('BrowserBlackList', {
         'Microsoft Internet Explorer 5.5': function() {
             return ($.browser.msie && $.browser.version === '5.5');
         },
@@ -65,7 +141,7 @@ OTRS.Config = (function (Namespace) {
             }
             return BrowserDetected;
         }
-    };
+    });
 
     return Namespace;
 }(OTRS.Config || {}));
