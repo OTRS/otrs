@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.pm,v 1.32 2009-12-15 21:09:40 mb Exp $
+# $Id: AdminSystemAddress.pm,v 1.33 2010-04-13 17:17:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,7 +57,7 @@ sub Run {
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSystemAddressForm',
+            TemplateFile => 'AdminSystemAddress',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
