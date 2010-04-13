@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Time.pm - time functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.53 2009-10-07 12:01:27 martin Exp $
+# $Id: Time.pm,v 1.54 2010-04-13 00:43:25 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -298,6 +298,19 @@ sub TimeStamp2SystemTime {
             Minute => $7,
             Second => $8,
         ) + $DiffTime + $Self->{TimeSecDiff};
+    }
+    elsif (    # match yyyy-mm-ddThh:mm:ssZ
+        $Param{String} =~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d)T(\d\d|\d):(\d\d|\d):(\d\d|\d)Z$/
+        )
+    {
+        $SytemTime = $Self->Date2SystemTime(
+            Year   => $1,
+            Month  => $2,
+            Day    => $3,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
     }
 
     # return error
@@ -851,6 +864,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2009-10-07 12:01:27 $
+$Revision: 1.54 $ $Date: 2010-04-13 00:43:25 $
 
 =cut
