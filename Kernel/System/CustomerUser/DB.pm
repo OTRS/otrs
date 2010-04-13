@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.80 2010-02-10 17:05:09 mb Exp $
+# $Id: DB.pm,v 1.81 2010-04-13 11:41:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,6 +60,17 @@ sub new {
         = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
 
+    # charset settings
+    $Self->{SourceCharset}       = $Self->{CustomerUserMap}->{Params}->{SourceCharset}       || '';
+    $Self->{DestCharset}         = $Self->{CustomerUserMap}->{Params}->{DestCharset}         || '';
+    $Self->{CharsetConvertForce} = $Self->{CustomerUserMap}->{Params}->{CharsetConvertForce} || '';
+
+    # db connection settings, disable Encode utf8 if source db is no utf8
+    my %DatabasePreferences;
+    if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
+        $DatabasePreferences{Encode} = 0;
+    }
+
     if ( !defined $Self->{SearchPrefix} ) {
         $Self->{SearchPrefix} = '';
     }
@@ -94,6 +105,7 @@ sub new {
             DatabaseDSN  => $Self->{CustomerUserMap}->{Params}->{DSN},
             DatabaseUser => $Self->{CustomerUserMap}->{Params}->{User},
             DatabasePw   => $Self->{CustomerUserMap}->{Params}->{Password},
+            %DatabasePreferences,
             %{ $Self->{CustomerUserMap}->{Params} },
         ) || die('Can\'t connect to database!');
 
@@ -107,11 +119,9 @@ sub new {
 sub CustomerName {
     my ( $Self, %Param ) = @_;
 
-    my $Name = '';
-
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserLogin!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
         return;
     }
 
@@ -128,16 +138,20 @@ sub CustomerName {
     $SQL .= " FROM $Self->{CustomerTable} WHERE ";
 
     # check CustomerKey type
+    my $UserLogin = $Param{UserLogin};
     if ( $Self->{CustomerKeyInteger} ) {
-        if ( $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/ ) {
-            return;
-        }
-        $SQL
-            .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Integer' );
+
+        # return if login is no integer
+        return if $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/;
+
+        $UserLogin = $Self->{DBObject}->Quote( $UserLogin, 'Integer' );
+
+        $SQL .= "$Self->{CustomerKey} = $UserLogin";
     }
     else {
-        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('"
-            . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
+
+        $UserLogin = $Self->{DBObject}->Quote($UserLogin);
+        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('$UserLogin')";
     }
 
     # check cache
@@ -146,22 +160,22 @@ sub CustomerName {
             Type => $Self->{CacheType},
             Key  => "CustomerName::$SQL",
         );
-        if ( defined $Name ) {
-            return $Name;
-        }
+        return $Name if defined $Name;
     }
 
     # get data
-    $Self->{DBObject}->Prepare( SQL => $SQL, Limit => 1 );
+    my $Name       = '';
+    my $SQLConvert = $Self->_ConvertTo($SQL);
+    return if !$Self->{DBObject}->Prepare( SQL => $SQLConvert, Limit => 1 );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         for my $Position ( 1 .. 8 ) {
-            if ( $Row[$Position] ) {
-                if ( !$Name ) {
-                    $Name = $Row[$Position];
-                }
-                else {
-                    $Name .= ' ' . $Row[$Position];
-                }
+            next if !$Row[$Position];
+            $Row[$Position] = $Self->_ConvertFrom( $Row[$Position] );
+            if ( !$Name ) {
+                $Name = $Row[$Position];
+            }
+            else {
+                $Name .= ' ' . $Row[$Position];
             }
         }
     }
@@ -188,7 +202,7 @@ sub CustomerSearch {
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need Search, UserLogin or PostMasterSearch!",
+            Message  => 'Need Search, UserLogin or PostMasterSearch!',
         );
         return;
     }
@@ -229,34 +243,36 @@ sub CustomerSearch {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
-                $SQLExt .= " LOWER($Field) LIKE LOWER('"
-                    . $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' ) . "') ";
+                my $PostMasterSearch = $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' );
+                $SQLExt .= " LOWER($Field) LIKE LOWER('$PostMasterSearch') ";
             }
             $SQL .= $SQLExt;
         }
     }
     elsif ( $Param{UserLogin} ) {
 
+        my $UserLogin = $Param{UserLogin};
+
         # check CustomerKey type
         if ( $Self->{CustomerKeyInteger} ) {
-            if ( $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/ ) {
-                return;
-            }
-            $SQL .= "$Self->{CustomerKey} = "
-                . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Integer' );
+
+            # return if login is no integer
+            return if $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/;
+
+            $SQL .= "$Self->{CustomerKey} = $UserLogin";
         }
         else {
-            $Param{UserLogin} =~ s/\*/%/g;
-            $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER('"
-                . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' ) . "')";
+            $UserLogin = $Self->{DBObject}->Quote( $UserLogin, 'Like' );
+            $UserLogin =~ s/\*/%/g;
+            $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER('$UserLogin')";
         }
     }
 
     # add valid option
     if ( $Self->{CustomerUserMap}->{CustomerValid} && $Valid ) {
-        $SQL .= " AND "
+        $SQL .= ' AND '
             . $Self->{CustomerUserMap}->{CustomerValid}
-            . " IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") ";
+            . ' IN (' . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ') ';
     }
 
     # check cache
@@ -265,22 +281,23 @@ sub CustomerSearch {
             Type => $Self->{CacheType},
             Key  => "CustomerSearch::$SQL",
         );
-        if ($Users) {
-            return %{$Users};
-        }
+        return %{$Users} if $Users;
     }
 
     # get data
-    $Self->{DBObject}->Prepare( SQL => $SQL, Limit => $Self->{UserSearchListLimit} );
+    my $SQLConvert = $Self->_ConvertTo($SQL);
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => $SQLConvert,
+        Limit => $Self->{UserSearchListLimit},
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ( !$Users{ $Row[0] } ) {
-            for my $Position ( 1 .. 8 ) {
-                if ( $Row[$Position] ) {
-                    $Users{ $Row[0] } .= $Row[$Position] . ' ';
-                }
-            }
-            $Users{ $Row[0] } =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+        next if $Users{ $Row[0] };
+        for my $Position ( 1 .. 8 ) {
+            next if !$Row[$Position];
+            $Row[$Position] = $Self->_ConvertFrom( $Row[$Position] );
+            $Users{ $Row[0] } .= $Row[$Position] . ' ';
         }
+        $Users{ $Row[0] } =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
     }
 
     # cache request
@@ -306,9 +323,7 @@ sub CustomerUserList {
             Type => $Self->{CacheType},
             Key  => "CustomerUserList::$Valid",
         );
-        if ($Users) {
-            return %{$Users};
-        }
+        return %{$Users} if $Users;
     }
 
     # do not use valid option if no valid option is used
@@ -341,7 +356,7 @@ sub CustomerIDs {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
         return;
     }
 
@@ -351,9 +366,7 @@ sub CustomerIDs {
             Type => $Self->{CacheType},
             Key  => "CustomerIDs::$Param{User}",
         );
-        if ($CustomerIDs) {
-            return @{$CustomerIDs};
-        }
+        return @{$CustomerIDs} if $CustomerIDs;
     }
 
     # get customer data
@@ -411,12 +424,12 @@ sub CustomerUserDataGet {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
         return;
     }
 
     # build select
-    my $SQL = "SELECT ";
+    my $SQL = 'SELECT ';
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         $SQL .= " $Entry->[2], ";
     }
@@ -428,28 +441,29 @@ sub CustomerUserDataGet {
             Type => $Self->{CacheType},
             Key  => "CustomerUserDataGet::$Param{User}",
         );
-        if ($Data) {
-            return %{$Data};
-        }
+        return %{$Data} if $Data;
     }
 
     # check CustomerKey type
+    my $User = $Param{User};
     if ( $Self->{CustomerKeyInteger} ) {
-        if ( $Param{User} !~ /^(\+|\-|)\d{1,16}$/ ) {
-            return;
-        }
-        $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $Param{User}, 'Integer' );
+
+        # return if login is no integer
+        return if $Param{User} !~ /^(\+|\-|)\d{1,16}$/;
+
+        $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $User, 'Integer' );
     }
     else {
-        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('"
-            . $Self->{DBObject}->Quote( $Param{User} ) . "')";
+        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('" . $Self->{DBObject}->Quote($User) . "')";
     }
 
     # get initial data
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    my $SQLConvert = $Self->_ConvertTo($SQL);
+    return if !$Self->{DBObject}->Prepare( SQL => $SQLConvert );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my $MapCounter = 0;
         for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
+            $Row[$MapCounter] = $Self->_ConvertFrom( $Row[$MapCounter] );
             $Data{ $Entry->[0] } = $Row[$MapCounter];
             $MapCounter++;
         }
@@ -495,7 +509,7 @@ sub CustomerUserAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Customer backend is ro!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
         return;
     }
 
@@ -590,14 +604,15 @@ sub CustomerUserAdd {
             $SQL .= " $Entry->[2], ";
         }
     }
-    $SQL .= "create_time, create_by, change_time, change_by)";
-    $SQL .= " VALUES (";
+    $SQL .= 'create_time, create_by, change_time, change_by)';
+    $SQL .= ' VALUES (';
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( $Entry->[0] !~ /^UserPassword$/i ) {
             $SQL .= " $Value{ $Entry->[0] }, ";
         }
     }
     $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    $SQL = $Self->_ConvertTo($SQL);
     return if !$Self->{DBObject}->Do( SQL => $SQL );
 
     # log notice
@@ -692,9 +707,10 @@ sub CustomerUserUpdate {
 
     # check CustomerKey type
     if ( $Self->{CustomerKeyInteger} ) {
-        if ( $Param{ID} !~ /^(\+|\-|)\d{1,16}$/ ) {
-            return;
-        }
+
+        # return if login is no integer
+        return if $Param{ID} !~ /^(\+|\-|)\d{1,16}$/;
+
         $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $Param{ID}, 'Integer' );
     }
     else {
@@ -702,6 +718,7 @@ sub CustomerUserUpdate {
             . $Self->{DBObject}->Quote( $Param{ID} ) . "')";
     }
 
+    $SQL = $Self->_ConvertTo($SQL);
     return if !$Self->{DBObject}->Do( SQL => $SQL );
 
     # check if we need to update Customer Preferences
@@ -775,33 +792,12 @@ sub SetPassword {
     # crypt with unix crypt
     elsif ( $CryptType eq 'crypt' ) {
 
-        # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
-        # crypt() is working correctly) :-/
-        if ( crypt( 'root', 'root@localhost' ) eq 'roK20XGbWEsSM' ) {
+        # encode output, needed by crypt() only non utf8 signs
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+        $Self->{EncodeObject}->EncodeOutput( \$Login );
 
-            # encode output, needed by crypt() only non utf8 signs
-            $Self->{EncodeObject}->EncodeOutput( \$Pw );
-            $Self->{EncodeObject}->EncodeOutput( \$Login );
-
-            $CryptedPw = crypt( $Pw, $Login );
-            $Self->{EncodeObject}->Encode( \$CryptedPw );
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message =>
-                    'The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!',
-            );
-            my $TempUser = quotemeta($Login);
-            my $TempPw   = quotemeta($Pw);
-            my $CMD      = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
-            open( IO, " $CMD | " ) || print STDERR "Can't open $CMD: $!";
-            while (<IO>) {
-                $CryptedPw .= $_;
-            }
-            close(IO);
-            chomp $CryptedPw;
-        }
+        $CryptedPw = crypt( $Pw, $Login );
+        $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
     }
 
     # crypt with md5 crypt
@@ -812,7 +808,7 @@ sub SetPassword {
         $Self->{EncodeObject}->EncodeOutput( \$Login );
 
         $CryptedPw = unix_md5_crypt( $Pw, $Login );
-        $Self->{EncodeObject}->Encode( \$CryptedPw );
+        $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
     }
 
     # update db
@@ -833,9 +829,10 @@ sub SetPassword {
 
         # check CustomerKey type
         if ( $Self->{CustomerKeyInteger} ) {
-            if ( $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/ ) {
-                return;
-            }
+
+            # return if login is no integer
+            return if $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/;
+
             $SQL
                 .= "$Param{LoginCol} = " . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Integer' );
         }
@@ -888,6 +885,39 @@ sub GenerateRandomPassword {
 
     # Return the password.
     return $Password;
+}
+
+sub _ConvertFrom {
+    my ( $Self, $Text ) = @_;
+
+    return if !defined $Text;
+
+    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
+        return $Text;
+    }
+    return $Self->{EncodeObject}->Convert(
+        Text  => $Text,
+        From  => $Self->{SourceCharset},
+        To    => $Self->{DestCharset},
+        Force => $Self->{CharsetConvertForce},
+    );
+}
+
+sub _ConvertTo {
+    my ( $Self, $Text ) = @_;
+
+    return if !defined $Text;
+
+    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
+        $Self->{EncodeObject}->EncodeInput( \$Text );
+        return $Text;
+    }
+    return $Self->{EncodeObject}->Convert(
+        Text  => $Text,
+        To    => $Self->{SourceCharset},
+        From  => $Self->{DestCharset},
+        Force => $Self->{CharsetConvertForce},
+    );
 }
 
 sub DESTROY {
