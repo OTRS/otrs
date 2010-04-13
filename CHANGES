@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1196 2010-04-12 23:44:51 en Exp $
+# $Id: CHANGES,v 1.1197 2010-04-13 00:33:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -250,7 +250,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
- - (2010/04/12) Fixed Bug 5112. Redirecting to a valid screen after unsubscribing a ticket
+ - (2010/04/12) Fixed Bug 5108 - The RSS date was not displayed correctly.
+ - (2010/04/12) Fixed Bug 5112 - Redirecting to a valid screen after unsubscribing a ticket
     that is on a queue in which the agent has no permissions.
  - (2010/04/06) Fixed bug#4986 - There is no activate/deactivate check for Graphsize menu,
     when page loads in Stats Definition
