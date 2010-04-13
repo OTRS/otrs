@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.18 2010-04-13 16:52:17 cr Exp $
+# $Id: AdminSLA.dtl,v 1.19 2010-04-13 17:01:12 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -163,7 +163,7 @@
 <!-- dtl:block:TextArea -->
                         <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
                         <div class="Field">
-                            <textarea name="$QData{"Name"}" id="$QData{"Name"}" class="W50pc" rows="$QData{"Rows"}" cols="$QData{"Cols"}">$QData{"SelectedID"}</textarea>
+                            <textarea name="$QData{"Name"}" id="$QData{"Name"}" rows="$QData{"Rows"}" cols="$QData{"Cols"}">$QData{"SelectedID"}</textarea>
                             <p class="FieldExplanation">
                                 $Text{"$Data{"Desc"}"}
                             </p>
