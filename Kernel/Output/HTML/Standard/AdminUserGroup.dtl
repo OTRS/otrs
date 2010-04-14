@@ -22,7 +22,7 @@
             <div class="Content">
                 <form action="">
                     <fieldset>
-                        <input type="text" id="FilterUser" class="W50pc" name="FilterUser" value="" size="12" />
+                        <input type="text" id="FilterUsers" class="W50pc" name="FilterUser" value="" size="12" />
                     </fieldset>
                 </form>
             </div>
@@ -48,16 +48,16 @@
             </div>
             <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
-                    <ul class="Tablelike" id="User">
-                        <li class="Header">$Text{"User"}:$Text{"Group"} (1:n)</li>
+                    <ul class="Tablelike" id="Users">
+                        <li class="Header">$Text{"Users"}</li>
 <!-- dtl:block:List1n-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:List1n-->
                     </ul>
                 </div>
                 <div class="Size1of2">
-                    <ul class="Tablelike">
-                        <li class="Header" id="Groups">$Text{"User"}:$Text{"Group"} (n:1)</li>
+                    <ul class="Tablelike" id="Groups">
+                        <li class="Header">$Text{"Groups"}</li>
 <!-- dtl:block:Listn1-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:Listn1-->
@@ -69,6 +69,15 @@
     </div>
     <div class="Clear"></div>
 </div>
+<!-- dtl:document_ready -->
+<script type="text/javascript">//<![CDATA[
+    $(document).ready(function() {
+        OTRS.UI.Tables.InitTableFilter($('#FilterUsers'), $('#Users'));
+        OTRS.UI.Tables.InitTableFilter($('#FilterGroups'), $('#Groups'));
+    });
+//]]></script>
+<!-- dtl:document_ready -->
+
 <!-- dtl:block:Overview -->
 <!-- dtl:block:Change -->
 
@@ -191,148 +200,14 @@ function select_items (Type) {
 
     </div>
     <div class="Clear"></div>
-
 </div>
 
-
-
+<!-- dtl:document_ready -->
+<script type="text/javascript">//<![CDATA[
+    $(document).ready(function() {
+        OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserGroups'));
+    });
+//]]></script>
+<!-- dtl:document_ready -->
 
 <!-- dtl:block:Change -->
-
-
-
-<!--<table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-    <td class="mainhead">
-        $Env{"Box0"}$Text{"Users <-> Groups Management"}$Env{"Box1"}
-    </td>
-</tr>
-<tr class="mainbody">
-    <td align="center">
-        <br/>
-        <table width="700" cellspacing="0" cellpadding="4">
-            <tr>
-                <td class="contenthead" width="50%">
-                    $Text{"User"}:$Text{"Group"} (1:n)
-                </td>
-                <td class="contenthead" width="50%">
-                    $Text{"User"}:$Text{"Group"} (n:1)
-                </td>
-            </tr>
-            <tr class="contentbody">
-                <td align="left">
-                    <table cellspacing="0" cellpadding="4" width="100%">
-                        <tr valign="top" class="$QData{"CssClass"}">
-                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}">$QData{"Name"}</a></td>
-                        </tr>
-                    </table>
-                </td>
-                <td align="left">
-                    <table cellspacing="0" cellpadding="4" width="100%">
-                        <tr valign="top" class="$QData{"CssClass"}">
-                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}">$QData{"Name"}</a></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr class="contentfooter">
-                <td class="contentvalue" colspan="2">&nbsp;</td>
-            </tr>
-        </table>
-        <br/>
-    </td>
-</tr>
-</table>
-
-
-
-
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-    <td class="mainhead">
-        $Env{"Box0"}$Text{"Users <-> Groups Management"}$Env{"Box1"}
-    </td>
-</tr>
-<tr align="center">
-    <td class="mainbody">
-        <br/>
-        <form action="$Env{"CGIHandle"}" method="post" name="matrix">
-            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-            <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
-            <input type="hidden" name="ID" value="$QData{"ID"}"/>
-            <table width="750" cellspacing="0" cellpadding="4">
-                <tr valign="top">
-                    <td class="contenthead">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
-                </tr>
-                <tr>
-                    <td class="contentbody">
-
-                        <b>$Text{"$QData{"Type"}"}:</b> <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a> (id=$QData{"ID"})<br/>
-                        <br/>
-
-                        <table cellspacing="0" cellpadding="4" width="100%">
-                            <tr valign="top">
-                                <td width="60%">$Text{"$QData{"NeType"}"}</td>
-                                <td align="center">$QData{"Type"}<br/><nobr>$QData{"Mark"}<input type="checkbox" name="$QData{"Type"}" value="" onclick="select_items('$QData{"Type"}');" /></nobr></td>
-                            </tr>
-                            <tr valign="top" class="$QData{"CssClass"}">
-                                <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
-                                <td align="center"><nobr>$QData{"Mark"}<input type="checkbox" name="$QData{"Type"}" value="$QData{"ID"}" $Data{"Selected"}/></nobr></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr class="contentfooter">
-                    <td class="contentvalue"><button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button></td>
-                </tr>
-            </table>
-        </form>
-        <br/>
-    </td>
-</tr>
-</table>
-
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-    <td class="mainhead">
-        $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-    </td>
-</tr>
-<tr>
-    <td class="mainbody">
-        <p>
-            $Text{"Select the user:group permissions."} $Text{"If nothing is selected, then there are no permissions in this group (tickets will not be available for the user)."}
-        </p>
-        <table>
-            <tr valign="top">
-                <th width="30%">$Text{"Permission"}</th>
-                <th>$Text{"Description"}</th>
-            </tr>
-            <tr valign="top">
-                <td>ro</td>
-                <td>$Text{"Read only access to the ticket in this group/queue."}</td>
-            </tr>
-            <tr valign="top">
-                <td>move_into</td>
-                <td>$Text{"Permissions to move tickets into this group/queue."}</td>
-            </tr>
-            <tr valign="top">
-                <td>create</td>
-                <td>$Text{"Permissions to create tickets in this group/queue."}</td>
-            </tr>
-            <tr valign="top">
-                <td>owner</td>
-                <td>$Text{"Permissions to change the ticket owner in this group/queue."}</td>
-            </tr>
-            <tr valign="top">
-                <td>priority</td>
-                <td>$Text{"Permissions to change the ticket priority in this group/queue."}</td>
-            </tr>
-            <tr valign="top">
-                <td>rw</td>
-                <td>$Text{"Full read and write access to the tickets in this group/queue."}</td>
-            </tr>
-        </table>
-    </td>
-</tr>
-</table>-->
