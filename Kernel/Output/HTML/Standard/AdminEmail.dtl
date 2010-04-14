@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.30 2010-04-13 00:28:17 mg Exp $
+# $Id: AdminEmail.dtl,v 1.31 2010-04-14 23:49:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,6 @@ $Include{"RichTextEditor"}
                 <input type="hidden" name="Subaction" value="Send"/>
 
                 <fieldset class="TableLike">
-
                     <label for="From">$Text{"From"}:</label>
                     <div class="Field">
                         <input type="text" name="From" id="From" value="$Config{"AdminEmail"}" class="W50pc" />
@@ -79,8 +78,8 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:CustomerUserGroups -->
 
                     <label for="Subject" class="Mandatory">
-                    <span class="Marker">*</span>
-                    $Text{"Subject"}:
+                        <span class="Marker">*</span>
+                        $Text{"Subject"}:
                     </label>
                     <div class="Field">
                         <input type="text" name="Subject" id="Subject" class="OTRS_Validate_Required" value="$QData{"Subject"}" class="W100pc" />
