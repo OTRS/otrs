@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -205,21 +205,13 @@ fieldset.TableLike.FixedLabel > label {
     width: 150px;
 }
 
-fieldset.TableLike.FixedLabel > .Field {
-    margin-left: 150px;
-    margin-right: 0;
-}
-
-.RTL fieldset.TableLike.FixedLabel > .Field {
-    margin-left: 0;
-    margin-right: 150px;
-}
-
+fieldset.TableLike.FixedLabel > .Field,
 fieldset.TableLike.FixedLabel > .Value {
     margin-left: 150px;
     margin-right: 0;
 }
 
+.RTL fieldset.TableLike.FixedLabel > .Field,
 .RTL fieldset.TableLike.FixedLabel > .Value {
     margin-left: 0;
     margin-right: 150px;
@@ -233,21 +225,13 @@ fieldset.TableLike.FixedLabelSmall > label {
     width: 100px;
 }
 
-fieldset.TableLike.FixedLabelSmall > .Field {
-    margin-left: 100px;
-    margin-right: 0;
-}
-
-.RTL fieldset.TableLike.FixedLabelSmall > .Field {
-    margin-left: 0;
-    margin-right: 100px;
-}
-
+fieldset.TableLike.FixedLabelSmall > .Field,
 fieldset.TableLike.FixedLabelSmall > .Value {
     margin-left: 100px;
     margin-right: 0;
 }
 
+.RTL fieldset.TableLike.FixedLabelSmall > .Field,
 .RTL fieldset.TableLike.FixedLabelSmall > .Value {
     margin-left: 0;
     margin-right: 100px;
@@ -261,15 +245,18 @@ fieldset.TableLike.LargeLabel > label {
     width: 50%;
 }
 
-fieldset.TableLike.LargeLabel > .Field {
+fieldset.TableLike.LargeLabel > .Field,
+fieldset.TableLike.LargeLabel > .Value {
     margin-left: 50%;
     margin-right: 0;
 }
 
-.RTL fieldset.TableLike.LargeLabel > .Field {
+.RTL fieldset.TableLike.LargeLabel > .Field,
+.RTL fieldset.TableLike.LargeLabel > .Value {
     margin-left: 0;
     margin-right: 50%;
 }
+
 
 /**
  * @note        Tight - this additional class for TableLike
