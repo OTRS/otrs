@@ -1,0 +1,338 @@
+# --
+# AdminUserGroupForm.dtl - provides HTML form for AdminInterface
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminUserGroupForm.dtl,v 1.21 2010/02/05 13:58:24 mn Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:Overview -->
+ <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Manage User-Group Relations"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+
+                <h2><label for="FilterUser">Filter for Users</label></h2>
+            </div>
+            <div class="Content">
+                <form action="">
+                    <fieldset>
+                        <input type="text" id="FilterUser" class="W50pc" name="FilterUser" value="" size="12" />
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2><label for="FilterGroups">Filter for Groups</label></h2>
+            </div>
+            <div class="Content">
+                <form action="">
+                    <fieldset>
+                        <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" size="12" />
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetBox">
+        <!--<div class="WidgetGradient Short">-->
+            <div class="Header ControlRow">
+                <h2>$Text{"Overview"}</h2>
+            </div>
+            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+                <div class="Size1of2">
+                    <div class="WidgetBox">
+                        <ul class="Tablelike" id="User">
+                            <li class="Header">$Text{"User"}:$Text{"Group"} (1:n)</li>
+<!-- dtl:block:List1n-->
+                            <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
+<!-- dtl:block:List1n-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="Size1of2">
+                    <div class="WidgetBox">
+                        <ul class="Tablelike">
+                            <li class="Header" id="Groups">$Text{"User"}:$Text{"Group"} (n:1)</li>
+<!-- dtl:block:Listn1-->
+                            <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
+<!-- dtl:block:Listn1-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+<!-- dtl:block:Overview -->
+<!-- dtl:block:Change -->
+
+<script type="text/javascript">//<![CDATA[
+function select_items (Type) {
+    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
+        if ( document.matrix.elements[Type][0].checked ) {
+            document.matrix.elements[Type][i].checked = true;
+        }
+        else {
+            document.matrix.elements[Type][i].checked = false;
+        }
+    }
+}
+//]]></script>
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Manage User-Group Relations"}</h1>
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header"></div>
+            <div class="Content">
+                <fieldset>
+                    <h2><label for="Filter">Filter</label></h2>
+                    <input type="text" id="Filter" class="W50pc" name="Filter" value="" size="12" />
+                </fieldset>
+                <p>
+                    $Text{"Note"}:
+                </p>
+                <p class="FieldExplanation">
+                    $Text{"Select the user:group permissions."} $Text{"If nothing is selected, then there are no permissions in this group (tickets will not be available for the user)."}
+                </p>
+                    
+            </div>
+        </div>
+    </div>
+ 
+    <div class="ContentColumn">
+        <div class="WidgetBox">
+            <div class="Header ControlRow">
+                <h2>$Text{"Change %s Relations for", "$Data{"NeType"}"} $Text{"$QData{"Type"}"} <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a> ($QData{"ID"})</h2>
+            </div>
+            <div class="Content WithPadding">
+                <form action="$Env{"CGIHandle"}" method="post" name="matrix">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
+                    <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                    <table class="DataTable VariableWidth" id="UserGroups">
+                        <thead>
+                            <tr>
+                                <th>$Text{"$QData{"NeType"}"}</th>
+<!-- dtl:block:ChangeHeader -->
+                                <th class="Center $QData{"Mark"}">
+                                    <input type="checkbox" name="$QData{"Type"}" id="$QData{"Type"}" value="" onclick="select_items('$QData{"Type"}');" />
+                                    $QData{"Type"}
+                                </th>
+<!-- dtl:block:ChangeHeader -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+<!-- dtl:block:ChangeRow -->
+                                <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+<!-- dtl:block:ChangeRowItem -->
+                                <td class="$QData{"Mark"}">
+                                    <input type="checkbox" name="$QData{"Type"}" id="$QData{"Type"}" value="$QData{"ID"}" $Data{"Selected"}/>
+                                </td>
+<!-- dtl:block:ChangeRowItem -->
+                            </tr>
+<!-- dtl:block:ChangeRow -->
+                        </tbody>
+                    </table>
+                    <div class="Field SpacingTop">
+                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                    </div>
+                    <div class="Clear"></div>
+                </form>
+            </div>
+        </div>
+        <div class="WidgetGradient Short SpacingTop">
+            <div class="Header">
+                <h2>$Text{"Reference"}</h2>
+            </div>
+            <div class="Content">
+
+                <dl>
+                    <dt>$Text{"ro"}</dt>
+                    <dd>
+                        $Text{"Read only access to the ticket in this group/queue."}
+                    </dd>
+
+                    <dt>$Text{"move_into"}</dt>
+                    <dd>
+                        $Text{"Permissions to move tickets into this group/queue."}
+                    </dd>
+
+                    <dt>$Text{"create"}</dt>
+                    <dd>
+                        $Text{"Permissions to create tickets in this group/queue."}
+                    </dd>
+
+                    <dt>$Text{"priority"}</dt>
+                    <dd>
+                        $Text{"Permissions to change the ticket priority in this group/queue."}
+                    </dd>
+
+                    <dt>$Text{"rw"}</dt>
+                    <dd>
+                        $Text{"Full read and write access to the tickets in this group/queue."}
+                    </dd>
+                </dl>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="Clear"></div>
+
+</div>
+
+
+
+
+<!-- dtl:block:Change -->
+
+
+
+<!--<table border="0" width="100%" cellspacing="0" cellpadding="3">
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Users <-> Groups Management"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr class="mainbody">
+        <td align="center">
+            <br/>
+            <table width="700" cellspacing="0" cellpadding="4">
+                <tr>
+                    <td class="contenthead" width="50%">
+                        $Text{"User"}:$Text{"Group"} (1:n)
+                    </td>
+                    <td class="contenthead" width="50%">
+                        $Text{"User"}:$Text{"Group"} (n:1)
+                    </td>
+                </tr>
+                <tr class="contentbody">
+                    <td align="left">
+                        <table cellspacing="0" cellpadding="4" width="100%">
+                            <tr valign="top" class="$QData{"CssClass"}">
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td align="left">
+                        <table cellspacing="0" cellpadding="4" width="100%">
+                            <tr valign="top" class="$QData{"CssClass"}">
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="contentfooter">
+                    <td class="contentvalue" colspan="2">&nbsp;</td>
+                </tr>
+            </table>
+            <br/>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Users <-> Groups Management"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr align="center">
+        <td class="mainbody">
+            <br/>
+            <form action="$Env{"CGIHandle"}" method="post" name="matrix">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
+                <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                <table width="750" cellspacing="0" cellpadding="4">
+                    <tr valign="top">
+                        <td class="contenthead">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">
+
+                            <b>$Text{"$QData{"Type"}"}:</b> <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a> (id=$QData{"ID"})<br/>
+                            <br/>
+
+                            <table cellspacing="0" cellpadding="4" width="100%">
+                                <tr valign="top">
+                                    <td width="60%">$Text{"$QData{"NeType"}"}</td>
+                                    <td align="center">$QData{"Type"}<br/><nobr>$QData{"Mark"}<input type="checkbox" name="$QData{"Type"}" value="" onclick="select_items('$QData{"Type"}');" /></nobr></td>
+                                </tr>
+                                <tr valign="top" class="$QData{"CssClass"}">
+                                    <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                                    <td align="center"><nobr>$QData{"Mark"}<input type="checkbox" name="$QData{"Type"}" value="$QData{"ID"}" $Data{"Selected"}/></nobr></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr class="contentfooter">
+                        <td class="contentvalue"><button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button></td>
+                    </tr>
+                </table>
+            </form>
+            <br/>
+        </td>
+    </tr>
+</table>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+    <tr>
+        <td class="mainhead">
+            $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <p>
+                $Text{"Select the user:group permissions."} $Text{"If nothing is selected, then there are no permissions in this group (tickets will not be available for the user)."}
+            </p>
+            <table>
+                <tr valign="top">
+                    <th width="30%">$Text{"Permission"}</th>
+                    <th>$Text{"Description"}</th>
+                </tr>
+                <tr valign="top">
+                    <td>ro</td>
+                    <td>$Text{"Read only access to the ticket in this group/queue."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>move_into</td>
+                    <td>$Text{"Permissions to move tickets into this group/queue."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>create</td>
+                    <td>$Text{"Permissions to create tickets in this group/queue."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>owner</td>
+                    <td>$Text{"Permissions to change the ticket owner in this group/queue."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>priority</td>
+                    <td>$Text{"Permissions to change the ticket priority in this group/queue."}</td>
+                </tr>
+                <tr valign="top">
+                    <td>rw</td>
+                    <td>$Text{"Full read and write access to the tickets in this group/queue."}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>-->
+
