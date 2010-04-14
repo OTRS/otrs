@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1198 2010-04-13 13:59:38 mb Exp $
+# $Id: CHANGES,v 1.1199 2010-04-14 19:42:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -250,6 +250,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/04/14) Fixed bug#4999 - Cache of customer user get's not refreshed after
+    a preferences get's changed.
  - (2010/04/13) Fixed bug#5152 - responsible_user_id in ticket table is wrong in
     otrs-database.dia.
  - (2010/04/12) Fixed Bug 5108 - The RSS date was not displayed correctly.
@@ -257,6 +259,8 @@
     that is on a queue in which the agent has no permissions.
  - (2010/04/06) Fixed bug#4986 - There is no activate/deactivate check for Graphsize menu,
     when page loads in Stats Definition
+ - (2010/04/01) Fixed bug#4786 - AgentTicketCompose ONLY: Defining a next state,
+    then adding and attachment, resets the next state upon screen refresh.
  - (2010/03/29) Improved handling of the StateType attribute of
     StateGetStatesByType() in Kernel/System/State.pm.
  - (2010/03/24) Fixed bug#5164 - Pending time not working if agent as an other

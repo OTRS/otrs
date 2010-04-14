@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.13 2010-02-10 17:05:09 mb Exp $
+# $Id: CustomerUser.t,v 1.14 2010-04-14 19:42:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,32 +47,32 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     );
 
     $Self->Is(
-        $User{UserFirstname} || '',
+        $User{UserFirstname},
         "Firstname Test$Key",
         "CustomerUserGet() - UserFirstname - $Key",
     );
     $Self->Is(
-        $User{UserLastname} || '',
+        $User{UserLastname},
         "Lastname Test$Key",
         "CustomerUserGet() - UserLastname - $Key",
     );
     $Self->Is(
-        $User{UserLogin} || '',
+        $User{UserLogin},
         $UserRand,
         "CustomerUserGet() - UserLogin - $Key",
     );
     $Self->Is(
-        $User{UserEmail} || '',
+        $User{UserEmail},
         $UserRand . '-Email@example.com',
         "CustomerUserGet() - UserEmail - $Key",
     );
     $Self->Is(
-        $User{UserCustomerID} || '',
+        $User{UserCustomerID},
         $UserRand . '-Customer-Id',
         "CustomerUserGet() - UserCustomerID - $Key",
     );
     $Self->Is(
-        $User{ValidID} || '',
+        $User{ValidID},
         1,
         "CustomerUserGet() - ValidID - $Key",
     );
@@ -89,7 +89,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         UserID         => 1,
     );
     $Self->True(
-        $Update || '',
+        $Update,
         "CustomerUserUpdate$Key() - $UserID",
     );
 
@@ -98,32 +98,32 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     );
 
     $Self->Is(
-        $User{UserFirstname} || '',
+        $User{UserFirstname},
         "Firstname Test Update$Key",
         "CustomerUserGet$Key() - UserFirstname",
     );
     $Self->Is(
-        $User{UserLastname} || '',
+        $User{UserLastname},
         "Lastname Test Update$Key",
         "CustomerUserGet$Key() - UserLastname",
     );
     $Self->Is(
-        $User{UserLogin} || '',
+        $User{UserLogin},
         $UserRand,
         "CustomerUserGet$Key() - UserLogin",
     );
     $Self->Is(
-        $User{UserEmail} || '',
+        $User{UserEmail},
         $UserRand . '-Update@example.com',
         "CustomerUserGet$Key() - UserEmail",
     );
     $Self->Is(
-        $User{UserCustomerID} || '',
+        $User{UserCustomerID},
         $UserRand . '-Customer-Update-Id',
         "CustomerUserGet$Key() - UserCustomerID",
     );
     $Self->Is(
-        $User{ValidID} || '',
+        $User{ValidID},
         1,
         "CustomerUserGet$Key() - ValidID",
     );
@@ -133,7 +133,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         User => lc($UserID),
     );
     $Self->True(
-        $User{UserLogin} || '',
+        $User{UserLogin},
         "CustomerUserGet() - lc() - $UserID",
     );
 
@@ -142,7 +142,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         User => uc($UserID),
     );
     $Self->True(
-        $User{UserLogin} || '',
+        $User{UserLogin},
         "CustomerUserGet() - uc() - $UserID",
     );
 
@@ -152,7 +152,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID          => 1,                                 # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - PostMasterSearch - $UserID",
     );
     %List = $Self->{CustomerUserObject}->CustomerSearch(
@@ -160,7 +160,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID          => 1,                                       # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - PostMasterSearch lc() - $UserID",
     );
     %List = $Self->{CustomerUserObject}->CustomerSearch(
@@ -168,7 +168,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID          => 1,                                       # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - PostMasterSearch uc() - $UserID",
     );
 
@@ -177,7 +177,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID   => 1,                                              # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - UserLogin - $UserID",
     );
     %List = $Self->{CustomerUserObject}->CustomerSearch(
@@ -185,7 +185,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID   => 1,                                              # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - UserLogin - lc - $UserID",
     );
     %List = $Self->{CustomerUserObject}->CustomerSearch(
@@ -193,7 +193,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID   => 1,                                              # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - UserLogin - uc - $UserID",
     );
 
@@ -202,7 +202,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search '\$UserID' - $UserID",
     );
 
@@ -211,7 +211,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search '\$UserID+firstname' - $UserID",
     );
 
@@ -220,7 +220,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        !$List{$UserID} || '',
+        !$List{$UserID},
         "CustomerSearch() - Search '\$UserID+!firstname' - $UserID",
     );
 
@@ -229,7 +229,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        !$List{$UserID} || '',
+        !$List{$UserID},
         "CustomerSearch() - Search '\$UserID+firstname_with_not_match' - $UserID",
     );
 
@@ -238,7 +238,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search '\$UserID+!firstname_with_not_match' - $UserID",
     );
 
@@ -247,7 +247,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search '\$User*' - $UserID",
     );
 
@@ -256,7 +256,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search '*\$User' - $UserID",
     );
 
@@ -265,7 +265,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search '*\$User*' - $UserID",
     );
 
@@ -275,7 +275,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search lc('') - $UserID",
     );
 
@@ -284,7 +284,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search lc('\$User*') - $UserID",
     );
 
@@ -293,7 +293,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search lc('*\$User') - $UserID",
     );
 
@@ -302,7 +302,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search lc('*\$User*') - $UserID",
     );
 
@@ -312,7 +312,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search uc('') - $UserID",
     );
 
@@ -321,7 +321,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search uc('\$User*') - $UserID",
     );
 
@@ -330,7 +330,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search uc('*\$User') - $UserID",
     );
 
@@ -339,7 +339,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID => 1,                                                # not required, default 1
     );
     $Self->True(
-        $List{$UserID} || '',
+        $List{$UserID},
         "CustomerSearch() - Search uc('*\$User*') - $UserID",
     );
 
@@ -358,13 +358,13 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
                 PW        => $Password,
             );
             $Self->True(
-                $Set || 0,
+                $Set,
                 "SetPassword() - $Config - $UserID - $Password",
             );
 
             my $Ok = $CustomerAuth->Auth( User => $UserID, Pw => $Password );
             $Self->True(
-                $Ok || 0,
+                $Ok,
                 "Auth() - $Config - $UserID - $Password",
             );
         }
@@ -373,40 +373,40 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 
 # check token support
 my $Token = $Self->{CustomerUserObject}->TokenGenerate(
-    UserID => 1,
+    UserID => $UserID,
 );
 $Self->True(
-    $Token || 0,
+    $Token,
     "TokenGenerate() - $Token",
 );
 
 my $TokenValid = $Self->{CustomerUserObject}->TokenCheck(
     Token  => $Token,
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->True(
-    $TokenValid || 0,
+    $TokenValid,
     "TokenCheck() - $Token",
 );
 
 $TokenValid = $Self->{CustomerUserObject}->TokenCheck(
     Token  => $Token,
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->True(
-    !$TokenValid || 0,
+    !$TokenValid,
     "TokenCheck() - $Token",
 );
 
 $TokenValid = $Self->{CustomerUserObject}->TokenCheck(
     Token  => $Token . '123',
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->True(
-    !$TokenValid || 0,
+    !$TokenValid,
     "TokenCheck() - $Token" . "123",
 );
 
@@ -419,7 +419,7 @@ my $SetPreferences = $Self->{CustomerUserObject}->SetPreferences(
 );
 
 $Self->True(
-    $SetPreferences || '',
+    $SetPreferences,
     "SetPreferences - $UserID",
 );
 
@@ -433,7 +433,7 @@ $Self->True(
 );
 
 $Self->Is(
-    $UserPreferences{'UserLanguage'} || '',
+    $UserPreferences{UserLanguage},
     "fr",
     "GetPreferences $UserID - fr",
 );
@@ -449,7 +449,7 @@ $Self->True(
 );
 
 $Self->True(
-    $UserList{$UserID} || '',
+    $UserList{$UserID},
     "SearchPreferences() - $UserID",
 );
 
@@ -459,7 +459,7 @@ $Self->True(
 );
 
 $Self->False(
-    $UserList{$UserID} || '',
+    $UserList{$UserID},
     "SearchPreferences() - $UserID",
 );
 
@@ -471,7 +471,7 @@ my $UpdatePreferences = $Self->{CustomerUserObject}->SetPreferences(
 );
 
 $Self->True(
-    $UpdatePreferences || '',
+    $UpdatePreferences,
     "UpdatePreferences - $UserID",
 );
 
@@ -485,7 +485,7 @@ $Self->True(
 );
 
 $Self->Is(
-    $UserPreferences{'UserLanguage'} || '',
+    $UserPreferences{UserLanguage},
     "da",
     "UpdatePreferences $UserID - da",
 );
@@ -503,7 +503,7 @@ my $Update = $Self->{CustomerUserObject}->CustomerUserUpdate(
     UserID         => 1,
 );
 $Self->True(
-    $Update || '',
+    $Update,
     "CustomerUserUpdate - $UserID",
 );
 
@@ -517,7 +517,7 @@ $Self->True(
 );
 
 $Self->Is(
-    $UserPreferences{'UserLanguage'} || '',
+    $UserPreferences{UserLanguage},
     "da",
     "GetPreferences for updated user $UserID - da",
 );

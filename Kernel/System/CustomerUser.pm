@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser.pm - some customer user functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.57 2009-10-07 20:25:38 martin Exp $
+# $Id: CustomerUser.pm,v 1.58 2010-04-14 19:42:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -127,13 +127,13 @@ sub CustomerSourceList {
     my ( $Self, %Param ) = @_;
 
     my %Data;
-    for ( '', 1 .. 10 ) {
+    for my $Count ( '', 1 .. 10 ) {
 
         # next if customer backend is used
-        next if !$Self->{ConfigObject}->Get("CustomerUser$_");
+        next if !$Self->{ConfigObject}->Get("CustomerUser$Count");
 
-        $Data{"CustomerUser$_"} = $Self->{ConfigObject}->Get("CustomerUser$_")->{Name}
-            || "No Name $_";
+        $Data{"CustomerUser$Count"} = $Self->{ConfigObject}->Get("CustomerUser$Count")->{Name}
+            || "No Name $Count";
     }
     return %Data;
 }
@@ -169,13 +169,13 @@ sub CustomerSearch {
     }
 
     my %Data;
-    for ( '', 1 .. 10 ) {
+    for my $Count ( '', 1 .. 10 ) {
 
         # next if customer backend is used
-        next if !$Self->{"CustomerUser$_"};
+        next if !$Self->{"CustomerUser$Count"};
 
         # get customer search result of backend and merge it
-        my %SubData = $Self->{"CustomerUser$_"}->CustomerSearch(%Param);
+        my %SubData = $Self->{"CustomerUser$Count"}->CustomerSearch(%Param);
         %Data = ( %SubData, %Data );
     }
     return %Data;
@@ -195,13 +195,13 @@ sub CustomerUserList {
     my ( $Self, %Param ) = @_;
 
     my %Data;
-    for ( '', 1 .. 10 ) {
+    for my $Count ( '', 1 .. 10 ) {
 
         # next if customer backend is used
-        next if !$Self->{"CustomerUser$_"};
+        next if !$Self->{"CustomerUser$Count"};
 
         # get customer list result of backend and merge it
-        my %SubData = $Self->{"CustomerUser$_"}->CustomerUserList(%Param);
+        my %SubData = $Self->{"CustomerUser$Count"}->CustomerUserList(%Param);
         %Data = ( %Data, %SubData );
     }
     return %Data;
@@ -220,13 +220,13 @@ get customer user name
 sub CustomerName {
     my ( $Self, %Param ) = @_;
 
-    for ( '', 1 .. 10 ) {
+    for my $Count ( '', 1 .. 10 ) {
 
         # next if customer backend is used
-        next if !$Self->{"CustomerUser$_"};
+        next if !$Self->{"CustomerUser$Count"};
 
         # get customer name and return it
-        my $Name = $Self->{"CustomerUser$_"}->CustomerName(%Param);
+        my $Name = $Self->{"CustomerUser$Count"}->CustomerName(%Param);
         if ($Name) {
             return $Name;
         }
@@ -247,13 +247,13 @@ get customer user customer ids
 sub CustomerIDs {
     my ( $Self, %Param ) = @_;
 
-    for ( '', 1 .. 10 ) {
+    for my $Count ( '', 1 .. 10 ) {
 
         # next if customer backend is used
-        next if !$Self->{"CustomerUser$_"};
+        next if !$Self->{"CustomerUser$Count"};
 
         # get customer id's and return it
-        my @CustomerIDs = $Self->{"CustomerUser$_"}->CustomerIDs(%Param);
+        my @CustomerIDs = $Self->{"CustomerUser$Count"}->CustomerIDs(%Param);
         if (@CustomerIDs) {
             return @CustomerIDs;
         }
@@ -274,13 +274,13 @@ get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 sub CustomerUserDataGet {
     my ( $Self, %Param ) = @_;
 
-    for ( '', 1 .. 10 ) {
+    for my $Count ( '', 1 .. 10 ) {
 
         # next if customer backend is used
-        next if !$Self->{"CustomerUser$_"};
+        next if !$Self->{"CustomerUser$Count"};
 
         # next if no customer got found
-        my %Customer = $Self->{"CustomerUser$_"}->CustomerUserDataGet( %Param, );
+        my %Customer = $Self->{"CustomerUser$Count"}->CustomerUserDataGet( %Param, );
         next if !%Customer;
 
         # add preferences defaults
@@ -303,7 +303,7 @@ sub CustomerUserDataGet {
         my %Company;
         if (
             $Self->{ConfigObject}->Get("CustomerCompany")
-            && $Self->{ConfigObject}->Get("CustomerUser$_")->{CustomerCompanySupport}
+            && $Self->{ConfigObject}->Get("CustomerUser$Count")->{CustomerCompanySupport}
             )
         {
             %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
@@ -315,8 +315,8 @@ sub CustomerUserDataGet {
         return (
             %Company,
             %Customer,
-            Source        => "CustomerUser$_",
-            Config        => $Self->{ConfigObject}->Get("CustomerUser$_"),
+            Source        => "CustomerUser$Count",
+            Config        => $Self->{ConfigObject}->Get("CustomerUser$Count"),
             CompanyConfig => $Self->{ConfigObject}->Get("CustomerCompany"),
         );
     }
@@ -430,7 +430,7 @@ sub SetPassword {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "User UserLogin!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserLogin!' );
         return;
     }
 
@@ -479,9 +479,31 @@ set customer user preferences
 =cut
 
 sub SetPreferences {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->SetPreferences(@_);
+    # check needed stuff
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserID!' );
+        return;
+    }
+
+    # check if user exists
+    my %User = $Self->CustomerUserDataGet( User => $Param{UserID} );
+    if ( !%User ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such user '$Param{UserID}'!",
+        );
+        return;
+    }
+
+    # call new api (2.4.8 and higher)
+    if ( $Self->{ $User{Source} }->can('SetPreferences') ) {
+        return $Self->{ $User{Source} }->SetPreferences(%Param);
+    }
+
+    # call old api
+    return $Self->{PreferencesObject}->SetPreferences(%Param);
 }
 
 =item GetPreferences()
@@ -495,9 +517,31 @@ get customer user preferences
 =cut
 
 sub GetPreferences {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->GetPreferences(@_);
+    # check needed stuff
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserID!' );
+        return;
+    }
+
+    # check if user exists
+    my %User = $Self->CustomerUserDataGet( User => $Param{UserID} );
+    if ( !%User ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such user '$Param{UserID}'!",
+        );
+        return;
+    }
+
+    # call new api (2.4.8 and higher)
+    if ( $Self->{ $User{Source} }->can('GetPreferences') ) {
+        return $Self->{ $User{Source} }->GetPreferences(%Param);
+    }
+
+    # call old api
+    return $Self->{PreferencesObject}->GetPreferences(%Param);
 }
 
 =item SearchPreferences()
@@ -512,9 +556,28 @@ search in user preferences
 =cut
 
 sub SearchPreferences {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->SearchPreferences(@_);
+    my %Data;
+    for my $Count ( '', 1 .. 10 ) {
+
+        # next if customer backend is used
+        next if !$Self->{"CustomerUser$Count"};
+
+        # get customer search result of backend and merge it
+        # call new api (2.4.8 and higher)
+        my %SubData;
+        if ( $Self->{"CustomerUser$Count"}->can('SearchPreferences') ) {
+            %SubData = $Self->{"CustomerUser$Count"}->SearchPreferences(%Param);
+        }
+
+        # call old api
+        else {
+            %SubData = $Self->{PreferencesObject}->SearchPreferences(%Param);
+        }
+        %Data = ( %SubData, %Data );
+    }
+    return %Data;
 }
 
 =item TokenGenerate()
@@ -618,6 +681,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2009-10-07 20:25:38 $
+$Revision: 1.58 $ $Date: 2010-04-14 19:42:03 $
 
 =cut

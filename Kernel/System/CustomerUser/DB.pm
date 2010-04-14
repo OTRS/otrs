@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.81 2010-04-13 11:41:57 martin Exp $
+# $Id: DB.pm,v 1.82 2010-04-14 19:42:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -488,7 +488,7 @@ sub CustomerUserDataGet {
     $Data{UserID} = $Data{UserLogin};
 
     # get preferences
-    my %Preferences = $Self->{PreferencesObject}->GetPreferences( UserID => $Data{UserID} );
+    my %Preferences = $Self->GetPreferences( UserID => $Data{UserID} );
 
     # cache request
     if ( $Self->{CacheObject} ) {
@@ -885,6 +885,43 @@ sub GenerateRandomPassword {
 
     # Return the password.
     return $Password;
+}
+
+sub SetPreferences {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        return;
+    }
+
+    # cache reset
+    if ( $Self->{CacheObject} ) {
+        $Self->{CacheObject}->Delete(
+            Type => $Self->{CacheType},
+            Key  => "CustomerUserDataGet::$Param{UserID}",
+        );
+    }
+    return $Self->{PreferencesObject}->SetPreferences(%Param);
+}
+
+sub GetPreferences {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        return;
+    }
+
+    return $Self->{PreferencesObject}->GetPreferences(%Param);
+}
+
+sub SearchPreferences {
+    my ( $Self, %Param ) = @_;
+
+    return $Self->{PreferencesObject}->SearchPreferences(%Param);
 }
 
 sub _ConvertFrom {
