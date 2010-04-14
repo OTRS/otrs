@@ -2,7 +2,7 @@
 // OTRS.UI.Tables.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Tables.js,v 1.2 2010-03-29 09:58:14 mn Exp $
+// $Id: OTRS.UI.Tables.js,v 1.3 2010-04-14 20:03:38 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -48,21 +48,25 @@ OTRS.UI.Tables = (function (Namespace) {
      * @function
      * @description
      *      This function initializes a filter input field which can be used to
-     *      dynamically filter a table (e.g. in the admin area overviews).
+     *      dynamically filter a table or a list with the class TableLike (e.g. in the admin area overviews).
      * @param {jQueryObject} $FilterInput Filter input element
-     * @param {jQueryObject} $Table Table to be filtered
+     * @param {jQueryObject} $Container Table or list to be filtered
      * @return nothing
      */
-    Namespace.InitTableFilter = function ($FilterInput, $Table) {
+    Namespace.InitTableFilter = function ($FilterInput, $Container) {
         $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function(){
             window.setTimeout(function(){
-                var FilterText = $FilterInput.val() || '';
+                var FilterText = ($FilterInput.val() || '').toLowerCase();
                 if (FilterText.length) {
-                    $Table.find('tbody tr, li:not(.Header)').hide();
-                    $Table.find('tbody tr:contains(' + FilterText + '), li:not(.Header):contains(' + FilterText + ')').show();
+                    $Container.find('tbody tr, li:not(.Header)').hide();
+                    $Container.find('tbody tr, li:not(.Header)').each(function(){
+                        if ($(this).text().toLowerCase().indexOf(FilterText) > -1){
+                            $(this).show();
+                        }
+                    });
                 }
                 else {
-                    $Table.find('tbody tr').show();
+                    $Container.find('tbody tr, li').show();
                 }
             }, 0);
         });
