@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -61,11 +61,11 @@ ul.Tablelike li.Header {
     margin-bottom: 10px;
 }
 
-.WidgetGradient .Header {
+.WidgetGradient > .Header {
     margin: 5px;
 }
 
-.WidgetGradient .Header h2 {
+.WidgetGradient > .Header h2 {
     padding: 5px;
     margin: 0;
 }
@@ -93,16 +93,16 @@ ul.Tablelike li.Header {
 /**
  * @subsection  WidgetBox
  */
-.WidgetBox .Header h2 {
+.WidgetBox > .Header h2 {
     font-size: 14px;
     margin-left: 5px;
 }
 
-.WidgetBox .Header div.WidgetAction + h2 {
+.WidgetBox > .Header div.WidgetAction + h2 {
     margin-left: 30px;
 }
 
-.WidgetBox .Header h2 + h3 {
+.WidgetBox > .Header h2 + h3 {
     background-color: #EEE;
     border-top: 1px solid #FFF;
     border-bottom: 1px solid #BBB;
@@ -111,11 +111,11 @@ ul.Tablelike li.Header {
     color: #333;
 }
 
-.RTL .WidgetBox .Header h2 + h3 {
+.RTL .WidgetBox > .Header h2 + h3 {
     padding: 5px 10px 5px 5px;
 }
 
-.WidgetBox .Content {
+.WidgetBox > .Content {
     background: url(img/widget_bg_200.png) repeat-x;
     min-height: 200px;
     border-left: 1px solid #BBB;
@@ -123,7 +123,7 @@ ul.Tablelike li.Header {
     border-bottom: 1px solid #BBB;
 }
 
-.WidgetBox .Content.WithPadding {
+.WidgetBox > .Content.WithPadding {
     padding: 15px;
 }
 
