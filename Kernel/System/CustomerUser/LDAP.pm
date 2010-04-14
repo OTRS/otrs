@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.53 2009-08-31 16:32:11 martin Exp $
+# $Id: LDAP.pm,v 1.53.2.1 2010-04-14 19:34:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.53.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -560,7 +560,7 @@ sub CustomerUserDataGet {
     if ( $Self->{CacheObject} ) {
         my $Data = $Self->{CacheObject}->Get(
             Type => $Self->{CacheType},
-            Key  => 'CustomerUserDataGet::' . $Filter,
+            Key  => 'CustomerUserDataGet::' . $Param{User},
         );
         if ($Data) {
             return %{$Data};
@@ -608,13 +608,13 @@ sub CustomerUserDataGet {
     $Data{UserID} = $Data{UserLogin};
 
     # get preferences
-    my %Preferences = $Self->{PreferencesObject}->GetPreferences( UserID => $Data{UserLogin} );
+    my %Preferences = $Self->GetPreferences( UserID => $Data{UserLogin} );
 
     # cache request
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
             Type  => $Self->{CacheType},
-            Key   => 'CustomerUserDataGet::' . $Filter,
+            Key   => 'CustomerUserDataGet::' . $Param{User},
             Value => { %Data, %Preferences },
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
@@ -684,6 +684,43 @@ sub GenerateRandomPassword {
 
     # Return the password.
     return $Password;
+}
+
+sub SetPreferences {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        return;
+    }
+
+    # cache reset
+    if ( $Self->{CacheObject} ) {
+        $Self->{CacheObject}->Delete(
+            Type => $Self->{CacheType},
+            Key  => "CustomerUserDataGet::$Param{UserID}",
+        );
+    }
+    return $Self->{PreferencesObject}->SetPreferences(%Param);
+}
+
+sub GetPreferences {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        return;
+    }
+
+    return $Self->{PreferencesObject}->GetPreferences(%Param);
+}
+
+sub SearchPreferences {
+    my ( $Self, %Param ) = @_;
+
+    return $Self->{PreferencesObject}->SearchPreferences(%Param);
 }
 
 sub _Convert {

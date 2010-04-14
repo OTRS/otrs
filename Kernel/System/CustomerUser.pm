@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser.pm - some customer user functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.55 2009-08-20 11:09:43 martin Exp $
+# $Id: CustomerUser.pm,v 1.55.2.1 2010-04-14 19:34:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.55.2.1 $) [1];
 
 =head1 NAME
 
@@ -479,9 +479,31 @@ set customer user preferences
 =cut
 
 sub SetPreferences {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->SetPreferences(@_);
+    # check needed stuff
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserID!' );
+        return;
+    }
+
+    # check if user exists
+    my %User = $Self->CustomerUserDataGet( User => $Param{UserID} );
+    if ( !%User ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such user '$Param{UserID}'!",
+        );
+        return;
+    }
+
+    # call new api (2.4.8 and higher)
+    if ( $Self->{ $User{Source} }->can('SetPreferences') ) {
+        return $Self->{ $User{Source} }->SetPreferences(%Param);
+    }
+
+    # call old api
+    return $Self->{PreferencesObject}->SetPreferences(%Param);
 }
 
 =item GetPreferences()
@@ -495,9 +517,31 @@ get customer user preferences
 =cut
 
 sub GetPreferences {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->GetPreferences(@_);
+    # check needed stuff
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserID!' );
+        return;
+    }
+
+    # check if user exists
+    my %User = $Self->CustomerUserDataGet( User => $Param{UserID} );
+    if ( !%User ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such user '$Param{UserID}'!",
+        );
+        return;
+    }
+
+    # call new api (2.4.8 and higher)
+    if ( $Self->{ $User{Source} }->can('GetPreferences') ) {
+        return $Self->{ $User{Source} }->GetPreferences(%Param);
+    }
+
+    # call old api
+    return $Self->{PreferencesObject}->GetPreferences(%Param);
 }
 
 =item SearchPreferences()
@@ -512,9 +556,28 @@ search in user preferences
 =cut
 
 sub SearchPreferences {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->SearchPreferences(@_);
+    my %Data;
+    for my $Count ( '', 1 .. 10 ) {
+
+        # next if customer backend is used
+        next if !$Self->{"CustomerUser$Count"};
+
+        # get customer search result of backend and merge it
+        # call new api (2.4.8 and higher)
+        my %SubData;
+        if ( $Self->{"CustomerUser$Count"}->can('SearchPreferences') ) {
+            %SubData = $Self->{"CustomerUser$Count"}->SearchPreferences(%Param);
+        }
+
+        # call old api
+        else {
+            %SubData = $Self->{PreferencesObject}->SearchPreferences(%Param);
+        }
+        %Data = ( %SubData, %Data );
+    }
+    return %Data;
 }
 
 =item TokenGenerate()
@@ -618,6 +681,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2009-08-20 11:09:43 $
+$Revision: 1.55.2.1 $ $Date: 2010-04-14 19:34:55 $
 
 =cut

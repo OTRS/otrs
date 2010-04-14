@@ -1,8 +1,8 @@
 # --
 # CustomerUser.t - CustomerUser tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.11 2009-04-02 13:50:01 mh Exp $
+# $Id: CustomerUser.t,v 1.11.2.1 2010-04-14 19:34:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -373,7 +373,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 
 # check token support
 my $Token = $Self->{CustomerUserObject}->TokenGenerate(
-    UserID => 1,
+    UserID => $UserID,
 );
 $Self->True(
     $Token || 0,
@@ -382,7 +382,7 @@ $Self->True(
 
 my $TokenValid = $Self->{CustomerUserObject}->TokenCheck(
     Token  => $Token,
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->True(
@@ -392,7 +392,7 @@ $Self->True(
 
 $TokenValid = $Self->{CustomerUserObject}->TokenCheck(
     Token  => $Token,
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->True(
@@ -402,7 +402,7 @@ $Self->True(
 
 $TokenValid = $Self->{CustomerUserObject}->TokenCheck(
     Token  => $Token . '123',
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->True(
