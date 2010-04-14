@@ -2,7 +2,7 @@
 # AdminService.dtl - provides HTML form for AdminService
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.14 2010-04-13 17:16:09 cg Exp $
+# $Id: AdminService.dtl,v 1.15 2010-04-14 17:50:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,10 +46,10 @@
             </div>
             <div class="Content">
 
-                <table class="DataTable">
+                <table class="DataTable VariableWidth">
                     <thead>
                         <tr>
-                            <th class="W60pc">$Text{"Service"}</th>
+                            <th>$Text{"Service"}</th>
                             <th class="Center">$Text{"valid"}/$Text{"invalid"}</th>
                         </tr>
                     </thead>
@@ -162,5 +162,4 @@
     </div>
     <div class="Clear"></div>
 </div>
-<!-- end form -->
 <!-- dtl:block:Overview -->

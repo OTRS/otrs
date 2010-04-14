@@ -2,7 +2,7 @@
 # AdminPriority.dtl - provides HTML form for AdminTicketPriority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.dtl,v 1.9 2010-04-13 00:05:27 mp Exp $
+# $Id: AdminPriority.dtl,v 1.10 2010-04-14 17:46:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,10 +45,10 @@
             </div>
             <div class="Content">
 
-                <table class="DataTable">
+                <table class="DataTable VariableWidth">
                     <thead>
                         <tr>
-                            <th class="W25pc">$Text{"Name"}</th>
+                            <th>$Text{"Name"}</th>
                             <th class="Center">$Text{"valid"}/$Text{"invalid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
@@ -58,11 +58,12 @@
 
 <!-- dtl:block:OverviewListRow -->
                         <tr>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=PriorityEdit;PriorityID=$QData{"PriorityID"}">
+                            <td>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=PriorityEdit;PriorityID=$QData{"PriorityID"}">
                                 $QData{"Name"}
                                 </a>
                             </td>
-                            <td class="Center" class="$QData{"CssClass"}">
+                            <td class="Center">
                                 $Text{"$QData{"Valid"}"}
                             </td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
