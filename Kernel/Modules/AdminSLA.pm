@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.26 2010-01-25 07:48:25 mb Exp $
+# $Id: AdminSLA.pm,v 1.27 2010-04-14 16:54:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -350,12 +350,8 @@ sub Run {
             UserID => $Self->{UserID},
         );
 
-        my $CssClass = '';
         SLAID:
         for my $SLAID ( sort { lc $SLAList{$a} cmp lc $SLAList{$b} } keys %SLAList ) {
-
-            # set output object
-            $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
             # get the sla data
             my %SLAData = $Self->{SLAObject}->SLAGet(
@@ -379,8 +375,7 @@ sub Run {
                 Data => {
                     %SLAData,
                     Service => $ServiceList[0] || '-',
-                    CssClass => $CssClass,
-                    Valid    => $ValidList{ $SLAData{ValidID} },
+                    Valid => $ValidList{ $SLAData{ValidID} },
                 },
             );
 
@@ -395,8 +390,7 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewListRow',
                     Data => {
-                        Service  => $ServiceName,
-                        CssClass => $CssClass,
+                        Service => $ServiceName,
                     },
                 );
             }

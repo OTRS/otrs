@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.19 2010-04-13 17:01:12 cr Exp $
+# $Id: AdminSLA.dtl,v 1.20 2010-04-14 16:54:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,27 +104,30 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="FirstResponseTime">$Text{"Escalation - First Response Time"}:</label>
+                        <label for="FirstResponseTime">$Text{"Escalation - First Response Time"} ($Text{"minutes"}):</label>
                         <div class="Field">
-                            <input type="text" name="FirstResponseTime" id="FirstResponseTime" value="$QData{"FirstResponseTime"}" class="W50px" maxlength="10"/> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"FirstResponseNotifyOptionStrg"} )
+                            <input type="text" name="FirstResponseTime" id="FirstResponseTime" value="$QData{"FirstResponseTime"}" class="W50px" maxlength="10"/>
+                            (<label for="FirstResponseNotify">$Text{"Notify by"}</label> $Data{"FirstResponseNotifyOptionStrg"})
                             <p class="FieldExplanation">
                                 $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."}
                             </p>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="UpdateTime">$Text{"Escalation - Update Time"}:</label>
+                        <label for="UpdateTime">$Text{"Escalation - Update Time"} ($Text{"minutes"}):</label>
                         <div class="Field">
-                            <input type="text" name="UpdateTime" id="UpdateTime"value="$QData{"UpdateTime"}" class="W50px" maxlength="10"/> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"UpdateNotifyOptionStrg"} )
+                            <input type="text" name="UpdateTime" id="UpdateTime" value="$QData{"UpdateTime"}" class="W50px" maxlength="10"/>
+                            (<label for="UpdateNotify">$Text{"Notify by"}</label> $Data{"UpdateNotifyOptionStrg"})
                             <p class="FieldExplanation">
                                 $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."}
                             </p>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="SolutionTime">$Text{"Escalation - Solution Time"}:</label>
+                        <label for="SolutionTime">$Text{"Escalation - Solution Time"} ($Text{"minutes"}):</label>
                         <div class="Field">
-                            <input type="text" name="SolutionTime" id="SolutionTime" value="$QData{"SolutionTime"}" class="W50px" maxlength="10"/> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"SolutionNotifyOptionStrg"} )
+                            <input type="text" name="SolutionTime" id="SolutionTime" value="$QData{"SolutionTime"}" class="W50px" maxlength="10"/>
+                            (<label for="SolutionNotify">$Text{"Notify by"}</label> $Data{"SolutionNotifyOptionStrg"})
                             <p class="FieldExplanation">
                                 $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."}
                             </p>
