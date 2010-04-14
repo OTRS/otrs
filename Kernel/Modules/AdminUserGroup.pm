@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.48 2010-03-09 11:18:03 mb Exp $
+# $Id: AdminUserGroup.pm,v 1.49 2010-04-14 17:01:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -214,7 +214,7 @@ sub _Change {
     );
     for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
         next if !$Type;
-        my $Mark = $Type eq 'rw' ? " | " : '';
+        my $Mark = $Type eq 'rw' ? "Highlight" : '';
         $Self->{LayoutObject}->Block(
             Name => 'ChangeHeader',
             Data => {
@@ -225,24 +225,21 @@ sub _Change {
         );
     }
 
-    my $CssClass = 'searchpassive';
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'ChangeRow',
             Data => {
                 %Param,
-                CssClass => $CssClass,
-                Name     => $Param{Data}->{$ID},
-                ID       => $ID,
-                NeType   => $NeType,
+                Name   => $Param{Data}->{$ID},
+                ID     => $ID,
+                NeType => $NeType,
             },
         );
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
             next if !$Type;
-            my $Mark = $Type eq 'rw' ? " | " : '';
+            my $Mark = $Type eq 'rw' ? "Highlight" : '';
             my $Selected = $Param{$Type}->{$ID} ? ' checked="checked"' : '';
 
             $Self->{LayoutObject}->Block(
@@ -259,7 +256,7 @@ sub _Change {
     }
 
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminUserGroupForm',
+        TemplateFile => 'AdminUserGroup',
         Data         => \%Param,
     );
 }
@@ -281,43 +278,37 @@ sub _Overview {
         next if !$Name;
         $UserData{$UserID} .= " ($Name)";
     }
-    my $CssClass = 'searchpassive';
     for my $UserID ( sort { uc( $UserData{$a} ) cmp uc( $UserData{$b} ) } keys %UserData ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'List1n',
             Data => {
                 Name      => $UserData{$UserID},
                 Subaction => 'User',
                 ID        => $UserID,
-                CssClass  => $CssClass,
             },
         );
     }
 
     # get group data
-    $CssClass = 'searchpassive';
     my %GroupData = $Self->{GroupObject}->GroupList( Valid => 1 );
     for my $GroupID ( sort { uc( $GroupData{$a} ) cmp uc( $GroupData{$b} ) } keys %GroupData ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'Listn1',
             Data => {
                 Name      => $GroupData{$GroupID},
                 Subaction => 'Group',
                 ID        => $GroupID,
-                CssClass  => $CssClass,
             },
         );
     }
 
     # return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminUserGroupForm',
+        TemplateFile => 'AdminUserGroup',
         Data         => \%Param,
     );
 }
