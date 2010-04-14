@@ -139,7 +139,7 @@ function select_items (Type) {
                                 <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
 <!-- dtl:block:ChangeRowItem -->
                                 <td class="$QData{"Mark"}">
-                                    <input type="checkbox" name="$QData{"Type"}" id="$QData{"Type"}" value="$QData{"ID"}" $Data{"Selected"}/>
+                                    <input type="checkbox" name="$QData{"Type"}" id="$QData{"Type"}" title="$Text{"Toggle %s permission for %s.", "$QData{"Type"}", "$QData{"Name"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
                                 </td>
 <!-- dtl:block:ChangeRowItem -->
                             </tr>
