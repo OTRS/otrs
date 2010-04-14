@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete system addresses
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.9 2009-12-11 09:42:08 mh Exp $
+# $Id: AdminCustomerCompany.pm,v 1.10 2010-04-14 20:31:08 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,7 +55,7 @@ sub Run {
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminCustomerCompanyForm',
+            TemplateFile => 'AdminCustomerCompany',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -92,7 +92,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Info => 'Updated!' );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminCustomerCompanyForm',
+                TemplateFile => 'AdminCustomerCompany',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -107,7 +107,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminCustomerCompanyForm',
+                TemplateFile => 'AdminCustomerCompany',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -130,7 +130,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminCustomerCompanyForm',
+            TemplateFile => 'AdminCustomerCompany',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -160,7 +160,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Info => 'Added!' );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminCustomerCompanyForm',
+                TemplateFile => 'AdminCustomerCompany',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -175,7 +175,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminCustomerCompanyForm',
+                TemplateFile => 'AdminCustomerCompany',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -191,7 +191,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminCustomerCompanyForm',
+            TemplateFile => 'AdminCustomerCompany',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -276,6 +276,14 @@ sub _Edit {
                 $Param{Required} = '';
             }
 
+            # show required flag
+            if ( $Entry->[7] ) {
+                $Param{ReadOnlyType} = 'readonly="readonly"';
+            }
+            else {
+                $Param{ReadOnlyType} = '';
+            }
+
             # add form option
             if ( $Param{Type} && $Param{Type} eq 'hidden' ) {
                 $Param{Preferences} .= $Param{Value};
@@ -329,22 +337,13 @@ sub _Overview {
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
-    my $CssClass  = '';
     for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-        # set output class
-        if ( $CssClass && $CssClass eq 'searchactive' ) {
-            $CssClass = 'searchpassive';
-        }
-        else {
-            $CssClass = 'searchactive';
-        }
         my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $_, );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultRow',
             Data => {
-                Valid    => $ValidList{ $Data{ValidID} },
-                CssClass => $CssClass,
+                Valid => $ValidList{ $Data{ValidID} },
                 %Data,
                 Search => $Search,
             },
