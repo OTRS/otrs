@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.41 2010-02-10 14:05:16 bes Exp $
+# $Id: PDF.pm,v 1.42 2010-04-14 16:51:04 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -2817,7 +2817,7 @@ sub _PrepareText {
     # convert page brake to new lines
     $Param{Text} =~ s/\f/\n\n/g;
 
-    # convert taps to spaces
+    # convert tabs to spaces
     $Param{Text} =~ s/\t/  /g;
 
     return $Param{Text};
@@ -3522,6 +3522,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2010-02-10 14:05:16 $
+$Revision: 1.42 $ $Date: 2010-04-14 16:51:04 $
 
 =cut
