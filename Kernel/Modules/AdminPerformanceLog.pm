@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.15 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminPerformanceLog.pm,v 1.16 2010-04-14 20:42:34 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -154,16 +154,9 @@ sub Run {
         }
         $Minute = 0;
         $Count  = 1;
-        my $CssClass = '';
         while ( $Count <= $MinuteSlot ) {
 
             # set output class
-            if ( $CssClass && $CssClass eq 'searchactive' ) {
-                $CssClass = 'searchpassive';
-            }
-            else {
-                $CssClass = 'searchactive';
-            }
             if ( $Action{$Minute} ) {
                 my $Average = $Action{$Minute}->{Sum} / $Action{$Minute}->{Count};
                 $Average =~ s/^(.*\.\d\d).+?$/$1/g;
@@ -177,8 +170,7 @@ sub Run {
                         Date    => $Self->{TimeObject}->SystemTime2TimeStamp(
                             SystemTime => $Self->{TimeObject}->SystemTime() - $Minute * 60,
                         ),
-                        Width    => $W . "%",
-                        CssClass => $CssClass,
+                        Width => $W . "%",
                     },
                 );
             }
@@ -190,8 +182,7 @@ sub Run {
                         Date  => $Self->{TimeObject}->SystemTime2TimeStamp(
                             SystemTime => $Self->{TimeObject}->SystemTime() - $Minute * 60,
                         ),
-                        Width    => '0%',
-                        CssClass => $CssClass,
+                        Width => '0%',
                     },
                 );
             }
