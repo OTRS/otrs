@@ -2,7 +2,7 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.1 2010-04-13 21:53:39 en Exp $
+# $Id: AdminPGP.dtl,v 1.2 2010-04-14 17:28:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,12 +23,12 @@
                     <fieldset class="TableLike">
                         <label for="Search">$Text{"Search for"}:</label>
                         <div class="Field">
-                            <input type="text" name="Search" id="Search" value="$QData{"Search"}" class="W25pc" maxlength="25"/>
+                            <input type="text" name="Search" id="Search" value="$QData{"Search"}" class="W50pc" maxlength="25"/>
                         </div>
                         <div class="Clear"></div>
 
-                        <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                        <div class="Field">
+                            <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                         </div>
                         <div class="Clear"></div>
 
@@ -42,11 +42,11 @@
                         <fieldset class="TableLike">
                             <label for="file_upload">$Text{"File"}:</label>
                             <div class="Field">
-                                <input type="file" name="file_upload" id="file_upload" />
+                                <input type="file" size="4" name="file_upload" id="file_upload" />
                             </div>
                             <div class="Clear"></div>
 
-                            <div class="Field SpacingTop">
+                            <div class="Field">
                                 <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
                             </div>
                             <div class="Clear"></div>
@@ -73,7 +73,7 @@
             </div>
             <div class="Content">
 
-                <table class="DataTable">
+                <table class="DataTable VariableWidth">
                     <thead>
                         <tr>
                             <th>$Text{"Type"}</th>
