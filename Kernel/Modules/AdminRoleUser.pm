@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.26 2010-04-15 16:38:39 cr Exp $
+# $Id: AdminRoleUser.pm,v 1.27 2010-04-15 18:06:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -111,7 +111,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeRole' ) {
 
         # get new role member
-        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Active' );
+        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Role' );
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -141,7 +141,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeUser' ) {
 
         # get new role member
-        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Active' );
+        my @IDs = $Self->{ParamObject}->GetArray( Param => 'User' );
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
