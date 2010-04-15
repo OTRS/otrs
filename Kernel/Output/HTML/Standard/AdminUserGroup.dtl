@@ -22,7 +22,7 @@
             <div class="Content">
                 <form action="">
                     <fieldset>
-                        <input type="text" id="FilterUsers" class="W50pc" name="FilterUser" value="" size="12" />
+                        <input type="text" id="FilterUsers" class="W50pc" name="FilterUser" value="" />
                     </fieldset>
                 </form>
             </div>
@@ -34,7 +34,7 @@
             <div class="Content">
                 <form action="">
                     <fieldset>
-                        <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" size="12" />
+                        <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
                     </fieldset>
                 </form>
             </div>
@@ -102,7 +102,7 @@ function select_items (Type) {
             <div class="Content">
                 <fieldset>
                     <h2><label for="Filter">Filter</label></h2>
-                    <input type="text" id="Filter" class="W50pc" name="Filter" value="" size="12" />
+                    <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
                 </fieldset>
                 <p>
                     $Text{"Note"}:
@@ -119,10 +119,10 @@ function select_items (Type) {
         <div class="WidgetGradient Short">
             <div class="Header">
                 <h2>
-                $Text{"Change %s Relations for", "$Data{"NeType"}"}
-                $Text{"$QData{"Type"}"}
-                <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
-                ($QData{"ID"})
+                    $Text{"Change %s Relations for", "$Data{"NeType"}"}
+                    $Text{"$QData{"Type"}"}
+                    <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
+                    ($QData{"ID"})
                 </h2>
             </div>
             <div class="Content WithPadding">
@@ -169,30 +169,30 @@ function select_items (Type) {
             <div class="Content">
 
                 <dl>
-                <dt>$Text{"ro"}</dt>
-                <dd>
-                $Text{"Read only access to the ticket in this group/queue."}
-                </dd>
+                    <dt>$Text{"ro"}</dt>
+                    <dd>
+                        $Text{"Read only access to the ticket in this group/queue."}
+                    </dd>
 
-                <dt>$Text{"move_into"}</dt>
-                <dd>
-                $Text{"Permissions to move tickets into this group/queue."}
-                </dd>
+                    <dt>$Text{"move_into"}</dt>
+                    <dd>
+                        $Text{"Permissions to move tickets into this group/queue."}
+                    </dd>
 
-                <dt>$Text{"create"}</dt>
-                <dd>
-                $Text{"Permissions to create tickets in this group/queue."}
-                </dd>
+                    <dt>$Text{"create"}</dt>
+                    <dd>
+                        $Text{"Permissions to create tickets in this group/queue."}
+                    </dd>
 
-                <dt>$Text{"priority"}</dt>
-                <dd>
-                $Text{"Permissions to change the ticket priority in this group/queue."}
-                </dd>
+                    <dt>$Text{"priority"}</dt>
+                    <dd>
+                        $Text{"Permissions to change the ticket priority in this group/queue."}
+                    </dd>
 
-                <dt>$Text{"rw"}</dt>
-                <dd>
-                $Text{"Full read and write access to the tickets in this group/queue."}
-                </dd>
+                    <dt>$Text{"rw"}</dt>
+                    <dd>
+                        $Text{"Full read and write access to the tickets in this group/queue."}
+                    </dd>
                 </dl>
 
             </div>
