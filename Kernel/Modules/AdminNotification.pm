@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.25 2010-04-15 21:07:17 mp Exp $
+# $Id: AdminNotification.pm,v 1.26 2010-04-15 21:17:57 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Notification;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,7 +67,7 @@ sub Run {
         my %Notification = $Self->{NotificationObject}->NotificationGet(%GetParam);
         my $Output       = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_MaskNotificationForm( %GetParam, %Param, %Notification );
+        $Output .= $Self->_MaskNotificationForm( %GetParam, %Param, %Notification, );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -153,7 +153,7 @@ sub _MaskNotificationForm {
     }
 
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminNotificationForm',
+        TemplateFile => 'AdminNotification',
         Data         => \%Param
     );
 }
