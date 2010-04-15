@@ -1,8 +1,8 @@
 # --
-# AdminResponseForm.dtl - provides HTML form for AdminResponse
+# AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.1 2010-04-13 22:39:09 mg Exp $
+# $Id: AdminResponse.dtl,v 1.2 2010-04-15 15:45:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,47 +92,47 @@ $Include{"RichTextEditor"}
             </div>
             <div class="Content">
 
-            <form action="$Env{"CGIHandle"}" method="post">
-                <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
-                <input type="hidden" name="ID" value="$QData{"ID"}"/>
-                <fieldset class="TableLike">
-                    <label for="Name">$Text{"Name"}:</label>
-                    <div class="Field">
-                        <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc" maxlength="250"/>
-                    </div>
-                    <div class="Clear"></div>
+                <form action="$Env{"CGIHandle"}" method="post">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
+                    <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                    <fieldset class="TableLike">
+                        <label for="Name">$Text{"Name"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc" maxlength="250"/>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="RichText">$Text{"Response"}:</label>
-                    <div class="Field">
-                        <textarea id="RichText" rows="10" cols="60" name="Response">$QData{"Response"}</textarea>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="RichText">$Text{"Response"}:</label>
+                        <div class="Field">
+                            <textarea id="RichText" rows="10" cols="60" name="Response">$QData{"Response"}</textarea>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="IDs">$Text{"Attachments"}:</label>
-                    <div class="Field">
-                        $Data{"AttachmentOption"}
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="IDs">$Text{"Attachments"}:</label>
+                        <div class="Field">
+                            $Data{"AttachmentOption"}
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="ValidID">$Text{"Valid"}:</label>
-                    <div class="Field">
-                        $Data{"ValidOption"}
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="ValidID">$Text{"Valid"}:</label>
+                        <div class="Field">
+                            $Data{"ValidOption"}
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="Comment">$Text{"Comment"}:</label>
-                    <div class="Field">
-                        <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc" maxlength="150"/>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="Comment">$Text{"Comment"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc" maxlength="150"/>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <div class="Field">
-                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                    </div>
-                    <div class="Clear"></div>
-                </fieldset>
-            </form>
+                        <div class="Field">
+                            <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
             </div>
         </div>
         <div class="WidgetGradient Short SpacingTop">
@@ -143,40 +143,40 @@ $Include{"RichTextEditor"}
 
                 <h3>$Text{"You can use the following tags"}:</h3>
                 <dl>
-                    <dt>&lt;OTRS_OWNER_*&gt;</dt>
-                    <dd>
-                        $Text{"Ticket owner options"} ($Text{"e. g."} <strong>
-                        &lt;OTRS_OWNER_UserFirstname&gt;</strong>).
-                    </dd>
+                <dt>&lt;OTRS_OWNER_*&gt;</dt>
+                <dd>
+                $Text{"Ticket owner options"} ($Text{"e. g."} <strong>
+                &lt;OTRS_OWNER_UserFirstname&gt;</strong>).
+                </dd>
 
-                    <dt>&lt;OTRS_RESPONSIBLE_*&gt;</dt>
-                    <dd>
-                        $Text{"Ticket responsible options"} ($Text{"e. g."}
-                        <strong>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</strong>).
-                    </dd>
+                <dt>&lt;OTRS_RESPONSIBLE_*&gt;</dt>
+                <dd>
+                $Text{"Ticket responsible options"} ($Text{"e. g."}
+                <strong>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</strong>).
+                </dd>
 
-                    <dt>&lt;OTRS_CURRENT_*&gt;</dt>
-                    <dd>
-                        $Text{"Options of the current user who requested this action"}
-                         ($Text{"e. g."} <strong>&lt;OTRS_CURRENT_UserFirstname&gt;</strong>).
-                    </dd>
+                <dt>&lt;OTRS_CURRENT_*&gt;</dt>
+                <dd>
+                $Text{"Options of the current user who requested this action"}
+                ($Text{"e. g."} <strong>&lt;OTRS_CURRENT_UserFirstname&gt;</strong>).
+                </dd>
 
-                    <dt>&lt;OTRS_TICKET_*&gt;</dt>
-                    <dd>
-                        $Text{"Options of the ticket data"} ($Text{"e. g."} <strong>&lt;OTRS_TICKET_TicketNumber>,
-                        &lt;OTRS_TICKET_TicketID>, &lt;OTRS_TICKET_Queue>, &lt;OTRS_TICKET_State&gt;</strong>).
-                    </dd>
+                <dt>&lt;OTRS_TICKET_*&gt;</dt>
+                <dd>
+                $Text{"Options of the ticket data"} ($Text{"e. g."} <strong>&lt;OTRS_TICKET_TicketNumber>,
+                &lt;OTRS_TICKET_TicketID>, &lt;OTRS_TICKET_Queue>, &lt;OTRS_TICKET_State&gt;</strong>).
+                </dd>
 
-                    <dt>&lt;OTRS_CUSTOMER_DATA_*&gt;</dt>
-                    <dd>
-                        $Text{"Options of the current customer user data"} ($Text{"e. g."}
-                        <strong>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</strong>).
-                    </dd>
+                <dt>&lt;OTRS_CUSTOMER_DATA_*&gt;</dt>
+                <dd>
+                $Text{"Options of the current customer user data"} ($Text{"e. g."}
+                <strong>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</strong>).
+                </dd>
 
-                    <dt>&lt;OTRS_CONFIG_*&gt;</dt>
-                    <dd>
-                        $Text{"Config options"} ($Text{"e. g."} <strong>&lt;OTRS_CONFIG_HttpType&gt;</strong>).
-                    </dd>
+                <dt>&lt;OTRS_CONFIG_*&gt;</dt>
+                <dd>
+                $Text{"Config options"} ($Text{"e. g."} <strong>&lt;OTRS_CONFIG_HttpType&gt;</strong>).
+                </dd>
                 </dl>
 
                 <h3 class="SpacingTop">
