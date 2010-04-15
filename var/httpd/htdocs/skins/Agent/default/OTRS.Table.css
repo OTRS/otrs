@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -61,7 +61,7 @@ tbody tr.UnreadArticles td {
     background-image: none;
     color: #444444;
     font-size: 11px;
-    line-height: 12px;
+    line-height: 16px;
     padding: 3px 4px 0;
     text-transform: uppercase;
 }

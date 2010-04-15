@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.26 2010-04-14 17:41:42 mg Exp $
+# $Id: AdminSession.dtl,v 1.27 2010-04-15 16:34:39 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,16 +64,16 @@
                     <thead>
                         <tr>
                             <th>$Text{"Session"}</th>
-                            <th class="W75pc">$Text{"Content"}</th>
-                            <th class="Center">$Text{"Kill"}</th>
+                            <th>$Text{"Content"}</th>
+                            <th>$Text{"Kill"}</th>
                         </tr>
                     </thead>
                     <tbody>
 <!-- dtl:block:Session -->
                         <tr>
                             <td>$QData{"SessionID"}</td>
-                            <td>$Data{"Output"}</td>
-                            <td class="Center">
+                            <td class="Small">$Data{"Output"}</td>
+                            <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=AdminSession;Subaction=Kill;WantSessionID=$Data{"SessionID"}">Kill this session</a>
                             </td>
                         </tr>
