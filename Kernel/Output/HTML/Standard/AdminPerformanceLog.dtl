@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.18 2010-04-14 20:43:11 en Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.19 2010-04-15 00:23:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,12 +25,10 @@
                     <h2>$Text{"This feature is enabled!"}</h2>
                     <fieldset>
                         <p class="FieldExplanation">
-                            $Text{"Just use this feature if you want to log each request."}<font color="red">*</font>
+                            $Text{"Just use this feature if you want to log each request."}
                         </p>
-                        <p class="FieldExplanation">
-                            <font color="red">
+                        <p class="Error">
                             $Text{"Activating this feature might affect your system performance!"}
-                            </font>
                         </p>
                         <div class="Field SpacingTop">
                             <button class="button" type="submit" value="$Text{"Disable it here!"}">$Text{"Disable it here!"}</button>
@@ -51,8 +49,8 @@
                         <p class="FieldExplanation">
                             $Text{"Just use this feature if you want to log each request."}<font color="red">*</font>
                         </p>
-                        <p class="FieldExplanation">
-                            <font color="red">$Text{"Activating this feature might affect your system performance!"}</font>
+                        <p class="Error">
+                            $Text{"Activating this feature might affect your system performance!"}
                         </p>
                         <div class="Field SpacingTop">
                             <button class="button" type="submit" value="$Text{"Enable it here!"}">$Text{"Emable it here!"}</button>
@@ -68,11 +66,8 @@
                     <input type="hidden" name="Subaction" value="Reset"/>
                     <h2>$Text{"Logfile too large!"} ($QData{"Size"})</h2>
                     <fieldset>
-                        <p class="FieldExplanation">
-                            $Text{"Logfile too large!"} ($QData{"Size"})
-                        </p>
-                        <p class="FieldExplanation">
-                            $Text{"Logfile too large, you need to reset it!"}
+                        <p class="Error">
+                            $Text{"The logfile is too large, you need to reset it"} ($QData{"Size"}).
                         </p>
                         <div class="Field SpacingTop">
                             <button class="button" type="submit" value="$Text{"Reset"}">$Text{"Reset"}</button>
@@ -106,7 +101,9 @@
                     <tbody>
 <!-- dtl:block:OverviewInterface -->
                         <tr>
-                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Interface=$LQData{"Interface"};Minute=$LQData{"Minute"}">$QData{"Interface"}</a></td>
+                            <td>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Interface=$LQData{"Interface"};Minute=$LQData{"Minute"}">$QData{"Interface"}</a>
+                            </td>
                             <td>$QData{"Count"}</td>
                             <td>$QData{"Min"}s</td>
                             <td>$QData{"Max"}s</td>
@@ -140,7 +137,7 @@
                     <strong>$Text{"Module"}:</strong> $QData{"Module"},
                     <strong>$Text{"Period"}:</strong> $QData{"Period"} $Text{"minutes"}
                 </p>
-                <table class="DataTable">
+                <table class="DataTable SpacingTop AdminPerformanceLog">
                     <thead>
                         <tr>
                             <th>$Text{"Date"}</th>
@@ -148,7 +145,7 @@
                             <th>$Text{"Min"}</th>
                             <th>$Text{"Max"}</th>
                             <th>$Text{"Average"}</th>
-                            <th class="W25pc"></th>
+                            <th class="ProgressbarColumn"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -159,7 +156,7 @@
                             <td><em>$QData{"Min"}s</em></td>
                             <td><em>$QData{"Max"}s</em></td>
                             <td><em>$QData{"Average"}s</em></td>
-                            <td><div style="width:$QData{"Width"}; background-color:blue;"></div></td>
+                            <td><div class="Progressbar" style="width:$QData{"Width"};">&nbsp;</div></td>
                         </tr>
 <!-- dtl:block:ViewRow -->
                     </tbody>
