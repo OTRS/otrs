@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.37 2010-02-26 19:42:10 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.38 2010-04-15 15:22:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,7 +60,7 @@ sub Run {
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminAutoResponseForm',
+            TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -102,7 +102,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminAutoResponseForm',
+                TemplateFile => 'AdminAutoResponse',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -114,7 +114,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => 'Response updated!' );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminAutoResponseForm',
+            TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -136,7 +136,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminAutoResponseForm',
+            TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -177,7 +177,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminAutoResponseForm',
+                TemplateFile => 'AdminAutoResponse',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -188,7 +188,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => 'Response added!' );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminAutoResponseForm',
+            TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -220,7 +220,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminAutoResponseForm',
+            TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -316,22 +316,13 @@ sub _Overview {
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
-    my $CssClass  = '';
     for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-        # set output class
-        if ( $CssClass && $CssClass eq 'searchactive' ) {
-            $CssClass = 'searchpassive';
-        }
-        else {
-            $CssClass = 'searchactive';
-        }
         my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultRow',
             Data => {
-                Valid    => $ValidList{ $Data{ValidID} },
-                CssClass => $CssClass,
+                Valid => $ValidList{ $Data{ValidID} },
                 %Data,
                 Attachments => int rand 5,
             },
