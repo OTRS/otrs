@@ -1,8 +1,8 @@
 # --
 # Kernel/System/JSON.pm - Wrapper functions for encoding and decoding JSON
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: JSON.pm,v 1.1 2009-12-31 10:47:25 mn Exp $
+# $Id: JSON.pm,v 1.2 2010-04-15 10:51:51 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -37,9 +37,25 @@ Functions for encoding perl data structures to JSON.
 
 create a JSON object
 
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
     use Kernel::System::JSON;
 
-    my $JSONObject = Kernel::System::JSON->new();
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
+
+    my $JSONObject = Kernel::System::JSON->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+    );
 
 =cut
 
@@ -50,10 +66,14 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    my $json = new JSON;
-    $json = $json->allow_nonref(1);
+    # check needed objects
+    for my $Object (qw(ConfigObject EncodeObject LogObject)) {
+        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
+    }
 
-    $Self->{JSON} = $json;
+    # create additional objects
+    $Self->{JSONObject} = JSON->new();
+    $Self->{JSONObject}->allow_nonref(1);
 
     return $Self;
 }
@@ -63,7 +83,7 @@ sub new {
 Encode a perl data structure to a JSON string.
 
     $JSONObject->Encode(
-        Data => $data,
+        Data => $Data,
     );
 
 =cut
@@ -71,15 +91,19 @@ Encode a perl data structure to a JSON string.
 sub Encode {
     my ( $Self, %Param ) = @_;
 
+    # check for needed data
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Data!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Data!',
+        );
         return;
     }
 
-    my $JSON = '';
-    $JSON = $Self->{JSON}->encode( $Param{Data} );
+    # get JSON-encoded presentation of perl structure
+    my $JSONEncoded = $Self->{JSONObject}->encode( $Param{Data} ) || '""';
 
-    return $JSON;
+    return $JSONEncoded;
 }
 
 # function is not used yet
@@ -88,7 +112,7 @@ sub Encode {
 #Decode a JSON string to a perl data structure.
 #
 #    $JSONObject->Decode(
-#        Data => $jsonstring,
+#        Data => $JSONString,
 #    );
 #
 #=cut
@@ -96,10 +120,11 @@ sub Encode {
 sub Decode {
     my ( $Self, %Param ) = @_;
 
+    # check for needed data
     return if !defined $Param{Data};
 
-    my $scalar;
-    $scalar = $Self->{JSON}->decode( $Param{Data} );
+    # decode JSON encoded to perl structure
+    my $scalar = $Self->{JSONObject}->decode( $Param{Data} );
 
     return $scalar;
 }
@@ -118,6 +143,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2009-12-31 10:47:25 $
+$Revision: 1.2 $ $Date: 2010-04-15 10:51:51 $
 
 =cut

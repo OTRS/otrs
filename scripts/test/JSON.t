@@ -1,8 +1,8 @@
 # --
 # scripts/test/JSON.t - JSON module testscript
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: JSON.t,v 1.1 2009-12-31 10:47:25 mn Exp $
+# $Id: JSON.t,v 1.2 2010-04-15 10:51:51 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,10 +17,20 @@ use Kernel::System::JSON;
 # declare externally defined variables to avoid errors under 'use strict'
 use vars qw( $Self %Param );
 
-$Self->{JSONObject} = Kernel::System::JSON->new();
+$Self->{JSONObject} = Kernel::System::JSON->new( %{$Self} );
 
 # Tests for JSON encode method
 my @Tests = (
+    {
+        Input  => undef,
+        Result => undef,
+        Name   => 'JSON - undef test',
+    },
+    {
+        Input  => '',
+        Result => '""',
+        Name   => 'JSON - empty test',
+    },
     {
         Input  => 'Some Text',
         Result => '"Some Text"',
