@@ -2,7 +2,7 @@
 # AdminService.dtl - provides HTML form for AdminService
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.16 2010-04-15 16:54:21 mn Exp $
+# $Id: AdminService.dtl,v 1.17 2010-04-15 17:53:52 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,14 +104,14 @@
 <!-- dtl:block:InputKey -->
                         <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}: </label>
                         <div class="Field">
-                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" class="W30pc"/>
+                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" class="W25pc"/>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
                         <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}: </label>
                         <div class="Field">
-                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" class="W30pc"/>
+                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" class="W25pc"/>
                             <p class="FieldExplanation">($Text{"$Data{"Desc"}"})</p>
                         </div>
                         <div class="Clear"></div>
@@ -143,7 +143,7 @@
 <!-- dtl:block:Password -->
                         <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}: </label>
                         <div class="Field">
-                            <input type="password" class="W30pc" name="$QData{"Name"}" id="$QData{"Name"}" value="" />
+                            <input type="password" class="W25pc" name="$QData{"Name"}" id="$QData{"Name"}" value="" />
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:Password -->

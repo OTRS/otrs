@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.10 2010-04-14 21:36:19 mp Exp $
+# $Id: AdminMailAccount.dtl,v 1.11 2010-04-15 17:53:52 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -122,19 +122,19 @@
 
                         <label for="LoginEdit">$Text{"Username"}:</label>
                         <div class="Field">
-                            <input type="text" name="Login" id="LoginEdit" value="$QData{"Login"}" maxlength="200"/>
+                            <input type="text" class="W25pc" name="Login" id="LoginEdit" value="$QData{"Login"}" maxlength="200"/>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="PasswordEdit">$Text{"Password"}:</label>
                         <div class="Field">
-                            <input type="password" name="Password" id="PasswordEdit" value="$QData{"Password"}" maxlength="200"/>
+                            <input type="password" class="W25pc" name="Password" id="PasswordEdit" value="$QData{"Password"}" maxlength="200"/>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="HostEdit">$Text{"Host"}:</label>
                         <div class="Field">
-                            <input type="text" name="Host" id="HostEdit" value="$QData{"Host"}" maxlength="200"/>
+                            <input type="text" class="W25pc" name="Host" id="HostEdit" value="$QData{"Host"}" maxlength="200"/>
                         </div>
                         <div class="Clear"></div>
 
@@ -164,7 +164,7 @@
 
                         <label for="Comment">$Text{"Comment"}:</label>
                         <div class="Field">
-                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" maxlength="250"/>
+                            <input type="text" class="W25pc" name="Comment" id="Comment" value="$QData{"Comment"}" maxlength="250"/>
                         </div>
                         <div class="Clear"></div>
 

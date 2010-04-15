@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.19 2010-04-15 00:23:03 mg Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.20 2010-04-15 17:53:52 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,13 +47,13 @@
                     <h2>$Text{"This feature is disabled!"}</h2>
                     <fieldset>
                         <p class="FieldExplanation">
-                            $Text{"Just use this feature if you want to log each request."}<font color="red">*</font>
+                            $Text{"Just use this feature if you want to log each request."}
                         </p>
                         <p class="Error">
                             $Text{"Activating this feature might affect your system performance!"}
                         </p>
                         <div class="Field SpacingTop">
-                            <button class="button" type="submit" value="$Text{"Enable it here!"}">$Text{"Emable it here!"}</button>
+                            <button class="button" type="submit" value="$Text{"Enable it here!"}">$Text{"Enable it here!"}</button>
                         </div>
                         <div class="Clear"></div>
 
