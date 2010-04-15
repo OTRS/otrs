@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.24 2010-02-26 19:42:10 martin Exp $
+# $Id: AdminNotification.pm,v 1.25 2010-04-15 21:07:17 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Notification;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,10 +65,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my %Notification = $Self->{NotificationObject}->NotificationGet(%GetParam);
-
-        my $Output = $Self->{LayoutObject}->Header();
+        my $Output       = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_MaskNotificationForm( %GetParam, %Param, %Notification, );
+        $Output .= $Self->_MaskNotificationForm( %GetParam, %Param, %Notification );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -90,35 +89,6 @@ sub Run {
             return $Self->{LayoutObject}->Error();
         }
         return $Self->{LayoutObject}->Redirect( OP => "Action=AdminNotification" );
-    }
-
-    # ------------------------------------------------------------ #
-    # add new response
-    # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'AddAction' ) {
-
-        # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
-
-        my $ID = $Self->{StdNotificationObject}->StdNotificationAdd(
-            %GetParam,
-            ContentType => $ContentType,
-            UserID      => $Self->{UserID}
-        );
-        if ( !$ID ) {
-            return $Self->{LayoutObject}->Error();
-        }
-
-        # add attachments to response
-        my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
-        $Self->{StdAttachmentObject}->SetStdAttachmentsOfNotificationID(
-            AttachmentIDsRef => \@NewIDs,
-            ID               => $ID,
-            UserID           => $Self->{UserID},
-        );
-
-        # show next page
-        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminNotifications", );
     }
 
     # ------------------------------------------------------------ #
@@ -144,6 +114,19 @@ sub _MaskNotificationForm {
         SelectedID => $Param{Name},
         HTMLQuote  => 1,
     );
+
+    #Show update form
+    if ( $Self->{Subaction} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ShowUpdateForm',
+            Data => \%Param
+        );
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'ShowInitialMessage'
+        );
+    }
 
     # add rich text editor
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
