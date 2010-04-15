@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.31 2010-04-14 23:49:38 mg Exp $
+# $Id: AdminEmail.dtl,v 1.32 2010-04-15 00:16:16 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ $Include{"RichTextEditor"}
 <div class="MainBox ARIARoleMain">
     <h1>$Text{"Admin Notification"}</h1>
 
-    <div class="WidgetGradient Short W50pc CenterBox">
+    <div class="WidgetGradient Short">
         <div class="Header">
             <h2>$Text{"Send Administrative Message to Agents"}</h2>
         </div>
@@ -39,19 +39,19 @@ $Include{"RichTextEditor"}
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="UserID">$Text{"Send message to users"}:</label>
+                    <label for="UserIDs">$Text{"Send message to users"}:</label>
                     <div class="Field">
                         $Data{"UserOption"}
                     </div
                     <div class="Clear"></div>
 
-                    <label for="GroupID">$Text{"Send message to group members"}:</label>
+                    <label for="GroupIDs">$Text{"Send message to group members"}:</label>
                     <div class="Field">
                         $Data{"GroupOption"}
                     </div
                     <div class="Clear"></div>
 
-                    <label for="GroupID">$Text{"Group members need to have permission"}:</label>
+                    <label for="GroupPermissionRO">$Text{"Group members need to have permission"}:</label>
                     <div class="Field">
                         <input type="radio" name="GroupPermission" id="GroupPermissionRO" value="ro" checked="checked" />
                         <label for="GroupPermissionRO">ro</label>
@@ -62,7 +62,7 @@ $Include{"RichTextEditor"}
                     <div class="Clear"></div>
 
 <!-- dtl:block:RoleRecipients -->
-                    <label for="RoleID">$Text{"Send message to role members"}:</label>
+                    <label for="RoleIDs">$Text{"Send message to role members"}:</label>
                     <div class="Field">
                         $Data{"RoleOption"}
                     </div
