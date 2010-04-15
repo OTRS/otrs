@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.42 2010-03-25 14:42:45 martin Exp $
+# $Id: Main.pm,v 1.43 2010-04-15 06:47:25 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Data::Dumper;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -303,7 +303,7 @@ sub FileRead {
     elsif ( $Param{Location} ) {
 
         # filename clean up
-        $Param{Location} =~ s/\/\//\//g;
+        $Param{Location} =~ s{//}{/}xmsg;
     }
     else {
         $Self->{LogObject}->Log(
@@ -326,7 +326,7 @@ sub FileRead {
 
     # set open mode
     my $Mode = '<';
-    if ( $Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i ) {
+    if ( $Param{Mode} && $Param{Mode} =~ m{ \A utf-?8 \z }xmsi ) {
         $Mode = '<:utf8';
     }
 
@@ -348,17 +348,15 @@ sub FileRead {
     }
 
     # enable binmode
-    if ( !$Param{Mode} || $Param{Mode} =~ /^binmode/i ) {
+    if ( !$Param{Mode} || $Param{Mode} =~ m{ \A binmode }xmsi ) {
         binmode($FH);
     }
 
     # read file as array
     if ( $Param{Result} && $Param{Result} eq 'ARRAY' ) {
 
-        my @Array;
-        while ( my $Line = <$FH> ) {
-            push @Array, $Line;
-        }
+        # read file content at once
+        my @Array = <$FH>;
         close $FH;
 
         return \@Array;
@@ -782,6 +780,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2010-03-25 14:42:45 $
+$Revision: 1.43 $ $Date: 2010-04-15 06:47:25 $
 
 =cut
