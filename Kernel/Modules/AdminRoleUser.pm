@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.25 2010-01-20 23:40:33 martin Exp $
+# $Id: AdminRoleUser.pm,v 1.26 2010-04-15 16:38:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -194,22 +194,20 @@ sub _Change {
         Name => 'ChangeHeader',
         Data => {
             %Param,
-            Type => $Type,
+            Type   => $Type,
+            NeType => $NeType,
         },
     );
 
-    my $CssClass = 'searchpassive';
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         my $Selected = $Param{Selected}->{$ID} ? ' checked="checked"' : '';
 
         $Self->{LayoutObject}->Block(
             Name => 'ChangeRow',
             Data => {
                 %Param,
-                CssClass => $CssClass,
                 Name     => $Param{Data}->{$ID},
                 NeType   => $NeType,
                 Type     => $Type,
@@ -220,7 +218,7 @@ sub _Change {
     }
 
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminRoleUserForm',
+        TemplateFile => 'AdminRoleUser',
         Data         => \%Param,
     );
 }
@@ -242,43 +240,37 @@ sub _Overview {
         next if !$Name;
         $UserData{$UserID} .= " ($Name)";
     }
-    my $CssClass = 'searchpassive';
     for my $UserID ( sort { uc( $UserData{$a} ) cmp uc( $UserData{$b} ) } keys %UserData ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'List1n',
             Data => {
                 Name      => $UserData{$UserID},
                 Subaction => 'User',
                 ID        => $UserID,
-                CssClass  => $CssClass,
             },
         );
     }
 
     # get group data
-    $CssClass = 'searchpassive';
     my %RoleData = $Self->{GroupObject}->RoleList( Valid => 1 );
     for my $RoleID ( sort { uc( $RoleData{$a} ) cmp uc( $RoleData{$b} ) } keys %RoleData ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'Listn1',
             Data => {
                 Name      => $RoleData{$RoleID},
                 Subaction => 'Role',
                 ID        => $RoleID,
-                CssClass  => $CssClass,
             },
         );
     }
 
     # return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminRoleUserForm',
+        TemplateFile => 'AdminRoleUser',
         Data         => \%Param,
     );
 }
