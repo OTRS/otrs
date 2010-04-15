@@ -2,7 +2,7 @@
 # AdminPriority.dtl - provides HTML form for AdminTicketPriority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.dtl,v 1.10 2010-04-14 17:46:39 mg Exp $
+# $Id: AdminPriority.dtl,v 1.11 2010-04-15 16:54:21 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,7 @@
                     <thead>
                         <tr>
                             <th>$Text{"Name"}</th>
-                            <th class="Center">$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"valid"}/$Text{"invalid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
@@ -63,7 +63,7 @@
                                 $QData{"Name"}
                                 </a>
                             </td>
-                            <td class="Center">
+                            <td>
                                 $Text{"$QData{"Valid"}"}
                             </td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
@@ -88,7 +88,7 @@
                     <fieldset class="TableLike">
                         <label for="Name">$Text{"Priority"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" size="45" maxlength="200" />
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" maxlength="200" />
                         </div>
                         <div class="Clear"></div>
 

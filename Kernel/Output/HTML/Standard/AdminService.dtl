@@ -2,7 +2,7 @@
 # AdminService.dtl - provides HTML form for AdminService
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.15 2010-04-14 17:50:00 mg Exp $
+# $Id: AdminService.dtl,v 1.16 2010-04-15 16:54:21 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,6 @@
             </div>
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="post">
-
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="ServiceEdit"/>
                     <input type="hidden" name="ServiceID" value="NEW"/>
@@ -50,14 +49,14 @@
                     <thead>
                         <tr>
                             <th>$Text{"Service"}</th>
-                            <th class="Center">$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"valid"}/$Text{"invalid"}</th>
                         </tr>
                     </thead>
                     <tbody>
 <!-- dtl:block:OverviewListRow -->
                         <tr>
                             <td>$Data{"LevelSpace"}<a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ServiceEdit;ServiceID=$QData{"ServiceID"}">$QData{"Name"}</a></td>
-                            <td class="Center">$Text{"$QData{"Valid"}"}</td>
+                            <td>$Text{"$QData{"Valid"}"}</td>
                         </tr>
 <!-- dtl:block:OverviewListRow -->
                     </tbody>
@@ -144,7 +143,7 @@
 <!-- dtl:block:Password -->
                         <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}: </label>
                         <div class="Field">
-                            <input type="password" name="$QData{"Name"}" id="$QData{"Name"}" value="" size="30"/>
+                            <input type="password" class="W30pc" name="$QData{"Name"}" id="$QData{"Name"}" value="" />
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:Password -->
