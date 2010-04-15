@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.26 2010-01-20 23:40:33 martin Exp $
+# $Id: AdminRoleGroup.pm,v 1.27 2010-04-15 19:08:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -207,7 +207,7 @@ sub _Change {
     );
     for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
         next if !$Type;
-        my $Mark = $Type eq 'rw' ? " | " : '';
+        my $Mark = $Type eq 'rw' ? "Highlight" : '';
         $Self->{LayoutObject}->Block(
             Name => 'ChangeHeader',
             Data => {
@@ -218,24 +218,21 @@ sub _Change {
         );
     }
 
-    my $CssClass = 'searchpassive';
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'ChangeRow',
             Data => {
                 %Param,
-                CssClass => $CssClass,
-                Name     => $Param{Data}->{$ID},
-                ID       => $ID,
-                NeType   => $NeType,
+                Name   => $Param{Data}->{$ID},
+                ID     => $ID,
+                NeType => $NeType,
             },
         );
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
             next if !$Type;
-            my $Mark = $Type eq 'rw' ? " | " : '';
+            my $Mark = $Type eq 'rw' ? "Highlight" : '';
             my $Selected = $Param{$Type}->{$ID} ? ' checked="checked"' : '';
 
             $Self->{LayoutObject}->Block(
@@ -252,7 +249,7 @@ sub _Change {
     }
 
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminRoleGroupForm',
+        TemplateFile => 'AdminRoleGroup',
         Data         => \%Param,
     );
 }
@@ -268,43 +265,37 @@ sub _Overview {
     # get user list
     my %RoleData = $Self->{GroupObject}->RoleList( Valid => 1 );
 
-    my $CssClass = 'searchpassive';
     for my $RoleID ( sort { uc( $RoleData{$a} ) cmp uc( $RoleData{$b} ) } keys %RoleData ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'List1n',
             Data => {
                 Name      => $RoleData{$RoleID},
                 Subaction => 'Role',
                 ID        => $RoleID,
-                CssClass  => $CssClass,
             },
         );
     }
 
     # get group data
-    $CssClass = 'searchpassive';
     my %GroupData = $Self->{GroupObject}->GroupList( Valid => 1 );
     for my $GroupID ( sort { uc( $GroupData{$a} ) cmp uc( $GroupData{$b} ) } keys %GroupData ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'Listn1',
             Data => {
                 Name      => $GroupData{$GroupID},
                 Subaction => 'Group',
                 ID        => $GroupID,
-                CssClass  => $CssClass,
             },
         );
     }
 
     # return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminRoleGroupForm',
+        TemplateFile => 'AdminRoleGroup',
         Data         => \%Param,
     );
 }
