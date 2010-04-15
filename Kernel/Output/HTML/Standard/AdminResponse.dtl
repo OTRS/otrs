@@ -2,7 +2,7 @@
 # AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.3 2010-04-15 15:50:43 mg Exp $
+# $Id: AdminResponse.dtl,v 1.4 2010-04-15 16:00:46 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,13 +49,12 @@
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable VariableWidth">
                     <thead>
-
                         <tr>
-                            <th class="W20pc">$Text{"Name"}</th>
+                            <th>$Text{"Name"}</th>
                             <th>$Text{"Attachments"}</th>
-                            <th class="Center">$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"valid"}/$Text{"invalid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                             <th>$Text{"Delete"}</th>
@@ -68,10 +67,10 @@
                                 <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
                             </td>
                             <td>$QData{"Attachments"}</td>
-                            <td class="Center">$Text{"$QData{"Valid"}"}</td>
+                            <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
-                            <td class="Center">
+                            <td>
                                 <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"}">$Text{"Delete this entry"}</a>
                             </td>
                         </tr>

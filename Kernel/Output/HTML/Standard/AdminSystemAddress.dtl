@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.1 2010-04-13 17:13:59 cr Exp $
+# $Id: AdminSystemAddress.dtl,v 1.2 2010-04-15 16:00:46 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@
                         <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
 
                         <h2 class="SpacingTop">$Text{"Note"}</h2>
-                        <p>
+                        <p class="FieldExplanation">
                             $Text{"These email addresses will be excluded in replies from OTRS."}
                         </p>
                         <p class="FieldExplanation">
@@ -51,12 +51,12 @@
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable VariableWidth">
                     <thead>
                         <tr>
-                            <th class="W25pc">$Text{"Email Address"}</th>
-                            <th class="W25pc">$Text{"TDisplay Name"}</th>
-                            <th class="Center">$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"Email Address"}</th>
+                            <th>$Text{"Display Name"}</th>
+                            <th>$Text{"valid"}/$Text{"invalid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
@@ -66,7 +66,7 @@
                         <tr>
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             <td title="$Text{"$QData{"Realname"}"}">$Text{"$QData{"Realname","26"}"}</td>
-                            <td class="Center">$Text{"$QData{"Valid"}"}</td>
+                            <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                         </tr>

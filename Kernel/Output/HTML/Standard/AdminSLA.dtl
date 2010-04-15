@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.20 2010-04-14 16:54:39 mg Exp $
+# $Id: AdminSLA.dtl,v 1.21 2010-04-15 16:00:46 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,14 +44,12 @@
             </div>
             <div class="Content">
 
-                <table class="DataTable">
+                <table class="DataTable VariableWidth">
                     <thead>
                         <tr>
-                            <th class="W50pc">$Text{"SLA"}</th>
+                            <th>$Text{"SLA"}</th>
                             <th>$Text{"Service"}</th>
-#                                   <th class="W25pc">$Text{"Comment"}</th>
-                            <th>$Text{"Service"}</th>
-                            <th class="Center">$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"valid"}/$Text{"invalid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
@@ -61,9 +59,8 @@
 
                         <tr>
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SLAEdit;SLAID=$QData{"SLAID"}">$QData{"Name"}</a></td>
-                            <td>$Text{"$QData{"Service"}</td>
-#                           <td title="$QData{"Comment"}">$QData{"Comment","20"}</td>
-                            <td class="Center">$Text{"$QData{"Valid"}"}</td>
+                            <td>$Text{"$QData{"Service"}"}</td>
+                            <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                         </tr>

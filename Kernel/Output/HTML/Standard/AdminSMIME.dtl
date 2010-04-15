@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.2 2010-04-14 17:13:23 mg Exp $
+# $Id: AdminSMIME.dtl,v 1.3 2010-04-15 16:00:46 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,6 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Search"/>
                     <fieldset>
-
                         <div class="Field">
                             <input type="text" class="W50pc" id="Search" />
                         </div>
@@ -45,7 +44,6 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="AddCertificate"/>
                     <fieldset>
-
                         <p class="FieldExplanation">
                             $Text{"Add a certificate file."}
                         </p>
@@ -92,7 +90,7 @@
                         </div>
 
                         <h2 class="SpacingTop">$Text{"Note"}</h2>
-                        <p>
+                        <p class="FieldExplanation">
                             $Text{"In this way you can directly edit the certification and private keys in file system."}
                         </p>
                         <p class="FieldExplanation">
@@ -110,14 +108,14 @@
                 <h2>$Text{"Results"}</h2>
             </div>
             <div class="Content WithPadding">
-                <table class="DataTable">
+                <table class="DataTable VariableWidth">
                     <thead>
                         <tr>
                             <th>$Text{"Type"}</th>
-                            <th>$Text{"Subjectv</th>
+                            <th>$Text{"Subject"}</th>
                             <th>$Text{"Hash/Fingerprint"}</th>
                             <th>$Text{"Create/Expires"}</th>
-                            <th class="Center">$Text{"Delete"}</th>
+                            <th>$Text{"Delete"}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -130,7 +128,7 @@
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Hash=$LQData{"Hash"}">$QData{"Fingerprint","12"}</a>
                             </td>
                             <td>$QData{"ShortStartDate"}<br/>$QData{"ShortEndDate"}</td>
-                            <td class="Center">
+                            <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Hash=$LQData{"Hash"}">$Text{"Delete this certificate"}</a>
                             </td>
                         </tr>
