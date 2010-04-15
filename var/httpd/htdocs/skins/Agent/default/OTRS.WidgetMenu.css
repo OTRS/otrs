@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -365,6 +365,11 @@ ul.ContextFunctions li.ContextHelp:hover {
 
 .ActionRow ul.Actions li.Inactive:hover a {
     background: url(img/tab_isolator.png) no-repeat center right;
+    cursor: default;
+}
+
+.ActionRow ul.Actions li.Inactive.Last:hover a {
+    background: none;
     cursor: default;
 }
 

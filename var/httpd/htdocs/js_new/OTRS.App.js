@@ -2,7 +2,7 @@
 // OTRS.App.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.js,v 1.1 2010-03-31 08:09:46 mn Exp $
+// $Id: OTRS.App.js,v 1.2 2010-04-15 18:29:28 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -29,6 +29,7 @@ OTRS.App = (function (Namespace) {
         OTRS.UI.Tables.InitCSSPseudoClasses();
         OTRS.UI.InitWidgetActionToggle();
         OTRS.UI.InitMessageBoxClose();
+        OTRS.UI.ProcessTagAttributeClasses();
         OTRS.Forms.Validate.Init();
         // late execution of accessibility code
         OTRS.UI.Accessibility.Init();
