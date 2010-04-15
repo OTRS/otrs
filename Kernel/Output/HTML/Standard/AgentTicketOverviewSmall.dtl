@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.35 2010-04-12 23:12:02 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.36 2010-04-15 21:26:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -215,3 +215,9 @@ OTRS.UI.ActionRow.AddActions('TicketID_$QData{"TicketID"}', $Data{"Data"});
 <!-- dtl:block:DocumentReadyStart -->
 <!-- dtl:document_ready -->
 <!-- dtl:block:DocumentContent -->
+
+<!-- dtl:block:DocumentMenuItem -->
+<li id="$QData{"ID"}">
+    <a href="" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
+</li>
+<!-- dtl:block:DocumentMenuItem -->
