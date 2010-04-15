@@ -1,0 +1,213 @@
+# --
+# AdminRoleGroup.dtl - provides HTML form for AdminInterface
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminRoleGroup.dtl,v 1.13 2010/02/05 13:58:23 mn Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:Overview -->
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Manage Role-Group Relations"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+
+                <h2><label for="FilterRoles">$Text{"Filter for Roles"}</label></h2>
+            </div>
+            <div class="Content">
+                <form action="">
+                    <fieldset>
+                        <input type="text" id="FilterRoles" class="W50pc" name="FilterUser" value="" />
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
+            </div>
+            <div class="Content">
+                <form action="">
+                    <fieldset>
+                        <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+     <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Overview"}</h2>
+            </div>
+            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+                <div class="Size1of2">
+                    <ul class="Tablelike" id="Roles">
+                        <li class="Header">$Text{"Roles"}</li>
+<!-- dtl:block:List1n-->
+                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
+<!-- dtl:block:List1n-->
+                    </ul>
+                </div>
+                <div class="Size1of2">
+                    <ul class="Tablelike" id="Groups">
+                        <li class="Header">$Text{"Groups"}</li>
+<!-- dtl:block:Listn1-->
+                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
+<!-- dtl:block:Listn1-->
+                    </ul>
+                </div>
+                <div class="Clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+<!-- dtl:document_ready -->
+<script type="text/javascript">//<![CDATA[
+    $(document).ready(function() {
+        OTRS.UI.Tables.InitTableFilter($('#FilterRoles'), $('#Roles'));
+        OTRS.UI.Tables.InitTableFilter($('#FilterGroups'), $('#Groups'));
+    });
+//]]></script>
+<!-- dtl:document_ready -->
+
+<!-- dtl:block:Overview -->
+<!-- dtl:block:Change -->
+
+<script type="text/javascript">//<![CDATA[
+function select_items (Type) {
+    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
+        if ( document.matrix.elements[Type][0].checked ) {
+            document.matrix.elements[Type][i].checked = true;
+        }
+        else {
+            document.matrix.elements[Type][i].checked = false;
+        }
+    }
+}
+//]]></script>
+
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Manage Role-Group Relations"}</h1>
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header"></div>
+            <div class="Content">
+                <fieldset>
+                    <h2><label for="Filter">$Text{"Filter"}</label></h2>
+                    <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
+                </fieldset>
+                <h2>
+                    $Text{"Note"}:
+                </h2>
+                <p class="FieldExplanation">
+                    $Text{"Select the role:group permissions."}
+                    $Text{"If nothing is selected, then there are no permissions in this group (tickets will not be available for the role)."}
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>
+                    $Text{"Change %s Relations for", "$Data{"NeType"}"}
+                    $Text{"$QData{"Type"}"}
+                    <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
+                    ($QData{"ID"})
+                </h2>
+            </div>
+            <div class="Content WithPadding">
+                <form action="$Env{"CGIHandle"}" method="post" name="matrix">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
+                    <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                    <table class="DataTable VariableWidth" id="UserGroups">
+                        <thead>
+                            <tr>
+                                <th>$Text{"$QData{"NeType"}"}</th>
+<!-- dtl:block:ChangeHeader -->
+                                <th class="Center $QData{"Mark"}">
+                                <input type="checkbox" name="$QData{"Type"}" id="$QData{"Type"}" title="$Text{"Toggle %s permission for all", "$QData{"Type"}"}" value="" onclick="select_items('$QData{"Type"}');" />
+                                $QData{"Type"}
+                                </th>
+<!-- dtl:block:ChangeHeader -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+<!-- dtl:block:ChangeRow -->
+                                <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+<!-- dtl:block:ChangeRowItem -->
+                                <td class="$QData{"Mark"}">
+                                    <input type="checkbox" name="$QData{"Type"}" id="$QData{"Type"}" title="$Text{"Toggle %s permission for %s", "$QData{"Type"}", "$QData{"Name"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
+                                </td>
+<!-- dtl:block:ChangeRowItem -->
+                            </tr>
+<!-- dtl:block:ChangeRow -->
+                        </tbody>
+                    </table>
+                    <div class="Field SpacingTop">
+                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                    </div>
+                    <div class="Clear"></div>
+                </form>
+            </div>
+        </div>
+        <div class="WidgetGradient Short SpacingTop">
+            <div class="Header">
+                <h2>$Text{"Reference"}</h2>
+            </div>
+            <div class="Content">
+
+                <dl>
+                    <dt>$Text{"ro"}</dt>
+                    <dd>
+                        $Text{"Read only access to the ticket in this group/queue."}
+                    </dd>
+
+                    <dt>$Text{"move_into"}</dt>
+                    <dd>
+                        $Text{"Permissions to move tickets into this group/queue."}
+                    </dd>
+
+                    <dt>$Text{"create"}</dt>
+                    <dd>
+                        $Text{"Permissions to create tickets in this group/queue."}
+                    </dd>
+
+                    <dt>$Text{"priority"}</dt>
+                    <dd>
+                        $Text{"Permissions to change the ticket priority in this group/queue."}
+                    </dd>
+
+                    <dt>$Text{"rw"}</dt>
+                    <dd>
+                        $Text{"Full read and write access to the tickets in this group/queue."}
+                    </dd>
+                </dl>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="Clear"></div>
+</div>
+
+<!-- dtl:document_ready -->
+<script type="text/javascript">//<![CDATA[
+    $(document).ready(function() {
+        OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserGroups'));
+    });
+//]]></script>
+<!-- dtl:document_ready -->
+<!-- dtl:block:Change -->
