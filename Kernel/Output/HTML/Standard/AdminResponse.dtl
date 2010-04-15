@@ -2,7 +2,7 @@
 # AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.4 2010-04-15 16:00:46 mn Exp $
+# $Id: AdminResponse.dtl,v 1.5 2010-04-15 22:15:46 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,6 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Add"/>
                     <fieldset>
-
                         <h2>$Text{"Add Response"}:</h2>
                         <p class="FieldExplanation">
                             $Text{"Add a new Response."}
@@ -98,7 +97,7 @@ $Include{"RichTextEditor"}
                     <fieldset class="TableLike">
                         <label for="Name">$Text{"Name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc" maxlength="250"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc" maxlength="50"/>
                         </div>
                         <div class="Clear"></div>
 
