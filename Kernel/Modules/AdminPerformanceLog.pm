@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.16 2010-04-14 20:42:34 en Exp $
+# $Id: AdminPerformanceLog.pm,v 1.17 2010-04-15 00:22:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -161,7 +161,7 @@ sub Run {
                 my $Average = $Action{$Minute}->{Sum} / $Action{$Minute}->{Count};
                 $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                 my $I = 100 / $MaxRequest;
-                my $W = $Action{$Minute}->{Count} * $I;
+                my $W = $Action{$Minute}->{Count} * $I || 1;
                 $Self->{LayoutObject}->Block(
                     Name => 'ViewRow',
                     Data => {
@@ -302,16 +302,8 @@ sub Run {
                 );
             }
             for my $Interface (qw(Agent Customer Public)) {
-                my $CssClass = '';
                 if ( defined $Sum{$Interface} ) {
 
-                    # set output class
-                    if ( $CssClass && $CssClass eq 'searchactive' ) {
-                        $CssClass = 'searchpassive';
-                    }
-                    else {
-                        $CssClass = 'searchactive';
-                    }
                     my $Average = $Sum{$Interface} / $Count{$Interface};
                     $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                     $Self->{LayoutObject}->Block(
@@ -324,19 +316,11 @@ sub Run {
                             Sum       => $Sum{$Interface} || 0,
                             Max       => $Max{$Interface} || 0,
                             Min       => $Min{$Interface} || 0,
-                            CssClass  => $CssClass,
                         },
                     );
                     for my $Module ( sort keys %Action ) {
                         if ( defined $Action{$Module}->{Sum}->{$Interface} ) {
 
-                            # set output class
-                            if ( $CssClass && $CssClass eq 'searchactive' ) {
-                                $CssClass = 'searchpassive';
-                            }
-                            else {
-                                $CssClass = 'searchactive';
-                            }
                             my $Average = $Action{$Module}->{Sum}->{$Interface}
                                 / $Action{$Module}->{Count}->{$Interface};
                             $Average =~ s/^(.*\.\d\d).+?$/$1/g;
@@ -351,7 +335,6 @@ sub Run {
                                     Sum       => $Action{$Module}->{Sum}->{$Interface} || 0,
                                     Max       => $Action{$Module}->{Max}->{$Interface} || 0,
                                     Min       => $Action{$Module}->{Min}->{$Interface} || 0,
-                                    CssClass  => $CssClass,
                                 },
                             );
                         }
