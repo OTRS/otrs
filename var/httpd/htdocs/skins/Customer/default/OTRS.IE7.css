@@ -1,0 +1,59 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ * @css-for     IE7
+ */
+
+/**
+ * @package     OTRS Framework - Skin "Default"
+ */
+
+/**
+ * @bugfix      Default Button 
+ */
+
+button {
+    padding: 0;
+    line-height: 16px;
+}
+
+/**
+ * @bugfix      Spacing problems 
+ */
+
+#Header {
+    padding: 18px 34px 13px;
+}
+
+.Login button {
+    margin-top: 14px;
+}
+
+.Floating.InlineLabels button {
+    margin-top: 0;
+}
+
+/**
+ * @bugfix      overflow:hidden problem
+ * @see         http://snook.ca/archives/html_and_css/position_relative_overflow_ie/ 
+ */
+#Slider {
+    position: relative;
+}
+
+.Content > .TicketHeader {
+    overflow: hidden;
+}
+
+.MessageHeader,
+.Option label {
+    zoom: 1;
+}
+
+div.Clear {
+    display: inline;
+}
+    
+    

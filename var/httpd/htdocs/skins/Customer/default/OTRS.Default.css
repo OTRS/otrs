@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -9,101 +9,80 @@
  * @package     OTRS Framework
  * @section     Default
  */
-* {
-    margin:0;
-    padding: 0;
-}
 body {
     font: 12px/14px Arial, sans-serif;
-    text-align: left;
-    background-color: #FFF;
+    -webkit-text-stroke:1px transparent;
 }
-img { border:none; }
+
+.RTL {
+    text-align: right;
+    direction: rtl;
+}
+
 input {
    font-family: Arial, sans-serif; 
 }
-ul { 
-    list-style: none;
-}
+
 a {
     color: #F92;
-    text-decoration: none;
 }
+
 a:hover {
     color: #F72;
 }
+
 p { 
-    margin-top: 13px;
-    padding: 3px;
+    margin: 13px 0 5px;
+    padding: 2px;
 }
+
 h1 {
     font-size: 21px;
     font-weight: bold;
 }
+
 h2 { 
     padding-left: 2px;
+    margin-bottom: 14px;
     font-size: 18px;
     font-weight: normal;
-    line-height: 2;
 }
-em {
-    font-style: normal;
+
+strong {
     font-weight: bold;
 }
+
 /**
- * @subsection  Customer Header
+ * @subsection  Header
  */
+
 #Header {
-    padding: 18px 21px 15px;
+    padding: 21px 34px 18px;
     background: #AAA url(img/GradientSmall.png) repeat-x 0 0;
-    position: relative;
-}
-#Header a {
-    color: transparent;
-    outline: none;
-}
-#Header h1 {
-    left: 124px;
-    top: 20px;
-    font-size: 21px;
-    position: absolute;
+    border-bottom: 1px solid #999;
     text-shadow: 0 1px 0 #EEE;
 }
-/**
- * @subsection  forms
- */
-form { 
-    margin: 5px 0;
-    position: relative;
-}
 
-label {
-    margin-right: 8px;
-    padding: 2px 0;
-    width: 80px;
-    text-align: right;
-    float: left;
-    font-size: 12px;
-}
-
-input[type=text] {
-    width: 250px;
-}
-
-button {
-    padding: 3px 7px;
-    line-height: 14px;
+#Header a {
+    color: #222;
+    outline: none;
 }
 
 /**
- * @subsection  Login Customer Slider
+ * @subsection  Content
  */
-#Slider > div {
-    margin-bottom: 21px;
-    display: none;
+
+.Content {
+    background: #FFF url(img/body_bg.png) repeat-x left top;
 }
-#Slider > div.Active {
-    display: block;
+
+/**
+ * @subsection  Javascript enhancement
+ */
+
+.Js .Overview tbody tr,
+.Js .MessageHeader {
+    cursor: pointer;
 }
 
 /**
@@ -111,11 +90,12 @@ button {
  */
 #Footer {
     width: 100%;
-    color: #AAA;
+    margin-top: 3px;
+    color: #CCC;
 }
 
 #Footer > * {
-    margin: 8px;
+    margin: 8px 8px 7px;
     float: left;
 }
 
@@ -138,7 +118,7 @@ button {
 }
 
 #Footer a {
-    color: #999;
+    color: #CCC;
     font-weight: bold;
 }
 
@@ -154,21 +134,6 @@ button {
     clear: both !important;
 }
 
-.ClearLeft,
-.RTL .ClearRight {
-    float: none !important;
-    clear: left !important;
-}
-
-.ClearRight,
-.RTL .ClearLeft {
-    float: none !important;
-    clear: right !important;
-}
-
-br.Clear,
-br.ClearLeft,
-br.ClearRight {
+div.Clear {
     height: 0;
-    line-height: 0;
 }

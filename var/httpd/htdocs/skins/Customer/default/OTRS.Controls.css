@@ -1,0 +1,250 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     OTRS Framework - Skin "Default"
+ * @section     Customer
+ */
+
+/**
+ * @subsection  Control Row
+ */
+.ControlRow {
+    height: 22px;
+    background: #AAA url("img/GradientSmall.png") repeat-x 0 -50px;
+    width: 100%;
+    position: relative;
+    border-top: 1px solid #EEE;
+    border-bottom: 1px solid #999;
+}
+
+/**
+ * @subsection  Control Row Tabs
+ */
+.ControlRow .Tabs {
+    float: left;
+}
+
+.RTL .ControlRow .Tabs {
+    float: right;
+}
+
+.ControlRow .User.Tabs {
+    float: right;
+}
+
+.RTL .ControlRow .User.Tabs {
+    float: left;
+}
+
+.ControlRow .Tabs li {
+    margin-left: -2px;
+    float: left;
+    position: relative;
+}
+
+.RTL .ControlRow .Tabs li {
+    float: right;
+    margin: 0 -2px 0 0;
+}
+
+.ControlRow a {
+    padding: 4px 11px 5px;
+    color: #111;
+    font-size: 11px;
+    background: url(img/tabs_isolator.png) no-repeat top right;
+    display: block;
+    outline: none;
+    text-shadow: 0 1px 0 #EEE;
+}
+
+.RTL .ControlRow .Tabs li:first-child a,
+.ControlRow .Last a {
+    background-image: none;
+}
+
+.ControlRow li:focus,
+.ControlRow li:active {
+    margin-top: -1px;
+    background: url(img/tabs_active_bg.png) no-repeat top left;
+}
+
+.ControlRow .Active + li {
+    margin-left: 0;
+}
+
+.ControlRow .Active + li a {
+    padding-left: 9px;
+}
+
+.ControlRow li:focus a,
+.ControlRow li:active a {
+    padding-top: 6px;
+    padding-bottom: 3px;
+    color: #222;
+    background: url(img/tabs_isolator.png) no-repeat bottom right;
+    text-shadow: 0 1px 0 #DDD;
+}
+
+.ControlRow .Active a:focus,
+.ControlRow .Active a:active {
+    padding: 5px 11px;
+}
+
+.ControlRow .Tabs li.Active {
+    height: 24px;
+    margin-top: -1px;
+    background: url(img/tabs_active_bg.png) no-repeat bottom left;
+}
+
+.ControlRow .Tabs li.Active a {
+    margin-right: -1px;
+    padding: 5px 11px;
+    color: #FFF;
+    text-shadow: 0 -1px 0 #000;
+    background: url(img/tabs_active_door.png) no-repeat right top;
+}
+
+.RTL .ControlRow .Tabs li.Active a {
+    background-position: left;
+}
+
+.ControlRow .Tabs a span {
+    padding-left: 4px;
+}
+
+/**
+ * @subsection  Context Functions
+ */
+.ContextFunctions {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+ul.ContextFunctions li {
+    float: left;
+    margin-left: -3px;
+    padding-left: 3px;
+}
+
+/**
+ * @subsection  Action Row
+ */
+
+.ActionRow {
+    padding: 6px 9px 4px;
+    height: 14px;
+    font-size: 11px;
+    background: #DDD;
+    background: -moz-linear-gradient(top, #EEE, #DDD);
+    background: -webkit-gradient(linear, left top, left bottom, from(#EEE), to(#DDD));
+    border-bottom: 1px solid #BBB;
+    border-top: 1px solid #D6D6D6;
+}
+
+.ActionRow.Bottom {
+    height: auto;
+    padding: 3px 0 2px 87px;
+    background: #777 url("img/GradientSmall.png") repeat-x top;
+    border-top: 1px solid #BBB;
+}
+
+.TicketView .ActionRow {
+    height: 24px;
+    padding: 0;
+}
+
+.TicketView .ActionRow.Bottom,
+.RTL .TicketView .ActionRow.Bottom {
+    height: 24px;
+    padding: 0;
+}
+
+.RTL .ActionRow.Bottom {
+    padding: 5px 87px 5px 0;
+}
+
+.ActionRow a {
+    padding: 0 11px 0 3px;
+    background: url(img/actionrow_divider.png) no-repeat right;
+    text-shadow: 0 1px 0 #F0F0F0;
+}
+
+.RTL .ActionRow a {
+    padding: 0 3px 0 11px;
+    background-position: left;
+}
+
+.Filter {
+    float: left;
+}
+
+.RTL .Filter {
+    float: right;
+}
+
+.Filter li {
+    float: left;
+}
+
+.RTL .Filter li {
+    float: right;
+}
+
+.Filter a,
+.RTL .Filter a {
+    padding: 6px 9px 4px;
+    color: #444;
+    display: block;
+}
+
+.Filter a:hover {
+    color: #000;
+}
+
+.Filter .Active {
+    font-weight: bold;
+}
+
+.Filter .Active:hover {
+    color: #444;
+}
+
+.Pagination {
+    float: right;
+    padding: 6px 9px 4px;
+}
+
+.RTL .Pagination {
+    float: left;
+}
+
+.Pagination a {
+    padding-right: 3px;
+    background: none;
+    text-shadow: none;
+}
+
+.ActionRow .Last {
+    padding-right: 0;
+    background: none;
+}
+
+.RTL .ActionRow .Last {
+    padding-right: 3px;
+    padding-left: 0;
+}
+
+.Sortable .ActionRow {
+    height: 30px;
+    border-bottom: none;
+}
+
+.Sortable .ActionRow.Bottom {
+    border-bottom: 1px solid #BBB;
+}

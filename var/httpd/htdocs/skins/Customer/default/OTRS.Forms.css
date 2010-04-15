@@ -1,0 +1,85 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     OTRS Framework - Skin "Default"
+ * @section     Customer
+ */
+
+label {
+    margin-right: 8px;
+    padding: 2px 0;
+    width: 80px;
+    text-align: right;
+    float: left;
+    font-size: 12px;
+}
+.RTL label {
+    margin: 0 0 0 8px;
+    float: right;
+    text-align: left;
+}
+
+input[type=text] {
+    width: 250px;
+}
+
+input[type=text],
+input[type=password],
+textarea {
+    border: 1px solid #888;
+    padding: 2px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    /* Opera 10.5 has per default a grey background */
+    background-color: #FFF;
+}
+
+input:focus {
+    box-shadow: 0 0 2px #AAA;
+    -webkit-box-shadow: 0 0 2px #AAA;
+    -moz-box-shadow: 0 0 2px #AAA;
+}
+
+.TicketCompose form,
+.Preferences form,
+.Search form {
+    margin: 0;
+    padding: 8px 0;
+    background: url(img/body_bottom_bg.png) repeat-x bottom;
+}
+
+form div {
+    padding: 3px 0;    
+}
+
+.Preferences .ActionRow.Bottom {
+    padding-left: 147px;
+}
+
+.RTL .Preferences .ActionRow.Bottom {
+    padding-left: 0;
+    padding-right: 147px;
+}
+
+.SpacingTop {
+    margin-top: 18px;
+}
+
+.Success {
+    padding: 1px 0 1px 20px;
+    background: url(img/accept.png) no-repeat center left;
+}
+.RTL .Success {
+    padding: 1px 20px 1px 0;
+    background-position: right;
+}
+
+.Preferences label {
+    width: 140px;
+}

@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -10,23 +10,93 @@
  * @section     TicketZoom
  */
 
-.Content {
-    padding: 10px 10px 0;
+/**
+ * @section     Header
+ */
+
+.TicketZoom .Content {
+    padding: 13px 10px 0;
+}
+
+.TicketHeader {
+    position: relative;
 }
 
 .TicketZoom h2 {
-    padding-right: 10px;
+    padding: 0 36px;
     font-size: 24px;
     display: inline;
-    line-height: 1.6;
+    line-height: 29px;
+    position: relative;
 }
 
-.TicketZoom h2 + span {
+.TicketZoom h2 span {
     color: #666;
+    font-size: 12px;
+}
+
+.Flag {
+    top: 5px;
+    left: 5px;
+    width: 22px;
+    height: 18px;
+    padding: 0 2px 1px 0;
+    background: url(img/flag_shadow.png) no-repeat;
+    text-indent: -9999px;
+    line-height: 16px;
+    position: absolute;
+}
+
+.RTL .Flag {
+    left: auto;
+    right: 7px;
+}
+
+.Flag .Open {
+    background-color: green;
+}
+
+.Metadata {
+    top: 0;
+    right: 0;
+    margin: 12px 8px 0;
+    position: absolute;
+}
+
+.RTL .Metadata {
+    right: auto;
+    left: 0;
+}
+
+.Metadata li {
+    margin: 0 5px;
+    float: left;
+}
+
+.RTL .Metadata li {
+    float: right;
+}
+
+.Metadata li span {
+    color: #666;
+}
+
+.Metadata .Print {
+    width: 16px;
+    height: 16px;
+    margin: -2px 0 0 4px;
+    background: url(img/printer.png) no-repeat;
+    text-indent: -9999px;
+    display: block;
+}
+
+.RTL .Metadata .Print {
+    margin: -2px 4px 0 0;
 }
 
 .TicketZoom .Age {
     width: auto;
+    padding: 0;
 }
 
 .TicketZoom iframe {
@@ -35,43 +105,122 @@
     height: 530px;
 }
 
+/* just for test purpose - imitates the behavor of an iframe */
+.iframe {
+    margin: 5px;
+}
+
+/**
+ * @section     Messages
+ */
+
 #Messages {
-    border: 1px solid #CCC;
-    border-bottom: none;
+    border: 1px solid #E9E9E9;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 3px #EEE;
+    -moz-box-shadow: 0 0 3px #EEE;
+    box-shadow: 0 0 3px #EEE;
 }
 
 .Message {
-    background: #FFF;
-    border-bottom: 1px solid #CCC;
-}
-.Message:last-child .MessageHead {
-    padding-bottom: 5px;
+    border-top: 1px solid #FFF;
+    position: relative;
 }
 
-.MessageHead {
-    padding: 5px 13px 1px;
-    cursor: pointer;
+.Message:first-child {
+    border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+}
+
+.Message:last-child .MessageHeader {
+    border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    border-bottom-width: 0;
+}
+
+.Message.Visible:last-child .MessageHeader {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border-width: 1px;
+}
+
+.MessageHeader {
+    padding: 5px 13px 3px;
+    color: #6A6A6A;
+    background: #F0F0F0;
+    background: -moz-linear-gradient(top, #F9F9F9, #F0F0F0);
+    background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#F0F0F0));
+    border-bottom: 1px solid #D6D6D6;
+    text-shadow: 0 1px 0 #FFF;
+}
+
+.Visible .MessageHeader,
+.Visible .MessageHeader a {
+    color: #222;
+}
+
+.Message:last-child .SpoilerRow:last-child {
+    border-bottom: none;
+}
+
+.MessageHeader a {
+    color: #6A6A6A;
+}
+
+.MessageHeader h3 {
+    display: inline;
+    font-weight: bold;
+}
+
+.MessageHeader h3 span {
+    font-weight: normal;
+}
+
+.MessageHeader .Age {
+    right: 13px;
+    position: absolute;
+}
+
+.RTL .MessageHeader .Age {
+    right: auto;
+    left: 13px;
+}
+
+.SeperatorRow {
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #E8E8E8;
+    background: #FCFCFC;
+    background: -moz-linear-gradient(top, #FFF, #FCFCFC);
+    background: -webkit-gradient(linear, left top, left bottom, from(#FDFDFD), to(#F7F7F7));
 }
 
 .Details {
-    margin: 3px 0 5px;
+    padding: 4px 13px;
+    font-size: 11px;
+    color: #525252;
     line-height: 16px;
-    border-collapse: collapse;
 }
-.Details td {
-    padding-right: 55px;
+.Details .Label {
+    width: 60px;
+    color: #AAA;
+    float: left;
 }
-.Details td:first-child {
-    color: #999;
+.RTL .Details .Label {
+    float: right;
 }
+
 .Details span {
-    display: none;
-    padding-left: 5px;
+    padding: 0 5px;
     color: #BBB;
 }
 
 .MessageBody {
-    padding: 0 13px;
     display: none;
 }
 
@@ -79,29 +228,75 @@
     display: block;
 }
 
-.MessageFooter {
-    margin: 13px 0 2px;
+.MessageContent {
+    padding: 5px 6px 5px;
+    background: #FFF;
+    border-bottom: 1px solid #E8E8E8;
 }
+
+.MessageFooter {
+    border-top: none;
+}
+
 .MessageFooter form {
-    margin-top: 2px;
-    padding: 8px 0;
-    border-top: 1px solid #CCC;
+    background: #EEE;
     display: none;
+}
+.MessageFooter form .ActionRow {
+    margin-top: 8px;
 }
 .MessageFooter.Visible form {
     display: block;
 }
+
+.MessageActions {
+    float: left;
+}
+
+.RTL .MessageActions {
+    float: right;
+}
+
+.MessageActions li {
+    float: left;
+}
+
+.RTL .MessageActions li {
+    float: right;
+}
 .MessageFooter .Reply {
-    margin-left: 3px;
-    padding: 3px 8px;
-    border: 1px solid #CCC;
-    border-bottom: none;
+    height: 10px;
+    margin: 5px 13px;
+    padding: 0 17px;
+    line-height: 10px;
+    color: #999;
+    background: url(img/arrow_answer.png) no-repeat top left;
+    display: block;
+}
+.MessageFooter .Reply:hover {
+    background-position: bottom left;
+    color: #666;
+}
+.MessageFooter.Visible .MessageActions li {
+    background-color: #EEE;
+}
+
+.MessageFooter .Details {
+    padding: 8px 13px 5px;
+}
+
+.WideTextarea label {
+    display: none;
+}
+
+.WideTextarea textarea {
+    margin: 0 12px;
 }
 
 /**
- * @subsection  Mail colors
+ * @subsection  Message colors
  */
 
 .Agent {
-    background-color: #F5F5F5;
+    
 }

@@ -1,0 +1,146 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     OTRS Framework - Skin "Default"
+ * @section     Customer
+ */
+
+table.Overview {
+    width: 100%;
+    color: #444;
+    border-collapse: collapse;
+    text-shadow: 0 1px 0 #FFF;
+    table-layout: fixed;
+    background: url(img/body_bottom_bg.png) repeat-x bottom;
+    zoom: 1;
+    clear: both;
+}
+.Overview thead {
+    background: #DDD;
+    background: -moz-linear-gradient(top, #DDD, #CCC);
+    background: -webkit-gradient(linear, left top, left bottom, from(#DDD), to(#CCC));
+    display: none;
+}
+.Sortable thead {
+    display: table-header-group;
+}
+.Overview thead th {
+    padding: 0 1px 1px;
+    vertical-align: bottom;
+    border-right: 1px solid #666;
+    border-bottom: 1px solid #666666;
+}
+.RTL .Overview thead th {
+    border-right: none;
+    border-left: 1px solid #666;
+}
+.Overview thead .Status {
+    padding-left: 0;
+}
+.Overview thead a {
+    padding: 1px 8px 4px;
+    height: 10px;
+    color: #444;
+    font-size: 11px;
+    text-transform: uppercase;
+    display: block;
+    text-shadow: 0 1px 0 #EEE;
+}
+.Overview thead .SortAscending a,
+.Overview thead .SortDescending a {
+    color: #222;
+    font-weight: 600;
+    text-align: left;
+    background: url(img/sortable_bg.png) no-repeat top right;
+    text-shadow: 0 1px 0 #BBB;
+}
+.Overview thead .SortDescending a {
+    background-position: bottom right;
+}
+
+.Overview tbody {
+    background-color: transparent;
+}
+.Overview tbody tr:active {
+    background-color: #DDD;
+}
+.Overview tbody tr:first-child {
+    border-top: none;
+}
+.Overview tbody tr.Even {
+    background-color: #F3F3F3;
+}
+.Overview tbody td {
+    padding: 3px 8px 1px;
+    white-space: nowrap;
+}
+.Overview tbody a {
+    color: #444;
+    text-decoration: none;
+    outline: none;
+    font-weight: bold;
+}
+.Overview table a:hover {
+    color: #000;
+}
+/**
+ * @subsection  TableData Styles
+ */
+.Status {
+    padding-left: 8px;
+    width: 6em;
+}
+
+.Ticket {
+    width: 12em;
+}
+.Title div {
+    color: #777;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.Title h2 {
+    margin-bottom: 0;
+    font-size: 12px;
+    line-height: 18px;
+    display: inline;
+}
+.Age {
+    padding-right: 8px;
+    width: 10em;
+    text-align: right;
+    border: none;
+}
+/**
+ * @subsection  Table Style Hovered
+ */
+.Overview tbody tr:hover td {
+    background: url(img/tr_hover.png) repeat-x top;
+}
+.Overview tbody tr:hover + tr td {
+    background-image: url(img/tr_hover_next_bg.png);
+    background-repeat: repeat-x;
+    background-position: 0 0;
+}
+.Overview tbody tr:hover td,
+.Overview tbody tr:hover a {
+    color: #452A03;
+    text-shadow: 0 1px 0 #F4B259;
+}
+.Overview tbody tr:hover .Title div {
+    color: #784806;
+    text-shadow: 0 1px 0 #F4B259;
+}
+/**
+ * @subsection  Table Style Active
+ */
+.Overview tbody tr:focus td,
+.Overview tbody tr:active td {
+    background: url(img/tr_hover.png) repeat-x 0 -25px;
+    padding: 4px 8px 0;
+}
