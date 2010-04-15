@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email.pm - the global email send module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.68 2009-12-08 14:53:01 martin Exp $
+# $Id: Email.pm,v 1.69 2010-04-15 19:51:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 =head1 NAME
 
@@ -183,6 +183,11 @@ sub Send {
     # check from
     if ( !$Param{From} ) {
         $Param{From} = $Self->{ConfigObject}->Get('AdminEmail') || 'otrs@localhost';
+    }
+
+    # replace all br tags with br tags with a space to show newlines in Lotus Notes
+    if ( $Param{MimeType} && lc $Param{MimeType} eq 'text/html' ) {
+        $Param{Body} =~ s{\Q<br/>\E}{<br />}xmsgi;
     }
 
     # get sign options for inline
@@ -852,6 +857,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2009-12-08 14:53:01 $
+$Revision: 1.69 $ $Date: 2010-04-15 19:51:16 $
 
 =cut
