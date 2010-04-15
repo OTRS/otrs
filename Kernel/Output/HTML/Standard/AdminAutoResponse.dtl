@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.dtl,v 1.2 2010-04-15 16:08:39 cg Exp $
+# $Id: AdminAutoResponse.dtl,v 1.3 2010-04-15 16:14:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -159,46 +159,46 @@ $Include{"RichTextEditor"}
 
                     <dt>&lt;OTRS_CUSTOMER_*&gt;</dt>
                     <dd>
-                        $Text{"To get the article attribute "}
-                        ($Text{" e. g. "} <strong>&lt;OTRS_CUSTOMER_From&gt;, &lt;OTRS_CUSTOMER_To&gt;,
+                        $Text{"To get the article attribute"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_CUSTOMER_From&gt;, &lt;OTRS_CUSTOMER_To&gt;,
                         &lt;OTRS_CUSTOMER_Cc&gt;, &lt;OTRS_CUSTOMER_Subject&gt;, &lt;OTRS_CUSTOMER_Body&gt;</strong>).
                     </dd>
 
                     <dt>&lt;OTRS_CUSTOMER_DATA_*&gt;</dt>
                     <dd>
-                        $Text{"Options of the current customer user data "}
-                        ($Text{" e. g. "} <strong>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</strong>).
+                        $Text{"Options of the current customer user data"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</strong>).
                     </dd>
 
                     <dt>&lt;OTRS_OWNER_*&gt;</dt>
                     <dd>
-                        $Text{"Ticket owner options "}
-                        ($Text{" e. g. "} <strong>&lt;OTRS_OWNER_UserFirstname&gt;</strong>).
+                        $Text{"Ticket owner options"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_OWNER_UserFirstname&gt;</strong>).
                     </dd>
 
                     <dt>&lt;OTRS_RESPONSIBLE_*&gt;</dt>
                     <dd>
-                        $Text{"Ticket responsible options "}
-                        ($Text{" e. g. "} <strong>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</strong>).
+                        $Text{"Ticket responsible options"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</strong>).
                     </dd>
 
                     <dt>&lt;OTRS_CURRENT_*&gt;</dt>
                     <dd>
-                        $Text{"Options of the current user who requested this action "}
-                        ($Text{" e. g. "} <strong>&lt;OTRS_CURRENT_UserFirstname&gt;</strong>).
+                        $Text{"Options of the current user who requested this action"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_CURRENT_UserFirstname&gt;</strong>).
                     </dd>
 
                     <dt>&lt;OTRS_TICKET_*&gt;</dt>
                     <dd>
-                        $Text{"Options of the ticket data "}
-                        ($Text{" e. g. "} <strong>&lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;,
+                        $Text{"Options of the ticket data"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;,
                         &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;</strong>).
                     </dd>
 
                     <dt>&lt;OTRS_CONFIG_*&gt;</dt>
                     <dd>
-                        $Text{"Config options "}
-                        ($Text{" e. g. "} <strong>&lt;OTRS_CONFIG_HttpType&gt;</strong>).
+                        $Text{"Config options"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_CONFIG_HttpType&gt;</strong>).
                     </dd>
 
                 </dl>
