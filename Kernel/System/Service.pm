@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.41 2010-04-13 13:58:05 ub Exp $
+# $Id: Service.pm,v 1.42 2010-04-15 17:53:46 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -553,7 +553,7 @@ sub ServiceUpdate {
         }
 
         # check, if selected parent was a child of this service
-        if ( $Param{FullName} =~ m{ \A ( \Q $OldServiceName \E ) :: }xms ) {
+        if ( $Param{FullName} =~ m{ \A ( \Q$OldServiceName\E ) :: }xms ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => 'Can\'t update service! Invalid parent was selected.'
@@ -611,7 +611,7 @@ sub ServiceUpdate {
 
     # update childs
     for my $Child (@Childs) {
-        $Child->{Name} =~ s{ \A ( \Q $OldServiceName \E ) :: }{$Param{FullName}::}xms;
+        $Child->{Name} =~ s{ \A ( \Q$OldServiceName\E ) :: }{$Param{FullName}::}xms;
         $Self->{DBObject}->Do(
             SQL => 'UPDATE service SET name = ? WHERE id = ?',
             Bind => [ \$Child->{Name}, \$Child->{ServiceID} ],
@@ -937,6 +937,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2010-04-13 13:58:05 $
+$Revision: 1.42 $ $Date: 2010-04-15 17:53:46 $
 
 =cut
