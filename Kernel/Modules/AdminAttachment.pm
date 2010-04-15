@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.28 2010-02-08 20:41:04 martin Exp $
+# $Id: AdminAttachment.pm,v 1.29 2010-04-15 23:07:21 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,7 +56,7 @@ sub Run {
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminAttachmentForm',
+            TemplateFile => 'AdminAttachment',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -98,7 +98,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminAttachmentForm',
+                TemplateFile => 'AdminAttachment',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -110,7 +110,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => 'Attachment updated!' );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminAttachmentForm',
+            TemplateFile => 'AdminAttachment',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -132,7 +132,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminAttachmentForm',
+            TemplateFile => 'AdminAttachment',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -174,7 +174,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminAttachmentForm',
+                TemplateFile => 'AdminAttachment',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -185,7 +185,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => 'Attachment added!' );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminAttachmentForm',
+            TemplateFile => 'AdminAttachment',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -235,7 +235,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminAttachmentForm',
+            TemplateFile => 'AdminAttachment',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -288,22 +288,20 @@ sub _Overview {
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
-    my $CssClass  = '';
     for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+        my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID, );
 
-        # set output class
-        if ( $CssClass && $CssClass eq 'searchactive' ) {
-            $CssClass = 'searchpassive';
+        if ( $ValidList{ $Data{ValidID} } eq 'valid' ) {
+            $Data{Invalid} = '';
         }
         else {
-            $CssClass = 'searchactive';
+            $Data{Invalid} = 'Invalid';
         }
-        my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID, );
+
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultRow',
             Data => {
-                Valid    => $ValidList{ $Data{ValidID} },
-                CssClass => $CssClass,
+                Valid => $ValidList{ $Data{ValidID} },
                 %Data,
             },
         );
