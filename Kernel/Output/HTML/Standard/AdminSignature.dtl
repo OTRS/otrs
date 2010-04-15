@@ -1,8 +1,8 @@
 # --
-# AdminSignatureForm.dtl - provides HTML form for AdminSignature
+# AdminSignature.dtl - provides HTML form for AdminSignature
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.dtl,v 1.1 2010-04-15 22:42:26 en Exp $
+# $Id: AdminSignature.dtl,v 1.2 2010-04-15 22:49:55 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
