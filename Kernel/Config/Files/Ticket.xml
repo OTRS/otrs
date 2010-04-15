@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.311 2010-04-08 14:28:22 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.312 2010-04-15 18:36:13 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1819,25 +1819,13 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::ZoomAttachmentDisplay" Required="1" Valid="1">
-        <Description Lang="en">Shows an icon in the ticket zoom, if an article has an attachment.</Description>
-        <Description Lang="de">Zeigt ein Icon in der Ansicht für den Ticketinhalt an, wenn ein Attachment für einen Artikel vorhanden ist.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::ZoomAttachmentDisplayCount" Required="1" Valid="1">
         <Description Lang="en">Shows a count of icons in the ticket zoom, if an article has an attachment.</Description>
         <Description Lang="de">Zeigt Anzahl von Icons in der Ansicht für den Ticketinhalt an, wenn ein Attachment für einen Artikel vorhanden ist.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
-            <Option SelectedID="3">
+            <Option SelectedID="20">
                 <Item Key="1">01</Item>
                 <Item Key="2">02</Item>
                 <Item Key="3">03</Item>
@@ -1856,6 +1844,13 @@
                 <Item Key="16">16</Item>
                 <Item Key="17">17</Item>
                 <Item Key="18">18</Item>
+                <Item Key="19">19</Item>
+                <Item Key="20">20</Item>
+                <Item Key="21">21</Item>
+                <Item Key="22">22</Item>
+                <Item Key="23">23</Item>
+                <Item Key="24">24</Item>
+                <Item Key="25">25</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6129,6 +6124,7 @@ $QData{"Signature"}
                 <Item Key="Description">Back</Item>
                 <Item Key="Action"></Item>
                 <Item Key="Link">$Env{"LastScreenOverview"};TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6142,6 +6138,7 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuLock</Item>
                 <Item Key="Name">Lock</Item>
                 <Item Key="Action">AgentTicketLock</Item>
+                <Item Key="Target"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6157,6 +6154,7 @@ $QData{"Signature"}
                 <Item Key="Description">Shows the ticket history!</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
                 <Item Key="Link">Action=AgentTicketHistory;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6173,6 +6171,7 @@ $QData{"Signature"}
                 <Item Key="Action">AgentTicketPrint</Item>
                 <Item Key="Link">Action=AgentTicketPrint;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="LinkParam">target="print"</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6188,6 +6187,7 @@ $QData{"Signature"}
                 <Item Key="Description">Change the ticket priority!</Item>
                 <Item Key="Action">AgentTicketPriority</Item>
                 <Item Key="Link">Action=AgentTicketPriority;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6203,6 +6203,7 @@ $QData{"Signature"}
                 <Item Key="Description">Change the ticket free fields!</Item>
                 <Item Key="Action">AgentTicketFreeText</Item>
                 <Item Key="Link">Action=AgentTicketFreeText;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6218,6 +6219,7 @@ $QData{"Signature"}
                 <Item Key="Description">Link this ticket to an other objects!</Item>
                 <Item Key="Action">AgentLinkObject</Item>
                 <Item Key="Link">Action=AgentLinkObject;SourceObject=Ticket;SourceKey=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6233,6 +6235,7 @@ $QData{"Signature"}
                 <Item Key="Description">Change the ticket owner!</Item>
                 <Item Key="Action">AgentTicketOwner</Item>
                 <Item Key="Link">Action=AgentTicketOwner;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6248,6 +6251,7 @@ $QData{"Signature"}
                 <Item Key="Description">Change the ticket responsible!</Item>
                 <Item Key="Action">AgentTicketResponsible</Item>
                 <Item Key="Link">Action=AgentTicketResponsible;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6263,6 +6267,7 @@ $QData{"Signature"}
                 <Item Key="Description">Change the ticket customer!</Item>
                 <Item Key="Action">AgentTicketCustomer</Item>
                 <Item Key="Link">Action=AgentTicketCustomer;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6278,6 +6283,7 @@ $QData{"Signature"}
                 <Item Key="Description">Add a note to this ticket!</Item>
                 <Item Key="Action">AgentTicketNote</Item>
                 <Item Key="Link">Action=AgentTicketNote;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6293,6 +6299,7 @@ $QData{"Signature"}
                 <Item Key="Description">Merge this ticket!</Item>
                 <Item Key="Action">AgentTicketMerge</Item>
                 <Item Key="Link">Action=AgentTicketMerge;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6308,6 +6315,7 @@ $QData{"Signature"}
                 <Item Key="Description">Set this ticket to pending!</Item>
                 <Item Key="Action">AgentTicketPending</Item>
                 <Item Key="Link">Action=AgentTicketPending;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6321,6 +6329,7 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuTicketWatcher</Item>
                 <Item Key="Action">AgentTicketWatcher</Item>
                 <Item Key="Name">Watch</Item>
+                <Item Key="Target"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6336,7 +6345,7 @@ $QData{"Signature"}
                 <Item Key="Description">Close this ticket!</Item>
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Link">Action=AgentTicketClose;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="LinkParam">target="_action"</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6352,6 +6361,7 @@ $QData{"Signature"}
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description">Delete this ticket!</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
+                <Item Key="Target"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6367,6 +6377,7 @@ $QData{"Signature"}
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description">Mark as Spam!</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
+                <Item Key="Target"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6380,6 +6391,7 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuLock</Item>
                 <Item Key="Name">Lock</Item>
                 <Item Key="Action">AgentTicketLock</Item>
+                <Item Key="Target"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6395,6 +6407,7 @@ $QData{"Signature"}
                 <Item Key="Action">AgentTicketZoom</Item>
                 <Item Key="Description">Look into a ticket!</Item>
                 <Item Key="Link">Action=AgentTicketZoom;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6410,6 +6423,7 @@ $QData{"Signature"}
                 <Item Key="Action">AgentTicketHistory</Item>
                 <Item Key="Description">Shows the ticket history!</Item>
                 <Item Key="Link">Action=AgentTicketHistory;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6425,6 +6439,7 @@ $QData{"Signature"}
                 <Item Key="Action">AgentTicketPriority</Item>
                 <Item Key="Description">Change the ticket priority!</Item>
                 <Item Key="Link">Action=AgentTicketPriority;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6440,6 +6455,7 @@ $QData{"Signature"}
                 <Item Key="Action">AgentTicketNote</Item>
                 <Item Key="Description">Add a note to this ticket!</Item>
                 <Item Key="Link">Action=AgentTicketNote;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6455,6 +6471,7 @@ $QData{"Signature"}
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Description">Close this ticket!</Item>
                 <Item Key="Link">Action=AgentTicketClose;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Target">PopUp</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6470,6 +6487,7 @@ $QData{"Signature"}
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description">Delete this ticket!</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
+                <Item Key="Target"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6485,6 +6503,7 @@ $QData{"Signature"}
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description">Mark as Spam!</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
+                <Item Key="Target"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
