@@ -1,8 +1,8 @@
 # --
 # CustomerFooter.dtl - provides global HTML footer
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerFooter.dtl,v 1.13 2009-02-16 11:07:25 tr Exp $
+# $Id: CustomerFooter.dtl,v 1.14 2010-04-15 21:58:26 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,23 +10,22 @@
 # --
 
 <!-- start CI layout -->
-</td>
-</tr>
-<tr>
-<td class="footer">FOOTER</td>
-<td class="footer">FOOTER2</td>
-</tr>
-</table>
-<!-- end CI layout -->
-<!-- start footer -->
-<a name="end"></a>
-<table border="0" width="880" cellspacing="0" cellpadding="3">
-<tr>
-<td align="right" class="small">
-$Text{"Powered by"} <a href="http://otrs.org/" class="small">$Config{"Product"} $Config{"Version"}</a>
-</td>
-</tr>
-</table>
+<div id="Footer" class="ARIARoleContentinfo">
+    <span>OTRS Version 3.0 &copy; OTRS AG 2010</span>
+    <ul>
+        <li><a href="">About OTRS&trade;</a> |</li>
+        <li><a href="">FAQ</a> |</li>
+        <li><a href="">Help</a></li>
+    </ul>
+    <div class="Clear" />
+    </div>
+<script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-1.4.2/jquery.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Iframe.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.App.Customer.js"></script>
+<script type="text/javascript">
+    OTRS.App.Customer.Enhance();
+</script>
+$Env{"DocumentReady"}
 </body>
 </html>
 <!-- end footer -->
