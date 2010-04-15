@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNavigationBar.dtl,v 1.38 2010-03-27 20:41:35 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.39 2010-04-15 15:09:32 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
-                    <h2 class="Center">$Text{"Agent Management"}</h2>
+                    <h2>$Text{"Agent Management"}</h2>
                 </div>
                 <div class="Content">
 
@@ -37,7 +37,7 @@
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
-                    <h2 class="Center">$Text{"Customer Management"}</h2>
+                    <h2>$Text{"Customer Management"}</h2>
                 </div>
                 <div class="Content">
 
@@ -58,7 +58,7 @@
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
-                    <h2 class="Center">$Text{"Email Settings"}</h2>
+                    <h2>$Text{"Email Settings"}</h2>
                 </div>
                 <div class="Content">
 
@@ -81,7 +81,7 @@
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
-                    <h2 class="Center">$Text{"Queue Settings"}</h2>
+                    <h2>$Text{"Queue Settings"}</h2>
                 </div>
                 <div class="Content">
 
@@ -102,7 +102,7 @@
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
-                    <h2 class="Center">$Text{"Ticket Settings"}</h2>
+                    <h2>$Text{"Ticket Settings"}</h2>
                 </div>
                 <div class="Content">
 
@@ -123,7 +123,7 @@
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
-                    <h2 class="Center">$Text{"System Administration"}</h2>
+                    <h2>$Text{"System Administration"}</h2>
                 </div>
                 <div class="Content">
 
