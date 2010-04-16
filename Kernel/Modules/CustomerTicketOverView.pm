@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.53 2010-04-16 21:48:35 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.54 2010-04-16 21:49:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -245,7 +245,7 @@ sub Run {
     );
 
     # show ticket's
-    my $Counter = 0;
+    $Counter = 0;
     for my $TicketID (@ViewableTickets) {
         $Counter++;
         if (
