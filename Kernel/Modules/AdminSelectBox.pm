@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.pm,v 1.32 2010-04-16 18:21:38 mg Exp $
+# $Id: AdminSelectBox.pm,v 1.33 2010-04-16 18:25:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,7 +131,7 @@ sub Run {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminSelectBoxForm',
+                TemplateFile => 'AdminSelectBox',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -141,7 +141,7 @@ sub Run {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminSelectBoxForm',
+                TemplateFile => 'AdminSelectBox',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Error();
@@ -163,7 +163,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSelectBoxForm',
+            TemplateFile => 'AdminSelectBox',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();

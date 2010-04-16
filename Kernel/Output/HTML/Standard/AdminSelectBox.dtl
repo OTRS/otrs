@@ -1,8 +1,8 @@
 # --
-# AdminSelectBoxForm.dtl - provides HTML form for SelectBox
+# AdminSelectBox.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.27 2010-04-16 18:21:38 mg Exp $
+# $Id: AdminSelectBox.dtl,v 1.1 2010-04-16 18:25:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,7 +54,7 @@
 <!-- dtl:block:Result -->
     <div class="WidgetGradient Short">
         <div class="Header">
-            <h2>$Text{"Options"}</h2>
+            <h2>$Text{"Results"}</h2>
         </div>
         <div class="Content">
 
