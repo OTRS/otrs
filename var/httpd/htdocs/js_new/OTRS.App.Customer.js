@@ -2,7 +2,7 @@
 // OTRS.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Customer.js,v 1.1 2010-04-15 22:50:23 fn Exp $
+// $Id: OTRS.App.Customer.js,v 1.2 2010-04-16 18:07:45 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ OTRS.App.Customer = (function (Namespace) {
      * @return nothing
      */
     Namespace.InitLogin = function() {
-        var Inputs = $('input').not('input:checkbox'),
+        var Inputs = $('input').not(':checkbox, :hidden'),
             Now = new Date(),
             Diff = Now.getTimezoneOffset();
             
@@ -142,8 +142,8 @@ OTRS.App.Customer = (function (Namespace) {
      * @function
      * @param {DOMObject} an iframe
      * @description
-     *      This function contains some workarounds for all browsers to get them started
-     *      
+     *      This function contains some workarounds for all browsers to get resize the iframe
+     * @see http://sonspring.com/journal/jquery-iframe-sizing
      * @return nothing
      */
     function CheckIframes(Iframe){
@@ -158,18 +158,35 @@ OTRS.App.Customer = (function (Namespace) {
             Iframe.src = Source;
         }
         else {
-            // For other good browsers.
             $(Iframe).load(function(){
                 HideQuote(this);
             });
         }
     }
     
+    /**
+     * @function
+     * @param {DOMObject} an iframe
+     * @description
+     *      sets the size of the iframe to the size of its inner html
+     *      .contents accesses the iframe to get its height
+     * @return nothing
+     */
+    
     function CalculateHeight(Iframe){ 
         // .contents to access the iframe document
         var Newheight = $(Iframe).contents().find('html').outerHeight();
         $(Iframe).height(Newheight);
     }
+    
+    /**
+     * @function
+     * @param {DOMObject} an iframe
+     * @description
+     *      finds the quote in an iframe (type=cite), hides it and 
+     *      adds an anchor in front of the hidden quote to toggle the visibility of the quote
+     * @return nothing
+     */
     
     function HideQuote(Iframe){
         $(Iframe).contents().find('[type=cite]').hide()
