@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.11 2010-04-16 14:07:49 cg Exp $
+# $Id: AdminCustomerCompany.pm,v 1.12 2010-04-16 16:31:36 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -245,7 +245,7 @@ sub _Edit {
             if ( $Self->{ConfigObject}->Get('CustomerCompany')->{Selections}->{ $Entry->[0] } ) {
                 my $OptionRequired = '';
                 if ( $Entry->[4] ) {
-                    $OptionRequired = "OTRS_Validate_Required " . $Param{Validation};
+                    $OptionRequired = "Validate_Required " . $Param{Validation};
                 }
 
                 # build ValidID string
@@ -264,7 +264,7 @@ sub _Edit {
             elsif ( $Entry->[0] =~ /^ValidID/i ) {
                 my $OptionRequired = '';
                 if ( $Entry->[4] ) {
-                    $OptionRequired = "OTRS_Validate_Required " . $Param{Validation};
+                    $OptionRequired = "Validate_Required " . $Param{Validation};
                 }
 
                 # build ValidID string
@@ -284,7 +284,7 @@ sub _Edit {
             if ( $Entry->[4] ) {
                 $Param{MandatoryClass} = 'class="Mandatory"';
                 $Param{StarLabel}      = '<span class="Marker">*</span>';
-                $Param{RequiredClass}  = "OTRS_Validate_Required " . $Param{Validation};
+                $Param{RequiredClass}  = "Validate_Required " . $Param{Validation};
             }
             else {
                 $Param{MandatoryClass} = '';

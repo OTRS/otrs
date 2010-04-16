@@ -2,7 +2,7 @@
 // OTRS.Forms.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.Validate.js,v 1.2 2010-03-29 09:58:14 mn Exp $
+// $Id: OTRS.Forms.Validate.js,v 1.3 2010-04-16 16:31:36 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -99,7 +99,7 @@ OTRS.Forms.Validate = (function (Namespace) {
     }
 
     function OnSubmit(Form) {
-        $(Form).removeClass('Error').removeClass('LabelError');
+        $(Form).removeClass('ClientError').removeClass('LabelError');
         if ($.isFunction(Options.SubmitFunction[Form.id])) {
             Options.SubmitFunction[Form.id](Form);
         }
@@ -111,34 +111,34 @@ OTRS.Forms.Validate = (function (Namespace) {
     /*
      * Definitions of all OTRS specific rules and rule methods
      */
-    $.validator.addMethod("OTRS_Validate_Required", $.validator.methods.required, "");
-    $.validator.addMethod("OTRS_Validate_Digits", $.validator.methods.digits, "");
-    $.validator.addMethod("OTRS_Validate_Email", $.validator.methods.email, "");
+    $.validator.addMethod("Validate_Required", $.validator.methods.required, "");
+    $.validator.addMethod("Validate_Number", $.validator.methods.digits, "");
+    $.validator.addMethod("Validate_Email", $.validator.methods.email, "");
 
-    $.validator.addClassRules("OTRS_Validate_Required", {
-        OTRS_Validate_Required: true
+    $.validator.addClassRules("Validate_Required", {
+        Validate_Required: true
     });
 
-    $.validator.addClassRules("OTRS_Validate_Number", {
-        OTRS_Validate_Digits: true
+    $.validator.addClassRules("Validate_Number", {
+        _Validate_Digits: true
     });
 
-    $.validator.addClassRules("OTRS_Validate_Email", {
-        OTRS_Validate_Email: true
+    $.validator.addClassRules("Validate_Email", {
+        Validate_Email: true
     });
 
     /*
      * Adds a generic "depending required" rule:
-     * The element needs a list of IDs in the rel attribute. This element is required, if one of the given IDs is a element, which contains content itself.
+     * The element needs a list of IDs in the class attribute. This element is required, if one of the given IDs is a element, which contains content itself (logical AND).
      */
-    $.validator.addClassRules("OTRS_Validate_DependingRequired", {
-        OTRS_Validate_Required: {
-            depends: function(Element){
+    $.validator.addClassRules("Validate_DependingRequiredAND", {
+        Validate_Required: {
+            depends: function(Element) {
                 function GetDependentElements(Element) {
                     var Classes = $(Element).attr('class'),
                         DependentElementIDs = [],
                         RegEx,
-                        DependingClassPrefix = 'OTRS_Validate_Depending_';
+                        DependingClassPrefix = 'Validate_Depending_';
                     RegEx = new RegExp(DependingClassPrefix);
                     $.each(Classes.split(' '), function(Index, Value) {
                         if (RegEx.test(Value)) {
@@ -158,6 +158,44 @@ OTRS.Forms.Validate = (function (Namespace) {
                         if ($('#' + DependentElementIDs[I].trim()).val().length) {
                             ApplyRule++;
                             break;
+                        }
+                    }
+                    return ApplyRule;
+                }
+            }
+        }
+    });
+
+    /*
+     * Adds another generic "depending required" rule:
+     * The element needs a list of IDs in the class attribute. One of the elements (this one or the ones given by ID) is required (logical OR).
+     */
+    $.validator.addClassRules("Validate_DependingRequiredOR", {
+        Validate_Required: {
+            depends: function(Element) {
+                function GetDependentElements(Element) {
+                    var Classes = $(Element).attr('class'),
+                        DependentElementIDs = [],
+                        RegEx,
+                        DependingClassPrefix = 'Validate_Depending_';
+                    RegEx = new RegExp(DependingClassPrefix);
+                    $.each(Classes.split(' '), function(Index, Value) {
+                        if (RegEx.test(Value)) {
+                            DependentElementIDs.push(Value.replace(DependingClassPrefix, ''));
+                        }
+                    });
+                    return DependentElementIDs;
+                }
+
+                var I,
+                    ApplyRule = 1,
+                    DependentElementIDs = [];
+
+                DependentElementIDs = GetDependentElements(Element);
+                if (DependentElementIDs.length) {
+                    for (I = 0; I < DependentElementIDs.length; I++) {
+                        if ($('#' + DependentElementIDs[I].trim()).val().length) {
+                            ApplyRule = 0;
                         }
                     }
                     return ApplyRule;
