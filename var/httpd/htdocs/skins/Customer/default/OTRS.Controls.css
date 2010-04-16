@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -73,11 +73,11 @@
     background: url(img/tabs_active_bg.png) no-repeat top left;
 }
 
-.ControlRow .Active + li {
+.ControlRow .Selected + li {
     margin-left: 0;
 }
 
-.ControlRow .Active + li a {
+.ControlRow .Selected + li a {
     padding-left: 9px;
 }
 
@@ -90,18 +90,18 @@
     text-shadow: 0 1px 0 #DDD;
 }
 
-.ControlRow .Active a:focus,
-.ControlRow .Active a:active {
+.ControlRow .Selected a:focus,
+.ControlRow .Selected a:active {
     padding: 5px 11px;
 }
 
-.ControlRow .Tabs li.Active {
+.ControlRow .Tabs .Selected {
     height: 24px;
     margin-top: -1px;
     background: url(img/tabs_active_bg.png) no-repeat bottom left;
 }
 
-.ControlRow .Tabs li.Active a {
+.ControlRow .Tabs .Selected a {
     margin-right: -1px;
     padding: 5px 11px;
     color: #FFF;
@@ -109,7 +109,7 @@
     background: url(img/tabs_active_door.png) no-repeat right top;
 }
 
-.RTL .ControlRow .Tabs li.Active a {
+.RTL .ControlRow .Tabs .Selected a {
     background-position: left;
 }
 
