@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.229 2010-04-16 20:09:19 martin Exp $
+# $Id: Layout.pm,v 1.230 2010-04-16 21:29:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.229 $) [1];
+$VERSION = qw($Revision: 1.230 $) [1];
 
 =head1 NAME
 
@@ -2840,18 +2840,10 @@ sub CustomerLogin {
         }
     }
 
-    # get language options
-    if ( $Self->{ConfigObject}->Get('CustomerPanelLanguage') ) {
-        $Param{Language} = $Self->BuildSelection(
-            Data                => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
-            Name                => 'Lang',
-            SelectedID          => $Self->{UserLanguage},
-            OnChange            => 'submit()',
-            HTMLQuote           => 0,
-            LanguageTranslation => 0,
-        );
+    # check if message should be shown
+    if ( $Param{Message} ) {
         $Self->Block(
-            Name => 'Language',
+            Name => 'Message',
             Data => \%Param,
         );
     }
@@ -2863,6 +2855,10 @@ sub CustomerLogin {
         'Kernel::System::CustomerAuth::DB'
         )
     {
+        $Self->Block(
+            Name => 'LostPasswordLink',
+            Data => \%Param,
+        );
         $Self->Block(
             Name => 'LostPassword',
             Data => \%Param,
@@ -2876,6 +2872,10 @@ sub CustomerLogin {
         'Kernel::System::CustomerAuth::DB'
         )
     {
+        $Self->Block(
+            Name => 'CreateAccountLink',
+            Data => \%Param,
+        );
         $Self->Block(
             Name => 'CreateAccount',
             Data => \%Param,
@@ -4572,6 +4572,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.229 $ $Date: 2010-04-16 20:09:19 $
+$Revision: 1.230 $ $Date: 2010-04-16 21:29:22 $
 
 =cut

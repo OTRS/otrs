@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.33 2010-04-16 18:05:38 fn Exp $
+# $Id: CustomerLogin.dtl,v 1.34 2010-04-16 21:29:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,9 @@ $Include{"CustomerHeader"}
 
 <!-- start login -->
 <div id="Body" class="Login">
+<!-- dtl:block:Message -->
     <div class="Error"><span>$Text{"$Data{"Message"}"}</span></div>
+<!-- dtl:block:Message -->
     <div id="Slider">
         <div id="SlideArea">
             <div id="Login">
@@ -31,16 +33,20 @@ $Include{"CustomerHeader"}
                     <div>
                         <label for="Password">$Text{"Password"}</label>
                         <input title="Password" type="password" name="Password" id="Password" maxlength="128" />
+<!-- dtl:block:LostPasswordLink -->
                         <div class="Option">
                             <a href="#Reset" id="ForgotPassword">$Text{"Forgot password?"}</a>
                         </div>
+<!-- dtl:block:LostPasswordLink -->
                     </div>
                     <div>
                         <button type="submit" value="$Text{"Login"}">$Text{"Login"}</button>
                     </div>
                     <div class="Clear"></div>
                 </form>
+<!-- dtl:block:CreateAccountLink -->
                 <p>$Text{"Not yet registered?"} <a href="#Signup">$Text{"Sign up now"}</a>.</p>
+<!-- dtl:block:CreateAccountLink -->
             </div>
 <!-- dtl:block:LostPassword -->
             <div id="Reset">
