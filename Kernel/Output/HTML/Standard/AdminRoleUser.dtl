@@ -112,8 +112,7 @@ function select_items (Type) {
         <div class="WidgetGradient Short">
             <div class="Header">
                 <h2>
-                    $Text{"Change %s Relations for", "$Data{"NeType"}"}
-                    $Text{"$QData{"Type"}"}
+                    $Text{"Change %s Relations for %s", "$Data{"NeType"}", "$QData{"Type"}"}
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
                     ($QData{"ID"})
                 </h2>
@@ -129,8 +128,8 @@ function select_items (Type) {
                                 <th>$Text{"$QData{"NeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="Center $QData{"Mark"}">
-                                <input type="checkbox" name="Active" id="Active" title="$Text{"Toggle active state for all"}" value="" onclick="select_items('Active');" />
-                                $Text{"Active"}
+                                    <input type="checkbox" name="Active" id="Active" title="$Text{"Toggle active state for all"}" value="" onclick="select_items('Active');" />
+                                    $Text{"Active"}
                                 </th>
 <!-- dtl:block:ChangeHeader -->
                             </tr>
