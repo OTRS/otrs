@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.27 2010-04-15 19:08:01 cr Exp $
+# $Id: AdminRoleGroup.pm,v 1.28 2010-04-16 16:33:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -239,6 +239,7 @@ sub _Change {
                 Name => 'ChangeRowItem',
                 Data => {
                     %Param,
+                    Name     => $Param{Data}->{$ID},
                     Mark     => $Mark,
                     Type     => $Type,
                     ID       => $ID,
