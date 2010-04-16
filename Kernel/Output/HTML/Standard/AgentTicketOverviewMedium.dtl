@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.21 2010-04-15 00:16:16 mn Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.22 2010-04-16 14:05:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,7 +83,7 @@ function select_item_check () {
 <!-- dtl:block:MetaIcon -->
 <!-- dtl:block:Meta -->
             <h2>
-            <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"}">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title","60"}</a>
+                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"}">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title","60"}</a>
             </h2>
 #        <div>
 <!-- dtl:block:MenuItem -->
@@ -182,7 +182,7 @@ function select_item_check () {
                     </tr>
                     <tr>
                         <td>
-                            <label>$Text{"Subject"}</label><div title="$QData{"Subject"}">$RQData{"Subject","80"}</div>
+                            <label>$Text{"Subject"}</label><div title="$QData{"Subject"}">$QData{"Subject","80"}</div>
                         </td>
                         <td>
                             <label>$Text{"Owner"}</label><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
