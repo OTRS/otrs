@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.32 2010-04-15 21:58:26 fn Exp $
+# $Id: CustomerLogin.dtl,v 1.33 2010-04-16 18:05:38 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ $Include{"CustomerHeader"}
 
 <!-- start login -->
 <div id="Body" class="Login">
-<!--<div class="Error"><span>$Text{"$Data{"Message"}"}</span></div>-->
+    <div class="Error"><span>$Text{"$Data{"Message"}"}</span></div>
     <div id="Slider">
         <div id="SlideArea">
             <div id="Login">
@@ -26,11 +26,11 @@ $Include{"CustomerHeader"}
                     <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
                     <div>
                         <label for="User">$Text{"Username"}</label>
-                        <input title="User Name" type="text" id="User" maxlength="128" tabindex="1" />
+                        <input title="User Name" type="text" name="User" id="User" maxlength="128" />
                     </div>
                     <div>
                         <label for="Password">$Text{"Password"}</label>
-                        <input title="Password" type="password" id="Password" maxlength="128" tabindex="2" />
+                        <input title="Password" type="password" name="Password" id="Password" maxlength="128" />
                         <div class="Option">
                             <a href="#Reset" id="ForgotPassword">$Text{"Forgot password?"}</a>
                         </div>

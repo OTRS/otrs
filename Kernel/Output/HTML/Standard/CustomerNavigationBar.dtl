@@ -2,7 +2,7 @@
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.26 2009-12-09 07:53:02 mb Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.27 2010-04-16 18:05:38 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,23 +13,15 @@
 $Data{"Notification"}
 <!-- end Notifications -->
 <!-- start NavigationBar -->
-<table width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td valign="top" align="left" width="70%" class="nav">
-            <table cellspacing="2" cellpadding="2">
-                <tr>
+<div class="ControlRow">
+    <ul class="Tabs">
 <!-- dtl:block:Item -->
-                    <td valign="top" align="center" class="nav">
-                        <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}" /><br/>$Text{"$QData{"Name"}"}</a></div>
-                    </td>
-<!-- dtl:block:Item -->
-                </tr>
-            </table>
-        </td>
-        <td valign="top" align="right" width="30%" class="nav">
-            $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} $QData{"UserLoginIdentifier"}"}<br/>
-            $Env{"Time"}
-        </td>
-    </tr>
-</table>
+        <li title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" alt="$Text{"$QData{"Name"}"}">$Text{"$QData{"Name"}"}</a></li>
+<!-- dtl:block:Item -->        
+    </ul>
+    <ul class="User Tabs">
+        <li><a href="">Preferences</a></li>
+        <li class="Last"><a href="">$Text{"Log out"} $QData{"UserLoginIdentifier"}</a></li>
+    </ul>
+</div>
 <!-- end NavigationBar -->

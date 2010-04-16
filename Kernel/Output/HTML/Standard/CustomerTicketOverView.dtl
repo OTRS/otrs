@@ -1,0 +1,73 @@
+# --
+# CustomerTicketOverView.dtl - html for ticket status view (all tickets)
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: CustomerTicketOverView.dtl,v 1.1 2010-04-16 18:05:38 fn Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- start form -->
+# check show closed tickets link
+# <dtl set $Data{"ClosedTicketText"} = "Show closed Tickets">
+# <dtl if ($Data{"ShowClosed"} eq "1") { $Data{"ClosedTicketText"} = "Don't show closed Tickets"; }>
+# <dtl if ($Data{"ShowClosed"} eq "1") { $Data{"ClosedLink"} = "ShowClosedTickets=0"; }>
+# <dtl if ($Data{"ShowClosed"} eq "0") { $Data{"ClosedLink"} = "ShowClosedTickets=1"; }>
+<div id="Body" class="TicketView">
+    <div class="ActionRow">
+        <ul class="Filter">
+<!-- dtl:block:FilterHeader -->
+            <li class="Active"><a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=;Order=;Limit=$LQData{"Limit"};$Data{"ClosedLink"};Type=$LQData{"Type"}">$Text("All") ($Data{"TotalNumber"})</a></li>
+<!-- dtl:block:FilterHeader -->
+            <li class="Clear"></li>
+        </ul>
+        <div class="Pagination">
+            <a href="">&larr; $Text{"Previous"}</a>  <strong>$Data{"Result"}</strong> $Text{"of"} <strong>$Data{"TotalHits"}</strong>  <a href="" class="Last">$Text{"Next"} &rarr;</a>
+        </div>
+        <div class="Clear"></div>
+    </div>
+    <div class="Content">
+        <table class="Overview">
+            <thead>
+                <tr>
+                    <th class="Status"><a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=State;Order=Up;Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">$Text{"State"}</a></th>
+                    <th class="Ticket"><a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=Ticket;Order=Up;Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">$Config{"Ticket::Hook"}</a></th>
+                    <th class="Title"><a href="">$Text{"Subject"}</a></th>
+                    <th class="Age"><a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=Age;Order=Up;Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">$Text{"Age"}</a></th>
+                </tr>
+            </thead>
+            <tbody>
+<!-- dtl:block:Record -->
+                <tr>
+                    <td class="Status">$Quote{"$Text{"$Data{"State"}"}","18"}</td>
+                    <td class="Ticket">$Data{"TicketNumber"} ($Data{"Articles"})</td>
+                    <td class="Title"><div><h2><a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$Data{"TicketID"}">$QData{"Subject","36"}</a></h2>&nbsp;-&nbsp;Hello ladys &amp; gentleman, today after starting my video deluxe software my computer showed a blue screen and crashed. Its a windows xp machine ...</div></td>
+                    <td class="Age" title="10.03.2010 10:33">$QData{"Age","20"}</td>
+                </tr>
+<!-- dtl:block:Record -->
+            </tbody>
+        </table>
+    </div>
+    <div class="ActionRow Bottom">
+        <ul class="Filter">
+<!-- dtl:block:FilterFooter -->
+            <li class="Active"><a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=;Order=;Limit=$LQData{"Limit"};$Data{"ClosedLink"};Type=$LQData{"Type"}">$Text("All") ($Data{"TotalNumber"})</a></li>
+<!-- dtl:block:FilterFooter -->
+            <li class="Clear"></li>
+        </ul>
+        <div class="Pagination">
+            <a href="">&larr; $Text{"Previous"}</a>  <strong>$Data{"Result"}</strong> $Text{"of"} <strong>$Data{"TotalHits"}</strong>  <a href="" class="Last">$Text{"Next"} &rarr;</a>
+        </div>
+        <div class="Clear"></div>
+    </div>
+</div>
+<!-- end form -->
+<!-- dtl:document_ready -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        OTRS.App.Customer.ClickableRow();
+    });
+</script>
+<!-- dtl:document_ready -->
