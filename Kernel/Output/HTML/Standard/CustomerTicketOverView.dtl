@@ -2,20 +2,20 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.1 2010-04-16 18:05:38 fn Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.2 2010-04-16 20:20:09 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- start form -->
 # check show closed tickets link
 # <dtl set $Data{"ClosedTicketText"} = "Show closed Tickets">
 # <dtl if ($Data{"ShowClosed"} eq "1") { $Data{"ClosedTicketText"} = "Don't show closed Tickets"; }>
 # <dtl if ($Data{"ShowClosed"} eq "1") { $Data{"ClosedLink"} = "ShowClosedTickets=0"; }>
 # <dtl if ($Data{"ShowClosed"} eq "0") { $Data{"ClosedLink"} = "ShowClosedTickets=1"; }>
 <div id="Body" class="TicketView">
+<!-- dtl:block:Filled -->
     <div class="ActionRow">
         <ul class="Filter">
 <!-- dtl:block:FilterHeader -->
@@ -62,8 +62,6 @@
         </div>
         <div class="Clear"></div>
     </div>
-</div>
-<!-- end form -->
 <!-- dtl:document_ready -->
 <script type="text/javascript">
     $(document).ready(function() {
@@ -71,3 +69,10 @@
     });
 </script>
 <!-- dtl:document_ready -->
+<!-- dtl:block:Filled -->
+
+<!-- dtl:block:Empty -->
+    <h2>Seems like you are new here</h2>
+    <p>Let me guid you around...</p>
+<!-- dtl:block:Empty -->
+</div>
