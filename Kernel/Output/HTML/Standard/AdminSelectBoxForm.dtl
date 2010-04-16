@@ -2,75 +2,79 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.26 2010-02-05 13:58:22 mn Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.27 2010-04-16 18:21:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td class="mainhead">
-            $Env{"Box0"}$Text{"SQL Box"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td align="center" class="mainbody">
-            <br/>
+<div class="MainBox ARIARoleMain">
+    <h1>$Text{"SQL Box"}</h1>
+
+    <div class="WidgetGradient Short">
+        <div class="Header">
+            <h2>$Text{"Options"}</h2>
+        </div>
+        <div class="Content">
+
             <form action="$Env{"CGIHandle"}" method="post">
                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                 <input type="hidden" name="Subaction" value="Select"/>
-                <table cellspacing="0" cellpadding="4" border="0" width="700">
-                    <tr class="contenthead">
-                        <td colspan="2">$Text{"Options"}</td>
-                    </tr>
-                    <tr class="contentbody">
-                        <td width="15%" class="contentkey">$Text{"SQL"}:</td>
-                        <td width="85%" class="contentvalue"><textarea name="SQL" rows="3" cols="75">$QData{"SQL"}</textarea></td>
-                    </tr>
-                    <tr class="contentbody">
-                        <td class="contentkey">$Text{"Limit"}:</td>
-                        <td class="contentvalue"><input type="text" name="Max" value="$QData{"Max"}" size="2"/></td>
-                    </tr>
-                    <tr class="contentfooter">
-                        <td colspan="2" class="contentkey">
-                            <button class="button" type="submit" name="CSV" value="$Text{"CSV"}">$Text{"CSV"}</button>
-                            <button class="button" type="submit" name="HTML" value="$Text{"HTML"}">$Text{"HTML"}</button>
-                        </td>
-                    </tr>
-                </table>
+                <fieldset class="TableLike">
+
+                    <label for="SQL">$Text{"SQL"}:</label>
+                    <div class="Field">
+                        <textarea name="SQL" id="SQL" rows="3" cols="75">$QData{"SQL"}</textarea>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="SQL">$Text{"Limit"}:</label>
+                    <div class="Field">
+                        <input type="text" name="Max" value="$QData{"Max"}" class="W50px" />
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="SQL">$Text{"Result format"}:</label>
+                    <div class="Field">
+                        $Data{"ResultFormatStrg"}
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field SpacingTop">
+                        <button class="Primary" type="submit" value="$Text{"Run Query"}">$Text{"Run Query"}</button>
+                    </div>
+                </fieldset>
             </form>
-            <br/>
-        </td>
-    </tr>
-</table>
-<!-- end form -->
+        </div>
+    </div>
+
+
+
 <!-- dtl:block:Result -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td class="mainhead">
-            $Env{"Box0"}$Text{"Select Box Result"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
+    <div class="WidgetGradient Short">
+        <div class="Header">
+            <h2>$Text{"Options"}</h2>
+        </div>
+        <div class="Content">
+
 <!-- dtl:block:ResultTableStart -->
-            <table width="100%" cellspacing="0" cellpadding="3" border="0">
+            <table class="DataTable">
+                <tbody>
 <!-- dtl:block:ResultTableStart -->
 <!-- dtl:block:Row -->
-                <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
-                <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
-                    $Data{"Result"}
-                </tr>
-                <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
-                <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
+                    <tr>
+<!-- dtl:block:Cell -->
+                        <td title="$QData{"Content", "80"}">$QData{"Content", "12"}</td>
+<!-- dtl:block:Cell -->
+                    </tr>
 <!-- dtl:block:Row -->
 <!-- dtl:block:ResultTableEnd -->
+                </tbody>
             </table>
 <!-- dtl:block:ResultTableEnd -->
-        </td>
-    </tr>
-</table>
+        </div>
+    </div>
 <!-- dtl:block:Result -->
+
+</div>

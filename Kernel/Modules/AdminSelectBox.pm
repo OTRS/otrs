@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.pm,v 1.31 2009-12-08 10:01:04 mg Exp $
+# $Id: AdminSelectBox.pm,v 1.32 2010-04-16 18:21:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,6 +39,11 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    $Param{ResultFormatStrg} = $Self->{LayoutObject}->BuildSelection(
+        Name => 'ResultFormat',
+        Data => [ 'HTML', 'CSV' ],
+    );
+
     # ------------------------------------------------------------ #
     # do select
     # ------------------------------------------------------------ #
@@ -48,7 +53,7 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get params
-        for (qw(SQL Max HTML CSV)) {
+        for (qw(SQL Max ResultFormat)) {
             $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
 
@@ -77,7 +82,7 @@ sub Run {
                 }
 
                 # get csv data
-                if ( $Param{CSV} ) {
+                if ( $Param{ResultFormat} eq 'CSV' ) {
                     $Count++;
                     if ( $Count == 1 ) {
                         @Head = @Row;
@@ -88,38 +93,28 @@ sub Run {
                     last if $Count > 2000;
                 }
 
+                $Self->{LayoutObject}->Block(
+                    Name => 'Row',
+                );
+
                 # get html data
                 my $Row = '';
                 for my $Item (@Row) {
-                    my $Item1 = '';
-                    my $Item2 = '';
                     if ( !defined $Item ) {
-                        $Item1 = '<i>NULL</i>';
-                        $Item2 = 'NULL';
+                        $Item = 'NULL';
                     }
-                    else {
-                        $Item1 = $Self->{LayoutObject}->Ascii2Html(
-                            Text => $Item,
-                            Max  => 16,
-                        );
-                        $Item2 = $Self->{LayoutObject}->Ascii2Html(
-                            Text => $Item,
-                            Max  => 80,
-                        );
-                    }
-                    $Item2 =~ s/\n|\r//g;
-                    $Row .= "<td class=\"small\"><div title=\"$Item2\">";
-                    $Row .= $Item1;
-                    $Row .= "</div></td>\n";
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Cell',
+                        Data => {
+                            Content => $Item,
+                        },
+                    );
                 }
-                $Self->{LayoutObject}->Block(
-                    Name => 'Row',
-                    Data => { Result => $Row, },
-                );
             }
 
             # generate csv output
-            if ( $Param{CSV} ) {
+            if ( $Param{ResultFormat} eq 'CSV' ) {
                 my $CSV = $Self->{CSVObject}->Array2CSV(
                     Head => \@Head,
                     Data => \@Data,
