@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.1 2010-04-15 21:14:14 en Exp $
+# $Id: AdminNotification.dtl,v 1.2 2010-04-16 14:59:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,18 +23,18 @@ $Include{"RichTextEditor"}
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Change"/>
                     <fieldset>
-                        <h2>$Text{"Change"}:</h2>
+                        <h2>$Text{"Type of Change"}</h2>
                         <p>
                             $Data{"NotificationOption"}
                         </p>
                         <div  class="Field SpacingTop">
-                            <button class="button" type="submit" value="$Text{"Change"}">$Text{"Change"}</button>
+                            <button class="button" type="submit" value="$Text{"Select"}">$Text{"Select"}</button>
                         </div>
                         <div class="Clear"></div>
-                        
+
                     </fieldset>
                 </form>
-                
+
                 <h2>$Text{"Note"}</h2>
                 <p class="FieldExplanation">
                     $Text{"Notifications are sent to an agent or a customer."}
@@ -91,7 +91,7 @@ $Include{"RichTextEditor"}
             <div class="Content">
 
                 <h3>$Text{"You can use the following tags"}:</h3>
-                <dl>    
+                <dl>
                     <dt>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</dt>
                     <dd>
                         $Text{"To get the first 20 character of the subject."}
@@ -109,35 +109,35 @@ $Include{"RichTextEditor"}
 
                     <dt>&lt;OTRS_CUSTOMER_*&gt;</dt>
                     <dd>
-                        $Text{"To get the article attribute"} ($Text{"e. g."} <strong>&lt;OTRS_CUSTOMER_From>, 
-                        &lt;OTRS_CUSTOMER_To>, &lt;OTRS_CUSTOMER_Cc>, &lt;OTRS_CUSTOMER_Subject> and 
+                        $Text{"To get the article attribute"} ($Text{"e. g."} <strong>&lt;OTRS_CUSTOMER_From>,
+                        &lt;OTRS_CUSTOMER_To>, &lt;OTRS_CUSTOMER_Cc>, &lt;OTRS_CUSTOMER_Subject> and
                         &lt;OTRS_CUSTOMER_Body&gt;</strong>).
                     </dd>
                     <dt>&lt;OTRS_CUSTOMER_DATA_*&gt;</dt>
                     <dd>
                         $Text{"Options of the current customer user data"} ($Text{"e. g."} <strong>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</strong>).
-                    </dd>                    
+                    </dd>
                     <dt>&lt;OTRS_OWNER_*&gt;</dt>
                     <dd>
                         $Text{"Ticket owner options"} ($Text{"e. g."} <strong>&lt;OTRS_OWNER_UserFirstname&gt;</strong>).
-                    </dd>                    
+                    </dd>
                     <dt>&lt;OTRS_RESPONSIBLE_*&gt;</dt>
                     <dd>
                         $Text{"Ticket responsible options"} ($Text{"e. g."} <strong>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</strong>).
-                    </dd>                    
+                    </dd>
                     <dt>&lt;OTRS_CURRENT_*&gt;</dt>
                     <dd>
                         $Text{"Options of the current user who requested this action"} ($Text{"e. g."} <strong>&lt;OTRS_CURRENT_UserFirstname&gt;</strong>).
-                    </dd>                    
+                    </dd>
                     <dt>&lt;OTRS_TICKET_*&gt;</dt>
                     <dd>
-                        $Text{"Options of the ticket data"} ($Text{"e. g."} <strong>&lt;OTRS_TICKET_TicketNumber>, &lt;OTRS_TICKET_TicketID>, 
+                        $Text{"Options of the ticket data"} ($Text{"e. g."} <strong>&lt;OTRS_TICKET_TicketNumber>, &lt;OTRS_TICKET_TicketID>,
                         &lt;OTRS_TICKET_Queue>, &lt;OTRS_TICKET_State&gt;</strong>).
-                    </dd>                    
+                    </dd>
                     <dt>&lt;OTRS_CONFIG_*&gt;</dt>
                     <dd>
                         $Text{"Config options"} ($Text{"e. g."} <strong>&lt;OTRS_CONFIG_HttpType&gt;</strong>).
-                    </dd>                    
+                    </dd>
                 </dl>
                 <h3 class="SpacingTop">
                     $Text{"Example"}:
@@ -175,7 +175,7 @@ Your OTRS Notification Master
                 <p>$Text{"Please select a notification"} </p>
             </div>
         </div>
-<!-- dtl:block:ShowInitialMessage -->        
+<!-- dtl:block:ShowInitialMessage -->
     </div>
     <div class="Clear"></div>
 </div>
