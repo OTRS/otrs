@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.227 2010-04-15 10:51:51 mae Exp $
+# $Id: Layout.pm,v 1.228 2010-04-16 04:10:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.227 $) [1];
+$VERSION = qw($Revision: 1.228 $) [1];
 
 =head1 NAME
 
@@ -690,6 +690,21 @@ sub Output {
             "";
     }segxm;
 
+    # replace document ready placeholder (only if it's not included via $Include{""})
+    if ( !$Param{Include} ) {
+        $Output =~ s{
+            <!--\s{0,1}dtl:document_ready_placeholder\s{0,1}-->
+        }
+        {
+            if ( $Self->{EnvRef}->{DocumentReady} ) {
+                $Self->{EnvRef}->{DocumentReady};
+            }
+            else {
+                "";
+            }
+        }segxm;
+    }
+
     # custom post filters
     if ( $Self->{FilterElementPost} ) {
         my %Filters = %{ $Self->{FilterElementPost} };
@@ -759,10 +774,8 @@ return html for browser to redirect
 sub Redirect {
     my ( $Self, %Param ) = @_;
 
-    my $SessionIDCookie = '';
-    my $Cookies         = '';
-
     # add cookies if exists
+    my $Cookies = '';
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
         for ( keys %{ $Self->{SetCookies} } ) {
             $Cookies .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
@@ -860,9 +873,8 @@ sub Redirect {
 sub Login {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
     # add cookies if exists
+    my $Output = '';
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
         for ( keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
@@ -2197,7 +2209,7 @@ sub PageNavBar {
     $Param{StartHit} = 0 if ( !$Param{AllHits} );
     my $Pages = int( ( $Param{AllHits} / $Param{PageShown} ) + 0.99999 );
     my $Page  = int( ( $Param{StartHit} / $Param{PageShown} ) + 0.99999 );
-    my $WindowSize = $Param{WindowSize} || 15;
+    my $WindowSize = $Param{WindowSize} || 5;
 
     # build Results (1-5 or 16-30)
     if ( $Param{AllHits} >= ( $Param{StartHit} + $Param{PageShown} ) ) {
@@ -3792,7 +3804,7 @@ sub _Output {
             }egx;
         }
 
-        # variable & env & config replacement (three times)
+        # variable & env & config replacement
         my $Regexp = 1;
         while ($Regexp) {
             $Regexp = $Line =~ s{
@@ -3938,6 +3950,7 @@ sub _Output {
                 elsif ($1 eq 'Include') {
                     $Self->Output(
                         %Param,
+                        Include => 1,
                         TemplateFile => $2,
                     );
                 }
@@ -4517,6 +4530,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.227 $ $Date: 2010-04-15 10:51:51 $
+$Revision: 1.228 $ $Date: 2010-04-16 04:10:56 $
 
 =cut
