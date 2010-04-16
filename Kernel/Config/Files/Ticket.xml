@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.312 2010-04-15 18:36:13 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.313 2010-04-16 21:48:35 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -7615,30 +7615,6 @@ $QData{"Signature"}
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerPreferencesGroups###ClosedTickets" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the ClosedTickets object in the customer preferences.</Description>
-        <Description Lang="de">Parameter für das ClosedTicket-Objekt in den Einstellungen für Kunden.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::Preferences</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Other Settings</Item>
-                <Item Key="Label">Closed Tickets</Item>
-                <Item Key="Key">Show closed tickets.</Item>
-                <Item Key="Data">
-                    <Hash>
-                        <Item Key="0">No</Item>
-                        <Item Key="1">Yes</Item>
-                    </Hash>
-                </Item>
-                <Item Key="DataSelected">1</Item>
-                <Item Key="PrefKey">UserShowClosedTickets</Item>
-                <Item Key="Prio">2000</Item>
-                <Item Key="Activ">1</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###ShownTickets" Required="0" Valid="1">
         <Description Lang="en">All parameters for the ShownTickets object in the customer preferences.</Description>
         <Description Lang="de">Parameter für das ShownTickets-Objekt in den Einstellungen für Customer.</Description>
@@ -8701,7 +8677,7 @@ $QData{"Signature"}
                     <Block></Block>
                     <Type></Type>
                     <NavBar></NavBar>
-                    <Link>Action=CustomerTicketOverView;Type=MyTickets</Link>
+                    <Link>Action=CustomerTicketOverView;Subaction=MyTickets</Link>
                     <AccessKey>m</AccessKey>
                     <Prio>110</Prio>
                 </NavBar>
@@ -8712,7 +8688,7 @@ $QData{"Signature"}
                     <Block></Block>
                     <Type></Type>
                     <NavBar></NavBar>
-                    <Link>Action=CustomerTicketOverView;Type=CompanyTickets</Link>
+                    <Link>Action=CustomerTicketOverView;Subaction=CompanyTickets</Link>
                     <AccessKey>c</AccessKey>
                     <Prio>120</Prio>
                 </NavBar>

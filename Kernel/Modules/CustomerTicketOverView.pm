@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.52 2010-04-16 18:06:47 fn Exp $
+# $Id: CustomerTicketOverView.pm,v 1.53 2010-04-16 21:48:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,11 +43,10 @@ sub new {
         );
 
     # get params
-    $Self->{ShowClosedTickets} = $Self->{ParamObject}->GetParam( Param => 'ShowClosedTickets' );
-    $Self->{SortBy}            = $Self->{ParamObject}->GetParam( Param => 'SortBy' ) || 'Age';
-    $Self->{Order}             = $Self->{ParamObject}->GetParam( Param => 'Order' ) || 'Down';
-    $Self->{StartHit}          = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
-    $Self->{Type}              = $Self->{ParamObject}->GetParam( Param => 'Type' ) || 'MyTickets';
+    $Self->{Filter}   = $Self->{ParamObject}->GetParam( Param => 'Filter' )   || 'Open';
+    $Self->{SortBy}   = $Self->{ParamObject}->GetParam( Param => 'SortBy' )   || 'Age';
+    $Self->{Order}    = $Self->{ParamObject}->GetParam( Param => 'Order' )    || 'Down';
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
     $Self->{PageShown} = $Self->{UserShowTickets} || 1;
 
     return $Self;
@@ -56,19 +55,10 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # store last screen
-    if (
-        !$Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key       => 'LastScreenView',
-            Value     => $Self->{RequestedURL},
-        )
-        )
-    {
-        my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
-        $Output .= $Self->{LayoutObject}->CustomerError();
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
-        return $Output;
+    # check subaction
+    if ( !$Self->{Subaction} ) {
+        return $Self->{LayoutObject}
+            ->Redirect( OP => 'CustomerTicketOverview;Subaction=MyTickets' );
     }
 
     # check needed CustomerID
@@ -79,49 +69,180 @@ sub Run {
         return $Output;
     }
 
-    # check if just open tickets should be shown
-    my $SQLExt     = '';
-    my $ShowClosed = 0;
-    if ( !defined $Self->{ShowClosedTickets} ) {
-        $ShowClosed = $Self->{UserShowClosedTickets};
-    }
-    else {
-        $ShowClosed = $Self->{ShowClosedTickets};
+    # store last screen
+    $Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key       => 'LastScreenView',
+        Value     => $Self->{RequestedURL},
+    );
+
+    # filter definition
+    my %Filters = (
+        MyTickets => {
+            All => {
+                Name   => 'All',
+                Prio   => 1000,
+                Search => {
+                    CustomerUserLogin => $Self->{UserID},
+                    OrderBy           => $Self->{Order},
+                    SortBy            => $Self->{SortBy},
+                    CustomerUserID    => $Self->{UserID},
+                    Permission        => 'ro',
+                },
+            },
+            Open => {
+                Name   => 'Open',
+                Prio   => 1100,
+                Search => {
+                    CustomerUserLogin => $Self->{UserID},
+                    StateType         => 'Open',
+                    OrderBy           => $Self->{Order},
+                    SortBy            => $Self->{SortBy},
+                    CustomerUserID    => $Self->{UserID},
+                    Permission        => 'ro',
+                },
+            },
+            Closed => {
+                Name   => 'Closed',
+                Prio   => 1200,
+                Search => {
+                    CustomerUserLogin => $Self->{UserID},
+                    StateType         => 'Closed',
+                    OrderBy           => $Self->{Order},
+                    SortBy            => $Self->{SortBy},
+                    CustomerUserID    => $Self->{UserID},
+                    Permission        => 'ro',
+                },
+            },
+        },
+        CompanyTickets => {
+            All => {
+                Name   => 'All',
+                Prio   => 1000,
+                Search => {
+                    CustomerID =>
+                        [ $Self->{CustomerUserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
+                    OrderBy        => $Self->{Order},
+                    SortBy         => $Self->{SortBy},
+                    CustomerUserID => $Self->{UserID},
+                    Permission     => 'ro',
+                },
+            },
+            Open => {
+                Name   => 'Open',
+                Prio   => 1100,
+                Search => {
+                    CustomerID =>
+                        [ $Self->{CustomerUserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
+                    StateType      => 'Open',
+                    OrderBy        => $Self->{Order},
+                    SortBy         => $Self->{SortBy},
+                    CustomerUserID => $Self->{UserID},
+                    Permission     => 'ro',
+                },
+            },
+            Closed => {
+                Name   => 'Closed',
+                Prio   => 1200,
+                Search => {
+                    CustomerID =>
+                        [ $Self->{CustomerUserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
+                    StateType      => 'Closed',
+                    OrderBy        => $Self->{Order},
+                    SortBy         => $Self->{SortBy},
+                    CustomerUserID => $Self->{UserID},
+                    Permission     => 'ro',
+                },
+            },
+        },
+    );
+
+    # check if filter is valid
+    if ( !$Filters{ $Self->{Subaction} }->{ $Self->{Filter} } ) {
+        my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
+        $Output .= $Self->{LayoutObject}
+            ->CustomerError( Message => "Invalid Filter: $Self->{Filter}!" );
+        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        return $Output;
     }
 
-    # get data (viewable tickets...)
-    my $StateType = '';
-    if ( !$ShowClosed ) {
-        $StateType = 'Open';
+    my %NavBarFilter;
+    my $Counter    = 0;
+    my $AllTickets = 0;
+    for my $Filter ( keys %{ $Filters{ $Self->{Subaction} } } ) {
+        $Counter++;
+        my $Count = $Self->{TicketObject}->TicketSearch(
+            %{ $Filters{ $Self->{Subaction} }->{$Filter}->{Search} },
+            Result => 'COUNT',
+        );
+
+        my $ClassLI = '';
+        my $ClassA  = '';
+        if ( $Filter eq $Self->{Filter} ) {
+            $ClassA     = 'Selected';
+            $AllTickets = $Count;
+        }
+        my $CounterTotal = keys %{ $Filters{ $Self->{Subaction} } };
+        if ( $CounterTotal eq $Counter ) {
+            $ClassLI = 'Last';
+        }
+        $NavBarFilter{ $Filters{ $Self->{Subaction} }->{$Filter}->{Prio} } = {
+            %{ $Filters{ $Self->{Subaction} }->{$Filter} },
+            Count   => $Count,
+            Filter  => $Filter,
+            ClassA  => $ClassA,
+            ClassLI => $ClassLI,
+        };
     }
 
-    my @ViewableTickets = ();
-    if ( $Self->{Type} eq 'MyTickets' ) {
-        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            Result            => 'ARRAY',
-            CustomerUserLogin => $Self->{UserID},
-            StateType         => $StateType,
-            OrderBy           => $Self->{Order},
-            SortBy            => $Self->{SortBy},
-            CustomerUserID    => $Self->{UserID},
-            Permission        => 'ro',
+    if ( !$AllTickets ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Empty',
+            Data => \%Param,
         );
     }
     else {
-        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            Result => 'ARRAY',
-            CustomerID =>
-                [ $Self->{CustomerUserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
-            StateType => $StateType,
-            OrderBy   => $Self->{Order},
-            SortBy    => $Self->{SortBy},
 
-            CustomerUserID => $Self->{UserID},
-            Permission     => 'ro',
+        # create & return output
+        my $Link = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
+            . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Order} )
+            . ';Filter=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
+            . ';Subaction=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Subaction} )
+            . ';';
+        my %PageNav = $Self->{LayoutObject}->PageNavBar(
+            Limit     => 10000,
+            StartHit  => $Self->{StartHit},
+            PageShown => $Self->{PageShown},
+            AllHits   => $AllTickets,
+            Action    => 'Action=CustomerTicketOverView',
+            Link      => $Link,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'Filled',
+            Data => { %Param, %PageNav },
+        );
+    }
+    for my $Key ( sort keys %NavBarFilter ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'FilterHeader',
+            Data => {
+                %{ $NavBarFilter{$Key} },
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'FilterFooter',
+            Data => {
+                %{ $NavBarFilter{$Key} },
+            },
         );
     }
 
-    my $AllTickets = @ViewableTickets;
+    my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+        %{ $Filters{ $Self->{Subaction} }->{ $Self->{Filter} }->{Search} },
+        Result => 'ARRAY',
+        Limit  => 1_000,
+    );
 
     # show ticket's
     my $Counter = 0;
@@ -137,27 +258,12 @@ sub Run {
     }
 
     # create & return output
-    my $Link = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
-        . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Order} )
-        . ';ShowClosedTickets=' . $Self->{LayoutObject}->Ascii2Html( Text => $ShowClosed )
-        . ';Type=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Type} )
-        . '&';
-    my %PageNav = $Self->{LayoutObject}->PageNavBar(
-        Limit     => 10000,
-        StartHit  => $Self->{StartHit},
-        PageShown => $Self->{PageShown},
-        AllHits   => $AllTickets,
-        Action    => 'Action=CustomerTicketOverView',
-        Link      => $Link,
-    );
-
-    # create & return output
     my $Refresh = '';
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     my $Output = $Self->{LayoutObject}->CustomerHeader(
-        Title   => $Self->{Type},
+        Title   => $Self->{Subaction},
         Refresh => $Refresh,
     );
 
@@ -165,12 +271,7 @@ sub Run {
     $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerTicketOverView',
-        Data         => {
-            Type       => $Self->{Type},
-            ShowClosed => $ShowClosed,
-            %PageNav,
-            %Param,
-        },
+        Data         => \%Param,
     );
 
     # get page footer
