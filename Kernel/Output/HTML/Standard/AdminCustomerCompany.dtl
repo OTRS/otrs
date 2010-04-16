@@ -2,7 +2,7 @@
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.2 2010-04-16 14:08:31 cg Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.3 2010-04-16 15:02:46 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -115,10 +115,10 @@
                             <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"Value"}" class="W50pc $Data{"RequiredClass"} $QData{"Action"}" maxlength="150" $Data{"ReadOnlyType"}/>
 <!-- dtl:block:PreferencesGenericInputRequired -->
                             <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
-                                <p>Please enter a value <strong>here</strong>.</p>
+                                <p><strong>$Text{"The field is required"}</strong></p>
                             </div>
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
-                                <p>Please enter a value <strong>here</strong>.</p>
+                                <p><strong>$Text{"The field is required"}</strong></p>
                             </div>
 <!-- dtl:block:PreferencesGenericInputRequired -->
                         </div>
@@ -133,10 +133,10 @@
                             $Data{"Option"}
 <!-- dtl:block:PreferencesGenericOptionRequired -->
                             <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
-                                <p>Please enter a value <strong>here</strong>.</p>
+                                <p><strong>$Text{"The field is required"}</strong></p>
                             </div>
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
-                                <p>Please enter a value <strong>here</strong>.</p>
+                                <p><strong>$Text{"The field is required"}</strong></p>
                             </div>
 <!-- dtl:block:PreferencesGenericOptionRequired -->
                         </div>
