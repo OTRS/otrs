@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -207,11 +207,11 @@ ul.ContextFunctions li {
     color: #000;
 }
 
-.Filter .Active {
+.Filter .Selected {
     font-weight: bold;
 }
 
-.Filter .Active:hover {
+.Filter .Selected:hover {
     color: #444;
 }
 
@@ -230,12 +230,12 @@ ul.ContextFunctions li {
     text-shadow: none;
 }
 
-.ActionRow .Last {
+.ActionRow .Last a {
     padding-right: 0;
     background: none;
 }
 
-.RTL .ActionRow .Last {
+.RTL .ActionRow .Last a {
     padding-right: 3px;
     padding-left: 0;
 }
