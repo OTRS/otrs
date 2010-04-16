@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.228 2010-04-16 04:10:56 martin Exp $
+# $Id: Layout.pm,v 1.229 2010-04-16 20:09:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.228 $) [1];
+$VERSION = qw($Revision: 1.229 $) [1];
 
 =head1 NAME
 
@@ -3008,6 +3008,7 @@ sub CustomerNavigationBar {
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
         if ( $Hash{NavBar} && ref $Hash{NavBar} eq 'ARRAY' ) {
+
             my @Items = @{ $Hash{NavBar} };
             for my $Item (@Items) {
                 for ( 1 .. 51 ) {
@@ -3047,8 +3048,26 @@ sub CustomerNavigationBar {
         }
     }
 
+    my $Total   = keys %NavBarModule;
+    my $Counter = 0;
     for ( sort keys %NavBarModule ) {
         next if !%{ $NavBarModule{$_} };
+        $Counter++;
+
+        # highligt active link
+        $NavBarModule{$_}->{Class} = '';
+        if ( $NavBarModule{$_}->{Link} ) {
+            if (
+                $NavBarModule{$_}->{Link} =~ /$Self->{Action}/
+                && $NavBarModule{$_}->{Link} =~ /$Self->{Subaction}/
+                )
+            {
+                $NavBarModule{$_}->{Class} .= ' Selected';
+            }
+        }
+        if ( $Counter == $Total ) {
+            $NavBarModule{$_}->{Class} .= ' Last';
+        }
         $Self->Block(
             Name => $NavBarModule{$_}->{Block} || 'Item',
             Data => $NavBarModule{$_},
@@ -3083,6 +3102,29 @@ sub CustomerNavigationBar {
     }
     else {
         $Param{UserLoginIdentifier} = $Self->{UserLoginIdentifier};
+    }
+
+    # only on valid session
+    if ( $Self->{UserID} ) {
+
+        # show logout button (if registured)
+        if ( $FrontendModuleConfig->{Logout} ) {
+            $Self->Block(
+                Name => 'Logout',
+                Data => \%Param,
+            );
+        }
+
+        # show perferences button (if registured)
+        if ( $FrontendModuleConfig->{CustomerPreferences} ) {
+            if ( $Self->{Action} eq 'CustomerPreferences' ) {
+                $Param{Class} = 'Selected';
+            }
+            $Self->Block(
+                Name => 'Preferences',
+                Data => \%Param,
+            );
+        }
     }
 
     # create & return output
@@ -4530,6 +4572,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.228 $ $Date: 2010-04-16 04:10:56 $
+$Revision: 1.229 $ $Date: 2010-04-16 20:09:19 $
 
 =cut

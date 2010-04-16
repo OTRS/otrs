@@ -1,8 +1,8 @@
 # --
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.27 2010-04-16 18:05:38 fn Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.28 2010-04-16 20:09:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,12 +16,16 @@ $Data{"Notification"}
 <div class="ControlRow">
     <ul class="Tabs">
 <!-- dtl:block:Item -->
-        <li title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" alt="$Text{"$QData{"Name"}"}">$Text{"$QData{"Name"}"}</a></li>
-<!-- dtl:block:Item -->        
+        <li class="$QData{"Class"}" title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" alt="$Text{"$QData{"Name"}"}">$Text{"$QData{"Name"}"}</a></li>
+<!-- dtl:block:Item -->
     </ul>
     <ul class="User Tabs">
-        <li><a href="">Preferences</a></li>
-        <li class="Last"><a href="">$Text{"Log out"} $QData{"UserLoginIdentifier"}</a></li>
+<!-- dtl:block:Preferences -->
+        <li class="$QData{"Class"}"><a href="$Env{"Baselink"}Action=CustomerPreferences" title="$Text{"Edit personal preferences"}">$Text{"Preferences"}</a></li>
+<!-- dtl:block:Preferences -->
+<!-- dtl:block:Logout -->
+        <li class="Last"><a href="$Env{"Baselink"}Action=Logout" title="$Text{"Logout"}">$Text{"Logout"}</a></li>
+<!-- dtl:block:Logout -->
     </ul>
 </div>
 <!-- end NavigationBar -->
