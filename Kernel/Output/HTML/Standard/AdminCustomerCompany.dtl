@@ -2,7 +2,7 @@
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.3 2010-04-16 15:02:46 cg Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.4 2010-04-16 18:55:28 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,7 +70,7 @@
                             <th class="W5pc">$Text{"CustomerID"}</th>
                             <th class="W20pc">$Text{"Name"}</th>
                             <th class="W25pc">$Text{"Comment"}</th>
-                            <th class="Center">$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"valid"}/$Text{"invalid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
@@ -78,10 +78,10 @@
                     <tbody>
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
-                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;CustomerID=$LQData{"CustomerID"}">$QData{"CustomerID","20"}</a></td>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;CustomerID=$LQData{"CustomerID"}">$QData{"CustomerID","20"}</a></td>
                             <td>$QData{"CustomerCompanyName"}</td>
                             <td title="$QData{"CustomerCompanyComment"}">$QData{"CustomerCompanyComment","20"}</td>
-                            <td class="center">$Text{"$QData{"Valid"}"}</td>
+                            <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                         </tr>
