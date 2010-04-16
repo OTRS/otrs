@@ -2,7 +2,7 @@
 // OTRS.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Dialog.js,v 1.7 2010-04-06 09:39:02 mn Exp $
+// $Id: OTRS.UI.Dialog.js,v 1.8 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,123 @@ OTRS.UI = OTRS.UI || {};
  *      Contains the code for the different dialogs.
  */
 OTRS.UI.Dialog = (function (Namespace) {
+    /**
+     * @function
+     * @private
+     * @return nothing
+     * @description Adjusts the scrollable inner container of the dialog after every resizing.
+     */
+    function AdjustScrollableHeight() {
+        // Check window height and adjust the scrollable height of InnerContent
+        var ContentScrollHeight = Math.round(($(window).height() * 0.6) - 50);
+        $('.Dialog:visible .Content .InnerContent').css('max-height', ContentScrollHeight);
+    }
+
+    /**
+     * @function
+     * @private
+     * @return $FocusableElements
+     * @description Gets all focusbale element within the dialog.
+     *              The close link in the header should be the last element.
+     */
+    function GetFocusableElements() {
+        var $FocusableElements;
+        $FocusableElements = $('div.Dialog:visible .Content').find('a:visible, input:visible, textarea:visible, select:visible, button:visible');
+        $FocusableElements.push($('div.Dialog:visible .Header a.Close:visible')[0]);
+        return $FocusableElements;
+    }
+
+    /**
+     * @function
+     * @private
+     * @param Position Represents the position of the element to be focused, starting by 0.
+     * @return nothing
+     * @description Focuses the specified element within the dialog.
+     *              Needs the Object "OTRS.UI.Dialog.$FocusableElements" to be initialized and filled (with function GetFocusableElements()).
+     */
+    function FocusElement(Position) {
+        if (typeof Namespace.$FocusableElements !== 'undefined' && Namespace.$FocusableElements.length > Position) {
+            $(Namespace.$FocusableElements[Position]).focus();
+            Namespace.FocusedElement = Position;
+        }
+    }
+
+    /**
+     * @function
+     * @private
+     * @return nothing
+     * @description Focuses the first element within the dialog.
+     */
+    function FocusFirstElement() {
+        FocusElement(0);
+    }
+
+    /**
+     * @function
+     * @private
+     * @param CloseOnEscape If set to true, the escape key is checked for closing the dialog.
+     * @return nothing
+     * @description Initializes the key event logger for the dialog.
+     *              Must be unbinded when closing the dialog.
+     */
+    function InitKeyEvent(CloseOnEscape) {
+        /*
+         * Opera can't prevent the default action of special keys on keydown. That's why we need a special keypress event here,
+         * to prevent the default action for the special keys.
+         * See http://www.quirksmode.org/dom/events/keys.html for details
+         */
+        $(document).unbind('keypress.Dialog').bind('keypress.Dialog', function (event) {
+            if ($.browser.opera && (event.keyCode === 9 || (event.keyCode === 27 && CloseOnEscape))) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+        }).unbind('keydown.Dialog').bind('keydown.Dialog', function (event) {
+            // Shift + Tab pressed
+            if (event.keyCode === 9 && event.shiftKey) {
+                if ($(event.target).closest('div.Dialog').length === 0) {
+                    FocusFirstElement();
+                }
+                else {
+                    // Jump to the previous focusable element in the dialog
+                    if (Namespace.FocusedElement === 0) {
+                        FocusElement(Namespace.$FocusableElements.length - 1);
+                    }
+                    else {
+                        FocusElement(Namespace.FocusedElement - 1);
+                    }
+                }
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+            // Tab pressed
+            else if (event.keyCode === 9) {
+                if ($(event.target).closest('div.Dialog').length === 0) {
+                    FocusFirstElement();
+                }
+                else {
+                    // Jump to next focusable element in the dialog
+                    if (Namespace.FocusedElement === (Namespace.$FocusableElements.length - 1)) {
+                        FocusFirstElement();
+                    }
+                    else {
+                        FocusElement(Namespace.FocusedElement + 1);
+                    }
+                }
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+            // Escape pressed and CloseOnEscape is true
+            else if (event.keyCode === 27 && CloseOnEscape) {
+                Namespace.CloseDialog($('div.Dialog:visible'));
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+        });
+    }
 
     /**
      * @function
@@ -156,7 +273,7 @@ OTRS.UI.Dialog = (function (Namespace) {
         });
 
         // Add event-handling for Close-Buttons and Links
-        $Dialog.find('.Header a.Close, button.Close').click(function(){
+        $Dialog.find('.Header a.Close, button.Close').click(function () {
             if (Params.OnClose && $.isFunction(Params.OnClose)) {
                 Params.OnClose();
             }
@@ -171,15 +288,15 @@ OTRS.UI.Dialog = (function (Namespace) {
             /*
              * Always unbind events before binding...
              */
-            $(document).unbind('click.Dialog').bind('click.Dialog', function(event) {
-                if ($(event.target).closest('div.Dialog').length == 0) {
+            $(document).unbind('click.Dialog').bind('click.Dialog', function (event) {
+                if ($(event.target).closest('div.Dialog').length === 0) {
                     Namespace.CloseDialog($('div.Dialog:visible'));
                 }
             });
         }
 
         // Add resize event handler for calculating the scroll height
-        $(window).unbind('resize.Dialog').bind('resize.Dialog', function(event) {
+        $(window).unbind('resize.Dialog').bind('resize.Dialog', function (event) {
             AdjustScrollableHeight();
         });
 
@@ -196,124 +313,6 @@ OTRS.UI.Dialog = (function (Namespace) {
             $Dialog.find('.Footer > span.LeftCorner + span').width($Dialog.width() - 14);
             $Dialog.find('.Content > .ContentFooter').width($Dialog.width() - 13);
         }
-    }
-
-    /**
-     * @function
-     * @private
-     * @return nothing
-     * @description Focuses the first element within the dialog.
-     */
-    function FocusFirstElement() {
-        FocusElement(0);
-    }
-
-    /**
-     * @function
-     * @private
-     * @param Position Represents the position of the element to be focused, starting by 0.
-     * @return nothing
-     * @description Focuses the specified element within the dialog.
-     *              Needs the Object "OTRS.UI.Dialog.$FocusableElements" to be initialized and filled (with function GetFocusableElements()).
-     */
-    function FocusElement(Position) {
-        if (typeof Namespace.$FocusableElements !== 'undefined' && Namespace.$FocusableElements.length > Position) {
-            $(Namespace.$FocusableElements[Position]).focus();
-            Namespace.FocusedElement = Position;
-        }
-    }
-
-    /**
-     * @function
-     * @private
-     * @return $FocusableElements
-     * @description Gets all focusbale element within the dialog.
-     *              The close link in the header should be the last element.
-     */
-    function GetFocusableElements() {
-        var $FocusableElements;
-        $FocusableElements = $('div.Dialog:visible .Content').find('a:visible, input:visible, textarea:visible, select:visible, button:visible');
-        $FocusableElements.push($('div.Dialog:visible .Header a.Close:visible')[0]);
-        return $FocusableElements;
-    }
-
-    /**
-     * @function
-     * @private
-     * @param CloseOnEscape If set to true, the escape key is checked for closing the dialog.
-     * @return nothing
-     * @description Initializes the key event logger for the dialog.
-     *              Must be unbinded when closing the dialog.
-     */
-    function InitKeyEvent(CloseOnEscape) {
-        /*
-         * Opera can't prevent the default action of special keys on keydown. That's why we need a special keypress event here,
-         * to prevent the default action for the special keys.
-         * See http://www.quirksmode.org/dom/events/keys.html for details
-         */
-        $(document).unbind('keypress.Dialog').bind('keypress.Dialog', function(event) {
-            if ($.browser.opera && (event.keyCode === 9 || (event.keyCode === 27 && CloseOnEscape))) {
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
-            }
-        }).unbind('keydown.Dialog').bind('keydown.Dialog', function(event) {
-            // Shift + Tab pressed
-            if (event.keyCode === 9 && event.shiftKey) {
-                if ($(event.target).closest('div.Dialog').length == 0) {
-                    FocusFirstElement();
-                }
-                else {
-                    // Jump to the previous focusable element in the dialog
-                    if (Namespace.FocusedElement === 0) {
-                        FocusElement(Namespace.$FocusableElements.length - 1);
-                    }
-                    else {
-                        FocusElement(Namespace.FocusedElement - 1);
-                    }
-                }
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
-            }
-            // Tab pressed
-            else if (event.keyCode === 9) {
-                if ($(event.target).closest('div.Dialog').length == 0) {
-                    FocusFirstElement();
-                }
-                else {
-                    // Jump to next focusable element in the dialog
-                    if (Namespace.FocusedElement === (Namespace.$FocusableElements.length - 1)) {
-                        FocusFirstElement();
-                    }
-                    else {
-                        FocusElement(Namespace.FocusedElement + 1);
-                    }
-                }
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
-            }
-            // Escape pressed and CloseOnEscape is true
-            else if (event.keyCode === 27 && CloseOnEscape) {
-                Namespace.CloseDialog($('div.Dialog:visible'));
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
-            }
-        });
-    }
-
-    /**
-     * @function
-     * @private
-     * @return nothing
-     * @description Adjusts the scrollable inner container of the dialog after every resizing.
-     */
-    function AdjustScrollableHeight(){
-        // Check window height and adjust the scrollable height of InnerContent
-        var ContentScrollHeight = Math.round(($(window).height() * 0.6) - 50);
-        $('.Dialog:visible .Content .InnerContent').css('max-height', ContentScrollHeight);
     }
 
     /**
@@ -397,7 +396,7 @@ OTRS.UI.Dialog = (function (Namespace) {
      * @return nothing
      */
     Namespace.RegisterDialog = function ($Selector, Params) {
-        $Selector.click(function(event){
+        $Selector.click(function (event) {
             ShowDialog(Params);
             event.preventDefault();
             event.stopPropagation();
@@ -414,13 +413,13 @@ OTRS.UI.Dialog = (function (Namespace) {
      * @return nothing
      */
     Namespace.RegisterAttachmentDialog = function ($Selector) {
-        $Selector.click(function(event){
+        $Selector.click(function (event) {
             var Position, HTML, $HTMLObject;
-            if ($(this).attr('rel') && $('#' + $(this).attr('rel')).length){
+            if ($(this).attr('rel') && $('#' + $(this).attr('rel')).length) {
                 Position = $(this).offset();
                 $HTMLObject = $('#UIElementPool .AttachmentDialog').clone().find('.AttachmentContent').unwrap();
                 $HTMLObject.append($('#' + $(this).attr('rel'))[0].innerHTML);
-                OTRS.UI.Dialog.ShowContentDialog($HTMLObject.html(), 'Attachments', Position.top, parseInt(Position.left) + 25);
+                OTRS.UI.Dialog.ShowContentDialog($HTMLObject.html(), 'Attachments', Position.top, parseInt(Position.left, 10) + 25);
             }
             event.preventDefault();
             event.stopPropagation();

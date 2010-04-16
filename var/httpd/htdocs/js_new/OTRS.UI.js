@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.js,v 1.5 2010-04-15 18:29:28 mn Exp $
+// $Id: OTRS.UI.js,v 1.6 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,8 @@ OTRS.UI = (function (Namespace) {
             TableOriginalWidth,
             Dimensions = {},
             ColumnNewWidth,
-            Adjustment = {};
+            Adjustment = {},
+            I;
 
         // Restore original width of table parents (after resizing of window)
         if ($TBody.closest('div.Scroller').length) {
@@ -78,9 +79,9 @@ OTRS.UI = (function (Namespace) {
         $THead.parents('table').width(TableOriginalWidth + 'px');
 
         // First round: adjust obvious differences
-        for(var i = 0; i < $TableBody.size(); i++) {
-            $TableHeadElement = $TableHead.eq(i);
-            $TableBodyElement = $TableBody.eq(i);
+        for (I = 0; I < $TableBody.size(); I++) {
+            $TableHeadElement = $TableHead.eq(I);
+            $TableBodyElement = $TableBody.eq(I);
 
             // Skip column, if column has class "Fixed"
             if (!($TableHeadElement.hasClass('Fixed') || $TableBodyElement.hasClass('Fixed'))) {
@@ -99,15 +100,16 @@ OTRS.UI = (function (Namespace) {
                 // If header column is larger, save new body column width in array for later adjustment
                 if ((Dimensions.HeadWidth + Dimensions.HeadPadding) > (Dimensions.BodyWidth + Dimensions.BodyPadding)) {
                     ColumnNewWidth = Dimensions.HeadWidth + Dimensions.HeadPadding - Dimensions.BodyPadding;
-                    Adjustment[i] = ColumnNewWidth;
+                    Adjustment[I] = ColumnNewWidth;
                 }
             }
         }
 
         // Second round: Adjust the body columns as calculated before
-        for (var i = 0; i < $TableBody.size(); i++) {
-            if (Adjustment[i])
-                $TableBody.eq(i).width(Adjustment[i] + 'px');
+        for (I = 0; I < $TableBody.size(); I++) {
+            if (Adjustment[I]) {
+                $TableBody.eq(I).width(Adjustment[I] + 'px');
+            }
         }
     };
 
@@ -119,10 +121,10 @@ OTRS.UI = (function (Namespace) {
      * @return nothing
      */
     Namespace.StaticTableControl = function (Control) {
-        var Offset = Control.offset().top;
-        var Height = Control.height();
+        var Offset = Control.offset().top,
+            Height = Control.height();
 
-        $(window).scroll(function(event){
+        $(window).scroll(function (event) {
             var y = $(this).scrollTop(),
                 Height = Control.height();
 
@@ -147,14 +149,14 @@ OTRS.UI = (function (Namespace) {
      */
     Namespace.InitWidgetActionToggle = function () {
         $(".WidgetAction.Toggle > a")
-            .each(function(){
+            .each(function () {
                 var ContentDivID = Namespace.GetID($(this).parent().parent().parent().children('.Content'));
                 $(this)
                     .attr('aria-controls', ContentDivID)
                     .attr('aria-expanded', $(this).parent().hasClass('Expanded'));
             })
             .unbind('click.WidgetToggle')
-            .bind('click.WidgetToggle',function() {
+            .bind('click.WidgetToggle', function () {
                 var $WidgetElement = $(this).closest("div.Header").parent('div');
                 if ($WidgetElement.find('.Content:visible').length) {
                     $WidgetElement.find('.Content').hide().end().find('.Header .ActionRow').hide();
@@ -179,7 +181,7 @@ OTRS.UI = (function (Namespace) {
     Namespace.InitMessageBoxClose = function () {
         $(".MessageBox > a.Close")
             .unbind('click.MessageBoxClose')
-            .bind('click.MessageBoxClose',function(Event) {
+            .bind('click.MessageBoxClose', function (Event) {
                 $(this).parent().remove();
                 Event.preventDefault();
             });
@@ -194,7 +196,7 @@ OTRS.UI = (function (Namespace) {
     Namespace.ProcessTagAttributeClasses = function () {
         $('.AutocompleteOff')
             .attr('autocomplete', 'off');
-    }
+    };
 
     /**
      * @function

@@ -2,7 +2,7 @@
 // OTRS.UI.Tables.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Tables.js,v 1.3 2010-04-14 20:03:38 mg Exp $
+// $Id: OTRS.UI.Tables.js,v 1.4 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -54,13 +54,13 @@ OTRS.UI.Tables = (function (Namespace) {
      * @return nothing
      */
     Namespace.InitTableFilter = function ($FilterInput, $Container) {
-        $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function(){
-            window.setTimeout(function(){
+        $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
+            window.setTimeout(function () {
                 var FilterText = ($FilterInput.val() || '').toLowerCase();
                 if (FilterText.length) {
                     $Container.find('tbody tr, li:not(.Header)').hide();
-                    $Container.find('tbody tr, li:not(.Header)').each(function(){
-                        if ($(this).text().toLowerCase().indexOf(FilterText) > -1){
+                    $Container.find('tbody tr, li:not(.Header)').each(function () {
+                        if ($(this).text().toLowerCase().indexOf(FilterText) > -1) {
                             $(this).show();
                         }
                     });

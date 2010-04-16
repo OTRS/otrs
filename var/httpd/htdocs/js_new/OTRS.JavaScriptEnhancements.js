@@ -2,7 +2,7 @@
 // OTRS.JavaScriptEnhancements.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.JavaScriptEnhancements.js,v 1.2 2010-03-29 09:58:14 mn Exp $
+// $Id: OTRS.JavaScriptEnhancements.js,v 1.3 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 "use strict";
 
-(function() {
+(function () {
 
     /*
      * Keep this regular expression as a static variable; it is used
@@ -31,12 +31,12 @@
      * @return
      *      The trimmed string
      */
-    String.prototype.trim = function(){
+    String.prototype.trim = function () {
         var NonWhitespaceStartIndex = 0,
             NonWhitespaceEndIndex = this.length;
-        while (WhitespaceCheck.test(this.charAt(NonWhitespaceStartIndex++)));
-        while (WhitespaceCheck.test(this.charAt(--NonWhitespaceEndIndex)));
+        while (WhitespaceCheck.test(this.charAt(NonWhitespaceStartIndex++))) {}
+        while (WhitespaceCheck.test(this.charAt(--NonWhitespaceEndIndex))) {}
         return this.slice(--NonWhitespaceStartIndex, ++NonWhitespaceEndIndex);
-    }
+    };
 
-})();
+}());

@@ -2,7 +2,7 @@
 // OTRS.Forms.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.Validate.js,v 1.3 2010-04-16 16:31:36 mn Exp $
+// $Id: OTRS.Forms.Validate.js,v 1.4 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,9 @@ OTRS.Forms.Validate = (function (Namespace) {
     }
 
     function HighlightError(Element, ErrorType) {
-        var $Element = $(Element);
+        var $Element = $(Element),
+            InputErrorMessageHTML,
+            InputErrorMessageText;
 
         /*
          * Check error type and correct it, if necessary
@@ -63,8 +65,8 @@ OTRS.Forms.Validate = (function (Namespace) {
         /* Get the target element and find the associated hidden div with the
          * error message.
          */
-        var InputErrorMessageHTML = $('#' + $Element.attr('id') + ErrorType ).html();
-        var InputErrorMessageText = $('#' + $Element.attr('id') + ErrorType ).text();
+        InputErrorMessageHTML = $('#' + $Element.attr('id') + ErrorType).html();
+        InputErrorMessageText = $('#' + $Element.attr('id') + ErrorType).text();
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
             OTRS.Forms.ErrorTooltips.InitTooltip($Element, InputErrorMessageHTML);
@@ -120,7 +122,7 @@ OTRS.Forms.Validate = (function (Namespace) {
     });
 
     $.validator.addClassRules("Validate_Number", {
-        _Validate_Digits: true
+        Validate_Digits: true
     });
 
     $.validator.addClassRules("Validate_Email", {
@@ -133,14 +135,14 @@ OTRS.Forms.Validate = (function (Namespace) {
      */
     $.validator.addClassRules("Validate_DependingRequiredAND", {
         Validate_Required: {
-            depends: function(Element) {
+            depends: function (Element) {
                 function GetDependentElements(Element) {
                     var Classes = $(Element).attr('class'),
                         DependentElementIDs = [],
                         RegEx,
                         DependingClassPrefix = 'Validate_Depending_';
                     RegEx = new RegExp(DependingClassPrefix);
-                    $.each(Classes.split(' '), function(Index, Value) {
+                    $.each(Classes.split(' '), function (Index, Value) {
                         if (RegEx.test(Value)) {
                             DependentElementIDs.push(Value.replace(DependingClassPrefix, ''));
                         }
@@ -172,14 +174,14 @@ OTRS.Forms.Validate = (function (Namespace) {
      */
     $.validator.addClassRules("Validate_DependingRequiredOR", {
         Validate_Required: {
-            depends: function(Element) {
+            depends: function (Element) {
                 function GetDependentElements(Element) {
                     var Classes = $(Element).attr('class'),
                         DependentElementIDs = [],
                         RegEx,
                         DependingClassPrefix = 'Validate_Depending_';
                     RegEx = new RegExp(DependingClassPrefix);
-                    $.each(Classes.split(' '), function(Index, Value) {
+                    $.each(Classes.split(' '), function (Index, Value) {
                         if (RegEx.test(Value)) {
                             DependentElementIDs.push(Value.replace(DependingClassPrefix, ''));
                         }
@@ -210,7 +212,7 @@ OTRS.Forms.Validate = (function (Namespace) {
      *      This function initializes the validation on all forms on the page which have a class named "Validate"
      * @return nothing
      */
-    Namespace.Init = function() {
+    Namespace.Init = function () {
         var i = 0,
             FormSelector,
             $ServerErrors;
@@ -236,7 +238,7 @@ OTRS.Forms.Validate = (function (Namespace) {
          */
         $ServerErrors = $('input, textarea, select').filter('.' + Options.ServerErrorClass);
         if ($ServerErrors.length) {
-            $ServerErrors.each(function() {
+            $ServerErrors.each(function () {
                 HighlightError(this, 'ServerError');
             });
             OTRS.UI.Dialog.ShowAlert('Fehler!', 'Bei einem oder mehreren Formular-Eingaben sind Fehler aufgetreten!');
@@ -251,7 +253,7 @@ OTRS.Forms.Validate = (function (Namespace) {
      * @param {Function} Func the function, which is executed on successful submitting the form. Gets the submitted form as a parameter.
      * @return nothing
      */
-    Namespace.SetSubmitFunction = function(FormID, Func) {
+    Namespace.SetSubmitFunction = function (FormID, Func) {
         if ($.isFunction(Func) && $('#' + FormID).length) {
             Options.SubmitFunction[FormID] = Func;
         }
@@ -267,7 +269,7 @@ OTRS.Forms.Validate = (function (Namespace) {
      *                   (parameter: the element which should be checked; returns true, if rule should be checked)
      * @return nothing
      */
-    Namespace.AddDependingValidation = function(Name, Basis, Depends) {
+    Namespace.AddDependingValidation = function (Name, Basis, Depends) {
         var RuleHash = {};
         RuleHash[Basis] = {
             depends: Depends
@@ -283,7 +285,7 @@ OTRS.Forms.Validate = (function (Namespace) {
      * @param {Function} Function This function defines the specific validation method (parameter: value, element, params). Returns true if the element is valid.
      * @return nothing
      */
-    Namespace.AddMethod = function(Name, Function) {
+    Namespace.AddMethod = function (Name, Function) {
         if (Name && $.isFunction(Function)) {
             $.validator.addMethod(Name, Function, "");
         }
@@ -297,11 +299,11 @@ OTRS.Forms.Validate = (function (Namespace) {
      * @param {Object} MethodHash This JS object defines, which methods should be included in this rule, e.g. { OTRS_Validate_Required: true, OTRS-Validate_MinLength: 2 }
      * @return nothing
      */
-    Namespace.AddRule = function(Name, MethodHash) {
+    Namespace.AddRule = function (Name, MethodHash) {
         if (Name && typeof MethodHash === "Object") {
             $.validator.addClassRules(Name, MethodHash);
         }
-    }
+    };
 
     return Namespace;
 }(OTRS.Forms.Validate || {}));

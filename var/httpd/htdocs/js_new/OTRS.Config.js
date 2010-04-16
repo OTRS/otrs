@@ -2,7 +2,7 @@
 // OTRS.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Config.js,v 1.2 2010-04-13 18:07:44 mn Exp $
+// $Id: OTRS.Config.js,v 1.3 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -35,20 +35,22 @@ OTRS.Config = (function (Namespace) {
             ConfigLevel = Config,
             Count = 0;
 
-        for(KeyToken in Keys) {
-            if (Keys.length === Count + 1) {
-                ConfigLevel[ConfigPrefix + Keys[KeyToken]] = Value;
+        for (KeyToken in Keys) {
+            if (Keys.hasOwnProperty(KeyToken)) {
+                if (Keys.length === Count + 1) {
+                    ConfigLevel[ConfigPrefix + Keys[KeyToken]] = Value;
+                }
+                else if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
+                    ConfigLevel[ConfigPrefix + Keys[KeyToken]] = {};
+                    ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                }
+                else {
+                    ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                }
+                Count++;
             }
-            else if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
-                ConfigLevel[ConfigPrefix + Keys[KeyToken]] = {};
-                ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
-            }
-            else {
-                ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
-            }
-            Count++;
         }
-    }
+    };
 
     /**
      * @function
@@ -62,18 +64,18 @@ OTRS.Config = (function (Namespace) {
             ConfigLevel = Config,
             Count = 0;
 
-        for(KeyToken in Keys) {
-            if (Keys.length === Count + 1)
-            {
-                return ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+        for (KeyToken in Keys) {
+            if (Keys.hasOwnProperty(KeyToken)) {
+                if (Keys.length === Count + 1) {
+                    return ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                }
+                else {
+                    ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                }
+                Count++;
             }
-            else
-            {
-                ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
-            }
-            Count++;
         }
-    }
+    };
 
     /**
      * @function
@@ -96,18 +98,20 @@ OTRS.Config = (function (Namespace) {
             ConfigOptions = Data;
         }
 
-        for(KeyToken in Keys) {
-            if (Keys.length === Count + 1) {
-                ConfigLevel[ConfigPrefix + Keys[KeyToken]] = Data;
+        for (KeyToken in Keys) {
+            if (Keys.hasOwnProperty(KeyToken)) {
+                if (Keys.length === Count + 1) {
+                    ConfigLevel[ConfigPrefix + Keys[KeyToken]] = Data;
+                }
+                else if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
+                    ConfigLevel[ConfigPrefix + Keys[KeyToken]] = {};
+                    ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                }
+                else {
+                    ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                }
+                Count++;
             }
-            else if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
-                ConfigLevel[ConfigPrefix + Keys[KeyToken]] = {};
-                ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
-            }
-            else {
-                ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
-            }
-            Count++;
         }
     };
 
@@ -121,22 +125,22 @@ OTRS.Config = (function (Namespace) {
      * Each function returns true, if the browsers is detected
      */
     Namespace.AddConfig('BrowserBlackList', {
-        'Microsoft Internet Explorer 5.5': function() {
+        'Microsoft Internet Explorer 5.5': function () {
             return ($.browser.msie && $.browser.version === '5.5');
         },
-        'Microsoft Internet Explorer 6': function() {
+        'Microsoft Internet Explorer 6': function () {
             return ($.browser.msie && $.browser.version === '6.0');
         },
-        'Konqueror (without WebKit engine)': function() {
+        'Konqueror (without WebKit engine)': function () {
             return ($.browser.webkit && navigator.vendor === 'KDE');
         },
-        'Netscape, old Mozilla, old Firefox': function() {
+        'Netscape, old Mozilla, old Firefox': function () {
             var BrowserVersion,
                 BrowserDetected = false;
             if ($.browser.mozilla) {
                 BrowserVersion = $.browser.version.split('.');
                 if (parseInt(BrowserVersion[0], 10) < 1 || parseInt(BrowserVersion[1], 10) < 8 || parseInt(BrowserVersion[2], 10) < 1) {
-                    BrowserDetected = true;;
+                    BrowserDetected = true;
                 }
             }
             return BrowserDetected;

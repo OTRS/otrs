@@ -2,7 +2,7 @@
 // OTRS.JSON.js - Resizable
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.JSON.js,v 1.1 2010-03-29 09:58:14 mn Exp $
+// $Id: OTRS.JSON.js,v 1.2 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,9 @@ var OTRS = OTRS || {};
  */
 OTRS.JSON = (function (Namespace) {
 
-    if (!OTRS.Debug.CheckDependency('OTRS.JSON', 'JSON.parse', 'JSON parser')) return;
+    if (!OTRS.Debug.CheckDependency('OTRS.JSON', 'JSON.parse', 'JSON parser')) {
+        return;
+    }
 
     /**
      * @function
@@ -40,7 +42,7 @@ OTRS.JSON = (function (Namespace) {
         }
 
         return JSONObject;
-    }
+    };
 
     /**
      * @function
@@ -60,7 +62,7 @@ OTRS.JSON = (function (Namespace) {
         }
 
         return JSONString;
-    }
+    };
 
     return Namespace;
 }(OTRS.JSON || {}));

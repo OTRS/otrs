@@ -2,7 +2,7 @@
 // OTRS.UI.Resizable.js - Resizable
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Resizable.js,v 1.3 2010-04-06 09:39:02 mn Exp $
+// $Id: OTRS.UI.Resizable.js,v 1.4 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -42,11 +42,12 @@ OTRS.UI.Resizable = (function (Namespace) {
                 },
                 minHeight: 50,
                 maxHeight: $Selector.find("table").height() + 10,
-                resize: function(event, ui) {
+                resize: function    (event, ui) {
                     $Selector.find("div.Scroller").height((ui.size.height - 10) + 'px').width(ui.size.width + 'px');
                 }
             });
         }
-    }
+    };
+
     return Namespace;
 }(OTRS.UI.Resizable || {}));

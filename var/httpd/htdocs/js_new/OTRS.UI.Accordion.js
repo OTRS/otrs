@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Accordion.js,v 1.3 2010-04-07 14:12:42 mn Exp $
+// $Id: OTRS.UI.Accordion.js,v 1.4 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ OTRS.UI.Accordion = (function (Namespace) {
      */
     Namespace.AnimationIsRunning = function () {
         return AccordionAnimationRunning;
-    }
+    };
 
     /**
      * @function
@@ -40,7 +40,7 @@ OTRS.UI.Accordion = (function (Namespace) {
      */
     Namespace.StartAnimation = function () {
         AccordionAnimationRunning = true;
-    }
+    };
 
     /**
      * @function
@@ -50,7 +50,7 @@ OTRS.UI.Accordion = (function (Namespace) {
      */
     Namespace.StopAnimation = function () {
         AccordionAnimationRunning = false;
-    }
+    };
 
     /**
      * @function
@@ -63,24 +63,32 @@ OTRS.UI.Accordion = (function (Namespace) {
      */
     Namespace.Init = function ($Element, LinkSelector, ContentSelector) {
         // If no accordion element is found, stop
-        if (typeof $Element === 'undefined' || $Element.length === 0)
+        if (typeof $Element === 'undefined' || $Element.length === 0) {
             return false;
+        }
 
         var $LinkSelectors = $Element.find(LinkSelector);
 
         // Stop, if no link selector is found
-        if ($LinkSelectors.length === 0) return false;
+        if ($LinkSelectors.length === 0) {
+            return false;
+        }
 
         // Bind click function to link selector elements
-        $LinkSelectors.click(function() {
+        $LinkSelectors.click(function () {
             var $ListElement = $(this).closest('li'),
-                $AllListElements;
+                $AllListElements,
+                $ActiveListElement;
 
             // if clicked element is already active, do nothing
-            if ($ListElement.hasClass('Active')) return false;
+            if ($ListElement.hasClass('Active')) {
+                return false;
+            }
 
             // if another accordion animation is currently running, so nothing
-            if (Namespace.AnimationIsRunning()) return false;
+            if (Namespace.AnimationIsRunning()) {
+                return false;
+            }
 
             Namespace.StartAnimation();
 
@@ -89,7 +97,7 @@ OTRS.UI.Accordion = (function (Namespace) {
 
             $AllListElements.find('div.Content div').css('overflow', 'hidden');
 
-            $ActiveListElement.find(ContentSelector).add($ListElement.find(ContentSelector)).slideToggle("slow", function() {
+            $ActiveListElement.find(ContentSelector).add($ListElement.find(ContentSelector)).slideToggle("slow", function () {
                 $AllListElements.find('div.Content div').css('overflow', 'scroll');
                 $(this).closest('li').toggleClass('Active');
                 Namespace.StopAnimation();
@@ -100,5 +108,5 @@ OTRS.UI.Accordion = (function (Namespace) {
         });
     };
 
-   return Namespace;
+    return Namespace;
 }(OTRS.UI.Accordion || {}));

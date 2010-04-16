@@ -2,7 +2,7 @@
 // OTRS.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.ActionRow.js,v 1.2 2010-04-15 23:11:18 mn Exp $
+// $Id: OTRS.UI.ActionRow.js,v 1.3 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -24,8 +24,12 @@ OTRS.UI = OTRS.UI || {};
  */
 OTRS.UI.ActionRow = (function (Namespace) {
 
-    if (!OTRS.Debug.CheckDependency('OTRS.UI.ActionRow', 'OTRS.JSON', 'OTRS JSON API')) return;
-    if (!OTRS.Debug.CheckDependency('OTRS.UI.ActionRow', 'OTRS.Data', 'OTRS Data API')) return;
+    if (!OTRS.Debug.CheckDependency('OTRS.UI.ActionRow', 'OTRS.JSON', 'OTRS JSON API')) {
+        return;
+    }
+    if (!OTRS.Debug.CheckDependency('OTRS.UI.ActionRow', 'OTRS.Data', 'OTRS Data API')) {
+        return;
+    }
 
     /**
      * @function
@@ -58,10 +62,10 @@ OTRS.UI.ActionRow = (function (Namespace) {
         else {
             OTRS.Debug.Log('Element does not exist or no valid data structure passed.');
         }
-    }
+    };
 
     Namespace.UpdateActionRow = function ($ClickedElement, CheckboxSelector, $ActionRow) {
-        var Checkboxes,
+        var $Checkboxes,
             TicketActionData,
             ActionRowElement;
 
@@ -88,7 +92,7 @@ OTRS.UI.ActionRow = (function (Namespace) {
             // and get the data
             TicketActionData = OTRS.Data.Get($Checkboxes.closest('li'), 'Actions');
             if (typeof TicketActionData !== 'undefined') {
-                $.each(TicketActionData, function(Index, Value) {
+                $.each(TicketActionData, function (Index, Value) {
                     if (Value.HTML) {
                         $ActionRow.append(Value.HTML).attr('id', Value.ID);
                         ActionRowElement = $ActionRow.find('#' + Value.ID).find('a');
@@ -96,7 +100,7 @@ OTRS.UI.ActionRow = (function (Namespace) {
                             ActionRowElement.attr('href', Value.Link);
                         }
                         else if (Value.Target === "PopUp") {
-                            ActionRowElement.bind('click.Popup', function() {
+                            ActionRowElement.bind('click.Popup', function () {
                                 OTRS.UI.Popup.OpenPopup(Value.Link, 'Action');
                                 return false;
                             });
@@ -121,9 +125,9 @@ OTRS.UI.ActionRow = (function (Namespace) {
                 .end()
                 .find('li.Last').removeClass('Last')
                 .end()
-                .find('li:last').addClass('Last');;
+                .find('li:last').addClass('Last');
         }
-    }
+    };
 
     return Namespace;
 }(OTRS.UI.ActionRow || {}));

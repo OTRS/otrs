@@ -2,7 +2,7 @@
 // OTRS.UI.Tooltips.js - provides provides Tooltip functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.ErrorTooltips.js,v 1.2 2010-03-29 09:58:14 mn Exp $
+// $Id: OTRS.Forms.ErrorTooltips.js,v 1.3 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,11 +21,15 @@ OTRS.Forms = OTRS.Forms || {};
  */
 OTRS.Forms.ErrorTooltips = (function (Namespace) {
 
-    var TooltipContainerID = 'OTRS_UI_Tooltips_ErrorTooltip';
-    var TooltipOffsetTop = 20;
-    var TooltipOffsetLeft = 0;
+    var TooltipContainerID = 'OTRS_UI_Tooltips_ErrorTooltip',
+        TooltipOffsetTop = 20,
+        TooltipOffsetLeft = 0,
+        TongueClass = 'TongueLeft',
+        $TooltipContent = $('<div class="Content" role="tooltip"></div>'),
+        $Tooltip,
+        Offset;
 
-    function ShowTooltip( $Element, TooltipContent ) {
+    function ShowTooltip($Element, TooltipContent) {
 
         var $TooltipContainer = $('#' + TooltipContainerID);
         if (!$TooltipContainer.length) {
@@ -37,7 +41,6 @@ OTRS.Forms.ErrorTooltips = (function (Namespace) {
          * Now determine if the tongue needs to be right or left, depending on the
          * position of the target element on the screen.
          */
-        var TongueClass = 'TongueLeft';
         if (($(document).width() - $Element.offset().left) < 250) {
             TongueClass = 'TongueRight';
         }
@@ -45,13 +48,11 @@ OTRS.Forms.ErrorTooltips = (function (Namespace) {
         /*
          * Now create and fill the tooltip with the error message.
          */
-        var $TooltipContent = $('<div class="Content" role="tooltip"></div>');
+        $Tooltip = $('<div class="Tooltip ' + TongueClass + '"><div class="Tongue"></div></div>');
         $TooltipContent.html(TooltipContent);
-
-        var $Tooltip = $('<div class="Tooltip ' + TongueClass + '"><div class="Tongue"></div></div>');
         $Tooltip.append($TooltipContent);
 
-        var Offset = $Element.offset();
+        Offset = $Element.offset();
 
         $TooltipContainer
             .empty()
@@ -75,14 +76,14 @@ OTRS.Forms.ErrorTooltips = (function (Namespace) {
      *      Content of the tooltip, may contain HTML.
      * @return nothing
      */
-    Namespace.InitTooltip = function($Element, TooltipContent){
+    Namespace.InitTooltip = function ($Element, TooltipContent) {
         $Element.unbind('focus.Tooltip');
-        $Element.bind(  'focus.Tooltip', function(){
+        $Element.bind('focus.Tooltip', function () {
             ShowTooltip($Element, TooltipContent);
         });
 
         $Element.unbind('blur.Tooltip');
-        $Element.bind(  'blur.Tooltip', HideTooltip);
+        $Element.bind('blur.Tooltip', HideTooltip);
     };
 
     /**
@@ -93,11 +94,11 @@ OTRS.Forms.ErrorTooltips = (function (Namespace) {
      *      The elements (within a jQuery object) for whom the tooltips are removed.
      * @return nothing
      */
-    Namespace.RemoveTooltip = function($Element){
+    Namespace.RemoveTooltip = function ($Element) {
         HideTooltip();
         $Element.unbind('focus.Tooltip');
         $Element.unbind('blur.Tooltip');
-    }
+    };
 
     return Namespace;
 }(OTRS.Forms.ErrorTooltips || {}));

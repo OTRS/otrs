@@ -2,7 +2,7 @@
 // OTRS.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Datepicker.js,v 1.2 2010-03-29 09:58:14 mn Exp $
+// $Id: OTRS.UI.Datepicker.js,v 1.3 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -29,12 +29,14 @@ OTRS.UI.Datepicker = (function (Namespace) {
      * @return nothing
      */
     Namespace.InitDatepicker = function (Selector, Options) {
-        if (!$(Selector).length) return;
+        if (!$(Selector).length) {
+            return;
+        }
 
         // Define standard options hash
         Options = Options || {
-            beforeShowDay: function(date) {
-                if (date.getYear() === 110 && date.getMonth() === 9 && date.getDate() === 27) {
+            beforeShowDay: function (Date) {
+                if (Date.getYear() === 110 && Date.getMonth() === 9 && Date.getDate() === 27) {
                     return [true, 'Highlight', 'Birthday of Martin Edenhofer'];
                 }
                 else {

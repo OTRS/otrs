@@ -2,7 +2,7 @@
 // OTRS.Forms.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.js,v 1.1 2010-03-29 09:58:14 mn Exp $
+// $Id: OTRS.Forms.js,v 1.2 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ OTRS.Forms = (function (Namespace) {
      *      This function disables all elements of the given form. If no form given, it disables all form elements on the site.
      * @return nothing
      */
-    Namespace.DisableForm = function($Form) {
+    Namespace.DisableForm = function ($Form) {
         // If no form is given, disable all form elements on the complete site
         if (typeof $Form === 'undefined') {
             $Form = $('body');
@@ -47,7 +47,7 @@ OTRS.Forms = (function (Namespace) {
      *      This function enables all elements of the given form. If no form given, it enables all form elements on the site.
      * @return nothing
      */
-    Namespace.EnableForm = function($Form) {
+    Namespace.EnableForm = function ($Form) {
         // If no form is given, enable all form elements on the complete site
         if (typeof $Form === 'undefined') {
             $Form = $('body');

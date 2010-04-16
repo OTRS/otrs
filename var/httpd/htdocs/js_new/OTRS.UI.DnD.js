@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.DnD.js,v 1.2 2010-03-29 09:58:13 mn Exp $
+// $Id: OTRS.UI.DnD.js,v 1.3 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,9 @@ OTRS.UI = OTRS.UI || {};
  */
 OTRS.UI.DnD = (function (Namespace) {
 
-    if (!OTRS.Debug.CheckDependency('OTRS.UI.DnD', '$([]).sortable', 'jQuery UI sortable')) return;
+    if (!OTRS.Debug.CheckDependency('OTRS.UI.DnD', '$([]).sortable', 'jQuery UI sortable')) {
+        return;
+    }
 
     /**
      * @function
@@ -74,7 +76,7 @@ OTRS.UI.DnD = (function (Namespace) {
     );
      */
     Namespace.Sortable = function ($Elements, Options) {
-         $Elements.sortable({
+        $Elements.sortable({
             handle: Options.Handle,
             items: Options.Items,
             axis: Options.Axis,
@@ -85,6 +87,7 @@ OTRS.UI.DnD = (function (Namespace) {
             opacity: Options.Opacity,
             tolerance: Options.Tolerance
         });
-    }
+    };
+
     return Namespace;
 }(OTRS.UI.DnD || {}));

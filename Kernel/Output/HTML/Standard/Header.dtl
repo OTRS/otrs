@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.71 2010-04-15 23:23:40 mn Exp $
+# $Id: Header.dtl,v 1.72 2010-04-16 21:48:16 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,8 +97,9 @@ $Include{"Copyright"}
             </li>
 <!-- dtl:document_ready -->
             <script type="text/javascript">//<![CDATA[
-                $(document).ready(function() {
-                    OTRS.UI.Toolbar.RegisterEvent('change', 'Profile', function(Event) {
+                "use strict";
+                $(document).ready(function () {
+                    OTRS.UI.Toolbar.RegisterEvent('change', 'Profile', function (Event) {
                         $(Event.target).closest('form').submit();
                         Event.preventDefault();
                         Event.stopPropagation();

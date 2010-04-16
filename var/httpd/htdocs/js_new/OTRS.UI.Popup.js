@@ -2,7 +2,7 @@
 // OTRS.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Popup.js,v 1.1 2010-04-15 23:11:18 mn Exp $
+// $Id: OTRS.UI.Popup.js,v 1.2 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ OTRS.UI = OTRS.UI || {};
  * @description
  *      Popups
  */
-OTRS.UI.Popup = (function(Namespace){
+OTRS.UI.Popup = (function (Namespace) {
     var OpenPopups = {},
         PopupProfiles,
         PopupDefaultProfile = 'Default';
@@ -28,8 +28,8 @@ OTRS.UI.Popup = (function(Namespace){
         'Default': "dependent=yes,height=500,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=800"
     };
 
-    function CheckOpenPopups(){
-        $.each(OpenPopups, function(Key, Value){
+    function CheckOpenPopups() {
+        $.each(OpenPopups, function (Key, Value) {
             alert(Key + ' - ' +  Value);
             if (Value.closed) {
                 delete OpenPopups[Key];
@@ -37,8 +37,8 @@ OTRS.UI.Popup = (function(Namespace){
         });
     }
 
-    function GetPopupObjectByType(Type){
-        $.each(OpenPopups, function(Key, Value){
+    function GetPopupObjectByType(Type) {
+        $.each(OpenPopups, function (Key, Value) {
             if (Key === Type) {
                 return Value;
             }
@@ -46,27 +46,43 @@ OTRS.UI.Popup = (function(Namespace){
         return;
     }
 
-    Namespace.GetPopupObject = function(Type){
+    /**
+     * @function
+     * @description
+     *      Get window object by popup type.
+     * @param {String} Type The type of a window, e.g. 'Action'
+     * @return {Object} The window object of the popup or undefined
+     */
+    Namespace.GetPopupObject = function (Type) {
         return GetPopupObjectByType(Type);
-    }
-
-    Namespace.Resize = function(Type, Width, Height){
-        var Object = GetPopupObjectByType(Type);
-        if (typeof Object !== 'undefined') {
-            Object.resizeTo(Width, Height);
-        }
-    }
+    };
 
     /**
      * @function
      * @description
-     *      This function initializes the sortable nature on the specified Elements.
-     *      Child elements with the class "CanDrag" can then be sorted with Drag and Drop.
-     * @param {jQueryObject} $Elements
-     *      The elements which should be made sortable
+     *      This function resizes an opened window.
+     * @param {String} Type The type of a window, e.g. 'Action'
+     * @param {String} Width Width in pixels
+     * @param {String} Height Height in pixels
      * @return nothing
      */
-    Namespace.OpenPopup = function(URL, Type, Profile){
+    Namespace.Resize = function (Type, Width, Height) {
+        var Object = GetPopupObjectByType(Type);
+        if (typeof Object !== 'undefined') {
+            Object.resizeTo(Width, Height);
+        }
+    };
+
+    /**
+     * @function
+     * @description
+     *      This function opens a popup window. Every popup is of a specific type and there can only be one window of a type at a time.
+     * @param {String} URL The URL to be open in the new window
+     * @param {String} Type The type of a window, e.g. 'Action'
+     * @param {String} Profile The profile of a window, which defines the window parameters. Optional, default is 'Default'
+     * @return nothing
+     */
+    Namespace.OpenPopup = function (URL, Type, Profile) {
         var PopupObject, PopupProfile;
         CheckOpenPopups();
         if (URL) {
@@ -77,9 +93,16 @@ OTRS.UI.Popup = (function(Namespace){
             PopupProfile = PopupProfiles[Profile] ? Profile : PopupDefaultProfile;
             OpenPopups[Type] = window.open(URL, Type, PopupProfiles[PopupProfile]);
         }
-    }
+    };
 
-    Namespace.ClosePopup = function(Popup){
+    /**
+     * @function
+     * @description
+     *      This function closes a opened popup.
+     * @param {String or Object} Popup The type of a popup or thw window object
+     * @return nothing
+     */
+    Namespace.ClosePopup = function (Popup) {
         if (typeof Popup === 'String') {
             Popup = GetPopupObjectByType(Popup);
         }
@@ -87,7 +110,7 @@ OTRS.UI.Popup = (function(Namespace){
             Popup.close();
             CheckOpenPopups();
         }
-    }
+    };
 
     return Namespace;
 }(OTRS.UI.Popup || {}));

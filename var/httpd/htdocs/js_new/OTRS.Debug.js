@@ -2,7 +2,7 @@
 // OTRS.Debug.js - provides debugging functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Debug.js,v 1.5 2010-04-13 18:07:44 mn Exp $
+// $Id: OTRS.Debug.js,v 1.6 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -36,9 +36,11 @@ OTRS.Debug = (function (Namespace) {
      *      Simple logging function. All parameters will be passed to
      *      the debug console of Firebug et al, if present.
      */
-    Namespace.Log = DebugConsole
-        ? function () { DebugLog.apply(DebugConsole, arguments); }
-        : function() {}; // NOOP function for performance reasons in production systems
+    Namespace.Log = DebugConsole ?
+        function () {
+            DebugLog.apply(DebugConsole, arguments);
+        } :
+        function () {}; // NOOP function for performance reasons in production systems
 
     /**
      * @function
@@ -49,17 +51,19 @@ OTRS.Debug = (function (Namespace) {
      * @param {String} Required
      *      The name of the function/namespace whose presence is checked
      * @param {String} RequiredLabel
-     *      Label for the required item which will be included in the error message
+     *      Label for the
+     *      required item which will be included in the error message
      * @param {Boolean} Silent
      *      Do not issue an alert
      *
      * @return true if the required item was found, false otherwise (an an alert will be issued in that case)
      */
-    Namespace.CheckDependency = function(TargetNamespace, Required, RequiredLabel, Silent){
+    /*jslint evil: true */
+    Namespace.CheckDependency = function (TargetNamespace, Required, RequiredLabel, Silent) {
 
         var RequiredEval;
         try {
-            RequiredEval = eval('try{ typeof ' + Required + '} catch (E) {}' );
+            RequiredEval = eval('try{ typeof ' + Required + '} catch (E) {}');
         }
         catch (Exception) {
         }
@@ -73,6 +77,7 @@ OTRS.Debug = (function (Namespace) {
         }
         return false;
     };
+    /*jslint evil: false */
 
     /**
      * @function
@@ -80,11 +85,11 @@ OTRS.Debug = (function (Namespace) {
      *      Checks, if the used browser is not on the OTRS browser blacklist.
      * @return true if the used browser is *not* on the black list.
      */
-    Namespace.BrowserCheck = function() {
+    Namespace.BrowserCheck = function () {
         var AppropriateBrowser = true,
             BrowserBlackList = OTRS.Config.Get('BrowserBlackList');
         if (typeof BrowserBlackList !== 'undefined') {
-            $.each(BrowserBlackList, function(Key, Value) {
+            $.each(BrowserBlackList, function (Key, Value) {
                 if ($.isFunction(Value)) {
                     if (Value()) {
                         AppropriateBrowser = false;
@@ -118,29 +123,33 @@ OTRS.Debug = (function (Namespace) {
             'script': 1,
             'object': 1,
             'iframe': 1
-        };
-
-        var Replacement = 'رسال الإجابة (البريد الإلكتروني';
+        },
+        Replacement = 'رسال الإجابة (البريد الإلكتروني';
 
         function ReplaceAllText(Node) {
-            var ChildNodes = (Node || document.body).childNodes;
+            var ChildNodes = (Node || document.body).childNodes,
+            CurrentNode,
+            InputType,
+            InputValue,
+            ReplacementValue,
+            CurrentText,
+            I = 0;
 
-            var I = 0;
             while (I < ChildNodes.length) {
-                var CurrentNode = ChildNodes[I++];
+                CurrentNode = ChildNodes[I++];
 
                 if (CurrentNode.nodeType === 1 && !ExcludeTags[CurrentNode.nodeName])
                 {
                     ReplaceAllText(CurrentNode);
-                    if (CurrentNode.nodeName == 'INPUT') {
-                        var InputType = CurrentNode.getAttribute('type');
-                        if (InputType == 'button'
-                            || InputType == 'submit'
-                        || InputType == 'reset'
-                            || InputType == 'text') {
-                            var InputValue = CurrentNode.getAttribute('value');
+                    if (CurrentNode.nodeName === 'INPUT') {
+                        InputType = CurrentNode.getAttribute('type');
+                        if (InputType === 'button' ||
+                            InputType === 'submit' ||
+                            InputType === 'reset' ||
+                            InputType === 'text') {
+                            InputValue = CurrentNode.getAttribute('value');
                             if (InputValue && InputValue.length) {
-                                var ReplacementValue = Replacement.substr(0, InputValue.length);
+                                ReplacementValue = Replacement.substr(0, InputValue.length);
                                 CurrentNode.setAttribute('value', ReplacementValue);
                             }
                         }
@@ -152,7 +161,7 @@ OTRS.Debug = (function (Namespace) {
                     continue;
                 }
 
-                var CurrentText = CurrentNode.nodeValue;
+                CurrentText = CurrentNode.nodeValue;
                 if (!CurrentText) {
                     continue;
                 }
@@ -163,12 +172,11 @@ OTRS.Debug = (function (Namespace) {
                 }
 
                 CurrentNode.nodeValue = Replacement.substr(0, CurrentText.length);
-
             }
         }
 
         return ReplaceAllText();
-    }
+    };
 
     return Namespace;
 }(OTRS.Debug || {}));

@@ -2,7 +2,7 @@
 // OTRS.Data.js - provides functions for setting and getting data (objects) to DOM elements
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Data.js,v 1.1 2010-04-12 21:40:42 mn Exp $
+// $Id: OTRS.Data.js,v 1.2 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -41,7 +41,7 @@ OTRS.Data = (function (Namespace) {
         }
 
         $Element.data(Name, Object);
-    }
+    };
 
     /**
      * @function
@@ -73,7 +73,7 @@ OTRS.Data = (function (Namespace) {
         {
             return Object;
         }
-    }
+    };
 
     return Namespace;
 }(OTRS.Data || {}));

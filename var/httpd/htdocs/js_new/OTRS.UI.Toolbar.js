@@ -2,7 +2,7 @@
 // OTRS.UI.Toolbar.js - provides functions for the header toolbar
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Toolbar.js,v 1.1 2010-04-01 13:13:34 mn Exp $
+// $Id: OTRS.UI.Toolbar.js,v 1.2 2010-04-16 21:48:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -34,6 +34,7 @@ OTRS.UI.Toolbar = (function (Namespace) {
         if ($Element.length && $.isFunction(EventFunction)) {
             $Element.bind(EventType, EventFunction);
         }
-    }
+    };
+
     return Namespace;
 }(OTRS.UI.Toolbar || {}));
