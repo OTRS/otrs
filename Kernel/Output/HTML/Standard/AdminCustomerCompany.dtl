@@ -2,7 +2,7 @@
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.1 2010-04-14 20:33:02 cg Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.2 2010-04-16 14:08:31 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,13 @@
 # --
 
 <!-- dtl:block:Overview -->
+<div id="UIElementPool">
+    <div class="Dialog">
+        <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
+        <div class="Content"></div>
+        <div class="Footer"><span class="LeftCorner"></span><span></span></div>
+    </div>
+</div>
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Customer Company Management"}</h1>
 
@@ -25,7 +32,7 @@
                     <input type="hidden" name="Subaction" value=""/>
                     <h2>$Text{"Search"}</h2>
                     <p class="FieldExplanation">
-                        $Text{"Enter a search phrase to look for . . ."}.
+                        $Text{"Enter a search phrase to look for Customer Company, wildcards are allowed."}
                     </p>
                     <input class="w50pc" type="text" name="Search" id="Search" value="$QData{"Search"}"/>
                     <br/>
@@ -90,7 +97,7 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="post">
+                <form action="$Env{"CGIHandle"}"  class="Validate" method="post">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
                     <input type="hidden" name="CustomerCompanyID" value="$QData{"CustomerID"}"/>
@@ -100,23 +107,38 @@
                         <input type="hidden" name="$QData{"Name"}" value="$QData{"Value"}"/>
 <!-- dtl:block:PreferencesGenericInputHidden -->
 <!-- dtl:block:PreferencesGenericInput -->
-                        <label for="$QData{"Name"}">
-                        $Text{"$Data{"Item"}"}:
-                        <font color="red" title="$Text{"These values are required."}">$Data{"Required"}</font>
+                        <label for="$QData{"Name"}" $Data{"MandatoryClass"}>
+                            $Data{"StarLabel"}
+                            $Text{"$Data{"Item"}"}:
                         </label>
                         <div class="Field">
-                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"Value"}" class="W50pc" maxlength="150" $Data{"ReadOnlyType"}/>
+                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"Value"}" class="W50pc $Data{"RequiredClass"} $QData{"Action"}" maxlength="150" $Data{"ReadOnlyType"}/>
+<!-- dtl:block:PreferencesGenericInputRequired -->
+                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
+                                <p>Please enter a value <strong>here</strong>.</p>
+                            </div>
+                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
+                                <p>Please enter a value <strong>here</strong>.</p>
+                            </div>
+<!-- dtl:block:PreferencesGenericInputRequired -->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericInput -->
 <!-- dtl:block:PreferencesGenericOption -->
-                        <label for="$QData{"Name"}">
-                        $Text{"$Data{"Item"}"}:
-                        <font color="red" title="$Text{"These values are required."}">$Data{"Required"}</font>
-                        <font color="blue" title="$Text{"These values are read-only."}">$Data{"ReadOnly"}</font>
+                        <label for="$QData{"Name"}" $Data{"MandatoryClass"}>
+                            $Data{"StarLabel"}
+                            $Text{"$Data{"Item"}"}:
                         </label>
                         <div class="Field">
                             $Data{"Option"}
+<!-- dtl:block:PreferencesGenericOptionRequired -->
+                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
+                                <p>Please enter a value <strong>here</strong>.</p>
+                            </div>
+                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
+                                <p>Please enter a value <strong>here</strong>.</p>
+                            </div>
+<!-- dtl:block:PreferencesGenericOptionRequired -->
                         </div>
                         <div class="Clear"></div>
 

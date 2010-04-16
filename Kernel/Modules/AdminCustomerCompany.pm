@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.10 2010-04-14 20:31:08 cg Exp $
+# $Id: AdminCustomerCompany.pm,v 1.11 2010-04-16 14:07:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -103,7 +103,8 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action => "Change",
+                Action     => "Change",
+                Validation => "ServerError",
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -171,7 +172,8 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action => "Add",
+                Action     => "Add",
+                Validation => "ServerError",
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -241,6 +243,10 @@ sub _Edit {
 
             # build selections or input fields
             if ( $Self->{ConfigObject}->Get('CustomerCompany')->{Selections}->{ $Entry->[0] } ) {
+                my $OptionRequired = '';
+                if ( $Entry->[4] ) {
+                    $OptionRequired = "OTRS_Validate_Required " . $Param{Validation};
+                }
 
                 # build ValidID string
                 $Block = 'Option';
@@ -248,6 +254,7 @@ sub _Edit {
                     Data => $Self->{ConfigObject}->Get('CustomerCompany')->{Selections}
                         ->{ $Entry->[0] },
                     Name                => $Entry->[0],
+                    Class               => $OptionRequired,
                     LanguageTranslation => 0,
                     SelectedID          => $Param{ $Entry->[0] },
                     Max                 => 35,
@@ -255,12 +262,17 @@ sub _Edit {
 
             }
             elsif ( $Entry->[0] =~ /^ValidID/i ) {
+                my $OptionRequired = '';
+                if ( $Entry->[4] ) {
+                    $OptionRequired = "OTRS_Validate_Required " . $Param{Validation};
+                }
 
                 # build ValidID string
                 $Block = 'Option';
                 $Param{Option} = $Self->{LayoutObject}->BuildSelection(
                     Data       => { $Self->{ValidObject}->ValidList(), },
                     Name       => $Entry->[0],
+                    Class      => $OptionRequired,
                     SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
                 );
             }
@@ -270,10 +282,14 @@ sub _Edit {
 
             # show required flag
             if ( $Entry->[4] ) {
-                $Param{Required} = '*';
+                $Param{MandatoryClass} = 'class="Mandatory"';
+                $Param{StarLabel}      = '<span class="Marker">*</span>';
+                $Param{RequiredClass}  = "OTRS_Validate_Required " . $Param{Validation};
             }
             else {
-                $Param{Required} = '';
+                $Param{MandatoryClass} = '';
+                $Param{StarLabel}      = '';
+                $Param{RequiredClass}  = '';
             }
 
             # show required flag
@@ -302,6 +318,14 @@ sub _Edit {
                         Value => $Param{ $Entry->[0] },
                     },
                 );
+                if ( $Entry->[4] ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => "PreferencesGeneric${Block}Required",
+                        Data => {
+                            Name => $Entry->[0],
+                        },
+                    );
+                }
             }
         }
     }
