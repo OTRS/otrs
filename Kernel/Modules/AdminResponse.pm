@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.41 2010-04-13 22:41:19 mg Exp $
+# $Id: AdminResponse.pm,v 1.42 2010-04-17 00:08:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -310,6 +310,10 @@ sub _Overview {
         Name => 'Overview',
         Data => \%Param,
     );
+
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+
     $Self->{LayoutObject}->Block(
         Name => 'OverviewResult',
         Data => \%Param,
