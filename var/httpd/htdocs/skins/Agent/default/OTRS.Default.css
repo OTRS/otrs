@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -233,13 +233,6 @@ dd {
 .RTL .ClearLeft {
     float: none !important;
     clear: right !important;
-}
-
-br.Clear,
-br.ClearLeft,
-br.ClearRight {
-    height: 0;
-    line-height: 0;
 }
 
 /**
