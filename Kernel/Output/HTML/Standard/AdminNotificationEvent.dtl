@@ -2,7 +2,7 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.1 2010-04-19 17:57:49 cg Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.2 2010-04-19 18:08:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -269,7 +269,7 @@
                             <div id="BodyError" class="TooltipErrorMessage">
                                 <p><strong>$Text{"The field is required"}</strong></p>
                             </div>
-                            <div id="BodyError" class="TooltipErrorMessage">
+                            <div id="BodyServerError" class="TooltipErrorMessage">
                                 <p><strong>$Text{"The field is required"}</strong></p>
                             </div>
                         </div>
