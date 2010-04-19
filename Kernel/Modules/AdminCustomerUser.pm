@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.63 2010-03-12 09:12:15 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.64 2010-04-19 18:45:27 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,50 +43,13 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
     my $NavBar = '';
     my $Nav    = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || 0;
     my $Source = $Self->{ParamObject}->GetParam( Param => 'Source' ) || 'CustomerUser';
     my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
-    my $Screen = $Self->{ParamObject}->GetParam( Param => 'Screen' ) || '';
-    if ( $Screen eq 'Remember' && $Self->{LastScreenEdit} ) {
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key       => 'CustomerEditReturn',
-            Value     => $Self->{LastScreenEdit},
-        );
-        $Self->{LayoutObject}->SetEnv(
-            Key   => 'CustomerEditReturn',
-            Value => $Self->{LastScreenEdit},
-        );
-    }
-    elsif ( $Screen eq 'Return' ) {
 
-        # redirect
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key       => 'CustomerEditReturn',
-            Value     => '',
-        );
-        return $Self->{LayoutObject}->Redirect( OP => $Self->{CustomerEditReturn}, );
-    }
-
-    # check nav bar
-    if ( !$Nav ) {
-        if ( $ENV{HTTP_REFERER} && $ENV{HTTP_REFERER} !~ /Admin/ ) {
-            $Nav = 'Agent';
-        }
-        else {
-            $Nav = 'Admin';
-        }
-    }
-    if ( $Nav eq 'None' ) {
-        $NavBar = $Self->{LayoutObject}->Header( Type => 'Small' );
-    }
-    else {
-        $NavBar = $Self->{LayoutObject}->Header();
-        $NavBar .= $Self->{LayoutObject}->NavigationBar();
-    }
+    $NavBar = $Self->{LayoutObject}->Header();
+    $NavBar .= $Self->{LayoutObject}->NavigationBar();
 
     # search user list
     if ( $Self->{Subaction} eq 'Search' ) {
@@ -96,7 +59,7 @@ sub Run {
         );
         my $Output = $NavBar;
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminCustomerUserForm',
+            TemplateFile => 'AdminCustomerUser',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -212,7 +175,7 @@ sub Run {
                 my $Output = $NavBar . $Note;
                 $Output .= $Self->{LayoutObject}->Notify( Info => 'Customer updated!' );
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AdminCustomerUserForm',
+                    TemplateFile => 'AdminCustomerUser',
                     Data         => \%Param,
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -353,7 +316,7 @@ sub Run {
                         );
                 }
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AdminCustomerUserForm',
+                    TemplateFile => 'AdminCustomerUser',
                     Data         => \%Param,
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -387,7 +350,7 @@ sub Run {
         );
         my $Output = $NavBar;
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminCustomerUserForm',
+            TemplateFile => 'AdminCustomerUser',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -423,23 +386,14 @@ sub _Overview {
 
             # get valid list
             my %ValidList = $Self->{ValidObject}->ValidList();
-            my $CssClass  = '';
             for ( sort keys %List ) {
 
-                # set output class
-                if ( $CssClass && $CssClass eq 'searchactive' ) {
-                    $CssClass = 'searchpassive';
-                }
-                else {
-                    $CssClass = 'searchactive';
-                }
                 my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $_ );
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {
                         Valid => $ValidList{ $UserData{ValidID} || '' } || '-',
-                        CssClass => $CssClass,
-                        Search   => $Param{Search},
+                        Search => $Param{Search},
                         %UserData,
                     },
                 );
@@ -447,8 +401,7 @@ sub _Overview {
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewResultRowLinkNone',
                         Data => {
-                            CssClass => $CssClass,
-                            Search   => $Param{Search},
+                            Search => $Param{Search},
                             %UserData,
                         },
                     );
@@ -457,8 +410,7 @@ sub _Overview {
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewResultRowLink',
                         Data => {
-                            CssClass => $CssClass,
-                            Search   => $Param{Search},
+                            Search => $Param{Search},
                             %UserData,
                         },
                     );
@@ -685,7 +637,7 @@ sub _Edit {
 
     }
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminCustomerUserForm',
+        TemplateFile => 'AdminCustomerUser',
         Data         => \%Param
     );
 }

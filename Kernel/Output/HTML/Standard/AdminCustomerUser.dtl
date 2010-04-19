@@ -1,0 +1,241 @@
+# --
+# AdminCustomerUserForm.dtl - provides HTML form for AdminCustomerUser
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminCustomerUser.dtl,v 1.1 2010-04-19 18:45:27 dz Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:Overview -->
+<script type="text/javascript">//<![CDATA[
+
+function updateMessage(x) {
+    if (parent.opener.closed) {
+        alert('$JSText{"The message being composed has been closed.  Exiting."}');
+        this.close();
+        return;
+    }
+
+    if (!parent.opener.document.compose) {
+        alert('$JSText{"This window must be called from compose window"}');
+        this.close();
+        return;
+    }
+
+# get the selected user back
+    parent.opener.document.compose.ExpandCustomerName.value=2;
+    parent.opener.document.compose.PreSelectedCustomerUser.value=x;
+# submit compose view to get user data
+    parent.opener.document.compose.submit()
+# close this window
+    this.close();
+}
+
+//]]></script>
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+        <h1>$Text{"Customer User Management"}</h1>
+        <div class="SidebarColumn">
+            <div class="WidgetGradient Short">
+                <div class="Header">
+                    <h2><label for="Search"> $Text{"Search"} </label></h2>
+                </div>
+                <div class="Content">
+                    <form action="$Env{"CGIHandle"}" method="post">
+                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                        <input type="hidden" name="Subaction" value="Search"/>
+                        <fieldset>
+
+                            <p class="FieldExplanation">
+                                $Text{"Enter a search phrase to look for customer, wildcards are allowed."}
+                            </p>
+
+                            <div class="Field">
+                                <input type="text" name="Search" value="$QData{"Search"}" id="Search"/>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <div class="Field">
+                                <button class="button" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                            </div>
+                            <div class="Clear"></div>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+            <div class="WidgetGradient Short">
+                <div class="Header">
+                    <h2>$Text{"Add Customer User"}</h2>
+                </div>
+                <div class="Content">
+                    <form action="$Env{"CGIHandle"}" method="post">
+                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                        <input type="hidden" name="Subaction" value="Add"/>
+                        <fieldset>
+
+                             <p class="FieldExplanation">
+                                 $Text{"Select a customer source"}
+                             </p>
+                             <div class="Field">
+                                $Data{"SourceOption"}
+                             </div>
+                            <div class="Clear"></div>
+
+                            <div class="Field">
+                                <button type="submit">$Text{"Create"}</button>
+                            </div>
+ 
+                            <h2 class="SpacingTop">$Text{"Note"}</h2>
+
+                            <p>
+                                $Text{"Customer user will be needed to have a customer history and to login via customer panel."}
+                            </p>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="ContentColumn">
+            <div class="WidgetGradient Medium">
+<!-- dtl:block:OverviewResult -->
+                <div class="Header">
+                    <h2>List</h2>
+                </div>
+                <div class="Content WithPadding">
+                    <table class="DataTable">
+                        <thead>
+                            <tr>
+                                <th>$Text{"Username"}</th>
+                                <th>$Text{"Name"}</th>
+                                <th>$Text{"Email"}</th>
+                                <th>$Text{"CustomerID"}</th>
+                                <th>$Text{"Last Login"}</th>
+                                <th>$Text{"valid"}/$Text{"invalid"}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+<!-- dtl:block:OverviewResultRow -->
+                            <tr>
+<!-- dtl:block:OverviewResultRowLink -->
+                                <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"UserLogin"};Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
+<!-- dtl:block:OverviewResultRowLink -->
+<!-- dtl:block:OverviewResultRowLinkNone -->
+                                <td><a href="" onclick="updateMessage('$QData{"UserLogin"}')">$QData{"UserLogin"}</a></td>
+<!-- dtl:block:OverviewResultRowLinkNone -->
+                                <td>$QData{"UserFirstname"} $QData{"UserLastname"}</td>
+                                <td>$QData{"UserEmail"}</td>
+                                <td>$QData{"UserCustomerID"}</td>
+                                <td>$TimeShort{"$QData{"UserLastLoginTimestamp"}"}</td>
+                                <td>$Text{"$QData{"Valid"}"}</td>
+                            </tr>
+<!-- dtl:block:OverviewResultRow -->
+
+
+                        </tbody>
+                    </table>
+                </div>
+<!-- dtl:block:OverviewResult -->
+
+<!-- dtl:block:OverviewUpdate -->
+            <div class="Header">
+                <h2>$Text{"Edit"} ($Text{"$QData{"Action"}"}):</h2>
+            </div>
+            <div class="Content">
+                <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="compose">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
+                    <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                    <input type="hidden" name="Source" value="$QData{"Source"}"/>
+                    <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
+                    <input type="hidden" name="Search" value="$QData{"Search"}"/>
+                    <fieldset class="TableLike">
+<!-- dtl:block:PreferencesGeneric -->
+<!-- dtl:block:PreferencesGenericInputHidden -->
+                        <div class="Field">
+                            <input type="hidden" name="$QData{"Name"}" value="$QData{"Value"}"/>
+                        </div>
+<!-- dtl:block:PreferencesGenericInputHidden -->
+<!-- dtl:block:PreferencesGenericInput -->
+                        <label>$Text{"$Data{"Item"}"}:</label>
+                        <div class="Field">
+                                <input type="text" name="$QData{"Name"}" value="$QData{"Value"}" $QData{"ReadOnlyType"}/>
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:PreferencesGenericInput -->
+<!-- dtl:block:PreferencesGenericPassword -->
+                        <label>$Text{"$Data{"Item"}"}:</label>
+                        <div class="Field">
+                                <input type="password" name="$QData{"Name"}" value="" maxlength="60" $QData{"ReadOnlyType"}/>
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:PreferencesGenericPassword -->
+<!-- dtl:block:PreferencesGenericOption -->
+                            <label>$Text{"$Data{"Item"}"}:</label>
+                        <div class="Field">
+                            $Data{"Option"}
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:PreferencesGenericOption -->
+<!-- dtl:block:PreferencesGeneric -->
+<!-- dtl:block:Item -->
+<!-- dtl:block:InputKey -->
+                        <label>$Text{"$Data{"Label"}"}:</label>
+                        <div class="Field">
+                            <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}"/>
+                            <div class="FieldExplanation"> $Text{"$QData{"Key"}"} </div>
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:InputKey -->
+<!-- dtl:block:Input -->
+                        <label>$Text{"$Data{"Label"}"}:</label>
+                        <div class="Field">
+                            <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}"/>
+                            <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$QData{"Key"}"}</div>
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:Input -->
+<!-- dtl:block:Option -->
+                        <label>$Text{"$Data{"Label"}"}:</label>
+                        <div class="Field">
+                            $Data{"Option"}
+                            <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$QData{"Key"}"}</div>
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:Option -->
+<!-- dtl:block:Upload -->
+                        <label>$Text{"$Data{"Label"}"}:</label>
+                        <div class="Field">
+                            <input name="$QData{"Name"}" type="file"/>
+                        <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$QData{"Key"}"}</div>
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:Upload -->
+<!-- dtl:block:Password -->
+                        <div class="W50pc Field">
+                            $Text{"$Data{"Label"}"}:
+                            <input type="password" name="$QData{"Name"}" value="$QData{"SelectedID"}"/>
+                            <div>$Text{"$QData{"Key"}"}</div>
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:Password -->
+<!-- dtl:block:Item -->
+                        <div class="Field">
+                            <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        </div>
+                        <div class="Clear"></div>
+                </fieldset>
+            </form>
+        </div>
+<!-- dtl:block:OverviewUpdate -->
+            </div>
+        </div>
+        <div class="Clear"></div>
+    </div>
+<!-- dtl:block:Overview -->
