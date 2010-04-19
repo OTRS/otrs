@@ -1,8 +1,8 @@
 # --
 # Package.t - Package tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.25 2009-11-04 12:27:58 mn Exp $
+# $Id: Package.t,v 1.26 2010-04-19 15:15:24 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,6 +26,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
   <ModuleRequired Version="1.112">Encode</ModuleRequired>
+  <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
   <Framework>2.3.x</Framework>
