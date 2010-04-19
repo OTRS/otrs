@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.27 2010-04-19 15:21:16 ub Exp $
+# $Id: Package.t,v 1.28 2010-04-19 15:38:28 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -484,6 +484,7 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
+  <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
   <Framework>2.3.x</Framework>
