@@ -2,7 +2,7 @@
 // OTRS.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Customer.js,v 1.3 2010-04-19 16:36:29 mg Exp $
+// $Id: OTRS.App.Customer.js,v 1.4 2010-04-19 18:03:26 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -25,35 +25,37 @@ OTRS.App.Customer = (function (TargetNS) {
      * @function
      * @description
      *      This function initializes the login functions.
-     *      In the login we have three steps:
-     *      1. input field gets focused -> label gets greyed out via class="focused"
+     *      Time gets tracked in an hidden field.
+     *      In the login we have for steps:
+     *      1. input field gets focused -> label gets greyed out via class="Focused"
      *      2. something is typed -> label gets hidden
      *      3. user leaves input field -> if the field is blank the label gets shown again, 'focused' class gets removed
-     *      After the bindings of the functions to the input fields the
+     *      4. first input field gets focused
      * @return nothing
      */
     TargetNS.InitLogin = function() {
-        var Inputs = $('input').not(':checkbox, :hidden'),
+        var Inputs = $('input').not(':checkbox, :hidden, :radio'),
             Now = new Date(),
             Diff = Now.getTimezoneOffset();
-
+        
         $('#TimeOffset').val(Diff);
-
+        
         Inputs
             .focus(function(){
-                $(this).prev('label').addClass('focused');
+                $(this).prev('label').addClass('Focused');
             })
             .bind('keyup change', function(){
-                TargetNS.ToggleLabel($(this));
+                ToggleLabel(this);
             })
             .blur(function(){
+                var $Label = $(this).prev('label');
                 if (!$(this).val()) {
-                    $(this).prev('label').show();
+                    $Label.show();
                 }
-                $(this).prev('label').removeClass('focused');
+                $Label.removeClass('Focused');
             })
             .first().focus();
-        CheckInputs(Inputs);
+        CheckInputs($Inputs);
     };
 
     /**
@@ -64,31 +66,38 @@ OTRS.App.Customer = (function (TargetNS) {
      *      If there is no value in the given field the label is made visible.
      * @return nothing
      */
-
-    TargetNS.ToggleLabel = function(PopulatedInput){
-        if ($(PopulatedInput).val() != "") {
-            $(PopulatedInput).prev('label').hide();
+    
+    function ToggleLabel(PopulatedInput) {
+        var $PopulatedInput = $(PopulatedInput),
+            $Label = $PopulatedInput.prev('label');
+        if ($PopulatedInput.val() != "") {
+            $Label.hide();
         }
         else {
-            $(PopulatedInput).prev('label').show();
+            $Label.show();
         }
     };
 
     /**
      * @function
+     * @param {jQueryObject} $Inputs is an object containing input fields
      * @description
      *      This function is used initially and hides labels of
      *      already filled out input fields (auto population of browsers)
-     *      and to focus on the first next 'non-filled-out' input field.
+     *      and focuses on the first next 'non-filled-out' input field.
      * @return nothing
      */
     function CheckInputs($Inputs){
-        $.each($Inputs, function(Index, Input){
+        var LastFilledElement = 0;
+        $.each($Inputs, function(Index, Input) {
             if($(Input).val()){
-                TargetNS.ToggleLabel(Input);
-                $Inputs[Index+1].focus();
+                ToggleLabel(Input);
+                LastFilledElement = Index;
             }
         });
+        if (LastFilledElement != 0) {
+            $Inputs[LastFilledElement + 1].focus();
+        }
     }
 
     /**
@@ -97,6 +106,7 @@ OTRS.App.Customer = (function (TargetNS) {
      *      This function makes the whole row in the MyTickets and CompanyTickets view clickable.
      * @return nothing
      */
+    
     TargetNS.ClickableRow = function(){
         $("table tr").click(function(){
             window.location.href = $("a", this).attr("href");
@@ -123,20 +133,20 @@ OTRS.App.Customer = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.InitTicketZoom = function(){
-        var Iframes = $('iframe');
-        $('.MessageHeader').click(function(event){
-            event.preventDefault();
-            $(this).parents('.Message').toggleClass('Visible');
+        var $Iframes = $('iframe');
+        $('.MessageHeader').click(function(Event){
+            $(this).parent('.Message').toggleClass('Visible');
+            Event.preventDefault();
         });
-        $('.Reply').click(function(event){
-            event.preventDefault();
-            var Footer = $(this).parents('.MessageFooter').toggleClass('Visible');
-            $('textarea', Footer).focus();
+        $('.Reply').click(function(Event){
+            var $Footer = $(this).closest('.MessageFooter').toggleClass('Visible');
+            $('textarea', $Footer).focus();
+            Event.preventDefault();
         });
-        $.each(Iframes, function(Index, Iframe){
-            CheckIframes(Iframe);
+        $.each($Iframes, function(Index, Iframe){
+            CheckIframe(Iframe);
         });
-        Iframes.not(':last').parents('.Message').removeClass('Visible');
+        $Iframes.not(':last').closest('.Message').removeClass('Visible');
     }
 
     /**
@@ -147,13 +157,12 @@ OTRS.App.Customer = (function (TargetNS) {
      * @see http://sonspring.com/journal/jquery-iframe-sizing
      * @return nothing
      */
-    function CheckIframes(Iframe){
-
+    function CheckIframe(Iframe){
+        
         if ($.browser.safari || $.browser.opera){
-            $(this).load(function(){
-                    setTimeout(HideQuote, 0, this);
-                }
-            );
+            $(Iframe).load(function(){
+                setTimeout(HideQuote, 0, this);
+            });
             var Source = Iframe.src;
             Iframe.src = '';
             Iframe.src = Source;
@@ -169,45 +178,43 @@ OTRS.App.Customer = (function (TargetNS) {
      * @function
      * @param {DOMObject} an iframe
      * @description
-     *      sets the size of the iframe to the size of its inner html
-     *      .contents accesses the iframe to get its height
+     *      finds the quote in an iframe (type=cite), hides it and 
+     *      adds an anchor in front of the hidden quote to toggle the visibility of the quote
      * @return nothing
      */
-
-    function CalculateHeight(Iframe){
-        // .contents to access the iframe document
-        var Newheight = $(Iframe).contents().find('html').outerHeight();
-        $(Iframe).height(Newheight);
+    
+    function HideQuote(Iframe){
+        $(Iframe)
+            .contents().find('[type=cite]').hide()
+            .before('<a href="" style="color:blue">Show quoted text</a>')
+            // add a toggle listener to the anchor (the prev element we just added)
+            .prev().toggle(
+                function(){ // show quote, change anchor name, recalculate iframe height
+                    $(this).next().show().text("Hide quoted text");
+                    CalculateHeight($(Iframe));
+                },
+                function(){ // hide quote, change anchor name, recalculate iframe height
+                    $(this).next().hide().text("Show quoted text");
+                    CalculateHeight($(Iframe));
+                }
+            );
+        // initial height calculation
+        CalculateHeight(Iframe);
     }
 
     /**
      * @function
      * @param {DOMObject} an iframe
      * @description
-     *      finds the quote in an iframe (type=cite), hides it and
-     *      adds an anchor in front of the hidden quote to toggle the visibility of the quote
+     *      sets the size of the iframe to the size of its inner html
+     *      .contents accesses the iframe to get its height
      * @return nothing
      */
-
-    function HideQuote(Iframe){
-        $(Iframe).contents().find('[type=cite]').hide()
-        // add an anchor in front of them
-        .before('<a href="" style="color:blue">Show quoted text</a>')
-        // add a toggle listener to the anchor (the prev element we just added)
-        .prev().toggle(
-            function(){ // show quote, change anchor name, recalculate iframe height
-                $(this).next().show();
-                $(this).text("Hide quoted text");
-                CalculateHeight($(Iframe));
-            },
-            function(){ // hide quote, change anchor name, recalculate iframe height
-                $(this).next().hide();
-                $(this).text("Show quoted text");
-                CalculateHeight($(Iframe));
-            }
-        );
-        // initial height calculation
-        CalculateHeight(Iframe);
+    
+    function CalculateHeight(Iframe){ 
+        var Newheight = $(Iframe).contents().find('html').outerHeight();
+        if(Newheight > 2500){ Newheight = 2500; }
+        $(Iframe).height(Newheight);
     }
 
     return TargetNS;
