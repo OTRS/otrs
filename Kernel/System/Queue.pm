@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.113 2010-02-26 20:48:21 martin Exp $
+# $Id: Queue.pm,v 1.114 2010-04-19 20:31:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.114 $) [1];
 
 =head1 NAME
 
@@ -244,35 +244,73 @@ sub GetStdResponses {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
+    if ( !$Param{QueueID} && !$Param{StdResponseID} ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => 'Got no StdResponseID or QueueID!' );
         return;
     }
 
-    # check if this result is present
-    if ( $Self->{"StdResponses::$Param{QueueID}"} ) {
-        return %{ $Self->{"StdResponses::$Param{QueueID}"} };
+    if ( $Param{QueueID} ) {
+
+        # check if this result is present
+        if ( $Self->{"StdResponses::$Param{QueueID}"} ) {
+            return %{ $Self->{"StdResponses::$Param{QueueID}"} };
+        }
+
+        # get std. responses
+        my $SQL = "SELECT sr.id, sr.name "
+            . " FROM standard_response sr, queue_standard_response qsr WHERE "
+            . " qsr.queue_id IN ("
+            . $Self->{DBObject}->Quote( $Param{QueueID}, 'Integer' )
+            . ") AND "
+            . " qsr.standard_response_id = sr.id AND "
+            . " sr.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
+            . " ORDER BY sr.name";
+        return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+        my %StdResponses;
+
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $StdResponses{ $Row[0] } = $Row[1];
+        }
+
+        # store std responses
+        $Self->{"StdResponses::$Param{QueueID}"} = \%StdResponses;
+
+        # return responses
+        return %StdResponses;
     }
 
-    # get std. responses
-    my $SQL = "SELECT sr.id, sr.name "
-        . " FROM standard_response sr, queue_standard_response qsr WHERE "
-        . " qsr.queue_id IN (" . $Self->{DBObject}->Quote( $Param{QueueID}, 'Integer' ) . ") AND "
-        . " qsr.standard_response_id = sr.id AND "
-        . " sr.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
-        . " ORDER BY sr.name";
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-    my %StdResponses;
+    else {
 
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $StdResponses{ $Row[0] } = $Row[1];
+        # check if this result is present
+        if ( $Self->{"Queues::$Param{StdResponseID}"} ) {
+            return %{ $Self->{"Queues::$Param{StdResponseID}"} };
+        }
+
+        # get queues
+
+        my $SQL = "SELECT q.id, q.name "
+            . " FROM queue q, queue_standard_response qsr WHERE "
+            . " qsr.standard_response_id IN ("
+            . $Self->{DBObject}->Quote( $Param{StdResponseID}, 'Integer' )
+            . ") AND "
+            . " qsr.queue_id = q.id AND "
+            . " q.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
+            . " ORDER BY q.name";
+        return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+        my %Queues;
+
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $Queues{ $Row[0] } = $Row[1];
+        }
+
+        # store queues
+        $Self->{"Queues::$Param{StdResponseID}"} = \%Queues;
+
+        # return queues
+        return %Queues;
+
     }
-
-    # store std responses
-    $Self->{"StdResponses::$Param{QueueID}"} = \%StdResponses;
-
-    # return responses
-    return %StdResponses;
 }
 
 =item GetAllQueues()
@@ -1088,6 +1126,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.113 $ $Date: 2010-02-26 20:48:21 $
+$Revision: 1.114 $ $Date: 2010-04-19 20:31:04 $
 
 =cut
