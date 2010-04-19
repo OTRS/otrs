@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.277 2010-04-19 00:22:12 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.278 2010-04-19 01:01:37 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Group>Framework</Group>
@@ -2915,7 +2915,7 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesPassword</Item>
                 <Item Key="Colum">User Profile</Item>
-                <Item Key="Label">Change Password</Item>
+                <Item Key="Label" Translatable="1">Change Password</Item>
                 <Item Key="Prio">0500</Item>
                 <Item Key="Area">Agent</Item>
                 <!-- <Item Key="PasswordRegExp">[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?</Item> -->
@@ -2937,8 +2937,8 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">User Profile</Item>
-                <Item Key="Label">Spelling Dictionary</Item>
-                <Item Key="Key">Default spelling dictionary</Item>
+                <Item Key="Label" Translatable="1">Spelling Dictionary</Item>
+                <Item Key="Key" Translatable="1">Default spelling dictionary</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="english">English</Item>
@@ -2980,8 +2980,8 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Other Settings</Item>
-                <Item Key="Label">Comment</Item>
-                <Item Key="Key">Comment</Item>
+                <Item Key="Label" Translatable="1">Comment</Item>
+                <Item Key="Key" Translatable="1">Comment</Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="Data">$Env{"UserComment"}</Item>
                 <Item Key="PrefKey">UserComment</Item>
@@ -2998,8 +2998,8 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Other Settings</Item>
-                <Item Key="Label">Example for free text</Item>
-                <Item Key="Key">Example for free text</Item>
+                <Item Key="Label" Translatable="1">Example for free text</Item>
+                <Item Key="Key" Translatable="1">Example for free text</Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="Data">$Env{"UserFreeText"}</Item>
                 <Item Key="PrefKey">UserFreeText</Item>
@@ -3016,8 +3016,8 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesLanguage</Item>
                 <Item Key="Colum">User Profile</Item>
-                <Item Key="Label">Language</Item>
-                <Item Key="Key">Frontend language</Item>
+                <Item Key="Label" Translatable="1">Language</Item>
+                <Item Key="Key" Translatable="1">Frontend language</Item>
                 <Item Key="PrefKey">UserLanguage</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Activ">1</Item>
@@ -3032,8 +3032,8 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesTheme</Item>
                 <Item Key="Colum">User Profile</Item>
-                <Item Key="Label">Theme</Item>
-                <Item Key="Key">Frontend theme</Item>
+                <Item Key="Label" Translatable="1">Theme</Item>
+                <Item Key="Key" Translatable="1">Frontend theme</Item>
                 <Item Key="PrefKey">UserTheme</Item>
                 <Item Key="Prio">3000</Item>
                 <Item Key="Activ">1</Item>
@@ -3049,8 +3049,8 @@ Your OTRS Notification Master
                 <Item Key="Module">Kernel::Output::HTML::PreferencesOutOfOffice</Item>
                 <Item Key="Colum">User Profile</Item>
                 <Item Key="Block">OutOfOffice</Item>
-                <Item Key="Label">Out Of Office Time</Item>
-                <Item Key="Key"></Item>
+                <Item Key="Label" Translatable="1">Out Of Office Time</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="PrefKey">UserOutOfOffice</Item>
                 <Item Key="Prio">4000</Item>
                 <Item Key="Activ">1</Item>
@@ -3065,8 +3065,8 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesTimeZone</Item>
                 <Item Key="Colum">User Profile</Item>
-                <Item Key="Label">Time Zone</Item>
-                <Item Key="Key">Time Zone</Item>
+                <Item Key="Label" Translatable="1">Time Zone</Item>
+                <Item Key="Key" Translatable="1">Time Zone</Item>
                 <Item Key="PrefKey">UserTimeZone</Item>
                 <Item Key="Prio">5000</Item>
                 <Item Key="Activ">1</Item>
@@ -3089,9 +3089,9 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Other Settings</Item>
-                <Item Key="Label">CSV Separator</Item>
-                <Item Key="Desc">Select the separator character used in CSV files (stats and searches). If you don't select a separator here, the default separator for your language will be used.</Item>
-                <Item Key="Key">CSV Separator</Item>
+                <Item Key="Label" Translatable="1">CSV Separator</Item>
+                <Item Key="Desc" Translatable="1">Select the separator character used in CSV files (stats and searches). If you don't select a separator here, the default separator for your language will be used.</Item>
+                <Item Key="Key" Translatable="1">CSV Separator</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key=""></Item>
@@ -3639,7 +3639,7 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesPassword</Item>
                 <Item Key="Colum">Other Settings</Item>
-                <Item Key="Label">Change Password</Item>
+                <Item Key="Label" Translatable="1">Change Password</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Area">Customer</Item>
                 <!-- <Item Key="PasswordRegExp">[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?</Item> -->
@@ -3660,8 +3660,8 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesLanguage</Item>
                 <Item Key="Colum">User Profile</Item>
-                <Item Key="Label">Language</Item>
-                <Item Key="Desc">Select your frontend language.</Item>
+                <Item Key="Label" Translatable="1">Language</Item>
+                <Item Key="Desc" Translatable="1">Select your frontend language.</Item>
                 <Item Key="PrefKey">UserLanguage</Item>
                 <Item Key="Prio">2000</Item>
                 <Item Key="Activ">1</Item>
@@ -3676,8 +3676,8 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesTheme</Item>
                 <Item Key="Colum">User Profile</Item>
-                <Item Key="Label">Theme</Item>
-                <Item Key="Desc">Select your frontend Theme.</Item>
+                <Item Key="Label" Translatable="1">Theme</Item>
+                <Item Key="Desc" Translatable="1">Select your frontend Theme.</Item>
                 <Item Key="PrefKey">UserTheme</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Activ">0</Item>
@@ -3692,8 +3692,8 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesPGP</Item>
                 <Item Key="Colum">Other Settings</Item>
-                <Item Key="Label">PGP Key</Item>
-                <Item Key="Desc">PGP Key Upload</Item>
+                <Item Key="Label" Translatable="1">PGP Key</Item>
+                <Item Key="Desc" Translatable="1">PGP Key Upload</Item>
                 <Item Key="PrefKey">UserPGPKey</Item>
                 <Item Key="Prio">10000</Item>
                 <Item Key="Activ">1</Item>
@@ -3708,8 +3708,8 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesSMIME</Item>
                 <Item Key="Colum">Other Settings</Item>
-                <Item Key="Label">S/MIME Certificate</Item>
-                <Item Key="Desc">S/MIME Certificate Upload</Item>
+                <Item Key="Label" Translatable="1">S/MIME Certificate</Item>
+                <Item Key="Desc" Translatable="1">S/MIME Certificate Upload</Item>
                 <Item Key="PrefKey">UserSMIMEKey</Item>
                 <Item Key="Prio">11000</Item>
                 <Item Key="Activ">1</Item>
