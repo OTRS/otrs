@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -179,6 +179,18 @@ fieldset.TableLike > .Field {
 fieldset.TableLike > .Field > select,
 fieldset.TableLike > .Field > input {
     max-width: 100%;
+}
+
+fieldset.TableLike > .RichtextField {
+    padding-bottom: 10px;
+    clear: both;
+    margin-left: 10%;
+    margin-right: 0;
+}
+
+.RTL fieldset.TableLike > .RichtextField {
+    margin-left: 0;
+    margin-right: 10%;
 }
 
 fieldset.TableLike > .Value {
