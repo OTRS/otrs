@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.315 2010-04-19 01:01:37 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.316 2010-04-19 23:41:34 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -6856,6 +6856,43 @@ $QData{"Signature"}
                 <Item>open</Item>
                 <Item>closed</Item>
             </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###AttributesView" Required="1" Valid="1">
+        <Description Translatable="1">Show this ticket attributes in customer panel.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TicketFreeTime1">0</Item>
+                <Item Key="TicketFreeTime2">0</Item>
+                <Item Key="TicketFreeTime3">0</Item>
+                <Item Key="TicketFreeTime4">0</Item>
+                <Item Key="TicketFreeTime5">0</Item>
+                <Item Key="TicketFreeTime6">0</Item>
+                <Item Key="TicketFreeText1">0</Item>
+                <Item Key="TicketFreeText2">0</Item>
+                <Item Key="TicketFreeText3">0</Item>
+                <Item Key="TicketFreeText4">0</Item>
+                <Item Key="TicketFreeText5">0</Item>
+                <Item Key="TicketFreeText6">0</Item>
+                <Item Key="TicketFreeText7">0</Item>
+                <Item Key="TicketFreeText8">0</Item>
+                <Item Key="TicketFreeText9">0</Item>
+                <Item Key="TicketFreeText10">0</Item>
+                <Item Key="TicketFreeText11">0</Item>
+                <Item Key="TicketFreeText12">0</Item>
+                <Item Key="TicketFreeText13">0</Item>
+                <Item Key="TicketFreeText14">0</Item>
+                <Item Key="TicketFreeText15">0</Item>
+                <Item Key="TicketFreeText16">0</Item>
+                <Item Key="Queue">1</Item>
+                <Item Key="Type">1</Item>
+                <Item Key="Priority">1</Item>
+                <Item Key="State">1</Item>
+                <Item Key="Service">1</Item>
+                <Item Key="SLA">1</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::CustomerTicketSearch::SearchLimit" Required="1" Valid="1">

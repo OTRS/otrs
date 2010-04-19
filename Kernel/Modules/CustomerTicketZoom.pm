@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.60 2010-04-05 11:52:29 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.61 2010-04-19 23:41:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -334,8 +334,13 @@ sub _Mask {
 
     $Param{FormID} = $Self->{FormID};
 
-    # do some html quoting
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
+    # set generic state type
+    if ( $Param{StateType} =~ /^closed/i ) {
+        $Param{StateTypeGeneric} = 'Closed';
+    }
+    else {
+        $Param{StateTypeGeneric} = 'Open';
+    }
 
     # build article stuff
     my $SelectedArticleID = $Param{ArticleID} || '';
@@ -377,56 +382,164 @@ sub _Mask {
         $ArticleID = $LastCustomerArticleID;
     }
 
-    # build thread string
-    $Self->{LayoutObject}->Block(
-        Name => 'Tree',
-        Data => {%Param},
-    );
-    my $CounterTree    = 0;
-    my $Counter        = '';
-    my $Space          = '';
+    # ticket type
+    if ( $Self->{ConfigObject}->Get('Ticket::Type') || $Self->{Config}->{AttributesView}->{Type} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Type',
+            Data => \%Param,
+        );
+    }
+
+    # ticket service
+    if (
+        $Param{Service}
+        && (
+            $Self->{ConfigObject}->Get('Ticket::Service')
+            || $Self->{Config}->{AttributesView}->{Service}
+        )
+        )
+    {
+        $Self->{LayoutObject}->Block(
+            Name => 'Service',
+            Data => \%Param,
+        );
+        if ( $Param{SLA} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'SLA',
+                Data => \%Param,
+            );
+        }
+    }
+
+    # ticket state
+    if ( $Self->{Config}->{State} || $Self->{Config}->{AttributesView}->{State} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'State',
+            Data => \%Param,
+        );
+    }
+
+    # ticket priority
+    if ( $Self->{Config}->{Priority} || $Self->{Config}->{AttributesView}->{Priority} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Priority',
+            Data => \%Param,
+        );
+    }
+
+    # ticket queue
+    if ( $Self->{Config}->{Queue} || $Self->{Config}->{AttributesView}->{Queue} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Queue',
+            Data => \%Param,
+        );
+    }
+
+    # ticket free text
+    for my $Count ( 1 .. 16 ) {
+        next if !$Param{ 'TicketFreeText' . $Count };
+        next if !$Self->{Config}->{AttributesView}->{ 'TicketFreeText' . $Count };
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText' . $Count,
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText',
+            Data => {
+                %Param,
+                TicketFreeKey  => $Param{ 'TicketFreeKey' . $Count },
+                TicketFreeText => $Param{ 'TicketFreeText' . $Count },
+                Count          => $Count,
+            },
+        );
+    }
+
+    # ticket free time
+    for my $Count ( 1 .. 6 ) {
+        next if !$Param{ 'TicketFreeTime' . $Count };
+        next if !$Self->{Config}->{AttributesView}->{ 'TicketFreeTime' . $Count };
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime' . $Count,
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime',
+            Data => {
+                %Param,
+                TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
+                Count             => $Count,
+            },
+        );
+    }
+
     my $LastSenderType = '';
-    $Param{ArticleStrg} = '';
     for my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
-        my $Start   = '';
-        my $Stop    = '';
-        my $Start2  = '';
-        my $Stop2   = '';
 
-        $CounterTree++;
-        my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
+        # do some html quoting
+        $Article{Age}
+            = $Self->{LayoutObject}->CustomerAge( Age => $Article{AgeTimeUnix}, Space => ' ' );
+
+        $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
             TicketNumber => $Article{TicketNumber},
             Subject => $Article{Subject} || '',
         );
-        if ( $LastSenderType ne $Article{SenderType} ) {
-            $Counter .= "&nbsp;";
-            $Space = "$Counter&nbsp;|--&gt;";
-        }
         $LastSenderType = $Article{SenderType};
 
-        # if this is the shown article -=> add <b>
-        if ( $ArticleID eq $Article{ArticleID} ) {
-            $Start  = '<i><u>';
-            $Start2 = '<b>';
+        $Self->{LayoutObject}->Block(
+            Name => 'Article',
+            Data => \%Article,
+        );
+
+        # do some strips && quoting
+        for my $Key (qw(From To Cc)) {
+            next if !$Article{$Key};
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleRow',
+                Data => {
+                    Key   => $Key,
+                    Value => $Article{$Key},
+                },
+            );
         }
 
-        # if this is the shown article -=> add </b>
-        if ( $ArticleID eq $Article{ArticleID} ) {
-            $Stop  = '</u></i>';
-            $Stop2 = '</b>';
+        # check if just a only html email
+        if ( my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType( %Param, %Article ) ) {
+            $Param{BodyNote} = $MimeTypeText;
+            $Param{Body}     = '';
+        }
+        else {
+
+            # html quoting
+            $Param{Body} = $Self->{LayoutObject}->Ascii2Html(
+                NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+                Text           => $Article{Body},
+                VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+                HTMLResultMode => 1,
+                LinkFeature    => 1,
+            );
+
+            # do charset check
+            if ( my $CharsetText = $Self->{LayoutObject}->CheckCharset( %Param, %Article ) ) {
+                $Param{BodyNote} = $CharsetText;
+            }
+        }
+
+        # show plain or html body
+        my $ViewType = 'Plain';
+
+        # in case show plain article body (if no html body as attachment exists of if rich
+        # text is not enabled)
+        my $RichText = $Self->{LayoutObject}->{BrowserRichText};
+        if ( $RichText && $Article{AttachmentIDOfHTMLBody} ) {
+            $ViewType = 'HTML';
         }
         $Self->{LayoutObject}->Block(
-            Name => 'TreeItem',
+            Name => 'Body' . $ViewType,
             Data => {
+                %Param,
                 %Article,
-                Subject => $TmpSubject,
-                Space   => $Space,
-                Start   => $Start,
-                Stop    => $Stop,
-                Start2  => $Start2,
-                Stop2   => $Stop2,
-                Count   => $CounterTree,
             },
         );
 
@@ -544,61 +657,6 @@ sub _Mask {
         );
     }
 
-    # check if just a only html email
-    if ( my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType( %Param, %Article ) ) {
-        $Param{'Article::TextNote'} = $MimeTypeText;
-        $Param{'Article::Text'}     = '';
-    }
-    else {
-
-        # html quoting
-        $Param{'Article::Text'} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-            Text           => $Article{Body},
-            VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
-            HTMLResultMode => 1,
-            LinkFeature    => 1,
-        );
-
-        # do charset check
-        if ( my $CharsetText = $Self->{LayoutObject}->CheckCharset( %Param, %Article ) ) {
-            $Param{'Article::TextNote'} = $CharsetText;
-        }
-    }
-
-    # show plain or html body
-    my $ViewType = 'Plain';
-
-    # in case show plain article body (if no html body as attachment exists of if rich
-    # text is not enabled)
-    my $RichText = $Self->{LayoutObject}->{BrowserRichText};
-    if ( $RichText && $Article{AttachmentIDOfHTMLBody} ) {
-        $ViewType = 'HTML';
-    }
-    $Self->{LayoutObject}->Block(
-        Name => 'Body' . $ViewType,
-        Data => {
-            %Param,
-            %Article,
-        },
-    );
-
-    # get article id
-    $Param{'Article::ArticleID'} = $Article{ArticleID};
-
-    # do some strips && quoting
-    for (qw(From To Cc Subject)) {
-        if ( $Article{$_} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Row',
-                Data => {
-                    Key   => $_,
-                    Value => $Article{$_},
-                },
-            );
-        }
-    }
-
     # check follow up permissions
     my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
     my %State = $Self->{StateObject}->StateGet(
@@ -690,64 +748,6 @@ sub _Mask {
                 Data => $Attachment,
             );
         }
-    }
-
-    # ticket type
-    if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'Type',
-            Data => { %Param, %Article },
-        );
-    }
-
-    # ticket service
-    if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Article{Service} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'Service',
-            Data => { %Param, %Article },
-        );
-        if ( $Article{SLA} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'SLA',
-                Data => { %Param, %Article },
-            );
-        }
-    }
-
-    # ticket free text
-    for my $Count ( 1 .. 16 ) {
-        next if !$Article{ 'TicketFreeText' . $Count };
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeText' . $Count,
-            Data => { %Param, %Article },
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeText',
-            Data => {
-                %Param, %Article,
-                TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
-                TicketFreeText => $Article{ 'TicketFreeText' . $Count },
-                Count          => $Count,
-            },
-        );
-    }
-
-    # ticket free time
-    for my $Count ( 1 .. 6 ) {
-        next if !$Article{ 'TicketFreeTime' . $Count };
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTime' . $Count,
-            Data => { %Param, %Article },
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTime',
-            Data => {
-                %Param, %Article,
-                TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                TicketFreeTime    => $Article{ 'TicketFreeTime' . $Count },
-                Count             => $Count,
-            },
-        );
     }
 
     # select the output template
