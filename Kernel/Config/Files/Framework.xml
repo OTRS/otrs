@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.276 2010-04-19 00:17:49 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.277 2010-04-19 00:22:12 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Group>Framework</Group>
@@ -3438,8 +3438,6 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::Password" Required="0" Valid="0">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, you can specify a password to connect to your customer table.</Description>
-        <Description Lang="de">Wenn "DB" für Customer::AuthModule ausgewählt wurde, kann ein Kennwort für den Verbindungsaufbau zur Customer-Tabelle angegeb
-                en werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
