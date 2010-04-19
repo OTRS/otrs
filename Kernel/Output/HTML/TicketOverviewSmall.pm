@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.24 2010-04-15 21:26:55 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.25 2010-04-19 18:03:01 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -81,22 +81,6 @@ sub ActionRow {
         );
     }
 
-    for my $Key ( 1 .. 5 ) {
-        my $Class = '';
-        if ( $Key == 3 ) {
-            $Class = 'Inactive';
-        }
-        if ( $Key == 5 ) {
-            $Class = 'Last';
-        }
-        $Self->{LayoutObject}->Block(
-            Name => 'DocumentActionRowItem',
-            Data => {
-                Name => 'XXX' . $Key,
-                CSS  => $Class,
-            },
-        );
-    }
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewSmall',
         Data         => \%Param,

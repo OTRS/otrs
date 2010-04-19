@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.36 2010-04-15 21:26:55 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.37 2010-04-19 18:03:01 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,9 @@
 <!-- dtl:block:DocumentActionRow -->
 <ul class="Actions">
 <!-- dtl:block:DocumentActionRowBulk -->
-    <li class="$QData{"CSS"}"><a href="" onclick="return select_item_check();">$Text{"$QData{"Name"}"}</a></li>
+    <li id="BulkAction" class="Bulk Inactive $QData{"CSS"}">
+        <a href="">$Text{"$QData{"Name"}"}</a>
+    </li>
 <!-- dtl:block:DocumentActionRowBulk -->
 <!-- dtl:block:DocumentActionRowItem -->
     <li class="$QData{"CSS"}"><a href="">$Text{"$QData{"Name"}"}</a></li>
@@ -26,10 +28,7 @@
             <tr>
 <!-- dtl:block:BulkNavBar -->
                 <th class="Checkbox Fixed">
-                <form name="matrixnavbar" action="">
-                    <input type="checkbox" class="AutocompleteOff" name="Check" value="" onclick="select_items('TicketID')" />
-#           <button type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();" >$Text{"Bulk Action"}</button>
-                </form>
+                    <input type="checkbox" class="AutocompleteOff" title="Select all" id="SelectAllTickets" />
                 </th>
 <!-- dtl:block:BulkNavBar -->
 <!-- dtl:block:OverviewNavBarPageFlag -->
@@ -38,17 +37,17 @@
 #                        <th class="UnreadArticles Fixed"><a class="UnreadArticles" href=""><span class="UnreadArticles"></span></a></th>
 <!-- dtl:block:OverviewNavBarPageTicketNumber -->
                 <th class="TicketNumber $QData{"CSS"}">
-                <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=TicketNumber;OrderBy=$QData{"OrderBy"}">$Config{"Ticket::Hook"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=TicketNumber;OrderBy=$QData{"OrderBy"}">$Config{"Ticket::Hook"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageTicketNumber -->
 <!-- dtl:block:OverviewNavBarPageAge -->
                 <th class="Age $QData{"CSS"}">
-                <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Age;OrderBy=$QData{"OrderBy"}">$Text{"Age"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Age;OrderBy=$QData{"OrderBy"}">$Text{"Age"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageAge -->
 <!-- dtl:block:OverviewNavBarPageEscalationTime -->
                 <th class="EscalationTime $QData{"CSS"}">
-                <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=EscalationTime;OrderBy=$QData{"OrderBy"}">$Text{"Escalation in"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=EscalationTime;OrderBy=$QData{"OrderBy"}">$Text{"Escalation in"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageEscalationTime -->
 <!-- dtl:block:OverviewNavBarPageLastCustomerSubject -->
@@ -59,27 +58,27 @@
 <!-- dtl:block:OverviewNavBarPageTitle -->
 <!-- dtl:block:OverviewNavBarPageState -->
                 <th class="State $QData{"CSS"}">
-                <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=State;OrderBy=$QData{"OrderBy"}">$Text{"State"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=State;OrderBy=$QData{"OrderBy"}">$Text{"State"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageState -->
 <!-- dtl:block:OverviewNavBarPageLock -->
                 <th class="Lock $QData{"CSS"}">
-                <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Lock;OrderBy=$QData{"OrderBy"}">$Text{"Locked"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Lock;OrderBy=$QData{"OrderBy"}">$Text{"Locked"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageLock -->
 <!-- dtl:block:OverviewNavBarPageQueue -->
                 <th class="Queue $QData{"CSS"}">
-                <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Queue;OrderBy=$QData{"OrderBy"}">$Text{"Queue"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Queue;OrderBy=$QData{"OrderBy"}">$Text{"Queue"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageQueue -->
 <!-- dtl:block:OverviewNavBarPageOwner -->
                 <th class="Owner $QData{"CSS"}">
-                <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Owner;OrderBy=$QData{"OrderBy"}">$Text{"Owner"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Owner;OrderBy=$QData{"OrderBy"}">$Text{"Owner"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageOwner -->
 <!-- dtl:block:OverviewNavBarPageCustomerID -->
                 <th class="CustomerID Last $QData{"CSS"}">
-                <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=CustomerID;OrderBy=$QData{"OrderBy"}">$Text{"CustomerID"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=CustomerID;OrderBy=$QData{"OrderBy"}">$Text{"CustomerID"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageCustomerID -->
             </tr>
@@ -92,33 +91,13 @@
 <!-- dtl:block:DocumentSortOrderBar -->
 
 <!-- dtl:block:DocumentContent -->
+<!-- dtl:document_ready -->
 <script type="text/javascript">//<![CDATA[
-function select_items (Type) {
-    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
-#        if ( document.matrix.Check.checked || document.matrixnavbar.Check.checked ) {
-        if ( document.matrixnavbar.Check.checked ) {
-            document.matrix.elements[Type][i].checked = true;
-        }
-        else {
-            document.matrix.elements[Type][i].checked = false;
-        }
-    }
-}
-function select_item_check () {
-# check if min one ticket is selected (TicketID is no array)
-    if ( document.matrix.TicketID.length == undefined && document.matrix.TicketID.checked ) {
-        return true;
-    }
-# check if min one ticket is selected (TicketID is array)
-    for (var i = 0; i < document.matrix.TicketID.length; i++) {
-        if ( document.matrix.TicketID[i].checked ) {
-            return true;
-        }
-    }
-    alert('$JSText{"You need min. one selected Ticket!"}');
-    return false;
-}
+    $(document).ready(function () {
+        OTRS.UI.ActionRow.Init();
+    });
 //]]></script>
+<!-- dtl:document_ready -->
 <!-- start form -->
 <div id="OverviewBody" class="Overview">
     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
@@ -131,7 +110,7 @@ function select_item_check () {
                 <tr id="TicketID_$QData{"TicketID"}">
 <!-- dtl:block:Bulk -->
                     <td class="Checkbox Fixed NonTextContent">
-                        <input type="checkbox" name="TicketID" value="$LQData{"TicketID"}"/>
+                        <input class="Checkbox AutocompleteOff" type="checkbox" name="TicketID" value="$LQData{"TicketID"}" />
                     </td>
 <!-- dtl:block:Bulk -->
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->

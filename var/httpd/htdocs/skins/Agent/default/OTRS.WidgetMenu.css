@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -334,7 +334,7 @@ ul.ContextFunctions li.ContextHelp:hover {
     margin-left: 20px;
 }
 
-.ActionRow ul.Actions li input#SelectAll {
+.ActionRow ul.Actions li input#SelectAllTickets {
     float: left;
     padding: 0;
     margin-top: 5px;

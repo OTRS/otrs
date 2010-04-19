@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.22 2010-04-16 14:05:30 martin Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.23 2010-04-19 18:03:01 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,10 +12,10 @@
 <ul class="Actions">
 <!-- dtl:block:DocumentActionRowBulk -->
     <li class="Bulk">
-        <input type="checkbox" class="AutocompleteOff" title="Select all" id="SelectAll" name="Check" onclick="select_items('TicketID')" /><label for="SelectAll">Select all</label>
+        <input type="checkbox" class="AutocompleteOff" title="Select all" id="SelectAllTickets" /><label for="SelectAllTickets">$Text{"Select all"}</label>
     </li>
     <li id="BulkAction" class="Bulk Inactive $QData{"CSS"}">
-        <a href="" onclick="return select_item_check();">$Text{"$QData{"Name"}"}</a>
+        <a href="">$Text{"$QData{"Name"}"}</a>
     </li>
 <!-- dtl:block:DocumentActionRowBulk -->
 <!-- dtl:block:DocumentActionRowItem -->
@@ -31,37 +31,13 @@
 
 
 <!-- dtl:block:DocumentHeader -->
+<!-- dtl:document_ready -->
 <script type="text/javascript">//<![CDATA[
-function select_items (Type) {
-    for (var i = 0; i < document.matrix.elements[Type].length; i++) {
-        if ( document.matrixnavbar.Check.checked ) {
-            document.matrix.elements[Type][i].value = document.bulk[i].elements[Type].value;
-            document.bulk[i].elements[Type].checked = true;
-        }
-        else {
-            document.matrix.elements[Type][i].value = '';
-            document.bulk[i].elements[Type].checked = false;
-        }
-    }
-}
-function select_item (Counter, TicketID) {
-    if ( document.matrix.TicketID[Counter].value ) {
-        document.matrix.TicketID[Counter].value = '';
-    }
-    else {
-        document.matrix.TicketID[Counter].value = TicketID;
-    }
-}
-function select_item_check () {
-    for (var i = 0; i < document.matrix.TicketID.length; i++) {
-        if ( document.matrix.TicketID[i].value ) {
-            return true;
-        }
-    }
-    alert('$JSText{"You need min. one selected Ticket!"}');
-    return false;
-}
+    $(document).ready(function () {
+        OTRS.UI.ActionRow.Init();
+    });
 //]]></script>
+<!-- dtl:document_ready -->
 <ul id="TicketOverviewMedium" class="Overview OverviewMedium">
 <!-- dtl:block:DocumentHeader -->
 
@@ -69,10 +45,7 @@ function select_item_check () {
     <li id="TicketID_$QData{"TicketID"}">
         <div class="Content">
 <!-- dtl:block:Bulk -->
-            <form name="bulk" action="">
-#                <input class="Checkbox AutocompleteOff" type="checkbox" name="TicketID" value="$QData{"TicketID"}" onclick="select_item($QData{"Counter"},$QData{"TicketID"})" />
-                <input class="Checkbox AutocompleteOff" type="checkbox" name="TicketID" value="$QData{"TicketID"}" onclick="OTRS.UI.ActionRow.UpdateActionRow($(this), '#TicketOverviewMedium li input[name=TicketID]', $('div.OverviewActions ul.Actions'));" />
-            </form>
+            <input class="Checkbox AutocompleteOff" type="checkbox" name="TicketID" value="$QData{"TicketID"}" />
 <!-- dtl:block:Bulk -->
 <!-- dtl:block:Meta -->
 <!-- dtl:block:MetaIcon -->

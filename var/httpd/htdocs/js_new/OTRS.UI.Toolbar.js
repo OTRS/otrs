@@ -2,7 +2,7 @@
 // OTRS.UI.Toolbar.js - provides functions for the header toolbar
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Toolbar.js,v 1.3 2010-04-19 16:36:29 mg Exp $
+// $Id: OTRS.UI.Toolbar.js,v 1.4 2010-04-19 18:03:01 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -31,10 +31,7 @@ OTRS.UI.Toolbar = (function (TargetNS) {
      * @param {Function} EventFunction The function which should be executed on event (gets Parameter Event)
      */
     TargetNS.RegisterEvent = function (EventType, ElementID, EventFunction) {
-        var $Element = $('#' + ElementID);
-        if ($Element.length && $.isFunction(EventFunction)) {
-            $Element.bind(EventType, EventFunction);
-        }
+        OTRS.UI.RegisterEvent(EventType, '#' + ElementID, EventFunction);
     };
 
     return TargetNS;

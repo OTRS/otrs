@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.js,v 1.7 2010-04-19 16:36:29 mg Exp $
+// $Id: OTRS.UI.js,v 1.8 2010-04-19 18:03:01 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -214,6 +214,21 @@ OTRS.UI = (function (TargetNS) {
             OTRS.Debug.Log('Auto-generated required ID ' + ID + ' for element', $Element);
         }
         return ID;
+    };
+
+    /**
+     * @function
+     * @description
+     *      This function registers is the wrapper for registering an event on an HTML element.
+     * @param {String} EventType The event type (click, change, ...)
+     * @param {String} ElementSelector The Selector (jQuery) of the element on which the event is triggered
+     * @param {Function} EventFunction The function which should be executed on event (gets Parameter Event)
+     */
+    TargetNS.RegisterEvent = function (EventType, ElementSelector, EventFunction) {
+        var $Element = $(ElementSelector);
+        if ($Element.length && $.isFunction(EventFunction)) {
+            $Element.bind(EventType, EventFunction);
+        }
     };
 
     return TargetNS;
