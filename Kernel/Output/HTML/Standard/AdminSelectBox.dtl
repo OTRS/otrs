@@ -2,79 +2,88 @@
 # AdminSelectBox.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.dtl,v 1.1 2010-04-16 18:25:42 mg Exp $
+# $Id: AdminSelectBox.dtl,v 1.2 2010-04-19 23:49:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="MainBox ARIARoleMain">
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"SQL Box"}</h1>
 
-    <div class="WidgetGradient Short">
-        <div class="Header">
-            <h2>$Text{"Options"}</h2>
-        </div>
-        <div class="Content">
-
-            <form action="$Env{"CGIHandle"}" method="post">
-                <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                <input type="hidden" name="Subaction" value="Select"/>
-                <fieldset class="TableLike">
-
-                    <label for="SQL">$Text{"SQL"}:</label>
-                    <div class="Field">
-                        <textarea name="SQL" id="SQL" rows="3" cols="75">$QData{"SQL"}</textarea>
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="SQL">$Text{"Limit"}:</label>
-                    <div class="Field">
-                        <input type="text" name="Max" value="$QData{"Max"}" class="W50px" />
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="SQL">$Text{"Result format"}:</label>
-                    <div class="Field">
-                        $Data{"ResultFormatStrg"}
-                    </div>
-                    <div class="Clear"></div>
-
-                    <div class="Field SpacingTop">
-                        <button class="Primary" type="submit" value="$Text{"Run Query"}">$Text{"Run Query"}</button>
-                    </div>
-                </fieldset>
-            </form>
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header"></div>
+            <div class="Content"></div> <!-- intentionally empty -->
         </div>
     </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Options"}</h2>
+            </div>
+            <div class="Content">
+
+                <form action="$Env{"CGIHandle"}" method="post">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="Select"/>
+                    <fieldset class="TableLike FixedLabelSmall">
+
+                        <label for="SQL">$Text{"SQL"}:</label>
+                        <div class="Field">
+                            <textarea name="SQL" id="SQL" rows="3" class="W100pc">$QData{"SQL"}</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="SQL">$Text{"Limit"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Max" value="$QData{"Max"}" class="W50px" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="SQL">$Text{"Result format"}:</label>
+                        <div class="Field">
+                            $Data{"ResultFormatStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit" value="$Text{"Run Query"}">$Text{"Run Query"}</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
 
 
 
 <!-- dtl:block:Result -->
-    <div class="WidgetGradient Short">
-        <div class="Header">
-            <h2>$Text{"Results"}</h2>
-        </div>
-        <div class="Content">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Results"}</h2>
+            </div>
+            <div class="Content">
 
 <!-- dtl:block:ResultTableStart -->
-            <table class="DataTable">
-                <tbody>
+                <table class="DataTable">
+                    <tbody>
 <!-- dtl:block:ResultTableStart -->
 <!-- dtl:block:Row -->
-                    <tr>
+                        <tr>
 <!-- dtl:block:Cell -->
-                        <td title="$QData{"Content", "80"}">$QData{"Content", "12"}</td>
+                            <td title="$QData{"Content", "80"}">$QData{"Content", "12"}</td>
 <!-- dtl:block:Cell -->
-                    </tr>
+                        </tr>
 <!-- dtl:block:Row -->
 <!-- dtl:block:ResultTableEnd -->
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 <!-- dtl:block:ResultTableEnd -->
+            </div>
         </div>
-    </div>
 <!-- dtl:block:Result -->
-
+    </div>
+    <div class="Clear"></div>
 </div>
