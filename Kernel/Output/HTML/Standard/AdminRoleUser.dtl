@@ -128,7 +128,7 @@ function select_items (Type) {
                                 <th>$Text{"$QData{"NeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="Center $QData{"Mark"}">
-                                    <input type="checkbox" name="Active" id="Active" title="$Text{"Toggle active state for all"}" value="" onclick="select_items('Active');" />
+                                    <input type="checkbox" name="$QData{"Type"}" name="$QData{"Type"}" title="$Text{"Toggle active state for all"}" value="" onclick="select_items('$QData{"Type"}');" />
                                     $Text{"Active"}
                                 </th>
 <!-- dtl:block:ChangeHeader -->
