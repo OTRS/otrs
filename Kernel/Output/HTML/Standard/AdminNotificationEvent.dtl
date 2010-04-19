@@ -2,7 +2,7 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.2 2010-04-19 18:08:12 cg Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.3 2010-04-19 18:35:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,7 +94,7 @@
                             $Text{"Service"}:
                         </label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc OTRS_Validate_Required $Data{"NameServerError"}" maxlength="50"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $Data{"NameServerError"}" maxlength="50"/>
                             <div id="NameError" class="TooltipErrorMessage">
                                 <p><strong>$Text{"The field is required"}</strong></p>
                             </div>
@@ -250,7 +250,7 @@
                             $Text{"Subject"}:
                         </label>
                         <div class="Field">
-                            <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc OTRS_Validate_Required $Data{"SubjectServerError"}" maxlength="120"/>
+                            <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_Required $Data{"SubjectServerError"}" maxlength="120"/>
                             <div id="SubjectError" class="TooltipErrorMessage">
                                 <p><strong>$Text{"The field is required"}</strong></p>
                             </div>
@@ -265,7 +265,7 @@
                             $Text{"Text"}:
                         </label>
                         <div class="Field">
-                            <textarea rows="12" cols="75" name="Body" id="Body" wrap="$Env{"BrowserWrap"}" class="OTRS_Validate_Required $Data{"BodyServerError"}">$QData{"Body"}</textarea>
+                            <textarea rows="12" cols="75" name="Body" id="Body" wrap="$Env{"BrowserWrap"}" class="Validate_Required $Data{"BodyServerError"}">$QData{"Body"}</textarea>
                             <div id="BodyError" class="TooltipErrorMessage">
                                 <p><strong>$Text{"The field is required"}</strong></p>
                             </div>
