@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.72 2010-04-16 21:48:16 mn Exp $
+# $Id: Header.dtl,v 1.73 2010-04-19 18:18:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@ $Include{"Copyright"}
     <![endif]-->
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>
-<body class="$QData{"BodyCSS"}">
+<body class="$QData{"BodyClass"}">
     <a name="Top"></a>
     <div id="Header" class="ARIARoleBanner">
         <div id="Logo"></div>
@@ -128,10 +128,10 @@ $Include{"Copyright"}
 <!-- /Debug -->
 <!-- dtl:block:Login -->
             $Text{"You are logged in as"}
-            <a href="$Env{"Baselink"}Action=AgentPreferences" title="Edit personal preferences">$Env{"UserFirstname"} $Env{"UserLastname"}</a>
+            <a href="$Env{"Baselink"}Action=AgentPreferences" title="$Text{"Edit personal preferences"}">$Env{"UserFirstname"} $Env{"UserLastname"}</a>
 <!-- dtl:block:Login -->
 <!-- dtl:block:Logout -->
-            <a class="LogoutButton" href="$Env{"Baselink"}Action=Logout" title="Logout"></a>
+            <a class="LogoutButton" href="$Env{"Baselink"}Action=Logout" title="$Text{"Logout"}"></a>
 <!-- dtl:block:Logout -->
         </div>
     </div>

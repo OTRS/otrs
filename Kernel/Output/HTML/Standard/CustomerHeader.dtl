@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.32 2010-04-15 21:58:26 fn Exp $
+# $Id: CustomerHeader.dtl,v 1.33 2010-04-19 18:18:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,10 +48,12 @@ $Include{"Copyright"}
     <![endif]-->
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>
-<body>
+<body class="$QData{"BodyClass"}">
 <!-- start CI layout -->
     <div id="Header">
         <h1 class="CompanyName"><a href="">OTRS Company</a></h1>
     </div>
+#$Env{"UserFirstname"} $Env{"UserLastname"}
+#$Env{"UserLoginIdentifier"}
 <!-- end CI layout -->
 <!-- end header -->
