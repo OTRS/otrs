@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CreateTranslationFile.pl - create new translation file
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.1 2010-04-05 10:12:20 mb Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.2 2010-04-19 16:26:51 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Opts);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -39,14 +39,16 @@ use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::Time;
+use Kernel::System::DB;
 use Kernel::Language;
+use Kernel::System::SysConfig;
 
 # get opts
 getopt( 'olst', \%Opts );
 
 # print head
 print "otrs.CreateTranslationFile <Revision $VERSION> - create new translation file\n";
-print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 print "usage: otrs.CreateTranslationFile -l <Language> -t <dtl_files_or_directory>\n";
 
 # common objects
@@ -57,8 +59,10 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-CreateTranslationFile',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
+$CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
 
 # check params
 if ( !$Opts{l} ) {
@@ -102,10 +106,10 @@ $CommonObject{LanguageObject} = Kernel::Language->new(
 );
 
 # open .dtl files and write new translation file
-my $Data          = '';
-my %UsedWords     = ();
-my %UsedWordsMisc = ();
-my @List          = glob( $Opts{t} );
+my $Data = '';
+my %UsedWords;
+my %UsedWordsMisc;
+my @List = glob( $Opts{t} );
 for my $File (@List) {
     if ( open my $In, '<', $File ) {
         my $Content = '';
@@ -157,20 +161,16 @@ for my $File (@List) {
             if ( defined $1 ) {
                 $Word = $1;
             }
+
+            # ignore word if already used
             if ( $Word && !defined $UsedWords{$Word} ) {
-#                $UsedWords{$Word} = $CommonObject{LanguageObject}->Get($Word);
+
+                # remove it from misc list
                 $UsedWordsMisc{$Word} = 1;
+
+                # lookup for existing translation
                 $UsedWords{$Word} = $CommonObject{LanguageObject}->{Translation}->{$Word};
                 my $Translation = $UsedWords{$Word} || '';
-#                if ($Translation eq $Word) {
-#                    $Translation = '';
-#                }
-                if (!$UsedWords{$Word}) {
-                    $Translation = '';
-                }
-                if (!defined($UsedWords{$Word})) {
-                    $CommonObject{LanguageObject}->{Translation}->{$Word} = '';
-                }
                 $Translation =~ s/'/\\'/g;
                 my $Key = $Word;
                 $Key =~ s/'/\\'/g;
@@ -186,23 +186,48 @@ for my $File (@List) {
     }
 }
 
+# add sys config words
+print "# SysConfig\n";
+$Data .= "\n        # SysConfig\n";
+my @Strings = $CommonObject{SysConfigObject}->ConfigItemTranslatableStrings();
+for my $String ( sort @Strings ) {
+    next if !$String;
+
+    # ignore word if already used
+    next if defined $UsedWords{$String};
+
+    # remove it from misc list
+    $UsedWordsMisc{$String} = 1;
+
+    # lookup for existing translation
+    $UsedWords{$String} = $CommonObject{LanguageObject}->{Translation}->{$String};
+
+    my $Translation = $UsedWords{$String} || '';
+    $Translation =~ s/'/\\'/g;
+    my $Key = $String;
+    $Key =~ s/'/\\'/g;
+    $Data .= "        '$Key' => '$Translation',\n";
+}
+
 # add misc words
 print "# Misc\n";
 $Data .= "\n        # Misc\n";
 for my $Key ( keys %{ $CommonObject{LanguageObject}->{Translation} } ) {
-    if ( !$UsedWordsMisc{$Key} ) {
-        my $Translation = $CommonObject{LanguageObject}->{Translation}->{$Key};
-        $Translation =~ s/'/\\'/g;
-        $Key         =~ s/'/\\'/g;
-        if ( $Key !~ /(a href|\$(Text|Quote)\{")/i ) {
-            $Data .= "        '$Key' => '$Translation',\n";
-        }
+
+    # ignore word if already used
+    next if $UsedWordsMisc{$Key};
+
+    my $Translation = $CommonObject{LanguageObject}->{Translation}->{$Key};
+    $Translation =~ s/'/\\'/g;
+    $Key         =~ s/'/\\'/g;
+    if ( $Key !~ /(a href|\$(Text|Quote)\{")/i ) {
+        $Data .= "        '$Key' => '$Translation',\n";
     }
 }
 
 # open old translation file
-my %MetaData = ();
-my $NewOut   = '';
+my %MetaData;
+my $NewOut = '';
 open( my $In, '<', $Opts{LanguageFile} ) || die "Can't open: $Opts{LanguageFile}\n";
 while (<$In>) {
     if ( !$MetaData{DataPrinted} ) {

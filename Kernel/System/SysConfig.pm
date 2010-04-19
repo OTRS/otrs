@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.3 2010-03-19 15:57:23 bes Exp $
+# $Id: SysConfig.pm,v 1.4 2010-04-19 16:26:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -1175,6 +1175,88 @@ sub ConfigItemSearch {
     return @List;
 }
 
+sub ConfigItemTranslatableStrings {
+    my ( $Self, %Param ) = @_;
+
+    # empty translation list
+    $Self->{ConfigItemTranslatableStrings} = {};
+
+    # get all groups
+    my %ConfigGroupList = $Self->ConfigGroupList();
+    for my $Group ( sort keys %ConfigGroupList ) {
+
+        # get all sub groups
+        my %ConfigSubGroupList = $Self->ConfigSubGroupList(
+            Name => $Group,
+        );
+        for my $SubGroup ( sort keys %ConfigSubGroupList ) {
+
+            # get items
+            my @ConfigItemList = $Self->ConfigSubGroupConfigItemList(
+                Group    => $Group,
+                SubGroup => $SubGroup,
+            );
+            for my $ConfigItem (@ConfigItemList) {
+
+                # get attributes of each config item
+                my %Config = $Self->ConfigItemGet(
+                    Name    => $ConfigItem,
+                    Default => 1,
+                );
+                next if !%Config;
+
+                # get translatable strings
+                $Self->_ConfigItemTranslatableStrings( Data => \%Config );
+            }
+        }
+    }
+
+    my @Strings;
+    for my $Key ( sort keys %{ $Self->{ConfigItemTranslatableStrings} } ) {
+        push @Strings, $Key;
+    }
+    return @Strings;
+}
+
+sub _ConfigItemTranslatableStrings {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Data)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # ARRAY
+    if ( ref $Param{Data} eq 'ARRAY' ) {
+        for my $Key ( @{ $Param{Data} } ) {
+            next if !$Key;
+            $Self->_ConfigItemTranslatableStrings( Data => $Key );
+        }
+        return;
+    }
+
+    # HASH
+    if ( ref $Param{Data} eq 'HASH' ) {
+        for my $Key ( keys %{ $Param{Data} } ) {
+            if (
+                ref $Param{Data}->{$Key} eq ''
+                && $Param{Data}->{Translatable}
+                && $Param{Data}->{Content}
+                )
+            {
+                return if !$Param{Data}->{Content};
+                return if $Param{Data}->{Content} =~ /^\d+$/;
+                $Self->{ConfigItemTranslatableStrings}->{ $Param{Data}->{Content} } = 1;
+            }
+            $Self->_ConfigItemTranslatableStrings( Data => $Param{Data}->{$Key} );
+        }
+    }
+    return;
+}
+
 sub DataDiff {
     my ( $Self, %Param ) = @_;
 
@@ -1728,6 +1810,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2010-03-19 15:57:23 $
+$Revision: 1.4 $ $Date: 2010-04-19 16:26:51 $
 
 =cut
