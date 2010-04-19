@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.dtl,v 1.5 2010-04-15 18:29:28 mn Exp $
+# $Id: AdminAutoResponse.dtl,v 1.6 2010-04-19 23:40:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -95,7 +95,7 @@ $Include{"RichTextEditor"}
                         <div class="Clear"></div>
 
                         <label for="RichText">$Text{"Response"}:</label>
-                        <div class="Field">
+                        <div class="RichTextField">
                             <textarea id="RichText" rows="10" cols="60" name="Response">$QData{"Response"}</textarea>
                         </div>
                         <div class="Clear"></div>

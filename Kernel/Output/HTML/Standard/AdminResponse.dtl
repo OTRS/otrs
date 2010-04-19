@@ -2,7 +2,7 @@
 # AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.7 2010-04-19 23:16:07 mg Exp $
+# $Id: AdminResponse.dtl,v 1.8 2010-04-19 23:40:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -108,7 +108,7 @@ $Include{"RichTextEditor"}
                         <div class="Clear"></div>
 
                         <label for="RichText">$Text{"Response"}:</label>
-                        <div class="RichtextField">
+                        <div class="RichTextField">
                             <textarea id="RichText" rows="10" cols="60" name="Response">$QData{"Response"}</textarea>
                         </div>
                         <div class="Clear"></div>

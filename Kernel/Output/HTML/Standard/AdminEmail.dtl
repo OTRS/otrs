@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.33 2010-04-16 16:31:36 mn Exp $
+# $Id: AdminEmail.dtl,v 1.34 2010-04-19 23:40:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,96 +12,106 @@
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-<div class="MainBox ARIARoleMain">
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Admin Notification"}</h1>
 
-    <div class="WidgetGradient Short">
-        <div class="Header">
-            <h2>$Text{"Send Administrative Message to Agents"}</h2>
-        </div>
-        <div class="Content">
-
-<!-- dtl:block:Sent -->
-            <p>
-                $Text{"Your message was sent to"}: $Data{"Bcc"}
-            </p>
-<!-- dtl:block:Sent -->
-
-<!-- dtl:block:Form -->
-            <form action="$Env{"CGIHandle"}" method="post" name="compose" class="Validate">
-                <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                <input type="hidden" name="Subaction" value="Send"/>
-
-                <fieldset class="TableLike">
-                    <label for="From">$Text{"From"}:</label>
-                    <div class="Field">
-                        <input type="text" name="From" id="From" value="$Config{"AdminEmail"}" class="W50pc" />
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="UserIDs">$Text{"Send message to users"}:</label>
-                    <div class="Field">
-                        $Data{"UserOption"}
-                    </div
-                    <div class="Clear"></div>
-
-                    <label for="GroupIDs">$Text{"Send message to group members"}:</label>
-                    <div class="Field">
-                        $Data{"GroupOption"}
-                    </div
-                    <div class="Clear"></div>
-
-                    <label for="GroupPermissionRO">$Text{"Group members need to have permission"}:</label>
-                    <div class="Field">
-                        <input type="radio" name="GroupPermission" id="GroupPermissionRO" value="ro" checked="checked" />
-                        <label for="GroupPermissionRO">ro</label>
-                        <br/>
-                        <input type="radio" name="GroupPermission" id="GroupPermissionRW" value="rw"/>
-                        <label for="GroupPermissionRW">rw</label>
-                    </div
-                    <div class="Clear"></div>
-
-<!-- dtl:block:RoleRecipients -->
-                    <label for="RoleIDs">$Text{"Send message to role members"}:</label>
-                    <div class="Field">
-                        $Data{"RoleOption"}
-                    </div
-                    <div class="Clear"></div>
-<!-- dtl:block:RoleRecipients -->
-
-<!-- dtl:block:CustomerUserGroups -->
-                    <label for="NotifyCustomerUsers">$Text{"Also send CustomerUsers in Groups"}:</label>
-                    <div class="Field">
-                        <input type="checkbox" name="NotifyCustomerUsers" id="NotifyCustomerUsers" />
-                    </div
-                    <div class="Clear"></div>
-<!-- dtl:block:CustomerUserGroups -->
-
-                    <label for="Subject" class="Mandatory">
-                        <span class="Marker">*</span>
-                        $Text{"Subject"}:
-                    </label>
-                    <div class="Field">
-                        <input type="text" name="Subject" id="Subject" class="Validate_Required" value="$QData{"Subject"}" class="W100pc" />
-                        <div id="SubjectError" class="TooltipErrorMessage">
-                            <p>$Text{"Please enter subject."}</p>
-                        </div>
-                    </div>
-
-                    <label for="RichText">$Text{"Body"}:</label>
-                    <div class="Field">
-                        <textarea id="RichText" name="Body" rows="16" class="W100pc">$QData{"Body"}</textarea>
-                    </div>
-
-                    <div class="Field">
-                        <button class="button" id="submitRichText" type="submit" value="$Text{"Send"}">$Text{"Send"}</button>
-                    </div>
-                    <div class="Clear"></div>
-
-                </fieldset>
-            </form>
-<!-- dtl:block:Form -->
-
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header"></div>
+            <div class="Content"></div> <!-- intentionally empty -->
         </div>
     </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Send Administrative Message to Agents"}</h2>
+            </div>
+            <div class="Content">
+
+<!-- dtl:block:Sent -->
+                <p>
+                    $Text{"Your message was sent to"}: $Data{"Bcc"}
+                </p>
+<!-- dtl:block:Sent -->
+
+<!-- dtl:block:Form -->
+                <form action="$Env{"CGIHandle"}" method="post" name="compose" class="Validate">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="Send"/>
+
+                    <fieldset class="TableLike">
+                        <label for="From">$Text{"From"}:</label>
+                        <div class="Field">
+                            <input type="text" name="From" id="From" value="$Config{"AdminEmail"}" class="W75pc" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="UserIDs">$Text{"Send message to users"}:</label>
+                        <div class="Field">
+                            $Data{"UserOption"}
+                        </div
+                        <div class="Clear"></div>
+
+                        <label for="GroupIDs">$Text{"Send message to group members"}:</label>
+                        <div class="Field">
+                            $Data{"GroupOption"}
+                        </div
+                        <div class="Clear"></div>
+
+                        <label for="GroupPermissionRO">$Text{"Group members need to have permission"}:</label>
+                        <div class="Field">
+                            <input type="radio" name="GroupPermission" id="GroupPermissionRO" value="ro" checked="checked" />
+                            <label for="GroupPermissionRO">ro</label>
+                            <br/>
+                            <input type="radio" name="GroupPermission" id="GroupPermissionRW" value="rw"/>
+                            <label for="GroupPermissionRW">rw</label>
+                        </div
+                        <div class="Clear"></div>
+
+<!-- dtl:block:RoleRecipients -->
+                        <label for="RoleIDs">$Text{"Send message to role members"}:</label>
+                        <div class="Field">
+                            $Data{"RoleOption"}
+                        </div
+                        <div class="Clear"></div>
+<!-- dtl:block:RoleRecipients -->
+
+<!-- dtl:block:CustomerUserGroups -->
+                        <label for="NotifyCustomerUsers">$Text{"Also send CustomerUsers in Groups"}:</label>
+                        <div class="Field">
+                            <input type="checkbox" name="NotifyCustomerUsers" id="NotifyCustomerUsers" />
+                        </div
+                        <div class="Clear"></div>
+<!-- dtl:block:CustomerUserGroups -->
+
+                        <label for="Subject" class="Mandatory">
+                            <span class="Marker">*</span>
+                            $Text{"Subject"}:
+                        </label>
+                        <div class="Field">
+                            <input type="text" name="Subject" id="Subject" class="W75pc Validate_Required" value="$QData{"Subject"}" />
+                            <div id="SubjectError" class="TooltipErrorMessage">
+                                <p>$Text{"Please enter subject."}</p>
+                            </div>
+                        </div>
+
+                        <label for="RichText">$Text{"Body"}:</label>
+                        <div class="RichTextField">
+                            <textarea id="RichText" name="Body" rows="16" class="W100pc">$QData{"Body"}</textarea>
+                        </div>
+
+                        <div class="Field">
+                            <button class="button" id="submitRichText" type="submit" value="$Text{"Send"}">$Text{"Send"}</button>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </form>
+<!-- dtl:block:Form -->
+
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
 </div>
