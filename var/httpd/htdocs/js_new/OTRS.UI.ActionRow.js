@@ -2,7 +2,7 @@
 // OTRS.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.ActionRow.js,v 1.5 2010-04-19 18:03:01 mn Exp $
+// $Id: OTRS.UI.ActionRow.js,v 1.6 2010-04-19 18:21:48 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -156,7 +156,7 @@ OTRS.UI.ActionRow = (function (TargetNS) {
      * @param {String} ElementSelector The Selector (jQuery) of the element on which the event is triggered
      * @param {Function} EventFunction The function which should be executed on event (gets Parameter Event)
      */
-    Namespace.RegisterEvent = function (EventType, ElementSelector, EventFunction) {
+    TargetNS.RegisterEvent = function (EventType, ElementSelector, EventFunction) {
         OTRS.UI.RegisterEvent(EventType, ElementSelector, EventFunction);
     };
 
@@ -166,7 +166,7 @@ OTRS.UI.ActionRow = (function (TargetNS) {
      *      This function initializes the complete ActionRow funcionality and binds all click events.
      * @return nothing
      */
-    Namespace.Init = function () {
+    TargetNS.Init = function () {
         // Get used ticket view mode
         if ($('#TicketOverviewMedium').length) {
             TicketView = 'Medium';
@@ -178,16 +178,16 @@ OTRS.UI.ActionRow = (function (TargetNS) {
             TicketView = 'Small';
         }
 
-        Namespace.RegisterEvent('click', '#SelectAllTickets', function () {
+        TargetNS.RegisterEvent('click', '#SelectAllTickets', function () {
             var Status = $(this).attr('checked');
             $(TicketElementSelectors[TicketView]).attr('checked', Status).triggerHandler('click');
         });
 
-        Namespace.RegisterEvent('click', TicketElementSelectors[TicketView], function () {
+        TargetNS.RegisterEvent('click', TicketElementSelectors[TicketView], function () {
             OTRS.UI.ActionRow.UpdateActionRow($(this), TicketElementSelectors[TicketView], $('div.OverviewActions ul.Actions'));
         });
 
-        Namespace.RegisterEvent('click', 'BulkAction a', function () {
+        TargetNS.RegisterEvent('click', 'BulkAction a', function () {
             var $Element = $(this),
                 $SelectedTickets,
                 TicketIDParameter = "TicketID=",
