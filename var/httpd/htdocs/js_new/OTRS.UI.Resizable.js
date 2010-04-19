@@ -2,7 +2,7 @@
 // OTRS.UI.Resizable.js - Resizable
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Resizable.js,v 1.4 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.UI.Resizable.js,v 1.5 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,11 @@ OTRS.UI = OTRS.UI || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.UI.Resizable
  * @description
  *      Contains the code for resizable elements.
  */
-OTRS.UI.Resizable = (function (Namespace) {
+OTRS.UI.Resizable = (function (TargetNS) {
     /**
      * @function
      * @description
@@ -27,7 +28,7 @@ OTRS.UI.Resizable = (function (Namespace) {
      * @param {String} Selector jQuery selector of the element, which should be resizable
      * @return nothing
      */
-    Namespace.Init = function (Selector) {
+    TargetNS.Init = function (Selector) {
         var $Selector = $(Selector),
             ScrollerHeight = 140;
 
@@ -49,5 +50,5 @@ OTRS.UI.Resizable = (function (Namespace) {
         }
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.UI.Resizable || {}));

@@ -2,7 +2,7 @@
 // OTRS.JSON.js - Resizable
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.JSON.js,v 1.2 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.JSON.js,v 1.3 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,11 @@ var OTRS = OTRS || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.JSON
  * @description
  *      Contains the code for the JSON functions.
  */
-OTRS.JSON = (function (Namespace) {
+OTRS.JSON = (function (TargetNS) {
 
     if (!OTRS.Debug.CheckDependency('OTRS.JSON', 'JSON.parse', 'JSON parser')) {
         return;
@@ -31,7 +32,7 @@ OTRS.JSON = (function (Namespace) {
      * @param {String} JSONString The string which should be parsed
      * @return {Object} The parsed JSON object
      */
-    Namespace.Parse = function (JSONString) {
+    TargetNS.Parse = function (JSONString) {
         var JSONObject;
 
         try {
@@ -51,7 +52,7 @@ OTRS.JSON = (function (Namespace) {
      * @param {Object} JSONObject The object which should be stringified
      * @return {String} The stringified JSON object
      */
-    Namespace.Stringify = function (JSONObject) {
+    TargetNS.Stringify = function (JSONObject) {
         var JSONString;
 
         try {
@@ -64,5 +65,5 @@ OTRS.JSON = (function (Namespace) {
         return JSONString;
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.JSON || {}));

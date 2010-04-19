@@ -2,7 +2,7 @@
 // OTRS.Forms.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.js,v 1.2 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.Forms.js,v 1.3 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,11 @@ var OTRS = OTRS || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.Forms
  * @description
  *      This namespace contains all form functions.
  */
-OTRS.Forms = (function (Namespace) {
+OTRS.Forms = (function (TargetNS) {
     /**
      * @function
      * @param {jQueryObject} $Form All elements of this form will be disabled
@@ -26,7 +27,7 @@ OTRS.Forms = (function (Namespace) {
      *      This function disables all elements of the given form. If no form given, it disables all form elements on the site.
      * @return nothing
      */
-    Namespace.DisableForm = function ($Form) {
+    TargetNS.DisableForm = function ($Form) {
         // If no form is given, disable all form elements on the complete site
         if (typeof $Form === 'undefined') {
             $Form = $('body');
@@ -47,7 +48,7 @@ OTRS.Forms = (function (Namespace) {
      *      This function enables all elements of the given form. If no form given, it enables all form elements on the site.
      * @return nothing
      */
-    Namespace.EnableForm = function ($Form) {
+    TargetNS.EnableForm = function ($Form) {
         // If no form is given, enable all form elements on the complete site
         if (typeof $Form === 'undefined') {
             $Form = $('body');
@@ -60,5 +61,5 @@ OTRS.Forms = (function (Namespace) {
             .find('button')
             .removeAttr('disabled');
     };
-    return Namespace;
+    return TargetNS;
 }(OTRS.Forms || {}));

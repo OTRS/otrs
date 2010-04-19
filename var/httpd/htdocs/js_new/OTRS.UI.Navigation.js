@@ -2,7 +2,7 @@
 // OTRS.UI.Navigation.js - provides JS code for navigation
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Navigation.js,v 1.4 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.UI.Navigation.js,v 1.5 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,11 @@ OTRS.UI = OTRS.UI || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.UI.Navigation
  * @description
  *      This namespace contains the main navigation related JS code.
  */
-OTRS.UI.Navigation = (function (Namespace) {
+OTRS.UI.Navigation = (function (TargetNS) {
     /*
      * private variables for navigation
      */
@@ -31,7 +32,7 @@ OTRS.UI.Navigation = (function (Namespace) {
      * @return nothing
      *      This function initializes the main navigation
      */
-    Namespace.Init = function () {
+    TargetNS.Init = function () {
         function CreateSubnavCloseTimeout($Element, TimeoutFunction) {
             NavigationTimer[$Element.attr('id')] = setTimeout(TimeoutFunction, NavigationDuration);
         }
@@ -109,5 +110,5 @@ OTRS.UI.Navigation = (function (Namespace) {
             return $('ul', this).length;
         }).attr('aria-haspopup', 'true');
     };
-    return Namespace;
+    return TargetNS;
 }(OTRS.UI.Navigation || {}));

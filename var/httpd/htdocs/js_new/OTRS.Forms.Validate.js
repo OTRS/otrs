@@ -2,7 +2,7 @@
 // OTRS.Forms.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.Validate.js,v 1.4 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.Forms.Validate.js,v 1.5 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,12 +16,13 @@ OTRS.Forms = OTRS.Forms || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.Forms.Validate
  * @description
  *      This namespace contains all validation functions.
  * @requires
  *      OTRS.UI.Accessibility
  */
-OTRS.Forms.Validate = (function (Namespace) {
+OTRS.Forms.Validate = (function (TargetNS) {
     var Options = {
         FormClass:          'Validate',
         ErrorClass:         'Error',
@@ -212,7 +213,7 @@ OTRS.Forms.Validate = (function (Namespace) {
      *      This function initializes the validation on all forms on the page which have a class named "Validate"
      * @return nothing
      */
-    Namespace.Init = function () {
+    TargetNS.Init = function () {
         var i = 0,
             FormSelector,
             $ServerErrors;
@@ -253,7 +254,7 @@ OTRS.Forms.Validate = (function (Namespace) {
      * @param {Function} Func the function, which is executed on successful submitting the form. Gets the submitted form as a parameter.
      * @return nothing
      */
-    Namespace.SetSubmitFunction = function (FormID, Func) {
+    TargetNS.SetSubmitFunction = function (FormID, Func) {
         if ($.isFunction(Func) && $('#' + FormID).length) {
             Options.SubmitFunction[FormID] = Func;
         }
@@ -269,7 +270,7 @@ OTRS.Forms.Validate = (function (Namespace) {
      *                   (parameter: the element which should be checked; returns true, if rule should be checked)
      * @return nothing
      */
-    Namespace.AddDependingValidation = function (Name, Basis, Depends) {
+    TargetNS.AddDependingValidation = function (Name, Basis, Depends) {
         var RuleHash = {};
         RuleHash[Basis] = {
             depends: Depends
@@ -285,7 +286,7 @@ OTRS.Forms.Validate = (function (Namespace) {
      * @param {Function} Function This function defines the specific validation method (parameter: value, element, params). Returns true if the element is valid.
      * @return nothing
      */
-    Namespace.AddMethod = function (Name, Function) {
+    TargetNS.AddMethod = function (Name, Function) {
         if (Name && $.isFunction(Function)) {
             $.validator.addMethod(Name, Function, "");
         }
@@ -299,11 +300,11 @@ OTRS.Forms.Validate = (function (Namespace) {
      * @param {Object} MethodHash This JS object defines, which methods should be included in this rule, e.g. { OTRS_Validate_Required: true, OTRS-Validate_MinLength: 2 }
      * @return nothing
      */
-    Namespace.AddRule = function (Name, MethodHash) {
+    TargetNS.AddRule = function (Name, MethodHash) {
         if (Name && typeof MethodHash === "Object") {
             $.validator.addClassRules(Name, MethodHash);
         }
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.Forms.Validate || {}));

@@ -2,7 +2,7 @@
 // OTRS.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Dialog.js,v 1.8 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.UI.Dialog.js,v 1.9 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,11 @@ OTRS.UI = OTRS.UI || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.UI.Dialog
  * @description
  *      Contains the code for the different dialogs.
  */
-OTRS.UI.Dialog = (function (Namespace) {
+OTRS.UI.Dialog = (function (TargetNS) {
     /**
      * @function
      * @private
@@ -55,9 +56,9 @@ OTRS.UI.Dialog = (function (Namespace) {
      *              Needs the Object "OTRS.UI.Dialog.$FocusableElements" to be initialized and filled (with function GetFocusableElements()).
      */
     function FocusElement(Position) {
-        if (typeof Namespace.$FocusableElements !== 'undefined' && Namespace.$FocusableElements.length > Position) {
-            $(Namespace.$FocusableElements[Position]).focus();
-            Namespace.FocusedElement = Position;
+        if (typeof TargetNS.$FocusableElements !== 'undefined' && TargetNS.$FocusableElements.length > Position) {
+            $(TargetNS.$FocusableElements[Position]).focus();
+            TargetNS.FocusedElement = Position;
         }
     }
 
@@ -99,11 +100,11 @@ OTRS.UI.Dialog = (function (Namespace) {
                 }
                 else {
                     // Jump to the previous focusable element in the dialog
-                    if (Namespace.FocusedElement === 0) {
-                        FocusElement(Namespace.$FocusableElements.length - 1);
+                    if (TargetNS.FocusedElement === 0) {
+                        FocusElement(TargetNS.$FocusableElements.length - 1);
                     }
                     else {
-                        FocusElement(Namespace.FocusedElement - 1);
+                        FocusElement(TargetNS.FocusedElement - 1);
                     }
                 }
                 event.preventDefault();
@@ -117,11 +118,11 @@ OTRS.UI.Dialog = (function (Namespace) {
                 }
                 else {
                     // Jump to next focusable element in the dialog
-                    if (Namespace.FocusedElement === (Namespace.$FocusableElements.length - 1)) {
+                    if (TargetNS.FocusedElement === (TargetNS.$FocusableElements.length - 1)) {
                         FocusFirstElement();
                     }
                     else {
-                        FocusElement(Namespace.FocusedElement + 1);
+                        FocusElement(TargetNS.FocusedElement + 1);
                     }
                 }
                 event.preventDefault();
@@ -130,7 +131,7 @@ OTRS.UI.Dialog = (function (Namespace) {
             }
             // Escape pressed and CloseOnEscape is true
             else if (event.keyCode === 27 && CloseOnEscape) {
-                Namespace.CloseDialog($('div.Dialog:visible'));
+                TargetNS.CloseDialog($('div.Dialog:visible'));
                 event.preventDefault();
                 event.stopPropagation();
                 return false;
@@ -163,7 +164,7 @@ OTRS.UI.Dialog = (function (Namespace) {
 
         // Close all opened dialogs
         if ($('.Dialog:visible').length) {
-            Namespace.CloseDialog($('.Dialog:visible'));
+            TargetNS.CloseDialog($('.Dialog:visible'));
         }
 
         // If Dialog is a modal dialog, initialize overlay
@@ -278,7 +279,7 @@ OTRS.UI.Dialog = (function (Namespace) {
                 Params.OnClose();
             }
             else {
-                Namespace.CloseDialog(this);
+                TargetNS.CloseDialog(this);
             }
             return false;
         });
@@ -290,7 +291,7 @@ OTRS.UI.Dialog = (function (Namespace) {
              */
             $(document).unbind('click.Dialog').bind('click.Dialog', function (event) {
                 if ($(event.target).closest('div.Dialog').length === 0) {
-                    Namespace.CloseDialog($('div.Dialog:visible'));
+                    TargetNS.CloseDialog($('div.Dialog:visible'));
                 }
             });
         }
@@ -301,7 +302,7 @@ OTRS.UI.Dialog = (function (Namespace) {
         });
 
         // Init KeyEvent-Logger
-        Namespace.$FocusableElements = GetFocusableElements();
+        TargetNS.$FocusableElements = GetFocusableElements();
         InitKeyEvent(Params.CloseOnEscape);
 
         // Focus first focusable element
@@ -319,13 +320,13 @@ OTRS.UI.Dialog = (function (Namespace) {
      * @field
      * @description This variable contains al focusable elements of the open dialog.
      */
-    Namespace.$FocusableElements = [];
+    TargetNS.$FocusableElements = [];
 
     /**
      * @field
      * @description The latest focused element of the open dialog.
      */
-    Namespace.FocusedElement = 0;
+    TargetNS.FocusedElement = 0;
 
     /**
      * @function
@@ -338,7 +339,7 @@ OTRS.UI.Dialog = (function (Namespace) {
      * @param Modal If defined and set to true, an overlay is shown for a modal dialog
      * @return nothing
      */
-    Namespace.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal) {
+    TargetNS.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal) {
         ShowDialog({
             HTML: HTML,
             Title: Title,
@@ -359,7 +360,7 @@ OTRS.UI.Dialog = (function (Namespace) {
      * @param CloseFunction The special function which is started on closing the dialog (optional, if used also the removing of the dialog itself must be handled)
      * @return nothing
      */
-    Namespace.ShowAlert = function (Headline, Text, CloseFunction) {
+    TargetNS.ShowAlert = function (Headline, Text, CloseFunction) {
         ShowDialog({
             Type: 'Alert',
             Modal: true,
@@ -376,7 +377,7 @@ OTRS.UI.Dialog = (function (Namespace) {
      * @param Object The javascript or jQuery object that defines the dialog or any child element of it, which should be closed
      * @return nothing
      */
-    Namespace.CloseDialog = function (Object) {
+    TargetNS.CloseDialog = function (Object) {
         $(Object).closest('.Dialog').remove();
         $('#Overlay').remove();
         $('body').css({
@@ -395,7 +396,7 @@ OTRS.UI.Dialog = (function (Namespace) {
      * @param Object Params The dialog parameters
      * @return nothing
      */
-    Namespace.RegisterDialog = function ($Selector, Params) {
+    TargetNS.RegisterDialog = function ($Selector, Params) {
         $Selector.click(function (event) {
             ShowDialog(Params);
             event.preventDefault();
@@ -412,7 +413,7 @@ OTRS.UI.Dialog = (function (Namespace) {
      * @param String HTMLString The HTML data to be shown in the dialog, can also be the ID of a HTML containing element
      * @return nothing
      */
-    Namespace.RegisterAttachmentDialog = function ($Selector) {
+    TargetNS.RegisterAttachmentDialog = function ($Selector) {
         $Selector.click(function (event) {
             var Position, HTML, $HTMLObject;
             if ($(this).attr('rel') && $('#' + $(this).attr('rel')).length) {
@@ -427,5 +428,5 @@ OTRS.UI.Dialog = (function (Namespace) {
         });
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.UI.Dialog || {}));

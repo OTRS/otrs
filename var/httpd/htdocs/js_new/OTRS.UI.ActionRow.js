@@ -2,7 +2,7 @@
 // OTRS.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.ActionRow.js,v 1.3 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.UI.ActionRow.js,v 1.4 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,14 @@ OTRS.UI = OTRS.UI || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.UI.ActionRow
  * @description
  *      Action row functionality
  * @requires
  *      OTRS.JSON
  *      OTRS.Data
  */
-OTRS.UI.ActionRow = (function (Namespace) {
+OTRS.UI.ActionRow = (function (TargetNS) {
 
     if (!OTRS.Debug.CheckDependency('OTRS.UI.ActionRow', 'OTRS.JSON', 'OTRS JSON API')) {
         return;
@@ -44,7 +45,7 @@ OTRS.UI.ActionRow = (function (Namespace) {
      * @return nothing
      *
      */
-    Namespace.AddActions = function (ID, JSONString) {
+    TargetNS.AddActions = function (ID, JSONString) {
         var $ID = $('#' + ID),
             Actions;
         // The element of the given ID must exist, JSONString must not be empty
@@ -64,7 +65,7 @@ OTRS.UI.ActionRow = (function (Namespace) {
         }
     };
 
-    Namespace.UpdateActionRow = function ($ClickedElement, CheckboxSelector, $ActionRow) {
+    TargetNS.UpdateActionRow = function ($ClickedElement, CheckboxSelector, $ActionRow) {
         var $Checkboxes,
             TicketActionData,
             ActionRowElement;
@@ -129,5 +130,5 @@ OTRS.UI.ActionRow = (function (Namespace) {
         }
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.UI.ActionRow || {}));

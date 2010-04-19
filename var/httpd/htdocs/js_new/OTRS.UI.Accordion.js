@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Accordion.js,v 1.4 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.UI.Accordion.js,v 1.5 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,11 @@ OTRS.UI = OTRS.UI || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.UI.Accordion
  * @description
  *      This namespace contains the Accordion code
  */
-OTRS.UI.Accordion = (function (Namespace) {
+OTRS.UI.Accordion = (function (TargetNS) {
     var AccordionAnimationRunning = false;
 
     /**
@@ -28,7 +29,7 @@ OTRS.UI.Accordion = (function (Namespace) {
      *      This function checks, if an accordion animation is currently running
      * @return boolean
      */
-    Namespace.AnimationIsRunning = function () {
+    TargetNS.AnimationIsRunning = function () {
         return AccordionAnimationRunning;
     };
 
@@ -38,7 +39,7 @@ OTRS.UI.Accordion = (function (Namespace) {
      *      This function indicates that an accordion animation is now running
      * @return nothing
      */
-    Namespace.StartAnimation = function () {
+    TargetNS.StartAnimation = function () {
         AccordionAnimationRunning = true;
     };
 
@@ -48,7 +49,7 @@ OTRS.UI.Accordion = (function (Namespace) {
      *      This function indicates that all accordion animations have stopped now
      * @return nothing
      */
-    Namespace.StopAnimation = function () {
+    TargetNS.StopAnimation = function () {
         AccordionAnimationRunning = false;
     };
 
@@ -61,7 +62,7 @@ OTRS.UI.Accordion = (function (Namespace) {
      * @param {String} ContentSelector The selector for the content, which is shown or hide
      * @return nothing
      */
-    Namespace.Init = function ($Element, LinkSelector, ContentSelector) {
+    TargetNS.Init = function ($Element, LinkSelector, ContentSelector) {
         // If no accordion element is found, stop
         if (typeof $Element === 'undefined' || $Element.length === 0) {
             return false;
@@ -86,11 +87,11 @@ OTRS.UI.Accordion = (function (Namespace) {
             }
 
             // if another accordion animation is currently running, so nothing
-            if (Namespace.AnimationIsRunning()) {
+            if (TargetNS.AnimationIsRunning()) {
                 return false;
             }
 
-            Namespace.StartAnimation();
+            TargetNS.StartAnimation();
 
             $AllListElements = $ListElement.parent('ul').find('li');
             $ActiveListElement = $AllListElements.filter('.Active');
@@ -100,7 +101,7 @@ OTRS.UI.Accordion = (function (Namespace) {
             $ActiveListElement.find(ContentSelector).add($ListElement.find(ContentSelector)).slideToggle("slow", function () {
                 $AllListElements.find('div.Content div').css('overflow', 'scroll');
                 $(this).closest('li').toggleClass('Active');
-                Namespace.StopAnimation();
+                TargetNS.StopAnimation();
             });
 
             // always return false, because otherwise the url in the clicked link would be loaded
@@ -108,5 +109,5 @@ OTRS.UI.Accordion = (function (Namespace) {
         });
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.UI.Accordion || {}));

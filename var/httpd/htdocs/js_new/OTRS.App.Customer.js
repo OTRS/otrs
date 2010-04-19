@@ -2,7 +2,7 @@
 // OTRS.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Customer.js,v 1.2 2010-04-16 18:07:45 fn Exp $
+// $Id: OTRS.App.Customer.js,v 1.3 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,34 +16,35 @@ OTRS.App = OTRS.App || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.App.Customer
  * @description
  *      This namespace contains all form functions.
  */
-OTRS.App.Customer = (function (Namespace) {
+OTRS.App.Customer = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function initializes the login functions. 
+     *      This function initializes the login functions.
      *      In the login we have three steps:
      *      1. input field gets focused -> label gets greyed out via class="focused"
      *      2. something is typed -> label gets hidden
      *      3. user leaves input field -> if the field is blank the label gets shown again, 'focused' class gets removed
-     *      After the bindings of the functions to the input fields the 
+     *      After the bindings of the functions to the input fields the
      * @return nothing
      */
-    Namespace.InitLogin = function() {
+    TargetNS.InitLogin = function() {
         var Inputs = $('input').not(':checkbox, :hidden'),
             Now = new Date(),
             Diff = Now.getTimezoneOffset();
-            
+
         $('#TimeOffset').val(Diff);
-        
+
         Inputs
             .focus(function(){
                 $(this).prev('label').addClass('focused');
             })
             .bind('keyup change', function(){
-                Namespace.ToggleLabel($(this));
+                TargetNS.ToggleLabel($(this));
             })
             .blur(function(){
                 if (!$(this).val()) {
@@ -54,17 +55,17 @@ OTRS.App.Customer = (function (Namespace) {
             .first().focus();
         CheckInputs(Inputs);
     };
-    
+
     /**
      * @function
      * @param {DOMObject} $PopulatedInput is a filled out input filled
      * @description
-     *      This function hides the label of the given field if there is value in the field. 
+     *      This function hides the label of the given field if there is value in the field.
      *      If there is no value in the given field the label is made visible.
      * @return nothing
      */
-    
-    Namespace.ToggleLabel = function(PopulatedInput){
+
+    TargetNS.ToggleLabel = function(PopulatedInput){
         if ($(PopulatedInput).val() != "") {
             $(PopulatedInput).prev('label').hide();
         }
@@ -76,7 +77,7 @@ OTRS.App.Customer = (function (Namespace) {
     /**
      * @function
      * @description
-     *      This function is used initially and hides labels of 
+     *      This function is used initially and hides labels of
      *      already filled out input fields (auto population of browsers)
      *      and to focus on the first next 'non-filled-out' input field.
      * @return nothing
@@ -84,34 +85,34 @@ OTRS.App.Customer = (function (Namespace) {
     function CheckInputs($Inputs){
         $.each($Inputs, function(Index, Input){
             if($(Input).val()){
-                Namespace.ToggleLabel(Input);
+                TargetNS.ToggleLabel(Input);
                 $Inputs[Index+1].focus();
             }
         });
     }
-    
+
     /**
      * @function
      * @description
      *      This function makes the whole row in the MyTickets and CompanyTickets view clickable.
      * @return nothing
      */
-    Namespace.ClickableRow = function(){
+    TargetNS.ClickableRow = function(){
         $("table tr").click(function(){
             window.location.href = $("a", this).attr("href");
         });
     };
-    
+
     /**
      * @function
      * @description
      *      This function adds the class 'Js' to the 'Body' div to enhance the interface (clickable rows).
      * @return nothing
      */
-    Namespace.Enhance = function(){
+    TargetNS.Enhance = function(){
         $('#Body').addClass('Js');
     }
-    
+
     /**
      * @function
      * @description
@@ -121,7 +122,7 @@ OTRS.App.Customer = (function (Namespace) {
      *      and hides the quotes inside the iframes + adds an anchor to toggle the visibility of the quotes
      * @return nothing
      */
-    Namespace.InitTicketZoom = function(){
+    TargetNS.InitTicketZoom = function(){
         var Iframes = $('iframe');
         $('.MessageHeader').click(function(event){
             event.preventDefault();
@@ -137,7 +138,7 @@ OTRS.App.Customer = (function (Namespace) {
         });
         Iframes.not(':last').parents('.Message').removeClass('Visible');
     }
-    
+
     /**
      * @function
      * @param {DOMObject} an iframe
@@ -147,7 +148,7 @@ OTRS.App.Customer = (function (Namespace) {
      * @return nothing
      */
     function CheckIframes(Iframe){
-        
+
         if ($.browser.safari || $.browser.opera){
             $(this).load(function(){
                     setTimeout(HideQuote, 0, this);
@@ -163,7 +164,7 @@ OTRS.App.Customer = (function (Namespace) {
             });
         }
     }
-    
+
     /**
      * @function
      * @param {DOMObject} an iframe
@@ -172,22 +173,22 @@ OTRS.App.Customer = (function (Namespace) {
      *      .contents accesses the iframe to get its height
      * @return nothing
      */
-    
-    function CalculateHeight(Iframe){ 
+
+    function CalculateHeight(Iframe){
         // .contents to access the iframe document
         var Newheight = $(Iframe).contents().find('html').outerHeight();
         $(Iframe).height(Newheight);
     }
-    
+
     /**
      * @function
      * @param {DOMObject} an iframe
      * @description
-     *      finds the quote in an iframe (type=cite), hides it and 
+     *      finds the quote in an iframe (type=cite), hides it and
      *      adds an anchor in front of the hidden quote to toggle the visibility of the quote
      * @return nothing
      */
-    
+
     function HideQuote(Iframe){
         $(Iframe).contents().find('[type=cite]').hide()
         // add an anchor in front of them
@@ -208,6 +209,6 @@ OTRS.App.Customer = (function (Namespace) {
         // initial height calculation
         CalculateHeight(Iframe);
     }
-    
-    return Namespace;
+
+    return TargetNS;
 }(OTRS.App.Customer || {}));

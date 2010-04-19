@@ -2,7 +2,7 @@
 // OTRS.UI.Tooltips.js - provides provides Tooltip functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.ErrorTooltips.js,v 1.3 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.Forms.ErrorTooltips.js,v 1.4 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,11 @@ OTRS.Forms = OTRS.Forms || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.Forms.ErrorTooltips
  * @description
  *      This namespace contains the Tooltip initialization functions
  */
-OTRS.Forms.ErrorTooltips = (function (Namespace) {
+OTRS.Forms.ErrorTooltips = (function (TargetNS) {
 
     var TooltipContainerID = 'OTRS_UI_Tooltips_ErrorTooltip',
         TooltipOffsetTop = 20,
@@ -76,7 +77,7 @@ OTRS.Forms.ErrorTooltips = (function (Namespace) {
      *      Content of the tooltip, may contain HTML.
      * @return nothing
      */
-    Namespace.InitTooltip = function ($Element, TooltipContent) {
+    TargetNS.InitTooltip = function ($Element, TooltipContent) {
         $Element.unbind('focus.Tooltip');
         $Element.bind('focus.Tooltip', function () {
             ShowTooltip($Element, TooltipContent);
@@ -94,11 +95,11 @@ OTRS.Forms.ErrorTooltips = (function (Namespace) {
      *      The elements (within a jQuery object) for whom the tooltips are removed.
      * @return nothing
      */
-    Namespace.RemoveTooltip = function ($Element) {
+    TargetNS.RemoveTooltip = function ($Element) {
         HideTooltip();
         $Element.unbind('focus.Tooltip');
         $Element.unbind('blur.Tooltip');
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.Forms.ErrorTooltips || {}));

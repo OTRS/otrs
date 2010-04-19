@@ -2,7 +2,7 @@
 // OTRS.Debug.js - provides debugging functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Debug.js,v 1.6 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.Debug.js,v 1.7 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,11 @@ var OTRS = OTRS || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.Debug
  * @description
  *      This namespace contains all debug functions
  */
-OTRS.Debug = (function (Namespace) {
+OTRS.Debug = (function (TargetNS) {
 
     var DebugConsole, DebugLog;
     if (typeof console === 'object' && typeof console.log === 'function') {
@@ -36,13 +37,14 @@ OTRS.Debug = (function (Namespace) {
      *      Simple logging function. All parameters will be passed to
      *      the debug console of Firebug et al, if present.
      */
-    Namespace.Log = DebugConsole ?
+    TargetNS.Log = DebugConsole ?
         function () {
             DebugLog.apply(DebugConsole, arguments);
         } :
         function () {}; // NOOP function for performance reasons in production systems
 
     /**
+     * @exports TargetNS.CheckDependency as OTRS.Debug.CheckDependency
      * @function
      * @description
      *      Checks if a required function or namespace is present.
@@ -59,7 +61,7 @@ OTRS.Debug = (function (Namespace) {
      * @return true if the required item was found, false otherwise (an an alert will be issued in that case)
      */
     /*jslint evil: true */
-    Namespace.CheckDependency = function (TargetNamespace, Required, RequiredLabel, Silent) {
+    TargetNS.CheckDependency = function (TargetNamespace, Required, RequiredLabel, Silent) {
 
         var RequiredEval;
         try {
@@ -80,12 +82,13 @@ OTRS.Debug = (function (Namespace) {
     /*jslint evil: false */
 
     /**
+     * @exports TargetNS.BrowserCheck as OTRS.Debug.BrowserCheck
      * @function
      * @description
      *      Checks, if the used browser is not on the OTRS browser blacklist.
      * @return true if the used browser is *not* on the black list.
      */
-    Namespace.BrowserCheck = function () {
+    TargetNS.BrowserCheck = function () {
         var AppropriateBrowser = true,
             BrowserBlackList = OTRS.Config.Get('BrowserBlackList');
         if (typeof BrowserBlackList !== 'undefined') {
@@ -101,6 +104,7 @@ OTRS.Debug = (function (Namespace) {
     };
 
     /**
+     * @exports TargetNS.SimulateRTLPage as OTRS.Debug.SimulateRTLPage
      * @function
      * @description
      *      Use this function to test your HTML/CSS/JS code against usage in RTL.
@@ -109,7 +113,7 @@ OTRS.Debug = (function (Namespace) {
      *      testing purposes. It also sets the class "RTL" on the body element to
      *      cause the layout to switch to RTL.
      */
-    Namespace.SimulateRTLPage = function () {
+    TargetNS.SimulateRTLPage = function () {
 
         $('body').addClass('RTL');
 
@@ -178,5 +182,5 @@ OTRS.Debug = (function (Namespace) {
         return ReplaceAllText();
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.Debug || {}));

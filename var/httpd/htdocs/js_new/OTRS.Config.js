@@ -2,7 +2,7 @@
 // OTRS.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Config.js,v 1.3 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.Config.js,v 1.4 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,11 @@ var OTRS = OTRS || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.Config
  * @description
  *      This namespace contains the config options and functions.
  */
-OTRS.Config = (function (Namespace) {
+OTRS.Config = (function (TargetNS) {
     var Config = {},
         ConfigPrefix = 'Config';
 
@@ -29,7 +30,7 @@ OTRS.Config = (function (Namespace) {
      * @param {Object} Value The value of the option. Can be every kind of javascript variable type.
      * @return nothing
      */
-    Namespace.Set = function (Key, Value) {
+    TargetNS.Set = function (Key, Value) {
         var Keys = Key.split('.'),
             KeyToken,
             ConfigLevel = Config,
@@ -58,7 +59,7 @@ OTRS.Config = (function (Namespace) {
      * @param {String} Key The name of the config option (also combined ones like Richtext.Width)
      * @return {Object} The value of the option. Can be every kind of javascript variable type.
      */
-    Namespace.Get = function (Key) {
+    TargetNS.Get = function (Key) {
         var Keys = Key.split('.'),
             KeyToken,
             ConfigLevel = Config,
@@ -84,7 +85,7 @@ OTRS.Config = (function (Namespace) {
      * @param {String} Key The key in the config where the data structure is saved to
      * @param {JSONString or Object} Data The config data to include as a JSON string or a javascript object
      */
-    Namespace.AddConfig = function (Key, Data) {
+    TargetNS.AddConfig = function (Key, Data) {
         var ConfigOptions,
             Keys = Key.split('.'),
             KeyToken,
@@ -124,7 +125,7 @@ OTRS.Config = (function (Namespace) {
      * @description This variable contains a hash of blacklisted browsers and there recognition functions.
      * Each function returns true, if the browsers is detected
      */
-    Namespace.AddConfig('BrowserBlackList', {
+    TargetNS.AddConfig('BrowserBlackList', {
         'Microsoft Internet Explorer 5.5': function () {
             return ($.browser.msie && $.browser.version === '5.5');
         },
@@ -147,5 +148,5 @@ OTRS.Config = (function (Namespace) {
         }
     });
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.Config || {}));

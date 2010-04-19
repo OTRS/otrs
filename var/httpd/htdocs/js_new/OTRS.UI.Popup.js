@@ -2,7 +2,7 @@
 // OTRS.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Popup.js,v 1.2 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.UI.Popup.js,v 1.3 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,11 @@ OTRS.UI = OTRS.UI || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.UI.Popup
  * @description
- *      Popups
+ *      Popup windows
  */
-OTRS.UI.Popup = (function (Namespace) {
+OTRS.UI.Popup = (function (TargetNS) {
     var OpenPopups = {},
         PopupProfiles,
         PopupDefaultProfile = 'Default';
@@ -53,7 +54,7 @@ OTRS.UI.Popup = (function (Namespace) {
      * @param {String} Type The type of a window, e.g. 'Action'
      * @return {Object} The window object of the popup or undefined
      */
-    Namespace.GetPopupObject = function (Type) {
+    TargetNS.GetPopupObject = function (Type) {
         return GetPopupObjectByType(Type);
     };
 
@@ -66,7 +67,7 @@ OTRS.UI.Popup = (function (Namespace) {
      * @param {String} Height Height in pixels
      * @return nothing
      */
-    Namespace.Resize = function (Type, Width, Height) {
+    TargetNS.Resize = function (Type, Width, Height) {
         var Object = GetPopupObjectByType(Type);
         if (typeof Object !== 'undefined') {
             Object.resizeTo(Width, Height);
@@ -82,13 +83,13 @@ OTRS.UI.Popup = (function (Namespace) {
      * @param {String} Profile The profile of a window, which defines the window parameters. Optional, default is 'Default'
      * @return nothing
      */
-    Namespace.OpenPopup = function (URL, Type, Profile) {
+    TargetNS.OpenPopup = function (URL, Type, Profile) {
         var PopupObject, PopupProfile;
         CheckOpenPopups();
         if (URL) {
             PopupObject = GetPopupObjectByType(Type);
             if (typeof PopupObject !== 'undefined') {
-                Namespace.ClosePopup(PopupObject);
+                TargetNS.ClosePopup(PopupObject);
             }
             PopupProfile = PopupProfiles[Profile] ? Profile : PopupDefaultProfile;
             OpenPopups[Type] = window.open(URL, Type, PopupProfiles[PopupProfile]);
@@ -102,7 +103,7 @@ OTRS.UI.Popup = (function (Namespace) {
      * @param {String or Object} Popup The type of a popup or thw window object
      * @return nothing
      */
-    Namespace.ClosePopup = function (Popup) {
+    TargetNS.ClosePopup = function (Popup) {
         if (typeof Popup === 'String') {
             Popup = GetPopupObjectByType(Popup);
         }
@@ -112,5 +113,5 @@ OTRS.UI.Popup = (function (Namespace) {
         }
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.UI.Popup || {}));

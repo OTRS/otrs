@@ -2,7 +2,7 @@
 // OTRS.UI.IE7Fixes.js - provides IE7 specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.IE7Fixes.js,v 1.2 2010-03-29 09:58:13 mn Exp $
+// $Id: OTRS.UI.IE7Fixes.js,v 1.3 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -17,10 +17,11 @@ OTRS.UI = OTRS.UI || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.UI.IE7Fixes
  * @description
  *      This namespace contains IE7 specific functions for browser bugfixes
  */
-OTRS.UI.IE7Fixes = (function (Namespace) {
+OTRS.UI.IE7Fixes = (function (TargetNS) {
     /**
      * @function
      * @description
@@ -28,7 +29,7 @@ OTRS.UI.IE7Fixes = (function (Namespace) {
      * @param {String} FocusClass The name of the classes which will be added for focus effect.
      * @return nothing
      */
-    Namespace.InitIE7InputFocus = function (FocusClass) {
+    TargetNS.InitIE7InputFocus = function (FocusClass) {
         // Exit function, if browser is not IE7
         if (!($.browser.msie && $.browser.version == "7.0"))
             return;
@@ -53,7 +54,7 @@ OTRS.UI.IE7Fixes = (function (Namespace) {
      * @param {String} ReadonlyClass The name of the class which will be added for styling readonly input fields.
      * @return nothing
      */
-    Namespace.InitIE7InputReadonly = function (ReadonlyClass) {
+    TargetNS.InitIE7InputReadonly = function (ReadonlyClass) {
         // Exit function, if browser is not IE6
         if (!($.browser.msie && $.browser.version == "7.0"))
             return;
@@ -66,5 +67,5 @@ OTRS.UI.IE7Fixes = (function (Namespace) {
             .addClass(ReadonlyClass);
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.UI.IE7Fixes || {}));

@@ -2,7 +2,7 @@
 // OTRS.UI.Accessibility.js - accessibility functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Accessibility.js,v 1.3 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.UI.Accessibility.js,v 1.4 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,11 @@ OTRS.UI = OTRS.UI || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.UI.Accessibility
  * @description
  *      This namespace contains all accessibility related functions
  */
-OTRS.UI.Accessibility = (function (Namespace) {
+OTRS.UI.Accessibility = (function (TargetNS) {
     /**
      * @function
      * @description
@@ -28,7 +29,7 @@ OTRS.UI.Accessibility = (function (Namespace) {
      *      these attributes are not part of the XHTML standard.
      * @return nothing
      */
-    Namespace.Init = function () {
+    TargetNS.Init = function () {
         /* set W3C ARIA role attributes for screenreaders */
         $('.ARIARoleBanner')
             .attr('role', 'banner');
@@ -57,7 +58,7 @@ OTRS.UI.Accessibility = (function (Namespace) {
      *      Text to be spoken to the user, may not contain markup.
      * @return nothing
      */
-    Namespace.AudibleAlert = function (Text) {
+    TargetNS.AudibleAlert = function (Text) {
         var AlertMessageID = 'OTRS_Accessibility_AlertMessage';
 
         // remove possibly pre-existing alert message
@@ -68,5 +69,5 @@ OTRS.UI.Accessibility = (function (Namespace) {
 
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.UI.Accessibility || {}));

@@ -2,7 +2,7 @@
 // OTRS.App.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.js,v 1.2 2010-04-15 18:29:28 mn Exp $
+// $Id: OTRS.App.js,v 1.3 2010-04-19 16:36:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -15,16 +15,17 @@ var OTRS = OTRS || {};
 
 /**
  * @namespace
+ * @exports TargetNS as OTRS.App
  * @description
  *      This namespace contains the config options and functions.
  */
-OTRS.App = (function (Namespace) {
+OTRS.App = (function (TargetNS) {
     /**
      * @function
      * @return nothing
      *      This function initializes the application and executes the needed functions
      */
-    Namespace.Init = function () {
+    TargetNS.Init = function () {
         OTRS.UI.Navigation.Init();
         OTRS.UI.Tables.InitCSSPseudoClasses();
         OTRS.UI.InitWidgetActionToggle();
@@ -40,10 +41,10 @@ OTRS.App = (function (Namespace) {
      * @return nothing
      *      This function initializes the needed compatibility functions for IE7
      */
-    Namespace.InitIE7 = function () {
+    TargetNS.InitIE7 = function () {
         OTRS.UI.IE7Fixes.InitIE7InputFocus('Focus');
         OTRS.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
     };
 
-    return Namespace;
+    return TargetNS;
 }(OTRS.App || {}));
