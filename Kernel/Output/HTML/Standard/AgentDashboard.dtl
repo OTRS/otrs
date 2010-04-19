@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.32 2010-04-19 22:11:12 mn Exp $
+# $Id: AgentDashboard.dtl,v 1.33 2010-04-19 23:13:21 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,29 +34,11 @@ Dashboard.PreferencesUpdate = function( Name, FormName ) {
 }
 //]]></script>
 
+<script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.App.Agent.Dashboard.js"></script>
 <script type="text/javascript">//<![CDATA[
-    UI.Sortable(
-        {
-            Selector:        '.ContentColumn',
-            Placeholder:     'DropPlaceholder',
-            Handle:          '.Header h2',
-            UpdateURL:       '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition',
-            UpdateOrder:     '.CanDrag',
-            UpdateAttribute: 'Backend',
-            UpdateValue:     'id'
-        }
-    );
-    UI.Sortable(
-        {
-            Selector:        '.SidebarColumn',
-            Placeholder:     'DropPlaceholder',
-            Handle:          '.Header h2',
-            UpdateURL:       '$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdatePosition',
-            UpdateOrder:     '.CanDrag',
-            UpdateAttribute: 'Backend',
-            UpdateValue:     'id'
-        }
-    );
+    $(document).ready(function () {
+        OTRS.App.Agent.Dashboard.Init();
+    });
 //]]></script>
 <!--dtl:document_ready-->
 <!-- dtl:block:Content -->

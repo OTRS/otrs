@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -281,7 +281,7 @@ td.Attachment {
 .TableSmall tr:hover + tr td {
     background-image: url(img/tr_hover_next_shadow.png);
     background-repeat: repeat-x;
-    backgrpund-position: top;
+    background-position: top;
 }
 
 .TableSmall td:first-child {
