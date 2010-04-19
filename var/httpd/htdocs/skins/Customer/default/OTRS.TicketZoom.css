@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -36,15 +36,19 @@
 }
 
 .Flag {
-    top: 5px;
+    top: 6px;
     left: 5px;
-    width: 22px;
-    height: 18px;
-    padding: 0 2px 1px 0;
-    background: url(img/flag_shadow.png) no-repeat;
+    width: 21px;
+    height: 15px;
     text-indent: -9999px;
-    line-height: 16px;
+    background: #FFF;
     position: absolute;
+    box-shadow: 0 0 2px #DDD;
+    -moz-box-shadow: 0 0 2px #DDD;
+    -webkit-box-shadow: 0 0 2px #DDD;
+    border-radius: 1px;
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
 }
 
 .RTL .Flag {
@@ -52,8 +56,31 @@
     right: 7px;
 }
 
-.Flag .Open {
-    background-color: green;
+.Flag > div {
+    line-height: 13px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 1px;
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
+}
+
+.Flag.Open {
+    border: 1px solid #0D871A;
+}
+
+.Flag.Open > div {
+    background: #0FB71C;
+    border-color: #B4E9B8 #68D271 #68D271;
+}
+
+.Flag.Closed {
+    border: 1px solid #7F0C0C;
+}
+
+.Flag.Closed > div {
+    background: #BD1212;
+    border-color: #EBB5B5 #D66A6A #D66A6A;
 }
 
 .Metadata {
@@ -215,11 +242,6 @@
 }
 .RTL .Details .Label {
     float: right;
-}
-
-.Details span {
-    padding: 0 5px;
-    color: #BBB;
 }
 
 .MessageBody {
