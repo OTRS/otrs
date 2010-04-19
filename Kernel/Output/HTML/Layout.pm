@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.230 2010-04-16 21:29:22 martin Exp $
+# $Id: Layout.pm,v 1.231 2010-04-19 18:17:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.230 $) [1];
+$VERSION = qw($Revision: 1.231 $) [1];
 
 =head1 NAME
 
@@ -1297,7 +1297,7 @@ sub Header {
 
     # set rtl if needed
     if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
-        $Param{BodyCSS} = 'RTL';
+        $Param{BodyClass} = 'RTL';
     }
 
     # create & return output
@@ -1376,7 +1376,7 @@ sub PrintHeader {
 
     # set rtl if needed
     if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
-        $Param{BodyCSS} = 'RTL';
+        $Param{BodyClass} = 'RTL';
     }
 
     my $Output = $Self->Output( TemplateFile => 'PrintHeader', Data => \%Param );
@@ -1904,7 +1904,7 @@ sub BuildSelection {
         AttributeRef => $AttributeRef,
         DataRef      => $DataRef,
     );
-    $String .= "<a id=\"AJAXImage$Param{Name}\"></a>\n";
+    $String .= "<span id=\"AJAXImage$Param{Name}\"></span>\n";
     return $String;
 }
 
@@ -2961,7 +2961,7 @@ sub CustomerHeader {
 
     # set rtl if needed
     if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
-        $Param{BodyCSS} = 'RTL';
+        $Param{BodyClass} = 'RTL';
     }
 
     # create & return output
@@ -4572,6 +4572,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.230 $ $Date: 2010-04-16 21:29:22 $
+$Revision: 1.231 $ $Date: 2010-04-19 18:17:34 $
 
 =cut
