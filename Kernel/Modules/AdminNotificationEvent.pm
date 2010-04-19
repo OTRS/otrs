@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.13 2010-03-08 17:57:26 martin Exp $
+# $Id: AdminNotificationEvent.pm,v 1.14 2010-04-19 17:56:02 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,7 +69,7 @@ sub Run {
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminNotificationEventForm',
+            TemplateFile => 'AdminNotificationEvent',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -85,7 +85,7 @@ sub Run {
         #        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my %GetParam;
-        for (qw(ID Name Subject Body Type Charset Comment ValidID)) {
+        for (qw(ID Name Subject Body Type Charset Comment ValidID Events)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
         for (
@@ -124,13 +124,19 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Info => 'Updated!' );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminNotificationEventForm',
+                TemplateFile => 'AdminNotificationEvent',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
         else {
+            for (qw(Name Events Subject Body)) {
+                $GetParam{ $_ . "ServerError" } = "";
+                if ( $GetParam{$_} eq '' ) {
+                    $GetParam{ $_ . "ServerError" } = "ServerError";
+                }
+            }
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
@@ -139,7 +145,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminNotificationEventForm',
+                TemplateFile => 'AdminNotificationEvent',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -162,7 +168,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminNotificationEventForm',
+            TemplateFile => 'AdminNotificationEvent',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -178,7 +184,7 @@ sub Run {
         #        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my %GetParam;
-        for (qw(Name Subject Body Comment ValidID)) {
+        for (qw(Name Subject Body Comment ValidID Events)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
         for (
@@ -211,19 +217,26 @@ sub Run {
             Type    => 'text/plain',
             UserID  => $Self->{UserID},
         );
+
         if ($ID) {
             $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Info => 'Added!' );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminNotificationEventForm',
+                TemplateFile => 'AdminNotificationEvent',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
         else {
+            for (qw(Name Events Subject Body)) {
+                $GetParam{ $_ . "ServerError" } = "";
+                if ( $GetParam{$_} eq '' ) {
+                    $GetParam{ $_ . "ServerError" } = "ServerError";
+                }
+            }
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
@@ -232,7 +245,7 @@ sub Run {
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminNotificationEventForm',
+                TemplateFile => 'AdminNotificationEvent',
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -268,7 +281,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminNotificationEventForm',
+            TemplateFile => 'AdminNotificationEvent',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -342,6 +355,7 @@ sub _Edit {
         Name       => 'Events',
         Multiple   => 1,
         Size       => 5,
+        Class      => 'OTRS_Validate_Required' . " " . $Param{"EventsServerError"},
         SelectedID => $Param{Data}->{Events},
     );
 
@@ -553,22 +567,13 @@ sub _Overview {
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
-    my $CssClass  = '';
     for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-        # set output class
-        if ( $CssClass && $CssClass eq 'searchactive' ) {
-            $CssClass = 'searchpassive';
-        }
-        else {
-            $CssClass = 'searchactive';
-        }
         my %Data = $Self->{NotificationEventObject}->NotificationGet( ID => $_, );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultRow',
             Data => {
-                Valid    => $ValidList{ $Data{ValidID} },
-                CssClass => $CssClass,
+                Valid => $ValidList{ $Data{ValidID} },
                 %Data,
             },
         );

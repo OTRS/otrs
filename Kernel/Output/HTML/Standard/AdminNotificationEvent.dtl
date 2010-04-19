@@ -1,0 +1,424 @@
+# --
+# AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminNotificationEvent.dtl,v 1.1 2010-04-19 17:57:49 cg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<!-- dtl:block:Overview -->
+<div id="UIElementPool">
+    <div class="Dialog">
+        <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
+        <div class="Content"></div>
+        <div class="Footer"><span class="LeftCorner"></span><span></span></div>
+    </div>
+</div>
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Notification Management"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+            </div>
+            <div class="Content">
+
+                <form action="$Env{"CGIHandle"}" method="post">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="Add"/>
+
+                    <h2 class="SpacingTop">$Text{"Add Notification"}</h2>
+                    <p class="FieldExplanation">
+                        $Text{"Add a new Notification."}
+                    </p>
+                    <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+<!-- dtl:block:OverviewResult -->
+            <div class="Header">
+                <h2>$Text{"List"}</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th class="W20pc">$Text{"Name"}</th>
+                            <th class="Center">$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"Changed"}</th>
+                            <th>$Text{"Created"}</th>
+                            <th class="Center">$Text{"Delete"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- dtl:block:OverviewResultRow -->
+                        <tr>
+                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                            <td align="Center">$Text{"$QData{"Valid"}"}</td>
+                            <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
+                            <td>$TimeShort{"$QData{"CreateTime"}"}</td>
+                            <td align="Center">
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"}">$Text{"x"}</a>
+                            </td>
+                        </tr>
+<!-- dtl:block:OverviewResultRow -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+<!-- dtl:block:OverviewResult -->
+<!-- dtl:block:OverviewUpdate -->
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Edit"} ($Text{"$QData{"Action"}"})</h2>
+            </div>
+            <div class="Content">
+
+                <form action="$Env{"CGIHandle"}" method="post"  class="Validate" name="compose">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
+                    <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                    <fieldset class="TableLike">
+
+                        <label for="Name" class="Mandatory">
+                            <span class="Marker">*</span>
+                            $Text{"Service"}:
+                        </label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc OTRS_Validate_Required $Data{"NameServerError"}" maxlength="50"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p><strong>$Text{"The field is required"}</strong></p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p><strong>$Text{"The field is required"}</strong></p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Recipients">$Text{"Recipient"}: </label>
+                        <div class="Field">
+                            $Data{"RecipientsStrg"}
+                            <p class="FieldExplanation">($Text{"Group based"})</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RecipientAgents">$Text{"Recipient"}: </label>
+                        <div class="Field">
+                            $Data{"RecipientAgentsStrg"}
+                            <p class="FieldExplanation">($Text{"Agent based"})</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RecipientEmail">$Text{"Recipient"}: </label>
+                        <div class="Field">
+                            <input type="text" name="RecipientEmail" id="RecipientEmail" class="W50pc" value="$QData{"RecipientEmail"}"/>
+                            <p class="FieldExplanation">($Text{"Email based"})</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Events" class="Mandatory">
+                            <span class="Marker">*</span>
+                            $Text{"Event"}:
+                        </label>
+                        <div class="Field">
+                            $Data{"EventsStrg"}
+                            <div id="EventsError" class="TooltipErrorMessage">
+                                <p><strong>$Text{"The field is required"}</strong></p>
+                            </div>
+                            <div id="EventsServerError" class="TooltipErrorMessage">
+                                <p><strong>$Text{"The field is required"}</strong></p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+<!-- dtl:block:OverviewUpdateType -->
+                        <label for="TypeID">$Text{"Type"}: </label>
+                        <div class="Field">
+                            $Data{"TypesStrg"}
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:OverviewUpdateType -->
+                        <label for="StateID">$Text{"State"}: </label>
+                        <div class="Field">
+                            $Data{"StatesStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="PriorityID">$Text{"Priority"}: </label>
+                        <div class="Field">
+                            $Data{"PrioritiesStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="QueueID">$Text{"Queue"}: </label>
+                        <div class="Field">
+                            $Data{"QueuesStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="LockID">$Text{"Lock"}: </label>
+                        <div class="Field">
+                            $Data{"LocksStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
+<!-- dtl:block:OverviewUpdateService -->
+
+                        <label for="ServiceID">$Text{"Service"}: </label>
+                        <div class="Field">
+                            $Data{"ServicesStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="SLAID">$Text{"SLA"}: </label>
+                        <div class="Field">
+                            $Data{"SLAsStrg"}
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:OverviewUpdateService -->
+
+                        <label for="CustomerID">$Text{"CustomerID"}: </label>
+                        <div class="Field">
+                            <input type="text" name="CustomerID" id="CustomerID" class="W50pc" value="$QData{"CustomerID"}"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="CustomerUserID">$Text{"CustomerUser"}: </label>
+                        <div class="Field">
+                            <input type="text" name="CustomerUserID" id="CustomerUserID" class="W50pc" value="$QData{"CustomerUserID"}"/>
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:OverviewUpdateTicketFreeFieldElement -->
+
+                        <label for="CustomerUserID">$Text{"CustomerUser"}: </label>
+                        <div class="Field">
+                            <input type="text" name="CustomerUserID" id="CustomerUserID" class="W50pc" value="$QData{"CustomerUserID"}"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="TicketFreeKey">$Text{"TicketFreeKey"}: </label>
+                        <div class="Field">
+                            $Data{"TicketFreeText"}
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:OverviewUpdateTicketFreeFieldElement -->
+
+                        <label for="ArticleTypeID">$Text{"Article Type"}: </label>
+                        <div class="Field">
+                            $Data{"ArticleTypesStrg"}
+                            <p class="FieldExplanation">($Text{"Only for ArticleCreate Event"})</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ArticleSubjectMatch">$Text{"Subject match"}: </label>
+                        <div class="Field">
+                            <input type="text" name="ArticleSubjectMatch" id="ArticleSubjectMatch" class="W50pc" value="$QData{"ArticleSubjectMatch"}"/>
+                            <p class="FieldExplanation">($Text{"Only for ArticleCreate Event"})</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ArticleBodyMatch">
+                            $Text{"Body match"}:
+                        </label>
+                        <div class="Field">
+                            <input type="text" name="ArticleBodyMatch" id="ArticleBodyMatch" class="W50pc" value="$QData{"ArticleBodyMatch"}"/>
+                            <p class="FieldExplanation">($Text{"Only for ArticleCreate Event"})</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ArticleAttachmentInclude">$Text{"Include Attachments to Notification"}: </label>
+                        <div class="Field">
+                            $Data{"ArticleAttachmentIncludeStrg"}
+                            <p class="FieldExplanation">($Text{"Only for ArticleCreate Event"})</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <h3>$Text{"Notification"}:</h3>
+                        <div class="Clear"></div>
+
+                        <label for="Subject" class="Mandatory">
+                            <span class="Marker">*</span>
+                            $Text{"Subject"}:
+                        </label>
+                        <div class="Field">
+                            <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc OTRS_Validate_Required $Data{"SubjectServerError"}" maxlength="120"/>
+                            <div id="SubjectError" class="TooltipErrorMessage">
+                                <p><strong>$Text{"The field is required"}</strong></p>
+                            </div>
+                            <div id="SubjectServerError" class="TooltipErrorMessage">
+                                <p><strong>$Text{"The field is required"}</strong></p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Body" class="Mandatory">
+                            <span class="Marker">*</span>
+                            $Text{"Text"}:
+                        </label>
+                        <div class="Field">
+                            <textarea rows="12" cols="75" name="Body" id="Body" wrap="$Env{"BrowserWrap"}" class="OTRS_Validate_Required $Data{"BodyServerError"}">$QData{"Body"}</textarea>
+                            <div id="BodyError" class="TooltipErrorMessage">
+                                <p><strong>$Text{"The field is required"}</strong></p>
+                            </div>
+                            <div id="BodyError" class="TooltipErrorMessage">
+                                <p><strong>$Text{"The field is required"}</strong></p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ValidID">$Text{"Valid"}: </label>
+                        <div class="Field">
+                            $Data{"ValidOption"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Comment">$Text{"Comment"}: </label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc" maxlength="150"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+
+                </form>
+            </div>
+        </div>
+
+
+
+        <div class="WidgetGradient Short SpacingTop">
+            <div class="Header">
+                <h2>$Text{"Reference"}</h2>
+            </div>
+            <div class="Clear"></div>
+            <h3>$Text{"Notifications are sent to an agent or a customer."}:</h3>
+
+            <div class="Content">
+
+                <h3>$Text{"You can use the following tags"}:</h3>
+                <dl>
+
+                    <dt>&lt;OTRS_AGENT_SUBJECT[20]&gt;</dt>
+                    <dd>
+                        $Text{"To get the first 20 character of the subject (of the latest agent article)."}
+                    </dd>
+
+                    <dt>&lt;OTRS_AGENT_BODY[5]&gt;</dt>
+                    <dd>
+                        $Text{"To get the first 5 lines of the body (of the latest agent article)."}
+                    </dd>
+
+                    <dt>&lt;OTRS_AGENT_*&gt;</dt>
+                    <dd>
+                        $Text{"To get the article attribute"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_AGENT_From&gt;, &lt;OTRS_AGENT_To&gt;, &lt;OTRS_AGENT_Cc&gt;,
+                        &lt;OTRS_AGENT_Subject&gt;, &lt;OTRS_AGENT_Body&gt;</strong>).
+                    </dd>
+
+                    <dt>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</dt>
+                    <dd>
+                        $Text{"To get the first 20 character of the subject (of the latest customer article)."}
+                    </dd>
+
+                    <dt>&lt;OTRS_CUSTOMER_BODY[5]&gt;</dt>
+                    <dd>
+                        $Text{"To get the first 5 lines of the body (of the latest customer article)."}
+                    </dd>
+
+                    <dt>&lt;OTRS_CUSTOMER_REALNAME&gt;</dt>
+                    <dd>
+                        $Text{"To get the realname of the sender (if given)."}
+                    </dd>
+
+                    <dt>&lt;OTRS_CUSTOMER_*&gt;</dt>
+                    <dd>
+                        $Text{"To get the article attribute"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_CUSTOMER_From&gt;, &lt;OTRS_CUSTOMER_To&gt;,
+                        &lt;OTRS_CUSTOMER_Cc&gt;, &lt;OTRS_CUSTOMER_Subject&gt; and &lt;OTRS_CUSTOMER_Body&gt;</strong>).
+                    </dd>
+
+                    <dt>&lt;OTRS_CUSTOMER_DATA_*&gt;</dt>
+                    <dd>
+                        $Text{"Options of the current customer user data"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</strong>).
+                    </dd>
+
+                    <dt>&lt;OTRS_OWNER_*&gt;</dt>
+                    <dd>
+                        $Text{"Ticket owner options"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_OWNER_UserFirstname&gt;</strong>).
+                    </dd>
+
+                    <dt>&lt;OTRS_RESPONSIBLE_*&gt;</dt>
+                    <dd>
+                        $Text{"Ticket responsible options"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</strong>).
+                    </dd>
+
+                    <dt>&lt;OTRS_CURRENT_*&gt;</dt>
+                    <dd>
+                        $Text{"Options of the current user who requested this action"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_CURRENT_UserFirstname&gt;</strong>).
+                    </dd>
+
+                    <dt>&lt;OTRS_TICKET_*&gt;</dt>
+                    <dd>
+                        $Text{"Options of the ticket data"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;,
+                        &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;</strong>).
+                    </dd>
+
+                    <dt>&lt;OTRS_CONFIG_*&gt;</dt>
+                    <dd>
+                        $Text{"Config options"}
+                        ($Text{" e. g."} <strong>&lt;OTRS_CONFIG_HttpType&gt;</strong>).
+                    </dd>
+                </dl>
+
+
+                <h3 class="SpacingTop">
+                    $Text{"Example response"}:
+                </h3>
+                $Text{"Subject"}:
+                <input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/>
+                <br/>
+                $Text{"Text"}:
+                <br/>
+                <textarea rows="12" cols="70" name="Response">
+
+Hi &lt;OTRS_CURRENT_UserFirstname&gt;,
+
+there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
+
+&lt;OTRS_CUSTOMER_FROM&gt; wrote:
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[16]&gt;
+&lt;snip&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_ID&gt;
+
+Your OTRS Notification Master
+                </textarea>
+            </div>
+        </div>
+
+<!-- dtl:block:OverviewUpdate -->
+
+    </div>
+    <div class="Clear"></div>
+</div>
+</div>
+<!-- dtl:block:Overview -->
