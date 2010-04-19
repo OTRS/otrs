@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferences.pm,v 1.27 2010-01-25 20:47:24 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.28 2010-04-19 23:03:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,7 +54,7 @@ sub Run {
         # check group param
         my $Group = $Self->{ParamObject}->GetParam( Param => 'Group' ) || '';
         if ( !$Group ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "Param Group is required!" );
+            return $Self->{LayoutObject}->ErrorScreen( Message => 'Param Group is required!' );
         }
 
         # check preferences setting
@@ -83,7 +83,7 @@ sub Run {
             );
         }
         my @Params = $Object->Param( UserData => \%UserData );
-        my %GetParam = ();
+        my %GetParam;
         for my $ParamItem (@Params) {
             my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
             $GetParam{ $ParamItem->{Name} } = \@Array;
@@ -147,12 +147,12 @@ sub CustomerPreferencesForm {
 
     $Self->{LayoutObject}->Block(
         Name => 'Body',
-        Data => { %Param, },
+        Data => \%Param,
     );
 
     my @Groups = @{ $Self->{ConfigObject}->Get('CustomerPreferencesView') };
     for my $Colum (@Groups) {
-        my %Data        = ();
+        my %Data;
         my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
         for my $Group ( keys %Preferences ) {
             if ( $Preferences{$Group}->{Colum} eq $Colum ) {
@@ -171,13 +171,6 @@ sub CustomerPreferencesForm {
         $Self->{LayoutObject}->Block(
             Name => 'Head',
             Data => { Header => $Colum, },
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'Colum',
-            Data => {
-                Header => $Colum,
-                %Param,
-            },
         );
 
         # sort

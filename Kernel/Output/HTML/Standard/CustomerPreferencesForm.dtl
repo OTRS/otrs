@@ -2,7 +2,7 @@
 # CustomerPreferencesForm.dtl - provides HTML form for CustomerPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferencesForm.dtl,v 1.15 2010-04-19 18:48:16 fn Exp $
+# $Id: CustomerPreferencesForm.dtl,v 1.16 2010-04-19 23:03:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,13 +12,9 @@
 <!-- dtl:block:Body -->
 <div id="Body" class="Preferences">
     <div class="Content">
-#<!-- dtl:block:Head -->
-#        <td width="50%" class="mainhead">
-#            <b>$Env{"Box0"}$Text{"$QData{"Header"}"}$Env{"Box1"}</b>
-#        </td>
-#<!-- dtl:block:Head -->
-#<!-- dtl:block:Colum -->
-#        <td width="50%" class="mainbody">
+<!-- dtl:block:Head -->
+#       <h1>$Text{"$QData{"Header"}"}</h1>
+<!-- dtl:block:Head -->
 <!-- dtl:block:Item -->
         <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
             <input type="hidden" name="Action" value="$Env{"Action"}"/>
@@ -66,5 +62,4 @@
 <!-- dtl:block:Item -->
     </div>
 </div>
-#<!-- dtl:block:Colum -->
 <!-- dtl:block:Body -->
