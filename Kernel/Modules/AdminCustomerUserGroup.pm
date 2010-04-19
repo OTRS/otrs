@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.29 2010-01-21 00:05:33 martin Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.30 2010-04-19 16:44:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,7 +62,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # user <-> group 1:n
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'User' ) {
+    if ( $Self->{Subaction} eq 'Customer' ) {
 
         # get user data
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
@@ -87,7 +87,7 @@ sub Run {
             Data => \%GroupData,
             ID   => $UserData{UserID},
             Name => $UserData{UserLogin},
-            Type => 'User',
+            Type => 'Customer',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -176,7 +176,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # groups to user
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'ChangeUser' ) {
+    elsif ( $Self->{Subaction} eq 'ChangeCustomer' ) {
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -224,8 +224,8 @@ sub _Change {
     my ( $Self, %Param ) = @_;
 
     my %Data   = %{ $Param{Data} };
-    my $Type   = $Param{Type} || 'User';
-    my $NeType = $Type eq 'Group' ? 'User' : 'Group';
+    my $Type   = $Param{Type} || 'Customer';
+    my $NeType = $Type eq 'Group' ? 'Customer' : 'Group';
 
     $Self->{LayoutObject}->Block(
         Name => 'Change',
@@ -237,7 +237,7 @@ sub _Change {
     );
     for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
         next if !$Type;
-        my $Mark = $Type eq 'rw' ? " | " : '';
+        my $Mark = $Type eq 'rw' ? "Highlight" : '';
         $Self->{LayoutObject}->Block(
             Name => 'ChangeHeader',
             Data => {
@@ -248,24 +248,21 @@ sub _Change {
         );
     }
 
-    my $CssClass = 'searchpassive';
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'ChangeRow',
             Data => {
                 %Param,
-                CssClass => $CssClass,
-                Name     => $Param{Data}->{$ID},
-                ID       => $ID,
-                NeType   => $NeType,
+                Name   => $Param{Data}->{$ID},
+                ID     => $ID,
+                NeType => $NeType,
             },
         );
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
             next if !$Type;
-            my $Mark = $Type eq 'rw' ? " | " : '';
+            my $Mark = $Type eq 'rw' ? "Highlight" : '';
             my $Selected = $Param{$Type}->{$ID} ? ' checked="checked"' : '';
 
             $Self->{LayoutObject}->Block(
@@ -276,13 +273,14 @@ sub _Change {
                     Type     => $Type,
                     ID       => $ID,
                     Selected => $Selected,
+                    Name     => $Param{Data}->{$ID},
                 },
             );
         }
     }
 
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminCustomerUserGroupForm',
+        TemplateFile => 'AdminCustomerUserGroup',
         Data         => \%Param,
     );
 }
@@ -304,43 +302,37 @@ sub _Overview {
         next if !%User;
         $UserData{$UserID} .= " ($User{UserFirstname} $User{UserLastname})";
     }
-    my $CssClass = 'searchpassive';
     for my $UserID ( sort { uc( $UserData{$a} ) cmp uc( $UserData{$b} ) } keys %UserData ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'List1n',
             Data => {
                 Name      => $UserData{$UserID},
-                Subaction => 'User',
+                Subaction => 'Customer',
                 ID        => $UserID,
-                CssClass  => $CssClass,
             },
         );
     }
 
     # get group data
-    $CssClass = 'searchpassive';
     my %GroupData = $Self->{GroupObject}->GroupList( Valid => 1 );
     for my $GroupID ( sort { uc( $GroupData{$a} ) cmp uc( $GroupData{$b} ) } keys %GroupData ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'Listn1',
             Data => {
                 Name      => $GroupData{$GroupID},
                 Subaction => 'Group',
                 ID        => $GroupID,
-                CssClass  => $CssClass,
             },
         );
     }
 
     # return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminCustomerUserGroupForm',
+        TemplateFile => 'AdminCustomerUserGroup',
         Data         => \%Param,
     );
 }
