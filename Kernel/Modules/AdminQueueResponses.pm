@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.35 2010-01-21 00:44:49 martin Exp $
+# $Id: AdminQueueResponses.pm,v 1.36 2010-04-19 23:19:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,7 +109,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeQueue' ) {
 
         # get new role member
-        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Active' );
+        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Queue' );
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -147,7 +147,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeStdResponse' ) {
 
         # get new role member
-        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Active' );
+        my @IDs = $Self->{ParamObject}->GetArray( Param => 'StdResponse' );
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -196,46 +196,60 @@ sub _Change {
     my $Type   = $Param{Type} || 'StdResponse';
     my $NeType = $Type eq 'Queue' ? 'StdResponse' : 'Queue';
 
+    my %VisibleType = ( StdResponse => 'Standard Response', Queue => 'Queue', );
+
+    my $MyType = $VisibleType{$Type};
+
     $Self->{LayoutObject}->Block(
         Name => 'Change',
         Data => {
             %Param,
-            ActionHome => 'Admin' . $Type,
-            NeType     => $NeType,
+            ActionHome    => 'Admin' . $Type,
+            NeType        => $NeType,
+            VisibleType   => $VisibleType{$Type},
+            VisibleNeType => $VisibleType{$NeType},
         },
     );
+    print STDERR "Visible $VisibleType{$Type}\n";
+    print STDERR "$MyType \n";
+
     $Self->{LayoutObject}->Block(
         Name => 'ChangeHeader',
         Data => {
             %Param,
-            Type => $Type,
+            Type          => $Type,
+            NeType        => $NeType,
+            VisibleType   => $VisibleType{$Type},
+            VisibleNeType => $VisibleType{$NeType},
         },
     );
 
-    my $CssClass = 'searchpassive';
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         my $Selected = $Param{Selected}->{$ID} ? ' checked="checked"' : '';
 
         $Self->{LayoutObject}->Block(
             Name => 'ChangeRow',
             Data => {
                 %Param,
-                CssClass => $CssClass,
-                Name     => $Param{Data}->{$ID},
-                NeType   => $NeType,
-                Type     => $Type,
-                ID       => $ID,
-                Selected => $Selected,
+                Name          => $Param{Data}->{$ID},
+                NeType        => $NeType,
+                Type          => $Type,
+                ID            => $ID,
+                Selected      => $Selected,
+                VisibleType   => $VisibleType{$Type},
+                VisibleNeType => $VisibleType{$NeType},
+
             },
         );
     }
 
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminQueueResponsesForm',
+        TemplateFile => 'AdminQueueResponses',
         Data         => \%Param,
+        VisibleType  => $MyType,
+
     );
 }
 
@@ -249,7 +263,6 @@ sub _Overview {
 
     # get std response list
     my %StdResponseData = $Self->{StdResponseObject}->StdResponseList( Valid => 1 );
-    my $CssClass = 'searchpassive';
     for my $StdResponseID (
         sort { uc( $StdResponseData{$a} ) cmp uc( $StdResponseData{$b} ) }
         keys %StdResponseData
@@ -257,40 +270,34 @@ sub _Overview {
     {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'List1n',
             Data => {
                 Name      => $StdResponseData{$StdResponseID},
                 Subaction => 'StdResponse',
                 ID        => $StdResponseID,
-                CssClass  => $CssClass,
             },
         );
     }
-
-    $CssClass = 'searchpassive';
 
     # get queue data
     my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
     for my $QueueID ( sort { uc( $QueueData{$a} ) cmp uc( $QueueData{$b} ) } keys %QueueData ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
         $Self->{LayoutObject}->Block(
             Name => 'Listn1',
             Data => {
                 Name      => $QueueData{$QueueID},
                 Subaction => 'Queue',
                 ID        => $QueueID,
-                CssClass  => $CssClass,
             },
         );
     }
 
     # return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminQueueResponsesForm',
+        TemplateFile => 'AdminQueueResponses',
         Data         => \%Param,
     );
 }
