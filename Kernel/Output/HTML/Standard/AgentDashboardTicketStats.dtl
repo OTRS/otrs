@@ -1,14 +1,14 @@
 # --
 # AgentDashboardTicketStats.dtl - provides HTML for global dashboard
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketStats.dtl,v 1.10 2009-12-14 07:56:13 mn Exp $
+# $Id: AgentDashboardTicketStats.dtl,v 1.11 2010-04-19 22:11:12 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
+<!--dtl:document_ready-->
 <!--[if IE]><script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}thirdparty/flot/excanvas.min.js"></script><![endif]-->
 <script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}thirdparty/flot/jquery.flot.min.js"></script>
 
@@ -137,6 +137,7 @@ $(document).ready(function() {
    });
 });
 //]]></script>
+<!--dtl:document_ready-->
 <div class="chart">
     <div id="chart$QData{"Key"}" class="drawingarea"></div>
 </div>

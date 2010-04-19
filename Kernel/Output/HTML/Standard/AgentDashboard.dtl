@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.31 2010-04-05 12:14:34 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.32 2010-04-19 22:11:12 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 # include AJAX lib
 $Include{"AJAX"}
-
+<!--dtl:document_ready-->
 <script type="text/javascript">//<![CDATA[
 var Dashboard = {};
 
@@ -25,7 +25,7 @@ Dashboard.PreferencesUpdate = function( Name, FormName ) {
             ParamPart = ParamPart + ';' + Form[F].name + '=' + ParamEncode;
         }
     }
-    var url = Config.Get('Baselink') + ParamPart;
+    var url = OTRS.Config.Get('Baselink') + ParamPart;
     var onLoaded = function() {
         UI.Settings( Name + '-setting', Name );
     };
@@ -58,7 +58,7 @@ Dashboard.PreferencesUpdate = function( Name, FormName ) {
         }
     );
 //]]></script>
-
+<!--dtl:document_ready-->
 <!-- dtl:block:Content -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarLast">
     <h1>$Text{"Dashboard"}</h1>

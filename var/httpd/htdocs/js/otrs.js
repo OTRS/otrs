@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.14 2010-03-08 19:18:26 martin Exp $
+// $Id: otrs.js,v 1.15 2010-04-19 22:11:13 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -10,26 +10,12 @@
 // --
 
 // create global name space
-var Config = {};
 var Core = {};
 var UI = {};
 
-// set config hash
-Config.Storage = {};
-
-// config get
-Config.Get = function (Key) {
-    return Config.Storage[Key];
-};
-
-// config set
-Config.Set = function (Key, Value) {
-    Config.Storage[Key] = Value;
-};
-
 // init
 Core.Init = function () {
-    Core.ImagePreload( [Config.Get('Images') + 'loading.gif'] );
+    Core.ImagePreload( [OTRS.Config.Get('Images') + 'loading.gif'] );
 }
 
 // preload of loading image (to load it at page load time)
@@ -44,8 +30,8 @@ Core.ImagePreload = function(FieldName) {
 Core.AJAXContentUpdate = function(Element, url, OnLoad, OnLoaded ) {
 
     // add sessionid if no cookies are used
-    if ( !Config.Get('SessionIDCookie') ) {
-        url = url + '&' + Config.Get('SessionName') + '=' + Config.Get('SessionID') + '&' + Config.Get('CustomerPanelSessionName') + '=' + Config.Get('SessionID');
+    if ( !OTRS.Config.Get('SessionIDCookie') ) {
+        url = url + '&' + OTRS.Config.Get('SessionName') + '=' + OTRS.Config.Get('SessionID') + '&' + OTRS.Config.Get('CustomerPanelSessionName') + '=' + OTRS.Config.Get('SessionID');
     }
 
     $.ajax({
@@ -130,11 +116,11 @@ Core.AJAXURLGet = function(Subaction, Changed, FieldName, FieldName2) {
             ParamPart = ParamPart + '&' + FieldName[F] + '=' + ParamEncode;
         }
     }
-    var url = Config.Get('Baselink') + 'Action=' + Config.Get('Action') + '&Subaction=' + Subaction + '&ElementChanged=' + Changed + ParamPart;
+    var url = OTRS.Config.Get('Baselink') + 'Action=' + OTRS.Config.Get('Action') + '&Subaction=' + Subaction + '&ElementChanged=' + Changed + ParamPart;
 
     // add sessionid if no cookies are used
-    if ( !Config.Get('SessionIDCookie') ) {
-        url = url + '&' + Config.Get('SessionName') + '=' + Config.Get('SessionID') + '&' + Config.Get('CustomerPanelSessionName') + '=' + Config.Get('SessionID');
+    if ( !OTRS.Config.Get('SessionIDCookie') ) {
+        url = url + '&' + OTRS.Config.Get('SessionName') + '=' + OTRS.Config.Get('SessionID') + '&' + OTRS.Config.Get('CustomerPanelSessionName') + '=' + OTRS.Config.Get('SessionID');
     }
     return url;
 }
@@ -184,7 +170,7 @@ Core.AJAXLoadingImage = function(Type, FieldName) {
     for (F=0;F<FieldName.length;F++) {
         if (document.compose[FieldName[F]] && document.getElementById('AJAXImage' + FieldName[F])) {
             if (Type == 'Load') {
-                document.getElementById('AJAXImage' + FieldName[F]).innerHTML="<img src=\"" + Config.Get('Images') + "loading.gif\" border=\"0\">";
+                document.getElementById('AJAXImage' + FieldName[F]).innerHTML="<img src=\"" + OTRS.Config.Get('Images') + "loading.gif\" border=\"0\">";
             }
             else {
                 document.getElementById('AJAXImage' + FieldName[F]).innerHTML="";
@@ -208,10 +194,10 @@ Core.AJAXFunctionCall = function(Param) {
         Url = Param['Url'];
     }
     else {
-        Url = Config.Get('Baselink') + 'Action=' + Config.Get('Action');
+        Url = OTRS.Config.Get('Baselink') + 'Action=' + OTRS.Config.Get('Action');
         // add sessionid if no cookies are used
-        if ( !Config.Get('SessionIDCookie') ) {
-            Url = Url + '&' + Config.Get('SessionName') + '=' + Config.Get('SessionID') + '&' + Config.Get('CustomerPanelSessionName') + '=' + Config.Get('SessionID');
+        if ( !OTRS.Config.Get('SessionIDCookie') ) {
+            Url = Url + '&' + OTRS.Config.Get('SessionName') + '=' + OTRS.Config.Get('SessionID') + '&' + OTRS.Config.Get('CustomerPanelSessionName') + '=' + OTRS.Config.Get('SessionID');
         }
     }
 
@@ -277,23 +263,21 @@ UI.Settings = function( Element1, Element2 ) {
 }
 
 UI.Sortable = function( Data ) {
-    $(function() {
-        $(Data.Selector).sortable({
-            placeholder: Data.Placeholder,
-            forcePlaceholderSize: true,
-            opacity: 0.6,
-            cursor: 'move',
-            handle: Data.Handle,
-            update: function(event, ui) {
-                var url = Data.UpdateURL;
-                $(Data.UpdateOrder).each(
-                    function(i) {
-                        url = url + ';' + Data.UpdateAttribute + '=' + $(this).attr(Data.UpdateValue);
-                    }
-                );
-                Core.AJAXContentUpdate('', url );
-            }
-        });
+    $(Data.Selector).sortable({
+        placeholder: Data.Placeholder,
+        forcePlaceholderSize: true,
+        opacity: 0.6,
+        cursor: 'move',
+        handle: Data.Handle,
+        update: function(event, ui) {
+            var url = Data.UpdateURL;
+            $(Data.UpdateOrder).each(
+                function(i) {
+                    url = url + ';' + Data.UpdateAttribute + '=' + $(this).attr(Data.UpdateValue);
+                }
+            );
+            Core.AJAXContentUpdate('', url );
+        }
     });
     return true;
 }

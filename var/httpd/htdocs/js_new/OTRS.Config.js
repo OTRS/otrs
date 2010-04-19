@@ -2,7 +2,7 @@
 // OTRS.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Config.js,v 1.4 2010-04-19 16:36:29 mg Exp $
+// $Id: OTRS.Config.js,v 1.5 2010-04-19 22:11:13 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -83,20 +83,27 @@ OTRS.Config = (function (TargetNS) {
      * @return nothing
      *      This function includes the given data into the config hash
      * @param {String} Key The key in the config where the data structure is saved to
-     * @param {JSONString or Object} Data The config data to include as a JSON string or a javascript object
+     * @param {Object} Data The config data to include as a javascript object
      */
-    TargetNS.AddConfig = function (Key, Data) {
+    TargetNS.AddConfig = function (Data, Key) {
         var ConfigOptions,
-            Keys = Key.split('.'),
+            Keys,
             KeyToken,
             ConfigLevel = Config,
             Count = 0;
 
-        if (typeof Data === 'String') {
-            ConfigOptions = OTRS.JSON.Parse(Data);
+        ConfigOptions = Data;
+
+        if (typeof Key === 'undefined') {
+            Keys = [];
+            for (KeyToken in Data) {
+                if (Data.hasOwnProperty(KeyToken)) {
+                    Keys.push(KeyToken);
+                }
+            }
         }
         else {
-            ConfigOptions = Data;
+           Keys = Key.split('.');
         }
 
         for (KeyToken in Keys) {
@@ -125,7 +132,7 @@ OTRS.Config = (function (TargetNS) {
      * @description This variable contains a hash of blacklisted browsers and there recognition functions.
      * Each function returns true, if the browsers is detected
      */
-    TargetNS.AddConfig('BrowserBlackList', {
+    TargetNS.AddConfig({
         'Microsoft Internet Explorer 5.5': function () {
             return ($.browser.msie && $.browser.version === '5.5');
         },
@@ -146,7 +153,7 @@ OTRS.Config = (function (TargetNS) {
             }
             return BrowserDetected;
         }
-    });
+    }, 'BrowserBlackList');
 
     return TargetNS;
 }(OTRS.Config || {}));

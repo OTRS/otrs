@@ -2,7 +2,7 @@
 // OTRS.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.ActionRow.js,v 1.6 2010-04-19 18:21:48 mn Exp $
+// $Id: OTRS.UI.ActionRow.js,v 1.7 2010-04-19 22:11:13 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -198,10 +198,9 @@ OTRS.UI.ActionRow = (function (TargetNS) {
             else {
                 $SelectedTickets = $(TicketElementSelectors[TicketView] + ':checked');
                 $SelectedTickets.each(function () {
-                    TicketIDs += TicketIDParameter + $(this).val() + ";"
+                    TicketIDs += TicketIDParameter + $(this).val() + ";";
                 });
-                // TODO: change URL: get parts of it out of OTRS.Config
-                OTRS.UI.Popup.OpenPopup("?Action=AgentTicketBulk;" + TicketIDs, 'Action');
+                OTRS.UI.Popup.OpenPopup(OTRS.Config.Get('Baselink') + "Action=AgentTicketBulk;" + TicketIDs, 'Action');
             }
             return false;
         });
