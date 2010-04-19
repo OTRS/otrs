@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.36 2010-04-19 23:19:14 cr Exp $
+# $Id: AdminQueueResponses.pm,v 1.37 2010-04-19 23:21:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -210,8 +210,6 @@ sub _Change {
             VisibleNeType => $VisibleType{$NeType},
         },
     );
-    print STDERR "Visible $VisibleType{$Type}\n";
-    print STDERR "$MyType \n";
 
     $Self->{LayoutObject}->Block(
         Name => 'ChangeHeader',
