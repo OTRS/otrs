@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -165,15 +165,43 @@ ul.Tablelike li.Header {
     width: 24px;
 }
 
+
+/* Toggle, override float */
+.WidgetAction.Toggle {
+    float: left;
+}
+
+.RTL .WidgetAction.Toggle {
+    float: right;
+}
+
+.WidgetAction.Toggle.Expanded a span {
+    background: url(img/widget_expanded.png) no-repeat center;
+}
+
+.WidgetAction.Toggle.Collapsed a span {
+    background: url(img/widget_collapsed.png) no-repeat center;
+}
+
+/* Settings */
+.WidgetAction.Settings a span {
+    background: url(img/widget_settings.png) no-repeat center center;
+}
+
+/* Close */
+.WidgetAction.Close a span {
+    background: url(img/widget_close.png) no-repeat center center;
+}
+
 /**
  * @subsection      Call for action buttons and search form
  */
 
-.Actionlist li {
+.ActionList li {
     margin-bottom: 5px;
 }
 
-.Actionlist p {
+.ActionList p {
     padding: 2px 2px 5px;
     font-size: 11px;
     color: #888;
@@ -228,12 +256,12 @@ ul.Tablelike li.Header {
     text-shadow: 0 1px 0 #DDD;
 }
 
-.Actionlist form {
+.ActionList form {
     margin-top: 21px;
     position: relative;
 }
 
-.Actionlist input {
+.ActionList input {
     padding: 4px 5px;
     border-color: #999;
     border-radius: 3px 0 0 3px;
@@ -241,11 +269,11 @@ ul.Tablelike li.Header {
     -webkit-border-radius: 3px 0 0 3px;
 }
 
-.Actionlist input:focus {
+.ActionList input:focus {
     border-color: #777;
 }
 
-.Actionlist button {
+.ActionList button {
     padding: 0;
     height: 24px;
     width: 48px;
@@ -263,40 +291,12 @@ ul.Tablelike li.Header {
     text-shadow: 0 1px 0 #FFF;
 }
 
-.Actionlist button:hover {
+.ActionList button:hover {
     border: 1px solid #696969;
     border-left: none;
     position: absolute;
     cursor: pointer;
 }
-
-/* Toggle, override float */
-.WidgetAction.Toggle {
-    float: left;
-}
-
-.RTL .WidgetAction.Toggle {
-    float: right;
-}
-
-.WidgetAction.Toggle.Expanded a span {
-    background: url(img/widget_expanded.png) no-repeat center;
-}
-
-.WidgetAction.Toggle.Collapsed a span {
-    background: url(img/widget_collapsed.png) no-repeat center;
-}
-
-/* Settings */
-.WidgetAction.Settings a span {
-    background: url(img/widget_settings.png) no-repeat center center;
-}
-
-/* Close */
-.WidgetAction.Close a span {
-    background: url(img/widget_close.png) no-repeat center center;
-}
-
 
 /**
  * @subsection  WidgetPopup

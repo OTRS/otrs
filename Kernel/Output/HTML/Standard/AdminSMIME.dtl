@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.4 2010-04-20 18:14:22 fn Exp $
+# $Id: AdminSMIME.dtl,v 1.5 2010-04-20 22:30:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@
                 <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
-                <ul class="Actionlist">
+                <ul class="ActionList">
                     <li>
                         <a class="CallForAction" href=""><span>+ $Text{"Private Key"}</span></a>
                     </li>
@@ -77,35 +77,33 @@
 
     </div>
 </div>-->
-<div class="WidgetGradient Short">
-    <div class="Header">
-#                <h2>$Text{"Add Private Key"}</h2>
-        <h2>$Text{"Note"}</h2>
-    </div>
-    <div class="Content">
 <!--                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="AddPrivate"/>
-        <fieldset class="TableLike">
+<input type="hidden" name="Action" value="$Env{"Action"}"/>
+<input type="hidden" name="Subaction" value="AddPrivate"/>
+<fieldset class="TableLike">
 
-            <label for="File">$Text{"File"}:</label>
-            <div class="Field">
-                <input type="file" size="5" name="File" id="File"/>
-            </div>
-            <div class="Clear"></div>
+    <label for="File">$Text{"File"}:</label>
+    <div class="Field">
+        <input type="file" size="5" name="File" id="File"/>
+    </div>
+    <div class="Clear"></div>
 
-            <label for="Secret">$Text{"Secret"}:</label>
-            <div class="Field">
-                <input class="W50pc" type="password" name="Secret" id="Secret" maxlength="50"/>
-            </div>
-            <div class="Clear"></div>
+    <label for="Secret">$Text{"Secret"}:</label>
+    <div class="Field">
+        <input class="W50pc" type="password" name="Secret" id="Secret" maxlength="50"/>
+    </div>
+    <div class="Clear"></div>
 
-            <div class="Field">
-                <button type="submit">$Text{"Add"}</button>
-            </div>
-        </fieldset>
-    </form>-->
-#                        <h2 class="SpacingTop">$Text{"Note"}</h2>
+    <div class="Field">
+        <button type="submit">$Text{"Add"}</button>
+    </div>
+</fieldset>
+</form>-->
+<div class="WidgetGradient Short">
+<div class="Header">
+    <h2>$Text{"Note"}</h2>
+</div>
+<div class="Content">
     <p class="FieldExplanation">
         $Text{"In this way you can directly edit the certification and private keys in file system."}
     </p>
@@ -118,8 +116,8 @@
 </div>
 </div>
 <div class="ContentColumn">
-<div class="WidgetBox">
-<div class="Header ControlRow">
+<div class="WidgetGradient Short">
+<div class="Header">
     <h2>$Text{"Results"}</h2>
 </div>
 <div class="Content WithPadding">
