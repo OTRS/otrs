@@ -80,19 +80,6 @@
 
 <!-- dtl:block:Overview -->
 <!-- dtl:block:Change -->
-
-<script type="text/javascript">//<![CDATA[
-function select_items (Type) {
-    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
-        if ( document.matrix.elements[Type][0].checked ) {
-            document.matrix.elements[Type][i].checked = true;
-        }
-        else {
-            document.matrix.elements[Type][i].checked = false;
-        }
-    }
-}
-//]]></script>
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Manage Standard Response-Queue Relations"}</h1>
     <div class="SidebarColumn">
@@ -128,8 +115,8 @@ function select_items (Type) {
                                 <th>$Text{"$QData{"VisibleNeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="Center $QData{"Mark"}">
-                                <input type="checkbox" name="$QData{"Type"}" title="$Text{"Toggle active state for all"}" value="" onclick="select_items('$QData{"Type"}');" />
-                                $Text{"Active"}
+                                    <input type="checkbox" id="SelectAll$QData{"Type"}" name="$QData{"Type"}" title="$Text{"Toggle active state for all"}" value="" />
+                                    $Text{"Active"}
                                 </th>
 <!-- dtl:block:ChangeHeader -->
                             </tr>
@@ -140,7 +127,7 @@ function select_items (Type) {
                                 <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                                 <td class="$QData{"Mark"}">
                                     <input type="checkbox" name="$QData{"Type"}" title="$Text{"Toggle active state for %s", "$QData{"Name"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
-                                    
+
                                 </td>
                             </tr>
 <!-- dtl:block:ChangeRow -->
@@ -156,14 +143,15 @@ function select_items (Type) {
     </div>
     <div class="Clear"></div>
 </div>
-
 <!-- dtl:document_ready -->
 <script type="text/javascript">//<![CDATA[
     $(document).ready(function() {
+        OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
+            OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
+        });
         OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserRoles'));
     });
 //]]></script>
 <!-- dtl:document_ready -->
 
 <!-- dtl:block:Change -->
-

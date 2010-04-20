@@ -2,7 +2,7 @@
 // OTRS.Forms.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.js,v 1.3 2010-04-19 16:36:29 mg Exp $
+// $Id: OTRS.Forms.js,v 1.4 2010-04-20 17:50:02 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -61,5 +61,36 @@ OTRS.Forms = (function (TargetNS) {
             .find('button')
             .removeAttr('disabled');
     };
+
+    /**
+     * @function
+     * @description
+     *      This function selects or deselects all checkboxes given by the ElementName.
+     * @param {DOMObject} ClickedBox The clicked checkbox in the DOM
+     * @param {String} SelectAllElement The name of the SelectAll checkbox
+     * @return nothing
+     */
+    TargetNS.SelectAllCheckboxes = function (ClickedBox, SelectAllElement) {
+        var $ClickedBox = $(ClickedBox),
+            ElementName = $ClickedBox.attr('name'),
+            $Elements = $('input:checkbox[name=' + ElementName + ']').filter('[id!=' + SelectAllElement + ']'),
+            Status = $ClickedBox.attr('checked'),
+            CountCheckboxes,
+            CountSelectedCheckboxes;
+        if ($ClickedBox.attr('id') && $ClickedBox.attr('id') === SelectAllElement) {
+            $Elements.attr('checked', Status).triggerHandler('click');
+        }
+        else {
+            CountCheckboxes = $Elements.length;
+            CountSelectedCheckboxes = $Elements.filter(':checked').length;
+            if (CountCheckboxes === CountSelectedCheckboxes) {
+                $('#' + SelectAllElement).attr('checked', 'checked');
+            }
+            else {
+                $('#' + SelectAllElement).removeAttr('checked');
+            }
+        }
+    };
+
     return TargetNS;
 }(OTRS.Forms || {}));

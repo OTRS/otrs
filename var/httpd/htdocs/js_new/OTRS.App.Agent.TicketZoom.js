@@ -2,7 +2,7 @@
 // OTRS.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Agent.TicketZoom.js,v 1.1 2010-04-19 16:36:29 mg Exp $
+// $Id: OTRS.App.Agent.TicketZoom.js,v 1.2 2010-04-20 17:50:02 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -39,4 +39,4 @@ OTRS.App.Agent.TicketZoom = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.Agent.TicketZoom || {}));
+}(OTRS.App.Agent.TicketZoom || {}));
