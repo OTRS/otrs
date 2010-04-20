@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.114 2010-04-19 20:31:04 cr Exp $
+# $Id: Queue.pm,v 1.115 2010-04-20 21:32:36 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 =head1 NAME
 
@@ -782,8 +782,8 @@ sub QueueGet {
         . 'q.first_response_time, q.first_response_notify, '
         . 'q.update_time, q.update_notify, q.solution_time, q.solution_notify, '
         . 'q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id, '
-        . 'q.default_sign_key, q.calendar_name FROM queue q, system_address sa '
-        . 'WHERE q.system_address_id = sa.id AND ';
+        . 'q.default_sign_key, q.calendar_name, q.create_time, q.change_time FROM queue q, '
+        . 'system_address sa WHERE q.system_address_id = sa.id AND ';
 
     if ( $Param{ID} ) {
         $SQL .= 'q.id = ?';
@@ -818,6 +818,8 @@ sub QueueGet {
             RealName            => $Data[17],
             DefaultSignKey      => $Data[19],
             Calendar            => $Data[20] || '',
+            CreateTime          => $Data[21],
+            ChangeTime          => $Data[22],
         );
     }
 
@@ -1126,6 +1128,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.114 $ $Date: 2010-04-19 20:31:04 $
+$Revision: 1.115 $ $Date: 2010-04-20 21:32:36 $
 
 =cut

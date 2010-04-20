@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.60 2009-12-15 21:09:40 mb Exp $
+# $Id: AdminQueue.pm,v 1.61 2010-04-20 21:32:15 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,6 +43,7 @@ sub new {
     $Self->{SalutationObject}    = Kernel::System::Salutation->new(%Param);
     $Self->{SignatureObject}     = Kernel::System::Signature->new(%Param);
     $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
+    $Self->{GroupObject}         = Kernel::System::Group->new(%Param);
 
     return $Self;
 }
@@ -50,7 +51,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Param{NextScreen} = 'AdminQueue';
     my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' ) || '';
 
     my @Params = (
@@ -65,9 +65,10 @@ sub Run {
     );
 
     # get possible sign keys
-    my %KeyList = ();
+    my %KeyList   = ();
+    my %QueueData = ();
     if ($QueueID) {
-        my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
+        %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
         my $CryptObjectPGP = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
         if ($CryptObjectPGP) {
             my @PrivateKeys = $CryptObjectPGP->PrivateKeySearch( Search => $QueueData{Email}, );
@@ -89,13 +90,22 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # get data
+    # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_Mask( %Param, %QueueData, DefaultSignKeyList => \%KeyList );
+        $Self->_Edit(
+            Action => 'Change',
+            %Param,
+            %QueueData,
+            DefaultSignKeyList => \%KeyList,
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminQueue',
+            Data         => \%Param,
+
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -167,11 +177,43 @@ sub Run {
                 }
             }
         }
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
+
+        $Self->_Overview();
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Info => 'Queue updated!' );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminQueue',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # ------------------------------------------------------------ #
-    # add new queue
+    # add
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Add' ) {
+        my %GetParam;
+        for (qw(Name)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+        }
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Self->_Edit(
+            Action => 'Add',
+            %GetParam,
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminQueue',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
+    # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
@@ -206,7 +248,19 @@ sub Run {
         # create new queue
         my $Id = $Self->{QueueObject}->QueueAdd( %GetParam, UserID => $Self->{UserID} );
         if ( !$Id ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+            $Self->_Edit(
+                Action => 'Add',
+                %GetParam,
+            );
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminQueue',
+                Data         => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
 
         # update preferences
@@ -240,25 +294,41 @@ sub Run {
                 }
             }
         }
-        return $Self->{LayoutObject}->Redirect(
-            OP => "Action=AdminQueueResponses;Subaction=Queue;ID=$Id",
+        $Self->_Overview();
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Info => 'Queue added!' );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminQueue',
+            Data         => \%Param,
         );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # ------------------------------------------------------------ #
-    # else ! print form
+    # overview
     # ------------------------------------------------------------ #
     else {
+        $Self->_Overview();
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_Mask();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminQueue',
+            Data         => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 }
 
-sub _Mask {
+sub _Edit {
     my ( $Self, %Param ) = @_;
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
+    );
 
     # get valid list
     my %ValidList        = $Self->{ValidObject}->ValidList();
@@ -282,6 +352,7 @@ sub _Mask {
         Name                => 'GroupID',
         SelectedID          => $Param{GroupID},
     );
+
     my $ParentQueue = '';
     if ( $Param{Name} ) {
         my @Queue = split( /::/, $Param{Name} );
@@ -414,6 +485,17 @@ sub _Mask {
         SelectedID => $Param{Calendar},
     );
 
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => \%Param,
+    );
+    if ( $Param{DefaultSignKeyOption} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OptionalField',
+            Data => \%Param,
+        );
+    }
+
     # show each preferences setting
     my %Preferences = ();
     if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
@@ -460,7 +542,43 @@ sub _Mask {
         }
     }
 
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AdminQueueForm', Data => \%Param );
+    # reformat from html to plain
+    if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
+        $Param{Response} = $Self->{HTMLUtilsObject}->ToAscii(
+            String => $Param{Response},
+        );
+    }
+    return 1;
+}
+
+sub _Overview {
+    my ( $Self, %Param ) = @_;
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewResult',
+        Data => \%Param,
+    );
+    my %List = $Self->{QueueObject}->QueueList( Valid => 0 );
+
+    # get valid list
+    my %ValidList = $Self->{ValidObject}->ValidList();
+    for my $QueueID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+        my %Data = $Self->{QueueObject}->QueueGet( ID => $QueueID, );
+        $Data{GroupName} = $Self->{GroupObject}->GroupLookup( GroupID => $Data{GroupID} );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResultRow',
+            Data => {
+                Valid => $ValidList{ $Data{ValidID} },
+                %Data,
+            },
+        );
+    }
+    return 1;
 }
 
 1;
