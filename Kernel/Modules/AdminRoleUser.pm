@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.27 2010-04-15 18:06:04 cr Exp $
+# $Id: AdminRoleUser.pm,v 1.28 2010-04-20 14:38:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -182,12 +182,16 @@ sub _Change {
     my $Type   = $Param{Type} || 'User';
     my $NeType = $Type eq 'Role' ? 'User' : 'Role';
 
+    my %VisibleType = ( Role => 'Role', User => 'Agent' );
+
     $Self->{LayoutObject}->Block(
         Name => 'Change',
         Data => {
             %Param,
-            ActionHome => 'Admin' . $Type,
-            NeType     => $NeType,
+            ActionHome    => 'Admin' . $Type,
+            NeType        => $NeType,
+            VisibleType   => $VisibleType{$Type},
+            VisibleNeType => $VisibleType{$NeType},
         },
     );
     $Self->{LayoutObject}->Block(

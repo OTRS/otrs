@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.50 2010-04-14 19:13:32 cr Exp $
+# $Id: AdminUserGroup.pm,v 1.51 2010-04-20 14:38:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -204,12 +204,16 @@ sub _Change {
     my $Type   = $Param{Type} || 'User';
     my $NeType = $Type eq 'Group' ? 'User' : 'Group';
 
+    my %VisibleType = ( Group => 'Group', User => 'Agent', );
+
     $Self->{LayoutObject}->Block(
         Name => 'Change',
         Data => {
             %Param,
-            ActionHome => 'Admin' . $Type,
-            NeType     => $NeType,
+            ActionHome    => 'Admin' . $Type,
+            NeType        => $NeType,
+            VisibleType   => $VisibleType{$Type},
+            VisibleNeType => $VisibleType{$NeType},
         },
     );
     for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
