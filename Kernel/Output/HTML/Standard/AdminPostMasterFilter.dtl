@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.30 2010-04-20 17:56:13 mp Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.31 2010-04-20 18:41:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,7 @@
                 <h2>$Text{"Edit"}</h2>
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="UpdateAction"/>
                     <input type="hidden" name="OldName" value="$QData{"Name"}"/>
@@ -107,8 +107,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label>$Text{"Match"}:</label>
-                        <div class="Clear"></div>
+                        <h4>$Text{"Filter Condition"}</h4>
 
                         <label for="MatchHeader1">$Text{"Header"} 1:</label>
                         <div class="Field">
@@ -146,8 +145,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label>$Text{"Set"}:</label>
-                        <div class="Clear"></div>
+                        <h4>$Text{"Set Email Headers"}</h4>
 
                         <label for="SetHeader1">$Text{"Header"} 1:</label>
                         <div class="Field">
@@ -199,8 +197,7 @@
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">
-                        <label>$Text{"Match"}:</label>
-                        <div class="Clear"></div>
+                        <h4>$Text{"Filter Condition"}</h4>
 
                         <label for="MatchHeaderExample">$Text{"Header"} 1:</label>
                         <div class="Field">
@@ -227,8 +224,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label>$Text{"Set"}:</label>
-                        <div class="Clear"></div>
+                        <h4>$Text{"Set Email Headers"}</h4>
 
                         <label for="SetHeaderExample">$Text{"Header"} 1:</label>
                         <div class="Field">
