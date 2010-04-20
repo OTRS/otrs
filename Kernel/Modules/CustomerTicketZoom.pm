@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.61 2010-04-19 23:41:11 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.62 2010-04-20 14:02:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -316,9 +316,6 @@ sub Run {
 
     # return if HTML email
     if ( $Self->{Subaction} eq 'ShowHTMLeMail' ) {
-
-        # if it is a html email, return here
-        $Ticket{ShowHTMLeMail} = 1;
         return $Output;
     }
 
@@ -383,7 +380,7 @@ sub _Mask {
     }
 
     # ticket type
-    if ( $Self->{ConfigObject}->Get('Ticket::Type') || $Self->{Config}->{AttributesView}->{Type} ) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{AttributesView}->{Type} ) {
         $Self->{LayoutObject}->Block(
             Name => 'Type',
             Data => \%Param,
@@ -393,10 +390,9 @@ sub _Mask {
     # ticket service
     if (
         $Param{Service}
-        && (
-            $Self->{ConfigObject}->Get('Ticket::Service')
-            || $Self->{Config}->{AttributesView}->{Service}
-        )
+        &&
+        $Self->{ConfigObject}->Get('Ticket::Service')
+        && $Self->{Config}->{AttributesView}->{Service}
         )
     {
         $Self->{LayoutObject}->Block(
@@ -412,7 +408,7 @@ sub _Mask {
     }
 
     # ticket state
-    if ( $Self->{Config}->{State} || $Self->{Config}->{AttributesView}->{State} ) {
+    if ( $Self->{Config}->{AttributesView}->{State} ) {
         $Self->{LayoutObject}->Block(
             Name => 'State',
             Data => \%Param,
@@ -420,7 +416,7 @@ sub _Mask {
     }
 
     # ticket priority
-    if ( $Self->{Config}->{Priority} || $Self->{Config}->{AttributesView}->{Priority} ) {
+    if ( $Self->{Config}->{AttributesView}->{Priority} ) {
         $Self->{LayoutObject}->Block(
             Name => 'Priority',
             Data => \%Param,
@@ -428,7 +424,7 @@ sub _Mask {
     }
 
     # ticket queue
-    if ( $Self->{Config}->{Queue} || $Self->{Config}->{AttributesView}->{Queue} ) {
+    if ( $Self->{Config}->{AttributesView}->{Queue} ) {
         $Self->{LayoutObject}->Block(
             Name => 'Queue',
             Data => \%Param,
@@ -473,13 +469,23 @@ sub _Mask {
         );
     }
 
+    # print option
+    if ( $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{CustomerTicketPrint} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Print',
+            Data => \%Param,
+        );
+    }
+
     my $LastSenderType = '';
     for my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
 
         # do some html quoting
-        $Article{Age}
-            = $Self->{LayoutObject}->CustomerAge( Age => $Article{AgeTimeUnix}, Space => ' ' );
+        $Article{Age} = $Self->{LayoutObject}->CustomerAge(
+            Age   => $Article{AgeTimeUnix},
+            Space => ' ',
+        );
 
         $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
             TicketNumber => $Article{TicketNumber},
@@ -544,12 +550,7 @@ sub _Mask {
         );
 
         # add attachment icon
-        if (
-            $Article{Atms}
-            && %{ $Article{Atms} }
-            )
-        {
-            my $Title = '';
+        if ( $Article{Atms} && %{ $Article{Atms} } ) {
 
             # download type
             my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
@@ -559,35 +560,29 @@ sub _Mask {
             if ( $Type =~ /inline/i ) {
                 $Target = 'target="attachment" ';
             }
-            for my $Count (
-                1 .. ( $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') + 1 )
-                )
-            {
-                if ( $Article{Atms}->{$Count} ) {
-                    if ( $Count > $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') )
-                    {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'TreeItemAttachmentMore',
-                            Data => {
-                                %Article,
-                                %{ $Article{Atms}->{$Count} },
-                                FileID => $Count,
-                                Target => $Target,
-                            },
-                        );
-                    }
-                    elsif ( $Article{Atms}->{$Count} ) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'TreeItemAttachment',
-                            Data => {
-                                %Article,
-                                %{ $Article{Atms}->{$Count} },
-                                FileID => $Count,
-                                Target => $Target,
-                            },
-                        );
-                    }
-                }
+            my %AtmIndex = %{ $Article{Atms} };
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleAttachment',
+                Data => { Key => 'Attachment', },
+            );
+            for my $FileID ( sort keys %AtmIndex ) {
+                my %File = %{ $AtmIndex{$FileID} };
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleAttachmentRow',
+                    Data => \%File,
+                );
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleAttachmentRowLink',
+                    Data => {
+                        %File,
+                        Action => 'Download',
+                        Link =>
+                            "\$Env{\"CGIHandle\"}/\$QData{\"Filename\"}?Action=CustomerTicketAttachment;ArticleID=$Article{ArticleID};FileID=$FileID",
+                        Image  => 'disk-s.png',
+                        Target => $Target,
+                    },
+                );
             }
         }
     }
@@ -600,47 +595,6 @@ sub _Mask {
         my %ArticleTmp1 = %$ArticleTmp;
         if ( $ArticleID eq $ArticleTmp1{ArticleID} ) {
             %Article = %ArticleTmp1;
-        }
-    }
-
-    # get attachment string
-    my %AtmIndex;
-    if ( $Article{Atms} ) {
-        %AtmIndex = %{ $Article{Atms} };
-    }
-
-    # add block for attachments
-    if (%AtmIndex) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ArticleAttachment',
-            Data => { Key => 'Attachment', },
-        );
-        for my $FileID ( sort keys %AtmIndex ) {
-            my %File = %{ $AtmIndex{$FileID} };
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticleAttachmentRow',
-                Data => \%File,
-            );
-
-            # download type
-            my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
-
-            # if attachment will be forced to download, don't open a new download window!
-            my $Target = '';
-            if ( $Type =~ /inline/i ) {
-                $Target = 'target="attachment" ';
-            }
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticleAttachmentRowLink',
-                Data => {
-                    %File,
-                    Action => 'Download',
-                    Link =>
-                        "\$Env{\"CGIHandle\"}/\$QData{\"Filename\"}?Action=CustomerTicketAttachment;ArticleID=$Article{ArticleID};FileID=$FileID",
-                    Image  => 'disk-s.png',
-                    Target => $Target,
-                },
-            );
         }
     }
 
