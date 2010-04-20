@@ -2,7 +2,7 @@
 # AdminResponseAttachment.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.dtl,v 1.1 2010-04-20 18:34:33 dz Exp $
+# $Id: AdminResponseAttachment.dtl,v 1.2 2010-04-20 18:42:44 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,20 +59,6 @@
 
 <!-- dtl:block:Overview -->
 <!-- dtl:block:Change -->
-
-<script type="text/javascript">//<![CDATA[
-function select_items (Type) {
-    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
-        if ( document.matrix.elements[Type][0].checked ) {
-            document.matrix.elements[Type][i].checked = true;
-        }
-        else {
-            document.matrix.elements[Type][i].checked = false;
-        }
-    }
-}
-//]]></script>
-
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Manage Responses <-> Attachments Relations"}</h1>
 
@@ -103,9 +89,18 @@ function select_items (Type) {
                                 <th>$Text{"$QData{"VisibleNeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="Center">
-                                    <input type="checkbox" name="$QData{"Type"}" title="$Text{"Toggle %s permission for all", "$QData{"Type"}"}" value="" onclick="select_items('$QData{"Type"}');" />
+                                    <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle %s permission for all", "$QData{"Type"}"}" value="" />
                                     $QData{"VisibleType"}
                                 </th>
+<!-- dtl:document_ready -->
+<script type="text/javascript">//<![CDATA[
+    $(document).ready(function() {
+        OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
+            OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
+        });
+    });
+//]]></script>
+<!-- dtl:document_ready -->
 <!-- dtl:block:ChangeHeader -->
                             </tr>
                         </thead>
