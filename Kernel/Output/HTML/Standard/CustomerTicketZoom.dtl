@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.64 2010-04-20 14:02:36 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.65 2010-04-20 23:43:00 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -111,7 +111,7 @@ function submit_compose() {
                             <div class="Label">$Text{"Subject"}:</div> <span title="$QData{"Subject"}">$QData{"Subject","100"}</span>
                         </div>
 <!-- dtl:block:ArticleAttachment -->
-                        <div>
+                        <div titel="$Text{"$Data{"Key"}"}" class="Attachment">
                             <div class="Label">$Text{"$Data{"Key"}"}:</div>
 <!-- dtl:block:ArticleAttachmentRow -->
                             $QData{"Filename"}
@@ -157,16 +157,23 @@ $Data{"Body"}
 #                </div>
 <!-- dtl:block:BodyHTML -->
                     </div>
-                    <div class="MessageFooter SeperatorRow">
-                        <ul class="MessageActions">
-                            <li><a class="Reply" href="">$Text{"Reply"}</a></li>
-                        </ul>
-                        <div class="Clear"></div>
-                    </div>
                 </div>
             </li>
 <!-- dtl:block:Article -->
         </ul> <!-- /Messages -->
+        <div id="FollowUp">
+            <form id="Messenger" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+                <input type="hidden" name="Action" value="CustomerTicketZoom" />
+                <input type="hidden" name="Subaction" value="Store" />
+                <input type="hidden" name="TicketID" value="$QData{"TicketID"}" />
+                <input type="hidden" name="ArticleID" value="$QData{"Article::ArticleID"}" />
+                <input type="hidden" name="FormID" value="$QData{"FormID"}" />
+                $Include{"RichTextEditor"}
+                <textarea titel="$Text{"Reply"}" id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                <button id="Submit" type="submit" value="submit">Submit</button>
+            </form>
+            <a id="ReplyButton" href="">$Text{"Reply"}</a>
+        </div>
     </div>
 </div>
 <!-- dtl:document_ready -->

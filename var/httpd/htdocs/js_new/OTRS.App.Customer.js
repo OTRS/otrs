@@ -2,7 +2,7 @@
 // OTRS.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Customer.js,v 1.4 2010-04-19 18:03:26 fn Exp $
+// $Id: OTRS.App.Customer.js,v 1.5 2010-04-20 23:43:00 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -34,13 +34,13 @@ OTRS.App.Customer = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.InitLogin = function() {
-        var Inputs = $('input').not(':checkbox, :hidden, :radio'),
+        var $Inputs = $('input').not(':checkbox, :hidden, :radio'),
             Now = new Date(),
             Diff = Now.getTimezoneOffset();
         
         $('#TimeOffset').val(Diff);
         
-        Inputs
+        $Inputs
             .focus(function(){
                 $(this).prev('label').addClass('Focused');
             })
@@ -120,7 +120,7 @@ OTRS.App.Customer = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.Enhance = function(){
-        $('#Body').addClass('Js');
+        $('body').addClass('Js');
     }
 
     /**
@@ -138,10 +138,10 @@ OTRS.App.Customer = (function (TargetNS) {
             $(this).parent('.Message').toggleClass('Visible');
             Event.preventDefault();
         });
-        $('.Reply').click(function(Event){
-            var $Footer = $(this).closest('.MessageFooter').toggleClass('Visible');
-            $('textarea', $Footer).focus();
-            Event.preventDefault();
+        $('#ReplyButton').click(function(event){
+            event.preventDefault();
+            var FollowUp = $(this).parent().toggleClass('Visible');
+            $('textarea', FollowUp).focus();
         });
         $.each($Iframes, function(Index, Iframe){
             CheckIframe(Iframe);

@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -57,7 +57,7 @@
 }
 
 .Flag > div {
-    line-height: 13px;
+    height: 13px;
     border-width: 1px;
     border-style: solid;
     border-radius: 1px;
@@ -149,7 +149,9 @@
     border-radius: 5px;
     -webkit-box-shadow: 0 0 3px #EEE;
     -moz-box-shadow: 0 0 3px #EEE;
-    box-shadow: 0 0 3px #EEE;
+    box-shadow: 0 0 2px #EEE;
+    position: relative;
+    z-index: 10;
 }
 
 .Message {
@@ -244,6 +246,20 @@
     float: right;
 }
 
+.Details .Attachment {
+    padding-top: 2px;
+}
+
+.Details .Attachment .Label {
+    background: url(img/paper-clip.png) no-repeat 51px center;
+    text-indent: -9999px;
+    text-align: left;
+}
+
+.Details .Attachment a {
+    vertical-align: top;
+}
+
 .MessageBody {
     display: none;
 }
@@ -255,7 +271,9 @@
 .MessageContent {
     padding: 5px 6px 5px;
     background: #FFF;
-    border-bottom: 1px solid #E8E8E8;
+    border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px;
 }
 
 .MessageFooter {
@@ -309,12 +327,86 @@
     padding: 8px 13px 5px;
 }
 
-.WideTextarea label {
+#FollowUp {
+    margin: 0 13px 8px;
+    position: relative;
+    display: inline-block;
+}
+
+.Js #FollowUp {
+    margin-bottom: 21px;
+}
+
+/*#FollowUp.Visible {
+    margin: 0 13px 21px;
+}*/
+
+#FollowUp #Messenger {
+    padding: 8px 8px 5px;
+    color: #6A6A6A;
+    background: #F0F0F0;
+    background: -moz-linear-gradient(top, #F9F9F9, #F0F0F0);
+    background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#F0F0F0));
+    border: 1px solid #D6D6D6;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 0;
+    -webkit-border-radius: 0 0 5px 5px;
     display: none;
 }
 
-.WideTextarea textarea {
-    margin: 0 12px;
+#FollowUp.Visible #Messenger {
+    display: block;
+}
+
+#FollowUp textarea {
+    padding: 5px;
+    border-color: #BBB;
+}
+
+#FollowUp textarea:focus {
+    border-color: #888;
+}
+
+#FollowUp button {
+    margin: 5px;
+    display: block;
+}
+
+#FollowUp span.cke_skin_kama {
+    border: none;
+}
+
+#ReplyButton {
+    bottom: -22px;
+    height: 10px;
+    margin: 0 13px;
+    padding: 4px 8px 8px 24px;
+    font-size: 13px;
+    color: #999;
+    background: #F0F0F0 url(img/reply.png) no-repeat 6px 6px;
+    background: url(img/reply.png) no-repeat 6px 6px, -moz-linear-gradient(top, #F0F0F0, #EEE);
+    background: url(img/reply.png) no-repeat 6px 6px, -webkit-gradient(linear, left top, left bottom, from(#F0F0F0), to(#EEE));
+    border: 1px solid #D6D6D6;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px;
+    display: none;
+    position: absolute;
+    z-index: 99;
+}
+
+.Visible #ReplyButton {
+    margin: 0;
+}
+
+.Js #ReplyButton {
+    display: block;
+}
+
+#ReplyButton:hover {
+    color: #555;
 }
 
 /**
