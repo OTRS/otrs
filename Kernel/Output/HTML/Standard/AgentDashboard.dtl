@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.33 2010-04-19 23:13:21 mn Exp $
+# $Id: AgentDashboard.dtl,v 1.34 2010-04-20 17:48:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -207,6 +207,7 @@ Dashboard.PreferencesUpdate = function( Name, FormName ) {
         </div>
 <!-- dtl:block:ContentLarge -->
     </div>
+    <div class="Clear"></div>
 
 </div>
 <!-- dtl:block:Content -->
