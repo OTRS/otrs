@@ -1,0 +1,142 @@
+# --
+# AdminResponseAttachment.dtl - provides HTML form for AdminInterface
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminResponseAttachment.dtl,v 1.1 2010-04-20 18:34:33 dz Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:Overview -->
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Env{"Box0"}$Text{"Manage Responses <-> Attachments Relations"}$Env{"Box1"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short MinHeight">
+            <div class='Header'></div>
+            <div class='Content'>$Text{"Intentionally Empty"}</div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Overview"}</h2>
+            </div>
+            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+                <div class="Size1of2">
+                    <ul class="Tablelike" id="Responses">
+                        <li class="Header">$Text{"Responses"}</li>
+<!-- dtl:block:List1n-->
+                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
+<!-- dtl:block:List1n-->
+                    </ul>
+                </div>
+                <div class="Size1of2">
+                    <ul class="Tablelike" id="Attachment">
+                        <li class="Header">$Text{"Attachments"}</li>
+<!-- dtl:block:Listn1-->
+                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
+<!-- dtl:block:Listn1-->
+                    </ul>
+                </div>
+                <div class="Clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+<!-- dtl:document_ready -->
+<script type="text/javascript">//<![CDATA[
+    $(document).ready(function() {
+        OTRS.UI.Tables.InitTableFilter($('#FilterResponses'), $('#Responses'));
+        OTRS.UI.Tables.InitTableFilter($('#FilterAttachments'), $('#Attachments'));
+    });
+//]]></script>
+<!-- dtl:document_ready -->
+
+<!-- dtl:block:Overview -->
+<!-- dtl:block:Change -->
+
+<script type="text/javascript">//<![CDATA[
+function select_items (Type) {
+    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
+        if ( document.matrix.elements[Type][0].checked ) {
+            document.matrix.elements[Type][i].checked = true;
+        }
+        else {
+            document.matrix.elements[Type][i].checked = false;
+        }
+    }
+}
+//]]></script>
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Manage Responses <-> Attachments Relations"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short MinHeight">
+            <div class='Header'></div>
+            <div class='Content'>$Text{"Intentionally Empty"}</div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>
+                    $Text{"Change %s Relations for %s", "$QData{"VisibleNeType"}", "$QData{"VisibleType"}"}
+                    <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
+                    ($QData{"ID"})
+                </h2>
+            </div>
+            <div class="Content WithPadding">
+                <form action="$Env{"CGIHandle"}" method="post" name="matrix">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
+                    <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                    <table class="DataTable VariableWidth" id="ResponseAttachment">
+                        <thead>
+                            <tr>
+                                <th>$Text{"$QData{"VisibleNeType"}"}</th>
+<!-- dtl:block:ChangeHeader -->
+                                <th class="Center">
+                                    <input type="checkbox" name="$QData{"Type"}" title="$Text{"Toggle %s permission for all", "$QData{"Type"}"}" value="" onclick="select_items('$QData{"Type"}');" />
+                                    $QData{"VisibleType"}
+                                </th>
+<!-- dtl:block:ChangeHeader -->
+                            </tr>
+                        </thead>
+                        <tbody>
+<!-- dtl:block:ChangeRow -->
+                            <tr>
+                                <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                                <td>
+                                    <input type="checkbox" name="$QData{"Type"}" title="$Text{"Link %s as attachment to response","$QData{"Name"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
+                                </td>
+                            </tr>
+<!-- dtl:block:ChangeRow -->
+                        </tbody>
+                    </table>
+                    <div class="Field SpacingTop">
+                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                    </div>
+                    <div class="Clear"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+
+<!-- dtl:document_ready -->
+<script type="text/javascript">//<![CDATA[
+    $(document).ready(function() {
+        OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserGroups'));
+    });
+//]]></script>
+<!-- dtl:document_ready -->
+
+<!-- dtl:block:Change -->
