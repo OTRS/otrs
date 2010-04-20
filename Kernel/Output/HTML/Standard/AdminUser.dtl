@@ -1,8 +1,8 @@
 # --
-# AdminUserForm.dtl - provides HTML form for AdminUser
+# AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.1 2010-03-27 20:49:38 martin Exp $
+# $Id: AdminUser.dtl,v 1.2 2010-04-20 23:13:57 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,32 +14,54 @@
     <h1>$Text{"User Management"}</h1>
 
     <div class="SidebarColumn">
+
+<!-- dtl:block:ActionList -->
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Action"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:ActionSearch -->
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="Search"/>
+                            <input type="text" name="Search" value="$QData{"Search"}" id="Search"/>
+                            <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                        </form>
+                        <p class="FieldExplanation">
+                            $Text{"Wildcards are allowed"}
+                        </p>
+                    </li>
+<!-- dtl:block:ActionSearch -->
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="Add"/>
+
+                            <button type="submit">$Text{"Add User"}</button>
+
+                            <p class="FieldExplanation">
+                                $Text{"Add a user"}
+                            </p>
+                        </form>
+                    </li>
+<!-- dtl:block:ActionAdd -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short">
             <div class="Header">
             </div>
             <div class="Content">
-
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <h2>$Text{"Search"}</h2>
-                    <p class="FieldExplanation">
-                        $Text{"Enter a search phrase to look for agents, wildcards are allowed"}.
-                    </p>
-                    <input class="w50pc" type="text" name="Search" id="Search" value="$QData{"Search"}"/>
-                    <br/>
-                    <button class="button" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
-                </form>
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Add"/>
-
-                    <h2 class="SpacingTop">$Text{"Add User"}</h2>
-                    <p class="FieldExplanation">
-                        $Text{"Add a new Agent."}
-                    </p>
-                    <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
-                </form>
-
                 <h2 class="SpacingTop">$Text{"Note"}</h2>
                 <p class="FieldExplanation">
                     $Text{"User will be needed to handle tickets."}
@@ -50,10 +72,10 @@
             </div>
         </div>
     </div>
-
     <div class="ContentColumn">
         <div class="WidgetGradient Short">
 <!-- dtl:block:OverviewResult -->
+
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
@@ -103,117 +125,119 @@
                     <input type="hidden" name="UserID" value="$QData{"UserID"}"/>
                     <input type="hidden" name="Search" value="$QData{"Search"}"/>
                     <fieldset class="TableLike">
-                    <label for="UserLogin">$Text{"User"}:</label>
-                    <div class="Field">
-                        <input type="text" name="UserLogin" id="UserLogin" value="$QData{"UserLogin"}" class="W50pc" maxlength="100"/>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="UserLogin">$Text{"User"}:</label>
+                        <div class="Field">
+                            <input type="text" name="UserLogin" id="UserLogin" value="$QData{"UserLogin"}" class="W50pc" maxlength="100"/>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="UserTitle">$Text{"Title{user}"}:</label>
-                    <div class="Field">
-                        <input type="text" name="UserTitle" id="UserTitle" value="$QData{"UserTitle"}" class="W50pc" maxlength="50"/>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="UserTitle">$Text{"Title{user}"}:</label>
+                        <div class="Field">
+                            <input type="text" name="UserTitle" id="UserTitle" value="$QData{"UserTitle"}" class="W50pc" maxlength="50"/>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="UserFirstname">$Text{"Firstname"}:</label>
-                    <div class="Field">
-                        <input type="text" name="UserFirstname" id="UserFirstname" value="$QData{"UserFirstname"}" class="W50pc" maxlength="100"/>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="UserFirstname">$Text{"Firstname"}:</label>
+                        <div class="Field">
+                            <input type="text" name="UserFirstname" id="UserFirstname" value="$QData{"UserFirstname"}" class="W50pc" maxlength="100"/>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="UserLastname">$Text{"Lastname"}:</label>
-                    <div class="Field">
-                        <input type="text" name="UserLastname" id="UserLastname" value="$QData{"UserLastname"}" class="W50pc" maxlength="100"/>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="UserLastname">$Text{"Lastname"}:</label>
+                        <div class="Field">
+                            <input type="text" name="UserLastname" id="UserLastname" value="$QData{"UserLastname"}" class="W50pc" maxlength="100"/>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="UserPw">$Text{"Password"}:</label>
-                    <div class="Field">
-                        <input type="password" name="UserPw" id="UserPw" value="" class="W50pc" maxlength="50"/>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="UserPw">$Text{"Password"}:</label>
+                        <div class="Field">
+                            <input type="password" name="UserPw" id="UserPw" value="" class="W50pc" maxlength="50"/>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="UserEmail">$Text{"Email"}:</label>
-                    <div class="Field">
-                        <input type="text" name="UserEmail" id="UserEmail" value="$QData{"UserEmail"}" class="W50pc" maxlength="250"/>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="UserEmail">$Text{"Email"}:</label>
+                        <div class="Field">
+                            <input type="text" name="UserEmail" id="UserEmail" value="$QData{"UserEmail"}" class="W50pc" maxlength="250"/>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="ValidID">$Text{"Valid"}:</label>
-                    <div class="Field">
-                        $Data{"ValidOption"}
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="ValidID">$Text{"Valid"}:</label>
+                        <div class="Field">
+                            $Data{"ValidOption"}
+                        </div>
+                        <div class="Clear"></div>
 
 <!-- dtl:block:Item -->
 <!-- dtl:block:InputKey -->
-                    <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</label>
-                    <div class="Field">
-                        <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" class="W50pc"/>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</label>
+                        <div class="Field">
+                            <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" class="W50pc"/>
+                        </div>
+                        <div class="Clear"></div>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
-                    <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
-                    <div class="Field">
-                        <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" class="W50pc"/>
-                        <p class="FieldExplanation">
-                            $Text{"$Data{"Desc"}"}
-                        </p>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
+                        <div class="Field">
+                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" class="W50pc"/>
+                            <p class="FieldExplanation">
+                                $Text{"$Data{"Desc"}"}
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
-                    <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</label>
-                    <div class="Field">
-                        $Data{"Option"}
-                        <p class="FieldExplanation">
-                            $Text{"$Data{"Desc"}"}
-                        </p>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
+                        <div class="Field">
+                            $Data{"Option"}
+                            <p class="FieldExplanation">
+                                $Text{"$Data{"Key"}"}
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
 <!-- dtl:block:Option -->
 <!-- dtl:block:Upload -->
-                    <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}</label>
-                    <div class="Field">
-                        <input name="$QData{"Name"}" type="file" size="30" class="fixed"/><br/>
-                        <a href="">$QData{"Filename"}</a>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}</label>
+                        <div class="Field">
+                            <input name="$QData{"Name"}" type="file" size="30" class="fixed"/><br/>
+                            <a href="">$QData{"Filename"}</a>
+                        </div>
+                        <div class="Clear"></div>
 <!-- dtl:block:Upload -->
 <!-- dtl:block:Password -->
-                    <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</label>
-                    <div class="Field">
-                        <input type="password" name="$QData{"Name"}" value="" class="W50pc"/>
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</label>
+                        <div class="Field">
+                            <input type="password" name="$QData{"Name"}" value="" class="W50pc"/>
+                        </div>
+                        <div class="Clear"></div>
 <!-- dtl:block:Password -->
 <!-- dtl:block:OutOfOffice -->
-                    <label>$Text{"$Data{"Label"}"}:</label>
-                    <div class="Field">
-                        <p>
-                            <input type="radio" name="OutOfOffice" id="OutOfOfficeOn" value="1" $Data{"OutOfOfficeOn"} />
-                            <label for="OutOfOfficeOn">$Text{"On"}</label>
-                            <input type="radio" name="OutOfOffice" id="OutOfOfficeOff" value="0" $Data{"OutOfOfficeOff"} />
-                            <label for="OutOfOfficeOff">$Text{"Off"}</label>
-                        </p>
-                        <p class="SpacingTopSmall">
-                            $Text{"Start"}: $Data{"OptionStart"}
-                        </p>
-                        <p class="SpacingTopSmall">
-                            $Text{"End"}: $Data{"OptionEnd"}
-                        </p>
-                        <p class="FieldExplanation">
-                            $Text{"$Data{"Desc"}"}
-                        </p>
-                    </div>
-                    <div class="Clear"></div>
+                        <label>$Text{"$Data{"Label"}"}:</label>
+                        <div class="Field">
+                            <p>
+                                <input type="radio" name="OutOfOffice" id="OutOfOfficeOn" value="1" $Data{"OutOfOfficeOn"} />
+                                <label for="OutOfOfficeOn">$Text{"On"}</label>
+                                <input type="radio" name="OutOfOffice" id="OutOfOfficeOff" value="0" $Data{"OutOfOfficeOff"} />
+                                <label for="OutOfOfficeOff">$Text{"Off"}</label>
+                            </p>
+                            <p class="SpacingTopSmall">
+                                $Text{"Start"}: $Data{"OptionStart"}
+                            </p>
+                            <p class="SpacingTopSmall">
+                                $Text{"End"}: $Data{"OptionEnd"}
+                            </p>
+                            <p class="FieldExplanation">
+                                $Text{"$Data{"Desc"}"}
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
 <!-- dtl:block:OutOfOffice -->
 <!-- dtl:block:Item -->
-                    <div class="Field SpacingTop">
-                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                    </div>
-                    <div class="Clear"></div>
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
+                        </div>
+                        <div class="Clear"></div>
                     </fieldset>
                 </form>
             </div>

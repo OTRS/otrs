@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.61 2010-03-27 20:49:38 martin Exp $
+# $Id: AdminUser.pm,v 1.62 2010-04-20 23:13:57 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -363,6 +363,8 @@ sub _Edit {
         Name => 'Overview',
         Data => \%Param,
     );
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
     # get valid list
     my %ValidList        = $Self->{ValidObject}->ValidList();
@@ -466,6 +468,9 @@ sub _Overview {
         Name => 'Overview',
         Data => \%Param,
     );
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
+    $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
     $Self->{LayoutObject}->Block(
         Name => 'OverviewResult',
         Data => \%Param,
