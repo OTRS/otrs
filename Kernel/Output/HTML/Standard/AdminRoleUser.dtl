@@ -11,13 +11,13 @@
 
 <!-- dtl:block:Overview -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Manage Role-User Relations"}</h1>
+    <h1>$Text{"Manage Role-Agent Relations"}</h1>
 
     <div class="SidebarColumn">
         <div class="WidgetGradient Short">
             <div class="Header">
 
-                <h2><label for="FilterUsers">$Text{"Filter for Users"}</label></h2>
+                <h2><label for="FilterUsers">$Text{"Filter for Agents"}</label></h2>
             </div>
             <div class="Content">
                 <form action="">
@@ -49,7 +49,7 @@
             <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Users">
-                        <li class="Header">$Text{"Users"}</li>
+                        <li class="Header">$Text{"Agents"}</li>
 <!-- dtl:block:List1n-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:List1n-->
@@ -95,7 +95,7 @@ function select_items (Type) {
 //]]></script>
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Manage Role-User Relations"}</h1>
+    <h1>$Text{"Manage Role-Agent Relations"}</h1>
     <div class="SidebarColumn">
         <div class="WidgetGradient Short">
             <div class="Header"></div>
@@ -112,7 +112,7 @@ function select_items (Type) {
         <div class="WidgetGradient Short">
             <div class="Header">
                 <h2>
-                    $Text{"Change %s Relations for %s", "$Data{"NeType"}", "$QData{"Type"}"}
+                    $Text{"Change %s Relations for %s", "$Data{"VisibleNeType"}", "$QData{"VisibleType"}"}
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
                     ($QData{"ID"})
                 </h2>
@@ -125,10 +125,10 @@ function select_items (Type) {
                     <table class="DataTable VariableWidth" id="UserRoles">
                         <thead>
                             <tr>
-                                <th>$Text{"$QData{"NeType"}"}</th>
+                                <th>$Text{"$QData{"VisibleNeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="Center $QData{"Mark"}">
-                                    <input type="checkbox" name="$QData{"Type"}" name="$QData{"Type"}" title="$Text{"Toggle active state for all"}" value="" onclick="select_items('$QData{"Type"}');" />
+                                    <input type="checkbox" name="$QData{"Type"}" title="$Text{"Toggle active state for all"}" value="" onclick="select_items('$QData{"Type"}');" />
                                     $Text{"Active"}
                                 </th>
 <!-- dtl:block:ChangeHeader -->
@@ -139,7 +139,7 @@ function select_items (Type) {
                             <tr>
                                 <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                                 <td class="$QData{"Mark"}">
-                                    <input type="checkbox" name="$QData{"Type"}" id="$QData{"Type"}" title="$Text{"Toggle active state for %s", "$QData{"Name"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
+                                    <input type="checkbox" name="$QData{"Type"}" title="$Text{"Toggle active state for %s", "$QData{"Name"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
                                 </td>
                             </tr>
 <!-- dtl:block:ChangeRow -->
