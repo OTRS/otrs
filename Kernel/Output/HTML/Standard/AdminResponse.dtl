@@ -2,7 +2,7 @@
 # AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.8 2010-04-19 23:40:32 mg Exp $
+# $Id: AdminResponse.dtl,v 1.9 2010-04-20 22:32:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,28 +14,30 @@
     <h1>$Text{"Manage Responses"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
-            <div class="Header"></div>
-            <div class="Content">
 <!-- dtl:block:ActionList -->
-                <h2>$Text{"Actions"}</h2>
+        <div class="WidgetGradient Short">
+            <div class="Header"><h2>$Text{"Actions"}</h2></div>
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionAdd -->
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Add"/>
-                    <fieldset class="TableLike LargeLabel">
-                        <label for="Add" class="">
-                            $Text{"Add a new Response"}:
-                        </label>
-                        <div class="Field">
-                            <button type="submit" id="Add" value="$Text{"Add"}">$Text{"Add"}</button>
-                        </div>
-                    </fieldset>
-                </form>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Response"}</span></a>
+                    </li>
 <!-- dtl:block:ActionAdd -->
+                </ul>
+            </div>
+        </div>
 <!-- dtl:block:ActionList -->
 
-                <h2>$Text{"Note"}</h2>
+        <div class="WidgetGradient Short">
+            <div class="Header"><h2>$Text{"Note"}</h2></div>
+            <div class="Content">
+
                 <p class="FieldExplanation">
                     $Text{"A response is default text to write faster answer (with default text) to customers."}
                 </p>

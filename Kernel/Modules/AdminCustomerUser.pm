@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.64 2010-04-19 18:45:27 dz Exp $
+# $Id: AdminCustomerUser.pm,v 1.65 2010-04-20 22:32:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -373,6 +373,14 @@ sub _Overview {
         Name => 'Overview',
         Data => \%Param,
     );
+
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionAdd',
+        Data => \%Param,
+    );
+
     $Self->{LayoutObject}->Block(
         Name => 'OverviewResult',
         Data => \%Param,
@@ -442,6 +450,10 @@ sub _Edit {
         Name => 'Overview',
         Data => \%Param,
     );
+
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
         Data => \%Param,
