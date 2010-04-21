@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1200 2010-04-15 19:51:16 mh Exp $
+# $Id: CHANGES,v 1.1201 2010-04-21 16:53:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/04/19) Improved bin/otrs.CreateTranslationFile.pl to get also
+    translatable strings from sys config settings for translation catalog.
  - (2010/04/09) Added the feature to save searches in the Customer Frontend
  - (2010/04/06) made command line scripts consistent. They now all
      have the format 'otrs.DoThis.pl'. Also, SetPermissions.sh is removed
@@ -250,6 +252,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/04/21) Fixed bug#5266 - Ticket Zoom shows wrong html content if there
+    is no text but two html attachments in there.
  - (2010/04/15) Fixed bug#5242 - Newlines not shown in html notification mails
     on Lotus Notes
  - (2010/04/14) Fixed bug#4999 - Cache of customer user get's not refreshed after

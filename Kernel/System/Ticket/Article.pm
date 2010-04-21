@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.248 2010-04-05 11:52:29 martin Exp $
+# $Id: Article.pm,v 1.249 2010-04-21 16:53:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::TemplateGenerator;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.248 $) [1];
+$VERSION = qw($Revision: 1.249 $) [1];
 
 =head1 NAME
 
@@ -1507,6 +1507,8 @@ sub ArticleGet {
         $Data{References}               = $Row[8];
         $Data{Body}                     = $Row[9];
         $Ticket{CreateTimeUnix}         = $Row[10];
+        $Ticket{AgeTimeUnix}            = $Self->{TimeObject}->SystemTime()
+            - $Self->{TimeObject}->TimeStamp2SystemTime( String => $Row[13] );
         $Ticket{Created}
             = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Ticket{CreateTimeUnix} );
         $Data{PriorityID}   = $Row[20];
@@ -3120,6 +3122,8 @@ sub ArticleAttachmentIndex {
         my $AttachmentIDHTML  = 0;
         for my $AttachmentID ( keys %Attachments ) {
             my %File = %{ $Attachments{$AttachmentID} };
+
+            # find plain attachment
             if (
                 $File{Filename} eq 'file-1'
                 && $File{ContentType} =~ /text\/plain/i
@@ -3127,8 +3131,12 @@ sub ArticleAttachmentIndex {
             {
                 $AttachmentIDPlain = $AttachmentID;
             }
+
+            # find html attachment
+            #  o file-[12], is plain+html attachment
+            #  o file-1.html, is only html attachment
             if (
-                $File{Filename} =~ /^file-[12]$/
+                ( $File{Filename} =~ /^file-[12]$/ || $File{Filename} eq 'file-1.html' )
                 && $File{ContentType} =~ /text\/html/i
                 )
             {
@@ -3212,6 +3220,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.248 $ $Date: 2010-04-05 11:52:29 $
+$Revision: 1.249 $ $Date: 2010-04-21 16:53:08 $
 
 =cut
