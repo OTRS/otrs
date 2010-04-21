@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.54 2010-04-21 22:50:28 cg Exp $
+# $Id: AdminPackageManager.dtl,v 1.55 2010-04-21 23:44:40 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -278,7 +278,9 @@
                             </td>
                             <td>
 <!-- dtl:block:ShowRemotePackageDocumentation -->
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$QData{"Name"};Version=$QData{"Version"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" /></a>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$QData{"Name"};Version=$QData{"Version"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}">
+                                <img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" />
+                                </a>
 <!-- dtl:block:ShowRemotePackageDocumentation -->
                             </td>
                             <td>$QData{"Version"}</td>
@@ -327,7 +329,9 @@
                             </td>
                             <td>
 <!-- dtl:block:ShowLocalPackageDocumentation -->
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" /></a>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}">
+                                <img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" />
+                                </a>
 <!-- dtl:block:ShowLocalPackageDocumentation -->
                             </td>
                             <td>$QData{"Version"}</td>
@@ -360,202 +364,233 @@
 
 <!-- dtl:block:Overview -->
 <!-- dtl:block:Package -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td colspan="2" class="mainhead">
-$Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="menu">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Overview"}</a>
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Package Manager"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+
+                <ul class="ActionList MinHeight">
+
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Overview"}</span></a>
+                    </li>
 <!-- dtl:block:PackageDownloadLocal -->
-            -
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Download"}</a>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Name=$LQData{"Name"};Version=$LQData{"Version"}" class="CallForAction"><span>$Text{"Download"}</span></a>
+                    </li>
 <!-- dtl:block:PackageDownloadLocal -->
 <!-- dtl:block:PackageDownloadRemote -->
-            -
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadRemote;File=$LQData{"File"}">$Text{"Download"}</a>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadRemote;File=$LQData{"File"}" class="CallForAction"><span>$Text{"Download"}</span></a>
+                    </li>
 <!-- dtl:block:PackageDownloadRemote -->
 <!-- dtl:block:PackageRebuild -->
-            -
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RebuildPackage;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Rebuild"}</a>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RebuildPackage;Name=$LQData{"Name"};Version=$LQData{"Version"}" class="CallForAction"><span>$Text{"Rebuild"}</span></a>
+                    </li>
 <!-- dtl:block:PackageRebuild -->
 <!-- dtl:block:PackageReinstall -->
-            -
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Reinstall"}</a>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$LQData{"Name"};Version=$LQData{"Version"}" class="CallForAction"><span>$Text{"Reinstall"}</span></a>
+                    </li>
 <!-- dtl:block:PackageReinstall -->
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <br/>
-            <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
-                <tr>
-                    <td colspan="2" class="contenthead">$Text{"Options"}</td>
-                </tr>
-                <tr>
-                    <td class="contentbody">
-                        <table border="0" width="100%">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="ContentColumn">
+        <div class="WidgetBox">
+
+            <div class="Header ControlRow">
+                <h2>$Text{"Options"}</h2>
+            </div>
+            <div class="Content WithPadding">
+
+
+                <fieldset class="TableLike Fixed Label">
 <!-- dtl:block:PackageItemDescription -->
-                            <tr>
-                                <td class="contentkey">$Text{"$QData{"Tag"}"}: </td>
-                                <td class="contentvalue">($QData{"Lang"}) $QData{"Content"}</td>
-                            </tr>
+                    <label>$Text{"$QData{"Tag"}"}: </label>
+                    <div class="Value">($QData{"Lang"}) $QData{"Content"}</div>
+                    <div class="Clear"></div>
 <!-- dtl:block:PackageItemDescription -->
-                            <tr>
-                                <td class="contentkey">$Text{"ChangeLog"}: </td>
-                                <td class="contentvalue">
-                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
-                                        <tr>
-                                            <td width="10%" class="contentkey">$Text{"Version"}</td>
-                                            <td width="25%" class="contentkey">$Text{"Date"}</td>
-                                            <td class="contentkey">$Text{"Comment"}</td>
-                                        </tr>
+                    <label>$Text{"ChangeLog"}: </label>
+                    <div class="Value">
+                        <table class="DataTable">
+                            <thead>
+                                <tr>
+                                    <th class="W25pc">$Text{"Version"}</th>
+                                    <th class="W25pc">$Text{"Date"}</th>
+                                    <th class="W50pc">$Text{"Comment"}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 <!-- dtl:block:PackageItemChangeLog -->
-                                        <tr>
-                                            <td class="contentvalue">$QData{"Version"}</td>
-                                            <td class="contentvalue">$QData{"Date"}</td>
-                                            <td class="contentvalue">$QData{"Content"}</td>
-                                        </tr>
+                                <tr>
+                                    <td>$QData{"Version"}</td>
+                                    <td>$QData{"Date"}</td>
+                                    <td>$QData{"Content"}</td>
+                                </tr>
 <!-- dtl:block:PackageItemChangeLog -->
-                                    </table>
-                                </td>
-                            </tr>
-<!-- dtl:block:PackageItemGeneric -->
-                            <tr>
-                                <td class="contentkey">$Text{"$QData{"Tag"}"}: </td>
-                                <td class="contentvalue">$Data{"Content"}</td>
-                            </tr>
-<!-- dtl:block:PackageItemGeneric -->
-                            <tr>
-                                <td class="contentkey">$Text{"Filelist"}: </td>
-                                <td class="contentvalue">
-                                    <table border="0" cellspacing="0" cellpadding="2" width="100%">
-                                        <tr>
-                                            <td class="contentkey">$Text{"Filename"}</td>
-                                            <td class="contentkey">$Text{"Permission"}</td>
-                                            <td class="contentkey">$Text{"Status"}</td>
-                                            <td class="contentkey">$Text{"Download"}</td>
-                                        </tr>
-<!-- dtl:block:PackageItemFilelistFile -->
-                                        <tr>
-                                            <td class="contentvalue">
-                                                <div title="$QData{"Location"}">$QData{"Location","65"}</div>
-                                            </td>
-                                            <td class="contentvalue">
-                                                <div title="$QData{"Permission"}">($QData{"Permission"})</div>
-                                            </td>
-<!-- dtl:block:PackageItemFilelistFileNoteDiff -->
-                                            <td class="contentvalue">
-                                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewDiff;Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt=" " title="$QData{"Message"}" /></a>
-                                            </td>
-<!-- dtl:block:PackageItemFilelistFileNoteDiff -->
-<!-- dtl:block:PackageItemFilelistFileNote -->
-                                            <td class="contentvalue">
-                                                <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt=" " title="$QData{"Message"}" />
-                                            </td>
-<!-- dtl:block:PackageItemFilelistFileNote -->
-                                            <td class="contentvalue">
-                                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}" title="$Text{"Download file from package!"}"><img alt="$Text{"Download file from package!"}" border="0" src="$Config{"Frontend::ImagePath"}disk-s.png" /></a> $QData{"Size"}
-                                            </td>
-                                        </tr>
-<!-- dtl:block:PackageItemFilelistFile -->
-                                    </table>
-                                </td>
-                            </tr>
-<!-- dtl:block:PackageItemDatabase -->
-                            <tr>
-                                <td class="contentkey">$QData{"TagName"} ($QData{"Type"}): </td>
-                                <td class="contentvalue">$QData{"Tag"}: $QData{"Name"} ($QData{"Version"})<br/>
-<!-- dtl:block:PackageItemDatabaseSub -->
-                                    <table border="0" cellspacing="0" cellpadding="0">
-                                        <tr>
-                                            <td width="20"></td><td>$Text{"Type"}: </td><td>$QData{"Tag"}</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td><td>$Text{"Name"}: </td><td>$QData{"Name"}</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td><td>$Text{"Required"}: </td><td>$QData{"Required"}</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td><td>$Text{"Size"}: </td><td>$QData{"Size"}</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td><td>$Text{"PrimaryKey"}: </td><td>$QData{"PrimaryKey"}</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td><td>$Text{"AutoIncrement"}: </td><td>$QData{"AutoIncrement"}</td>
-                                        </tr>
-                                    </table>
-                                    <hr width="100%">
-<!-- dtl:block:PackageItemDatabaseSub -->
-<!-- dtl:block:PackageItemDatabaseSQL -->
-                                    <tr>
-                                        <td class="contentkey"></td>
-                                        <td class="contentvalue"> $Text{"SQL"}: $QData{"SQL"}</td>
-                                    </tr>
-<!-- dtl:block:PackageItemDatabaseSQL -->
-                                </td>
-                            </tr>
-<!-- dtl:block:PackageItemDatabase -->
-<!-- dtl:block:PackageItemCode -->
-                            <tr>
-                                <td class="contentkey">$Text{"$QData{"Tag"}"} ($QData{"Type"}): </td>
-                                <td class="contentvalue">$Data{"Content"}</td>
-                            </tr>
-<!-- dtl:block:PackageItemCode -->
-<!-- dtl:block:PackageItemIntro -->
-                            <tr>
-                                <td class="contentkey">$Text{"$QData{"Tag"}"} ($QData{"Type"}/$QData{"Lang"}): </td>
-                                <td class="contentvalue">$Data{"Content"}</td>
-                            </tr>
-<!-- dtl:block:PackageItemIntro -->
+                            </tbody>
                         </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="contentfooter">&nbsp;</td>
-                </tr>
-            </table>
-            <br/>
-        </td>
-    </tr>
-</table>
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:PackageItemGeneric -->
+                    <label>$Text{"$QData{"Tag"}"}: </label>
+                    <div class="Value">$Data{"Content"}</div>
+                    <div class="Clear"></div>
+<!-- dtl:block:PackageItemGeneric -->
+                    <label>$Text{"Filelist"}: </label>
+                    <div class="Value">
+                        <table class="DataTable">
+                            <thead>
+                                <tr>
+                                    <th class="W50pc">$Text{"Filename"}</th>
+                                    <th class="W20pc">$Text{"Permission"}</th>
+                                    <th class="W20pc">$Text{"Status"}</th>
+                                    <th class="W20pc">$Text{"Download"}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+<!-- dtl:block:PackageItemFilelistFile -->
+                                <tr>
+                                    <td>
+                                        <div title="$QData{"Location"}">$QData{"Location","65"}</div>
+                                    </td>
+                                    <td>
+                                        <div title="$QData{"Permission"}">($QData{"Permission"})</div>
+                                    </td>
+<!-- dtl:block:PackageItemFilelistFileNoteDiff -->
+                                    <td>
+                                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewDiff;Name=$LQData{"Name"};Version=$LQData{"Version"};File=$LQData{"File"};Location=$LQData{"Location"}">
+                                        <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt=" " title="$QData{"Message"}" />
+                                        </a>
+                                    </td>
+<!-- dtl:block:PackageItemFilelistFileNoteDiff -->
+<!-- dtl:block:PackageItemFilelistFileNote -->
+                                    <td>
+                                        <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt=" " title="$QData{"Message"}" />
+                                    </td>
+<!-- dtl:block:PackageItemFilelistFileNote -->
+                                    <td>
+                                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}" title="$Text{"Download file from package!"}">
+                                        <img alt="$Text{"Download file from package!"}" border="0" src="$Config{"Frontend::ImagePath"}disk-s.png" />
+                                        </a>
+                                        $QData{"Size"}
+                                    </td>
+                                </tr>
+<!-- dtl:block:PackageItemFilelistFile -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:PackageItemDatabase -->
+                    <label>$QData{"TagName"} ($QData{"Type"}): </label>
+                    <div class="Value W100pc">
+                        <div class="Header ControlRow">
+                            <h2>$QData{"Tag"}: $QData{"Name"} ($QData{"Version"})</h2>
+                        </div>
+                        <table class="DataTable W100pc">
+                            <thead>
+                                <tr>
+                                    <th>$Text{"Type"}: </th>
+                                    <th>$Text{"Name"}: </th>
+                                    <th>$Text{"Required"}: </th>
+                                    <th>$Text{"Size"}: </th>
+                                    <th>$Text{"PrimaryKey"}: </th>
+                                    <th>$Text{"AutoIncrement"}: </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+<!-- dtl:block:PackageItemDatabaseSub -->
+                                <tr>
+                                    <td>$QData{"Tag"}</td>
+                                    <td>$QData{"Name"}</td>
+                                    <td>$QData{"Required"}</td>
+                                    <td>$QData{"Size"}</td>
+                                    <td>$QData{"PrimaryKey"}</td>
+                                    <td>$QData{"AutoIncrement"}</td>
+                                </tr>
+<!-- dtl:block:PackageItemDatabaseSub -->
+                            </tbody>
+                        </table>
+<!-- dtl:block:PackageItemDatabaseSQL -->
+                        <p class="W75pc">
+                            <strong>$Text{"SQL"}:</strong>
+                            $QData{"SQL"}
+                        </p>
+                        <div class="Clear"></div>
+<!-- dtl:block:PackageItemDatabaseSQL -->
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:PackageItemDatabase -->
+<!-- dtl:block:PackageItemCode -->
+                    <label>$Text{"$QData{"Tag"}"} ($QData{"Type"}): </label>
+                    <div class="Value">$Data{"Content"}</div>
+                    <div class="Clear"></div>
+<!-- dtl:block:PackageItemCode -->
+<!-- dtl:block:PackageItemIntro -->
+                    <label>$Text{"$QData{"Tag"}"} ($QData{"Type"}/$QData{"Lang"}): </label>
+                    <div class="Value">$Data{"Content"}</div>
+                    <div class="clear"></div>
+<!-- dtl:block:PackageItemIntro -->
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
 <!-- dtl:block:Package -->
 <!-- dtl:block:FileDiff -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td colspan="2" class="mainhead">
-$Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="menu">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Back"}</a>
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <br/>
-            <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
-                <tr>
-                    <td colspan="2" class="contenthead">$Text{"Diff"}: $QData{"Location"}</td>
-                </tr>
-                <tr>
-                    <td class="contentbody">
-                        <pre>
-$QData{"Diff"}
-                        </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="contentfooter">&nbsp;</td>
-                </tr>
-            </table>
-            <br/>
-        </td>
-    </tr>
-</table>
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Package Manager"}</h1>
+
+    <div class="SidebarColumn Short">
+
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList MinHeight">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>
+                    $Text{"Diff"}
+                </h2>
+            </div>
+            <div class="Content">
+
+                <fieldset class="TableLike">
+                    <label>$QData{"Name"}: </label>
+                    <div class="Value">
+                        $QData{"Location"}
+                    </div>
+                    <div class="Clear"></div>
+                    <label>$Text{"Diff"}: </label>
+                    <div class="Value">
+                        $QData{"Diff"}
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- dtl:block:FileDiff -->
