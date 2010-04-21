@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.3 2010-04-21 15:01:04 fn Exp $
+# $Id: AdminCustomerUser.dtl,v 1.4 2010-04-21 23:28:23 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,9 +40,9 @@ function updateMessage(x) {
     <h1>$Text{"Customer User Management"}</h1>
     <div class="SidebarColumn">
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-                <h2>$Text{"Action"}</h2>
+                <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
                 <ul class="ActionList">
@@ -85,7 +85,7 @@ function updateMessage(x) {
         </div>
 <!-- dtl:block:ActionList -->
 
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
             </div>
@@ -132,7 +132,6 @@ function updateMessage(x) {
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
 
-
                     </tbody>
                 </table>
             </div>
@@ -158,21 +157,21 @@ function updateMessage(x) {
                         </div>
 <!-- dtl:block:PreferencesGenericInputHidden -->
 <!-- dtl:block:PreferencesGenericInput -->
-                        <label>$Text{"$Data{"Item"}"}:</label>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
-                            <input type="text" name="$QData{"Name"}" class="W50pc" value="$QData{"Value"}" $QData{"ReadOnlyType"}/>
+                            <input type="text" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc" value="$QData{"Value"}" $QData{"ReadOnlyType"}/>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericInput -->
 <!-- dtl:block:PreferencesGenericPassword -->
-                        <label>$Text{"$Data{"Item"}"}:</label>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
-                            <input type="password" name="$QData{"Name"}" class="W50pc" value="" maxlength="60" $QData{"ReadOnlyType"}/>
+                            <input type="password" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc" value="" maxlength="60" $QData{"ReadOnlyType"}/>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericPassword -->
 <!-- dtl:block:PreferencesGenericOption -->
-                        <label>$Text{"$Data{"Item"}"}:</label>
+                        <label for="$Data{"Name"}">$Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
                             $Data{"Option"}
                         </div>
@@ -181,23 +180,23 @@ function updateMessage(x) {
 <!-- dtl:block:PreferencesGeneric -->
 <!-- dtl:block:Item -->
 <!-- dtl:block:InputKey -->
-                        <label>$Text{"$Data{"Label"}"}:</label>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
                         <div class="Field">
-                            <input type="text" name="$QData{"Name"}" class="W50pc" value="$QData{"SelectedID"}"/>
+                            <input id="$QData{"Name"}"type="text" name="$QData{"Name"}" class="W50pc" value="$QData{"SelectedID"}"/>
                             <div class="FieldExplanation"> $Text{"$QData{"Key"}"} </div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
-                        <label>$Text{"$Data{"Label"}"}:</label>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
                         <div class="Field">
-                            <input type="text" name="$QData{"Name"}" class="W50pc" value="$QData{"SelectedID"}"/>
+                            <input id="$QData{"Name"}" type="text" name="$QData{"Name"}" class="W50pc" value="$QData{"SelectedID"}"/>
                             <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$QData{"Key"}"}</div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
-                        <label>$Text{"$Data{"Label"}"}:</label>
+                        <label for="$Data{"Name"}">$Text{"$Data{"Label"}"}:</label>
                         <div class="Field">
                             $Data{"Option"}
                             <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$QData{"Key"}"}</div>
@@ -205,17 +204,17 @@ function updateMessage(x) {
                         <div class="Clear"></div>
 <!-- dtl:block:Option -->
 <!-- dtl:block:Upload -->
-                        <label>$Text{"$Data{"Label"}"}:</label>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
                         <div class="Field">
-                            <input name="$QData{"Name"}" type="file"/>
+                            <input id="$QData{"Name"}" name="$QData{"Name"}" type="file"/>
                             <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$QData{"Key"}"}</div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:Upload -->
 <!-- dtl:block:Password -->
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
                         <div class="Field">
-                            $Text{"$Data{"Label"}"}:
-                            <input type="password" name="$QData{"Name"}" class="W50pc" value="$QData{"SelectedID"}"/>
+                            <input id="$QData{"Name"}" type="password" name="$QData{"Name"}" class="W50pc" value="$QData{"SelectedID"}"/>
                             <div>$Text{"$QData{"Key"}"}</div>
                         </div>
                         <div class="Clear"></div>
