@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.65 2010-04-20 23:43:00 fn Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.66 2010-04-21 16:18:36 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -170,7 +170,17 @@ $Data{"Body"}
                 <input type="hidden" name="FormID" value="$QData{"FormID"}" />
                 $Include{"RichTextEditor"}
                 <textarea titel="$Text{"Reply"}" id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                <button id="Submit" type="submit" value="submit">Submit</button>
+                <div id="Attachment">
+                    <input name="file_upload" title="Attachment" type="file" size="30" />
+                    <button class="CallForAction" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><span>$Text{"Attach"}</span></button>
+<!-- dtl:block:Attachment -->
+                    <div>
+                        $QData{"Filename"} <span>$QData{"Filesize"}</span>
+                        <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"><span>$Text{"Delete"}</span></button>
+                    </div>
+<!-- dtl:block:Attachment -->
+                </div>
+                <button id="Submit" class="CallForAction" type="submit" value="submit"><span>Submit</span></button>
             </form>
             <a id="ReplyButton" href="">$Text{"Reply"}</a>
         </div>
