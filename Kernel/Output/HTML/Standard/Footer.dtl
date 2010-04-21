@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.34 2010-04-19 22:11:12 mn Exp $
+# $Id: Footer.dtl,v 1.35 2010-04-21 23:07:41 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,6 +35,7 @@
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.App.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.JSON.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Data.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.AJAX.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Accordion.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Navigation.js"></script>

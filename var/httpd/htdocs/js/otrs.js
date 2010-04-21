@@ -2,17 +2,18 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.15 2010-04-19 22:11:13 mn Exp $
+// $Id: otrs.js,v 1.16 2010-04-21 23:07:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 // --
 
+
 // create global name space
 var Core = {};
 var UI = {};
-
+/*
 // init
 Core.Init = function () {
     Core.ImagePreload( [OTRS.Config.Get('Images') + 'loading.gif'] );
@@ -61,6 +62,7 @@ Core.AJAXContentUpdate = function(Element, url, OnLoad, OnLoaded ) {
 
     return true;
 };
+
 
 // update input and option fields
 Core.AJAXUpdate = function(Subaction, Changed, Depend, Update) {
@@ -244,7 +246,7 @@ Core.AJAXFunctionCall = function(Param) {
         }
     });
 }
-
+*/
 UI.Settings = function( Element1, Element2 ) {
 
     var Icon1 = document.getElementById(Element1);

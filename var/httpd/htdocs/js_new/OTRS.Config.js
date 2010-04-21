@@ -2,7 +2,7 @@
 // OTRS.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Config.js,v 1.5 2010-04-19 22:11:13 mn Exp $
+// $Id: OTRS.Config.js,v 1.6 2010-04-21 23:07:41 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -95,30 +95,27 @@ OTRS.Config = (function (TargetNS) {
         ConfigOptions = Data;
 
         if (typeof Key === 'undefined') {
-            Keys = [];
-            for (KeyToken in Data) {
-                if (Data.hasOwnProperty(KeyToken)) {
-                    Keys.push(KeyToken);
-                }
-            }
+            $.each(Data, function (Key, Value) {
+                ConfigLevel[ConfigPrefix + Key] = Value;
+            });
         }
         else {
-           Keys = Key.split('.');
-        }
-
-        for (KeyToken in Keys) {
-            if (Keys.hasOwnProperty(KeyToken)) {
-                if (Keys.length === Count + 1) {
-                    ConfigLevel[ConfigPrefix + Keys[KeyToken]] = Data;
+            Keys = Key.split('.');
+            for (KeyToken in Keys) {
+                if (Keys.hasOwnProperty(KeyToken)) {
+                    if (Keys.length === Count + 1) {
+                        ConfigLevel[ConfigPrefix + Keys[KeyToken]] = Data;
+                    }
+                    else
+                        if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
+                            ConfigLevel[ConfigPrefix + Keys[KeyToken]] = {};
+                            ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                        }
+                        else {
+                            ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                        }
+                    Count++;
                 }
-                else if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
-                    ConfigLevel[ConfigPrefix + Keys[KeyToken]] = {};
-                    ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
-                }
-                else {
-                    ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
-                }
-                Count++;
             }
         }
     };
