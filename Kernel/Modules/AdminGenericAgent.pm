@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.79 2010-03-08 17:59:50 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.80 2010-04-21 21:09:16 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -410,6 +410,7 @@ sub Run {
                 = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!';
         }
 
+        $Self->{LayoutObject}->Block( Name => 'Actions', );
         $Self->{LayoutObject}->Block(
             Name => 'Result',
             Data => {
@@ -711,6 +712,7 @@ sub Run {
             SelectedID => $Param{NewSendNoNotification} || 0,
         );
 
+        $Self->{LayoutObject}->Block( Name => 'Actions', );
         $Self->{LayoutObject}->Block(
             Name => 'Edit',
             Data => \%Param,
@@ -902,6 +904,7 @@ sub Run {
                 Data => {
                     TicketFreeKey  => $TicketFreeTextHTML{ 'TicketFreeKeyField' . $Count },
                     TicketFreeText => $TicketFreeTextHTML{ 'TicketFreeTextField' . $Count },
+                    ValueID        => 'TicketFreeText' . $Count
                 },
             );
         }
@@ -963,6 +966,7 @@ sub Run {
                     Data => {
                         NewTicketFreeKey  => $NewTicketFreeKey,
                         NewTicketFreeText => $NewTicketFreeText,
+                        ValueID           => 'NewTicketFreeText' . $ID
                     },
                 );
             }
@@ -994,6 +998,7 @@ sub Run {
     # ---------------------------------------------------------- #
     # overview of all generic agent jobs
     # ---------------------------------------------------------- #
+    $Self->{LayoutObject}->Block( Name => 'AddNew', );
     $Self->{LayoutObject}->Block( Name => 'Overview', );
     my %Jobs    = $Self->{GenericAgentObject}->JobList();
     my $Counter = 1;
@@ -1003,16 +1008,12 @@ sub Run {
         # css setting and text for valid or invalid jobs
         if ( $JobData{Valid} ) {
             $JobData{ShownValid} = 'valid';
-            $JobData{cssValid}   = '';
         }
         else {
             $JobData{ShownValid} = 'invalid';
-            $JobData{cssValid}   = 'contentvaluepassiv';
         }
 
         # seperate each searchresult line by using several css
-        $Counter++;
-        $JobData{css} = $Counter % 2 ? 'searchpassive' : 'searchactive';
 
         $Self->{LayoutObject}->Block(
             Name => 'Row',
