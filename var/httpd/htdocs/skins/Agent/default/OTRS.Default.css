@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -122,6 +122,13 @@ p {
 }
 
 /**
+ * @subsection  Code Examples
+ */
+code {
+    font-family: monospace;
+}
+
+/**
  * @subsection  Text modifiers
  */
 strong {
@@ -140,8 +147,9 @@ dl {
 }
 
 dt {
-    line-height: 1.3em;
+    font-size: 13px;
     font-weight: bold;
+    line-height: 1.3em;
     margin-top: 5px;
 }
 
