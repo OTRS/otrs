@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.88 2010-04-05 10:52:07 mb Exp $
+# $Id: AdminPackageManager.pm,v 1.89 2010-04-21 22:31:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1051,6 +1051,7 @@ sub Run {
             Max  => 40,
             SelectedID => $Source,
         );
+        print STDERR "inicio " . $Frontend{SourceList} . " fin";
         $Self->{LayoutObject}->Block(
             Name => 'Overview',
             Data => { %Param, %Frontend, },
@@ -1070,18 +1071,13 @@ sub Run {
                 }
             }
 
-            my $CssClass = 'searchactive';
             for my $Data (@List) {
-
-                # set output class
-                $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowRemotePackage',
                     Data => {
                         %{$Data},
-                        Source   => $Source,
-                        CssClass => $CssClass,
+                        Source => $Source,
                     },
                 );
 
@@ -1112,11 +1108,7 @@ sub Run {
                 }
             }
         }
-        my $CssClass = 'searchactive';
         for my $Package ( $Self->{PackageObject}->RepositoryList() ) {
-
-            # set output class
-            $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
             my %Data = $Self->_MessageGet( Info => $Package->{Description} );
 
@@ -1125,11 +1117,10 @@ sub Run {
                 Data => {
                     %{$Package},
                     %Data,
-                    Name     => $Package->{Name}->{Content},
-                    Version  => $Package->{Version}->{Content},
-                    Vendor   => $Package->{Vendor}->{Content},
-                    URL      => $Package->{URL}->{Content},
-                    CssClass => $CssClass,
+                    Name    => $Package->{Name}->{Content},
+                    Version => $Package->{Version}->{Content},
+                    Vendor  => $Package->{Vendor}->{Content},
+                    URL     => $Package->{URL}->{Content},
                 },
             );
 
