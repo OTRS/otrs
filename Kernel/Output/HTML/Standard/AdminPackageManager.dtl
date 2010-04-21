@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.53 2010-04-21 22:48:45 cg Exp $
+# $Id: AdminPackageManager.dtl,v 1.54 2010-04-21 22:50:28 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -160,229 +160,204 @@
 </div>
 <!-- dtl:block:Reinstall -->
 <!-- dtl:block:Intro -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td colspan="2" class="mainhead">
-            $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <br/>
-            <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
-                <tr>
-                    <td colspan="2" class="contenthead"><div title="$QData{"Name"} $QData{"Version"}: $QData{"Title"}">$QData{"Name"}: $QData{"Title"}</div></td>
-                </tr>
-                <tr>
-                    <td class="contentbody">
-                        $Data{"Description"}
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="contentfooter">
-                        <table width="100%" border="0" cellspacing="0" cellpadding="1">
-                            <tr>
-                                <td class="contentfooter">
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Package Manager"}</h1>
+
+    <div class="WidgetGradient Short">
+        <div class="Header">
+            <h2>
+                $QData{"Title"}
+            </h2>
+        </div>
+        <div class="Content">
+
+            <fieldset class="TableLike">
+                <label>$QData{"Name"} $QData{"Version"}: </label>
+                <div class="Value">
+                    $Data{"Description"}
+                </div>
+                <div class="Clear"></div>
+                <div class="Field SpacingTop">
+                    <table>
+                        <tr>
 <!-- dtl:block:IntroCancel -->
-                                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                                        <input type="hidden" name="Subaction" value=""/>
-                                        <button class="button" type="submit" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
-                                    </form>
+                            <td>
+                                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                                    <input type="hidden" name="Subaction" value=""/>
+                                    <button class="button" type="submit" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
+                                </form>
+                            </td>
 <!-- dtl:block:IntroCancel -->
-                                </td>
-                                <td width="10" class="contentfooter">
-                                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                                        <input type="hidden" name="Subaction" value="$QData{"Subaction"}"/>
-                                        <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
-                                        <input type="hidden" name="Source" value="$QData{"Source"}"/>
-                                        <input type="hidden" name="File" value="$QData{"File"}"/>
-                                        <input type="hidden" name="$QData{"Type"}" value="1"/>
-                                        <input type="hidden" name="Name" value="$QData{"Name"}"/>
-                                        <input type="hidden" name="Version" value="$QData{"Version"}"/>
-                                        <button class="button" type="submit" value="$Text{"Continue"}">$Text{"Continue"}</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-            <br/>
-        </td>
-    </tr>
-</table>
+                            <td>
+                                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                                    <input type="hidden" name="Subaction" value="$QData{"Subaction"}"/>
+                                    <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+                                    <input type="hidden" name="Source" value="$QData{"Source"}"/>
+                                    <input type="hidden" name="File" value="$QData{"File"}"/>
+                                    <input type="hidden" name="$QData{"Type"}" value="1"/>
+                                    <input type="hidden" name="Name" value="$QData{"Name"}"/>
+                                    <input type="hidden" name="Version" value="$QData{"Version"}"/>
+                                    <button class="Primary" type="submit" value="$Text{"Continue"}">$Text{"Continue"}</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="Clear"></div>
+            </fieldset>
+        </div>
+    </div>
+</div>
 <!-- dtl:block:Intro -->
 <!-- dtl:block:Overview -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td colspan="2" class="mainhead">
-            $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td width="30%" class="mainbody">
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Package Manager"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short W100pc">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
 <!-- dtl:block:OverviewFileUpload -->
-            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                <input type="hidden" name="Subaction" value="InstallUpload"/>
-                <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
-                <table width="100%" cellspacing="0" cellpadding="4">
-                    <tr>
-                        <td class="contenthead">$Text{"Install"}:</td>
-                    </tr>
-                    <tr>
-                        <td class="contentbody">
-                            <table>
-                                <tr>
-                                    <td class="contentkey">$Text{"Package"}:</td>
-                                    <td class="contentvalue"><input name="file_upload" type="file" size="18" class="fixed"/></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="contentfooter">
-                            <button class="button" type="submit" value="$Text{"Install"}">$Text{"Install"}</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-            <br/>
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="InstallUpload"/>
+                            <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+                            <input name="file_upload" type="file" size="18" class="Fixed W100pc"/>
+                            <button class="CallForAction" type="submit" value="$Text{"Install"}"><span>$Text{"Install"}</span></button>
+                            <p class="FieldExplanation">
+                                $Text{"Install Package"}
+                            </p>
+                        </form>
+                    </li>
 <!-- dtl:block:OverviewFileUpload -->
-            <form action="$Env{"CGIHandle"}" method="post">
-                <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                <input type="hidden" name="Subaction" value="ChangeRepository"/>
-                <table width="100%" cellspacing="0" cellpadding="4">
-                    <tr>
-                        <td class="contenthead">$Text{"Online Repository"}:</td>
-                    </tr>
-                    <tr>
-                        <td class="contentbody">
-                            <table>
-                                <tr>
-                                    <td class="contentkey">$Text{"Source"}:</td>
-                                    <td class="contentvalue"> $Data{"SourceList"}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="contentfooter">
-                            <button class="button" type="submit" name="GetRepositoryList" value="$Text{"Update"}">$Text{"Update"}</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </td>
-        <td width="70%" class="mainbody">
-            <table border="0" width="100%" cellspacing="0" cellpadding="4">
-                <tr>
-                    <td class="contenthead">$Text{"Online Repository"}:</td>
-                </tr>
-                <tr>
-                    <td class="contentbody">
-                        <table border="0" cellspacing="0" cellpadding="4" width="100%">
-                            <tr>
-                                <td class="contentkey">$Text{"Name"}</td>
-                                <td class="contentkey"></td>
-                                <td class="contentkey">$Text{"Version"}</td>
-                                <td class="contentkey">$Text{"Vendor"}</td>
-                                <td width="40%" class="contentkey">$Text{"Description"}</td>
-                                <td class="contentkey">$Text{"Action"}</td>
-                            </tr>
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="ChangeRepository"/>
+                            $Data{"SourceList"}
+                            <button class="CallForAction" type="submit" name="GetRepositoryList" value="$Text{"Update"}"><span>$Text{"Update"}</span></button>
+                            <p class="FieldExplanation">
+                                $Text{"Update Repository"}
+                            </p>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetBox">
+
+            <div class="Header ControlRow">
+                <h2>$Text{"Online Repository"}</h2>
+            </div>
+            <div class="Content WithPadding">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Name"}</th>
+                            <th></th>
+                            <th>$Text{"Version"}</th>
+                            <th>$Text{"Vendor"}</th>
+                            <th class="W40pc">$Text{"Description"}</th>
+                            <th>$Text{"Action"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 <!-- dtl:block:ShowRemotePackage -->
-                            <tr>
-                                <td class="$QData{"CssClass"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"}">$QData{"Name"}</a>
-                                </td>
-                                <td class="$QData{"CssClass"}">
+                        <tr>
+                            <td>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"}">$QData{"Name"}</a>
+                            </td>
+                            <td>
 <!-- dtl:block:ShowRemotePackageDocumentation -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$QData{"Name"};Version=$QData{"Version"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" /></a>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$QData{"Name"};Version=$QData{"Version"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" /></a>
 <!-- dtl:block:ShowRemotePackageDocumentation -->
-                                </td>
-                                <td class="$QData{"CssClass"}">$QData{"Version"}</td>
-                                <td class="$QData{"CssClass"}"><a href="$LQData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
-                                <td class="$QData{"CssClass"}" title="$QData{"Description"}">$QData{"Description","55"}</td>
-                                <td class="$QData{"CssClass"}">
+                            </td>
+                            <td>$QData{"Version"}</td>
+                            <td><a href="$LQData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
+                            <td title="$QData{"Description"}">$QData{"Description","55"}</td>
+                            <td>
 <!-- dtl:block:ShowRemotePackageInstall -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=InstallRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Install"}</a>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=InstallRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Install"}</a>
 <!-- dtl:block:ShowRemotePackageInstall -->
 <!-- dtl:block:ShowRemotePackageUpgrade -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpgradeRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Upgrade"}</a>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpgradeRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Upgrade"}</a>
 <!-- dtl:block:ShowRemotePackageUpgrade -->
-                                </td>
-                            </tr>
+                            </td>
+                        </tr>
 <!-- dtl:block:ShowRemotePackage -->
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="contentfooter">
-                        &nbsp;
-                    </td>
-                </tr>
-            </table>
-            <br/>
-            <table border="0" width="100%" cellspacing="0" cellpadding="4">
-                <tr>
-                    <td class="contenthead">$Text{"Local Repository"}:</td>
-                </tr>
-                <tr>
-                    <td class="contentbody">
-                        <table border="0" cellspacing="0" cellpadding="4" width="100%">
-                            <tr>
-                                <td class="contentkey">$Text{"Name"}</td>
-                                <td class="contentkey"></td>
-                                <td class="contentkey">$Text{"Version"}</td>
-                                <td class="contentkey">$Text{"Vendor"}</td>
-                                <td width="40%" class="contentkey">$Text{"Description"}</td>
-                                <td class="contentkey">$Text{"Status"}</td>
-                                <td class="contentkey">$Text{"Action"}</td>
-                            </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="WidgetBox">
+
+            <div class="Header ControlRow">
+                <h2>$Text{"Local Repository"}</h2>
+            </div>
+            <div class="Content WithPadding">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Name"}</th>
+                            <th></th>
+                            <th>$Text{"Version"}</th>
+                            <th>$Text{"Vendor"}</th>
+                            <th class="W40pc">$Text{"Description"}</th>
+                            <th>$Text{"Status"}</th>
+                            <th>$Text{"Action"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 <!-- dtl:block:ShowLocalPackage -->
-                            <tr>
-                                <td class="$QData{"CssClass"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"}">$QData{"Name"}</a>
-                                </td>
-                                <td class="$QData{"CssClass"}">
+                        <tr>
+                            <td>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"}">$QData{"Name"}</a>
+                            </td>
+                            <td>
 <!-- dtl:block:ShowLocalPackageDocumentation -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" /></a>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" /></a>
 <!-- dtl:block:ShowLocalPackageDocumentation -->
-                                </td>
-                                <td class="$QData{"CssClass"}">$QData{"Version"}</td>
-                                <td class="$QData{"CssClass"}"><a href="$LQData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
-                                <td class="$QData{"CssClass"}" title="$QData{"Description"}">$QData{"Description","55"}</td>
-                                <td class="$QData{"CssClass"}">$Text{"$QData{"Status"}"}</td>
-                                <td class="$QData{"CssClass"}">
+                            </td>
+                            <td>$QData{"Version"}</td>
+                            <td><a href="$LQData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
+                            <td title="$QData{"Description"}">$QData{"Description","55"}</td>
+                            <td>$Text{"$QData{"Status"}"}</td>
+                            <td>
 <!-- dtl:block:ShowLocalPackageInstall -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Install;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Install"}</a>
-                                    <br/><br/>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Install;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Install"}</a>
+                                <br/><br/>
 <!-- dtl:block:ShowLocalPackageInstall -->
 <!-- dtl:block:ShowLocalPackageUninstall -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Uninstall;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Uninstall"}</a>
-                                    <br/>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Uninstall;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Uninstall"}</a>
+                                <br/>
 <!-- dtl:block:ShowLocalPackageUninstall -->
 <!-- dtl:block:ShowLocalPackageReinstall -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$QData{"Name"};Version=$QData{"Version"}" title="$Text{"Package not correctly deployed! You should reinstall the Package again!"}">$Text{"Reinstall"}</a>
-                                    <br/>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$QData{"Name"};Version=$QData{"Version"}" title="$Text{"Package not correctly deployed! You should reinstall the Package again!"}">$Text{"Reinstall"}</a>
+                                <br/>
 <!-- dtl:block:ShowLocalPackageReinstall -->
-                                </td>
-                            </tr>
+                            </td>
+                        </tr>
 <!-- dtl:block:ShowLocalPackage -->
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="contentfooter">
-                        &nbsp;
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+
 <!-- dtl:block:Overview -->
 <!-- dtl:block:Package -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
