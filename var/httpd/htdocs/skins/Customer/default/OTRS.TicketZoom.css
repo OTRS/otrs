@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -36,7 +36,7 @@
 }
 
 .Flag {
-    top: 6px;
+    top: 5px;
     left: 5px;
     width: 21px;
     height: 15px;
@@ -57,12 +57,7 @@
 }
 
 .Flag > div {
-    height: 13px;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 1px;
-    -moz-border-radius: 1px;
-    -webkit-border-radius: 1px;
+    height: 15px;
 }
 
 .Flag.Open {
@@ -71,7 +66,6 @@
 
 .Flag.Open > div {
     background: #0FB71C;
-    border-color: #B4E9B8 #68D271 #68D271;
 }
 
 .Flag.Closed {
@@ -80,7 +74,6 @@
 
 .Flag.Closed > div {
     background: #BD1212;
-    border-color: #EBB5B5 #D66A6A #D66A6A;
 }
 
 .Metadata {
@@ -143,6 +136,7 @@
 
 #Messages {
     border: 1px solid #E9E9E9;
+    border-bottom: 1px solid #DDD;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -160,16 +154,21 @@
 }
 
 .Message:first-child {
-    border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .Message:last-child .MessageHeader {
-    border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 0 0 5px 5px;
-    -moz-border-radius: 0 0 5px 5px;
-    border-bottom-width: 0;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .Message.Visible:last-child .MessageHeader {
@@ -271,60 +270,12 @@
 .MessageContent {
     padding: 5px 6px 5px;
     background: #FFF;
-    border-radius: 0 0 5px 5px;
-    -moz-border-radius: 0 0 5px 5px;
-    -webkit-border-radius: 0 0 5px 5px;
-}
-
-.MessageFooter {
-    border-top: none;
-}
-
-.MessageFooter form {
-    background: #EEE;
-    display: none;
-}
-.MessageFooter form .ActionRow {
-    margin-top: 8px;
-}
-.MessageFooter.Visible form {
-    display: block;
-}
-
-.MessageActions {
-    float: left;
-}
-
-.RTL .MessageActions {
-    float: right;
-}
-
-.MessageActions li {
-    float: left;
-}
-
-.RTL .MessageActions li {
-    float: right;
-}
-.MessageFooter .Reply {
-    height: 10px;
-    margin: 5px 13px;
-    padding: 0 17px;
-    line-height: 10px;
-    color: #999;
-    background: url(img/arrow_answer.png) no-repeat top left;
-    display: block;
-}
-.MessageFooter .Reply:hover {
-    background-position: bottom left;
-    color: #666;
-}
-.MessageFooter.Visible .MessageActions li {
-    background-color: #EEE;
-}
-
-.MessageFooter .Details {
-    padding: 8px 13px 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 #FollowUp {
@@ -349,9 +300,9 @@
     background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#F0F0F0));
     border: 1px solid #D6D6D6;
     border-top: none;
-    border-radius: 0 0 5px 5px;
-    -moz-border-radius: 0 0 5px 0;
-    -webkit-border-radius: 0 0 5px 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-bottom-right-radius: 5px;
     display: none;
 }
 
@@ -368,13 +319,26 @@
     border-color: #888;
 }
 
-#FollowUp button {
-    margin: 5px;
+#FollowUp #Submit {
+    margin: 8px 8px 5px;
     display: block;
 }
 
 #FollowUp span.cke_skin_kama {
     border: none;
+}
+
+#Attachment {
+    margin: 5px;
+    padding: 5px;
+    background: #FFF;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#Attachment > div {
+    padding: 5px;
 }
 
 #ReplyButton {
@@ -389,12 +353,14 @@
     background: url(img/reply.png) no-repeat 6px 6px, -webkit-gradient(linear, left top, left bottom, from(#F0F0F0), to(#EEE));
     border: 1px solid #D6D6D6;
     border-top: none;
-    border-radius: 0 0 5px 5px;
-    -moz-border-radius: 0 0 5px 5px;
-    -webkit-border-radius: 0 0 5px 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
     display: none;
     position: absolute;
-    z-index: 99;
 }
 
 .Visible #ReplyButton {
@@ -405,7 +371,8 @@
     display: block;
 }
 
-#ReplyButton:hover {
+#ReplyButton:hover,
+.Visible #ReplyButton {
     color: #555;
 }
 

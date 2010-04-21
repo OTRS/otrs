@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -73,7 +73,71 @@ strong {
  */
 
 .Content {
+    padding: 13px 21px;
     background: #FFF url(img/body_bg.png) repeat-x left top;
+}
+
+/**
+ * @subsection  call for action button
+ */
+
+.CallForAction {
+    padding: 0;
+    border: 1px solid #999;
+    border-bottom: 1px solid #888;
+    box-shadow: 0 1px 0 #E6E6E6;
+    -moz-box-shadow: 0 1px 0 #E6E6E6;
+    -webkit-box-shadow: 0 1px 0 #E6E6E6;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+/**
+ * @css-for     Firefox
+ * @note        bug: button containing an element has an hidden padding
+ */
+
+.CallForAction::-moz-focus-inner { 
+    border: 0;
+    padding: 0;
+}
+
+.CallForAction:hover {
+    color: #000;
+    border-color: #696969;
+}
+
+.CallForAction span {
+    padding: 2px 7px 3px;
+    color: #333;
+    font-weight: bold;
+    background: #F3F3F3;
+    background: -moz-linear-gradient(top, #F6F6F6, #E4E4E4);
+    background: -webkit-gradient(linear, left top, left bottom, from(#F6F6F6), to(#E4E4E4));
+    border: 1px solid #FFF;
+    border-bottom: none;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    display: block;
+    text-shadow: 0 1px 0 #FFF;
+}
+
+.CallForAction:focus,
+.CallForAction:active {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.CallForAction:focus span,
+.CallForAction:active span {
+    background: #CCC;
+    border: 1px solid #DDD;
+    border-bottom: none;
+    text-shadow: 0 1px 0 #DDD;
 }
 
 /**
