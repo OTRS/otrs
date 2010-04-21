@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -198,25 +198,37 @@ ul.Tablelike li.Header {
  */
 
 .ActionList li {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .ActionList p {
+    margin: 0;
     padding: 2px 2px 5px;
     font-size: 11px;
     color: #888;
 }
 
+.ActionList form select {
+    margin: 8px 0 2px;
+    display: block;
+}
+
 .CallForAction {
+    padding: 0;
     border: 1px solid #999;
     border-bottom: 1px solid #888;
     box-shadow: 0 1px 0 #E6E6E6;
     -moz-box-shadow: 0 1px 0 #E6E6E6;
     -webkit-box-shadow: 0 1px 0 #E6E6E6;
-    border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    border-radius: 3px;
     display: inline-block;
+}
+
+.CallForAction::-moz-focus-inner { 
+    border: 0;
+    padding: 0;
 }
 
 .CallForAction:hover {
@@ -233,18 +245,18 @@ ul.Tablelike li.Header {
     background: -webkit-gradient(linear, left top, left bottom, from(#F6F6F6), to(#E4E4E4));
     border: 1px solid #FFF;
     border-bottom: none;
-    border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    border-radius: 3px;
     display: block;
     text-shadow: 0 1px 0 #FFF;
 }
 
 .CallForAction:focus,
 .CallForAction:active {
-    box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
 .CallForAction:focus span,
@@ -256,45 +268,45 @@ ul.Tablelike li.Header {
     text-shadow: 0 1px 0 #DDD;
 }
 
-.ActionList form {
-    margin-top: 21px;
+.SearchBox {
     position: relative;
 }
 
-.ActionList input {
+.SearchBox input {
     padding: 4px 5px;
     border-color: #999;
-    border-radius: 3px 0 0 3px;
     -moz-border-radius: 3px 0 0 3px;
-    -webkit-border-radius: 3px 0 0 3px;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    border-radius: 3px 0 0 3px;
 }
 
-.ActionList input:focus {
+.SearchBox input:focus {
     border-color: #777;
 }
 
-.ActionList button {
-    padding: 0;
+.SearchBox button {
     height: 24px;
-    width: 48px;
+    margin: -1px 0 0 -3px;
+    padding: 0 2px;
     color: #333;
     font-size: 10px;
     font-weight: bold;
     background: #F3F3F3;
     background: -moz-linear-gradient(top, #F6F6F6, #E4E4E4);
+    background: -webkit-gradient(linear, left top, left bottom, from(#F6F6F6), to(#E4E4E4));
     border: 1px solid #888;
     border-left: none;
-    border-radius: 0 3px 3px 0;
     -moz-border-radius: 0 3px 3px 0;
-    -webkit-border-radius: 0 3px 3px 0;
-    position: absolute;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-radius: 0 3px 3px 0;
     text-shadow: 0 1px 0 #FFF;
 }
 
-.ActionList button:hover {
+.SearchBox button:hover {
     border: 1px solid #696969;
     border-left: none;
-    position: absolute;
     cursor: pointer;
 }
 
