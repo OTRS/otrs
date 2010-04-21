@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.2 2010-04-20 23:13:57 dz Exp $
+# $Id: AdminUser.dtl,v 1.3 2010-04-21 20:32:21 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,9 @@
     <div class="SidebarColumn">
 
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-                <h2>$Text{"Action"}</h2>
+                <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
                 <ul class="ActionList">
@@ -29,7 +29,7 @@
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionSearch -->
                     <li>
-                        <form action="$Env{"CGIHandle"}" method="post">
+                        <form class="SearchBox" action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Search"/>
                             <input type="text" name="Search" value="$QData{"Search"}" id="Search"/>
@@ -46,7 +46,7 @@
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Add"/>
 
-                            <button type="submit">$Text{"Add User"}</button>
+                            <button class="CallForAction" type="submit"><span>$Text{"Add User"}</span></button>
 
                             <p class="FieldExplanation">
                                 $Text{"Add a user"}
