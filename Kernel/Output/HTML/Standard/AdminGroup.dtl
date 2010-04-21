@@ -2,7 +2,7 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.4 2010-04-20 17:50:02 mn Exp $
+# $Id: AdminGroup.dtl,v 1.5 2010-04-21 22:37:14 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,41 +55,60 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
     });
 //]]></script>
 <!--dtl:document_ready-->
+
 <!-- dtl:block:Overview -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Group Management"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
-            <div class="Header">
 
+<!-- dtl:block:ActionList -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class='Content'>
+                <ul class="ActionList">
+<!--dtl:block:ActionAdd-->
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="Add"/>
+                            <button class="CallForAction" type="submit" value="$Text{"Add"}">
+                            <span>$Text{"Add"}</span>
+                            </button>
+                        </form>
+                        <p class="FieldExplanation">
+                            $Text{"Add a new Group"}
+                        </p>
+                    </li>
+<!--dtl:block:ActionAdd-->
+
+<!--dtl:block:ActionOverview-->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!--dtl:block:ActionOverview-->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
+
+
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2>$Text{"Note"}</h2>
             </div>
             <div class="Content">
-
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Add"/>
-                    <fieldset>
-
-                        <h2>$Text{"Add Group"}</h2>
-                        <p class="FieldExplanation">
-                            $Text{"Add a new Group."}
-                        </p>
-                        <button type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
-
-                        <h2 class="SpacingTop">$Text{"Note"}</h2>
-                        <p class="FieldExplanation">
-                            $Text{"The admin group is to get in the admin area and the stats group to get stats area."}
-                        </p>
-                        <p class="FieldExplanation">
-                            $Text{"Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). "}
-                        </p>
-                        <p class="FieldExplanation">
-                            $Text{"It's useful for ASP solutions. "}
-                        </p>
-
-                    </fieldset>
-                </form>
+                <p class="FieldExplanation">
+                    $Text{"The admin group is to get in the admin area and the stats group to get stats area."}
+                </p>
+                <p class="FieldExplanation">
+                    $Text{"Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). "}
+                </p>
+                <p class="FieldExplanation">
+                    $Text{"It's useful for ASP solutions. "}
+                </p>
             </div>
         </div>
     </div>
@@ -138,7 +157,7 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
                     <input type="hidden" name="NameOld" id="GroupOldName" value="$QData{"Name"}"/>
                     <fieldset class="TableLike">
 
-                        <label for="Name">$Text{"Name"}:</label>
+                        <label for="GroupName">$Text{"Name"}:</label>
                         <div class="Field">
                             <input type="text" name="Name" id="GroupName" value="$QData{"Name"}" class="W50pc" maxlength="50"/>
                         </div>
@@ -160,6 +179,8 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
 
                         <div class="Field SpacingTop">
                             <button class="Primary" type="submit" id="Submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
