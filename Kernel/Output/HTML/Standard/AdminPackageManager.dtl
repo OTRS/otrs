@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.52 2010-02-05 13:58:23 mn Exp $
+# $Id: AdminPackageManager.dtl,v 1.53 2010-04-21 22:48:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,142 +10,154 @@
 # --
 
 <!-- dtl:block:Uninstall -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td colspan="2" class="mainhead">
-            $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="menu">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="menuitem">$Text{"Back"}</a>
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <br/>
-            <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
-                <tr>
-                    <td colspan="2" class="contenthead">$Text{"Uninstall"}</td>
-                </tr>
-                <tr>
-                    <td class="contentbody">
-                        <table border="0" cellspacing="0" cellpadding="3">
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Package Manager"}</h1>
+
+    <div class="SidebarColumn Short">
+
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList MinHeight">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>
+                    $QData{"Uninstall"}
+                </h2>
+            </div>
+            <div class="Content">
+
+                <fieldset class="TableLike">
+                    <label>$Text{"Name"}: </label>
+                    <div class="Value">
+                        $QData{"Name"}
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Version"}: </label>
+                    <div class="Value">
+                        $Data{"Version"}
+                    </div>
+                    <div class="Clear"></div>
+                    <div class="Field">
+                        <p class="FieldExplanation">
+                            $Text{"Do you really want to uninstall this package?"}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+                    <div class="Field SpacingTop">
+                        <table>
                             <tr>
-                                <td width="25%" class="contentkey">$Text{"Name"}:</td>
-                                <td width="75%" class="contentvalue">$QData{"Name"}</td>
-                            </tr>
-                            <tr>
-                                <td class="contentkey">$Text{"Version"}:</td>
-                                <td class="contentvalue">$Data{"Version"}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="contentkey">$Text{"Do you really want to uninstall this package?"}</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="contentfooter">
-                        <table width="100%" border="0" cellspacing="0" cellpadding="1">
-                            <tr>
-                                <td class="contentfooter">
+                                <td>
                                     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                         <input type="hidden" name="Subaction" value=""/>
                                         <button class="button" type="submit" value="$Text{"No"}">$Text{"No"}</button>
                                     </form>
                                 </td>
-                                <td width="10" class="contentfooter">
+                                <td>
                                     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                         <input type="hidden" name="Subaction" value="UninstallAction"/>
                                         <input type="hidden" name="Name" value="$QData{"Name"}"/>
                                         <input type="hidden" name="Version" value="$QData{"Version"}"/>
-                                        <button class="button" type="submit" value="$Text{"Yes"}">$Text{"Yes"}</button>
+                                        <button class="Primary" type="submit" value="$Text{"Yes"}">$Text{"Yes"}</button>
                                     </form>
                                 </td>
                             </tr>
                         </table>
-                    </td>
-                </tr>
-            </table>
-            <br/>
-        </td>
-    </tr>
-</table>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- dtl:block:Uninstall -->
 <!-- dtl:block:Reinstall -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td colspan="2" class="mainhead">
-            $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="menu">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="menuitem">$Text{"Back"}</a>
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <br/>
-            <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
-                <tr>
-                    <td colspan="2" class="contenthead">$Text{"Reinstall"}</td>
-                </tr>
-                <tr>
-                    <td class="contentbody">
-                        <table border="0" cellspacing="0" cellpadding="3">
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Package Manager"}</h1>
+
+    <div class="SidebarColumn Short">
+
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList MinHeight">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>
+                    $QData{"Reinstall"}
+                </h2>
+            </div>
+            <div class="Content">
+
+                <fieldset class="TableLike">
+                    <label>$Text{"Name"}: </label>
+                    <div class="Value">
+                        $QData{"Name"}
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Version"}: </label>
+                    <div class="Value">
+                        $Data{"Version"}
+                    </div>
+                    <div class="Clear"></div>
+                    <div class="Field">
+                        <p class="FieldExplanation">
+                            $Text{"Do you really want to reinstall this package (all manual changes get lost)?"}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+                    <div class="Field SpacingTop">
+                        <table>
                             <tr>
-                                <td width="25%" class="contentkey">$Text{"Name"}:</td>
-                                <td width="75%" class="contentvalue">$QData{"Name"}</td>
-                            </tr>
-                            <tr>
-                                <td class="contentkey">$Text{"Version"}:</td>
-                                <td class="contentvalue">$Data{"Version"}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="contentkey">$Text{"Do you really want to reinstall this package (all manual changes get lost)?"}</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="contentfooter">
-                        <table width="100%" border="0" cellspacing="0" cellpadding="1">
-                            <tr>
-                                <td class="contentfooter">
+                                <td>
                                     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                         <input type="hidden" name="Subaction" value=""/>
                                         <button class="button" type="submit" value="$Text{"No"}">$Text{"No"}</button>
                                     </form>
                                 </td>
-                                <td width="10" class="contentfooter">
+                                <td>
                                     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                         <input type="hidden" name="Subaction" value="ReinstallAction"/>
                                         <input type="hidden" name="Name" value="$QData{"Name"}"/>
                                         <input type="hidden" name="Version" value="$QData{"Version"}"/>
-                                        <button class="button" type="submit" value="$Text{"Yes"}">$Text{"Yes"}</button>
+                                        <button class="Primary" type="submit" value="$Text{"Yes"}">$Text{"Yes"}</button>
                                     </form>
                                 </td>
                             </tr>
                         </table>
-                    </td>
-                </tr>
-            </table>
-            <br/>
-        </td>
-    </tr>
-</table>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- dtl:block:Reinstall -->
 <!-- dtl:block:Intro -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
