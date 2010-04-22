@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -198,7 +198,7 @@ ul.Tablelike li.Header {
  */
 
 .ActionList li {
-    margin-bottom: 16px;
+    margin-bottom: 8px;
 }
 
 .ActionList p {
@@ -226,7 +226,12 @@ ul.Tablelike li.Header {
     display: inline-block;
 }
 
-.CallForAction::-moz-focus-inner {
+/**
+ * @css-for     Firefox
+ * @note        bug: button containing an element has an hidden padding
+ */
+
+.CallForAction::-moz-focus-inner { 
     border: 0;
     padding: 0;
 }
@@ -273,7 +278,9 @@ ul.Tablelike li.Header {
 }
 
 .SearchBox input {
+    margin: 0;
     padding: 4px 5px;
+    line-height: 14px;
     border-color: #999;
     -moz-border-radius: 3px 0 0 3px;
     -webkit-border-top-right-radius: 0;
@@ -287,7 +294,7 @@ ul.Tablelike li.Header {
 
 .SearchBox button {
     height: 24px;
-    margin: 0 0 0 -3px;
+    margin: -1px 0 0 -3px;
     padding: 0 2px;
     color: #333;
     font-size: 10px;
