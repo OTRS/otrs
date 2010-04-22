@@ -2,7 +2,7 @@
 // OTRS.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Customer.js,v 1.5 2010-04-20 23:43:00 fn Exp $
+// $Id: OTRS.App.Customer.js,v 1.6 2010-04-22 17:06:40 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -133,20 +133,76 @@ OTRS.App.Customer = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.InitTicketZoom = function(){
-        var $Iframes = $('iframe');
-        $('.MessageHeader').click(function(Event){
-            $(this).parent('.Message').toggleClass('Visible');
+        var $Messages = $('#Messages > li'),
+            $Iframes = $('iframe', $Messages),
+            $MessageHeaders = $('.MessageHeader', $Messages);
+        $MessageHeaders.click(function(Event){
+            var $Message = $(this).parent();
+            ToggleMessage($Message);
             Event.preventDefault();
         });
         $('#ReplyButton').click(function(event){
             event.preventDefault();
-            var FollowUp = $(this).parent().toggleClass('Visible');
-            $('textarea', FollowUp).focus();
+            var $FollowUp = $(this).parent().toggleClass('Visible');
+            $('textarea', $FollowUp).focus();
         });
         $.each($Iframes, function(Index, Iframe){
             CheckIframe(Iframe);
         });
-        $Iframes.not(':last').closest('.Message').removeClass('Visible');
+        //$Messages.not(':last').removeClass('Visible');
+    }
+    
+    function ToggleMessage($Message){
+        var $Status = $('> input[name=ArticleState]', $Message);
+        switch ($Status.val()){
+            case "untouched":
+                /* load iframe and set to TRUE */
+                LoadMessage($Message, $Status);
+            break;
+            case "true":
+                /* hide it and set to FALSE*/
+                $Message.removeClass('Visible');
+                $Status.val("false");
+            break;
+            case "false":
+                $Message.addClass('Visible');
+                $Status.val("true");
+            break;
+        }
+        /*  Change Subject to Loading */
+        /*  Load iframe -> get title and put it in src */
+        /*  Hide quotes and resize -> HideQuote(Iframe) */
+        /*  Set StateStorage to true */
+        /*  Show MessageContent -> add class Visible */
+        /*  Change Subject back from Loading */
+        
+        
+        /*var Visible = $Message.hasClass('Invisible') ? false : true,
+            $StateStorage = $('> input[name=ArticleShown]', $Message);
+            
+            
+        if(Visible){
+            $Message.addClass('Invisible');
+            $StateStorage.val("false");
+        }
+        else {
+            $Message.removeClass('Invisible');
+            $StateStorage.val("true");
+        }*/
+    }
+    
+    function LoadMessage($Message, $Status){
+        var $SubjectHolder = $('h3 span', $Message),
+            Subject = $SubjectHolder.text(),
+            LoadingString = $SubjectHolder.attr('title'),
+            $Iframe = $('iframe', $Message),
+            Source = $Iframe.attr('title');
+        $SubjectHolder.text(LoadingString);
+        $Iframe.attr('src', Source);
+        CheckIframe($Iframe);
+        $Message.addClass('Visible');
+        $Status.val('true');
+        $SubjectHolder.text(Subject);
     }
 
     /**
@@ -158,7 +214,6 @@ OTRS.App.Customer = (function (TargetNS) {
      * @return nothing
      */
     function CheckIframe(Iframe){
-        
         if ($.browser.safari || $.browser.opera){
             $(Iframe).load(function(){
                 setTimeout(HideQuote, 0, this);

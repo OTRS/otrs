@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.66 2010-04-21 16:18:36 fn Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.67 2010-04-22 17:06:40 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,47 +92,67 @@ function submit_compose() {
             </ul>
             <div class="Clear"></div>
         </div>
-        <ul id="Messages">
+        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+            <input type="hidden" name="Action" value="CustomerTicketZoom" />
+            <input type="hidden" name="Subaction" value="Store" />
+            <input type="hidden" name="TicketID" value="$QData{"TicketID"}" />
+            <input type="hidden" name="ArticleID" value="$QData{"Article::ArticleID"}" />
+            <input type="hidden" name="FormID" value="$QData{"FormID"}" />
+            <ul id="Messages">
+            <script type="text/javascript">
+                var Messages = document.getElementById("Messages"),
+                    Iframes = Messages.getElementsByTagName("iframe"),
+                    Sources = new Array();
+                console.log(Iframes.length);
+                for (i=0; i<Iframes.length; i++){
+                    Sources[i] = Iframe.src;
+                    Iframe.src = "about:blank";
+                    console.log(Iframe, Iframe.src, Sources[i]);
+                }
+            </script>
 <!-- dtl:block:Article -->
-            <li class="Message $QData{"SenderType"} Visible">
-                <div class="MessageHeader">
-                    <h3><a href="">$RQData{"From","60"} <span>&ndash; $QData{"Subject","120"}</span></a></h3>
-                    <span class="Age" title="$TimeLong{"$QData{"Created"}"}">$Data{"Age"}</span>
-                    <div class="Clear"></div>
-                </div>
-                <div class="MessageBody">
-                    <div class="Details SeperatorRow">
-<!-- dtl:block:ArticleRow -->
-                        <div>
-                            <div class="Label">$Text{"$Data{"Key"}"}:</div> <span title="$QData{"Value"}">$RQData{"Value","100"}</span>
-                        </div>
-<!-- dtl:block:ArticleRow -->
-                        <div>
-                            <div class="Label">$Text{"Subject"}:</div> <span title="$QData{"Subject"}">$QData{"Subject","100"}</span>
-                        </div>
-<!-- dtl:block:ArticleAttachment -->
-                        <div titel="$Text{"$Data{"Key"}"}" class="Attachment">
-                            <div class="Label">$Text{"$Data{"Key"}"}:</div>
-<!-- dtl:block:ArticleAttachmentRow -->
-                            $QData{"Filename"}
-<!-- dtl:block:ArticleAttachmentRowLink -->
-                            <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" /></a>
-<!-- dtl:block:ArticleAttachmentRowLink -->
-<!-- dtl:block:ArticleAttachmentRowNoLink -->
-                            <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" />
-<!-- dtl:block:ArticleAttachmentRowNoLink -->
-                            <span>$QData{"Filesize"}</span>
-<!-- dtl:block:ArticleAttachmentRow -->
-                        </div>
-<!-- dtl:block:ArticleAttachment -->
+                <li class="Message $QData{"SenderType"} $QData{"Class"}">
+                    <input type="hidden" name="ArticleState" value="untouched" />
+                    <div class="MessageHeader">
+                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"}">$RQData{"From","60"} &ndash; <span title="$Text{"Loading"}...">$QData{"Subject","120"}</span></a></h3>
+                        <span class="Age" title="$TimeLong{"$QData{"Created"}"}">$Data{"Age"}</span>
                         <div class="Clear"></div>
                     </div>
-                    <div class="MessageContent">
-<!-- dtl:block:BodyPlain -->
-$Data{"BodyNote"}
-                        <div class="message">
-$Data{"Body"}
+                    <div class="MessageBody">
+                        <div class="Details SeperatorRow">
+<!-- dtl:block:ArticleRow -->
+                            <div>
+                                <div class="Label">$Text{"$Data{"Key"}"}:</div> <span title="$QData{"Value"}">$RQData{"Value","100"}</span>
+                                <div class="Clear"></div>
+                            </div>
+<!-- dtl:block:ArticleRow -->
+                            <div>
+                                <div class="Label">$Text{"Subject"}:</div> <span title="$QData{"Subject"}">$QData{"Subject","100"}</span>
+                                <div class="Clear"></div>
+                            </div>
+<!-- dtl:block:ArticleAttachment -->
+                            <div titel="$Text{"$Data{"Key"}"}" class="Attachment">
+                                <div class="Label">$Text{"$Data{"Key"}"}:</div>
+<!-- dtl:block:ArticleAttachmentRow -->
+                                $QData{"Filename"}
+<!-- dtl:block:ArticleAttachmentRowLink -->
+                                <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" /></a>
+<!-- dtl:block:ArticleAttachmentRowLink -->
+<!-- dtl:block:ArticleAttachmentRowNoLink -->
+                                <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" />
+<!-- dtl:block:ArticleAttachmentRowNoLink -->
+                                <span>$QData{"Filesize"}</span>
+<!-- dtl:block:ArticleAttachmentRow -->
+                                <div class="Clear"></div>
+                            </div>
+<!-- dtl:block:ArticleAttachment -->
                         </div>
+                        <div class="MessageContent">
+<!-- dtl:block:BodyPlain -->
+                            $Data{"BodyNote"}
+                            <div class="message">
+                                $Data{"Body"}
+                            </div>
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTML -->
 #                <div class="message">
@@ -153,37 +173,34 @@ $Data{"Body"}
 #                    //-->
 #                    //]]></script>
 #                    <iframe frameborder="0" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
-                        <iframe frameborder="0" id="iframe$QData{"ArticleID"}" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+                            <iframe title="about:blank" frameborder="0" id="iframe$QData{"ArticleID"}" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
 #                </div>
 <!-- dtl:block:BodyHTML -->
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 <!-- dtl:block:Article -->
-        </ul> <!-- /Messages -->
-        <div id="FollowUp">
-            <form id="Messenger" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-                <input type="hidden" name="Action" value="CustomerTicketZoom" />
-                <input type="hidden" name="Subaction" value="Store" />
-                <input type="hidden" name="TicketID" value="$QData{"TicketID"}" />
-                <input type="hidden" name="ArticleID" value="$QData{"Article::ArticleID"}" />
-                <input type="hidden" name="FormID" value="$QData{"FormID"}" />
-                $Include{"RichTextEditor"}
-                <textarea titel="$Text{"Reply"}" id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                <div id="Attachment">
-                    <input name="file_upload" title="Attachment" type="file" size="30" />
-                    <button class="CallForAction" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><span>$Text{"Attach"}</span></button>
+            </ul> <!-- /Messages -->
+            <div id="FollowUp">
+                <div id="Messenger">
+                    <input type="text" name="Subject" id="Subject" value="Re: $QData{"Title"}" />
+                    $Include{"RichTextEditor"}
+                    <textarea titel="$Text{"Reply"}" id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <div id="Attachment">
+                        <input name="file_upload" title="Attachment" type="file" size="30" />
+                        <button class="CallForAction" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><span>$Text{"Attach"}</span></button>
 <!-- dtl:block:Attachment -->
-                    <div>
-                        $QData{"Filename"} <span>$QData{"Filesize"}</span>
-                        <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"><span>$Text{"Delete"}</span></button>
+                        <div>
+                            $QData{"Filename"} <span>$QData{"Filesize"}</span>
+                            <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"><span>$Text{"Delete"}</span></button>
+                        </div>
+<!-- dtl:block:Attachment -->
                     </div>
-<!-- dtl:block:Attachment -->
+                    <button id="Submit" class="CallForAction" type="submit" value="submit"><span>Submit</span></button>
                 </div>
-                <button id="Submit" class="CallForAction" type="submit" value="submit"><span>Submit</span></button>
-            </form>
-            <a id="ReplyButton" href="">$Text{"Reply"}</a>
-        </div>
+                <a id="ReplyButton" href="">$Text{"Reply"}</a>
+            </div>
+        </form>
     </div>
 </div>
 <!-- dtl:document_ready -->
