@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.86 2010-03-27 20:41:35 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.87 2010-04-22 13:58:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -657,23 +657,8 @@ sub Run {
                 $Validstyle = '';
             }
 
-            #Description
-            my %HashLang;
-            for my $Index ( 1 .. $#{ $ItemHash{Description} } ) {
-                $HashLang{ $ItemHash{Description}[$Index]{Lang} }
-                    = $ItemHash{Description}[$Index]{Content};
-            }
-            my $Description;
+            my $Description = $ItemHash{Description}[1]{Content};
 
-            # Description in User Language
-            if ( defined $HashLang{$UserLang} ) {
-                $Description = $HashLang{$UserLang};
-            }
-
-            # Description in Default Language
-            else {
-                $Description = $HashLang{en};
-            }
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementBlock',
                 Data => {
