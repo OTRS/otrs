@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.2 2010-04-15 16:00:46 mn Exp $
+# $Id: AdminSystemAddress.dtl,v 1.3 2010-04-22 15:38:20 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,22 +23,23 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Add"/>
                     <fieldset>
-                        <h2>$Text{"Add System Address"}</h2>
+                        <h2>$Text{"Add system address"}</h2>
                         <p class="FieldExplanation">
-                            $Text{"Add a new System Address."}
+                            $Text{"Add a new system address."}
                         </p>
                         <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
-
-                        <h2 class="SpacingTop">$Text{"Note"}</h2>
-                        <p class="FieldExplanation">
-                            $Text{"These email addresses will be excluded in replies from OTRS."}
-                        </p>
-                        <p class="FieldExplanation">
-                            $Text{"All incoming email with this address in To or CC will be dispatched to the selected queue."}
-                        </p>
-
                     </fieldset>
                 </form>
+            </div>
+        </div>
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Note"}</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    $Text{"All incoming email with this address in To or CC will be dispatched to the selected queue."}
+                </p>
             </div>
         </div>
     </div>
@@ -54,8 +55,8 @@
                 <table class="DataTable VariableWidth">
                     <thead>
                         <tr>
-                            <th>$Text{"Email Address"}</th>
-                            <th>$Text{"Display Name"}</th>
+                            <th>$Text{"Email address"}</th>
+                            <th>$Text{"Display name"}</th>
                             <th>$Text{"valid"}/$Text{"invalid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
@@ -87,21 +88,18 @@
                     <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
                     <fieldset class="TableLike">
-                        <label for="Name">$Text{"Email Address"}:</label>
+                        <label for="Name">$Text{"Email address"}:</label>
                         <div class="Field">
                             <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc" maxlength="200"/>
-                            <p class="FieldExplanation">
-                                $Text{"Example: support@company.com"}
-                            </p>
                         </div>
 
                         <div class="Clear"></div>
 
-                        <label for="RealName">$Text{"Display Name"}:</label>
+                        <label for="RealName">$Text{"Display name"}:</label>
                         <div class="Field">
                             <input type="text" name="RealName" id="RealName" value="$QData{"RealName"}" class="W50pc" maxlength="50"/>
                             <p class="FieldExplanation">
-                                $Text{"Example: Support Team"}
+                                $Text{"The display name and email address will be shown on mail you send."}
                             </p>
                         </div>
                         <div class="Clear"></div>
