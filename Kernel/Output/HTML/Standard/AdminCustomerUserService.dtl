@@ -2,218 +2,247 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.10 2010-02-05 13:58:24 mn Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.11 2010-04-22 18:18:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td colspan="2" class="mainhead">
-            $Env{"Box0"}$Text{"Customer Users <-> Services Management"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td width="30%" class="mainbody">
-<!-- dtl:block:Search -->
-            <form action="$Env{"CGIHandle"}" method="post">
-                <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                <table width="100%" cellspacing="0" cellpadding="4">
-                    <tr>
-                        <td class="contenthead">$Text{"Search"}:</td>
-                    </tr>
-                    <tr>
-                        <td class="contentbody">
-                            <table>
-                                <tr>
-                                    <td class="contentkey">$Text{"Search for"} $Text{"CustomerUser"}:</td>
-                                    <td class="contentvalue"><input type="text" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}" size="20"/></td>
-                                </tr>
-                                <tr>
-                                    <td class="contentkey">$Text{"Search for"} $Text{"Service"}:</td>
-                                    <td class="contentvalue"><input type="text" name="ServiceSearch" value="$QData{"ServiceSearch"}" size="20"/></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="contentfooter">
-                            <button class="button" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Manage Customer-Services Relations"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+            </div>
+            <div class="Content">
+
+                <form action="$Env{"CGIHandle"}" method="post">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <h2>$Text{"Search:"}</h2>
+
+
+                    <label for="CustomerSearch" class="">
+                        $Text{"Search for"} $Text{"Customer"}:
+                    </label>
+                    <div class="Field">
+                        <input type="text" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}" class="W50pc"/>
+                    </div>
+
+                    <label for="ServiceSearch" class="">
+                        $Text{"Search for"} $Text{"Service"}:
+                    </label>
+                    <div class="Field">
+                        <input type="text" name="ServiceSearch" value="$QData{"ServiceSearch"}" class="W50pc"/>
+                    </div>
+
+                    <div class="Field">
+                        <button class="button" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                    </div>
+
+                </form>
+
 <!-- dtl:block:Search -->
 <!-- dtl:block:Default -->
-            <br/>
-            <form action="$Env{"CGIHandle"}" method="post">
-                <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                <input type="hidden" name="Subaction" value="AllocateCustomerUser"/>
-                <table width="100%" cellspacing="0" cellpadding="4">
-                    <tr>
-                        <td class="contenthead">$Text{"Edit"}:</td>
-                    </tr>
-                    <tr>
-                        <td class="contentbody">
-                            $Text{"Edit default services."}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="contentfooter">
-                            <button class="button" type="submit" value="$Text{"Edit"}">$Text{"Edit"}</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+
+                <form action="$Env{"CGIHandle"}" method="post">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="AllocateCustomerUser"/>
+                    <h2 class= 'SpacingTop'>$Text{"Edit:"}</h2>
+
+                    <label for="Edit" class="">
+                        $Text{"Edit default services."}
+                    </label>
+                    <div class="Field">
+                        <button class="button" type="submit" id="$Text{"Edit"}" value="$Text{"Edit"}">$Text{"Edit"}</button>
+                    </div>
+                </form>
 <!-- dtl:block:Default -->
-        </td>
-        <td width="70%" class="mainbody">
+            </div>
+        </div>
+    </div>
 <!-- dtl:block:Result -->
-            <table width="100%" cellspacing="0" cellpadding="4">
-                <tr>
-                    <td class="contenthead">$Text{"Search Result"}:</td>
-                </tr>
-                <tr>
-                    <td class="contentbody">
-                        <table width="100%" border="0" cellspacing="0" cellpadding="3">
-                            <tr>
-                                <td class="contentkey" width="49%">$Text{"CustomerUser"}
+
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Search Result:"}</h2>
+            </div>
+            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+                <div class="Size1of2">
+                    <ul class="Tablelike" id="Customers">
+                        <li class="Header">$Text{"Customers"}
 <!-- dtl:block:ResultCustomerUserCount -->
-                                    ($QData{"CustomerUserCount"})
+                            ($QData{"CustomerUserCount"})
 <!-- dtl:block:ResultCustomerUserCount -->
 <!-- dtl:block:ResultCustomerUserCountLimit -->
-                                    (<font color="red">$QData{"CustomerUserCount"}</font>)
+                            (<span class='Error'>$QData{"CustomerUserCount"}</span>)
 <!-- dtl:block:ResultCustomerUserCountLimit -->
-                                </td>
-                                <td class="contentkey" width="1%"></td>
-                                <td class="contentkey" width="50%">$Text{"Service"}
+                        </li>
+<!-- dtl:block:ResultUserRow -->
+                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateCustomerUser;CustomerUserLogin=$LQData{"CustomerUserLogin"};CustomerUserSearch=$LQData{"CustomerUserSearch"};ServiceSearch=$LQData{"ServiceSearch"}" class="AsBlock">$QData{"CustomerUser"}</a></li>
+<!-- dtl:block:ResultUserRow -->
+                    </ul>
+                </div>
+                <div class="Size1of2">
+                    <ul class="Tablelike" id="Services">
+                        <li class="Header">$Text{"Services"}
 <!-- dtl:block:ResultServiceCount -->
-                                    ($QData{"ServiceCount"})
+                            ($QData{"ServiceCount"})
 <!-- dtl:block:ResultServiceCount -->
 <!-- dtl:block:ResultServiceCountLimit -->
-                                    (<font color="red">$QData{"ServiceCount"}</font>)
+                            (<span class='Error'>$QData{"ServiceCount"}</span>)
 <!-- dtl:block:ResultServiceCountLimit -->
-                                </td>
-                            </tr>
-<!-- dtl:block:ResultRow -->
-                            <tr>
-                                <td class="$QData{"CustomerUserCssClass"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateCustomerUser;CustomerUserLogin=$LQData{"CustomerUserLogin"};CustomerUserSearch=$LQData{"CustomerUserSearch"};ServiceSearch=$LQData{"ServiceSearch"}">$QData{"CustomerUser"}</a>
-                                </td>
-                                <td></td>
-                                <td class="$QData{"ServiceCssClass"}">
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ServiceID"};CustomerUserSearch=$LQData{"CustomerUserSearch"};ServiceSearch=$LQData{"ServiceSearch"}">$QData{"Service"}</a>
-                                </td>
-                            </tr>
-<!-- dtl:block:ResultRow -->
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="contentfooter">
-                        &nbsp;
-                    </td>
-                </tr>
-            </table>
+                        </li>
+<!-- dtl:block:ResultServiceRow -->
+                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ServiceID"};CustomerUserSearch=$LQData{"CustomerUserSearch"};ServiceSearch=$LQData{"ServiceSearch"}"class="AsBlock">$QData{"Service"}</a></li>
+<!-- dtl:block:ResultServiceRow -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 <!-- dtl:block:Result -->
 <!-- dtl:block:AllocateCustomerUser -->
-            <form action="$Env{"CGIHandle"}" method="post">
-                <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                <input type="hidden" name="Subaction" value="AllocateCustomerUserSave"/>
-                <input type="hidden" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}"/>
-                <input type="hidden" name="ServiceSearch" value="$QData{"ServiceSearch"}"/>
-                <input type="hidden" name="CustomerUserLogin" value="$QData{"CustomerUserLogin"}"/>
-                <table width="100%" cellspacing="0" cellpadding="4">
-                    <tr>
-                        <td class="contenthead">$Text{"Allocate services to CustomerUser"} "$QData{"CustomerUser"}":</td>
-                    </tr>
-                    <tr>
-                        <td class="contentbody">
-                            <table width="100%" border="0" cellspacing="0" cellpadding="3">
-                                <tr>
-                                    <td class="contentkey">$Text{"Service"}
+
+<script type="text/javascript">//<![CDATA[
+function select_items (Type) {
+    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
+        if ( document.matrix.elements[Type][0].checked ) {
+            document.matrix.elements[Type][i].checked = true;
+        }
+        else {
+            document.matrix.elements[Type][i].checked = false;
+        }
+    }
+}
+//]]></script>
+
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>
+                    $Text{"Allocate %s to", "$QData{"VisibleNeType"}"}
+                    $Text{"$QData{"VisibleType"}"}
+                    <a href="$Env{"Baselink"}Action=AdminCustomerUser;Subaction=Change;ID=$LQData{"CustomerUser"}">$QData{"CustomerUser"}</a>
+                    ($QData{"CustomerUser"})
+                </h2>
+            </div>
+            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+                <form action="$Env{"CGIHandle"}" method="post" name="matrix">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="AllocateCustomerUserSave"/>
+                    <input type="hidden" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}"/>
+                    <input type="hidden" name="ServiceSearch" value="$QData{"ServiceSearch"}"/>
+                    <input type="hidden" name="CustomerUserLogin" value="$QData{"CustomerUserLogin"}"/>
+                    <table class="DataTable VariableWidth" id="Service">
+                        <thead>
+                            <tr>
+                                <th>$Text{"Service"}
 <!-- dtl:block:AllocateCustomerUserServiceCount -->
-                                        ($QData{"ServiceCount"})
+                                    ($QData{"ServiceCount"})
 <!-- dtl:block:AllocateCustomerUserServiceCount -->
 <!-- dtl:block:AllocateCustomerUserServiceCountLimit -->
-                                        (<font color="red">$QData{"ServiceCount"}</font>)
+                                    (<span class='Error'>$QData{"ServiceCount"}</span>)
 <!-- dtl:block:AllocateCustomerUserServiceCountLimit -->
-                                    </td>
-                                    <td class="contentkey" width="100">$Text{"Active"}</td>
-                                </tr>
+                                </th>
+                                <th class="Center $QData{"Mark"}">
+                                    <input type="checkbox" name="ServiceIDsSelected" title="$Text{"Toggle active state for all"}" value="" onclick="select_items('ServiceIDsSelected');" />
+                                    $Text{"Active"}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
 <!-- dtl:block:AllocateCustomerUserRow -->
-                                <tr>
-                                    <td class="$QData{"CssClass"}">
-                                        <a href="$Env{"Baselink"}Action=AdminService;Subaction=ServiceEdit;ServiceID=$QData{"ServiceID"}">
-                                        $QData{"Service"}
-                                        </a>
-                                    </td>
-                                    <td class="$QData{"CssClass"}">
-                                        <input type="checkbox" name="ServiceIDsSelected" value="$QData{"ServiceID"}" $QData{"Checked"}/>
-                                        <input type="hidden" name="ServiceIDsAll" value="$QData{"ServiceID"}"/>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td><a href="$Env{"Baselink"}Action=AdminService;Subaction=ServiceEdit;ServiceID=$QData{"ServiceID"}">$QData{"Service"}</a></td>
+                                <td class="$QData{"Mark"}">
+                                    <input type="checkbox" name="ServiceIDsSelected" title="$Text{"Toggle active state for %s", "$Data{"Service"}"}" value="$QData{"ServiceID"}" $QData{"Checked"}/>
+                                    <input type="hidden" name="ServiceIDsAll" value="$QData{"ServiceID"}"/>
+                                </td>
+                            </tr>
 <!-- dtl:block:AllocateCustomerUserRow -->
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="contentfooter">
-                            <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+                        </tbody>
+                    </table>
+                    <div class="Field SpacingTop">
+                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 <!-- dtl:block:AllocateCustomerUser -->
 <!-- dtl:block:AllocateService -->
-            <form action="$Env{"CGIHandle"}" method="post">
+
+<script type="text/javascript">//<![CDATA[
+function select_items (Type) {
+    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
+        if ( document.matrix.elements[Type][0].checked ) {
+            document.matrix.elements[Type][i].checked = true;
+        }
+        else {
+            document.matrix.elements[Type][i].checked = false;
+        }
+    }
+}
+//]]></script>
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+<!--<h2>$Text{"Allocate Customers to Service"} $QData{"Service"}:</h2>-->
+                <h2>
+                    $Text{"Allocate %s to", "$QData{"VisibleNeType"}"}
+                    $Text{"$QData{"VisibleType"}"}
+                    <a href="$Env{"Baselink"}Action=AdminCustomerUser;Subaction=Change;ID=$LQData{"ServiceID"}">$QData{"Service"}</a>
+                    ($QData{"ServiceID"})
+                </h2>
+            </div>
+            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+                \               <form action="$Env{"CGIHandle"}" method="post"name="matrix">
                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                 <input type="hidden" name="Subaction" value="AllocateServiceSave"/>
                 <input type="hidden" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}"/>
                 <input type="hidden" name="ServiceSearch" value="$QData{"ServiceSearch"}"/>
                 <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}"/>
-                <table width="100%" cellspacing="0" cellpadding="4">
-                    <tr>
-                        <td class="contenthead">$Text{"Allocate CustomerUser to service"} "$QData{"Service"}":</td>
-                    </tr>
-                    <tr>
-                        <td class="contentbody">
-                            <table width="100%" border="0" cellspacing="0" cellpadding="3">
-                                <tr>
-                                    <td class="contentkey">$Text{"CustomerUser"}
+                <table class="DataTable VariableWidth" id="Service">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Customer"}
 <!-- dtl:block:AllocateServiceCustomerUserCount -->
-                                        ($QData{"CustomerUserCount"})
+                                ($QData{"CustomerUserCount"})
 <!-- dtl:block:AllocateServiceCustomerUserCount -->
 <!-- dtl:block:AllocateServiceCustomerUserCountLimit -->
-                                        (<font color="red">$QData{"CustomerUserCount"}</font>)
+                                (<Span class="Error">$QData{"CustomerUserCount"}</span>)
 <!-- dtl:block:AllocateServiceCustomerUserCountLimit -->
-                                    </td>
-                                    <td class="contentkey" width="100">$Text{"Active"}</td>
-                                </tr>
+                            </th>
+                            <th class="Center $QData{"Mark"}">
+                                <input type="checkbox" name="CustomerUserLoginsSelected" title="$Text{"Toggle active state for all"}" value="" onclick="select_items('CustomerUserLoginsSelected');" />
+                                $Text{"Active"}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
 <!-- dtl:block:AllocateServiceRow -->
-                                <tr>
-                                    <td class="$QData{"CssClass"}">
-                                        <a href="$Env{"Baselink"}Action=AdminCustomerUser;Subaction=Change;ID=$LQData{"CustomerUserLogin"}">$QData{"CustomerUser"}</a>
-                                    </td>
-                                    <td class="$QData{"CssClass"}">
-                                        <input type="checkbox" name="CustomerUserLoginsSelected" value="$QData{"CustomerUserLogin"}" $QData{"Checked"}/>
-                                        <input type="hidden" name="CustomerUserLoginsAll" value="$QData{"CustomerUserLogin"}"/>
-                                    </td>
-                                </tr>
+                        <tr>
+                            <td><a href="$Env{"Baselink"}Action=AdminCustomerUser;Subaction=Change;ID=$LQData{"CustomerUserLogin"}">$QData{"CustomerUser"}</a></td>
+                            <td class="$QData{"Mark"}">
+                                <input type="checkbox" name="CustomerUserLoginsSelected" title="$Text{"Toggle active state for %s", "$Data{"CustomerUser"}"}" value="$QData{"CustomerUserLogin"}" $QData{"Checked"}/>
+                                <input type="hidden" name="CustomerUserLoginsAll" value="$QData{"CustomerUserLogin"}"/>
+                            </td>
+                        </tr>
 <!-- dtl:block:AllocateServiceRow -->
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="contentfooter">
-                            <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                        </td>
-                    </tr>
+                    </tbody>
                 </table>
+                <div class="Field SpacingTop">
+                    <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                </div>
             </form>
+        </div>
+    </div>
+</div>
 <!-- dtl:block:AllocateService -->
-        </td>
-    </tr>
-</table>
+</div>
+<div class="Clear"></div>

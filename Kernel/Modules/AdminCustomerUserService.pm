@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.11 2009-11-25 15:39:15 mg Exp $
+# $Id: AdminCustomerUserService.pm,v 1.12 2010-04-22 18:22:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,6 +43,8 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my %VisibleType = ( CustomerUserLogin => 'Customer', Service => 'Service', );
 
     # set search limit
     my $SearchLimit = 200;
@@ -103,6 +105,12 @@ sub Run {
                 CustomerUser => $Param{CustomerUserLogin},
                 ServiceCount => @ServiceList || 0,
                 %Param,
+
+                Type          => 'CustomerUserLogin',
+                NeType        => 'Service',
+                VisibleType   => $VisibleType{CustomerUserLogin},
+                VisibleNeType => $VisibleType{Service},
+
             },
         );
 
@@ -126,13 +134,10 @@ sub Run {
             );
         }
 
-        my $Css;
-
         # output rows
         for my $Counter ( 1 .. $MaxCount ) {
 
             # set output class
-            $Css = $Css && $Css eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
             # get service
             my %Service = $Self->{ServiceObject}->ServiceGet(
@@ -150,7 +155,6 @@ sub Run {
                     Service   => $Service{Name},
                     ServiceID => $Service{ServiceID},
                     Checked   => $Checked,
-                    CssClass  => $Css,
                 },
             );
         }
@@ -225,6 +229,12 @@ sub Run {
                 Service => $Service{Name},
                 CustomerUserCount => @CustomerUserKeyList || 0,
                 %Param,
+
+                Type          => 'Service',
+                NeType        => 'CustomerUserLogin',
+                VisibleType   => $VisibleType{'Service'},
+                VisibleNeType => $VisibleType{'CustomerUserLogin'},
+
             },
         );
 
@@ -249,24 +259,30 @@ sub Run {
         }
 
         # output rows
-        my $Css;
         for my $Counter ( 1 .. $MaxCount ) {
 
             # set output class
-            $Css = $Css && $Css eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
             # set checked
             my $Checked
                 = $CustomerUserMemberList{ $CustomerUserKeyList[ $Counter - 1 ] } ? 'checked' : '';
 
             # output row block
+
+            my %User = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $CustomerUserKeyList[ $Counter - 1 ]
+            );
+            my $UserName = $Self->{CustomerUserObject}->CustomerName(
+                UserLogin => $CustomerUserKeyList[ $Counter - 1 ]
+            );
+            my $CustomerUser = "$UserName <$User{UserEmail}> ($User{UserCustomerID})";
+
             $Self->{LayoutObject}->Block(
                 Name => 'AllocateServiceRow',
                 Data => {
                     CustomerUserLogin => $CustomerUserKeyList[ $Counter - 1 ],
-                    CustomerUser      => $CustomerUserList{ $CustomerUserKeyList[ $Counter - 1 ] },
+                    CustomerUser      => $CustomerUser,
                     Checked           => $Checked,
-                    CssClass          => $Css,
                 },
             );
         }
@@ -403,12 +419,15 @@ sub Run {
         my $ServiceCount      = @ServiceList;
 
         # set max count
-        my $MaxCount = $CustomerUserCount;
-        if ( $ServiceCount > $MaxCount ) {
-            $MaxCount = $ServiceCount;
+        my $MaxCustomerCount = $CustomerUserCount;
+        my $MaxServiceCount  = $ServiceCount;
+
+        if ( $MaxCustomerCount > $SearchLimit ) {
+            $MaxCustomerCount = $SearchLimit;
         }
-        if ( $MaxCount > $SearchLimit ) {
-            $MaxCount = $SearchLimit;
+
+        if ( $MaxServiceCount > $SearchLimit ) {
+            $MaxServiceCount = $SearchLimit;
         }
 
         # output result block
@@ -462,20 +481,38 @@ sub Run {
         }
 
         # output rows
-        my $Css = 'searchpassive';
-        for my $Counter ( 1 .. $MaxCount ) {
+        for my $Counter ( 1 .. $MaxCustomerCount ) {
 
             # set output class
-            $Css = $Css eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
-            my %RowParam;
+            my %UserRowParam;
 
             # set customer user row params
             if ( defined( $CustomerUserKeyList[ $Counter - 1 ] ) ) {
-                $RowParam{CustomerUserLogin} = $CustomerUserKeyList[ $Counter - 1 ];
-                $RowParam{CustomerUser} = $CustomerUserList{ $CustomerUserKeyList[ $Counter - 1 ] };
-                $RowParam{CustomerUserCssClass} = $Css;
+                $UserRowParam{CustomerUserLogin} = $CustomerUserKeyList[ $Counter - 1 ];
+
+                # Get user details
+                my %User = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $CustomerUserKeyList[ $Counter - 1 ]
+                );
+                my $UserName = $Self->{CustomerUserObject}->CustomerName(
+                    UserLogin => $CustomerUserKeyList[ $Counter - 1 ]
+                );
+                $UserRowParam{CustomerUser}
+                    = "$UserName <$User{UserEmail}> ($User{UserCustomerID})";
             }
+
+            # output user row block
+            $Self->{LayoutObject}->Block(
+                Name => 'ResultUserRow',
+                Data => { %Param, %UserRowParam, },
+            );
+        }
+
+        for my $Counter ( 1 .. $MaxServiceCount ) {
+
+            # Set output class.
+            my %ServiceRowParam;
 
             # set service row params
             if ( $ServiceList[ $Counter - 1 ] ) {
@@ -483,15 +520,14 @@ sub Run {
                     ServiceID => $ServiceList[ $Counter - 1 ],
                     UserID    => $Self->{UserID},
                 );
-                $RowParam{ServiceID}       = $Service{ServiceID};
-                $RowParam{Service}         = $Service{Name};
-                $RowParam{ServiceCssClass} = $Css;
+                $ServiceRowParam{ServiceID} = $Service{ServiceID};
+                $ServiceRowParam{Service}   = $Service{Name};
             }
 
-            # output row block
+            # output service row block
             $Self->{LayoutObject}->Block(
-                Name => 'ResultRow',
-                Data => { %Param, %RowParam, },
+                Name => 'ResultServiceRow',
+                Data => { %Param, %ServiceRowParam, },
             );
         }
 
