@@ -2,7 +2,7 @@
 // OTRS.UI.Tables.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Tables.js,v 1.5 2010-04-19 16:36:29 mg Exp $
+// $Id: OTRS.UI.Tables.js,v 1.6 2010-04-22 16:06:35 en Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -57,17 +57,25 @@ OTRS.UI.Tables = (function (TargetNS) {
     TargetNS.InitTableFilter = function ($FilterInput, $Container) {
         $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
             window.setTimeout(function () {
-                var FilterText = ($FilterInput.val() || '').toLowerCase();
+                var FilterText = ($FilterInput.val() || '').toLowerCase(), 
+                    $Rows = $Container.find('tbody tr:not(.FilterMessage), li:not(.Header):not(.FilterMessage)');
                 if (FilterText.length) {
-                    $Container.find('tbody tr, li:not(.Header)').hide();
-                    $Container.find('tbody tr, li:not(.Header)').each(function () {
-                        if ($(this).text().toLowerCase().indexOf(FilterText) > -1) {
-                            $(this).show();
-                        }
-                    });
+                    $Rows
+                        .hide()
+                        .each(function () {
+                            if ($(this).text().toLowerCase().indexOf(FilterText) > -1) {
+                                $(this).show();
+                            }
+                        });
                 }
                 else {
-                    $Container.find('tbody tr, li').show();
+                    $Rows.show();
+                }
+                if($Rows.filter(':visible').length) {
+                    $Container.find('.FilterMessage').hide();
+                } 
+                else {
+                    $Container.find('.FilterMessage').show();
                 }
             }, 0);
         });
