@@ -50,6 +50,7 @@
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Users">
                         <li class="Header">$Text{"Agents"}</li>
+                        <li class="FilterMessage Hidden">$Text{"No matches found"}.</li>
 <!-- dtl:block:List1n-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:List1n-->
@@ -58,6 +59,7 @@
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Groups">
                         <li class="Header">$Text{"Groups"}</li>
+                        <li class="FilterMessage Hidden">$Text{"No matches found"}.</li>
 <!-- dtl:block:Listn1-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:Listn1-->
@@ -122,7 +124,7 @@
                             <tr>
                                 <th>$Text{"$QData{"VisibleNeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
-                                <th class="Center $QData{"Mark"}">
+                                <th class="$QData{"Mark"}">
                                     <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle %s permission for all", "$QData{"Type"}"}" value="" />
                                     $QData{"Type"}
                                 </th>
