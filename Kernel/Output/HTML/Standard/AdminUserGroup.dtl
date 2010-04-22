@@ -50,7 +50,7 @@
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Users">
                         <li class="Header">$Text{"Agents"}</li>
-                        <li class="FilterMessage Hidden">$Text{"No matches found"}.</li>
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
 <!-- dtl:block:List1n-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:List1n-->
