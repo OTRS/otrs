@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.7 2010-04-22 20:37:52 dz Exp $
+# $Id: AdminUser.dtl,v 1.8 2010-04-22 21:08:17 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,14 +71,18 @@
 
     <div class="ContentColumn">
         <div class="WidgetGradient Short MinHeight">
+<!-- dtl:block:OverviewHeader -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
-            <div class="Content">
+<!-- dtl:block:OverviewHeader -->
 <!-- dtl:block:NoSearchTerms -->
-                <p>Please enter a search term to look for Agents.</p>
+            <div class="Content">
+                <p>$Text{"Please enter a search term to look for Agents."}</p>
+            </div>
 <!-- dtl:block:NoSearchTerms -->
 <!-- dtl:block:OverviewResult -->
+            <div class="Content">
                 <table class="DataTable">
                     <thead>
                         <tr>
@@ -122,8 +126,8 @@
 <!-- dtl:block:OverviewResultRow -->
                     </tbody>
                 </table>
-<!-- dtl:block:OverviewResult -->
             </div>
+<!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
             <div class="Header">
                 <h2>$Text{"Edit"} ($Text{"$QData{"Action"}"})</h2>

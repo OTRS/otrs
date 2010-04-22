@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.63 2010-04-22 16:03:06 en Exp $
+# $Id: AdminUser.pm,v 1.64 2010-04-22 21:08:37 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -478,6 +478,11 @@ sub _Overview {
     # if there are any registries to search, the table is filled and shown
     if ( $Param{Search} ) {
         $Self->{LayoutObject}->Block(
+            Name => 'OverviewHeader',
+            Data => {},
+        );
+
+        $Self->{LayoutObject}->Block(
             Name => 'OverviewResult',
             Data => \%Param,
         );
@@ -528,6 +533,11 @@ sub _Overview {
         # otherwise it displays a no data found message
         else {
             $Self->{LayoutObject}->Block(
+                Name => 'OverviewHeader',
+                Data => {},
+            );
+
+            $Self->{LayoutObject}->Block(
                 Name => 'NoDataFoundMsg',
                 Data => {
                     ColSpan => $ColSpan,
@@ -539,6 +549,10 @@ sub _Overview {
     # if there is nothing to search it shows a message
     else
     {
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewHeader',
+            Data => {},
+        );
         $Self->{LayoutObject}->Block(
             Name => 'NoSearchTerms',
             Data => {},
