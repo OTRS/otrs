@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRole.pm - to add/update/delete roles
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.pm,v 1.23 2010-04-22 15:38:39 cg Exp $
+# $Id: AdminRole.pm,v 1.24 2010-04-22 17:30:27 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -231,23 +231,35 @@ sub _Overview {
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
 
-    $Self->{LayoutObject}->Block(
-        Name => 'OverviewResult',
-        Data => \%Param,
-    );
     my %List = $Self->{GroupObject}->RoleList( ValidID => 0, );
 
-    # get valid list
-    my %ValidList = $Self->{ValidObject}->ValidList();
-    for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
-
-        my %Data = $Self->{GroupObject}->RoleGet( ID => $_, );
+    # if there is data available, it is shown
+    if (%List) {
         $Self->{LayoutObject}->Block(
-            Name => 'OverviewResultRow',
-            Data => {
-                Valid => $ValidList{ $Data{ValidID} },
-                %Data,
-            },
+            Name => 'OverviewResult',
+            Data => \%Param,
+        );
+
+        # get valid list
+        my %ValidList = $Self->{ValidObject}->ValidList();
+        for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+            my %Data = $Self->{GroupObject}->RoleGet( ID => $_, );
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    Valid => $ValidList{ $Data{ValidID} },
+                    %Data,
+                },
+            );
+        }
+    }
+
+    # otherwise, a message is displayed
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'NoRolesDefined',
+            Data => {},
         );
     }
     return 1;

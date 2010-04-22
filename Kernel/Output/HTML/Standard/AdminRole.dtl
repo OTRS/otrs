@@ -2,7 +2,7 @@
 # AdminRole.dtl - provides HTML form for AdminRole
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.dtl,v 1.7 2010-04-22 16:50:52 cg Exp $
+# $Id: AdminRole.dtl,v 1.8 2010-04-22 17:30:46 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,22 +49,22 @@
             </div>
         </div>
     </div>
-
-
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
-<!-- dtl:block:OverviewResult -->
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
-
-                <table class="DataTable VariableWidth">
+<!-- dtl:block:NoRolesDefined -->
+                <p>$Text{"There are no roles defined. Please use the 'Add' button to create a new role."}</p>
+<!-- dtl:block:NoRolesDefined -->
+<!-- dtl:block:OverviewResult -->
+                <table class="DataTable">
                     <thead>
                         <tr>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Comment"}</th>
-                            <th>$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"valid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
@@ -81,8 +81,8 @@
 <!-- dtl:block:OverviewResultRow -->
                     </tbody>
                 </table>
-            </div>
 <!-- dtl:block:OverviewResult -->
+            </div>
 <!-- dtl:block:OverviewUpdate -->
             <div class="Header">
                 <h2>$Text{"Edit"} ($Text{"$QData{"Action"}"})</h2>
@@ -115,8 +115,6 @@
 
                         <div class="Field SpacingTop">
                             <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                            $Text{"or"}
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
