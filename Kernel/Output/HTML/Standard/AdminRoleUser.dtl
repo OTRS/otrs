@@ -16,27 +16,25 @@
     <div class="SidebarColumn">
         <div class="WidgetGradient Short">
             <div class="Header">
-
-                <h2><label for="FilterUsers">$Text{"Filter for Agents"}</label></h2>
+                <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
-                <form action="">
-                    <fieldset>
+                <ul class="ActionList">
+                    <li>
+                        <h2><label for="FilterUsers">$Text{"Filter for Agents"}</label></h2>
                         <input type="text" id="FilterUsers" class="W50pc" name="FilterUsers" value="" />
-                    </fieldset>
-                </form>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="WidgetGradient Short">
-            <div class="Header">
-                <h2><label for="FilterRoles">$Text{"Filter for Roles"}</label></h2>
-            </div>
             <div class="Content">
-                <form action="">
-                    <fieldset>
+                <ul class="ActionList">
+                    <li>
+                        <h2><label for="FilterRoles">$Text{"Filter for Roles"}</label></h2>
                         <input type="text" id="FilterRoles" class="W50pc" name="FilterRoles" value="" />
-                    </fieldset>
-                </form>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -89,12 +87,21 @@
     <h1>$Text{"Manage Role-Agent Relations"}</h1>
     <div class="SidebarColumn">
         <div class="WidgetGradient Short">
-            <div class="Header"></div>
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
             <div class="Content">
-                <fieldset>
-                    <h2><label for="Filter">$Text{"Filter"}</label></h2>
-                    <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
-                </fieldset>
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+                    <li>
+                        <h2>
+                            <label for="Filter">$Text{"Filter"}</label>
+                        </h2>
+                        <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -147,6 +154,8 @@
                     </table>
                     <div class="Field SpacingTop">
                         <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        $Text{"or"}
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                     </div>
                     <div class="Clear"></div>
                 </form>
