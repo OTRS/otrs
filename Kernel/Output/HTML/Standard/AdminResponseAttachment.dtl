@@ -2,7 +2,7 @@
 # AdminResponseAttachment.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.dtl,v 1.3 2010-04-21 20:27:40 dz Exp $
+# $Id: AdminResponseAttachment.dtl,v 1.4 2010-04-22 18:40:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,14 +61,12 @@
         <div class="Clear"></div>
 <!-- dtl:block:OverviewResult-->
 
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $(document).ready(function() {
-        OTRS.UI.Tables.InitTableFilter($('#FilterResponses'), $('#Responses'));
-        OTRS.UI.Tables.InitTableFilter($('#FilterAttachments'), $('#Attachments'));
-    });
+    OTRS.UI.Tables.InitTableFilter($('#FilterResponses'), $('#Responses'));
+    OTRS.UI.Tables.InitTableFilter($('#FilterAttachments'), $('#Attachments'));
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:Change -->
         <div class="WidgetGradient Short">
@@ -93,15 +91,13 @@
                                     <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle active for all"}" value="" />
                                     $Text{"Active"}
                                 </th>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $(document).ready(function() {
-        OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
-            OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
-        });
+    OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
+        OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
     });
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ChangeHeader -->
                             </tr>
                         </thead>

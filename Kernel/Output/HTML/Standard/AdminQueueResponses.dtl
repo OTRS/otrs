@@ -69,14 +69,12 @@
     </div>
     <div class="Clear"></div>
 </div>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $(document).ready(function() {
-        OTRS.UI.Tables.InitTableFilter($('#FilterResponses'), $('#Responses'));
-        OTRS.UI.Tables.InitTableFilter($('#FilterQueues'), $('#Queues'));
-    });
+    OTRS.UI.Tables.InitTableFilter($('#FilterResponses'), $('#Responses'));
+    OTRS.UI.Tables.InitTableFilter($('#FilterQueues'), $('#Queues'));
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:Overview -->
 <!-- dtl:block:Change -->
@@ -143,15 +141,13 @@
     </div>
     <div class="Clear"></div>
 </div>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $(document).ready(function() {
-        OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
-            OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
-        });
-        OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserRoles'));
+    OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
+        OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
     });
+    OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserRoles'));
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:Change -->

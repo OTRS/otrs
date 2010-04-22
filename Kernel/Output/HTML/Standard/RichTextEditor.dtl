@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.33 2010-04-13 15:51:31 mn Exp $
+# $Id: RichTextEditor.dtl,v 1.34 2010-04-22 18:40:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,10 +81,8 @@ function RichTextFocus() {
 }
 //]]></script>
 
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-$(document).ready(function() {
-InitRichText();
-});
+    InitRichText();
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->

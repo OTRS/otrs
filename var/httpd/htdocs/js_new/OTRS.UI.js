@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.js,v 1.9 2010-04-22 18:01:48 mn Exp $
+// $Id: OTRS.UI.js,v 1.10 2010-04-22 18:40:25 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -242,6 +242,14 @@ OTRS.UI = (function (TargetNS) {
         if ($Element1 instanceof jQuery && $Element2 instanceof jQuery && $Element1.length && $Element2.length) {
             $Element1.slideToggle('fast', function () {
                 $Element2.slideToggle('fast');
+            });
+        }
+    };
+
+    TargetNS.RegisterToggleTwoContainer = function ($ClickedElement, $Element1, $Element2) {
+        if ($ClickedElement instanceof jQuery && $ClickedElement.length) {
+            $ClickedElement.click(function () {
+                TargetNS.ToggleTwoContainer($Element1, $Element2);
             });
         }
     };

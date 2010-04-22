@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.23 2010-04-19 18:03:01 mn Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.24 2010-04-22 18:40:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,13 +31,11 @@
 
 
 <!-- dtl:block:DocumentHeader -->
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $(document).ready(function () {
-        OTRS.UI.ActionRow.Init();
-    });
+    OTRS.UI.ActionRow.Init();
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <ul id="TicketOverviewMedium" class="Overview OverviewMedium">
 <!-- dtl:block:DocumentHeader -->
 
@@ -290,17 +288,15 @@
 </li>
 <!-- dtl:block:DocumentMenuItem -->
 
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <script type="text/javascript">//<![CDATA[
-OTRS.UI.ActionRow.AddActions('TicketID_$QData{"TicketID"}', $Data{"Data"});
+    OTRS.UI.ActionRow.AddActions('TicketID_$QData{"TicketID"}', $Data{"Data"});
 //]]></script>
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <!-- dtl:block:DocumentReadyStart -->
 <script type="text/javascript">//<![CDATA[
-        $(document).ready(function() {
-            OTRS.UI.StaticTableControl($('#OverviewControl'));
-        });
+    OTRS.UI.StaticTableControl($('#OverviewControl'));
 //]]></script>
 <!-- dtl:block:DocumentReadyStart -->
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->

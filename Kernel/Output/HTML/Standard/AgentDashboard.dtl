@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.36 2010-04-22 18:01:48 mn Exp $
+# $Id: AgentDashboard.dtl,v 1.37 2010-04-22 18:40:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ $Include{"AJAX"}
 <!-- dtl:block:ContentSettings -->
                         <li>
                             <span title="$Text{"$QData{"Description"}"}">
-                                <input type="checkbox" name="Backend" value="$QData{"Name"}" $Data{"Checked"}/> $Text{"$QData{"Title"}"}
+                            <input type="checkbox" name="Backend" value="$QData{"Name"}" $Data{"Checked"}/> $Text{"$QData{"Title"}"}
                             </span>
                         </li>
 <!-- dtl:block:ContentSettings -->
@@ -51,8 +51,11 @@ $Include{"AJAX"}
             <div class="Header">
 <!-- dtl:block:ContentSmallPreferences -->
                 <div class="WidgetAction Settings">
-                    <a href="#" onclick="OTRS.UI.ToggleTwoContainer($('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}')); return false;" title="$Text{"Settings"}"><span></span></a>
+                    <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}"><span></span></a>
                 </div>
+<!-- dtl:js_on_document_complete -->
+                OTRS.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentSmallPreferences -->
                 <div class="WidgetAction Close">
                     <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><span></span></a>
@@ -68,29 +71,29 @@ $Include{"AJAX"}
                         <fieldset class="TableLike">
 <!-- dtl:block:ContentSmallPreferencesItem -->
 <!-- dtl:block:ContentSmallPreferencesItemOption -->
-                                <label>$Text{"$QData{"Desc"}"}:</label>
-                                <div class="Field">
-                                    $Data{"Option"}
-                                </div>
-                                <div class="Clear"></div>
+                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <div class="Field">
+                                $Data{"Option"}
+                            </div>
+                            <div class="Clear"></div>
 <!-- dtl:block:ContentSmallPreferencesItemOption -->
 <!-- dtl:block:ContentSmallPreferencesItemInput -->
-                                <label>$Text{"$QData{"Desc"}"}:</label>
-                                <div class="Field">
-                                    <input type="text" size="$QData{"Size"}" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
-                                </div>
-                                <div class="Clear"></div>
+                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <div class="Field">
+                                <input type="text" size="$QData{"Size"}" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
+                            </div>
+                            <div class="Clear"></div>
 <!-- dtl:block:ContentSmallPreferencesItemInput -->
 <!-- dtl:block:ContentSmallPreferencesItemTextArea -->
-                                <label>$Text{"$QData{"Desc"}"}:</label>
-                                <div class="Field">
-                                    <textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea>
-                                </div>
-                                <div class="Clear"></div>
+                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <div class="Field">
+                                <textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea>
+                            </div>
+                            <div class="Clear"></div>
 <!-- dtl:block:ContentSmallPreferencesItemTextArea -->
 <!-- dtl:block:ContentSmallPreferencesItem -->
-                                <button id="Dashboard$QData{"Name"}_submit" class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                                <button class="button" type="submit" value="$Text{"Cancel"}" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
+                            <button id="Dashboard$QData{"Name"}_submit" class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            <button class="button" type="submit" value="$Text{"Cancel"}" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     OTRS.App.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard$QData{"Name"}_submit'), 'Dashboard$QData{"Name"}', $('#Dashboard$QData{"NameForm"}_setting_form'));
@@ -132,31 +135,31 @@ $Include{"AJAX"}
                         <input type="hidden" name="Subaction" value="UpdatePreferences"/>
                         <input type="hidden" name="Name" value="$QData{"Name"}"/>
                         <fieldset class="TableLike FixedLabelSmall">
-<!-- dtl:block:ContentSmallPreferencesItem -->
-<!-- dtl:block:ContentSmallPreferencesItemOption -->
-                                <label>$Text{"$QData{"Desc"}"}:</label>
-                                <div class="Field">
-                                    $Data{"Option"}
-                                </div>
-                                <div class="Clear"></div>
-<!-- dtl:block:ContentSmallPreferencesItemOption -->
-<!-- dtl:block:ContentSmallPreferencesItemInput -->
-                                <label>$Text{"$QData{"Desc"}"}:</label>
-                                <div class="Field">
-                                    <input type="text" size="$QData{"Size"}" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
-                                </div>
-                                <div class="Clear"></div>
-<!-- dtl:block:ContentSmallPreferencesItemInput -->
-<!-- dtl:block:ContentSmallPreferencesItemTextArea -->
-                                <label>$Text{"$QData{"Desc"}"}:</label>
-                                <div class="Field">
-                                    <textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea>
-                                </div>
-                                <div class="Clear"></div>
-<!-- dtl:block:ContentSmallPreferencesItemTextArea -->
-<!-- dtl:block:ContentSmallPreferencesItem -->
-                                <button id="Dashboard$QData{"Name"}_submit" class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                                <button class="button" type="submit" value="$Text{"Cancel"}" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
+<!-- dtl:block:ContentLargePreferencesItem -->
+<!-- dtl:block:ContentLargePreferencesItemOption -->
+                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <div class="Field">
+                                $Data{"Option"}
+                            </div>
+                            <div class="Clear"></div>
+<!-- dtl:block:ContentLargePreferencesItemOption -->
+<!-- dtl:block:ContentLargePreferencesItemInput -->
+                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <div class="Field">
+                                <input type="text" size="$QData{"Size"}" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
+                            </div>
+                            <div class="Clear"></div>
+<!-- dtl:block:ContentLargePreferencesItemInput -->
+<!-- dtl:block:ContentLargePreferencesItemTextArea -->
+                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <div class="Field">
+                                <textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea>
+                            </div>
+                            <div class="Clear"></div>
+<!-- dtl:block:ContentLargePreferencesItemTextArea -->
+<!-- dtl:block:ContentLargePreferencesItem -->
+                            <button id="Dashboard$QData{"Name"}_submit" class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            <button class="button" type="submit" value="$Text{"Cancel"}" onclick="UI.Settings('Dashboard$QData{"Name"}-setting', 'Dashboard$QData{"Name"}'); return false;">$Text{"Cancel"}</button>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     OTRS.App.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard$QData{"Name"}_submit'), 'Dashboard$QData{"Name"}',$('#Dashboard$QData{"NameForm"}_setting_form'));

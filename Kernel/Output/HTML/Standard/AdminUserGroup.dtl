@@ -84,14 +84,12 @@
 <!-- dtl:block:OverviewResult -->
 
 
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $(document).ready(function() {
-        OTRS.UI.Tables.InitTableFilter($('#FilterUsers'), $('#Users'));
-        OTRS.UI.Tables.InitTableFilter($('#FilterGroups'), $('#Groups'));
-    });
+    OTRS.UI.Tables.InitTableFilter($('#FilterUsers'), $('#Users'));
+    OTRS.UI.Tables.InitTableFilter($('#FilterGroups'), $('#Groups'));
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:Change -->
 
@@ -116,15 +114,13 @@
                                     <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle %s permission for all", "$QData{"Type"}"}" value="" />
                                     $QData{"Type"}
                                 </th>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $(document).ready(function() {
-        OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
-            OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
-        });
+    OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
+        OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
     });
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ChangeHeader -->
                             </tr>
                         </thead>
@@ -186,13 +182,11 @@
             </div>
         </div>
 
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $(document).ready(function() {
-        OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserGroups'));
-    });
+    OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserGroups'));
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:Change -->
     </div>

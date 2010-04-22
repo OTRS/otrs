@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.2 2010-04-20 17:50:02 mn Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.3 2010-04-22 18:40:25 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,14 +69,12 @@
     </div>
     <div class="Clear"></div>
 </div>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $(document).ready(function() {
-        OTRS.UI.Tables.InitTableFilter($('#FilterCustomerUsers'), $('#CustomerUsers'));
-        OTRS.UI.Tables.InitTableFilter($('#FilterGroups'), $('#Groups'));
-    });
+    OTRS.UI.Tables.InitTableFilter($('#FilterCustomerUsers'), $('#CustomerUsers'));
+    OTRS.UI.Tables.InitTableFilter($('#FilterGroups'), $('#Groups'));
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:Overview -->
 <!-- dtl:block:Change -->
@@ -126,15 +124,13 @@
                                     <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle %s permission for all", "$QData{"Type"}"}" value="" />
                                     $QData{"Type"}
                                 </th>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $(document).ready(function() {
-        OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
-            OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
-        });
+    OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
+        OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
     });
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ChangeHeader -->
                             </tr>
                         </thead>
@@ -183,12 +179,10 @@
     <div class="Clear"></div>
 </div>
 
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $(document).ready(function() {
-        OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserGroups'));
-    });
+    OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserGroups'));
 //]]></script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:Change -->
