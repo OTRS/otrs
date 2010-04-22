@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.101 2010-03-24 22:47:52 mp Exp $
+# $Id: User.pm,v 1.102 2010-04-22 16:04:19 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 =head1 NAME
 
@@ -172,8 +172,8 @@ sub GetUserData {
     # get initial data
     my @Bind;
     my $SQL = "SELECT $Self->{UserTableUserID}, $Self->{UserTableUser}, "
-        . " title, first_name, last_name, $Self->{UserTableUserPW}, valid_id "
-        . " FROM $Self->{UserTable} WHERE ";
+        . " title, first_name, last_name, $Self->{UserTableUserPW}, valid_id, "
+        . " create_time, change_time FROM $Self->{UserTable} WHERE ";
     if ( $Param{User} ) {
         my $User = lc $Param{User};
         $SQL .= " LOWER($Self->{UserTableUser}) = ?";
@@ -193,6 +193,8 @@ sub GetUserData {
         $Data{UserLastname}  = $Row[4];
         $Data{UserPw}        = $Row[5];
         $Data{ValidID}       = $Row[6];
+        $Data{CreateTime}    = $Row[7];
+        $Data{ChangeTime}    = $Row[8];
     }
 
     # check data
@@ -1048,6 +1050,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.101 $ $Date: 2010-03-24 22:47:52 $
+$Revision: 1.102 $ $Date: 2010-04-22 16:04:19 $
 
 =cut

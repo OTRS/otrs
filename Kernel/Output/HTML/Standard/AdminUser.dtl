@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.5 2010-04-22 16:01:44 en Exp $
+# $Id: AdminUser.dtl,v 1.6 2010-04-22 16:09:13 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -102,7 +102,7 @@
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
                             <td colspan=$QData{"ColSpan"}>
-                                $Text{"No data found"}.
+                                $Text{"No data found."}
                             </td>
                         </tr>
 <!-- dtl:block:NoDataFoundMsg -->
