@@ -49,6 +49,10 @@
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Roles">
                         <li class="Header">$Text{"Roles"}</li>
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <li>$Text{"No data found."}</li>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:List1n-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:List1n-->
@@ -57,6 +61,7 @@
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Groups">
                         <li class="Header">$Text{"Groups"}</li>
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
 <!-- dtl:block:Listn1-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:Listn1-->

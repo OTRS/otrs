@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.28 2010-04-16 16:33:18 mg Exp $
+# $Id: AdminRoleGroup.pm,v 1.29 2010-04-22 18:28:05 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -266,16 +266,24 @@ sub _Overview {
     # get user list
     my %RoleData = $Self->{GroupObject}->RoleList( Valid => 1 );
 
-    for my $RoleID ( sort { uc( $RoleData{$a} ) cmp uc( $RoleData{$b} ) } keys %RoleData ) {
+    if (%RoleData) {
+        for my $RoleID ( sort { uc( $RoleData{$a} ) cmp uc( $RoleData{$b} ) } keys %RoleData ) {
 
-        # set output class
+            # set output class
+            $Self->{LayoutObject}->Block(
+                Name => 'List1n',
+                Data => {
+                    Name      => $RoleData{$RoleID},
+                    Subaction => 'Role',
+                    ID        => $RoleID,
+                },
+            );
+        }
+    }
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'List1n',
-            Data => {
-                Name      => $RoleData{$RoleID},
-                Subaction => 'Role',
-                ID        => $RoleID,
-            },
+            Name => 'NoDataFoundMsg',
+            Data => {},
         );
     }
 
