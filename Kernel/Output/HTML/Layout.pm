@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.231 2010-04-19 18:17:34 martin Exp $
+# $Id: Layout.pm,v 1.232 2010-04-22 17:45:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.231 $) [1];
+$VERSION = qw($Revision: 1.232 $) [1];
 
 =head1 NAME
 
@@ -680,12 +680,12 @@ sub Output {
 
     # find document ready
     $Output =~ s{
-            <!--\s{0,1}dtl:document_ready\s{0,1}-->(.+?)<!--\s{0,1}dtl:document_ready\s{0,1}-->
+            <!--\s{0,1}dtl:JSOnDocumentComplete\s{0,1}-->(.+?)<!--\s{0,1}dtl:JSOnDocumentComplete\s{0,1}-->
     }
     {
-            if (!$Self->{DocumentReady}->{$1}) {
-                $Self->{DocumentReady}->{$1} = 1;
-                $Self->{EnvRef}->{DocumentReady} .= $1;
+            if (!$Self->{JSOnDocumentComplete}->{$1}) {
+                $Self->{JSOnDocumentComplete}->{$1} = 1;
+                $Self->{EnvRef}->{JSOnDocumentComplete} .= $Self->_RemoveScriptTags(Code => $1);
             }
             "";
     }segxm;
@@ -693,11 +693,11 @@ sub Output {
     # replace document ready placeholder (only if it's not included via $Include{""})
     if ( !$Param{Include} ) {
         $Output =~ s{
-            <!--\s{0,1}dtl:document_ready_placeholder\s{0,1}-->
+            <!--\s{0,1}dtl:JSOnDocumentCompletePlaceholder\s{0,1}-->
         }
         {
-            if ( $Self->{EnvRef}->{DocumentReady} ) {
-                $Self->{EnvRef}->{DocumentReady};
+            if ( $Self->{EnvRef}->{JSOnDocumentComplete} ) {
+                $Self->{EnvRef}->{JSOnDocumentComplete};
             }
             else {
                 "";
@@ -4556,6 +4556,27 @@ sub _DisableBannerCheck {
     return 1
 }
 
+=item _RemoveScriptTags()
+
+This function will remove the surrounding <script> tags of a
+piece of JavaScript code, if they are present, and return the result.
+
+    my $CodeContent = $LayoutObject->_RemoveScriptTags(Code => $SomeCode);
+
+=cut
+
+sub _RemoveScriptTags {
+    my ( $Self, %Param ) = @_;
+
+    my $Code = $Param{Code} || '';
+
+    if ( $Code =~ m/<script/ ) {
+        $Code =~ s{<script[^>]+>\s*(?:<!--)?(?://<!\[CDATA\[)?\s*}{};
+        $Code =~ s{(?:-->)?(?://\]\]>)?</script>}{};
+    }
+    return $Code;
+}
+
 1;
 
 =end Internal:
@@ -4572,6 +4593,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.231 $ $Date: 2010-04-19 18:17:34 $
+$Revision: 1.232 $ $Date: 2010-04-22 17:45:15 $
 
 =cut
