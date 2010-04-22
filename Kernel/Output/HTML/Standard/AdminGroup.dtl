@@ -2,7 +2,7 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.5 2010-04-21 22:37:14 dz Exp $
+# $Id: AdminGroup.dtl,v 1.6 2010-04-22 16:34:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,12 +121,12 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
             </div>
             <div class="Content">
 
-                <table class="DataTable VariableWidth">
+                <table class="DataTable">
                     <thead>
                         <tr>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Comment"}</th>
-                            <th class="Center">$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"valid"}/$Text{"invalid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
@@ -136,7 +136,7 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
                         <tr>
                             <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             <td title="$QData{"Comment"}">$QData{"Comment","26"}</td>
-                            <td class="center">$Text{"$QData{"Valid"}"}</td>
+                            <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                         </tr>
