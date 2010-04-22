@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -270,72 +270,88 @@
 .TicketZoom iframe {
     width: 100%;
     border: none;
-    height: 530px;
+    height: 300px;
 }
 
 .Js .TicketZoom iframe {
     height: 0;
 }
 
-#FollowUp {
-    margin: 0 13px 8px;
-    position: relative;
-    display: inline-block;
-}
-
-.Js #FollowUp {
-    margin-bottom: 21px;
-}
-
-/*#FollowUp.Visible {
-    margin: 0 13px 21px;
-}*/
-
 #FollowUp  {
+    margin: 0 13px 8px;
     color: #6A6A6A;
     background: #F0F0F0;
     background: -moz-linear-gradient(top, #F9F9F9, #F0F0F0);
     background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#F0F0F0));
-    border: 1px solid #D6D6D6;
-    border-top: none;
+    border-left: 1px solid #D6D6D6;
+    border-right: 1px solid #D6D6D6;
     -webkit-border-bottom-right-radius: 5px;
     -webkit-border-bottom-left-radius: 5px;
     -moz-border-radius-bottomright: 5px;
     -moz-border-radius-bottomleft: 5px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
+    display: inline-block;
+    position: relative;
 }
 
-#FollowUp #Messenger {
-    padding: 8px 8px 5px;
-    display: none;
+#FollowUp.Visible {
+    border-bottom: 1px solid #D6D6D6;
+}
+
+.Js #FollowUp {
+    margin-bottom: 21px;
+}
+
+.Js #FollowUp #Messenger {
+    height: 0;
+    overflow: hidden;
 }
 
 #FollowUp.Visible #Messenger {
+    height: auto;
+    padding: 8px 8px 5px;
+    border-top: 1px solid #EEE;
+}
+
+#Messenger #Subject {
+    width: 300px;
+    margin: 8px 8px 0;
+    color: #444;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+}
+
+#Messenger textarea {
+    margin: 7px;
+    border: 1px solid #BBB;
     display: block;
 }
 
-#FollowUp textarea {
-    border: 1px solid #BBB;
-}
-
-#FollowUp textarea:focus {
+#Messenger textarea:focus {
     border-color: #888;
 }
 
-#FollowUp #Submit {
-    margin: 8px 8px 5px;
+#Messenger #Submit {
+    margin: 8px;
     display: block;
 }
 
-#FollowUp span.cke_skin_kama {
+#Messenger span.cke_skin_kama {
     border: none;
+}
+
+#Messenger .cke_skin_kama .cke_wrapper {
+    background: #E4E4E4;
 }
 
 #Attachment {
     margin: 5px;
     padding: 5px;
-    background: #FFF;
+    background: #E4E4E4;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;

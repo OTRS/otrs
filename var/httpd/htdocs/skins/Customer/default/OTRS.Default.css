@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -155,6 +155,7 @@ strong {
     width: 100%;
     margin-top: 3px;
     color: #CCC;
+    background: #FFF;
 }
 
 #Footer > * {
