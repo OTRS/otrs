@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.316 2010-04-19 23:41:34 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.317 2010-04-22 17:17:45 fn Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -6228,7 +6228,7 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::DashboardCalendar</Item>
                 <Item Key="Title">Upcoming Events</Item>
                 <Item Key="Default">1</Item>
-                <Item Key="Permission">rw</Item>®
+                <Item Key="Permission">rw</Item>ï¿½
                 <Item Key="OwnerOnly"></Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
@@ -7066,7 +7066,7 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">User Profile</Item>
                 <Item Key="Label" Translatable="1">Shown Tickets</Item>
-                <Item Key="Key" Translatable="1">Max. shown Tickets a page in Overview.</Item>
+                <Item Key="Key" Translatable="1">Max. shown Tickets</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="15">15</Item>
@@ -7090,8 +7090,8 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">User Profile</Item>
-                <Item Key="Label" Translatable="1">QueueView refresh time</Item>
-                <Item Key="Key" Translatable="1">Select your QueueView refresh time.</Item>
+                <Item Key="Label" Translatable="1">QueueView</Item>
+                <Item Key="Key" Translatable="1">Refresh time.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="">off</Item>

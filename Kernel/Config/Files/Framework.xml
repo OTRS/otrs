@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.279 2010-04-19 22:52:52 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.280 2010-04-22 17:17:45 fn Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Group>Framework</Group>
@@ -3661,7 +3661,7 @@ Your OTRS Notification Master
                 <Item Key="Module">Kernel::Output::HTML::PreferencesLanguage</Item>
                 <Item Key="Colum">User Profile</Item>
                 <Item Key="Label" Translatable="1">Language</Item>
-                <Item Key="Key" Translatable="1">Select your frontend language.</Item>
+                <Item Key="Key" Translatable="1">Your language.</Item>
                 <Item Key="PrefKey">UserLanguage</Item>
                 <Item Key="Prio">2000</Item>
                 <Item Key="Activ">1</Item>
