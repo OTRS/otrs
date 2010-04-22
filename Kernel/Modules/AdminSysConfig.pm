@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.87 2010-04-22 13:58:40 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.88 2010-04-22 22:26:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -651,7 +651,7 @@ sub Run {
 
             # Valid
             my $Valid      = '';
-            my $Validstyle = 'passiv';
+            my $Validstyle = 'Invalid';
             if ( $ItemHash{Valid} ) {
                 $Valid      = 'checked="checked"';
                 $Validstyle = '';
@@ -764,33 +764,11 @@ sub ListConfigItem {
     my ( $Self, %Param ) = @_;
 
     my %ItemHash = %{ $Param{Hash} };
-    my $Valid    = '';
     my $Default  = '';
     my $Item     = $ItemHash{Setting}->[1];
 
     # ConfigElement String
     if ( defined $Item->{String} ) {
-
-        # check
-        my $Check = $Item->{String}->[1]->{Check};
-        if ($Check) {
-
-            # file
-            if ( $Check eq 'File' && !-f $Item->{String}->[1]->{Content} ) {
-                $Valid = 'file not found';
-            }
-
-            # directory
-            if ( $Check eq 'Directory' && !-d $Item->{String}->[1]->{Content} ) {
-                $Valid = 'directory not found';
-            }
-        }
-
-        # Regex check
-        my $RegExp = $Item->{String}->[1]->{Regex};
-        if ( $RegExp && $Item->{String}->[1]->{Content} !~ /$Item->{String}->[1]->{Regex}/ ) {
-            $Valid = 'invalid';
-        }
 
         # get default
         if ( $Item->{String}->[1]->{Default} ) {
@@ -801,10 +779,37 @@ sub ListConfigItem {
             Data => {
                 ElementKey => $ItemHash{Name},
                 Content    => $Item->{String}->[1]->{Content},
-                Valid      => $Valid,
                 Default    => $Default,
             },
         );
+
+        # check
+        my $Check = $Item->{String}->[1]->{Check};
+        if ($Check) {
+
+            # file
+            if ( $Check eq 'File' && !-f $Item->{String}->[1]->{Content} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementStringErrorFileNotFound',
+                );
+            }
+
+            # directory
+            if ( $Check eq 'Directory' && !-d $Item->{String}->[1]->{Content} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementStringErrorDirectoryNotFound',
+                );
+            }
+        }
+
+        # Regex check
+        my $RegExp = $Item->{String}->[1]->{Regex};
+        if ( $RegExp && $Item->{String}->[1]->{Content} !~ /$Item->{String}->[1]->{Regex}/ ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ConfigElementStringErrorRegexMismatch',
+            );
+        }
+
         return 1;
     }
 
@@ -815,7 +820,6 @@ sub ListConfigItem {
             Data => {
                 ElementKey => $ItemHash{Name},
                 Content    => $Item->{TextArea}->[1]->{Content},
-                Valid      => $Valid,
             },
         );
         return 1;
@@ -877,6 +881,8 @@ sub ListConfigItem {
                     },
                 );
 
+                $Self->{LayoutObject}->Block( Name => 'ConfigElementSubHashStart' );
+
                 # SubHashElements
                 for my $Index2 ( 1 .. $#{ ${Hash}->{Item}->[$Index]->{Hash}->[1]->{Item} } ) {
                     $Self->{LayoutObject}->Block(
@@ -894,6 +900,8 @@ sub ListConfigItem {
                         },
                     );
                 }
+
+                $Self->{LayoutObject}->Block( Name => 'ConfigElementSubHashEnd' );
             }
 
             # SubArray
@@ -907,6 +915,8 @@ sub ListConfigItem {
                         Index      => $Index,
                     },
                 );
+
+                $Self->{LayoutObject}->Block( Name => 'ConfigElementSubArrayStart' );
 
                 # SubArrayElements
                 for my $Index2 ( 1 .. $#{ $Hash->{Item}->[$Index]->{Array}->[1]->{Item} } ) {
@@ -923,6 +933,8 @@ sub ListConfigItem {
                         },
                     );
                 }
+
+                $Self->{LayoutObject}->Block( Name => 'ConfigElementSubArrayEnd' );
             }
 
             #SubOption

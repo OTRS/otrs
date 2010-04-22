@@ -2,12 +2,18 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.50 2010-04-22 14:04:08 mg Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.51 2010-04-22 22:26:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.App.Agent.AdminSysConfig.Init();
+//]]></script>
+<!-- dtl:js_on_document_complete -->
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"SysConfig"}</h1>
@@ -44,35 +50,44 @@
                     <input type="image" src="$Config{"Frontend::ImagePath"}empty.png" alt=" "/>
 
 <!-- dtl:block:ConfigElementBlock -->
-                    <fieldset>
+                    <fieldset class="$Data{"Validstyle"}">
                         <h3>
                             <a name="$QData{"Name"}"></a>
                             <input type="checkbox" value="1" id="$QData{"ItemKey"}ItemAktiv" name="$QData{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}/>
-
 <!-- dtl:block:ConfigElementBlockReset -->
-                            <input type="image" src="$Config{"Frontend::ImagePath"}edit.png" name="Reset$QData{"ItemKey"}" alt="$Text{"Reset"}" title="$Text{"Reset"}"/>
+                            <input type="image" src="$Config{"Frontend::ImagePath"}edit.png" name="Reset$QData{"ItemKey"}" alt="$Text{"Reset"}" title="$Text{"Reset this setting"}"/>
 <!-- dtl:block:ConfigElementBlockReset -->
-                            <label for="$QData{"ItemKey"}ItemAktiv">
-#TODO: Validstyle?
-                                <span class="contentkey$Data{"Validstyle"}">$QData{"ItemKey"}</span>
-                            </label>
+                            <label for="$QData{"ItemKey"}ItemAktiv">$QData{"ItemKey"}</label>
                         </h3>
                         <div class="Setting">
+
 
 <!-- dtl:block:ConfigElementString -->
                             <div class="String">
                                 <input name="$QData{"ElementKey"}" value="$QData{"Content"}"/>
-                                <span class="Error">$Text{"$QData{"Valid"}"}</span>
                                 <p class="DefaultValue">
                                     $Text{"Default value"}: $QData{"Default","45"}
                                 </p>
+<!-- dtl:block:ConfigElementStringErrorFileNotFound -->
+                                <p class="Error">$Text{"Error: this file could not be found."}</p>
+<!-- dtl:block:ConfigElementStringErrorFileNotFound -->
+<!-- dtl:block:ConfigElementStringErrorDirectoryNotFound -->
+                                <p class="Error">$Text{"Error: this directory could not be found."}</p>
+<!-- dtl:block:ConfigElementStringErrorDirectoryNotFound -->
+<!-- dtl:block:ConfigElementStringErrorRegexMismatch -->
+                                <p class="Error">$Text{"Error: an invalid value was entered."}</p>
+<!-- dtl:block:ConfigElementStringErrorRegexMismatch -->
                             </div>
 <!-- dtl:block:ConfigElementString -->
+
+
 <!-- dtl:block:ConfigElementTextArea -->
                             <div class="String">
                                 <textarea name="$QData{"ElementKey"}" rows="7" cols="50">$QData{"Content"}</textarea>
                             </div>
 <!-- dtl:block:ConfigElementTextArea -->
+
+
 <!-- dtl:block:ConfigElementSelect -->
                             <div class="Select">
                                 $Data{"Liste"}
@@ -81,119 +96,94 @@
                                 </p>
                             </div>
 <!-- dtl:block:ConfigElementSelect -->
+
+
 <!-- dtl:block:ConfigElementHash -->
-                            <td class="contentvalue">
-                                <table border="0" cellpadding="0" cellspacing="3">
-                                    <tr>
-                                        <td class="contentkey">$Text{"Key"}</td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentkey">$Text{"Content"}</td>
-                                    </tr>
+                            <div class="Hash">
+                                <label class="Key">$Text{"Key"}</label>
+                                <label class="Content">$Text{"Content"}</label>
+                                <div class="Clear"></div>
 <!-- dtl:block:ConfigElementHashContent -->
-                                    <tr>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}Key[]" value="$QData{"Key"}" size="20"/>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" size="20"/>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteHashElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                            <input type="hidden" name="$QData{"ElementKey"}DeleteNumber[]" value="$QData{"Index"}"/>
-                                        </td>
-                                    </tr>
+                                <input type="text" class="Key" name="$QData{"ElementKey"}Key[]" value="$QData{"Key"}"/>
+                                <input type="text" class="Content" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}"/>
+                                <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteHashElement$Data{"Index"}" title="$Text{"Remove this entry"}" value="$Text{"Remove this entry"}">
+                                $Text{"Remove this entry"}
+                                </button>
+                                <input type="hidden" name="$QData{"ElementKey"}DeleteNumber[]" value="$QData{"Index"}"/>
+
 <!-- dtl:block:ConfigElementHashContent -->
 <!-- dtl:block:ConfigElementHashContent2 -->
-                                    <tr><td colspan="5"><hr/></td></tr>
-                                    <tr>
-                                        <td class="contentkey">
-                                            $QData{"Key"} =><input type="hidden" name="$QData{"ElementKey"}Key[]" value="$QData{"Key"}" size="20"/>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentkey">
-                                            <input type="hidden" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5">
-                                            <table border="0" cellpadding="0" cellspacing="3">
+                                <label class="KeyWithComplexValue">
+                                    $QData{"Key"} =>
+                                    <input type="hidden" name="$QData{"ElementKey"}Key[]" value="$QData{"Key"}" size="20"/>
+                                </label>
+                                <input type="hidden" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}"/>
+
+<!-- dtl:block:ConfigElementSubHashStart -->
+                                <div class="Hash">
+<!-- dtl:block:ConfigElementSubHashStart -->
 <!-- dtl:block:ConfigElementSubHashContent -->
-                                                <tr class="contentbody">
-                                                    <td class="contentvalue">
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="$QData{"ElementKey"}Key[]" value="$QData{"Key"}" size="16"/>
-                                                    </td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" size="16"/>
-                                                    </td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="contentvalue">
-                                                        <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteSubHashElement$Data{"Index2"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                                    </td>
-                                                </tr>
+                                    <input type="text" class="Key" name="$QData{"ElementKey"}Key[]" value="$QData{"Key"}"/>
+                                    <input type="text" class="Content" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}"/>
+                                    <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteSubHashElement$Data{"Index2"}" title="$Text{"Remove this entry"}" value="$Text{"Remove this entry"}">
+                                    $Text{"Remove this entry"}
+                                    </button>
 <!-- dtl:block:ConfigElementSubHashContent -->
+<!-- dtl:block:ConfigElementSubHashEnd -->
+                                    <br/>
+                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#$QData{"Key"}#NewSubElement" title="$Text{"Add entry"}" value="$Text{"Add entry"}">
+                                    $Text{"Add entry"}
+                                    </button>
+                                </div>
+<!-- dtl:block:ConfigElementSubHashEnd -->
+<!-- dtl:block:ConfigElementSubArrayStart -->
+                                <div class="Array">
+<!-- dtl:block:ConfigElementSubArrayStart -->
 <!-- dtl:block:ConfigElementSubArrayContent -->
-                                                <tr class="contentbody">
-                                                    <td class="contentvalue">
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" size="18"/>
-                                                    </td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="contentvalue">
-                                                        <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteSubArrayElement$Data{"Index2"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                                    </td>
-                                                </tr>
+                                    <input type="text" class="Entry" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" />
+                                    <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteSubArrayElement$Data{"Index2"}" title="$Text{"Remove entry"}" value="$Text{"Remove entry"}">
+                                    $Text{"Remove entry"}
+                                    </button>
 <!-- dtl:block:ConfigElementSubArrayContent -->
-                                                <tr class="contentbody">
-                                                    <td class="contentvalue">
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="button" type="submit" name="$QData{"ElementKey"}#$QData{"Key"}#NewSubElement" value="$Text{"New"}">$Text{"New"}</button>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr><td colspan="5"><hr/></td></tr>
+<!-- dtl:block:ConfigElementSubArrayEnd -->
+                                    <br/>
+                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#$QData{"Key"}#NewSubElement" title="$Text{"Add entry"}" value="$Text{"Add entry"}">
+                                    $Text{"Add entry"}
+                                    </button>
+                                </div>
+<!-- dtl:block:ConfigElementSubArrayEnd -->
 <!-- dtl:block:ConfigElementHashContent2 -->
 <!-- dtl:block:ConfigElementHashContent3 -->
-                                    <tr>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}Key[]" value="$QData{"Key"}" size="20"/>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentvalue">$Data{"Liste"}</td>
-                                    </tr>
+                                <tr>
+                                    <td class="contentvalue">
+                                        <input type="text" name="$QData{"ElementKey"}Key[]" value="$QData{"Key"}" size="20"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td class="contentvalue">$Data{"Liste"}</td>
+                                </tr>
 <!-- dtl:block:ConfigElementHashContent3 -->
-                                    <tr class="contentbody">
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#NewHashElement" value="$Text{"New"}">$Text{"New"}</button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
+                                <br/>
+                                <button class="Add" type="submit" name="$QData{"ElementKey"}#NewHashElement" title="$Text{"Add new entry"}" value="$Text{"Add new entry"}">$Text{"Add new entry"}</button>
+                            </div>
 <!-- dtl:block:ConfigElementHash -->
+
+
 <!-- dtl:block:ConfigElementArray -->
-                            <td class="contentvalue">
-                                <table border="0" cellpadding="0" cellspacing="3">
+                            <div class="Array">
 <!-- dtl:block:ConfigElementArrayContent -->
-                                    <tr>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" size="30"/>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteArrayElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                        </td>
-                                    </tr>
+                                <input type="text" class="Entry" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" />
+                                <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteArrayElement$Data{"Index"}" title="$Text{"Delete this entry"}" value="$Text{"Delete this entry"}">
+                                $Text{"Delete this entry"}
+                                </button>
+                                <br/>
 <!-- dtl:block:ConfigElementArrayContent -->
-                                    <tr class="contentbody">
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#NewArrayElement" value="$Text{"New"}">$Text{"New"}</button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
+                                <button class="Add" type="submit" name="$QData{"ElementKey"}#NewArrayElement" title="$Text{"Create new entry"}" value="$Text{"Create new entry"}">
+                                $Text{"Create new entry"}
+                                </button>
+                            </div>
 <!-- dtl:block:ConfigElementArray -->
+
+
 <!-- dtl:block:ConfigElementFrontendModuleReg -->
                             <td class="contentvalue">
                                 <table border="0" width="100" cellpadding="0" cellspacing="3">
@@ -483,6 +473,8 @@
                                 </table>
                             </td>
 <!-- dtl:block:ConfigElementFrontendModuleReg -->
+
+
 <!-- dtl:block:ConfigElementTimeVacationDaysOneTime -->
                             <td class="contentvalue">
                                 <table border="0" cellpadding="0" cellspacing="3">
@@ -529,6 +521,8 @@
                                 </table>
                             </td>
 <!-- dtl:block:ConfigElementTimeVacationDaysOneTime -->
+
+
 <!-- dtl:block:ConfigElementTimeVacationDays -->
                             <td class="contentvalue">
                                 <table border="0" cellpadding="0" cellspacing="3">
@@ -593,6 +587,9 @@
                                 </table>
                             </td>
 <!-- dtl:block:ConfigElementTimeWorkingHours -->
+
+
+
                         </div>
                         <p class="Description">
                             $Text{"$Data{"Description"}"}
