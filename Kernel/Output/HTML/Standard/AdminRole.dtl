@@ -2,7 +2,7 @@
 # AdminRole.dtl - provides HTML form for AdminRole
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.dtl,v 1.6 2010-04-22 16:34:04 cg Exp $
+# $Id: AdminRole.dtl,v 1.7 2010-04-22 16:50:52 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,6 +29,9 @@
 <!-- dtl:block:ActionAdd -->
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Role"}</span></a>
+                        <p class="FieldExplanation">
+                            $Text{"Add a Role"}
+                        </p>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>

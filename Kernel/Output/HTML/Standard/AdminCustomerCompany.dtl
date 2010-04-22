@@ -2,7 +2,7 @@
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.5 2010-04-22 14:58:07 cg Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.6 2010-04-22 16:45:53 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,16 +49,10 @@
 <!-- dtl:block:ActionSearch -->
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <form action="$Env{"CGIHandle"}" method="post">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="Add"/>
-
-                            <button class="CallForAction" type="submit"><span>$Text{"Add Customer Company"}</span></button>
-
-                            <p class="FieldExplanation">
-                                $Text{"Add a Customer Company"}
-                            </p>
-                        </form>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Customer Company"}</span></a>
+                        <p class="FieldExplanation">
+                            $Text{"Add a Customer Company"}
+                        </p>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>
