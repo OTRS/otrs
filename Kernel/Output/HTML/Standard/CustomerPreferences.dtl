@@ -2,7 +2,7 @@
 # CustomerPreferences.dtl - provides HTML form for CustomerPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferences.dtl,v 1.2 2010-04-22 17:07:43 fn Exp $
+# $Id: CustomerPreferences.dtl,v 1.3 2010-04-22 19:53:09 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,6 +61,7 @@
             </form>
         </div>
 <!-- dtl:block:Item -->
+        <div class="Clear"></div>
     </div>
 </div>
 <!-- dtl:block:Body -->
