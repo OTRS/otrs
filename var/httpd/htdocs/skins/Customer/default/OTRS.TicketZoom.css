@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -119,17 +119,6 @@
     padding: 0;
 }
 
-.TicketZoom iframe {
-    width: 100%;
-    border: none;
-    height: 530px;
-}
-
-/* just for test purpose - imitates the behavor of an iframe */
-.iframe {
-    margin: 5px;
-}
-
 /**
  * @section     Messages
  */
@@ -153,7 +142,8 @@
     position: relative;
 }
 
-.Message:first-child {
+.Message:first-child,
+.Message:first-child .MessageHeader {
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px;
@@ -162,13 +152,20 @@
     border-top-right-radius: 5px;
 }
 
-.Message:last-child .MessageHeader {
+.Message:last-child,
+.Message:last-child .MessageHeader,
+.Message:last-child .MessageContent {
     -webkit-border-bottom-right-radius: 5px;
     -webkit-border-bottom-left-radius: 5px;
     -moz-border-radius-bottomright: 5px;
     -moz-border-radius-bottomleft: 5px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
+}
+
+.Message:last-child .MessageHeader,
+.Message.Visible:last-child .MessageContent {
+    border-width: 0;
 }
 
 .Message.Visible:last-child .MessageHeader {
@@ -193,10 +190,6 @@
     color: #222;
 }
 
-.Message:last-child .SpoilerRow:last-child {
-    border-bottom: none;
-}
-
 .MessageHeader a {
     color: #6A6A6A;
 }
@@ -218,6 +211,15 @@
 .RTL .MessageHeader .Age {
     right: auto;
     left: 13px;
+}
+
+.MessageBody {
+    height: 0;
+    overflow: hidden;
+}
+
+.Message.Visible .MessageBody {
+    height: auto;
 }
 
 .SeperatorRow {
@@ -259,23 +261,20 @@
     vertical-align: top;
 }
 
-.MessageBody {
-    display: none;
-}
-
-.Message.Visible .MessageBody {
-    display: block;
-}
-
 .MessageContent {
     padding: 5px 6px 5px;
     background: #FFF;
-    -webkit-border-bottom-right-radius: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-bottom: 1px solid #E9E9E9;
+}
+
+.TicketZoom iframe {
+    width: 100%;
+    border: none;
+    height: 530px;
+}
+
+.Js .TicketZoom iframe {
+    height: 0;
 }
 
 #FollowUp {
@@ -292,8 +291,7 @@
     margin: 0 13px 21px;
 }*/
 
-#FollowUp #Messenger {
-    padding: 8px 8px 5px;
+#FollowUp  {
     color: #6A6A6A;
     background: #F0F0F0;
     background: -moz-linear-gradient(top, #F9F9F9, #F0F0F0);
@@ -301,8 +299,15 @@
     border: 1px solid #D6D6D6;
     border-top: none;
     -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
     -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
     border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#FollowUp #Messenger {
+    padding: 8px 8px 5px;
     display: none;
 }
 
@@ -311,8 +316,7 @@
 }
 
 #FollowUp textarea {
-    padding: 5px;
-    border-color: #BBB;
+    border: 1px solid #BBB;
 }
 
 #FollowUp textarea:focus {
@@ -345,8 +349,7 @@
     bottom: -22px;
     height: 10px;
     margin: 0 13px;
-    padding: 4px 8px 8px 24px;
-    font-size: 13px;
+    padding: 4px 8px 7px 24px;
     color: #999;
     background: #F0F0F0 url(img/reply.png) no-repeat 6px 6px;
     background: url(img/reply.png) no-repeat 6px 6px, -moz-linear-gradient(top, #F0F0F0, #EEE);
@@ -361,10 +364,9 @@
     border-bottom-left-radius: 5px;
     display: none;
     position: absolute;
-}
-
-.Visible #ReplyButton {
-    margin: 0;
+    -webkit-box-shadow: 0 0 3px #EEE;
+    -moz-box-shadow: 0 0 3px #EEE;
+    box-shadow: 0 0 2px #EEE;
 }
 
 .Js #ReplyButton {
@@ -380,6 +382,6 @@
  * @subsection  Message colors
  */
 
-.Agent {
+.agent {
     
 }

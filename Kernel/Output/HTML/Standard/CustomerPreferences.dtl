@@ -2,7 +2,7 @@
 # CustomerPreferences.dtl - provides HTML form for CustomerPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferences.dtl,v 1.1 2010-04-19 23:05:59 martin Exp $
+# $Id: CustomerPreferences.dtl,v 1.2 2010-04-22 17:07:43 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,49 +16,50 @@
 #       <h1>$Text{"$QData{"Header"}"}</h1>
 <!-- dtl:block:Head -->
 <!-- dtl:block:Item -->
-        <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
-            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-            <input type="hidden" name="Subaction" value="Update"/>
-            <input type="hidden" name="Group" value="$QData{"Group"}"/>
-            <fieldset>
-                <h2>$Text{"$Data{"Label"}"}</h2>
+        <div class="Box">
+            <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Update"/>
+                <input type="hidden" name="Group" value="$QData{"Group"}"/>
+                <fieldset>
+                    <h2>$Text{"$Data{"Label"}"}</h2>
 <!-- dtl:block:Block -->
 <!-- dtl:block:InputKey -->
-                <div>
-                    <label for="$QData{"Name"}">$Text{"$QData{"Key"}"}</label>
-                    <input title="$QData{"Name"}" type="text" id="$QData{"Name"}" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="20" />
-                </div>
+                    <div>
+                        <label for="$QData{"Name"}">$Text{"$QData{"Key"}"}</label>
+                        <input title="$QData{"Name"}" type="text" id="$QData{"Name"}" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="20" />
+                    </div>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
-                <div>
-                    <label for="$QData{"Name"}">$Text{"$QData{"Key"}"}</label>
-                    <input title="$QData{"Name"}" type="text" id="$QData{"Name"}" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="20" />
-                </div>
+                    <div>
+                        <label for="$QData{"Name"}">$Text{"$QData{"Key"}"}</label>
+                        <input title="$QData{"Name"}" type="text" id="$QData{"Name"}" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="20" />
+                    </div>
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
-                <div>
-                    <label for="$QData{"Name"}">$Text{"$QData{"Key"}"}</label>
-                    $Data{"Option"}
-                </div>
+                    <div>
+                        <label for="$QData{"Name"}">$Text{"$QData{"Key"}"}</label>
+                        $Data{"Option"}
+                    </div>
 <!-- dtl:block:Option -->
 <!-- dtl:block:Upload -->
-                <div>
-                    <label for="$QData{"Name"}">$Text{"$QData{"Key"}"}</label>
-                    <input title="$QData{"Name"}" id="$QData{"Name"}" name="$QData{"Name"}" type="file" size="20" /><br/>
-                    <div title="$QData{"Filename"}">$QData{"Filename","30"}</div>
-                </div>
+                    <div>
+                        <label for="$QData{"Name"}">$Text{"$QData{"Key"}"}</label>
+                        <input title="$QData{"Name"}" id="$QData{"Name"}" name="$QData{"Name"}" type="file" size="20" /><br/>
+                        <div title="$QData{"Filename"}">$QData{"Filename","30"}</div>
+                    </div>
 <!-- dtl:block:Upload -->
 <!-- dtl:block:Password -->
-                <div>
-                    <label for="$QData{"Name"}">$Text{"$QData{"Key"}"}</label>
-                    <input title="$QData{"Name"}" type="password" id="$QData{"Name"}" name="$QData{"Name"}" value=""}" size="20" />
-                </div>
+                    <div>
+                        <label for="$QData{"Name"}">$Text{"$QData{"Key"}"}</label>
+                        <input title="$QData{"Name"}" type="password" id="$QData{"Name"}" name="$QData{"Name"}" value=""}" size="20" />
+                    </div>
 <!-- dtl:block:Password -->
 <!-- dtl:block:Block -->
-                <p>$Text{"$Data{"Desc"}"}</p>
-            </fieldset>
-            <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
-        </form>
+                    <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                </fieldset>
+            </form>
+        </div>
 <!-- dtl:block:Item -->
     </div>
 </div>

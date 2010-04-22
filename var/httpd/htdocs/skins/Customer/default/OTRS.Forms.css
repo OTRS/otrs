@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -65,6 +65,10 @@ fieldset {
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+}
+
+fieldset div {
+    padding: 3px 0;
 }
 
 fieldset div:first-child {
@@ -160,10 +164,6 @@ fieldset.Columns label,
     background: none;
 }
 
-form div {
-    padding: 3px 0;    
-}
-
 .ActionRow.Bottom span {
     padding-left: 5px;
 }
@@ -191,12 +191,23 @@ form div {
     margin-bottom: 0;
 }
 
-.Preferences button {
-    clear: left;
+.Preferences label {
+    padding: 3px 9px 3px 5px;
+    width: 110px;
 }
 
-.Preferences label {
-    width: 100px;
+.Preferences select {
+    margin-top: 3px;
+}
+
+.Preferences input[type=password] {
+    width: 160px;
+}
+
+.Preferences button {
+    margin: 4px 0 0 131px;
+    clear: left;
+    display: block;
 }
 
 .Success {
