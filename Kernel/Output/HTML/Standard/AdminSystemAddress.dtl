@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.3 2010-04-22 15:38:20 fn Exp $
+# $Id: AdminSystemAddress.dtl,v 1.4 2010-04-22 16:17:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -95,9 +95,9 @@
 
                         <div class="Clear"></div>
 
-                        <label for="RealName">$Text{"Display name"}:</label>
+                        <label for="Realname">$Text{"Display name"}:</label>
                         <div class="Field">
-                            <input type="text" name="RealName" id="RealName" value="$QData{"RealName"}" class="W50pc" maxlength="50"/>
+                            <input type="text" name="Realname" id="Realname" value="$QData{"Realname"}" class="W50pc" maxlength="50"/>
                             <p class="FieldExplanation">
                                 $Text{"The display name and email address will be shown on mail you send."}
                             </p>
