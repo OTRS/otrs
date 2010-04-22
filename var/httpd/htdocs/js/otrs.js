@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.17 2010-04-22 18:01:48 mn Exp $
+// $Id: otrs.js,v 1.18 2010-04-22 18:56:47 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
 // create global name space
 var Core = {};
 var UI = {};
-/*
+
 // init
 Core.Init = function () {
     Core.ImagePreload( [OTRS.Config.Get('Images') + 'loading.gif'] );
@@ -263,7 +263,7 @@ UI.Settings = function( Element1, Element2 ) {
 
     return true;
 }
-*/
+
 UI.Sortable = function( Data ) {
     $(Data.Selector).sortable({
         placeholder: Data.Placeholder,
@@ -283,7 +283,7 @@ UI.Sortable = function( Data ) {
     });
     return true;
 }
-/*
+
 UI.Accordion = function( Element1, Element2, Element3 ) {
 
     var Data = document.getElementById(Element1);
@@ -315,7 +315,7 @@ UI.Accordion = function( Element1, Element2, Element3 ) {
 
     return true;
 }
-*/
+
 UI.Dialog = function( Data ) {
 
     var Buttons = {};
