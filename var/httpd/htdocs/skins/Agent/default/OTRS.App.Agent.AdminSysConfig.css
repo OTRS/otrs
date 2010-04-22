@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -23,12 +23,16 @@ form.AdminSysConfig fieldset {
     padding: 10px 0;
 }
 
-form.AdminSysConfig fieldset.Inactive,
-form.AdminSysConfig fieldset.Inactive * {
+form.AdminSysConfig fieldset.Invalid,
+form.AdminSysConfig fieldset.Invalid * {
     color: gray !important;
 }
 
-form.AdminSysConfig fieldset h2 {
+form.AdminSysConfig fieldset.Invalid button {
+    visibility: hidden;
+}
+
+form.AdminSysConfig fieldset h3 {
     float: left;
     padding-left: 0;
     padding-right: 5px;
@@ -36,7 +40,7 @@ form.AdminSysConfig fieldset h2 {
     color: #333;
 }
 
-.RTL form.AdminSysConfig fieldset h2 {
+.RTL form.AdminSysConfig fieldset h3 {
     float: left;
     padding-left: 5px;
     padding-right: 0;
