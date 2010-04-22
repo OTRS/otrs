@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.25 2010-04-21 03:15:26 mg Exp $
+# $Id: AdminSysConfig.dtl,v 1.26 2010-04-22 14:04:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,12 +14,12 @@
     <div class="SidebarColumn">
         <div class="WidgetGradient Long">
             <div class="Header">
-                <h2>$Text{"Action"}</h2>
+                <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <form action="$Env{"CGIHandle"}" method="get">
+                        <form action="$Env{"CGIHandle"}" method="get" class="SearchBox">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Search"/>
                             <input type="hidden" name="DontWriteDefault" value="1"/>
@@ -33,8 +33,10 @@
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="SelectGroup"/>
                             <input type="hidden" name="DontWriteDefault" value="1"/>
-                            $Data{"Liste"}
-                            <button type="submit" name="" value="$Text{"Select Group"}">$Text{"Select Group"}</button>
+                            <div>
+                                $Data{"Liste"}
+                            </div>
+                            <button type="submit" class="CallForAction" name="" value="$Text{"Select Group"}"><span>$Text{"Select Group"}</span></button>
                         </form>
                     </li>
 <!-- dtl:block:Download -->
@@ -48,10 +50,12 @@
                         <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Upload"/>
-                            <input name="file_upload" type="file" size="5" />
-                            <button class="button" type="submit" value="$Text{"Import"}">$Text{"Import"}</button>
+                            <div>
+                                <input name="file_upload" type="file" size="5" />
+                            </div>
+                            <button class="CallForAction" type="submit" value="$Text{"Import"}"><span>$Text{"Import"}</span></button>
                         </form>
-                        <p>$Text{"Load Settings"}:</p>
+                        <p>$Text{"Load SysConfig settings from file"}</p>
                     </li>
                 </ul>
             </div>
