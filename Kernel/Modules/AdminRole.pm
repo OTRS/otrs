@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRole.pm - to add/update/delete roles
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.pm,v 1.24 2010-04-22 17:30:27 en Exp $
+# $Id: AdminRole.pm,v 1.25 2010-04-22 21:17:15 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -230,6 +230,11 @@ sub _Overview {
 
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewHeader',
+        Data => {},
+    );
 
     my %List = $Self->{GroupObject}->RoleList( ValidID => 0, );
 
