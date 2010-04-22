@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.13 2010-04-22 14:58:56 cg Exp $
+# $Id: AdminCustomerCompany.pm,v 1.14 2010-04-22 22:22:12 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -354,32 +354,60 @@ sub _Overview {
     $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
 
     $Self->{LayoutObject}->Block(
-        Name => 'OverviewResult',
-        Data => {
-            %Param,
-            Search => $Search,
-        },
+        Name => 'OverviewHeader',
+        Data => {},
     );
+
     my %List = ();
+
+    # if there are any registries to search, the table is filled and shown
     if ($Search) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResult',
+            Data => {
+                %Param,
+                Search => $Search,
+            },
+        );
         %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
             Search => $Search,
             Valid  => 0,
         );
+
+        # get valid list
+        my %ValidList = $Self->{ValidObject}->ValidList();
+
+        # if there are results to show
+        if (%List) {
+            for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+                my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $_, );
+                $Self->{LayoutObject}->Block(
+                    Name => 'OverviewResultRow',
+                    Data => {
+                        Valid => $ValidList{ $Data{ValidID} },
+                        %Data,
+                        Search => $Search,
+                    },
+                );
+            }
+        }
+
+        # otherwise it displays a no data found message
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'NoDataFoundMsg',
+                Data => {},
+            );
+        }
     }
 
-    # get valid list
-    my %ValidList = $Self->{ValidObject}->ValidList();
-    for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
-
-        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $_, );
+    # if there is nothing to search it shows a message
+    else
+    {
         $Self->{LayoutObject}->Block(
-            Name => 'OverviewResultRow',
-            Data => {
-                Valid => $ValidList{ $Data{ValidID} },
-                %Data,
-                Search => $Search,
-            },
+            Name => 'NoSearchTerms',
+            Data => {},
         );
     }
     return 1;
