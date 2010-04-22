@@ -2,7 +2,7 @@
 // OTRS.Agent.Dashboard.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Agent.AdminSysConfig.js,v 1.1 2010-04-22 18:08:28 mg Exp $
+// $Id: OTRS.App.Agent.AdminSysConfig.js,v 1.2 2010-04-22 19:30:37 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -34,4 +34,4 @@ OTRS.App.Agent.AdminSysConfig = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.App.Agent.Dashboard || {}));
+}(OTRS.App.Agent.AdminSysConfig || {}));
