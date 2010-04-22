@@ -2,17 +2,15 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.6 2010-04-22 16:34:20 en Exp $
+# $Id: AdminGroup.dtl,v 1.7 2010-04-22 18:06:49 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!--dtl:document_ready-->
+<!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-"use strict";
-
 var OTRS = OTRS || {};
 OTRS.App = OTRS.App || {};
 OTRS.App.Agent = OTRS.App.Agent || {};
@@ -48,13 +46,10 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
 
     return TargetNS;
 }(OTRS.App.Agent.AdminGroup || {}));
+
+    OTRS.UI.RegisterEvent('click', '#Submit', OTRS.App.Agent.AdminGroup.AdminGroupCheck);
 //]]></script>
-<script type="text/javascript">//<![CDATA[
-    $(document).ready(function () {
-        OTRS.UI.RegisterEvent('click', '#Submit', OTRS.App.Agent.AdminGroup.AdminGroupCheck);
-    });
-//]]></script>
-<!--dtl:document_ready-->
+<!--dtl:js_on_document_complete-->
 
 <!-- dtl:block:Overview -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
