@@ -2,7 +2,7 @@
 # AdminRole.dtl - provides HTML form for AdminRole
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.dtl,v 1.4 2010-04-15 17:15:10 mn Exp $
+# $Id: AdminRole.dtl,v 1.5 2010-04-22 15:40:28 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,27 +14,44 @@
     <h1>$Text{"Role Management"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
-            <div class="Header"></div>
+<!-- dtl:block:ActionList -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
             <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="Add"/>
 
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Add"/>
-                    <fieldset>
+                            <button class="CallForAction" type="submit"><span>$Text{"Add Role"}</span></button>
 
-                        <h2>$Text{"Add Role"}</h2>
-                        <p class="FieldExplanation">
-                            $Text{"Add a new Role."}
-                        </p>
-                        <button type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
-
-                        <h2 class="SpacingTop">$Text{"Note"}</h2>
-                        <p class="FieldExplanation">
-                            $Text{"Create a role and put groups in it. Then add the role to the users."}
-                        </p>
-                    </fieldset>
-                </form>
+                            <p class="FieldExplanation">
+                                $Text{"Add a Role"}
+                            </p>
+                        </form>
+                    </li>
+<!-- dtl:block:ActionAdd -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
+        <div class="WidgetGradient Short">
+            <div class="Header">
+            </div>
+            <div class="Content">
+                <h2 class="SpacingTop">$Text{"Note"}</h2>
+                <p class="FieldExplanation">
+                    $Text{"Create a role and put groups in it. Then add the role to the users."}
+                </p>
             </div>
         </div>
     </div>
@@ -104,6 +121,8 @@
 
                         <div class="Field SpacingTop">
                             <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
