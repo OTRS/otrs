@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.83 2010-04-07 18:40:16 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.84 2010-04-22 15:14:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,16 +36,11 @@ $Include{"AJAX"}
     </div>
     <div class="ActionRow">
         <ul class="Actions">
-<!-- dtl:block:Menu -->
-<!-- dtl:block:MenuItemSplit -->
-#            -
-<!-- dtl:block:MenuItemSplit -->
-<!-- dtl:block:MenuItem -->
+<!-- dtl:block:TicketMenu -->
             <li class="$QData{"Class"}">
                 <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
             </li>
-<!-- dtl:block:MenuItem -->
-<!-- dtl:block:Menu -->
+<!-- dtl:block:TicketMenu -->
         </ul>
         <div class="ClearLeft"></div>
     </div>
@@ -59,132 +54,132 @@ $Include{"AJAX"}
                 <div class="Content">
                     <fieldset class="TableLike FixedLabelSmall Tight">
 <!-- dtl:block:Type -->
-                    <label>$Text{"Type"}:</label>
-                    <p class="Value" title="$QData{"Type"}">$QData{"Type","18"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"Type"}:</label>
+                        <p class="Value" title="$QData{"Type"}">$QData{"Type","18"}</p>
+                        <div class="Clear"></div>
 <!-- dtl:block:Type -->
-                    <label>$Text{"State"}:</label>
-                    <p class="Value" title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"State"}:</label>
+                        <p class="Value" title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</p>
+                        <div class="Clear"></div>
 
-                    <label>$Text{"Locked"}:</label>
-                    <p class="Value" title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","18"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"Locked"}:</label>
+                        <p class="Value" title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","18"}</p>
+                        <div class="Clear"></div>
 
-                    <label>$Text{"Priority"}:</label>
-                    <p class="Value" title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"Priority"}:</label>
+                        <p class="Value" title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</p>
+                        <div class="Clear"></div>
 
-                    <label>$Text{"Queue"}:</label>
-                    <p class="Value" title="$QData{"Queue"}">$QData{"Queue","18"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"Queue"}:</label>
+                        <p class="Value" title="$QData{"Queue"}">$QData{"Queue","18"}</p>
+                        <div class="Clear"></div>
 
 <!-- dtl:block:Service -->
-                    <label>$Text{"Service"}:</label>
-                    <p class="Value" title="$QData{"Service"}">$QData{"Service","18"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"Service"}:</label>
+                        <p class="Value" title="$QData{"Service"}">$QData{"Service","18"}</p>
+                        <div class="Clear"></div>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
-                    <label>$Text{"SLA"}:</label>
-                    <p class="Value" title="$QData{"SLA"}">$QData{"SLA","18"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"SLA"}:</label>
+                        <p class="Value" title="$QData{"SLA"}">$QData{"SLA","18"}</p>
+                        <div class="Clear"></div>
 <!-- dtl:block:SLA -->
                     </fieldset>
 
                     <fieldset class="TableLike FixedLabelSmall Tight">
 <!-- dtl:block:FirstResponseTime -->
-                    <label>$Text{"First Response Time"}:</label>
-                    <p class="Value">
+                        <label>$Text{"First Response Time"}:</label>
+                        <p class="Value">
 <!-- dtl:block:FirstResponseTimeFontStart -->
-                        <font color="red">
+                            <font color="red">
 <!-- dtl:block:FirstResponseTimeFontStart -->
-                        <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">
-                            $QData{"FirstResponseTimeHuman"}
-                            <br/>
-                            $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}
-                        </div>
+                            <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">
+                                $QData{"FirstResponseTimeHuman"}
+                                <br/>
+                                $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}
+                            </div>
 <!-- dtl:block:FirstResponseTimeFontStop -->
-                        </font>
+                            </font>
 <!-- dtl:block:FirstResponseTimeFontStop -->
-                    </p>
-                    <div class="Clear"></div>
+                        </p>
+                        <div class="Clear"></div>
 <!-- dtl:block:FirstResponseTime -->
 <!-- dtl:block:UpdateTime -->
-                    <label>$Text{"Update Time"}:</label>
-                    <p class="Value">
+                        <label>$Text{"Update Time"}:</label>
+                        <p class="Value">
 <!-- dtl:block:UpdateTimeFontStart -->
-                        <font color="red">
+                            <font color="red">
 <!-- dtl:block:UpdateTimeFontStart -->
-                        <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">
-                            $QData{"UpdateTimeHuman"}
-                            <br/>
-                            $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}
-                        </div>
+                            <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">
+                                $QData{"UpdateTimeHuman"}
+                                <br/>
+                                $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}
+                            </div>
 <!-- dtl:block:UpdateTimeFontStop -->
-                        </font>
+                            </font>
 <!-- dtl:block:UpdateTimeFontStop -->
-                    </p>
-                    <div class="Clear"></div>
+                        </p>
+                        <div class="Clear"></div>
 <!-- dtl:block:UpdateTime -->
 <!-- dtl:block:SolutionTime -->
-                    <label>$Text{"Solution Time"}:</label>
-                    <p class="Value">
+                        <label>$Text{"Solution Time"}:</label>
+                        <p class="Value">
 <!-- dtl:block:SolutionTimeFontStart -->
-                        <font color="red">
+                            <font color="red">
 <!-- dtl:block:SolutionTimeFontStart -->
-                        <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">
-                            $QData{"SolutionTimeHuman"}
-                            <br/>
-                            $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}
-                        </div>
+                            <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">
+                                $QData{"SolutionTimeHuman"}
+                                <br/>
+                                $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}
+                            </div>
 <!-- dtl:block:SolutionTimeFontStop -->
-                        </font>
+                            </font>
 <!-- dtl:block:SolutionTimeFontStop -->
-                    </p>
-                    <div class="Clear"></div>
+                        </p>
+                        <div class="Clear"></div>
 <!-- dtl:block:SolutionTime -->
                     </fieldset>
 
                     <fieldset class="TableLike FixedLabelSmall Tight">
-                    <label>$Text{"CustomerID"}:</label>
-                    <p class="Value"><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a></p>
-                    <div class="Clear"></div>
+                        <label>$Text{"CustomerID"}:</label>
+                        <p class="Value"><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a></p>
+                        <div class="Clear"></div>
 
-                    <label>$Text{"Accounted time"}:</label>
-                    <p class="Value">$Data{"TicketTimeUnits"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"Accounted time"}:</label>
+                        <p class="Value">$Data{"TicketTimeUnits"}</p>
+                        <div class="Clear"></div>
 
 <!-- dtl:block:PendingUntil -->
-                    <label>$Text{"Pending till"}:</label>
-                    <p class="Value">$Data{"PendingUntil"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"Pending till"}:</label>
+                        <p class="Value">$Data{"PendingUntil"}</p>
+                        <div class="Clear"></div>
 <!-- dtl:block:PendingUntil -->
 <!-- dtl:block:Owner -->
-                    <label>$Text{"Owner"}:</label>
-                    <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"Owner"}:</label>
+                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</p>
+                        <div class="Clear"></div>
 
 <!-- dtl:block:Owner -->
 <!-- dtl:block:Responsible -->
-                    <label>$Text{"Responsible"}:</label>
-                    <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"Responsible"}:</label>
+                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</p>
+                        <div class="Clear"></div>
 
 <!-- dtl:block:Responsible -->
                     </fieldset>
 # show TicketFreeKey1-16 and TicketFreeText1-16
                     <fieldset class="TableLike FixedLabelSmall Tight">
 <!-- dtl:block:TicketFreeText -->
-                    <label>$QData{"TicketFreeKey","25"}:</label>
-                    <p class="Value">
+                        <label>$QData{"TicketFreeKey","25"}:</label>
+                        <p class="Value">
 <!-- dtl:block:TicketFreeTextPlain -->
-                        <span title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","25"}</span>
+                            <span title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","25"}</span>
 <!-- dtl:block:TicketFreeTextPlain -->
 <!-- dtl:block:TicketFreeTextLink -->
-                        <span title="$QData{"TicketFreeText"}"><a href="$Data{"TicketFreeTextLink"}" target="_blank">$QData{"TicketFreeText","25"}</a></span>
+                            <span title="$QData{"TicketFreeText"}"><a href="$Data{"TicketFreeTextLink"}" target="_blank">$QData{"TicketFreeText","25"}</a></span>
 <!-- dtl:block:TicketFreeTextLink -->
-                    </p>
-                    <div class="Clear"></div>
+                        </p>
+                        <div class="Clear"></div>
 <!-- dtl:block:TicketFreeText -->
 #<!-- dtl:block:TicketFreeText1 -->
 #          <tr valign="top">
@@ -215,9 +210,9 @@ $Include{"AJAX"}
 
 # use this if you want to show TicketFreeTime1-6
 <!-- dtl:block:TicketFreeTime -->
-                    <label>$Text{"$QData{"TicketFreeTimeKey"}"}:</label>
-                    <p class="Value" title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</p>
-                    <div class="Clear"></div>
+                        <label>$Text{"$QData{"TicketFreeTimeKey"}"}:</label>
+                        <p class="Value" title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</p>
+                        <div class="Clear"></div>
 
 <!-- dtl:block:TicketFreeTime -->
 #<!-- dtl:block:TicketFreeTime1 -->
@@ -362,7 +357,7 @@ $Data{"ArticleItems"}
                                 <div class="AttachmentElement">
                                     <div class="AttachmentPreview" style="background-image: url(../skins/Agent/default/img/attachment_dummy1.jpg);"><a href=""></a></div>
                                     <h3>
-                                    <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
+                                        <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
                                     </h3>
                                     <p>PDF, $QData{"Filesize"}</p>
                                 </div>
@@ -408,24 +403,24 @@ $Data{"ArticleItems"}
             <div class="ArticleMailHeader">
                 <fieldset class="TableLike FixedLabel Tight">
 <!-- dtl:block:RowRecipient -->
-                <label>$Text{"$Data{"Key"}"}:</label>
-                <p class="Value" title="$QData{"Value"}">$RQData{"Value","200"}</p>
-                <div class="Clear"></div>
+                    <label>$Text{"$Data{"Key"}"}:</label>
+                    <p class="Value" title="$QData{"Value"}">$RQData{"Value","200"}</p>
+                    <div class="Clear"></div>
 <!-- dtl:block:RowRecipient -->
 <!-- dtl:block:RowData -->
-                <label>$Text{"$Data{"Key"}"}:</label>
-                <p class="Value" title="$QData{"Value"}">$QData{"Value","200"}</p>
-                <div class="Clear"></div>
+                    <label>$Text{"$Data{"Key"}"}:</label>
+                    <p class="Value" title="$QData{"Value"}">$QData{"Value","200"}</p>
+                    <div class="Clear"></div>
 <!-- dtl:block:RowData -->
-                <label>$Text{"Created"}:</label>
-                <p class="Value" title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</p>
-                <div class="Clear"></div>
+                    <label>$Text{"Created"}:</label>
+                    <p class="Value" title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</p>
+                    <div class="Clear"></div>
 
 # show the ArticleFreeKey1-3 and ArticleFreeText1-3
 <!-- dtl:block:ArticleFreeText -->
-                <label>$QData{"Key"}:</label>
-                <p class="Value" title="$QData{"Value"}">$QData{"Value","160"}</p>
-                <div class="Clear"></div>
+                    <label>$QData{"Key"}:</label>
+                    <p class="Value" title="$QData{"Value"}">$QData{"Value","160"}</p>
+                    <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
 # show ArticleFreeKey1-3 and ArticleFreeText1-3 (in other way like the block, so you could add link or somethin else)
 #       <dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey1"}:</td><td class="contentvalue"> $QData{"FreeText1"}</td></tr>"; }>
@@ -437,33 +432,33 @@ $Data{"ArticleItems"}
 
 # show article options like signed, crypted, ...
 <!-- dtl:block:ArticleOption -->
-                <dtl if ($Data{"Successful"} eq "0") { $Data{"StartFont"} = "<font color="red">"; }>
-                <dtl if ($Data{"Successful"} eq "0") { $Data{"StopFont"} = "</font>"; }>
-                <dtl if ($Data{"Successful"} eq "1") { $Data{"StartFont"} = "<font color="green">"; }>
-                <dtl if ($Data{"Successful"} eq "1") { $Data{"StopFont"} = "</font>"; }>
-                <tr>
-                    <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
-                    <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$Data{"StartFont"}$QData{"Value","160"}$Data{"StopFont"}</div></td>
-                </tr>
+                    <dtl if ($Data{"Successful"} eq "0") { $Data{"StartFont"} = "<font color="red">"; }>
+                    <dtl if ($Data{"Successful"} eq "0") { $Data{"StopFont"} = "</font>"; }>
+                    <dtl if ($Data{"Successful"} eq "1") { $Data{"StartFont"} = "<font color="green">"; }>
+                    <dtl if ($Data{"Successful"} eq "1") { $Data{"StopFont"} = "</font>"; }>
+                    <tr>
+                        <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
+                        <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$Data{"StartFont"}$QData{"Value","160"}$Data{"StopFont"}</div></td>
+                    </tr>
 <!-- dtl:block:ArticleOption -->
 
 # show attachments
 <!-- dtl:block:ArticleAttachment -->
-                <label>$Text{"Attachment"}:</label>
-                <p class="Value">
+                    <label>$Text{"Attachment"}:</label>
+                    <p class="Value">
 <!-- dtl:block:ArticleAttachmentRow -->
-                    $QData{"Filename"}
+                        $QData{"Filename"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                    <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" /></a>
+                        <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" /></a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                    <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" />
+                        <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" />
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                    $QData{"Filesize"}
-                    <br/>
+                        $QData{"Filesize"}
+                        <br/>
 <!-- dtl:block:ArticleAttachmentRow -->
-                </p>
-                <div class="Clear"></div>
+                    </p>
+                    <div class="Clear"></div>
                 </fieldset>
 <!-- dtl:block:ArticleAttachment -->
             </div>
