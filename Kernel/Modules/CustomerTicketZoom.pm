@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.63 2010-04-22 17:20:43 fn Exp $
+# $Id: CustomerTicketZoom.pm,v 1.64 2010-04-22 17:45:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,9 +42,6 @@ sub new {
     # needed objects
     $Self->{StateObject}       = Kernel::System::State->new(%Param);
     $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
-
-    # get article id
-    $Self->{ArticleID} = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -309,7 +306,6 @@ sub Run {
     $Output .= $Self->_Mask(
         TicketID   => $Self->{TicketID},
         ArticleBox => \@ArticleBox,
-        ArticleID  => $Self->{ArticleID},
         %Ticket,
         %GetParam,
     );
@@ -340,7 +336,7 @@ sub _Mask {
     }
 
     # build article stuff
-    my $SelectedArticleID = $Param{ArticleID} || '';
+    my $SelectedArticleID = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
     my $BaseLink          = $Self->{LayoutObject}->{Baselink} . "TicketID=$Self->{TicketID}&";
     my @ArticleBox        = @{ $Param{ArticleBox} };
 
@@ -371,12 +367,14 @@ sub _Mask {
 
     # try to use the latest non internal agent article
     if ( !$ArticleID ) {
-        $ArticleID = $ArticleBox[-1]->{ArticleID};
+        $ArticleID         = $ArticleBox[-1]->{ArticleID};
+        $SelectedArticleID = $ArticleID;
     }
 
     # try to use the latest customer article
     if ( !$ArticleID && $LastCustomerArticleID ) {
-        $ArticleID = $LastCustomerArticleID;
+        $ArticleID         = $LastCustomerArticleID;
+        $SelectedArticleID = $ArticleID;
     }
 
     # ticket type
@@ -477,15 +475,12 @@ sub _Mask {
         );
     }
 
-    my $Counter = 0;
-
     my $LastSenderType = '';
     for my $ArticleTmp (@ArticleBox) {
-        $Counter++;
         my %Article = %$ArticleTmp;
 
         # check if last article to make it Visible
-        if ( $Counter == scalar @ArticleBox ) {
+        if ( $SelectedArticleID eq $Article{ArticleID} ) {
             $Article{Class} = 'Visible';
         }
 
@@ -540,22 +535,38 @@ sub _Mask {
             }
         }
 
-        # show plain or html body
-        my $ViewType = 'Plain';
-
         # in case show plain article body (if no html body as attachment exists of if rich
         # text is not enabled)
         my $RichText = $Self->{LayoutObject}->{BrowserRichText};
         if ( $RichText && $Article{AttachmentIDOfHTMLBody} ) {
-            $ViewType = 'HTML';
+            if ( $SelectedArticleID eq $Article{ArticleID} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'BodyHTMLLoad',
+                    Data => {
+                        %Param,
+                        %Article,
+                    },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'BodyHTMLPlaceholder',
+                    Data => {
+                        %Param,
+                        %Article,
+                    },
+                );
+            }
         }
-        $Self->{LayoutObject}->Block(
-            Name => 'Body' . $ViewType,
-            Data => {
-                %Param,
-                %Article,
-            },
-        );
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'BodyPlain',
+                Data => {
+                    %Param,
+                    %Article,
+                },
+            );
+        }
 
         # add attachment icon
         if ( $Article{Atms} && %{ $Article{Atms} } ) {

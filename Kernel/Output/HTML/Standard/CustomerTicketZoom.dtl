@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.67 2010-04-22 17:06:40 fn Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.68 2010-04-22 17:45:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,17 +99,6 @@ function submit_compose() {
             <input type="hidden" name="ArticleID" value="$QData{"Article::ArticleID"}" />
             <input type="hidden" name="FormID" value="$QData{"FormID"}" />
             <ul id="Messages">
-            <script type="text/javascript">
-                var Messages = document.getElementById("Messages"),
-                    Iframes = Messages.getElementsByTagName("iframe"),
-                    Sources = new Array();
-                console.log(Iframes.length);
-                for (i=0; i<Iframes.length; i++){
-                    Sources[i] = Iframe.src;
-                    Iframe.src = "about:blank";
-                    console.log(Iframe, Iframe.src, Sources[i]);
-                }
-            </script>
 <!-- dtl:block:Article -->
                 <li class="Message $QData{"SenderType"} $QData{"Class"}">
                     <input type="hidden" name="ArticleState" value="untouched" />
@@ -154,28 +143,12 @@ function submit_compose() {
                                 $Data{"Body"}
                             </div>
 <!-- dtl:block:BodyPlain -->
-<!-- dtl:block:BodyHTML -->
-#                <div class="message">
-#                    <script type="text/javascript">//<![CDATA[
-#                    <!--
-#                    function IframeAutoHeight( IframeID ) {
-#                        var iframe = document.getElementById(IframeID);
-#                        var newHeight = iframe.contentWindow.document.body.scrollHeight;
-#                        if ( !newHeight || isNaN( newHeight ) ) {
-#                            newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightDefault"};
-#                        }
-#                        else
-#                            if ( newHeight > $Config{"Ticket::Frontend::HTMLArticleHeightMax"} ) {
-#                                newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightMax"};
-#                            }
-#                        iframe.style.height = newHeight + 'px';
-#                    }
-#                    //-->
-#                    //]]></script>
-#                    <iframe frameborder="0" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+<!-- dtl:block:BodyHTMLLoad -->
                             <iframe title="about:blank" frameborder="0" id="iframe$QData{"ArticleID"}" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
-#                </div>
-<!-- dtl:block:BodyHTML -->
+<!-- dtl:block:BodyHTMLLoad -->
+<!-- dtl:block:BodyHTMLPlaceholder -->
+                            <iframe src="about:blank" frameborder="0" id="iframe$QData{"ArticleID"}" title="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+<!-- dtl:block:BodyHTMLPlaceholder -->
                         </div>
                     </div>
                 </li>
