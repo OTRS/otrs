@@ -2,7 +2,7 @@
 # AdminUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroupForm.dtl,v 1.21 2010/02/05 13:58:24 mn Exp $
+# $Id: AdminUserGroup.dtl,v 1.21 2010/02/05 13:58:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,30 +27,47 @@
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
+
 <!-- dtl:block:UserFilter -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2><label for="FilterUsers">$Text{"Filter for Agents"}</label></h2>
+            </div>
+            <div class="Content">
+                <ul>
                     <li>
-                        <h2><label for="FilterUsers">$Text{"Filter for Agents"}</label></h2>
                         <form action="">
                             <fieldset>
                                 <input type="text" id="FilterUsers" class="W50pc" name="FilterUser" value="" />
                             </fieldset>
                         </form>
                     </li>
+                </ul>
+            </div>
+        </div>
 <!-- dtl:block:UserFilter -->
 <!-- dtl:block:GroupFilter -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
+            </div>
+            <div class="Content">
+                <ul>
                     <li>
-                        <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
                         <form action="">
                             <fieldset>
                                 <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
                             </fieldset>
                         </form>
                     </li>
-<!-- dtl:block:GroupFilter -->
                 </ul>
             </div>
         </div>
-<!-- dtl:block:ActionList -->
+<!-- dtl:block:GroupFilter -->
     </div>
 
     <div class="ContentColumn">

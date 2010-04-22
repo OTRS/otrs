@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.52 2010-04-22 18:14:44 dz Exp $
+# $Id: AdminUserGroup.pm,v 1.53 2010-04-22 18:58:47 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -274,7 +274,10 @@ sub _Overview {
     my ( $Self, %Param ) = @_;
 
     $Self->{LayoutObject}->Block( Name => 'Overview' );
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+
+    # no "actions list" block because no actions now
+    #    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+
     $Self->{LayoutObject}->Block( Name => 'UserFilter' );
     $Self->{LayoutObject}->Block( Name => 'GroupFilter' );
     $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
