@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.66 2010-04-21 23:28:23 dz Exp $
+# $Id: AdminCustomerUser.pm,v 1.67 2010-04-22 21:51:16 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -382,14 +382,21 @@ sub _Overview {
     );
 
     $Self->{LayoutObject}->Block(
-        Name => 'OverviewResult',
-        Data => \%Param,
+        Name => 'OverviewHeader',
+        Data => {},
     );
+
     if ( $Param{Search} ) {
         my %List = $Self->{CustomerUserObject}->CustomerSearch(
             Search => $Param{Search},
             Valid  => 0,
         );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResult',
+            Data => \%Param,
+        );
+
+        # if there are results to show
         if (%List) {
 
             # get valid list
@@ -425,6 +432,23 @@ sub _Overview {
                 }
             }
         }
+
+        # otherwise it displays a no data found message
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'NoDataFoundMsg',
+                Data => {},
+            );
+        }
+    }
+
+    # if there is nothing to search it shows a message
+    else
+    {
+        $Self->{LayoutObject}->Block(
+            Name => 'NoSearchTerms',
+            Data => {},
+        );
     }
 }
 

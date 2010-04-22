@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.4 2010-04-21 23:28:23 dz Exp $
+# $Id: AdminCustomerUser.dtl,v 1.5 2010-04-22 21:50:56 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,11 +97,18 @@ function updateMessage(x) {
         </div>
     </div>
     <div class="ContentColumn">
-        <div class="WidgetGradient Medium">
-<!-- dtl:block:OverviewResult -->
+        <div class="WidgetGradient Medium MinHeight">
+<!-- dtl:block:OverviewHeader -->
             <div class="Header">
-                <h2>List</h2>
+                <h2>$Text{"List"}</h2>
             </div>
+<!-- dtl:block:OverviewHeader -->
+<!-- dtl:block:NoSearchTerms -->
+            <div class="Content">
+                <p>$Text{"Please enter a search term to look for Customers."}</p>
+            </div>
+<!-- dtl:block:NoSearchTerms -->
+<!-- dtl:block:OverviewResult -->
             <div class="Content WithPadding">
                 <table class="DataTable">
                     <thead>
@@ -111,10 +118,17 @@ function updateMessage(x) {
                             <th>$Text{"Email"}</th>
                             <th>$Text{"CustomerID"}</th>
                             <th>$Text{"Last Login"}</th>
-                            <th>$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"Valid"}</th>
                         </tr>
                     </thead>
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan=6>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
