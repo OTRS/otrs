@@ -2,15 +2,12 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.36 2010-03-08 19:19:54 martin Exp $
+# $Id: AgentTicketMove.dtl,v 1.37 2010-04-22 19:11:53 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-# include AJAX lib
-$Include{"AJAX"}
 
 <!-- start form -->
 <script type="text/javascript">//<![CDATA[

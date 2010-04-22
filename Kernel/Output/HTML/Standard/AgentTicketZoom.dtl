@@ -2,14 +2,13 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.85 2010-04-22 18:40:25 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.86 2010-04-22 19:11:53 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-$Include{"AJAX"}
 <!-- dtl:block:ArticleFilterDialog -->
 #$Include{"AgentTicketZoomArticleFilterDialog"}
 <!-- dtl:block:ArticleFilterDialog -->

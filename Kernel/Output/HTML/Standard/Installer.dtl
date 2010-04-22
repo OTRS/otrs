@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.32 2010-03-08 19:33:24 martin Exp $
+# $Id: Installer.dtl,v 1.33 2010-04-22 19:11:54 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -772,9 +772,6 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 <!-- dtl:block:License -->
 <!-- dtl:block:DatabaseStart -->
 
-# include AJAX lib
-$Include{"AJAX"}
-
             <img border="0" src="$Config{"Frontend::ImagePath"}installer1.png" alt="" />
             <form action="$Env{"CGIHandle"}" method="post" id="formdb">
                 <input type="hidden" name="Action"    value="Installer"/>
@@ -1025,9 +1022,6 @@ $Include{"AJAX"}
             </form>
 <!-- dtl:block:System-->
 <!-- dtl:block:ConfigureMail-->
-# include AJAX lib
-$Include{"AJAX"}
-
             <img border="0" src="$Config{"Frontend::ImagePath"}installer2.png" alt="" />
             <form action="$Env{"CGIHandle"}" method="post" id="formmail">
                 <input type="hidden" name="Action" value="Installer"/>
