@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.3 2010-04-22 18:40:25 mn Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.4 2010-04-22 21:00:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,35 +14,33 @@
     <h1>$Text{"Manage Customer-Group Relations"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-
-                <h2><label for="FilterCustomers">$Text{"Filter for Customers"}</label></h2>
             </div>
             <div class="Content">
-                <form action="">
-                    <fieldset>
+                <ul class="ActionList">
+                    <li>
+                        <h2><label for="FilterCustomers">$Text{"Filter for Customers"}</label></h2>
                         <input type="text" id="FilterCustomers" class="W50pc" name="FilterCustomers" value="" />
-                    </fieldset>
-                </form>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="WidgetGradient Short">
-            <div class="Header">
-                <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
-            </div>
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header"></div>
             <div class="Content">
-                <form action="">
-                    <fieldset>
+                <ul class="ActionList">
+                    <li>
+                        <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
                         <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
-                    </fieldset>
-                </form>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Overview"}</h2>
             </div>
@@ -81,18 +79,41 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Manage Customer-Group Relations"}</h1>
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2><label for="Filter">$Text{"Actions"}</label></h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header"></div>
             <div class="Content">
-                <fieldset>
-                    <h2><label for="Filter">$Text{"Filter"}</label></h2>
-                    <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
-                </fieldset>
+                <ul class="ActionList">
+                    <li>
+                        <h2><label for="Filter">$Text{"Filter"}</label></h2>
+                        <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header"></div>
+            <div class="Content">
                 <h2>
                     $Text{"Note"}:
                 </h2>
                 <p class="FieldExplanation">
                     $Text{"Select the customer:group permissions."}
+                </p>
+                <p class="FieldExplanation">
                     $Text{"If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer)."}
                 </p>
 
@@ -101,7 +122,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>
                     $Text{"Change %s Relations for", "$Data{"NeType"}"}
@@ -149,6 +170,8 @@
                     </table>
                     <div class="Field SpacingTop">
                         <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        $Text{"or"}
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                     </div>
                     <div class="Clear"></div>
                 </form>
