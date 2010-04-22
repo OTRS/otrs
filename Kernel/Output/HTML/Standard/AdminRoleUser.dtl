@@ -14,10 +14,8 @@
     <h1>$Text{"Manage Role-Agent Relations"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
-            <div class="Header">
-                <h2>$Text{"Actions"}</h2>
-            </div>
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header"></div>
             <div class="Content">
                 <ul class="ActionList">
                     <li>
@@ -27,7 +25,7 @@
                 </ul>
             </div>
         </div>
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Content">
                 <ul class="ActionList">
                     <li>
@@ -40,7 +38,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Overview"}</h2>
             </div>
@@ -84,7 +82,7 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Manage Role-Agent Relations"}</h1>
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -93,6 +91,13 @@
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
                     </li>
+                </ul>
+            </div>
+        </div>
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header"></div>
+            <div class="Content">
+                <ul class="ActionList">
                     <li>
                         <h2>
                             <label for="Filter">$Text{"Filter"}</label>
@@ -105,7 +110,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>
                     $Text{"Change %s Relations for %s", "$Data{"VisibleNeType"}", "$QData{"VisibleType"}"}
