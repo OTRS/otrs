@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.62 2010-04-20 14:02:36 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.63 2010-04-22 17:20:43 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -477,9 +477,17 @@ sub _Mask {
         );
     }
 
+    my $Counter = 0;
+
     my $LastSenderType = '';
     for my $ArticleTmp (@ArticleBox) {
+        $Counter++;
         my %Article = %$ArticleTmp;
+
+        # check if last article to make it Visible
+        if ( $Counter == scalar @ArticleBox ) {
+            $Article{Class} = 'Visible';
+        }
 
         # do some html quoting
         $Article{Age} = $Self->{LayoutObject}->CustomerAge(
