@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.6 2010-04-22 16:09:13 en Exp $
+# $Id: AdminUser.dtl,v 1.7 2010-04-22 20:37:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,16 +42,12 @@
 <!-- dtl:block:ActionSearch -->
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <form action="$Env{"CGIHandle"}" method="post">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="Add"/>
-
-                            <button class="CallForAction" type="submit"><span>$Text{"Add User"}</span></button>
-
-                            <p class="FieldExplanation">
-                                $Text{"Add a user"}
-                            </p>
-                        </form>
+                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add">
+                        <span>$Text{"Add user"}</span>
+                        </a>
+                        <p class="FieldExplanation">
+                            $Text{"Add a user"}
+                        </p>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>
