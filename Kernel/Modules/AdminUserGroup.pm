@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.51 2010-04-20 14:38:23 cr Exp $
+# $Id: AdminUserGroup.pm,v 1.52 2010-04-22 18:14:44 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -206,6 +206,10 @@ sub _Change {
 
     my %VisibleType = ( Group => 'Group', User => 'Agent', );
 
+    $Self->{LayoutObject}->Block( Name => 'Overview' );
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
     $Self->{LayoutObject}->Block(
         Name => 'Change',
         Data => {
@@ -269,10 +273,11 @@ sub _Change {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
-        Name => 'Overview',
-        Data => {},
-    );
+    $Self->{LayoutObject}->Block( Name => 'Overview' );
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'UserFilter' );
+    $Self->{LayoutObject}->Block( Name => 'GroupFilter' );
+    $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
     # get user list
     my %UserData = $Self->{UserObject}->UserList( Valid => 1 );

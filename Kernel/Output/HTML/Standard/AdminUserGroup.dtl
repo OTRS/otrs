@@ -14,35 +14,49 @@
     <h1>$Text{"Manage Agent-Group Relations"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
-            <div class="Header">
 
-                <h2><label for="FilterUsers">$Text{"Filter for Agents"}</label></h2>
-            </div>
-            <div class="Content">
-                <form action="">
-                    <fieldset>
-                        <input type="text" id="FilterUsers" class="W50pc" name="FilterUser" value="" />
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-        <div class="WidgetGradient Short">
+<!-- dtl:block:ActionList -->
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-                <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
+                <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
-                <form action="">
-                    <fieldset>
-                        <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
-                    </fieldset>
-                </form>
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:UserFilter -->
+                    <li>
+                        <h2><label for="FilterUsers">$Text{"Filter for Agents"}</label></h2>
+                        <form action="">
+                            <fieldset>
+                                <input type="text" id="FilterUsers" class="W50pc" name="FilterUser" value="" />
+                            </fieldset>
+                        </form>
+                    </li>
+<!-- dtl:block:UserFilter -->
+<!-- dtl:block:GroupFilter -->
+                    <li>
+                        <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
+                        <form action="">
+                            <fieldset>
+                                <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
+                            </fieldset>
+                        </form>
+                    </li>
+<!-- dtl:block:GroupFilter -->
+                </ul>
             </div>
         </div>
+<!-- dtl:block:ActionList -->
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
+
+<!-- dtl:block:OverviewResult -->
             <div class="Header">
                 <h2>$Text{"Overview"}</h2>
             </div>
@@ -67,10 +81,9 @@
                 </div>
                 <div class="Clear"></div>
             </div>
-        </div>
-    </div>
-    <div class="Clear"></div>
-</div>
+<!-- dtl:block:OverviewResult -->
+
+
 <!-- dtl:document_ready -->
 <script type="text/javascript">//<![CDATA[
     $(document).ready(function() {
@@ -80,33 +93,8 @@
 //]]></script>
 <!-- dtl:document_ready -->
 
-<!-- dtl:block:Overview -->
 <!-- dtl:block:Change -->
 
-<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Manage Agent-Group Relations"}</h1>
-    <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
-            <div class="Header"></div>
-            <div class="Content">
-                <fieldset>
-                    <h2><label for="Filter">$Text{"Filter"}</label></h2>
-                    <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
-                </fieldset>
-                <h2>
-                    $Text{"Note"}:
-                </h2>
-                <p class="FieldExplanation">
-                    $Text{"Select the agent:group permissions."}
-                    $Text{"If nothing is selected, then there are no permissions in this group (tickets will not be available for the agent)."}
-                </p>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="ContentColumn">
-        <div class="WidgetGradient Short">
             <div class="Header">
                 <h2>
                     $Text{"Change %s Relations for %s", "$Data{"VisibleNeType"}", "$QData{"VisibleType"}"}
@@ -141,8 +129,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
 <!-- dtl:block:ChangeRow -->
+                            <tr>
                                 <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
 <!-- dtl:block:ChangeRowItem -->
                                 <td class="$QData{"Mark"}">
@@ -155,12 +143,14 @@
                     </table>
                     <div class="Field SpacingTop">
                         <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        $Text{"or"}
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                     </div>
                     <div class="Clear"></div>
                 </form>
             </div>
         </div>
-        <div class="WidgetGradient Short SpacingTop">
+        <div class="WidgetGradient Short SpacingTop MinHeight">
             <div class="Header">
                 <h2>$Text{"Reference"}</h2>
             </div>
@@ -196,10 +186,6 @@
             </div>
         </div>
 
-    </div>
-    <div class="Clear"></div>
-</div>
-
 <!-- dtl:document_ready -->
 <script type="text/javascript">//<![CDATA[
     $(document).ready(function() {
@@ -209,3 +195,8 @@
 <!-- dtl:document_ready -->
 
 <!-- dtl:block:Change -->
+    </div>
+</div>
+<div class="Clear"></div>
+</div>
+<!-- dtl:block:Overview -->
