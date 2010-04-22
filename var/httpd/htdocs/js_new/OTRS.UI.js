@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.js,v 1.8 2010-04-19 18:03:01 mn Exp $
+// $Id: OTRS.UI.js,v 1.9 2010-04-22 18:01:48 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -228,6 +228,21 @@ OTRS.UI = (function (TargetNS) {
         var $Element = $(ElementSelector);
         if ($Element.length && $.isFunction(EventFunction)) {
             $Element.bind(EventType, EventFunction);
+        }
+    };
+
+    /**
+     * @function
+     * @description
+     *      This functions toggles two Containers with a nice slide effect.
+     * @param {jQueryObject} $Element1 First container element
+     * @param {jQueryObject} $Element1 Second container element
+     */
+    TargetNS.ToggleTwoContainer = function ($Element1, $Element2) {
+        if ($Element1 instanceof jQuery && $Element2 instanceof jQuery && $Element1.length && $Element2.length) {
+            $Element1.slideToggle('fast', function () {
+                $Element2.slideToggle('fast');
+            });
         }
     };
 

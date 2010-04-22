@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.232 2010-04-22 17:45:15 mg Exp $
+# $Id: Layout.pm,v 1.233 2010-04-22 18:01:48 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.232 $) [1];
+$VERSION = qw($Revision: 1.233 $) [1];
 
 =head1 NAME
 
@@ -680,7 +680,7 @@ sub Output {
 
     # find document ready
     $Output =~ s{
-            <!--\s{0,1}dtl:JSOnDocumentComplete\s{0,1}-->(.+?)<!--\s{0,1}dtl:JSOnDocumentComplete\s{0,1}-->
+            <!--\s{0,1}dtl:js_on_document_complete\s{0,1}-->(.+?)<!--\s{0,1}dtl:js_on_document_complete\s{0,1}-->
     }
     {
             if (!$Self->{JSOnDocumentComplete}->{$1}) {
@@ -693,7 +693,7 @@ sub Output {
     # replace document ready placeholder (only if it's not included via $Include{""})
     if ( !$Param{Include} ) {
         $Output =~ s{
-            <!--\s{0,1}dtl:JSOnDocumentCompletePlaceholder\s{0,1}-->
+            <!--\s{0,1}dtl:js_on_document_complete_placeholder\s{0,1}-->
         }
         {
             if ( $Self->{EnvRef}->{JSOnDocumentComplete} ) {
@@ -4593,6 +4593,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.232 $ $Date: 2010-04-22 17:45:15 $
+$Revision: 1.233 $ $Date: 2010-04-22 18:01:48 $
 
 =cut

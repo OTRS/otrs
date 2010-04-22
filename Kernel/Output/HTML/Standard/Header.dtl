@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.76 2010-04-22 17:45:16 mg Exp $
+# $Id: Header.dtl,v 1.77 2010-04-22 18:01:48 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -96,7 +96,7 @@ $Include{"Copyright"}
 #                    <a href="#" id="ToolbarProfileSearch" title="$Text{"$QData{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$QData{"Name"}"}<span class="Gloss"></span></a>
                 </form>
             </li>
-<!-- dtl:JSOnDocumentComplete -->
+<!-- dtl:js_on_document_complete -->
             <script type="text/javascript">//<![CDATA[
                 OTRS.UI.Toolbar.RegisterEvent('change', 'Profile', function (Event) {
                     $(Event.target).closest('form').submit();
@@ -105,7 +105,7 @@ $Include{"Copyright"}
                     return false;
                 });
             //]]></script>
-<!-- dtl:JSOnDocumentComplete -->
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ToolBarSearchProfile -->
 <!-- dtl:block:ToolBarSearchFulltext -->
             <li class="Extended SearchFulltext">
