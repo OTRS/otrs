@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -198,7 +198,7 @@ ul.Tablelike li.Header {
  */
 
 .ActionList li {
-    margin-bottom: 8px;
+    margin-bottom: 16px;
 }
 
 .ActionList p {
@@ -231,7 +231,7 @@ ul.Tablelike li.Header {
  * @note        bug: button containing an element has an hidden padding
  */
 
-.CallForAction::-moz-focus-inner { 
+.CallForAction::-moz-focus-inner {
     border: 0;
     padding: 0;
 }
