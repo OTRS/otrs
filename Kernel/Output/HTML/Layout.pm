@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.233 2010-04-22 18:01:48 mn Exp $
+# $Id: Layout.pm,v 1.234 2010-04-23 09:18:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.233 $) [1];
+$VERSION = qw($Revision: 1.234 $) [1];
 
 =head1 NAME
 
@@ -1287,7 +1287,7 @@ sub Header {
         );
     }
 
-    # show logout button (if registured)
+    # show logout button (if registered)
     if ( $Self->{UserID} && $Self->{ConfigObject}->Get('Frontend::Module')->{Logout} ) {
         $Self->Block(
             Name => 'Logout',
@@ -3107,7 +3107,7 @@ sub CustomerNavigationBar {
     # only on valid session
     if ( $Self->{UserID} ) {
 
-        # show logout button (if registured)
+        # show logout button (if registered)
         if ( $FrontendModuleConfig->{Logout} ) {
             $Self->Block(
                 Name => 'Logout',
@@ -3115,7 +3115,7 @@ sub CustomerNavigationBar {
             );
         }
 
-        # show perferences button (if registured)
+        # show preferences button (if registered)
         if ( $FrontendModuleConfig->{CustomerPreferences} ) {
             if ( $Self->{Action} eq 'CustomerPreferences' ) {
                 $Param{Class} = 'Selected';
@@ -4593,6 +4593,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.233 $ $Date: 2010-04-22 18:01:48 $
+$Revision: 1.234 $ $Date: 2010-04-23 09:18:58 $
 
 =cut
