@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.30 2010-04-19 16:44:15 cr Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.31 2010-04-23 15:22:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,7 +109,10 @@ sub Run {
         for my $UserID ( keys %UserData ) {
             my %User = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $UserID );
             next if !%User;
-            $UserData{$UserID} .= " ($User{UserFirstname} $User{UserLastname})";
+            my $UserName = $Self->{CustomerUserObject}->CustomerName( UserLogin => $UserID );
+            $UserData{$UserID} = "$UserName <$User{UserEmail}> ($User{UserCustomerID})";
+
+            #$UserData{$UserID} .= " ($User{UserFirstname} $User{UserLastname})";
         }
 
         # get permission list users
@@ -227,6 +230,10 @@ sub _Change {
     my $Type   = $Param{Type} || 'Customer';
     my $NeType = $Type eq 'Group' ? 'Customer' : 'Group';
 
+    for my $DataKey ( keys %Data ) {
+        print STDERR "\n $DataKey => $Data{$DataKey}";
+    }
+
     $Self->{LayoutObject}->Block(
         Name => 'Change',
         Data => {
@@ -300,7 +307,10 @@ sub _Overview {
     for my $UserID ( keys %UserData ) {
         my %User = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $UserID );
         next if !%User;
-        $UserData{$UserID} .= " ($User{UserFirstname} $User{UserLastname})";
+        my $UserName = $Self->{CustomerUserObject}->CustomerName( UserLogin => $UserID );
+
+        #$UserData{$UserID} .= " ($User{UserFirstname} $User{UserLastname})";
+        $UserData{$UserID} = "$UserName <$User{UserEmail}> ($User{UserCustomerID})";
     }
     for my $UserID ( sort { uc( $UserData{$a} ) cmp uc( $UserData{$b} ) } keys %UserData ) {
 
