@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.32 2010-04-20 20:56:03 mg Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.33 2010-04-23 15:30:57 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,48 +14,69 @@
     <h1>$Text{"PostMaster Filter Management"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+<!-- dtl:block:ActionList -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <form class="Validate" action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="AddAction"/>
+                            <fieldset class="TableLike">
+                                <label for="Name" class="Mandatory">
+                                    <span class="Marker">*</span>
+                                    $Text{"Name"}:
+                                </label>
+                                <div class="Field">
+                                    <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="250"/>
+                                    <div id="NameError" class="TooltipErrorMessage">
+                                        <p><strong>The name is required</strong></p>
+                                    </div>
+                                </div>
+                                <div class="Clear"></div>
+                                <div class="Field">
+                                    <button class="CallForAction" type="submit" value="$Text{"Add"}"><span>$Text{"Add"}</span></button>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </form>
+                    </li>
+<!-- dtl:block:ActionAdd -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
+
+
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
 
             </div>
             <div class="Content">
-                <form class="Validate" action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="AddAction"/>
-                    <fieldset class="TableLike">
-                        <h2>$Text{"Add"}</h2>
-                        <label for="Name" class="Mandatory">
-                            <span class="Marker">*</span>
-                            $Text{"Name"}:
-                        </label>
-                        <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="250"/>
-                            <div id="NameError" class="TooltipErrorMessage">
-                                <p><strong>The name is required</strong></p>
-                            </div>
-                        </div>
-                        <div class="Clear"></div>
-
-                        <div class="Field">
-                            <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
-                        </div>
-                        <div class="Clear"></div>
-
-                        <h2 class="SpacingTop">$Text{"Note"}</h2>
-                        <p class="FieldExplanation">
-                            $Text{"Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible."}
-                        </p>
-                        <p class="FieldExplanation">
-                            $Text{"If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc."}
-                        </p>
-                        <p class="FieldExplanation">
-                            $Text{"If you use RegExp, you also can use the matched value in () as [***] in 'Set'."}
-                        </p>
-
-                    </fieldset>
-                </form>
+                <h2>
+                    $Text{"Note"}:
+                </h2>
+                <p class="FieldExplanation">
+                    $Text{"Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible."}
+                </p>
+                <p class="FieldExplanation">
+                    $Text{"If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc."}
+                </p>
+                <p class="FieldExplanation">
+                    $Text{"If you use RegExp, you also can use the matched value in () as [***] in 'Set'."}
+                </p>
             </div>
         </div>
+
     </div>
 
     <div class="ContentColumn">
@@ -185,6 +206,8 @@
 
                         <div class="Field SpacingTop">
                             <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>

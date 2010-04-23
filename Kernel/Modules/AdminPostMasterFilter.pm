@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.25 2009-12-11 09:42:08 mh Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.26 2010-04-23 15:32:05 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -162,6 +162,9 @@ sub Run {
             Name => 'Overview',
             Data => { %Param, },
         );
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResult',
             Data => { %Param, },
@@ -258,6 +261,8 @@ sub _MaskUpdate {
         Name => 'OverviewUpdate',
         Data => { %Param, %Data, OldName => $Data{Name}, },
     );
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
