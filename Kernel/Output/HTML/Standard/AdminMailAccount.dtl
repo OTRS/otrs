@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.11 2010-04-15 17:53:52 mn Exp $
+# $Id: AdminMailAccount.dtl,v 1.12 2010-04-23 16:09:26 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,7 +67,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Medium">
+        <div class="WidgetGradient Medium MinHeight">
 <!-- dtl:block:OverviewResult -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>
@@ -78,24 +78,37 @@
                         <tr>
                             <th>$Text{"Host"}/$Text{"Username"}</th>
                             <th>$Text{"Type"}</th>
-                            <th align="center">$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"Comment"}</th>
+                            <th>$Text{"Valid"}</th>
+                            <th>$Text{"Changed"}</th>
+                            <th>$Text{"Created"}</th>
                             <th>$Text{"Delete"}</th>
                             <th>$Text{"Run Now!"}</th>
                         </tr>
                     </thead>
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan=5>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewResultRow -->
                         <tr class="$QData{"Invalid"}">
                             <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update;ID=$QData{"ID"}">$QData{"Host"} / $QData{"Login"}</a>
                             </td>
                             <td>$QData{"Type"}</td>
+                            <td title="$QData{"Comment"}">$QData{"Comment","20"}</td>
                             <td>$QData{"ShownValid"}</td>
+                            <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
+                            <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$QData{"ID"}">$Text{"Delete this account"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$QData{"ID"}">$Text{"Delete account"}</a>
                             </td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Run;ID=$QData{"ID"}">$Text{"Fetch this mail account"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Run;ID=$QData{"ID"}">$Text{"Fetch mail"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->

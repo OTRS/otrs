@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.14 2010-04-14 21:38:32 mp Exp $
+# $Id: AdminMailAccount.pm,v 1.15 2010-04-23 16:09:48 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -157,31 +157,39 @@ sub Run {
             Name => 'OverviewResult',
             Data => { %Param, },
         );
-        for my $Key ( sort { $List{$a} cmp $List{$b} } keys %List ) {
-            my %Data = $Self->{MailAccount}->MailAccountGet( ID => $Key );
-            if ( !$Backend{ $Data{Type} } ) {
-                $Data{Type} .= '(not installed!)';
-            }
-
-            my @List = $Self->{ValidObject}->ValidIDsGet();
-
-            for (@List) {
-                if ( $Data{ValidID} eq $_ ) {
-                    $Data{Invalid} = '';
-                    last;
+        if (%List) {
+            for my $Key ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+                my %Data = $Self->{MailAccount}->MailAccountGet( ID => $Key );
+                if ( !$Backend{ $Data{Type} } ) {
+                    $Data{Type} .= '(not installed!)';
                 }
-                else {
-                    $Data{Invalid} = 'Invalid';
+
+                my @List = $Self->{ValidObject}->ValidIDsGet();
+
+                for (@List) {
+                    if ( $Data{ValidID} eq $_ ) {
+                        $Data{Invalid} = '';
+                        last;
+                    }
+                    else {
+                        $Data{Invalid} = 'Invalid';
+                    }
                 }
+
+                $Data{ShownValid} = $Self->{ValidObject}->ValidLookup(
+                    ValidID => $Data{ValidID},
+                );
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'OverviewResultRow',
+                    Data => \%Data,
+                );
             }
-
-            $Data{ShownValid} = $Self->{ValidObject}->ValidLookup(
-                ValidID => $Data{ValidID},
-            );
-
+        }
+        else {
             $Self->{LayoutObject}->Block(
-                Name => 'OverviewResultRow',
-                Data => \%Data,
+                Name => 'NoDataFoundMsg',
+                Data => {},
             );
         }
 
