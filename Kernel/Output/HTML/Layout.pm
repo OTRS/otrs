@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.234 2010-04-23 09:18:58 mb Exp $
+# $Id: Layout.pm,v 1.235 2010-04-23 15:01:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.234 $) [1];
+$VERSION = qw($Revision: 1.235 $) [1];
 
 =head1 NAME
 
@@ -2338,7 +2338,7 @@ sub NavigationBar {
             next if !$Item->{NavBar};
             $Item->{CSS} = '';
 
-            # highligt active area link
+            # highlight active area link
             if (
                 ( $Item->{Type} && $Item->{Type} eq 'Menu' )
                 && ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} )
@@ -3054,7 +3054,7 @@ sub CustomerNavigationBar {
         next if !%{ $NavBarModule{$_} };
         $Counter++;
 
-        # highligt active link
+        # highlight active link
         $NavBarModule{$_}->{Class} = '';
         if ( $NavBarModule{$_}->{Link} ) {
             if (
@@ -4593,6 +4593,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.234 $ $Date: 2010-04-23 09:18:58 $
+$Revision: 1.235 $ $Date: 2010-04-23 15:01:05 $
 
 =cut
