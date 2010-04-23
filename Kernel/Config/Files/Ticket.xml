@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.319 2010-04-23 09:40:03 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.320 2010-04-23 10:09:20 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -7050,8 +7050,8 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">User Profile</Item>
-                <Item Key="Label" Translatable="1">Shown Tickets</Item>
-                <Item Key="Key" Translatable="1">Max. shown Tickets</Item>
+                <Item Key="Label" Translatable="1">Number of displayed tickets</Item>
+                <Item Key="Key" Translatable="1">Max. displayed tickets</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="15">15</Item>
@@ -7075,8 +7075,8 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">User Profile</Item>
-                <Item Key="Label" Translatable="1">QueueView</Item>
-                <Item Key="Key" Translatable="1">Refresh time.</Item>
+                <Item Key="Label" Translatable="1">Ticket overview</Item>
+                <Item Key="Key" Translatable="1">Refresh interval</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="">off</Item>
