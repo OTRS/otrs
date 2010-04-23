@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.13 2010-04-22 18:36:52 cr Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.14 2010-04-23 14:57:50 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,6 +82,9 @@
                             (<span class='Error'>$QData{"CustomerUserCount"}</span>)
 <!-- dtl:block:ResultCustomerUserCountLimit -->
                         </li>
+<!-- dtl:block:NoCustomersFoundMsg -->
+                        <li>$Text{"No data found."}</li>
+<!-- dtl:block:NoCustomersFoundMsg -->
 <!-- dtl:block:ResultUserRow -->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateCustomerUser;CustomerUserLogin=$LQData{"CustomerUserLogin"};CustomerUserSearch=$LQData{"CustomerUserSearch"};ServiceSearch=$LQData{"ServiceSearch"}" class="AsBlock">$QData{"CustomerUser"}</a></li>
 <!-- dtl:block:ResultUserRow -->
@@ -97,6 +100,9 @@
                             (<span class='Error'>$QData{"ServiceCount"}</span>)
 <!-- dtl:block:ResultServiceCountLimit -->
                         </li>
+<!-- dtl:block:NoServicesFoundMsg -->
+                        <li>$Text{"No data found."}</li>
+<!-- dtl:block:NoServicesFoundMsg -->
 <!-- dtl:block:ResultServiceRow -->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ServiceID"};CustomerUserSearch=$LQData{"CustomerUserSearch"};ServiceSearch=$LQData{"ServiceSearch"}"class="AsBlock">$QData{"Service"}</a></li>
 <!-- dtl:block:ResultServiceRow -->
