@@ -2,14 +2,13 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.27 2010-04-23 09:38:17 mb Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.28 2010-04-23 21:23:32 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- start form -->
 <script type="text/javascript">//<![CDATA[
 function submit_compose() {
     // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
@@ -57,140 +56,100 @@ function submit_compose() {
 }
 //]]></script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td class="mainbody">
-            <br/>
-            <table border="0" width="680" align="center" cellspacing="0" cellpadding="4">
-                <tr>
-                    <td class="contentbody">
-                        <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="StoreNew"/>
-                            <input type="hidden" name="Expand" value=""/>
-                            <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
-                            <table border="0">
+<div id="Body" class="TicketCompose">
+    <div class="Content">
+        <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
+            <input type="hidden" name="Action" value="$Env{"Action"}" />
+            <input type="hidden" name="Subaction" value="StoreNew" />
+            <input type="hidden" name="Expand" value="" />
+            <input type="hidden" name="FormID" value="$QData{"FormID"}" />
+            <fieldset>
 <!-- dtl:block:TicketType -->
-                                <tr>
-                                    <td class="contentkey">$Text{"Type"}:</td>
-                                    <td class="contentvalue"> $Data{"TypeStrg"}</td>
-                                </tr>
+                <div>
+<!--<label for="TicketNumber">$Config{"Ticket::Hook"}</label>
+                    <input title="Ticket#" type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}" />-->
+                    <label for="Type">$Text{"Type"}</label>
+                    $Data{"TypeStrg"}
+                    <div class="Clear"></div>
+                </div>
 <!-- dtl:block:TicketType -->
 <!-- dtl:block:Queue -->
-                                <tr>
-                                    <td width="15%" class="contentkey">$Text{"To"}:</td>
-                                    <td width="85%" class="contentvalue">
-                                        $Data{"ToStrg"}
-                                        <font color="red" size="-2">$Text{"$Data{"Queue invalid"}"}</font>
-                                    </td>
-                                </tr>
+                <div>
+                    <label for="To">$Text{"To"}</label>
+<!--<input title="Recipient" type="text" id="To" name="To" value="$QData{"To"}" size="20" />-->
+                    $Data{"ToStrg"}
+<!--$Text{"$Data{"Queue invalid"}"}-->
+                    <div class="Clear"></div>
+                </div>
 <!-- dtl:block:Queue -->
 <!-- dtl:block:TicketService -->
-                                <tr>
-                                    <td class="contentkey">$Text{"Service"}:</td>
-                                    <td class="contentvalue"> $Data{"ServiceStrg"}</td>
-                                </tr>
+                <div>
+                    <label for="Service">$Text{"Service"}</label>
+<!--<input title="Ticket service" type="text" id="Service" name="Service" value="$QData{"Service"}" size="20" />-->
+                    $Data{"ServiceStrg"}
+                    <div class="Clear"></div>
+                </div>
 <!-- dtl:block:TicketService -->
 <!-- dtl:block:TicketSLA -->
-                                <tr>
-                                    <td class="contentkey">$Text{"SLA"}:</td>
-                                    <td class="contentvalue"> $Data{"SLAStrg"}</td>
-                                </tr>
+                <div>
+                    <label for="SLA">$Text{"SLA"}</label>
+<!--<input title="Service level agreement" type="text" id="SLA" name="SLA" value="$QData{"SLA"}" size="20" />-->
+                    $Data{"SLAStrg"}
+                    <div class="Clear"></div>
+                </div>
 <!-- dtl:block:TicketSLA -->
-                                <tr>
-                                    <td class="contentkey">$Text{"Subject"}:</td>
-                                    <td class="contentvalue">
-                                        <input type="text" name="Subject" value="$QData{"Subject"}" size="200"/>
-                                        <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="contentkey">$Text{"Text"}:</td>
-                                    <td class="contentvalue">
+                <div>
+                    <label for="Subject">$Text{"Subject"}</label>
+                    <input title="Subject" type="text" id="Subject" name="Subject" value="$QData{"Subject"}" size="200" />
+<!--$Text{"$Data{"Subject invalid"}"}-->
+                    <div class="Clear"></div>
+                </div>
+                <div class="RichTextHolder">
+                    <label for="RichText">$Text{"Text"}</label>
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                                        <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                                        <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="contentkey">$Text{"Attachment"}:</td>
-                                    <td class="contentvalue">
-                                        <table cellspacing="0" cellpadding="0" width="400">
+                    <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+<!--$Text{"$Data{"Body invalid"}"}-->
+                    <div class="Clear"></div>
+                </div>
+                <div>
+                    <label for="Attachment">$Text{"Attachment"}</label>
+                    <input name="file_upload" id="Attachment" title="Attachment" type="file" size="40" />
+                    <button type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
 <!-- dtl:block:Attachment -->
-                                            <tr>
-                                                <td>$QData{"Filename"}</td>
-                                                <td>$QData{"Filesize"}</td>
-                                                <td align="right">
-                                                    <button class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                                </td>
-                                            </tr>
+                    <div class="Attachment">
+                        $QData{"Filename"} <span>$QData{"Filesize"}</span>
+                        <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                    </div>
 <!-- dtl:block:Attachment -->
-                                            <tr>
-                                                <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
-                                                <td align="right">
-                                                    <button class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
-                                                    <a name="attachment"></a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
+                    <div class="Clear"></div>
+                </div>
 <!-- dtl:block:Priority -->
-                                <tr>
-                                    <td class="contentkey">$Text{"Priority"}:</td>
-                                    <td class="contentvalue"> $Data{"PriorityStrg"}</td>
-                                </tr>
+                <div>
+                    <label for="Priority">$Text{"Priority"}</label>
+                    $Data{"PriorityStrg"}
+                    <div class="Clear"></div>
+                </div>
 <!-- dtl:block:Priority -->
 <!-- dtl:block:FreeText -->
-                                <tr>
-                                    <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
-                                    <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
-                                </tr>
+                <div>
+                    <label for="$Data{"TicketFreeTextField"}">$Data{"TicketFreeKeyField"}</label>
+                    $Data{"TicketFreeTextField"}
+                    <div class="Clear"></div>
+                </div>
 <!-- dtl:block:FreeText -->
-#                <tr>
-#                  <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
-#                  <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
-#                </tr>
-#                <tr>
-#                  <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
-#                  <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
-#                </tr>
-#                <tr>
-#                  <td class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
-#                  <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
-#                </tr>
-#                <tr>
-#                  <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
-#                  <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
-#                </tr>
 <!-- dtl:block:FreeTime -->
-                                <tr>
-                                    <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
-                                    <td class="contentvalue">$Data{"TicketFreeTime"}</td>
-                                </tr>
+                <div>
+                    <label for="$Data{"TicketFreeTime"}">$Text{"$QData{"TicketFreeTimeKey"}"}</label>
+                    $Data{"TicketFreeTime"}
+                    <div class="Clear"></div>
+                </div>
 <!-- dtl:block:FreeTime -->
-#                <tr>
-#                  <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
-#                  <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
-#                </tr>
-#                <tr>
-#                  <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
-#                  <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
-#                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="contentfooter">
-                            <button class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">$Text{"Submit"}</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-            <br/>
-        </td>
-    </tr>
-</table>
-<!-- end form -->
+            </fieldset>
+            <div class="ActionRow Bottom">
+                <button id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+            </div>
+        </form>
+    </div>
+</div>

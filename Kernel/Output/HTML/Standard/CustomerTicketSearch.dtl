@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.19 2010-04-23 09:52:13 mb Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.20 2010-04-23 21:23:32 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,13 @@
         <form action="$Env{"CGIHandle"}" method="get" name="compose">
             <input type="hidden" name="Action" value="$Env{"Action"}"/>
             <input type="hidden" name="Subaction" value="Search"/>
+            <fieldset>
+                <h2>$Text{"Profile"}</h2>
+                <div>
+                    <label for="SearchTemplate">$Text{"Search-Template"}</label>
+                    $Data{"ProfilesStrg"}
+                </div>
+            </fieldset>
             <fieldset>
                 <h2>$Config{"Ticket::Hook"}</h2>
                 <div>
@@ -50,6 +57,17 @@
                     <input title="Customer ID" type="text" id="CustomerID" name="CustomerID" value="$QData{"CustomerID"}" size="20" />
                 </div>
             </fieldset>
+<!-- dtl:block:FreeText -->
+            <fieldset>
+                <h2>$Config{"Ticket::Hook"}</h2>
+<!-- dtl:block:FreeTextItem -->
+                <div>
+                    <label for="TicketNumber">$Data{"TicketFreeKeyField"}</label>
+                    $Data{"TicketFreeTextField"}
+                </div>
+<!-- dtl:block:FreeTextItem -->
+            </fieldset>
+<!-- dtl:block:FreeText -->
             <fieldset class="Columns">
                 <div>
                     <h2><label for="PriorityIDs">$Text{"Priority"}:</label></h2>
@@ -68,18 +86,29 @@
             <fieldset class="TimeSearchType">
                 <h2>$Text{"Time restrictions"}</h2>
                 <div>
-                    <input title="No time settings" type="radio" id="NoTimeSet" selected="selected" name="TimeSearchType" />
+                    <input title="No time settings" type="radio"  id="NoTimeSet" name="TimeSearchType" value="" $Data{"TimeSearchType::None"} />
                     <label for="NoTimeSet">$Text{"All"}</label>
                 </div>
                 <div>
-                    <input title="Specific date" type="radio" id="Date" name="TimeSearchType" />
+                    <input title="Specific date" type="radio" id="Date" name="TimeSearchType"  value="TimePoint" $Data{"TimeSearchType::TimePoint"} />
                     <label for="Date">$Text{"Only tickets created"}</label>
                     $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}.
                 </div>
                 <div>
-                    <input title="Date range" type="radio" id="DateRange" name="TimeSearchType" value="TimeSlot" checked="$Data{"TimeSearchType::None"}" />
+                    <input title="Date range" type="radio" id="DateRange" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"} />
                     <label for="DateRange">$Text{"Only tickets created between"}</label>
                     $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
+                </div>
+            </fieldset>
+            <fieldset>
+                <h2>$Text{"Search-Profile as Template?"}</h2>
+                <div>
+                    <label for="SaveProfile">$Text{"Save as Template?"}</label>
+                    <input title="Save as Template" type="checkbox" id="SaveProfile" name="SaveProfile" />
+                </div>
+                <div>
+                    <label for="Profil">$Text{"Template Name"}</label>
+                    <input title="Pick a profil name" type="text" name="Profile" size="30" value="$QData{"Profile"}" />
                 </div>
             </fieldset>
             <div class="ActionRow Bottom">
@@ -162,12 +191,12 @@
 #          <tr class="contenthead">
 #            <td colspan="2">$Text{"TicketFreeText"}</td>
 #          </tr>
-<!-- dtl:block:FreeText -->
+#<!-- dtl:block:FreeText -->
 #                    <tr class="contentbody">
 #                        <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
 #                        <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
 #                    </tr>
-<!-- dtl:block:FreeText -->
+#<!-- dtl:block:FreeText -->
 #          <tr class="contentbody">
 #            <td class="contentkey">$Data{"TicketFreeKeyField1"}</td>
 #            <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
@@ -184,14 +213,14 @@
 #            <td class="contentkey">$Data{"TicketFreeKeyField4"}</td>
 #            <td class="contentbody">$Data{"TicketFreeTextField4"}</td>
 #          </tr>
-<!-- dtl:block:FreeTime -->
+#<!-- dtl:block:FreeTime -->
 #                    <tr class="contentbody">
 #                        <td colspan="2" class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}
 #                            <input type="checkbox" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}/>
 #                            $Text{"Between"} $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"}.
 #                        </td>
 #                    </tr>
-<!-- dtl:block:FreeTime -->
+#<!-- dtl:block:FreeTime -->
 #          <tr class="contentbody">
 #            <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}</td>
 #            <td class="contentbody"><input type="checkbox" name="TicketFreeTime1" value="checked" $QData{"TicketFreeTime1"}/>

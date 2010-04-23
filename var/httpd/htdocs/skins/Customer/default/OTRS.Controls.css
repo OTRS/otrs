@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -133,9 +133,10 @@ ul.ContextFunctions li {
 }
 
 /**
- * @subsection  Action Row
+ * @subsection  Action Row / MessageBox (Notification)
  */
 
+.MessageBox,
 .ActionRow {
     padding: 6px 9px 4px;
     height: 14px;
@@ -147,9 +148,31 @@ ul.ContextFunctions li {
     border-top: 1px solid #D6D6D6;
 }
 
+.MessageBox p {
+    margin: 0;
+    padding: 1px 0 1px 20px;
+}
+
+.RTL .MessageBox p {
+    padding: 1px 20px 1px 0;
+    background-position: right;
+}
+
+.MessageBox a {
+    display: none;
+}
+
+.MessageBox.Notice p {
+    background: url(img/accept.png) no-repeat center left;
+}
+
+.MessageBox.Error p {
+    background: url(img/decline.png) no-repeat center left;
+}
+
 .ActionRow.Bottom {
     height: auto;
-    padding: 5px 7px 3px;
+    padding: 5px 7px 4px;
     background: #777 url("img/GradientSmall.png") repeat-x top;
     border: 1px solid #BBB;
     border-radius: 3px;
@@ -180,6 +203,15 @@ ul.ContextFunctions li {
 .RTL .ActionRow a {
     padding: 0 3px 0 11px;
     background-position: left;
+}
+
+.ActionRow.Bottom > span {
+    padding-left: 5px;
+}
+
+.RTL .ActionRow.Bottom > span {
+    padding-left: 0;
+    padding-right: 5px;
 }
 
 .Filter {

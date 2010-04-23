@@ -2,7 +2,7 @@
 // OTRS.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Customer.js,v 1.7 2010-04-22 22:36:08 fn Exp $
+// $Id: OTRS.App.Customer.js,v 1.8 2010-04-23 21:23:32 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -168,13 +168,6 @@ OTRS.App.Customer = (function (TargetNS) {
                 $Status.val("true");
             break;
         }
-        /*  Change Subject to Loading */
-        /*  Load iframe -> get title and put it in src */
-        /*  Hide quotes and resize -> HideQuote(Iframe) */
-        /*  Set StateStorage to true */
-        /*  Show MessageContent -> add class Visible */
-        /*  Change Subject back from Loading */
-        
         
         /*var Visible = $Message.hasClass('Invisible') ? false : true,
             $StateStorage = $('> input[name=ArticleShown]', $Message);
@@ -196,12 +189,24 @@ OTRS.App.Customer = (function (TargetNS) {
             LoadingString = $SubjectHolder.attr('title'),
             $Iframe = $('iframe', $Message),
             Source = $Iframe.attr('title');
+        
+        /*  Change Subject to Loading */    
         $SubjectHolder.text(LoadingString);
+        
+        /*  Load iframe -> get title and put it in src */
         $Iframe.attr('src', Source);
+        
+        /*  Hide quotes and resize -> HideQuote(Iframe) */
         CheckIframe($Iframe);
-        $Message.addClass('Visible');
+        
+        /*  Set StateStorage to true */
         $Status.val('true');
-        $SubjectHolder.text(Subject);
+        
+        /*  Show MessageContent -> add class Visible */
+        $Message.addClass('Visible');
+        
+        /*  Change Subject back from Loading */
+        $SubjectHolder.text(Subject).attr('title', Subject);
     }
 
     /**

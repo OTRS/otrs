@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -340,25 +340,13 @@
     display: block;
 }
 
-#Messenger span.cke_skin_kama {
-    border: none;
-}
-
-#Messenger .cke_skin_kama .cke_wrapper {
-    background: #E4E4E4;
-}
-
-#Attachment {
+#AttachmentHolder {
     margin: 5px;
     padding: 5px;
     background: #E4E4E4;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-}
-
-#Attachment > div {
-    padding: 5px;
 }
 
 #ReplyButton {

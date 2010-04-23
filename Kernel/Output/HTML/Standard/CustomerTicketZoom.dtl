@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.70 2010-04-23 14:16:58 mb Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.71 2010-04-23 21:23:32 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,7 +87,7 @@ function submit_compose() {
 #                    <li><span>$Text{"$QData{"TicketFreeTimeKey2"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</span></li>
 #<!-- dtl:block:TicketFreeTime2 -->
 <!-- dtl:block:Print -->
-                <li><a a href="$Env{"Baselink"}Action=CustomerTicketPrint;TicketID=$QData{"TicketID"}" class="Print">$Text{"Print"}</a></li>
+                <li><a href="$Env{"Baselink"}Action=CustomerTicketPrint;TicketID=$QData{"TicketID"}" class="Print" title="$Text{"Print"}">$Text{"Print"}</a></li>
 <!-- dtl:block:Print -->
             </ul>
             <div class="Clear"></div>
@@ -159,7 +159,7 @@ function submit_compose() {
                     <input type="text" name="Subject" id="Subject" value="Re: $QData{"Title"}" />
                     $Include{"RichTextEditor"}
                     <textarea titel="$Text{"Reply"}" id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                    <div id="Attachment">
+                    <div id="AttachmentHolder">
                         <input name="file_upload" title="Attachment" type="file" size="30" />
                         <button class="CallForAction" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><span>$Text{"Attach"}</span></button>
 <!-- dtl:block:Attachment -->
@@ -169,7 +169,7 @@ function submit_compose() {
                         </div>
 <!-- dtl:block:Attachment -->
                     </div>
-                    <button id="Submit" class="CallForAction" type="submit" value="submit"><span>Submit</span></button>
+                    <button id="Submit" class="CallForAction" type="submit" value="$Text{"Submit"}"><span>$Text{"Submit"}</span></button>
                 </div>
                 <a id="ReplyButton" href="">$Text{"Reply"}</a>
             </div>
