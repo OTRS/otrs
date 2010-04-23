@@ -1,8 +1,8 @@
 # --
 # Kernel/System/MailAccount.pm - lib for mail accounts
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: MailAccount.pm,v 1.13 2009-12-07 10:32:17 martin Exp $
+# $Id: MailAccount.pm,v 1.14 2010-04-23 16:11:14 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -180,22 +180,24 @@ sub MailAccountGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT login, pw, host, account_type, queue_id, trusted, comments, valid_id'
-            . ' FROM mail_account WHERE id = ?',
+        SQL => 'SELECT login, pw, host, account_type, queue_id, trusted, comments, valid_id, '
+            . ' create_time, change_time FROM mail_account WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
-            ID       => $Param{ID},
-            Login    => $Data[0],
-            Password => $Data[1],
-            Host     => $Data[2],
-            Type     => $Data[3] || 'POP3',    # compat for old setups
-            QueueID  => $Data[4],
-            Trusted  => $Data[5],
-            Comment  => $Data[6],
-            ValidID  => $Data[7],
+            ID         => $Param{ID},
+            Login      => $Data[0],
+            Password   => $Data[1],
+            Host       => $Data[2],
+            Type       => $Data[3] || 'POP3',    # compat for old setups
+            QueueID    => $Data[4],
+            Trusted    => $Data[5],
+            Comment    => $Data[6],
+            ValidID    => $Data[7],
+            CreateTime => $Data[8],
+            ChangeTime => $Data[9],
         );
     }
     if ( $Data{QueueID} == 0 ) {
@@ -443,6 +445,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2009-12-07 10:32:17 $
+$Revision: 1.14 $ $Date: 2010-04-23 16:11:14 $
 
 =cut
