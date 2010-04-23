@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.15 2010-04-23 16:09:48 en Exp $
+# $Id: AdminMailAccount.pm,v 1.16 2010-04-23 18:02:17 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -83,6 +83,74 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # add new mail account
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'AddNew' ) {
+
+        my ( $Self, %Param ) = @_;
+
+        # build ValidID string
+        $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
+            Data       => { $Self->{ValidObject}->ValidList(), },
+            Name       => 'ValidID',
+            SelectedID => $Param{ValidID},
+        );
+
+        $Param{TypeOptionAdd} = $Self->{LayoutObject}->BuildSelection(
+            Data       => { $Self->{MailAccount}->MailAccountBackendList() },
+            Name       => 'TypeAdd',
+            SelectedID => $Param{Type} || $Param{TypeAdd} || '',
+        );
+
+        $Param{TrustedOption} = $Self->{LayoutObject}->BuildSelection(
+            Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
+            Name       => 'Trusted',
+            SelectedID => $Param{Trusted},
+        );
+
+        $Param{DispatchingOption} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                From  => 'Dispatching by email To: field.',
+                Queue => 'Dispatching by selected Queue.',
+            },
+            Name       => 'DispatchingBy',
+            SelectedID => $Param{DispatchingBy},
+        );
+
+        $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
+            Data => {
+                '' => '-',
+                $Self->{QueueObject}->QueueList( Valid => 1 ),
+            },
+            Name           => 'QueueID',
+            SelectedID     => $Param{QueueID},
+            OnChangeSubmit => 0,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => { %Param, },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionList',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionOverview',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewAdd',
+            Data => { %Param, },
+        );
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminMailAccount',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
@@ -93,18 +161,16 @@ sub Run {
         my $ID = $Self->{MailAccount}->MailAccountAdd(
             %GetParam,
             Type          => $GetParam{'TypeAdd'},
-            QueueID       => 0,
-            DispatchingBy => 0,
-            Trusted       => 0,
-            ValidID       => 1,
+            QueueID       => $GetParam{'QueueID'},
+            DispatchingBy => $GetParam{'DispatchingBy'},
+            Trusted       => $GetParam{'Trusted'},
+            ValidID       => $GetParam{'ValidID'},
             UserID        => $Self->{UserID},
         );
         if ( !$ID ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
-        return $Self->{LayoutObject}->Redirect(
-            OP => 'Action=$Env{"Action"};Subaction=Update;ID=' . $ID,
-        );
+        return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}' );
     }
 
     # ------------------------------------------------------------ #
@@ -152,6 +218,12 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'Overview',
             Data => { %Param, },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionList',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionAdd',
         );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResult',
@@ -258,6 +330,12 @@ sub _MaskUpdate {
         Data => { %Param, },
     );
     $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+    );
+    $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
         Data => { %Param, },
     );
@@ -270,5 +348,4 @@ sub _MaskUpdate {
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
-
 1;
