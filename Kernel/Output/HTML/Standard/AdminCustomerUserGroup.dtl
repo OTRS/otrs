@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.4 2010-04-22 21:00:49 cg Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.5 2010-04-23 15:53:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,7 @@
             </div>
             <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
-                    <ul class="Tablelike" id="CustomerUsers">
+                    <ul class="Tablelike" id="Customers">
                         <li class="Header">$Text{"Customers"}</li>
 <!-- dtl:block:List1n-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
@@ -69,7 +69,7 @@
 </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Tables.InitTableFilter($('#FilterCustomerUsers'), $('#CustomerUsers'));
+    OTRS.UI.Tables.InitTableFilter($('#FilterCustomers'), $('#Customers'));
     OTRS.UI.Tables.InitTableFilter($('#FilterGroups'), $('#Groups'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
