@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.26 2010-02-05 13:58:24 mn Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.27 2010-04-23 09:38:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,17 +59,9 @@ function submit_compose() {
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
-        <td class="mainhead">
-            $Env{"Box0"}$Text{"new ticket"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
         <td class="mainbody">
             <br/>
             <table border="0" width="680" align="center" cellspacing="0" cellpadding="4">
-                <tr>
-                    <td colspan="2" class="contenthead">$Text{"Options"}</td>
-                </tr>
                 <tr>
                     <td class="contentbody">
                         <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
@@ -108,7 +100,7 @@ function submit_compose() {
                                 <tr>
                                     <td class="contentkey">$Text{"Subject"}:</td>
                                     <td class="contentvalue">
-                                        <input type="text" name="Subject" value="$QData{"Subject"}" size="70"/>
+                                        <input type="text" name="Subject" value="$QData{"Subject"}" size="200"/>
                                         <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
                                     </td>
                                 </tr>
