@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.5 2010-04-23 15:53:05 cr Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.6 2010-04-26 15:49:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,6 +51,7 @@
 <!-- dtl:block:List1n-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:List1n-->
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
                     </ul>
                 </div>
                 <div class="Size1of2">
@@ -59,6 +60,7 @@
 <!-- dtl:block:Listn1-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:Listn1-->
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
                     </ul>
                 </div>
                 <div class="Clear"></div>
