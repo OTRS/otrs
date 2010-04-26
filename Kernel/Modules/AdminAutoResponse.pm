@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.38 2010-04-15 15:22:49 cg Exp $
+# $Id: AdminAutoResponse.pm,v 1.39 2010-04-26 22:02:42 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -314,18 +314,30 @@ sub _Overview {
         Valid  => 0,
     );
 
-    # get valid list
-    my %ValidList = $Self->{ValidObject}->ValidList();
-    for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+    # if there are any results, they are shown
+    if (%List) {
 
-        my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
+        # get valid list
+        my %ValidList = $Self->{ValidObject}->ValidList();
+        for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+            my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    Valid => $ValidList{ $Data{ValidID} },
+                    %Data,
+                    Attachments => int rand 5,
+                },
+            );
+        }
+    }
+
+    # otherwise a no data message is displayed
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'OverviewResultRow',
-            Data => {
-                Valid => $ValidList{ $Data{ValidID} },
-                %Data,
-                Attachments => int rand 5,
-            },
+            Name => 'NoDataFoundMsg',
+            Data => {},
         );
     }
     return 1;

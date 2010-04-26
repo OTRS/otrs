@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.dtl,v 1.7 2010-04-21 22:46:53 mp Exp $
+# $Id: AdminAutoResponse.dtl,v 1.8 2010-04-26 22:02:25 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <h1>$Text{"Auto Response Management"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header"></div>
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="post">
@@ -34,7 +34,7 @@
     </div>
     <div class="ContentColumn">
 <!-- dtl:block:OverviewResult -->
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
@@ -43,18 +43,27 @@
                     <thead>
 
                         <tr>
-                            <th class="W40pc">$Text{"Name"}</th>
-                            <th class="W20pc">$Text{"Type"}</th>
-                            <th>$Text{"valid"}/$Text{"invalid"}</th>
+                            <th class="W33c">$Text{"Name"}</th>
+                            <th>$Text{"Type"}</th>
+                            <th>$Text{"Comment"}</th>
+                            <th>$Text{"Valid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
                     </thead>
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan=6>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             <td>$Text{"$QData{"Type"}"}</td>
+                            <td title="$QData{"Comment"}">$QData{"Comment","20"}</td>
                             <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
@@ -70,7 +79,7 @@
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Edit"} ($Text{"$QData{"Action"}"}):</h2>
             </div>
@@ -133,7 +142,7 @@ $Include{"RichTextEditor"}
             </div>
         </div>
 
-        <div class="WidgetGradient Short SpacingTop">
+        <div class="WidgetGradient Short SpacingTop MinHeight">
             <div class="Header">
                 <h2>$Text{"Reference"}</h2>
             </div>
