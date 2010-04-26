@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.37 2010-04-19 23:21:24 cr Exp $
+# $Id: AdminQueueResponses.pm,v 1.38 2010-04-26 18:22:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -261,35 +261,59 @@ sub _Overview {
 
     # get std response list
     my %StdResponseData = $Self->{StdResponseObject}->StdResponseList( Valid => 1 );
-    for my $StdResponseID (
-        sort { uc( $StdResponseData{$a} ) cmp uc( $StdResponseData{$b} ) }
-        keys %StdResponseData
-        )
-    {
 
-        # set output class
+    # if there are results to show
+    if (%StdResponseData) {
+        for my $StdResponseID (
+            sort { uc( $StdResponseData{$a} ) cmp uc( $StdResponseData{$b} ) }
+            keys %StdResponseData
+            )
+        {
+
+            # set output class
+            $Self->{LayoutObject}->Block(
+                Name => 'List1n',
+                Data => {
+                    Name      => $StdResponseData{$StdResponseID},
+                    Subaction => 'StdResponse',
+                    ID        => $StdResponseID,
+                },
+            );
+        }
+    }
+
+    # otherwise it displays a no data found message
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'List1n',
-            Data => {
-                Name      => $StdResponseData{$StdResponseID},
-                Subaction => 'StdResponse',
-                ID        => $StdResponseID,
-            },
+            Name => 'NoResponsesFoundMsg',
+            Data => {},
         );
     }
 
     # get queue data
     my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
-    for my $QueueID ( sort { uc( $QueueData{$a} ) cmp uc( $QueueData{$b} ) } keys %QueueData ) {
 
-        # set output class
+    # if there are results to show
+    if (%QueueData) {
+        for my $QueueID ( sort { uc( $QueueData{$a} ) cmp uc( $QueueData{$b} ) } keys %QueueData ) {
+
+            # set output class
+            $Self->{LayoutObject}->Block(
+                Name => 'Listn1',
+                Data => {
+                    Name      => $QueueData{$QueueID},
+                    Subaction => 'Queue',
+                    ID        => $QueueID,
+                },
+            );
+        }
+    }
+
+    # otherwise it displays a no data found message
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'Listn1',
-            Data => {
-                Name      => $QueueData{$QueueID},
-                Subaction => 'Queue',
-                ID        => $QueueID,
-            },
+            Name => 'NoQueuesFoundMsg',
+            Data => {},
         );
     }
 

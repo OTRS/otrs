@@ -50,6 +50,10 @@
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Responses">
                         <li class="Header">$Text{"Standard Responses"}</li>
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
+<!-- dtl:block:NoResponsesFoundMsg -->
+                        <li>$Text{"No data found."}</li>
+<!-- dtl:block:NoResponsesFoundMsg -->
 <!-- dtl:block:List1n-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:List1n-->
@@ -58,6 +62,10 @@
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Queues">
                         <li class="Header">$Text{"Queues"}</li>
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
+<!-- dtl:block:NoQueuesFoundMsg -->
+                        <li>$Text{"No data found."}</li>
+<!-- dtl:block:NoQueuesFoundMsg -->
 <!-- dtl:block:Listn1-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:Listn1-->
