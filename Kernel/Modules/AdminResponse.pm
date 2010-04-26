@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.43 2010-04-20 22:32:15 mg Exp $
+# $Id: AdminResponse.pm,v 1.44 2010-04-26 21:24:13 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -326,27 +326,40 @@ sub _Overview {
         Valid  => 0,
     );
 
-    # get valid list
-    my %ValidList = $Self->{ValidObject}->ValidList();
-    for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+    # if there are any results, they are shown
+    if (%List) {
 
-        my %Data = $Self->{StdResponseObject}->StdResponseGet( ID => $ID, );
-        my @SelectedAttachment;
-        my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
-            ID => $ID,
-        );
-        for my $Key ( keys %SelectedAttachmentData ) {
-            push @SelectedAttachment, $Key;
+        # get valid list
+        my %ValidList = $Self->{ValidObject}->ValidList();
+        for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+            my %Data = $Self->{StdResponseObject}->StdResponseGet( ID => $ID, );
+            my @SelectedAttachment;
+            my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
+                ID => $ID,
+            );
+            for my $Key ( keys %SelectedAttachmentData ) {
+                push @SelectedAttachment, $Key;
+            }
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    Valid => $ValidList{ $Data{ValidID} },
+                    %Data,
+                    Attachments => scalar @SelectedAttachment,
+                },
+            );
         }
+    }
+
+    # otherwise it displays a no data found message
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'OverviewResultRow',
-            Data => {
-                Valid => $ValidList{ $Data{ValidID} },
-                %Data,
-                Attachments => scalar @SelectedAttachment,
-            },
+            Name => 'NoDataFoundMsg',
+            Data => {},
         );
     }
+
     return 1;
 }
 
