@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.80 2010-04-21 21:09:16 mp Exp $
+# $Id: AdminGenericAgent.pm,v 1.81 2010-04-26 15:03:48 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1022,7 +1022,7 @@ sub Run {
     }
 
     # generate search mask
-    my $Output = $Self->{LayoutObject}->Header( Title => 'Overview' );
+    my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminGenericAgent',
