@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.28 2009-12-11 09:42:09 mh Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.29 2010-04-26 20:39:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,14 +79,14 @@ sub Run {
                     . "AND qar.auto_response_id = ar.id",
             );
             $Param{DataStrg} = $Self->{LayoutObject}->BuildSelection(
-                Name         => 'IDs',
+                Name         => "IDs_$TypeID",
                 SelectedID   => $SelectedID || '',
                 Data         => \%Data,
-                Size         => 3,
+                Size         => 1,
                 PossibleNone => 1,
             );
             $Self->{LayoutObject}->Block(
-                Name => 'ItemList',
+                Name => 'ChangeItemList',
                 Data => {
                     Type   => $TypeResponsesData{$TypeID},
                     TypeID => $TypeID,
@@ -95,7 +95,7 @@ sub Run {
             );
         }
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminQueueAutoResponseForm',
+            TemplateFile => 'AdminQueueAutoResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -103,7 +103,16 @@ sub Run {
 
     # queues to queue_auto_responses
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
-        my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
+        my @NewIDs = ();
+
+        # get Type Auto Responses data
+        my %TypeResponsesData = $Self->{AutoResponseObject}->AutoResponseTypeList();
+
+        # Set Autoresponses IDs for this queue.
+        for my $TypeID ( keys %TypeResponsesData ) {
+            push( @NewIDs, $Self->{ParamObject}->GetParam( Param => "IDs_$TypeID" ) );
+        }
+
         $Self->{AutoResponseObject}->AutoResponseQueue(
             QueueID         => $Param{ID},
             AutoResponseIDs => \@NewIDs,
@@ -164,7 +173,7 @@ sub Run {
             }
         }
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminQueueAutoResponseForm',
+            TemplateFile => 'AdminQueueAutoResponse',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
