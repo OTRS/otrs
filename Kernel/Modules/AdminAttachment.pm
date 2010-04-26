@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.29 2010-04-15 23:07:21 mp Exp $
+# $Id: AdminAttachment.pm,v 1.30 2010-04-26 22:31:23 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -286,24 +286,36 @@ sub _Overview {
         Valid  => 0,
     );
 
-    # get valid list
-    my %ValidList = $Self->{ValidObject}->ValidList();
-    for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
-        my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID, );
+    # if there are any results, they are shown
+    if (%List) {
 
-        if ( $ValidList{ $Data{ValidID} } eq 'valid' ) {
-            $Data{Invalid} = '';
-        }
-        else {
-            $Data{Invalid} = 'Invalid';
-        }
+        # get valid list
+        my %ValidList = $Self->{ValidObject}->ValidList();
+        for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+            my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID, );
 
+            if ( $ValidList{ $Data{ValidID} } eq 'valid' ) {
+                $Data{Invalid} = '';
+            }
+            else {
+                $Data{Invalid} = 'Invalid';
+            }
+
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    Valid => $ValidList{ $Data{ValidID} },
+                    %Data,
+                },
+            );
+        }
+    }
+
+    # otherwise a no data message is displayed
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'OverviewResultRow',
-            Data => {
-                Valid => $ValidList{ $Data{ValidID} },
-                %Data,
-            },
+            Name => 'NoDataFoundMsg',
+            Data => {},
         );
     }
     return 1;

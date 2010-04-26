@@ -2,7 +2,7 @@
 # AdminAttachment.dtl - provides HTML form for AdminAttachment
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.dtl,v 1.3 2010-04-16 18:55:28 mn Exp $
+# $Id: AdminAttachment.dtl,v 1.4 2010-04-26 22:30:56 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <h1>$Text{"Attachment Management"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
 
             </div>
@@ -35,7 +35,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Medium">
+        <div class="WidgetGradient Medium MinHeight">
 
 <!-- dtl:block:OverviewResult -->
             <div class="Header">
@@ -43,22 +43,31 @@
             </div>
             <div class="Content">
 
-                <table class="DataTable VariableWidth">
+                <table class="DataTable">
                     <thead>
                         <tr>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Filename"}</th>
-                            <th>$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"Comment"}</th>
+                            <th>$Text{"Valid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                             <th>$Text{"Delete"}</th>
                         </tr>
                     </thead>
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan=7>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewResultRow -->
                         <tr class="$QData{"Invalid"}">
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             <td title="$Text{"Download file"}: $QData{"Filename"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;ID=$LQData{"ID"}">$QData{"Filename","30"}</a></td>
+                            <td title="$QData{"Comment"}">$QData{"Comment","20"}</td>
                             <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
