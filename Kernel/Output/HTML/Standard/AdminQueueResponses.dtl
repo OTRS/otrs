@@ -120,7 +120,7 @@
                             <tr>
                                 <th>$Text{"$QData{"VisibleNeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
-                                <th class="Center $QData{"Mark"}">
+                                <th class="$QData{"Mark"}">
                                     <input type="checkbox" id="SelectAll$QData{"Type"}" name="$QData{"Type"}" title="$Text{"Toggle active state for all"}" value="" />
                                     $Text{"Active"}
                                 </th>
