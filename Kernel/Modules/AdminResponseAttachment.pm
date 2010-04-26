@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.34 2010-04-21 20:27:40 dz Exp $
+# $Id: AdminResponseAttachment.pm,v 1.35 2010-04-26 21:08:49 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -244,37 +244,59 @@ sub _Overview {
     # get StdResponse data
     my %StdResponseData = $Self->{StdResponseObject}->StdResponseList( Valid => 1 );
 
-    for my $StdResponseID (
-        sort { uc( $StdResponseData{$a} ) cmp uc( $StdResponseData{$b} ) }
-        keys %StdResponseData
-        )
-    {
+    # if there are any responses, they are shown
+    if (%StdResponseData) {
+        for my $StdResponseID (
+            sort { uc( $StdResponseData{$a} ) cmp uc( $StdResponseData{$b} ) }
+            keys %StdResponseData
+            )
+        {
 
+            $Self->{LayoutObject}->Block(
+                Name => 'List1n',
+                Data => {
+                    Name      => $StdResponseData{$StdResponseID},
+                    Subaction => 'Response',
+                    ID        => $StdResponseID,
+                },
+            );
+        }
+    }
+
+    # otherwise a no data message is displayed
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'List1n',
-            Data => {
-                Name      => $StdResponseData{$StdResponseID},
-                Subaction => 'Response',
-                ID        => $StdResponseID,
-            },
+            Name => 'NoResponsesFoundMsg',
+            Data => {},
         );
     }
 
     # get queue data
     my %StdAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentList( Valid => 1 );
-    for my $StdAttachmentID (
-        sort { uc( $StdAttachmentData{$a} ) cmp uc( $StdAttachmentData{$b} ) }
-        keys %StdAttachmentData
-        )
-    {
 
+    # if there are any attachments, they are shown
+    if (%StdResponseData) {
+        for my $StdAttachmentID (
+            sort { uc( $StdAttachmentData{$a} ) cmp uc( $StdAttachmentData{$b} ) }
+            keys %StdAttachmentData
+            )
+        {
+            $Self->{LayoutObject}->Block(
+                Name => 'Listn1',
+                Data => {
+                    Name      => $StdAttachmentData{$StdAttachmentID},
+                    Subaction => 'Attachment',
+                    ID        => $StdAttachmentID,
+                },
+            );
+        }
+    }
+
+    # otherwise a no data message is displayed
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'Listn1',
-            Data => {
-                Name      => $StdAttachmentData{$StdAttachmentID},
-                Subaction => 'Attachment',
-                ID        => $StdAttachmentID,
-            },
+            Name => 'NoAttachmentsFoundMsg',
+            Data => {},
         );
     }
 

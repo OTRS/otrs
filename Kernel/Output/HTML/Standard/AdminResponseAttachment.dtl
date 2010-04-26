@@ -2,7 +2,7 @@
 # AdminResponseAttachment.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.dtl,v 1.4 2010-04-22 18:40:24 mn Exp $
+# $Id: AdminResponseAttachment.dtl,v 1.5 2010-04-26 21:08:18 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@
     </div>
     <div class="ContentColumn">
 <!-- dtl:block:OverviewResult-->
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Overview"}</h2>
             </div>
@@ -42,6 +42,10 @@
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Responses">
                         <li class="Header">$Text{"Responses"}</li>
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
+<!-- dtl:block:NoResponsesFoundMsg -->
+                        <li>$Text{"No data found."}</li>
+<!-- dtl:block:NoResponsesFoundMsg -->
 <!-- dtl:block:List1n-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:List1n-->
@@ -50,6 +54,10 @@
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Attachment">
                         <li class="Header">$Text{"Attachments"}</li>
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
+<!-- dtl:block:NoAttachmentsFoundMsg -->
+                        <li>$Text{"No data found."}</li>
+<!-- dtl:block:NoAttachmentsFoundMsg -->
 <!-- dtl:block:Listn1-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:Listn1-->
@@ -82,12 +90,12 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
-                    <table class="DataTable VariableWidth" id="ResponseAttachment">
+                    <table class="DataTable" id="ResponseAttachment">
                         <thead>
                             <tr>
                                 <th>$Text{"$QData{"VisibleNeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
-                                <th class="Center">
+                                <th>
                                     <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle active for all"}" value="" />
                                     $Text{"Active"}
                                 </th>
