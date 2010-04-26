@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.20 2010-04-23 21:23:32 fn Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.21 2010-04-26 22:04:07 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@
                 <h2>$Config{"Ticket::Hook"}</h2>
                 <div>
                     <label for="TicketNumber">$Config{"Ticket::Hook"}</label>
-                    <input title="Ticket#" type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}"/>
+                    <input title="Ticket#" type="text" name="TicketNumber"id="TicketNumber" size="30" value="$QData{"TicketNumber"}"/>
                     <p>$Text{"e. g. 10*5155 or 105658*"}</p>
                 </div>
             </fieldset>
@@ -53,7 +53,7 @@
                     <input title="Text" type="text" id="MailBody" name="MailBody" value="$QData{"Text"}" size="20" />
                 </div>
                 <div>
-                    <label for="From">$Text{"CustomerID"}</label>
+                    <label for="CustomerID">$Text{"CustomerID"}</label>
                     <input title="Customer ID" type="text" id="CustomerID" name="CustomerID" value="$QData{"CustomerID"}" size="20" />
                 </div>
             </fieldset>
@@ -108,7 +108,7 @@
                 </div>
                 <div>
                     <label for="Profil">$Text{"Template Name"}</label>
-                    <input title="Pick a profil name" type="text" name="Profile" size="30" value="$QData{"Profile"}" />
+                    <input title="Pick a profil name" type="text" id="Profil" name="Profile" size="30" value="$QData{"Profile"}" />
                 </div>
             </fieldset>
             <div class="ActionRow Bottom">
