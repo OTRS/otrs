@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.30 2010-04-13 18:35:24 dz Exp $
+# $Id: AdminSMIME.pm,v 1.31 2010-04-26 16:36:17 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,14 +82,22 @@ sub Run {
         }
 
         my @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
-        for my $Key (@List) {
+        if (@List) {
+            for my $Key (@List) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Row',
+                    Data => {
+                        StartFont => '<font color ="red">',
+                        StopFont  => '</font>',
+                        %{$Key},
+                    },
+                );
+            }
+        }
+        else {
             $Self->{LayoutObject}->Block(
-                Name => 'Row',
-                Data => {
-                    StartFont => '<font color ="red">',
-                    StopFont  => '</font>',
-                    %{$Key},
-                },
+                Name => 'NoDataFoundMsg',
+                Data => {},
             );
         }
         my $Output = $Self->{LayoutObject}->Header();
@@ -133,14 +141,22 @@ sub Run {
             );
         }
         my @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
-        for my $Key (@List) {
+        if (@List) {
+            for my $Key (@List) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Row',
+                    Data => {
+                        StartFont => '<font color ="red">',
+                        StopFont  => '</font>',
+                        %{$Key},
+                    },
+                );
+            }
+        }
+        else {
             $Self->{LayoutObject}->Block(
-                Name => 'Row',
-                Data => {
-                    StartFont => '<font color ="red">',
-                    StopFont  => '</font>',
-                    %{$Key},
-                },
+                Name => 'NoDataFoundMsg',
+                Data => {},
             );
         }
         my $Output = $Self->{LayoutObject}->Header();
@@ -186,14 +202,22 @@ sub Run {
             );
         }
         my @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
-        for my $Key (@List) {
+        if (@List) {
+            for my $Key (@List) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Row',
+                    Data => {
+                        StartFont => '<font color ="red">',
+                        StopFont  => '</font>',
+                        %{$Key},
+                    },
+                );
+            }
+        }
+        else {
             $Self->{LayoutObject}->Block(
-                Name => 'Row',
-                Data => {
-                    StartFont => '<font color ="red">',
-                    StopFont  => '</font>',
-                    %{$Key},
-                },
+                Name => 'NoDataFoundMsg',
+                Data => {},
             );
         }
         my $Output = $Self->{LayoutObject}->Header();
@@ -262,14 +286,22 @@ sub Run {
         if ( $Self->{CryptObject} ) {
             @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
         }
-        for my $Key (@List) {
+        if (@List) {
+            for my $Key (@List) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Row',
+                    Data => {
+                        StartFont => '<font color ="red">',
+                        StopFont  => '</font>',
+                        %{$Key},
+                    },
+                );
+            }
+        }
+        else {
             $Self->{LayoutObject}->Block(
-                Name => 'Row',
-                Data => {
-                    StartFont => '<font color ="red">',
-                    StopFont  => '</font>',
-                    %{$Key},
-                },
+                Name => 'NoDataFoundMsg',
+                Data => {},
             );
         }
         my $Output = $Self->{LayoutObject}->Header();
