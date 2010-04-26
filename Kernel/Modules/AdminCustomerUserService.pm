@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.13 2010-04-23 14:58:09 en Exp $
+# $Id: AdminCustomerUserService.pm,v 1.14 2010-04-26 17:39:50 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,6 +65,11 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
+        # overview
+        $Self->{LayoutObject}->Block( Name => 'Overview' );
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
         # output search block
         $Self->{LayoutObject}->Block(
             Name => 'Search',
@@ -74,9 +79,6 @@ sub Run {
                 ServiceSearch      => $Param{ServiceSearch},
             },
         );
-
-        # output default block
-        $Self->{LayoutObject}->Block( Name => 'Default', );
 
         # get service member
         my %ServiceMemberList = $Self->{ServiceObject}->CustomerUserServiceMemberList(
@@ -137,8 +139,6 @@ sub Run {
         # output rows
         for my $Counter ( 1 .. $MaxCount ) {
 
-            # set output class
-
             # get service
             my %Service = $Self->{ServiceObject}->ServiceGet(
                 ServiceID => $ServiceList[ $Counter - 1 ],
@@ -146,7 +146,7 @@ sub Run {
             );
 
             # set checked
-            my $Checked = $ServiceMemberList{ $Service{ServiceID} } ? 'checked' : '';
+            my $Checked = $ServiceMemberList{ $Service{ServiceID} } ? "checked='checked'" : '';
 
             # output row block
             $Self->{LayoutObject}->Block(
@@ -184,6 +184,11 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
+        # overview
+        $Self->{LayoutObject}->Block( Name => 'Overview' );
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
         # output search block
         $Self->{LayoutObject}->Block(
             Name => 'Search',
@@ -193,9 +198,6 @@ sub Run {
                 ServiceSearch      => $Param{ServiceSearch},
             },
         );
-
-        # output default block
-        $Self->{LayoutObject}->Block( Name => 'Default', );
 
         # get service
         my %Service = $Self->{ServiceObject}->ServiceGet(
@@ -261,11 +263,11 @@ sub Run {
         # output rows
         for my $Counter ( 1 .. $MaxCount ) {
 
-            # set output class
-
             # set checked
             my $Checked
-                = $CustomerUserMemberList{ $CustomerUserKeyList[ $Counter - 1 ] } ? 'checked' : '';
+                = $CustomerUserMemberList{ $CustomerUserKeyList[ $Counter - 1 ] }
+                ? "checked='checked'"
+                : '';
 
             # output row block
 
@@ -388,14 +390,13 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
+        $Self->{LayoutObject}->Block( Name => 'Overview' );
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+
         # output search block
         $Self->{LayoutObject}->Block(
             Name => 'Search',
-            Data => {
-                %Param,
-                CustomerUserSearch => $Param{CustomerUserSearch},
-                ServiceSearch      => $Param{ServiceSearch},
-            },
+            Data => %Param,
         );
 
         # output default block
@@ -491,8 +492,6 @@ sub Run {
         # output rows
         for my $Counter ( 1 .. $MaxCustomerCount ) {
 
-            # set output class
-
             my %UserRowParam;
 
             # set customer user row params
@@ -519,7 +518,6 @@ sub Run {
 
         for my $Counter ( 1 .. $MaxServiceCount ) {
 
-            # Set output class.
             my %ServiceRowParam;
 
             # set service row params
