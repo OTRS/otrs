@@ -1,0 +1,311 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @author      Felix Niklas
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Ivory"
+ */
+
+/**
+ * @section     Link color
+ */
+
+a,
+#Footer a:hover {
+    color: #3F8DCA;
+}
+
+a:hover {
+    color: #4BA7EF;
+}
+
+body {
+    background: #DDD;
+}
+
+#Header {
+    display: none;
+}
+
+.ControlRow {
+    margin: 50px auto 10px;
+    padding: 8px 6px;
+    width: 615px;
+    height: 27px;
+    background: black;
+    border: none;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0 3px 3px rgba(0,0,0,.2);
+}
+
+.ControlRow .Tabs,
+.ControlRow .User.Tabs {
+    float: none;
+    position: absolute;
+}
+
+.ControlRow .User.Tabs {
+    right: 8px;
+}
+
+.ControlRow .Tabs li {
+    margin: 0 2px;
+}
+
+.ControlRow .Selected + li {
+    margin-left: 2px;
+}
+
+.ControlRow .Selected + li a {
+    padding-left: 8px;
+}
+
+.ControlRow li:focus,
+.ControlRow li:active {
+    margin-top: 0;
+    background: none;
+}
+
+.ControlRow .Tabs a,
+.ControlRow .Tabs li:focus a,
+.ControlRow .Tabs li:active a {
+    padding: 7px 8px;
+    font-size: 10px;
+    color: white;
+    text-shadow: none;
+    text-transform: uppercase;
+    background: none;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.ControlRow .Tabs a:hover,
+.ControlRow .Tabs li:focus a,
+.ControlRow .Tabs li:active a {
+    background: #222;
+    color: white;
+}
+
+.ControlRow .Tabs .Selected {
+    margin-top: 0;
+    height: 45px;
+    background: white;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.ControlRow .Tabs .Selected a,
+.ControlRow .Tabs .Selected a:focus,
+.ControlRow .Tabs .Selected a:active {
+    margin: 0;
+    padding: 7px 11px;
+    background: none;
+    color: black;
+    text-shadow: none;
+}
+
+#Body {
+    margin: 0 auto;
+    padding: 3px 0;
+    width: 627px;
+    background: white;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#Body.TicketView {
+    padding: 24px 0;
+}
+
+#Body.Login {
+    margin: 50px auto 0;
+    padding: 73px 0 13px;
+}
+
+#Slider {
+    margin-bottom: 0;
+    width: 619px;
+}
+
+#SlideArea > div {
+    padding-left: 100px;
+}
+
+.RTL #SliderArea > div {
+    padding: 0 100px 0 0;
+}
+
+.ActionRow,
+.ActionRow.Bottom {
+    background: none;
+    border: none;
+}
+
+.ActionRow a {
+    background: none;
+    text-shadow: none;
+}
+
+.Filter {
+    padding: 0 16px;
+}
+
+.Filter li a {
+    padding: 6px 3px 4px;
+    color: #B2B2B2;
+}
+
+.Filter li a:hover {
+    color: #666;
+}
+
+.Filter .Selected,
+.Filter .Selected:hover {
+    color: #3F8DCA;
+    font-weight: normal;
+}
+
+.Pagination {
+    color: #B2B2B2;
+}
+
+.Pagination a {
+    text-decoration: none !important;
+}
+
+.Content {
+    padding: 0 10px;
+    background: none;
+}
+
+.TicketView .Content {
+    padding: 16px 10px;
+}
+
+table.Overview {
+    color: #363636;
+}
+
+.Overview tbody tr {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.Overview tbody tr:hover {
+    background-color: #3F8DCA;
+}
+
+.Overview tbody tr:active {
+    background-color: #777;
+}
+
+.Overview tbody a {
+    color: #363636;
+    font-weight: normal;
+}
+
+.Title div {
+    color: #363636;
+}
+
+.Title h2 a {
+    color: #363636;
+}
+
+/**
+ * @subsection  Table Style Hovered
+ */
+.Overview tbody tr:hover td {
+    background-image: none;
+    color: white;
+}
+.Overview tbody tr:hover + tr td {
+    background-image: none;
+}
+.Overview tbody tr:hover td,
+.Overview tbody tr:hover a {
+    color: white;
+    text-shadow: none;
+}
+.Overview tbody tr:hover .Title div {
+    color: white;
+    text-shadow: none;
+}
+
+/**
+ * @subsection  Table Style Active
+ */
+.Overview tbody tr:focus td,
+.Overview tbody tr:active td {
+    background-image: none;
+    padding: 3px 8px 1px;
+}
+
+/**
+ * @subsection  Forms
+ */
+
+.Box label {
+    width: 86px;
+}
+
+.Box button {
+    margin: 4px 0 0 108px;
+}
+
+form span.cke_skin_kama {
+    width: 595px !important;
+}
+
+/**
+ * @subsection  TicketZoom
+ */
+
+#FollowUp {
+    margin: 0 5px 8px;
+}
+
+#Body.TicketZoom form span.cke_skin_kama {
+    width: 570px !important;
+}
+
+/**
+ * @subsection  Footer
+ */
+
+#Footer {
+    margin: 0 auto 20px;
+    width: 627px;
+    font-size: 11px;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#Footer > * {
+    margin: 16px 16px 11px;
+}
+
+#Footer ul {
+    margin-left: 0;
+}
+
