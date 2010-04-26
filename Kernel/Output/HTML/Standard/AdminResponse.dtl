@@ -2,7 +2,7 @@
 # AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.11 2010-04-26 21:23:47 en Exp $
+# $Id: AdminResponse.dtl,v 1.12 2010-04-26 21:40:15 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,7 +82,7 @@
                                 <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
                             </td>
                             <td>$QData{"Attachments"}</td>
-                            <td>$QData{"Comment"}</td>
+                            <td title="$QData{"Comment"}">$QData{"Comment","26"}</td>
                             <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
