@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.4 2010-04-22 16:17:49 cr Exp $
+# $Id: AdminSystemAddress.dtl,v 1.5 2010-04-26 21:37:19 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <h1>$Text{"System Email Addresses Management"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
 
             </div>
@@ -32,7 +32,7 @@
                 </form>
             </div>
         </div>
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
             </div>
@@ -45,28 +45,37 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Medium">
+        <div class="WidgetGradient Medium MinHeight">
 
 <!-- dtl:block:OverviewResult -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
-                <table class="DataTable VariableWidth">
+                <table class="DataTable">
                     <thead>
                         <tr>
                             <th>$Text{"Email address"}</th>
                             <th>$Text{"Display name"}</th>
-                            <th>$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"Comment"}</th>
+                            <th>$Text{"Valid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
                     </thead>
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan=6}>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             <td title="$Text{"$QData{"Realname"}"}">$Text{"$QData{"Realname","26"}"}</td>
+                            <td title="$QData{"Comment"}">$QData{"Comment","26"}</td>
                             <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
