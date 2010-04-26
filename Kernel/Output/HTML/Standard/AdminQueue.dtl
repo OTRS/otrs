@@ -2,7 +2,7 @@
 # AdminQueue.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.dtl,v 1.1 2010-04-20 21:31:43 en Exp $
+# $Id: AdminQueue.dtl,v 1.2 2010-04-26 18:07:56 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,23 +39,32 @@
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
-                <table class="DataTable VariableWidth">
+                <table class="DataTable">
                     <thead>
                         <tr>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Group"}</th>
-                            <th>$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"Comment"}</th>
+                            <th>$Text{"Valid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
                     </thead>
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan=6>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td>
                                 <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;QueueID=$LQData{"QueueID"}">$QData{"Name"}</a>
                             </td>
                             <td>$QData{"GroupName"}</td>
+                            <td>$QData{"Comment"}</td>
                             <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
@@ -278,7 +287,7 @@
 <!-- dtl:block:Password -->
                         <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</label>
                         <div class="Field">
-                            <input type="password"" name="$QData{"Name"}" id="$QData{"Name"}" class="W50pc" maxlength="30" value=""/>
+                            <input type="password" name="$QData{"Name"}" id="$QData{"Name"}" class="W50pc" maxlength="30" value=""/>
                             <a href="">$QData{"Filename"}</a>
                         </div>
                         <div class="Clear"></div>

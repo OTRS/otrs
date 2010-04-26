@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.61 2010-04-20 21:32:15 en Exp $
+# $Id: AdminQueue.pm,v 1.62 2010-04-26 18:08:23 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -564,18 +564,27 @@ sub _Overview {
     );
     my %List = $Self->{QueueObject}->QueueList( Valid => 0 );
 
-    # get valid list
-    my %ValidList = $Self->{ValidObject}->ValidList();
-    for my $QueueID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+    if (%List) {
 
-        my %Data = $Self->{QueueObject}->QueueGet( ID => $QueueID, );
-        $Data{GroupName} = $Self->{GroupObject}->GroupLookup( GroupID => $Data{GroupID} );
+        # get valid list
+        my %ValidList = $Self->{ValidObject}->ValidList();
+        for my $QueueID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+            my %Data = $Self->{QueueObject}->QueueGet( ID => $QueueID, );
+            $Data{GroupName} = $Self->{GroupObject}->GroupLookup( GroupID => $Data{GroupID} );
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    Valid => $ValidList{ $Data{ValidID} },
+                    %Data,
+                },
+            );
+        }
+    }
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'OverviewResultRow',
-            Data => {
-                Valid => $ValidList{ $Data{ValidID} },
-                %Data,
-            },
+            Name => 'NoDataFoundMsg',
+            Data => {},
         );
     }
     return 1;
