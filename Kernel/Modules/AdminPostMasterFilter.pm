@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.26 2010-04-23 15:32:05 cg Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.27 2010-04-26 17:08:42 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,10 +169,18 @@ sub Run {
             Name => 'OverviewResult',
             Data => { %Param, },
         );
-        for my $Key ( sort keys %List ) {
+        if (%List) {
+            for my $Key ( sort keys %List ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'OverviewResultRow',
+                    Data => { Name => $Key, },
+                );
+            }
+        }
+        else {
             $Self->{LayoutObject}->Block(
-                Name => 'OverviewResultRow',
-                Data => { Name => $Key, },
+                Name => 'NoDataFoundMsg',
+                Data => {},
             );
         }
 

@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.33 2010-04-23 15:30:57 cg Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.34 2010-04-26 17:08:19 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,29 +80,35 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Medium">
+        <div class="WidgetGradient Medium MinHeight">
 
 <!-- dtl:block:OverviewResult -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
-                <table class="DataTable VariableWidth">
+                <table class="DataTable">
                     <thead>
                         <tr>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Delete"}</th>
                         </tr>
                     </thead>
-<!-- dtl:block:OverviewResultRow -->
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan=2}>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
+<!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update;Name=$LQData{"Name"}">$QData{"Name"}</a></td>
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Name=$LQData{"Name"}">Delete this filter</a></td>
                         </tr>
-                    </tbody>
-
 <!-- dtl:block:OverviewResultRow -->
+                    </tbody>
                 </table>
             </div>
 <!-- dtl:block:OverviewResult -->
