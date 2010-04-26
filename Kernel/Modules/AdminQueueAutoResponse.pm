@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.29 2010-04-26 20:39:54 cr Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.30 2010-04-26 21:33:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,24 +132,9 @@ sub Run {
             Name => 'Overview',
             Data => { %QueueData, %Param, }
         );
-        for ( sort { $QueueData{$a} cmp $QueueData{$b} } keys %QueueData ) {
-            my @Data;
-            my $SQL
-                = "SELECT ar.name, art.name, ar.id FROM "
-                . " auto_response ar, auto_response_type art, queue_auto_response qar "
-                . " WHERE "
-                . " ar.type_id = art.id AND "
-                . " ar.id = qar.auto_response_id AND "
-                . " qar.queue_id = $_ ";
-            $Self->{DBObject}->Prepare( SQL => $SQL );
 
-            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-                my %AutoResponseData;
-                $AutoResponseData{Name} = $Row[0];
-                $AutoResponseData{Type} = $Row[1];
-                $AutoResponseData{ID}   = $Row[2];
-                push( @Data, \%AutoResponseData );
-            }
+        for ( sort { $QueueData{$a} cmp $QueueData{$b} } keys %QueueData ) {
+
             $Self->{LayoutObject}->Block(
                 Name => 'Item',
                 Data => {
@@ -159,19 +144,33 @@ sub Run {
                     %Param,
                 },
             );
-            for my $ResponseData (@Data) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'ItemList',
-                    Data => $ResponseData,
-                );
-            }
-            if ( @Data == 0 ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'ItemNo',
-                    Data => { %Param, }
-                );
-            }
         }
+
+        # Get Auto Response data.
+        my @ResponseData;
+        my $SQL
+            = "SELECT ar.name, art.name, ar.id FROM "
+            . " auto_response ar, auto_response_type art "
+            . " WHERE "
+            . " ar.type_id = art.id "
+            ;
+        $Self->{DBObject}->Prepare( SQL => $SQL );
+
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            my %AutoResponseData;
+            $AutoResponseData{Name} = $Row[0];
+            $AutoResponseData{Type} = $Row[1];
+            $AutoResponseData{ID}   = $Row[2];
+            push( @ResponseData, \%AutoResponseData );
+        }
+
+        for my $ResponseDataItem (@ResponseData) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ItemList',
+                Data => $ResponseDataItem,
+            );
+        }
+
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminQueueAutoResponse',
             Data         => \%Param,

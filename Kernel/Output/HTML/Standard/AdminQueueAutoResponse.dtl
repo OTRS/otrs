@@ -73,7 +73,7 @@
         <div class="WidgetGradient Short MinHeight">
 
             <div class="Header">
-                <h2>$Text{"Options"}</h2>
+                <h2>$Text{"Overview"}</h2>
             </div>
             <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of3">
@@ -93,10 +93,6 @@
 <!-- dtl:block:ItemList -->
                         <li><a href="$Env{"Baselink"}Action=AdminAutoResponse;Subaction=Change;ID=$QData{"ID"}" class="AsBlock">$QData{"Name"} ($QData{"Type"})</a></li>
 <!-- dtl:block:ItemList -->
-<!-- dtl:block:ItemNo -->
-                        <li><span class="Error">-$Text{"none"}-</span></li>
-<!-- dtl:block:ItemNo -->
-
                     </ul>
                 </div>
             </div>
