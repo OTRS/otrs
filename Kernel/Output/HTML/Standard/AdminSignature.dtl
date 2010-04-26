@@ -2,7 +2,7 @@
 # AdminSignature.dtl - provides HTML form for AdminSignature
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.dtl,v 1.4 2010-04-21 23:19:43 mp Exp $
+# $Id: AdminSignature.dtl,v 1.5 2010-04-26 22:52:17 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ $Include{"RichTextEditor"}
     <h1>$Text{"Signature Management"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header"></div>
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="post">
@@ -36,22 +36,29 @@ $Include{"RichTextEditor"}
     </div>
     <div class="ContentColumn">
 <!-- dtl:block:OverviewResult -->
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
-                <table class="DataTable VariableWidth">
+                <table class="DataTable">
                     <thead>
                         <tr>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Comment"}</th>
-                            <th>$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"Valid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
                     </thead>
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan=5>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td>
@@ -69,7 +76,7 @@ $Include{"RichTextEditor"}
         </div>
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Edit"} ($Text{"$QData{"Action"}"}):</h2>
             </div>
@@ -112,7 +119,7 @@ $Include{"RichTextEditor"}
                 </form>
             </div>
         </div>
-        <div class="WidgetGradient Short SpacingTop">
+        <div class="WidgetGradient Short SpacingTop MinHeight">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
             </div>

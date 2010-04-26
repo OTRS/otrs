@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSignature.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.pm,v 1.42 2010-04-15 22:43:11 en Exp $
+# $Id: AdminSignature.pm,v 1.43 2010-04-26 22:52:36 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -273,17 +273,29 @@ sub _Overview {
     );
     my %List = $Self->{SignatureObject}->SignatureList( Valid => 0, );
 
-    # get valid list
-    my %ValidList = $Self->{ValidObject}->ValidList();
-    for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+    # if there are any results, they are shown
+    if (%List) {
 
-        my %Data = $Self->{SignatureObject}->SignatureGet( ID => $_, );
+        # get valid list
+        my %ValidList = $Self->{ValidObject}->ValidList();
+        for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+            my %Data = $Self->{SignatureObject}->SignatureGet( ID => $_, );
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    Valid => $ValidList{ $Data{ValidID} },
+                    %Data,
+                },
+            );
+        }
+    }
+
+    # otherwise a no data message is displayed
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'OverviewResultRow',
-            Data => {
-                Valid => $ValidList{ $Data{ValidID} },
-                %Data,
-            },
+            Name => 'NoDataFoundMsg',
+            Data => {},
         );
     }
     return 1;
