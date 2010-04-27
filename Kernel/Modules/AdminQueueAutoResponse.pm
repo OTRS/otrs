@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.30 2010-04-26 21:33:52 cr Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.31 2010-04-27 15:59:24 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -128,21 +128,33 @@ sub Run {
 
         # get queue data
         my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
+
         $Self->{LayoutObject}->Block(
             Name => 'Overview',
             Data => { %QueueData, %Param, }
         );
 
-        for ( sort { $QueueData{$a} cmp $QueueData{$b} } keys %QueueData ) {
+        # if there are any queues, they are shown
+        if (%QueueData) {
+            for ( sort { $QueueData{$a} cmp $QueueData{$b} } keys %QueueData ) {
 
+                $Self->{LayoutObject}->Block(
+                    Name => 'Item',
+                    Data => {
+                        Queue   => $QueueData{$_},
+                        QueueID => $_,
+                        %QueueData,
+                        %Param,
+                    },
+                );
+            }
+        }
+
+        # otherwise a no data found msg is displayed
+        else {
             $Self->{LayoutObject}->Block(
-                Name => 'Item',
-                Data => {
-                    Queue   => $QueueData{$_},
-                    QueueID => $_,
-                    %QueueData,
-                    %Param,
-                },
+                Name => 'NoQueuesFoundMsg',
+                Data => {},
             );
         }
 
@@ -150,9 +162,9 @@ sub Run {
         my @ResponseData;
         my $SQL
             = "SELECT ar.name, art.name, ar.id FROM "
-            . " auto_response ar, auto_response_type art "
-            . " WHERE "
-            . " ar.type_id = art.id "
+            . " auto_response ar, auto_response_type art, valid "
+            . " WHERE ar.type_id = art.id "
+            . " AND ar.valid_id = valid.id AND valid.name = 'valid'"
             ;
         $Self->{DBObject}->Prepare( SQL => $SQL );
 
@@ -164,10 +176,21 @@ sub Run {
             push( @ResponseData, \%AutoResponseData );
         }
 
-        for my $ResponseDataItem (@ResponseData) {
+        # if there are any auto responses, they are shown
+        if (@ResponseData) {
+            for my $ResponseDataItem (@ResponseData) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ItemList',
+                    Data => $ResponseDataItem,
+                );
+            }
+        }
+
+        # otherwise a no data found msg is displayed
+        else {
             $Self->{LayoutObject}->Block(
-                Name => 'ItemList',
-                Data => $ResponseDataItem,
+                Name => 'NoAutoResponsesFoundMsg',
+                Data => {},
             );
         }
 

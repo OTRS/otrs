@@ -80,6 +80,9 @@
                     <ul class="Tablelike" id="Queues">
                         <li class="Header">$Text{"Queues"}</li>
                         <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
+<!-- dtl:block:NoQueuesFoundMsg -->
+                        <li>$Text{"No data found."}</li>
+<!-- dtl:block:NoQueuesFoundMsg -->
 <!-- dtl:block:Item -->
                         <li><a href="$Env{"Baselink"}Action=AdminQueueAutoResponse;Subaction=Change;ID=$Data{"QueueID"}" class="AsBlock">$QData{"Queue"}</a></li>
 <!-- dtl:block:Item -->
@@ -90,6 +93,9 @@
                     <ul class="Tablelike" id="AutoResponses">
                         <li class="Header">$Text{"Auto Responses"}</li>
                         <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
+<!-- dtl:block:NoAutoResponsesFoundMsg -->
+                        <li>$Text{"No data found."}</li>
+<!-- dtl:block:NoAutoResponsesFoundMsg -->
 <!-- dtl:block:ItemList -->
                         <li><a href="$Env{"Baselink"}Action=AdminAutoResponse;Subaction=Change;ID=$QData{"ID"}" class="AsBlock">$QData{"Name"} ($QData{"Type"})</a></li>
 <!-- dtl:block:ItemList -->
