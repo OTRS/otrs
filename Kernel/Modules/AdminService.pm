@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.25 2010-04-27 16:47:46 en Exp $
+# $Id: AdminService.pm,v 1.26 2010-04-27 18:44:51 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,6 +66,9 @@ sub Run {
             Name => 'Overview',
             Data => { %Param, },
         );
+
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
         # generate ParentOptionStrg
         my $TreeView = 0;
@@ -260,6 +263,9 @@ sub Run {
             Name => 'Overview',
             Data => { %Param, },
         );
+
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
 
         # output overview result
         $Self->{LayoutObject}->Block(

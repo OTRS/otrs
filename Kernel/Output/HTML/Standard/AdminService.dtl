@@ -2,7 +2,7 @@
 # AdminService.dtl - provides HTML form for AdminService
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.18 2010-04-27 16:47:31 en Exp $
+# $Id: AdminService.dtl,v 1.19 2010-04-27 18:51:32 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,27 +14,30 @@
     <h1>$Text{"Service Management"}</h1>
 
     <div class="SidebarColumn">
+<!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-
+                <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="ServiceEdit"/>
-                    <input type="hidden" name="ServiceID" value="NEW"/>
-                    <fieldset>
-
-                        <h2>$Text{"Add Service"}</h2>
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ServiceEdit;ServiceID=NEW" class="CallForAction"><span>$Text{"Add Service"}</span></a>
                         <p class="FieldExplanation">
-                            $Text{"Add a new Service."}
+                            $Text{"Add a Service"}
                         </p>
-                        <button type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
-
-                    </fieldset>
-                </form>
+                    </li>
+<!-- dtl:block:ActionAdd -->
+                </ul>
             </div>
         </div>
+<!-- dtl:block:ActionList -->
     </div>
 
     <div class="ContentColumn">
@@ -163,6 +166,8 @@
 <!-- dtl:block:Item -->
                         <div class="Field SpacingTop">
                             <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>

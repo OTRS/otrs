@@ -2,7 +2,7 @@
 # AdminRole.dtl - provides HTML form for AdminRole
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.dtl,v 1.9 2010-04-22 21:16:56 en Exp $
+# $Id: AdminRole.dtl,v 1.10 2010-04-27 18:45:48 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,6 +119,8 @@
 
                         <div class="Field SpacingTop">
                             <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
