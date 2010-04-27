@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @author      Felix Niklas
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
@@ -137,6 +137,12 @@ body {
     padding: 73px 0 13px;
 }
 
+.Content {
+    padding: 0 10px;
+    background: none;
+    overflow: hidden;
+}
+
 #Slider {
     margin-bottom: 0;
     width: 619px;
@@ -186,11 +192,6 @@ body {
 
 .Pagination a {
     text-decoration: none !important;
-}
-
-.Content {
-    padding: 0 10px;
-    background: none;
 }
 
 .TicketView .Content {
@@ -283,6 +284,36 @@ form span.cke_skin_kama {
 
 #Body.TicketZoom form span.cke_skin_kama {
     width: 570px !important;
+}
+
+/**
+ * @subsection  MessageBox
+ */
+
+.MessageBox {
+    margin: 0 auto;
+    padding: 0;
+    width: 578px;
+    height: 16px;
+    background: none;
+    border: none;
+    position: relative;
+}
+
+.MessageBox p {
+    padding: 24px 21px 2px;
+    color: #777777;
+    text-decoration: underline;
+}
+
+.MessageBox.Notice p,
+.MessageBox.Error p {
+    background-position: 0 23px;
+}
+
+.MessageBox + #Body {
+    margin-top: -16px;
+    padding: 24px 0 3px;
 }
 
 /**
