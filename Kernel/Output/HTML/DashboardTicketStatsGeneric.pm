@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.15 2009-12-31 10:47:25 mn Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.16 2010-04-27 06:47:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -162,12 +162,22 @@ sub Run {
         }
     }
 
-    my $TicketsClosedJSON = $Self->{LayoutObject}->JSONEncode(
-        Data => \@TicketsClosed,
+    #TODO: Translation
+    my @ChartData = (
+        {
+            data  => \@TicketsClosed,
+            label => "Closed",
+            color => "#BF8A2F"
+        },
+        {
+            data  => \@TicketsCreated,
+            label => "Created",
+            color => "#6F98DF"
+        }
     );
 
-    my $TicketsCreatedJSON = $Self->{LayoutObject}->JSONEncode(
-        Data => \@TicketsCreated,
+    my $ChartDataJSON = $Self->{LayoutObject}->JSONEncode(
+        Data => \@ChartData,
     );
 
     my $TicketWeekdaysJSON = $Self->{LayoutObject}->JSONEncode(
@@ -183,8 +193,7 @@ sub Run {
         Data         => {
             %{ $Self->{Config} },
             Key            => int rand 99999,
-            TicketsClosed  => $TicketsClosedJSON,
-            TicketsCreated => $TicketsCreatedJSON,
+            ChartData      => $ChartDataJSON,
             TicketWeekdays => $TicketWeekdaysJSON,
             TicketYAxis    => $TicketYAxisJSON
         },

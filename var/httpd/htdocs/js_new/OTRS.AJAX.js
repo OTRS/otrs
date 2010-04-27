@@ -2,7 +2,7 @@
 // OTRS.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.AJAX.js,v 1.1 2010-04-21 23:07:41 mn Exp $
+// $Id: OTRS.AJAX.js,v 1.2 2010-04-27 06:47:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -107,7 +107,7 @@ OTRS.AJAX = (function (TargetNS) {
         var QueryString = "";
         if ($Element instanceof jQuery && $Element.length) {
             $Element = $Element.closest('form');
-            $Element.find('input:not(:file), textarea, select').filter(':not([disabled=disabled])').each(function(){
+            $Element.find('input:not(:file), textarea, select').filter(':not([disabled=disabled])').each(function () {
                 QueryString += $(this).attr('name') + '=' + encodeURIComponent($(this).val()) + ";";
             });
         }

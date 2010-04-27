@@ -2,7 +2,7 @@
 // OTRS.UI.Tables.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Tables.js,v 1.6 2010-04-22 16:06:35 en Exp $
+// $Id: OTRS.UI.Tables.js,v 1.7 2010-04-27 06:47:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -57,7 +57,7 @@ OTRS.UI.Tables = (function (TargetNS) {
     TargetNS.InitTableFilter = function ($FilterInput, $Container) {
         $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
             window.setTimeout(function () {
-                var FilterText = ($FilterInput.val() || '').toLowerCase(), 
+                var FilterText = ($FilterInput.val() || '').toLowerCase(),
                     $Rows = $Container.find('tbody tr:not(.FilterMessage), li:not(.Header):not(.FilterMessage)');
                 if (FilterText.length) {
                     $Rows
@@ -71,9 +71,9 @@ OTRS.UI.Tables = (function (TargetNS) {
                 else {
                     $Rows.show();
                 }
-                if($Rows.filter(':visible').length) {
+                if ($Rows.filter(':visible').length) {
                     $Container.find('.FilterMessage').hide();
-                } 
+                }
                 else {
                     $Container.find('.FilterMessage').show();
                 }

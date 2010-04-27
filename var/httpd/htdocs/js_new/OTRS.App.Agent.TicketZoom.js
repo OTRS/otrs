@@ -2,7 +2,7 @@
 // OTRS.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Agent.TicketZoom.js,v 1.2 2010-04-20 17:50:02 mn Exp $
+// $Id: OTRS.App.Agent.TicketZoom.js,v 1.3 2010-04-27 06:47:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@ OTRS.App.Agent.TicketZoom = (function (TargetNS) {
         OTRS.UI.Resizable.Init(".ArticleTableBody");
         OTRS.UI.AdjustTableHead($('.ActionRow table thead'), $('.ArticleTableBody table tbody'));
 
-        $(window).resize(function() {
+        $(window).resize(function () {
             OTRS.UI.AdjustTableHead($('.ActionRow table thead'), $('.ArticleTableBody table tbody'));
         });
 

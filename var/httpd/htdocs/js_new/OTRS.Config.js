@@ -2,7 +2,7 @@
 // OTRS.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Config.js,v 1.6 2010-04-21 23:07:41 mn Exp $
+// $Id: OTRS.Config.js,v 1.7 2010-04-27 06:47:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -106,14 +106,13 @@ OTRS.Config = (function (TargetNS) {
                     if (Keys.length === Count + 1) {
                         ConfigLevel[ConfigPrefix + Keys[KeyToken]] = Data;
                     }
-                    else
-                        if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
-                            ConfigLevel[ConfigPrefix + Keys[KeyToken]] = {};
-                            ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
-                        }
-                        else {
-                            ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
-                        }
+                    else if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
+                        ConfigLevel[ConfigPrefix + Keys[KeyToken]] = {};
+                        ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                    }
+                    else {
+                        ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                    }
                     Count++;
                 }
             }

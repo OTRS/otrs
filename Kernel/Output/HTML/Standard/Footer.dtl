@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.40 2010-04-22 18:42:26 mn Exp $
+# $Id: Footer.dtl,v 1.41 2010-04-27 06:47:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,6 +30,10 @@
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-datepicker.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-resizable.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-validate-1.7/jquery.validate.js"></script>
+    <!--[if IE]>
+    <script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}thirdparty/flot/excanvas.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/flot/jquery.flot.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.JavaScriptEnhancements.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Config.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Debug.js"></script>
@@ -52,6 +56,7 @@
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Toolbar.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.ActionRow.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Popup.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Chart.js"></script>
 
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.App.Agent.Dashboard.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.App.Agent.TicketZoom.js"></script>
@@ -59,7 +64,7 @@
 
     <script type="text/javascript">//<![CDATA[
         "use strict";
-        $(document).ready(function () {
+        OTRS.App.Ready(function () {
             OTRS.Config.AddConfig({
                 Baselink: '$Env{"Baselink"}',
                 CGIHandle: '$Env{"CGIHandle"}',
@@ -71,9 +76,7 @@
                 Images: '$Config{"Frontend::ImagePath"}'
             });
             OTRS.App.Init();
-
 <!-- dtl:js_on_document_complete_placeholder -->
-
         });
     //]]></script>
 
@@ -81,7 +84,7 @@
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.IE7Fixes.js"></script>
     <script type="text/javascript">//<![CDATA[
         "use strict";
-        $(document).ready(function () {
+        OTRS.App.Ready(function () {
             OTRS.App.InitIE7();
         });
     //]]></script>

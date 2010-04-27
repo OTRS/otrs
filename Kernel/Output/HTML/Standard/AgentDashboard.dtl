@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.39 2010-04-22 19:11:55 mn Exp $
+# $Id: AgentDashboard.dtl,v 1.40 2010-04-27 06:47:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@
 <!-- dtl:block:ContentSettings -->
                         <li>
                             <span title="$Text{"$QData{"Description"}"}">
-                            <input type="checkbox" name="Backend" value="$QData{"Name"}" $Data{"Checked"}/> $Text{"$QData{"Title"}"}
+                                <input type="checkbox" name="Backend" value="$QData{"Name"}" $Data{"Checked"}/> $Text{"$QData{"Title"}"}
                             </span>
                         </li>
 <!-- dtl:block:ContentSettings -->
@@ -78,7 +78,7 @@
 <!-- dtl:block:ContentSmallPreferencesItemInput -->
                             <label>$Text{"$QData{"Desc"}"}:</label>
                             <div class="Field">
-                                <input type="text" size="$QData{"Size"}" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
+                                <input type="text" class="W100pc" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:ContentSmallPreferencesItemInput -->
@@ -148,7 +148,7 @@
 <!-- dtl:block:ContentLargePreferencesItemInput -->
                             <label>$Text{"$QData{"Desc"}"}:</label>
                             <div class="Field">
-                                <input type="text" size="$QData{"Size"}" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
+                                <input type="text" class="W100pc" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:ContentLargePreferencesItemInput -->

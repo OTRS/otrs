@@ -2,142 +2,15 @@
 # AgentDashboardTicketStats.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketStats.dtl,v 1.13 2010-04-22 18:06:49 mn Exp $
+# $Id: AgentDashboardTicketStats.dtl,v 1.14 2010-04-27 06:47:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!--dtl:js_on_document_complete-->
-#<!--[if IE]><script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}thirdparty/flot/excanvas.min.js"></script><![endif]-->
-#<script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}thirdparty/flot/jquery.flot.min.js"></script>
-#
-#<script type="text/javascript">//<![CDATA[
-#var TooltipTimeout = 500;
-#var TooltipCoordinatesDelta = 10;
-#var ChartTooltipTimeout;
-#var PageCoordinates, ChartPageCoordinates;
-#var PreviousPoint = null;
-#function RemoveChartTooltip() {
-#    // remove chart tooltip only when mouse is moved away
-#    if (
-#        PageCoordinates[0] > ChartPageCoordinates[0] - TooltipCoordinatesDelta
-#        && PageCoordinates[0] < ChartPageCoordinates[0] + TooltipCoordinatesDelta
-#        && PageCoordinates[1] > ChartPageCoordinates[1] - TooltipCoordinatesDelta
-#        && PageCoordinates[1] < ChartPageCoordinates[1] + TooltipCoordinatesDelta
-#       ) {
-#        window.clearTimeout(ChartTooltipTimeout);
-#        ChartTooltipTimeout = window.setTimeout("RemoveChartTooltip();", TooltipTimeout);
-#    }
-#    else {
-#        $("#charttooltip").remove();
-#        ChartPageCoordinates = null;
-#        PreviousPoint = null;
-#    }
-#}
-#
-#$(document).ready(function() {
-#    var TicketsClosed = $Data{"TicketsClosed"};
-#    var TicketsCreated = $Data{"TicketsCreated"};
-#    var TicksXAxis = $Data{"TicketWeekdays"};
-#    var TicksYAxis = $Data{"TicketYAxis"};
-#
-#    var plot = $.plot($("#chart$QData{"Key"}"),
-#            [
-#                {
-#                    data: TicketsClosed,
-#                    label: "$Text{"Closed"}",
-#                    color: "#BF8A2F"
-#                },
-#                {
-#                    data: TicketsCreated,
-#                    label: "$Text{"Created"}",
-#                    color: "#6F98DF"
-#                }
-#            ],
-#            {
-#                series: {
-#                    lines: {
-#                        show: true,
-#                        lineWidth: 6
-#                    },
-#                    points: {
-#                        show: true
-#                    }
-#                },
-#                grid: {
-#                    hoverable: true,
-#                    clickable: false,
-#                    backgroundColor: {
-#                        colors: ["#FFF", "#CCC"]
-#                    }
-#                },
-#                legend: {
-#                    show: false
-#                },
-#                xaxis: {
-#                    ticks: TicksXAxis
-#                },
-#                yaxis: {
-#                    min: 0,
-#                    tickDecimals: 0,
-#                    ticks: TicksYAxis
-#                }
-#            }
-#    );
-#
-#    function showTooltip(x, y, contents) {
-#        var top = y + 5;
-#        var left = x + 5;
-#        var windowwidth = $(window).width();
-#        var windowheight = $(window).height();
-#
-#        //check if x,y are at the right end of the window
-#        if ( x > (windowwidth - 100)) {
-#            left = x - 100;
-#        }
-#
-#        if ( y > (windowheight - 100)) {
-#            top = y - 20;
-#        }
-#
-#        $('<div id="charttooltip">' + contents + '</div>').css( {
-#            top: top,
-#            left: left
-#        }).appendTo("body").fadeIn(200);
-#    }
-#
-#    $("#chart$QData{"Key"}").bind("plothover", function (event, pos, item) {
-#        if (item) {
-#            ChartPageCoordinates = [ item.pageX, item.pageY ];
-#            if (!PreviousPoint || PreviousPoint[0] != item.datapoint[0] || PreviousPoint[1] != item.datapoint[1]) {
-#                PreviousPoint = item.datapoint;
-#
-#                window.clearTimeout(ChartTooltipTimeout);
-#                $("#charttooltip").remove();
-#                var x = item.datapoint[0];
-#                var y = item.datapoint[1];
-#
-#                showTooltip(item.pageX, item.pageY,
-#                    item.series.label + " " + plot.getAxes().xaxis.ticks[x].label + ": " + y);
-#
-#                // set timeout to remove tooltip
-#                ChartTooltipTimeout = window.setTimeout("RemoveChartTooltip();", TooltipTimeout);
-#            }
-#            else if (PreviousPoint[0] == item.datapoint[0] && PreviousPoint[1] == item.datapoint[1]) {
-#                window.clearTimeout(ChartTooltipTimeout);
-#                ChartTooltipTimeout = window.setTimeout("RemoveChartTooltip();", TooltipTimeout);
-#            }
-#        }
-#    });
-#
-#    // track mouse position
-#   $().mousemove(function(e){
-#      PageCoordinates = [ e.pageX, e.pageY ];
-#   });
-#});
-#//]]></script>
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.Chart.DrawLineChart('Chart$QData{"Key"}', $Data{"ChartData"}, $Data{"TicketWeekdays"}, $Data{"TicketYAxis"});
+//]]></script>
 <!--dtl:js_on_document_complete-->
-<div class="chart">
-    <div id="chart$QData{"Key"}" class="drawingarea"></div>
-</div>
+<div id="Chart$QData{"Key"}" class="Chart"></div>
