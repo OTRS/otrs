@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.5 2010-04-26 21:37:19 en Exp $
+# $Id: AdminSystemAddress.dtl,v 1.6 2010-04-27 16:43:18 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,24 +14,31 @@
     <h1>$Text{"System Email Addresses Management"}</h1>
 
     <div class="SidebarColumn">
+<!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-
+                <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Add"/>
-                    <fieldset>
-                        <h2>$Text{"Add system address"}</h2>
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add System Address"}</span></a>
                         <p class="FieldExplanation">
-                            $Text{"Add a new system address."}
+                            $Text{"Add a System Address"}
                         </p>
-                        <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
-                    </fieldset>
-                </form>
+                    </li>
+<!-- dtl:block:ActionAdd -->
+                </ul>
             </div>
         </div>
+<!-- dtl:block:ActionList -->
+
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
