@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.40 2010-03-25 14:42:45 martin Exp $
+# $Id: AutoResponse.pm,v 1.41 2010-04-27 20:34:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -288,6 +288,39 @@ sub AutoResponseUpdate {
     return 1;
 }
 
+=item AutoResponseGetByTypeQueueID()
+
+get a hash with data from Auto Response and it's corresponding System Address
+
+    my %QueueAddressData = $AutoResponseObject->AutoResponseGetByTypeQueueID(
+        QueueID => 3,
+        Type    => 'auto reply/new ticket',
+    );
+
+Return example:
+
+    %QueueAddressData{
+        #Auto Response Data
+        'Text'            => 'Your OTRS TeamOTRS! answered by a human asap.',
+        'Subject'         => 'New ticket has been created! (RE: <OTRS_CUSTOMER_SUBJECT[24]>)',
+        'Charset'         => 'iso-8859-1',
+        'ContentType'     => 'text/plain',
+        'SystemAddressID' => '1',
+
+        #System Address Data
+        'ID'              => '1',
+        'Name'            => 'otrs@localhost',
+        'Address'         => 'otrs@localhost',  #Compatibility with OTRS 2.1
+        'Realname'        => 'OTRS System',
+        'Comment'         => 'Standard Address.',
+        'ValidID'         => '1',
+        'QueueID'         => '1',
+        'CreateTime'      => '2010-03-16 21:24:03',
+        'ChangeTime'      => '2010-03-16 21:24:03',
+    };
+
+=cut
+
 sub AutoResponseGetByTypeQueueID {
     my ( $Self, %Param ) = @_;
 
@@ -333,6 +366,22 @@ sub AutoResponseGetByTypeQueueID {
     return ( %Adresss, %Data );
 }
 
+=item AutoResponseList()
+
+get a list of the Auto Responses
+
+    my %AutoResponse = $AutoResponseObject->AutoResponseList();
+
+Return example:
+
+    $AutoResponse = {
+        '1' => 'default reply (after new ticket has been created) ( 1 )',
+        '2' => 'default reject (after follow up and rejected of a closed ticket) ( 2 )',
+        '3' => 'default follow up (after a ticket follow up has been added) ( 3 )',
+    };
+
+=cut
+
 sub AutoResponseList {
     my ( $Self, %Param ) = @_;
 
@@ -344,6 +393,24 @@ sub AutoResponseList {
     );
 }
 
+=item AutoResponseTypeList()
+
+get a list of the Auto Response Types
+
+    my %AutoResponseType = $AutoResponseObject->AutoResponseTypeList();
+
+Return example:
+
+    $AutoResponseType = {
+        '1' => 'auto reply',
+        '2' => 'auto reject',
+        '3' => 'auto follow up',
+        '4' => 'auto reply/new ticket',
+        '5' => 'auto remove',
+    };
+
+=cut
+
 sub AutoResponseTypeList {
     my ( $Self, %Param ) = @_;
 
@@ -354,6 +421,20 @@ sub AutoResponseTypeList {
         Table => 'auto_response_type',
     );
 }
+
+=item AutoResponseQueue()
+
+assigns a list of autoresponses to a queue
+
+    my @AutoResponseIDs = (1,2,3);
+
+    $AutoResponseObject->AutoResponseQueue(
+        QueueID         => 1,
+        AutoResponseIDs => \@AutoResponseIDs,
+        UserID          => 1,
+    );
+
+=cut
 
 sub AutoResponseQueue {
     my ( $Self, %Param ) = @_;
@@ -444,6 +525,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2010-03-25 14:42:45 $
+$Revision: 1.41 $ $Date: 2010-04-27 20:34:22 $
 
 =cut
