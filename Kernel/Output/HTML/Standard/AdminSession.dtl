@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.27 2010-04-15 16:34:39 mn Exp $
+# $Id: AdminSession.dtl,v 1.28 2010-04-27 20:54:13 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <h1>$Text{"Session Management"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header"></div>
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="post">
@@ -54,7 +54,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
