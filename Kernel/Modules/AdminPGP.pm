@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.pm,v 1.28 2010-04-26 17:49:41 en Exp $
+# $Id: AdminPGP.pm,v 1.29 2010-04-27 01:05:47 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -104,6 +104,10 @@ sub Run {
             );
         }
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
+
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
         $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -158,6 +162,10 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
+
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
         $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -229,11 +237,7 @@ sub Run {
             for my $Key (@List) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Row',
-                    Data => {
-                        StartFont => '<font color ="red">',
-                        StopFont  => '</font>',
-                        %{$Key},
-                    },
+                    Data => { %{$Key} },
                 );
             }
         }
@@ -259,6 +263,11 @@ sub Run {
                 Data     => '$Text{"' . $Self->{CryptObject}->Check() . '"}',
             );
         }
+
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
+        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+
         $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

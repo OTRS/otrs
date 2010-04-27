@@ -2,7 +2,7 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.4 2010-04-26 17:49:20 en Exp $
+# $Id: AdminPGP.dtl,v 1.5 2010-04-27 01:05:47 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,49 +13,51 @@
     <h1>$Text{"PGP Management"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
-            <div class="Header"></div>
+
+<!-- dtl:block:ActionList-->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header"><h2>$Text{"Actions"}</h2></div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Search"/>
-                    <h2>$Text{"Search"}</h2>
-                    <fieldset class="TableLike">
-                        <label for="Search">$Text{"Search for"}:</label>
-                        <div class="Field">
-                            <input type="text" name="Search" id="Search" value="$QData{"Search"}" class="W50pc" maxlength="25"/>
-                        </div>
-                        <div class="Clear"></div>
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
 
-                        <div class="Field">
+<!-- dtl:block:ActionSearch-->
+                    <li>
+                        <form class="SearchBox" action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="Search"/>
+                            <input type="text" name="Search" id="Search" value="$QData{"Search"}" />
                             <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
-                        </div>
-                        <div class="Clear"></div>
+                            <div class="clear"></div>
+                        </form>
+                    </li>
+<!-- dtl:block:ActionSearch-->
 
-                    </fieldset>
-                </form>
-                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Add"/>
-                    <h2>$Text{"Add"}</h2>
-                    <div class="Content">
-                        <fieldset class="TableLike">
-                            <label for="file_upload">$Text{"File"}:</label>
-                            <div class="Field">
-                                <input type="file" size="4" name="file_upload" id="file_upload" />
+<!-- dtl:block:ActionAdd-->
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="Add"/>
+                            <input type="file" size="16" name="file_upload" id="file_upload" />
+                            <div class="Element">
+                                <button class="button" type="submit" value="$Text{"Add PGP File"}">$Text{"Add PGP File"}</button>
                             </div>
-                            <div class="Clear"></div>
+                        </form>
+                    </li>
+<!-- dtl:block:ActionAdd-->
 
-                            <div class="Field">
-                                <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
-                            </div>
-                            <div class="Clear"></div>
+<!-- dtl:block:ActionList -->
+                </ul>
+            </div>
+        </div>
 
-                        </fieldset>
-                    </div>
-                </form>
-
-                <h2>$Text{"Note"}</h2>
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header"><h2>$Text{"Note"}</h2></div>
+            <div class="Content">
                 <p class="FieldExplanation">
                     $Text{"In this way you can directly edit the keyring configured in SysConfig."}
                 </p>
@@ -64,6 +66,7 @@
                 </p>
             </div>
         </div>
+
     </div>
 
     <div class="ContentColumn">
