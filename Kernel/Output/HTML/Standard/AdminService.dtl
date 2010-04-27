@@ -2,7 +2,7 @@
 # AdminService.dtl - provides HTML form for AdminService
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.17 2010-04-15 17:53:52 mn Exp $
+# $Id: AdminService.dtl,v 1.18 2010-04-27 16:47:31 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <h1>$Text{"Service Management"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
 
             </div>
@@ -38,25 +38,38 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Medium">
+        <div class="WidgetGradient Medium MinHeight">
 <!-- dtl:block:OverviewList -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
 
-                <table class="DataTable VariableWidth">
+                <table class="DataTable">
                     <thead>
                         <tr>
                             <th>$Text{"Service"}</th>
-                            <th>$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"Comment"}</th>
+                            <th>$Text{"Valid"}</th>
+                            <th>$Text{"Changed"}</th>
+                            <th>$Text{"Created"}</th>
                         </tr>
                     </thead>
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan=5>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewListRow -->
                         <tr>
                             <td>$Data{"LevelSpace"}<a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ServiceEdit;ServiceID=$QData{"ServiceID"}">$QData{"Name"}</a></td>
+                            <td title="$QData{"Comment"}">$QData{"Comment","20"}</td>
                             <td>$Text{"$QData{"Valid"}"}</td>
+                            <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
+                            <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                         </tr>
 <!-- dtl:block:OverviewListRow -->
                     </tbody>

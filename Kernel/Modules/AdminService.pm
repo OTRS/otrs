@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.24 2010-04-13 21:04:15 cg Exp $
+# $Id: AdminService.pm,v 1.25 2010-04-27 16:47:46 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -273,51 +273,64 @@ sub Run {
             UserID => $Self->{UserID},
         );
 
-        # get valid list
-        my %ValidList = $Self->{ValidObject}->ValidList();
+        # if there are any services defined, they are shown
+        if (%ServiceList) {
 
-        # add suffix for correct sorting
-        for ( keys %ServiceList ) {
-            $ServiceList{$_} .= '::';
+            # get valid list
+            my %ValidList = $Self->{ValidObject}->ValidList();
+
+            # add suffix for correct sorting
+            for ( keys %ServiceList ) {
+                $ServiceList{$_} .= '::';
+            }
+            for my $ServiceID ( sort { $ServiceList{$a} cmp $ServiceList{$b} } keys %ServiceList ) {
+
+                # get service data
+                my %ServiceData = $Self->{ServiceObject}->ServiceGet(
+                    ServiceID => $ServiceID,
+                    UserID    => $Self->{UserID},
+                );
+
+                # output row
+                if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+
+                    # calculate level space
+                    my @Fragment   = split '::', $ServiceData{Name};
+                    my $Level      = scalar @Fragment - 1;
+                    my $LevelSpace = '&nbsp;&nbsp;&nbsp;&nbsp;' x $Level;
+
+                    # output row
+                    $Self->{LayoutObject}->Block(
+                        Name => 'OverviewListRow',
+                        Data => {
+                            %ServiceData,
+                            LevelSpace => $LevelSpace,
+                            Name       => $ServiceData{NameShort},
+                            Valid      => $ValidList{ $ServiceData{ValidID} },
+                        },
+                    );
+                }
+                else {
+
+                    # output row
+                    $Self->{LayoutObject}->Block(
+                        Name => 'OverviewListRow',
+                        Data => {
+                            %ServiceData,
+                            Valid => $ValidList{ $ServiceData{ValidID} },
+                        },
+                    );
+                }
+            }
+
         }
-        for my $ServiceID ( sort { $ServiceList{$a} cmp $ServiceList{$b} } keys %ServiceList ) {
 
-            # get service data
-            my %ServiceData = $Self->{ServiceObject}->ServiceGet(
-                ServiceID => $ServiceID,
-                UserID    => $Self->{UserID},
+        # otherwise a no data found msg is displayed
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'NoDataFoundMsg',
+                Data => {},
             );
-
-            # output row
-            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-
-                # calculate level space
-                my @Fragment   = split '::', $ServiceData{Name};
-                my $Level      = scalar @Fragment - 1;
-                my $LevelSpace = '&nbsp;&nbsp;&nbsp;&nbsp;' x $Level;
-
-                # output row
-                $Self->{LayoutObject}->Block(
-                    Name => 'OverviewListRow',
-                    Data => {
-                        %ServiceData,
-                        LevelSpace => $LevelSpace,
-                        Name       => $ServiceData{NameShort},
-                        Valid      => $ValidList{ $ServiceData{ValidID} },
-                    },
-                );
-            }
-            else {
-
-                # output row
-                $Self->{LayoutObject}->Block(
-                    Name => 'OverviewListRow',
-                    Data => {
-                        %ServiceData,
-                        Valid => $ValidList{ $ServiceData{ValidID} },
-                    },
-                );
-            }
         }
 
         # generate output
