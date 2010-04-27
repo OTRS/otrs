@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPriority.pm - admin frontend of ticket priority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.pm,v 1.6 2010-04-12 22:57:45 dz Exp $
+# $Id: AdminPriority.pm,v 1.7 2010-04-27 18:33:26 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,24 +169,36 @@ sub Run {
             UserID => $Self->{UserID},
         );
 
-        # get valid list
-        my %ValidList = $Self->{ValidObject}->ValidList();
+        # if there are any priorities defined, they are shown
+        if (%PriorityList) {
 
-        for my $PriorityID ( sort { $a <=> $b } keys %PriorityList ) {
+            # get valid list
+            my %ValidList = $Self->{ValidObject}->ValidList();
 
-            # get priority data
-            my %PriorityData = $Self->{PriorityObject}->PriorityGet(
-                PriorityID => $PriorityID,
-                UserID     => $Self->{UserID},
-            );
+            for my $PriorityID ( sort { $a <=> $b } keys %PriorityList ) {
 
-            $Self->{LayoutObject}->Block(
-                Name => 'OverviewListRow',
-                Data => {
-                    %PriorityData,
+                # get priority data
+                my %PriorityData = $Self->{PriorityObject}->PriorityGet(
                     PriorityID => $PriorityID,
-                    Valid      => $ValidList{ $PriorityData{ValidID} },
-                },
+                    UserID     => $Self->{UserID},
+                );
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'OverviewListRow',
+                    Data => {
+                        %PriorityData,
+                        PriorityID => $PriorityID,
+                        Valid      => $ValidList{ $PriorityData{ValidID} },
+                    },
+                );
+            }
+        }
+
+        # otherwise a no data found msg is displayed
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'NoDataFoundMsg',
+                Data => {},
             );
         }
 
