@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.53 2010-04-21 21:13:53 mp Exp $
+# $Id: AdminGenericAgent.dtl,v 1.54 2010-04-27 20:23:16 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,12 +11,9 @@
 <!-- start form -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Generic Agent"}</h1>
-
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
-            <div class="Header">
-
-            </div>
+        <div class="WidgetGradient Short MinMeight">
+            <div class="Header"></div>
             <div class="Content">
 <!-- dtl:block:AddNew -->
                 <form action="$Env{"CGIHandle"}" method="post">
@@ -51,7 +48,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinMeight">
 
 <!-- dtl:block:Overview -->
 
@@ -59,34 +56,41 @@
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
-                <table class="DataTable VariableWidth">
+                <table class="DataTable">
                     <thead>
                         <tr>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Last run"}</th>
-                            <th>$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"Valid"}</th>
                             <th>$Text{"Delete"}</th>
                             <th>$Text{"Run Now!"}</th>
                         </tr>
                     </thead>
+<!-- dtl:block:NoDataFoundMsg -->
+                    <tr>
+                        <td colspan=5>
+                            $Text{"No data found."}
+                        </td>
+                    </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:Row -->
                     <tbody>
                         <tr>
                             <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update;Profile=$LQData{"Name"}" class="$QData{"cssValid"}">
-                                $QData{"Name"}
+                                    $QData{"Name"}
                                 </a>
                             </td>
                             <td>$TimeLong{"$QData{"ScheduleLastRun"}"}</td>
                             <td>$Text{"$QData{"ShownValid"}"}</td>
                             <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"}&;Subaction=Delete;Profile=$LQData{"Name"}">
-                                $Text{"Delete this task"}
+                                    $Text{"Delete this task"}
                                 </a>
                             </td>
                             <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow;Profile=$LQData{"Name"}">
-                                $Text{"Run this task"}
+                                    $Text{"Run this task"}
                                 </a>
                             </td>
                         </tr>
@@ -132,8 +136,8 @@
 <!-- dtl:block:JobScheduleWarning-->
                         <div class="Field">
                             <span class="Error">
-                            $Text{"Currently this generic agent job will not run automatically."}
-                            $Text{"To enable automatic execution select at least one value from minutes, hours and days!"}
+                                $Text{"Currently this generic agent job will not run automatically."}
+                                $Text{"To enable automatic execution select at least one value from minutes, hours and days!"}
                             </span>
                         </div>
                         <div class="Clear"></div>
@@ -141,7 +145,7 @@
                     </fieldset>
                 </div>
 
-                <div class="WidgetGradient Short SpacingTop">
+                <div class="WidgetGradient Short SpacingTop MinMeight">
                     <div class="Header">
                         <h2>$Text{"Ticket Filter"}</h2>
                     </div>
@@ -427,7 +431,7 @@
                     </div>
                 </div>
 <!-- new options -->
-                <div class="WidgetGradient Short SpacingTop">
+                <div class="WidgetGradient Short SpacingTop MinMeight">
                     <div class="Header">
                         <h2>$Text{"Ticket Action"}</h2>
                     </div>
@@ -514,7 +518,7 @@
                         </fieldset>
                     </div>
                 </div>
-                <div class="WidgetGradient Short SpacingTop">
+                <div class="WidgetGradient Short SpacingTop MinMeight">
                     <div class="Header">
                         <h2>$Text{"Ticket Add Note"}</h2>
                     </div>
@@ -554,7 +558,7 @@
                     </div>
                 </div>
 
-                <div class="WidgetGradient Short SpacingTop">
+                <div class="WidgetGradient Short SpacingTop MinMeight">
                     <div class="Header">
                         <h2>$Text{"Ticket Comands"}</h2>
                     </div>
@@ -579,7 +583,7 @@
                             <div class="Field">
                                 $Data{"DeleteOption"}
                                 <span class="Error">
-                                ($Text{"Warning! This tickets will be removed from the database! This tickets are lost!"})
+                                    ($Text{"Warning! This tickets will be removed from the database! This tickets are lost!"})
                                 </span>
                             </div>
                             <div class="Clear"></div>
@@ -587,7 +591,7 @@
                     </div>
                 </div>
 
-                <div class="WidgetGradient Short SpacingTop">
+                <div class="WidgetGradient Short SpacingTop MinMeight">
                     <div class="Header">
                         <h2>$Text{"Execute Customer Module"}</h2>
                     </div>
@@ -646,8 +650,6 @@
                                 <input type="text" name="NewParamValue6" id="NewParamValue6" value="$QData{"NewParamValue6"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
-
-
                         </fieldset>
                     </div>
                 </div>
@@ -670,24 +672,22 @@
                 </p>
 
                 <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update;Profile=$LQData{"Name"}">
-                <span>$Text{"Edit Job"}</span>
+                    <span>$Text{"Edit Job"}</span>
                 </a>
                 <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow;Profile=$LQData{"Name"}">
-                <span>$Text{"Run Job"}</span>
+                    <span>$Text{"Run Job"}</span>
                 </a>
                 <a href="$Env{"Baselink"}Action=$Env{"Action"}">
-                $Text{"Cancel"}
+                    $Text{"Cancel"}
                 </a>
             </div>
-
 <!-- dtl:block:ResultBlock -->
-
-            <div class="WidgetGradient Short SpacingTop">
+            <div class="WidgetGradient Short SpacingTop MinMeight">
                 <div class="Header">
                     <h2>$Text{"Affected Tickets"}</h2>
                 </div>
                 <div class="Content">
-                    <table class="DataTable VariableWidth">
+                    <table class="DataTable">
                         <thead>
                             <tr>
                                 <th>$Config{"Ticket::Hook"}</th>
@@ -704,7 +704,7 @@
                             <tr>
                                 <td>
                                     <a class="AsBlock" href="$Env{"Baselink"};Action=AgentTicketZoom;TicketID=$QData{"TicketID"}">
-                                    $QData{"TicketNumber"}
+                                        $QData{"TicketNumber"}
                                     </a>
                                 </td>
                                 <td>$QData{"Age"}</td>
@@ -714,7 +714,7 @@
                                 <td>$QData{"Owner","30"}($QData{"UserFirstname"} $QData{"UserLastname"})</td>
                                 <td>
                                     <a class="AsBlock" href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$QData{"TicketID"}">
-                                    $Quote{"$Data{"CustomerID"}","15"}
+                                        $Quote{"$Data{"CustomerID"}","15"}
                                     </a>
                                 </td>
                             </tr>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.81 2010-04-26 15:03:48 dz Exp $
+# $Id: AdminGenericAgent.pm,v 1.82 2010-04-27 20:23:42 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1000,24 +1000,36 @@ sub Run {
     # ---------------------------------------------------------- #
     $Self->{LayoutObject}->Block( Name => 'AddNew', );
     $Self->{LayoutObject}->Block( Name => 'Overview', );
-    my %Jobs    = $Self->{GenericAgentObject}->JobList();
-    my $Counter = 1;
-    for ( sort keys %Jobs ) {
-        my %JobData = $Self->{GenericAgentObject}->JobGet( Name => $_ );
+    my %Jobs = $Self->{GenericAgentObject}->JobList();
 
-        # css setting and text for valid or invalid jobs
-        if ( $JobData{Valid} ) {
-            $JobData{ShownValid} = 'valid';
+    # if there are any data, it is shown
+    if (%Jobs) {
+        my $Counter = 1;
+        for ( sort keys %Jobs ) {
+            my %JobData = $Self->{GenericAgentObject}->JobGet( Name => $_ );
+
+            # css setting and text for valid or invalid jobs
+            if ( $JobData{Valid} ) {
+                $JobData{ShownValid} = 'valid';
+            }
+            else {
+                $JobData{ShownValid} = 'invalid';
+            }
+
+            # seperate each searchresult line by using several css
+
+            $Self->{LayoutObject}->Block(
+                Name => 'Row',
+                Data => {%JobData},
+            );
         }
-        else {
-            $JobData{ShownValid} = 'invalid';
-        }
+    }
 
-        # seperate each searchresult line by using several css
-
+    # otherwise a no data found msg is displayed
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'Row',
-            Data => {%JobData},
+            Name => 'NoDataFoundMsg',
+            Data => {},
         );
     }
 
