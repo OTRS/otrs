@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -17,7 +17,6 @@
 #Header,
 .ControlRow,
 .ActionRow,
-.MessageFooter,
 .Flag,
 .Print,
 #Footer {
@@ -31,7 +30,7 @@
 .Content,
 .Header,
 .Metadata,
-.MessageHead,
+.MessageHeader,
 .MessageBody,
 .Details {
   width: auto !important;
@@ -39,12 +38,7 @@
   padding: 0 !important;
 }
 
-.Right {
-    margin: 13px 0 !important;
-    float: none !important;
-}
-
-.MessageHead h3 {
+.MessageHeader h3 {
     font-weight: 18px !important;
 }
 

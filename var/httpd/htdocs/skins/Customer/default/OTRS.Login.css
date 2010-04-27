@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -91,14 +91,13 @@
  */
 
 .Floating > div {
-    margin-right: 5px;
+    margin: 2px 5px 2px 0;
     position: relative;
     float: left;
 }
 
 .RTL .Floating > div {
-    margin-right: auto;
-    margin-left: 5px;
+    margin: 2px 0 2px 5px;
 }
 
 .Floating button {
@@ -121,42 +120,18 @@
     font-size: 14px;
     line-height: 14px;
     position: absolute;
-    z-index: -1;
+    z-index: 1;
 }
 
 .Js .Login input {
     margin: 0;
+    position: relative;
+    z-index: 10;
 }
 
 .Option {
     padding: 0 2px 3px;
     line-height: 21px;
-}
-
-.Option input,
-.Js .Login .Option input { 
-    width: 13px;
-    padding: 0;
-    margin: 3px 1px;
-    border: none;
-    vertical-align: top;
-    display: inline;
-}
-
-.Option label,
-.Js .Login .Option label {
-    margin: 0;
-    padding: 0;
-    font-size: 12px;
-    color: #000;
-    position: static;
-}
-
-.Small {
-    margin-top: 5px;
-    padding-top: 1px;
-    font: 11px/1.5 Helvetica,Arial,sans-serif;
-    color: #66665C;
 }
 
 /**
@@ -185,12 +160,6 @@
  * @note        Error fields for forms
  */
 
-input.Error {
-    margin-left: -1px;
-    margin-top: -1px;
-    border: 2px solid #F00;
-}
-
 .ErrorBox {
     max-width: 400px;
     margin: -13px 136px 20px;
@@ -209,18 +178,4 @@ input.Error {
     -moz-box-shadow: 1px 1px 0 #DDD;
     -webkit-box-shadow: 1px 1px 0 #DDD;
     cursor: default;
-}
-
-span.Error {
-    top: 26px;
-    right: 0;
-    margin: 0 6px;
-    padding: 1px 5px;
-    font-size: 11px;
-    color: #FFF;
-    background: #F00;
-    position: absolute;
-    -moz-border-radius: 0 0 3px 3px;
-    -webkit-border-radius: 0 0 3px 3px;
-    border-radius: 0 0 3px 3px;
 }

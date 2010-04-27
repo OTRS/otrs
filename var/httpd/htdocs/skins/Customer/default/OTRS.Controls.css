@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -111,25 +111,6 @@
 
 .RTL .ControlRow .Tabs .Selected a {
     background-position: left;
-}
-
-.ControlRow .Tabs a span {
-    padding-left: 4px;
-}
-
-/**
- * @subsection  Context Functions
- */
-.ContextFunctions {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-}
-
-ul.ContextFunctions li {
-    float: left;
-    margin-left: -3px;
-    padding-left: 3px;
 }
 
 /**
