@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -125,14 +125,10 @@ table.Overview {
  * @subsection  Table Style Hovered
  */
 .Overview tbody tr:hover td {
-    background-image: url(img/tr_hover.png);
-    background-repeat: repeat-x;
-    background-position: top;
+    background: url(img/tr_hover.png) repeat-x top;
 }
 .Overview tbody tr:hover + tr td {
-    background-image: url(img/tr_hover_next_bg.png);
-    background-repeat: repeat-x;
-    background-position: 0 0;
+    background: url(img/tr_hover_next_bg.png) repeat-x 0 0;
 }
 .Overview tbody tr:hover td,
 .Overview tbody tr:hover a {
@@ -148,8 +144,6 @@ table.Overview {
  */
 .Overview tbody tr:focus td,
 .Overview tbody tr:active td {
-    background-image: url(img/tr_hover.png);
-    background-repreat: repeat-x;
-    background-position: 0 -25px;
+    background: url(img/tr_hover.png) repeat-x 0 -25px;
     padding: 4px 8px 0;
 }
