@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminState.pm - to add/update/delete state
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.pm,v 1.31 2010-03-27 20:47:13 martin Exp $
+# $Id: AdminState.pm,v 1.32 2010-04-27 16:48:15 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -229,17 +229,29 @@ sub _Overview {
         Valid  => 0,
     );
 
-    # get valid list
-    my %ValidList = $Self->{ValidObject}->ValidList();
-    for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+    # if there are any states, they are shown
+    if (%List) {
 
-        my %Data = $Self->{StateObject}->StateGet( ID => $_, );
+        # get valid list
+        my %ValidList = $Self->{ValidObject}->ValidList();
+        for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+            my %Data = $Self->{StateObject}->StateGet( ID => $_, );
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    Valid => $ValidList{ $Data{ValidID} },
+                    %Data,
+                },
+            );
+        }
+    }
+
+    # otherwise a no data found msg is displayed
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'OverviewResultRow',
-            Data => {
-                Valid => $ValidList{ $Data{ValidID} },
-                %Data,
-            },
+            Name => 'NoDataFoundMsg',
+            Data => {},
         );
     }
     return 1;
