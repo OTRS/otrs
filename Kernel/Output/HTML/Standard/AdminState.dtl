@@ -2,7 +2,7 @@
 # AdminState.dtl - provides HTML form for AdminState
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.dtl,v 1.6 2010-04-27 16:47:59 en Exp $
+# $Id: AdminState.dtl,v 1.7 2010-04-27 22:12:23 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,31 +14,51 @@
     <h1>$Text{"State Management"}</h1>
 
     <div class="SidebarColumn">
+
+<!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-
+                <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Add"/>
-                    <fieldset>
-                        <h2>$Text{"Add State"}</h2>
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add State"}</span></a>
                         <p class="FieldExplanation">
-                            $Text{"Add a new State."}
+                            $Text{"Add a State"}
                         </p>
-                        <button type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
+                    </li>
+<!-- dtl:block:ActionAdd -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
 
-                        <h2 class="SpacingTop">$Text{"Note"}</h2>
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2 class="SpacingTop">$Text{"Note"}</h2>
+            </div>
+            <div class="Content">
+
+                <ul class="ActionList">
+                    <li>
                         <p>
                             $Text{"Attention"}: $Text{"Take care that you also updated the default states in you Kernel/Config.pm!"}
                         </p>
+                    </li>
+                    <li>
                         <p class="FieldExplanation">
                             $Text{"See also"}: <a href="http://doc.otrs.org" target="doc">http://doc.otrs.org</a>
                         </p>
+                    </li>
+                </ul>
 
-                    </fieldset>
-                </form>
             </div>
         </div>
     </div>
@@ -124,6 +144,8 @@
 
                         <div class="Field SpacingTop">
                             <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
