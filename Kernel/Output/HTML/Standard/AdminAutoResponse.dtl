@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.dtl,v 1.8 2010-04-26 22:02:25 en Exp $
+# $Id: AdminAutoResponse.dtl,v 1.9 2010-04-27 20:57:34 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,24 +14,33 @@
     <h1>$Text{"Auto Response Management"}</h1>
 
     <div class="SidebarColumn">
+<!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short MinHeight">
-            <div class="Header"></div>
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Add"/>
-                    <fieldset>
-
-                        <h2>$Text{"Add Auto Response"}:</h2>
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Auto Response"}</span></a>
                         <p class="FieldExplanation">
-                            $Text{"Add a new Auto Response."}
+                            $Text{"Add a Auto Response"}
                         </p>
-                        <button type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
-                    </fieldset>
-                </form>
+                    </li>
+<!-- dtl:block:ActionAdd -->
+                </ul>
             </div>
         </div>
+<!-- dtl:block:ActionList -->
     </div>
+
+
     <div class="ContentColumn">
 <!-- dtl:block:OverviewResult -->
         <div class="WidgetGradient Short MinHeight">
@@ -135,6 +144,8 @@ $Include{"RichTextEditor"}
 
                         <div class="Field">
                             <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
