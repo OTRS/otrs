@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.27 2010-04-14 16:54:39 mg Exp $
+# $Id: AdminSLA.pm,v 1.28 2010-04-27 18:53:57 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -350,50 +350,61 @@ sub Run {
             UserID => $Self->{UserID},
         );
 
-        SLAID:
-        for my $SLAID ( sort { lc $SLAList{$a} cmp lc $SLAList{$b} } keys %SLAList ) {
+        # if there are any SLA's defined, they are shown
+        if (%SLAList) {
+            SLAID:
+            for my $SLAID ( sort { lc $SLAList{$a} cmp lc $SLAList{$b} } keys %SLAList ) {
 
-            # get the sla data
-            my %SLAData = $Self->{SLAObject}->SLAGet(
-                SLAID  => $SLAID,
-                UserID => $Self->{UserID},
-            );
+                # get the sla data
+                my %SLAData = $Self->{SLAObject}->SLAGet(
+                    SLAID  => $SLAID,
+                    UserID => $Self->{UserID},
+                );
 
-            # build the service list
-            my @ServiceList;
-            for my $ServiceID (
-                sort { lc $ServiceList{$a} cmp lc $ServiceList{$b} }
-                @{ $SLAData{ServiceIDs} }
-                )
-            {
-                push @ServiceList, $ServiceList{$ServiceID} || '-';
-            }
-
-            # output overview list row
-            $Self->{LayoutObject}->Block(
-                Name => 'OverviewListRow',
-                Data => {
-                    %SLAData,
-                    Service => $ServiceList[0] || '-',
-                    Valid => $ValidList{ $SLAData{ValidID} },
-                },
-            );
-
-            next SLAID if scalar @ServiceList <= 1;
-
-            # remove the first service id
-            shift @ServiceList;
-
-            for my $ServiceName (@ServiceList) {
+                # build the service list
+                my @ServiceList;
+                for my $ServiceID (
+                    sort { lc $ServiceList{$a} cmp lc $ServiceList{$b} }
+                    @{ $SLAData{ServiceIDs} }
+                    )
+                {
+                    push @ServiceList, $ServiceList{$ServiceID} || '-';
+                }
 
                 # output overview list row
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewListRow',
                     Data => {
-                        Service => $ServiceName,
+                        %SLAData,
+                        Service => $ServiceList[0] || '-',
+                        Valid => $ValidList{ $SLAData{ValidID} },
                     },
                 );
+
+                next SLAID if scalar @ServiceList <= 1;
+
+                # remove the first service id
+                shift @ServiceList;
+
+                for my $ServiceName (@ServiceList) {
+
+                    # output overview list row
+                    $Self->{LayoutObject}->Block(
+                        Name => 'OverviewListRow',
+                        Data => {
+                            Service => $ServiceName,
+                        },
+                    );
+                }
             }
+        }
+
+        # otherwise a no data found msg is displayed
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'NoDataFoundMsg',
+                Data => {},
+            );
         }
 
         # generate output
