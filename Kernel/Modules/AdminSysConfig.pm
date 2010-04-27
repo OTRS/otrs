@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.88 2010-04-22 22:26:53 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.89 2010-04-27 21:35:52 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -697,11 +697,39 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Search' ) {
         my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
-        my @List = $Self->{SysConfigObject}->ConfigItemSearch( Search => $Search );
-        for my $Option (@List) {
+
+        # if a search parameter was provided
+        if ($Search) {
             $Self->{LayoutObject}->Block(
-                Name => 'Row',
-                Data => $Option,
+                Name => 'OverviewResult',
+                Data => {},
+            );
+            my @List = $Self->{SysConfigObject}->ConfigItemSearch( Search => $Search );
+
+            # if there are any results, they are shown
+            if (@List) {
+                for my $Option (@List) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Row',
+                        Data => $Option,
+                    );
+                }
+            }
+
+            # otherwise a no data found msg is displayed
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'NoDataFoundMsg',
+                    Data => {},
+                );
+            }
+        }
+
+        # otherwise a no search term msg is shown
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'NoSearchTerms',
+                Data => {},
             );
         }
     }
@@ -710,18 +738,44 @@ sub Run {
     # list subgroups
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'SelectGroup' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResult',
+            Data => {},
+        );
         $Group = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
         my %List = $Self->{SysConfigObject}->ConfigSubGroupList( Name => $Group );
-        for ( sort keys %List ) {
+
+        # if there are any results, they are shown
+        if (%List) {
+            for ( sort keys %List ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Row',
+                    Data => {
+                        SubGroup      => $_,
+                        SubGroupCount => $List{$_},
+                        Group         => $Group,
+                    },
+                );
+            }
+        }
+
+        # otherwise a no data found msg is displayed
+        else {
             $Self->{LayoutObject}->Block(
-                Name => 'Row',
-                Data => {
-                    SubGroup      => $_,
-                    SubGroupCount => $List{$_},
-                    Group         => $Group,
-                },
+                Name => 'NoDataFoundMsg',
+                Data => {},
             );
         }
+    }
+
+    # ------------------------------------------------------------ #
+    # shows initial screen
+    # ------------------------------------------------------------ #
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'NoSearchTerms',
+            Data => {},
+        );
     }
 
     # secure mode message (don't allow this action till secure mode is enabled)

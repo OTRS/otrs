@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.27 2010-04-23 15:23:49 mg Exp $
+# $Id: AdminSysConfig.dtl,v 1.28 2010-04-27 21:35:24 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,7 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"SysConfig"}</h1>
     <div class="SidebarColumn">
-        <div class="WidgetGradient Long">
+        <div class="WidgetGradient Long MinHeight">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -68,12 +68,17 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Long">
+        <div class="WidgetGradient Long MinHeight">
             <div class="Header">
                 <h2>$Text{"Result"}</h2>
             </div>
             <div class="Content">
-
+<!-- dtl:block:NoSearchTerms -->
+                <div class="Content">
+                    <p>$Text{"Please enter a search term to look for Settings."}</p>
+                </div>
+<!-- dtl:block:NoSearchTerms -->
+<!-- dtl:block:OverviewResult -->
                 <table class="DataTable">
                     <thead>
                         <tr>
@@ -83,6 +88,13 @@
                         </tr>
                     </thead>
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan=3>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:Row -->
                         <tr>
                             <td>
@@ -96,6 +108,7 @@
 <!-- dtl:block:Row -->
                     </tbody>
                 </table>
+<!-- dtl:block:OverviewResult -->
             </div>
         </div>
     </div>
