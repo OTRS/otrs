@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSignature.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.pm,v 1.43 2010-04-26 22:52:36 en Exp $
+# $Id: AdminSignature.pm,v 1.44 2010-04-28 18:16:16 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -244,6 +244,14 @@ sub _Edit {
         Data => \%Param,
     );
 
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+    );
+
     # get valid list
     my %ValidList        = $Self->{ValidObject}->ValidList();
     my %ValidListReverse = reverse %ValidList;
@@ -267,6 +275,15 @@ sub _Overview {
         Name => 'Overview',
         Data => \%Param,
     );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionAdd',
+    );
+
     $Self->{LayoutObject}->Block(
         Name => 'OverviewResult',
         Data => \%Param,
