@@ -32,6 +32,7 @@
         </div>
 <!-- dtl:block:ActionList -->
 
+<!-- dtl:block:FilterQueues -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2><label for="FilterQueues">$Text{"Filter for Queues"}</label></h2>
@@ -48,7 +49,8 @@
                 </ul>
             </div>
         </div>
-
+<!-- dtl:block:FilterQueues -->
+<!-- dtl:block:FilterAutoResponses -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2><label for="FilterAutoResponses">$Text{"Filter for Auto Responses"}</label></h2>
@@ -65,13 +67,14 @@
                 </ul>
             </div>
         </div>
+<!-- dtl:block:FilterAutoResponses -->
 
     </div>
-
 
     <div class="ContentColumn">
         <div class="WidgetGradient Short MinHeight">
 
+<!-- dtl:block:OverviewResult -->
             <div class="Header">
                 <h2>$Text{"Overview"}</h2>
             </div>
@@ -102,11 +105,8 @@
                     </ul>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class ="Clear"></div>
-</div>
-<!-- dtl:block:Overview -->
+            <div class ="Clear"></div>
+<!-- dtl:block:OverviewResult -->
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
@@ -115,31 +115,11 @@
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 
-
 <!-- dtl:block:Selection -->
-
-<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Manage Queue-Auto Response Relations"}</h1>
-    <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
-            <div class="Header"><h2>$Text{"Actions"}</h2></div>
-            <div class="Content">
-                <ul class="ActionList">
-                    <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="ContentColumn">
-        <div class="WidgetGradient Short">
             <div class="Header">
                 <h2>
                     $Text{"Change Auto Response Relations for Queue", "$Data{"NeType"}"}
-                    <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
+                    <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;QueueID=$LQData{"ID"}">$QData{"Name"}</a>
                     ($QData{"ID"})
                 </h2>
             </div>
@@ -154,15 +134,16 @@
                         <div class="Field">
                             $Data{"DataStrg"}
                         </div>
-                        <div class="Clear"></div>
 <!-- dtl:block:ChangeItemList -->
                         <button class="Primary" type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
-                        <div class="Clear"></div>
+                        $Text{"or"}
+                        <a href="$Env{"Baselink"}Action=$LQData{"Action"}">$Text{"Cancel"}</a>
                     </fieldset>
                 </form>
             </div>
+<!-- dtl:block:Selection -->
         </div>
     </div>
     <div class="Clear"></div>
 </div>
-<!-- dtl:block:Selection -->
+<!-- dtl:block:Overview -->

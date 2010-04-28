@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.31 2010-04-27 15:59:24 en Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.32 2010-04-28 19:40:08 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,6 +46,8 @@ sub Run {
     my $Output = '';
     $Param{ID} = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
     $Param{ID} = $Self->{DBObject}->Quote( $Param{ID}, 'Integer' ) if ( $Param{ID} );
+    $Param{Action} = $Self->{ParamObject}->GetParam( Param => 'Action' )
+        || 'AdminQueueAutoResponse';
 
     if ( $Self->{Subaction} eq 'Change' ) {
         $Output .= $Self->{LayoutObject}->Header();
@@ -58,12 +60,18 @@ sub Run {
         my %QueueData = $Self->{QueueObject}->QueueGet(
             ID => $Param{ID},
         );
+
+        $Self->{LayoutObject}->Block( Name => 'Overview' );
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
         $Self->{LayoutObject}->Block(
             Name => 'Selection',
             Data => {
                 Queue => $QueueData{Name},
                 %QueueData,
                 %Param,
+                ActionHome => 'AdminQueue',
             },
         );
         for my $TypeID ( keys %TypeResponsesData ) {
@@ -133,6 +141,10 @@ sub Run {
             Name => 'Overview',
             Data => { %QueueData, %Param, }
         );
+
+        $Self->{LayoutObject}->Block( Name => 'FilterQueues' );
+        $Self->{LayoutObject}->Block( Name => 'FilterAutoResponses' );
+        $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
         # if there are any queues, they are shown
         if (%QueueData) {
