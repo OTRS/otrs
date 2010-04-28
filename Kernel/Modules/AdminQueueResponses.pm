@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.38 2010-04-26 18:22:35 en Exp $
+# $Id: AdminQueueResponses.pm,v 1.39 2010-04-28 15:37:54 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,7 +46,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # user <-> group 1:n
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'StdResponse' ) {
+    if ( $Self->{Subaction} eq 'Response' ) {
 
         # get user data
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
@@ -67,7 +67,7 @@ sub Run {
             Data     => \%QueueData,
             ID       => $StdResponseData{ID},
             Name     => $StdResponseData{Name},
-            Type     => 'StdResponse',
+            Type     => 'Response',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -144,10 +144,10 @@ sub Run {
     # ------------------------------------------------------------ #
     # groups to user
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'ChangeStdResponse' ) {
+    elsif ( $Self->{Subaction} eq 'ChangeResponse' ) {
 
         # get new role member
-        my @IDs = $Self->{ParamObject}->GetArray( Param => 'StdResponse' );
+        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Response' );
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -193,12 +193,22 @@ sub _Change {
     my ( $Self, %Param ) = @_;
 
     my %Data   = %{ $Param{Data} };
-    my $Type   = $Param{Type} || 'StdResponse';
-    my $NeType = $Type eq 'Queue' ? 'StdResponse' : 'Queue';
+    my $Type   = $Param{Type} || 'Response';
+    my $NeType = $Type eq 'Queue' ? 'Response' : 'Queue';
 
-    my %VisibleType = ( StdResponse => 'Standard Response', Queue => 'Queue', );
+    my %VisibleType = ( Response => 'Response', Queue => 'Queue', );
 
     my $MyType = $VisibleType{$Type};
+
+    $Self->{LayoutObject}->Block( Name => 'Overview' );
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $Self->{LayoutObject}->Block( Name => 'Filter' );
+
+    #fixed link
+    my $QueueTag;
+
+    $QueueTag = $Type eq 'Queue' ? 'Queue' : '';
 
     $Self->{LayoutObject}->Block(
         Name => 'Change',
@@ -208,6 +218,8 @@ sub _Change {
             NeType        => $NeType,
             VisibleType   => $VisibleType{$Type},
             VisibleNeType => $VisibleType{$NeType},
+            Queue         => $QueueTag,
+
         },
     );
 
@@ -227,6 +239,8 @@ sub _Change {
         # set output class
         my $Selected = $Param{Selected}->{$ID} ? ' checked="checked"' : '';
 
+        $QueueTag = $Type ne 'Queue' ? 'Queue' : '';
+
         $Self->{LayoutObject}->Block(
             Name => 'ChangeRow',
             Data => {
@@ -238,7 +252,7 @@ sub _Change {
                 Selected      => $Selected,
                 VisibleType   => $VisibleType{$Type},
                 VisibleNeType => $VisibleType{$NeType},
-
+                Queue         => $QueueTag,
             },
         );
     }
@@ -259,6 +273,12 @@ sub _Overview {
         Data => {},
     );
 
+    # no actions in action list
+    #    $Self->{LayoutObject}->Block(Name=>'ActionList');
+    $Self->{LayoutObject}->Block( Name => 'FilterResponse' );
+    $Self->{LayoutObject}->Block( Name => 'FilterQueue' );
+    $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
+
     # get std response list
     my %StdResponseData = $Self->{StdResponseObject}->StdResponseList( Valid => 1 );
 
@@ -275,7 +295,7 @@ sub _Overview {
                 Name => 'List1n',
                 Data => {
                     Name      => $StdResponseData{$StdResponseID},
-                    Subaction => 'StdResponse',
+                    Subaction => 'Response',
                     ID        => $StdResponseID,
                 },
             );
