@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.30 2010-04-26 22:31:23 en Exp $
+# $Id: AdminAttachment.pm,v 1.31 2010-04-28 16:28:25 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -252,6 +252,13 @@ sub _Edit {
         Data => \%Param,
     );
 
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+    );
+
     # get valid list
     my %ValidList        = $Self->{ValidObject}->ValidList();
     my %ValidListReverse = reverse %ValidList;
@@ -276,6 +283,12 @@ sub _Overview {
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
         Data => \%Param,
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionAdd',
     );
     $Self->{LayoutObject}->Block(
         Name => 'OverviewResult',
