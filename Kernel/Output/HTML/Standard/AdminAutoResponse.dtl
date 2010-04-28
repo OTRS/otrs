@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.dtl,v 1.9 2010-04-27 20:57:34 cg Exp $
+# $Id: AdminAutoResponse.dtl,v 1.10 2010-04-28 15:52:28 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,9 +29,6 @@
 <!-- dtl:block:ActionAdd -->
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Auto Response"}</span></a>
-                        <p class="FieldExplanation">
-                            $Text{"Add a Auto Response"}
-                        </p>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>
@@ -238,7 +235,7 @@ You wrote:
 
 --
 Super Support Company Inc. - Waterford Business Park
-5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA
+5201 Blue Lagoon Drive - 8th Floor &amp; 9th Floor - Miami, 33126 USA
 Email: hot@florida.com - Web: http://hot.florida.com/
                 </textarea>
             </div>
