@@ -2,7 +2,7 @@
 # AdminSalutation.dtl - provides HTML form for AdminSalutation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSalutation.dtl,v 1.5 2010-04-28 17:30:15 mp Exp $
+# $Id: AdminSalutation.dtl,v 1.6 2010-04-28 21:16:19 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -123,6 +123,8 @@ $Include{"RichTextEditor"}
 
                         <div class="Field">
                             <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
 
