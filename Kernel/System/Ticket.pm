@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.458 2010-04-13 07:16:08 bes Exp $
+# $Id: Ticket.pm,v 1.459 2010-04-28 09:44:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.458 $) [1];
+$VERSION = qw($Revision: 1.459 $) [1];
 
 =head1 NAME
 
@@ -5642,10 +5642,20 @@ sub OwnerCheck {
 
 to set the ticket owner (notification to the new owner will be sent)
 
+    by using user id
+
     my $Success = $TicketObject->OwnerSet(
         TicketID  => 123,
         NewUserID => 555,
         UserID    => 123,
+    );
+
+    by using user login
+
+    my $Success = $TicketObject->OwnerSet(
+        TicketID => 123,
+        NewUser  => 555,
+        UserID   => 123,
     );
 
     Return:
@@ -7911,6 +7921,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.458 $ $Date: 2010-04-13 07:16:08 $
+$Revision: 1.459 $ $Date: 2010-04-28 09:44:58 $
 
 =cut
