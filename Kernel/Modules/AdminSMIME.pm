@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.31 2010-04-26 16:36:17 en Exp $
+# $Id: AdminSMIME.pm,v 1.32 2010-04-28 14:42:07 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -114,6 +114,31 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # show add certificate form
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ShowAddCertificate' ) {
+
+        my ( $Self, %Param ) = @_;
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionList',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionOverview',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewAddCertificate',
+        );
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminSMIME',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
     # add certivicate
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddCertificate' ) {
@@ -159,12 +184,46 @@ sub Run {
                 Data => {},
             );
         }
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionList',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionAdd',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionSearch',
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSMIME',
             Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
+    # show add private form
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ShowAddPrivate' ) {
+
+        my ( $Self, %Param ) = @_;
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionList',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionOverview',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewAddPrivate',
+        );
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminSMIME',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -286,6 +345,9 @@ sub Run {
         if ( $Self->{CryptObject} ) {
             @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
         }
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResult',
+        );
         if (@List) {
             for my $Key (@List) {
                 $Self->{LayoutObject}->Block(
@@ -304,6 +366,15 @@ sub Run {
                 Data => {},
             );
         }
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionList',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionAdd',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionSearch',
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
