@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.56 2010-04-23 02:48:19 mg Exp $
+# $Id: AdminPackageManager.dtl,v 1.57 2010-04-28 17:18:52 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
 
     <div class="SidebarColumn Short">
 
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>
                     $QData{"Uninstall"}
@@ -90,7 +90,7 @@
 
     <div class="SidebarColumn Short">
 
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -104,7 +104,7 @@
         </div>
     </div>
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>
                     $QData{"Reinstall"}
@@ -163,7 +163,7 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Package Manager"}</h1>
 
-    <div class="WidgetGradient Short">
+    <div class="WidgetGradient Short MinHeight">
         <div class="Header">
             <h2>
                 $QData{"Title"}
@@ -269,6 +269,13 @@
                         </tr>
                     </thead>
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan=6>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:ShowRemotePackage -->
                         <tr>
                             <td>
@@ -320,6 +327,13 @@
                         </tr>
                     </thead>
                     <tbody>
+<!-- dtl:block:NoDataFoundMsg2 -->
+                        <tr>
+                            <td colspan=7>
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg2 -->
 <!-- dtl:block:ShowLocalPackage -->
                         <tr>
                             <td>
@@ -366,7 +380,7 @@
     <h1>$Text{"Package Manager"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -575,7 +589,7 @@
 
     <div class="SidebarColumn Short">
 
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -591,7 +605,7 @@
         </div>
     </div>
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>
                     $Text{"Diff"}
