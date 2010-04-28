@@ -2,7 +2,7 @@
 # AdminResponseAttachment.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.dtl,v 1.5 2010-04-26 21:08:18 en Exp $
+# $Id: AdminResponseAttachment.dtl,v 1.6 2010-04-28 20:30:08 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,25 +14,28 @@
     <h1>$Text{"Manage Responses <-> Attachments Relations"}</h1>
 
     <div class="SidebarColumn">
+        <div class="WidgetGradient Short MinHeight">
 
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
-            <div class="Header">
-                <h2>$Text{"Actions"}</h2>
-            </div>
-            <div class="Content">
+            <div class="WidgetGradient Short MinHeight">
+                <div class="Header">
+                    <h2>$Text{"Actions"}</h2>
+                </div>
+                <div class="Content">
 <!-- dtl:block:ActionOverview -->
-                <ul class="ActionList">
-                    <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
-                    </li>
-                </ul>
+                    <ul class="ActionList">
+                        <li>
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                        </li>
+                    </ul>
 <!-- dtl:block:ActionOverview -->
+                </div>
             </div>
-        </div>
 <!-- dtl:block:ActionList -->
+        </div>
     </div>
     <div class="ContentColumn">
+
 <!-- dtl:block:OverviewResult-->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
@@ -67,8 +70,9 @@
             </div>
         </div>
         <div class="Clear"></div>
-<!-- dtl:block:OverviewResult-->
 
+
+<!-- dtl:block:OverviewResult-->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     OTRS.UI.Tables.InitTableFilter($('#FilterResponses'), $('#Responses'));

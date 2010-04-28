@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.36 2010-04-26 21:47:04 en Exp $
+# $Id: AdminResponseAttachment.pm,v 1.37 2010-04-28 20:30:08 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -238,7 +238,9 @@ sub _Overview {
         Name => 'Overview',
         Data => {},
     );
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+
+    # no actions in action list
+    #    $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
     # get StdResponse data
