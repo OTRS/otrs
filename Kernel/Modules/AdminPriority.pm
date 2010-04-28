@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPriority.pm - admin frontend of ticket priority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.pm,v 1.7 2010-04-27 18:33:26 en Exp $
+# $Id: AdminPriority.pm,v 1.8 2010-04-28 21:39:07 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,6 +69,9 @@ sub Run {
                 %Param,
             },
         );
+
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
         # get valid list
         my %ValidList        = $Self->{ValidObject}->ValidList();
@@ -154,6 +157,9 @@ sub Run {
                 %Param,
             },
         );
+
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
 
         # output overview result
         $Self->{LayoutObject}->Block(
