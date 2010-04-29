@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.js,v 1.11 2010-04-22 18:58:02 mn Exp $
+// $Id: OTRS.UI.js,v 1.12 2010-04-29 10:20:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -219,7 +219,7 @@ OTRS.UI = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function registers is the wrapper for registering an event on an HTML element.
+     *      This function is the wrapper for registering an event on an HTML element.
      * @param {String} EventType The event type (click, change, ...)
      * @param {String} ElementSelector The Selector (jQuery) of the element on which the event is triggered
      * @param {Function} EventFunction The function which should be executed on event (gets Parameter Event)
@@ -228,6 +228,21 @@ OTRS.UI = (function (TargetNS) {
         var $Element = $(ElementSelector);
         if ($Element.length && $.isFunction(EventFunction)) {
             $Element.bind(EventType, EventFunction);
+        }
+    };
+
+    /**
+     * @function
+     * @description
+     *      This function is the wrapper for registering an live event on an HTML element.
+     * @param {String} EventType The event type (click, change, ...)
+     * @param {String} ElementSelector The Selector (jQuery) of the element on which the event is triggered
+     * @param {Function} EventFunction The function which should be executed on event (gets Parameter Event)
+     */
+    TargetNS.RegisterLiveEvent = function (EventType, ElementSelector, EventFunction) {
+        var $Element = $(ElementSelector);
+        if ($Element.length && $.isFunction(EventFunction)) {
+            $Element.live(EventType, EventFunction);
         }
     };
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.47 2010-04-09 17:07:54 cr Exp $
+# $Id: CustomerTicketSearch.pm,v 1.48 2010-04-29 10:20:29 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -613,6 +613,7 @@ sub Run {
             Action    => "Action=CustomerTicketSearch;Subaction=Search",
             Link =>
                 "Profile=$Self->{Profile};SortBy=$Self->{SortBy};Order=$Self->{Order};TakeLastSearch=1&",
+            IDPrefix => "CustomerTicketSearch",
         );
 
         $Output .= $Self->{LayoutObject}->Output(

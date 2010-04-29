@@ -1,0 +1,74 @@
+# --
+# Pagination.dtl - provides HTML for generic Pagination
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: Pagination.dtl,v 1.1 2010-04-29 10:20:30 mn Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<!-- dtl:block:PageBack -->
+&nbsp;<a id="$Data{"IDPrefix"}PageAllBack" href="$Data{"BaselinkAllBack"}">&gt;&gt;</a>
+&nbsp;<a id="$Data{"IDPrefix"}PageOneBack" href="$Data{"BaselinkAllNext"}">&gt;|</a>&nbsp;
+<!-- dtl:block:PageBack -->
+<!-- dtl:block:PageBackAjax -->
+&nbsp;<a id="$Data{"IDPrefix"}PageAllBack" href="#">&gt;&gt;</a>
+&nbsp;<a id="$Data{"IDPrefix"}PageOneBack" href="#">&gt;|</a>&nbsp;
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.RegisterLiveEvent('click', '#$Data{"IDPrefix"}PageAllBack', function(){
+        OTRS.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllBack"}', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
+        });
+        return false;
+    });
+    OTRS.UI.RegisterLiveEvent('click', '#$Data{"IDPrefix"}PageOneBack', function(){
+        OTRS.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllNext"}', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
+        });
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:PageBackAjax -->
+<!-- dtl:block:Page -->
+<a id="$Data{"IDPrefix"}Page$Data{"PageNumber"}" href="$Data{"BaselinkAll"}"$Data{"SelectedPage"}>$Data{"PageNumber"}</a>
+<!-- dtl:block:Page -->
+<!-- dtl:block:PageAjax -->
+<a id="$Data{"IDPrefix"}Page$Data{"PageNumber"}" href="#"$Data{"SelectedPage"}>$Data{"PageNumber"}</a>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.RegisterLiveEvent('click', '#$Data{"IDPrefix"}Page$Data{"PageNumber"}', function(){
+        OTRS.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAll"}', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
+        });
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:PageAjax -->
+<!-- dtl:block:PageForward -->
+&nbsp;<a id="$Data{"IDPrefix"}PageOneForward" href="$Data{"BaselinkAllNext"}">|&lt;</a>
+&nbsp;<a id="$Data{"IDPrefix"}PageAllForward" href="$Data{"BaselinkAllBack"}">&lt;&lt;</a>&nbsp;
+<!-- dtl:block:PageForward -->
+<!-- dtl:block:PageForwardAjax -->
+&nbsp;<a id="$Data{"IDPrefix"}PageOneForward" href="#">|&lt;</a>
+&nbsp;<a id="$Data{"IDPrefix"}PageAllForward" href="#">&lt;&lt;</a>&nbsp;
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.RegisterLiveEvent('click', '#$Data{"IDPrefix"}PageAllForward', function(){
+        OTRS.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllBack"}', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
+        });
+        return false;
+    });
+    OTRS.UI.RegisterLiveEvent('click', '#$Data{"IDPrefix"}PageOneForward', function(){
+        OTRS.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllNext"}', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
+        });
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:PageForwardAjax -->
