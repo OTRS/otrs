@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.54 2010-04-27 20:23:16 en Exp $
+# $Id: AdminGenericAgent.dtl,v 1.55 2010-04-29 21:44:25 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,39 +12,35 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Generic Agent"}</h1>
     <div class="SidebarColumn">
+<!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short MinMeight">
-            <div class="Header"></div>
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
             <div class="Content">
-<!-- dtl:block:AddNew -->
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Add"/>
-                    <fieldset class="TableLike">
-                        <h2>$Text{"Add"}</h2>
+                <ul class="ActionList">
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update"><span>$Text{"Add Job"}</span></a>
+                    </li>
+<!--                   <li>
+                    <form action="$Env{"CGIHandle"}" method="post">
+                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                        <input type="hidden" name="Subaction" value="Add"/>
                         <label for="Profile">$Text{"Name"}:</label>
-                        <div class="Field">
-                            <input type="text" name="Profile" id="Profile" value="" class="W50pc"/>
-                        </div>
-                        <div class="Clear"></div>
-
-                        <div class="Field">
-                            <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
-                        </div>
-                        <div class="Clear"></div>
-                    </fieldset>
-                </form>
-<!-- dtl:block:AddNew -->
-<!-- dtl:block:Actions -->
-                <fieldset class="TableLike">
-                    <h2>$Text{"Actions"}</h2>
-                    <div class="Field">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Go Back"}</a>
-                    </div>
-                    <div class="Clear"></div>
-                </fieldset>
-<!-- dtl:block:Actions -->
+                        <input type="text" name="Profile" id="Profile" value="" class="W50pc"/>
+                        <button class="button" type="submit" value="$Text{"Add"}">$Text{"Add"}</button>
+                    </form>
+                </li> -->
+<!-- dtl:block:ActionAdd -->
+<!-- dtl:block:ActionOverview -->
+                <li>
+                    <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"}"><span>$Text{"Go Back"}</span></a>
+                </li>
+<!-- dtl:block:ActionOverview -->
             </div>
         </div>
+<!-- dtl:block:ActionList -->
     </div>
 
     <div class="ContentColumn">
