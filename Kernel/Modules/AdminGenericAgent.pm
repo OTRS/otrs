@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.82 2010-04-27 20:23:42 en Exp $
+# $Id: AdminGenericAgent.pm,v 1.83 2010-04-29 21:47:17 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,24 +79,6 @@ sub Run {
 
         # redirect
         return $Self->{LayoutObject}->ErrorScreen();
-    }
-
-    # ---------------------------------------------------------- #
-    # add a new generic agent job
-    # ---------------------------------------------------------- #
-    if ( $Self->{Subaction} eq 'Add' && $Self->{Profile} ) {
-
-        # insert new profile params
-        $Self->{GenericAgentObject}->JobAdd(
-            Name   => $Self->{Profile},
-            Data   => { ScheduleLastRun => '', },
-            UserID => $Self->{UserID},
-        );
-
-        # redirect
-        return $Self->{LayoutObject}->Redirect(
-            OP => "Action=$Self->{Action};Subaction=Update;Profile=$Self->{Profile}",
-        );
     }
 
     # --------------------------------------------------------------- #
@@ -410,7 +392,8 @@ sub Run {
                 = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!';
         }
 
-        $Self->{LayoutObject}->Block( Name => 'Actions', );
+        $Self->{LayoutObject}->Block( Name => 'ActionList', );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
         $Self->{LayoutObject}->Block(
             Name => 'Result',
             Data => {
@@ -461,7 +444,7 @@ sub Run {
     # ---------------------------------------------------------- #
     # edit generic agent job
     # ---------------------------------------------------------- #
-    if ( $Self->{Subaction} eq 'Update' && $Self->{Profile} ) {
+    if ( $Self->{Subaction} eq 'Update' ) {
 
         # get db job data
         my %Param = $Self->{GenericAgentObject}->JobGet( Name => $Self->{Profile} );
@@ -711,8 +694,8 @@ sub Run {
             Name => 'NewSendNoNotification',
             SelectedID => $Param{NewSendNoNotification} || 0,
         );
-
-        $Self->{LayoutObject}->Block( Name => 'Actions', );
+        $Self->{LayoutObject}->Block( Name => 'ActionList', );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
         $Self->{LayoutObject}->Block(
             Name => 'Edit',
             Data => \%Param,
@@ -998,7 +981,8 @@ sub Run {
     # ---------------------------------------------------------- #
     # overview of all generic agent jobs
     # ---------------------------------------------------------- #
-    $Self->{LayoutObject}->Block( Name => 'AddNew', );
+    $Self->{LayoutObject}->Block( Name => 'ActionList', );
+    $Self->{LayoutObject}->Block( Name => 'ActionAdd', );
     $Self->{LayoutObject}->Block( Name => 'Overview', );
     my %Jobs = $Self->{GenericAgentObject}->JobList();
 
