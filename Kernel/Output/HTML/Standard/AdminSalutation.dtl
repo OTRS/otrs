@@ -2,7 +2,7 @@
 # AdminSalutation.dtl - provides HTML form for AdminSalutation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSalutation.dtl,v 1.6 2010-04-28 21:16:19 mp Exp $
+# $Id: AdminSalutation.dtl,v 1.7 2010-04-30 16:07:47 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,7 +63,7 @@ $Include{"RichTextEditor"}
                     <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan=5>
+                            <td colspan="5">
                                 $Text{"No data found."}
                             </td>
                         </tr>

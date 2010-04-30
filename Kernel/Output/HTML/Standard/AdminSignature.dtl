@@ -2,7 +2,7 @@
 # AdminSignature.dtl - provides HTML form for AdminSignature
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.dtl,v 1.7 2010-04-28 21:15:25 mp Exp $
+# $Id: AdminSignature.dtl,v 1.8 2010-04-30 16:08:28 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,7 +61,7 @@ $Include{"RichTextEditor"}
                     <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan=5>
+                            <td colspan="5">
                                 $Text{"No data found."}
                             </td>
                         </tr>

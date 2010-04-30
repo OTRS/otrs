@@ -2,7 +2,7 @@
 # AdminType.dtl - provides HTML form for AdminType
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminType.dtl,v 1.5 2010-04-30 09:46:09 mn Exp $
+# $Id: AdminType.dtl,v 1.6 2010-04-30 16:14:16 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,7 +63,7 @@
                     <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan=4>
+                            <td colspan="4">
                                 $Text{"No data found."}
                             </td>
                         </tr>

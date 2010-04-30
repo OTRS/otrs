@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.28 2010-04-27 21:35:24 en Exp $
+# $Id: AdminSysConfig.dtl,v 1.29 2010-04-30 16:13:17 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,7 @@
                                 $Data{"Liste"}
                             </div>
                             <button type="submit" class="CallForAction" name="" value="$Text{"Select Group"}">
-                            <span>$Text{"Select Group"}</span>
+                                <span>$Text{"Select Group"}</span>
                             </button>
                         </form>
                         <p>$Text{"Navigate by selecting config groups"}</p>
@@ -57,7 +57,7 @@
                                 <input name="file_upload" type="file" size="5" />
                             </div>
                             <button class="CallForAction" type="submit" value="$Text{"Import"}">
-                            <span>$Text{"Import"}</span>
+                                <span>$Text{"Import"}</span>
                             </button>
                         </form>
                         <p>$Text{"Load SysConfig settings from file"}</p>
@@ -90,7 +90,7 @@
                     <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan=3>
+                            <td colspan="3">
                                 $Text{"No data found."}
                             </td>
                         </tr>

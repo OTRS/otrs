@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.23 2010-04-29 18:58:02 dz Exp $
+# $Id: AdminSLA.dtl,v 1.24 2010-04-30 16:08:50 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,7 +66,7 @@
                     <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan=6>
+                            <td colspan="6">
                                 $Text{"No data found."}
                             </td>
                         </tr>

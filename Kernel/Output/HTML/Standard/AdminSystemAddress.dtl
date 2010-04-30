@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.7 2010-04-27 18:46:44 cg Exp $
+# $Id: AdminSystemAddress.dtl,v 1.8 2010-04-30 16:13:49 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,7 +73,7 @@
                     <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan=6}>
+                            <td colspan="6">
                                 $Text{"No data found."}
                             </td>
                         </tr>
