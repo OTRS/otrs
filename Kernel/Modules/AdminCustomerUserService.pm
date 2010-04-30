@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.15 2010-04-29 22:19:11 cr Exp $
+# $Id: AdminCustomerUserService.pm,v 1.16 2010-04-30 20:10:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -432,11 +432,28 @@ sub _Change {
         );
     }
 
+    # Service sorting.
+    my %ServiceData;
+    if ( $NeType eq 'Service' ) {
+        %ServiceData = %Data;
+
+        # add suffix for correct sorting
+        for ( keys %Data ) {
+            $Data{$_} .= '::';
+        }
+
+    }
+
     # output rows
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
         # set checked
         my $Checked = $Param{Selected}->{$ID} ? "checked='checked'" : '';
+
+        # Recover original Service Name
+        if ( $NeType eq 'Service' ) {
+            $Data{$ID} = $ServiceData{$ID};
+        }
 
         # output row block
         $Self->{LayoutObject}->Block(
@@ -558,7 +575,18 @@ sub _Overview {
         );
     }
 
-    for my $ID ( sort { uc( $ServiceData{$a} ) cmp uc( $ServiceData{$b} ) } keys %ServiceData ) {
+    my %ServiceDataSort = %ServiceData;
+
+    # add suffix for correct sorting
+    for ( keys %ServiceDataSort ) {
+        $ServiceDataSort{$_} .= '::';
+    }
+
+    for my $ID (
+        sort { uc( $ServiceDataSort{$a} ) cmp uc( $ServiceDataSort{$b} ) }
+        keys %ServiceDataSort
+        )
+    {
 
         # output service row block
         $Self->{LayoutObject}->Block(
