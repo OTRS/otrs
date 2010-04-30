@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.32 2010-04-28 19:40:08 dz Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.33 2010-04-30 08:31:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -92,6 +92,7 @@ sub Run {
                 Data         => \%Data,
                 Size         => 1,
                 PossibleNone => 1,
+                Class        => 'W50pc',
             );
             $Self->{LayoutObject}->Block(
                 Name => 'ChangeItemList',

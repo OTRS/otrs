@@ -134,10 +134,13 @@
                         <div class="Field">
                             $Data{"DataStrg"}
                         </div>
+                        <div class="Clear"></div>
 <!-- dtl:block:ChangeItemList -->
-                        <button class="Primary" type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
-                        $Text{"or"}
-                        <a href="$Env{"Baselink"}Action=$LQData{"Action"}">$Text{"Cancel"}</a>
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$LQData{"Action"}">$Text{"Cancel"}</a>
+                        </div>
                     </fieldset>
                 </form>
             </div>
