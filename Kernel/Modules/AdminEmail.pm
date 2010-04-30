@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.pm,v 1.45 2010-04-13 00:28:17 mg Exp $
+# $Id: AdminEmail.pm,v 1.46 2010-04-30 11:11:10 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -220,7 +220,8 @@ sub Run {
             Name => 'Form',
             Data => \%Param,
         );
-        if ( \%RoleList ) {
+
+        if ( scalar( keys %RoleList ) ) {
             $Self->{LayoutObject}->Block(
                 Name => 'RoleRecipients',
                 Data => \%Param,

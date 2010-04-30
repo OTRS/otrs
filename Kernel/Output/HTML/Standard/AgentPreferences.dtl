@@ -2,7 +2,7 @@
 # AgentPreferences.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.dtl,v 1.1 2010-04-19 23:07:36 martin Exp $
+# $Id: AgentPreferences.dtl,v 1.2 2010-04-30 11:11:10 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@
         <div class="Size1of3">
             <div class="WidgetGradient Long">
                 <div class="Header">
-                    <h2 class="Center">$Text{"$Data{"Header"}"}</h2>
+                    <h2>$Text{"$Data{"Header"}"}</h2>
                 </div>
                 <div class="Content">
 
