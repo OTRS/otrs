@@ -2,7 +2,7 @@
 // OTRS.Forms.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.js,v 1.4 2010-04-20 17:50:02 mn Exp $
+// $Id: OTRS.Forms.js,v 1.5 2010-04-30 09:30:09 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -89,6 +89,21 @@ OTRS.Forms = (function (TargetNS) {
             else {
                 $('#' + SelectAllElement).removeAttr('checked');
             }
+        }
+    };
+
+    /**
+     * @function
+     * @description
+     *      This function marks the "SelectAll checkbox" as checked if all depending checkboxes are already marked checked.
+     * @param {String} CheckboxName The name attribute of the dependent checkboxes
+     * @param {String} SelectAllID The ID of the SelectAll checkbox
+     * @return nothing
+     */
+    TargetNS.InitSelectAllCheckboxes = function (CheckboxName, SelectAllID) {
+        var Elements = $('table td input:checkbox[name=' + CheckboxName + ']');
+        if (Elements.length === Elements.filter(':checked').length) {
+            $('#' + SelectAllID).attr('checked', 'checked');
         }
     };
 

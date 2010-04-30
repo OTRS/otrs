@@ -129,10 +129,11 @@
 <!-- dtl:block:ChangeHeader -->
                                 <th class="$QData{"Mark"}">
                                     <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle %s permission for all", "$QData{"Type"}"}" value="" />
-                                    $QData{"Type"}
+                                    $Text{"$Data{"Type"}"}
                                 </th>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
+    OTRS.Forms.InitSelectAllCheckboxes('$QData{"Type"}', 'SelectAll$QData{"Type"}');
     OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
         OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
     });
@@ -183,6 +184,16 @@
                     <dt>$Text{"create"}</dt>
                     <dd>
                         $Text{"Permissions to create tickets in this group/queue."}
+                    </dd>
+
+                    <dt>$Text{"note"}</dt>
+                    <dd>
+                        $Text{"Permissions to add notes to tickets in this group/queue."}
+                    </dd>
+
+                    <dt>$Text{"owner"}</dt>
+                    <dd>
+                        $Text{"Permissions to change the owner of tickets in this group/queue."}
                     </dd>
 
                     <dt>$Text{"priority"}</dt>
