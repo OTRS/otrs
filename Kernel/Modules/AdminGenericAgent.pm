@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.83 2010-04-29 21:47:17 mp Exp $
+# $Id: AdminGenericAgent.pm,v 1.84 2010-04-30 09:25:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -387,11 +387,6 @@ sub Run {
             %GetParam,
         );
 
-        if ( $GetParam{NewDelete} ) {
-            $Param{DeleteMessage}
-                = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!';
-        }
-
         $Self->{LayoutObject}->Block( Name => 'ActionList', );
         $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
         $Self->{LayoutObject}->Block(
@@ -425,6 +420,9 @@ sub Run {
                     Name => 'Ticket',
                     Data => \%Data,
                 );
+            }
+            if ( $GetParam{NewDelete} ) {
+                $Self->{LayoutObject}->Block( Name => 'DeleteWarning' );
             }
         }
 
@@ -505,7 +503,7 @@ sub Run {
             },
             SortBy     => 'Key',
             Name       => 'ScheduleDays',
-            Size       => 6,
+            Size       => 7,
             Multiple   => 1,
             SelectedID => $Param{ScheduleDays},
         );
