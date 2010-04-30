@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.26 2010-04-27 18:44:51 cg Exp $
+# $Id: AdminService.pm,v 1.27 2010-04-30 20:09:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -300,19 +300,13 @@ sub Run {
                 # output row
                 if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
 
-                    # calculate level space
-                    my @Fragment   = split '::', $ServiceData{Name};
-                    my $Level      = scalar @Fragment - 1;
-                    my $LevelSpace = '&nbsp;&nbsp;&nbsp;&nbsp;' x $Level;
-
                     # output row
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewListRow',
                         Data => {
                             %ServiceData,
-                            LevelSpace => $LevelSpace,
-                            Name       => $ServiceData{NameShort},
-                            Valid      => $ValidList{ $ServiceData{ValidID} },
+                            Name  => $ServiceData{Name},
+                            Valid => $ValidList{ $ServiceData{ValidID} },
                         },
                     );
                 }
