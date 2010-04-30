@@ -2,7 +2,7 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.7 2010-04-27 18:45:25 cg Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.8 2010-04-30 09:23:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -111,10 +111,10 @@
                         <div class="Field">
                             <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $Data{"NameServerError"}" maxlength="50"/>
                             <div id="NameError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                             <div id="NameServerError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -147,10 +147,10 @@
                         <div class="Field">
                             $Data{"EventsStrg"}
                             <div id="EventsError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                             <div id="EventsServerError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -267,10 +267,10 @@
                         <div class="Field">
                             <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_Required $Data{"SubjectServerError"}" maxlength="120"/>
                             <div id="SubjectError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                             <div id="SubjectServerError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -282,10 +282,10 @@
                         <div class="Field">
                             <textarea rows="12" cols="75" name="Body" id="Body" wrap="$Env{"BrowserWrap"}" class="Validate_Required $Data{"BodyServerError"}">$QData{"Body"}</textarea>
                             <div id="BodyError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                             <div id="BodyServerError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
