@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.281 2010-04-23 10:09:20 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.282 2010-04-30 17:54:05 en Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Group>Framework</Group>
@@ -113,6 +113,7 @@
                 <Item Key="en_CA">English (Canada)</Item>
                 <Item Key="en_GB">English (United Kingdom)</Item>
                 <Item Key="es">Espa&amp;ntilde;ol</Item>
+                <Item Key="es_MX">Espa&amp;ntilde;ol de M&amp;eacute;xico</Item>
                 <Item Key="et">Eesti</Item>
                 <Item Key="el">Greek (&amp;#x0395;&amp;#x03bb;&amp;#x03bb;&amp;#x03b7;&amp;#x03bd;&amp;#x03b9;&amp;#x03ba;&amp;#x03ac;)</Item>
                 <Item Key="fa">Persian (&amp;#x0641;&amp;#x0627;&amp;#x0631;&amp;#x0633;&amp;#x0649;)</Item>
