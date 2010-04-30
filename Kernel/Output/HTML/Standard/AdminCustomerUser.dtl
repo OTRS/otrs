@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.5 2010-04-22 21:50:56 en Exp $
+# $Id: AdminCustomerUser.dtl,v 1.6 2010-04-30 15:38:34 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,7 +124,7 @@ function updateMessage(x) {
                     <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan=6>
+                            <td colspan="6">
                                 $Text{"No data found."}
                             </td>
                         </tr>

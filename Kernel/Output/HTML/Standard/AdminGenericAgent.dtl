@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.56 2010-04-30 09:25:25 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.57 2010-04-30 15:38:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,7 +66,7 @@
                         </thead>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan=5>
+                            <td colspan="5">
                                 $Text{"No data found."}
                             </td>
                         </tr>

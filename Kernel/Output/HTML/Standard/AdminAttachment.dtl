@@ -2,7 +2,7 @@
 # AdminAttachment.dtl - provides HTML form for AdminAttachment
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.dtl,v 1.6 2010-04-28 21:17:31 mp Exp $
+# $Id: AdminAttachment.dtl,v 1.7 2010-04-30 15:37:01 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,7 +64,7 @@
                     <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan=7>
+                            <td colspan="7">
                                 $Text{"No data found."}
                             </td>
                         </tr>
