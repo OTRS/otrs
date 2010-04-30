@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.59 2010-04-30 15:44:26 en Exp $
+# $Id: AdminPackageManager.dtl,v 1.60 2010-04-30 15:50:33 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -302,7 +302,7 @@
                         <tbody>
 <!-- dtl:block:NoDataFoundMsg2 -->
                             <tr>
-                                <td colspan=7>
+                                <td colspan="7">
                                     $Text{"No data found."}
                                 </td>
                             </tr>

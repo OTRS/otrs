@@ -2,7 +2,7 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.5 2010-04-27 01:05:47 dz Exp $
+# $Id: AdminPGP.dtl,v 1.6 2010-04-30 15:51:39 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,7 @@
                     <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan=6>
+                            <td colspan="6">
                                 $Text{"No data found."}
                             </td>
                         </tr>

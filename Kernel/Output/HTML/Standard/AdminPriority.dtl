@@ -2,7 +2,7 @@
 # AdminPriority.dtl - provides HTML form for AdminTicketPriority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.dtl,v 1.13 2010-04-28 21:39:07 dz Exp $
+# $Id: AdminPriority.dtl,v 1.14 2010-04-30 15:53:00 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,7 +64,7 @@
                     <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan=4>
+                            <td colspan="4">
                                 $Text{"No data found."}
                             </td>
                         </tr>
