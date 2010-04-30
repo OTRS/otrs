@@ -2,33 +2,50 @@
 # AdminLog.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminLog.dtl,v 1.19 2010-04-12 21:33:24 mg Exp $
+# $Id: AdminLog.dtl,v 1.20 2010-04-30 08:12:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-<div class="MainBox ARIARoleMain">
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"System Log"}</h1>
 
-    <table class="DataTable">
-        <thead>
-            <tr>
-                <th>$Text{"Time"}</th>
-                <th>$Text{"Priority"}</th>
-                <th>$Text{"Facility"}</th>
-                <th class="W75pc">$Text{"Message"}</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="SidebarColumn">
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header"></div>
+            <div class="Content">
+<!-- intentionally empty -->
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header"></div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Time"}</th>
+                            <th>$Text{"Priority"}</th>
+                            <th>$Text{"Facility"}</th>
+                            <th class="W75pc">$Text{"Message"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 <!-- dtl:block:Row -->
-            <tr class="$Data{"ErrorClass"}">
-                <td>$QData{"Time"}</td>
-                <td>$QData{"Priority"}</td>
-                <td>$QData{"Facility"}</td>
-                <td>$QData{"Message"}</td>
-            </tr>
+                        <tr class="$Data{"ErrorClass"}">
+                            <td>$QData{"Time"}</td>
+                            <td>$QData{"Priority"}</td>
+                            <td>$QData{"Facility"}</td>
+                            <td>$QData{"Message"}</td>
+                        </tr>
 <!-- dtl:block:Row -->
-        </tbody>
-    </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
 </div>
