@@ -3,7 +3,7 @@
 # otrs.PackageManager.pl - otrs package manager cmd version
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PackageManager.pl,v 1.1 2010-04-05 10:50:54 mb Exp $
+# $Id: otrs.PackageManager.pl,v 1.2 2010-04-30 12:21:43 ep Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -42,7 +42,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -59,7 +59,7 @@ $CommonObject{PackageObject} = Kernel::System::Package->new(%CommonObject);
 
 # get options
 my %Opts = ();
-getopt( 'hapofd', \%Opts );
+getopt( 'hapofdv', \%Opts );
 
 # set defaults
 if ( !$Opts{o} ) {
@@ -108,6 +108,8 @@ if ( $Opts{h} ) {
         "       otrs.PackageManager.pl -a upgrade -p http://ftp.otrs.org/pub/otrs/packages/:Package-1.0.0.opm\n";
     print "   developer: \n";
     print "       otrs.PackageManager.pl -a build -p /path/to/Package-1.0.0.sopm\n";
+    print
+        "       otrs.PackageManager.pl -a build -p /path/to/Package-1.0.0.sopm -v 1.2.3 (define version)\n";
     print
         "       otrs.PackageManager.pl -a build -p /path/to/Package-1.0.0.sopm -d module-home-path\n";
     print "       otrs.PackageManager.pl -a index -d /path/to/repository/\n";
@@ -261,6 +263,13 @@ if ( $Opts{a} eq 'exportfile' ) {
 # build
 if ( $Opts{a} eq 'build' ) {
     my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    if ( $Opts{v} =~ m/\d{1,4}\.\d{1,4}\.\d{1,4}/ ) {
+        $Structure{Version}->{Content} = $Opts{v}
+    }
+    elsif ( $Opts{v} ) {
+        print STDERR "ERROR: the given version ($Opts{v}) is invalid.\n";
+        exit 1;
+    }
     if ( !-e $Opts{o} ) {
         print STDERR "ERROR: $Opts{o} doesn't exist!\n";
         exit 1;
