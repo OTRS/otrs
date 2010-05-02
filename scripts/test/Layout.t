@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.28 2010-02-10 11:25:29 martin Exp $
+# $Id: Layout.t,v 1.29 2010-05-02 14:17:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -886,6 +886,64 @@ for my $Test (@Tests) {
     $Self->Is(
         $HTML{Content},
         $Test->{Result}->{Content},
+        $Test->{Name},
+    );
+}
+
+# Tests for Layout::_RemoveScriptTags method
+my @Tests = (
+    {
+        Input  => '',
+        Result => '',
+        Name   => 'LRST - empty test',
+    },
+    {
+        Input  => 'abc123</script>',
+        Result => 'abc123</script>',
+        Name   => 'LRST - without start tag and some content test',
+    },
+    {
+        Input  => '<script type="text/javascript"></script>',
+        Result => '',
+        Name   => 'LRST - just tags test',
+    },
+    {
+        Input => '
+<script type="text/javascript">
+    123
+    // 456
+    789
+</script>',
+        Result => '
+123
+    // 456
+    789
+',
+        Name => 'LRST - some content test',
+    },
+    {
+        Input => '
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.Tables.InitTableFilter($(\'#FilterCustomers\'), $(\'#Customers\'));
+    OTRS.UI.Tables.InitTableFilter($(\'#FilterGroups\'), $(\'#Groups\'));
+//]]></script>
+        ',
+        Result => '
+OTRS.UI.Tables.InitTableFilter($(\'#FilterCustomers\'), $(\'#Customers\'));
+    OTRS.UI.Tables.InitTableFilter($(\'#FilterGroups\'), $(\'#Groups\'));
+
+        ',
+        Name => 'LRST - complet content from .dtl file test',
+    },
+);
+
+for my $Test (@Tests) {
+    my $LRST = $Self->{LayoutObject}->_RemoveScriptTags(
+        Code => $Test->{Input},
+    );
+    $Self->Is(
+        $LRST,
+        $Test->{Result},
         $Test->{Name},
     );
 }
