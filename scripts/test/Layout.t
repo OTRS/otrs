@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.30 2010-05-03 23:30:55 martin Exp $
+# $Id: Layout.t,v 1.31 2010-05-03 23:36:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -890,8 +890,8 @@ for my $Test (@Tests) {
     );
 }
 
-# Tests for Layout::_RemoveScriptTags method
-my @Tests = (
+# Tests for _RemoveScriptTags method
+@Tests = (
     {
         Input  => '',
         Result => '',
