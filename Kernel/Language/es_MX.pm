@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.10 2010-05-03 21:36:59 en Exp $
+# $Id: es_MX.pm,v 1.11 2010-05-03 21:47:14 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -667,20 +667,20 @@ sub Data {
         'Attachment Management' => 'Administración de Anexos',
 
         # Template: AdminAutoResponseForm
-        'Auto Response Management' => 'Gestión de respuestas automáticas',
+        'Auto Response Management' => 'Administración de Respuestas Automáticas',
         'Response' => 'Respuesta',
-        'Auto Response From' => 'Respuesta automática De ',
+        'Auto Response From' => 'Respuesta Automática De',
         'Note' => 'Nota',
-        'Useable options' => 'Opciones accesibles',
-        'To get the first 20 character of the subject.' => 'Para obtener los primeros 20 caracteres del asunto',
-        'To get the first 5 lines of the email.' => 'Para obtener las primeras 5 líneas del correo',
-        'To get the realname of the sender (if given).' => 'Para obtener el nombre real del remitente (si existe)',
-        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Para obtener el atributo del artículo (p.e. <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> y <OTRS_CUSTOMER_Body>).',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Opciones de datos del actual usuario del cliente (ej. <OTRS_CUSTOMER_DATA_UserFirstname>).',
-        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Opciones del propietario del ticket (ej. <OTRS_OWNER_UserFirstname>).',
-        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Opciones del responsable del ticket (ej. <OTRS_RESPONSIBLE_UserFirstname>).',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Opciones del actual usuario que requirió esta acción (ej. <OTRS_CURRENT_UserFirstname>).',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => 'Opciones de los datos del ticket (ej. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
+        'Useable options' => 'Opciones disponibles',
+        'To get the first 20 character of the subject.' => 'Para obtener los primeros 20 caracteres del asunto.',
+        'To get the first 5 lines of the email.' => 'Para obtener las primeras 5 líneas del correo.',
+        'To get the realname of the sender (if given).' => 'Para obtener el nombre real del remitente (si se proporcionó).',
+        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Para obtener el atributo del artículo (ej. <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> y <OTRS_CUSTOMER_Body>).',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Opciones de los datos del cliente actual (ej. <OTRS_CUSTOMER_DATA_UserFirstname>).',
+        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Opciones del propietario del Ticket (ej. <OTRS_OWNER_UserFirstname>).',
+        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Opciones del responsable del Ticket (ej. <OTRS_RESPONSIBLE_UserFirstname>).',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Opciones del usuario actual que solicitó ésta acción (ej. <OTRS_CURRENT_UserFirstname>).',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => 'Opciones de los datos del Ticket (ej. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Opciones de configuración (ej. <OTRS_CONFIG_HttpType>).',
 
         # Template: AdminCustomerCompanyForm
