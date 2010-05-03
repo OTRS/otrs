@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.8 2010-05-03 18:12:17 en Exp $
+# $Id: es_MX.pm,v 1.9 2010-05-03 21:17:17 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -390,52 +390,52 @@ sub Data {
 
         # Template: AAAStats
         'Stat' => 'Estadísticas',
-        'Please fill out the required fields!' => 'Por favor, rellene los campos requeridos',
-        'Please select a file!' => 'Por favor, seleccione un archivo',
-        'Please select an object!' => 'Por favor, seleccione un objeto',
-        'Please select a graph size!' => 'Por favor, seleccione un tamaño de gráfico',
-        'Please select one element for the X-axis!' => 'Por favor, seleccione un elemento para el eje X',
-        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Por favor, seleccione un solo elemento o desactive el botón \'Fijo\' donde el campo seleccionado está marcado',
-        'If you use a checkbox you have to select some attributes of the select field!' => 'Si usa una casilla de selección, debe seleccionar algunos atributos del campo seleccionado',
-        'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Por favor, inserte un valor en el campo de entrada o desactive la seleccion \'Fijo\'',
-        'The selected end time is before the start time!' => 'La fecha de finalización es anterior a la de inicio',
-        'You have to select one or more attributes from the select field!' => 'Debe seleccionar uno o más atributos del campo seleccionado',
-        'The selected Date isn\'t valid!' => 'La fecha seleccionada no es válida',
-        'Please select only one or two elements via the checkbox!' => 'Por favor, seleccione sólo uno o dos elementos usando la casilla de selección',
-        'If you use a time scale element you can only select one element!' => 'Si utiliza una escala de tiempo, sólo puede seleccionar un elemento',
-        'You have an error in your time selection!' => 'Tiene un error en la selección de tiempo',
-        'Your reporting time interval is too small, please use a larger time scale!' => 'El intervalo de tiempo para informes es pequeño, por favor use uno mayor',
-        'The selected start time is before the allowed start time!' => 'El momento de inicio es anterior al permitido',
-        'The selected end time is after the allowed end time!' => 'El momento de finalización es posterior al permitido',
-        'The selected time period is larger than the allowed time period!' => 'El periodo de tiempo es mayor que el permitido',
+        'Please fill out the required fields!' => 'Por favor, proporcione los campos requeridos.',
+        'Please select a file!' => 'Por favor, seleccione un archivo.',
+        'Please select an object!' => 'Por favor, seleccione un objeto.',
+        'Please select a graph size!' => 'Por favor, seleccione un tamaño de gráfica.',
+        'Please select one element for the X-axis!' => 'Por favor, seleccione un elemento para el eje X.',
+        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Por favor, seleccione únicamente un elemento o desactive el botón \'Fijo\' donde el campo está señalado.',
+        'If you use a checkbox you have to select some attributes of the select field!' => 'Si usa una casilla de selección, debe seleccionar algunos atributos de dicho campo.',
+        'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Por favor, inserte un valor en la caja de texto o desactive la opción \'Fijo\'',
+        'The selected end time is before the start time!' => 'La fecha de finalización seleccionada es previa a la de inicio.',
+        'You have to select one or more attributes from the select field!' => 'Debe elegir uno o más atributos de la lista de selección.',
+        'The selected Date isn\'t valid!' => 'La fecha seleccionada es inválida.',
+        'Please select only one or two elements via the checkbox!' => 'Por favor, elija sólo uno o dos elementos de la casilla de selección.',
+        'If you use a time scale element you can only select one element!' => 'Si utiliza una escala de tiempo, sólo puede seleccionar un elemento.',
+        'You have an error in your time selection!' => 'Tiene un error en la selección del tiempo.',
+        'Your reporting time interval is too small, please use a larger time scale!' => 'Su intervalo de tiempo para el reporte es demasiado pequeño, por favor utilice una escala mayor.',
+        'The selected start time is before the allowed start time!' => 'El tiempo de inicio seleccionado es previo al permitido.',
+        'The selected end time is after the allowed end time!' => 'El tiempo de finalización seleccionado es posterior al permitido.',
+        'The selected time period is larger than the allowed time period!' => 'El periodo de tiempo seleccionado es mayor al permitido.',
         'Common Specification' => 'Especificación común',
         'Xaxis' => 'EjeX',
         'Value Series' => 'Serie de Valores',
         'Restrictions' => 'Restricciones',
-        'graph-lines' => 'gráfico-de-lineas',
-        'graph-bars' => 'gráfico-de-barras ',
-        'graph-hbars' => 'gráfico-de-barras-horiz',
-        'graph-points' => 'gráfico-de-puntos',
-        'graph-lines-points' => 'gráfico-punteado',
-        'graph-area' => 'gráfico-de-área',
-        'graph-pie' => 'gráfico-de-pastel',
+        'graph-lines' => 'gráfica-líneas',
+        'graph-bars' => 'gráfica-barras ',
+        'graph-hbars' => 'gráfica-barras-horiz',
+        'graph-points' => 'gráfica-puntos',
+        'graph-lines-points' => 'gráfica-punteada',
+        'graph-area' => 'gráfica-área',
+        'graph-pie' => 'gráfica-pastel',
         'extended' => 'extendido',
         'Agent/Owner' => 'Agente/Propietario',
         'Created by Agent/Owner' => 'Creado por Agente/Propietario',
         'Created Priority' => 'Prioridad de Creación',
         'Created State' => 'Estado de Creación',
-        'Create Time' => 'Fecha de Creación',
-        'CustomerUserLogin' => 'Login de Usuario Cliente',
+        'Create Time' => 'Tiempo de Creación',
+        'CustomerUserLogin' => 'Cuenta de inicio de sesión del Cliente',
         'Close Time' => 'Fecha de Cierre',
-        'TicketAccumulation' => 'AcumulacionDeTickets',
-        'Attributes to be printed' => 'Atributos a Imprimir',
-        'Sort sequence' => 'Ordenar secuencia',
+        'TicketAccumulation' => 'Acumulación de Tickets',
+        'Attributes to be printed' => 'Atributos a imprimir',
+        'Sort sequence' => 'Secuencia de ordenamiento',
         'Order by' => 'Ordenar por',
         'Limit' => 'Límite',
         'Ticketlist' => 'Lista de tickets',
         'ascending' => 'ascendente',
         'descending' => 'descendente',
-        'First Lock' => 'Primer bloquéo',
+        'First Lock' => 'Primer bloqueo',
         'Evaluation by' => 'Evaluación por',
         'Total Time' => 'Tiempo Total',
         'Ticket Average' => 'Ticket-Promedio',
@@ -448,9 +448,9 @@ sub Data {
         'Number of Articles' => 'Número de artículos',
         'Accounted time by Agent' => 'Tiempo utilizado por el Agente',
         'Ticket/Article Accounted Time' => 'Tiempo utilizado por el Ticket/Articulo',
-        'TicketAccountedTime' => 'TiempoUtilizadoTicket',
-        'Ticket Create Time' => 'Creación del ticket',
-        'Ticket Close Time' => 'Finalización del ticket',
+        'TicketAccountedTime' => 'Tiempo Utilizado por el Ticket',
+        'Ticket Create Time' => 'Tiempo de creación del ticket',
+        'Ticket Close Time' => 'Tiempo de cierre del ticket',
 
         # Template: AAATicket
         'Lock' => 'Bloquear',
