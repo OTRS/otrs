@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.52 2010-05-03 09:04:49 mg Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.53 2010-05-03 12:29:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,7 +116,7 @@
 <!-- dtl:block:ConfigElementHashContent2 -->
 <!-- sub-hash or sub-array -->
                                 <label class="KeyWithComplexValue">
-                                    $QData{"Key"} =>
+                                    $QData{"Key"} =&gt;
                                     <input type="hidden" name="$QData{"ElementKey"}Key[]" value="$QData{"Key"}" size="20"/>
                                 </label>
                                 <input type="hidden" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}"/>
@@ -185,293 +185,133 @@
 
 
 <!-- dtl:block:ConfigElementFrontendModuleReg -->
-                            <td class="contentvalue">
-                                <table border="0" width="100" cellpadding="0" cellspacing="3">
-                                    <tr>
-                                        <td colspan="5" class="contentkey" width="100">$Text{"Group"}:</td>
-                                    </tr>
+                            <div class="FrontendModuleRegistration">
+                                <label class="KeyWithComplexValue">$Text{"Group"}:</label>
+                                <div class="Array">
+
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}#Group[]" value="$QData{"Content"}" size="30"/>
-                                        </td>
-                                        <td></td>
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteGroupElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                        </td>
-                                    </tr>
+                                    <input type="text" class="Entry" name="$QData{"ElementKey"}#Group[]" value="$QData{"Content"}"/>
+                                    <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteGroupElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
+                                    <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#NewGroupElement" value="$Text{"New Group"}">$Text{"New Group"}</button>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="contentkey">$Text{"Group Ro"}:</td>
-                                    </tr>
+                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#NewGroupElement" title="$Text{"New Group"}" value="$Text{"New Group"}" title="$Text{"New Group"}">$Text{"New Group"}</button>
+                                </div>
+
+                                <label class="KeyWithComplexValue">$Text{"Group Ro"}:</label>
+                                <div class="Array">
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
-                                    <tr>
-                                        <td></td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}#GroupRo[]" value="$QData{"Content"}" size="30"/>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteGroupRoElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                        </td>
-                                    </tr>
+                                    <input type="text" class="Entry" name="$QData{"ElementKey"}#GroupRo[]" value="$QData{"Content"}"/>
+                                    <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteGroupRoElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
+                                    <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#NewGroupRoElement" value="$Text{"New Group Ro"}">$Text{"New Group Ro"}</button>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="contentkey">$Text{"Title"}:</td>
-                                        <td>&nbsp;</td>
-                                        <td colspan="3" class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}#Title" value="$QData{"ContentTitle"}" size="30"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="contentkey">$Text{"Description"}:</td>
-                                        <td>&nbsp;</td>
-                                        <td colspan="3" class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}#Description" value="$QData{"ContentDescription"}" size="30"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="contentkey">$Text{"NavBarName"}:</td>
-                                        <td>&nbsp;</td>
-                                        <td colspan="3" class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}#NavBarName" value="$QData{"ContentNavBarName"}" size="30"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5"><hr/></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5" class="contentkey">$Text{"NavBar"} =&gt;</td>
-                                    </tr>
+                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#NewGroupRoElement" value="$Text{"New Group Ro"}">$Text{"New Group Ro"}</button>
+                                </div>
+
+                                <label class="SingleKey" for="$QData{"ElementKey"}#Title">$Text{"Title"}:</label>
+                                <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Title" name="$QData{"ElementKey"}#Title" value="$QData{"ContentTitle"}"/>
+                                <div class="Clear"></div>
+
+                                <label class="SingleKey" for="$QData{"ElementKey"}#Description">$Text{"Description"}:</label>
+                                <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Description" name="$QData{"ElementKey"}#Description" value="$QData{"ContentDescription"}"/>
+                                <div class="Clear"></div>
+
+                                <label class="SingleKey" for="$QData{"ElementKey"}#NavBarName">$Text{"NavBarName"}:</label>
+                                <input class="SingleContent" type="text" id="$QData{"ElementKey"}#NavBarName" name="$QData{"ElementKey"}#NavBarName" value="$QData{"ContentNavBarName"}"/>
+                                <div class="Clear"></div>
+
+                                <label class="KeyWithComplexValue">$Text{"NavBar"} =&gt;</label>
+                                <div class="NavBar">
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBar -->
-                                    <tr>
-                                        <td colspan="5">
-                                            <table border="0" cellpadding="0" cellspacing="3">
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey" width="100">$Text{"Group"}:</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
+                                    <div class="NavBarListEntry">
+
+                                        <label class="KeyWithComplexValue">$Text{"Group"}:</label>
+                                        <div class="Array">
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroup -->
-                                                <tr>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#Group[]" value="$QData{"Content"}" size="30"/>
-                                                    </td>
-                                                    <td class="contentvalue">
-                                                        <button class="button" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupElement$Data{"ArrayIndex"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                                    </td>
-                                                </tr>
+                                            <input type="text" class="Entry" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#Group[]" value="$QData{"Content"}"/>
+                                            <button class="Remove" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupElement$Data{"ArrayIndex"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
+                                            <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroup -->
-                                                <tr>
-                                                    <td>&nbsp;</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td colspan="2" class="contentvalue">
-                                                        <button class="button" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupElement" value="$Text{"New Group"}">$Text{"New Group"}</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Group Ro"}:</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
+                                            <button class="Add" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupElement" value="$Text{"New Group"}" title="$Text{"New Group"}">$Text{"New Group"}</button>
+                                        </div>
+
+                                        <label class="KeyWithComplexValue">$Text{"Group Ro"}:</label>
+                                        <div class="Array">
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroupRo -->
-                                                <tr>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#GroupRo[]" value="$QData{"Content"}" size="30"/>
-                                                    </td>
-                                                    <td class="contentvalue">
-                                                        <button class="button" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupRoElement$Data{"ArrayIndex"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                                    </td>
-                                                </tr>
+                                            <input type="text" class="Entry" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#GroupRo[]" value="$QData{"Content"}"/>
+                                            <button class="Remove" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupRoElement$Data{"ArrayIndex"}" value="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
+                                            <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroupRo -->
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td colspan="2" class="contentvalue">
-                                                        <button class="button" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupRoElement" value="$Text{"New Group Ro"}">$Text{"New Group Ro"}</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Description"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td colspan="2" class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Description[]" value="$QData{"ContentDescription"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Name"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td colspan="2" class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Image"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Image[]" value="$QData{"ContentImage"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Link"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td colspan="2" class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Link[]" value="$QData{"ContentLink"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Type"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td colspan="2" class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Type[]" value="$QData{"ContentType"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Prio"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td colspan="2" class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Block"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td colspan="2" class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"NavBar"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td colspan="2" class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#NavBar[]" value="$QData{"ContentNavBar"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"AccessKey"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td colspan="2" class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#AccessKey[]" value="$QData{"ContentAccessKey"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4"></td>
-                                        <td colspan="1">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#$Data{"Index"}#DeleteElement" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5"><hr/></td>
-                                    </tr>
+                                            <button class="Add" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupRoElement" value="$Text{"New Group Ro"}" title="$Text{"New Group Ro"}">$Text{"New Group Ro"}</button>
+                                        </div>
+
+                                        <label class="SingleKey" for="$QData{"ElementKey"}#Description[]">$Text{"Description"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Description[]" name="$QData{"ElementKey"}#Description[]" value="$QData{"ContentDescription"}"/>
+                                        <div class="Clear"></div>
+
+                                        <label class="SingleKey" for="$QData{"ElementKey"}#Name[]">$Text{"Name"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Name[]" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}"/>
+                                        <div class="Clear"></div>
+
+                                        <label class="SingleKey" for="$QData{"ElementKey"}#Image[]">$Text{"Image"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Image[]" name="$QData{"ElementKey"}#Image[]" value="$QData{"ContentImage"}"/>
+                                        <div class="Clear"></div>
+
+                                        <label class="SingleKey" for="$QData{"ElementKey"}#Link[]">$Text{"Link"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Link[]" name="$QData{"ElementKey"}#Link[]" value="$QData{"ContentLink"}"/>
+                                        <div class="Clear"></div>
+
+                                        <label class="SingleKey" for="$QData{"ElementKey"}#Type[]">$Text{"Type"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Type[]" name="$QData{"ElementKey"}#Type[]" value="$QData{"ContentType"}"/>
+                                        <div class="Clear"></div>
+
+                                        <label class="SingleKey" for="$QData{"ElementKey"}#Prio[]">$Text{"Priority"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Prio[]" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}"/>
+                                        <div class="Clear"></div>
+
+                                        <label class="SingleKey" for="$QData{"ElementKey"}#Block[]">$Text{"Block"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Block[]" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}"/>
+                                        <div class="Clear"></div>
+
+                                        <label class="SingleKey" for="$QData{"ElementKey"}#NavBar[]">$Text{"NavBar"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#NavBar[]" name="$QData{"ElementKey"}#NavBar[]" value="$QData{"ContentNavBar"}"/>
+                                        <div class="Clear"></div>
+
+                                        <label class="SingleKey" for="$QData{"ElementKey"}#AccessKey[]">$Text{"AccessKey"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#AccessKey[]" name="$QData{"ElementKey"}#AccessKey[]" value="$QData{"ContentAccessKey"}"/>
+                                        <div class="Clear"></div>
+
+                                        <button class="Remove" type="submit" name="$QData{"ElementKey"}#$Data{"Index"}#DeleteElement" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
+                                    </div>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBar -->
-                                    <tr>
-                                        <td colspan="5" class="contentvalue">
-                                            &nbsp;&nbsp;&nbsp;<button class="button" type="submit" name="$QData{"ElementKey"}#NavBar#AddElement" value="$Text{"Add"}">$Text{"Add"}</button>
-                                        </td>
-                                    </tr>
+                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#NavBar#AddElement" value="$Text{"Add NavBar entry"}" title="$Text{"Add NavBar entry"}">$Text{"Add NavBar entry"}</button>
+                                </div>
+                                <br/>
+
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarModule -->
-                                    <tr>
-                                        <td colspan="5"><hr/></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5" class="contentkey" width="100">NavBarModule&nbsp;=></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5">
-                                            <table border="0" cellpadding="0" cellspacing="3">
-                                                <tr>
-                                                    <td width="50">&nbsp;</td>
-                                                    <td class="contentkey" width="80">$Text{"Module"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Module[]" value="$QData{"ContentModule"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Name"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Description"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Description[]" value="$QData{"ContentDescription"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Block"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="contentkey">$Text{"Prio"}:</td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="contentvalue">
-                                                        <input type="text" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}" size="30"/>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5"><hr/></td>
-                                    </tr>
+                                <label class="KeyWithComplexValue">NavBarModule =&gt;</label>
+                                <div class="NavBar">
+                                    <label class="SingleKey" for="$QData{"ElementKey"}#Module[]">$Text{"Module"}:</label>
+                                    <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Module[]" name="$QData{"ElementKey"}#Module[]" value="$QData{"ContentModule"}"/>
+                                    <div class="Clear"></div>
+
+                                    <label class="SingleKey" for="$QData{"ElementKey"}#Name[]">$Text{"Name"}:</label>
+                                    <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Name[]" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}"/>
+                                    <div class="Clear"></div>
+
+                                    <label class="SingleKey" for="$QData{"ElementKey"}#Description[]">$Text{"Description"}:</label>
+                                    <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Description[]" name="$QData{"ElementKey"}#Description[]" value="$QData{"ContentDescription"}"/>
+                                    <div class="Clear"></div>
+
+                                    <label class="SingleKey" for="$QData{"ElementKey"}#Block[]">$Text{"Block"}:</label>
+                                    <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Block[]" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}"/>
+                                    <div class="Clear"></div>
+
+                                    <label class="SingleKey" for="$QData{"ElementKey"}#Prio[]">$Text{"Priority"}:</label>
+                                    <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Prio[]" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}"/>
+                                    <div class="Clear"></div>
+                                </div>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarModule -->
-                                </table>
-                            </td>
+                            </div>
 <!-- dtl:block:ConfigElementFrontendModuleReg -->
 
 
