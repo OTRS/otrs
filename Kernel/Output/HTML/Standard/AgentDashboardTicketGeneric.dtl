@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.24 2010-04-05 12:14:34 martin Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.25 2010-05-03 10:22:21 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,17 +10,62 @@
 # --
 
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
-<div>
-    <a href="#" onclick="Core.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked'); return false;" style="$QData{"Locked::Style"}">$Text{"Locked Tickets"} ($QData{"Locked"})</a>
+<div class="TicketFilter">
+    <a href="#" id="Dashboard$QData{"Name"}Locked" class="$QData{"Locked::Selected"}">$Text{"Locked Tickets"} ($QData{"Locked"})</a>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Locked', function(){
+        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+        });
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
-    | <a href="#" onclick="Core.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher'); return false;" style="$QData{"Watcher::Style"}">$Text{"Watched"} ($QData{"Watcher"})</a>
+    | <a href="#" id="Dashboard$QData{"Name"}Watcher" class="$QData{"Watcher::Selected"}">$Text{"Watched"} ($QData{"Watcher"})</a>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Watcher', function(){
+        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+        });
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
-    | <a href="#" onclick="Core.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible'); return false;" style="$QData{"Responsible::Style"}">$Text{"Responsible"} ($QData{"Responsible"})</a>
+    | <a href="#" id="Dashboard$QData{"Name"}Responsible" class="$QData{"Responsible::Selected"}">$Text{"Responsible"} ($QData{"Responsible"})</a>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Responsible', function(){
+        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+        });
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
-    | <a href="#" onclick="Core.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues'); return false;" style="$QData{"MyQueues::Style"}">$Text{"My Queues"} ($QData{"MyQueues"})</a>
-    | <a href="#" onclick="Core.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All'); return false;" style="$QData{"All::Style"}">$Text{"All"} ($QData{"All"})</a>
-
+    | <a href="#" id="Dashboard$QData{"Name"}MyQueues" class="$QData{"MyQueues::Selected"}">$Text{"My Queues"} ($QData{"MyQueues"})</a>
+    | <a href="#" id="Dashboard$QData{"Name"}All" class="$QData{"All::Selected"}">$Text{"All"} ($QData{"All"})</a>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}MyQueues', function(){
+        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+        });
+        return false;
+    });
+    OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}All', function(){
+        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+        });
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentLargeTicketGenericFilterNavBar -->
     <div class="Pagination">
         $Data{"SiteNavBar"}

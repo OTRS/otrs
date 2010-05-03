@@ -2,7 +2,7 @@
 // OTRS.UI.Tables.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Tables.js,v 1.7 2010-04-27 06:47:37 mn Exp $
+// $Id: OTRS.UI.Tables.js,v 1.8 2010-05-03 10:22:22 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -35,14 +35,14 @@ OTRS.UI.Tables = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.InitCSSPseudoClasses = function ($Context) {
-        $('tr.Even, tr.Last, th.Last, td.Last, li.Even, li.Last', $Context)
-            .removeClass('Even Last');
-
-        $('tr:nth-child(even), li:not(.Header):nth-child(odd)', $Context)
-            .addClass('Even');
-
-        $('tr:last-child, th:last-child, td:last-child, li:last-child', $Context)
-            .addClass('Last');
+        if (typeof $Context === 'undefined' || $Context.length) {
+            $('tr.Even, tr.Last, th.Last, td.Last, li.Even, li.Last', $Context)
+                .removeClass('Even Last');
+            $('tr:nth-child(even), li:not(.Header):nth-child(odd)', $Context)
+                .addClass('Even');
+            $('tr:last-child, th:last-child, td:last-child, li:last-child', $Context)
+                .addClass('Last');
+        }
     };
 
     /**

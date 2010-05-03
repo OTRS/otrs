@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -414,6 +414,14 @@ ul.ContextFunctions li.ContextHelp:hover {
     padding-top: 3px;
     font-weight: bold;
     font-size: 14px;
+}
+
+/*
+ * @subsection  Dashboard Ticket Filter
+ */
+.TicketFilter > a.Selected,
+.UserFilter > a.Selected {
+    text-decoration: underline;
 }
 
 /**

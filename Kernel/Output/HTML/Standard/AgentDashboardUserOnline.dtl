@@ -2,7 +2,7 @@
 # AgentDashboardUserOnline.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardUserOnline.dtl,v 1.16 2010-04-05 13:10:33 martin Exp $
+# $Id: AgentDashboardUserOnline.dtl,v 1.17 2010-05-03 10:22:21 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,10 +10,26 @@
 # --
 
 <!-- dtl:block:ContentSmallUserOnlineFilter -->
-<div>
-    <a href="#" onclick="Core.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Agent'); return false;" style="$QData{"Agent::Style"}">$Text{"Agents"} ($QData{"Agent"})</a>
+<div class="UserFilter">
+    <a href="#" id="Dashboard$QData{"Name"}Agent" class="$QData{"Agent::Selected"}">$Text{"Agents"} ($QData{"Agent"})</a>
     |
-    <a href="#" onclick="Core.AJAXContentUpdate('Dashboard$QData{"Name"}', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Customer'); return false;" style="$QData{"Customer::Style"}">$Text{"Customers"} ($QData{"Customer"})</a>
+    <a href="#" id="Dashboard$QData{"Name"}Customer" class="$QData{"Customer::Selected"}">$Text{"Customers"} ($QData{"Customer"})</a>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Agent', function(){
+        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Agent', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+        });
+        return false;
+    });
+    OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Customer', function(){
+        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Customer', function () {
+            OTRS.UI.Tables.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+        });
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentSmallTicketGenericFilterNavBar -->
     <div class="Pagination">
         $Data{"SiteNavBar"}
