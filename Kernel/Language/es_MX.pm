@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.11 2010-05-03 21:47:14 en Exp $
+# $Id: es_MX.pm,v 1.12 2010-05-03 21:53:48 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -684,13 +684,13 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Opciones de configuración (ej. <OTRS_CONFIG_HttpType>).',
 
         # Template: AdminCustomerCompanyForm
-        'Customer Company Management' => 'Administración de Compañía de Cliente',
+        'Customer Company Management' => 'Administración de Compañías del Cliente',
         'Search for' => 'Buscar por',
-        'Add Customer Company' => 'Añadir Compañía de Cliente',
-        'Add a new Customer Company.' => 'Añadir una nueva Compañía de Cliente',
+        'Add Customer Company' => 'Añadir Compañía del Cliente',
+        'Add a new Customer Company.' => 'Añadir una nueva Compañía del Cliente.',
         'List' => 'Listar',
-        'These values are required.' => 'Estos valores son obligatorios',
-        'These values are read-only.' => 'Estos valores son de sólo-lectura',
+        'These values are required.' => 'Estos valores son obligatorios.',
+        'These values are read-only.' => 'Estos valores son de sólo-lectura.',
 
         # Template: AdminCustomerUserForm
         'Title{CustomerUser}' => '',
