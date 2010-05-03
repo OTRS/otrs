@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.14 2010-05-03 22:10:08 en Exp $
+# $Id: es_MX.pm,v 1.15 2010-05-03 22:14:16 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -727,10 +727,10 @@ sub Data {
         'Full read and write access to the tickets in this group/queue.' => 'Acceso completo de lectura y escritura a los tickets de este grupo/fila.',
 
         # Template: AdminCustomerUserService
-        'Customer Users <-> Services Management' => 'Gestión de Clientes <-> Servicios',
-        'CustomerUser' => 'Usuario Cliente',
-        'Service' => 'Servicios',
-        'Edit default services.' => 'Editar servicios por defecto',
+        'Customer Users <-> Services Management' => 'Administración de Clientes <-> Servicios',
+        'CustomerUser' => 'Cliente',
+        'Service' => 'Servicio',
+        'Edit default services.' => 'Modificar los servicios por defecto.',
         'Search Result' => 'Buscar resultados',
         'Allocate services to CustomerUser' => 'Relacionar Servicios con Clientes',
         'Active' => 'Activo',
