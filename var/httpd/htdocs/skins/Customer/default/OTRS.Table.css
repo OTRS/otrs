@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -37,7 +37,7 @@ table.Overview {
     padding: 0 1px 1px;
     vertical-align: bottom;
     border-right: 1px solid #666;
-    border-bottom: 1px solid #666666;
+    border-bottom: 1px solid #666;
 }
 .RTL .Overview thead th {
     border-right: none;
@@ -70,6 +70,9 @@ table.Overview {
 .Overview tbody {
     background-color: transparent;
 }
+.Overview tbody tr {
+    border-bottom: 1px solid transparent;
+}
 .Overview tbody tr:active {
     background-color: #DDD;
 }
@@ -80,7 +83,7 @@ table.Overview {
     background-color: #F3F3F3;
 }
 .Overview tbody td {
-    padding: 3px 8px 1px;
+    padding: 4px 8px 3px;
     white-space: nowrap;
 }
 .Overview tbody a {
@@ -112,7 +115,6 @@ table.Overview {
     font-size: 12px;
     font-weight: bold;
     color: #444;
-    line-height: 18px;
     display: inline;
 }
 .Age {
@@ -124,11 +126,13 @@ table.Overview {
 /**
  * @subsection  Table Style Hovered
  */
-.Overview tbody tr:hover td {
-    background: url(img/tr_hover.png) repeat-x top;
-}
-.Overview tbody tr:hover + tr td {
-    background: url(img/tr_hover_next_bg.png) repeat-x 0 0;
+.Overview tbody tr:hover {
+    background: #F4990E;
+    background: 
+        -moz-linear-gradient(top, #FFD995, #FBBB4B 3px, #F7AF3F 53%, #F4990E 53%, #E98207 96%, #E06F05);
+    background: 
+        -webkit-gradient(linear, left top, left bottom, from(#FFD995), to(#E06F05), color-stop(3px, #FBBB4B), color-stop(53%, #F7AF3F), color-stop(53%, #F4990E), color-stop(96%, #E98207));
+    border-color: #888;
 }
 .Overview tbody tr:hover td,
 .Overview tbody tr:hover a {
@@ -142,8 +146,20 @@ table.Overview {
 /**
  * @subsection  Table Style Active
  */
-.Overview tbody tr:focus td,
+
+.Overview tbody tr:active {
+    /*padding: 4px 8px 0;*/
+    background: #E98207;
+    background: 
+        -moz-linear-gradient(top, #FBBB4B, #F7AF3F 53%, #F4990E 53%, #E98207 96%, #E06F05);
+    background: 
+        -webkit-gradient(linear, left top, left bottom, from(#FFD995), to(#E06F05), color-stop(3px, #FBBB4B), color-stop(53%, #F7AF3F), color-stop(53%, #F4990E), color-stop(96%, #E98207));
+    border-color: #BBB;
+}
 .Overview tbody tr:active td {
-    background: url(img/tr_hover.png) repeat-x 0 -25px;
-    padding: 4px 8px 0;
+    padding: 4px 8px 3px;
+}
+.Overview tbody tr:focus + tr td,
+.Overview tbody tr:active + tr td {
+    background: none
 }
