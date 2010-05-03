@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.15 2010-05-03 22:14:16 en Exp $
+# $Id: es_MX.pm,v 1.16 2010-05-03 22:17:04 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -738,7 +738,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Mensaje enviado a',
-        'A message should have a subject!' => 'Los mensajes deben tener asunto!',
+        'A message should have a subject!' => 'Los mensajes deben tener asunto.',
         'Recipients' => 'Destinatarios',
         'Body' => 'Cuerpo',
         'Send' => 'Enviar',
