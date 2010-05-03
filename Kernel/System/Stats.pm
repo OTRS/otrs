@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.91 2010-05-03 13:07:48 mb Exp $
+# $Id: Stats.pm,v 1.92 2010-05-03 17:01:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 =head1 SYNOPSIS
 
@@ -155,22 +155,22 @@ sub StatsAdd {
     my $StatNumber = $StatID + $Self->{ConfigObject}->Get('Stats::StatsStartNumber');
     my %MetaData   = (
         Created => [
-            Content => $TimeStamp,
+            { Content => $TimeStamp },
         ],
         CreatedBy => [
-            Content => $Self->{UserID},
+            { Content => $Self->{UserID} },
         ],
         Changed => [
-            Content => $TimeStamp,
+            { Content => $TimeStamp },
         ],
         ChangedBy => [
-            Content => $Self->{UserID},
+            { Content => $Self->{UserID} },
         ],
         Valid => [
-            Content => 1,
+            { Content => 1 },
         ],
         StatNumber => [
-            Content => $StatNumber,
+            { Content => $StatNumber },
         ],
     );
 
@@ -238,7 +238,7 @@ sub StatsGet {
         )
         )
     {
-        if ( defined $StatsXML->{$Key}[1]->{Content} ) {
+        if ( defined $StatsXML->{$Key}->[1]->{Content} ) {
             $Stat{$Key} = $StatsXML->{$Key}->[1]->{Content};
         }
     }
@@ -1597,7 +1597,7 @@ sub Import {
     {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Object $StatsXML->{Object}[1]{Content} doesn't exists!"
+            Message  => "Object $StatsXML->{Object}->[1]->{Content} doesn't exists!"
         );
         return;
     }
@@ -1618,7 +1618,7 @@ sub Import {
                 $StatsXML->{File}->[1]->{Content}
                     = decode_base64( $StatsXML->{File}->[1]->{Content} );
                 $Self->{EncodeObject}->EncodeOutput(
-                    \$StatsXML->{File}[1]{Content}
+                    \$StatsXML->{File}->[1]->{Content}
                 );
             }
 
@@ -1634,10 +1634,10 @@ sub Import {
             chmod( oct( $StatsXML->{File}[1]{Permission} ), $FileLocation );
             $StatsXML->{File}->[1]->{Content} = $StatsXML->{File}->[1]->{File};
 
-            delete $StatsXML->{File}[1]{File};
-            delete $StatsXML->{File}[1]{Location};
-            delete $StatsXML->{File}[1]{Permission};
-            delete $StatsXML->{File}[1]{Encode};
+            delete $StatsXML->{File}->[1]->{File};
+            delete $StatsXML->{File}->[1]->{Location};
+            delete $StatsXML->{File}->[1]->{Permission};
+            delete $StatsXML->{File}->[1]->{Encode};
         }
     }
 
@@ -3275,6 +3275,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.91 $ $Date: 2010-05-03 13:07:48 $
+$Revision: 1.92 $ $Date: 2010-05-03 17:01:49 $
 
 =cut
