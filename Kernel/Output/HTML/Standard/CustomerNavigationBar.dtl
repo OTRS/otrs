@@ -2,7 +2,7 @@
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.28 2010-04-16 20:09:18 martin Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.29 2010-05-03 23:29:59 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,13 +13,13 @@
 $Data{"Notification"}
 <!-- end Notifications -->
 <!-- start NavigationBar -->
-<div class="ControlRow">
-    <ul class="Tabs">
+<div id="Navigation">
+    <ul>
 <!-- dtl:block:Item -->
         <li class="$QData{"Class"}" title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" alt="$Text{"$QData{"Name"}"}">$Text{"$QData{"Name"}"}</a></li>
 <!-- dtl:block:Item -->
     </ul>
-    <ul class="User Tabs">
+    <ul class="Individual">
 <!-- dtl:block:Preferences -->
         <li class="$QData{"Class"}"><a href="$Env{"Baselink"}Action=CustomerPreferences" title="$Text{"Edit personal preferences"}">$Text{"Preferences"}</a></li>
 <!-- dtl:block:Preferences -->
