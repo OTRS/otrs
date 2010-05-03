@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -15,8 +15,7 @@
  */
 
 button {
-    padding: 0;
-    line-height: 16px;
+    padding: 0 13px;
 }
 
 /**
@@ -28,7 +27,7 @@ button {
 }
 
 .Login button {
-    margin-top: 14px;
+    margin-top: 16px;
 }
 
 .Floating.InlineLabels button {
