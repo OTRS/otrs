@@ -2,7 +2,7 @@
 # AdminResponseAttachment.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.dtl,v 1.7 2010-04-30 08:18:23 mg Exp $
+# $Id: AdminResponseAttachment.dtl,v 1.8 2010-05-03 08:34:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,6 +103,7 @@
                                 </th>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
+    OTRS.Forms.InitSelectAllCheckboxes('$QData{"Type"}', 'SelectAll$QData{"Type"}');
     OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
         OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
     });
