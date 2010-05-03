@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.12 2010-05-03 21:53:48 en Exp $
+# $Id: es_MX.pm,v 1.13 2010-05-03 22:03:27 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -693,27 +693,27 @@ sub Data {
         'These values are read-only.' => 'Estos valores son de sólo-lectura.',
 
         # Template: AdminCustomerUserForm
-        'Title{CustomerUser}' => '',
+        'Title{CustomerUser}' => 'Saludo',
         'Firstname{CustomerUser}' => 'Nombre',
         'Lastname{CustomerUser}' => 'Apellido',
         'Username{CustomerUser}' => 'Nombre de Usuario',
-        'Email{CustomerUser}' => 'Correo',
-        'CustomerID{CustomerUser}' => 'Nº cliente',
+        'Email{CustomerUser}' => 'Correo electrónico',
+        'CustomerID{CustomerUser}' => 'Identificador del cliente',
         'Phone{CustomerUser}' => 'Teléfono',
         'Fax{CustomerUser}' => 'Fax',
         'Mobile{CustomerUser}' => 'Móvil',
         'Street{CustomerUser}' => 'Calle',
-        'Zip{CustomerUser}' => 'Código postal',
+        'Zip{CustomerUser}' => 'Código Postal',
         'City{CustomerUser}' => 'Ciudad',
         'Country{CustomerUser}' => 'País',
         'Comment{CustomerUser}' => 'Comentario',
-        'The message being composed has been closed.  Exiting.' => 'El mensaje que se estaba redactando ha sido cerrado. Saliendo.!',
+        'The message being composed has been closed.  Exiting.' => 'El mensaje que se estaba redactando ha sido cerrado. Saliendo...',
         'This window must be called from compose window' => 'Esta ventana debe ser llamada desde la ventana de redacción',
-        'Customer User Management' => 'Gestión de clientes',
-        'Add Customer User' => 'Añadir Cliente Usuario',
+        'Customer User Management' => 'Administración de Clientes',
+        'Add Customer User' => 'Añadir Cliente',
         'Source' => 'Origen',
         'Create' => 'Crear',
-        'Customer user will be needed to have a customer history and to login via customer panel.' => 'El cliente necesita tener una historia y conectarse vía panel de clientes',
+        'Customer user will be needed to have a customer history and to login via customer panel.' => 'El cliente se necesita para tener un historial e iniciar sesión a través del panel de clientes.',
 
         # Template: AdminCustomerUserGroupChangeForm
         'Customer Users <-> Groups Management' => 'Gestión de Clientes <-> Grupos',
