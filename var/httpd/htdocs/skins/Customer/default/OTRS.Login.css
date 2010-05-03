@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -68,7 +68,8 @@
     color: #AAA;
 }
 
-.Login input {
+.Login input[type='text'],
+.Login input[type='password']  {
     width: 177px;
     padding: 3px 5px;
     background-color: transparent;
@@ -82,6 +83,7 @@
 
 .Login button {
     margin-top: 13px;
+    min-width: 70px;
 }
 
 /**
@@ -105,7 +107,7 @@
 }
 
 .Js .Floating button {
-    margin-top: 3px;
+    margin-top: 0;
 }
 
 /**
@@ -123,7 +125,8 @@
     z-index: 1;
 }
 
-.Js .Login input {
+.Js .Login input[type='text'],
+.Js .Login input[type='password'] {
     margin: 0;
     position: relative;
     z-index: 10;
@@ -161,7 +164,6 @@
  */
 
 .ErrorBox {
-    max-width: 400px;
     margin: -13px 136px 20px;
 }
 
