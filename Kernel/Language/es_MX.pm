@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.6 2010-05-03 16:36:31 dz Exp $
+# $Id: es_MX.pm,v 1.7 2010-05-03 16:52:54 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -395,19 +395,19 @@ sub Data {
         'Please select an object!' => 'Por favor, seleccione un objeto',
         'Please select a graph size!' => 'Por favor, seleccione un tamaño de gráfico',
         'Please select one element for the X-axis!' => 'Por favor, seleccione un elemento para el eje X',
-        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Por favor, selecciones un solo elemento o desactive el botón \'Fijado\' donde el campo seleccionado está marcado!',
+        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Por favor, seleccione un solo elemento o desactive el botón \'Fijo\' donde el campo seleccionado está marcado',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Si usa una casilla de selección, debe seleccionar algunos atributos del campo seleccionado',
-        'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Por favor, inserte un valor en el campo de entrada o desactive la seleccion \'Fijado\'',
-        'The selected end time is before the start time!' => 'La fecha de finalización es anterior a la de inicio!',
-        'You have to select one or more attributes from the select field!' => 'Debe seleccionar uno o más atributos del campo seleccionado!',
+        'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Por favor, inserte un valor en el campo de entrada o desactive la seleccion \'Fijo\'',
+        'The selected end time is before the start time!' => 'La fecha de finalización es anterior a la de inicio',
+        'You have to select one or more attributes from the select field!' => 'Debe seleccionar uno o más atributos del campo seleccionado',
         'The selected Date isn\'t valid!' => 'La fecha seleccionada no es válida',
-        'Please select only one or two elements via the checkbox!' => 'Por favor, seleccione sólo uno o dos elementos usando la casilla de selección!',
-        'If you use a time scale element you can only select one element!' => 'Si utiliza una escala de tiempo, sólo puede seleccionar un elemento!',
-        'You have an error in your time selection!' => 'Tiene un error en la selección de tiempo!',
-        'Your reporting time interval is too small, please use a larger time scale!' => 'El intervalo de tiempo para informes es pequeño, por favor use uno mayor!',
-        'The selected start time is before the allowed start time!' => 'El momento de inicio es anterior al permitido!',
-        'The selected end time is after the allowed end time!' => 'El momento de finalización es posterior al permitido!',
-        'The selected time period is larger than the allowed time period!' => 'El periodo de tiempo es mayor que el permitido!',
+        'Please select only one or two elements via the checkbox!' => 'Por favor, seleccione sólo uno o dos elementos usando la casilla de selección',
+        'If you use a time scale element you can only select one element!' => 'Si utiliza una escala de tiempo, sólo puede seleccionar un elemento',
+        'You have an error in your time selection!' => 'Tiene un error en la selección de tiempo',
+        'Your reporting time interval is too small, please use a larger time scale!' => 'El intervalo de tiempo para informes es pequeño, por favor use uno mayor',
+        'The selected start time is before the allowed start time!' => 'El momento de inicio es anterior al permitido',
+        'The selected end time is after the allowed end time!' => 'El momento de finalización es posterior al permitido',
+        'The selected time period is larger than the allowed time period!' => 'El periodo de tiempo es mayor que el permitido',
         'Common Specification' => 'Especificación común',
         'Xaxis' => 'EjeX',
         'Value Series' => 'Serie de Valores',
@@ -1196,7 +1196,7 @@ sub Data {
 
         # Template: AgentStatsEditRestrictions
         'Select the restrictions to characterise the stat' => 'Seleccione las restricciones para caracterizar la estadística',
-        'Fixed' => 'Fijado',
+        'Fixed' => 'Fijo',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Por favor seleccione sólo un elemento o desactive el botón \'Fijado\.',
         'Absolut Period' => 'Periodo Absoluto',
         'Between' => 'Entre',
