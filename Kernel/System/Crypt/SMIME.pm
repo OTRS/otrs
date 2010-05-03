@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.34 2009-11-26 12:23:09 bes Exp $
+# $Id: SMIME.pm,v 1.35 2010-05-03 08:35:39 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -454,6 +454,10 @@ sub CertificateGet {
     }
     my $File = "$Self->{CertPath}/$Param{Hash}.0";
     my $CertificateRef = $Self->{MainObject}->FileRead( Location => $File );
+    if ( ref $CertificateRef ne 'SCALAR' ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Certificate!" );
+        return;
+    }
     return $$CertificateRef;
 }
 
@@ -926,6 +930,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.35 $ $Date: 2010-05-03 08:35:39 $
 
 =cut
