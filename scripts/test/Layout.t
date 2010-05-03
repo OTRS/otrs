@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.29 2010-05-02 14:17:45 cg Exp $
+# $Id: Layout.t,v 1.30 2010-05-03 23:30:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -500,13 +500,13 @@ for my $Test (@Tests) {
     {
         Name   => 'Ascii2Html() - Max check #1',
         String => 'some Text',
-        Result => 'some [..]',
+        Result => 'some [...]',
         Max    => 5,
     },
     {
         Name   => 'Ascii2Html() - Max check #2',
         String => 'some Text',
-        Result => 'some Tex[..]',
+        Result => 'some Tex[...]',
         Max    => 8,
     },
     {
@@ -651,17 +651,17 @@ $Self->True(
     {
         Name   => 'QuoteAndCut()',
         String => '$Quote{"some Text","6"}',
-        Result => 'some T[..]',
+        Result => 'some T[...]',
     },
     {
         Name   => 'QuoteAndCut()',
         String => '$Quote{"some Text", "6"}',
-        Result => 'some T[..]',
+        Result => 'some T[...]',
     },
     {
         Name   => 'QuoteAndCut()',
         String => '$Quote{"some Text",   "6"}',
-        Result => 'some T[..]',
+        Result => 'some T[...]',
     },
     {
         Name   => 'QuoteAndCut()',
@@ -676,17 +676,17 @@ $Self->True(
     {
         Name   => 'QuoteAndCut()',
         String => '$QData{"Key4","10"}',
-        Result => 'Value&quot;4&quot;Va[..]',
+        Result => 'Value&quot;4&quot;Va[...]',
     },
     {
         Name   => 'QuoteAndCut()',
         String => '$QData{"Key4", "10"}',
-        Result => 'Value&quot;4&quot;Va[..]',
+        Result => 'Value&quot;4&quot;Va[...]',
     },
     {
         Name   => 'QuoteAndCut()',
         String => '$QData{"Key4",   "10"}',
-        Result => 'Value&quot;4&quot;Va[..]',
+        Result => 'Value&quot;4&quot;Va[...]',
     },
     {
         Name   => 'QuoteAndCut()',
