@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.13 2010-05-03 22:03:27 en Exp $
+# $Id: es_MX.pm,v 1.14 2010-05-03 22:10:08 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -716,17 +716,15 @@ sub Data {
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'El cliente se necesita para tener un historial e iniciar sesión a través del panel de clientes.',
 
         # Template: AdminCustomerUserGroupChangeForm
-        'Customer Users <-> Groups Management' => 'Gestión de Clientes <-> Grupos',
-        'Change %s settings' => 'Cambiar %s especificaciones',
-        'Select the user:group permissions.' => 'Seleccionar los permisos de usuario:grupo',
-        'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => 'Si no se selecciona algo, no habrá permisos en este grupo (Los tickets no estarán disponibles para este cliente).',
-        'Permission' => 'Permisos',
-        'ro' => '',
-        'Read only access to the ticket in this group/queue.' => 'Acceso de sólo lectura a los tickets en este grupo/cola.',
-        'rw' => '',
-        'Full read and write access to the tickets in this group/queue.' => 'Acceso completo de lectura y escritura a los tickets en este grupo/cola.',
-
-        # Template: AdminCustomerUserGroupForm
+        'Customer Users <-> Groups Management' => 'Administración de Clientes <-> Grupos',
+        'Change %s settings' => 'Cambiar las configuraciones %s',
+        'Select the user:group permissions.' => 'Seleccionar los permisos del usuario:grupo',
+        'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => 'Si no se selecciona algo, no habrá permisos en este grupo (los tickets no estarán disponibles para el cliente).',
+        'Permission' => 'Permiso',
+        'ro' => 'ro',
+        'Read only access to the ticket in this group/queue.' => 'Acceso de sólo lectura a los tickets de este grupo/fila.',
+        'rw' => 'rw',
+        'Full read and write access to the tickets in this group/queue.' => 'Acceso completo de lectura y escritura a los tickets de este grupo/fila.',
 
         # Template: AdminCustomerUserService
         'Customer Users <-> Services Management' => 'Gestión de Clientes <-> Servicios',
