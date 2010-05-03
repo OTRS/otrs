@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.85 2010-05-03 17:01:49 martin Exp $
+# $Id: AgentStats.pm,v 1.86 2010-05-03 17:06:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -182,10 +182,10 @@ sub Run {
         );
 
         # create format select box
-        my %SelectFormat = ();
-        my $Flag         = 0;
-        my $Counter      = 0;
-        my $Format       = $Self->{ConfigObject}->Get('Stats::Format');
+        my %SelectFormat;
+        my $Flag    = 0;
+        my $Counter = 0;
+        my $Format  = $Self->{ConfigObject}->Get('Stats::Format');
         for my $UseAsValueSeries ( @{ $Stat->{UseAsValueSeries} } ) {
             if ( $UseAsValueSeries->{Selected} ) {
                 $Counter++;
@@ -202,7 +202,7 @@ sub Run {
             }
         }
         if ( $CounterII > 1 ) {
-            my %Frontend = ();
+            my %Frontend;
             $Frontend{SelectFormat} = $Self->{LayoutObject}->BuildSelection(
                 Data => \%SelectFormat,
                 Name => 'Format',
@@ -224,8 +224,8 @@ sub Run {
 
         # create graphic size select box
         if ( $Stat->{GraphSize} && $Flag ) {
-            my %GraphSize    = ();
-            my %Frontend     = ();
+            my %GraphSize;
+            my %Frontend;
             my $GraphSizeRef = $Self->{ConfigObject}->Get('Stats::GraphSize');
             for my $Value ( @{ $Stat->{GraphSize} } ) {
                 $GraphSize{$Value} = $GraphSizeRef->{$Value};
@@ -309,7 +309,7 @@ sub Run {
                 for my $ObjectAttribute ( @{ $Stat->{$Use} } ) {
                     next if !$ObjectAttribute->{Selected};
 
-                    my %ValueHash = ();
+                    my %ValueHash;
                     $Flag = 1;
 
                     # Select All function
@@ -373,7 +373,7 @@ sub Run {
                         else {
 
                             # find out which sort mechanism is used
-                            my @Sorted = ();
+                            my @Sorted;
                             if ( $ObjectAttribute->{SortIndividual} ) {
                                 @Sorted = grep { $ValueHash{$_} }
                                     @{ $ObjectAttribute->{SortIndividual} };
@@ -403,7 +403,7 @@ sub Run {
 
                     # show  unfixed elements
                     else {
-                        my %BlockData = ();
+                        my %BlockData;
                         $BlockData{Name}    = $ObjectAttribute->{Name};
                         $BlockData{Element} = $ObjectAttribute->{Element};
                         $BlockData{Value}   = $ObjectAttribute->{SelectedValues}->[0];
@@ -469,8 +469,8 @@ sub Run {
                             elsif ( $ObjectAttribute->{TimeRelativeUnit} ) {
                                 my $TimeScale = _TimeScale();
                                 if ( $TimeType eq 'Extended' ) {
-                                    my @TimeScaleArray  = reverse( keys( %{$TimeScale} ) );
-                                    my %TimeScaleOption = ();
+                                    my @TimeScaleArray = reverse( keys( %{$TimeScale} ) );
+                                    my %TimeScaleOption;
                                     for (@TimeScaleArray) {
                                         $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
                                         last if $ObjectAttribute->{TimeRelativeUnit} eq $_;
@@ -499,8 +499,8 @@ sub Run {
                                     $BlockData{TimeScaleUnit}  = $BlockData{TimeSelectField};
                                 }
                                 elsif ( $TimeType eq 'Extended' ) {
-                                    my $TimeScale       = _TimeScale();
-                                    my %TimeScaleOption = ();
+                                    my $TimeScale = _TimeScale();
+                                    my %TimeScaleOption;
                                     for ( keys %{$TimeScale} ) {
                                         $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
                                         last if $ObjectAttribute->{SelectedValues}[0] eq $_;
@@ -772,7 +772,7 @@ sub Run {
         }
 
         # get save data
-        my %Data      = ();
+        my %Data;
         my $Subaction = '';
 
         # save EditSpecification
@@ -852,8 +852,8 @@ sub Run {
                 # This part is only needed if the block time is selected
                 # perhaps a separate function is better
                 my $TimeType = $Self->{ConfigObject}->Get('Stats::TimeType') || 'Normal';
-                my %Time     = ();
-                my $Element  = $Data{UseAsXvalue}[0]{Element};
+                my %Time;
+                my $Element = $Data{UseAsXvalue}[0]{Element};
                 $Data{UseAsXvalue}[0]{TimeScaleCount}
                     = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeScaleCount' )
                     || 1;
@@ -1008,7 +1008,7 @@ sub Run {
                 $Data{UseAsRestriction}[$Index]{Fixed} = $Fixed ? 1 : 0;
 
                 if ( $ObjectAttribute->{Block} eq 'Time' ) {
-                    my %Time = ();
+                    my %Time;
                     my $TimeSelect
                         = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeSelect' )
                         || 'Absolut';
@@ -1111,8 +1111,8 @@ sub Run {
     # edit stats specification
     # ---------------------------------------------------------- #
     elsif ( $Self->{Subaction} eq 'EditSpecification' ) {
-        my %Frontend = ();
-        my $Stat     = {};
+        my %Frontend;
+        my $Stat = {};
 
         # permission check
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' ) if !$Self->{AccessRw};
@@ -1387,7 +1387,7 @@ sub Run {
 
         my $Flag = 0;
         for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
-            my %BlockData = ();
+            my %BlockData;
             $BlockData{Fixed}   = 'checked="checked"';
             $BlockData{Checked} = '';
 
@@ -1484,7 +1484,7 @@ sub Run {
 
         OBJECTATTRIBUTE:
         for my $ObjectAttribute ( @{ $Stat->{UseAsValueSeries} } ) {
-            my %BlockData = ();
+            my %BlockData;
             $BlockData{Fixed}   = 'checked="checked"';
             $BlockData{Checked} = '';
 
@@ -1601,7 +1601,7 @@ sub Run {
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
         my $Flag = 0;
         for my $ObjectAttribute ( @{ $Stat->{UseAsRestriction} } ) {
-            my %BlockData = ();
+            my %BlockData;
             $BlockData{Fixed}   = 'checked="checked"';
             $BlockData{Checked} = '';
 
@@ -1733,7 +1733,7 @@ sub Run {
         }
 
         # get params
-        my %GetParam = ();
+        my %GetParam;
 
         # not sure, if this is the right way
         if ( $Stat->{StatType} eq 'static' ) {
@@ -1781,7 +1781,7 @@ sub Run {
                                 )
                                 )
                             {
-                                my %Time = ();
+                                my %Time;
                                 for my $Limit (qw(Start Stop)) {
                                     for my $Unit (qw(Year Month Day Hour Minute Second)) {
                                         if (
@@ -1879,7 +1879,7 @@ sub Run {
                                     );
                             }
                             else {
-                                my %Time = ();
+                                my %Time;
                                 my ( $s, $m, $h, $D, $M, $Y )
                                     = $Self->{TimeObject}->SystemTime2Date(
                                     SystemTime => $Self->{TimeObject}->SystemTime(),
@@ -1983,8 +1983,8 @@ sub Run {
 
         # exchange axis if selected
         if ( $Param{ExchangeAxis} ) {
-            my @NewStatArray = ();
-            my $Title        = $StatArray[0][0];
+            my @NewStatArray;
+            my $Title = $StatArray[0][0];
 
             shift(@StatArray);
             for my $Key1 ( 0 .. $#StatArray ) {
@@ -2244,7 +2244,7 @@ sub _Notify {
 sub _Timeoutput {
     my ( $Self, %Param ) = @_;
 
-    my %Timeoutput = ();
+    my %Timeoutput;
 
     # check if need params are available
     if ( !$Param{TimePeriodFormat} ) {
@@ -2256,8 +2256,8 @@ sub _Timeoutput {
     # get time
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
         = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
-    my $Element    = $Param{Element};
-    my %TimeConfig = ();
+    my $Element = $Param{Element};
+    my %TimeConfig;
 
     # default time configuration
     $TimeConfig{Format}                     = $Param{TimePeriodFormat};
@@ -2293,7 +2293,7 @@ sub _Timeoutput {
     }
 
     # Solution I (TimeExtended)
-    my %TimeLists = ();
+    my %TimeLists;
     for ( 1 .. 60 ) {
         $TimeLists{TimeRelativeCount}{$_} = sprintf( "%02d", $_ );
         $TimeLists{TimeScaleCount}{$_}    = sprintf( "%02d", $_ );
@@ -2525,7 +2525,7 @@ sub _ColumnAndRowTranslation {
         }
 
         # add the row names to the new StatArray
-        my @StatArrayNew = ();
+        my @StatArrayNew;
         for my $Row ( @{ $Param{StatArrayRef} } ) {
             push @StatArrayNew, [ $Row->[0] ];
         }
