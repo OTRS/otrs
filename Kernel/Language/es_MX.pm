@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.4 2010-05-03 16:10:51 dz Exp $
+# $Id: es_MX.pm,v 1.5 2010-05-03 16:22:19 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -345,7 +345,7 @@ sub Data {
         'Admin-Area' => 'Area de administración',
         'Agent-Area' => 'Area de Agente',
         'Ticket-Area' => 'Area de Ticket',
-        'Logout' => 'Desconectar',
+        'Logout' => 'Cerrar Sesión',
         'Agent Preferences' => 'Preferencias de Agente',
         'Preferences' => 'Preferencias',
         'Agent Mailbox' => 'Buzón de Agente',
@@ -362,7 +362,7 @@ sub Data {
         'Signatures' => 'Firmas',
         'Email Addresses' => 'Direcciones de Correo',
         'Notifications' => 'Notificaciones',
-        'Category Tree' => 'Arbol de categorías',
+        'Category Tree' => 'Arbol de Categorías',
         'Admin Notification' => 'Notificación del Administrador',
 
         # Template: AAAPreferences
