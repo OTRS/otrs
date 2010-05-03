@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.89 2010-04-27 21:35:52 en Exp $
+# $Id: AdminSysConfig.pm,v 1.90 2010-05-03 09:04:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -935,7 +935,15 @@ sub ListConfigItem {
                     },
                 );
 
-                $Self->{LayoutObject}->Block( Name => 'ConfigElementSubHashStart' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementSubHashStart',
+                    Data => {
+                        ElementKey => $ItemHash{Name},
+                        Key        => $Hash->{Item}->[$Index]->{Key},
+                        Content    => '##SubHash##',
+                        Index      => $Index,
+                    },
+                );
 
                 # SubHashElements
                 for my $Index2 ( 1 .. $#{ ${Hash}->{Item}->[$Index]->{Hash}->[1]->{Item} } ) {
@@ -955,7 +963,15 @@ sub ListConfigItem {
                     );
                 }
 
-                $Self->{LayoutObject}->Block( Name => 'ConfigElementSubHashEnd' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementSubHashEnd',
+                    Data => {
+                        ElementKey => $ItemHash{Name},
+                        Key        => $Hash->{Item}->[$Index]->{Key},
+                        Content    => '##SubHash##',
+                        Index      => $Index,
+                    },
+                );
             }
 
             # SubArray
@@ -970,7 +986,15 @@ sub ListConfigItem {
                     },
                 );
 
-                $Self->{LayoutObject}->Block( Name => 'ConfigElementSubArrayStart' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementSubArrayStart',
+                    Data => {
+                        ElementKey => $ItemHash{Name},
+                        Key        => $Hash->{Item}->[$Index]->{Key},
+                        Content    => '##SubArray##',
+                        Index      => $Index,
+                    },
+                );
 
                 # SubArrayElements
                 for my $Index2 ( 1 .. $#{ $Hash->{Item}->[$Index]->{Array}->[1]->{Item} } ) {
@@ -988,7 +1012,15 @@ sub ListConfigItem {
                     );
                 }
 
-                $Self->{LayoutObject}->Block( Name => 'ConfigElementSubArrayEnd' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementSubArrayEnd',
+                    Data => {
+                        ElementKey => $ItemHash{Name},
+                        Key        => $Hash->{Item}->[$Index]->{Key},
+                        Content    => '##SubArray##',
+                        Index      => $Index,
+                    },
+                );
             }
 
             #SubOption
@@ -1005,6 +1037,7 @@ sub ListConfigItem {
                     Data       => \%Hash,
                     SelectedID => $Hash->{Item}->[$Index]->{Option}->[1]->{SelectedID},
                     Name       => $ItemHash{Name} . 'Content[]',
+                    Class      => 'Content',
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementHashContent3',
