@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.9 2010-05-03 21:17:17 en Exp $
+# $Id: es_MX.pm,v 1.10 2010-05-03 21:36:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -658,13 +658,13 @@ sub Data {
         'Sun' => 'Dom',
         'Mon' => 'Lun',
         'Tue' => 'Mar',
-        'Wed' => 'Mie',
+        'Wed' => 'Mié',
         'Thu' => 'Jue',
         'Fri' => 'Vie',
-        'Sat' => 'Sab',
+        'Sat' => 'Sáb',
 
         # Template: AdminAttachmentForm
-        'Attachment Management' => 'Gestión de Anexos',
+        'Attachment Management' => 'Administración de Anexos',
 
         # Template: AdminAutoResponseForm
         'Auto Response Management' => 'Gestión de respuestas automáticas',
