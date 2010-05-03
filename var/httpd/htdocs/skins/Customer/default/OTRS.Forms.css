@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -9,6 +9,47 @@
  * @package     OTRS Framework - Skin "Default"
  * @section     Customer
  */
+
+button {
+    height: 22px;
+    min-width: 95px;
+    color: #333;
+    font-size: 11px;
+    font-weight: bold;
+    background: #EEE;
+    background: -moz-linear-gradient(top, #FFF, #DDD);
+    background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#DDD));
+    border: 1px solid #AAA;
+    border-bottom: 1px solid #999;
+    box-shadow: 0 1px 0 #E6E6E6;
+    -moz-box-shadow: 0 1px 0 #E6E6E6;
+    -webkit-box-shadow: 0 1px 0 #E6E6E6;
+    border-radius: 11px;
+    -moz-border-radius: 11px;
+    -webkit-border-radius: 11px;
+    text-shadow: 0 1px 0 #FFF;
+    display: inline-block;
+    cursor: pointer;
+}
+
+button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+button:hover {
+    border-color: #888;
+}
+
+button:focus,
+button:active {
+    background: #DDD;
+    background: -moz-linear-gradient(top, #C0C0C0, #DDD 3px, #F6F6F6);
+    background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#F6F6F6), color-stop(3px, #DDD));
+    box-shadow: 0;
+    -moz-box-shadow: 0;
+    -webkit-box-shadow: 0;
+}
 
 label {
     margin-right: 8px;
@@ -195,7 +236,7 @@ fieldset .RichTextHolder label {
 }
 
 .Box form {
-    padding: 8px;
+    padding: 8px 8px 0;
     display: block;
 }
 
@@ -211,6 +252,7 @@ fieldset .RichTextHolder label {
 
 .Box input[type=password] {
     width: 160px;
+    font-size: 12px;
 }
 
 .Box button {
