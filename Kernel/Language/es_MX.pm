@@ -2,12 +2,12 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.5 2010-05-03 16:22:19 dz Exp $
+# $Id: es_MX.pm,v 1.6 2010-05-03 16:36:31 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
-# --# --
+# --
 
 package Kernel::Language::es_MX;
 
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -366,23 +366,23 @@ sub Data {
         'Admin Notification' => 'Notificación del Administrador',
 
         # Template: AAAPreferences
-        'Preferences updated successfully!' => 'Las preferencias se actualizaron satisfactoriamente!',
+        'Preferences updated successfully!' => 'Las preferencias se actualizaron satisfactoriamente',
         'Mail Management' => 'Gestión de Correo',
         'Frontend' => 'Interfaz de usuario',
         'Other Options' => 'Otras Opciones',
         'Change Password' => 'Cambiar contraseña',
         'New password' => 'Nueva contraseña',
         'New password again' => 'Repetir Contraseña',
-        'Select your QueueView refresh time.' => 'Seleccione su tiempo de actualización de la vista de colas',
-        'Select your frontend language.' => 'Seleccione su idioma de trabajo',
-        'Select your frontend Charset.' => 'Seleccione su juego de caracteres',
-        'Select your frontend Theme.' => 'Seleccione su tema',
-        'Select your frontend QueueView.' => 'Seleccione su Vista de cola de trabajo',
+        'Select your QueueView refresh time.' => 'Seleccione su tiempo de actualización de la vista de colas.',
+        'Select your frontend language.' => 'Seleccione su idioma de trabajo.',
+        'Select your frontend Charset.' => 'Seleccione su juego de caracteres.',
+        'Select your frontend Theme.' => 'Seleccione su tema.',
+        'Select your frontend QueueView.' => 'Seleccione su Vista de fila de trabajo',
         'Spelling Dictionary' => 'Diccionario Ortográfico',
-        'Select your default spelling dictionary.' => 'Seleccione su diccionario por defecto',
-        'Max. shown Tickets a page in Overview.' => 'Cantidad de Tickets a mostrar en Resumen',
-        'Can\'t update password, your new passwords do not match! Please try again!' => 'No se puede actualizar la contraseña, no coinciden! Por favor, reinténtelo!',
-        'Can\'t update password, invalid characters!' => 'No se puede actualizar la contraseña, caracteres no válidos!',
+        'Select your default spelling dictionary.' => 'Seleccione su diccionario por defecto.',
+        'Max. shown Tickets a page in Overview.' => 'Cantidad máxima de Tickets a mostrar en Resumen.',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'No se puede actualizar la contraseña, su nueva contraseña no coincide, Por favor, reinténtelo',
+        'Can\'t update password, invalid characters!' => 'No se puede actualizar la contraseña, caracteres no válidos',
         'Can\'t update password, must be at least %s characters!' => 'No se puede actualizar la contraseña, se necesitan al menos %s caracteres',
         'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 2 en minúscula y 2 en mayúscula!',
         'Can\'t update password, needs at least 1 digit!' => 'No se puede actualizar la contraseña, se necesita al menos 1 dígito!',
