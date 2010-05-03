@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.90 2010-05-03 09:04:49 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.91 2010-05-03 15:37:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1210,31 +1210,6 @@ sub ListConfigItem {
 
         # TimeVacationDaysOneTimeElements
         for my $Index ( 1 .. $#{ $Item->{TimeVacationDaysOneTime}->[1]->{Item} } ) {
-            my %Valid = ();
-            if (
-                $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year}
-                && $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year}
-                !~ /^\d\d\d\d$/
-                )
-            {
-                $Valid{ValidYear} = 'invalid';
-            }
-            if (
-                $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
-                && $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
-                !~ /^(1[0-2]|[1-9])$/
-                )
-            {
-                $Valid{ValidMonth} = 'invalid';
-            }
-            if (
-                $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
-                && $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
-                !~ /^([1-3][0-9]|[1-9])$/
-                )
-            {
-                $Valid{ValidDay} = 'invalid';
-            }
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementTimeVacationDaysOneTimeContent',
                 Data => {
@@ -1245,9 +1220,35 @@ sub ListConfigItem {
                     Content =>
                         $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Content},
                     Index => $Index,
-                    %Valid,
                 },
             );
+            if (
+                $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year}
+                && $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year}
+                !~ /^\d\d\d\d$/
+                )
+            {
+                $Self->{LayoutObject}
+                    ->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidYear' );
+            }
+            if (
+                $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
+                && $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
+                !~ /^(1[0-2]|[1-9])$/
+                )
+            {
+                $Self->{LayoutObject}
+                    ->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidMonth' );
+            }
+            if (
+                $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
+                && $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
+                !~ /^([1-3][0-9]|[1-9])$/
+                )
+            {
+                $Self->{LayoutObject}
+                    ->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidDay' );
+            }
         }
         return 1;
     }
@@ -1269,23 +1270,6 @@ sub ListConfigItem {
 
         # TimeVacationDaysElements
         for my $Index ( 1 .. $#{ $Item->{TimeVacationDays}->[1]->{Item} } ) {
-            my %Valid = ();
-            if (
-                $Item->{TimeVacationDays}[1]{Item}[$Index]{Month}
-                && $Item->{TimeVacationDays}[1]{Item}[$Index]{Month}
-                !~ /^(1[0-2]|[1-9])$/
-                )
-            {
-                $Valid{ValidMonth} = 'invalid';
-            }
-            if (
-                $Item->{TimeVacationDays}[1]{Item}[$Index]{Day}
-                && $Item->{TimeVacationDays}[1]{Item}[$Index]{Day}
-                !~ /^([1-3][0-9]|[1-9])$/
-                )
-            {
-                $Valid{ValidDay} = 'invalid';
-            }
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementTimeVacationDaysContent',
                 Data => {
@@ -1294,9 +1278,27 @@ sub ListConfigItem {
                     Day        => $Item->{TimeVacationDays}[1]{Item}[$Index]{Day},
                     Content    => $Item->{TimeVacationDays}[1]{Item}[$Index]{Content},
                     Index      => $Index,
-                    %Valid,
                 },
             );
+            if (
+                $Item->{TimeVacationDays}[1]{Item}[$Index]{Month}
+                && $Item->{TimeVacationDays}[1]{Item}[$Index]{Month}
+                !~ /^(1[0-2]|[1-9])$/
+                )
+            {
+                $Self->{LayoutObject}
+                    ->Block( Name => 'ConfigElementTimeVacationDaysContentInvalidMonth' );
+            }
+
+            if (
+                $Item->{TimeVacationDays}[1]{Item}[$Index]{Day}
+                && $Item->{TimeVacationDays}[1]{Item}[$Index]{Day}
+                !~ /^([1-3][0-9]|[1-9])$/
+                )
+            {
+                $Self->{LayoutObject}
+                    ->Block( Name => 'ConfigElementTimeVacationDaysContentInvalidDay' );
+            }
         }
         return 1;
     }

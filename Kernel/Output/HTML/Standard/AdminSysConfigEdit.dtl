@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.53 2010-05-03 12:29:00 mg Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.54 2010-05-03 15:37:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -316,92 +316,50 @@
 
 
 <!-- dtl:block:ConfigElementTimeVacationDaysOneTime -->
-                            <td class="contentvalue">
-                                <table border="0" cellpadding="0" cellspacing="3">
-                                    <tr>
-                                        <td class="contentkey">$Text{"year"}</td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentkey">$Text{"month"}</td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentkey">$Text{"day"}</td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentkey">$Text{"Text"}</td>
-                                    </tr>
+                            <label class="KeyWithComplexValue">$Text{"Year"} &ndash; $Text{"Month"} &ndash; $Text{"Day"} &ndash; $Text{"Text"}</label>
+                            <div class="Array">
 <!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContent -->
-                                    <tr>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}year[]" value="$QData{"Year"}" size="4" maxlength="4"/>
-                                            <font color="red">$Text{"$QData{"ValidYear"}"}</font>
-                                        </td>
-                                        <td>-</td>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}month[]" value="$QData{"Month"}" size="2" maxlength="2"/>
-                                            <font color="red">$Text{"$QData{"ValidMonth"}"}</font>
-                                        </td>
-                                        <td>-</td>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}day[]" value="$QData{"Day"}" size="2" maxlength="2"/>
-                                            <font color="red">$Text{"$QData{"ValidDay"}"}</font>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" size="20"/>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteTimeVacationDaysOneTimeElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                        </td>
-                                    </tr>
+                                <input type="text" name="$QData{"ElementKey"}year[]" value="$QData{"Year"}" title="$Text{"Year"}" maxlength="4" class="Year"/>
+                                <input type="text" name="$QData{"ElementKey"}month[]" value="$QData{"Month"}" title="$Text{"Month"}" maxlength="2" class="Month"/>
+                                <input type="text" name="$QData{"ElementKey"}day[]" value="$QData{"Day"}" title="$Text{"Day"}" maxlenth="2" class="Day"/>
+                                <input type="text" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" title="$Text{"Text"}" class="W20pc" />
+                                <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteTimeVacationDaysOneTimeElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
+<!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContentInvalidYear -->
+                                <span class="Error">$Text{"Error"}: $Text{"Invalid year"}.</span>
+<!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContentInvalidYear -->
+<!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContentInvalidMonth -->
+                                <span class="Error">$Text{"Error"}: $Text{"Invalid month"}.</span>
+<!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContentInvalidMonth -->
+<!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContentInvalidDay -->
+                                <span class="Error">$Text{"Error"}: $Text{"Invalid day"}.</span>
+<!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContentInvalidDay -->
+                                <br/>
 <!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContent -->
-                                    <tr class="contentbody">
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#NewTimeVacationDaysOneTimeElement" value="$Text{"New"}">$Text{"New"}</button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
+                                <button class="Add" type="submit" name="$QData{"ElementKey"}#NewTimeVacationDaysOneTimeElement" value="$Text{"Add entry"}" title="$Text{"Add entry"}">$Text{"Add entry"}</button>
+                            </div>
 <!-- dtl:block:ConfigElementTimeVacationDaysOneTime -->
 
 
 <!-- dtl:block:ConfigElementTimeVacationDays -->
-                            <td class="contentvalue">
-                                <table border="0" cellpadding="0" cellspacing="3">
-                                    <tr>
-                                        <td class="contentkey">$Text{"month"}</td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentkey">$Text{"day"}</td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentkey">$Text{"Text"}</td>
-                                    </tr>
+                            <label class="KeyWithComplexValue">$Text{"Month"} &ndash; $Text{"Day"} &ndash; $Text{"Text"}</label>
+                            <div class="Array">
 <!-- dtl:block:ConfigElementTimeVacationDaysContent -->
-                                    <tr>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}month[]" value="$QData{"Month"}" size="2"/>
-                                            <font color="red">$Text{"$QData{"ValidMonth"}"}</font>
-                                        </td>
-                                        <td>-</td>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}day[]" value="$QData{"Day"}" size="2"/>
-                                            <font color="red">$Text{"$QData{"ValidDay"}"}</font>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentvalue">
-                                            <input type="text" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" size="20"/>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#DeleteTimeVacationDaysElement$Data{"Index"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                        </td>
-                                    </tr>
+                                <input type="text" name="$QData{"ElementKey"}month[]" value="$QData{"Month"}" title="$Text{"Month"}" maxlength="2" class="Month"/>
+                                <input type="text" name="$QData{"ElementKey"}day[]" value="$QData{"Day"}" title="$Text{"Day"}" maxlenth="2" class="Day"/>
+                                <input type="text" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" title="$Text{"Text"}" class="W20pc" />
+                                <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteTimeVacationDaysElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
+<!-- dtl:block:ConfigElementTimeVacationDaysContentInvalidMonth -->
+                                <span class="Error">$Text{"Error"}: $Text{"Invalid month"}.</span>
+<!-- dtl:block:ConfigElementTimeVacationDaysContentInvalidMonth -->
+<!-- dtl:block:ConfigElementTimeVacationDaysContentInvalidDay -->
+                                <span class="Error">$Text{"Error"}: $Text{"Invalid day"}.</span>
+<!-- dtl:block:ConfigElementTimeVacationDaysContentInvalidDay -->
+                                <br/>
 <!-- dtl:block:ConfigElementTimeVacationDaysContent -->
-                                    <tr class="contentbody">
-                                        <td class="contentvalue">
-                                            <button class="button" type="submit" name="$QData{"ElementKey"}#NewTimeVacationDaysElement" value="$Text{"New"}">$Text{"New"}</button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
+                                <button class="Add" type="submit" name="$QData{"ElementKey"}#NewTimeVacationDaysElement" value="$Text{"Add entry"}" title="$Text{"Add entry"}">$Text{"Add entry"}</button>
+                            </div>
 <!-- dtl:block:ConfigElementTimeVacationDays -->
+
 <!-- dtl:block:ConfigElementTimeWorkingHours -->
                             <td class="contentvalue">
                                 <table border="0" cellpadding="0" cellspacing="3">
