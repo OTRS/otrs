@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -106,6 +106,7 @@ span.cke_skin_kama span.cke_wrapper {
     margin-top: 3px;
     color: #CCC;
     background: #FFF;
+    overflow: hidden;
 }
 
 #Footer > * {
