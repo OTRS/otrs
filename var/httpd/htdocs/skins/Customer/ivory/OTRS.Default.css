@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @author      Felix Niklas
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
@@ -31,7 +31,7 @@ body {
     display: none;
 }
 
-.ControlRow {
+#Navigation {
     margin: 50px auto 10px;
     padding: 8px 6px;
     width: 615px;
@@ -44,37 +44,37 @@ body {
     -moz-box-shadow: 0 3px 3px rgba(0,0,0,.2);
 }
 
-.ControlRow .Tabs,
-.ControlRow .User.Tabs {
+#Navigation ul,
+#Navigation .Individual {
     float: none;
     position: absolute;
 }
 
-.ControlRow .User.Tabs {
+#Navigation .Individual {
     right: 8px;
 }
 
-.ControlRow .Tabs li {
+#Navigation li {
     margin: 0 2px;
 }
 
-.ControlRow .Selected + li {
+#Navigation .Selected + li {
     margin-left: 2px;
 }
 
-.ControlRow .Selected + li a {
+#Navigation .Selected + li a {
     padding-left: 8px;
 }
 
-.ControlRow li:focus,
-.ControlRow li:active {
+#Navigation li:focus,
+#Navigation li:active {
     margin-top: 0;
     background: none;
 }
 
-.ControlRow .Tabs a,
-.ControlRow .Tabs li:focus a,
-.ControlRow .Tabs li:active a {
+#Navigation a,
+#Navigation li:focus a,
+#Navigation li:active a {
     padding: 7px 8px;
     font-size: 10px;
     color: white;
@@ -86,14 +86,14 @@ body {
     border-radius: 3px;
 }
 
-.ControlRow .Tabs a:hover,
-.ControlRow .Tabs li:focus a,
-.ControlRow .Tabs li:active a {
+#Navigation a:hover,
+#Navigation li:focus a,
+#Navigation li:active a {
     background: #222;
     color: white;
 }
 
-.ControlRow .Tabs .Selected {
+#Navigation .Selected {
     margin-top: 0;
     height: 45px;
     background: white;
@@ -105,9 +105,9 @@ body {
     border-top-right-radius: 3px;
 }
 
-.ControlRow .Tabs .Selected a,
-.ControlRow .Tabs .Selected a:focus,
-.ControlRow .Tabs .Selected a:active {
+#Navigation .Selected a,
+#Navigation .Selected a:focus,
+#Navigation .Selected a:active {
     margin: 0;
     padding: 7px 11px;
     background: none;
@@ -149,11 +149,15 @@ body {
 }
 
 #SlideArea > div {
-    padding-left: 100px;
+    padding-left: 89px;
 }
 
 .RTL #SliderArea > div {
     padding: 0 100px 0 0;
+}
+
+.ErrorBox {
+    margin: -13px 90px 20px;
 }
 
 .ActionRow,
@@ -171,17 +175,17 @@ body {
     padding: 0 16px;
 }
 
-.Filter li a {
+.Tabs li a {
     padding: 6px 3px 4px;
     color: #B2B2B2;
 }
 
-.Filter li a:hover {
+.Tabs li a:hover {
     color: #666;
 }
 
-.Filter .Selected,
-.Filter .Selected:hover {
+.Tabs .Selected,
+.Tabs .Selected:hover {
     color: #3F8DCA;
     font-weight: normal;
 }
@@ -198,35 +202,63 @@ body {
     padding: 16px 10px;
 }
 
+.Preferences .Content {
+    padding: 0 5px;
+}
+
 table.Overview {
-    color: #363636;
+    color: #BBB;
 }
 
-.Overview tbody tr {
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+.Overview tbody tr td:first-child {
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 
-.Overview tbody tr:hover {
-    background-color: #3F8DCA;
+.Overview tbody tr td:last-child {
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.Overview tbody tr:hover td {
+    background-color: #E9E9E9;
 }
 
 .Overview tbody tr:active {
-    background-color: #777;
+    background-color: #444;
 }
 
 .Overview tbody a {
-    color: #363636;
+    color: #BBB;
     font-weight: normal;
 }
 
+.Ticket {
+    display: none;
+}
+
 .Title div {
-    color: #363636;
+    color: #BBB;
 }
 
 .Title h2 a {
     color: #363636;
+}
+
+.Overview tbody tr:hover .Title h2 a {
+    color: #333;
+}
+
+.Age {
+    width: 7em;
 }
 
 /**
@@ -234,18 +266,18 @@ table.Overview {
  */
 .Overview tbody tr:hover td {
     background-image: none;
-    color: white;
+    color: #BBB;
 }
 .Overview tbody tr:hover + tr td {
     background-image: none;
 }
 .Overview tbody tr:hover td,
 .Overview tbody tr:hover a {
-    color: white;
+    color: #BBB;
     text-shadow: none;
 }
 .Overview tbody tr:hover .Title div {
-    color: white;
+    color: #BBB;
     text-shadow: none;
 }
 
@@ -280,10 +312,28 @@ form span.cke_skin_kama {
 
 #FollowUp {
     margin: 0 5px 8px;
+    border-bottom: 1px solid #D6D6D6;
+}
+
+.Js #FollowUp {
+    margin-bottom: 24px;
+}
+
+#Messenger #RichText {
+    width: 574px;
 }
 
 #Body.TicketZoom form span.cke_skin_kama {
     width: 570px !important;
+}
+
+#RichText {
+    width: 574px;
+    margin: 0 13px;
+    border-color: #CCC;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 /**
@@ -324,6 +374,7 @@ form span.cke_skin_kama {
     margin: 0 auto 20px;
     width: 627px;
     font-size: 11px;
+    color: #B2B2B2;
     -webkit-border-bottom-right-radius: 5px;
     -webkit-border-bottom-left-radius: 5px;
     -moz-border-radius-bottomright: 5px;
