@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -11,9 +11,9 @@
  */
 
 /**
- * @subsection  Control Row
+ * @subsection  Navigation
  */
-.ControlRow {
+#Navigation {
     height: 22px;
     background: #AAA url("img/GradientSmall.png") repeat-x 0 -50px;
     width: 100%;
@@ -22,37 +22,34 @@
     border-bottom: 1px solid #999;
 }
 
-/**
- * @subsection  Control Row Tabs
- */
-.ControlRow .Tabs {
+#Navigation ul {
     float: left;
 }
 
-.RTL .ControlRow .Tabs {
+.RTL #Navigation ul {
     float: right;
 }
 
-.ControlRow .User.Tabs {
+#Navigation .Individual {
     float: right;
 }
 
-.RTL .ControlRow .User.Tabs {
+.RTL #Navigation .Individual {
     float: left;
 }
 
-.ControlRow .Tabs li {
+#Navigation li {
     margin-left: -2px;
     float: left;
     position: relative;
 }
 
-.RTL .ControlRow .Tabs li {
+.RTL #Navigation li {
     float: right;
     margin: 0 -2px 0 0;
 }
 
-.ControlRow a {
+#Navigation a {
     padding: 4px 11px 5px;
     color: #111;
     font-size: 11px;
@@ -62,27 +59,27 @@
     text-shadow: 0 1px 0 #EEE;
 }
 
-.RTL .ControlRow .Tabs li:first-child a,
-.ControlRow .Last a {
+.RTL #Navigation li:first-child a,
+#Navigation .Last a {
     background-image: none;
 }
 
-.ControlRow li:focus,
-.ControlRow li:active {
+#Navigation li:focus,
+#Navigation li:active {
     margin-top: -1px;
     background: url(img/tabs_active_bg.png) no-repeat top left;
 }
 
-.ControlRow .Selected + li {
+#Navigation .Selected + li {
     margin-left: 0;
 }
 
-.ControlRow .Selected + li a {
+#Navigation .Selected + li a {
     padding-left: 9px;
 }
 
-.ControlRow li:focus a,
-.ControlRow li:active a {
+#Navigation li:focus a,
+#Navigation li:active a {
     padding-top: 6px;
     padding-bottom: 3px;
     color: #222;
@@ -90,18 +87,18 @@
     text-shadow: 0 1px 0 #DDD;
 }
 
-.ControlRow .Selected a:focus,
-.ControlRow .Selected a:active {
+#Navigation .Selected a:focus,
+#Navigation .Selected a:active {
     padding: 5px 11px;
 }
 
-.ControlRow .Tabs .Selected {
+#Navigation .Selected {
     height: 24px;
     margin-top: -1px;
     background: url(img/tabs_active_bg.png) no-repeat bottom left;
 }
 
-.ControlRow .Tabs .Selected a {
+#Navigation .Selected a {
     margin-right: -1px;
     padding: 5px 11px;
     color: #FFF;
@@ -109,7 +106,7 @@
     background: url(img/tabs_active_door.png) no-repeat right top;
 }
 
-.RTL .ControlRow .Tabs .Selected a {
+.RTL #Navigation .Selected a {
     background-position: left;
 }
 
@@ -175,17 +172,6 @@
     -webkit-border-radius: 0;
 }
 
-.ActionRow a {
-    padding: 0 11px 0 3px;
-    background: url(img/actionrow_divider.png) no-repeat right;
-    text-shadow: 0 1px 0 #F0F0F0;
-}
-
-.RTL .ActionRow a {
-    padding: 0 3px 0 11px;
-    background-position: left;
-}
-
 .ActionRow.Bottom > span {
     padding-left: 5px;
 }
@@ -195,38 +181,43 @@
     padding-right: 5px;
 }
 
-.Filter {
-    float: left;
-}
-
-.RTL .Filter {
-    float: right;
-}
-
-.Filter li {
-    float: left;
-}
-
-.RTL .Filter li {
-    float: right;
-}
-
-.Filter a,
-.RTL .Filter a {
+.Filter a {
     padding: 6px 9px 4px;
-    color: #444;
+    background: url(img/actionrow_divider.png) no-repeat right 7px;
+    text-shadow: 0 1px 0 #F0F0F0;
     display: block;
 }
 
-.Filter a:hover {
-    color: #000;
+.RTL .Filter a {
+    background-position: left;
 }
 
-.Filter .Selected {
+.Tabs {
+    float: left;
+}
+
+.RTL .Tabs {
+    float: right;
+}
+
+.Tabs li {
+    float: left;
+}
+
+.RTL .Tabs li {
+    float: right;
+}
+
+.Tabs a {
+    color: #777;
+}
+
+.Tabs a:hover {
+    color: #444;
+}
+
+.Tabs .Selected {
     font-weight: bold;
-}
-
-.Filter .Selected:hover {
     color: #444;
 }
 
@@ -240,13 +231,12 @@
 }
 
 .Pagination a {
-    padding-right: 3px;
+    padding-left: 3px;
     background: none;
     text-shadow: none;
 }
 
 .ActionRow .Last a {
-    padding-right: 0;
     background: none;
 }
 
