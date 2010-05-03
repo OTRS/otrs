@@ -1,8 +1,8 @@
 # --
 # Kernel/System/UnitTest.pm - the global test wrapper
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.27 2009-11-26 12:23:09 bes Exp $
+# $Id: UnitTest.pm,v 1.28 2010-05-03 14:06:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -211,6 +211,20 @@ sub Run {
         }
         else {
             $ResultSummary{Vendor} = 'RedHat unknown';
+        }
+    }
+    elsif ( -e '/etc/issue' ) {
+        my $ConfigFile = $Self->{MainObject}->FileRead(
+            Location => '/etc/issue',
+            Result   => 'ARRAY',
+        );
+        if ( $ConfigFile && $ConfigFile->[0] ) {
+            $ConfigFile->[0] =~ s/\\.*//;
+            $ConfigFile->[0] =~ s/\n//g;
+            $ResultSummary{Vendor} = $ConfigFile->[0];
+        }
+        else {
+            $ResultSummary{Vendor} = 'ubuntu unknown';
         }
     }
     elsif ( -e '/etc/debian_version' ) {
@@ -558,6 +572,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2009-11-26 12:23:09 $
+$Revision: 1.28 $ $Date: 2010-05-03 14:06:34 $
 
 =cut
