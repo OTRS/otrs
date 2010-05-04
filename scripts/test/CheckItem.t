@@ -1,8 +1,8 @@
 # --
 # CheckItem.t - check item tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.t,v 1.7 2009-02-16 12:50:17 tr Exp $
+# $Id: CheckItem.t,v 1.8 2010-05-04 01:10:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ $Self->{ConfigObject}->Set( Key => 'CheckEmailAddresses', Value => 1 );
 $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
 
 # email address checks
-my @EmailTests = (
+my @Tests = (
 
     # Invalid
     {
@@ -82,7 +82,7 @@ my @EmailTests = (
     },
 );
 
-for my $Test (@EmailTests) {
+for my $Test (@Tests) {
 
     # check address
     my $Valid = $Self->{CheckItemObject}->CheckEmail(
@@ -105,7 +105,7 @@ for my $Test (@EmailTests) {
 }
 
 # string clean tests
-my @StringCleanTests = (
+@Tests = (
     {
         String => ' ',
         Params => {},
@@ -235,22 +235,113 @@ my @StringCleanTests = (
     },
 );
 
-for my $Test (@StringCleanTests) {
+for my $Test (@Tests) {
 
     # copy string to leave the original untouched
     my $String = $Test->{String};
 
     # start sting preparation
-    $Self->{CheckItemObject}->StringClean(
+    my $StringRef = $Self->{CheckItemObject}->StringClean(
         StringRef => \$String,
         %{ $Test->{Params} },
     );
 
     # check result
     $Self->Is(
-        $String,
+        ${$StringRef},
         $Test->{Result},
         'TrimTest',
+    );
+}
+
+# credit card tests
+@Tests = (
+    {
+        String => '4111 1111 1111 1111',
+        Found  => 1,
+        Result => '4111 XXXX XXXX 1111',
+    },
+    {
+        String => '4111+1111+1111+1111',
+        Found  => 1,
+        Result => '4111+XXXX+XXXX+1111',
+    },
+    {
+        String => '-4111+1111+1111+1111-',
+        Found  => 1,
+        Result => '-4111+XXXX+XXXX+1111-',
+    },
+    {
+        String => '-4111+1111+1111+11-',
+        Found  => 0,
+        Result => '-4111+1111+1111+11-',
+    },
+    {
+        String => '6011.0000/0000.0004',
+        Found  => 1,
+        Result => '6011.XXXX/XXXX.0004',
+    },
+    {
+        String => '3400/0000/0000/009',
+        Found  => 1,
+        Result => '3400/XXXX/XXXX/009',
+    },
+    {
+        String => '#5500.00000000.0004',
+        Found  => 1,
+        Result => '#5500.XXXXXXXX.0004',
+    },
+    {
+        String => '#5500.00000000.0004.',
+        Found  => 1,
+        Result => '#5500.XXXXXXXX.0004.',
+    },
+    {
+        String => "#5500.00000000.0004\n",
+        Found  => 1,
+        Result => "#5500.XXXXXXXX.0004\n",
+    },
+    {
+        String => ":5500.00000000.0004\n",
+        Found  => 1,
+        Result => ":5500.XXXXXXXX.0004\n",
+    },
+    {
+        String => "(5500.00000000.0004)\n",
+        Found  => 1,
+        Result => "(5500.XXXXXXXX.0004)\n",
+    },
+    {
+        String => '#5500.00000000.00045.',
+        Found  => 0,
+        Result => '#5500.00000000.00045.',
+    },
+    {
+        String => 'A5500.00000000.00045.',
+        Found  => 0,
+        Result => 'A5500.00000000.00045.',
+    },
+);
+for my $Test (@Tests) {
+
+    # copy string to leave the original untouched
+    my $String = $Test->{String};
+
+    # start sting preparation
+    my ( $StringRef, $Found ) = $Self->{CheckItemObject}->CreditCardClean(
+        StringRef => \$String,
+    );
+
+    # check result
+    $Self->Is(
+        $Found,
+        $Test->{Found},
+        'CreditCardClean - Found',
+    );
+    $Self->Is(
+        ${$StringRef},
+        $Test->{Result},
+        'CreditCardClean - String',
     );
 }
 

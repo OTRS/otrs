@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CheckItem.pm - the global spelling module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.35 2009-04-17 08:36:44 tr Exp $
+# $Id: CheckItem.pm,v 1.36 2010-05-04 01:10:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -226,7 +226,7 @@ sub CheckEmail {
 
 clean a given string
 
-    my $Error = $CheckItemObject->StringClean(
+    my $StringRef = $CheckItemObject->StringClean(
         StringRef         => \'String',
         TrimLeft          => 0,  # (optional) default 1
         TrimRight         => 0,  # (optional) default 1
@@ -248,7 +248,8 @@ sub StringClean {
         return;
     }
 
-    return 1 if !${ $Param{StringRef} };
+    return $Param{StringRef} if !defined ${ $Param{StringRef} };
+    return $Param{StringRef} if ${ $Param{StringRef} } eq '';
 
     # set default values
     $Param{TrimLeft}  = defined $Param{TrimLeft}  ? $Param{TrimLeft}  : 1;
@@ -269,7 +270,44 @@ sub StringClean {
         ${ $Param{StringRef} } =~ s{ $TrimAction{$Action} }{}xmsg;
     }
 
-    return 1;
+    return $Param{StringRef};
+}
+
+=item CreditCardClean()
+
+clean a given string and remove credit card
+
+    my ($StringRef, $Found) = $CheckItemObject->CreditCardClean(
+        StringRef => \'String',
+    );
+
+=cut
+
+sub CreditCardClean {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{StringRef} || ref $Param{StringRef} ne 'SCALAR' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need a scalar reference!'
+        );
+        return;
+    }
+
+    return ( $Param{StringRef}, 0 ) if ${ $Param{StringRef} } eq '';
+    return ( $Param{StringRef}, 0 ) if !defined ${ $Param{StringRef} };
+
+    # strip credit card numbers
+    my $Count = 0;
+    ${ $Param{StringRef} } =~ s{
+        \b(\d{4})(\s|\.|\+|_|-|\\|/)(\d{4})(\s|\.|\+|_|-|\\|/|)(\d{4})(\s|\.|\+|_|-|\\|/)(\d{3,4})\b
+    }
+    {
+        $Count++;
+        "$1$2XXXX$4XXXX$6$7";
+    }egx;
+
+    return $Param{StringRef}, $Count;
 }
 
 1;
@@ -288,6 +326,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.36 $ $Date: 2010-05-04 01:10:10 $
 
 =cut
