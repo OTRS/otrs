@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.283 2010-04-30 18:28:15 en Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.284 2010-05-04 00:39:49 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Group>Framework</Group>
@@ -3718,7 +3718,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Logout" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the Logout object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3730,7 +3730,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentDashboard" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentDashboard object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3739,8 +3739,8 @@ Your OTRS Notification Master
                 <Title></Title>
                 <NavBarName>Dashboard</NavBarName>
                 <NavBar>
-                    <Description>Dashboard</Description>
-                    <Name>Dashboard</Name>
+                    <Description Translatable="1">Dashboard</Description>
+                    <Name Translatable="1">Dashboard</Name>
                     <Image>dashboard.png</Image>
                     <Link>Action=AgentDashboard</Link>
                     <NavBar>Dashboard</NavBar>
@@ -3753,7 +3753,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentPreferences" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentPreference object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3765,7 +3765,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###PictureUpload" Required="1" Valid="1">
-        <Description Translatable="1">Frontend module registration for the PictureUpload object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3777,7 +3777,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentSpelling" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentSpelling object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3789,7 +3789,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###SpellingInline" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the SpellingInline object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3801,7 +3801,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentBook" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentBook object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3813,7 +3813,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentLookup" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentLookup object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3825,7 +3825,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentLinkObject" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentLinkObject object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3837,7 +3837,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentInfo" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentInfo object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3849,7 +3849,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentCalendarSmall" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentCalendarSmall object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3861,7 +3861,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Admin" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the Admin object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -3871,10 +3871,10 @@ Your OTRS Notification Master
                 <Title></Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBar>
-                    <Description>Admin-Area</Description>
+                    <Description Translatable="1">Admin-Area</Description>
                     <Type>Menu</Type>
                     <Block>ItemArea</Block>
-                    <Name>Admin</Name>
+                    <Name Translatable="1">Admin</Name>
                     <Image>admin.png</Image>
                     <Link>Action=Admin</Link>
                     <NavBar>Admin</NavBar>
@@ -3901,7 +3901,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUser" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminUser object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -3912,8 +3912,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Users</Name>
-                    <Description>Create and manage users.</Description>
+                    <Name Translatable="1">Users</Name>
+                    <Description Translatable="1">Create and manage users.</Description>
                     <Block>Agent</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
@@ -3921,7 +3921,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGroup" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminGroup object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -3932,16 +3932,16 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Groups</Name>
+                    <Name Translatable="1">Groups</Name>
                     <Block>Agent</Block>
-                    <Description>Create and manage groups.</Description>
+                    <Description Translatable="1">Create and manage groups.</Description>
                     <Prio>150</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUserGroup" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminUserGroup object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -3952,16 +3952,16 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Users &lt;-&gt; Groups</Name>
+                    <Name Translatable="1">Users &lt;-&gt; Groups</Name>
                     <Block>Agent</Block>
-                    <Description>Link users to groups.</Description>
+                    <Description Translatable="1">Link users to groups.</Description>
                     <Prio>200</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUser" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminCustomerUser object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -3973,8 +3973,8 @@ Your OTRS Notification Master
                 <Title>Customer Users</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
-                    <Description>Edit Customer Users</Description>
-                    <Name>Customers</Name>
+                    <Description Translatable="1">Edit Customer Users</Description>
+                    <Name Translatable="1">Customers</Name>
                     <Image>folder_yellow.png</Image>
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
                     <NavBar>Customers</NavBar>
@@ -3985,16 +3985,16 @@ Your OTRS Notification Master
                 </NavBar>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Customer Users</Name>
+                    <Name Translatable="1">Customer Users</Name>
                     <Block>Customer</Block>
-                    <Description>Create and manage customers.</Description>
+                    <Description Translatable="1">Create and manage customers.</Description>
                     <Prio>300</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerCompany" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminCustomerCompany object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4006,8 +4006,8 @@ Your OTRS Notification Master
                 <Title>Customer Companies</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBar>
-                    <Description>Edit Customer Company</Description>
-                    <Name>Company</Name>
+                    <Description Translatable="1">Edit Customer Company</Description>
+                    <Name Translatable="1">Company</Name>
                     <Image>folder_yellow.png</Image>
                     <Link>Action=AdminCustomerCompany;Nav=Agent</Link>
                     <NavBar>Ticket</NavBar>
@@ -4018,8 +4018,8 @@ Your OTRS Notification Master
                 </NavBar>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Customer Companies</Name>
-                    <Description>Create and manage companies.</Description>
+                    <Name Translatable="1">Customer Companies</Name>
+                    <Description Translatable="1">Create and manage companies.</Description>
                     <Block>Customer</Block>
                     <Prio>310</Prio>
                 </NavBarModule>
@@ -4037,7 +4037,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUserGroup" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminCustomerUserGroup object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4048,8 +4048,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Customer Users &lt;-&gt; Groups</Name>
-                    <Description>Link customers to groups.</Description>
+                    <Name Translatable="1">Customer Users &lt;-&gt; Groups</Name>
+                    <Description Translatable="1">Link customers to groups.</Description>
                     <Block>Customer</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
@@ -4057,7 +4057,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUserService" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminCustomerUserService object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4068,8 +4068,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Customer Users &lt;-&gt; Services</Name>
-                    <Description>Link customers to services.</Description>
+                    <Name Translatable="1">Customer Users &lt;-&gt; Services</Name>
+                    <Description Translatable="1">Link customers to services.</Description>
                     <Block>Customer</Block>
                     <Prio>500</Prio>
                 </NavBarModule>
@@ -4077,7 +4077,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRole" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminRole object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4088,8 +4088,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Roles</Name>
-                    <Description>Create and manage roles.</Description>
+                    <Name Translatable="1">Roles</Name>
+                    <Description Translatable="1">Create and manage roles.</Description>
                     <Block>Agent</Block>
                     <Prio>600</Prio>
                 </NavBarModule>
@@ -4097,7 +4097,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleUser" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminRoleUser object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4108,8 +4108,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Roles &lt;-&gt; Users</Name>
-                    <Description>Link users to roles.</Description>
+                    <Name Translatable="1">Roles &lt;-&gt; Users</Name>
+                    <Description Translatable="1">Link users to roles.</Description>
                     <Block>Agent</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
@@ -4117,7 +4117,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleGroup" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminRoleGroup object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4128,8 +4128,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Roles &lt;-&gt; Groups</Name>
-                    <Description>Link groups to roles.</Description>
+                    <Name Translatable="1">Roles &lt;-&gt; Groups</Name>
+                    <Description Translatable="1">Link groups to roles.</Description>
                     <Block>Agent</Block>
                     <Prio>800</Prio>
                 </NavBarModule>
@@ -4137,7 +4137,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSMIME" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminSMIME object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4148,8 +4148,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>S/MIME Certificates</Name>
-                    <Description>Manage S/MIME certificates for email encryption.</Description>
+                    <Name Translatable="1">S/MIME Certificates</Name>
+                    <Description Translatable="1">Manage S/MIME certificates for email encryption.</Description>
                     <Block>Email</Block>
                     <Prio>1100</Prio>
                 </NavBarModule>
@@ -4157,7 +4157,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPGP" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminPGP object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4168,8 +4168,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>PGP Keys</Name>
-                    <Description>Manage PGP keys for email encryption.</Description>
+                    <Name Translatable="1">PGP Keys</Name>
+                    <Description Translatable="1">Manage PGP keys for email encryption.</Description>
                     <Block>Email</Block>
                     <Prio>1200</Prio>
                 </NavBarModule>
@@ -4177,7 +4177,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminMailAccount" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminMailAccount object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4188,8 +4188,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>PostMaster Mail Accounts</Name>
-                    <Description>Manage POP3 or IMAP accounts to fetch email from.</Description>
+                    <Name Translatable="1">PostMaster Mail Accounts</Name>
+                    <Description Translatable="1">Manage POP3 or IMAP accounts to fetch email from.</Description>
                     <Block>Email</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
@@ -4197,7 +4197,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPostMasterFilter" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminPostMasterFilter object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4208,8 +4208,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>PostMaster Filters</Name>
-                    <Description>Filter incoming emails.</Description>
+                    <Name Translatable="1">PostMaster Filters</Name>
+                    <Description Translatable="1">Filter incoming emails.</Description>
                     <Block>Email</Block>
                     <Prio>200</Prio>
                 </NavBarModule>
@@ -4217,7 +4217,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminEmail" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminEmail object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4228,8 +4228,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Admin Notification</Name>
-                    <Description>Send notifications to users.</Description>
+                    <Name Translatable="1">Admin Notification</Name>
+                    <Description Translatable="1">Send notifications to users.</Description>
                     <Block>System</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
@@ -4237,7 +4237,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSession" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminSession object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4248,8 +4248,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Session Management</Name>
-                    <Description>Manage existing sessions.</Description>
+                    <Name Translatable="1">Session Management</Name>
+                    <Description Translatable="1">Manage existing sessions.</Description>
                     <Block>System</Block>
                     <Prio>500</Prio>
                 </NavBarModule>
@@ -4257,7 +4257,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPerformanceLog" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminPerformanceLog object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4268,8 +4268,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Performance Log</Name>
-                    <Description>View performance benchmark results.</Description>
+                    <Name Translatable="1">Performance Log</Name>
+                    <Description Translatable="1">View performance benchmark results.</Description>
                     <Block>System</Block>
                     <Prio>550</Prio>
                 </NavBarModule>
@@ -4277,7 +4277,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminLog" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminLog object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4288,8 +4288,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>System Log</Name>
-                    <Description>View system log messages.</Description>
+                    <Name Translatable="1">System Log</Name>
+                    <Description Translatable="1">View system log messages.</Description>
                     <Block>System</Block>
                     <Prio>600</Prio>
                 </NavBarModule>
@@ -4297,7 +4297,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSelectBox" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminSelectBox object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4308,8 +4308,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>SQL Box</Name>
-                    <Description>Execute SQL statements.</Description>
+                    <Name Translatable="1">SQL Box</Name>
+                    <Description Translatable="1">Execute SQL statements.</Description>
                     <Block>System</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
@@ -4317,7 +4317,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPackageManager" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminPackageManager object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4328,8 +4328,8 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Package Manager</Name>
-                    <Description>Update and extend your system with software packages.</Description>
+                    <Name Translatable="1">Package Manager</Name>
+                    <Description Translatable="1">Update and extend your system with software packages.</Description>
                     <Block>System</Block>
                     <Prio>1000</Prio>
                 </NavBarModule>
@@ -4337,7 +4337,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###Logout" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the Logout object in the customer frontend.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4349,7 +4349,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerPreferences" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the CustomerPreferences object in the customer frontend.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4361,7 +4361,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerCalendarSmall" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the CustomerCalendarSmall object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4373,7 +4373,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerAccept" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the CustomerAccept object in the customer frontend.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4397,7 +4397,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###SpellingInline" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the SpellingInline object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4436,7 +4436,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PublicFrontend::Module###PublicDefault" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the PublicDefault object in the public interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Public::ModuleRegistration</SubGroup>
         <Setting>
@@ -4448,7 +4448,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PublicFrontend::Module###PublicRepository" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the PublicRepository object in the public interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Public::ModuleRegistration</SubGroup>
         <Setting>
@@ -4471,8 +4471,8 @@ Your OTRS Notification Master
                 <Description>Stats</Description>
                 <NavBarName>Stats</NavBarName>
                 <NavBar>
-                    <Description>Stats</Description>
-                    <Name>Statistics</Name>
+                    <Description Translatable="1">Stats</Description>
+                    <Name Translatable="1">Statistics</Name>
                     <Image>stats.png</Image>
                     <Link>Action=AgentStats;Subaction=Overview</Link>
                     <NavBar>Stats</NavBar>
@@ -4483,8 +4483,8 @@ Your OTRS Notification Master
                 </NavBar>
                 <NavBar>
                     <GroupRo>stats</GroupRo>
-                    <Description>Overview</Description>
-                    <Name>Overview</Name>
+                    <Description Translatable="1">Overview</Description>
+                    <Name Translatable="1">Overview</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentStats;Subaction=Overview</Link>
                     <NavBar>Stats</NavBar>
@@ -4495,8 +4495,8 @@ Your OTRS Notification Master
                 </NavBar>
                 <NavBar>
                     <Group>stats</Group>
-                    <Description>New</Description>
-                    <Name>New</Name>
+                    <Description Translatable="1">New</Description>
+                    <Name Translatable="1">New</Name>
                     <Image>new.png</Image>
                     <Link>Action=AgentStats;Subaction=Add</Link>
                     <NavBar>Stats</NavBar>
@@ -4507,8 +4507,8 @@ Your OTRS Notification Master
                 </NavBar>
                 <NavBar>
                     <Group>stats</Group>
-                    <Description>Import</Description>
-                    <Name>Import</Name>
+                    <Description Translatable="1">Import</Description>
+                    <Name Translatable="1">Import</Name>
                     <Image>import.png</Image>
                     <Link>Action=AgentStats;Subaction=Import</Link>
                     <NavBar>Stats</NavBar>

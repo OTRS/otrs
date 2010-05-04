@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.320 2010-04-23 10:09:20 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.321 2010-05-04 00:39:49 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -6872,11 +6872,11 @@ $QData{"Signature"}
                 <Item Key="TicketFreeText15">0</Item>
                 <Item Key="TicketFreeText16">0</Item>
                 <Item Key="Queue">1</Item>
-                <Item Key="Type">1</Item>
+                <Item Key="Type">0</Item>
                 <Item Key="Priority">1</Item>
                 <Item Key="State">1</Item>
-                <Item Key="Service">1</Item>
-                <Item Key="SLA">1</Item>
+                <Item Key="Service">0</Item>
+                <Item Key="SLA">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -7178,7 +7178,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketQueue" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketQueue object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7187,8 +7187,8 @@ $QData{"Signature"}
                 <Title>QueueView</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description>Overview of all open Tickets</Description>
-                    <Name>Queue-View</Name>
+                    <Description Translatable="1">Overview of all open Tickets</Description>
+                    <Name Translatable="1">Queue View</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketQueue</Link>
                     <NavBar>Ticket</NavBar>
@@ -7198,10 +7198,10 @@ $QData{"Signature"}
                     <Prio>100</Prio>
                 </NavBar>
                 <NavBar>
-                    <Description>Ticket-Area</Description>
+                    <Description Translatable="1">Ticket-Area</Description>
                     <Type>Menu</Type>
                     <Block>ItemArea</Block>
-                    <Name>Tickets</Name>
+                    <Name Translatable="1">Tickets</Name>
                     <Image>desktop.png</Image>
                     <Link>Action=AgentTicketQueue</Link>
                     <NavBar>Ticket</NavBar>
@@ -7212,7 +7212,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPhone" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketPhone object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7221,8 +7221,8 @@ $QData{"Signature"}
                 <Title>Phone-Ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description>Create new Phone Ticket (Inbound)</Description>
-                    <Name>Phone-Ticket</Name>
+                    <Description Translatable="1">Create new Phone Ticket (Inbound)</Description>
+                    <Name Translatable="1">Phone Ticket</Name>
                     <Image>phone-new.png</Image>
                     <Link>Action=AgentTicketPhone</Link>
                     <NavBar>Ticket</NavBar>
@@ -7235,7 +7235,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPhoneOutbound" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketPhoneOutbound object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7247,7 +7247,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketEmail" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketEmail object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7256,8 +7256,8 @@ $QData{"Signature"}
                 <Title>Email-Ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description>Create new Email Ticket and send this out (Outbound)</Description>
-                    <Name>Email-Ticket</Name>
+                    <Description Translatable="1">Create new Email Ticket and send this out (Outbound)</Description>
+                    <Name Translatable="1">Email Ticket</Name>
                     <Image>mail_new.png</Image>
                     <Link>Action=AgentTicketEmail</Link>
                     <NavBar>Ticket</NavBar>
@@ -7270,7 +7270,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketSearch" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketSearch object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7279,8 +7279,8 @@ $QData{"Signature"}
                 <Title>Search</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description>Search Ticket</Description>
-                    <Name>Search</Name>
+                    <Description Translatable="1">Search Ticket</Description>
+                    <Name Translatable="1">Search</Name>
                     <Image>search.png</Image>
                     <Link>Action=AgentTicketSearch</Link>
                     <NavBar>Ticket</NavBar>
@@ -7293,7 +7293,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketMailbox" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketMailbox object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7305,7 +7305,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketLockedView" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketLockedView object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7317,7 +7317,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketResponsibleView" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketResponsibleView object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7329,7 +7329,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketWatchView" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketWatchView object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7341,7 +7341,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentCustomerSearch" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentCustomerSearch object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7353,7 +7353,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketStatusView" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketStatusView object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7362,8 +7362,8 @@ $QData{"Signature"}
                 <Title>Status View</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description>Overview of all open Tickets</Description>
-                    <Name>Status View</Name>
+                    <Description Translatable="1">Overview of all open Tickets.</Description>
+                    <Name Translatable="1">Status View</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketStatusView</Link>
                     <NavBar>Ticket</NavBar>
@@ -7376,7 +7376,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketEscalationView" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketEscalationView object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7385,8 +7385,8 @@ $QData{"Signature"}
                 <Title>Escalation View</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description>Overview Escalated Tickets</Description>
-                    <Name>Escalation-View</Name>
+                    <Description Translatable="1">Overview Escalated Tickets</Description>
+                    <Name Translatable="1">Escalation View</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketEscalationView</Link>
                     <NavBar>Ticket</NavBar>
@@ -7399,7 +7399,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentZoom" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentZoom object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7411,7 +7411,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketZoom" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketZoom object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7423,7 +7423,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketAttachment" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketAtachment object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7435,7 +7435,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPlain" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketPlain object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7447,7 +7447,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketNote" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketNote object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7459,7 +7459,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketMerge" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketNote object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7471,7 +7471,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPending" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketPending object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7495,7 +7495,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPriority" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketPriority object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7507,7 +7507,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketLock" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketLock object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7519,7 +7519,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketMove" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketMove object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7531,7 +7531,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketHistory" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketHistory object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7543,7 +7543,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketOwner" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketOwner object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7555,7 +7555,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketResponsible" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketResponsible object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7567,7 +7567,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCompose" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketCompose object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7579,7 +7579,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketBounce" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketBounce object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7591,7 +7591,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketForward" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketForward object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7603,7 +7603,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCustomer" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketCustomer object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7615,7 +7615,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketClose" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketClose object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7627,7 +7627,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketFreeText" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketFreeText object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7639,7 +7639,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPrint" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketPrint object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7651,7 +7651,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketBulk" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AgentTicketBulk object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -7663,7 +7663,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueue" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminQueue object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7674,8 +7674,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Queues</Name>
-                    <Description>Create and manage queues.</Description>
+                    <Name Translatable="1">Queues</Name>
+                    <Description Translatable="1">Create and manage queues.</Description>
                     <Block>Queue</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
@@ -7683,7 +7683,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminResponse" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminResponse object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7694,8 +7694,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Responses</Name>
-                    <Description>Create and manage response templates.</Description>
+                    <Name Translatable="1">Responses</Name>
+                    <Description Translatable="1">Create and manage response templates.</Description>
                     <Block>Queue</Block>
                     <Prio>200</Prio>
                 </NavBarModule>
@@ -7703,7 +7703,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueueResponses" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminQueueResponses object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7714,8 +7714,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Responses &lt;-&gt; Queues</Name>
-                    <Description>Link responses to queues.</Description>
+                    <Name Translatable="1">Responses &lt;-&gt; Queues</Name>
+                    <Description Translatable="1">Link responses to queues.</Description>
                     <Block>Queue</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
@@ -7723,7 +7723,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminAutoResponse" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminAutoResponses object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7734,8 +7734,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Auto Responses</Name>
-                    <Description>Create and manage responses that are automatically sent.</Description>
+                    <Name Translatable="1">Auto Responses</Name>
+                    <Description Translatable="1">Create and manage responses that are automatically sent.</Description>
                     <Block>Queue</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
@@ -7743,7 +7743,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueueAutoResponse" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminQueueAutoResponses object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7754,8 +7754,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Auto Responses &lt;-&gt; Queues</Name>
-                    <Description>Link auto responses to queues.</Description>
+                    <Name Translatable="1">Auto Responses &lt;-&gt; Queues</Name>
+                    <Description Translatable="1">Link auto responses to queues.</Description>
                     <Block>Queue</Block>
                     <Prio>500</Prio>
                 </NavBarModule>
@@ -7763,8 +7763,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminAttachment" Required="0" Valid="1">
-        <Description Translatable="1">Describe if the module "Attachment" (AdminAttachment) is shown in the admin interface. Describe also the notation of the module.</Description>
-        <Description Translatable="1">Frontend module registration for the AdminAttachment object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7775,8 +7774,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Attachments</Name>
-                    <Description>Create and manage attachments.</Description>
+                    <Name Translatable="1">Attachments</Name>
+                    <Description Translatable="1">Create and manage attachments.</Description>
                     <Block>Queue</Block>
                     <Prio>600</Prio>
                 </NavBarModule>
@@ -7784,7 +7783,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminResponseAttachment" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminResponseAttachment object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7795,8 +7794,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Attachments &lt;-&gt; Responses</Name>
-                    <Description>Link attachments to responses templates.</Description>
+                    <Name Translatable="1">Attachments &lt;-&gt; Responses</Name>
+                    <Description Translatable="1">Link attachments to responses templates.</Description>
                     <Block>Queue</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
@@ -7804,7 +7803,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSalutation" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminSalutation object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7815,8 +7814,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Salutations</Name>
-                    <Description>Create and manage salutations.</Description>
+                    <Name Translatable="1">Salutations</Name>
+                    <Description Translatable="1">Create and manage salutations.</Description>
                     <Block>Queue</Block>
                     <Prio>800</Prio>
                 </NavBarModule>
@@ -7824,7 +7823,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSignature" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminSignature object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7835,8 +7834,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Signatures</Name>
-                    <Description>Create and manage signatures.</Description>
+                    <Name Translatable="1">Signatures</Name>
+                    <Description Translatable="1">Create and manage signatures.</Description>
                     <Block>Queue</Block>
                     <Prio>900</Prio>
                 </NavBarModule>
@@ -7844,7 +7843,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSystemAddress" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminSystemAddress object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7855,8 +7854,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Email Addresses</Name>
-                    <Description>Set sender email addresses for this system.</Description>
+                    <Name Translatable="1">Email Addresses</Name>
+                    <Description Translatable="1">Set sender email addresses for this system.</Description>
                     <Block>Email</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
@@ -7864,7 +7863,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminNotification" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminNotification object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7875,8 +7874,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Agent Notifications</Name>
-                    <Description>Create and manage notifications that are sent to agents.</Description>
+                    <Name Translatable="1">Agent Notifications</Name>
+                    <Description Translatable="1">Create and manage notifications that are sent to agents.</Description>
                     <Block>Ticket</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
@@ -7884,7 +7883,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminNotificationEvent" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminNotificationEvent object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7895,8 +7894,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Notifications (Event)</Name>
-                    <Description>Create and manage event based notifications.</Description>
+                    <Name Translatable="1">Notifications (Event)</Name>
+                    <Description Translatable="1">Create and manage event based notifications.</Description>
                     <Block>Ticket</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
@@ -7904,7 +7903,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminService" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminService configuration in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7915,8 +7914,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Services</Name>
-                    <Description>Create and manage services.</Description>
+                    <Name Translatable="1">Services</Name>
+                    <Description Translatable="1">Create and manage services.</Description>
                     <Block>Ticket</Block>
                     <Prio>900</Prio>
                 </NavBarModule>
@@ -7924,7 +7923,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSLA" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminSLA configuration in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7935,8 +7934,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Service Level Agreements</Name>
-                    <Description>Create and manage Service Level Agreements (SLAs).</Description>
+                    <Name Translatable="1">Service Level Agreements</Name>
+                    <Description Translatable="1">Create and manage Service Level Agreements (SLAs).</Description>
                     <Block>Ticket</Block>
                     <Prio>1000</Prio>
                 </NavBarModule>
@@ -7944,7 +7943,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminType" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminType object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7955,8 +7954,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Types</Name>
-                    <Description>Create and manage ticket types.</Description>
+                    <Name Translatable="1">Types</Name>
+                    <Description Translatable="1">Create and manage ticket types.</Description>
                     <Block>Ticket</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
@@ -7964,7 +7963,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminState" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminState object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7975,8 +7974,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>States</Name>
-                    <Description>Create and manage ticket states.</Description>
+                    <Name Translatable="1">States</Name>
+                    <Description Translatable="1">Create and manage ticket states.</Description>
                     <Block>Ticket</Block>
                     <Prio>800</Prio>
                 </NavBarModule>
@@ -7984,7 +7983,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPriority" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminPriority object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -7995,8 +7994,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Priorities</Name>
-                    <Description>Create and manage ticket priorities.</Description>
+                    <Name Translatable="1">Priorities</Name>
+                    <Description Translatable="1">Create and manage ticket priorities.</Description>
                     <Block>Ticket</Block>
                     <Prio>850</Prio>
                 </NavBarModule>
@@ -8004,7 +8003,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGenericAgent" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the AdminGenericAgent object in the admin area.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -8015,8 +8014,8 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>GenericAgent</Name>
-                    <Description>Manage periodic tasks.</Description>
+                    <Name Translatable="1">GenericAgent</Name>
+                    <Description Translatable="1">Manage periodic tasks.</Description>
                     <Block>System</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
@@ -8024,7 +8023,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverView" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the CustomerTicketOverview object in the customer interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8033,8 +8032,8 @@ $QData{"Signature"}
                 <NavBarName>Ticket</NavBarName>
                 <Title>Overview</Title>
                 <NavBar>
-                    <Description>My Tickets</Description>
-                    <Name>My Tickets</Name>
+                    <Description Translatable="1">My Tickets</Description>
+                    <Name Translatable="1">My Tickets</Name>
                     <Image>ticket.png</Image>
                     <Block></Block>
                     <Type></Type>
@@ -8044,8 +8043,8 @@ $QData{"Signature"}
                     <Prio>110</Prio>
                 </NavBar>
                 <NavBar>
-                    <Description>Company Tickets</Description>
-                    <Name>Company Tickets</Name>
+                    <Description Translatable="1">Company Tickets</Description>
+                    <Name Translatable="1">Company Tickets</Name>
                     <Image>tickets.png</Image>
                     <Block></Block>
                     <Type></Type>
@@ -8058,7 +8057,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketMessage" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the CustomerTicketMessage object in the customer interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8067,8 +8066,8 @@ $QData{"Signature"}
                 <NavBarName>Ticket</NavBarName>
                 <Title>New Ticket</Title>
                 <NavBar>
-                    <Description>Create new Ticket</Description>
-                    <Name>New Ticket</Name>
+                    <Description Translatable="1">Create new Ticket</Description>
+                    <Name Translatable="1">New Ticket</Name>
                     <Image>new.png</Image>
                     <Block></Block>
                     <Type></Type>
@@ -8081,7 +8080,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketZoom" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the CustomerTicketZoom object in the customer interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8093,7 +8092,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketPrint" Required="0" Valid="1">
-        <Description Translatable="1">Customer Frontend module registration for the Customer Ticket Print Module.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8105,7 +8104,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerZoom" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the CustomerZoom object in the customer interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8117,7 +8116,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketAttachment" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the CustomerTicketAttachment object in the customer interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8129,7 +8128,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketSearch" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the CustomerTicketSearch object in the customer interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8138,8 +8137,8 @@ $QData{"Signature"}
                 <NavBarName>Ticket</NavBarName>
                 <Title>Search</Title>
                 <NavBar>
-                    <Description>Search</Description>
-                    <Name>Search</Name>
+                    <Description Translatable="1">Search</Description>
+                    <Name Translatable="1">Search</Name>
                     <Image>search.png</Image>
                     <Block></Block>
                     <Type></Type>
@@ -8934,7 +8933,7 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::ToolBarModule###1-Ticket::TicketSearchProfile" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::ToolBarModule###1-Ticket::TicketSearchProfile" Required="0" Valid="0">
         <Description Translatable="1">Agent interface module to access search profiles via nav bar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
@@ -8948,7 +8947,7 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::ToolBarModule###1-Ticket::TicketSearchFulltext" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::ToolBarModule###1-Ticket::TicketSearchFulltext" Required="0" Valid="0">
         <Description Translatable="1">Agent interface module to access fulltext search via nav bar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
