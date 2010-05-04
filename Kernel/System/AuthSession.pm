@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.43 2010-01-27 01:46:00 martin Exp $
+# $Id: AuthSession.pm,v 1.44 2010-05-04 08:28:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,11 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
-Kernel::System::AuthSeesion - global session interface
+Kernel::System::AuthSession - global session interface
 
 =head1 SYNOPSIS
 
@@ -282,7 +282,7 @@ sub GetAllSessionIDs {
 
 =item CleanUp()
 
-clean up of sessions in your system
+cleanup of sessions in your system
 
     $SessionObject->CleanUp();
 
@@ -303,10 +303,10 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2010-01-27 01:46:00 $
+$Revision: 1.44 $ $Date: 2010-05-04 08:28:03 $
 
 =cut
