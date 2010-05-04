@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.95 2010-03-25 14:42:45 martin Exp $
+# $Id: EmailParser.pm,v 1.96 2010-05-04 01:19:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 =head1 NAME
 
@@ -252,6 +252,26 @@ sub GetEmailAddress {
         $Email = $EmailSplit->address();
     }
     return $Email;
+}
+
+=item GetRealname()
+
+To get the senders realname back.
+
+    my $Realname = $ParserObject->GetRealname(
+        Email => 'Juergen Weber <juergen.qeber@air.com>',
+    );
+
+=cut
+
+sub GetRealname {
+    my ( $Self, %Param ) = @_;
+
+    my $Realname = '';
+    for my $EmailSplit ( Mail::Address->parse( $Param{Email} ) ) {
+        $Realname = $EmailSplit->name();
+    }
+    return $Realname;
 }
 
 =item SplitAddressLine()
@@ -883,6 +903,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.95 $ $Date: 2010-03-25 14:42:45 $
+$Revision: 1.96 $ $Date: 2010-05-04 01:19:50 $
 
 =cut
