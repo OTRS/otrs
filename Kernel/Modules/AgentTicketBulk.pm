@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.47 2010-03-24 11:15:24 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.48 2010-05-04 01:20:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,7 +50,7 @@ sub Run {
     # check if bulk feature is enabled
     if ( !$Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
         return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Bulk feature is not enabled!",
+            Message => 'Bulk feature is not enabled!',
         );
     }
 
@@ -65,7 +65,7 @@ sub Run {
     # check needed stuff
     if ( !@TicketIDs ) {
         return $Self->{LayoutObject}->ErrorScreen(
-            Message => "No TicketID is given!",
+            Message => 'No TicketID is given!',
             Comment => 'You need min. one selected Ticket!',
         );
     }

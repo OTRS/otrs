@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesGeneric.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesGeneric.pm,v 1.9 2009-02-16 11:16:22 tr Exp $
+# $Id: PreferencesGeneric.pm,v 1.10 2010-05-04 01:22:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,9 +35,9 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
-    my @Params = ();
+    my @Params;
     my $GetParam = $Self->{ParamObject}->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
-    if ( !defined($GetParam) ) {
+    if ( !defined $GetParam ) {
         $GetParam
             = defined( $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} } )
             ? $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} }

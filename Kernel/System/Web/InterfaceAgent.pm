@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.47 2010-01-25 17:24:13 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.48 2010-05-04 01:27:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -750,8 +750,10 @@ sub Run {
             if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
 
                 # new layout object
-                my $LayoutObject
-                    = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+                my $LayoutObject = Kernel::Output::HTML::Layout->new(
+                    %{$Self},
+                    Lang => $Param{Lang},
+                );
                 print $LayoutObject->NoPermission(
                     Message => 'No Permission to use this frontend module!'
                 );
@@ -912,6 +914,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2010-01-25 17:24:13 $
+$Revision: 1.48 $ $Date: 2010-05-04 01:27:47 $
 
 =cut
