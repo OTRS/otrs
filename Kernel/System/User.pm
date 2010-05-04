@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.102 2010-04-22 16:04:19 en Exp $
+# $Id: User.pm,v 1.103 2010-05-04 01:08:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 =head1 NAME
 
@@ -895,6 +895,23 @@ set user preferences
 sub SetPreferences {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for (qw(Key UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # get current setting
+    my %User = $Self->GetUserData(
+        UserID        => $Param{UserID},
+        NoOutOfOffice => 1,
+    );
+
+    # no updated needed
+    return 1 if exists $User{ $Param{Key} } && $User{ $Param{Key} } eq $Param{Value};
+
     # delete cache
     my $Login = $Self->UserLookup( UserID => $Param{UserID} );
     my @CacheKeys = (
@@ -1050,6 +1067,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.102 $ $Date: 2010-04-22 16:04:19 $
+$Revision: 1.103 $ $Date: 2010-05-04 01:08:23 $
 
 =cut
