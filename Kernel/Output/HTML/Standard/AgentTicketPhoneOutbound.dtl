@@ -2,7 +2,7 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.31 2010-02-05 13:58:24 mn Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.32 2010-05-04 01:28:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -107,86 +107,85 @@ function SpellCheckSubmit() {
     </tr>
     <tr>
         <td class="mainbody">
-            <p>
-                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-                    <input type="hidden" name="Action"    value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Store"/>
-                    <input type="hidden" name="FormID"    value="$QData{"FormID"}"/>
-                    <input type="hidden" name="TicketID"  value="$QData{"TicketID"}"/>
-                    <table border="0" width="100%">
-                        <tr>
-                            <td width="20%" class="contentkey">$Text{"Subject"}:</td>
-                            <td width="50%" class="contentvalue">
-                                <input type="text" name="Subject" value="$QData{"Subject"}" size="80"/>
-                                <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
-                            </td>
-                            <td width="30%" rowspan="7" class="contentvalue">
+            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+                <input type="hidden" name="Action"    value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Store"/>
+                <input type="hidden" name="FormID"    value="$QData{"FormID"}"/>
+                <input type="hidden" name="TicketID"  value="$QData{"TicketID"}"/>
+                <table border="0" width="100%">
+                    <tr>
+                        <td width="20%" class="contentkey">$Text{"Subject"}:</td>
+                        <td width="50%" class="contentvalue">
+                            <input type="text" name="Subject" value="$QData{"Subject"}" size="80"/>
+                            <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+                        </td>
+                        <td width="30%" rowspan="7" class="contentvalue">
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-                                <p>
-                                    <b>$Text{"Customer Info"}</b>:<br/>
-                                    $Data{"CustomerTable"}
-                                </p>
+                            <p>
+                                <b>$Text{"Customer Info"}</b>:<br/>
+                                $Data{"CustomerTable"}
+                            </p>
 <!-- dtl:block:CustomerTable -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="contentkey">$Text{"Options"}:</td>
-                            <td class="contentvalue">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Options"}:</td>
+                        <td class="contentvalue">
 <!-- dtl:block:SpellCheck -->
-                                $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png" />$Text{"Spell Check"}</a>$Env{"Box1"}
+                            $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png" />$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="contentkey">$Text{"Text"}:</td>
-                            <td class="contentvalue">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Text"}:</td>
+                        <td class="contentvalue">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 # set white background for buttons
 <!-- dtl:block:RichText -->
-                                <textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$Data{"Body"}</textarea>
-                                <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="contentkey">$Text{"Attachment"}:</td>
-                            <td class="contentvalue">
-                                <table cellspacing="0" cellpadding="0" width="400">
+                            <textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$Data{"Body"}</textarea>
+                            <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Attachment"}:</td>
+                        <td class="contentvalue">
+                            <table cellspacing="0" cellpadding="0" width="400">
 <!-- dtl:block:Attachment -->
-                                    <tr>
-                                        <td>$QData{"Filename"}</td>
-                                        <td>$QData{"Filesize"}</td>
-                                        <td align="right">
-                                            <button class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>$QData{"Filename"}</td>
+                                    <td>$QData{"Filesize"}</td>
+                                    <td align="right">
+                                        <button class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                                    </td>
+                                </tr>
 <!-- dtl:block:Attachment -->
-                                    <tr>
-                                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
-                                        <td align="right">
-                                            <button class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
-                                            <a name="attachment"></a>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="contentkey">$Text{"Next ticket state"}:</td>
-                            <td class="contentvalue">$Data{"NextStatesStrg"}</td>
-                        </tr>
-                        <tr>
-                            <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
-                            <td class="contentvalue">$Data{"PendingDateString"}
-                                <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font>
-                            </td>
-                        </tr>
+                                <tr>
+                                    <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
+                                    <td align="right">
+                                        <button class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
+                                        <a name="attachment"></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Next ticket state"}:</td>
+                        <td class="contentvalue">$Data{"NextStatesStrg"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
+                        <td class="contentvalue">$Data{"PendingDateString"}
+                            <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font>
+                        </td>
+                    </tr>
 <!-- dtl:block:TicketFreeText -->
-                        <tr>
-                            <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
-                            <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
-                        </tr>
+                    <tr>
+                        <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
+                        <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+                    </tr>
 <!-- dtl:block:TicketFreeText -->
 #<!-- dtl:block:TicketFreeText1 -->
 #            <tr>
@@ -201,10 +200,10 @@ $Include{"RichTextEditor"}
 #            </tr>
 #<!-- dtl:block:TicketFreeText2 -->
 <!-- dtl:block:TicketFreeTime -->
-                        <tr>
-                            <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
-                            <td class="contentvalue">$Data{"TicketFreeTime"}</td>
-                        </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
+                        <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+                    </tr>
 <!-- dtl:block:TicketFreeTime -->
 #<!-- dtl:block:TicketFreeTime1 -->
 #            <tr>
@@ -219,10 +218,10 @@ $Include{"RichTextEditor"}
 #            </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
 <!-- dtl:block:ArticleFreeText -->
-                        <tr>
-                            <td class="contentkey">$Data{"ArticleFreeKeyField"}:</td>
-                            <td class="contentvalue">$Data{"ArticleFreeTextField"}</td>
-                        </tr>
+                    <tr>
+                        <td class="contentkey">$Data{"ArticleFreeKeyField"}:</td>
+                        <td class="contentvalue">$Data{"ArticleFreeTextField"}</td>
+                    </tr>
 <!-- dtl:block:ArticleFreeText -->
 #<!-- dtl:block:ArticleFreeText1 -->
 #                <tr>
@@ -237,21 +236,20 @@ $Include{"RichTextEditor"}
 #                </tr>
 #<!-- dtl:block:ArticleFreeText2 -->
 <!-- dtl:block:TimeUnits -->
-                        <tr>
-                            <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
-                            <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"/></td>
-                        </tr>
+                    <tr>
+                        <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
+                        <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"/></td>
+                    </tr>
 <!-- dtl:block:TimeUnits -->
-                    </table>
-                    <br/>
-                    <button accesskey="g" class="button" id="submitRichText" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">$Text{"Submit"}</button>
-                </form>
-                <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-                    <input type="hidden" name="Action" value="AgentSpelling"/>
-                    <input type="hidden" name="Body" value=""/>
-                    <input type="hidden" name="spell_lang" value=""/>
-                </form>
-            </p>
+                </table>
+                <br/>
+                <button accesskey="g" class="button" id="submitRichText" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">$Text{"Submit"}</button>
+            </form>
+            <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+                <input type="hidden" name="Action" value="AgentSpelling"/>
+                <input type="hidden" name="Body" value=""/>
+                <input type="hidden" name="spell_lang" value=""/>
+            </form>
         </td>
     </tr>
 </table>
