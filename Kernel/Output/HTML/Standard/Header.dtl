@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.77 2010-04-22 18:01:48 mn Exp $
+# $Id: Header.dtl,v 1.78 2010-05-04 01:24:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -79,7 +79,7 @@ $Include{"Copyright"}
         <div id="Logo"></div>
         <ul id="ToolBar">
 <!-- dtl:block:ToolBarItem -->
-            <li class="Alerts"><a href="$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$QData{"Count"} $Text{"$Data{"Description"}"}"><span class="Counter">$QData{"Count"}</span> $Text{"Description"}<span class="Gloss"></span></a></li>
+            <li class="$QData{"Class"}"><a href="$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$QData{"Count"} $Text{"$Data{"Description"}"}"><span class="Counter">$QData{"Count"}</span> $Text{"Description"}<span class="Gloss"></span></a></li>
 <!-- dtl:block:ToolBarItem -->
 #            <li class="Alerts"><span></span><a href="" title="Alerts"><span>9</span> Alerts</a></li>
 #            <li class="Stacks"><span></span><a href="" title="Stacks"><span>21</span> Stacks</a></li>
