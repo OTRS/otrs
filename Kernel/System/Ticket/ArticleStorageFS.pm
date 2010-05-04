@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.69 2010-04-05 11:52:29 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.70 2010-05-04 19:22:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -39,14 +39,12 @@ sub ArticleStorageInit {
     # check fs write permissions!
     my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/check_permissions.$$";
     if ( -d $Path ) {
-        File::Path::rmtree( [$Path] ) || die "Can't remove $Path: $!\n";
+        File::Path::rmtree( [$Path] );
     }
     if ( mkdir( "$Self->{ArticleDataDir}/check_permissions_$$", 022 ) ) {
-        if ( !rmdir("$Self->{ArticleDataDir}/check_permissions_$$") ) {
-            die "Can't remove $Self->{ArticleDataDir}/check_permissions_$$: $!\n";
-        }
+        rmdir("$Self->{ArticleDataDir}/check_permissions_$$");
         if ( File::Path::mkpath( [$Path], 0, 0775 ) ) {
-            File::Path::rmtree( [$Path] ) || die "Can't remove $Path: $!\n";
+            File::Path::rmtree( [$Path] );
         }
     }
     else {
