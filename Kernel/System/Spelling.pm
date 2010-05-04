@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Spelling.pm - the global spelling module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.pm,v 1.30 2009-11-16 13:04:20 mn Exp $
+# $Id: Spelling.pm,v 1.31 2010-05-04 01:07:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -181,7 +181,7 @@ sub Check {
 
     # aspell encoding
     if ( $Self->{SpellChecker} =~ /aspell/ ) {
-        if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+        if ( $Self->{EncodeObject}->CharsetInternal() ) {
             $Self->{SpellChecker} .= ' --encoding=utf-8';
         }
     }
@@ -205,7 +205,7 @@ sub Check {
         $CurrentLine++;
 
         # set utf8 stamp if running in utf8 mode
-        $Self->{EncodeObject}->Encode( \$Line );
+        $Self->{EncodeObject}->EncodeInput( \$Line );
 
         # ispell encoding: # ÄÖÜäöü
         if ( $Self->{SpellChecker} =~ /ispell/ ) {
@@ -300,6 +300,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2009-11-16 13:04:20 $
+$Revision: 1.31 $ $Date: 2010-05-04 01:07:00 $
 
 =cut
