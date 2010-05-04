@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.30 2010-05-03 10:22:22 mn Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.31 2010-05-04 01:19:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -284,7 +284,6 @@ sub Run {
         AllHits     => $Total || 1,
         Action      => 'Action=' . $Self->{LayoutObject}->{Action},
         Link        => $LinkPage,
-        WindowSize  => 10,
         AJAXReplace => 'Dashboard' . $Self->{Name},
         IDPrefix    => 'Dashboard' . $Self->{Name},
     );
@@ -334,8 +333,14 @@ sub Run {
         for my $Item (@TicketMetaItems) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentLargeTicketGenericRowMeta',
-                Data => $Item,
+                Data => {},
             );
+            if ($Item) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeTicketGenericRowMetaImage',
+                    Data => $Item,
+                );
+            }
         }
     }
 
