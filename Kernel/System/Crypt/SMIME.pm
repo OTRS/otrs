@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.35 2010-05-03 08:35:39 mn Exp $
+# $Id: SMIME.pm,v 1.36 2010-05-04 01:00:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -142,6 +142,7 @@ sub Crypt {
     }
 
     my $CryptedRef = $Self->{MainObject}->FileRead( Location => $CryptedFile );
+    return if !$CryptedRef;
     return $$CryptedRef;
 }
 
@@ -198,6 +199,14 @@ sub Decrypt {
     }
 
     my $DecryptedRef = $Self->{MainObject}->FileRead( Location => $PlainFile );
+    if ( !$DecryptedRef ) {
+        return (
+            Successful => 0,
+            Message    => "OpenSSL: Can't read $PlainFile!",
+            Data       => undef,
+        );
+
+    }
     return (
         Successful => 1,
         Message    => "OpenSSL: OK",
@@ -258,6 +267,7 @@ sub Sign {
     }
 
     my $SignedRef = $Self->{MainObject}->FileRead( Location => $SignFile );
+    return if !$SignedRef;
     return $$SignedRef;
 
 }
@@ -325,8 +335,8 @@ sub Verify {
             Successful     => 1,
 
             #            Message => $1,
-            Message           => "OpenSSL: " . $Message,
-            MessageLong       => "OpenSSL: " . $MessageLong,
+            Message           => 'OpenSSL: ' . $Message,
+            MessageLong       => 'OpenSSL: ' . $MessageLong,
             SignerCertificate => $$SignerCertRef,
             Content           => $$SignedContentRef,
         );
@@ -335,8 +345,8 @@ sub Verify {
         %Return = (
             SignatureFound => 1,
             Successful     => 0,
-            Message        => "OpenSSL: " . $Message,
-            MessageLong    => "OpenSSL: " . $MessageLong,
+            Message        => 'OpenSSL: ' . $Message,
+            MessageLong    => 'OpenSSL: ' . $MessageLong,
         );
     }
     return %Return;
@@ -412,26 +422,24 @@ sub CertificateAdd {
 
     # check needed stuff
     if ( !$Param{Certificate} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Certificate!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Certificate!' );
         return;
     }
     my %Attributes = $Self->CertificateAttributes(%Param);
     if ( $Attributes{Hash} ) {
         my $File = "$Self->{CertPath}/$Attributes{Hash}.0";
-        if ( open( OUT, "> $File" ) ) {
+        if ( open( OUT, '>', $File ) ) {
             print OUT $Param{Certificate};
             close(OUT);
-            return "Certificate uploaded!";
+            return 'Certificate uploaded!';
         }
         else {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Can't write $File: $!!" );
             return;
         }
     }
-    else {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid certificat!" );
-        return;
-    }
+    $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid certificat!" );
+    return;
 }
 
 =item CertificateGet()
@@ -449,15 +457,12 @@ sub CertificateGet {
 
     # check needed stuff
     if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Hash!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
         return;
     }
     my $File = "$Self->{CertPath}/$Param{Hash}.0";
     my $CertificateRef = $Self->{MainObject}->FileRead( Location => $File );
-    if ( ref $CertificateRef ne 'SCALAR' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Certificate!" );
-        return;
-    }
+    return if !$CertificateRef;
     return $$CertificateRef;
 }
 
@@ -476,7 +481,7 @@ sub CertificateRemove {
 
     # check needed stuff
     if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Hash!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
         return;
     }
     unlink "$Self->{CertPath}/$Param{Hash}.0" || return $!;
@@ -519,7 +524,7 @@ sub CertificateAttributes {
 
     my %Attributes;
     if ( !$Param{Certificate} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Certificate!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Certificate!' );
         return;
     }
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
@@ -575,7 +580,6 @@ sub PrivateSearch {
         }
     }
     return @Result;
-
 }
 
 =item PrivateAdd()
@@ -594,14 +598,14 @@ sub PrivateAdd {
 
     # check needed stuff
     if ( !$Param{Private} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Private!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Private!' );
         return;
     }
 
     # get private attributes
     my %Attributes = $Self->PrivateAttributes(%Param);
     if ( !$Attributes{Modulus} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "No Private Key!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'No Private Key!' );
         return;
     }
 
@@ -626,24 +630,21 @@ sub PrivateAdd {
     );
     if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$CertificateAttributes{Hash}";
-        if ( open( my $PrivKeyFH, "> $File.0" ) ) {
+        if ( open( my $PrivKeyFH, '>', "$File.0" ) ) {
             print $PrivKeyFH $Param{Private};
             close $PrivKeyFH;
-            open( my $PassFH, "> $File.P" );
+            open( my $PassFH, '>', "$File.P" );
             print $PassFH $Param{Secret};
             close $PassFH;
-            return "Private Key uploaded!";
+            return 'Private Key uploaded!';
         }
         else {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Can't write $File: $!!" );
             return;
         }
     }
-    else {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid private key!" );
-        return;
-    }
-
+    $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid private key!" );
+    return;
 }
 
 =item PrivateGet()
@@ -661,7 +662,7 @@ sub PrivateGet {
 
     # check needed stuff
     if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Hash!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
         return;
     }
     my $File = "$Self->{PrivatePath}/$Param{Hash}.0";
@@ -670,7 +671,7 @@ sub PrivateGet {
         # no private exists
         return;
     }
-    elsif ( open( IN, "< $File" ) ) {
+    elsif ( open( IN, '<', $File ) ) {
         my $Private = '';
         while (<IN>) {
             $Private .= $_;
@@ -680,7 +681,7 @@ sub PrivateGet {
         # read secret
         my $File   = "$Self->{PrivatePath}/$Param{Hash}.P";
         my $Secret = '';
-        if ( open( IN, "< $File" ) ) {
+        if ( open( IN, '<', $File ) ) {
             while (<IN>) {
                 $Secret .= $_;
             }
@@ -688,11 +689,9 @@ sub PrivateGet {
         }
         return ( $Private, $Secret );
     }
-    else {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't open $File: $!!" );
-        return;
-    }
 
+    $Self->{LogObject}->Log( Priority => 'error', Message => "Can't open $File: $!!" );
+    return;
 }
 
 =item PrivateRemove()
@@ -710,7 +709,7 @@ sub PrivateRemove {
 
     # check needed stuff
     if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Hash!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
         return;
     }
     unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return 0;
@@ -737,7 +736,6 @@ sub PrivateList {
         push @Hash, $File;
     }
     return @Hash;
-
 }
 
 =item PrivateAttributes()
@@ -757,7 +755,7 @@ sub PrivateAttributes {
     my %Attributes;
     my %Option = ( Modulus => '-modulus', );
     if ( !$Param{Private} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Private!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Private!' );
         return;
     }
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
@@ -930,6 +928,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2010-05-03 08:35:39 $
+$Revision: 1.36 $ $Date: 2010-05-04 01:00:24 $
 
 =cut
