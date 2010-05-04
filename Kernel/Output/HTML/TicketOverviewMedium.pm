@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.25 2010-04-15 23:11:18 mn Exp $
+# $Id: TicketOverviewMedium.pm,v 1.26 2010-05-04 01:22:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -310,6 +310,12 @@ sub _Show {
             };
         }
     }
+
+    # prepare subject
+    $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
+        TicketNumber => $Article{TicketNumber},
+        Subject => $Article{Subject} || '',
+    );
 
     $Self->{LayoutObject}->Block(
         Name => 'DocumentContent',
