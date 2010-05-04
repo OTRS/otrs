@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.98 2010-03-02 12:04:01 bes Exp $
+# $Id: XML.pm,v 1.99 2010-05-04 01:20:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 =head1 NAME
 
@@ -611,7 +611,7 @@ sub XMLParse2XMLHash {
 returns a simple hash with tag keys as keys and the values of C<XMLHash> as values.
 As a sideeffect the data structure C<XMLHash> is enriched with tag keys.
 
-    my %Hash = $XMLObject->XMLHash2D(XMLHash => \@XMLHash);
+    my %Hash = $XMLObject->XMLHash2D( XMLHash => \@XMLHash );
 
 For example:
 
@@ -655,7 +655,7 @@ sub XMLHash2D {
 
 get a @XMLHash from a @XMLStructure with current TagKey param
 
-    my @XMLHash = $XMLObject->XMLStructure2XMLHash(XMLStructure => \@XMLStructure);
+    my @XMLHash = $XMLObject->XMLStructure2XMLHash( XMLStructure => \@XMLStructure );
 
 =cut
 
@@ -1492,6 +1492,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.98 $ $Date: 2010-03-02 12:04:01 $
+$Revision: 1.99 $ $Date: 2010-05-04 01:20:53 $
 
 =cut
