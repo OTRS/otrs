@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketResponsible.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketResponsible.pm,v 1.1 2010-03-28 10:57:54 martin Exp $
+# $Id: ToolBarTicketResponsible.pm,v 1.2 2010-05-04 01:24:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -73,6 +73,7 @@ sub Run {
         Block       => 'ToolBarItem',
         Description => $Text,
         Count       => $CountNotify,
+        Class       => 'Global',
 
         #        Name        => $Text,
         #        Image       => 'folder_yellow.png',
