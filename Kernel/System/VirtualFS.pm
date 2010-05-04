@@ -2,7 +2,7 @@
 # Kernel/System/VirtualFS.pm - all virtual fs functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: VirtualFS.pm,v 1.4 2010-02-03 14:51:03 bes Exp $
+# $Id: VirtualFS.pm,v 1.5 2010-05-04 01:37:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -99,7 +99,7 @@ sub new {
 read a file from virtual file system
 
     my %File = $VirtualFSObject->Read(
-        Filename => '/some/name.txt',
+        Filename => '/Object/some/name.txt',
         Mode     => 'utf8',
 
         # optional
@@ -108,21 +108,23 @@ read a file from virtual file system
 
 returns
 
-    Content  => $ContentSCALAR,
+    my %File (
+        Content  => $ContentSCALAR,
 
-    # preferences data
-    Preferences => {
+        # preferences data
+        Preferences => {
 
-        # generated automaticaly
-        Filesize           => '12.4 KBytes',
-        FilesizeRaw        => 12345,
+            # generated automaticaly
+            Filesize           => '12.4 KBytes',
+            FilesizeRaw        => 12345,
 
-        # optional
-        ContentType        => 'text/plain',
-        ContentID          => '<some_id@example.com>',
-        ContentAlternative => 1,
-        SomeCustomParams   => 'with our own value',
-    },
+            # optional
+            ContentType        => 'text/plain',
+            ContentID          => '<some_id@example.com>',
+            ContentAlternative => 1,
+            SomeCustomParams   => 'with our own value',
+        },
+    );
 
 =cut
 
@@ -186,7 +188,7 @@ write a file to virtual file system
 
     my $Success = $VirtualFSObject->Write(
         Content  => \$Content,
-        Filename => 'SomeFileName.txt',
+        Filename => '/Object/SomeFileName.txt',
         Mode     => 'binary'            # (binary|utf8)
 
         # optional, preferences data
@@ -277,7 +279,7 @@ sub Write {
 delete a file from virtual file system
 
     my $Success = $VirtualFSObject->Delete(
-        Filename => 'SomeFileName.txt',
+        Filename => '/Object/SomeFileName.txt',
 
         # optional
         DisableWarnings => 1,
@@ -338,8 +340,34 @@ sub Delete {
 
 find files in virtual file system
 
+only for file name
+
     my @List = $VirtualFSObject->Find(
-        Filename => 'some_what/*.txt',
+        Filename => '/Object/some_what/*.txt',
+    );
+
+only for preferences
+
+    my @List = $VirtualFSObject->Find(
+        Preferences => {
+            ContentType => 'text/plain',
+        },
+    );
+
+for file name and for preferences
+
+    my @List = $VirtualFSObject->Find(
+        Filename    => '/Object/some_what/*.txt',
+        Preferences => {
+            ContentType => 'text/plain',
+        },
+    );
+
+Returns:
+
+    my @List = (
+      '/Object/some/file.txt',
+      '/Object/my.pdf',
     );
 
 =cut
@@ -348,30 +376,108 @@ sub Find {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Filename)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{Filename} && !$Param{Preferences} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Filename or/and Preferences!',
+        );
+        return;
     }
 
-    # prepare search
-    my $Like = $Param{Filename};
-    $Like =~ s/\*/%/g;
-    $Like = $Self->{DBObject}->Quote( $Like, 'Like' );
+    # prepare file name search
+    my $SQLResult = 'vfs.filename';
+    my $SQLTable  = 'virtual_fs vfs ';
+    my $SQLWhere  = '';
+    my @SQLBind;
+    if ( $Param{Filename} ) {
+        my $Like = $Param{Filename};
+        $Like =~ s/\*/%/g;
+        $Like = $Self->{DBObject}->Quote( $Like, 'Like' );
+        $SQLWhere .= "vfs.filename LIKE '$Like'";
+    }
+
+    # prepare preferences search
+    if ( $Param{Preferences} ) {
+        $SQLResult = 'vfs.filename, vfsp.preferences_key, vfsp.preferences_value';
+        $SQLTable .= ', virtual_fs_preferences vfsp';
+        if ($SQLWhere) {
+            $SQLWhere .= ' AND ';
+        }
+        $SQLWhere = 'vfs.id = vfsp.virtual_fs_id ' . $SQLWhere;
+        my $SQL = '';
+        for my $Key ( sort keys %{ $Param{Preferences} } ) {
+            if ($SQL) {
+                $SQL .= ' OR ';
+            }
+            $SQL .= '(vfsp.preferences_key = ? AND ';
+            push @SQLBind, \$Key;
+
+            my $Value = $Param{Preferences}->{$Key};
+            if ( $Value =~ /(\*|\%)/ ) {
+                $Value =~ s/\*/%/g;
+                $Value = $Self->{DBObject}->Quote( $Value, 'Like' );
+                $SQL .= "vfsp.preferences_value LIKE '$Value'";
+            }
+            else {
+                $SQL .= 'vfsp.preferences_value = ?';
+                push @SQLBind, \$Value;
+            }
+            $SQL .= ')';
+        }
+
+        $SQLWhere .= " AND ($SQL)";
+    }
 
     # search
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT filename FROM virtual_fs WHERE filename LIKE '$Like'",
+        SQL  => "SELECT $SQLResult FROM $SQLTable WHERE $SQLWhere",
+        Bind => \@SQLBind,
     );
     my @List;
+    my %Result;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push @List, $Row[0];
+        if ( $Param{Preferences} ) {
+            for my $Key ( sort keys %{ $Param{Preferences} } ) {
+                $Result{ $Row[0] }->{ $Row[1] } = $Row[2];
+            }
+        }
+        else {
+            push @List, $Row[0];
+        }
     }
+
+    # check preferences search
+    if ( $Param{Preferences} ) {
+        File:
+        for my $File ( keys %Result ) {
+            for my $Key ( sort keys %{ $Param{Preferences} } ) {
+                my $DB    = $Result{$File}->{$Key};
+                my $Given = $Param{Preferences}->{$Key};
+                next File if defined $DB  && !defined $Given;
+                next File if !defined $DB && defined $Given;
+                if ( $Given =~ /\*/ ) {
+                    $Given =~ s/\*/.\*/g;
+                    $Given =~ s/\//\\\//g;
+                    next File if $DB !~ /$Given/;
+                }
+                else {
+                    next File if $DB ne $Given;
+                }
+            }
+            push @List, $File;
+        }
+    }
+
+    # return result
     return @List;
 }
 
 =begin Internal:
+
+returns internal meta information, unique file id, where and with what arguments the
+file is stored
+
+    my ( $FileID, $BackendKey, $Backend ) = $Self->_FileLookup( '/Object/SomeFile.txt' );
 
 =cut
 
@@ -414,6 +520,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2010-02-03 14:51:03 $
+$Revision: 1.5 $ $Date: 2010-05-04 01:37:12 $
 
 =cut

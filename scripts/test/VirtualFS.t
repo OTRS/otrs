@@ -1,8 +1,8 @@
 # --
 # VirtualFS.t - VirtualFS tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: VirtualFS.t,v 1.1 2009-09-23 22:07:07 martin Exp $
+# $Id: VirtualFS.t,v 1.2 2010-05-04 01:37:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,14 @@ my @Tests = (
             ContentType => 'text/plain',
             ContentID   => '<some_id_xls@example.com>',
         },
+        FindPreferences => {
+            ContentType => 'text/plain',
+            ContentID   => '<some_id_xls@example.com>',
+        },
+        FindNotPreferences => {
+            ContentType => 'text/xml',
+            ContentID   => '<some_id_xls@example.net>',
+        },
     },
     {
         Name        => '.pdf',
@@ -37,6 +45,14 @@ my @Tests = (
             ContentType => 'text/plain',
             ContentID   => '<some_id@example.com>',
         },
+        FindPreferences => {
+            ContentType => 'text/plain',
+            ContentID   => '<some_id@example.com>',
+        },
+        FindNotPreferences => {
+            ContentType => 'text/rfc-822',
+            ContentID   => '<some_id@example.net>',
+        },
     },
     {
         Name        => '.xls',
@@ -48,6 +64,13 @@ my @Tests = (
         FindNot     => '*.xls_*',
         Preferences => {
             ContentType => 'text/xls',
+            ContentID   => '<some_id_xls@example.com>',
+        },
+        FindPreferences => {
+            ContentType => 'text/*',
+        },
+        FindNotPreferences => {
+            ContentType => 'image/png',
             ContentID   => '<some_id_xls@example.com>',
         },
     },
@@ -144,6 +167,36 @@ for my $Backend (qw( FS DB )) {
         $Self->False(
             $Hit,
             "$Backend Find() - $Test->{FindNot}",
+        );
+
+        # find preferences
+        @List = $Self->{VirtualFSObject}->Find(
+            Preferences => $Test->{FindPreferences},
+        );
+        $Hit = 0;
+        for (@List) {
+            if ( $_ eq $Test->{Filename} ) {
+                $Hit = 1;
+            }
+        }
+        $Self->True(
+            $Hit,
+            "$Backend Find() - Preferences",
+        );
+
+        # find not preferences
+        @List = $Self->{VirtualFSObject}->Find(
+            Preferences => $Test->{FindNotPreferences},
+        );
+        $Hit = 0;
+        for (@List) {
+            if ( $_ eq $Test->{Filename} ) {
+                $Hit = 1;
+            }
+        }
+        $Self->False(
+            $Hit,
+            "$Backend Find() - Preferences Not",
         );
     }
 
