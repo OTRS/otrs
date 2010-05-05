@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.91 2010-05-03 15:37:20 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.92 2010-05-05 08:37:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -659,11 +659,15 @@ sub Run {
 
             my $Description = $ItemHash{Description}[1]{Content};
 
+            # Generate an ID that is valid XHTML for use in id attribute
+            my $ItemKeyID = $ItemHash{Name};
+            $ItemKeyID =~ s{\#}{_}gsm;
+
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementBlock',
                 Data => {
-                    Name        => $ItemHash{Name},
-                    ItemKey     => $_,
+                    ItemKey     => $ItemHash{Name},
+                    ItemKeyID   => $ItemKeyID,
                     Description => $Description,
                     Valid       => $Valid,
                     Validstyle  => $Validstyle,
@@ -1100,6 +1104,11 @@ sub ListConfigItem {
             }
         }
         $Data{ElementKey} = $ItemHash{Name};
+
+        # Generate an ID that is valid XHTML for use in id attribute
+        $Data{ElementKeyID} = $Data{ElementKey};
+        $Data{ElementKeyID} =~ s{\#}{_}gsm;
+
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementFrontendModuleReg',
             Data => \%Data,
@@ -1108,6 +1117,7 @@ sub ListConfigItem {
         # Array Element Group
         for my $ArrayElement qw(Group GroupRo) {
             for my $Index ( 1 .. $#{ $FrontendModuleReg->{$ArrayElement} } ) {
+
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementFrontendModuleRegContent' . $ArrayElement,
                     Data => {
@@ -1131,7 +1141,12 @@ sub ListConfigItem {
                 }
             }
             $Data{ElementKey} = $ItemHash{Name} . '#NavBar';
-            $Data{Index}      = $Index;
+
+            # Generate an ID that is valid XHTML for use in id attribute
+            $Data{ElementKeyID} = $Data{ElementKey};
+            $Data{ElementKeyID} =~ s{\#}{_}gsm;
+
+            $Data{Index} = $Index;
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementFrontendModuleRegContentNavBar',
                 Data => \%Data,
@@ -1168,6 +1183,13 @@ sub ListConfigItem {
                     }
                 }
                 $Data{ElementKey} = $ItemHash{Name} . '#NavBarModule';
+
+                # Generate an ID that is valid XHTML for use in id attribute
+                $Data{ElementKeyID} = $Data{ElementKey};
+                $Data{ElementKeyID} =~ s{\#}{_}gsm;
+
+                $Data{Index} = $Index;
+
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementFrontendModuleRegContentNavBarModule',
                     Data => \%Data,
@@ -1185,6 +1207,13 @@ sub ListConfigItem {
                 }
             }
             $Data{ElementKey} = $ItemHash{Name} . '#NavBarModule';
+
+            # Generate an ID that is valid XHTML for use in id attribute
+            $Data{ElementKeyID} = $Data{ElementKey};
+            $Data{ElementKeyID} =~ s{\#}{_}gsm;
+
+            $Data{Index} = 0;
+
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementFrontendModuleRegContentNavBarModule',
                 Data => \%Data,

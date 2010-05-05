@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.55 2010-05-05 07:10:30 mg Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.56 2010-05-05 08:37:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,12 +52,12 @@
 <!-- dtl:block:ConfigElementBlock -->
                     <fieldset class="$Data{"Validstyle"}">
                         <h3>
-                            <a name="$QData{"Name"}"></a>
-                            <input type="checkbox" value="1" id="$QData{"ItemKey"}ItemAktiv" name="$QData{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}/>
+                            <a name="$QData{"ItemKeyID"}"></a>
+                            <input type="checkbox" value="1" id="$Data{"ItemKeyID"}ItemAktiv" name="$QData{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}/>
 <!-- dtl:block:ConfigElementBlockReset -->
                             <input type="image" src="$Config{"Frontend::ImagePath"}edit.png" name="Reset$QData{"ItemKey"}" alt="$Text{"Reset"}" title="$Text{"Reset this setting"}"/>
 <!-- dtl:block:ConfigElementBlockReset -->
-                            <label for="$QData{"ItemKey"}ItemAktiv">$QData{"ItemKey"}</label>
+                            <label for="$Data{"ItemKeyID"}ItemAktiv">$QData{"ItemKey"}</label>
                         </h3>
                         <div class="Setting">
 
@@ -194,7 +194,7 @@
                                     <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteGroupElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
                                     <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
-                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#NewGroupElement" title="$Text{"New Group"}" value="$Text{"New Group"}" title="$Text{"New Group"}">$Text{"New Group"}</button>
+                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#NewGroupElement" value="$Text{"New Group"}" title="$Text{"New Group"}">$Text{"New Group"}</button>
                                 </div>
 
                                 <label class="KeyWithComplexValue">$Text{"Group Ro"}:</label>
@@ -207,16 +207,16 @@
                                     <button class="Add" type="submit" name="$QData{"ElementKey"}#NewGroupRoElement" value="$Text{"New Group Ro"}">$Text{"New Group Ro"}</button>
                                 </div>
 
-                                <label class="SingleKey" for="$QData{"ElementKey"}#Title">$Text{"Title"}:</label>
-                                <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Title" name="$QData{"ElementKey"}#Title" value="$QData{"ContentTitle"}"/>
+                                <label class="SingleKey" for="$QData{"ElementKeyID"}_Title">$Text{"Title"}:</label>
+                                <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_Title" name="$QData{"ElementKey"}#Title" value="$QData{"ContentTitle"}"/>
                                 <div class="Clear"></div>
 
-                                <label class="SingleKey" for="$QData{"ElementKey"}#Description">$Text{"Description"}:</label>
-                                <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Description" name="$QData{"ElementKey"}#Description" value="$QData{"ContentDescription"}"/>
+                                <label class="SingleKey" for="$QData{"ElementKeyID"}_Description">$Text{"Description"}:</label>
+                                <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_Description" name="$QData{"ElementKey"}#Description" value="$QData{"ContentDescription"}"/>
                                 <div class="Clear"></div>
 
-                                <label class="SingleKey" for="$QData{"ElementKey"}#NavBarName">$Text{"NavBarName"}:</label>
-                                <input class="SingleContent" type="text" id="$QData{"ElementKey"}#NavBarName" name="$QData{"ElementKey"}#NavBarName" value="$QData{"ContentNavBarName"}"/>
+                                <label class="SingleKey" for="$QData{"ElementKeyID"}_NavBarName">$Text{"NavBarName"}:</label>
+                                <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_NavBarName" name="$QData{"ElementKey"}#NavBarName" value="$QData{"ContentNavBarName"}"/>
                                 <div class="Clear"></div>
 
                                 <label class="KeyWithComplexValue">$Text{"NavBar"} =&gt;</label>
@@ -244,40 +244,40 @@
                                             <button class="Add" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupRoElement" value="$Text{"New Group Ro"}" title="$Text{"New Group Ro"}">$Text{"New Group Ro"}</button>
                                         </div>
 
-                                        <label class="SingleKey" for="$QData{"ElementKey"}#Description[]">$Text{"Description"}:</label>
-                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Description[]" name="$QData{"ElementKey"}#Description[]" value="$QData{"ContentDescription"}"/>
+                                        <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Description">$Text{"Description"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Description" name="$QData{"ElementKey"}#Description[]" value="$QData{"ContentDescription"}"/>
                                         <div class="Clear"></div>
 
-                                        <label class="SingleKey" for="$QData{"ElementKey"}#Name[]">$Text{"Name"}:</label>
-                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Name[]" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}"/>
+                                        <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Name">$Text{"Name"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Name" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}"/>
                                         <div class="Clear"></div>
 
-                                        <label class="SingleKey" for="$QData{"ElementKey"}#Image[]">$Text{"Image"}:</label>
-                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Image[]" name="$QData{"ElementKey"}#Image[]" value="$QData{"ContentImage"}"/>
+                                        <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Image">$Text{"Image"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Image" name="$QData{"ElementKey"}#Image[]" value="$QData{"ContentImage"}"/>
                                         <div class="Clear"></div>
 
-                                        <label class="SingleKey" for="$QData{"ElementKey"}#Link[]">$Text{"Link"}:</label>
-                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Link[]" name="$QData{"ElementKey"}#Link[]" value="$QData{"ContentLink"}"/>
+                                        <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Link">$Text{"Link"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Link" name="$QData{"ElementKey"}#Link[]" value="$QData{"ContentLink"}"/>
                                         <div class="Clear"></div>
 
-                                        <label class="SingleKey" for="$QData{"ElementKey"}#Type[]">$Text{"Type"}:</label>
-                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Type[]" name="$QData{"ElementKey"}#Type[]" value="$QData{"ContentType"}"/>
+                                        <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Type">$Text{"Type"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Type" name="$QData{"ElementKey"}#Type[]" value="$QData{"ContentType"}"/>
                                         <div class="Clear"></div>
 
-                                        <label class="SingleKey" for="$QData{"ElementKey"}#Prio[]">$Text{"Priority"}:</label>
-                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Prio[]" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}"/>
+                                        <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Prio">$Text{"Priority"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Prio" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}"/>
                                         <div class="Clear"></div>
 
-                                        <label class="SingleKey" for="$QData{"ElementKey"}#Block[]">$Text{"Block"}:</label>
-                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Block[]" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}"/>
+                                        <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Block">$Text{"Block"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Block" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}"/>
                                         <div class="Clear"></div>
 
-                                        <label class="SingleKey" for="$QData{"ElementKey"}#NavBar[]">$Text{"NavBar"}:</label>
-                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#NavBar[]" name="$QData{"ElementKey"}#NavBar[]" value="$QData{"ContentNavBar"}"/>
+                                        <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_NavBar">$Text{"NavBar"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_NavBar" name="$QData{"ElementKey"}#NavBar[]" value="$QData{"ContentNavBar"}"/>
                                         <div class="Clear"></div>
 
-                                        <label class="SingleKey" for="$QData{"ElementKey"}#AccessKey[]">$Text{"AccessKey"}:</label>
-                                        <input class="SingleContent" type="text" id="$QData{"ElementKey"}#AccessKey[]" name="$QData{"ElementKey"}#AccessKey[]" value="$QData{"ContentAccessKey"}"/>
+                                        <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_AccessKey">$Text{"AccessKey"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_AccessKey" name="$QData{"ElementKey"}#AccessKey[]" value="$QData{"ContentAccessKey"}"/>
                                         <div class="Clear"></div>
 
                                         <button class="Remove" type="submit" name="$QData{"ElementKey"}#$Data{"Index"}#DeleteElement" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
@@ -290,24 +290,24 @@
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarModule -->
                                 <label class="KeyWithComplexValue">NavBarModule =&gt;</label>
                                 <div class="NavBar">
-                                    <label class="SingleKey" for="$QData{"ElementKey"}#Module[]">$Text{"Module"}:</label>
-                                    <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Module[]" name="$QData{"ElementKey"}#Module[]" value="$QData{"ContentModule"}"/>
+                                    <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Module">$Text{"Module"}:</label>
+                                    <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Module" name="$QData{"ElementKey"}#Module[]" value="$QData{"ContentModule"}"/>
                                     <div class="Clear"></div>
 
-                                    <label class="SingleKey" for="$QData{"ElementKey"}#Name[]">$Text{"Name"}:</label>
-                                    <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Name[]" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}"/>
+                                    <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Name">$Text{"Name"}:</label>
+                                    <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Name" name="$QData{"ElementKey"}#Name[]" value="$QData{"ContentName"}"/>
                                     <div class="Clear"></div>
 
-                                    <label class="SingleKey" for="$QData{"ElementKey"}#Description[]">$Text{"Description"}:</label>
-                                    <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Description[]" name="$QData{"ElementKey"}#Description[]" value="$QData{"ContentDescription"}"/>
+                                    <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Description">$Text{"Description"}:</label>
+                                    <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Description" name="$QData{"ElementKey"}#Description[]" value="$QData{"ContentDescription"}"/>
                                     <div class="Clear"></div>
 
-                                    <label class="SingleKey" for="$QData{"ElementKey"}#Block[]">$Text{"Block"}:</label>
-                                    <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Block[]" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}"/>
+                                    <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Block">$Text{"Block"}:</label>
+                                    <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Block" name="$QData{"ElementKey"}#Block[]" value="$QData{"ContentBlock"}"/>
                                     <div class="Clear"></div>
 
-                                    <label class="SingleKey" for="$QData{"ElementKey"}#Prio[]">$Text{"Priority"}:</label>
-                                    <input class="SingleContent" type="text" id="$QData{"ElementKey"}#Prio[]" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}"/>
+                                    <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Prio">$Text{"Priority"}:</label>
+                                    <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Prio" name="$QData{"ElementKey"}#Prio[]" value="$QData{"ContentPrio"}"/>
                                     <div class="Clear"></div>
                                 </div>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarModule -->
