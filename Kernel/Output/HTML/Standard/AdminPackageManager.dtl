@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.61 2010-05-05 13:16:13 mg Exp $
+# $Id: AdminPackageManager.dtl,v 1.62 2010-05-05 13:27:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@
             <div class="Content">
                 <ul class="ActionList MinHeight">
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
                     </li>
                 </ul>
             </div>
@@ -84,7 +84,7 @@
             <div class="Content">
                 <ul class="ActionList MinHeight">
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
                     </li>
                 </ul>
             </div>
@@ -145,7 +145,7 @@
                 <div class="Content">
                     <ul class="ActionList MinHeight">
                         <li>
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
                         </li>
                     </ul>
                 </div>
@@ -362,7 +362,7 @@
                     <ul class="ActionList MinHeight">
 
                         <li>
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
                         </li>
 <!-- dtl:block:PackageDownloadLocal -->
                         <li>
@@ -568,7 +568,7 @@
                     <ul class="ActionList MinHeight">
                         <li>
                             <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"}" class="CallForAction">
-                                <span>$Text{"Go back"}</span>
+                                <span>$Text{"Go to Overview"}</span>
                             </a>
                         </li>
                     </ul>

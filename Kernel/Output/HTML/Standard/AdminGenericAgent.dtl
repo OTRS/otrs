@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.59 2010-05-05 13:13:06 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.60 2010-05-05 13:27:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@
 <!-- dtl:block:ActionAdd -->
 <!-- dtl:block:ActionOverview -->
                     <li>
-                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"}"><span>$Text{"Go Back"}</span></a>
+                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"}"><span>$Text{"Go to Overview"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
                 </ul>
