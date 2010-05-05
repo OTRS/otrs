@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.38 2010-04-22 18:40:25 mn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.39 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,11 +12,11 @@
 <ul class="Actions">
 <!-- dtl:block:DocumentActionRowBulk -->
     <li id="BulkAction" class="Bulk Inactive $QData{"CSS"}">
-        <a href="">$Text{"$QData{"Name"}"}</a>
+        <a href="">$Text{"$Data{"Name"}"}</a>
     </li>
 <!-- dtl:block:DocumentActionRowBulk -->
 <!-- dtl:block:DocumentActionRowItem -->
-    <li class="$QData{"CSS"}"><a href="">$Text{"$QData{"Name"}"}</a></li>
+    <li class="$QData{"CSS"}"><a href="">$Text{"$Data{"Name"}"}</a></li>
 <!-- dtl:block:DocumentActionRowItem -->
 </ul>
 <!-- dtl:block:DocumentActionRow -->
@@ -117,7 +117,7 @@
                         <div class="$QData{"Class"} Small" title="$Text{"$Data{"Title"}"}">
                             <span class="$QData{"ClassSpan"}">$Text{"$Data{"Title"}"}</span>
                         </div>
-#                            <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="" title="$Text{"$QData{"Title"}"}"/>
+#                            <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="" title="$Text{"$Data{"Title"}"}"/>
 <!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
                     </td>
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
@@ -161,7 +161,7 @@
                     </td>
                     <td>
                         <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$QData{"TicketID"}">
-                        <div title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</div>
+                            <div title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</div>
                         </a>
                         <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
                     </td>
@@ -193,6 +193,6 @@
 
 <!-- dtl:block:DocumentMenuItem -->
 <li id="$QData{"ID"}">
-    <a href="" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
+    <a href="" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
 </li>
 <!-- dtl:block:DocumentMenuItem -->

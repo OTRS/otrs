@@ -1,8 +1,8 @@
 # --
 # AgentStatsOverview.dtl - provides HTML form for lists stats
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsOverview.dtl,v 1.11 2009-12-09 08:40:03 mg Exp $
+# $Id: AgentStatsOverview.dtl,v 1.12 2010-05-05 13:16:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,11 +44,11 @@
                 <tr class="$QData{"css"}">
                     <td class="$QData{"TextCss"}">
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;StatID=$Data{"StatID"}">
-                        $Data{"StatNumber"}
+                            $Data{"StatNumber"}
                         </a>
                     </td>
                     <td class="contentvalue">$QData{"Title"}</td>
-                    <td class="contentvalue">$Text{"$QData{"ObjectName"}"}</td>
+                    <td class="contentvalue">$Text{"$Data{"ObjectName"}"}</td>
                     <td class="contentvalue">$QData{"Description","50"}</td>
                 </tr>
 <!-- dtl:block:Result -->

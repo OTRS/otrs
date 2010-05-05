@@ -2,7 +2,7 @@
 # AgentStatsEditValueSeries.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditValueSeries.dtl,v 1.19 2010-02-05 13:58:23 mn Exp $
+# $Id: AgentStatsEditValueSeries.dtl,v 1.20 2010-05-05 13:16:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -62,7 +62,7 @@ function SelectCheckbox(Checkbox) {
                                         <input type="checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}/>
                                     </td>
                                     <td class="contentkey" width="200">
-                                        $Text{"$QData{"Name"}"}:
+                                        $Text{"$Data{"Name"}"}:
                                     </td>
                                     <td class="contentvalue" width="450">$Data{"SelectField"}</td>
                                 </tr>
@@ -106,8 +106,8 @@ function SelectCheckbox(Checkbox) {
                                         $Text{"$Data{"Name"}"}
                                         $Text{"Scale"}:<br/>
                                         <span class="readonly">
-                                        $Text{"Please select only one element or turn off the button 'Fixed'."}<br/>
-                                        $Text{"Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."}
+                                            $Text{"Please select only one element or turn off the button 'Fixed'."}<br/>
+                                            $Text{"Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."}
                                         </span>
                                     </td>
                                     <td>

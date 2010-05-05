@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.72 2010-05-03 23:33:00 fn Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.73 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,7 +47,7 @@ function submit_compose() {
     <div class="Content">
         <div class="TicketHeader">
             <h2 title="$QData{"Title"}">
-                <div title="$Text{"$QData{"StateTypeGeneric"}"}" class="Flag $Data{"StateTypeGeneric"}"><div>$Text{"$QData{"StateTypeGeneric"}"}</div></div>
+                <div title="$Text{"$Data{"StateTypeGeneric"}"}" class="Flag $Data{"StateTypeGeneric"}"><div>$Text{"$Data{"StateTypeGeneric"}"}</div></div>
 
                 $QData{"Title","80"}
                 <span>$QData{"TicketNumber"}</span>
@@ -83,13 +83,13 @@ function submit_compose() {
 #<!-- dtl:block:TicketFreeText2 -->
 # use this if you want to show TicketFreeTime1-6
 <!-- dtl:block:TicketFreeTime -->
-                <li><span>$Text{"$QData{"TicketFreeTimeKey"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</span></li>
+                <li><span>$Text{"$Data{"TicketFreeTimeKey"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</span></li>
 <!-- dtl:block:TicketFreeTime -->
 #<!-- dtl:block:TicketFreeTime1 -->
-#                    <li><span>$Text{"$QData{"TicketFreeTimeKey1"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</span></li>
+#                    <li><span>$Text{"$Data{"TicketFreeTimeKey1"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</span></li>
 #<!-- dtl:block:TicketFreeTime1 -->
 #<!-- dtl:block:TicketFreeTime2 -->
-#                    <li><span>$Text{"$QData{"TicketFreeTimeKey2"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</span></li>
+#                    <li><span>$Text{"$Data{"TicketFreeTimeKey2"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</span></li>
 #<!-- dtl:block:TicketFreeTime2 -->
 <!-- dtl:block:Print -->
                 <li><a href="$Env{"Baselink"}Action=CustomerTicketPrint;TicketID=$QData{"TicketID"}" class="Print" title="$Text{"Print"}">$Text{"Print"}</a></li>
@@ -130,10 +130,10 @@ function submit_compose() {
 <!-- dtl:block:ArticleAttachmentRow -->
                                 $QData{"Filename"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                                <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" /></a>
+                                <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" /></a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                                <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}" />
+                                <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" />
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
                                 <span>$QData{"Filesize"}</span>
 <!-- dtl:block:ArticleAttachmentRow -->

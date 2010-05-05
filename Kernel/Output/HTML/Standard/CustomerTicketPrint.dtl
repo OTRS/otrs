@@ -1,8 +1,8 @@
 # --
 # CustomerTicketPrint.dtl - provides HTML print view
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.dtl,v 1.11 2009-02-16 11:07:25 tr Exp $
+# $Id: CustomerTicketPrint.dtl,v 1.12 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,122 +10,122 @@
 # --
 
 <table border="0" cellspacing="1" cellpadding="0" width="100%">
-  <tr>
-    <td class="mainhead">$Config{"Ticket::Hook"}: $QData{"TicketNumber"} / $QData{"Title"}</td>
-  </tr>
+    <tr>
+        <td class="mainhead">$Config{"Ticket::Hook"}: $QData{"TicketNumber"} / $QData{"Title"}</td>
+    </tr>
 </table>
 <table border="0" cellspacing="1" cellpadding="10" width="100%">
-  <tr>
-    <td class="contentkey">
-      $Text{"Ticket-Info"}:
-      <table border="0" cellspacing="0" cellpadding="0" width="100%">
-        <tr>
-          <td width="50%" valign="top">
-            <table border="0" cellspacing="3" cellpadding="0" width="100%">
-              <tr>
-                <td class="contentkey" width="40%">$Text{"State"}:</td>
-                <td class="contentvalue" width="60%">$Text{"$Data{"State"}"}</td>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"Priority"}:</td>
-                <td class="contentvalue">$Text{"$Data{"Priority"}"}</td>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"Queue"}:</td>
-                <td class="contentvalue">$QData{"Queue"}</td>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"Lock"}:</td>
-                <td class="contentvalue">$Text{"$Data{"Lock"}"}</td>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"CustomerID"}:</td>
-                <td class="contentvalue">$Data{"CustomerID"}</td>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"Owner"}:</td>
-                <td class="contentvalue">$QData{"Owner"} ($QData{"UserFirstname"} $QData{"UserLastname"})</td>
-              </tr>
+    <tr>
+        <td class="contentkey">
+            $Text{"Ticket-Info"}:
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                <tr>
+                    <td width="50%" valign="top">
+                        <table border="0" cellspacing="3" cellpadding="0" width="100%">
+                            <tr>
+                                <td class="contentkey" width="40%">$Text{"State"}:</td>
+                                <td class="contentvalue" width="60%">$Text{"$Data{"State"}"}</td>
+                            </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"Priority"}:</td>
+                                <td class="contentvalue">$Text{"$Data{"Priority"}"}</td>
+                            </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"Queue"}:</td>
+                                <td class="contentvalue">$QData{"Queue"}</td>
+                            </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"Lock"}:</td>
+                                <td class="contentvalue">$Text{"$Data{"Lock"}"}</td>
+                            </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"CustomerID"}:</td>
+                                <td class="contentvalue">$Data{"CustomerID"}</td>
+                            </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"Owner"}:</td>
+                                <td class="contentvalue">$QData{"Owner"} ($QData{"UserFirstname"} $QData{"UserLastname"})</td>
+                            </tr>
 <!-- dtl:block:Responsible -->
-              <tr>
-                <td class="contentkey">$Text{"Responsible"}:</td>
-                <td class="contentvalue">$QData{"ResponsibleString"}</td>
-              </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"Responsible"}:</td>
+                                <td class="contentvalue">$QData{"ResponsibleString"}</td>
+                            </tr>
 <!-- dtl:block:Responsible -->
 <!-- dtl:block:TicketType -->
-              <tr>
-                <td class="contentkey">$Text{"Type"}:</td>
-                <td class="contentvalue">$QData{"Type"}</td>
-              </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"Type"}:</td>
+                                <td class="contentvalue">$QData{"Type"}</td>
+                            </tr>
 <!-- dtl:block:TicketType -->
 <!-- dtl:block:TicketService -->
-              <tr>
-                <td class="contentkey">$Text{"Service"}:</td>
-                <td class="contentvalue">$QData{"Service"}</td>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"SLA"}:</td>
-                <td class="contentvalue">$QData{"SLA"}</td>
-              </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"Service"}:</td>
+                                <td class="contentvalue">$QData{"Service"}</td>
+                            </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"SLA"}:</td>
+                                <td class="contentvalue">$QData{"SLA"}</td>
+                            </tr>
 <!-- dtl:block:TicketService -->
+                        </table>
+                    </td>
+                    <td width="50%" valign="top">
+                        <table border="0" cellspacing="3" cellpadding="0" width="100%">
+                            <tr>
+                                <td class="contentkey" width="40%">$Text{"Age"}:</td>
+                                <td class="contentvalue" width="60%">$QData{"Age"}</td>
+                            </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"Created"}:</td>
+                                <td class="contentvalue">$TimeLong{"$Data{"Created"}"}</td>
+                            </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"Accounted time"}:</td>
+                                <td class="contentvalue">$Data{"TicketTimeUnits"}</td>
+                            </tr>
+                            <tr>
+                                <td class="contentkey">$Text{"Pending till"}:</td>
+                                <td class="contentvalue">$Data{"PendingUntil"}</td>
+                            </tr>
+<!-- dtl:block:FirstResponseTime -->
+                            <tr>
+                                <td class="contentkey">$Text{"First Response Time"}:</td>
+                                <td class="contentvalue">$TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</td>
+                            </tr>
+<!-- dtl:block:FirstResponseTime -->
+<!-- dtl:block:UpdateTime -->
+                            <tr>
+                                <td class="contentkey">$Text{"Update Time"}:</td>
+                                <td class="contentvalue">$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</td>
+                            </tr>
+<!-- dtl:block:UpdateTime -->
+<!-- dtl:block:SolutionTime -->
+                            <tr>
+                                <td class="contentkey">$Text{"Solution Time"}:</td>
+                                <td class="contentvalue">$TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</td>
+                            </tr>
+<!-- dtl:block:SolutionTime -->
+                        </table>
+                    </td>
+                </tr>
             </table>
-          </td>
-          <td width="50%" valign="top">
             <table border="0" cellspacing="3" cellpadding="0" width="100%">
-              <tr>
-                <td class="contentkey" width="40%">$Text{"Age"}:</td>
-                <td class="contentvalue" width="60%">$QData{"Age"}</td>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"Created"}:</td>
-                <td class="contentvalue">$TimeLong{"$Data{"Created"}"}</td>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"Accounted time"}:</td>
-                <td class="contentvalue">$Data{"TicketTimeUnits"}</td>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"Pending till"}:</td>
-                <td class="contentvalue">$Data{"PendingUntil"}</td>
-              </tr>
-<!-- dtl:block:FirstResponseTime -->
-              <tr>
-                <td class="contentkey">$Text{"First Response Time"}:</td>
-                <td class="contentvalue">$TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</td>
-              </tr>
-<!-- dtl:block:FirstResponseTime -->
-<!-- dtl:block:UpdateTime -->
-              <tr>
-                <td class="contentkey">$Text{"Update Time"}:</td>
-                <td class="contentvalue">$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</td>
-              </tr>
-<!-- dtl:block:UpdateTime -->
-<!-- dtl:block:SolutionTime -->
-              <tr>
-                <td class="contentkey">$Text{"Solution Time"}:</td>
-                <td class="contentvalue">$TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</td>
-              </tr>
-<!-- dtl:block:SolutionTime -->
-            </table>
-          </td>
-        </tr>
-      </table>
-      <table border="0" cellspacing="3" cellpadding="0" width="100%">
-        <tr>
-          <td width="20%"></td>
-          <td width="30%"></td>
-          <td width="20%"></td>
-          <td width="30%"></td>
-        </tr>
+                <tr>
+                    <td width="20%"></td>
+                    <td width="30%"></td>
+                    <td width="20%"></td>
+                    <td width="30%"></td>
+                </tr>
 
 # use this if you want to show TicketFreeKey1-16 and TicketFreeText1-16
 <!-- dtl:block:TicketFreeText -->
-        <tr>
-          <td class="contentkey">$QData{"TicketFreeKey","20"}:</td>
-          <td class="contentvalue">
-            <div title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","20"}</div>
-          </td>
-        </tr>
+                <tr>
+                    <td class="contentkey">$QData{"TicketFreeKey","20"}:</td>
+                    <td class="contentvalue">
+                        <div title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","20"}</div>
+                    </td>
+                </tr>
 <!-- dtl:block:TicketFreeText -->
 #<!-- dtl:block:TicketFreeText1 -->
 #        <tr>
@@ -146,10 +146,10 @@
 
 # use this if you want to show TicketFreeTime1-6
 <!-- dtl:block:TicketFreeTime -->
-        <tr>
-          <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
-          <td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div></td>
-        </tr>
+                <tr>
+                    <td class="contentkey">$Text{"$Data{"TicketFreeTimeKey"}"}:</td>
+                    <td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div></td>
+                </tr>
 <!-- dtl:block:TicketFreeTime -->
 #<!-- dtl:block:TicketFreeTime1 -->
 #          <tr>
@@ -163,68 +163,68 @@
 #            <td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div></td>
 #          </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="4" class="contentkey">
-      $Text{"Customer Info"}:
-      $Data{"CustomerTable"}
-    </td>
-  </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" class="contentkey">
+            $Text{"Customer Info"}:
+            $Data{"CustomerTable"}
+        </td>
+    </tr>
 </table>
 <!-- start ticket $Data{"TicketNumber"} -->
 <!-- dtl:block:Article -->
 <table border="0" width="640" cellpadding="0" cellspacing="0" bgcolor="#000000" class="container">
-  <tr>
-    <td>
-      <table border="0" width="640" cellpadding="10" cellspacing="1" bgcolor="#ffffff">
-        <tr>
-          <td>
-            <table border="0" width="100%" cellspacing="0" cellpadding="3">
-              <tr bgcolor="#ffffff">
-                <td valign="top" width="100%" class="small">
-                  <table border="0" width="100%" cellspacing="0" cellpadding="1">
+    <tr>
+        <td>
+            <table border="0" width="640" cellpadding="10" cellspacing="1" bgcolor="#ffffff">
+                <tr>
+                    <td>
+                        <table border="0" width="100%" cellspacing="0" cellpadding="3">
+                            <tr bgcolor="#ffffff">
+                                <td valign="top" width="100%" class="small">
+                                    <table border="0" width="100%" cellspacing="0" cellpadding="1">
 # From:, To:, Cc:
 <!-- dtl:block:Row -->
-                    <tr>
-                      <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
-                      <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
-                    </tr>
+                                        <tr>
+                                            <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
+                                            <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
+                                        </tr>
 <!-- dtl:block:Row -->
-                    <tr>
-                      <td class="contentkey">$Text{"Created"}:</td>
-                      <td class="contentvalue"> $TimeLong{"$Data{"Created"}"} $Text{"by"} $Data{"SenderType"}</td>
-                    </tr>
+                                        <tr>
+                                            <td class="contentkey">$Text{"Created"}:</td>
+                                            <td class="contentvalue"> $TimeLong{"$Data{"Created"}"} $Text{"by"} $Data{"SenderType"}</td>
+                                        </tr>
 # show the Article::FreeKey1-3 and Article::FreeText1-3
 <!-- dtl:block:ArticleFreeText -->
-                    <tr>
-                      <td class="contentkey" width="15%">$QData{"Key"}:</td>
-                      <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
-                    </tr>
+                                        <tr>
+                                            <td class="contentkey" width="15%">$QData{"Key"}:</td>
+                                            <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
+                                        </tr>
 <!-- dtl:block:ArticleFreeText -->
-                    <tr>
-                      <td class="contentkey">$Text{"Type"}:</td>
-                      <td class="contentvalue"> $QData{"ArticleType"}</td>
-                    </tr>
-                    <tr>
-                      <td class="contentkey">$Text{"Attachment"}:</td>
-                      <td class="contentvalue"> $Data{"Article::ATM"}</td>
-                    </tr>
-                  </table>
+                                        <tr>
+                                            <td class="contentkey">$Text{"Type"}:</td>
+                                            <td class="contentvalue"> $QData{"ArticleType"}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="contentkey">$Text{"Attachment"}:</td>
+                                            <td class="contentvalue"> $Data{"Article::ATM"}</td>
+                                        </tr>
+                                    </table>
 $Data{"TextNote"}
-                  <pre>
+                                    <pre>
 $Data{"Body"}
-                  </pre>
-                </td>
-              </tr>
-            </table>
+                                    </pre>
+                                </td>
+                            </tr>
+                        </table>
 <!-- end ticket -->
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 <br/>
 <!-- dtl:block:Article -->

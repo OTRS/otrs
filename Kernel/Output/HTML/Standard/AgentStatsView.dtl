@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.19 2010-02-05 13:58:23 mn Exp $
+# $Id: AgentStatsView.dtl,v 1.20 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,7 +53,7 @@
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Object"}:</td>
-                                    <td class="contentvalue">$Text{"$QData{"ObjectName"}"}</td>
+                                    <td class="contentvalue">$Text{"$Data{"ObjectName"}"}</td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Description"}:</td>
@@ -123,7 +123,7 @@
                             <table width="100%">
 <!--dtl:block:ItemParam -->
                                 <tr>
-                                    <td class="contentkey" width="150">$Text{"$QData{"Param"}"}:</td>
+                                    <td class="contentkey" width="150">$Text{"$Data{"Param"}"}:</td>
                                     <td class="contentvalue">$Data{"Field"}</td>
                                 </tr>
 <!--dtl:block:ItemParam -->
@@ -133,7 +133,7 @@
 <!--dtl:block:Static -->
 <!--dtl:block:Dynamic -->
                     <tr>
-                        <td class="contenthead">$Text{"$QData{"Name"}"}</td>
+                        <td class="contenthead">$Text{"$Data{"Name"}"}</td>
                     </tr>
                     <tr>
                         <td>
@@ -147,7 +147,7 @@
 <!--dtl:block:NoElement -->
 <!--dtl:block:Element -->
                                 <tr>
-                                    <td class="contentkey" width="150">$Text{"$QData{"Name"}"}:</td>
+                                    <td class="contentkey" width="150">$Text{"$Data{"Name"}"}:</td>
                                     <td class="contentvalue">
 <!--dtl:block:TimePeriodFixed -->
                                         $Text{"Between"} $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br/>

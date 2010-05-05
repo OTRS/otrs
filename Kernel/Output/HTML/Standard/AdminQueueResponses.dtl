@@ -130,7 +130,7 @@
             <div class="Header">
                 <h2>
                     $Text{"Change %s Relations for", "$QData{"VisibleNeType"}"}
-                    $Text{"$QData{"VisibleType"}"}
+                    $Text{"$Data{"VisibleType"}"}
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;$LQData{"Queue"}ID=$LQData{"ID"}">$QData{"Name"}</a>
                     ($QData{"ID"})
                 </h2>
@@ -143,7 +143,7 @@
                     <table class="DataTable VariableWidth" id="UserRoles">
                         <thead>
                             <tr>
-                                <th>$Text{"$QData{"VisibleNeType"}"}</th>
+                                <th>$Text{"$Data{"VisibleNeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="$QData{"Mark"}">
                                     <input type="checkbox" id="SelectAll$QData{"Type"}" name="$QData{"Type"}" title="$Text{"Toggle active state for all"}" value="" />

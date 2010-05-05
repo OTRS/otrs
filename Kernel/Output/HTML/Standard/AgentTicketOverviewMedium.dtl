@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.24 2010-04-22 18:40:25 mn Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.25 2010-05-05 13:16:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,11 @@
         <input type="checkbox" class="AutocompleteOff" title="Select all" id="SelectAllTickets" /><label for="SelectAllTickets">$Text{"Select all"}</label>
     </li>
     <li id="BulkAction" class="Bulk Inactive $QData{"CSS"}">
-        <a href="">$Text{"$QData{"Name"}"}</a>
+        <a href="">$Text{"$Data{"Name"}"}</a>
     </li>
 <!-- dtl:block:DocumentActionRowBulk -->
 <!-- dtl:block:DocumentActionRowItem -->
-    <li class="$QData{"CSS"}"><a href="">$Text{"$QData{"Name"}"}</a></li>
+    <li class="$QData{"CSS"}"><a href="">$Text{"$Data{"Name"}"}</a></li>
 <!-- dtl:block:DocumentActionRowItem -->
 </ul>
 <!-- dtl:block:DocumentActionRow -->
@@ -49,7 +49,7 @@
 <!-- dtl:block:MetaIcon -->
             <div class="$QData{"Class"}" title="$Text{"$Data{"Title"}"}">
                 <span class="$QData{"ClassSpan"}">$Text{"$Data{"Title"}"}</span>
-#            <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="" title="$Text{"$QData{"Title"}"}"/>
+#            <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="" title="$Text{"$Data{"Title"}"}"/>
             </div>
 <!-- dtl:block:MetaIcon -->
 <!-- dtl:block:Meta -->
@@ -58,7 +58,7 @@
             </h2>
 #        <div>
 <!-- dtl:block:MenuItem -->
-            <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
 <!-- dtl:block:MenuItem -->
 #        </div>
             <table class="Infos">
@@ -243,7 +243,7 @@
 # use this if you want to show TicketFreeTime1-6
 #<!-- dtl:block:TicketFreeTime -->
 #               <td>
-#                   <label>$Text{"$QData{"TicketFreeTimeKey"}"}</label>
+#                   <label>$Text{"$Data{"TicketFreeTimeKey"}"}</label>
 #                   <div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div>
 #               </td>
 #<!-- dtl:block:TicketFreeTime -->
@@ -284,7 +284,7 @@
 
 <!-- dtl:block:DocumentMenuItem -->
 <li id="$QData{"ID"}">
-    <a href="" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
+    <a href="" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
 </li>
 <!-- dtl:block:DocumentMenuItem -->
 

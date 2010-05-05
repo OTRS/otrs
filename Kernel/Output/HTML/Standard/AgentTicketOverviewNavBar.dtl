@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.22 2010-04-22 18:40:25 mn Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.23 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,7 +53,7 @@
 
 <!-- dtl:block:OverviewNavBar -->
 <div class="OverviewBox ARIARoleMain" id="Main">
-    <h1>$Text{"$QData{"TitleName"}"}: $Text{"$QData{"TitleValue"}"}</h1>
+    <h1>$Text{"$Data{"TitleName"}"}: $Text{"$Data{"TitleValue"}"}</h1>
 
     <div class="OverviewControl" id="OverviewControl">
 
@@ -63,12 +63,12 @@
 <!-- dtl:block:OverviewNavBarFilterItem -->
 <!-- dtl:block:OverviewNavBarFilterItemSelected -->
                 <li class="Active $QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"FilterLink"}Filter=$LQData{"Filter"}">$Text{"$QData{"Name"}"}<span>$QData{"Count"}</span></a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"FilterLink"}Filter=$LQData{"Filter"}">$Text{"$Data{"Name"}"}<span>$QData{"Count"}</span></a>
                 </li>
 <!-- dtl:block:OverviewNavBarFilterItemSelected -->
 <!-- dtl:block:OverviewNavBarFilterItemSelectedNot -->
                 <li class="$QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"FilterLink"}Filter=$LQData{"Filter"}">$Text{"$QData{"Name"}"}<span>$QData{"Count"}</span></a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"FilterLink"}Filter=$LQData{"Filter"}">$Text{"$Data{"Name"}"}<span>$QData{"Count"}</span></a>
                 </li>
 <!-- dtl:block:OverviewNavBarFilterItemSelectedNot -->
 <!-- dtl:block:OverviewNavBarFilterItemSplit -->
@@ -100,12 +100,12 @@
 <!-- dtl:block:OverviewNavBarViewMode -->
 <!-- dtl:block:OverviewNavBarViewModeSelected -->
                     <li class="Active">
-                        <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$QData{"Name"}"}"><span>$Text{"$QData{"NameShort"}"}</span></a>
+                        <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}"><span>$Text{"$Data{"NameShort"}"}</span></a>
                     </li>
 <!-- dtl:block:OverviewNavBarViewModeSelected -->
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
                     <li class="">
-                        <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$QData{"Name"}"}"><span>$Text{"$QData{"NameShort"}"}</span></a>
+                        <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}"><span>$Text{"$Data{"NameShort"}"}</span></a>
                     </li>
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
 <!-- dtl:block:OverviewNavBarViewMode -->

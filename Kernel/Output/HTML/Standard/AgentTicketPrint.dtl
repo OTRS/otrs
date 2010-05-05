@@ -1,8 +1,8 @@
 # --
 # AgentTicketPrint.dtl - provides HTML print view
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.dtl,v 1.25 2009-11-26 08:02:16 mg Exp $
+# $Id: AgentTicketPrint.dtl,v 1.26 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -147,7 +147,7 @@
 # use this if you want to show TicketFreeTime1-6
 <!-- dtl:block:TicketFreeTime -->
                 <tr>
-                    <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
+                    <td class="contentkey">$Text{"$Data{"TicketFreeTimeKey"}"}:</td>
                     <td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div></td>
                 </tr>
 <!-- dtl:block:TicketFreeTime -->

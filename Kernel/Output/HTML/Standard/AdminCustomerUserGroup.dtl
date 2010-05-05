@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.8 2010-05-05 12:31:38 mg Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.9 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,7 +119,7 @@
             <div class="Header">
                 <h2>
                     $Text{"Change %s Relations for", "$Data{"NeType"}"}
-                    $Text{"$QData{"Type"}"}
+                    $Text{"$Data{"Type"}"}
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
                     ($QData{"ID"})
                 </h2>
@@ -132,7 +132,7 @@
                     <table class="DataTable VariableWidth" id="UserGroups">
                         <thead>
                             <tr>
-                                <th>$Text{"$QData{"NeType"}"}</th>
+                                <th>$Text{"$Data{"NeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="Center $QData{"Mark"}">
                                     <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle %s permission for all", "$QData{"Type"}"}" value="" />

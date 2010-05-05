@@ -2,7 +2,7 @@
 # AgentTicketOwner.dtl - provides HTML form for owner mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.dtl,v 1.36 2010-02-05 13:58:23 mn Exp $
+# $Id: AgentTicketOwner.dtl,v 1.37 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -299,7 +299,7 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeText2 -->
 <!-- dtl:block:TicketFreeTime -->
                                 <tr>
-                                    <td colspan="2" class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
+                                    <td colspan="2" class="contentkey">$Text{"$Data{"TicketFreeTimeKey"}"}:</td>
                                     <td class="contentvalue">$Data{"TicketFreeTime"}</td>
                                 </tr>
 <!-- dtl:block:TicketFreeTime -->

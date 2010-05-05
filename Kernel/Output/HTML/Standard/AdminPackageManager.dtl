@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.60 2010-04-30 15:50:33 en Exp $
+# $Id: AdminPackageManager.dtl,v 1.61 2010-05-05 13:16:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -322,7 +322,7 @@
                                 <td>$QData{"Version"}</td>
                                 <td><a href="$LQData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
                                 <td title="$QData{"Description"}">$QData{"Description","55"}</td>
-                                <td>$Text{"$QData{"Status"}"}</td>
+                                <td>$Text{"$Data{"Status"}"}</td>
                                 <td>
 <!-- dtl:block:ShowLocalPackageInstall -->
                                     <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Install;Name=$LQData{"Name"};Version=$LQData{"Version"}">$Text{"Install"}</a>
@@ -406,12 +406,12 @@
                 <div class="Content WithPadding">
                     <fieldset class="TableLike Fixed Label">
 <!-- dtl:block:PackageItemDescription -->
-                        <label>$Text{"$QData{"Tag"}"}: </label>
+                        <label>$Text{"$Data{"Tag"}"}: </label>
                         <div class="Value">($QData{"Lang"}) $QData{"Content"}</div>
                         <div class="Clear"></div>
 <!-- dtl:block:PackageItemDescription -->
 <!-- dtl:block:PackageItemGeneric -->
-                        <label>$Text{"$QData{"Tag"}"}: </label>
+                        <label>$Text{"$Data{"Tag"}"}: </label>
                         <div class="Value">$Data{"Content"}</div>
                         <div class="Clear"></div>
 <!-- dtl:block:PackageItemGeneric -->
@@ -533,7 +533,7 @@
 <!-- dtl:block:PackageItemCode -->
             <div class="WidgetGradient Short MinHeight SpacingTop">
                 <div class="Header">
-                    <h2>$Text{"$QData{"Tag"}"} ($QData{"Type"})</h2>
+                    <h2>$Text{"$Data{"Tag"}"} ($QData{"Type"})</h2>
                 </div>
                 <div class="Content">
                     <code>$Data{"Content"}</code>
@@ -543,7 +543,7 @@
 <!-- dtl:block:PackageItemIntro -->
             <div class="WidgetGradient Short MinHeight SpacingTop">
                 <div class="Header">
-                    <h2>$Text{"$QData{"Tag"}"} ($QData{"Type"}/$QData{"Lang"})</h2>
+                    <h2>$Text{"$Data{"Tag"}"} ($QData{"Type"}/$QData{"Lang"})</h2>
                 </div>
                 <div class="Content">
                     $Data{"Content"}

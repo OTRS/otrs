@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.29 2010-02-05 13:58:22 mn Exp $
+# $Id: AgentTicketSearch.dtl,v 1.30 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -147,7 +147,7 @@
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td width="15%" class="contentkey">
-                                        $Text{"$QData{"TicketFreeTimeKey"}"}
+                                        $Text{"$Data{"TicketFreeTimeKey"}"}
                                     </td>
                                     <td width="85%" class="contentvalue">
                                         <input type="checkbox" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}/>
@@ -213,7 +213,7 @@
 <!-- dtl:block:TicketResponsibleWatcher -->
                     <tr>
 <!-- dtl:block:TicketResponsibleWatcherHeaderOn -->
-                        <td width="50%" class="contenthead">$Text{"$QData{"Headline"}"}</td>
+                        <td width="50%" class="contenthead">$Text{"$Data{"Headline"}"}</td>
 <!-- dtl:block:TicketResponsibleWatcherHeaderOn -->
 <!-- dtl:block:TicketResponsibleWatcherHeaderOff -->
                         <td width="50%" class="contenthead">&nbsp;</td>

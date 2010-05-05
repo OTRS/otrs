@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.47 2010-02-05 13:58:23 mn Exp $
+# $Id: AgentTicketCompose.dtl,v 1.48 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -175,7 +175,7 @@ function BookCheckSubmit() {
                                 </tr>
 <!-- dtl:block:Option -->
                                 <tr>
-                                    <td class="contentkey">$Text{"$QData{"Key"}"}:</td>
+                                    <td class="contentkey">$Text{"$Data{"Key"}"}:</td>
                                     <td class="contentvalue">
                                         $Data{"Value"} <font color="red" size="-2">$Data{"Invalid"}</font>
                                     </td>
@@ -254,7 +254,7 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeText2 -->
 <!-- dtl:block:TicketFreeTime -->
                                 <tr>
-                                    <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
+                                    <td class="contentkey">$Text{"$Data{"TicketFreeTimeKey"}"}:</td>
                                     <td class="contentvalue">$Data{"TicketFreeTime"}</td>
                                 </tr>
 <!-- dtl:block:TicketFreeTime -->

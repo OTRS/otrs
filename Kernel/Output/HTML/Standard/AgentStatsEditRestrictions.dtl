@@ -2,7 +2,7 @@
 # AgentStatsEditRestrictions.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditRestrictions.dtl,v 1.18 2010-02-05 13:58:24 mn Exp $
+# $Id: AgentStatsEditRestrictions.dtl,v 1.19 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,7 +54,7 @@ function SelectCheckbox(Checkbox) {
                                         <input type="checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}/>
                                     </td>
                                     <td class="contentkey" width="200">
-                                        $Text{"$QData{"Name"}"}:
+                                        $Text{"$Data{"Name"}"}:
                                     </td>
                                     <td class="contentvalue" width="450">$Data{"SelectField"}</td>
                                 </tr>
@@ -72,7 +72,7 @@ function SelectCheckbox(Checkbox) {
                                         <input type="checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}/>
                                     </td>
                                     <td class="contentkey">
-                                        $Text{"$QData{"Name"}"}:<br/>
+                                        $Text{"$Data{"Name"}"}:<br/>
                                         <span class="readonly">$Text{"Please select only one element or turn off the button 'Fixed'."}</span>
                                     </td>
                                     <td class="contentvalue">$Data{"SelectField"}</td>
@@ -91,7 +91,7 @@ function SelectCheckbox(Checkbox) {
                                         <input type="checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}/>
                                     </td>
                                     <td class="contentkey">
-                                        $Text{"$QData{"Name"}"}:
+                                        $Text{"$Data{"Name"}"}:
                                     </td>
                                     <td class="contentvalue">
                                         <input type="text" name="$QData{"Element"}" value="$QData{"SelectedValue"}" size="60"/>

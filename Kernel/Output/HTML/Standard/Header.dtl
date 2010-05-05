@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.78 2010-05-04 01:24:48 martin Exp $
+# $Id: Header.dtl,v 1.79 2010-05-05 13:16:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,7 +93,7 @@ $Include{"Copyright"}
                     <input type="hidden" name="Subaction" value="LoadProfile"/>
                     <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
                     $Data{"Link"}
-#                    <a href="#" id="ToolbarProfileSearch" title="$Text{"$QData{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$QData{"Name"}"}<span class="Gloss"></span></a>
+#                    <a href="#" id="ToolbarProfileSearch" title="$Text{"$Data{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}<span class="Gloss"></span></a>
                 </form>
             </li>
 <!-- dtl:js_on_document_complete -->
@@ -114,7 +114,7 @@ $Include{"Copyright"}
                     <input type="hidden" name="Subaction" value="Search"/>
                     <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
                     <input type="text" size="$QData{"Size"}" name="Fulltext" id="Fulltext" value="$QData{"Fulltext"}"/>
-#                    <a href="#" id="ToolbarFulltextSearch" title="$Text{"$QData{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$QData{"Name"}"}<span class="Gloss"></span></a>
+#                    <a href="#" id="ToolbarFulltextSearch" title="$Text{"$Data{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}<span class="Gloss"></span></a>
                 </form>
             </li>
 <!-- dtl:block:ToolBarSearchFulltext -->

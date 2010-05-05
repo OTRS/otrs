@@ -126,7 +126,7 @@
                     <table class="DataTable VariableWidth" id="UserRoles">
                         <thead>
                             <tr>
-                                <th>$Text{"$QData{"VisibleNeType"}"}</th>
+                                <th>$Text{"$Data{"VisibleNeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="Center $QData{"Mark"}">
                                     <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle active state for all"}" value="" />

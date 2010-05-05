@@ -1,8 +1,8 @@
 # --
 # AgentCustomerTableView.dtl - provides HTML customer table view
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerTableView.dtl,v 1.13 2009-11-25 16:19:58 mg Exp $
+# $Id: AgentCustomerTableView.dtl,v 1.14 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,11 +27,11 @@
 <!-- dtl:block:CustomerImage -->
 <!-- dtl:block:CustomerRow -->
     <tr>
-        <td class="contentkey">$Text{"$QData{"Key"}"}:</td>
+        <td class="contentkey">$Text{"$Data{"Key"}"}:</td>
         <td class="contentvalue">$Data{"LinkStart"}<div title="$QData{"Value"}">$Data{"ValueShort"}</div>$Data{"LinkStop"}
 <!-- dtl:block:CustomerRowItem -->
 #        $Data{"Item"}
-            <a href="$Data{"URL"}" target="$QData{"Target"}"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Alt"}"}" /></a>
+            <a href="$Data{"URL"}" target="$QData{"Target"}"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Alt"}"}" /></a>
 
 <!-- dtl:block:CustomerRowItem -->
         </td>
@@ -44,10 +44,10 @@
                 <tr>
 <!-- dtl:block:CustomerItemRow-->
                     <td width="10%">
-                        <a href="$Data{"URL"}" target="$QData{"Target"}"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Text"}"}" title="$Text{"$QData{"Text"}"}" /></a>
+                        <a href="$Data{"URL"}" target="$QData{"Target"}"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Text"}"}" title="$Text{"$Data{"Text"}"}" /></a>
                     </td>
                     <td>
-                        <nobr><a href="$Data{"URL"}" target="$QData{"Target"}">$Text{"$QData{"Text"}"}$QData{"Extention"}</a></nobr>
+                        <nobr><a href="$Data{"URL"}" target="$QData{"Target"}">$Text{"$Data{"Text"}"}$QData{"Extention"}</a></nobr>
                     </td>
 <!-- dtl:block:CustomerItemRow-->
                 </tr>

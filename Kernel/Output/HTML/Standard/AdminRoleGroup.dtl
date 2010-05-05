@@ -121,7 +121,7 @@
                     <table class="DataTable VariableWidth" id="UserGroups">
                         <thead>
                             <tr>
-                                <th>$Text{"$QData{"NeType"}"}</th>
+                                <th>$Text{"$Data{"NeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="Center $QData{"Mark"}">
                                     <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle %s permission for all", "$QData{"Type"}"}" value="" />

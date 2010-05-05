@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.35 2010-04-30 15:52:22 en Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.36 2010-05-05 13:16:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -141,7 +141,7 @@
                             $Data{"MatchHeader1"}
                             <label for="MatchValue1">$Text{"Value"} 1:</label>
                             <input type="text" name="MatchValue1" id="MatchValue1" value="$QData{"MatchValue1"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$QData{"InvalidMatch1"}"}</span>
+                            <span class="Error">$Text{"$Data{"InvalidMatch1"}"}</span>
                         </div>
                         <div class="Clear"></div>
 
@@ -150,7 +150,7 @@
                             $Data{"MatchHeader2"}
                             <label for="MatchValue2">$Text{"Value"} 2:</label>
                             <input type="text" name="MatchValue2" id="MatchValue2" value="$QData{"MatchValue2"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$QData{"InvalidMatch2"}"}</span>
+                            <span class="Error">$Text{"$Data{"InvalidMatch2"}"}</span>
                         </div>
                         <div class="Clear"></div>
 
@@ -159,7 +159,7 @@
                             $Data{"MatchHeader3"}
                             <label for="MatchValue3">$Text{"Value"} 3:</label>
                             <input type="text" name="MatchValue3" id="MatchValue3" value="$QData{"MatchValue3"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$QData{"InvalidMatch3"}"}</span>
+                            <span class="Error">$Text{"$Data{"InvalidMatch3"}"}</span>
                         </div>
                         <div class="Clear"></div>
 
@@ -168,7 +168,7 @@
                             $Data{"MatchHeader4"}
                             <label for="MatchValue4">$Text{"Value"} 4:</label>
                             <input type="text" name="MatchValue4" id="MatchValue4" value="$QData{"MatchValue4"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$QData{"InvalidMatch4"}"}</span>
+                            <span class="Error">$Text{"$Data{"InvalidMatch4"}"}</span>
                         </div>
                         <div class="Clear"></div>
 
@@ -179,7 +179,7 @@
                             $Data{"SetHeader1"}
                             <label for="SetValue1">$Text{"Value"} 1:</label>
                             <input type="text" name="SetValue1" id="SetValue1" value="$QData{"SetValue1"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$QData{"InvalidSet1"}"}</span>
+                            <span class="Error">$Text{"$Data{"InvalidSet1"}"}</span>
                         </div>
                         <div class="Clear"></div>
 
@@ -188,7 +188,7 @@
                             $Data{"SetHeader2"}
                             <label for="SetValue2">$Text{"Value"} 2:</label>
                             <input type="text" name="SetValue2" id="SetValue2" value="$QData{"SetValue2"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$QData{"InvalidSet2"}"}</span>
+                            <span class="Error">$Text{"$Data{"InvalidSet2"}"}</span>
                         </div>
                         <div class="Clear"></div>
 
@@ -197,7 +197,7 @@
                             $Data{"SetHeader3"}
                             <label for="SetValue3">$Text{"Value"} 3:</label>
                             <input type="text" name="SetValue3" id="SetValue3" value="$QData{"SetValue3"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$QData{"InvalidSet3"}"}</span>
+                            <span class="Error">$Text{"$Data{"InvalidSet3"}"}</span>
                         </div>
                         <div class="Clear"></div>
 
@@ -206,7 +206,7 @@
                             $Data{"SetHeader4"}
                             <label for="SetValue4">$Text{"Value"} 4:</label>
                             <input type="text" name="SetValue4" id="SetValue4" value="$QData{"SetValue4"}" class="W33pc" maxlength="100"s/>
-                            <span class="Error">$Text{"$QData{"InvalidSet4"}"}</span>
+                            <span class="Error">$Text{"$Data{"InvalidSet4"}"}</span>
                         </div>
                         <div class="Clear"></div>
 

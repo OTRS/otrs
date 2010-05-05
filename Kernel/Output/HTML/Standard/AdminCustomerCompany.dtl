@@ -2,7 +2,7 @@
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.10 2010-05-05 10:32:27 mg Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.11 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -98,7 +98,7 @@
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;CustomerID=$LQData{"CustomerID"}">$QData{"CustomerID","20"}</a></td>
                             <td>$QData{"CustomerCompanyName"}</td>
                             <td title="$QData{"CustomerCompanyComment"}">$QData{"CustomerCompanyComment","26"}</td>
-                            <td>$Text{"$QData{"Valid"}"}</td>
+                            <td>$Text{"$Data{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                         </tr>
@@ -110,7 +110,7 @@
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
             <div class="Header">
-                <h2>$Text{"Edit"} ($Text{"$QData{"Action"}"})</h2>
+                <h2>$Text{"Edit"} ($Text{"$Data{"Action"}"})</h2>
             </div>
             <div class="Content">
 

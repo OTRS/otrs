@@ -2,7 +2,7 @@
 # AdminResponseAttachment.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.dtl,v 1.8 2010-05-03 08:34:24 mn Exp $
+# $Id: AdminResponseAttachment.dtl,v 1.9 2010-05-05 13:16:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -95,7 +95,7 @@
                     <table class="DataTable VariableWidth" id="ResponseAttachment">
                         <thead>
                             <tr>
-                                <th>$Text{"$QData{"VisibleNeType"}"}</th>
+                                <th>$Text{"$Data{"VisibleNeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th>
                                     <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle active for all"}" value="" />

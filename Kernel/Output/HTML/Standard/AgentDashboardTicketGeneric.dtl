@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.25 2010-05-03 10:22:21 mn Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.26 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,7 +80,7 @@
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
             <td class="$QData{"ClassTable"} Fixed" title="$Text{"$Data{"Title"}"}">
 <!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
-#                <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="" title="$Text{"$QData{"Title"}"}"/>
+#                <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="" title="$Text{"$Data{"Title"}"}"/>
                 <div class="$QData{"Class"} Small" title="$Text{"$Data{"Title"}"}">
                     <span class="$QData{"ClassSpan"}">$Text{"$Data{"Title"}"}</span>
                 </div>

@@ -2,7 +2,7 @@
 # AgentStatsEditXaxis.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditXaxis.dtl,v 1.19 2010-02-05 13:58:24 mn Exp $
+# $Id: AgentStatsEditXaxis.dtl,v 1.20 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,7 +58,7 @@ function SelectRadiobutton(Value, Object) {
                                         <input type="radio" name="Select" value="$QData{"Element"}" $Data{"Checked"}/>
                                     </td>
                                     <td class="contentkey" width="200">
-                                        $Text{"$QData{"Name"}"}:
+                                        $Text{"$Data{"Name"}"}:
                                     </td>
                                     <td class="contentvalue" width="450">$Data{"SelectField"}</td>
                                 </tr>

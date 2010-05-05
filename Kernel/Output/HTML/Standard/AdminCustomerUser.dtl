@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.7 2010-05-05 11:26:32 mg Exp $
+# $Id: AdminCustomerUser.dtl,v 1.8 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -139,7 +139,7 @@ function updateMessage(x) {
                             <td>$QData{"UserEmail"}</td>
                             <td>$QData{"UserCustomerID"}</td>
                             <td>$TimeShort{"$QData{"UserLastLoginTimestamp"}"}</td>
-                            <td>$Text{"$QData{"Valid"}"}</td>
+                            <td>$Text{"$Data{"Valid"}"}</td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
 
@@ -150,7 +150,7 @@ function updateMessage(x) {
 
 <!-- dtl:block:OverviewUpdate -->
             <div class="Header">
-                <h2>$Text{"Edit"} ($Text{"$QData{"Action"}"}):</h2>
+                <h2>$Text{"Edit"} ($Text{"$Data{"Action"}"}):</h2>
             </div>
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="compose">
@@ -194,7 +194,7 @@ function updateMessage(x) {
                         <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
                         <div class="Field">
                             <input id="$QData{"Name"}"type="text" name="$QData{"Name"}" class="W50pc" value="$QData{"SelectedID"}"/>
-                            <div class="FieldExplanation"> $Text{"$QData{"Key"}"} </div>
+                            <div class="FieldExplanation"> $Text{"$Data{"Key"}"} </div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:InputKey -->
@@ -202,7 +202,7 @@ function updateMessage(x) {
                         <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
                         <div class="Field">
                             <input id="$QData{"Name"}" type="text" name="$QData{"Name"}" class="W50pc" value="$QData{"SelectedID"}"/>
-                            <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$QData{"Key"}"}</div>
+                            <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$Data{"Key"}"}</div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:Input -->
@@ -210,7 +210,7 @@ function updateMessage(x) {
                         <label for="$Data{"Name"}">$Text{"$Data{"Label"}"}:</label>
                         <div class="Field">
                             $Data{"Option"}
-                            <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$QData{"Key"}"}</div>
+                            <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$Data{"Key"}"}</div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:Option -->
@@ -218,7 +218,7 @@ function updateMessage(x) {
                         <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
                         <div class="Field">
                             <input id="$QData{"Name"}" name="$QData{"Name"}" type="file"/>
-                            <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$QData{"Key"}"}</div>
+                            <div class="FieldExplanation">$Text{"$Data{"Desc"}"}$Text{"$Data{"Key"}"}</div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:Upload -->
@@ -226,7 +226,7 @@ function updateMessage(x) {
                         <label for="$QData{"Name"}">$Text{"$Data{"Label"}"}:</label>
                         <div class="Field">
                             <input id="$QData{"Name"}" type="password" name="$QData{"Name"}" class="W50pc" value="$QData{"SelectedID"}"/>
-                            <div>$Text{"$QData{"Key"}"}</div>
+                            <div>$Text{"$Data{"Key"}"}</div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:Password -->

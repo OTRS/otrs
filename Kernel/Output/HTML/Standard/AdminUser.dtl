@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.10 2010-04-30 16:43:47 en Exp $
+# $Id: AdminUser.dtl,v 1.11 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,7 +116,7 @@
                                 <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Switch;UserID=$LQData{"UserID"}">$Text{"Switch to user"}</a>
                             </td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
-                            <td>$Text{"$QData{"Valid"}"}</td>
+                            <td>$Text{"$Data{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                         </tr>
@@ -127,7 +127,7 @@
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
             <div class="Header">
-                <h2>$Text{"Edit"} ($Text{"$QData{"Action"}"})</h2>
+                <h2>$Text{"Edit"} ($Text{"$Data{"Action"}"})</h2>
             </div>
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="post">
@@ -180,7 +180,7 @@
 
 <!-- dtl:block:Item -->
 <!-- dtl:block:InputKey -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</label>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$Data{"Key"}"}:</label>
                         <div class="Field">
                             <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" class="W50pc"/>
                         </div>
@@ -207,7 +207,7 @@
                         <div class="Clear"></div>
 <!-- dtl:block:Option -->
 <!-- dtl:block:Upload -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}</label>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$Data{"Key"}"}</label>
                         <div class="Field">
                             <input name="$QData{"Name"}" type="file" size="30" class="fixed"/><br/>
                             <a href="">$QData{"Filename"}</a>
@@ -215,7 +215,7 @@
                         <div class="Clear"></div>
 <!-- dtl:block:Upload -->
 <!-- dtl:block:Password -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</label>
+                        <label for="$QData{"Name"}">$Text{"$Data{"Label"}"} $Text{"$Data{"Key"}"}:</label>
                         <div class="Field">
                             <input type="password" name="$QData{"Name"}" value="" class="W50pc"/>
                         </div>

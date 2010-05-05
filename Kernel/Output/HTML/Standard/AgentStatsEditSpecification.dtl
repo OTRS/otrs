@@ -2,7 +2,7 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.16 2010-04-06 23:01:40 cr Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.17 2010-05-05 13:16:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,11 +80,11 @@ function FormatGraphSizeRelation() {
                                     <td class="contentkey">
 <!-- dtl:block:RadioButton -->
                                         <input type="radio" name="StatType" value="$QData{"StateType"}"/>
-                                        $Text{"$QData{"Name"}"}:<span class="footnote">*</span>
+                                        $Text{"$Data{"Name"}"}:<span class="footnote">*</span>
 <!-- dtl:block:RadioButton -->
 <!-- dtl:block:NoRadioButton -->
                                         <input type="hidden" name="StatType" value="$QData{"StateType"}"/>
-                                        $Text{"$QData{"Name"}"}:<span class="required">*</span>
+                                        $Text{"$Data{"Name"}"}:<span class="required">*</span>
 <!-- dtl:block:NoRadioButton -->
                                     </td>
                                     <td class="contentvalue">

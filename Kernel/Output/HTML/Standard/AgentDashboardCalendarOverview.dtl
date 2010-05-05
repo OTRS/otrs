@@ -2,7 +2,7 @@
 # AgentDashboardCalendarOverview.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardCalendarOverview.dtl,v 1.5 2010-04-05 13:16:01 martin Exp $
+# $Id: AgentDashboardCalendarOverview.dtl,v 1.6 2010-05-05 13:16:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
             <td>
                 <a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"ObjectNumber"}</a> $QData{"Title","50"}
                 <br/>
-                <i class="small" title="$TimeShort{"$QData{"TimeStamp"}"}">($Text{"$QData{"Text"}"} $Text{"in"} $QData{"In"})</i>
+                <i class="small" title="$TimeShort{"$QData{"TimeStamp"}"}">($Text{"$Data{"Text"}"} $Text{"in"} $QData{"In"})</i>
             </td>
         </tr>
 <!-- dtl:block:ContentSmallCalendarOverviewRow -->

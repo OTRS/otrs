@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.40 2010-04-27 06:47:38 mn Exp $
+# $Id: AgentDashboard.dtl,v 1.41 2010-05-05 13:16:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,8 +33,8 @@
                     <ul>
 <!-- dtl:block:ContentSettings -->
                         <li>
-                            <span title="$Text{"$QData{"Description"}"}">
-                                <input type="checkbox" name="Backend" value="$QData{"Name"}" $Data{"Checked"}/> $Text{"$QData{"Title"}"}
+                            <span title="$Text{"$Data{"Description"}"}">
+                                <input type="checkbox" name="Backend" value="$QData{"Name"}" $Data{"Checked"}/> $Text{"$Data{"Title"}"}
                             </span>
                         </li>
 <!-- dtl:block:ContentSettings -->
@@ -58,7 +58,7 @@
                 <div class="WidgetAction Close">
                     <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><span></span></a>
                 </div>
-                <h2 title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</h2>
+                <h2 title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Title"}"}</h2>
             </div>
             <div class="Content">
                 <div id="Dashboard$QData{"Name"}-setting" class="Hidden">
@@ -69,21 +69,21 @@
                         <fieldset class="TableLike">
 <!-- dtl:block:ContentSmallPreferencesItem -->
 <!-- dtl:block:ContentSmallPreferencesItemOption -->
-                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <label>$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field">
                                 $Data{"Option"}
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:ContentSmallPreferencesItemOption -->
 <!-- dtl:block:ContentSmallPreferencesItemInput -->
-                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <label>$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field">
                                 <input type="text" class="W100pc" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:ContentSmallPreferencesItemInput -->
 <!-- dtl:block:ContentSmallPreferencesItemTextArea -->
-                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <label>$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field">
                                 <textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea>
                             </div>
@@ -127,7 +127,7 @@
                 <div class="WidgetAction Close">
                     <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><span></span></a>
                 </div>
-                <h2 title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</h2>
+                <h2 title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Title"}"}</h2>
             </div>
 
             <div class="Content">
@@ -139,21 +139,21 @@
                         <fieldset class="TableLike FixedLabelSmall">
 <!-- dtl:block:ContentLargePreferencesItem -->
 <!-- dtl:block:ContentLargePreferencesItemOption -->
-                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <label>$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field">
                                 $Data{"Option"}
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:ContentLargePreferencesItemOption -->
 <!-- dtl:block:ContentLargePreferencesItemInput -->
-                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <label>$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field">
                                 <input type="text" class="W100pc" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:ContentLargePreferencesItemInput -->
 <!-- dtl:block:ContentLargePreferencesItemTextArea -->
-                            <label>$Text{"$QData{"Desc"}"}:</label>
+                            <label>$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field">
                                 <textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea>
                             </div>
