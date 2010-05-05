@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.58 2010-05-05 13:00:04 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.59 2010-05-05 13:13:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,7 +69,7 @@
                                 </a>
                             </td>
                             <td>$TimeLong{"$QData{"ScheduleLastRun"}"}</td>
-                            <td>$Text{"$QData{"ShownValid"}"}</td>
+                            <td>$Text{"$Data{"ShownValid"}"}</td>
                             <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Profile=$LQData{"Name"}">
                                     $Text{"Delete this task"}
@@ -559,7 +559,6 @@
                         </fieldset>
                     </div>
                 </div>
-
                 <div class="WidgetGradient Short SpacingTop MinMeight">
                     <div class="Header">
                         <h2>$Text{"Ticket Comands"}</h2>
