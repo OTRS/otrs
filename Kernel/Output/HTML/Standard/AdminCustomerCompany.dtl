@@ -2,7 +2,7 @@
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.9 2010-04-30 15:37:58 en Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.10 2010-05-05 10:32:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,9 +50,6 @@
 <!-- dtl:block:ActionAdd -->
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Customer Company"}</span></a>
-                        <p class="FieldExplanation">
-                            $Text{"Add a Customer Company"}
-                        </p>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>
