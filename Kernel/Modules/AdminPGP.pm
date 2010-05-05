@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.pm,v 1.29 2010-04-27 01:05:47 dz Exp $
+# $Id: AdminPGP.pm,v 1.30 2010-05-05 19:19:37 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,6 +59,12 @@ sub Run {
     # delete key
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Delete' ) {
+
+        $Self->{LayoutObject}->Block( Name => 'Overview' );
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
+        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+        $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
         my $Key  = $Self->{ParamObject}->GetParam( Param => 'Key' )  || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
@@ -105,10 +111,24 @@ sub Run {
         }
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
 
+        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
+    # add key (form)
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Add' ) {
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+
+        $Self->{LayoutObject}->Block( Name => 'Overview' );
         $Self->{LayoutObject}->Block( Name => 'ActionList' );
         $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+        $Self->{LayoutObject}->Block( Name => 'AddKey' );
 
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP' );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -116,7 +136,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # add key
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'Add' ) {
+    elsif ( $Self->{Subaction} eq 'AddKey' ) {
 
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
@@ -140,7 +160,14 @@ sub Run {
                 What => 'Message',
             );
         }
-        my @List = $Self->{CryptObject}->KeySearch( Search => $Param{Search} );
+
+        $Self->{LayoutObject}->Block( Name => 'Overview' );
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
+        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+        $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
+
+        my @List = $Self->{CryptObject}->KeySearch( Search => '' );
         if (@List) {
             for my $Key (@List) {
                 $Self->{LayoutObject}->Block(
@@ -159,14 +186,12 @@ sub Run {
                 Data => {},
             );
         }
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
 
-        $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
-
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP' );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -191,7 +216,7 @@ sub Run {
             ContentType => 'text/plain',
             Content     => $KeyString,
             Filename    => "$Key.asc",
-            Type        => 'inline',
+            Type        => 'attachment',
         );
     }
 
@@ -221,7 +246,7 @@ sub Run {
             ContentType => 'text/plain',
             Content     => $Download,
             Filename    => "$Key.txt",
-            Type        => 'inline',
+            Type        => 'attachment',
         );
     }
 
@@ -229,6 +254,13 @@ sub Run {
     # search key
     # ------------------------------------------------------------ #
     else {
+
+        $Self->{LayoutObject}->Block( Name => 'Overview' );
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
+        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+        $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
+
         my @List = ();
         if ( $Self->{CryptObject} ) {
             @List = $Self->{CryptObject}->KeySearch( Search => $Param{Search} );
@@ -263,11 +295,6 @@ sub Run {
                 Data     => '$Text{"' . $Self->{CryptObject}->Check() . '"}',
             );
         }
-
-        $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
-        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
-
         $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

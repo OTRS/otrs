@@ -2,13 +2,14 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.8 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminPGP.dtl,v 1.9 2010-05-05 19:19:36 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+<!-- dtl:block:Overview-->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"PGP Management"}</h1>
 
@@ -37,20 +38,11 @@
                     </li>
 <!-- dtl:block:ActionSearch-->
 
-<!-- dtl:block:ActionAdd-->
+<!-- dtl:block:ActionAdd -->
                     <li>
-                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="Add"/>
-                            <input type="file" size="16" name="file_upload" id="file_upload" />
-                            <div class="Element">
-                                <button class="CallForAction" type="submit" value="$Text{"Add PGP File"}">
-                                    <span>$Text{"Add PGP Key"}</span>
-                                </button>
-                            </div>
-                        </form>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add PGP Key"}</span></a>
                     </li>
-<!-- dtl:block:ActionAdd-->
+<!-- dtl:block:ActionAdd -->
 
 <!-- dtl:block:ActionList -->
                 </ul>
@@ -73,6 +65,8 @@
 
     <div class="ContentColumn">
         <div class="WidgetGradient Short">
+
+<!-- dtl:block:OverviewResult -->
             <div class="Header">
                 <h2>$Text{"Result"}</h2>
             </div>
@@ -84,8 +78,10 @@
                             <th>$Text{"Type"}</th>
                             <th>$Text{"Identifier"}</th>
                             <th>$Text{"Bit"}</th>
-                            <th>$Text{"Key"}/$Text{"Fingerprint"}</th>
-                            <th>$Text{"Created"}/$Text{"Expires"}</th>
+                            <th>$Text{"Key"}</th>
+                            <th>$Text{"Fingerprint"}</th>
+                            <th>$Text{"Created"}</th>
+                            <th>$Text{"Expires"}</th>
                             <th>$Text{"Delete"}</th>
                         </tr>
                     </thead>
@@ -104,9 +100,12 @@
                             <td>$QData{"Bit"}</td>
                             <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Key=$LQData{"Key"}">$QData{"Key"}</a>
+                            </td>
+                            <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Key=$LQData{"Key"}"><span title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</span></a>
                             </td>
-                            <td>$QData{"Created"}<br/>$QData{"Expires"}</td>
+                            <td>$QData{"Created"}</td>
+                            <td>$QData{"Expires"}</td>
                             <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Key=$LQData{"FingerprintShort"}">$Text{"Delete this key"}</a>
                             </td>
@@ -115,7 +114,33 @@
                     </tbody>
                 </table>
             </div>
+<!-- dtl:block:OverviewResult -->
+
+<!-- dtl:block:AddKey -->
+            <div class="Header">
+                <h2>$Text{"Add PGP Key"}</h2>
+            </div>
+            <div class="Content">
+                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="AddKey"/>
+                    <fieldset class="TableLike">
+                        <div class="Field">
+                            <input type="file" name="file_upload" id="file_upload" />
+                        </div>
+                        <div class="Clear"></div>
+                        <div class="Field">
+                            <button class="Primary" type="submit">$Text{"Add"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}"><span>$Text{"Cancel"}</span></a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+<!-- dtl:block:AddKey -->
+
         </div>
     </div>
     <div class="Clear"></div>
 </div>
+<!-- dtl:block:Overview-->
