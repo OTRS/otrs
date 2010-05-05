@@ -2,7 +2,7 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.6 2010-04-30 15:51:39 en Exp $
+# $Id: AdminPGP.dtl,v 1.7 2010-05-05 09:39:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@
                             <input type="hidden" name="Subaction" value="Search"/>
                             <input type="text" name="Search" id="Search" value="$QData{"Search"}" />
                             <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
-                            <div class="clear"></div>
+                            <div class="Clear"></div>
                         </form>
                     </li>
 <!-- dtl:block:ActionSearch-->
@@ -44,7 +44,9 @@
                             <input type="hidden" name="Subaction" value="Add"/>
                             <input type="file" size="16" name="file_upload" id="file_upload" />
                             <div class="Element">
-                                <button class="button" type="submit" value="$Text{"Add PGP File"}">$Text{"Add PGP File"}</button>
+                                <button class="CallForAction" type="submit" value="$Text{"Add PGP File"}">
+                                    <span>$Text{"Add PGP Key"}</span>
+                                </button>
                             </div>
                         </form>
                     </li>
