@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.29 2010-04-29 17:21:13 cg Exp $
+# $Id: AdminSession.dtl,v 1.30 2010-05-05 09:52:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,37 +19,31 @@
                 <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
+                <fieldset class="TableLike LargeLabel">
+                    <label>$Text{"All sessions"}:</label>
+                    <div class="Value">$Data{"Counter"}</div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Agent sessions"}:</label>
+                    <div class="Value">$Data{"UserSession"}</div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Customer sessions"}:</label>
+                    <div class="Value">$Data{"CustomerSession"}</div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Unique agents"}:</label>
+                    <div class="Value">$Data{"UserSessionUniq"}</div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Unique customers"}:</label>
+                    <div class="Value">$Data{"CustomerSessionUniq"}</div>
+                    <div class="Clear"></div>
+                </fieldset>
+
                 <ul class="ActionList">
                     <li>
-                        <fieldset class="TableLike LargeLabel">
-                            <label>$Text{"All sessions"}:</label>
-                            <div class="Field">$Data{"Counter"}</div>
-                            <div class="Clear"></div>
-
-                            <label>$Text{"Agent sessions"}:</label>
-                            <div class="Value">$Data{"UserSession"}</div>
-                            <div class="Clear"></div>
-
-                            <label>$Text{"Customer sessions"}:</label>
-                            <div class="Value">$Data{"CustomerSession"}</div>
-                            <div class="Clear"></div>
-
-                            <label>$Text{"Unique agents"}:</label>
-                            <div class="Value">$Data{"UserSessionUniq"}</div>
-                            <div class="Clear"></div>
-
-                            <label>$Text{"Unique customers"}:</label>
-                            <div class="Value">$Data{"CustomerSessionUniq"}</div>
-                            <div class="Clear"></div>
-
-                            <div class="Field SpacingTop">
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=KillAll;WantSessionID=$Env{"SessionID"}" class="CallForAction"><span>$Text{"Kill Sessions"}</span></a>
-                                <p class="FieldExplanation">
-                                    $Text{"Kill All Sessions"}
-                                </p>
-                            </div>
-                            <div class="Clear"></div>
-                        </fieldset>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=KillAll;WantSessionID=$Env{"SessionID"}" class="CallForAction"><span>$Text{"Kill All Sessions"}</span></a>
                     </li>
                 </ul>
             </div>
