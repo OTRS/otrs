@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -37,7 +37,7 @@ form.AdminSysConfig fieldset h3 {
     padding-left: 0;
     padding-right: 5px;
     margin-top: 0px;
-    color: #333;
+    color: #111;
 }
 
 .RTL form.AdminSysConfig fieldset h3 {
@@ -47,7 +47,7 @@ form.AdminSysConfig fieldset h3 {
 }
 
 form.AdminSysConfig fieldset .Description {
-    color: #333;
+    color: #444;
     float: left;
     width: 25%;
 }
@@ -69,6 +69,10 @@ form.AdminSysConfig fieldset .Setting {
 form.AdminSysConfig fieldset .Setting .DefaultValue {
     margin-top: 3px;
     color: gray;
+}
+
+form.AdminSysConfig fieldset input {
+    margin-bottom: 1px;
 }
 
 /**
@@ -118,7 +122,8 @@ form.AdminSysConfig fieldset .Setting .Hash input.Key {
     margin-right: 0;
 }
 
-form.AdminSysConfig fieldset .Setting .Hash input.Content {
+form.AdminSysConfig fieldset .Setting .Hash input.Content,
+form.AdminSysConfig fieldset .Setting .Hash select.Content {
     width: 40%;
 }
 
@@ -148,7 +153,7 @@ form.AdminSysConfig fieldset .Setting .Hash .Hash {
 /**
  * @subsubsection     ModuleRegistrations
  */
-form.AdminSysConfig fieldset .ModuleRegistration label.SingleKey {
+form.AdminSysConfig fieldset .FrontendModuleRegistration label.SingleKey {
     float: left;
     width: 20%;
     margin-left: 0;
@@ -156,45 +161,53 @@ form.AdminSysConfig fieldset .ModuleRegistration label.SingleKey {
     font-weight: bold;
 }
 
-.RTL form.AdminSysConfig fieldset .ModuleRegistration label.SingleKey {
+.RTL form.AdminSysConfig fieldset .FrontendModuleRegistration label.SingleKey {
     float: right;
     margin-left: 5px;
     margin-right: 0;
 }
 
-form.AdminSysConfig fieldset .ModuleRegistration input.SingleContent {
+form.AdminSysConfig fieldset .FrontendModuleRegistration input.SingleContent {
     width: 60%;
     margin-bottom: 3px;
 }
 
-form.AdminSysConfig fieldset .ModuleRegistration .Array {
+form.AdminSysConfig fieldset .FrontendModuleRegistration .Array {
     margin-left: 30px;
     margin-right: 0;
 }
 
-.RTL form.AdminSysConfig fieldset .ModuleRegistration .Array {
+.RTL form.AdminSysConfig fieldset .FrontendModuleRegistration .Array {
     margin-left: 0;
     margin-right: 30px;
 }
 
-form.AdminSysConfig fieldset .ModuleRegistration .NavBar {
+form.AdminSysConfig fieldset .FrontendModuleRegistration .NavBar {
     margin: 10px 0 10px 30px;
 }
 
-.RTL form.AdminSysConfig fieldset .ModuleRegistration .NavBar {
+.RTL form.AdminSysConfig fieldset .FrontendModuleRegistration .NavBar {
     margin: 10px 30px 10px 0;
 }
 
-form.AdminSysConfig fieldset .ModuleRegistration .NavBarListEntry {
+form.AdminSysConfig fieldset .FrontendModuleRegistration .NavBarListEntry {
     border-bottom: 1px solid #888;
     padding-bottom: 8px;
     margin-bottom: 8px;
 }
 
 /**
- * @subsubsection     Calendar
- * @note        This is a little box for putting text above a checkbox with many boxes in a row
+ * @subsubsection     Time settings
  */
+form.AdminSysConfig fieldset input.Year {
+    width: 50px;
+}
+
+form.AdminSysConfig fieldset input.Month,
+form.AdminSysConfig fieldset input.Day {
+    width: 25px;
+}
+
 form.AdminSysConfig fieldset .WorkingHours .FloatBox {
     float: left;
     text-align: center;

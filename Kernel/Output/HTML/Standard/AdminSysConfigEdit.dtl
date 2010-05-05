@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.54 2010-05-03 15:37:20 mg Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.55 2010-05-05 07:10:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -321,7 +321,7 @@
 <!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContent -->
                                 <input type="text" name="$QData{"ElementKey"}year[]" value="$QData{"Year"}" title="$Text{"Year"}" maxlength="4" class="Year"/>
                                 <input type="text" name="$QData{"ElementKey"}month[]" value="$QData{"Month"}" title="$Text{"Month"}" maxlength="2" class="Month"/>
-                                <input type="text" name="$QData{"ElementKey"}day[]" value="$QData{"Day"}" title="$Text{"Day"}" maxlenth="2" class="Day"/>
+                                <input type="text" name="$QData{"ElementKey"}day[]" value="$QData{"Day"}" title="$Text{"Day"}" maxlength="2" class="Day"/>
                                 <input type="text" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" title="$Text{"Text"}" class="W20pc" />
                                 <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteTimeVacationDaysOneTimeElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
 <!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContentInvalidYear -->
@@ -345,7 +345,7 @@
                             <div class="Array">
 <!-- dtl:block:ConfigElementTimeVacationDaysContent -->
                                 <input type="text" name="$QData{"ElementKey"}month[]" value="$QData{"Month"}" title="$Text{"Month"}" maxlength="2" class="Month"/>
-                                <input type="text" name="$QData{"ElementKey"}day[]" value="$QData{"Day"}" title="$Text{"Day"}" maxlenth="2" class="Day"/>
+                                <input type="text" name="$QData{"ElementKey"}day[]" value="$QData{"Day"}" title="$Text{"Day"}" maxlength="2" class="Day"/>
                                 <input type="text" name="$QData{"ElementKey"}Content[]" value="$QData{"Content"}" title="$Text{"Text"}" class="W20pc" />
                                 <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteTimeVacationDaysElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
 <!-- dtl:block:ConfigElementTimeVacationDaysContentInvalidMonth -->
@@ -361,32 +361,20 @@
 <!-- dtl:block:ConfigElementTimeVacationDays -->
 
 <!-- dtl:block:ConfigElementTimeWorkingHours -->
-                            <td class="contentvalue">
-                                <table border="0" cellpadding="0" cellspacing="3">
 <!-- dtl:block:ConfigElementTimeWorkingHoursContent -->
-                                    <tr>
-                                        <td class="contentkey">$QData{"Weekday"}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="contentvalue">
-                                            <table border="0" cellpadding="0" cellspacing="3">
-                                                <tr>
+                            <label class="KeyWithComplexValue">$QData{"Weekday"}</label>
+                            <div class="WorkingHours">
 <!-- dtl:block:ConfigElementTimeWorkingHoursHours -->
-                                                    <td class="contentvalue" align="center">
-                                                        $Data{"Hour"}<br/>
-                                                        <input type="checkbox" name="$QData{"ElementKey"}[]" value="$QData{"Hour"}" $Data{"Aktiv"}/>
-                                                    </td>
+                                <div class="FloatBox">
+                                    <label for="$QData{"ElementKey"}$QData{"Hour"}">$Data{"Hour"}</label>
+                                    <br/>
+                                    <input type="checkbox" name="$QData{"ElementKey"}[]" id="$QData{"ElementKey"}$QData{"Hour"}" value="$QData{"Hour"}" $Data{"Aktiv"}/>
+                                </div>
 <!-- dtl:block:ConfigElementTimeWorkingHoursHours -->
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
+                                <div class="Clear"></div>
+                            </div>
 <!-- dtl:block:ConfigElementTimeWorkingHoursContent -->
-                                </table>
-                            </td>
 <!-- dtl:block:ConfigElementTimeWorkingHours -->
-
-
 
                         </div>
                         <p class="Description">
