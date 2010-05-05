@@ -2,7 +2,7 @@
 # AdminPriority.dtl - provides HTML form for AdminTicketPriority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.dtl,v 1.14 2010-04-30 15:53:00 en Exp $
+# $Id: AdminPriority.dtl,v 1.15 2010-05-05 09:54:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,27 +17,25 @@
         <div class="WidgetGradient Short MinHeight">
 
 <!-- dtl:block:ActionList -->
-            <div class="WidgetGradient Short MinHeight">
-                <div class="Header">
-                    <h2>$Text{"Actions"}</h2>
-                </div>
-                <div class="Content">
-                    <ul class="ActionList">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
 <!-- dtl:block:ActionOverview -->
-                        <li>
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
-                        </li>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
 <!-- dtl:block:ActionOverview -->
 
 <!-- dtl:block:ActionAdd -->
-                        <li>
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=PriorityEdit;PriorityID=NEW" class="CallForAction">
-                                <span>$Text{"Add Priority"}</span>
-                            </a>
-                        </li>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=PriorityEdit;PriorityID=NEW" class="CallForAction">
+                            <span>$Text{"Add Priority"}</span>
+                        </a>
+                    </li>
 <!-- dtl:block:ActionAdd -->
-                    </ul>
-                </div>
+                </ul>
             </div>
 <!-- dtl:block:ActionList -->
         </div>
