@@ -2,7 +2,7 @@
 # AdminRole.dtl - provides HTML form for AdminRole
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.dtl,v 1.10 2010-04-27 18:45:48 cg Exp $
+# $Id: AdminRole.dtl,v 1.11 2010-05-05 09:57:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,9 +29,6 @@
 <!-- dtl:block:ActionAdd -->
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Role"}</span></a>
-                        <p class="FieldExplanation">
-                            $Text{"Add a Role"}
-                        </p>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>
@@ -76,7 +73,7 @@
                     <tbody>
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
-                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             <td title="$QData{"Comment"}">$QData{"Comment","26"}</td>
                             <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>

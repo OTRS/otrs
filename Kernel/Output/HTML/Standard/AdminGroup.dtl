@@ -2,7 +2,7 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.8 2010-04-30 14:24:50 mn Exp $
+# $Id: AdminGroup.dtl,v 1.9 2010-05-05 09:59:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,12 +69,9 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Add"/>
                             <button class="CallForAction" type="submit" value="$Text{"Add"}">
-                                <span>$Text{"Add"}</span>
+                                <span>$Text{"Add Group"}</span>
                             </button>
                         </form>
-                        <p class="FieldExplanation">
-                            $Text{"Add a new Group"}
-                        </p>
                     </li>
 <!--dtl:block:ActionAdd-->
 
@@ -128,7 +125,7 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
                     <tbody>
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
-                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             <td title="$QData{"Comment"}">$QData{"Comment","26"}</td>
                             <td>$Text{"$QData{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
