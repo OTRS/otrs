@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.238 2010-05-04 01:09:29 martin Exp $
+# $Id: Layout.pm,v 1.239 2010-05-05 07:18:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.238 $) [1];
+$VERSION = qw($Revision: 1.239 $) [1];
 
 =head1 NAME
 
@@ -1149,20 +1149,9 @@ sub Notify {
         $Param{Info} =~ s/\n//g;
     }
     if ( $Param{Priority} && $Param{Priority} eq 'Error' ) {
-
-        #        $Self->Block(
-        #            Name => 'Error',
-        #            Data => {},
-        #        );
         $BoxClass = 'Error';
     }
-    else {
 
-        #        $Self->Block(
-        #            Name => 'Warning',
-        #            Data => {},
-        #        );
-    }
     if ( $Param{Link} ) {
         $Self->Block(
             Name => 'LinkStart',
@@ -1667,7 +1656,7 @@ sub LinkEncode {
     $Link =~ s/\?/%3F/g;
     $Link =~ s/\|/%7C/g;
     $Link =~ s/\//\%2F/g;
-    $Link =~ s/§/\%A7/g;
+    $Link =~ s/ï¿½/\%A7/g;
     $Link =~ s/ /\+/g;
     $Link =~ s/:/\%3A/g;
     $Link =~ s/;/\%3B/g;
@@ -4633,6 +4622,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.238 $ $Date: 2010-05-04 01:09:29 $
+$Revision: 1.239 $ $Date: 2010-05-05 07:18:58 $
 
 =cut
