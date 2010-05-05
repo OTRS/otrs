@@ -2,20 +2,13 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.9 2010-04-30 15:43:44 en Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.10 2010-05-05 10:52:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!-- dtl:block:Overview -->
-<div id="UIElementPool">
-    <div class="Dialog">
-        <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
-        <div class="Content"></div>
-        <div class="Footer"><span class="LeftCorner"></span><span></span></div>
-    </div>
-</div>
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Notification Management"}</h1>
 
@@ -35,9 +28,6 @@
 <!-- dtl:block:ActionAdd -->
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Notification"}</span></a>
-                        <p class="FieldExplanation">
-                            $Text{"Add a Notification"}
-                        </p>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>
@@ -48,8 +38,8 @@
 
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short MinHeight">
 <!-- dtl:block:OverviewResult -->
+        <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
@@ -89,8 +79,8 @@
                 </table>
             </div>
         </div>
-
 <!-- dtl:block:OverviewResult -->
+
 <!-- dtl:block:OverviewUpdate -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
@@ -119,24 +109,21 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Recipients">$Text{"Recipient"}: </label>
+                        <label for="Recipients">$Text{"Recipient groups"}: </label>
                         <div class="Field">
                             $Data{"RecipientsStrg"}
-                            <p class="FieldExplanation">($Text{"Group based"})</p>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RecipientAgents">$Text{"Recipient"}: </label>
+                        <label for="RecipientAgents">$Text{"Recipient agents"}: </label>
                         <div class="Field">
                             $Data{"RecipientAgentsStrg"}
-                            <p class="FieldExplanation">($Text{"Agent based"})</p>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RecipientEmail">$Text{"Recipient"}: </label>
+                        <label for="RecipientEmail">$Text{"Recipient email addresses"}: </label>
                         <div class="Field">
                             <input type="text" name="RecipientEmail" id="RecipientEmail" class="W50pc" value="$QData{"RecipientEmail"}"/>
-                            <p class="FieldExplanation">($Text{"Email based"})</p>
                         </div>
                         <div class="Clear"></div>
 
@@ -212,15 +199,9 @@
                             <input type="text" name="CustomerUserID" id="CustomerUserID" class="W50pc" value="$QData{"CustomerUserID"}"/>
                         </div>
                         <div class="Clear"></div>
+
 <!-- dtl:block:OverviewUpdateTicketFreeFieldElement -->
-
-                        <label for="CustomerUserID">$Text{"CustomerUser"}: </label>
-                        <div class="Field">
-                            <input type="text" name="CustomerUserID" id="CustomerUserID" class="W50pc" value="$QData{"CustomerUserID"}"/>
-                        </div>
-                        <div class="Clear"></div>
-
-                        <label for="TicketFreeKey">$Text{"TicketFreeKey"}: </label>
+                        <label for="$QData{"ID"}">$Data{"TicketFreeKey"}: </label>
                         <div class="Field">
                             $Data{"TicketFreeText"}
                         </div>
@@ -315,17 +296,16 @@
         </div>
 
 
-
         <div class="WidgetGradient Short SpacingTop MinHeight">
             <div class="Header">
                 <h2>$Text{"Reference"}</h2>
             </div>
-            <div class="Clear"></div>
-            <h3>$Text{"Notifications are sent to an agent or a customer."}:</h3>
 
             <div class="Content">
 
-                <h3>$Text{"You can use the following tags"}:</h3>
+                <p>$Text{"Notifications are sent to an agent or a customer."}</p>
+
+                <p>$Text{"You can use the following tags"}:</p>
                 <dl>
 
                     <dt><code>&lt;OTRS_AGENT_SUBJECT[20]&gt;</code></dt>
@@ -431,11 +411,9 @@ Your OTRS Notification Master
                 </textarea>
             </div>
         </div>
-
 <!-- dtl:block:OverviewUpdate -->
 
     </div>
     <div class="Clear"></div>
-</div>
 </div>
 <!-- dtl:block:Overview -->
