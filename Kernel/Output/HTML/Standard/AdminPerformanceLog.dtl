@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.20 2010-04-15 17:53:52 mn Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.21 2010-05-05 10:25:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,8 +13,26 @@
     <h1>$Text{"Performance Log"}</h1>
 
     <div class="SidebarColumn">
+<!-- dtl:block:ActionList -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short">
-            <div class="Header"></div>
+            <div class="Header">
+                <h2>$Text{"Notice"}</h2>
+            </div>
             <div class="Content">
 <!-- dtl:block:Enabled -->
                 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
@@ -22,7 +40,7 @@
                     <input type="hidden" name="Subaction" value="Edit"/>
                     <input type="hidden" name="SysConfigGroup" value="Framework"/>
                     <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog"/>
-                    <h2>$Text{"This feature is enabled!"}</h2>
+                    <h3>$Text{"This feature is enabled!"}</h3>
                     <fieldset>
                         <p class="FieldExplanation">
                             $Text{"Just use this feature if you want to log each request."}
@@ -31,7 +49,9 @@
                             $Text{"Activating this feature might affect your system performance!"}
                         </p>
                         <div class="Field SpacingTop">
-                            <button class="button" type="submit" value="$Text{"Disable it here!"}">$Text{"Disable it here!"}</button>
+                            <button class="CallForAction" type="submit" value="$Text{"Disable it here!"}">
+                                <span>$Text{"Disable it here!"}</span>
+                            </button>
                         </div>
                         <div class="Clear"></div>
 
@@ -44,7 +64,7 @@
                     <input type="hidden" name="Subaction" value="Edit"/>
                     <input type="hidden" name="SysConfigGroup" value="Framework"/>
                     <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog"/>
-                    <h2>$Text{"This feature is disabled!"}</h2>
+                    <h3>$Text{"This feature is disabled!"}</h3>
                     <fieldset>
                         <p class="FieldExplanation">
                             $Text{"Just use this feature if you want to log each request."}
@@ -53,7 +73,9 @@
                             $Text{"Activating this feature might affect your system performance!"}
                         </p>
                         <div class="Field SpacingTop">
-                            <button class="button" type="submit" value="$Text{"Enable it here!"}">$Text{"Enable it here!"}</button>
+                            <button class="CallForAction" type="submit" value="$Text{"Enable it here!"}">
+                                <span>$Text{"Enable it here!"}</span>
+                            </button>
                         </div>
                         <div class="Clear"></div>
 
@@ -64,13 +86,15 @@
                 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Reset"/>
-                    <h2>$Text{"Logfile too large!"} ($QData{"Size"})</h2>
+                    <h3>$Text{"Logfile too large!"} ($QData{"Size"})</h3>
                     <fieldset>
                         <p class="Error">
                             $Text{"The logfile is too large, you need to reset it"} ($QData{"Size"}).
                         </p>
                         <div class="Field SpacingTop">
-                            <button class="button" type="submit" value="$Text{"Reset"}">$Text{"Reset"}</button>
+                            <button class="CallForAction" type="submit" value="$Text{"Reset"}">
+                                <span>$Text{"Reset"}</span>
+                            </button>
                         </div>
                         <div class="Clear"></div>
 

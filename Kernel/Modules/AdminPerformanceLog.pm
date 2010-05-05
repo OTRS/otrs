@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.17 2010-04-15 00:22:02 mg Exp $
+# $Id: AdminPerformanceLog.pm,v 1.18 2010-05-05 10:25:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,6 +67,10 @@ sub Run {
 
     # show detail view
     elsif ( $Self->{Subaction} eq 'View' ) {
+
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
         my %Action     = ();
         my $MaxRequest = 0;
         my $Slot       = 60;
@@ -162,6 +166,7 @@ sub Run {
                 $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                 my $I = 100 / $MaxRequest;
                 my $W = $Action{$Minute}->{Count} * $I || 1;
+
                 $Self->{LayoutObject}->Block(
                     Name => 'ViewRow',
                     Data => {
@@ -178,8 +183,11 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => 'ViewRow',
                     Data => {
-                        Count => 0,
-                        Date  => $Self->{TimeObject}->SystemTime2TimeStamp(
+                        Min     => 0,
+                        Max     => 0,
+                        Count   => $Action{$Minute}->{Count} || '0',
+                        Average => 0,
+                        Date    => $Self->{TimeObject}->SystemTime2TimeStamp(
                             SystemTime => $Self->{TimeObject}->SystemTime() - $Minute * 60,
                         ),
                         Width => '0%',
@@ -313,9 +321,9 @@ sub Run {
                             Average   => $Average,
                             Count     => $Count{$Interface} || 0,
                             Minute    => $Minute,
-                            Sum       => $Sum{$Interface} || 0,
-                            Max       => $Max{$Interface} || 0,
-                            Min       => $Min{$Interface} || 0,
+                            Sum       => $Sum{$Interface} || '0',
+                            Max       => $Max{$Interface} || '0',
+                            Min       => $Min{$Interface} || '0',
                         },
                     );
                     for my $Module ( sort keys %Action ) {
@@ -331,10 +339,10 @@ sub Run {
                                     Module    => $Module,
                                     Average   => $Average,
                                     Minute    => $Minute,
-                                    Count     => $Action{$Module}->{Count}->{$Interface} || 0,
-                                    Sum       => $Action{$Module}->{Sum}->{$Interface} || 0,
-                                    Max       => $Action{$Module}->{Max}->{$Interface} || 0,
-                                    Min       => $Action{$Module}->{Min}->{$Interface} || 0,
+                                    Count     => $Action{$Module}->{Count}->{$Interface} || '0',
+                                    Sum       => $Action{$Module}->{Sum}->{$Interface} || '0',
+                                    Max       => $Action{$Module}->{Max}->{$Interface} || '0',
+                                    Min       => $Action{$Module}->{Min}->{$Interface} || '0',
                                 },
                             );
                         }
