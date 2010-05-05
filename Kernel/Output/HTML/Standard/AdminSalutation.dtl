@@ -2,7 +2,7 @@
 # AdminSalutation.dtl - provides HTML form for AdminSalutation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSalutation.dtl,v 1.7 2010-04-30 16:07:47 en Exp $
+# $Id: AdminSalutation.dtl,v 1.8 2010-05-05 10:28:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,7 +71,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td>
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
                             </td>
                             <td title="$QData{"Comment"}">$QData{"Comment","20"}</td>
                             <td>$Text{"$QData{"Valid"}"}</td>
