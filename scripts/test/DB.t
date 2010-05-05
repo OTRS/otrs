@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.58 2010-02-17 08:59:36 bes Exp $
+# $Id: DB.t,v 1.59 2010-05-05 14:42:55 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2523,12 +2523,15 @@ for my $SQL (@SQL) {
 # ------------------------------------------------------------ #
 # XML test 10 - SQL functions: LOWER(), UPPER()
 # ------------------------------------------------------------ #
+# test different sizes up to 3999.
+# 4000 is a magic value, beyond which locator objects might be used
+# and all bets regarding UPPER and LOWER are off
 $XML = '
 <TableCreate Name="test_j">
     <Column Name="name_a" Required="true" Size="6"    Type="VARCHAR"/>
     <Column Name="name_b" Required="true" Size="60"   Type="VARCHAR"/>
     <Column Name="name_c" Required="true" Size="600"  Type="VARCHAR"/>
-    <Column Name="name_d" Required="true" Size="6000" Type="VARCHAR"/>
+    <Column Name="name_d" Required="true" Size="3998" Type="VARCHAR"/>
 </TableCreate>
 ';
 @XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
@@ -2545,7 +2548,8 @@ for my $SQL (@SQL) {
     );
 }
 
-my @Values = map { 'Ab' x $_ } ( 3, 30, 300, 3000 );
+# as 'Ab' is two chars, multiply half the sizes from test_j
+my @Values = map { 'Ab' x $_ } ( 3, 30, 300, 1999 );
 
 # insert
 my $Result = $Self->{DBObject}->Do(
@@ -2558,12 +2562,6 @@ $Self->True(
 );
 
 my $SQL = 'SELECT LOWER(name_a), LOWER(name_b), LOWER(name_c), LOWER(name_d) FROM test_j';
-if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
-
-    # On Oracle, the attribute 'name_d' is a CLOB, which isn't accepted by LOWER().
-    $SQL
-        = 'SELECT LOWER(name_a), LOWER(name_b), LOWER(name_c), LOWER( TO_CHAR(name_d) ) FROM test_j';
-}
 $Result = $Self->{DBObject}->Prepare(
     SQL   => $SQL,
     Limit => 1,
@@ -2588,13 +2586,7 @@ while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
     }
 }
 
-$SQL = 'SELECT UPPER(name_a), UPPER(name_b), UPPER(name_c), UPPER(name_d) FROM test_j';
-if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
-
-    # On Oracle, the attribute 'name_d' is a CLOB, which isn't accepted by UPPER().
-    $SQL
-        = 'SELECT UPPER(name_a), UPPER(name_b), UPPER(name_c), UPPER( TO_CHAR(name_d) ) FROM test_j';
-}
+$SQL    = 'SELECT UPPER(name_a), UPPER(name_b), UPPER(name_c), UPPER(name_d) FROM test_j';
 $Result = $Self->{DBObject}->Prepare(
     SQL   => $SQL,
     Limit => 1,

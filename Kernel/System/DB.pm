@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.120 2010-04-12 20:51:25 mb Exp $
+# $Id: DB.pm,v 1.121 2010-05-05 14:42:55 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 =head1 NAME
 
@@ -923,6 +923,11 @@ generate SQL condition query based on a search expression
         Value => '((ABC&&DEF)&&!GHI)',
     );
 
+Note that the comparisons are usually performed case insensitively.
+Only VARCHAR colums with a size less or equal 3998 are supported,
+as for locator objects the functioning of SQL function LOWER() can't
+be guaranteed.
+
 =cut
 
 sub QueryCondition {
@@ -1246,6 +1251,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.120 $ $Date: 2010-04-12 20:51:25 $
+$Revision: 1.121 $ $Date: 2010-05-05 14:42:55 $
 
 =cut
