@@ -2,7 +2,7 @@
 # AdminQueue.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.dtl,v 1.5 2010-04-30 15:54:09 en Exp $
+# $Id: AdminQueue.dtl,v 1.6 2010-05-05 11:22:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,27 +17,25 @@
         <div class="WidgetGradient Short MinHeight">
 
 <!-- dtl:block:ActionList -->
-            <div class="WidgetGradient Short MinHeight">
-                <div class="Header">
-                    <h2>$Text{"Actions"}</h2>
-                </div>
-                <div class="Content">
-                    <ul class="ActionList">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
 
 <!-- dtl:block:ActionOverview -->
-                        <li>
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
-                        </li>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
 <!-- dtl:block:ActionOverview -->
 
 <!-- dtl:block:ActionAdd -->
-                        <li>
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Queue"}</span></a>
-                        </li>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Queue"}</span></a>
+                    </li>
 <!-- dtl:block:ActionAdd -->
 
-                    </ul>
-                </div>
+                </ul>
             </div>
 <!-- dtl:block:ActionList -->
 
@@ -74,7 +72,7 @@
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td>
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;QueueID=$LQData{"QueueID"}">$QData{"Name"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;QueueID=$LQData{"QueueID"}">$QData{"Name"}</a>
                             </td>
                             <td>$QData{"GroupName"}</td>
                             <td title="$QData{"Comment"}">$QData{"Comment","26"}</td>
@@ -107,14 +105,14 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="QueueOption">$Text{"Sub-Queue of"}:</label>
-                        <div class="Field" id="QueueOption">
+                        <label for="ParentQueueID">$Text{"Sub-Queue of"}:</label>
+                        <div class="Field">
                             $Data{"QueueOption"}
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="GroupOption">$Text{"Group"}:</label>
-                        <div class="Field" id="GroupOption">
+                        <label for="GroupID">$Text{"Group"}:</label>
+                        <div class="Field">
                             $Data{"GroupOption"}
                         </div>
                         <div class="Clear"></div>
@@ -178,8 +176,8 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="FollowUpOption">$Text{"Follow up Option"}:</label>
-                        <div class="Field" id="FollowUpOption">
+                        <label for="FollowUpID">$Text{"Follow up Option"}:</label>
+                        <div class="Field">
                             $Data{"FollowUpOption"}
                             <p class="FieldExplanation">
                                 $Text{"Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket."}
@@ -187,8 +185,8 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="FollowUpLockYesNoOption">$Text{"Ticket lock after a follow up"}:</label>
-                        <div class="Field" id="FollowUpLockYesNoOption">
+                        <label for="FollowUpLock">$Text{"Ticket lock after a follow up"}:</label>
+                        <div class="Field">
                             $Data{"FollowUpLockYesNoOption"}
                             <p class="FieldExplanation">
                                 $Text{"If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner."}
@@ -196,8 +194,8 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="SystemAddressOption">$Text{"System Address"}:</label>
-                        <div class="Field" id="SystemAddressOption">
+                        <label for="SystemAddressID">$Text{"System Address"}:</label>
+                        <div class="Field">
                             $Data{"SystemAddressOption"}
                             <p class="FieldExplanation">
                                 $Text{"Will be the sender address of this queue for email answers."}
@@ -206,15 +204,15 @@
                         <div class="Clear"></div>
 
 <!-- dtl:block:OptionalField -->
-                        <label for="DefaultSignKeyOption">$Text{"Default Sign Key"} <em>($QData{"Email","14"})</em>:</label>
-                        <div class="Field" id="DefaultSignKeyOption">
+                        <label for="DefaultSignKey">$Text{"Default Sign Key"} <em>($QData{"Email","14"})</em>:</label>
+                        <div class="Field">
                             $Data{"DefaultSignKeyOption"}
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:OptionalField -->
 
-                        <label for="SalutationOption">$Text{"Salutation"}:</label>
-                        <div class="Field" id="SalutationOption">
+                        <label for="SalutationID">$Text{"Salutation"}:</label>
+                        <div class="Field">
                             $Data{"SalutationOption"}
                             <p class="FieldExplanation">
                                 $Text{"The salutation for email answers."}
@@ -222,8 +220,8 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="SignatureOption">$Text{"Signature"}:</label>
-                        <div class="Field" id="SignatureOption">
+                        <label for="SignatureID">$Text{"Signature"}:</label>
+                        <div class="Field">
                             $Data{"SignatureOption"}
                             <p class="FieldExplanation">
                                 $Text{"The signature for email answers."}
@@ -231,14 +229,14 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="CalendarOption">$Text{"Calendar"}:</label>
-                        <div class="Field" id="CalendarOption">
+                        <label for="Calendar">$Text{"Calendar"}:</label>
+                        <div class="Field">
                             $Data{"CalendarOption"}
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ValidOption">$Text{"Valid"}:</label>
-                        <div class="Field" id="ValidOption">
+                        <label for="ValidID">$Text{"Valid"}:</label>
+                        <div class="Field">
                             $Data{"ValidOption"}
                         </div>
                         <div class="Clear"></div>
@@ -280,8 +278,8 @@
                         <div class="Clear"></div>
 <!-- dtl:block:TextArea -->
 <!-- dtl:block:Option -->
-                        <label for="$Data{"Option"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</label>
-                        <div class="Field" id="$Data{"Option"}">
+                        <label for="$Data{"Name"}">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</label>
+                        <div class="Field">
                             $Data{"Option"}
                             <p class="FieldExplanation">
                                 $Text{"$Data{"Desc"}"}
@@ -306,7 +304,7 @@
                         <div class="Clear"></div>
 <!-- dtl:block:Password -->
 <!-- dtl:block:Item -->
-                        <div class="Field ">
+                        <div class="Field SpacingTop">
                             <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                             $Text{"or"}
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}"><span>$Text{"Cancel"}</span></a>
