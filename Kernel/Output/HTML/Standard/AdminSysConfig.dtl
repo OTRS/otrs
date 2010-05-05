@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.29 2010-04-30 16:13:17 en Exp $
+# $Id: AdminSysConfig.dtl,v 1.30 2010-05-05 07:32:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,9 +24,10 @@
                             <input type="hidden" name="Subaction" value="Search"/>
                             <input type="hidden" name="DontWriteDefault" value="1"/>
                             <input type="text" name="Search" value="$QData{"Search"}" />
-                            <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                            <button title="$Text{"Navigate by searching in %s settings", "$QData{"ConfigCounter"}"}" type="submit" value="$Text{"Search"}">
+                                <span>$Text{"Search"}</span>
+                            </button>
                         </form>
-                        <p>$Text{"Navigate by searching in %s settings", "$QData{"ConfigCounter"}"}</p>
                     </li>
                     <li>
                         <form action="$Env{"CGIHandle"}" method="post">
@@ -36,31 +37,29 @@
                             <div>
                                 $Data{"Liste"}
                             </div>
-                            <button type="submit" class="CallForAction" name="" value="$Text{"Select Group"}">
+                            <button type="submit" class="CallForAction" name="" value="$Text{"Select Group"}" title="$Text{"Navigate by selecting config groups"}">
                                 <span>$Text{"Select Group"}</span>
                             </button>
                         </form>
-                        <p>$Text{"Navigate by selecting config groups"}</p>
                     </li>
 <!-- dtl:block:Download -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;DontWriteDefault=1" class="CallForAction"><span>$Text{"Export"}</span></a>
-                        <p>$Text{"Download all system config changes"}</p>
+                        <a title="$Text{"Download all system config changes"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;DontWriteDefault=1" class="CallForAction">
+                            <span>$Text{"Export Settings"}</span>
+                        </a>
                     </li>
 <!-- dtl:block:Download -->
                     <li>
-
                         <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Upload"/>
                             <div>
                                 <input name="file_upload" type="file" size="5" />
                             </div>
-                            <button class="CallForAction" type="submit" value="$Text{"Import"}">
-                                <span>$Text{"Import"}</span>
+                            <button title="$Text{"Load SysConfig settings from file"}" class="CallForAction" type="submit" value="$Text{"Import"}">
+                                <span>$Text{"Import Settings"}</span>
                             </button>
                         </form>
-                        <p>$Text{"Load SysConfig settings from file"}</p>
                     </li>
                 </ul>
             </div>
