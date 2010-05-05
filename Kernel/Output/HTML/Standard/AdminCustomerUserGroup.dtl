@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.7 2010-05-03 08:34:24 mn Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.8 2010-05-05 12:31:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,25 +16,18 @@
     <div class="SidebarColumn">
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
+                <h2><label for="FilterCustomers">$Text{"Filter for Customers"}</label></h2>
             </div>
             <div class="Content">
-                <ul class="ActionList">
-                    <li>
-                        <h2><label for="FilterCustomers">$Text{"Filter for Customers"}</label></h2>
-                        <input type="text" id="FilterCustomers" class="W50pc" name="FilterCustomers" value="" />
-                    </li>
-                </ul>
+                <input type="text" id="FilterCustomers" class="W50pc" name="FilterCustomers" value="" />
             </div>
         </div>
         <div class="WidgetGradient Short MinHeight">
-            <div class="Header"></div>
+            <div class="Header">
+                <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
+            </div>
             <div class="Content">
-                <ul class="ActionList">
-                    <li>
-                        <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
-                        <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
-                    </li>
-                </ul>
+                <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
             </div>
         </div>
     </div>
@@ -95,23 +88,21 @@
         </div>
 
         <div class="WidgetGradient Short MinHeight">
-            <div class="Header"></div>
+            <div class="Header">
+                <h2><label for="Filter">$Text{"Filter"}</label></h2>
+            </div>
             <div class="Content">
-                <ul class="ActionList">
-                    <li>
-                        <h2><label for="Filter">$Text{"Filter"}</label></h2>
-                        <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
-                    </li>
-                </ul>
+                <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
             </div>
         </div>
 
         <div class="WidgetGradient Short MinHeight">
-            <div class="Header"></div>
-            <div class="Content">
+            <div class="Header">
                 <h2>
                     $Text{"Note"}:
                 </h2>
+            </div>
+            <div class="Content">
                 <p class="FieldExplanation">
                     $Text{"Select the customer:group permissions."}
                 </p>
@@ -159,12 +150,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
 <!-- dtl:block:ChangeRow -->
+                            <tr>
                                 <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
 <!-- dtl:block:ChangeRowItem -->
                                 <td class="$QData{"Mark"}">
-                                    <input type="checkbox" name="$QData{"Type"}" id="$QData{"Type"}" title="$Text{"Toggle %s permission for %s", "$QData{"Type"}", "$QData{"Name"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
+                                    <input type="checkbox" name="$QData{"Type"}" title="$Text{"Toggle %s permission for %s", "$QData{"Type"}", "$QData{"Name"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
                                 </td>
 <!-- dtl:block:ChangeRowItem -->
                             </tr>
