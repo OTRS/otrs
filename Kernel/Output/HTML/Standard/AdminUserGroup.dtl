@@ -38,15 +38,7 @@
                 <h2><label for="FilterUsers">$Text{"Filter for Agents"}</label></h2>
             </div>
             <div class="Content">
-                <ul>
-                    <li>
-                        <form action="">
-                            <fieldset>
-                                <input type="text" id="FilterUsers" class="W50pc" name="FilterUser" value="" />
-                            </fieldset>
-                        </form>
-                    </li>
-                </ul>
+                <input type="text" id="FilterUsers" class="W50pc" name="FilterUser" value="" />
             </div>
         </div>
 <!-- dtl:block:UserFilter -->
@@ -56,15 +48,7 @@
                 <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
             </div>
             <div class="Content">
-                <ul>
-                    <li>
-                        <form action="">
-                            <fieldset>
-                                <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
-                            </fieldset>
-                        </form>
-                    </li>
-                </ul>
+                <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
             </div>
         </div>
 <!-- dtl:block:GroupFilter -->

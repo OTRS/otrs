@@ -38,13 +38,7 @@
                 <h2><label for="Filter">$Text{"Filter"}</label></h2>
             </div>
             <div class="Content">
-                <ul>
-                    <li>
-                        <form action="">
-                            <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
-                        </form>
-                    </li>
-                </ul>
+                <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
             </div>
         </div>
 <!-- dtl:block:Filter -->
@@ -55,13 +49,7 @@
                 <h2><label for="FilterResponses">$Text{"Filter for Responses"}</label></h2>
             </div>
             <div class="Content">
-                <ul>
-                    <li>
-                        <form action="">
-                            <input type="text" id="FilterResponses" class="W50pc" name="FilterResponses" value="" />
-                        </form>
-                    </li>
-                </ul>
+                <input type="text" id="FilterResponses" class="W50pc" name="FilterResponses" value="" />
             </div>
         </div>
 <!-- dtl:block:FilterResponse -->
@@ -71,13 +59,7 @@
                 <h2><label for="FilterQueues">$Text{"Filter for Queues"}</label></h2>
             </div>
             <div class="Content">
-                <ul>
-                    <li>
-                        <form action="">
-                            <input type="text" id="FilterQueues" class="W50pc" name="FilterQueues" value="" />
-                        </form>
-                    </li>
-                </ul>
+                <input type="text" id="FilterQueues" class="W50pc" name="FilterQueues" value="" />
             </div>
         </div>
 <!-- dtl:block:FilterQueue -->

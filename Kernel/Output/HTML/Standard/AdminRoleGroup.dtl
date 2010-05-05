@@ -16,15 +16,10 @@
     <div class="SidebarColumn">
         <div class="WidgetGradient Short">
             <div class="Header">
-
                 <h2><label for="FilterRoles">$Text{"Filter for Roles"}</label></h2>
             </div>
             <div class="Content">
-                <form action="">
-                    <fieldset>
-                        <input type="text" id="FilterRoles" class="W50pc" name="FilterUser" value="" />
-                    </fieldset>
-                </form>
+                <input type="text" id="FilterRoles" class="W50pc" name="FilterUser" value="" />
             </div>
         </div>
         <div class="WidgetGradient Short">
@@ -32,11 +27,7 @@
                 <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
             </div>
             <div class="Content">
-                <form action="">
-                    <fieldset>
-                        <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
-                    </fieldset>
-                </form>
+                <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
             </div>
         </div>
     </div>
@@ -86,20 +77,24 @@
     <h1>$Text{"Manage Role-Group Relations"}</h1>
     <div class="SidebarColumn">
         <div class="WidgetGradient Short">
-            <div class="Header"></div>
+            <div class="Header">
+                <h2><label for="Filter">$Text{"Filter"}</label></h2>
+            </div>
             <div class="Content">
-                <fieldset>
-                    <h2><label for="Filter">$Text{"Filter"}</label></h2>
-                    <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
-                </fieldset>
+                <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
+            </div>
+        </div>
+        <div class="WidgetGradient Short">
+            <div class="Header">
                 <h2>
                     $Text{"Note"}:
                 </h2>
+            </div>
+            <div class="Content">
                 <p class="FieldExplanation">
                     $Text{"Select the role:group permissions."}
                     $Text{"If nothing is selected, then there are no permissions in this group (tickets will not be available for the role)."}
                 </p>
-
             </div>
         </div>
     </div>
