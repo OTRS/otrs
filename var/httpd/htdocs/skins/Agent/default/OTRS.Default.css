@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.11 $
+ * @version     $Revision: 1.12 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -325,6 +325,7 @@ div.MessageBox > a.Close {
     background: url(img/messagebox_close.png) no-repeat;
     width: 12px;
     height: 12px;
+    text-indent: -9999px;
 }
 
 div.MessageBox > a.Close:hover {
