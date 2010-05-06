@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.21 2010-02-26 20:48:21 martin Exp $
+# $Id: Type.pm,v 1.22 2010-05-06 18:39:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -162,6 +162,18 @@ get types attributes
         Name => 'default',
     );
 
+Returns:
+
+    Type = (
+        ID                  => '123',
+        Name                => 'Service Request',
+        ValidID             => '1',
+        CreateTime          => '2010-04-07 15:41:15',
+        CreateBy            => '321',
+        ChangeTime          => '2010-04-07 15:59:45',
+        ChangeBy            => '223',
+    );
+
 =cut
 
 sub TypeGet {
@@ -206,7 +218,9 @@ sub TypeGet {
 
     # ask the database
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id, name, valid_id, change_time, create_time FROM ticket_type WHERE id = ?',
+        SQL => 'SELECT id, name, valid_id, '
+            . 'create_time, create_by, change_time, change_by '
+            . 'FROM ticket_type WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
 
@@ -216,8 +230,10 @@ sub TypeGet {
         $Type{ID}         = $Data[0];
         $Type{Name}       = $Data[1];
         $Type{ValidID}    = $Data[2];
-        $Type{ChangeTime} = $Data[3];
-        $Type{CreateTime} = $Data[4];
+        $Type{CreateTime} = $Data[3];
+        $Type{CreateBy}   = $Data[4];
+        $Type{ChangeTime} = $Data[5];
+        $Type{ChangeBy}   = $Data[6];
     }
 
     # set cache
@@ -422,16 +438,16 @@ sub TypeLookup {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2010-02-26 20:48:21 $
+$Revision: 1.22 $ $Date: 2010-05-06 18:39:05 $
 
 =cut
