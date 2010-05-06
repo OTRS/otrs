@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.37 2010-01-19 21:02:19 martin Exp $
+# $Id: StdResponse.pm,v 1.38 2010-05-06 18:29:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -144,6 +144,21 @@ get std response attributes
         ID => 123,
     );
 
+Returns:
+
+    %StdResponse = (
+        ID                  => '123',
+        Name                => 'Simple response',
+        Comment             => 'Some comment',
+        Response            => 'Response content',
+        ContentType         => 'text/plain',
+        ValidID             => '1',
+        CreateTime          => '2010-04-07 15:41:15',
+        CreateBy            => '321',
+        ChangeTime          => '2010-04-07 15:59:45',
+        ChangeBy            => '223',
+    );
+
 =cut
 
 sub StdResponseGet {
@@ -177,6 +192,8 @@ sub StdResponseGet {
             ChangeBy    => $Data[8],
         );
     }
+    use Data::Dumper;
+    print STDERR Dumper(%Data);
     return %Data;
 }
 
@@ -360,16 +377,16 @@ sub StdResponseList {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2010-01-19 21:02:19 $
+$Revision: 1.38 $ $Date: 2010-05-06 18:29:25 $
 
 =cut
