@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.38 2010-05-06 18:29:25 mb Exp $
+# $Id: StdResponse.pm,v 1.39 2010-05-06 19:10:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -192,8 +192,6 @@ sub StdResponseGet {
             ChangeBy    => $Data[8],
         );
     }
-    use Data::Dumper;
-    print STDERR Dumper(%Data);
     return %Data;
 }
 
@@ -387,6 +385,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2010-05-06 18:29:25 $
+$Revision: 1.39 $ $Date: 2010-05-06 19:10:43 $
 
 =cut
