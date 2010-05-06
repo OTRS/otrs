@@ -2,7 +2,7 @@
 # AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.16 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminResponse.dtl,v 1.17 2010-05-06 09:05:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,7 +87,9 @@
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                             <td>
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"}">$Text{"Delete this entry"}</a>
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"}" title="$Text{"Delete this entry"}">
+                                    $Text{"Delete this entry"}
+                                </a>
                             </td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
