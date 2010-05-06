@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1202 2010-05-04 19:25:15 mb Exp $
+# $Id: CHANGES,v 1.1203 2010-05-06 11:51:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,10 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/05/06) Implemented bug#3516 - added CustomerGroupSupport feature for
+    customer navigation bar. Kudos Martin Balzarek.
  - (2010/05/04) Fixed bug#5249 - ArticleStorageFS should not die on failed rm.
-    Kudos Dominik Schulz!
+    Kudos Dominik Schulz.
  - (2010/04/19) Improved bin/otrs.CreateTranslationFile.pl to get also
     translatable strings from sys config settings for translation catalog.
  - (2010/04/09) Added the feature to save searches in the Customer Frontend
