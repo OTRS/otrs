@@ -2,7 +2,7 @@
 # Kernel/System/Cache.pm - all cache functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.pm,v 1.19 2010-02-26 20:48:21 martin Exp $
+# $Id: Cache.pm,v 1.20 2010-05-06 18:33:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -201,22 +201,25 @@ sub Delete {
 
 =item CleanUp()
 
-delete all caches or in case only expired caches
+delete chache or parts of the cache
+
+    To delete the whole cache
 
     $CacheObject->CleanUp();
 
     of if you want to cleanup only one object cache
 
     $CacheObject->CleanUp(
-        Type => 'ObjectName', # only A-z chars usable
+        Type => 'ObjectName', # only A-z chars are usable
     );
 
     of if you want to cleanup only one object cache with expired caches
 
     $CacheObject->CleanUp(
-        Type    => 'ObjectName', # only A-z chars usable
+        Type    => 'ObjectName', # only A-z chars are usable
         Expired => 1, # 1|0, default 0
     );
+
 =cut
 
 sub CleanUp {
@@ -238,16 +241,16 @@ sub CleanUp {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2010-02-26 20:48:21 $
+$Revision: 1.20 $ $Date: 2010-05-06 18:33:12 $
 
 =cut
