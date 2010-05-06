@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.12 $
+ * @version     $Revision: 1.13 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -246,24 +246,20 @@ dd {
 /**
  * @subsection  MainBox
  */
-.MainBox {
-    position: relative;
-    margin: 6px;
-}
-
+.MainBox,
 .OverviewBox {
     position: relative;
     margin-top: 6px;
 }
 
-.MainBox > h1,
-.OverviewBox > h1 {
+.MainBox > h1 {
     margin: 5px 0 10px 0;
     position: relative;
 }
 
 .OverviewBox > h1 {
     margin: 8px 11px 7px;
+    position: relative;
 }
 
 /**
