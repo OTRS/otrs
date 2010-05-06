@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -38,6 +38,28 @@ form.AdminSysConfig fieldset h3 {
     padding-right: 5px;
     margin-top: 0px;
     color: #111;
+}
+
+button.Reset{
+    height: 22px;
+    width: 22px;
+    padding: 3px;
+    margin-top: 0;
+    margin-bottom: 1px;
+    border-style: none;
+    text-indent: -9999px;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    background: transparent url(img/undo.png) no-repeat center;
+}
+
+/**
+ * @note    Push-lookalike for active state
+ */
+button.Reset:active {
+    margin-top: 1px;
+    margin-bottom: 0;
 }
 
 .RTL form.AdminSysConfig fieldset h3 {

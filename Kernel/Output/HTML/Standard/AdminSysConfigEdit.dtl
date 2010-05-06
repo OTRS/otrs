@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.57 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.58 2010-05-06 09:28:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,7 +55,9 @@
                             <a name="$QData{"ItemKeyID"}"></a>
                             <input type="checkbox" value="1" id="$Data{"ItemKeyID"}ItemAktiv" name="$QData{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}/>
 <!-- dtl:block:ConfigElementBlockReset -->
-                            <input type="image" src="$Config{"Frontend::ImagePath"}edit.png" name="Reset$QData{"ItemKey"}" alt="$Text{"Reset"}" title="$Text{"Reset this setting"}"/>
+                            <button class="Reset" type="submit" name="Reset$QData{"ItemKey"}" title="$Text{"Reset this setting"}" value="$Text{"Reset this setting"}">
+                                $Text{"Reset this setting"}
+                            </button>
 <!-- dtl:block:ConfigElementBlockReset -->
                             <label for="$Data{"ItemKeyID"}ItemAktiv">$QData{"ItemKey"}</label>
                         </h3>
