@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -42,4 +42,23 @@ fieldset.TableLike > label {
     margin-bottom: 2px;
     margin-top: 2px;
     line-height: 16px;
+}
+
+/**
+ * @subsection  Special buttons
+ * @bugfix      IE7 has problems with negative text-indent on the first
+ *              child element which is display: inline (or inline-block).
+ *              In this case it indents the entire element to the left,
+ *              making it disappear. We fix this by giving display: block
+ *              to these elements so that it still works.
+ *              See also http://stackoverflow.com/questions/2386420/displayinline-block-and-text-indent.
+ *
+ */
+a.Add:first-child,
+button.Add:first-child,
+a.Remove:first-child,
+button.Remove:first-child,
+a.TrashCan:first-child,
+button.TrashCan:first-child {
+    display: block;
 }
