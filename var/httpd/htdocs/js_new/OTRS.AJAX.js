@@ -2,7 +2,7 @@
 // OTRS.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.AJAX.js,v 1.3 2010-04-29 10:20:29 mn Exp $
+// $Id: OTRS.AJAX.js,v 1.4 2010-05-06 14:07:21 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -171,8 +171,8 @@ OTRS.AJAX = (function (TargetNS) {
         var QueryString, QueryIndex = URL.indexOf("?");
 
         if (QueryIndex >= 0) {
-          QueryString = URL.substr(QueryIndex + 1);
-          URL = URL.substr(0, QueryIndex);
+            QueryString = URL.substr(QueryIndex + 1);
+            URL = URL.substr(0, QueryIndex);
         }
         QueryString += SerializeData(GetSessionInformation());
 

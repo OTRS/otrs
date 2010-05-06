@@ -2,7 +2,7 @@
 // OTRS.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Dialog.js,v 1.9 2010-04-19 16:36:29 mg Exp $
+// $Id: OTRS.UI.Dialog.js,v 1.10 2010-05-06 14:07:21 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -50,7 +50,7 @@ OTRS.UI.Dialog = (function (TargetNS) {
     /**
      * @function
      * @private
-     * @param Position Represents the position of the element to be focused, starting by 0.
+     * @param Position number Represents the position of the element to be focused, starting by 0.
      * @return nothing
      * @description Focuses the specified element within the dialog.
      *              Needs the Object "OTRS.UI.Dialog.$FocusableElements" to be initialized and filled (with function GetFocusableElements()).
@@ -139,6 +139,14 @@ OTRS.UI.Dialog = (function (TargetNS) {
         });
     }
 
+    function DefaultSubmitFunction() {
+        $('.Dialog:visible form').submit();
+    }
+
+    function DefaultCloseFunction() {
+        TargetNS.CloseDialog($('.Dialog:visible'));
+    }
+
     /**
      * @function
      * @private
@@ -148,19 +156,23 @@ OTRS.UI.Dialog = (function (TargetNS) {
      *               Title: string (default: undefnied) Defines the title of the dialog window
      *               Headline: string (default: undefined) Defines a special headline within the dialog window
      *               Text: string (default: undefined) The text which is outputtet in the dialog window
-     *               HTML: string (default: undefined) Used for content dialog windows. Contains a complete HTML snippet or an ID of an element with containing HTML
+     *               HTML: string (default: undefined) Used for content dialog windows. Contains a complete HTML snippet or an jQuery object with containing HTML
      *               PositionTop: value (default: undefined) Defines the top position of the dilaog window
      *               PositionBottom: value (default: undefined) Defines the bottom position of the dilaog window
      *               PositionLeft: value|Center (default: undefined) Defines the left position of the dilaog window. Center centers the window
      *               PositionRight: value (default: undefined) Defines the right position of the dilaog window
-     *               OnClose: function (default: undefined) Function for closing logic of dialog
      *               CloseOnClickOutside true|false (default: false) If true, clicking outside the dialog closes the dialog
      *               CloseOnEscape true|false (default: false) If true, pressing escape key closes the dialog
+     *               Buttons: Array of Hashes with the following properties (buttons are placed in a div "footer" of the dialog):
+     *                  Label: string Text of the button
+     *                  Type: string 'Submit'|'Close' (default: none) Special type of the button - invokes a standard function
+     *                  Class: string Optional class parameters for the button element
+     *                  Function: function The function which is executed on click (optional)
      * @return nothing
      * @description The main dialog function used for all different types of dialogs.
      */
     function ShowDialog(Params) {
-        var $Dialog, $Content, ContentScrollHeight;
+        var $Dialog, $Content, $ButtonFooter, ContentScrollHeight;
 
         // Close all opened dialogs
         if ($('.Dialog:visible').length) {
@@ -185,11 +197,11 @@ OTRS.UI.Dialog = (function (TargetNS) {
         }
 
         // If Param HTML is provided, get the HTML data
-        // Data can be a HTML string or an ID of an element with containing HTML data
+        // Data can be a HTML string or an jQuery object with containing HTML data
         if (Params.HTML) {
             // Get HTML with JS function innerhTML, because jQuery html() strips out the script blocks
-            if (!(Params.HTML.match(/</) || Params.HTML.match(/>/)) && $('#' + Params.HTML).length) {
-                Params.HTML = $('#' + Params.HTML)[0].innerHTML;
+            if (typeof Params.HTML !== 'string' && Params.HTML instanceof jQuery) {
+                Params.HTML = (Params.HTML)[0].innerHTML;
             }
         }
 
@@ -220,8 +232,26 @@ OTRS.UI.Dialog = (function (TargetNS) {
         else {
             $Dialog.attr("role", "dialog");
             $Content = $Dialog.find('.Content');
-            if (Params.HTML) {
-                $Content.append(Params.HTML);
+            // buttons are defined only in default type
+            if (Params.Buttons) {
+                $Content.append('<div class="InnerContent"></div>').find('.InnerContent').append(Params.HTML);
+                $ButtonFooter = $('<div class="ContentFooter Center"></div>');
+                $.each(Params.Buttons, function (Index, Value) {
+                    var Classes = '';
+                    if (Value.Type === 'Close') {
+                        Classes = 'Close';
+                    }
+                    if (Value.Class) {
+                        Classes += ' ' + Value.Class;
+                    }
+                    $ButtonFooter.append('<button id="DialogButton' + (Index - 0 + 1) + '" ' + (Classes.length ? ('class="' + Classes + '" ') : '') + 'type="button">' + Value.Label + '</button>');
+                });
+                $ButtonFooter.appendTo($Content);
+            }
+            else {
+                if (Params.HTML) {
+                    $Content.append(Params.HTML);
+                }
             }
         }
 
@@ -273,22 +303,47 @@ OTRS.UI.Dialog = (function (TargetNS) {
             handle: '.Header'
         });
 
-        // Add event-handling for Close-Buttons and Links
-        $Dialog.find('.Header a.Close, button.Close').click(function () {
-            if (Params.OnClose && $.isFunction(Params.OnClose)) {
-                Params.OnClose();
+        // Add button events
+        if (Params.Buttons) {
+            $.each(Params.Buttons, function (Index, Value) {
+                $('#DialogButton' + (Index - 0 + 1)).click(function () {
+                    if (Value.Type === 'Submit') {
+                        if ($.isFunction(Value.Function)) {
+                            if (Value.Function()) {
+                                DefaultSubmitFunction();
+                            }
+                        }
+                    }
+                    else if (Value.Type === 'Close') {
+                        if ($.isFunction(Value.Function)) {
+                            if (Value.Function()) {
+                                DefaultCloseFunction();
+                            }
+                        }
+                    }
+                    else {
+                        if ($.isFunction(Value.Function)) {
+                            Value.Function();
+                        }
+                    }
+                });
+            });
+        }
+
+        // Add event-handling for Close-Buttons and -Links
+        $Dialog.find('.Header a.Close').click(function () {
+            var $CloseButton = $('.Dialog:visible button.Close');
+            if ($CloseButton.length) {
+                $CloseButton.trigger('click');
             }
             else {
-                TargetNS.CloseDialog(this);
+                DefaultCloseFunction();
             }
             return false;
         });
 
         // Add CloseOnClickOutside functionality
         if (Params.CloseOnClickOutside) {
-            /*
-             * Always unbind events before binding...
-             */
             $(document).unbind('click.Dialog').bind('click.Dialog', function (event) {
                 if ($(event.target).closest('div.Dialog').length === 0) {
                     TargetNS.CloseDialog($('div.Dialog:visible'));
@@ -337,9 +392,10 @@ OTRS.UI.Dialog = (function (TargetNS) {
      * @param PositionTop The top position the dialog is positioned initially
      * @param PositionLeft The left position the dialog is positioned initially
      * @param Modal If defined and set to true, an overlay is shown for a modal dialog
+     * @param Buttons The button array
      * @return nothing
      */
-    TargetNS.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal) {
+    TargetNS.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal, Buttons) {
         ShowDialog({
             HTML: HTML,
             Title: Title,
@@ -347,7 +403,8 @@ OTRS.UI.Dialog = (function (TargetNS) {
             CloseOnClickOutside: true,
             CloseOnEscape: true,
             PositionTop: PositionTop,
-            PositionLeft: PositionLeft
+            PositionLeft: PositionLeft,
+            Buttons: Buttons
         });
     };
 
@@ -392,7 +449,7 @@ OTRS.UI.Dialog = (function (TargetNS) {
      * @function
      * @description
      *      Registers the click event for the dialogs.
-     * @param jQueryObject $Selector The jQuery Object on which elements the click event for the dialog should be registered
+     * @param jQueryObject $Selector The jQuery Object on which the click event for the dialog should be registered
      * @param Object Params The dialog parameters
      * @return nothing
      */
@@ -408,8 +465,29 @@ OTRS.UI.Dialog = (function (TargetNS) {
     /**
      * @function
      * @description
+     *      Registers the click event for content dialogs.
+     * @param jQueryObject $Selector The jQuery Object on which the click event for the dialog should be registered
+     * @param HTML The content HTML which should be shown
+     * @param Title The title of the dialog
+     * @param PositionTop The top position the dialog is positioned initially
+     * @param PositionLeft The left position the dialog is positioned initially
+     * @param Modal If defined and set to true, an overlay is shown for a modal dialog
+     * @return nothing
+     */
+    TargetNS.RegisterContentDialog = function ($Selector, HTML, Title, PositionTop, PositionLeft, Modal, Buttons) {
+        $Selector.click(function (event) {
+            TargetNS.ShowContentDialog(HTML, Title, PositionTop, PositionLeft, Modal, Buttons);
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        });
+    };
+
+    /**
+     * @function
+     * @description
      *      Registers the event for the special attachment dialog.
-     * @param jQueryObject $Selector The jQuery Object on which elements the click event for the dialog should be registered
+     * @param jQueryObject $Selector The jQuery Object on which the click event for the dialog should be registered
      * @param String HTMLString The HTML data to be shown in the dialog, can also be the ID of a HTML containing element
      * @return nothing
      */

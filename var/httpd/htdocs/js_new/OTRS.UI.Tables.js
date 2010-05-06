@@ -2,7 +2,7 @@
 // OTRS.UI.Tables.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Tables.js,v 1.8 2010-05-03 10:22:22 mn Exp $
+// $Id: OTRS.UI.Tables.js,v 1.9 2010-05-06 14:07:21 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -54,22 +54,28 @@ OTRS.UI.Tables = (function (TargetNS) {
      * @param {jQueryObject} $Container Table or list to be filtered
      * @return nothing
      */
-    TargetNS.InitTableFilter = function ($FilterInput, $Container) {
+    TargetNS.InitTableFilter = function ($FilterInput, $Container, ColumnNumber) {
         $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
             window.setTimeout(function () {
                 var FilterText = ($FilterInput.val() || '').toLowerCase(),
                     $Rows = $Container.find('tbody tr:not(.FilterMessage), li:not(.Header):not(.FilterMessage)');
+                // Only search in one special column of the table
+                if (typeof ColumnNumber === 'string' || typeof ColumnNumber === 'number') {
+                    $Rows = $Rows.filter('td:eq(' + ColumnNumber + ')');
+                }
                 if (FilterText.length) {
                     $Rows
+                        .closest('tr, li')
                         .hide()
+                        .end()
                         .each(function () {
                             if ($(this).text().toLowerCase().indexOf(FilterText) > -1) {
-                                $(this).show();
+                                $(this).closest('tr, li').show();
                             }
                         });
                 }
                 else {
-                    $Rows.show();
+                    $Rows.closest('tr, li').show();
                 }
                 if ($Rows.filter(':visible').length) {
                     $Container.find('.FilterMessage').hide();

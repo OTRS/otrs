@@ -2,7 +2,7 @@
 // OTRS.App.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.js,v 1.4 2010-04-27 06:47:37 mn Exp $
+// $Id: OTRS.App.js,v 1.5 2010-05-06 14:07:21 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,14 @@ OTRS.App = (function (TargetNS) {
      */
     TargetNS.Ready = function (Callback) {
         if ($.isFunction(Callback)) {
-            $(document).ready(Callback);
+            $(document).ready(function () {
+                try {
+                    Callback();
+                }
+                catch (Error) {
+                    alert(Error);
+                }
+            });
         }
         else {
             OTRS.Debug.Log('ERROR in OTRS.App.Ready: No function given!');
