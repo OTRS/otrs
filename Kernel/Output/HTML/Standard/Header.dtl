@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.79 2010-05-05 13:16:13 mg Exp $
+# $Id: Header.dtl,v 1.80 2010-05-06 08:38:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,6 @@ $Include{"Copyright"}
     <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.WidgetMenu.css" />
     <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.TicketDetail.css" />
     <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Tooltip.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Icon.css" />
     <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Dialog.css" />
     <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.App.Agent.AdminPerformanceLog.css" />
     <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.App.Agent.AdminSysConfig.css" />
