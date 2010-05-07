@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.16 2010-04-30 20:10:34 cr Exp $
+# $Id: AdminCustomerUserService.pm,v 1.17 2010-05-07 03:54:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,7 +59,6 @@ sub Run {
             || '<DEFAULT>';
         $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserSearch' )
             || '*';
-        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam( Param => 'ServiceSearch' ) || '*';
 
         # output header
         my $Output = $Self->{LayoutObject}->Header();
@@ -72,31 +71,10 @@ sub Run {
             DefaultServices   => 0,
         );
 
-        # search services
-        my @ServiceList = $Self->{ServiceObject}->ServiceSearch(
-            Name   => $Param{ServiceSearch},
-            Limit  => $SearchLimit + 1,
+        # List servces.
+        my %ServiceData = $Self->{ServiceObject}->ServiceList(
             UserID => $Self->{UserID},
         );
-
-        # set max count
-        my $MaxCount = @ServiceList;
-        if ( $MaxCount > $SearchLimit ) {
-            $MaxCount = $SearchLimit;
-        }
-
-        my %ServiceData;
-
-        # output rows
-        for my $Counter ( 1 .. $MaxCount ) {
-
-            # get service
-            my %Service = $Self->{ServiceObject}->ServiceGet(
-                ServiceID => $ServiceList[ $Counter - 1 ],
-                UserID    => $Self->{UserID},
-            );
-            $ServiceData{ $Service{ServiceID} } = $Service{Name};
-        }
 
         my $CustomerUserName
             = $Param{CustomerUserLogin} eq '<DEFAULT>' ? q{} : $Param{CustomerUserLogin};
@@ -106,7 +84,6 @@ sub Run {
         $Output .= $Self->_Change(
             ID                 => $CustomerUserLogin,
             Name               => $CustomerUserName,
-            ItemList           => \@ServiceList,
             Data               => \%ServiceData,
             Selected           => \%ServiceMemberList,
             CustomerUserSearch => $Param{CustomerUserSearch},
@@ -128,9 +105,10 @@ sub Run {
         # get params
         $Param{ServiceID} = $Self->{ParamObject}->GetParam( Param => "ServiceID" );
 
+        $Param{Subaction} = $Self->{ParamObject}->GetParam( Param => 'Subaction' );
+
         $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => "CustomerUserSearch" )
             || '*';
-        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam( Param => "ServiceSearch" ) || '*';
 
         # output header
         my $Output = $Self->{LayoutObject}->Header();
@@ -161,8 +139,6 @@ sub Run {
             $MaxCount = $SearchLimit;
         }
 
-        #        # output rows
-        #        for my $Counter ( 1 .. $MaxCount ) {
         my %CustomerData;
 
         # output rows
@@ -189,6 +165,7 @@ sub Run {
             ServiceSearch      => $Param{ServiceSearch},
             SearchLimit        => $SearchLimit,
             Type               => 'Service',
+            %Param,
         );
 
         $Output .= $Self->{LayoutObject}->Footer();
@@ -206,7 +183,7 @@ sub Run {
 
         $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserSearch' )
             || '*';
-        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam( Param => 'ServiceSearch' ) || '*';
+
         my @ServiceIDsSelected = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
         my @ServiceIDsAll      = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
 
@@ -229,7 +206,7 @@ sub Run {
         # redirect to overview
         return $Self->{LayoutObject}->Redirect(
             OP =>
-                "Action=$Self->{Action};CustomerUserSearch=$Param{CustomerUserSearch};ServiceSearch=$Param{ServiceSearch}"
+                "Action=$Self->{Action};CustomerUserSearch=$Param{CustomerUserSearch}"
         );
     }
 
@@ -243,7 +220,6 @@ sub Run {
 
         $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserSearch' )
             || '*';
-        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam( Param => 'ServiceSearch' ) || '*';
 
         my @CustomerUserLoginsSelected
             = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
@@ -272,7 +248,7 @@ sub Run {
         # redirect to overview
         return $Self->{LayoutObject}->Redirect(
             OP =>
-                "Action=$Self->{Action};CustomerUserSearch=$Param{CustomerUserSearch};ServiceSearch=$Param{ServiceSearch}"
+                "Action=$Self->{Action};CustomerUserSearch=$Param{CustomerUserSearch}"
         );
     }
 
@@ -284,7 +260,6 @@ sub Run {
         # get params
         $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserSearch' )
             || '*';
-        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam( Param => 'ServiceSearch' ) || '*';
 
         # output header
         my $Output = $Self->{LayoutObject}->Header();
@@ -296,27 +271,14 @@ sub Run {
         my @CustomerUserKeyList
             = sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} } keys %CustomerUserList;
 
-        # search services
-        my @ServiceList = $Self->{ServiceObject}->ServiceSearch(
-            Name   => $Param{ServiceSearch},
-            Limit  => $SearchLimit + 1,
-            UserID => $Self->{UserID},
-        );
-
         # count results
         my $CustomerUserCount = @CustomerUserKeyList;
-        my $ServiceCount      = @ServiceList;
 
         # set max count
         my $MaxCustomerCount = $CustomerUserCount;
-        my $MaxServiceCount  = $ServiceCount;
 
         if ( $MaxCustomerCount > $SearchLimit ) {
             $MaxCustomerCount = $SearchLimit;
-        }
-
-        if ( $MaxServiceCount > $SearchLimit ) {
-            $MaxServiceCount = $SearchLimit;
         }
 
         # output rows
@@ -338,29 +300,17 @@ sub Run {
             }
         }
 
-        my %ServiceRowParam;
-        for my $Counter ( 1 .. $MaxServiceCount ) {
-
-            # set service row params
-            if ( $ServiceList[ $Counter - 1 ] ) {
-                my %Service = $Self->{ServiceObject}->ServiceGet(
-                    ServiceID => $ServiceList[ $Counter - 1 ],
-                    UserID    => $Self->{UserID},
-                );
-                $ServiceRowParam{ $Service{ServiceID} } = $Service{Name};
-            }
-        }
+        my %ServiceData = $Self->{ServiceObject}->ServiceList(
+            UserID => $Self->{UserID},
+        );
 
         $Output .= $Self->_Overview(
             CustomerUserCount   => $CustomerUserCount,
             CustomerUserKeyList => \@CustomerUserKeyList,
             CustomerUserData    => \%UserRowParam,
-            ServiceCount        => $ServiceCount,
-            ServiceList         => \@ServiceList,
-            ServiceData         => \%ServiceRowParam,
+            ServiceData         => \%ServiceData,
             SearchLimit         => $SearchLimit,
             CustomerUserSearch  => $Param{CustomerUserSearch},
-            ServiceSearch       => $Param{ServiceSearch},
         );
 
         $Output .= $Self->{LayoutObject}->Footer();
@@ -372,35 +322,52 @@ sub Run {
 sub _Change {
     my ( $Self, %Param ) = @_;
 
-    my @ItemList    = @{ $Param{ItemList} };
-    my $SearchLimit = $Param{SearchLimit};
-    my %Data        = %{ $Param{Data} };
-    my $Type        = $Param{Type} || 'CustomerUser';
-    my $NeType      = $Type eq 'Service' ? 'CustomerUser' : 'Service';
-    my %VisibleType = ( CustomerUser => 'Customer', Service => 'Service', );
-    my %Subaction   = ( CustomerUser => 'Change', Service => 'ServiceEdit', );
-    my %IDStrg      = ( CustomerUser => 'ID', Service => 'ServiceID', );
+    my $SearchLimit      = $Param{SearchLimit};
+    my %Data             = %{ $Param{Data} };
+    my $Type             = $Param{Type} || 'CustomerUser';
+    my $NeType           = $Type eq 'Service' ? 'CustomerUser' : 'Service';
+    my %VisibleType      = ( CustomerUser => 'Customer', Service => 'Service', );
+    my %Subaction        = ( CustomerUser => 'Change', Service => 'ServiceEdit', );
+    my %IDStrg           = ( CustomerUser => 'ID', Service => 'ServiceID', );
+    my $VisibleSearchTxt = $Param{CustomerUserSearch} eq '*'
+        ? 'Customer'
+        : $Param{CustomerUserSearch};
+
+    my @ItemList = ();
 
     # overview
     $Self->{LayoutObject}->Block( Name => 'Overview' );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
-    # output search block
-    $Self->{LayoutObject}->Block(
-        Name => 'Search',
-        Data => {
-            %Param,
-            CustomerUserSearch => $Param{CustomerUserSearch},
-            ServiceSearch      => $Param{ServiceSearch},
-        },
-    );
+    if ( $NeType eq 'CustomerUser' ) {
+        @ItemList = @{ $Param{ItemList} };
+
+        # output search block
+        $Self->{LayoutObject}->Block(
+            Name => 'Search',
+            Data => {
+                %Param,
+                CustomerUserSearch => $VisibleSearchTxt,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'SearchAllocateService',
+            Data => {
+                %Param,
+                Subaction => $Param{Subaction},
+                ServiceID => $Param{ServiceID},
+            },
+        );
+    }
+    else {
+        $Self->{LayoutObject}->Block( Name => 'Filter' );
+    }
 
     $Self->{LayoutObject}->Block(
         Name => 'AllocateItem',
         Data => {
             ID              => $Param{ID},
-            ServiceCount    => @ItemList || 0,
             ActionHome      => 'Admin' . $Type,
             Type            => $Type,
             NeType          => $NeType,
@@ -412,24 +379,27 @@ sub _Change {
         },
     );
 
-    # output count block
-    if ( !@ItemList ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'AllocateItemCountLimit',
-            Data => { ItemCount => 0, },
-        );
-    }
-    elsif ( @ItemList > $SearchLimit ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'AllocateItemCountLimit',
-            Data => { ItemCount => ">" . $SearchLimit, },
-        );
-    }
-    else {
-        $Self->{LayoutObject}->Block(
-            Name => 'AllocateItemCount',
-            Data => { ItemCount => scalar @ItemList, },
-        );
+    if ( $NeType eq 'CustomerUser' ) {
+
+        # output count block
+        if ( !@ItemList ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'AllocateItemCountLimit',
+                Data => { ItemCount => 0, },
+            );
+        }
+        elsif ( @ItemList > $SearchLimit ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'AllocateItemCountLimit',
+                Data => { ItemCount => ">" . $SearchLimit, },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'AllocateItemCount',
+                Data => { ItemCount => scalar @ItemList, },
+            );
+        }
     }
 
     # Service sorting.
@@ -482,11 +452,13 @@ sub _Overview {
 
     my $CustomerUserCount   = $Param{CustomerUserCount};
     my @CustomerUserKeyList = @{ $Param{CustomerUserKeyList} };
-    my $ServiceCount        = $Param{ServiceCount};
-    my @ServiceList         = @{ $Param{ServiceList} };
     my $SearchLimit         = $Param{SearchLimit};
     my %CustomerUserData    = %{ $Param{CustomerUserData} };
     my %ServiceData         = %{ $Param{ServiceData} };
+
+    my $VisibleSearchTxt = $Param{CustomerUserSearch} eq '*'
+        ? 'Customer'
+        : $Param{CustomerUserSearch};
 
     $Self->{LayoutObject}->Block( Name => 'Overview' );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
@@ -494,11 +466,15 @@ sub _Overview {
     # output search block
     $Self->{LayoutObject}->Block(
         Name => 'Search',
-        Data => %Param,
+        Data => {
+            %Param,
+            CustomerUserSearch => $VisibleSearchTxt,
+        },
     );
-
-    # output default block
     $Self->{LayoutObject}->Block( Name => 'Default', );
+
+    # output filter and default block
+    $Self->{LayoutObject}->Block( Name => 'Filter', );
 
     # output result block
     $Self->{LayoutObject}->Block(
@@ -506,7 +482,6 @@ sub _Overview {
         Data => {
             %Param,
             CustomerUserCount => $CustomerUserCount,
-            ServiceCount      => $ServiceCount,
         },
     );
 
@@ -531,30 +506,6 @@ sub _Overview {
         $Self->{LayoutObject}->Block(
             Name => 'ResultCustomerUserCount',
             Data => { CustomerUserCount => scalar @CustomerUserKeyList, },
-        );
-    }
-
-    # output service count block
-    if ( !@ServiceList ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ResultServiceCountLimit',
-            Data => { ServiceCount => 0, },
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'NoServicesFoundMsg',
-            Data => { CustomerUserCount => 0, },
-        );
-    }
-    elsif ( @ServiceList > $SearchLimit ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ResultServiceCountLimit',
-            Data => { ServiceCount => ">" . $SearchLimit, },
-        );
-    }
-    else {
-        $Self->{LayoutObject}->Block(
-            Name => 'ResultServiceCount',
-            Data => { ServiceCount => scalar @ServiceList, },
         );
     }
 

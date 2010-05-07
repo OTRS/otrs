@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.18 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.19 2010-05-07 03:54:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,16 +32,18 @@
 
 <!-- dtl:block:Search -->
                     <li>
-                        <form class="DualSearchBox" action="$Env{"CGIHandle"}" method="post">
+                        <form class="SearchBox" action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}" />
-                            <input type="text" name="CustomerUserSearch" value="Customer" />
-                            <span title="$Text{"and"}">$Text{"and"}</span>
-                            <input type="text" name="ServiceSearch" value="Service" />
+                            <input type="text" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}" />
+<!-- dtl:block:SearchAllocateService -->
+                            <input type="hidden" name="Subaction" value="$QData{"Subaction"}" />
+                            <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}" />
+<!-- dtl:block:SearchAllocateService -->
                             <button class="Primary" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                            <p class="FieldExplanation">Wildcards are allowed</p>
                         </form>
                     </li>
 <!-- dtl:block:Search -->
-
 <!-- dtl:block:Default -->
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateCustomerUser" class="CallForAction">
@@ -49,15 +51,29 @@
                         </a>
                     </li>
 <!-- dtl:block:Default -->
-
                 </ul>
             </div>
         </div>
 <!-- dtl:block:ActionList -->
-
-        <div class="Clear"></div>
+<!-- dtl:block:Filter -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2><label for="FilterServices">$Text{"Filter for Services"}</label></h2>
+            </div>
+            <div class="Content">
+                <ul>
+                    <li>
+                        <form action="">
+                            <fieldset>
+                                <input type="text" id="FilterServices" class="W50pc" name="FilterServices" value="" />
+                            </fieldset>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:Filter -->
     </div>
-
     <div class="ContentColumn">
         <div class="WidgetGradient Short">
 <!-- dtl:block:Result -->
@@ -81,7 +97,7 @@
                     </ul>
                 </div>
                 <div class="Size1of2">
-                    <ul class="Tablelike" id="Services">
+                    <ul class="Tablelike" id="Service">
                         <li class="Header">$Text{"Services"}
 <!-- dtl:block:ResultServiceCount -->
                             ($QData{"ServiceCount"})
@@ -91,13 +107,15 @@
 <!-- dtl:block:ResultServiceCountLimit -->
                         </li>
 <!-- dtl:block:ResultServiceRow -->
+<!--
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"};ServiceSearch=$LQData{"ServiceSearch"}" class="AsBlock">$QData{"Name"}</a></li>
+                        -->
+                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:ResultServiceRow -->
                     </ul>
                 </div>
             </div>
 <!-- dtl:block:Result -->
-
 
 <!-- dtl:block:AllocateItem -->
 <script type="text/javascript">//<![CDATA[
@@ -112,6 +130,7 @@ function select_items (Type) {
     }
 }
 //]]></script>
+
             <div class="Header">
                 <h2>
                     $Text{"Allocate %s to", "$QData{"VisibleNeType"}"}
@@ -125,9 +144,8 @@ function select_items (Type) {
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Allocate$QData{"Type"}Save"/>
                     <input type="hidden" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}"/>
-                    <input type="hidden" name="ServiceSearch" value="$QData{"ServiceSearch"}"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
-                    <table class="DataTable VariableWidth" id="$QData{"Type"}">
+                    <table class="DataTable VariableWidth" id="$QData{"NeType"}">
                         <thead>
                             <tr>
                                 <th>$Text{"$Data{"VisibleNeType"}"}
@@ -168,4 +186,9 @@ function select_items (Type) {
     </div>
     <div class="Clear"></div>
 </div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.Tables.InitTableFilter($('#FilterServices'), $('#Service'));
+//]]></script>
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:Overview -->
