@@ -2,7 +2,7 @@
 // OTRS.UI.Chart.js - provides the Chart functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Chart.js,v 1.1 2010-04-27 06:47:37 mn Exp $
+// $Id: OTRS.UI.Chart.js,v 1.2 2010-05-07 13:33:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -26,6 +26,10 @@ OTRS.UI.Chart = (function (TargetNS) {
 
     if (!OTRS.Debug.CheckDependency('OTRS.UI.Chart', '$.plot', 'jQuery Flot API')) {
         return;
+    }
+
+    if (typeof window.CanvasRenderingContext2D == 'undefined' && typeof G_vmlCanvasManager == 'undefined') {
+        alert("IE support for charts not loaded!");
     }
 
     var Charts = {},

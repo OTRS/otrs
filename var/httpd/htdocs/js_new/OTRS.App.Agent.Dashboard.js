@@ -2,7 +2,7 @@
 // OTRS.Agent.Dashboard.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Agent.Dashboard.js,v 1.2 2010-04-22 18:01:48 mn Exp $
+// $Id: OTRS.App.Agent.Dashboard.js,v 1.3 2010-05-07 13:33:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -53,6 +53,14 @@ OTRS.App.Agent.Dashboard = (function (TargetNS) {
         );
     };
 
+    /**
+     * @function
+     * @return nothing
+     *      This function binds a click event on an html element to update the preferences of the given dahsboard widget
+     * @param {jQueryObject} $ClickedElement The jQuery object of the element(s) that get the event listener
+     * @param {string} ElementID The ID of the element whose content should be updated with the server answer
+     * @param {jQueryObject} $Form The jQuery object of the form with the data for the server request
+     */
     TargetNS.RegisterUpdatePreferences = function ($ClickedElement, ElementID, $Form) {
         if ($ClickedElement instanceof jQuery && $ClickedElement.length) {
             $ClickedElement.click(function () {

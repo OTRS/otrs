@@ -2,7 +2,7 @@
 // OTRS.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Dialog.js,v 1.10 2010-05-06 14:07:21 mn Exp $
+// $Id: OTRS.UI.Dialog.js,v 1.11 2010-05-07 13:33:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -449,8 +449,8 @@ OTRS.UI.Dialog = (function (TargetNS) {
      * @function
      * @description
      *      Registers the click event for the dialogs.
-     * @param jQueryObject $Selector The jQuery Object on which the click event for the dialog should be registered
-     * @param Object Params The dialog parameters
+     * @param {jQueryObject} $Selector The jQuery Object on which the click event for the dialog should be registered
+     * @param {Object} Params The dialog parameters
      * @return nothing
      */
     TargetNS.RegisterDialog = function ($Selector, Params) {
@@ -466,12 +466,12 @@ OTRS.UI.Dialog = (function (TargetNS) {
      * @function
      * @description
      *      Registers the click event for content dialogs.
-     * @param jQueryObject $Selector The jQuery Object on which the click event for the dialog should be registered
-     * @param HTML The content HTML which should be shown
-     * @param Title The title of the dialog
-     * @param PositionTop The top position the dialog is positioned initially
-     * @param PositionLeft The left position the dialog is positioned initially
-     * @param Modal If defined and set to true, an overlay is shown for a modal dialog
+     * @param {jQueryObject} $Selector The jQuery Object on which the click event for the dialog should be registered
+     * @param {string} HTML The content HTML which should be shown
+     * @param {string} Title The title of the dialog
+     * @param {string} PositionTop The top position the dialog is positioned initially
+     * @param {string} PositionLeft The left position the dialog is positioned initially
+     * @param {boolean} Modal If defined and set to true, an overlay is shown for a modal dialog
      * @return nothing
      */
     TargetNS.RegisterContentDialog = function ($Selector, HTML, Title, PositionTop, PositionLeft, Modal, Buttons) {
@@ -487,8 +487,8 @@ OTRS.UI.Dialog = (function (TargetNS) {
      * @function
      * @description
      *      Registers the event for the special attachment dialog.
-     * @param jQueryObject $Selector The jQuery Object on which the click event for the dialog should be registered
-     * @param String HTMLString The HTML data to be shown in the dialog, can also be the ID of a HTML containing element
+     * @param {jQueryObject} $Selector The jQuery Object on which the click event for the dialog should be registered
+     * @param {string} HTMLString The HTML data to be shown in the dialog, can also be the ID of a HTML containing element
      * @return nothing
      */
     TargetNS.RegisterAttachmentDialog = function ($Selector) {

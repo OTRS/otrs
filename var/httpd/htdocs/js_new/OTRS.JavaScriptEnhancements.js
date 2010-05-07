@@ -2,7 +2,7 @@
 // OTRS.JavaScriptEnhancements.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.JavaScriptEnhancements.js,v 1.3 2010-04-16 21:48:16 mn Exp $
+// $Id: OTRS.JavaScriptEnhancements.js,v 1.4 2010-05-07 13:33:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -38,5 +38,25 @@
         while (WhitespaceCheck.test(this.charAt(--NonWhitespaceEndIndex))) {}
         return this.slice(--NonWhitespaceStartIndex, ++NonWhitespaceEndIndex);
     };
+
+    /**
+     * @function
+     * @description
+     *      This function checks if all given parameter objects are jQuery objects.
+     * @return
+     *      {boolean} Returns true if all parameter objects are jQuery objects
+     */
+    isJQueryObject = function() {
+        var I;
+        if (typeof jQuery === 'undefined') {
+            return false;
+        }
+        for (I = 0; I < arguments.length; I++) {
+            if (!(arguments[I] instanceof jQuery)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }());

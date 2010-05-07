@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.80 2010-05-06 08:38:49 mg Exp $
+# $Id: Header.dtl,v 1.81 2010-05-07 13:33:29 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,6 +70,10 @@ $Include{"Copyright"}
     <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.IE8.css" />
     <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.IE8.css" />
     <![endif]-->
+
+<!--[if IE]>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/flot/excanvas.js"></script>
+<![endif]-->
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>
 <body class="$QData{"BodyClass"}">
@@ -97,7 +101,7 @@ $Include{"Copyright"}
             </li>
 <!-- dtl:js_on_document_complete -->
             <script type="text/javascript">//<![CDATA[
-                OTRS.UI.Toolbar.RegisterEvent('change', 'Profile', function (Event) {
+                OTRS.UI.RegisterEvent('change', $('#Profile'), function (Event) {
                     $(Event.target).closest('form').submit();
                     Event.preventDefault();
                     Event.stopPropagation();
@@ -107,28 +111,28 @@ $Include{"Copyright"}
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ToolBarSearchProfile -->
 <!-- dtl:block:ToolBarSearchFulltext -->
-            <li class="Extended SearchFulltext">
-                <form action="$Env{"CGIHandle"}" method="post" name="SearchFulltext">
-                    <input type="hidden" name="Action" value="AgentTicketSearch"/>
-                    <input type="hidden" name="Subaction" value="Search"/>
-                    <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
-                    <input type="text" size="$QData{"Size"}" name="Fulltext" id="Fulltext" value="$QData{"Fulltext"}"/>
+    <li class="Extended SearchFulltext">
+        <form action="$Env{"CGIHandle"}" method="post" name="SearchFulltext">
+            <input type="hidden" name="Action" value="AgentTicketSearch"/>
+            <input type="hidden" name="Subaction" value="Search"/>
+            <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
+            <input type="text" size="$QData{"Size"}" name="Fulltext" id="Fulltext" value="$QData{"Fulltext"}"/>
 #                    <a href="#" id="ToolbarFulltextSearch" title="$Text{"$Data{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}<span class="Gloss"></span></a>
-                </form>
-            </li>
+        </form>
+    </li>
 <!-- dtl:block:ToolBarSearchFulltext -->
-        </ul>
+</ul>
 
-        <div id="UserInfo">
+<div id="UserInfo">
 <!-- Debug -->
-            <button type="button" onclick="OTRS.Debug.SimulateRTLPage();">Simulate RTL</button>
+    <button type="button" onclick="OTRS.Debug.SimulateRTLPage();">Simulate RTL</button>
 <!-- /Debug -->
 <!-- dtl:block:Login -->
-            $Text{"You are logged in as"}
-            <a href="$Env{"Baselink"}Action=AgentPreferences" title="$Text{"Edit personal preferences"}">$Env{"UserFirstname"} $Env{"UserLastname"}</a>
+    $Text{"You are logged in as"}
+    <a href="$Env{"Baselink"}Action=AgentPreferences" title="$Text{"Edit personal preferences"}">$Env{"UserFirstname"} $Env{"UserLastname"}</a>
 <!-- dtl:block:Login -->
 <!-- dtl:block:Logout -->
-            <a class="LogoutButton" href="$Env{"Baselink"}Action=Logout" title="$Text{"Logout"}"></a>
+    <a class="LogoutButton" href="$Env{"Baselink"}Action=Logout" title="$Text{"Logout"}"></a>
 <!-- dtl:block:Logout -->
-        </div>
-    </div>
+</div>
+</div>

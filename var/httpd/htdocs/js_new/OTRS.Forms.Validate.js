@@ -2,7 +2,7 @@
 // OTRS.Forms.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.Validate.js,v 1.5 2010-04-19 16:36:29 mg Exp $
+// $Id: OTRS.Forms.Validate.js,v 1.6 2010-05-07 13:33:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -250,13 +250,16 @@ OTRS.Forms.Validate = (function (TargetNS) {
      * @function
      * @description
      *      This function defines the function which is executed when validation was successful on submitting the form
-     * @param {String} FormID the ID of the form, for which this submit function is used
+     * @param {jQueryObject} $Form the form, for which this submit function is used
      * @param {Function} Func the function, which is executed on successful submitting the form. Gets the submitted form as a parameter.
      * @return nothing
      */
-    TargetNS.SetSubmitFunction = function (FormID, Func) {
-        if ($.isFunction(Func) && $('#' + FormID).length) {
-            Options.SubmitFunction[FormID] = Func;
+    TargetNS.SetSubmitFunction = function ($Form, Func) {
+        if (!isJQueryObject($Form)) {
+            return false;
+        }
+        if ($.isFunction(Func) && $Form.length) {
+            Options.SubmitFunction[$Form.attr('id')] = Func;
         }
     };
 

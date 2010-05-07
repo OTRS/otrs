@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.41 2010-04-27 06:47:38 mn Exp $
+# $Id: Footer.dtl,v 1.42 2010-05-07 13:33:29 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,8 +18,7 @@
     <div class="TopOfPage"><a href="#Top">$Text{"Top of page"}</a></div>
 </div>
 <a name="end"></a>
-    <script src="$Config{"Frontend::JavaScriptPath"}otrs.js" type="text/javascript"></script>
-
+    <script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}otrs.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/json/json2.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-1.4.2/jquery.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-core.js"></script>
@@ -30,9 +29,6 @@
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-datepicker.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-resizable.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-validate-1.7/jquery.validate.js"></script>
-    <!--[if IE]>
-    <script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}thirdparty/flot/excanvas.js"></script>
-    <![endif]-->
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/flot/jquery.flot.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.JavaScriptEnhancements.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Config.js"></script>
@@ -53,7 +49,6 @@
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Forms.ErrorTooltips.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Forms.Validate.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Dialog.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Toolbar.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.ActionRow.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Popup.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Chart.js"></script>

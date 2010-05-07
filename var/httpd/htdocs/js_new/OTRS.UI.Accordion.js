@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Accordion.js,v 1.5 2010-04-19 16:36:29 mg Exp $
+// $Id: OTRS.UI.Accordion.js,v 1.6 2010-05-07 13:33:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -59,12 +59,12 @@ OTRS.UI.Accordion = (function (TargetNS) {
      *      This function initializes the accordion effect on the specified list
      * @param {jQueryObject} $Element the parent list element (ul) for the accordion
      * @param {String} LinkSelector The selector for the link, on which an element is opened/closed
-     * @param {String} ContentSelector The selector for the content, which is shown or hide
+     * @param {String} ContentSelector The selector for the content, which is shown or hidden
      * @return nothing
      */
     TargetNS.Init = function ($Element, LinkSelector, ContentSelector) {
         // If no accordion element is found, stop
-        if (typeof $Element === 'undefined' || $Element.length === 0) {
+        if (!isJQueryObject($Element) || $Element.length === 0) {
             return false;
         }
 

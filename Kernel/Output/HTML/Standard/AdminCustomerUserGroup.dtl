@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.10 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.11 2010-05-07 13:33:29 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -141,8 +141,8 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     OTRS.Forms.InitSelectAllCheckboxes('$QData{"Type"}', 'SelectAll$QData{"Type"}');
-    OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
-        OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
+    OTRS.UI.RegisterEvent('click', $('input:checkbox[name=$QData{"Type"}]'), function () {
+        OTRS.Forms.SelectAllCheckboxes($(this), $('#SelectAll$QData{"Type"}'));
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->

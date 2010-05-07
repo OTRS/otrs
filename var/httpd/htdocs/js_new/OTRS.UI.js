@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.js,v 1.12 2010-04-29 10:20:29 mn Exp $
+// $Id: OTRS.UI.js,v 1.13 2010-05-07 13:33:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -118,26 +118,26 @@ OTRS.UI = (function (TargetNS) {
      * @function
      * @description
      *      This function makes the control div static if it hits the top
-     * @param {jQueryObject} Control the control div
+     * @param {jQueryObject} $Control the control div
      * @return nothing
      */
-    TargetNS.StaticTableControl = function (Control) {
-        var Offset = Control.offset().top,
-            Height = Control.height();
+    TargetNS.StaticTableControl = function ($Control) {
+        var Offset = $Control.offset().top,
+            Height = $Control.height();
 
         $(window).scroll(function (event) {
             var y = $(this).scrollTop(),
-                Height = Control.height();
+                Height = $Control.height();
 
             // TODO: Cache the class and css changes
 
             if (y >= Offset) {
-                Control.addClass('Fixed');
-                Control.nextAll('.Overview:first').css('margin-top', Height);
+                $Control.addClass('Fixed');
+                $Control.nextAll('.Overview:first').css('margin-top', Height);
             }
             else {
-                Control.removeClass('Fixed');
-                Control.nextAll('.Overview:first').css('margin-top', 0);
+                $Control.removeClass('Fixed');
+                $Control.nextAll('.Overview:first').css('margin-top', 0);
             }
         });
     };
@@ -221,12 +221,11 @@ OTRS.UI = (function (TargetNS) {
      * @description
      *      This function is the wrapper for registering an event on an HTML element.
      * @param {String} EventType The event type (click, change, ...)
-     * @param {String} ElementSelector The Selector (jQuery) of the element on which the event is triggered
+     * @param {jQueryObject} $Element the element(s) on which the event is triggered
      * @param {Function} EventFunction The function which should be executed on event (gets Parameter Event)
      */
-    TargetNS.RegisterEvent = function (EventType, ElementSelector, EventFunction) {
-        var $Element = $(ElementSelector);
-        if ($Element.length && $.isFunction(EventFunction)) {
+    TargetNS.RegisterEvent = function (EventType, $Element, EventFunction) {
+        if (isJQueryObject($Element) && $Element.length && $.isFunction(EventFunction)) {
             $Element.bind(EventType, EventFunction);
         }
     };
@@ -236,12 +235,11 @@ OTRS.UI = (function (TargetNS) {
      * @description
      *      This function is the wrapper for registering an live event on an HTML element.
      * @param {String} EventType The event type (click, change, ...)
-     * @param {String} ElementSelector The Selector (jQuery) of the element on which the event is triggered
+     * @param {jQueryObject} $Element the element(s) on which the event is triggered
      * @param {Function} EventFunction The function which should be executed on event (gets Parameter Event)
      */
-    TargetNS.RegisterLiveEvent = function (EventType, ElementSelector, EventFunction) {
-        var $Element = $(ElementSelector);
-        if ($Element.length && $.isFunction(EventFunction)) {
+    TargetNS.RegisterLiveEvent = function (EventType, $Element, EventFunction) {
+        if (isJQueryObject($Element) && $Element.length && $.isFunction(EventFunction)) {
             $Element.live(EventType, EventFunction);
         }
     };
@@ -254,7 +252,7 @@ OTRS.UI = (function (TargetNS) {
      * @param {jQueryObject} $Element1 Second container element
      */
     TargetNS.ToggleTwoContainer = function ($Element1, $Element2) {
-        if ($Element1 instanceof jQuery && $Element2 instanceof jQuery && $Element1.length && $Element2.length) {
+        if (isJQueryObject($Element1, $Element2) && $Element1.length && $Element2.length) {
             $Element1.slideToggle('fast', function () {
                 $Element2.slideToggle('fast');
             });
@@ -262,7 +260,7 @@ OTRS.UI = (function (TargetNS) {
     };
 
     TargetNS.RegisterToggleTwoContainer = function ($ClickedElement, $Element1, $Element2) {
-        if ($ClickedElement instanceof jQuery && $ClickedElement.length) {
+        if (isJQueryObject($ClickedElement) && $ClickedElement.length) {
             $ClickedElement.click(function () {
                 TargetNS.ToggleTwoContainer($Element1, $Element2);
                 return false;

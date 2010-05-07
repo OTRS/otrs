@@ -2,7 +2,7 @@
 // OTRS.UI.Tooltips.js - provides provides Tooltip functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.ErrorTooltips.js,v 1.4 2010-04-19 16:36:29 mg Exp $
+// $Id: OTRS.Forms.ErrorTooltips.js,v 1.5 2010-05-07 13:33:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,6 @@ OTRS.Forms.ErrorTooltips = (function (TargetNS) {
         Offset;
 
     function ShowTooltip($Element, TooltipContent) {
-
         var $TooltipContainer = $('#' + TooltipContainerID);
         if (!$TooltipContainer.length) {
             $('body').append('<div id="' + TooltipContainerID + '" class="TooltipContainer"></div>');

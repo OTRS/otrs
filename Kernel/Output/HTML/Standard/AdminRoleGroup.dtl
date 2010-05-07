@@ -124,9 +124,9 @@
                                 </th>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.Forms.InitSelectAllCheckboxes('$QData{"Type"}', 'SelectAll$QData{"Type"}');
-    OTRS.UI.RegisterEvent('click', 'input:checkbox[name=$QData{"Type"}]', function () {
-        OTRS.Forms.SelectAllCheckboxes(this, 'SelectAll$QData{"Type"}');
+    OTRS.Forms.InitSelectAllCheckboxes($('table td input:checkbox[name=$QData{"Type"}]'), $('#SelectAll$QData{"Type"}'));
+    OTRS.UI.RegisterEvent('click', $('input:checkbox[name=$QData{"Type"}]'), function () {
+        OTRS.Forms.SelectAllCheckboxes($(this), $('#SelectAll$QData{"Type"}'));
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->

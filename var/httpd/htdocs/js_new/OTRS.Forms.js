@@ -2,7 +2,7 @@
 // OTRS.Forms.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.js,v 1.5 2010-04-30 09:30:09 mn Exp $
+// $Id: OTRS.Forms.js,v 1.6 2010-05-07 13:33:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ OTRS.Forms = (function (TargetNS) {
      */
     TargetNS.DisableForm = function ($Form) {
         // If no form is given, disable all form elements on the complete site
-        if (typeof $Form === 'undefined') {
+        if (!isJQueryObject($Form)) {
             $Form = $('body');
         }
 
@@ -50,7 +50,7 @@ OTRS.Forms = (function (TargetNS) {
      */
     TargetNS.EnableForm = function ($Form) {
         // If no form is given, enable all form elements on the complete site
-        if (typeof $Form === 'undefined') {
+        if (!isJQueryObject($Form)) {
             $Form = $('body');
         }
 
@@ -66,28 +66,30 @@ OTRS.Forms = (function (TargetNS) {
      * @function
      * @description
      *      This function selects or deselects all checkboxes given by the ElementName.
-     * @param {DOMObject} ClickedBox The clicked checkbox in the DOM
-     * @param {String} SelectAllElement The name of the SelectAll checkbox
+     * @param {jQueryObject} $ClickedBox The clicked checkbox in the DOM
+     * @param {jQueryObject} $SelectAllCheckbox The object with the SelectAll checkbox
      * @return nothing
      */
-    TargetNS.SelectAllCheckboxes = function (ClickedBox, SelectAllElement) {
-        var $ClickedBox = $(ClickedBox),
-            ElementName = $ClickedBox.attr('name'),
-            $Elements = $('input:checkbox[name=' + ElementName + ']').filter('[id!=' + SelectAllElement + ']'),
-            Status = $ClickedBox.attr('checked'),
-            CountCheckboxes,
-            CountSelectedCheckboxes;
-        if ($ClickedBox.attr('id') && $ClickedBox.attr('id') === SelectAllElement) {
-            $Elements.attr('checked', Status).triggerHandler('click');
-        }
-        else {
-            CountCheckboxes = $Elements.length;
-            CountSelectedCheckboxes = $Elements.filter(':checked').length;
-            if (CountCheckboxes === CountSelectedCheckboxes) {
-                $('#' + SelectAllElement).attr('checked', 'checked');
+    TargetNS.SelectAllCheckboxes = function ($ClickedBox, $SelectAllCheckbox) {
+        if (isJQueryObject($ClickedBox, $SelectAllCheckbox)) {
+            var ElementName = $ClickedBox.attr('name'),
+                SelectAllID = $SelectAllCheckbox.attr('id'),
+                $Elements = $('input:checkbox[name=' + ElementName + ']').filter('[id!=' + SelectAllID + ']'),
+                Status = $ClickedBox.attr('checked'),
+                CountCheckboxes,
+                CountSelectedCheckboxes;
+            if ($ClickedBox.attr('id') && $ClickedBox.attr('id') === SelectAllID) {
+                $Elements.attr('checked', Status).triggerHandler('click');
             }
             else {
-                $('#' + SelectAllElement).removeAttr('checked');
+                CountCheckboxes = $Elements.length;
+                CountSelectedCheckboxes = $Elements.filter(':checked').length;
+                if (CountCheckboxes === CountSelectedCheckboxes) {
+                    $SelectAllCheckbox.attr('checked', 'checked');
+                }
+                else {
+                    $SelectAllCheckbox.removeAttr('checked');
+                }
             }
         }
     };
@@ -96,14 +98,15 @@ OTRS.Forms = (function (TargetNS) {
      * @function
      * @description
      *      This function marks the "SelectAll checkbox" as checked if all depending checkboxes are already marked checked.
-     * @param {String} CheckboxName The name attribute of the dependent checkboxes
-     * @param {String} SelectAllID The ID of the SelectAll checkbox
+     * @param {jQueryObject} $Checkboxes The jquery object with all dependent checkboxes
+     * @param {jQueryObject} $SelectAllCheckbox The object with the SelectAll checkbox
      * @return nothing
      */
-    TargetNS.InitSelectAllCheckboxes = function (CheckboxName, SelectAllID) {
-        var Elements = $('table td input:checkbox[name=' + CheckboxName + ']');
-        if (Elements.length === Elements.filter(':checked').length) {
-            $('#' + SelectAllID).attr('checked', 'checked');
+    TargetNS.InitSelectAllCheckboxes = function ($Checkboxes, $SelectAllCheckbox) {
+        if (isJQueryObject($Checkboxes, $SelectAllCheckbox)) {
+            if ($Checkboxes.length === $Checkboxes.filter(':checked').length) {
+                $SelectAllCheckbox.attr('checked', 'checked');
+            }
         }
     };
 
