@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.17 2010-05-07 03:54:18 cr Exp $
+# $Id: AdminCustomerUserService.pm,v 1.18 2010-05-07 13:55:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -322,23 +322,25 @@ sub Run {
 sub _Change {
     my ( $Self, %Param ) = @_;
 
-    my $SearchLimit      = $Param{SearchLimit};
-    my %Data             = %{ $Param{Data} };
-    my $Type             = $Param{Type} || 'CustomerUser';
-    my $NeType           = $Type eq 'Service' ? 'CustomerUser' : 'Service';
-    my %VisibleType      = ( CustomerUser => 'Customer', Service => 'Service', );
-    my %Subaction        = ( CustomerUser => 'Change', Service => 'ServiceEdit', );
-    my %IDStrg           = ( CustomerUser => 'ID', Service => 'ServiceID', );
-    my $VisibleSearchTxt = $Param{CustomerUserSearch} eq '*'
-        ? 'Customer'
-        : $Param{CustomerUserSearch};
+    my $SearchLimit = $Param{SearchLimit};
+    my %Data        = %{ $Param{Data} };
+    my $Type        = $Param{Type} || 'CustomerUser';
+    my $NeType      = $Type eq 'Service' ? 'CustomerUser' : 'Service';
+    my %VisibleType = ( CustomerUser => 'Customer', Service => 'Service', );
+    my %Subaction   = ( CustomerUser => 'Change', Service => 'ServiceEdit', );
+    my %IDStrg      = ( CustomerUser => 'ID', Service => 'ServiceID', );
 
     my @ItemList = ();
 
     # overview
     $Self->{LayoutObject}->Block( Name => 'Overview' );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+        Data => {
+            CustomerUserSearch => $Param{CustomerUserSearch},
+            }
+    );
 
     if ( $NeType eq 'CustomerUser' ) {
         @ItemList = @{ $Param{ItemList} };
@@ -348,7 +350,7 @@ sub _Change {
             Name => 'Search',
             Data => {
                 %Param,
-                CustomerUserSearch => $VisibleSearchTxt,
+                CustomerUserSearch => $Param{CustomerUserSearch},
             },
         );
         $Self->{LayoutObject}->Block(
@@ -456,10 +458,6 @@ sub _Overview {
     my %CustomerUserData    = %{ $Param{CustomerUserData} };
     my %ServiceData         = %{ $Param{ServiceData} };
 
-    my $VisibleSearchTxt = $Param{CustomerUserSearch} eq '*'
-        ? 'Customer'
-        : $Param{CustomerUserSearch};
-
     $Self->{LayoutObject}->Block( Name => 'Overview' );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
 
@@ -468,7 +466,7 @@ sub _Overview {
         Name => 'Search',
         Data => {
             %Param,
-            CustomerUserSearch => $VisibleSearchTxt,
+            CustomerUserSearch => $Param{CustomerUserSearch},
         },
     );
     $Self->{LayoutObject}->Block( Name => 'Default', );
