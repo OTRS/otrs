@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1203 2010-05-06 11:51:30 mb Exp $
+# $Id: CHANGES,v 1.1204 2010-05-07 19:11:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -258,16 +258,17 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/05/07) Fixed bug#5336 - Also set execute bit on scripts/tools.
  - (2010/04/21) Fixed bug#5266 - Ticket Zoom shows wrong html content if there
     is no text but two html attachments in there.
- - (2010/04/15) Fixed bug#5242 - Newlines not shown in html notification mails
-    on Lotus Notes
- - (2010/04/14) Fixed bug#4999 - Cache of customer user get's not refreshed after
-    a preferences get's changed.
+ - (2010/04/15) Fixed bug#5242 - Newlines are not displayed in html notification
+    mails on Lotus Notes
+ - (2010/04/14) Fixed bug#4999 - Cache of customer user is not refreshed after
+    a preference is updated.
  - (2010/04/13) Fixed bug#5152 - responsible_user_id in ticket table is wrong in
     otrs-database.dia.
- - (2010/04/12) Fixed Bug 5108 - The RSS date was not displayed correctly.
- - (2010/04/12) Fixed Bug 5112 - Redirecting to a valid screen after unsubscribing a ticket
+ - (2010/04/12) Fixed bug#5108 - The RSS date was not displayed correctly.
+ - (2010/04/12) Fixed bug#5112 - Redirecting to a valid screen after unsubscribing a ticket
     that is on a queue in which the agent has no permissions.
  - (2010/04/06) Fixed bug#4986 - There is no activate/deactivate check for Graphsize menu,
     when page loads in Stats Definition
