@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.18 2010-05-07 13:55:58 cr Exp $
+# $Id: AdminCustomerUserService.pm,v 1.19 2010-05-07 23:33:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -162,9 +162,10 @@ sub Run {
             Data               => \%CustomerData,
             Selected           => \%CustomerUserMemberList,
             CustomerUserSearch => $Param{CustomerUserSearch},
-            ServiceSearch      => $Param{ServiceSearch},
-            SearchLimit        => $SearchLimit,
-            Type               => 'Service',
+
+            #            ServiceSearch      => $Param{ServiceSearch},
+            SearchLimit => $SearchLimit,
+            Type        => 'Service',
             %Param,
         );
 
