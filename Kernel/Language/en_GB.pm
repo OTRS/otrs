@@ -2,7 +2,7 @@
 # Kernel/Language/en_GB.pm - provides British English language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: en_GB.pm,v 1.6 2010-01-13 09:34:22 mb Exp $
+# $Id: en_GB.pm,v 1.7 2010-05-07 19:32:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -95,6 +95,8 @@ sub Data {
         'Comment{CustomerUser}' => 'Comment',
         #User field
         'Title{user}' => 'Title',
+        #'Statuses' is American English
+        'Statuses'    => 'Status',
     };
     # $$STOP$$
     return;
