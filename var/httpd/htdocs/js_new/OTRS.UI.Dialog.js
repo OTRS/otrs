@@ -2,7 +2,7 @@
 // OTRS.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Dialog.js,v 1.11 2010-05-07 13:33:29 mn Exp $
+// $Id: OTRS.UI.Dialog.js,v 1.12 2010-05-07 13:38:48 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -200,7 +200,7 @@ OTRS.UI.Dialog = (function (TargetNS) {
         // Data can be a HTML string or an jQuery object with containing HTML data
         if (Params.HTML) {
             // Get HTML with JS function innerhTML, because jQuery html() strips out the script blocks
-            if (typeof Params.HTML !== 'string' && Params.HTML instanceof jQuery) {
+            if (typeof Params.HTML !== 'string' && isJQueryObject(Params.HTML)) {
                 Params.HTML = (Params.HTML)[0].innerHTML;
             }
         }

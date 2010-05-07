@@ -2,7 +2,7 @@
 // OTRS.Data.js - provides functions for setting and getting data (objects) to DOM elements
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Data.js,v 1.4 2010-05-07 13:33:29 mn Exp $
+// $Id: OTRS.Data.js,v 1.5 2010-05-07 13:38:48 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -30,8 +30,7 @@ OTRS.Data = (function (TargetNS) {
      * @param {Object} Object The javascript data you want to save (any type of javascript object)
      */
     TargetNS.Set = function ($Element, Name, Object) {
-        if ($Element instanceof jQuery)
-        {
+        if (isJQueryObject($Element)) {
             $Element.data(Name, Object);
         }
     };
@@ -46,15 +45,12 @@ OTRS.Data = (function (TargetNS) {
      */
     TargetNS.Get = function ($Element, Name) {
         var Object;
-        if ($Element instanceof jQuery)
-        {
+        if (isJQueryObject($Element)) {
             Object = $Element.data(Name);
-            if (typeof Object === 'undefined')
-            {
+            if (typeof Object === 'undefined') {
                 return {};
             }
-            else
-            {
+            else {
                 return Object;
             }
         }
