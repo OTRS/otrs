@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.93 2010-05-06 09:28:31 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.94 2010-05-07 23:16:38 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,6 +74,15 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # import
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Import' ) {
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+        $Self->{LayoutObject}->Block( Name => 'Import' );
+    }
+
+    # ------------------------------------------------------------ #
     # upload
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Upload' ) {
@@ -92,6 +101,11 @@ sub Run {
         elsif ( $Self->{SysConfigObject}->Upload( Content => $UploadStuff{Content} ) ) {
             return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
 
+        }
+        else {
+
+            # redirect
+            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
         }
         return $Self->{LayoutObject}->ErrorScreen();
     }
@@ -700,6 +714,34 @@ sub Run {
     # search config
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Search' ) {
+
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'SearchBox' );
+
+        # list Groups
+        my %List = $Self->{SysConfigObject}->ConfigGroupList();
+
+        # create select Box
+        $Data{Liste} = $Self->{LayoutObject}->BuildSelection(
+            Data                => \%List,
+            SelectedID          => $Group,
+            Name                => 'SysConfigGroup',
+            LanguageTranslation => 0,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ConfigGroups',
+            Data => \%Data,
+        );
+
+        # check if sysconfig download link should be shown
+        if ( $Self->{SysConfigObject}->Download( Type => 'Check' ) ) {
+            $Self->{LayoutObject}->Block( Name => 'Download' );
+        }
+
+        $Self->{LayoutObject}->Block( Name => 'ActionImport' );
+        $Self->{LayoutObject}->Block( Name => 'ContentOverview' );
+
         my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
 
         # if a search parameter was provided
@@ -742,10 +784,36 @@ sub Run {
     # list subgroups
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'SelectGroup' ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewResult',
-            Data => {},
+
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'SearchBox' );
+
+        # list Groups
+        my %List = $Self->{SysConfigObject}->ConfigGroupList();
+
+        # create select Box
+        $Data{Liste} = $Self->{LayoutObject}->BuildSelection(
+            Data                => \%List,
+            SelectedID          => $Group,
+            Name                => 'SysConfigGroup',
+            LanguageTranslation => 0,
         );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ConfigGroups',
+            Data => \%Data,
+        );
+
+        # check if sysconfig download link should be shown
+        if ( $Self->{SysConfigObject}->Download( Type => 'Check' ) ) {
+            $Self->{LayoutObject}->Block( Name => 'Download' );
+        }
+
+        $Self->{LayoutObject}->Block( Name => 'ActionImport' );
+        $Self->{LayoutObject}->Block( Name => 'ContentOverview' );
+
+        $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
+
         $Group = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
         my %List = $Self->{SysConfigObject}->ConfigSubGroupList( Name => $Group );
 
@@ -776,36 +844,44 @@ sub Run {
     # shows initial screen
     # ------------------------------------------------------------ #
     else {
+
+        # secure mode message (don't allow this action till secure mode is enabled)
+        if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
+            $Self->{LayoutObject}->SecureMode();
+        }
+
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'SearchBox' );
+
+        # list Groups
+        my %List = $Self->{SysConfigObject}->ConfigGroupList();
+
+        # create select Box
+        $Data{Liste} = $Self->{LayoutObject}->BuildSelection(
+            Data                => \%List,
+            SelectedID          => $Group,
+            Name                => 'SysConfigGroup',
+            LanguageTranslation => 0,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ConfigGroups',
+            Data => \%Data,
+        );
+
+        # check if sysconfig download link should be shown
+        if ( $Self->{SysConfigObject}->Download( Type => 'Check' ) ) {
+            $Self->{LayoutObject}->Block( Name => 'Download' );
+        }
+
+        $Self->{LayoutObject}->Block( Name => 'ActionImport' );
+        $Self->{LayoutObject}->Block( Name => 'ContentOverview' );
+
         $Self->{LayoutObject}->Block(
             Name => 'NoSearchTerms',
             Data => {},
         );
-    }
 
-    # secure mode message (don't allow this action till secure mode is enabled)
-    if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
-        $Self->{LayoutObject}->SecureMode();
-    }
-
-    # ------------------------------------------------------------ #
-    # list Groups
-    # ------------------------------------------------------------ #
-    my %List = $Self->{SysConfigObject}->ConfigGroupList();
-
-    # create select Box
-    $Data{Liste} = $Self->{LayoutObject}->BuildSelection(
-        Data                => \%List,
-        SelectedID          => $Group,
-        Name                => 'SysConfigGroup',
-        LanguageTranslation => 0,
-    );
-
-    # check if sysconfig download link should be shown
-    if ( $Self->{SysConfigObject}->Download( Type => 'Check' ) ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'Download',
-            Data => {},
-        );
     }
 
     my $Output .= $Self->{LayoutObject}->Header( Value => $Group );

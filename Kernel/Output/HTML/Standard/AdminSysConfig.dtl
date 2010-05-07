@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.30 2010-05-05 07:32:32 mg Exp $
+# $Id: AdminSysConfig.dtl,v 1.31 2010-05-07 23:16:38 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,13 +11,23 @@
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"SysConfig"}</h1>
+
     <div class="SidebarColumn">
+
+<!-- dtl:block:ActionList -->
         <div class="WidgetGradient Long MinHeight">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
                 <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+
+<!-- dtl:block:SearchBox -->
                     <li>
                         <form action="$Env{"CGIHandle"}" method="get" class="SearchBox">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
@@ -29,6 +39,9 @@
                             </button>
                         </form>
                     </li>
+<!-- dtl:block:SearchBox -->
+
+<!-- dtl:block:ConfigGroups -->
                     <li>
                         <form action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
@@ -42,6 +55,8 @@
                             </button>
                         </form>
                     </li>
+<!-- dtl:block:ConfigGroups -->
+
 <!-- dtl:block:Download -->
                     <li>
                         <a title="$Text{"Download all system config changes"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;DontWriteDefault=1" class="CallForAction">
@@ -49,24 +64,50 @@
                         </a>
                     </li>
 <!-- dtl:block:Download -->
+
+<!-- dtl:block:ActionImport -->
                     <li>
-                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="Upload"/>
-                            <div>
-                                <input name="file_upload" type="file" size="5" />
-                            </div>
-                            <button title="$Text{"Load SysConfig settings from file"}" class="CallForAction" type="submit" value="$Text{"Import"}">
-                                <span>$Text{"Import Settings"}</span>
-                            </button>
-                        </form>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Import" class="CallForAction"><span>$Text{"Import Settings"}</span></a>
                     </li>
+<!-- dtl:block:ActionImport -->
+
                 </ul>
             </div>
         </div>
+<!-- dtl:block:ActionList -->
+
     </div>
 
     <div class="ContentColumn">
+
+<!-- dtl:block:Import -->
+        <div class="WidgetGradient Long MinHeight">
+            <div class="Header">
+                <h2>$Text{"Import Settings"}</h2>
+            </div>
+            <div class="Content">
+                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="Upload"/>
+                    <fieldset class="TableLike">
+                        <div class="Field">
+                            <input name="file_upload" type="file" />
+                        </div>
+                        <div class="Field">
+                            <button title="$Text{"Load SysConfig settings from file"}" class="Primary" type="submit" value="$Text{"Import"}">
+                                $Text{"Submit"}
+                            </button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
+
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+<!-- dtl:block:Import -->
+
+<!-- dtl:block:ContentOverview -->
         <div class="WidgetGradient Long MinHeight">
             <div class="Header">
                 <h2>$Text{"Result"}</h2>
@@ -110,6 +151,8 @@
 <!-- dtl:block:OverviewResult -->
             </div>
         </div>
+<!-- dtl:block:ContentOverview -->
+
     </div>
     <div class="Clear"></div>
 </div>
