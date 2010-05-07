@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.21 2010-05-07 14:14:02 cr Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.22 2010-05-07 15:55:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,17 +99,8 @@
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Service">
                         <li class="Header">$Text{"Services"}
-<!-- dtl:block:ResultServiceCount -->
-                            ($QData{"ServiceCount"})
-<!-- dtl:block:ResultServiceCount -->
-<!-- dtl:block:ResultServiceCountLimit -->
-                            (<span class='Error'>$QData{"ServiceCount"}</span>)
-<!-- dtl:block:ResultServiceCountLimit -->
                         </li>
 <!-- dtl:block:ResultServiceRow -->
-<!--
-                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"};ServiceSearch=$LQData{"ServiceSearch"}" class="AsBlock">$QData{"Name"}</a></li>
-                        -->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:ResultServiceRow -->
                     </ul>
