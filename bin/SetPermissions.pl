@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # SetPermissions.pl - to set the otrs permissions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SetPermissions.pl,v 1.10.2.1 2009-10-12 11:45:03 mb Exp $
+# $Id: SetPermissions.pl,v 1.10.2.2 2010-05-07 19:03:34 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,10 +25,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10.2.1 $) [1];
+$VERSION = qw($Revision: 1.10.2.2 $) [1];
 
 print "bin/SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
-print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 
 use File::Find;
 use Getopt::Long;
@@ -110,7 +110,7 @@ if ($Secure) {
 }
 else {
 
-    # set all files writeabel for webserver user (needed for package manager)
+    # set all files writeable for webserver user (needed for package manager)
     find( \&makeWritable, $DestDir );
 
     # set the $HOME to the OTRS user
@@ -153,10 +153,17 @@ find( \&makeWritableSetGid, @Dirs );
 print "Setting permissions on $DestDir/bin/*\n";
 find( \&makeExecutable, "$DestDir/bin" );
 
-# set all bin/* as executable
+# set all scripts/* as executable
 print "Setting permissions on $DestDir/scripts/*.pl\n";
-my @FileList = glob("$DestDir/scripts/*.pl");
-for (@FileList) {
+my @FileListScripts = glob("$DestDir/scripts/*.pl");
+for (@FileListScripts) {
+    makeExecutable();
+}
+
+# set all scripts/tools/* as executable
+print "Setting permissions on $DestDir/scripts/tools/*.pl\n";
+my @FileListTools = glob("$DestDir/scripts/tools/*.pl");
+for (@FileListTools) {
     makeExecutable();
 }
 
