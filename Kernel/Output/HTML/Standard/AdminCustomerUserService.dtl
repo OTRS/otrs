@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.20 2010-05-07 13:55:59 cr Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.21 2010-05-07 14:14:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@
                             <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}" />
 <!-- dtl:block:SearchAllocateService -->
                             <button class="Primary" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
-                            <p class="FieldExplanation">Search for customers (wildcards are allowed)</p>
+                            <p class="FieldExplanation">$Text{"Search for customers (wildcards are allowed)"}</p>
                         </form>
                     </li>
 <!-- dtl:block:Search -->
