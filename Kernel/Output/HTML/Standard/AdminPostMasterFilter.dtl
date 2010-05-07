@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.37 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.38 2010-05-07 18:40:23 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,27 +28,7 @@
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <form class="Validate" action="$Env{"CGIHandle"}" method="post">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="AddAction"/>
-                            <fieldset class="TableLike">
-                                <label for="Name" class="Mandatory">
-                                    <span class="Marker">*</span>
-                                    $Text{"Name"}:
-                                </label>
-                                <div class="Field">
-                                    <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="250"/>
-                                    <div id="NameError" class="TooltipErrorMessage">
-                                        <p><strong>The name is required</strong></p>
-                                    </div>
-                                </div>
-                                <div class="Clear"></div>
-                                <div class="Field">
-                                    <button class="CallForAction" type="submit" value="$Text{"Add"}"><span>$Text{"Add"}</span></button>
-                                </div>
-                                <div class="Clear"></div>
-                            </fieldset>
-                        </form>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AddAction" class="CallForAction"><span>$Text{"Add Filter"}</span></a>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>
@@ -104,8 +84,8 @@
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update;Name=$LQData{"Name"}">$QData{"Name"}</a></td>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Name=$LQData{"Name"}">Delete this filter</a></td>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update;Name=$LQData{"Name"}">$Text{"$Data{"Name"}"}</a></td>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Name=$LQData{"Name"}">$Text{"Delete this filter"}</a></td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
                     </tbody>
@@ -114,7 +94,7 @@
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
             <div class="Header">
-                <h2>$Text{"Edit"}</h2>
+                <h2>$Text{" $Data{"Title"} "}</h2>
             </div>
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="post" class="Validate">
@@ -205,7 +185,7 @@
                         <div class="Field">
                             $Data{"SetHeader4"}
                             <label for="SetValue4">$Text{"Value"} 4:</label>
-                            <input type="text" name="SetValue4" id="SetValue4" value="$QData{"SetValue4"}" class="W33pc" maxlength="100"s/>
+                            <input type="text" name="SetValue4" id="SetValue4" value="$QData{"SetValue4"}" class="W33pc" maxlength="100"/>
                             <span class="Error">$Text{"$Data{"InvalidSet4"}"}</span>
                         </div>
                         <div class="Clear"></div>
@@ -234,7 +214,7 @@
                                 <option selected="selected" value="To">To</option>
                             </select>
                             <label for="MatchValueExample">$Text{"Value"} 1:</label>
-                            <input type="text" name="MatchValueExample" id="MatchValueExample" value="me|test)@example.com" class="W33pc" maxlength="50"/>
+                            <input type="text" name="MatchValueExample" id="MatchValueExample" value="(me|test)@example.com" class="W33pc" maxlength="50"/>
                         </div>
                         <div class="Clear"></div>
 

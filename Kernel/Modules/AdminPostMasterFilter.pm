@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.27 2010-04-26 17:08:42 en Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.28 2010-05-07 18:40:23 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,22 +66,7 @@ sub Run {
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
-
-        # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
-
-        my $Add = $Self->{PostMasterFilter}->FilterAdd(
-            Name           => $Name,
-            StopAfterMatch => $StopAfterMatch,
-            Match          => { _TEST_ => '_TEST_', },
-            Set            => { _TEST_ => '_TEST_', }
-        );
-        if ( !$Add ) {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
-        return $Self->{LayoutObject}->Redirect(
-            OP => 'Action=$Env{"Action"};Subaction=Update;Name=' . $Name,
-        );
+        return $Self->_MaskUpdate( Title => "Add", Data => {} );
     }
 
     # ------------------------------------------------------------ #
@@ -92,7 +77,7 @@ sub Run {
         if ( !%Data ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => "No such filter: $Name" );
         }
-        return $Self->_MaskUpdate( Name => $Name, Data => \%Data );
+        return $Self->_MaskUpdate( Name => $Name, Data => \%Data, Title => "Edit" );
     }
 
     # ------------------------------------------------------------ #
@@ -132,8 +117,9 @@ sub Run {
         }
         if (%Invalid) {
             return $Self->_MaskUpdate(
-                Name => $Name,
-                Data => {
+                Name  => $Name,
+                Title => "Edit",
+                Data  => {
                     %Invalid,
                     Name           => $Name,
                     Set            => \%Set,
@@ -219,10 +205,13 @@ sub _MaskUpdate {
             }
         }
     }
-    $Self->{LayoutObject}->Block(
-        Name => 'Overview',
-        Data => { %Param, },
-    );
+
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+
+    $Self->{LayoutObject}->Block( Name => 'Overview' );
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
     # all headers
     my %Header = ();
@@ -265,15 +254,12 @@ sub _MaskUpdate {
         LanguageTranslation => 1,
         HTMLQuote           => 1,
     );
+
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
         Data => { %Param, %Data, OldName => $Data{Name}, },
     );
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminPostMasterFilter',
         Data         => \%Param,
