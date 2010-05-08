@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.11 2010-05-07 13:33:29 mn Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.12 2010-05-08 03:56:50 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,91 +11,91 @@
 
 <!-- dtl:block:Overview -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Manage Customer-Group Relations"}</h1>
-
+    <div class="Header">
+        <h1>$Text{"Manage Customer-Group Relations"}</h1>
+    </div>
     <div class="SidebarColumn">
+
+<!-- dtl:block:Disabled -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-                <h2><label for="FilterCustomers">$Text{"Filter for Customers"}</label></h2>
+                <h2>$Text{"Notice"}</h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterCustomers" class="W50pc" name="FilterCustomers" value="" />
+                <ul class="ActionList">
+                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="Action" value="AdminSysConfig"/>
+                        <input type="hidden" name="Subaction" value="Edit"/>
+                        <input type="hidden" name="SysConfigGroup" value="Framework"/>
+                        <input type="hidden" name="SysConfigSubGroup" value="Frontend::Customer"/>
+                        <h3>$Text{"This feature is disabled!"}</h3>
+                        <fieldset>
+                            <p class="FieldExplanation">
+                                $Text{"Just use this feature if you want to define group permissions Customers."}
+                            </p>
+                            <div class="Field SpacingTop">
+                                <button class="CallForAction" type="submit" value="$Text{"Enable it here!"}">
+                                    <span>$Text{"Enable it here!"}</span>
+                                </button>
+                            </div>
+                            <div class="Clear"></div>
+
+                        </fieldset>
+                    </form>
+                </ul>
             </div>
         </div>
+<!-- dtl:block:Disabled -->
+
+<!-- dtl:block:ActionList -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:Search -->
+                    <li>
+                        <form class="SearchBox" action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}" />
+                            <input type="text" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}" />
+<!-- dtl:block:SearchChangeGroup -->
+                            <input type="hidden" name="Subaction" value="$QData{"Subaction"}" />
+                            <input type="hidden" name="ID" value="$QData{"GroupID"}" />
+<!-- dtl:block:SearchChangeGroup -->
+                            <button class="Primary" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                            <p class="FieldExplanation">$Text{"Search for customers (wildcards are allowed)"}</p>
+                        </form>
+                    </li>
+<!-- dtl:block:Search -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
+<!-- dtl:block:Filter -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
-            </div>
-        </div>
-    </div>
-
-    <div class="ContentColumn">
-        <div class="WidgetGradient Short MinHeight">
-            <div class="Header">
-                <h2>$Text{"Overview"}</h2>
-            </div>
-            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
-                <div class="Size1of2">
-                    <ul class="Tablelike" id="Customers">
-                        <li class="Header">$Text{"Customers"}</li>
-<!-- dtl:block:List1n-->
-                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
-<!-- dtl:block:List1n-->
-                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
-                    </ul>
-                </div>
-                <div class="Size1of2">
-                    <ul class="Tablelike" id="Groups">
-                        <li class="Header">$Text{"Groups"}</li>
-<!-- dtl:block:Listn1-->
-                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
-<!-- dtl:block:Listn1-->
-                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
-                    </ul>
-                </div>
-                <div class="Clear"></div>
-            </div>
-        </div>
-    </div>
-    <div class="Clear"></div>
-</div>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    OTRS.UI.Tables.InitTableFilter($('#FilterCustomers'), $('#Customers'));
-    OTRS.UI.Tables.InitTableFilter($('#FilterGroups'), $('#Groups'));
-//]]></script>
-<!-- dtl:js_on_document_complete -->
-
-<!-- dtl:block:Overview -->
-<!-- dtl:block:Change -->
-<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Manage Customer-Group Relations"}</h1>
-    <div class="SidebarColumn">
-        <div class="WidgetGradient Short MinHeight">
-            <div class="Header">
-                <h2><label for="Filter">$Text{"Actions"}</label></h2>
-            </div>
-            <div class="Content">
-                <ul class="ActionList">
+                <ul>
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                        <form action="">
+                            <fieldset>
+                                <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
+                            </fieldset>
+                        </form>
                     </li>
                 </ul>
             </div>
         </div>
-
-        <div class="WidgetGradient Short MinHeight">
-            <div class="Header">
-                <h2><label for="Filter">$Text{"Filter"}</label></h2>
-            </div>
-            <div class="Content">
-                <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
-            </div>
-        </div>
-
+<!-- dtl:block:Filter -->
+<!-- dtl:block:Note -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>
@@ -112,14 +112,49 @@
 
             </div>
         </div>
+<!-- dtl:block:Note -->
     </div>
-
     <div class="ContentColumn">
         <div class="WidgetGradient Short MinHeight">
+<!-- dtl:block:Result -->
+            <div class="Header">
+                <h2>$Text{"Search Result:"}</h2>
+            </div>
+            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+                <div class="Size1of2">
+                    <ul class="Tablelike" id="Customers">
+                        <li class="Header">$Text{"Customers"}
+<!-- dtl:block:ResultCustomerUserCount -->
+                            ($QData{"CustomerUserCount"})
+<!-- dtl:block:ResultCustomerUserCount -->
+<!-- dtl:block:ResultCustomerUserCountLimit -->
+                            (<span class='Error'>$QData{"CustomerUserCount"}</span>)
+<!-- dtl:block:ResultCustomerUserCountLimit -->
+                        </li>
+<!-- dtl:block:List1n-->
+                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="AsBlock">$QData{"Name"}</a></li>
+<!-- dtl:block:List1n-->
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
+                    </ul>
+                </div>
+                <div class="Size1of2">
+                    <ul class="Tablelike" id="Group">
+                        <li class="Header">$Text{"Groups"}</li>
+<!-- dtl:block:Listn1-->
+                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="AsBlock">$QData{"Name"}</a></li>
+<!-- dtl:block:Listn1-->
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
+                    </ul>
+                </div>
+                <div class="Clear"></div>
+            </div>
+<!-- dtl:block:Result -->
+
+<!-- dtl:block:Change -->
             <div class="Header">
                 <h2>
-                    $Text{"Change %s Relations for", "$Data{"NeType"}"}
-                    $Text{"$Data{"Type"}"}
+                    $Text{"Change %s Relations for", "$Data{"VisibleNeType"}"}
+                    $Text{"$Data{"VisibleType"}"}
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
                     ($QData{"ID"})
                 </h2>
@@ -129,10 +164,17 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
-                    <table class="DataTable VariableWidth" id="UserGroups">
+                    <table class="DataTable VariableWidth" id="$QData{"VisibleNeType"}">
                         <thead>
                             <tr>
-                                <th>$Text{"$Data{"NeType"}"}</th>
+                                <th>$Text{"$Data{"VisibleNeType"}"}
+<!-- dtl:block:ChangeItemCount -->
+                                    ($QData{"ItemCount"})
+<!-- dtl:block:ChangeItemCount -->
+<!-- dtl:block:ChangeItemCountLimit -->
+                                    (<Span class="Error">$QData{"ItemCount"}</span>)
+<!-- dtl:block:ChangeItemCountLimit -->
+                                </th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="Center $QData{"Mark"}">
                                     <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle %s permission for all", "$QData{"Type"}"}" value="" />
@@ -140,7 +182,7 @@
                                 </th>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.Forms.InitSelectAllCheckboxes('$QData{"Type"}', 'SelectAll$QData{"Type"}');
+    OTRS.Forms.InitSelectAllCheckboxes($('table td input:checkbox[name=$QData{"Type"}]'), $('#SelectAll$QData{"Type"}'));
     OTRS.UI.RegisterEvent('click', $('input:checkbox[name=$QData{"Type"}]'), function () {
         OTRS.Forms.SelectAllCheckboxes($(this), $('#SelectAll$QData{"Type"}'));
     });
@@ -170,7 +212,15 @@
                     <div class="Clear"></div>
                 </form>
             </div>
+<!-- dtl:block:Change -->
         </div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.Tables.InitTableFilter($('#FilterGroups'), $('#Group'));
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
+<!-- dtl:block:Reference -->
         <div class="WidgetGradient Short SpacingTop">
             <div class="Header">
                 <h2>$Text{"Reference"}</h2>
@@ -188,18 +238,10 @@
                         $Text{"Full read and write access to the tickets in this group/queue."}
                     </dd>
                 </dl>
-
             </div>
         </div>
-
+<!-- dtl:block:Reference -->
     </div>
     <div class="Clear"></div>
 </div>
-
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserGroups'));
-//]]></script>
-<!-- dtl:js_on_document_complete -->
-
-<!-- dtl:block:Change -->
+<!-- dtl:block:Overview -->
