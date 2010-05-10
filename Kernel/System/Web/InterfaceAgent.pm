@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.48 2010-05-04 01:27:47 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.49 2010-05-10 09:11:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -255,24 +255,21 @@ sub Run {
             return;
         }
 
-        # get groups rw
-        my %GroupData = $Self->{GroupObject}->GroupMemberList(
-            Result => 'HASH',
-            Type   => 'rw',
-            UserID => $UserData{UserID},
-        );
-        for ( keys %GroupData ) {
-            $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
-        }
-
-        # get groups ro
-        %GroupData = $Self->{GroupObject}->GroupMemberList(
-            Result => 'HASH',
-            Type   => 'ro',
-            UserID => $UserData{UserID},
-        );
-        for ( keys %GroupData ) {
-            $UserData{"UserIsGroupRo[$GroupData{$_}]"} = 'Yes';
+        # get groups rw/ro
+        for my $Type (qw(rw ro)) {
+            my %GroupData = $Self->{GroupObject}->GroupMemberList(
+                Result => 'HASH',
+                Type   => $Type,
+                UserID => $UserData{UserID},
+            );
+            for ( keys %GroupData ) {
+                if ( $Type eq 'rw' ) {
+                    $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
+                }
+                else {
+                    $UserData{"UserIsGroupRo[$GroupData{$_}]"} = 'Yes';
+                }
+            }
         }
 
         # create new session id
@@ -716,25 +713,18 @@ sub Run {
                 my $AccessOk = 0;
                 my $Group    = $ModuleReg->{$Permission};
                 my $Key      = "UserIs$Permission";
+                next if !$Group;
                 if ( ref $Group eq 'ARRAY' ) {
                     for ( @{$Group} ) {
-                        if (
-                            $_
-                            && $UserData{ $Key . "[$_]" }
-                            && $UserData{ $Key . "[$_]" } eq 'Yes'
-                            )
-                        {
-                            $AccessOk = 1;
-                            last;
-                        }
+                        next if !$_;
+                        next if !$UserData{ $Key . "[$_]" };
+                        next if $UserData{ $Key . "[$_]" } ne 'Yes';
+                        $AccessOk = 1;
+                        last;
                     }
                 }
                 else {
-                    if (
-                        $Group
-                        && $UserData{ $Key . "[$Group]" }
-                        && $UserData{ $Key . "[$Group]" } eq 'Yes'
-                        )
+                    if ( $UserData{ $Key . "[$Group]" } && $UserData{ $Key . "[$Group]" } eq 'Yes' )
                     {
                         $AccessOk = 1;
                     }
@@ -914,6 +904,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2010-05-04 01:27:47 $
+$Revision: 1.49 $ $Date: 2010-05-10 09:11:44 $
 
 =cut
