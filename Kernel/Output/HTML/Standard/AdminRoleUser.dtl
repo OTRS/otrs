@@ -84,7 +84,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
                 </ul>
             </div>

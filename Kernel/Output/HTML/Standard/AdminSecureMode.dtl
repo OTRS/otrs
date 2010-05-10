@@ -1,8 +1,8 @@
 # --
 # AdminSecureMode.dtl - provides HTML for secure mode message
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSecureMode.dtl,v 1.3 2009-11-25 15:34:55 mg Exp $
+# $Id: AdminSecureMode.dtl,v 1.4 2010-05-10 21:26:34 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
             <br/>
             <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
                 <tr>
-                    <td colspan="2" class="contenthead">$Text{"Secure Mode need to be enabled!"}</td>
+                    <td colspan="2" class="contenthead">$Text{"Secure mode need to be enabled!"}</td>
                 </tr>
                 <tr>
                     <td class="contentbody">
@@ -24,7 +24,7 @@
                             $Text{"Secure mode must be disabled in order to reinstall using the web-installer."}
                         </p>
                         <p>
-                            <a href="$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Core">$Text{"If Secure Mode is not activated, activate it via SysConfig because your application is already running."}</a>
+                            <a href="$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Core">$Text{"If secure mode is not activated, activate it via SysConfig because your application is already running."}</a>
                         </p>
                     </td>
                 </tr>
