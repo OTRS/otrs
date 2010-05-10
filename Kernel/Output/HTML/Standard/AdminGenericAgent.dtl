@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.60 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.61 2010-05-10 17:54:39 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,12 +21,12 @@
                 <ul class="ActionList">
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update"><span>$Text{"Add Job"}</span></a>
+                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update"><span>$Text{"Add job"}</span></a>
                     </li>
 <!-- dtl:block:ActionAdd -->
 <!-- dtl:block:ActionOverview -->
                     <li>
-                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"}"><span>$Text{"Go to Overview"}</span></a>
+                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"}"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
                 </ul>
@@ -177,7 +177,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="CustomerUserLogin">$Text{"Customer User Login"}:</label>
+                            <label for="CustomerUserLogin">$Text{"Customer user login"}:</label>
                             <div class="Field">
                                 <input type="text" name="CustomerUserLogin" id="CustomerUserLogin" class="W33pc" value="$QData{"CustomerUserLogin"}"/>
                                 <p class="FieldExplanation">
@@ -196,7 +196,7 @@
                             <div class="Field">
                                 <input type="text" name="From" id="From" class="W30pc" value="$QData{"From"}"/>
                                 <p class="FieldExplanation">
-                                    $Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}
+                                    $Text{"Fulltext-search in article (e. g. "Mar*in" or "Baue*")."}
                                 </p>
                             </div>
                             <div class="Clear"></div>
@@ -205,7 +205,7 @@
                             <div class="Field">
                                 <input type="text" name="To" id="To" class="W33pc" value="$QData{"To"}"/>
                                 <p class="FieldExplanation">
-                                    $Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}
+                                    $Text{"Fulltext-search in article (e. g. "Mar*in" or "Baue*")."}
                                 </p>
                             </div>
                             <div class="Clear"></div>
@@ -214,7 +214,7 @@
                             <div class="Field">
                                 <input type="text" name="Cc" id="Cc" class="W33pc" value="$QData{"Cc"}"/>
                                 <p class="FieldExplanation">
-                                    $Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}
+                                    $Text{"Fulltext-search in article (e. g. "Mar*in" or "Baue*")."}
                                 </p>
                             </div>
                             <div class="Clear"></div>
@@ -223,7 +223,7 @@
                             <div class="Field">
                                 <input type="text" name="Subject" id="Subject" class="W33pc" value="$QData{"Subject"}"/>
                                 <p class="FieldExplanation">
-                                    $Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}
+                                    $Text{"Fulltext-search in article (e. g. "Mar*in" or "Baue*")."}
                                 </p>
                             </div>
                             <div class="Clear"></div>
@@ -232,7 +232,7 @@
                             <div class="Field">
                                 <input type="text" name="Body" id="Body" class="W33pc" value="$QData{"Body"}"/>
                                 <p class="FieldExplanation">
-                                    $Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}
+                                    $Text{"Fulltext-search in article (e. g. "Mar*in" or "Baue*")."}
                                 </p>
                             </div>
                             <div class="Clear"></div>
@@ -273,7 +273,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="LockIDs">$Text{"Ticket Lock"}:</label>
+                            <label for="LockIDs">$Text{"Ticket lock"}:</label>
                             <div class="Field">
                                 $Data{"LockOption"}
                             </div>
@@ -290,7 +290,7 @@
 <!-- dtl:block:TicketFreeFieldElement -->
 <!-- dtl:block:TicketFreeField -->
 
-                            <label for="TimeSearchTypeNone">$Text{"Create Times"}:</label>
+                            <label for="TimeSearchTypeNone">$Text{"Create times"}:</label>
                             <div class="Field">
                                 <input type="radio" name="TimeSearchType" id="TimeSearchTypeNone" value="" $Data{"TimeSearchType::None"}/>
                                 $Text{"No create time settings."}
@@ -309,7 +309,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="CloseTimeSearchTypeNone">$Text{"Close Times"}:</label>
+                            <label for="CloseTimeSearchTypeNone">$Text{"Close times"}:</label>
                             <div class="Field">
                                 <input type="radio" name="CloseTimeSearchType" id="CloseTimeSearchTypeNone" value="" $Data{"CloseTimeSearchType::None"}/>
                                 $Text{"No close time settings."}
@@ -328,7 +328,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="TimePendingSearchTypeNone">$Text{"Pending Times"}:</label>
+                            <label for="TimePendingSearchTypeNone">$Text{"Pending times"}:</label>
                             <div class="Field">
                                 <input type="radio" name="TimePendingSearchType" id="TimePendingSearchTypeNone" value="" $Data{"TimePendingSearchType::None"}/>
                                 $Text{"No pending time settings."}
@@ -347,7 +347,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="EscalationTimeSearchTypeNone">$Text{"Escalation Times"}:</label>
+                            <label for="EscalationTimeSearchTypeNone">$Text{"Escalation times"}:</label>
                             <div class="Field">
                                 <input type="radio" name="EscalationTimeSearchType" id="EscalationTimeSearchTypeNone" value="" $Data{"EscalationTimeSearchType::None"}/>
                                 $Text{"No escalation time settings."}
@@ -366,7 +366,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="EscalationResponseTimeSearchTypeNone">$Text{"Escalation - First Response Time"}:</label>
+                            <label for="EscalationResponseTimeSearchTypeNone">$Text{"Escalation - first response time"}:</label>
                             <div class="Field">
                                 <input type="radio" name="EscalationResponseTimeSearchType" id="EscalationResponseTimeSearchTypeNone" value="" $Data{"EscalationResponseTimeSearchType::None"}/>
                                 $Text{"No escalation time settings."}
@@ -385,7 +385,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="EscalationUpdateTimeSearchTypeNone">$Text{"Escalation - Update Time"}:</label>
+                            <label for="EscalationUpdateTimeSearchTypeNone">$Text{"Escalation - update time"}:</label>
                             <div class="Field">
                                 <input type="radio" name="EscalationUpdateTimeSearchType" id="EscalationUpdateTimeSearchTypeNone" value="" $Data{"EscalationUpdateTimeSearchType::None"}/>
                                 $Text{"No escalation time settings."}
@@ -404,7 +404,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="EscalationSolutionTimeSearchTypeNone">$Text{"Escalation - Solution Time"}:</label>
+                            <label for="EscalationSolutionTimeSearchTypeNone">$Text{"Escalation - solution time"}:</label>
                             <div class="Field">
                                 <input type="radio" name="EscalationSolutionTimeSearchType" id="EscalationSolutionTimeSearchTypeNone" value="" $Data{"EscalationSolutionTimeSearchType::None"}/>
                                 $Text{"No escalation time settings."}
@@ -440,67 +440,67 @@
                     <div class="Content">
                         <fieldset class="TableLike">
 <!-- dtl:block:NewTicketService -->
-                            <label for="NewServiceID">$Text{"Set New Service"}:</label>
+                            <label for="NewServiceID">$Text{"Set new service"}:</label>
                             <div class="Field">
                                 $Data{"NewServicesStrg"}
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewSLAID">$Text{"Set New SLA"}:</label>
+                            <label for="NewSLAID">$Text{"Set new SLA"}:</label>
                             <div class="Field">
                                 $Data{"NewSLAsStrg"}
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:NewTicketService -->
-                            <label for="NewPriorityID">$Text{"Set New Priority"}:</label>
+                            <label for="NewPriorityID">$Text{"Set new priority"}:</label>
                             <div class="Field">
                                 $Data{"NewPrioritiesStrg"}
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewQueueID">$Text{"Set New Queue"}:</label>
+                            <label for="NewQueueID">$Text{"Set new queue"}:</label>
                             <div class="Field">
                                 $Data{"NewQueuesStrg"}
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewStateID">$Text{"Set New State"}:</label>
+                            <label for="NewStateID">$Text{"Set new state"}:</label>
                             <div class="Field">
                                 $Data{"NewStatesStrg"}
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewOwnerID">$Text{"Set New Agent"}/$Text{"New Owner"}:</label>
+                            <label for="NewOwnerID">$Text{"Set new agent"}/$Text{"new owner"}:</label>
                             <div class="Field">
                                 $Data{"NewOwnerStrg"}
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewLockID">$Text{"Set New Ticket Lock"}:</label>
+                            <label for="NewLockID">$Text{"Set new ticket lock"}:</label>
                             <div class="Field">
                                 $Data{"NewLockOption"}
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewCustomerUserLogin">$Text{"New Customer User "}:</label>
+                            <label for="NewCustomerUserLogin">$Text{"New customer user"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewCustomerUserLogin" id="NewCustomerUserLogin" value="$QData{"NewCustomerUserLogin"}" class="W33pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewCustomerID">$Text{"New Customer ID "}:</label>
+                            <label for="NewCustomerID">$Text{"New customer ID"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewCustomerID" id="NewCustomerID" value="$QData{"NewCustomerID"}" class="W33pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewTitle">$Text{"New Title"}:</label>
+                            <label for="NewTitle">$Text{"New title"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewTitle" id="NewTitle" class="W33pc" value="$QData{"New Title"}"/>
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:NewTicketType -->
-                            <label for="NewTypeID">$Text{"New Type"}:</label>
+                            <label for="NewTypeID">$Text{"New type"}:</label>
                             <div class="Field">
                                 $Data{"NewTypesStrg"}
                             </div>
@@ -522,7 +522,7 @@
                 </div>
                 <div class="WidgetGradient Medium SpacingTop MinMeight">
                     <div class="Header">
-                        <h2>$Text{"Ticket Add Note"}</h2>
+                        <h2>$Text{"Ticket add note"}</h2>
                     </div>
                     <div class="Content">
                         <fieldset class="TableLike">
@@ -550,7 +550,7 @@
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:NewArchiveFlag -->
-                            <label for="NewArchiveFlag">$Text{"Archive Selected Tickets"}:</label>
+                            <label for="NewArchiveFlag">$Text{"Archive selected tickets"}:</label>
                             <div class="Field">
                                 $Data{"NewArchiveFlagStrg"}
                             </div>
@@ -604,50 +604,50 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey1">$Text{"Param 1 Key"}:</label>
+                            <label for="NewParamKey1">$Text{"Param 1 key"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey1" id="NewParamKey1" value="$QData{"NewParamKey1"}" class="W20pc"/>
-                                <label for="NewParamValue1">$Text{" Param 1 Value"}:</label>
+                                <label for="NewParamValue1">$Text{" Param 1 value"}:</label>
                                 <input type="text" name="NewParamValue1" id="NewParamValue1" value="$QData{"NewParamValue1"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey2">$Text{"Param 2 Key"}:</label>
+                            <label for="NewParamKey2">$Text{"Param 2 key"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey2" id="NewParamKey2" value="$QData{"NewParamKey2"}" class="W20pc"/>
-                                <label for="NewParamValue2">$Text{" Param 2 Value"}:</label>
+                                <label for="NewParamValue2">$Text{" Param 2 value"}:</label>
                                 <input type="text" name="NewParamValue2" id="NewParamValue2" value="$QData{"NewParamValue2"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey3">$Text{"Param 3 Key"}:</label>
+                            <label for="NewParamKey3">$Text{"Param 3 key"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey3" id="NewParamKey3" value="$QData{"NewParamKey3"}" class="W20pc"/>
-                                <label for="NewParamValue3">$Text{" Param 3 Value"}:</label>
+                                <label for="NewParamValue3">$Text{" Param 3 value"}:</label>
                                 <input type="text" name="NewParamValue3" id="NewParamValue3" value="$QData{"NewParamValue3"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey4">$Text{"Param 4 Key"}:</label>
+                            <label for="NewParamKey4">$Text{"Param 4 key"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey4" id="NewParamKey4" value="$QData{"NewParamKey4"}" class="W20pc"/>
-                                <label for="NewParamValue4">$Text{" Param 4 Value"}:</label>
+                                <label for="NewParamValue4">$Text{" Param 4 value"}:</label>
                                 <input type="text" name="NewParamValue4" id="NewParamValue4" value="$QData{"NewParamValue4"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey5">$Text{"Param 5 Key"}:</label>
+                            <label for="NewParamKey5">$Text{"Param 5 key"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey5" id="NewParamKey5" value="$QData{"NewParamKey5"}" class="W20pc"/>
-                                <label for="NewParamValue5">$Text{" Param 5 Value"}:</label>
+                                <label for="NewParamValue5">$Text{" Param 5 value"}:</label>
                                 <input type="text" name="NewParamValue5" id="NewParamValue5" value="$QData{"NewParamValue5"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey6">$Text{"Param 6 Key"}:</label>
+                            <label for="NewParamKey6">$Text{"Param 6 key"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey6" id="NewParamKey6" value="$QData{"NewParamKey6"}" class="W20pc"/>
-                                <label for="NewParamValue6">$Text{" Param 6 Value"}:</label>
+                                <label for="NewParamValue6">$Text{" Param 6 value"}:</label>
                                 <input type="text" name="NewParamValue6" id="NewParamValue6" value="$QData{"NewParamValue6"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
@@ -675,17 +675,17 @@
                     </p>
 <!-- dtl:block:DeleteWarning -->
                     <p class="Error">
-                        $Text{"Warning: You use the DELETE option. All deleted Tickets will be lost!"}
+                        $Text{"Warning: You used the DELETE option. All deleted tickets will be lost!"}
                     </p>
 <!-- dtl:block:DeleteWarning -->
 
                     <div class="SpacingTop">
                         <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update;Profile=$LQData{"Name"}">
-                            <span>$Text{"Edit Job"}</span>
+                            <span>$Text{"Edit job"}</span>
                         </a>
                         ,
                         <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow;Profile=$LQData{"Name"}">
-                            <span>$Text{"Run Job"}</span>
+                            <span>$Text{"Run job"}</span>
                         </a>
                         $Text{"or"}
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}">
