@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.240 2010-05-06 10:58:15 mb Exp $
+# $Id: Layout.pm,v 1.241 2010-05-10 09:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.240 $) [1];
+$VERSION = qw($Revision: 1.241 $) [1];
 
 =head1 NAME
 
@@ -3031,106 +3031,72 @@ sub CustomerFatalError {
 
 sub CustomerNavigationBar {
     my ( $Self, %Param ) = @_;
-    $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new( %{$Self} );
 
     # create menu items
     my %NavBarModule;
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::Module');
-    my $CustomerGroupSupport = $Self->{ConfigObject}->Get('CustomerGroupSupport');
+
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        if ( $Hash{NavBar} && ref $Hash{NavBar} eq 'ARRAY' ) {
+        next if !$Hash{NavBar};
+        next if ref $Hash{NavBar} ne 'ARRAY';
 
-            my @Items = @{ $Hash{NavBar} };
-            for my $Item (@Items) {
+        my @Items = @{ $Hash{NavBar} };
+        for my $Item (@Items) {
+            next if !$Item;
 
-                # check permissions
-                my $Shown;
+            # check permissions
+            my $Shown = 0;
 
-                # if CustomerGroupSupport is off, all modules are displayed
-                if ( !$CustomerGroupSupport ) { $Shown = 1; }
-                else {
-                    if (
-                        ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} )
-                        || ( $Item->{Type} && $Item->{Type} eq 'Menu' )
-                        || !$Item->{NavBar}
-                        )
-                    {
-
-                        # get permissions from module if no permissions are defined for the icon
-                        if ( !$Item->{GroupRo} && !$Item->{Group} ) {
-                            if ( $Hash{GroupRo} ) {
-                                $Item->{GroupRo} = $Hash{GroupRo};
-                            }
-                            if ( $Hash{Group} ) {
-                                $Item->{Group} = $Hash{Group};
-                            }
-                        }
-
-                        # If a module is not restricted via SysConfig, display it
-                        if ( !$Item->{GroupRo} && !$Item->{Group} ) {
-                            $Shown = 1;
-                        }
-
-                        # check shown permission
-                        for my $Permission (qw(GroupRo Group)) {
-
-                            # array access restriction
-                            if ( $Item->{$Permission} && ref( $Item->{$Permission} ) eq 'ARRAY' ) {
-                                for my $ItemPermission ( @{ $Item->{$Permission} } ) {
-                                    my $PermissionType = 'rw';
-                                    if ( $Permission eq 'GroupRo' ) {
-                                        $PermissionType = 'ro';
-                                    }
-
-                                    # get user groups
-                                    my %GroupData = $Self->{CustomerGroupObject}->GroupMemberList(
-                                        Result => 'HASH',
-                                        Type   => $PermissionType,
-                                        UserID => $Self->{UserID},
-                                    );
-                                    for my $Groups ( keys %GroupData ) {
-                                        if ( $GroupData{$Groups} eq $ItemPermission ) {
-                                            $Shown = 1;
-                                        }
-                                    }
-                                }
-                            }
-
-                            # scalar access restriction
-                            elsif ( $Item->{$Permission} ) {
-                                my $PermissionType = 'rw';
-                                if ( $Permission eq 'GroupRo' ) {
-                                    $PermissionType = 'ro';
-                                }
-
-                                # get user groups
-                                my %GroupData = $Self->{CustomerGroupObject}->GroupMemberList(
-                                    Result => 'HASH',
-                                    Type   => $PermissionType,
-                                    UserID => $Self->{UserID},
-                                );
-                                for my $Groups ( keys %GroupData ) {
-                                    if ( $GroupData{$Groups} eq $Item->{$Permission} ) {
-                                        $Shown = 1;
-                                    }
-                                }
-                            }
-                        }
-                    }
+            # get permissions from module if no permissions are defined for the icon
+            if ( !$Item->{GroupRo} && !$Item->{Group} ) {
+                if ( $Hash{GroupRo} ) {
+                    $Item->{GroupRo} = $Hash{GroupRo};
                 }
-                if ($Shown) {
-                    for ( 1 .. 51 ) {
-                        if ( $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } ) {
-                            $Item->{Prio}++;
-                        }
-                        if ( !$NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } ) {
+                if ( $Hash{Group} ) {
+                    $Item->{Group} = $Hash{Group};
+                }
+            }
+
+            # check shown permission
+            for my $Permission (qw(GroupRo Group)) {
+
+                # array access restriction
+                if ( $Item->{$Permission} && ref( $Item->{$Permission} ) eq 'ARRAY' ) {
+                    for my $Type ( @{ $Item->{$Permission} } ) {
+                        my $Key = 'UserIs' . $Permission . '[' . $Type . ']';
+                        if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
+                            $Shown = 1;
                             last;
                         }
                     }
-                    $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
+                }
+
+                # scalar access restriction
+                elsif ( $Item->{$Permission} ) {
+                    my $Key = 'UserIs' . $Permission . '[' . $Item->{$Permission} . ']';
+                    if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
+                        $Shown = 1;
+                        last;
+                    }
+                }
+
+                # no access restriction
+                elsif ( !$Item->{GroupRo} && !$Item->{Group} ) {
+                    $Shown = 1;
+                    last;
                 }
             }
+            next if !$Shown;
+
+            # set prio of item
+            my $Key = sprintf( "%07d", $Item->{Prio} );
+            for ( 1 .. 51 ) {
+                last if !$NavBarModule{$Key};
+
+                $Item->{Prio}++;
+            }
+            $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
         }
     }
 
@@ -3312,8 +3278,7 @@ sub CustomerNoPermission {
     $Param{Message} ||= 'No Permission!';
 
     # create output
-    my $Output;
-    $Output = $Self->CustomerHeader( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
+    my $Output = $Self->CustomerHeader( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
     $Output .= $Self->Output( TemplateFile => 'NoPermission', Data => \%Param );
     $Output .= $Self->CustomerFooter() if ( $WithHeader eq 'yes' );
 
@@ -4704,6 +4669,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.240 $ $Date: 2010-05-06 10:58:15 $
+$Revision: 1.241 $ $Date: 2010-05-10 09:34:43 $
 
 =cut

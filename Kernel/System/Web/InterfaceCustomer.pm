@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.44 2010-01-25 17:24:13 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.45 2010-05-10 09:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -255,6 +255,23 @@ sub Run {
                 ),
             );
             return;
+        }
+
+        # get groups rw/ro
+        for my $Type (qw(rw ro)) {
+            my %GroupData = $Self->{GroupObject}->GroupMemberList(
+                Result => 'HASH',
+                Type   => $Type,
+                UserID => $UserData{UserID},
+            );
+            for ( keys %GroupData ) {
+                if ( $Type eq 'rw' ) {
+                    $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
+                }
+                else {
+                    $UserData{"UserIsGroupRo[$GroupData{$_}]"} = 'Yes';
+                }
+            }
         }
 
         # create new session id
@@ -779,16 +796,12 @@ sub Run {
             return;
         }
 
-        # create new LayoutObject with new '%Param' and '%UserData'
-        my $LayoutObject = Kernel::Output::HTML::Layout->new(
-            %{$Self},
-            %Param,
-            %UserData,
-        );
-
         # module registry
         my $ModuleReg = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Param{Action} };
         if ( !$ModuleReg ) {
+
+            # new layout object
+            my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message =>
@@ -797,6 +810,64 @@ sub Run {
             $LayoutObject->CustomerFatalError( Comment => 'Please contact your admin' );
             return;
         }
+
+        # module permisson check
+        if ( !$ModuleReg->{GroupRo} && !$ModuleReg->{Group} ) {
+            $Param{AccessRo} = 1;
+            $Param{AccessRw} = 1;
+        }
+        else {
+            for my $Permission (qw(GroupRo Group)) {
+                my $AccessOk = 0;
+                my $Group    = $ModuleReg->{$Permission};
+                my $Key      = "UserIs$Permission";
+                next if !$Group;
+                if ( ref $Group eq 'ARRAY' ) {
+                    for ( @{$Group} ) {
+                        next if !$_;
+                        next if !$UserData{ $Key . "[$_]" };
+                        next if $UserData{ $Key . "[$_]" } ne 'Yes';
+                        $AccessOk = 1;
+                        last;
+                    }
+                }
+                else {
+                    if ( $UserData{ $Key . "[$Group]" } && $UserData{ $Key . "[$Group]" } eq 'Yes' )
+                    {
+                        $AccessOk = 1;
+                    }
+                }
+                if ( $Permission eq 'Group' && $AccessOk ) {
+                    $Param{AccessRo} = 1;
+                    $Param{AccessRw} = 1;
+                }
+                elsif ( $Permission eq 'GroupRo' && $AccessOk ) {
+                    $Param{AccessRo} = 1;
+                }
+            }
+            if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
+
+                # new layout object
+                my $LayoutObject = Kernel::Output::HTML::Layout->new(
+                    %{$Self},
+                    Lang => $Param{Lang},
+                );
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => 'No Permission to use this frontend module!'
+                );
+                $LayoutObject->CustomerFatalError( Comment => 'Please contact your admin' );
+                return;
+            }
+        }
+
+        # create new LayoutObject with new '%Param' and '%UserData'
+        my $LayoutObject = Kernel::Output::HTML::Layout->new(
+            %{$Self},
+            %Param,
+            %UserData,
+            ModuleReg => $ModuleReg,
+        );
 
         # updated last request time
         $Self->{SessionObject}->UpdateSessionID(
@@ -942,6 +1013,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2010-01-25 17:24:13 $
+$Revision: 1.45 $ $Date: 2010-05-10 09:34:43 $
 
 =cut
