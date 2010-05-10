@@ -2,7 +2,7 @@
 # AdminQueue.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.dtl,v 1.8 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminQueue.dtl,v 1.9 2010-05-10 21:03:12 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,13 +25,13 @@
 
 <!-- dtl:block:ActionOverview -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
 
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Queue"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add queue"}</span></a>
                     </li>
 <!-- dtl:block:ActionAdd -->
 
@@ -105,7 +105,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ParentQueueID">$Text{"Sub-Queue of"}:</label>
+                        <label for="ParentQueueID">$Text{"Sub-queue of"}:</label>
                         <div class="Field">
                             $Data{"QueueOption"}
                         </div>
@@ -132,7 +132,7 @@
                         <div class="Clear"></div>
 
                         <label for="FirstResponseTime">
-                            $Text{"Escalation - First Response Time"} ($Text{"minutes"}):
+                            $Text{"Escalation - first response time"} ($Text{"minutes"}):
                         </label>
                         <div class="Field">
                             <input type="text" name="FirstResponseTime" id="FirstResponseTime" value="$QData{"FirstResponseTime"}" class="W20pc" maxlength="10"/>
@@ -147,7 +147,7 @@
                         <div class="Clear"></div>
 
                         <label for="UpdateTime">
-                            $Text{"Escalation - Update Time"} ($Text{"minutes"}):
+                            $Text{"Escalation - update time"} ($Text{"minutes"}):
                         </label>
                         <div class="Field">
                             <input type="text" name="UpdateTime" id="UpdateTime" value="$QData{"UpdateTime"}" class="W20pc" maxlength="10"/>
@@ -162,7 +162,7 @@
                         <div class="Clear"></div>
 
                         <label for="SolutionTime">
-                            $Text{"Escalation - Solution Time"} ($Text{"minutes"}):
+                            $Text{"Escalation - solution time"} ($Text{"minutes"}):
                         </label>
                         <div class="Field">
                             <input type="text" name="SolutionTime" id="SolutionTime" value="$QData{"SolutionTime"}" class="W20pc" maxlength="10"/>
@@ -194,7 +194,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="SystemAddressID">$Text{"System Address"}:</label>
+                        <label for="SystemAddressID">$Text{"System address"}:</label>
                         <div class="Field">
                             $Data{"SystemAddressOption"}
                             <p class="FieldExplanation">
@@ -204,7 +204,7 @@
                         <div class="Clear"></div>
 
 <!-- dtl:block:OptionalField -->
-                        <label for="DefaultSignKey">$Text{"Default Sign Key"} <em>($QData{"Email","14"})</em>:</label>
+                        <label for="DefaultSignKey">$Text{"Default sign key"} <em>($QData{"Email","14"})</em>:</label>
                         <div class="Field">
                             $Data{"DefaultSignKeyOption"}
                         </div>
