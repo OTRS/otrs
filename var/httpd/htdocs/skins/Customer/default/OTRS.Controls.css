@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -151,25 +151,29 @@
 .ActionRow.Bottom {
     height: auto;
     padding: 5px 7px 4px;
-    background: #777 url("img/GradientSmall.png") repeat-x top;
+    background: #DDD;
+    background: -moz-linear-gradient(top, #EEE, #DDD);
+    background: -webkit-gradient(linear, left top, left bottom, from(#EEE), to(#DDD));
     border: 1px solid #BBB;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
 
-.TicketView .ActionRow {
+.ActionRow.BigButtons,
+.ActionRow.Bottom.BigButtons,
+.RTL .ActionRow.Bottom.BigButtons {
     height: 24px;
     padding: 0;
 }
 
 .TicketView .ActionRow.Bottom,
 .RTL .TicketView .ActionRow.Bottom {
-    height: 24px;
-    padding: 0;
     border-radius: 0;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
+    border-left: none;
+    border-right: none;
 }
 
 .ActionRow.Bottom > span {
@@ -223,11 +227,14 @@
 
 .Pagination {
     float: right;
-    padding: 6px 9px 4px;
 }
 
 .RTL .Pagination {
     float: left;
+}
+
+.BigButtons .Pagination  {
+    padding: 6px 9px 4px;
 }
 
 .Pagination a {
