@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.58 2010-05-06 09:28:31 mg Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.59 2010-05-10 21:50:13 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@
                 <ul class="ActionList">
                     <li>
                         <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SelectGroup;SysConfigGroup=$LQData{"Group"}">
-                            <span>$Text{"Go to Overview"}</span>
+                            <span>$Text{"Go to overview"}</span>
                         </a>
                     </li>
                 </ul>
@@ -196,17 +196,17 @@
                                     <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteGroupElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
                                     <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
-                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#NewGroupElement" value="$Text{"New Group"}" title="$Text{"New Group"}">$Text{"New Group"}</button>
+                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#NewGroupElement" value="$Text{"New group"}" title="$Text{"New group"}">$Text{"New group"}</button>
                                 </div>
 
-                                <label class="KeyWithComplexValue">$Text{"Group Ro"}:</label>
+                                <label class="KeyWithComplexValue">$Text{"Group ro"}:</label>
                                 <div class="Array">
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
                                     <input type="text" class="Entry" name="$QData{"ElementKey"}#GroupRo[]" value="$QData{"Content"}"/>
                                     <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteGroupRoElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
                                     <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
-                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#NewGroupRoElement" value="$Text{"New Group Ro"}">$Text{"New Group Ro"}</button>
+                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#NewGroupRoElement" value="$Text{"New group ro"}">$Text{"New group ro"}</button>
                                 </div>
 
                                 <label class="SingleKey" for="$QData{"ElementKeyID"}_Title">$Text{"Title"}:</label>
@@ -233,17 +233,17 @@
                                             <button class="Remove" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupElement$Data{"ArrayIndex"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
                                             <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroup -->
-                                            <button class="Add" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupElement" value="$Text{"New Group"}" title="$Text{"New Group"}">$Text{"New Group"}</button>
+                                            <button class="Add" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupElement" value="$Text{"New group"}" title="$Text{"New group"}">$Text{"New group"}</button>
                                         </div>
 
-                                        <label class="KeyWithComplexValue">$Text{"Group Ro"}:</label>
+                                        <label class="KeyWithComplexValue">$Text{"Group ro"}:</label>
                                         <div class="Array">
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroupRo -->
                                             <input type="text" class="Entry" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#GroupRo[]" value="$QData{"Content"}"/>
                                             <button class="Remove" type="submit" name="$QData{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupRoElement$Data{"ArrayIndex"}" value="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
                                             <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroupRo -->
-                                            <button class="Add" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupRoElement" value="$Text{"New Group Ro"}" title="$Text{"New Group Ro"}">$Text{"New Group Ro"}</button>
+                                            <button class="Add" type="submit" name="$QData{"ElementKey"}$Data{"Index"}#NewGroupRoElement" value="$Text{"New group ro"}" title="$Text{"New group ro"}">$Text{"New group ro"}</button>
                                         </div>
 
                                         <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Description">$Text{"Description"}:</label>
