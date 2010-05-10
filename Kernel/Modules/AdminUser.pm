@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.65 2010-04-22 21:36:21 en Exp $
+# $Id: AdminUser.pm,v 1.66 2010-05-10 17:24:26 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -471,6 +471,7 @@ sub _Overview {
         Name => 'Overview',
         Data => \%Param,
     );
+
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
     $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
@@ -480,75 +481,63 @@ sub _Overview {
         Data => {},
     );
 
-    # if there are any registries to search, the table is filled and shown
-    if ( $Param{Search} ) {
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewResult',
+        Data => \%Param,
+    );
+    if ( $Self->{ConfigObject}->Get('SwitchToUser') ) {
+        $ColSpan = 8;
         $Self->{LayoutObject}->Block(
-            Name => 'OverviewResult',
-            Data => \%Param,
+            Name => 'OverviewResultSwitchToUser',
         );
-        if ( $Self->{ConfigObject}->Get('SwitchToUser') ) {
-            $ColSpan = 8;
-            $Self->{LayoutObject}->Block(
-                Name => 'OverviewResultSwitchToUser',
+    }
+
+    my %List = $Self->{UserObject}->UserSearch(
+        Search => $Param{Search} . '*',
+        Limit  => 400,
+        Valid  => 0,
+    );
+
+    # get valid list
+    my %ValidList = $Self->{ValidObject}->ValidList();
+
+    # if there are results to show
+    if (%List) {
+        for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+            my %UserData = $Self->{UserObject}->GetUserData(
+                UserID        => $_,
+                NoOutOfOffice => 1,
             );
-        }
-
-        my %List = $Self->{UserObject}->UserSearch(
-            Search => $Param{Search} . '*',
-            Limit  => 400,
-            Valid  => 0,
-        );
-
-        # get valid list
-        my %ValidList = $Self->{ValidObject}->ValidList();
-
-        # if there are results to show
-        if (%List) {
-            for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
-
-                my %UserData = $Self->{UserObject}->GetUserData(
-                    UserID        => $_,
-                    NoOutOfOffice => 1,
-                );
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    Valid  => $ValidList{ $UserData{ValidID} },
+                    Search => $Param{Search},
+                    %UserData,
+                },
+            );
+            if ( $Self->{ConfigObject}->Get('SwitchToUser') ) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'OverviewResultRow',
+                    Name => 'OverviewResultRowSwitchToUser',
                     Data => {
-                        Valid  => $ValidList{ $UserData{ValidID} },
                         Search => $Param{Search},
                         %UserData,
                     },
                 );
-                if ( $Self->{ConfigObject}->Get('SwitchToUser') ) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'OverviewResultRowSwitchToUser',
-                        Data => {
-                            Search => $Param{Search},
-                            %UserData,
-                        },
-                    );
-                }
             }
         }
-
-        # otherwise it displays a no data found message
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'NoDataFoundMsg',
-                Data => {
-                    ColSpan => $ColSpan,
-                },
-            );
-        }
     }
 
-    # if there is nothing to search it shows a message
-    else
-    {
+    else {
         $Self->{LayoutObject}->Block(
-            Name => 'NoSearchTerms',
-            Data => {},
+            Name => 'NoDataFoundMsg',
+            Data => {
+                ColSpan => $ColSpan,
+            },
         );
     }
+
     return 1;
 }
 
