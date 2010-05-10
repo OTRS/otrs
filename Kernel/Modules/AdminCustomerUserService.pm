@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.19 2010-05-07 23:33:33 cr Exp $
+# $Id: AdminCustomerUserService.pm,v 1.20 2010-05-10 20:56:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -390,6 +390,15 @@ sub _Change {
                 Name => 'AllocateItemCountLimit',
                 Data => { ItemCount => 0, },
             );
+
+            my $ColSpan = "2";
+
+            $Self->{LayoutObject}->Block(
+                Name => 'NoDataFoundMsg',
+                Data => {
+                    ColSpan => $ColSpan,
+                },
+            );
         }
         elsif ( @ItemList > $SearchLimit ) {
             $Self->{LayoutObject}->Block(
@@ -490,9 +499,9 @@ sub _Overview {
             Name => 'ResultCustomerUserCountLimit',
             Data => { CustomerUserCount => 0, },
         );
+
         $Self->{LayoutObject}->Block(
-            Name => 'NoCustomersFoundMsg',
-            Data => { CustomerUserCount => 0, },
+            Name => 'NoDataFoundMsgList',
         );
     }
     elsif ( @CustomerUserKeyList > $SearchLimit ) {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.34 2010-05-08 03:56:50 cr Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.35 2010-05-10 20:56:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -398,6 +398,16 @@ sub _Change {
                 Name => 'ChangeItemCountLimit',
                 Data => { ItemCount => 0, },
             );
+
+            my $ColSpan = "3";
+
+            $Self->{LayoutObject}->Block(
+                Name => 'NoDataFoundMsg',
+                Data => {
+                    ColSpan => $ColSpan,
+                },
+            );
+
         }
         elsif ( @ItemList > $SearchLimit ) {
             $Self->{LayoutObject}->Block(
@@ -492,8 +502,7 @@ sub _Overview {
             Data => { CustomerUserCount => 0, },
         );
         $Self->{LayoutObject}->Block(
-            Name => 'NoCustomersFoundMsg',
-            Data => { CustomerUserCount => 0, },
+            Name => 'NoDataFoundMsgList',
         );
     }
     elsif ( @CustomerUserKeyList > $SearchLimit ) {

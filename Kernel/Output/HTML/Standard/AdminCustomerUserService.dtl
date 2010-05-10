@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.24 2010-05-10 17:30:22 en Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.25 2010-05-10 20:56:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,6 +93,9 @@
 <!-- dtl:block:ResultUserRow -->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateCustomerUser;CustomerUserLogin=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"};ServiceSearch=$LQData{"ServiceSearch"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:ResultUserRow -->
+<!-- dtl:block:NoDataFoundMsgList -->
+                        <li>$Text{"No data found."}</li>
+<!-- dtl:block:NoDataFoundMsgList -->
                     </ul>
                 </div>
                 <div class="Size1of2">
@@ -102,6 +105,7 @@
 <!-- dtl:block:ResultServiceRow -->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:ResultServiceRow -->
+                        <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
                     </ul>
                 </div>
             </div>
@@ -153,6 +157,13 @@ function select_items (Type) {
                             </tr>
                         </thead>
                         <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                            <tr>
+                                <td colspan="$QData{"ColSpan"}">
+                                    $Text{"No data found."}
+                                </td>
+                            </tr>
+<!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:AllocateItemRow -->
                             <tr>
                                 <td><a href="$Env{"Baselink"}Action=$LQData{"ActionNeHome"};Subaction=$LQData{"SubactionRow"};$LQData{"IDRowStrg"}=$LQData{"ID"}">$QData{"Name"}</a></td>
@@ -162,6 +173,9 @@ function select_items (Type) {
                                 </td>
                             </tr>
 <!-- dtl:block:AllocateItemRow -->
+                            <tr class="FilterMessage Hidden" clospan="3">
+                                <td >$Text{"No matches found."}</td>
+                            </tr>
                         </tbody>
                     </table>
                     <div class="Field SpacingTop">
