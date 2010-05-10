@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.94 2010-05-07 23:16:38 dz Exp $
+# $Id: AdminSysConfig.pm,v 1.95 2010-05-10 23:16:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -815,7 +815,7 @@ sub Run {
         $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
         $Group = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
-        my %List = $Self->{SysConfigObject}->ConfigSubGroupList( Name => $Group );
+        %List = $Self->{SysConfigObject}->ConfigSubGroupList( Name => $Group );
 
         # if there are any results, they are shown
         if (%List) {
