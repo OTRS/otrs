@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.26 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminSLA.dtl,v 1.27 2010-05-10 21:38:23 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@
 
 <!-- dtl:block:ActionOverview -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
 
@@ -115,7 +115,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="FirstResponseTime">$Text{"Escalation - First Response Time"} ($Text{"minutes"}):</label>
+                        <label for="FirstResponseTime">$Text{"Escalation - first response time"} ($Text{"minutes"}):</label>
                         <div class="Field">
                             <input type="text" name="FirstResponseTime" id="FirstResponseTime" value="$QData{"FirstResponseTime"}" class="W50px" maxlength="10"/>
                             (<label for="FirstResponseNotify">$Text{"Notify by"}</label> $Data{"FirstResponseNotifyOptionStrg"})
@@ -125,7 +125,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="UpdateTime">$Text{"Escalation - Update Time"} ($Text{"minutes"}):</label>
+                        <label for="UpdateTime">$Text{"Escalation - update time"} ($Text{"minutes"}):</label>
                         <div class="Field">
                             <input type="text" name="UpdateTime" id="UpdateTime" value="$QData{"UpdateTime"}" class="W50px" maxlength="10"/>
                             (<label for="UpdateNotify">$Text{"Notify by"}</label> $Data{"UpdateNotifyOptionStrg"})
@@ -135,7 +135,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="SolutionTime">$Text{"Escalation - Solution Time"} ($Text{"minutes"}):</label>
+                        <label for="SolutionTime">$Text{"Escalation - solution time"} ($Text{"minutes"}):</label>
                         <div class="Field">
                             <input type="text" name="SolutionTime" id="SolutionTime" value="$QData{"SolutionTime"}" class="W50px" maxlength="10"/>
                             (<label for="SolutionNotify">$Text{"Notify by"}</label> $Data{"SolutionNotifyOptionStrg"})

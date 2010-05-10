@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.31 2010-05-07 23:16:38 dz Exp $
+# $Id: AdminSysConfig.dtl,v 1.32 2010-05-10 21:42:53 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@
                 <ul class="ActionList">
 <!-- dtl:block:ActionOverview -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
 
@@ -48,10 +48,10 @@
                             <input type="hidden" name="Subaction" value="SelectGroup"/>
                             <input type="hidden" name="DontWriteDefault" value="1"/>
                             <div>
-                                $Data{"Liste"}
+                                $Data{"List"}
                             </div>
                             <button type="submit" class="CallForAction" name="" value="$Text{"Select Group"}" title="$Text{"Navigate by selecting config groups"}">
-                                <span>$Text{"Select Group"}</span>
+                                <span>$Text{"Select group"}</span>
                             </button>
                         </form>
                     </li>
@@ -60,14 +60,14 @@
 <!-- dtl:block:Download -->
                     <li>
                         <a title="$Text{"Download all system config changes"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;DontWriteDefault=1" class="CallForAction">
-                            <span>$Text{"Export Settings"}</span>
+                            <span>$Text{"Export settings"}</span>
                         </a>
                     </li>
 <!-- dtl:block:Download -->
 
 <!-- dtl:block:ActionImport -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Import" class="CallForAction"><span>$Text{"Import Settings"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Import" class="CallForAction"><span>$Text{"Import settings"}</span></a>
                     </li>
 <!-- dtl:block:ActionImport -->
 
@@ -115,7 +115,7 @@
             <div class="Content">
 <!-- dtl:block:NoSearchTerms -->
                 <div class="Content">
-                    <p>$Text{"Please enter a search term to look for Settings."}</p>
+                    <p>$Text{"Please enter a search term to look for settings."}</p>
                 </div>
 <!-- dtl:block:NoSearchTerms -->
 <!-- dtl:block:OverviewResult -->
