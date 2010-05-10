@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.35 2010-05-10 16:29:45 mn Exp $
+# $Id: AdminEmail.dtl,v 1.36 2010-05-10 17:32:50 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,13 +50,13 @@ $Include{"RichTextEditor"}
                         <label for="UserIDs">$Text{"Send message to users"}:</label>
                         <div class="Field">
                             $Data{"UserOption"}
-                        </div
+                        </div>
                         <div class="Clear"></div>
 
                         <label for="GroupIDs">$Text{"Send message to group members"}:</label>
                         <div class="Field">
                             $Data{"GroupOption"}
-                        </div
+                        </div>
                         <div class="Clear"></div>
 
                         <label for="GroupPermissionRO">$Text{"Group members need to have permission"}:</label>
@@ -66,22 +66,22 @@ $Include{"RichTextEditor"}
                             <br/>
                             <input type="radio" name="GroupPermission" id="GroupPermissionRW" value="rw"/>
                             <label for="GroupPermissionRW">rw</label>
-                        </div
+                        </div>
                         <div class="Clear"></div>
 
 <!-- dtl:block:RoleRecipients -->
                         <label for="RoleIDs">$Text{"Send message to role members"}:</label>
                         <div class="Field">
                             $Data{"RoleOption"}
-                        </div
+                        </div>
                         <div class="Clear"></div>
 <!-- dtl:block:RoleRecipients -->
 
 <!-- dtl:block:CustomerUserGroups -->
-                        <label for="NotifyCustomerUsers">$Text{"Also send CustomerUsers in Groups"}:</label>
+                        <label for="NotifyCustomerUsers">$Text{"Also send customer users in groups"}:</label>
                         <div class="Field">
                             <input type="checkbox" name="NotifyCustomerUsers" id="NotifyCustomerUsers" />
-                        </div
+                        </div>
                         <div class="Clear"></div>
 <!-- dtl:block:CustomerUserGroups -->
 

@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.23 2010-05-07 23:33:33 cr Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.24 2010-05-10 17:30:22 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@
                 <ul class="ActionList">
 <!-- dtl:block:ActionOverview -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
 
@@ -39,14 +39,14 @@
                             <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}" />
 <!-- dtl:block:SearchAllocateService -->
                             <button class="Primary" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
-                            <p class="FieldExplanation">$Text{"Search for customers (wildcards are allowed)"}</p>
+                            <p class="FieldExplanation">$Text{"Search for customers (wildcards are allowed)."}</p>
                         </form>
                     </li>
 <!-- dtl:block:Search -->
 <!-- dtl:block:Default -->
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateCustomerUser" class="CallForAction">
-                            <span>$Text{"Edit Default Services"}</span>
+                            <span>$Text{"Edit default services"}</span>
                         </a>
                     </li>
 <!-- dtl:block:Default -->
