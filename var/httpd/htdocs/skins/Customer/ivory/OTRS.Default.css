@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @author      Felix Niklas
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
@@ -10,12 +10,14 @@
  * @package     Skin "Ivory"
  */
 
-/**
- * @section     Link color
- */
 
+/**
+ * @subsection     Highlight color
+ */
 a,
-#Footer a:hover {
+#Footer a:hover,
+.Tabs .Selected,
+.Tabs .Selected:hover {
     color: #3F8DCA;
 }
 
@@ -23,9 +25,53 @@ a:hover {
     color: #4BA7EF;
 }
 
+/**
+ * @subsection     Main background color
+ */
+
 body {
     background: #DDD;
 }
+
+/**
+ * @subsection     Dark color (A)
+ */
+
+#Navigation {
+    background: black;
+}
+
+#Navigation .Selected a,
+#Navigation .Selected a:focus,
+#Navigation .Selected a:active {
+    color: black;
+}
+
+#Navigation a:hover,
+#Navigation li:focus a,
+#Navigation li:active a {
+    background: #222;
+}
+
+/**
+ * @subsection     Light color (B)
+ */
+
+#Navigation a,
+#Navigation a:hover
+#Navigation li:focus a,
+#Navigation li:active a {
+    color: white;
+}
+
+#Navigation .Selected,
+#Body {
+    background: white;
+}
+
+/**
+ * @subsection     Structure
+ */
 
 #Header {
     display: none;
@@ -36,7 +82,6 @@ body {
     padding: 8px 6px;
     width: 615px;
     height: 27px;
-    background: black;
     border: none;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -77,7 +122,6 @@ body {
 #Navigation li:active a {
     padding: 7px 8px;
     font-size: 10px;
-    color: white;
     text-shadow: none;
     text-transform: uppercase;
     background: none;
@@ -86,17 +130,9 @@ body {
     border-radius: 3px;
 }
 
-#Navigation a:hover,
-#Navigation li:focus a,
-#Navigation li:active a {
-    background: #222;
-    color: white;
-}
-
 #Navigation .Selected {
     margin-top: 0;
     height: 45px;
-    background: white;
     -webkit-border-top-left-radius: 3px;
     -webkit-border-top-right-radius: 3px;
     -moz-border-radius-topleft: 3px;
@@ -111,7 +147,6 @@ body {
     margin: 0;
     padding: 7px 11px;
     background: none;
-    color: black;
     text-shadow: none;
 }
 
@@ -119,7 +154,6 @@ body {
     margin: 0 auto;
     padding: 3px 0;
     width: 627px;
-    background: white;
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px;
@@ -186,7 +220,6 @@ body {
 
 .Tabs .Selected,
 .Tabs .Selected:hover {
-    color: #3F8DCA;
     font-weight: normal;
 }
 
@@ -210,26 +243,19 @@ table.Overview {
     color: #BBB;
 }
 
-.Overview tbody tr td:first-child {
-    -webkit-border-top-left-radius: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    -moz-border-radius-topleft: 3px;
-    -moz-border-radius-bottomleft: 3px;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+.Overview thead {
+    background: #E9E9E9;
 }
 
-.Overview tbody tr td:last-child {
-    -webkit-border-top-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
-    -moz-border-radius-topright: 3px;
-    -moz-border-radius-bottomright: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
+.Overview thead th {
+    padding: 2px 0 1px;
+    border: none;
 }
 
-.Overview tbody tr:hover td {
-    background-color: #E9E9E9;
+.Overview tbody tr {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 
 .Overview tbody tr:active {
@@ -251,6 +277,7 @@ table.Overview {
 
 .Title h2 a {
     color: #363636;
+    font-size: 14px;
 }
 
 .Overview tbody tr:hover .Title h2 a {
@@ -264,12 +291,10 @@ table.Overview {
 /**
  * @subsection  Table Style Hovered
  */
-.Overview tbody tr:hover td {
-    background-image: none;
+.Overview tbody tr:hover {
+    background: #E9E9E9;
     color: #BBB;
-}
-.Overview tbody tr:hover + tr td {
-    background-image: none;
+    border-color: #E9E9E9;
 }
 .Overview tbody tr:hover td,
 .Overview tbody tr:hover a {
@@ -287,7 +312,7 @@ table.Overview {
 .Overview tbody tr:focus td,
 .Overview tbody tr:active td {
     background-image: none;
-    padding: 3px 8px 1px;
+    padding: 5px 8px 2px;
 }
 
 /**
