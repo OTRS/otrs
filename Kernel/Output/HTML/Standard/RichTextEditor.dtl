@@ -2,87 +2,23 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.34 2010-04-22 18:40:25 mn Exp $
+# $Id: RichTextEditor.dtl,v 1.35 2010-05-10 16:29:46 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-# Implementation of CKEDitor
-# Known Issues:
-# - Config.EditorAreaStyles: No known implementation of this in CKEditor3
-# - Config.BrowserContextMenu: No known implementation of this in CKEditor3
-# - Patched ckeditor.js for image upload
-# - Aspell plugin added for SpellChecker support in CKEditor3 (including patched files for OTRS)
-
-<script src="$Config{"Frontend::JavaScriptPath"}thirdparty/ckeditor-3.2/ckeditor.js" type="text/javascript"></script>
-<script type="text/javascript">//<![CDATA[
-function InitRichText() {
-    var ToolbarSet = 'Simple';
-    if ( document.compose && document.compose.FormID ) {
-        ToolbarSet = 'Full';
-    }
-
-    CKEDITOR.replace('RichText',
-    {
-        customConfig: '', // avoid loading external config files
-        defaultLanguage: '$Env{"UserLanguage"}',
-        language: '$Env{"UserLanguage"}',
-        width: '$Config{"Frontend::RichTextWidth"}' || 620,
-        resize_minWidth: '$Config{"Frontend::RichTextWidth"}' || 620,
-        height: '$Config{"Frontend::RichTextHeight"}' || 320,
-        baseHref: '$Config{"Frontend::JavaScriptPath"}/thirdparty/ckeditor-3.2/',
-        forcePasteAsPlainText: false,
-        fontSize_sizes: '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
-        enterMode: CKEDITOR.ENTER_BR,
-        shiftEnterMode: CKEDITOR.ENTER_BR,
-        contentsLangDirection: '$Env{"TextDirection"}' ? '$Env{"TextDirection"}' : 'ltr',
-        disableNativeSpellChecker: false,
-        toolbar_Full: [
-            ['Bold','Italic','Underline','Strike','-','NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Link','Unlink','-','Image','HorizontalRule','-','Undo','Redo','-','Find','SpellCheck'],
-            '/',
-            ['Format','Font','FontSize','-','TextColor','BGColor','RemoveFormat','-','Source'],
-        ],
-        toolbar_Simple: [
-            ['Bold','Italic','Underline','Strike','-','NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Link','Unlink','-','HorizontalRule','-','Undo','Redo','-','Find','SpellCheck'],
-            '/',
-            ['Format','Font','FontSize','-','TextColor','BGColor','RemoveFormat','-','Source'],
-        ],
-        toolbar: ToolbarSet,
-        filebrowserUploadUrl: '$Env{"Baselink"}',
-        extraPlugins: ( '$Env{"BrowserSpellCheckerInline"}' ) ? 'aspell' : ''
-    });
-    if ( document.compose && document.compose.FormID ) {
-        CKEDITOR.config.action = 'PictureUpload';
-        CKEDITOR.config.formID = document.compose.FormID.value;
-    }
-    CKEDITOR.config.spellerPagesServerScript = '$Env{"Baselink"}';
-}
-
-// update body with current rich text content
-function RichTextUpdateLinkedField() {
-    var RichTextData = CKEDITOR.instances.RichText.getData();
-    var RichTextArea = document.getElementById('RichText');
-    if ( RichTextArea ) {
-        var StrippedContent = RichTextData.replace(/\s+|&nbsp;|<\/?\w+\s?\/?>/g, '');
-        if (StrippedContent.length == 0) {
-            RichTextArea.value = '';
-        }
-        else {
-            RichTextArea.value = RichTextData;
-        }
-    }
-}
-
-// set focus to rich text editor
-function RichTextFocus() {
-    CKEDITOR.instances.RichText.focus();
-}
-//]]></script>
-
+<script src="$Config{"Frontend::RichTextPath"}ckeditor.js" type="text/javascript"></script>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    InitRichText();
+    OTRS.Config.Set('RichText.Width', '$Config{"Frontend::RichTextWidth"}');
+    OTRS.Config.Set('RichText.Height', '$Config{"Frontend::RichTextHeight"}');
+    OTRS.Config.Set('RichText.BasePath', '$Config{"Frontend::RichTextPath"}');
+    OTRS.Config.Set('RichText.TextDir', '$Env{"TextDirection"}');
+    OTRS.Config.Set('RichText.SpellChecker', '$Env{"BrowserSpellCheckerInline"}');
+    OTRS.Config.Set('RichText.EditingAreaCSS', 'body { $Config{"Frontend::RichText::DefaultCSS"} }');
+
+    OTRS.UI.RichTextEditor.InitAll();
 //]]></script>
 <!-- dtl:js_on_document_complete -->

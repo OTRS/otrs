@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.46 2010-05-05 13:16:14 mg Exp $
+# $Id: AgentTicketForward.dtl,v 1.47 2010-05-10 16:29:46 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -185,7 +185,7 @@ function BookCheckSubmit() {
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                                        <textarea id="RichText" name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">$QData{"Body"}</textarea>
+                                        <textarea id="RichText" class="RichText" name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">$QData{"Body"}</textarea>
                                         <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
                                     </td>
                                 </tr>

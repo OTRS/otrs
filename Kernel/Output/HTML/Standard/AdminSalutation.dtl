@@ -2,7 +2,7 @@
 # AdminSalutation.dtl - provides HTML form for AdminSalutation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSalutation.dtl,v 1.10 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminSalutation.dtl,v 1.11 2010-05-10 16:29:46 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,7 +105,7 @@ $Include{"RichTextEditor"}
 
                         <label for="RichText">$Text{"Salutation"}:</label>
                         <div class="RichTextField">
-                            <textarea id="RichText" rows="10" cols="74" name="Text">$QData{"Text"}</textarea>
+                            <textarea id="RichText" class="RichText" rows="10" cols="74" name="Text">$QData{"Text"}</textarea>
                         </div>
                         <div class="Clear"></div>
 

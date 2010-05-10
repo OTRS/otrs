@@ -2,7 +2,7 @@
 // OTRS.UI.Tables.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Tables.js,v 1.10 2010-05-07 13:33:29 mn Exp $
+// $Id: OTRS.UI.Tables.js,v 1.11 2010-05-10 16:29:46 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -57,6 +57,10 @@ OTRS.UI.Tables = (function (TargetNS) {
     TargetNS.InitTableFilter = function ($FilterInput, $Container, ColumnNumber) {
         $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
             window.setTimeout(function () {
+                function CheckText(Text, FilterText) {
+                    return Text.toLowerCase().indexOf(FilterText) > -1;
+                }
+
                 var FilterText = ($FilterInput.val() || '').toLowerCase(),
                     $Rows = $Container.find('tbody tr:not(.FilterMessage), li:not(.Header):not(.FilterMessage)');
                 // Only search in one special column of the table
@@ -69,7 +73,7 @@ OTRS.UI.Tables = (function (TargetNS) {
                         .hide()
                         .end()
                         .each(function () {
-                            if ($(this).text().toLowerCase().indexOf(FilterText) > -1) {
+                            if (CheckText($(this).text()) || CheckText($(this).attr('title'))) {
                                 $(this).closest('tr, li').show();
                             }
                         });

@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.5 2010-04-27 16:30:49 en Exp $
+# $Id: AdminNotification.dtl,v 1.6 2010-05-10 16:29:45 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,7 +71,7 @@ $Include{"RichTextEditor"}
 
                         <label for="RichText">$Text{"Text"}:</label>
                         <div class="RichTextField">
-                            <textarea id="RichText" rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+                            <textarea id="RichText" class="RichText" rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
                         </div>
                         <div class="Clear"></div>
                         <div class="Field">

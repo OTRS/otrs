@@ -2,7 +2,7 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.33 2010-05-05 13:16:14 mg Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.34 2010-05-10 16:29:46 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -144,7 +144,7 @@ function SpellCheckSubmit() {
 $Include{"RichTextEditor"}
 # set white background for buttons
 <!-- dtl:block:RichText -->
-                            <textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$Data{"Body"}</textarea>
+                            <textarea id="RichText" class="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$Data{"Body"}</textarea>
                             <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
                         </td>
                     </tr>
