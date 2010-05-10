@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.32 2010-05-10 21:42:53 en Exp $
+# $Id: AdminSysConfig.dtl,v 1.33 2010-05-10 21:45:11 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@
                             <input type="hidden" name="Subaction" value="SelectGroup"/>
                             <input type="hidden" name="DontWriteDefault" value="1"/>
                             <div>
-                                $Data{"List"}
+                                $Data{"Liste"}
                             </div>
                             <button type="submit" class="CallForAction" name="" value="$Text{"Select Group"}" title="$Text{"Navigate by selecting config groups"}">
                                 <span>$Text{"Select group"}</span>
