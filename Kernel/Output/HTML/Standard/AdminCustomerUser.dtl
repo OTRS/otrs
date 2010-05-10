@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.10 2010-05-10 17:19:41 en Exp $
+# $Id: AdminCustomerUser.dtl,v 1.11 2010-05-10 23:04:18 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,11 +56,13 @@ function updateMessage(x) {
                         <form class="SearchBox" action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Search"/>
-                            <input type="text" name="Search" value="$QData{"Search"}" id="Search"/>
+                            <input type="text" name="Search" value="$QData{"Search"}" id="Search" title="$Text{"Search"}"/>
                             <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                         </form>
                         <p class="FieldExplanation">
-                            $Text{"Wildcards are allowed."}
+                            <label for="Search">
+                                $Text{"Wildcards are allowed."}
+                            </label>
                         </p>
                     </li>
 <!-- dtl:block:ActionSearch -->
