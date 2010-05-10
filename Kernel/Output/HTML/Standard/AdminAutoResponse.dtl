@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.dtl,v 1.14 2010-05-10 16:29:46 mn Exp $
+# $Id: AdminAutoResponse.dtl,v 1.15 2010-05-10 17:05:05 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,12 +23,12 @@
                 <ul class="ActionList">
 <!-- dtl:block:ActionOverview -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Auto Response"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add auto response"}</span></a>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>
@@ -121,7 +121,7 @@ $Include{"RichTextEditor"}
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="AddressID">$Text{"Auto Response From"}:</label>
+                        <label for="AddressID">$Text{"Auto response from"}:</label>
                         <div class="Field">
                             $Data{"SystemAddressOption"}
                         </div>
@@ -176,46 +176,46 @@ $Include{"RichTextEditor"}
 
                     <dt><code>&lt;OTRS_CUSTOMER_*&gt;</code></dt>
                     <dd>
-                        $Text{"To get the article attribute"}
+                        $Text{"To get the article attribute."}
                         ($Text{" e. g."} <code>&lt;OTRS_CUSTOMER_From&gt;, &lt;OTRS_CUSTOMER_To&gt;,
-                        &lt;OTRS_CUSTOMER_Cc&gt;, &lt;OTRS_CUSTOMER_Subject&gt;, &lt;OTRS_CUSTOMER_Body&gt;</code>).
+                        &lt;OTRS_CUSTOMER_Cc&gt;, &lt;OTRS_CUSTOMER_Subject&gt;, &lt;OTRS_CUSTOMER_Body&gt;</code>)
                     </dd>
 
                     <dt><code>&lt;OTRS_CUSTOMER_DATA_*&gt;</code></dt>
                     <dd>
-                        $Text{"Options of the current customer user data"}
-                        ($Text{" e. g."} <code>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</code>).
+                        $Text{"Options of the current customer user data."}
+                        ($Text{" e. g."} <code>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</code>)
                     </dd>
 
                     <dt><code>&lt;OTRS_OWNER_*&gt;</code></dt>
                     <dd>
-                        $Text{"Ticket owner options"}
-                        ($Text{" e. g."} <code>&lt;OTRS_OWNER_UserFirstname&gt;</code>).
+                        $Text{"Ticket owner options."}
+                        ($Text{" e. g."} <code>&lt;OTRS_OWNER_UserFirstname&gt;</code>)
                     </dd>
 
                     <dt><code>&lt;OTRS_RESPONSIBLE_*&gt;</code></dt>
                     <dd>
-                        $Text{"Ticket responsible options"}
-                        ($Text{" e. g."} <code>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</code>).
+                        $Text{"Ticket responsible options."}
+                        ($Text{" e. g."} <code>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</code>)
                     </dd>
 
                     <dt><code>&lt;OTRS_CURRENT_*&gt;</code></dt>
                     <dd>
-                        $Text{"Options of the current user who requested this action"}
-                        ($Text{" e. g."} <code>&lt;OTRS_CURRENT_UserFirstname&gt;</code>).
+                        $Text{"Options of the current user who requested this action."}
+                        ($Text{" e. g."} <code>&lt;OTRS_CURRENT_UserFirstname&gt;</code>)
                     </dd>
 
                     <dt><code>&lt;OTRS_TICKET_*&gt;</code></dt>
                     <dd>
-                        $Text{"Options of the ticket data"}
+                        $Text{"Options of the ticket data."}
                         ($Text{" e. g."} <code>&lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;,
-                        &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;</code>).
+                        &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;</code>)
                     </dd>
 
                     <dt><code>&lt;OTRS_CONFIG_*&gt;</code></dt>
                     <dd>
-                        $Text{"Config options"}
-                        ($Text{" e. g."} <code>&lt;OTRS_CONFIG_HttpType&gt;</code>).
+                        $Text{"Config options."}
+                        ($Text{" e. g."} <code>&lt;OTRS_CONFIG_HttpType&gt;</code>)
                     </dd>
 
                 </dl>
