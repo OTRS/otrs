@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.19 2010-05-10 21:52:52 cr Exp $
+# $Id: AdminNotificationEvent.pm,v 1.20 2010-05-10 22:58:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -328,6 +328,13 @@ sub _Edit {
         SelectedID => $Param{Data}->{RecipientAgents},
     );
 
+    # Set class name for event string...
+    my $EventClass = "Validate_Required";
+    if ( $Param{"EventsServerError"} ) {
+        $EventClass .= " " . $Param{"EventsServerError"};
+    }
+
+    # Buld the list...
     $Param{EventsStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             TicketStateUpdate         => 'TicketStateUpdate',
@@ -358,7 +365,7 @@ sub _Edit {
         Name       => 'Events',
         Multiple   => 1,
         Size       => 5,
-        Class      => "Validate_Required " . $Param{EventsServerError},
+        Class      => $EventClass,
         SelectedID => $Param{Data}->{Events},
     );
 
