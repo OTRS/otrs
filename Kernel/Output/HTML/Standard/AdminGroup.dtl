@@ -2,7 +2,7 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.12 2010-05-07 13:33:29 mn Exp $
+# $Id: AdminGroup.dtl,v 1.13 2010-05-10 18:41:13 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,7 +69,7 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Add"/>
                             <button class="CallForAction" type="submit" value="$Text{"Add"}">
-                                <span>$Text{"Add Group"}</span>
+                                <span>$Text{"Add group"}</span>
                             </button>
                         </form>
                     </li>
@@ -77,7 +77,7 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
 
 <!--dtl:block:ActionOverview-->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!--dtl:block:ActionOverview-->
                 </ul>
@@ -117,7 +117,7 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
                         <tr>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Comment"}</th>
-                            <th>$Text{"valid"}/$Text{"invalid"}</th>
+                            <th>$Text{"Valid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
