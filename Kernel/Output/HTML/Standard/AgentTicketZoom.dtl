@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.87 2010-05-05 13:16:14 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.88 2010-05-10 08:31:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,18 +19,18 @@
         <div class="Flag" title="$Text{"$Data{"Priority"}"}"><span class="PriorityID-$QData{"PriorityID"}">$Text{"$Data{"Priority"}"}</span></div>
         <h1>$Text{"Zoom"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title", "40"}</h1>
         <ul class="ContextFunctions">
-#                <li class="ContextHelp">
-#                    <a href="" title="Context Help"><span>Context Help</span></a>
-#                </li>
-#                <li class="ContextSettings">
-#                    <a href="" title="Context Settings"><span>Context Settings</span></a>
-#                </li>
+#           <li class="ContextHelp">
+#               <a href="" title="Context Help"><span>$Text{"Context Help"}</span></a>
+#           </li>
+#           <li class="ContextSettings">
+#               <a href="" title="Context Settings"><span>$Text{"Context Settings"}</span></a>
+#           </li>
         </ul>
     </div>
 
     <div class="ControlRow">
         <div class="AdditionalInformation">
-            $Text{"Age"}: $Data{"Age"} &ndash; $Text{"Created"}: $TimeLong{"$Data{"Created"}"}
+            $Text{"Age"}: $Data{"Age"} &ndash; $Text{"Created"}: $TimeShort{"$Data{"Created"}"}
         </div>
     </div>
     <div class="ActionRow">
