@@ -2,7 +2,7 @@
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.12 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.13 2010-05-10 17:16:16 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@
                 <ul class="ActionList">
 <!-- dtl:block:ActionOverview -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionSearch -->
@@ -43,13 +43,13 @@
                             <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                         </form>
                         <p class="FieldExplanation">
-                            $Text{"Wildcards are allowed"}
+                            $Text{"Wildcards are allowed."}
                         </p>
                     </li>
 <!-- dtl:block:ActionSearch -->
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add Customer Company"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add customer company"}</span></a>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>
@@ -69,7 +69,7 @@
 <!-- dtl:block:OverviewHeader -->
 <!-- dtl:block:NoSearchTerms -->
             <div class="Content">
-                <p>$Text{"Please enter a search term to look for Customer Companies."}</p>
+                <p>$Text{"Please enter a search term to look for customer companies."}</p>
             </div>
 <!-- dtl:block:NoSearchTerms -->
 <!-- dtl:block:OverviewResult -->
@@ -132,10 +132,10 @@
                             <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"Value"}" class="W50pc $Data{"RequiredClass"} $QData{"Action"}" maxlength="150" $Data{"ReadOnlyType"}/>
 <!-- dtl:block:PreferencesGenericInputRequired -->
                             <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p><strong>$Text{"The field is required."}</strong></p>
                             </div>
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p><strong>$Text{"The field is required."}</strong></p>
                             </div>
 <!-- dtl:block:PreferencesGenericInputRequired -->
                         </div>
@@ -150,10 +150,10 @@
                             $Data{"Option"}
 <!-- dtl:block:PreferencesGenericOptionRequired -->
                             <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p><strong>$Text{"The field is required."}</strong></p>
                             </div>
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The field is required"}</strong></p>
+                                <p><strong>$Text{"The field is required."}</strong></p>
                             </div>
 <!-- dtl:block:PreferencesGenericOptionRequired -->
                         </div>

@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.9 2010-05-05 13:27:52 mg Exp $
+# $Id: AdminCustomerUser.dtl,v 1.10 2010-05-10 17:19:41 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ function updateMessage(x) {
     }
 
     if (!parent.opener.document.compose) {
-        alert('$JSText{"This window must be called from compose window"}');
+        alert('$JSText{"This window must be called from compose window."}');
         this.close();
         return;
     }
@@ -48,7 +48,7 @@ function updateMessage(x) {
                 <ul class="ActionList">
 <!-- dtl:block:ActionOverview -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionSearch -->
@@ -60,7 +60,7 @@ function updateMessage(x) {
                             <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                         </form>
                         <p class="FieldExplanation">
-                            $Text{"Wildcards are allowed"}
+                            $Text{"Wildcards are allowed."}
                         </p>
                     </li>
 <!-- dtl:block:ActionSearch -->
@@ -70,7 +70,7 @@ function updateMessage(x) {
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Add"/>
 
-                            <button class="CallForAction" type="submit"><span>$Text{"Add Customer"}</span></button>
+                            <button class="CallForAction" type="submit"><span>$Text{"Add customer"}</span></button>
                             <br/>
                             $Data{"SourceOption"}
                         </form>
@@ -102,7 +102,7 @@ function updateMessage(x) {
 <!-- dtl:block:OverviewHeader -->
 <!-- dtl:block:NoSearchTerms -->
             <div class="Content">
-                <p>$Text{"Please enter a search term to look for Customers."}</p>
+                <p>$Text{"Please enter a search term to look for customers."}</p>
             </div>
 <!-- dtl:block:NoSearchTerms -->
 <!-- dtl:block:OverviewResult -->
