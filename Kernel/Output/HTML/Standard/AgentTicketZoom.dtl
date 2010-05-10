@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.88 2010-05-10 08:31:09 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.89 2010-05-10 15:15:23 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,7 +45,7 @@
     </div>
 
     <div class="LayoutFixedSidebar SidebarLast">
-        <div class="SidebarColumn">
+        <div class="SidebarColumn SpacingTop">
             <div class="WidgetGradient Medium">
                 <div class="Header">
                     <h2>Ticket Information</h2>
@@ -228,28 +228,28 @@
 #<!-- dtl:block:TicketFreeTime2 -->
                     </fieldset>
                 </div>
-                <div class="WidgetGradient Medium">
-                    <div class="Header">
-                        <h2>$Text{"Customer Information"}</h2>
-                    </div>
-                    <div class="Content">
+            </div>
+            <div class="WidgetGradient Medium">
+                <div class="Header">
+                    <h2>$Text{"Customer Information"}</h2>
+                </div>
+                <div class="Content">
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-                        $Data{"CustomerTable"}
+                    $Data{"CustomerTable"}
 <!-- dtl:block:CustomerTable -->
-                    </div>
                 </div>
-                <div class="WidgetGradient Medium DontPrint">
-                    <div class="Header">
-                        <h2>$Text{"Linked Objects"}</h2>
-                    </div>
-                    <div class="Content">
+            </div>
+            <div class="WidgetGradient Medium DontPrint">
+                <div class="Header">
+                    <h2>$Text{"Linked Objects"}</h2>
+                </div>
+                <div class="Content">
 # object links
 <!-- dtl:block:LinkTableSimple -->
-                        $Data{"LinkTableStrg"}
+                    $Data{"LinkTableStrg"}
 <!-- dtl:block:LinkTableSimple -->
 
-                    </div>
                 </div>
             </div>
         </div>
