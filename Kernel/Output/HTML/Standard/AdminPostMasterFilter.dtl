@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.40 2010-05-11 07:47:21 mp Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.41 2010-05-11 15:24:53 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,7 @@
                     $Text{"Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible."}
                 </p>
                 <p class="FieldExplanation">
-                    $Text{"If you want to match only the email address, use EMAILADDRESS:info@example.com in from, to or cc."}
+                    $Text{"If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc."}
                 </p>
                 <p class="FieldExplanation">
                     $Text{"If you use RegExp, you also can use the matched value in () as [***] in 'Set'."}

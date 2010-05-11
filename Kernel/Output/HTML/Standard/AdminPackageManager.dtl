@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.63 2010-05-10 20:26:46 en Exp $
+# $Id: AdminPackageManager.dtl,v 1.64 2010-05-11 15:23:56 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -420,7 +420,7 @@
             </div>
             <div class="WidgetGradient Short MinHeight">
                 <div class="Header">
-                    <h2>$Text{"Changelog"}</h2>
+                    <h2>$Text{"Change Log"}</h2>
                 </div>
                 <div class="Content WithPadding">
                     <table class="DataTable">
