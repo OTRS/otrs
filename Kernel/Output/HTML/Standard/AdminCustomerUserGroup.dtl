@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.15 2010-05-11 14:52:21 en Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.16 2010-05-11 16:48:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -211,8 +211,8 @@
 <!-- dtl:block:ChangeRowItem -->
                             </tr>
 <!-- dtl:block:ChangeRow -->
-                            <tr class="FilterMessage Hidden" clospan="3">
-                                <td >$Text{"No matches found."}</td>
+                            <tr class="FilterMessage Hidden">
+                                <td colspan="3">$Text{"No matches found."}</td>
                             </tr>
                         </tbody>
                     </table>

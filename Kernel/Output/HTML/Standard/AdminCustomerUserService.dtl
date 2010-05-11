@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.26 2010-05-11 15:00:14 cg Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.27 2010-05-11 16:48:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -151,7 +151,7 @@ function select_items (Type) {
                                     ($QData{"ItemCount"})
 <!-- dtl:block:AllocateItemCount -->
 <!-- dtl:block:AllocateItemCountLimit -->
-                                    (<Span class="Error">$QData{"ItemCount"}</span>)
+                                    (<span class="Error">$QData{"ItemCount"}</span>)
 <!-- dtl:block:AllocateItemCountLimit -->
                                 </th>
                                 <th>
@@ -177,8 +177,8 @@ function select_items (Type) {
                                 </td>
                             </tr>
 <!-- dtl:block:AllocateItemRow -->
-                            <tr class="FilterMessage Hidden" clospan="3">
-                                <td >$Text{"No matches found."}</td>
+                            <tr class="FilterMessage Hidden">
+                                <td colspan="3">$Text{"No matches found."}</td>
                             </tr>
                         </tbody>
                     </table>
