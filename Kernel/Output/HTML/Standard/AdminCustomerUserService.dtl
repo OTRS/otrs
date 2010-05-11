@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.25 2010-05-10 20:56:20 cr Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.26 2010-05-11 15:00:14 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,13 +33,17 @@
                     <li>
                         <form class="SearchBox" action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}" />
-                            <input type="text" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}" />
+                            <input type="text" name="CustomerUserSearch" id="CustomerUserSearch" value="$QData{"CustomerUserSearch"}" title="$Text{"Search"}" />
 <!-- dtl:block:SearchAllocateService -->
                             <input type="hidden" name="Subaction" value="$QData{"Subaction"}" />
                             <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}" />
 <!-- dtl:block:SearchAllocateService -->
-                            <button class="Primary" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
-                            <p class="FieldExplanation">$Text{"Search for customers (wildcards are allowed)."}</p>
+                            <button class="Primary" type="submit" value="$Text{"Search"}"><span>$Text{"Search"}</span></button>
+                            <p class="FieldExplanation">
+                                <label for="CustomerUserSearch">
+                                    $Text{"Search for customers (wildcards are allowed)."}
+                                </label>
+                            </p>
                         </form>
                     </li>
 <!-- dtl:block:Search -->
