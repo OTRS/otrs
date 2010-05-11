@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.7 2010-05-10 18:55:30 en Exp $
+# $Id: AdminNotification.dtl,v 1.8 2010-05-11 14:57:43 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,7 @@ $Include{"RichTextEditor"}
             </div>
             <div class="Content">
 
-                <h3>$Text{"You can use the following tags"}:</h3>
+                <p>$Text{"You can use the following tags"}:</p>
                 <dl>
                     <dt><code>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</code></dt>
                     <dd>
@@ -109,39 +109,39 @@ $Include{"RichTextEditor"}
 
                     <dt><code>&lt;OTRS_CUSTOMER_*&gt;</code></dt>
                     <dd>
-                        $Text{"To get the article attribute."} ($Text{"e. g."} <code>&lt;OTRS_CUSTOMER_From>,
+                        $Text{"To get the article attribute"} ($Text{"e. g."} <code>&lt;OTRS_CUSTOMER_From>,
                         &lt;OTRS_CUSTOMER_To>, &lt;OTRS_CUSTOMER_Cc>, &lt;OTRS_CUSTOMER_Subject> and
-                        &lt;OTRS_CUSTOMER_Body&gt;</code>)
+                        &lt;OTRS_CUSTOMER_Body&gt;</code>).
                     </dd>
                     <dt><code>&lt;OTRS_CUSTOMER_DATA_*&gt;</code></dt>
                     <dd>
-                        $Text{"Options of the current customer user data."} ($Text{"e. g."} <code>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</code>)
+                        $Text{"Options of the current customer user data"} ($Text{"e. g."} <code>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</code>).
                     </dd>
                     <dt><code>&lt;OTRS_OWNER_*&gt;</code></dt>
                     <dd>
-                        $Text{"Ticket owner options."} ($Text{"e. g."} <code>&lt;OTRS_OWNER_UserFirstname&gt;</code>)
+                        $Text{"Ticket owner options"} ($Text{"e. g."} <code>&lt;OTRS_OWNER_UserFirstname&gt;</code>).
                     </dd>
                     <dt><code>&lt;OTRS_RESPONSIBLE_*&gt;</code></dt>
                     <dd>
-                        $Text{"Ticket responsible options."} ($Text{"e. g."} <code>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</code>)
+                        $Text{"Ticket responsible options"} ($Text{"e. g."} <code>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</code>).
                     </dd>
                     <dt><code>&lt;OTRS_CURRENT_*&gt;</code></dt>
                     <dd>
-                        $Text{"Options of the current user who requested this action."} ($Text{"e. g."} <code>&lt;OTRS_CURRENT_UserFirstname&gt;</code>)
+                        $Text{"Options of the current user who requested this action"} ($Text{"e. g."} <code>&lt;OTRS_CURRENT_UserFirstname&gt;</code>).
                     </dd>
                     <dt><code>&lt;OTRS_TICKET_*&gt;</code></dt>
                     <dd>
-                        $Text{"Options of the ticket data."} ($Text{"e. g."} <code>&lt;OTRS_TICKET_TicketNumber>, &lt;OTRS_TICKET_TicketID>,
-                        &lt;OTRS_TICKET_Queue>, &lt;OTRS_TICKET_State&gt;</code>)
+                        $Text{"Options of the ticket data"} ($Text{"e. g."} <code>&lt;OTRS_TICKET_TicketNumber>, &lt;OTRS_TICKET_TicketID>,
+                        &lt;OTRS_TICKET_Queue>, &lt;OTRS_TICKET_State&gt;</code>).
                     </dd>
                     <dt><code>&lt;OTRS_CONFIG_*&gt;</code></dt>
                     <dd>
-                        $Text{"Config options."} ($Text{"e. g."} <code>&lt;OTRS_CONFIG_HttpType&gt;</code>)
+                        $Text{"Config options"} ($Text{"e. g."} <code>&lt;OTRS_CONFIG_HttpType&gt;</code>).
                     </dd>
                 </dl>
-                <h3 class="SpacingTop">
+                <p class="SpacingTop">
                     $Text{"Example"}:
-                </h3>
+                </p>
                 <fieldset class="TableLike">
                     <label for="ExampleSubject">$Text{"Subject"}:</label>
                     <div class="Field">
