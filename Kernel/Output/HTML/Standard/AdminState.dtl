@@ -2,7 +2,7 @@
 # AdminState.dtl - provides HTML form for AdminState
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.dtl,v 1.12 2010-05-10 21:41:06 en Exp $
+# $Id: AdminState.dtl,v 1.13 2010-05-11 18:00:57 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,7 +106,7 @@
 
 <!-- dtl:block:OverviewUpdate -->
             <div class="Header">
-                <h2>$Text{"Edit"} ($Text{"$Data{"Action"}"})</h2>
+                <h2>$Text{"$Data{"Header"}"} $Text{"State"}</h2>
             </div>
             <div class="Content">
 
