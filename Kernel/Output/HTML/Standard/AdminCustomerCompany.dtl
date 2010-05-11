@@ -2,7 +2,7 @@
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.14 2010-05-10 23:03:58 cg Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.15 2010-05-11 09:56:41 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,9 +43,7 @@
                             <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                         </form>
                         <p class="FieldExplanation">
-                            <label for="Search">
-                                $Text{"Wildcards are allowed."}
-                            </label>
+                            $Text{"Wildcards are allowed."}
                         </p>
                     </li>
 <!-- dtl:block:ActionSearch -->

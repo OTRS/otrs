@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.14 $
+ * @version     $Revision: 1.15 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -85,18 +85,19 @@ a:focus {
  * @subsection  Headings
  */
 h1 {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 15px;
 }
 
 h2 {
     font-size: 16px;
+    font-weight: bold;
     margin-bottom: 10px;
 }
 
 h3 {
-    font-size: 16px;
+    font-size: 14px;
     color: #333;
     margin-bottom: 5px;
 }
@@ -204,6 +205,21 @@ dd {
 
 .SpacingTopLarge {
     margin-top: 100px;
+}
+
+.SpacingBottom {
+    margin-bottom: 15px;
+}
+
+.SpacingBottomMedium {
+    margin-bottom: 30px !important;
+}
+
+/**
+ * @subsection  Indents
+ */
+.Indent {
+    padding-left: 15px !important;
 }
 
 /**

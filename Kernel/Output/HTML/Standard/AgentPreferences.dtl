@@ -2,7 +2,7 @@
 # AgentPreferences.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.dtl,v 1.3 2010-05-05 07:07:55 mg Exp $
+# $Id: AgentPreferences.dtl,v 1.4 2010-05-11 09:56:41 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@
                         <p class="FieldExplanation">
                             $Text{"$Data{"Desc"}"}
                         </p>
-                        <fieldset class="TableLike">
+                        <fieldset class="TableLike SpacingBottomMedium">
 <!-- dtl:block:Block -->
 <!-- dtl:block:InputKey -->
                             <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
