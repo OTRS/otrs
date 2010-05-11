@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.27 2010-04-30 20:09:57 cr Exp $
+# $Id: AdminService.pm,v 1.28 2010-05-11 18:07:07 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,11 +50,13 @@ sub Run {
 
         # get params
         $ServiceData{ServiceID} = $Self->{ParamObject}->GetParam( Param => "ServiceID" );
+        $ServiceData{Header} = 'Add';
         if ( $ServiceData{ServiceID} ne 'NEW' ) {
             %ServiceData = $Self->{ServiceObject}->ServiceGet(
                 ServiceID => $ServiceData{ServiceID},
                 UserID    => $Self->{UserID},
             );
+            $ServiceData{Header} = 'Edit';
         }
 
         # output header

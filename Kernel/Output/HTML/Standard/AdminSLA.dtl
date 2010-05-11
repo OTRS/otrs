@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.27 2010-05-10 21:38:23 en Exp $
+# $Id: AdminSLA.dtl,v 1.28 2010-05-11 18:10:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,7 +87,7 @@
 <!-- dtl:block:OverviewList -->
 <!-- dtl:block:SLAEdit -->
             <div class="Header">
-                <h2>$Text{"Edit"}</h2>
+                <h2>$Text{"$Data{"Header"}"} $Text{"SLA"}</h2>
             </div>
             <div class="Content">
 
