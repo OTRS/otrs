@@ -2,7 +2,7 @@
 # AdminType.dtl - provides HTML form for AdminType
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminType.dtl,v 1.10 2010-05-11 17:48:39 en Exp $
+# $Id: AdminType.dtl,v 1.11 2010-05-11 17:50:03 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,7 +84,7 @@
 
 <!-- dtl:block:OverviewUpdate -->
             <div class="Header">
-                <h2>$Text{"$Data{"Header"}"} $Text{"Ticket Type"}</h2>
+                <h2>$Text{"$Data{"Header"}"} $Text{"Type"}</h2>
             </div>
             <div class="Content">
 
