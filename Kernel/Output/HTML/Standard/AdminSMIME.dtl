@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.12 2010-05-11 14:55:43 cg Exp $
+# $Id: AdminSMIME.dtl,v 1.13 2010-05-11 16:37:45 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -126,7 +126,7 @@
 <!-- dtl:block:OverviewAddCertificate -->
 <!-- dtl:block:OverviewAddPrivate -->
             <div class="Header">
-                <h2>$Text{"Add Certificate"}</h2>
+                <h2>$Text{"Add Private Key"}</h2>
             </div>
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">

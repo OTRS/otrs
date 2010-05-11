@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.28 2010-05-07 18:40:23 dz Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.29 2010-05-11 16:40:44 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,7 +66,7 @@ sub Run {
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
-        return $Self->_MaskUpdate( Title => "Add", Data => {} );
+        return $Self->_MaskUpdate( Title => 'Add PostMaster Filter', Data => {} );
     }
 
     # ------------------------------------------------------------ #
@@ -77,7 +77,11 @@ sub Run {
         if ( !%Data ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => "No such filter: $Name" );
         }
-        return $Self->_MaskUpdate( Name => $Name, Data => \%Data, Title => "Edit" );
+        return $Self->_MaskUpdate(
+            Name  => $Name,
+            Data  => \%Data,
+            Title => 'Edit PostMaster Filter'
+        );
     }
 
     # ------------------------------------------------------------ #
@@ -118,7 +122,7 @@ sub Run {
         if (%Invalid) {
             return $Self->_MaskUpdate(
                 Name  => $Name,
-                Title => "Edit",
+                Title => 'Edit PostMaster Filter',
                 Data  => {
                     %Invalid,
                     Name           => $Name,
