@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.84 2010-04-30 09:25:25 mg Exp $
+# $Id: AdminGenericAgent.pm,v 1.85 2010-05-11 20:58:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -242,11 +242,14 @@ sub Run {
             }
         }
 
-        # remove/clean up old profile stuff
-        $Self->{GenericAgentObject}->JobDelete(
-            Name   => $Self->{OldProfile},
-            UserID => $Self->{UserID},
-        );
+        if ( $Self->{OldProfile} ) {
+
+            # remove/clean up old profile stuff
+            $Self->{GenericAgentObject}->JobDelete(
+                Name   => $Self->{OldProfile},
+                UserID => $Self->{UserID},
+            );
+        }
 
         # insert new profile params
         $Self->{GenericAgentObject}->JobAdd(
@@ -444,8 +447,11 @@ sub Run {
     # ---------------------------------------------------------- #
     if ( $Self->{Subaction} eq 'Update' ) {
 
-        # get db job data
-        my %Param = $Self->{GenericAgentObject}->JobGet( Name => $Self->{Profile} );
+        if ( $Self->{Profile} ) {
+
+            # get db job data
+            my %Param = $Self->{GenericAgentObject}->JobGet( Name => $Self->{Profile} );
+        }
         $Param{Profile} = $Self->{Profile};
 
         my %ShownUsers = $Self->{UserObject}->UserList(
