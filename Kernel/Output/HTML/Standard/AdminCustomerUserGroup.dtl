@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.14 2010-05-10 20:56:20 cr Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.15 2010-05-11 14:52:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -179,7 +179,7 @@
                                 </th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="Center $QData{"Mark"}">
-                                    <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle %s Permission for All", "$QData{"Type"}"}" value="" />
+                                    <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle %s Permission for all", "$QData{"Type"}"}" value="" />
                                     $QData{"Type"}
                                 </th>
 <!-- dtl:js_on_document_complete -->
