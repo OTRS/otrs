@@ -2,7 +2,7 @@
 // OTRS.JavaScriptEnhancements.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.JavaScriptEnhancements.js,v 1.4 2010-05-07 13:33:29 mn Exp $
+// $Id: OTRS.JavaScriptEnhancements.js,v 1.5 2010-05-11 11:38:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,7 @@
      * @return
      *      {boolean} Returns true if all parameter objects are jQuery objects
      */
-    isJQueryObject = function() {
+    isJQueryObject = function () {
         var I;
         if (typeof jQuery === 'undefined') {
             return false;
@@ -57,6 +57,5 @@
             }
         }
         return true;
-    }
-
+    };
 }());

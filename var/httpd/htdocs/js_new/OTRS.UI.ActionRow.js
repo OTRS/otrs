@@ -2,7 +2,7 @@
 // OTRS.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.ActionRow.js,v 1.8 2010-05-07 13:33:29 mn Exp $
+// $Id: OTRS.UI.ActionRow.js,v 1.9 2010-05-11 11:38:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -83,8 +83,7 @@ OTRS.UI.ActionRow = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.UpdateActionRow = function ($ClickedElement, $Checkboxes, $ActionRow) {
-        var $Checkboxes,
-            TicketActionData,
+        var TicketActionData,
             ActionRowElement;
 
         // Check, if one or more items are selected

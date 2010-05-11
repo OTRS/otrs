@@ -2,7 +2,7 @@
 // OTRS.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.RichTextEditor.js,v 1.1 2010-05-10 16:29:46 mn Exp $
+// $Id: OTRS.UI.RichTextEditor.js,v 1.2 2010-05-11 11:38:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,6 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
 
         if (EditorID === '') {
             throw "Need exactly one EditorArea!";
-            return false;
         }
 
         CKEDITOR.on('instanceCreated', function (Editor) {
@@ -70,14 +69,14 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
             contentsLangDirection: OTRS.Config.Get('RichText.TextDir') ? OTRS.Config.Get('RichText.TextDir') : 'ltr',
             disableNativeSpellChecker: false,
             toolbar_Full: [
-                ['Bold','Italic','Underline','Strike','-','NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Link','Unlink','-','Image','HorizontalRule','-','Undo','Redo','-','Find','SpellCheck'],
+                ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'Image', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
                 '/',
-                ['Format','Font','FontSize','-','TextColor','BGColor','RemoveFormat','-','Source'],
+                ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
             ],
             toolbar_Simple: [
-                ['Bold','Italic','Underline','Strike','-','NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Link','Unlink','-','HorizontalRule','-','Undo','Redo','-','Find','SpellCheck'],
+                ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
                 '/',
-                ['Format','Font','FontSize','-','TextColor','BGColor','RemoveFormat','-','Source'],
+                ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
             ],
             toolbar: ToolbarSet,
             filebrowserUploadUrl: OTRS.Config.Get('Baselink'),
@@ -94,7 +93,7 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
         $('textarea.RichText').each(function () {
             TargetNS.Init($(this));
         });
-    }
+    };
 
     TargetNS.UpdateLinkedField = function ($EditorArea) {
         var EditorID = '',
@@ -107,18 +106,17 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
 
         if (EditorID === '') {
             throw "Need exactly one EditorArea!";
-            return false;
         }
 
         Data = CKEDITOR.instances[EditorID].getData();
         StrippedContent = Data.replace(/\s+|&nbsp;|<\/?\w+\s?\/?>/g, '');
-        if (StrippedContent.length == 0) {
+        if (StrippedContent.length === 0) {
             $EditorArea.val('');
         }
         else {
             $EditorArea.val(Data);
         }
-    }
+    };
 
     TargetNS.Focus = function ($EditorArea) {
         var EditorID = '';
@@ -129,12 +127,11 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
 
         if (EditorID === '') {
             throw "Need exactly one EditorArea!";
-            return false;
         }
 
         CKEDITOR.instances[EditorID].focus();
 
-    }
+    };
 
     return TargetNS;
 }(OTRS.UI.RichTextEditor || {}));
