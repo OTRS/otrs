@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.15 2010-05-05 10:32:27 mg Exp $
+# $Id: AdminCustomerCompany.pm,v 1.16 2010-05-11 16:27:24 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +51,8 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
-            Action => "Change",
+            Action => 'Change',
+            Header => 'Edit',
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -103,8 +104,9 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action     => "Change",
-                Validation => "ServerError",
+                Action     => 'Change',
+                Validation => 'ServerError',
+                Header     => 'Edit',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -127,7 +129,8 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
-            Action => "Add",
+            Action => 'Add',
+            Header => 'Add',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -172,8 +175,9 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action     => "Add",
-                Validation => "ServerError",
+                Action     => 'Add',
+                Validation => 'ServerError',
+                Header     => 'Add',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(

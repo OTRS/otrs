@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.12 2010-05-11 09:56:41 mn Exp $
+# $Id: AdminCustomerUser.dtl,v 1.13 2010-05-11 16:23:12 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -150,7 +150,7 @@ function updateMessage(x) {
 
 <!-- dtl:block:OverviewUpdate -->
             <div class="Header">
-                <h2>$Text{"Edit"} ($Text{"$Data{"Action"}"}):</h2>
+                <h2>$Text{"$Data{"Header"}"} $Text{"Customer User"}</h2>
             </div>
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="compose">
