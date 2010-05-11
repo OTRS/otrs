@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.16 2010-05-11 16:48:03 cr Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.17 2010-05-11 19:02:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,6 +73,15 @@
                         </form>
                     </li>
 <!-- dtl:block:Search -->
+<!-- dtl:block:AlwaysGroupsConfig -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Frontend::Customer" class="CallForAction"><span>$Text{"Edit Customer Default Groups"}</span></a>
+                    </li>
+                    <p class="FieldExplanation">
+                        $Text{"Configuration setting: CustomerGroupAlwaysGroups."}
+                    </p>
+
+<!-- dtl:block:AlwaysGroupsConfig -->
                 </ul>
             </div>
         </div>
@@ -231,6 +240,27 @@
     OTRS.UI.Tables.InitTableFilter($('#FilterGroups'), $('#Group'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
+
+<!-- dtl:block:AlwaysGroups -->
+        <div class="WidgetGradient Short SpacingTop">
+            <div class="Header">
+                <h2>$Text{"Customer Default Groups:"}</h2>
+            </div>
+            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+                <div class="Size1of2">
+                    <ul class="Tablelike" id="Always Groups">
+                        <li class="Header">$Text{"Groups"}</li>
+<!-- dtl:block:AlwaysGroupsList-->
+                        <li>$QData{"Name"}</li>
+<!-- dtl:block:AlwaysGroupsList-->
+                    </ul>
+                    <p class="FieldExplanation">
+                        $Text{"No changes can be made to this groups."}
+                    </p>
+                </div>
+            </div>
+        </div>
+<!-- dtl:block:AlwaysGroups -->
 
 <!-- dtl:block:Reference -->
         <div class="WidgetGradient Short SpacingTop">

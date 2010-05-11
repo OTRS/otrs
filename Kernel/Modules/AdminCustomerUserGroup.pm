@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.35 2010-05-10 20:56:20 cr Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.36 2010-05-11 19:02:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -363,6 +363,10 @@ sub _Change {
         );
     }
     else {
+
+        # Output config shutcut to CustomerAlwaysGroups
+        $Self->{LayoutObject}->Block( Name => 'AlwaysGroupsConfig' );
+
         $Self->{LayoutObject}->Block( Name => 'Filter' );
     }
 
@@ -423,7 +427,12 @@ sub _Change {
         }
     }
 
+    my @CustomerAlwaysGroups = @{ $Self->{ConfigObject}->Get('CustomerGroupAlwaysGroups') };
+
+    DATAITEM:
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
+
+        next DATAITEM if ( grep /$Param{Data}->{$ID}/, @CustomerAlwaysGroups );
 
         # set output class
         $Self->{LayoutObject}->Block(
@@ -451,6 +460,19 @@ sub _Change {
                     Name     => $Param{Data}->{$ID},
                 },
             );
+        }
+    }
+
+    if ( $Type eq 'CustomerUser' ) {
+        $Self->{LayoutObject}->Block( Name => 'AlwaysGroups' );
+
+        for my $ID ( 1 .. @CustomerAlwaysGroups ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'AlwaysGroupsList',
+                Data => {
+                    Name => $CustomerAlwaysGroups[ $ID - 1 ],
+                },
+                )
         }
     }
 
@@ -483,6 +505,9 @@ sub _Overview {
         Name => 'Search',
         Data => \%Param,
     );
+
+    # Output config shutcut to CustomerAlwaysGroups
+    $Self->{LayoutObject}->Block( Name => 'AlwaysGroupsConfig' );
 
     # output filter and default block
     $Self->{LayoutObject}->Block( Name => 'Filter', );
@@ -536,11 +561,15 @@ sub _Overview {
         );
     }
 
+    my @CustomerAlwaysGroups = @{ $Self->{ConfigObject}->Get('CustomerGroupAlwaysGroups') };
+
+    GROUP:
     for my $ID (
         sort { uc( $GroupData{$a} ) cmp uc( $GroupData{$b} ) }
         keys %GroupData
         )
     {
+        next GROUP if ( grep /$GroupData{$ID}/, @CustomerAlwaysGroups );
 
         # output gorup block
         $Self->{LayoutObject}->Block(
@@ -552,6 +581,17 @@ sub _Overview {
                 Subaction => 'Group',
             },
         );
+    }
+
+    $Self->{LayoutObject}->Block( Name => 'AlwaysGroups' );
+
+    for my $ID ( 1 .. @CustomerAlwaysGroups ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'AlwaysGroupsList',
+            Data => {
+                Name => $CustomerAlwaysGroups[ $ID - 1 ],
+            },
+            )
     }
 
     # return output
