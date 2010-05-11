@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.39 2010-05-10 20:55:57 en Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.40 2010-05-11 07:47:21 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,7 +85,7 @@
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update;Name=$LQData{"Name"}">$Text{"$Data{"Name"}"}</a></td>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Name=$LQData{"Name"}">$Text{"Delete this filter"}</a></td>
+                            <td class="Center"><a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Name=$LQData{"Name"}" title="$Text{"Delete this filter"}">$Text{"Delete this filter"}</a></td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
                     </tbody>

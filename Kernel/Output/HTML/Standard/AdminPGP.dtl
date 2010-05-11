@@ -2,7 +2,7 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.11 2010-05-10 22:32:35 en Exp $
+# $Id: AdminPGP.dtl,v 1.12 2010-05-11 07:45:13 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,8 +106,8 @@
                             </td>
                             <td>$QData{"Created"}</td>
                             <td>$QData{"Expires"}</td>
-                            <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Key=$LQData{"FingerprintShort"}">$Text{"Delete this key"}</a>
+                            <td class="Center">
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Key=$LQData{"FingerprintShort"}" title="$Text{"Delete this key"}">$Text{"Delete this key"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:Row -->

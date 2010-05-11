@@ -2,7 +2,7 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.13 2010-05-10 19:00:13 en Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.14 2010-05-11 07:42:01 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,8 +70,8 @@
                             <td>$Text{"$Data{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
-                            <td>
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"}">$Text{"Delete this notification"}</a>
+                            <td class="Center">
+                                <a class="TrashCan"href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"}" title="$Text{"Delete this notification"}">$Text{"Delete this notification"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->

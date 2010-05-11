@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.10 2010-05-10 21:39:57 en Exp $
+# $Id: AdminSMIME.dtl,v 1.11 2010-05-11 07:50:58 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,8 +93,8 @@
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Hash=$LQData{"Hash"}">$QData{"Fingerprint","12"}</a>
                             </td>
                             <td>$QData{"ShortStartDate"}<br/>$QData{"ShortEndDate"}</td>
-                            <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Hash=$LQData{"Hash"}">$Text{"Delete this certificate"}</a>
+                            <td class="Center">
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$Text{"Delete this certificate"}">$Text{"Delete this certificate"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:Row -->
