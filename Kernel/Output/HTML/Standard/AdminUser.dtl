@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.13 2010-05-10 21:55:50 en Exp $
+# $Id: AdminUser.dtl,v 1.14 2010-05-11 16:00:37 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,19 +27,7 @@
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
-<!-- dtl:block:ActionSearch -->
-                    <li>
-                        <form class="SearchBox" action="$Env{"CGIHandle"}" method="post">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="Search"/>
-                            <input type="text" name="Search" value="$QData{"Search"}" id="Search"/>
-                            <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
-                        </form>
-                        <p class="FieldExplanation">
-                            $Text{"Wildcards are allowed."}
-                        </p>
-                    </li>
-<!-- dtl:block:ActionSearch -->
+
 <!-- dtl:block:ActionAdd -->
                     <li>
                         <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add">
@@ -51,6 +39,26 @@
             </div>
         </div>
 <!-- dtl:block:ActionList -->
+
+<!-- dtl:block:UserFilter -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2><label for="FilterUser">$Text{"Filter for Agents"}</label></h2>
+            </div>
+            <div class="Content">
+                <ul>
+                    <li>
+                        <form action="">
+                            <fieldset>
+                                <input type="text" id="FilterUser" class="W50pc" name="FilterUser" value="" />
+                            </fieldset>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:UserFilter -->
+
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
@@ -64,6 +72,7 @@
                 </p>
             </div>
         </div>
+
     </div>
 
     <div class="ContentColumn">
@@ -78,9 +87,10 @@
                 <p>$Text{"Please enter a search term to look for agents."}</p>
             </div>
 <!-- dtl:block:NoSearchTerms -->
+
 <!-- dtl:block:OverviewResult -->
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable" id="User">
                     <thead>
                         <tr>
                             <th>$Text{"User"}</th>
@@ -121,6 +131,9 @@
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="7">$Text{"No matches found."}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -254,6 +267,11 @@
             </div>
 <!-- dtl:block:OverviewUpdate -->
         </div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.Tables.InitTableFilter($('#FilterUser'), $('#User'));
+//]]></script>
+<!-- dtl:js_on_document_complete -->
     </div>
     <div class="Clear"></div>
 </div>
