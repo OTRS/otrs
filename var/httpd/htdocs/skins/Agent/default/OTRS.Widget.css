@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.15 $
+ * @version     $Revision: 1.16 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -285,13 +285,14 @@ ul.Tablelike li.Header {
     margin: 0;
     padding: 4px 5px;
     font-size: 12px;
-    line-height: 14px;
+    line-height: 15px;
     border-color: #999;
     -moz-border-radius: 3px 0 0 3px;
     -webkit-border-top-right-radius: 0;
     -webkit-border-bottom-right-radius: 0;
     border-radius: 3px 0 0 3px;
     border-right: none;
+    vertical-align: bottom;
 }
 
 .SearchBox input:focus {
@@ -302,11 +303,9 @@ ul.Tablelike li.Header {
 .SearchBox button {
     height: 25px;
     margin: 0 0 0 -4px;
-    padding: 0 2px;
+    padding: 0 3px;
     color: #333;
-    font-size: 11px;
-    font-weight: bold;
-    vertical-align: top;
+    font: bold 11px "Helvetica Neue",Helvetica,Arial,sans-serif;
     background: #F3F3F3;
     background: -moz-linear-gradient(top, #F6F6F6, #E4E4E4);
     background: -webkit-gradient(linear, left top, left bottom, from(#F6F6F6), to(#E4E4E4));
@@ -316,6 +315,7 @@ ul.Tablelike li.Header {
     -webkit-border-bottom-right-radius: 3px;
     border-radius: 0 3px 3px 0;
     text-shadow: 0 1px 0 #FFF;
+    vertical-align: baseline;
 }
 
 .SearchBox button:hover {
