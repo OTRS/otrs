@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.40 2010-04-27 20:58:30 cg Exp $
+# $Id: AdminAutoResponse.pm,v 1.41 2010-05-11 17:36:00 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,6 +57,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
+            Header => 'Edit',
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -99,6 +100,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Change',
+                Header => 'Edit',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -133,6 +135,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
+            Header => 'Add',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -174,6 +177,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Add',
+                Header => 'Add',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(

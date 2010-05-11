@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.63 2010-04-27 20:03:15 dz Exp $
+# $Id: AdminQueue.pm,v 1.64 2010-05-11 17:31:22 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,6 +97,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
+            Header => 'Edit',
             %Param,
             %QueueData,
             DefaultSignKeyList => \%KeyList,
@@ -202,6 +203,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
+            Header => 'Add',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -253,6 +255,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Add',
+                Header => 'Add',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(

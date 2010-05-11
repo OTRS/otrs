@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminType.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminType.pm,v 1.12 2010-04-28 20:58:04 dz Exp $
+# $Id: AdminType.pm,v 1.13 2010-05-11 17:48:28 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,6 +52,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
+            Header => 'Edit',
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -94,7 +95,8 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action => "Change",
+                Action => 'Edit',
+                Header => 'Edit',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -117,7 +119,8 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
-            Action => "Add",
+            Action => 'Add',
+            Header => 'Add',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -161,7 +164,8 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action => "Add",
+                Action => 'Add',
+                Header => 'Add',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(

@@ -2,7 +2,7 @@
 # AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.21 2010-05-11 15:11:02 en Exp $
+# $Id: AdminResponse.dtl,v 1.22 2010-05-11 17:36:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,7 +105,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-                <h2>$Text{"Edit"} ($Text{"$Data{"Action"}"})</h2>
+                <h2>$Text{"$Data{"Header"}"} $Text{"Response"}</h2>
             </div>
             <div class="Content">
 
