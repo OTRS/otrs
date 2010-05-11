@@ -2,7 +2,7 @@
 // OTRS.UI.Tables.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Tables.js,v 1.11 2010-05-10 16:29:46 mn Exp $
+// $Id: OTRS.UI.Tables.js,v 1.12 2010-05-11 15:28:07 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -73,7 +73,7 @@ OTRS.UI.Tables = (function (TargetNS) {
                         .hide()
                         .end()
                         .each(function () {
-                            if (CheckText($(this).text()) || CheckText($(this).attr('title'))) {
+                            if (CheckText($(this).text(), FilterText) || CheckText($(this).attr('title'), FilterText)) {
                                 $(this).closest('tr, li').show();
                             }
                         });
