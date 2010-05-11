@@ -2,7 +2,7 @@
 // OTRS.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Customer.js,v 1.9 2010-05-10 17:28:09 fn Exp $
+// $Id: OTRS.App.Customer.js,v 1.10 2010-05-11 13:33:50 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -273,7 +273,6 @@ OTRS.App.Customer = (function (TargetNS) {
     function CalculateHeight(Iframe){ 
         var Newheight = $(Iframe).contents().find('html').outerHeight();
         if(Newheight > 2500) Newheight = 2500;
-        console.log(Newheight);
         $(Iframe).height(Newheight);
     }
 
