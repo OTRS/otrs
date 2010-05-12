@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.10 2010-05-12 08:08:30 mn Exp $
+# $Id: AdminNotification.dtl,v 1.11 2010-05-12 15:11:17 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -125,7 +125,7 @@ $Include{"RichTextEditor"}
                     <input type="hidden" name="Charset" value="$Env{"Charset"}"/>
                     <input type="hidden" name="Language" value="$QData{"Language"}"/>
                     <input type="hidden" name="Type" value="$QData{"Type"}"/>
-                    <h2>$Text{"Notification"}</h2>
+                    <h2>$Text{"Edit Notification"}</h2>
                     <fieldset class="TableLike">
                         <label>$Text{"Type"}: </label>
                         <div class="Field">
