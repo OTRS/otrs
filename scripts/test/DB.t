@@ -1,8 +1,8 @@
 # --
 # DB.t - database tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.47.2.1 2009-09-29 14:09:22 martin Exp $
+# $Id: DB.t,v 1.47.2.2 2010-05-12 12:06:37 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2139,6 +2139,26 @@ for my $Query (@Queries) {
         );
     }
 }
+
+# Query condition cleanup test - Checks if '* *' is converted correctly to '*'
+{
+    my $Condition = $Self->{DBObject}->QueryCondition(
+        Key   => 'name_a',
+        Value => '* *',
+    );
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT name_a FROM test_condition WHERE ' . $Condition,
+    );
+    my @Result;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @Result, $Row[0];
+    }
+    $Self->True(
+        scalar @Result,
+        "#8 QueryCondition cleanup test - Convert '* *' to '*'",
+    );
+}
+
 $XML      = '<TableDrop Name="test_condition"/>';
 @XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
