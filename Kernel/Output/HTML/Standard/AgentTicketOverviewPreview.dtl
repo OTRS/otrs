@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.26 2010-05-05 13:16:14 mg Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.27 2010-05-12 18:32:10 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -289,7 +289,7 @@ $Data{"Body"}
                     <table border="0">
                         <tr align="left">
                             <td>
-                                $Data{"StdResponsesStrg"}
+                                $Data{"StandardResponsesStrg"}
                             </td>
                         </tr>
                     </table>

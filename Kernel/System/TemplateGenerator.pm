@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.43 2010-02-26 18:37:31 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.44 2010-05-12 18:32:10 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,12 +18,12 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::Salutation;
 use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
-use Kernel::System::StdResponse;
+use Kernel::System::StandardResponse;
 use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -144,13 +144,13 @@ sub new {
 
     $Self->{RichText} = $Self->{ConfigObject}->Get('Frontend::RichText');
 
-    $Self->{HTMLUtilsObject}     = Kernel::System::HTMLUtils->new(%Param);
-    $Self->{SalutationObject}    = Kernel::System::Salutation->new(%Param);
-    $Self->{SignatureObject}     = Kernel::System::Signature->new(%Param);
-    $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
-    $Self->{StdResponseObject}   = Kernel::System::StdResponse->new(%Param);
-    $Self->{NotificationObject}  = Kernel::System::Notification->new(%Param);
-    $Self->{AutoResponseObject}  = Kernel::System::AutoResponse->new(%Param);
+    $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new(%Param);
+    $Self->{SalutationObject}       = Kernel::System::Salutation->new(%Param);
+    $Self->{SignatureObject}        = Kernel::System::Signature->new(%Param);
+    $Self->{SystemAddressObject}    = Kernel::System::SystemAddress->new(%Param);
+    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
+    $Self->{NotificationObject}     = Kernel::System::Notification->new(%Param);
+    $Self->{AutoResponseObject}     = Kernel::System::AutoResponse->new(%Param);
 
     return $Self;
 }
@@ -334,7 +334,7 @@ generate response
     );
 
 returns
-    StdResponse
+    StandardResponse
     Salutation
     Signature
 
@@ -358,7 +358,7 @@ sub Response {
     my %Queue = $Self->{QueueObject}->QueueGet(
         ID => $Ticket{QueueID},
     );
-    my %Response = $Self->{StdResponseObject}->StdResponseGet(
+    my %Response = $Self->{StandardResponseObject}->StandardResponseGet(
         ID => $Param{ResponseID},
     );
 
@@ -392,9 +392,10 @@ sub Response {
     my $Signature = $Self->Signature(%Param);
 
     return (
-        StdResponse => $ResponseText,
-        Salutation  => $Salutation,
-        Signature   => $Signature,
+        StandardResponse => $ResponseText,
+        StdResponse      => $ResponseText,
+        Salutation       => $Salutation,
+        Signature        => $Signature,
     );
 }
 
@@ -410,7 +411,7 @@ generate attributes
     );
 
 returns
-    StdResponse
+    StandardResponse
     Salutation
     Signature
 
@@ -1284,6 +1285,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2010-02-26 18:37:31 $
+$Revision: 1.44 $ $Date: 2010-05-12 18:32:10 $
 
 =cut

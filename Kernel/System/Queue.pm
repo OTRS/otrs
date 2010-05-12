@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.115 2010-04-20 21:32:36 en Exp $
+# $Id: Queue.pm,v 1.116 2010-05-12 18:32:10 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,14 +14,14 @@ package Kernel::System::Queue;
 use strict;
 use warnings;
 
-use Kernel::System::StdResponse;
+use Kernel::System::StandardResponse;
 use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 =head1 NAME
 
@@ -101,7 +101,7 @@ sub new {
     );
 
     # lib object
-    $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
+    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
     if ( !$Param{GroupObject} ) {
         $Self->{GroupObject} = Kernel::System::Group->new(%Param);
     }
@@ -210,7 +210,7 @@ sub GetSignature {
 }
 
 # for comapt!
-sub SetQueueStdResponse {
+sub SetQueueStandardResponse {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{ResponseID} || !$Param{QueueID} || !$Param{UserID} ) {
@@ -230,31 +230,31 @@ sub SetQueueStdResponse {
     );
 }
 
-=item GetStdResponses()
+=item GetStandardResponses()
 
 get std responses of a queue
 
-    my %Responses = $QueueObject->GetStdResponses( QueueID => 123 );
+    my %Responses = $QueueObject->GetStandardResponses( QueueID => 123 );
 
-    my %Queues = $QueueObject->GetStdResponses( StdResponseID => 123 );
+    my %Queues = $QueueObject->GetStandardResponses( StandardResponseID => 123 );
 
 =cut
 
-sub GetStdResponses {
+sub GetStandardResponses {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{QueueID} && !$Param{StdResponseID} ) {
+    if ( !$Param{QueueID} && !$Param{StandardResponseID} ) {
         $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Got no StdResponseID or QueueID!' );
+            ->Log( Priority => 'error', Message => 'Got no StandardResponseID or QueueID!' );
         return;
     }
 
     if ( $Param{QueueID} ) {
 
         # check if this result is present
-        if ( $Self->{"StdResponses::$Param{QueueID}"} ) {
-            return %{ $Self->{"StdResponses::$Param{QueueID}"} };
+        if ( $Self->{"StandardResponses::$Param{QueueID}"} ) {
+            return %{ $Self->{"StandardResponses::$Param{QueueID}"} };
         }
 
         # get std. responses
@@ -267,24 +267,24 @@ sub GetStdResponses {
             . " sr.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
             . " ORDER BY sr.name";
         return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-        my %StdResponses;
+        my %StandardResponses;
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $StdResponses{ $Row[0] } = $Row[1];
+            $StandardResponses{ $Row[0] } = $Row[1];
         }
 
         # store std responses
-        $Self->{"StdResponses::$Param{QueueID}"} = \%StdResponses;
+        $Self->{"StandardResponses::$Param{QueueID}"} = \%StandardResponses;
 
         # return responses
-        return %StdResponses;
+        return %StandardResponses;
     }
 
     else {
 
         # check if this result is present
-        if ( $Self->{"Queues::$Param{StdResponseID}"} ) {
-            return %{ $Self->{"Queues::$Param{StdResponseID}"} };
+        if ( $Self->{"Queues::$Param{StandardResponseID}"} ) {
+            return %{ $Self->{"Queues::$Param{StandardResponseID}"} };
         }
 
         # get queues
@@ -292,7 +292,7 @@ sub GetStdResponses {
         my $SQL = "SELECT q.id, q.name "
             . " FROM queue q, queue_standard_response qsr WHERE "
             . " qsr.standard_response_id IN ("
-            . $Self->{DBObject}->Quote( $Param{StdResponseID}, 'Integer' )
+            . $Self->{DBObject}->Quote( $Param{StandardResponseID}, 'Integer' )
             . ") AND "
             . " qsr.queue_id = q.id AND "
             . " q.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
@@ -305,7 +305,7 @@ sub GetStdResponses {
         }
 
         # store queues
-        $Self->{"Queues::$Param{StdResponseID}"} = \%Queues;
+        $Self->{"Queues::$Param{StandardResponseID}"} = \%Queues;
 
         # return queues
         return %Queues;
@@ -704,15 +704,15 @@ sub QueueAdd {
     }
 
     # add default responses (if needed), add response by name
-    if ( $Self->{ConfigObject}->Get('StdResponse2QueueByCreating') ) {
-        for ( @{ $Self->{ConfigObject}->{StdResponse2QueueByCreating} } ) {
-            my $StdResponseID = $Self->{StdResponseObject}->StdResponseLookup(
-                StdResponse => $_,
+    if ( $Self->{ConfigObject}->Get('StandardResponse2QueueByCreating') ) {
+        for ( @{ $Self->{ConfigObject}->{StandardResponse2QueueByCreating} } ) {
+            my $StandardResponseID = $Self->{StandardResponseObject}->StandardResponseLookup(
+                StandardResponse => $_,
             );
-            if ($StdResponseID) {
-                $Self->SetQueueStdResponse(
+            if ($StandardResponseID) {
+                $Self->SetQueueStandardResponse(
                     QueueID    => $QueueID,
-                    ResponseID => $StdResponseID,
+                    ResponseID => $StandardResponseID,
                     UserID     => $Param{UserID},
                 );
             }
@@ -720,9 +720,9 @@ sub QueueAdd {
     }
 
     # add response by id
-    if ( $Self->{ConfigObject}->Get('StdResponseID2QueueByCreating') ) {
-        for ( @{ $Self->{ConfigObject}->{StdResponseID2QueueByCreating} } ) {
-            $Self->SetQueueStdResponse(
+    if ( $Self->{ConfigObject}->Get('StandardResponseID2QueueByCreating') ) {
+        for ( @{ $Self->{ConfigObject}->{StandardResponseID2QueueByCreating} } ) {
+            $Self->SetQueueStandardResponse(
                 QueueID    => $QueueID,
                 ResponseID => $_,
                 UserID     => $Param{UserID},
@@ -1128,6 +1128,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.115 $ $Date: 2010-04-20 21:32:36 $
+$Revision: 1.116 $ $Date: 2010-05-12 18:32:10 $
 
 =cut

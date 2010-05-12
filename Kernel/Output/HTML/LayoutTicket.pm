@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.77 2010-05-10 12:46:29 bes Exp $
+# $Id: LayoutTicket.pm,v 1.78 2010-05-12 18:32:10 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,23 +15,23 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
-sub TicketStdResponseString {
+sub TicketStandardResponseString {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(StdResponsesRef TicketID ArticleID)) {
+    for (qw(StandardResponsesRef TicketID ArticleID)) {
         if ( !$Param{$_} ) {
-            return "Need $_ in TicketStdResponseString()";
+            return "Need $_ in TicketStandardResponseString()";
         }
     }
 
-    # get StdResponsesStrg
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::StdResponsesMode') eq 'Form' ) {
+    # get StandardResponsesStrg
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::StandardResponsesMode') eq 'Form' ) {
 
         # build html string
-        $Param{StdResponsesStrg}
+        $Param{StandardResponsesStrg}
             .= '<form action="'
             . $Self->{CGIHandle}
             . '" method="post">'
@@ -42,16 +42,16 @@ sub TicketStdResponseString {
             . $Param{TicketID} . '" />'
             . $Self->BuildSelection(
             Name => 'ResponseID',
-            Data => $Param{StdResponsesRef},
+            Data => $Param{StandardResponsesRef},
             ) . '<input class="button" type="submit" value="$Text{"Compose"}" /></form>';
     }
     else {
-        my %StdResponses = %{ $Param{StdResponsesRef} };
-        $Param{StdResponsesStrg} .= "\n<ul>";
-        for ( sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses ) {
+        my %StandardResponses = %{ $Param{StandardResponsesRef} };
+        $Param{StandardResponsesStrg} .= "\n<ul>";
+        for ( sort { $StandardResponses{$a} cmp $StandardResponses{$b} } keys %StandardResponses ) {
 
             # build html string
-            $Param{StdResponsesStrg}
+            $Param{StandardResponsesStrg}
                 .= "\n<li><a href=\"$Self->{Baselink}"
                 . "Action=AgentTicketCompose;"
                 . "ResponseID=$_;TicketID=$Param{TicketID};ArticleID=$Param{ArticleID}\" "
@@ -60,11 +60,11 @@ sub TicketStdResponseString {
                 .
 
                 # html quote
-                $Self->Ascii2Html( Text => $StdResponses{$_} ) . "</a></li>";
+                $Self->Ascii2Html( Text => $StandardResponses{$_} ) . "</a></li>";
         }
-        $Param{StdResponsesStrg} .= "\n</ul>";
+        $Param{StandardResponsesStrg} .= "\n</ul>";
     }
-    return $Param{StdResponsesStrg};
+    return $Param{StandardResponsesStrg};
 }
 
 sub AgentCustomerViewTable {

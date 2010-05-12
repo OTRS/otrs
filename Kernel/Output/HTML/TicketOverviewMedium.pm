@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.26 2010-05-04 01:22:59 martin Exp $
+# $Id: TicketOverviewMedium.pm,v 1.27 2010-05-12 18:32:10 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -230,11 +230,12 @@ sub _Show {
     $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
     # fetch all std. responses ...
-    my %StdResponses = $Self->{QueueObject}->GetStdResponses( QueueID => $Article{QueueID} );
-    $Param{StdResponsesStrg} = $Self->{LayoutObject}->TicketStdResponseString(
-        StdResponsesRef => \%StdResponses,
-        TicketID        => $Article{TicketID},
-        ArticleID       => $Article{ArticleID},
+    my %StandardResponses
+        = $Self->{QueueObject}->GetStandardResponses( QueueID => $Article{QueueID} );
+    $Param{StandardResponsesStrg} = $Self->{LayoutObject}->TicketStandardResponseString(
+        StandardResponsesRef => \%StandardResponses,
+        TicketID             => $Article{TicketID},
+        ArticleID            => $Article{ArticleID},
     );
 
     # customer info

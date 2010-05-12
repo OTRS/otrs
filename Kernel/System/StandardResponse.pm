@@ -1,25 +1,25 @@
 # --
-# Kernel/System/StdResponse.pm - lib for std responses
+# Kernel/System/StandardResponse.pm - lib for std responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.39 2010-05-06 19:10:43 mb Exp $
+# $Id: StandardResponse.pm,v 1.1 2010-05-12 18:32:10 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::StdResponse;
+package Kernel::System::StandardResponse;
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::StdResponse - auto response lib
+Kernel::System::StandardResponse - auto response lib
 
 =head1 SYNOPSIS
 
@@ -40,7 +40,7 @@ create an object
     use Kernel::System::Log;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::System::StdResponse;
+    use Kernel::System::StandardResponse;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -61,7 +61,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $StdResponseObject = Kernel::System::StdResponse->new(
+    my $StandardResponseObject = Kernel::System::StandardResponse->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
@@ -90,11 +90,11 @@ sub new {
     return $Self;
 }
 
-=item StdResponseAdd()
+=item StandardResponseAdd()
 
 add new std response
 
-    my $ID = $StdResponseObject->StdResponseAdd(
+    my $ID = $StandardResponseObject->StandardResponseAdd(
         Name        => 'New Standard Response',
         Response    => 'Thank you for your email.',
         ContentType => 'text/plain; charset=utf-8',
@@ -104,7 +104,7 @@ add new std response
 
 =cut
 
-sub StdResponseAdd {
+sub StandardResponseAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -136,17 +136,17 @@ sub StdResponseAdd {
     return $ID;
 }
 
-=item StdResponseGet()
+=item StandardResponseGet()
 
 get std response attributes
 
-    my %StdResponse = $StdResponseObject->StdResponseGet(
+    my %StandardResponse = $StandardResponseObject->StandardResponseGet(
         ID => 123,
     );
 
 Returns:
 
-    %StdResponse = (
+    %StandardResponse = (
         ID                  => '123',
         Name                => 'Simple response',
         Comment             => 'Some comment',
@@ -161,7 +161,7 @@ Returns:
 
 =cut
 
-sub StdResponseGet {
+sub StandardResponseGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -195,17 +195,17 @@ sub StdResponseGet {
     return %Data;
 }
 
-=item StdResponseDelete()
+=item StandardResponseDelete()
 
 delete a standard response
 
-    $StdResponseObject->StdResponseDelete(
+    $StandardResponseObject->StandardResponseDelete(
         ID => 123,
     );
 
 =cut
 
-sub StdResponseDelete {
+sub StandardResponseDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -234,11 +234,11 @@ sub StdResponseDelete {
     return 1;
 }
 
-=item StdResponseUpdate()
+=item StandardResponseUpdate()
 
 update std response attributes
 
-    $StdResponseObject->StdResponseUpdate(
+    $StandardResponseObject->StandardResponseUpdate(
         ID          => 123,
         Name        => 'New Standard Response',
         Response    => 'Thank you for your email.',
@@ -249,7 +249,7 @@ update std response attributes
 
 =cut
 
-sub StdResponseUpdate {
+sub StandardResponseUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -274,87 +274,87 @@ sub StdResponseUpdate {
     return 1;
 }
 
-=item StdResponseLookup()
+=item StandardResponseLookup()
 
 return the name or the std response id
 
-    my $StdResponseName = $StdResponseObject->StdResponseLookup(
-        StdResponseID => 123,
+    my $StandardResponseName = $StandardResponseObject->StandardResponseLookup(
+        StandardResponseID => 123,
     );
 
     or
 
-    my $StdResponseID = $StdResponseObject->StdResponseLookup(
-        StdResponse => 'Std Response Name',
+    my $StandardResponseID = $StandardResponseObject->StandardResponseLookup(
+        StandardResponse => 'Std Response Name',
     );
 
 =cut
 
-sub StdResponseLookup {
+sub StandardResponseLookup {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{StdResponse} && !$Param{StdResponseID} ) {
+    if ( !$Param{StandardResponse} && !$Param{StandardResponseID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Got no StdResponse or StdResponseID!'
+            Message  => 'Got no StandardResponse or StandardResponseID!'
         );
         return;
     }
 
     # check if we ask the same request?
-    if ( $Param{StdResponseID} && $Self->{"StdResponseLookup$Param{StdResponseID}"} ) {
-        return $Self->{"StdResponseLookup$Param{StdResponseID}"};
+    if ( $Param{StandardResponseID} && $Self->{"StandardResponseLookup$Param{StandardResponseID}"} ) {
+        return $Self->{"StandardResponseLookup$Param{StandardResponseID}"};
     }
-    if ( $Param{StdResponse} && $Self->{"StdResponseLookup$Param{StdResponse}"} ) {
-        return $Self->{"StdResponseLookup$Param{StdResponse}"};
+    if ( $Param{StandardResponse} && $Self->{"StandardResponseLookup$Param{StandardResponse}"} ) {
+        return $Self->{"StandardResponseLookup$Param{StandardResponse}"};
     }
 
     # get data
     my $SQL;
     my $Suffix;
     my @Bind;
-    if ( $Param{StdResponse} ) {
-        $Suffix = 'StdResponseID';
+    if ( $Param{StandardResponse} ) {
+        $Suffix = 'StandardResponseID';
         $SQL    = 'SELECT id FROM standard_response WHERE name = ?';
-        @Bind   = ( \$Param{StdResponse} );
+        @Bind   = ( \$Param{StandardResponse} );
     }
     else {
-        $Suffix = 'StdResponse';
+        $Suffix = 'StandardResponse';
         $SQL    = 'SELECT name FROM standard_response WHERE id = ?';
-        @Bind   = ( \$Param{StdResponseID} );
+        @Bind   = ( \$Param{StandardResponseID} );
     }
     return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => @Bind );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # store result
-        $Self->{"StdResponse$Suffix"} = $Row[0];
+        $Self->{"StandardResponse$Suffix"} = $Row[0];
     }
 
     # check if data exists
-    if ( !exists $Self->{"StdResponse$Suffix"} ) {
+    if ( !exists $Self->{"StandardResponse$Suffix"} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Found no \$$Suffix!" );
         return;
     }
 
-    return $Self->{"StdResponse$Suffix"};
+    return $Self->{"StandardResponse$Suffix"};
 }
 
-=item StdResponseList()
+=item StandardResponseList()
 
 get all valid std responses
 
-    my %StdResponses = $StdResponseObject->StdResponseList();
+    my %StandardResponses = $StandardResponseObject->StandardResponseList();
 
 get all std responses
 
-    my %StdResponses = $StdResponseObject->StdResponseList(
+    my %StandardResponses = $StandardResponseObject->StandardResponseList(
         Valid => 0,
     );
 
 =cut
 
-sub StdResponseList {
+sub StandardResponseList {
     my ( $Self, %Param ) = @_;
 
     if ( !defined $Param{Valid} ) {
@@ -385,6 +385,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2010-05-06 19:10:43 $
+$Revision: 1.1 $ $Date: 2010-05-12 18:32:10 $
 
 =cut

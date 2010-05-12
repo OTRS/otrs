@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.92 2010-04-13 00:19:07 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.93 2010-05-12 18:32:10 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -320,8 +320,8 @@ sub MaskAgentZoom {
         Type     => 'move_into',
     );
 
-    # fetch all std. responses
-    #    my %StdResponses = $Self->{QueueObject}->GetStdResponses( QueueID => $Ticket{QueueID} );
+# fetch all std. responses
+#    my %StandardResponses = $Self->{QueueObject}->GetStandardResponses( QueueID => $Ticket{QueueID} );
 
     $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(%Ticket);
 
@@ -1495,9 +1495,9 @@ sub _ArticleItem {
         }
     }
 
-    # get StdResponsesStrg
-    #    $Param{StdResponsesStrg} = $Self->{LayoutObject}->TicketStdResponseString(
-    #            StdResponsesRef => $Param{StdResponses},
+    # get StandardResponsesStrg
+    #    $Param{StandardResponsesStrg} = $Self->{LayoutObject}->TicketStandardResponseString(
+    #            StandardResponsesRef => $Param{StandardResponses},
     #            TicketID        => $Ticket{TicketID},
     #            ArticleID       => $Article{ArticleID},
     #    );

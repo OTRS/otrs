@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.39 2010-04-28 15:37:54 dz Exp $
+# $Id: AdminQueueResponses.pm,v 1.40 2010-05-12 18:32:10 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Queue;
-use Kernel::System::StdResponse;
+use Kernel::System::StandardResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,8 +34,8 @@ sub new {
         }
     }
 
-    $Self->{QueueObject}       = Kernel::System::Queue->new(%Param);
-    $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
+    $Self->{QueueObject}            = Kernel::System::Queue->new(%Param);
+    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
 
     return $Self;
 }
@@ -50,14 +50,15 @@ sub Run {
 
         # get user data
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        my %StdResponseData = $Self->{StdResponseObject}->StdResponseGet( ID => $ID );
+        my %StandardResponseData
+            = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID );
 
         # get queue data
         my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
 
         # get role member
-        my %Member = $Self->{QueueObject}->GetStdResponses(
-            StdResponseID => $ID,
+        my %Member = $Self->{QueueObject}->GetStandardResponses(
+            StandardResponseID => $ID,
         );
 
         my $Output = $Self->{LayoutObject}->Header();
@@ -65,8 +66,8 @@ sub Run {
         $Output .= $Self->_Change(
             Selected => \%Member,
             Data     => \%QueueData,
-            ID       => $StdResponseData{ID},
-            Name     => $StdResponseData{Name},
+            ID       => $StandardResponseData{ID},
+            Name     => $StandardResponseData{Name},
             Type     => 'Response',
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -83,10 +84,11 @@ sub Run {
         my %QueueData = $Self->{QueueObject}->QueueGet( ID => $ID );
 
         # get user list
-        my %StdResponseData = $Self->{StdResponseObject}->StdResponseList( Valid => 1 );
+        my %StandardResponseData
+            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
 
         # get role member
-        my %Member = $Self->{QueueObject}->GetStdResponses(
+        my %Member = $Self->{QueueObject}->GetStandardResponses(
             QueueID => $ID,
         );
 
@@ -94,7 +96,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Change(
             Selected => \%Member,
-            Data     => \%StdResponseData,
+            Data     => \%StandardResponseData,
             ID       => $QueueData{QueueID},
             Name     => $QueueData{Name},
             Type     => 'Queue',
@@ -114,11 +116,12 @@ sub Run {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
         # get user list
-        my %StdResponseData = $Self->{StdResponseObject}->StdResponseList( Valid => 1 );
-        for my $StdResponseID ( keys %StdResponseData ) {
+        my %StandardResponseData
+            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+        for my $StandardResponseID ( keys %StandardResponseData ) {
             my $Active = 0;
             for my $QueueID (@IDs) {
-                next if $QueueID ne $StdResponseID;
+                next if $QueueID ne $StandardResponseID;
                 $Active = 1;
                 last;
             }
@@ -155,8 +158,8 @@ sub Run {
         my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
         for my $QueueID ( keys %QueueData ) {
             my $Active = 0;
-            for my $StdResponseID (@IDs) {
-                next if $StdResponseID ne $QueueID;
+            for my $StandardResponseID (@IDs) {
+                next if $StandardResponseID ne $QueueID;
                 $Active = 1;
                 last;
             }
@@ -280,13 +283,13 @@ sub _Overview {
     $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
     # get std response list
-    my %StdResponseData = $Self->{StdResponseObject}->StdResponseList( Valid => 1 );
+    my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
 
     # if there are results to show
-    if (%StdResponseData) {
-        for my $StdResponseID (
-            sort { uc( $StdResponseData{$a} ) cmp uc( $StdResponseData{$b} ) }
-            keys %StdResponseData
+    if (%StandardResponseData) {
+        for my $StandardResponseID (
+            sort { uc( $StandardResponseData{$a} ) cmp uc( $StandardResponseData{$b} ) }
+            keys %StandardResponseData
             )
         {
 
@@ -294,9 +297,9 @@ sub _Overview {
             $Self->{LayoutObject}->Block(
                 Name => 'List1n',
                 Data => {
-                    Name      => $StdResponseData{$StdResponseID},
+                    Name      => $StandardResponseData{$StandardResponseID},
                     Subaction => 'Response',
-                    ID        => $StdResponseID,
+                    ID        => $StandardResponseID,
                 },
             );
         }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.92 2010-04-01 18:10:26 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.93 2010-05-12 18:32:10 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -379,7 +379,7 @@ sub Run {
                 Article => \%GetParam,
             );
             my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
-            $GetParam{StdResponse} = $GetParam{Body};
+            $GetParam{StandardResponse} = $GetParam{Body};
             $Output .= $Self->_Mask(
                 TicketID       => $Self->{TicketID},
                 NextStates     => $Self->_GetNextStates(),
@@ -836,9 +836,9 @@ sub Run {
             Data       => \%Data,
             UserID     => $Self->{UserID},
         );
-        $Data{Salutation}  = $Response{Salutation};
-        $Data{Signature}   = $Response{Signature};
-        $Data{StdResponse} = $Response{StdResponse};
+        $Data{Salutation}       = $Response{Salutation};
+        $Data{Signature}        = $Response{Signature};
+        $Data{StandardResponse} = $Response{StandardResponse};
 
         %Data = $TemplateGenerator->Attributes(
             TicketID   => $Self->{TicketID},
@@ -853,7 +853,7 @@ sub Run {
 $QData{"OrigFrom"} $Text{"wrote"}:
 $QData{"Body"}
 
-$QData{"StdResponse"}
+$QData{"StandardResponse"}
 
 $QData{"Signature"}
 ';
@@ -881,7 +881,7 @@ $QData{"Signature"}
                 next if !$DataHTML{$Key};
                 next if $Key eq 'Salutation';
                 next if $Key eq 'Body';
-                next if $Key eq 'StdResponse';
+                next if $Key eq 'StandardResponse';
                 next if $Key eq 'Signature';
                 $DataHTML{$Key} = $Self->{LayoutObject}->Ascii2RichText(
                     String => $DataHTML{$Key},
