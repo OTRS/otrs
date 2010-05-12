@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.20.2.6 2010-03-11 10:51:34 mn Exp $
+# $Id: RichTextEditor.dtl,v 1.20.2.7 2010-05-12 09:35:18 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 # load js
-<script src="$Config{"Frontend::JavaScriptPath"}fckeditor-2.6.6/fckeditor.js"></script>
+<script src="$Config{"Frontend::JavaScriptPath"}fckeditor-2.6.4.1/fckeditor.js"></script>
 
 <script type="text/javascript">
 // update body with current rich text content
@@ -41,7 +41,7 @@ function InitRichText() {
     var oFCKeditor = new FCKeditor( 'RichText' );
     oFCKeditor.Height                             = '$Config{"Frontend::RichTextHeight"}' || 320;
     oFCKeditor.Width                              = '$Config{"Frontend::RichTextWidth"}' || 620;
-    oFCKeditor.BasePath                           = '$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.6/';
+    oFCKeditor.BasePath                           = '$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/';
     oFCKeditor.Config["ForcePasteAsPlainText"]    = false;
     oFCKeditor.Config["EditorAreaStyles"]         = 'body { $Config{"Frontend::RichText::DefaultCSS"} }';
     oFCKeditor.Config["AutoDetectLanguage"]       = false;
