@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.28 2010-04-27 16:31:05 en Exp $
+# $Id: AdminNotification.pm,v 1.29 2010-05-12 05:17:01 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Notification;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -118,14 +118,55 @@ sub _MaskNotificationForm {
     #Show update form
     if ( $Self->{Subaction} ) {
         $Self->{LayoutObject}->Block(
-            Name => 'ShowUpdateForm',
-            Data => \%Param
+            Name => 'ActionList',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionOverview',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewUpdate',
+            Data => \%Param,
         );
     }
     else {
+
         $Self->{LayoutObject}->Block(
-            Name => 'ShowInitialMessage'
+            Name => 'LenguageFilter',
         );
+        $Self->{LayoutObject}->Block(
+            Name => 'NotificationFilter',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResult',
+        );
+
+        # Get notifications types.
+
+        my @Types;
+        my $SQL
+            = "SELECT DISTINCT notification_type FROM "
+            . "notifications ORDER BY notification_type ASC";
+
+        $Self->{DBObject}->Prepare( SQL => $SQL );
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            push( @Types, $Row[0] );
+        }
+
+        # get lenguages
+        my %Languages = %{ $Self->{ConfigObject}->{DefaultUsedLanguages} };
+
+        for my $Language ( keys %Languages ) {
+            for (@Types) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'OverviewResultRow',
+                    Data => {
+                        Language => $Languages{$Language},
+                        Type     => $_,
+                        Name     => $Language . '::' . $_
+                    },
+                );
+            }
+        }
     }
 
     # add rich text editor
