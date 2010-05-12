@@ -2,7 +2,7 @@
 // OTRS.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Customer.js,v 1.10 2010-05-11 13:33:50 fn Exp $
+// $Id: OTRS.App.Customer.js,v 1.11 2010-05-12 12:54:40 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -129,8 +129,11 @@ OTRS.App.Customer = (function (TargetNS) {
      */
     TargetNS.InitTicketZoom = function(){
         var $Messages = $('#Messages > li'),
-            $VisibleMessage = $Messages.last().removeClass('Visible'),
-            $MessageHeaders = $('.MessageHeader', $Messages);
+            $VisibleMessage = $Messages.last(),
+            $VisibleIframe = $('#VisibleFrame'),
+            $MessageHeaders = $('.MessageHeader', $Messages),
+            $FollowUp = $('#FollowUp'),
+            $RTE = $('#RichText');
            
         $MessageHeaders.click(function(Event){
             ToggleMessage($(this).parent());
@@ -138,13 +141,18 @@ OTRS.App.Customer = (function (TargetNS) {
         });
         $('#ReplyButton').click(function(Event){
             Event.preventDefault();
-            var $FollowUp = $(this).parent().toggleClass('Visible');
+            $FollowUp.addClass('Visible');
             $('html').css({scrollTop: $('#Body').height()});
-            RichTextFocus();
+            OTRS.UI.RichTextEditor.Focus($RTE);
+        });
+        $('#CloseButton').click(function(Event){
+            Event.preventDefault();
+            $FollowUp.removeClass('Visible');
+            $('html').css({scrollTop: $('#Body').height()});
         });
         /* correct the status saved in the hidden field of the initial visible message */
-        $LastMessageStatus = $('> input[name=ArticleState]', $VisibleMessage);
-        LoadMessage($($VisibleMessage), $LastMessageStatus);
+        $LastMessageStatus = $('> input[name=ArticleState]', $VisibleMessage).val("true");
+        HideQuote($VisibleIframe);
     }
     
     /**
@@ -207,7 +215,6 @@ OTRS.App.Customer = (function (TargetNS) {
             $SubjectHolder.text(Subject).attr('title', Subject);
         }
         
-        /*  Hide quotes and resize -> HideQuote(Iframe) */
         CheckIframe($Iframe, callback);
     }
 
@@ -271,9 +278,9 @@ OTRS.App.Customer = (function (TargetNS) {
      */
     
     function CalculateHeight(Iframe){ 
-        var Newheight = $(Iframe).contents().find('html').outerHeight();
-        if(Newheight > 2500) Newheight = 2500;
-        $(Iframe).height(Newheight);
+        var NewHeight = $(Iframe).contents().find('html').outerHeight();
+        if(NewHeight > 2500) NewHeight = 2500;
+        $(Iframe).height(NewHeight);
     }
 
     return TargetNS;
