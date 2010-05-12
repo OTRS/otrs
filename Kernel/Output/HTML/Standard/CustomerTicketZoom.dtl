@@ -2,42 +2,12 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.73 2010-05-05 13:16:14 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.74 2010-05-12 12:12:10 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-<!-- This java script is just for nice to have functions! -->
-<script type="text/javascript">//<![CDATA[
-function submit_compose() {
-    // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
-    if (typeof RichTextUpdateLinkedField == 'function') {
-        RichTextUpdateLinkedField();
-    }
-
-    if (document.compose.Subject.value == "") {
-        alert('$JSText{"A message should have a subject!"}');
-        document.compose.Subject.focus();
-        return false;
-    }
-    else if (document.compose.Body.value == "") {
-        alert('$JSText{"A message should have a body!"}');
-        if (typeof RichTextUpdateLinkedField == 'function') {
-            RichTextFocus();
-        }
-        else {
-            document.compose.Body.focus();
-        }
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-//]]></script>
-
 <div id="Body" class="TicketZoom">
     <div class="ActionRow">
         <ul class="Tabs">
@@ -50,8 +20,8 @@ function submit_compose() {
                 <div title="$Text{"$Data{"StateTypeGeneric"}"}" class="Flag $Data{"StateTypeGeneric"}"><div>$Text{"$Data{"StateTypeGeneric"}"}</div></div>
 
                 $QData{"Title","80"}
-                <span>$QData{"TicketNumber"}</span>
             </h2>
+            <span>$QData{"TicketNumber"}</span>
             <ul class="Metadata">
 <!-- dtl:block:Type -->
                 <li><span>$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type","18"}</span></li>
@@ -125,17 +95,16 @@ function submit_compose() {
                                 <div class="Clear"></div>
                             </div>
 <!-- dtl:block:ArticleAttachment -->
-                            <div titel="$Text{"$Data{"Key"}"}" class="Attachment">
+                            <div titel="$QData{"Filename"},$QData{"Filesize"}" class="Attachment">
                                 <div class="Label">$Text{"$Data{"Key"}"}:</div>
 <!-- dtl:block:ArticleAttachmentRow -->
                                 $QData{"Filename"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                                <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" /></a>
+                                <a class="SmallButton" href="$Data{"Link"}" $Data{"Target"}>$Text{"Save"}</a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                                <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" />
+#                                <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" />
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                                <span>$QData{"Filesize"}</span>
 <!-- dtl:block:ArticleAttachmentRow -->
                                 <div class="Clear"></div>
                             </div>
@@ -149,10 +118,10 @@ function submit_compose() {
                             </div>
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTMLLoad -->
-                            <iframe title="about:blank" frameborder="0" id="iframe$QData{"ArticleID"}" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+                            <iframe title="about:blank" frameborder="0" id="VisibleFrame" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
 <!-- dtl:block:BodyHTMLLoad -->
 <!-- dtl:block:BodyHTMLPlaceholder -->
-                            <iframe src="about:blank" frameborder="0" id="iframe$QData{"ArticleID"}" title="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+                            <iframe src="about:blank" frameborder="0" title="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
 <!-- dtl:block:BodyHTMLPlaceholder -->
                         </div>
                     </div>
@@ -163,18 +132,18 @@ function submit_compose() {
                 <div id="Messenger">
                     <input type="text" name="Subject" id="Subject" value="Re: $QData{"Title"}" />
                     $Include{"RichTextEditor"}
-                    <textarea titel="$Text{"Reply"}" id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea titel="$Text{"Reply"}" id="RichText" class="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <div id="AttachmentHolder">
                         <input name="file_upload" title="Attachment" type="file" size="30" />
-                        <button class="CallForAction" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><span>$Text{"Attach"}</span></button>
+                        <button type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
 <!-- dtl:block:Attachment -->
                         <div>
                             $QData{"Filename"} <span>$QData{"Filesize"}</span>
-                            <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"><span>$Text{"Delete"}</span></button>
+                            <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                         </div>
 <!-- dtl:block:Attachment -->
                     </div>
-                    <button id="Submit" class="CallForAction" type="submit" value="$Text{"Submit"}"><span>$Text{"Submit"}</span></button>
+                    <button id="Submit" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button> $Text{"or"} <a id="CloseButton" href="">$Text{"Cancel"}</a>
                 </div>
                 <a id="ReplyButton" href="">$Text{"Reply"}</a>
             </div>
@@ -186,107 +155,3 @@ function submit_compose() {
     OTRS.App.Customer.InitTicketZoom();
 </script>
 <!-- dtl:js_on_document_complete -->
-
-
-#<!-- dtl:block:Row -->
-# show the Article::FreeKey1-3 and Article::FreeValue1-3
-#                <dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey1"}:</td><td class="contentvalue"> $QData{"ArticleFreeText1"}</td></tr>"; }>
-#                <dtl if ($Data{"ArticleFreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey2"}:</td><td class="contentvalue"> $QData{"ArticleFreeText2"}</td></tr>"; }>
-#                <dtl if ($Data{"ArticleFreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey3"}:</td><td class="contentvalue"> $QData{"ArticleFreeText3"}</td></tr>"; }>
-#                $Data{"ArticleFreeString1"}
-#                $Data{"ArticleFreeString2"}
-#                $Data{"ArticleFreeString3"}
-#<!-- dtl:block:BodyPlain -->
-#$Data{"Article::TextNote"}
-#                <div class="message">
-#$Data{"Article::Text"}
-#                </div>
-#<!-- dtl:block:BodyPlain -->
-#<!-- dtl:block:BodyHTML -->
-#                <div class="message">
-#                    <script type="text/javascript">//<![CDATA[
-#                    <!--
-#                    function IframeAutoHeight( IframeID ) {
-#                        var iframe = document.getElementById(IframeID);
-#                        var newHeight = iframe.contentWindow.document.body.scrollHeight;
-#                        if ( !newHeight || isNaN( newHeight ) ) {
-#                            newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightDefault"};
-#                        }
-#                        else
-#                            if ( newHeight > $Config{"Ticket::Frontend::HTMLArticleHeightMax"} ) {
-#                                newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightMax"};
-#                            }
-#                        iframe.style.height = newHeight + 'px';
-#                    }
-#                    //-->
-#                    //]]></script>
-#                    <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
-#                </div>
-#<!-- dtl:block:BodyHTML -->
-#            </p>
-#<!-- dtl:block:FollowUp -->
-#            <hr/>
-#            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-#                <input type="hidden" name="Action" value="CustomerTicketZoom"/>
-#                <input type="hidden" name="Subaction" value="Store"/>
-#                <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-#                <input type="hidden" name="ArticleID" value="$QData{"Article::ArticleID"}"/>
-#                <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
-#                <table border="0" width="100%">
-#                    <tr>
-#                        <td class="contentkey" width="15%">$Text{"Subject"}:</td>
-#                        <td class="contentvalue" width="85%">
-#                            <input type="text" name="Subject" value="$QData{"Subject"}" size="70"/>
-#                        </td>
-#                    </tr>
-#                    <tr>
-#                        <td class="contentkey">$Text{"Text"}:</td>
-#                        <td class="contentvalue">
-#<!-- dtl:block:RichText -->
-#$Include{"RichTextEditor"}
-# set white background for buttons
-#<!-- dtl:block:RichText -->
-#                            <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-#                            <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
-#                        </td>
-#                    </tr>
-#                    <tr>
-#                        <td class="contentkey">$Text{"Attachment"}:</td>
-#                        <td class="contentvalue">
-#                            <table cellspacing="0" cellpadding="0" width="400">
-#<!-- dtl:block:Attachment -->
-#                                <tr>
-#                                    <td>$QData{"Filename"}</td>
-#                                    <td>$QData{"Filesize"}</td>
-#                                    <td align="right">
-#                                        <button class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-#                                    </td>
-#                                </tr>
-#<!-- dtl:block:Attachment -->
-#                                <tr>
-#                                    <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
-#                                    <td align="right">
-#                                        <button class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
-#                                        <a name="attachment"></a>
-#                                    </td>
-#                                </tr>
-#                            </table>
-#                        </td>
-#                    </tr>
-#<!-- dtl:block:State -->
-#                    <tr>
-#                        <td class="contentkey">$Text{"Next state"}:</td>
-#                        <td class="contentvalue"> $Data{"NextStatesStrg"}</td>
-#                    </tr>
-#<!-- dtl:block:State -->
-#<!-- dtl:block:Priority -->
-#                    <tr>
-#                        <td class="contentkey">$Text{"Priority"}:</td>
-#                        <td class="contentvalue"> $Data{"PriorityStrg"}</td>
-#                    </tr>
-#<!-- dtl:block:Priority -->
-#                </table>
-#                <br/>
-#                <button class="button" id="submitRichText" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">$Text{"Submit"}</button>
-#            </form>
-#<!-- dtl:block:FollowUp -->
