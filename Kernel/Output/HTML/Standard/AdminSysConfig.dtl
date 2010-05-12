@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.33 2010-05-10 21:45:11 en Exp $
+# $Id: AdminSysConfig.dtl,v 1.34 2010-05-12 14:29:09 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Search"/>
                             <input type="hidden" name="DontWriteDefault" value="1"/>
-                            <input type="text" name="Search" value="$QData{"Search"}" />
+                            <input type="text" name="Search" value="$QData{"Search"}" title="$Text{"Search"}" />
                             <button title="$Text{"Navigate by searching in %s settings", "$QData{"ConfigCounter"}"}" type="submit" value="$Text{"Search"}">
                                 <span>$Text{"Search"}</span>
                             </button>
