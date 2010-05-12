@@ -2,7 +2,7 @@
 # AdminRole.dtl - provides HTML form for AdminRole
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.dtl,v 1.15 2010-05-11 16:19:53 en Exp $
+# $Id: AdminRole.dtl,v 1.16 2010-05-12 14:20:29 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -86,7 +86,7 @@
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
             <div class="Header">
-                <h2>$Text{"$Data{"Header"}"} $Text{"Role"}</h2>
+                <h2>$Text{"$Data{"Header"}"}</h2>
             </div>
             <div class="Content">
 

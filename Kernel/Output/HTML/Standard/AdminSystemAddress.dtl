@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.14 2010-05-11 17:27:10 en Exp $
+# $Id: AdminSystemAddress.dtl,v 1.15 2010-05-12 14:33:32 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,7 +92,7 @@
 
 <!-- dtl:block:OverviewUpdate -->
             <div class="Header">
-                <h2>$Text{"$Data{"Header"}"} $Text{"System Email Address"}</h2>
+                <h2>$Text{"$Data{"Header"}"}</h2>
             </div>
             <div class="Content">
 

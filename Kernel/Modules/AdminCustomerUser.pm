@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.68 2010-05-11 16:22:58 en Exp $
+# $Id: AdminCustomerUser.pm,v 1.69 2010-05-12 14:24:32 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -108,7 +108,7 @@ sub Run {
             Nav    => $Nav,
             Search => $Search,
             ID     => $User,
-            Header => 'Edit',
+            Header => 'Edit Customer User',
             %UserData,
             );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -194,7 +194,7 @@ sub Run {
             Nav    => $Nav,
             Source => $Source,
             Search => $Search,
-            Header => 'Edit',
+            Header => 'Edit Customer User',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -215,7 +215,7 @@ sub Run {
             Action => 'Add',
             Source => $Source,
             Search => $Search,
-            Header => 'Add',
+            Header => 'Add Customer User',
             %GetParam,
             );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -337,7 +337,7 @@ sub Run {
             Nav    => $Nav,
             Source => $Source,
             Search => $Search,
-            Header => 'Add',
+            Header => 'Add Customer User',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Footer();

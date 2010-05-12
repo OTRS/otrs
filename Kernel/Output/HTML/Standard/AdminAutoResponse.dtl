@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.dtl,v 1.17 2010-05-11 17:36:26 en Exp $
+# $Id: AdminAutoResponse.dtl,v 1.18 2010-05-12 14:38:42 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,7 +87,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-                <h2>$Text{"$Data{"Header"}"} $Text{"Auto Response"}</h2>
+                <h2>$Text{"$Data{"Header"}"}</h2>
             </div>
             <div class="Content">
 

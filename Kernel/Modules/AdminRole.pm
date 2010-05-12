@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRole.pm - to add/update/delete roles
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.pm,v 1.26 2010-05-11 16:19:41 en Exp $
+# $Id: AdminRole.pm,v 1.27 2010-05-12 14:20:18 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,7 +53,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
-            Header => 'Edit',
+            Header => 'Edit Role',
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -97,7 +97,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Change',
-                Header => 'Edit',
+                Header => 'Edit Role',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -121,7 +121,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
-            Header => 'Add',
+            Header => 'Add Role',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -165,7 +165,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Add',
-                Header => 'Add',
+                Header => 'Add Role',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(

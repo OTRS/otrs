@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.68 2010-05-11 16:12:13 en Exp $
+# $Id: AdminUser.pm,v 1.69 2010-05-12 14:17:32 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -128,7 +128,7 @@ sub Run {
         $Self->_Edit(
             Action => 'Change',
             Search => $Search,
-            Header => 'Edit',
+            Header => 'Edit User',
             %UserData,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -209,7 +209,7 @@ sub Run {
             $Self->_Edit(
                 Action => 'Change',
                 Search => $Search,
-                Header => 'Edit',
+                Header => 'Edit User',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -235,7 +235,7 @@ sub Run {
         $Self->_Edit(
             Action => 'Add',
             Search => $Search,
-            Header => 'Add',
+            Header => 'Add User',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -330,7 +330,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' ) . $Note;
             $Self->_Edit(
-                Action => 'Add',
+                Action => 'Add User',
                 Search => $Search,
                 %GetParam,
             );

@@ -2,7 +2,7 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.16 2010-05-11 17:58:55 en Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.17 2010-05-12 14:49:30 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,7 +84,7 @@
 <!-- dtl:block:OverviewUpdate -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-                <h2>$Text{"$Data{"Header"}"} $Text{"Notification"}</h2>
+                <h2>$Text{"$Data{"Header"}"}</h2>
             </div>
             <div class="Content">
 

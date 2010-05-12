@@ -2,7 +2,7 @@
 # AdminService.dtl - provides HTML form for AdminService
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.25 2010-05-11 18:07:18 en Exp $
+# $Id: AdminService.dtl,v 1.26 2010-05-12 14:52:14 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,7 +78,7 @@
 <!-- dtl:block:OverviewList -->
 <!-- dtl:block:ServiceEdit -->
             <div class="Header">
-                <h2>$Text{"$Data{"Header"}"} $Text{"Service"}</h2>
+                <h2>$Text{"$Data{"Header"}"}</h2>
             </div>
             <div class="Content">
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.32 2010-05-11 17:39:56 en Exp $
+# $Id: AdminAttachment.pm,v 1.33 2010-05-12 14:39:45 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,7 +53,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
-            Header => 'Edit',
+            Header => 'Edit Attachment',
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -96,7 +96,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Change',
-                Header => 'Edit',
+                Header => 'Edit Attachment',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -131,7 +131,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
-            Header => 'Add',
+            Header => 'Add Attachment',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -174,7 +174,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Add',
-                Header => 'Add',
+                Header => 'Add Attachment',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
