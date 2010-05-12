@@ -2,7 +2,7 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.5 2010-05-12 12:11:50 martin Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.6 2010-05-12 12:28:19 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 <div id="Body" class="TicketView $Config{"Ticket::Frontend::CustomerTicketOverviewSortable"}">
 <!-- dtl:block:Filled -->
-    <div class="ActionRow">
+    <div class="ActionRow BigButtons">
         <ul class="Tabs Filter">
 <!-- dtl:block:FilterHeader -->
             <li class="$QData{"ClassLI"}"><a class="$QData{"ClassA"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Filter=$QData{"Filter"};SortBy=$QData{"SortBy"};Order=$QData{"OrderBy"};Limit=$LQData{"Limit"};">$Text{"$Data{"Name"}"} ($QData{"Count"})</a></li>
@@ -44,7 +44,8 @@
             </tbody>
         </table>
     </div>
-    <div class="ActionRow Bottom">
+<!-- dtl:block:BottomSubNavigation -->
+    <div class="ActionRow Bottom BigButtons">
         <ul class="Tabs Filter">
 <!-- dtl:block:FilterFooter -->
             <li class="$QData{"ClassLI"}"><a class="$QData{"ClassA"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Filter=$QData{"Filter"};SortBy=$QData{"SortBy"};Order=$QData{"OrderBy"};Limit=$LQData{"Limit"};">$Text{"$Data{"Name"}"} ($QData{"Count"})</a>
@@ -56,13 +57,12 @@
             </div>
             <div class="Clear"></div>
         </div>
-<!-- dtl:document_ready -->
+<!-- dtl:block:BottomSubNavigation -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">
-    $(document).ready(function() {
-        OTRS.App.Customer.ClickableRow();
-    });
+    OTRS.App.Customer.ClickableRow();
 </script>
-<!-- dtl:document_ready -->
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:Filled -->
 
 <!-- dtl:block:Empty -->
