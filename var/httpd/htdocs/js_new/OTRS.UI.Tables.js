@@ -2,7 +2,7 @@
 // OTRS.UI.Tables.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Tables.js,v 1.12 2010-05-11 15:28:07 mn Exp $
+// $Id: OTRS.UI.Tables.js,v 1.13 2010-05-12 08:08:30 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,7 @@ OTRS.UI.Tables = (function (TargetNS) {
                     $Rows = $Container.find('tbody tr:not(.FilterMessage), li:not(.Header):not(.FilterMessage)');
                 // Only search in one special column of the table
                 if (typeof ColumnNumber === 'string' || typeof ColumnNumber === 'number') {
-                    $Rows = $Rows.filter('td:eq(' + ColumnNumber + ')');
+                    $Rows = $Rows.find('td:eq(' + ColumnNumber + ')');
                 }
                 if (FilterText.length) {
                     $Rows

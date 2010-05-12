@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.9 2010-05-12 05:14:19 mp Exp $
+# $Id: AdminNotification.dtl,v 1.10 2010-05-12 08:08:30 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,6 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 <!-- start form -->
     <div class="SidebarColumn">
-
 <!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
@@ -34,24 +33,24 @@ $Include{"RichTextEditor"}
         </div>
 <!-- dtl:block:ActionList -->
 
-<!-- dtl:block:LenguageFilter -->
+<!-- dtl:block:LanguageFilter -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-                <h2><label for="FilterLenguage">$Text{"Filter for Lenguage"}</label></h2>
+                <h2><label for="FilterLanguage">$Text{"Filter for Language"}</label></h2>
             </div>
             <div class="Content">
                 <ul>
                     <li>
                         <form action="">
                             <fieldset>
-                                <input type="text" id="FilterLenguage" class="W50pc" name="FilterLenguage" value="" />
+                                <input type="text" id="FilterLanguage" class="W50pc" name="FilterLanguage" value="" />
                             </fieldset>
                         </form>
                     </li>
                 </ul>
             </div>
         </div>
-<!-- dtl:block:LenguageFilter -->
+<!-- dtl:block:LanguageFilter -->
 <!-- dtl:block:NotificationFilter -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
@@ -92,11 +91,14 @@ $Include{"RichTextEditor"}
                 <table class="DataTable" id="Notifications">
                     <thead>
                         <tr>
-                            <th>$Text{"Lenguage"}</th>
+                            <th>$Text{"Language"}</th>
                             <th>$Text{"Notification"}</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="2">$Text{"No matches found"}.</td>
+                        </tr>
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td>$Data{"Language"}</td>
@@ -123,7 +125,7 @@ $Include{"RichTextEditor"}
                     <input type="hidden" name="Charset" value="$Env{"Charset"}"/>
                     <input type="hidden" name="Language" value="$QData{"Language"}"/>
                     <input type="hidden" name="Type" value="$QData{"Type"}"/>
-                    <h2>$Text{"Notification"}:</h2>
+                    <h2>$Text{"Notification"}</h2>
                     <fieldset class="TableLike">
                         <label>$Text{"Type"}: </label>
                         <div class="Field">
@@ -131,7 +133,7 @@ $Include{"RichTextEditor"}
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Subject">$Text{"Subject"}: </label>
+                        <label for="Subject">$Text{"Subject"}:</label>
                         <div class="Field">
                             <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc" maxlength="120"/>
                         </div>
@@ -157,7 +159,6 @@ $Include{"RichTextEditor"}
                 <h2>$Text{"Reference"}</h2>
             </div>
             <div class="Content">
-
                 <p>$Text{"You can use the following tags"}:</p>
                 <dl>
                     <dt><code>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</code></dt>
@@ -234,12 +235,12 @@ Your OTRS Notification Master
                     </div>
                 </fieldset>
             </div>
-        </div>
 <!-- dtl:block:OverviewUpdate -->
+        </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Tables.InitTableFilter($('#FilterLenguage'), $('#Notifications'));
-    OTRS.UI.Tables.InitTableFilter($('#FilterNotification'), $('#Notifications'));
+    OTRS.UI.Tables.InitTableFilter($('#FilterLanguage'), $('#Notifications'), 0);
+    OTRS.UI.Tables.InitTableFilter($('#FilterNotification'), $('#Notifications'), 1);
 //]]></script>
 <!-- dtl:js_on_document_complete -->
     </div>
