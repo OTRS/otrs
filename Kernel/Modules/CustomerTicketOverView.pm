@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.57 2010-05-12 12:11:50 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.58 2010-05-12 12:56:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -166,8 +166,9 @@ sub Run {
     # check if filter is valid
     if ( !$Filters{ $Self->{Subaction} }->{ $Self->{Filter} } ) {
         my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
-        $Output .= $Self->{LayoutObject}
-            ->CustomerError( Message => "Invalid Filter: $Self->{Filter}!" );
+        $Output .= $Self->{LayoutObject}->CustomerError(
+            Message => "Invalid Filter: $Self->{Filter}!",
+        );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }
@@ -225,42 +226,68 @@ sub Run {
             IDPrefix  => 'CustomerTicketOverView',
         );
 
+        my $Order = 'Down';
+        if ( $Self->{Order} eq 'Down' ) {
+            $Order = 'Up';
+        }
         $Self->{LayoutObject}->Block(
             Name => 'Filled',
-            Data => { %Param, %PageNav },
-        );
-    }
-    for my $Key ( sort keys %NavBarFilter ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'FilterHeader',
             Data => {
-                %{ $NavBarFilter{$Key} },
+                %Param,
+                %PageNav,
+                Order  => $Order,
+                Filter => $Self->{Filter},
             },
         );
-        $Self->{LayoutObject}->Block(
-            Name => 'FilterFooter',
-            Data => {
-                %{ $NavBarFilter{$Key} },
-            },
+
+        # show header filter
+        for my $Key ( sort keys %NavBarFilter ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FilterHeader',
+                Data => {
+                    %{ $NavBarFilter{$Key} },
+                },
+            );
+        }
+
+        # show footer filter - show only if more the one page is available
+        if ( $PageNav{TotalHits} > $Self->{PageShown} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FilterFooter',
+                Data => {
+                    %Param,
+                    %PageNav,
+                },
+            );
+        }
+        for my $Key ( sort keys %NavBarFilter ) {
+            if ( $PageNav{TotalHits} > $Self->{PageShown} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'FilterFooterItem',
+                    Data => {
+                        %{ $NavBarFilter{$Key} },
+                    },
+                );
+            }
+        }
+
+        my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+            %{ $Filters{ $Self->{Subaction} }->{ $Self->{Filter} }->{Search} },
+            Result => 'ARRAY',
+            Limit  => 1_000,
         );
-    }
 
-    my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-        %{ $Filters{ $Self->{Subaction} }->{ $Self->{Filter} }->{Search} },
-        Result => 'ARRAY',
-        Limit  => 1_000,
-    );
-
-    # show ticket's
-    $Counter = 0;
-    for my $TicketID (@ViewableTickets) {
-        $Counter++;
-        if (
-            $Counter >= $Self->{StartHit}
-            && $Counter < ( $Self->{PageShown} + $Self->{StartHit} )
-            )
-        {
-            $Self->ShowTicketStatus( TicketID => $TicketID );
+        # show ticket's
+        $Counter = 0;
+        for my $TicketID (@ViewableTickets) {
+            $Counter++;
+            if (
+                $Counter >= $Self->{StartHit}
+                && $Counter < ( $Self->{PageShown} + $Self->{StartHit} )
+                )
+            {
+                $Self->ShowTicketStatus( TicketID => $TicketID );
+            }
         }
     }
 
@@ -278,7 +305,7 @@ sub Run {
     $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerTicketOverView',
-        Data         => \%Param,
+        Data         => %Param,
     );
 
     # get page footer
