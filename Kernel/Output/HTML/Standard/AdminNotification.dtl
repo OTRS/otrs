@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.8 2010-05-11 14:57:43 en Exp $
+# $Id: AdminNotification.dtl,v 1.9 2010-05-12 05:14:19 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,26 +16,66 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 <!-- start form -->
     <div class="SidebarColumn">
+
+<!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short MinHeight">
-            <div class="Header"></div>
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Change"/>
-                    <fieldset>
-                        <h2>$Text{"Type of Change"}</h2>
-                        <p>
-                            $Data{"NotificationOption"}
-                        </p>
-                        <div  class="Field SpacingTop">
-                            <button class="button" type="submit" value="$Text{"Select"}">$Text{"Select"}</button>
-                        </div>
-                        <div class="Clear"></div>
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
 
-                    </fieldset>
-                </form>
+<!-- dtl:block:LenguageFilter -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2><label for="FilterLenguage">$Text{"Filter for Lenguage"}</label></h2>
+            </div>
+            <div class="Content">
+                <ul>
+                    <li>
+                        <form action="">
+                            <fieldset>
+                                <input type="text" id="FilterLenguage" class="W50pc" name="FilterLenguage" value="" />
+                            </fieldset>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:LenguageFilter -->
+<!-- dtl:block:NotificationFilter -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2><label for="FilterNotification">$Text{"Filter for Notification"}</label></h2>
+            </div>
+            <div class="Content">
+                <ul>
+                    <li>
+                        <form action="">
+                            <fieldset>
+                                <input type="text" id="FilterNotification" class="W50pc" name="FilterNotification" value="" />
+                            </fieldset>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:NotificationFilter -->
 
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
                 <h2>$Text{"Note"}</h2>
+            </div>
+            <div class="Content">
                 <p class="FieldExplanation">
                     $Text{"Notifications are sent to an agent or a customer."}
                 </p>
@@ -43,8 +83,36 @@ $Include{"RichTextEditor"}
         </div>
     </div>
     <div class="ContentColumn">
-<!-- dtl:block:ShowUpdateForm -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetGradient Medium MinHeight">
+<!-- dtl:block:OverviewResult -->
+            <div class="Header">
+                <h2>$Text{"List"}</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable" id="Notifications">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Lenguage"}</th>
+                            <th>$Text{"Notification"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- dtl:block:OverviewResultRow -->
+                        <tr>
+                            <td>$Data{"Language"}</td>
+                            <td>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;Name=$QData{"Name"}">
+                                    $QData{"Type"}
+                                </a>
+                            </td>
+                        </tr>
+<!-- dtl:block:OverviewResultRow -->
+                    </tbody>
+                </table>
+            </div>
+<!-- dtl:block:OverviewResult -->
+
+<!-- dtl:block:OverviewUpdate -->
             <div class="Header">
             </div>
             <div class="Content">
@@ -167,15 +235,13 @@ Your OTRS Notification Master
                 </fieldset>
             </div>
         </div>
-<!-- dtl:block:ShowUpdateForm -->
-<!-- dtl:block:ShowInitialMessage -->
-        <div class="WidgetGradient Short MinHeight">
-            <div class="Header"></div>
-            <div class="Content">
-                <p>$Text{"Please select a notification"} </p>
-            </div>
-        </div>
-<!-- dtl:block:ShowInitialMessage -->
+<!-- dtl:block:OverviewUpdate -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    OTRS.UI.Tables.InitTableFilter($('#FilterLenguage'), $('#Notifications'));
+    OTRS.UI.Tables.InitTableFilter($('#FilterNotification'), $('#Notifications'));
+//]]></script>
+<!-- dtl:js_on_document_complete -->
     </div>
     <div class="Clear"></div>
 </div>
