@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.30 2010-05-12 08:08:29 mn Exp $
+# $Id: AdminNotification.pm,v 1.31 2010-05-12 17:42:27 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Notification;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -155,7 +155,7 @@ sub _MaskNotificationForm {
         # get lenguages
         my %Languages = %{ $Self->{ConfigObject}->{DefaultUsedLanguages} };
 
-        for my $Language ( keys %Languages ) {
+        for my $Language ( sort { lc($a) cmp lc($b) } keys %Languages ) {
             for (@Types) {
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
