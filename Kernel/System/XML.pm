@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.99 2010-05-04 01:20:53 martin Exp $
+# $Id: XML.pm,v 1.100 2010-05-12 17:27:06 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 =head1 NAME
 
@@ -394,7 +394,7 @@ sub XMLHashSearch {
     }
 
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ? GROUP BY xml_key',
+        SQL  => 'SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ?',
         Bind => [ \$Param{Type} ],
     );
 
@@ -487,7 +487,7 @@ sub XMLHashList {
     }
 
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT distinct(xml_key) FROM xml_storage WHERE xml_type = ? GROUP BY xml_key',
+        SQL  => 'SELECT distinct(xml_key) FROM xml_storage WHERE xml_type = ?',
         Bind => [ \$Param{Type} ],
     );
     my @Keys;
@@ -1492,6 +1492,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.99 $ $Date: 2010-05-04 01:20:53 $
+$Revision: 1.100 $ $Date: 2010-05-12 17:27:06 $
 
 =cut
