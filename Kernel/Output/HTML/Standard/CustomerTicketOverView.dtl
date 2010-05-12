@@ -2,19 +2,13 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.4 2010-05-03 23:31:19 fn Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.5 2010-05-12 12:11:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-# check show closed tickets link
-# <dtl set $Data{"ClosedTicketText"} = "Show closed Tickets">
-# <dtl if ($Data{"ShowClosed"} eq "1") { $Data{"ClosedTicketText"} = "Don't show closed Tickets"; }>
-# <dtl if ($Data{"ShowClosed"} eq "1") { $Data{"ClosedLink"} = "ShowClosedTickets=0"; }>
-# <dtl if ($Data{"ShowClosed"} eq "0") { $Data{"ClosedLink"} = "ShowClosedTickets=1"; }>
-<div id="Body" class="TicketView">
+<div id="Body" class="TicketView $Config{"Ticket::Frontend::CustomerTicketOverviewSortable"}">
 <!-- dtl:block:Filled -->
     <div class="ActionRow">
         <ul class="Tabs Filter">
