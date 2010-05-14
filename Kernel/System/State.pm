@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.40 2010-03-29 17:36:45 mh Exp $
+# $Id: State.pm,v 1.41 2010-05-14 12:19:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -458,6 +458,79 @@ sub StateList {
     return %Data;
 }
 
+=item StateLookup()
+
+returns the id or the name of a state
+
+    my $StateID = $StateObject->StateLookup(
+        State => '3 normal',
+    );
+
+    my $State = $StateObject->StateLookup(
+        StateID => 1,
+    );
+
+=cut
+
+sub StateLookup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{State} && !$Param{StateID} ) {
+        $Self->{LogObject}->Log( State => 'error', Message => 'Need State or StateID!' );
+        return;
+    }
+
+    # check cache
+    my $CacheKey;
+    my $Key;
+    my $Value;
+    if ( $Param{State} ) {
+        $Key      = 'State';
+        $Value    = $Param{State};
+        $CacheKey = 'StateLookup::Name::' . $Param{State};
+    }
+    else {
+        $Key      = 'StateID';
+        $Value    = $Param{StateID};
+        $CacheKey = 'StateLookup::ID::' . $Param{StateID};
+    }
+
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return $Cache if $Cache;
+
+    # db query
+    my $SQL;
+    my @Bind;
+    if ( $Param{State} ) {
+        $SQL = 'SELECT id FROM ticket_state WHERE name = ?';
+        push @Bind, \$Param{State};
+    }
+    else {
+        $SQL = 'SELECT name FROM ticket_state WHERE id = ?';
+        push @Bind, \$Param{StateID};
+    }
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    my $Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data = $Row[0];
+    }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
+
+    # check if data exists
+    if ( !defined $Data ) {
+        $Self->{LogObject}->Log(
+            State   => 'error',
+            Message => "No $Key for $Value found!",
+        );
+        return;
+    }
+
+    return $Data;
+}
+
 =item StateTypeList()
 
 get state type list
@@ -488,6 +561,80 @@ sub StateTypeList {
     return %Data;
 }
 
+=item StateTypeLookup()
+
+returns the id or the name of a state type
+
+    my $StateTypeID = $StateTypeObject->StateTypeLookup(
+        StateType => '3 normal',
+    );
+
+    my $StateType = $StateTypeObject->StateTypeLookup(
+        StateTypeID => 1,
+    );
+
+=cut
+
+sub StateTypeLookup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{StateType} && !$Param{StateTypeID} ) {
+        $Self->{LogObject}
+            ->Log( StateType => 'error', Message => 'Need StateType or StateTypeID!' );
+        return;
+    }
+
+    # check cache
+    my $CacheKey;
+    my $Key;
+    my $Value;
+    if ( $Param{StateType} ) {
+        $Key      = 'StateType';
+        $Value    = $Param{StateType};
+        $CacheKey = 'StateTypeLookup::Name::' . $Param{StateType};
+    }
+    else {
+        $Key      = 'StateTypeID';
+        $Value    = $Param{StateTypeID};
+        $CacheKey = 'StateTypeLookup::ID::' . $Param{StateTypeID};
+    }
+
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return $Cache if $Cache;
+
+    # db query
+    my $SQL;
+    my @Bind;
+    if ( $Param{StateType} ) {
+        $SQL = 'SELECT id FROM ticket_state_type WHERE name = ?';
+        push @Bind, \$Param{StateType};
+    }
+    else {
+        $SQL = 'SELECT name FROM ticket_state_type WHERE id = ?';
+        push @Bind, \$Param{StateTypeID};
+    }
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    my $Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data = $Row[0];
+    }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
+
+    # check if data exists
+    if ( !defined $Data ) {
+        $Self->{LogObject}->Log(
+            StateType => 'error',
+            Message   => "No $Key for $Value found!",
+        );
+        return;
+    }
+
+    return $Data;
+}
+
 1;
 
 =back
@@ -504,6 +651,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2010-03-29 17:36:45 $
+$Revision: 1.41 $ $Date: 2010-05-14 12:19:44 $
 
 =cut
