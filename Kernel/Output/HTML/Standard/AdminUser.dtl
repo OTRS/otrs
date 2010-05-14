@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.16 2010-05-12 14:17:16 en Exp $
+# $Id: AdminUser.dtl,v 1.17 2010-05-14 14:26:48 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,7 +50,7 @@
                     <li>
                         <form action="">
                             <fieldset>
-                                <input type="text" id="FilterUser" class="W50pc" name="FilterUser" value="" />
+                                <input type="text" id="FilterUser" class="W50pc" name="FilterUser" value="" title="$Text{"Filter for Agents"}" />
                             </fieldset>
                         </form>
                     </li>

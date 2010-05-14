@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.11 2010-05-12 15:11:17 en Exp $
+# $Id: AdminNotification.dtl,v 1.12 2010-05-14 14:26:48 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,7 +43,7 @@ $Include{"RichTextEditor"}
                     <li>
                         <form action="">
                             <fieldset>
-                                <input type="text" id="FilterLanguage" class="W50pc" name="FilterLanguage" value="" />
+                                <input type="text" id="FilterLanguage" class="W50pc" name="FilterLanguage" value="" title="$Text{"Filter for Language"}" />
                             </fieldset>
                         </form>
                     </li>
@@ -61,7 +61,7 @@ $Include{"RichTextEditor"}
                     <li>
                         <form action="">
                             <fieldset>
-                                <input type="text" id="FilterNotification" class="W50pc" name="FilterNotification" value="" />
+                                <input type="text" id="FilterNotification" class="W50pc" name="FilterNotification" value="" title="$Text{"Filter for Notification"}" />
                             </fieldset>
                         </form>
                     </li>

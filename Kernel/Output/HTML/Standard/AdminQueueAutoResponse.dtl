@@ -38,7 +38,7 @@
                 <h2><label for="FilterQueues">$Text{"Filter for Queues"}</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterQueues" class="W50pc" name="FilterQueues" value="" />
+                <input type="text" id="FilterQueues" class="W50pc" name="FilterQueues" value="" title="$Text{"Filter for Queues"}" />
             </div>
         </div>
 <!-- dtl:block:FilterQueues -->
@@ -48,7 +48,7 @@
                 <h2><label for="FilterAutoResponses">$Text{"Filter for Auto Responses"}</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterAutoResponses" class="W50pc" name="FilterAutoResponses" value="" />
+                <input type="text" id="FilterAutoResponses" class="W50pc" name="FilterAutoResponses" value="" title="$Text{"Filter for Auto Responses"}" />
             </div>
         </div>
 <!-- dtl:block:FilterAutoResponses -->

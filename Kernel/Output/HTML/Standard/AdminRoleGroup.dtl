@@ -19,7 +19,7 @@
                 <h2><label for="FilterRoles">$Text{"Filter for Roles"}</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterRoles" class="W50pc" name="FilterUser" value="" />
+                <input type="text" id="FilterRoles" class="W50pc" name="FilterUser" value="" title="$Text{"Filter for Roles"}"/>
             </div>
         </div>
         <div class="WidgetGradient Short">
@@ -27,7 +27,7 @@
                 <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" />
+                <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" title="$Text{"Filter for Groups"}" />
             </div>
         </div>
     </div>
