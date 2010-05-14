@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -107,7 +107,7 @@
 }
 
 .Js .Floating button {
-    margin-top: 0;
+    margin-top: 1px;
 }
 
 /**
@@ -168,7 +168,7 @@
 }
 
 .ErrorBox span {
-    padding: 5px 8px;
+    padding: 5px 8px 4px;
     color: #FFF;
     background: #D41111;
     background: -moz-linear-gradient(center top , #F00, #D41111);
