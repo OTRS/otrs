@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/ArchiveRestore.pm - restore ticket from archive
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArchiveRestore.pm,v 1.1 2009-12-09 11:20:54 mh Exp $
+# $Id: ArchiveRestore.pm,v 1.2 2010-05-14 12:44:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,6 +52,7 @@ sub Run {
         }
     }
 
+    # return if no archive feature is enabled
     return 1 if !$Self->{ConfigObject}->Get('Ticket::ArchiveSystem');
 
     # get ticket
@@ -59,15 +60,16 @@ sub Run {
         TicketID => $Param{Data}->{TicketID},
         UserID   => 1,
     );
+    return if !%Ticket;
 
-    return 1 if !%Ticket;
-
+    # do not restore until ticket is closed, removed or merged
+    # (restore just open tickets)
     return 1 if $Ticket{StateType} eq 'closed';
     return 1 if $Ticket{StateType} eq 'removed';
     return 1 if $Ticket{StateType} eq 'merged';
 
     # restore ticket from archive
-    $Self->{TicketObject}->TicketArchiveFlagSet(
+    return if !$Self->{TicketObject}->TicketArchiveFlagSet(
         TicketID    => $Param{Data}->{TicketID},
         UserID      => 1,
         ArchiveFlag => 'n',
