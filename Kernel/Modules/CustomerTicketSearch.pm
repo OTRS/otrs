@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.48 2010-04-29 10:20:29 mn Exp $
+# $Id: CustomerTicketSearch.pm,v 1.49 2010-05-14 12:15:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -80,6 +80,9 @@ sub Run {
         );
     }
 
+    # remember exclude attributes
+    my @Excludes = $Self->{ParamObject}->GetArray( Param => 'Exclude' );
+
     # get single params
     my %GetParam;
 
@@ -94,7 +97,7 @@ sub Run {
 
     # get search string params (get submitted params)
     else {
-        for (
+        for my $Key (
             qw(TicketNumber From To Cc Subject Body CustomerID ResultForm TimeSearchType StateType
             TicketFreeTime1
             TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
@@ -147,17 +150,17 @@ sub Run {
         {
 
             # get search string params (get submitted params)
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+            $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
 
             # remove white space on the start and end
-            if ( $GetParam{$_} ) {
-                $GetParam{$_} =~ s/\s+$//g;
-                $GetParam{$_} =~ s/^\s+//g;
+            if ( $GetParam{$Key} ) {
+                $GetParam{$Key} =~ s/\s+$//g;
+                $GetParam{$Key} =~ s/^\s+//g;
             }
         }
 
         # get array params
-        for (
+        for my $Key (
             qw(StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs
             TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
             TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
@@ -172,10 +175,17 @@ sub Run {
         {
 
             # get search array params (get submitted params)
-            my @Array = $Self->{ParamObject}->GetArray( Param => $_ );
+            my @Array = $Self->{ParamObject}->GetArray( Param => $Key );
             if (@Array) {
-                $GetParam{$_} = \@Array;
+                $GetParam{$Key} = \@Array;
             }
+        }
+    }
+
+    # check if item need to get excluded
+    for my $Exclude (@Excludes) {
+        if ( $GetParam{$Exclude} ) {
+            delete $GetParam{$Exclude};
         }
     }
 
@@ -206,7 +216,7 @@ sub Run {
         );
         return $Self->{LayoutObject}->Attachment(
             Filename    => 'OpenSearchDescription.xml',
-            ContentType => "text/xml",
+            ContentType => 'text/xml',
             Content     => $Output,
             Type        => 'inline',
         );
@@ -460,61 +470,61 @@ sub Run {
             );
         }
         elsif ( $GetParam{ResultForm} eq 'Print' ) {
-            for (@ViewableTicketIDs) {
+            for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
-                my %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                    TicketID => $_,
+                my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                    TicketID => $TicketID,
                     Extended => 1,
                 );
 
                 # customer info
                 my %CustomerData;
-                if ( $Data{CustomerUserID} ) {
+                if ( $Article{CustomerUserID} ) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                        User => $Data{CustomerUserID},
+                        User => $Article{CustomerUserID},
                     );
                 }
-                elsif ( $Data{CustomerID} ) {
+                elsif ( $Article{CustomerID} ) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                        CustomerID => $Data{CustomerID},
+                        CustomerID => $Article{CustomerID},
                     );
                 }
 
                 # customer info (customer name)
                 if ( $CustomerData{UserLogin} ) {
-                    $Data{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+                    $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
                         UserLogin => $CustomerData{UserLogin},
                     );
                 }
 
                 # user info
-                my %UserInfo = $Self->{UserObject}->GetUserData(
-                    User => $Data{Owner},
+                my %Owner = $Self->{UserObject}->GetUserData(
+                    User => $Article{Owner},
                 );
 
                 # Condense down the subject
                 my $Subject = $Self->{TicketObject}->TicketSubjectClean(
-                    TicketNumber => $Data{TicketNumber},
-                    Subject => $Data{Subject} || '',
+                    TicketNumber => $Article{TicketNumber},
+                    Subject => $Article{Subject} || '',
                 );
-                $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+                $Article{Age}
+                    = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
                 # customer info string
-                if ( $Data{CustomerName} ) {
-                    $Data{CustomerName} = '(' . $Data{CustomerName} . ')';
+                if ( $Article{CustomerName} ) {
+                    $Article{CustomerName} = '(' . $Article{CustomerName} . ')';
                 }
 
                 # add blocks to template
                 $Self->{LayoutObject}->Block(
                     Name => 'Record',
                     Data => {
-                        %Data,
+                        %Article,
                         Subject => $Subject,
-                        %UserInfo,
+                        %Owner,
                     },
                 );
-
             }
             my $Output = $Self->{LayoutObject}->PrintHeader( Width => 800 );
             if ( @ViewableTicketIDs == $Self->{SearchLimit} ) {
@@ -535,7 +545,7 @@ sub Run {
         }
 
         my $Counter = 0;
-        for (@ViewableTicketIDs) {
+        for my $TicketID (@ViewableTicketIDs) {
             $Counter++;
 
             # build search result
@@ -546,63 +556,155 @@ sub Run {
             {
 
                 # get first article data
-                my %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                    TicketID => $_,
+                my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                    TicketID => $TicketID,
                     Extended => 1,
                 );
 
                 # customer info
                 my %CustomerData;
-                if ( $Data{CustomerUserID} ) {
+                if ( $Article{CustomerUserID} ) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                        User => $Data{CustomerUserID},
+                        User => $Article{CustomerUserID},
                     );
                 }
-                elsif ( $Data{CustomerID} ) {
+                elsif ( $Article{CustomerID} ) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                        CustomerID => $Data{CustomerID},
+                        CustomerID => $Article{CustomerID},
                     );
                 }
 
                 # customer info (customer name)
                 if ( $CustomerData{UserLogin} ) {
-                    $Data{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+                    $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
                         UserLogin => $CustomerData{UserLogin},
                     );
                 }
 
                 # user info
-                my %UserInfo = $Self->{UserObject}->GetUserData(
-                    User => $Data{Owner},
+                my %Owner = $Self->{UserObject}->GetUserData(
+                    User => $Article{Owner},
                 );
 
                 # Condense down the subject
                 my $Subject = $Self->{TicketObject}->TicketSubjectClean(
-                    TicketNumber => $Data{TicketNumber},
-                    Subject => $Data{Subject} || '',
+                    TicketNumber => $Article{TicketNumber},
+                    Subject => $Article{Subject} || '',
                 );
-                $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+                $Article{Age}
+                    = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
                 # customer info string
-                if ( $Data{CustomerName} ) {
-                    $Data{CustomerName} = '(' . $Data{CustomerName} . ')';
+                if ( $Article{CustomerName} ) {
+                    $Article{CustomerName} = '(' . $Article{CustomerName} . ')';
                 }
 
                 # add blocks to template
                 $Self->{LayoutObject}->Block(
                     Name => 'Record',
                     Data => {
-                        %Data,
+                        %Article,
                         Subject => $Subject,
-                        %UserInfo,
+                        %Owner,
                     },
                 );
             }
         }
 
-        # start html page
-        my $Output = $Self->{LayoutObject}->CustomerHeader();
-        $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
+        # show attributes used for search
+        my %IDMap = (
+            StateIDs => {
+                Name        => 'State',
+                Object      => 'StateObject',
+                Methode     => 'StateLookup',
+                Key         => 'StateID',
+                Translation => 1,
+            },
+            StateTypeIDs => {
+                Name        => 'StateType',
+                Object      => 'StateObject',
+                Methode     => 'StateLookup',
+                Key         => 'StateID',
+                Translation => 1,
+            },
+            PriorityIDs => {
+                Name        => 'Priority',
+                Object      => 'PriorityObject',
+                Methode     => 'PriorityLookup',
+                Key         => 'PriorityID',
+                Translation => 1,
+            },
+            QueueIDs => {
+                Name        => 'Queue',
+                Object      => 'QueueObject',
+                Methode     => 'QueueLookup',
+                Key         => 'QueueID',
+                Translation => 0,
+            },
+            OwnerIDs => {
+                Name        => 'Owner',
+                Object      => 'UserObject',
+                Methode     => 'UserLookup',
+                Key         => 'UserID',
+                Translation => 0,
+            },
+            ResponsibleIDs => {
+                Name        => 'Responsible',
+                Object      => 'UserObject',
+                Methode     => 'UserLookup',
+                Key         => 'UserID',
+                Translation => 0,
+            },
+        );
+        for my $Key (
+            qw(TicketNumber From To Cc Subject Body CustomerID TimeSearchType StateType
+            StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs
+            )
+            )
+        {
+            next if !$GetParam{$Key};
+            my $Attribute = $IDMap{$Key}->{Name}   || $Key;
+            my $Object    = $IDMap{$Key}->{Object} || '';
+            my $Methode   = $IDMap{$Key}->{Methode};
+            my $MethodeKey  = $IDMap{$Key}->{Key};
+            my $Translation = $IDMap{$Key}->{Translation};
+            my $Value;
+
+            if ( ref $GetParam{$Key} eq 'ARRAY' ) {
+                for my $ItemRaw ( @{ $GetParam{$Key} } ) {
+                    my $Item = $ItemRaw;
+                    if ($Value) {
+                        $Value .= '+';
+                    }
+                    if ( $Self->{$Object} ) {
+                        $Item = $Self->{$Object}->$Methode( $MethodeKey => $Item );
+                        if ($Translation) {
+                            $Item = $Self->{LayoutObject}->{LanguageObject}->Get($Item);
+                        }
+                    }
+                    $Value .= $Item;
+                }
+            }
+            else {
+                my $Item = $GetParam{$Key};
+                if ( $Self->{$Object} ) {
+                    $Item = $Self->{$Object}->$Methode( $MethodeKey => $Item );
+                    if ($Translation) {
+                        $Item = $Self->{LayoutObject}->{LanguageObject}->Get($Item);
+                    }
+                }
+                $Value = $Item;
+            }
+            $Self->{LayoutObject}->Block(
+                Name => 'SearchTerms',
+                Data => {
+                    %Param,
+                    Attribute => $Attribute,
+                    Key       => $Key,
+                    Value     => $Value,
+                },
+            );
+        }
 
         # build search navigation bar
         my %PageNav = $Self->{LayoutObject}->PageNavBar(
@@ -615,6 +717,21 @@ sub Run {
                 "Profile=$Self->{Profile};SortBy=$Self->{SortBy};Order=$Self->{Order};TakeLastSearch=1&",
             IDPrefix => "CustomerTicketSearch",
         );
+
+        # show footer filter - show only if more the one page is available
+        if ( $PageNav{TotalHits} > $Self->{SearchPageShown} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FilterFooter',
+                Data => {
+                    %Param,
+                    %PageNav,
+                },
+            );
+        }
+
+        # start html page
+        my $Output = $Self->{LayoutObject}->CustomerHeader();
+        $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
 
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'CustomerTicketSearchResultShort',

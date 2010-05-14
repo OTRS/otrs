@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.22 2010-05-05 13:16:14 mg Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.23 2010-05-14 12:15:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <div class="Content">
         <form action="$Env{"CGIHandle"}" method="get" name="compose">
             <input type="hidden" name="Action" value="$Env{"Action"}"/>
-            <input type="hidden" name="Subaction" value="Search"/>
+            <input type="hidden" name="Subaction" value="LoadProfile"/>
             <fieldset>
                 <h2>$Text{"Profile"}</h2>
                 <div>
@@ -22,39 +22,49 @@
                     $Data{"ProfilesStrg"}
                 </div>
             </fieldset>
+            <div class="">
+                <button class="button" name="SelectTemplate" type="submit" value="$Text{"Select"}">$Text{"Select"}</button>
+                <button class="button" name="EraseTemplate" type="submit" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                <button class="button" name="SearchTemplate" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+            </div>
+        </form>
+
+        <form action="$Env{"CGIHandle"}" method="get" name="compose">
+            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+            <input type="hidden" name="Subaction" value="Search"/>
             <fieldset>
                 <h2>$Config{"Ticket::Hook"}</h2>
                 <div>
                     <label for="TicketNumber">$Config{"Ticket::Hook"}</label>
-                    <input title="Ticket#" type="text" name="TicketNumber"id="TicketNumber" size="30" value="$QData{"TicketNumber"}"/>
+                    <input title="$Config{"Ticket::Hook"}" type="text" name="TicketNumber"id="TicketNumber" size="30" value="$QData{"TicketNumber"}"/>
                     <p>$Text{"e. g. 10*5155 or 105658*"}</p>
+                </div>
+                <div>
+                    <label for="CustomerID">$Text{"CustomerID"}</label>
+                    <input title="$Text{"Customer ID"}" type="text" id="CustomerID" name="CustomerID" value="$QData{"CustomerID"}" size="20" />
                 </div>
             </fieldset>
             <fieldset>
                 <h2>$Text{"Fulltext search in tickets (e. g. "John*n" or "Will*")"}</h2>
                 <div>
                     <label for="From">$Text{"From"}</label>
-                    <input title="Sender" type="text" id="From" name="From" value="$QData{"From"}" size="20" />
+                    <input title="$Text{"Sender"}" type="text" id="From" name="From" value="$QData{"From"}" size="20" />
                 </div>
                 <div>
                     <label for="To">$Text{"To"}</label>
-                    <input title="Recipient" type="text" id="To" name="To" value="$QData{"To"}" size="20" />
+                    <input title="$Text{"Recipient"}" type="text" id="To" name="To" value="$QData{"To"}" size="20" />
                 </div>
                 <div>
                     <label for="Cc">$Text{"Cc"}</label>
-                    <input title="Carbon Copy" type="text" id="Cc" name="Cc" value="$QData{"Cc"}" size="20" />
+                    <input title="$Text{"Carbon Copy"}" type="text" id="Cc" name="Cc" value="$QData{"Cc"}" size="20" />
                 </div>
                 <div>
                     <label for="Subject">$Text{"Subject"}</label>
-                    <input title="Subject" type="text" id="Subject" name="Subject" value="$QData{"Subject"}" size="20" />
+                    <input title="$Text{"Subject"}" type="text" id="Subject" name="Subject" value="$QData{"Subject"}" size="20" />
                 </div>
                 <div>
                     <label for="MailBody">$Text{"Text"}</label>
-                    <input title="Text" type="text" id="MailBody" name="MailBody" value="$QData{"Text"}" size="20" />
-                </div>
-                <div>
-                    <label for="CustomerID">$Text{"CustomerID"}</label>
-                    <input title="Customer ID" type="text" id="CustomerID" name="CustomerID" value="$QData{"CustomerID"}" size="20" />
+                    <input title="$Text{"Text"}" type="text" id="Body" name="Body" value="$QData{"Body"}" size="20" />
                 </div>
             </fieldset>
 <!-- dtl:block:FreeText -->
