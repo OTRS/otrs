@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -68,13 +68,22 @@ strong {
     outline: none;
 }
 
+/* RTL Button placement - development purpose only */
+#Header button {
+    position: absolute;
+    width: 100px;
+    margin: 0;
+    top: 17px;
+    right: 21px;
+} .RTL #Header button { display: none; }
+
 /**
  * @subsection  Content
  */
 
 .Content {
     padding: 13px 21px;
-    background: #FFF url(img/body_bg.png) repeat-x;
+    border-top: 1px solid #EEE;
 }
 
 /**
@@ -90,11 +99,11 @@ strong {
  * @subsection  RichText Editor overwrites
  */
 
-form span.cke_skin_kama {
+form #cke_RichText {
     border: none;
 }
 
-span.cke_skin_kama span.cke_wrapper {
+form #cke_RichText span.cke_wrapper {
     background: #E4E4E4;
 }
 
