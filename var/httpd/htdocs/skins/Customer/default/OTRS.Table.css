@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -15,6 +15,7 @@
 }
 
 table.Overview {
+    top: -1px;
     width: 100%;
     color: #444;
     border-collapse: collapse;
@@ -23,11 +24,12 @@ table.Overview {
     background: url(img/body_bottom_bg.png) repeat-x bottom;
     zoom: 1;
     clear: both;
+    position: relative;
 }
 .Overview thead {
-    background: #DDD;
-    background: -moz-linear-gradient(top, #DDD, #CCC);
-    background: -webkit-gradient(linear, left top, left bottom, from(#DDD), to(#CCC));
+    background: #CCC;
+    background: -moz-linear-gradient(top, #CCC, #C2C2C2);
+    background: -webkit-gradient(linear, left top, left bottom, from(#CCC), to(#C2C2C2));
     display: none;
 }
 .Sortable thead {
@@ -132,7 +134,7 @@ table.Overview {
         -moz-linear-gradient(top, #FFD995, #FBBB4B 3px, #F7AF3F 53%, #F4990E 53%, #E98207 96%, #E06F05);
     background: 
         -webkit-gradient(linear, left top, left bottom, from(#FFD995), to(#E06F05), color-stop(3px, #FBBB4B), color-stop(53%, #F7AF3F), color-stop(53%, #F4990E), color-stop(96%, #E98207));
-    border-color: #888;
+    border-color: #C9C9C9;
 }
 .Overview tbody tr:hover td,
 .Overview tbody tr:hover a {
@@ -154,7 +156,7 @@ table.Overview {
         -moz-linear-gradient(top, #FBBB4B, #F7AF3F 53%, #F4990E 53%, #E98207 96%, #E06F05);
     background: 
         -webkit-gradient(linear, left top, left bottom, from(#FFD995), to(#E06F05), color-stop(3px, #FBBB4B), color-stop(53%, #F7AF3F), color-stop(53%, #F4990E), color-stop(96%, #E98207));
-    border-color: #BBB;
+    border-color: #E9E9E9;
 }
 .Overview tbody tr:active td {
     padding: 4px 8px 3px;
