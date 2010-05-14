@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.60 2010-05-12 12:07:48 ub Exp $
+# $Id: DB.t,v 1.61 2010-05-14 10:31:10 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,8 @@ use strict;
 use warnings;
 
 use vars qw($Self);
+
+use Encode;
 
 use Kernel::System::XML;
 
@@ -1093,6 +1095,97 @@ for my $Character (@SpecialCharacters) {
         );
     }
 
+    $Counter++;
+}
+
+my @UTF8Tests = (
+    {
+
+        # composed UTF8 char (german umlaut a)
+        InsertData => Encode::encode( 'UTF8', "\x{E4}" ),
+        SelectData => Encode::encode( 'UTF8', "\x{E4}" ),
+        ResultData => "\x{E4}",
+    },
+    {
+
+        # decomposed UTF8 char (german umlaut a)
+        InsertData => Encode::encode( 'UTF8', "\x{61}\x{308}" ),
+        SelectData => Encode::encode( 'UTF8', "\x{61}\x{308}" ),
+        ResultData => "\x{61}\x{308}",
+    },
+    {
+
+        # decomposed UTF8 char (german umlaut a)
+        InsertData => Encode::encode( 'UTF8', "\x{61}\x{308}" ),
+        SelectData => Encode::encode( 'UTF8', "\x{E4}" ),
+        ResultData => undef,
+    },
+    {
+
+        # composed UTF8 char (smal a with grave)
+        InsertData => Encode::encode( 'UTF8', "\x{E0}" ),
+        SelectData => Encode::encode( 'UTF8', "\x{E0}" ),
+        ResultData => "\x{E0}",
+    },
+    {
+
+        # decomposed UTF8 char (smal a with grave)
+        InsertData => Encode::encode( 'UTF8', "\x{61}\x{300}" ),
+        SelectData => Encode::encode( 'UTF8', "\x{61}\x{300}" ),
+        ResultData => "\x{61}\x{300}",
+    },
+    {
+
+        # decomposed UTF8 char (smal a with grave)
+        InsertData => Encode::encode( 'UTF8', "\x{61}\x{300}" ),
+        SelectData => Encode::encode( 'UTF8', "\x{E0}" ),
+        ResultData => undef,
+    },
+);
+
+UTF8TEST:
+for my $UTF8Test (@UTF8Tests) {
+
+    # extract needed test data
+    my %TestData = %{$UTF8Test};
+
+    my $Result = $Self->{DBObject}->Do(
+        SQL => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
+        Bind => [ \$Counter, \$TestData{InsertData} ],
+    );
+    $Self->True(
+        $Result,
+        "#5.$Counter UTF8: insert test",
+    );
+
+    # check insert result
+    next UTF8Test if !$Result;
+
+    $Result = $Self->{DBObject}->Prepare(
+        SQL   => 'SELECT name_b FROM test_d WHERE name_a = ? AND name_b = ?',
+        Bind  => [ \$Counter, \$TestData{SelectData}, ],
+        Limit => 1,
+    );
+    $Self->True(
+        $Result,
+        "#5.$Counter UTF8: prepare SELECT stmt",
+    );
+
+    # check prepare result
+    next UTF8Test if !$Result;
+
+    my @UTF8ResultSet;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @UTF8ResultSet, $Row[0];
+    }
+
+    $Self->Is(
+        $UTF8ResultSet[0],
+        $TestData{ResultData},
+        "#5.$Counter UTF8: check result data",
+    );
+}
+continue {
     $Counter++;
 }
 
