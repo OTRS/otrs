@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.50 2010-05-14 12:19:44 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.51 2010-05-14 12:20:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -824,210 +824,210 @@ sub MaskForm {
             $Self->{StateObject}->StateList(
                 UserID => $Self->{UserID},
                 Action => $Self->{Action},
-                ) m
+            ),
         },
         Name       => 'StateIDs',
         Multiple   => 1,
         Size       => 5,
         SelectedID => $Param{StateIDs},
-        );
-            $Param{StateTypeStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => {
-                Open   => 'open',
-                Closed => 'closed',
-            },
-            Name       => 'StateType',
-            Size       => 5,
-            SelectedID => $Param{StateType},
-            );
-            $Param{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => {
-                $Self->{PriorityObject}->PriorityList(
-                    UserID => $Self->{UserID},
-                    Action => $Self->{Action},
-                ),
-            },
-            Name       => 'PriorityIDs',
-            Multiple   => 1,
-            Size       => 5,
-            SelectedID => $Param{PriorityIDs},
-            );
-            $Param{TicketCreateTimePoint} = $Self->{LayoutObject}->BuildSelection(
-            Data => {
-                1  => ' 1',
-                2  => ' 2',
-                3  => ' 3',
-                4  => ' 4',
-                5  => ' 5',
-                6  => ' 6',
-                7  => ' 7',
-                8  => ' 8',
-                9  => ' 9',
-                10 => '10',
-                11 => '11',
-                12 => '12',
-                13 => '13',
-                14 => '14',
-                15 => '15',
-                16 => '16',
-                17 => '17',
-                18 => '18',
-                19 => '19',
-                20 => '20',
-                21 => '21',
-                22 => '22',
-                23 => '23',
-                24 => '24',
-                25 => '25',
-                26 => '26',
-                27 => '27',
-                28 => '28',
-                29 => '29',
-                30 => '30',
-                31 => '31',
-                32 => '32',
-                33 => '33',
-                34 => '34',
-                35 => '35',
-                36 => '36',
-                37 => '37',
-                38 => '38',
-                39 => '39',
-                40 => '40',
-                41 => '41',
-                42 => '42',
-                43 => '43',
-                44 => '44',
-                45 => '45',
-                46 => '46',
-                47 => '47',
-                48 => '48',
-                49 => '49',
-                50 => '50',
-                51 => '51',
-                52 => '52',
-                53 => '53',
-                54 => '54',
-                55 => '55',
-                56 => '56',
-                57 => '57',
-                58 => '58',
-                59 => '59',
-            },
-            Name       => 'TicketCreateTimePoint',
-            SelectedID => $Param{TicketCreateTimePoint},
-            );
-            $Param{TicketCreateTimePointStart} = $Self->{LayoutObject}->BuildSelection(
-            Data => {
-                Last   => 'last',
-                Before => 'before',
-            },
-            Name => 'TicketCreateTimePointStart',
-            SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
-            );
-            $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
-            Data => {
-                minute => 'minute(s)',
-                hour   => 'hour(s)',
-                day    => 'day(s)',
-                week   => 'week(s)',
-                month  => 'month(s)',
-                year   => 'year(s)',
-            },
-            Name       => 'TicketCreateTimePointFormat',
-            SelectedID => $Param{TicketCreateTimePointFormat},
-            );
-            $Param{TicketCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+    );
+    $Param{StateTypeStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            Open   => 'open',
+            Closed => 'closed',
+        },
+        Name       => 'StateType',
+        Size       => 5,
+        SelectedID => $Param{StateType},
+    );
+    $Param{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            $Self->{PriorityObject}->PriorityList(
+                UserID => $Self->{UserID},
+                Action => $Self->{Action},
+            ),
+        },
+        Name       => 'PriorityIDs',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{PriorityIDs},
+    );
+    $Param{TicketCreateTimePoint} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            1  => ' 1',
+            2  => ' 2',
+            3  => ' 3',
+            4  => ' 4',
+            5  => ' 5',
+            6  => ' 6',
+            7  => ' 7',
+            8  => ' 8',
+            9  => ' 9',
+            10 => '10',
+            11 => '11',
+            12 => '12',
+            13 => '13',
+            14 => '14',
+            15 => '15',
+            16 => '16',
+            17 => '17',
+            18 => '18',
+            19 => '19',
+            20 => '20',
+            21 => '21',
+            22 => '22',
+            23 => '23',
+            24 => '24',
+            25 => '25',
+            26 => '26',
+            27 => '27',
+            28 => '28',
+            29 => '29',
+            30 => '30',
+            31 => '31',
+            32 => '32',
+            33 => '33',
+            34 => '34',
+            35 => '35',
+            36 => '36',
+            37 => '37',
+            38 => '38',
+            39 => '39',
+            40 => '40',
+            41 => '41',
+            42 => '42',
+            43 => '43',
+            44 => '44',
+            45 => '45',
+            46 => '46',
+            47 => '47',
+            48 => '48',
+            49 => '49',
+            50 => '50',
+            51 => '51',
+            52 => '52',
+            53 => '53',
+            54 => '54',
+            55 => '55',
+            56 => '56',
+            57 => '57',
+            58 => '58',
+            59 => '59',
+        },
+        Name       => 'TicketCreateTimePoint',
+        SelectedID => $Param{TicketCreateTimePoint},
+    );
+    $Param{TicketCreateTimePointStart} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            Last   => 'last',
+            Before => 'before',
+        },
+        Name => 'TicketCreateTimePointStart',
+        SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
+    );
+    $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            minute => 'minute(s)',
+            hour   => 'hour(s)',
+            day    => 'day(s)',
+            week   => 'week(s)',
+            month  => 'month(s)',
+            year   => 'year(s)',
+        },
+        Name       => 'TicketCreateTimePointFormat',
+        SelectedID => $Param{TicketCreateTimePointFormat},
+    );
+    $Param{TicketCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+        %Param,
+        Prefix   => 'TicketCreateTimeStart',
+        Format   => 'DateInputFormat',
+        DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+    );
+    $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+        %Param,
+        Prefix => 'TicketCreateTimeStop',
+        Format => 'DateInputFormat',
+    );
+
+    for ( 1 .. 6 ) {
+        $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
-            Prefix   => 'TicketCreateTimeStart',
+            Prefix   => 'TicketFreeTime' . $_ . 'Start',
             Format   => 'DateInputFormat',
             DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
-            );
-            $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+        );
+        $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
-            Prefix => 'TicketCreateTimeStop',
-            Format => 'DateInputFormat',
-            );
+            Prefix   => 'TicketFreeTime' . $_ . 'Stop',
+            Format   => 'DateInputFormat',
+            DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
+        );
+    }
 
-            for ( 1 .. 6 ) {
-            $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
-                %Param,
-                Prefix   => 'TicketFreeTime' . $_ . 'Start',
-                Format   => 'DateInputFormat',
-                DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
-            );
-            $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
-                %Param,
-                Prefix   => 'TicketFreeTime' . $_ . 'Stop',
-                Format   => 'DateInputFormat',
-                DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
-            );
-        }
-
-        # html search mask output
+    # html search mask output
+    $Self->{LayoutObject}->Block(
+        Name => 'Search',
+        Data => { %Param, },
+    );
+    for my $Count ( 1 .. 16 ) {
+        next if !$Self->{Config}->{TicketFreeText}->{$Count};
         $Self->{LayoutObject}->Block(
-            Name => 'Search',
-            Data => { %Param, },
+            Name => 'FreeText',
+            Data => {
+                TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
+                TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
+            },
         );
-            for my $Count ( 1 .. 16 ) {
-            next if !$Self->{Config}->{TicketFreeText}->{$Count};
-            $Self->{LayoutObject}->Block(
-                Name => 'FreeText',
-                Data => {
-                    TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
-                    TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
-                },
-            );
-        }
-        for my $Count ( 1 .. 6 ){
-            next if !$Self->{Config}->{TicketFreeTime}->{$Count};
-            $Self->{LayoutObject}->Block(
-                Name => 'FreeTime',
-                Data => {
-                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                    TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
-                    TicketFreeTimeStart => $Param{ 'TicketFreeTime' . $Count . 'Start' },
-                    TicketFreeTimeStop  => $Param{ 'TicketFreeTime' . $Count . 'Stop' },
-                    Count               => $Count,
-                },
-            );
-            }
-
-            # html search mask output
-            return $Self->{LayoutObject}->Output(
-            TemplateFile => 'CustomerTicketSearch',
-            Data         => \%Param,
-            );
-        }
-
-        sub MaskCSVResult {
-        my ( $Self, %Param ) = @_;
-
-        $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
-
-        # customer info string
-        $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
-
-        # create & return output
-        return $Self->{LayoutObject}->Output(
-            TemplateFile => 'CustomerTicketSearchResultCSV',
-            Data         => \%Param,
+    }
+    for my $Count ( 1 .. 6 ) {
+        next if !$Self->{Config}->{TicketFreeTime}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'FreeTime',
+            Data => {
+                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                TicketFreeTime      => $Param{ 'TicketFreeTime' . $Count },
+                TicketFreeTimeStart => $Param{ 'TicketFreeTime' . $Count . 'Start' },
+                TicketFreeTimeStop  => $Param{ 'TicketFreeTime' . $Count . 'Stop' },
+                Count               => $Count,
+            },
         );
     }
 
-    sub MaskPrintResult {
-        my ( $Self, %Param ) = @_;
+    # html search mask output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'CustomerTicketSearch',
+        Data         => \%Param,
+    );
+}
 
-        $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
+sub MaskCSVResult {
+    my ( $Self, %Param ) = @_;
 
-        # customer info string
-        $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
 
-        # create & return output
-        return $Self->{LayoutObject}->Output(
-            TemplateFile => 'CustomerTicketSearchResultPrintTable',
-            Data         => \%Param,
-        );
-    }
+    # customer info string
+    $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
 
-    1;
+    # create & return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'CustomerTicketSearchResultCSV',
+        Data         => \%Param,
+    );
+}
+
+sub MaskPrintResult {
+    my ( $Self, %Param ) = @_;
+
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
+
+    # customer info string
+    $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
+
+    # create & return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'CustomerTicketSearchResultPrintTable',
+        Data         => \%Param,
+    );
+}
+
+1;
