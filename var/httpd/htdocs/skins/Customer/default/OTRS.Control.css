@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -260,3 +260,38 @@
 .Sortable .ActionRow.Bottom {
     border-bottom: 1px solid #BBB;
 }
+
+/**
+ * @subsection  SerachTerms
+ */
+
+.SearchTerms {
+    padding: 7px 7px 4px;
+    border-bottom: 1px solid #EEE;
+}
+
+.SearchTerms h2 {
+    margin: 0;
+    color: #222;
+    font-size: 15px;
+    display: inline;
+}
+
+.SearchTerms > span {
+    top: -1px;
+    padding: 1px 8px;
+    margin: 0 3px;
+    color: #666;
+    background: #EEE;
+    position: relative;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.SearchTerms > span a {
+    top: 1px;
+    font-size: 14px;
+    position: relative;
+}
+
