@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.76 2010-05-14 07:55:42 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.77 2010-05-14 10:38:46 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@
 <!-- dtl:block:Back -->
             <li><a href="$Env{"Baselink"}$Env{"LastScreenOverview"}">&larr; $Text{"Back"}</a></li>
 <!-- dtl:block:Back -->
+            <div class="Clear"></div>
         </ul>
     </div>
     <div class="Content">
@@ -68,7 +69,7 @@
             </ul>
             <div class="Clear"></div>
         </div>
-        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+        <form action="$Env{"CGIHandle"}#FollowUp" method="post" enctype="multipart/form-data" name="compose">
             <input type="hidden" name="Action" value="CustomerTicketZoom" />
             <input type="hidden" name="Subaction" value="Store" />
             <input type="hidden" name="TicketID" value="$QData{"TicketID"}" />
@@ -76,7 +77,7 @@
             <input type="hidden" name="FormID" value="$QData{"FormID"}" />
             <ul id="Messages">
 <!-- dtl:block:Article -->
-                <li class="Message $QData{"SenderType"} $QData{"Class"}">
+                <li class="Message $QData{"SenderType"} $QData{"ArticleType"} $QData{"Class"}">
                     <input type="hidden" name="ArticleState" value="untouched" />
                     <div class="MessageHeader">
                         <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"}">$RQData{"From","60"} &ndash; <span title="$Text{"Loading"}...">$QData{"Subject","120"}</span></a></h3>
@@ -96,16 +97,18 @@
                                 <div class="Clear"></div>
                             </div>
 <!-- dtl:block:ArticleAttachment -->
-                            <div titel="$QData{"Filename"},$QData{"Filesize"}" class="Attachment">
+                            <div class="Attachments">
                                 <div class="Label">$Text{"$Data{"Key"}"}:</div>
 <!-- dtl:block:ArticleAttachmentRow -->
-                                $QData{"Filename"}
+                                <div class="DownloadAttachment" titel="$QData{"Filename"} - $QData{"Filesize"}">
+                                    $QData{"Filename"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                                <a class="SmallButton" href="$Data{"Link"}" $Data{"Target"}>$Text{"Save"}</a>
+                                    <a class="SmallButton" href="$Data{"Link"}" $Data{"Target"}>$Text{"Save"}</a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-#                                <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" />
+#                                   <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" />
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
+                                </div>
 <!-- dtl:block:ArticleAttachmentRow -->
                                 <div class="Clear"></div>
                             </div>
@@ -137,26 +140,29 @@
                     $Include{"RichTextEditor"}
 <!-- dtl:block:RichText-->
                     <textarea titel="$Text{"Reply"}" id="RichText" class="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                    <div id="AttachmentHolder">
-                        <input name="file_upload" title="Attachment" type="file" size="30" />
-                        <button type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
+                    <fieldset>
+                        <div id="AttachmentHolder">
+                            <label for="Attachment">$Text{"Attachment"}:</label>
+                            <input name="file_upload" title="Attachment" id="Attachment" type="file" size="30" />
+                            <button type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
 <!-- dtl:block:FollowUpAttachment -->
-                        <div>
-                            $QData{"Filename"} <span>$QData{"Filesize"}</span>
-                            <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                            <div class="Attachment" title="$QData{"Filename"} - $QData{"Filesize"}">
+                                $QData{"Filename"}
+                                <button type="submit" title="$Text{"delete"} $QData{"Filename"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                            </div>
+<!-- dtl:block:FollowUpAttachment -->
                         </div>
-<!-- dtl:block:FollowUpAttachment -->
-                    </div>
 <!-- dtl:block:FollowUpState -->
-                    <div>
-                        <div class="Label">$Text{"Next state"}:</div> $Data{"NextStatesStrg"}
-                    </div>
+                        <div>
+                            <label for="StateID">$Text{"Next state"}:</label> $Data{"NextStatesStrg"}
+                        </div>
 <!-- dtl:block:FollowUpState -->
 <!-- dtl:block:FollowUpPriority -->
-                    <div>
-                        <div class="Label">$Text{"Priority"}:</div> $Data{"PriorityStrg"}
-                    </div>
+                        <div>
+                            <label for="PriorityID">$Text{"Priority"}:</label> $Data{"PriorityStrg"}
+                        </div>
 <!-- dtl:block:FollowUpPriority -->
+                    </fieldset>
                     <button id="Submit" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button> $Text{"or"} <a id="CloseButton" href="">$Text{"Cancel"}</a>
                 </div>
                 <a id="ReplyButton" href="">$Text{"Reply"}</a>
