@@ -2,7 +2,7 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.7 2010-05-12 12:56:19 martin Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.8 2010-05-14 10:25:53 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 <div id="Body" class="TicketView $Config{"Ticket::Frontend::CustomerTicketOverviewSortable"}">
 <!-- dtl:block:Filled -->
-    <div class="ActionRow BigButtons">
+    <div class="ActionRow">
         <ul class="Tabs Filter">
 <!-- dtl:block:FilterHeader -->
             <li class="$QData{"ClassLI"}"><a class="$QData{"ClassA"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Filter=$QData{"Filter"};SortBy=$QData{"SortBy"};Order=$QData{"OrderBy"};">$Text{"$Data{"Name"}"} ($QData{"Count"})</a></li>
