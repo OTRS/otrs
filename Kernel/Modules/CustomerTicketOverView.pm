@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.58 2010-05-12 12:56:19 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.59 2010-05-14 17:07:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -305,7 +305,7 @@ sub Run {
     $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerTicketOverView',
-        Data         => %Param,
+        Data         => \%Param,
     );
 
     # get page footer
