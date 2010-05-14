@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -15,22 +15,26 @@
  */
 
 .TicketZoom .Content {
-    padding: 13px 10px 0;
+    padding: 5px 10px 0;
 }
 
 .TicketHeader {
+    margin-bottom: 2px;
     position: relative;
 }
 
 .TicketZoom h2 {
-    padding: 0 36px;
+    padding-left: 36px;
     font-size: 24px;
     display: inline;
     line-height: 29px;
     position: relative;
 }
+.RTL .TicketZoom h2 {
+    padding: 0 36px 0 0;
+}
 
-.TicketZoom h2 span {
+.TicketZoom h2 + span {
     color: #666;
     font-size: 12px;
 }
@@ -238,27 +242,30 @@
 }
 .Details .Label {
     width: 60px;
-    padding: 0 8px;
+    margin: 0 8px;
     color: #AAA;
     float: left;
     text-align: right;
 }
 .RTL .Details .Label {
     float: right;
-}
-
-.Details .Attachment {
-    padding-top: 2px;
-}
-
-.Details .Attachment .Label {
-    background: url(img/paper-clip.png) no-repeat 51px center;
-    text-indent: -9999px;
     text-align: left;
 }
 
-.Details .Attachment a {
-    vertical-align: top;
+.Details .Attachments {
+    padding-top: 2px;
+}
+
+.Details .Attachments .Label {
+    background: url(img/paper-clip.png) no-repeat right;
+    text-indent: 9999px;
+}
+.RTL .Details .Attachments .Label {
+    background-position: left;
+}
+
+.DownloadAttachment + .DownloadAttachment {
+    margin-left: 76px;
 }
 
 .MessageContent {
@@ -335,18 +342,24 @@
     border-color: #888;
 }
 
-#Messenger #Submit {
-    margin: 8px;
-    display: block;
+#Messenger fieldset {
+    margin: 8px 4px 10px;
+    border-color: #DDD;
 }
 
-#AttachmentHolder {
-    margin: 5px;
-    padding: 5px;
-    background: #E4E4E4;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
+#Messenger #Submit {
+    margin: 0 0 8px 8px;
+}
+.RTL #Messenger #Submit {
+    margin: 0 8px 8px 0;
+}
+
+.Attachment {
+    padding: 9px 0 4px 138px;
+}
+
+.RTL .Attachment {
+    padding: 9px 138px 4px 0;
 }
 
 #ReplyButton {
@@ -368,18 +381,21 @@
     border-bottom-left-radius: 5px;
     display: none;
     position: absolute;
-    -webkit-box-shadow: 0 0 3px #EEE;
-    -moz-box-shadow: 0 0 3px #EEE;
-    box-shadow: 0 0 2px #EEE;
+    -webkit-box-shadow: 0 0 3px #F6F9F9;
+    -moz-box-shadow: 0 0 3px #F6F9F9;
+    box-shadow: 0 0 2px #F6F9F9;
 }
 
 .Js #ReplyButton {
     display: block;
 }
 
-#ReplyButton:hover,
-.Visible #ReplyButton {
+#ReplyButton:hover {
     color: #555;
+}
+
+.Visible #ReplyButton {
+    display: none;
 }
 
 /**
