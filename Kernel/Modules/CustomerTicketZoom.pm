@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.65 2010-05-12 12:14:09 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.66 2010-05-14 07:55:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,6 +91,23 @@ sub Run {
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
+    # strip html and ascii attachments of content
+    my $StripPlainBodyAsAttachment = 1;
+
+    # check if rich text is enabled, if not only stip ascii attachments
+    if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
+        $StripPlainBodyAsAttachment = 2;
+    }
+
+    # get all article of this ticket
+    my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
+    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+        TicketID                   => $Self->{TicketID},
+        ArticleType                => \@CustomerArticleTypes,
+        StripPlainBodyAsAttachment => $StripPlainBodyAsAttachment,
+        UserID                     => $Self->{UserID},
+    );
+
     # get params
     my %GetParam;
     for my $Key (qw( Subject Body StateID PriorityID)) {
@@ -140,7 +157,8 @@ sub Run {
         for my $Count ( 1 .. 32 ) {
             my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
             next if !$Delete;
-            $Error{AttachmentDelete} = 1;
+            $GetParam{FollowUpVisible} = 'Visible';
+            $Error{AttachmentDelete}   = 1;
             $Self->{UploadCacheObject}->FormIDRemoveFile(
                 FormID => $Self->{FormID},
                 FileID => $Count,
@@ -149,7 +167,8 @@ sub Run {
 
         # attachment upload
         if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
-            $Error{AttachmentUpload} = 1;
+            $GetParam{FollowUpVisible} = 'Visible';
+            $Error{AttachmentUpload}   = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                 Param  => "file_upload",
                 Source => 'string',
@@ -159,112 +178,126 @@ sub Run {
                 %UploadStuff,
             );
         }
-        if ( !%Error ) {
 
-            # set lock if ticket was closed
-            if ( $Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1' ) {
-                $Self->{TicketObject}->LockSet(
-                    TicketID => $Self->{TicketID},
-                    Lock     => 'lock',
-                    UserID   => => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                );
-            }
-            my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
+        # show edit again
+        if (%Error) {
 
-            my $MimeType = 'text/plain';
-            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-                $MimeType = 'text/html';
-
-                # verify html document
-                $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
-                    String => $GetParam{Body},
-                );
-            }
-
-            my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                TicketID    => $Self->{TicketID},
-                ArticleType => $Self->{Config}->{ArticleType},
-                SenderType  => $Self->{Config}->{SenderType},
-                From        => $From,
-                Subject     => $GetParam{Subject},
-                Body        => $GetParam{Body},
-                MimeType    => $MimeType,
-                Charset     => $Self->{LayoutObject}->{UserCharset},
-                UserID      => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                OrigHeader  => {
-                    From    => $From,
-                    To      => 'System',
-                    Subject => $GetParam{Subject},
-                    Body    => $Self->{LayoutObject}->RichText2Ascii( String => $GetParam{Body} ),
-                },
-                HistoryType      => $Self->{Config}->{HistoryType},
-                HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
-                AutoResponseType => 'auto follow up',
+            # generate output
+            my $Output = $Self->{LayoutObject}->CustomerHeader( Value => $Ticket{TicketNumber} );
+            $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
+            $Output .= $Self->_Mask(
+                TicketID   => $Self->{TicketID},
+                ArticleBox => \@ArticleBox,
+                %Ticket,
+                %GetParam,
             );
-            if ( !$ArticleID ) {
-                my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
-                $Output .= $Self->{LayoutObject}->CustomerError();
-                $Output .= $Self->{LayoutObject}->CustomerFooter();
-                return $Output;
-            }
+            $Output .= $Self->{LayoutObject}->CustomerFooter();
+            return $Output;
+        }
 
-            # set state
-            my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
-            my $NextState = $NextStateData{Name}
-                || $Self->{Config}->{StateDefault}
-                || 'open';
-            $Self->{TicketObject}->StateSet(
-                TicketID  => $Self->{TicketID},
-                ArticleID => $ArticleID,
-                State     => $NextState,
-                UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-            );
-
-            # set priority
-            if ( $Self->{Config}->{Priority} && $GetParam{PriorityID} ) {
-                $Self->{TicketObject}->PrioritySet(
-                    TicketID   => $Self->{TicketID},
-                    PriorityID => $GetParam{PriorityID},
-                    UserID     => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                );
-            }
-
-            # get pre loaded attachment
-            my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
-                FormID => $Self->{FormID}
-            );
-
-            # get submit attachment
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
-                Source => 'String',
-            );
-            if (%UploadStuff) {
-                push @AttachmentData, \%UploadStuff;
-            }
-
-            # write attachments
-            for my $Attachment (@AttachmentData) {
-
-                # skip deleted inline images
-                next if $Attachment->{ContentID}
-                        && $Attachment->{ContentID} =~ /^inline/
-                        && $GetParam{Body} !~ /$Attachment->{ContentID}/;
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %{$Attachment},
-                    ArticleID => $ArticleID,
-                    UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                );
-            }
-
-            # remove pre submited attachments
-            $Self->{UploadCacheObject}->FormIDRemove( FormID => $Self->{FormID} );
-
-            # redirect to zoom view
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=$NextScreen;TicketID=$Self->{TicketID}",
+        # set lock if ticket was closed
+        if ( $Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1' ) {
+            $Self->{TicketObject}->LockSet(
+                TicketID => $Self->{TicketID},
+                Lock     => 'lock',
+                UserID   => => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             );
         }
+        my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
+
+        my $MimeType = 'text/plain';
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+            $MimeType = 'text/html';
+
+            # verify html document
+            $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
+                String => $GetParam{Body},
+            );
+        }
+
+        my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+            TicketID    => $Self->{TicketID},
+            ArticleType => $Self->{Config}->{ArticleType},
+            SenderType  => $Self->{Config}->{SenderType},
+            From        => $From,
+            Subject     => $GetParam{Subject},
+            Body        => $GetParam{Body},
+            MimeType    => $MimeType,
+            Charset     => $Self->{LayoutObject}->{UserCharset},
+            UserID      => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            OrigHeader  => {
+                From    => $From,
+                To      => 'System',
+                Subject => $GetParam{Subject},
+                Body    => $Self->{LayoutObject}->RichText2Ascii( String => $GetParam{Body} ),
+            },
+            HistoryType      => $Self->{Config}->{HistoryType},
+            HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
+            AutoResponseType => 'auto follow up',
+        );
+        if ( !$ArticleID ) {
+            my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
+            $Output .= $Self->{LayoutObject}->CustomerError();
+            $Output .= $Self->{LayoutObject}->CustomerFooter();
+            return $Output;
+        }
+
+        # set state
+        my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
+        my $NextState = $NextStateData{Name}
+            || $Self->{Config}->{StateDefault}
+            || 'open';
+        $Self->{TicketObject}->StateSet(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $ArticleID,
+            State     => $NextState,
+            UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+        );
+
+        # set priority
+        if ( $Self->{Config}->{Priority} && $GetParam{PriorityID} ) {
+            $Self->{TicketObject}->PrioritySet(
+                TicketID   => $Self->{TicketID},
+                PriorityID => $GetParam{PriorityID},
+                UserID     => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            );
+        }
+
+        # get pre loaded attachment
+        my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
+            FormID => $Self->{FormID}
+        );
+
+        # get submit attachment
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param  => 'file_upload',
+            Source => 'String',
+        );
+        if (%UploadStuff) {
+            push @AttachmentData, \%UploadStuff;
+        }
+
+        # write attachments
+        for my $Attachment (@AttachmentData) {
+
+            # skip deleted inline images
+            next if $Attachment->{ContentID}
+                    && $Attachment->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$Attachment->{ContentID}/;
+            $Self->{TicketObject}->ArticleWriteAttachment(
+                %{$Attachment},
+                ArticleID => $ArticleID,
+                UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            );
+        }
+
+        # remove pre submited attachments
+        $Self->{UploadCacheObject}->FormIDRemove( FormID => $Self->{FormID} );
+
+        # redirect to zoom view
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=$NextScreen;TicketID=$Self->{TicketID}",
+        );
     }
 
     $Ticket{TmpCounter}      = 0;
@@ -274,23 +307,6 @@ sub Run {
 
     # set priority from ticket as fallback
     $GetParam{PriorityID} ||= $Ticket{PriorityID};
-
-    # strip html and ascii attachments of content
-    my $StripPlainBodyAsAttachment = 1;
-
-    # check if rich text is enabled, if not only stip ascii attachments
-    if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
-        $StripPlainBodyAsAttachment = 2;
-    }
-
-    # get all article of this ticket
-    my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
-        TicketID                   => $Self->{TicketID},
-        ArticleType                => \@CustomerArticleTypes,
-        StripPlainBodyAsAttachment => $StripPlainBodyAsAttachment,
-        UserID                     => $Self->{UserID},
-    );
 
     # generate output
     my $Output = $Self->{LayoutObject}->CustomerHeader( Value => $Ticket{TicketNumber} );
@@ -360,7 +376,7 @@ sub _Mask {
 
     my $ArticleID = '';
     for my $ArticleTmp (@ArticleBox) {
-        my %Article = %$ArticleTmp;
+        my %Article = %{$ArticleTmp};
 
         # if it is a customer article
         if ( $Article{SenderType} eq 'customer' ) {
@@ -529,7 +545,7 @@ sub _Mask {
         else {
 
             # html quoting
-            $Param{Body} = $Self->{LayoutObject}->Ascii2Html(
+            $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
                 NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
                 Text           => $Article{Body},
                 VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
@@ -655,6 +671,11 @@ sub _Mask {
         )
         )
     {
+
+        # check subject
+        if ( !$Param{Subject} ) {
+            $Param{Subject} = "Re: $Param{Title}";
+        }
         $Self->{LayoutObject}->Block(
             Name => 'FollowUp',
             Data => \%Param,
@@ -688,7 +709,7 @@ sub _Mask {
                 %StateSelected,
             );
             $Self->{LayoutObject}->Block(
-                Name => 'State',
+                Name => 'FollowUpState',
                 Data => \%Param,
             );
         }
@@ -712,7 +733,7 @@ sub _Mask {
                 %PrioritySelected,
             );
             $Self->{LayoutObject}->Block(
-                Name => 'Priority',
+                Name => 'FollowUpPriority',
                 Data => \%Param,
             );
         }
@@ -725,7 +746,7 @@ sub _Mask {
         for my $Attachment (@Attachments) {
             next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
             $Self->{LayoutObject}->Block(
-                Name => 'Attachment',
+                Name => 'FollowUpAttachment',
                 Data => $Attachment,
             );
         }

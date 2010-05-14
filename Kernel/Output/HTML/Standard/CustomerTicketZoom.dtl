@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.75 2010-05-12 12:14:09 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.76 2010-05-14 07:55:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@
             <input type="hidden" name="Action" value="CustomerTicketZoom" />
             <input type="hidden" name="Subaction" value="Store" />
             <input type="hidden" name="TicketID" value="$QData{"TicketID"}" />
-            <input type="hidden" name="ArticleID" value="$QData{"Article::ArticleID"}" />
+            <input type="hidden" name="ArticleID" value="$QData{"ArticleID"}" />
             <input type="hidden" name="FormID" value="$QData{"FormID"}" />
             <ul id="Messages">
 <!-- dtl:block:Article -->
@@ -129,25 +129,39 @@
                 </li>
 <!-- dtl:block:Article -->
             </ul> <!-- /Messages -->
-            <div id="FollowUp">
+<!-- dtl:block:FollowUp -->
+            <div id="FollowUp" class="$QData{"FollowUpVisible"}">
                 <div id="Messenger">
-                    <input type="text" name="Subject" id="Subject" value="Re: $QData{"Title"}" />
+                    <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" />
+<!-- dtl:block:RichText-->
                     $Include{"RichTextEditor"}
+<!-- dtl:block:RichText-->
                     <textarea titel="$Text{"Reply"}" id="RichText" class="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <div id="AttachmentHolder">
                         <input name="file_upload" title="Attachment" type="file" size="30" />
                         <button type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
-<!-- dtl:block:Attachment -->
+<!-- dtl:block:FollowUpAttachment -->
                         <div>
                             $QData{"Filename"} <span>$QData{"Filesize"}</span>
                             <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
                         </div>
-<!-- dtl:block:Attachment -->
+<!-- dtl:block:FollowUpAttachment -->
                     </div>
+<!-- dtl:block:FollowUpState -->
+                    <div>
+                        <div class="Label">$Text{"Next state"}:</div> $Data{"NextStatesStrg"}
+                    </div>
+<!-- dtl:block:FollowUpState -->
+<!-- dtl:block:FollowUpPriority -->
+                    <div>
+                        <div class="Label">$Text{"Priority"}:</div> $Data{"PriorityStrg"}
+                    </div>
+<!-- dtl:block:FollowUpPriority -->
                     <button id="Submit" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button> $Text{"or"} <a id="CloseButton" href="">$Text{"Cancel"}</a>
                 </div>
                 <a id="ReplyButton" href="">$Text{"Reply"}</a>
             </div>
+<!-- dtl:block:FollowUp -->
         </form>
     </div>
 </div>
