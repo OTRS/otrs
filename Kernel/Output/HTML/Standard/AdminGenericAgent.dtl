@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.62 2010-05-11 07:37:24 mp Exp $
+# $Id: AdminGenericAgent.dtl,v 1.63 2010-05-17 14:27:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -540,7 +540,7 @@
 
                             <label for="NewNoteBody">$Text{"Text"}:</label>
                             <div class="Field">
-                                <textarea name="NewNoteBody" id="NewNoteBody" rows="7" cols="60" wrap="$Env{"BrowserWrap"}">$QData{"NewNoteBody"}</textarea>
+                                <textarea name="NewNoteBody" id="NewNoteBody" rows="7" cols="60" class="Wrap_$Env{"BrowserWrap"}">$QData{"NewNoteBody"}</textarea>
                             </div>
                             <div class="Clear"></div>
 

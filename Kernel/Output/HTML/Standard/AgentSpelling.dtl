@@ -2,7 +2,7 @@
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.dtl,v 1.29 2010-03-11 13:39:53 mn Exp $
+# $Id: AgentSpelling.dtl,v 1.30 2010-05-17 14:27:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -95,7 +95,7 @@ function change_selected(sel) {
                         </td>
                     </tr>
                 </table>
-                <textarea name="Body" rows="22" cols="78" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+                <textarea name="Body" rows="22" cols="78" class="Wrap_$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
                 <br/>
                 <button class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">$Text{"Done"}</button>
                 <i>($Text{"Return to the compose screen"})</i>
@@ -146,12 +146,12 @@ function init_spell() {
 
 //]]></script>
 
-    </head>
-    <body onLoad="init_spell();">
+</head>
+<body onLoad="init_spell();">
 
 <script type="text/javascript">//<![CDATA[
 wordWindowObj.writeBody();
 //]]></script>
-    </body>
-    </html>
+</body>
+</html>
 <!-- dtl:block:SpellCheckerInline -->
