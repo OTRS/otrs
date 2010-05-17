@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.31 2010-05-12 14:55:27 en Exp $
+# $Id: AdminSLA.pm,v 1.32 2010-05-17 18:37:25 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,11 +60,9 @@ sub Run {
                 SLAID  => $SLAData{SLAID},
                 UserID => $Self->{UserID},
             );
-            $SLAData{Header} = 'Edit SLA';
         }
         else {
             $SLAData{ServiceID} = $Self->{ParamObject}->GetParam( Param => 'ServiceID' );
-            $SLAData{Header} = 'Add SLA';
         }
 
         # get service list
@@ -162,6 +160,14 @@ sub Run {
                 %SLAData,
             },
         );
+
+        # shows header
+        if ( $SLAData{SLAID} ) {
+            $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+        }
+        else {
+            $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+        }
 
         # show each preferences setting
         my %Preferences = ();
