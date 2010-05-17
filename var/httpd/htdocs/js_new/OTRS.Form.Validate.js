@@ -2,7 +2,7 @@
 // OTRS.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Form.Validate.js,v 1.1 2010-05-17 10:26:52 mg Exp $
+// $Id: OTRS.Form.Validate.js,v 1.2 2010-05-17 14:14:39 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -35,8 +35,7 @@ OTRS.Form.Validate = (function (TargetNS) {
     /*
      * check dependencies first
      */
-    if (!OTRS.UI && !OTRS.UI.Accessibility) {
-        window.alert('Error: Missing Namespace OTRS.Accessibility!');
+    if (!OTRS.Debug.CheckDependency('OTRS.UI.Accessibility', 'OTRS.UI.Accessibility', 'OTRS.UI.Accessibility')) {
         return;
     }
 
