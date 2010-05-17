@@ -2,7 +2,7 @@
 // OTRS.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Config.js,v 1.7 2010-04-27 06:47:37 mn Exp $
+// $Id: OTRS.Config.js,v 1.8 2010-05-17 14:00:32 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -82,8 +82,8 @@ OTRS.Config = (function (TargetNS) {
      * @function
      * @return nothing
      *      This function includes the given data into the config hash
-     * @param {String} Key The key in the config where the data structure is saved to
      * @param {Object} Data The config data to include as a javascript object
+     * @param {String} Key The key in the config where the data structure is saved to
      */
     TargetNS.AddConfig = function (Data, Key) {
         var ConfigOptions,
@@ -125,7 +125,7 @@ OTRS.Config = (function (TargetNS) {
 
     /**
      * @field
-     * @description This variable contains a hash of blacklisted browsers and there recognition functions.
+     * @description This variable contains a hash of blacklisted browsers and their recognition functions.
      * Each function returns true, if the browsers is detected
      */
     TargetNS.AddConfig({
