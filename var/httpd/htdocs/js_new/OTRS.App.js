@@ -2,7 +2,7 @@
 // OTRS.App.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.js,v 1.9 2010-05-17 10:26:52 mg Exp $
+// $Id: OTRS.App.js,v 1.10 2010-05-17 14:19:08 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,23 @@ var OTRS = OTRS || {};
  *      This namespace contains the config options and functions.
  */
 OTRS.App = (function (TargetNS) {
+
+    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.UI', 'OTRS.UI')) {
+        return;
+    }
+    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.UI.Navigation', 'OTRS.UI.Navigation')) {
+        return;
+    }
+    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.UI.Accessibility', 'OTRS.UI.Accessibility')) {
+        return;
+    }
+    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.Form', 'OTRS.Form')) {
+        return;
+    }
+    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.Form.Validate', 'OTRS.Form.Validate')) {
+        return;
+    }
+
     /**
      * @function
      *      This functions callback is executed if all elements and files of this page are loaded
@@ -53,6 +70,7 @@ OTRS.App = (function (TargetNS) {
         OTRS.UI.InitWidgetActionToggle();
         OTRS.UI.InitMessageBoxClose();
         OTRS.UI.ProcessTagAttributeClasses();
+        OTRS.Form.Init();
         OTRS.Form.Validate.Init();
         // late execution of accessibility code
         OTRS.UI.Accessibility.Init();
