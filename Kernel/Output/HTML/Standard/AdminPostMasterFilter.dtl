@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.41 2010-05-11 15:24:53 en Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.42 2010-05-17 15:51:51 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,10 +92,18 @@
                 </table>
             </div>
 <!-- dtl:block:OverviewResult -->
-<!-- dtl:block:OverviewUpdate -->
+
+<!-- dtl:block:HeaderAdd -->
             <div class="Header">
-                <h2>$Text{" $Data{"Title"} "}</h2>
+                <h2>$Text{"Add PostMaster Filter"}</h2>
             </div>
+<!-- dtl:block:HeaderAdd -->
+<!-- dtl:block:HeaderEdit -->
+            <div class="Header">
+                <h2>$Text{"Edit PostMaster Filter"}</h2>
+            </div>
+<!-- dtl:block:HeaderEdit -->
+<!-- dtl:block:OverviewUpdate -->
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="post" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
