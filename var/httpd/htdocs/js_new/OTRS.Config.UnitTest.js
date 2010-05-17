@@ -2,7 +2,7 @@
 // OTRS.Config.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Config.UnitTest.js,v 1.1 2010-04-13 18:07:44 mn Exp $
+// $Id: OTRS.Config.UnitTest.js,v 1.2 2010-05-17 14:01:04 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -39,15 +39,15 @@ OTRS.Config = (function (Namespace) {
                 Height: 400,
                 Name: 'Test'
             };
-            OTRS.Config.AddConfig('Richtext', ConfigTest);
+            OTRS.Config.AddConfig(ConfigTest, 'RichText');
             same(OTRS.Config.Get('Richtext'), ConfigTest);
 
-            OTRS.Config.AddConfig('Richtext.Details', ConfigTest);
+            OTRS.Config.AddConfig(ConfigTest, 'Richtext.Details');
             same(OTRS.Config.Get('Richtext.Details'), ConfigTest);
 
             var ConfigTest = '{"Width":"600","Height":"400","Name":"Test"}';
 
-            OTRS.Config.AddConfig('Richtext.JSONStuff', ConfigTest);
+            OTRS.Config.AddConfig(ConfigTest,'Richtext.JSONStuff');
             same(OTRS.Config.Get('Richtext.JSONStuff'), ConfigTest);
         });
     };
