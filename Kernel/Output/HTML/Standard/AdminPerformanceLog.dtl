@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.24 2010-05-12 17:22:03 mp Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.25 2010-05-17 09:05:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,11 +106,8 @@
     </div>
 
     <div class="ContentColumn">
-<!-- dtl:block:OverviewDisabled -->
-        <div class="WidgetGradient Short MinHeight"></div>
-<!-- dtl:block:OverviewDisabled -->
+        <div class="WidgetGradient Long MinHeight">
 <!-- dtl:block:Overview -->
-        <div class="WidgetGradient Short">
             <div class="Header">
                 <h2>$Text{"Range"} ($Text{"last"} $QData{"Age"})</h2>
             </div>
@@ -150,11 +147,9 @@
                     </tbody>
                 </table>
             </div>
-        </div>
 <!-- dtl:block:Overview -->
 
 <!-- dtl:block:View -->
-        <div class="WidgetGradient Short">
             <div class="Header">
                 <h2>$Text{"Range"} ($Text{"last"} $QData{"Age"})</h2>
             </div>
@@ -189,8 +184,8 @@
                     </tbody>
                 </table>
             </div>
-        </div>
 <!-- dtl:block:View -->
+        </div>
     </div>
     <div class="Clear"></div>
 </div>
