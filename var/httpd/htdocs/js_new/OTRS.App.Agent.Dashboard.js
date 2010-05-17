@@ -2,7 +2,7 @@
 // OTRS.Agent.Dashboard.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.Agent.Dashboard.js,v 1.4 2010-05-07 13:38:48 mn Exp $
+// $Id: OTRS.App.Agent.Dashboard.js,v 1.5 2010-05-17 10:24:04 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -67,7 +67,7 @@ OTRS.App.Agent.Dashboard = (function (TargetNS) {
                 var URL = OTRS.Config.Get('Baselink') + OTRS.AJAX.SerializeForm($Form);
                 OTRS.AJAX.ContentUpdate($('#' + ElementID), URL, function () {
                     OTRS.UI.ToggleTwoContainer($('#' + ElementID + '-setting'), $('#' + ElementID));
-                    OTRS.UI.Tables.InitCSSPseudoClasses();
+                    OTRS.UI.Table.InitCSSPseudoClasses();
                 });
                 return false;
             });

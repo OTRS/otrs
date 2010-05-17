@@ -2,7 +2,7 @@
 # AgentDashboardUserOnline.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardUserOnline.dtl,v 1.17 2010-05-03 10:22:21 mn Exp $
+# $Id: AgentDashboardUserOnline.dtl,v 1.18 2010-05-17 10:24:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@
 <script type="text/javascript">//<![CDATA[
     OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Agent', function(){
         OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Agent', function () {
-            OTRS.UI.Tables.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            OTRS.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
         });
         return false;
     });
     OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Customer', function(){
         OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Customer', function () {
-            OTRS.UI.Tables.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            OTRS.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
         });
         return false;
     });

@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.20 2010-05-17 08:58:14 mg Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.21 2010-05-17 10:24:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -242,7 +242,7 @@
         </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Tables.InitTableFilter($('#FilterGroups'), $('#Group'));
+    OTRS.UI.Table.InitTableFilter($('#FilterGroups'), $('#Group'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 

@@ -67,8 +67,8 @@
 </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Tables.InitTableFilter($('#FilterUsers'), $('#Users'));
-    OTRS.UI.Tables.InitTableFilter($('#FilterRoles'), $('#Roles'));
+    OTRS.UI.Table.InitTableFilter($('#FilterUsers'), $('#Users'));
+    OTRS.UI.Table.InitTableFilter($('#FilterRoles'), $('#Roles'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 
@@ -161,7 +161,7 @@
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserRoles'));
+    OTRS.UI.Table.InitTableFilter($('#Filter'), $('#UserRoles'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 

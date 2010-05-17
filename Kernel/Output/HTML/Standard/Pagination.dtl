@@ -2,7 +2,7 @@
 # Pagination.dtl - provides HTML for generic Pagination
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Pagination.dtl,v 1.1 2010-04-29 10:20:30 mn Exp $
+# $Id: Pagination.dtl,v 1.2 2010-05-17 10:24:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@
 <script type="text/javascript">//<![CDATA[
     OTRS.UI.RegisterLiveEvent('click', '#$Data{"IDPrefix"}PageAllBack', function(){
         OTRS.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllBack"}', function () {
-            OTRS.UI.Tables.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
+            OTRS.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
         });
         return false;
     });
     OTRS.UI.RegisterLiveEvent('click', '#$Data{"IDPrefix"}PageOneBack', function(){
         OTRS.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllNext"}', function () {
-            OTRS.UI.Tables.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
+            OTRS.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
         });
         return false;
     });
@@ -41,7 +41,7 @@
 <script type="text/javascript">//<![CDATA[
     OTRS.UI.RegisterLiveEvent('click', '#$Data{"IDPrefix"}Page$Data{"PageNumber"}', function(){
         OTRS.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAll"}', function () {
-            OTRS.UI.Tables.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
+            OTRS.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
         });
         return false;
     });
@@ -59,13 +59,13 @@
 <script type="text/javascript">//<![CDATA[
     OTRS.UI.RegisterLiveEvent('click', '#$Data{"IDPrefix"}PageAllForward', function(){
         OTRS.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllBack"}', function () {
-            OTRS.UI.Tables.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
+            OTRS.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
         });
         return false;
     });
     OTRS.UI.RegisterLiveEvent('click', '#$Data{"IDPrefix"}PageOneForward', function(){
         OTRS.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllNext"}', function () {
-            OTRS.UI.Tables.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
+            OTRS.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
         });
         return false;
     });

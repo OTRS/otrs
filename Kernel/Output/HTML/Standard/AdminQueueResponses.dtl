@@ -103,8 +103,8 @@
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Tables.InitTableFilter($('#FilterResponses'), $('#Responses'));
-    OTRS.UI.Tables.InitTableFilter($('#FilterQueues'), $('#Queues'));
+    OTRS.UI.Table.InitTableFilter($('#FilterResponses'), $('#Responses'));
+    OTRS.UI.Table.InitTableFilter($('#FilterQueues'), $('#Queues'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:OverviewResult -->
@@ -160,7 +160,7 @@
     OTRS.UI.RegisterEvent('click', $('table td input:checkbox[name=$QData{"Type"}]'), function () {
         OTRS.Forms.SelectAllCheckboxes($(this), $('#SelectAll$QData{"Type"}'));
     });
-    OTRS.UI.Tables.InitTableFilter($('#Filter'), $('#UserRoles'));
+    OTRS.UI.Table.InitTableFilter($('#Filter'), $('#UserRoles'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:Change -->
