@@ -2,7 +2,7 @@
 // OTRS.UI.Tables.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Tables.js,v 1.13 2010-05-12 08:08:30 mn Exp $
+// $Id: OTRS.UI.Tables.js,v 1.14 2010-05-17 10:14:42 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,6 +56,7 @@ OTRS.UI.Tables = (function (TargetNS) {
      */
     TargetNS.InitTableFilter = function ($FilterInput, $Container, ColumnNumber) {
         $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
+
             window.setTimeout(function () {
                 function CheckText(Text, FilterText) {
                     return Text.toLowerCase().indexOf(FilterText) > -1;
@@ -87,7 +88,15 @@ OTRS.UI.Tables = (function (TargetNS) {
                 else {
                     $Container.find('.FilterMessage').show();
                 }
+
             }, 0);
+        });
+
+        // Prevent submit when the Return key was pressed
+        $FilterInput.unbind('keypress.FilterInput').bind('keypress.FilterInput', function (Event) {
+            if ((Event.charCode || Event.keyCode) === 13) {
+                Event.preventDefault();
+            }
         });
     };
     return TargetNS;
