@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.47 2010-05-12 18:32:10 dz Exp $
+# $Id: AdminResponse.pm,v 1.48 2010-05-17 17:10:32 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,7 +65,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
-            Header => 'Edit Response',
             %Data,
             SelectedAttachments => \@SelectedAttachment,
         );
@@ -108,7 +107,6 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Change',
-                Header => 'Edit Response',
                 %GetParam,
                 SelectedAttachments => \@NewIDs,
             );
@@ -151,7 +149,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
-            Header => 'Add Response',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -192,7 +189,6 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Add',
-                Header => 'Add Response',
                 %GetParam,
                 SelectedAttachments => \@NewIDs,
             );
@@ -285,6 +281,14 @@ sub _Edit {
         Name => 'OverviewUpdate',
         Data => \%Param,
     );
+
+    # shows header
+    if ( $Param{Action} eq 'Change' ) {
+        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+    }
+    else {
+        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+    }
 
     # add rich text editor
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
