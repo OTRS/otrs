@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.dtl,v 1.18 2010-05-12 14:38:42 en Exp $
+# $Id: AdminAutoResponse.dtl,v 1.19 2010-05-17 13:25:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,7 @@
                     <thead>
 
                         <tr>
-                            <th class="W33pc NoWrap">$Text{"Name"}</th>
+                            <th class="W33pc">$Text{"Name"}</th>
                             <th>$Text{"Type"}</th>
                             <th>$Text{"Comment"}</th>
                             <th>$Text{"Valid"}</th>
