@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.pm,v 1.41 2010-05-12 14:18:54 en Exp $
+# $Id: AdminGroup.pm,v 1.42 2010-05-17 16:00:53 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,7 +53,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
-            Header => 'Edit Group',
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -85,7 +84,6 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Change',
-                Header => 'Edit Group',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -120,7 +118,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
-            Header => 'Add Group',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -155,7 +152,6 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Add',
-                Header => 'Add Group',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -221,6 +217,15 @@ sub _Edit {
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
     );
+
+    # shows header
+    if ( $Param{Action} eq 'Change' ) {
+        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+    }
+    else {
+        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+    }
+
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
         Data => \%Param,

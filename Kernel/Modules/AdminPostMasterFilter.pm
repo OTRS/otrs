@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.29 2010-05-11 16:40:44 en Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.30 2010-05-17 15:58:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,7 +66,7 @@ sub Run {
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
-        return $Self->_MaskUpdate( Title => 'Add PostMaster Filter', Data => {} );
+        return $Self->_MaskUpdate( Data => {} );
     }
 
     # ------------------------------------------------------------ #
@@ -78,9 +78,8 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen( Message => "No such filter: $Name" );
         }
         return $Self->_MaskUpdate(
-            Name  => $Name,
-            Data  => \%Data,
-            Title => 'Edit PostMaster Filter'
+            Name => $Name,
+            Data => \%Data,
         );
     }
 
@@ -121,9 +120,8 @@ sub Run {
         }
         if (%Invalid) {
             return $Self->_MaskUpdate(
-                Name  => $Name,
-                Title => 'Edit PostMaster Filter',
-                Data  => {
+                Name => $Name,
+                Data => {
                     %Invalid,
                     Name           => $Name,
                     Set            => \%Set,
@@ -258,6 +256,14 @@ sub _MaskUpdate {
         LanguageTranslation => 1,
         HTMLQuote           => 1,
     );
+
+    # shows header
+    if ( $Self->{Subaction} eq 'AddAction' ) {
+        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+    }
+    else {
+        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+    }
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
