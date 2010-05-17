@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.13 2010-05-11 16:37:45 en Exp $
+# $Id: AdminSMIME.dtl,v 1.14 2010-05-17 08:34:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,12 +20,6 @@
             </div>
             <div class="Content">
                 <ul class="ActionList">
-<!-- dtl:block:ActionAdd -->
-                    <li>
-                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ShowAddPrivate"><span>$Text{"Add private key"}</span></a>
-                    </li>
-                    <li><a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ShowAddCertificate"><span>$Text{"Add certificate"}</span></a></li>
-<!-- dtl:block:ActionAdd -->
 <!-- dtl:block:ActionSearch -->
                     <li>
                         <form class="SearchBox" action="$Env{"CGIHandle"}" method="post">
@@ -36,6 +30,12 @@
                         </form>
                     </li>
 <!-- dtl:block:ActionSearch -->
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ShowAddPrivate"><span>$Text{"Add private key"}</span></a>
+                    </li>
+                    <li><a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ShowAddCertificate"><span>$Text{"Add certificate"}</span></a></li>
+<!-- dtl:block:ActionAdd -->
 <!-- dtl:block:ActionOverview -->
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
