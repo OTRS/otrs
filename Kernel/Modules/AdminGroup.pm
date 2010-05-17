@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.pm,v 1.42 2010-05-17 16:00:53 en Exp $
+# $Id: AdminGroup.pm,v 1.43 2010-05-17 17:22:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -218,6 +218,11 @@ sub _Edit {
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
     );
 
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => \%Param,
+    );
+
     # shows header
     if ( $Param{Action} eq 'Change' ) {
         $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
@@ -226,10 +231,6 @@ sub _Edit {
         $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
     }
 
-    $Self->{LayoutObject}->Block(
-        Name => 'OverviewUpdate',
-        Data => \%Param,
-    );
     return 1;
 }
 

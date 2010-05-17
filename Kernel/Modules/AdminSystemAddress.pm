@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.pm,v 1.38 2010-05-17 16:04:15 en Exp $
+# $Id: AdminSystemAddress.pm,v 1.39 2010-05-17 17:33:26 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -227,6 +227,11 @@ sub _Edit {
         OnChangeSubmit => 0,
     );
 
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => \%Param,
+    );
+
     # shows header
     if ( $Param{Action} eq 'Change' ) {
         $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
@@ -235,10 +240,6 @@ sub _Edit {
         $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
     }
 
-    $Self->{LayoutObject}->Block(
-        Name => 'OverviewUpdate',
-        Data => \%Param,
-    );
     return 1;
 }
 

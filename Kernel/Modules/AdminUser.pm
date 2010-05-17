@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.70 2010-05-17 15:26:36 en Exp $
+# $Id: AdminUser.pm,v 1.71 2010-05-17 17:20:17 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -376,6 +376,11 @@ sub _Edit {
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
     );
 
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => \%Param,
+    );
+
     # shows header
     if ( $Param{Action} eq 'Change' ) {
         $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
@@ -383,11 +388,6 @@ sub _Edit {
     else {
         $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
     }
-
-    $Self->{LayoutObject}->Block(
-        Name => 'OverviewUpdate',
-        Data => \%Param,
-    );
 
     my @Groups = @{ $Self->{ConfigObject}->Get('PreferencesView') };
     for my $Colum (@Groups) {

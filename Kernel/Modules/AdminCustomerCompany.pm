@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.18 2010-05-17 15:47:14 en Exp $
+# $Id: AdminCustomerCompany.pm,v 1.19 2010-05-17 17:29:19 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -217,6 +217,14 @@ sub _Edit {
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => {
+            %Param,
+            Search => $Search,
+        },
+    );
+
     # shows header
     if ( $Param{Action} eq 'Change' ) {
         $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
@@ -225,13 +233,6 @@ sub _Edit {
         $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
     }
 
-    $Self->{LayoutObject}->Block(
-        Name => 'OverviewUpdate',
-        Data => {
-            %Param,
-            Search => $Search,
-        },
-    );
     $Param{'ValidOption'} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',

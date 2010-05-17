@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.16 2010-05-17 16:04:26 en Exp $
+# $Id: AdminSystemAddress.dtl,v 1.17 2010-05-17 17:33:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,17 +90,15 @@
             </div>
 <!-- dtl:block:OverviewResult -->
 
-<!-- dtl:block:HeaderAdd -->
-            <div class="Header">
-                <h2>$Text{"Add System Email Address"}</h2>
-            </div>
-<!-- dtl:block:HeaderAdd -->
-<!-- dtl:block:HeaderEdit -->
-            <div class="Header">
-                <h2>$Text{"Edit System Email Address"}</h2>
-            </div>
-<!-- dtl:block:HeaderEdit -->
 <!-- dtl:block:OverviewUpdate -->
+            <div class="Header">
+<!-- dtl:block:HeaderAdd -->
+                <h2>$Text{"Add System Email Address"}</h2>
+<!-- dtl:block:HeaderAdd -->
+<!-- dtl:block:HeaderEdit -->
+                <h2>$Text{"Edit System Email Address"}</h2>
+<!-- dtl:block:HeaderEdit -->
+            </div>
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="post">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>

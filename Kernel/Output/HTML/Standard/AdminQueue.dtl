@@ -2,7 +2,7 @@
 # AdminQueue.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.dtl,v 1.13 2010-05-17 17:04:03 en Exp $
+# $Id: AdminQueue.dtl,v 1.14 2010-05-17 17:36:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,20 +87,17 @@
         </div>
 <!-- dtl:block:OverviewResult -->
 
-        <div class="WidgetGradient Short">
-<!-- dtl:block:HeaderAdd -->
-            <div class="Header">
-                <h2>$Text{"Add Queue"}</h2>
-            </div>
-<!-- dtl:block:HeaderAdd -->
-<!-- dtl:block:HeaderEdit -->
-            <div class="Header">
-                <h2>$Text{"Edit Queue"}</h2>
-            </div>
-<!-- dtl:block:HeaderEdit -->
 <!-- dtl:block:OverviewUpdate -->
+        <div class="WidgetGradient Short">
+            <div class="Header">
+<!-- dtl:block:HeaderAdd -->
+                <h2>$Text{"Add Queue"}</h2>
+<!-- dtl:block:HeaderAdd -->
+<!-- dtl:block:HeaderEdit -->
+                <h2>$Text{"Edit Queue"}</h2>
+<!-- dtl:block:HeaderEdit -->
+            </div>
             <div class="Content">
-
                 <form action="$Env{"CGIHandle"}" method="post">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
@@ -321,8 +318,8 @@
                     </fieldset>
                 </form>
             </div>
-<!-- dtl:block:OverviewUpdate -->
         </div>
+<!-- dtl:block:OverviewUpdate -->
     </div>
     <div class="Clear"></div>
 </div>
