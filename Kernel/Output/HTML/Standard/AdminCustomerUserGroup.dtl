@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.18 2010-05-12 14:44:44 cg Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.19 2010-05-17 08:44:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,10 +80,11 @@
 <!-- dtl:block:AlwaysGroupsConfig -->
                     <li>
                         <a href="$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Frontend::Customer" class="CallForAction"><span>$Text{"Edit Customer Default Groups"}</span></a>
+                        <p class="FieldExplanation">
+                            $Text{"These groups are automatically assigned to all Customers."}
+                            $Text{"They can be administrered through the configuration setting "CustomerGroupAlwaysGroups"."}
+                        </p>
                     </li>
-                    <p class="FieldExplanation">
-                        $Text{"Configuration setting: CustomerGroupAlwaysGroups."}
-                    </p>
 
 <!-- dtl:block:AlwaysGroupsConfig -->
                 </ul>
@@ -259,7 +260,7 @@
 <!-- dtl:block:AlwaysGroupsList-->
                     </ul>
                     <p class="FieldExplanation">
-                        $Text{"No changes can be made to this groups."}
+                        $Text{"No changes can be made to these groups."}
                     </p>
                 </div>
             </div>
