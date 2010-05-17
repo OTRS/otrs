@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPriority.pm - admin frontend of ticket priority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.pm,v 1.10 2010-05-12 14:48:07 en Exp $
+# $Id: AdminPriority.pm,v 1.11 2010-05-17 18:01:34 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,6 +97,14 @@ sub Run {
                 %PriorityData,
             },
         );
+
+        # shows header
+        if ( $PriorityData{Action} eq 'Change' ) {
+            $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+        }
+        else {
+            $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+        }
 
         # output header
         my $Output = $Self->{LayoutObject}->Header();
