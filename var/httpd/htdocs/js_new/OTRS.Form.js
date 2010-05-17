@@ -2,7 +2,7 @@
 // OTRS.Form.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Form.js,v 1.1 2010-05-17 10:26:52 mg Exp $
+// $Id: OTRS.Form.js,v 1.2 2010-05-17 14:04:54 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,23 @@ var OTRS = OTRS || {};
  *      This namespace contains all form functions.
  */
 OTRS.Form = (function (TargetNS) {
+    /**
+     * @function
+     * @description
+     *      This function initializes the wrap attribute
+     *      for use with textarea elements. It is not inside the HTML because
+     *      these attributes are not part of the XHTML standard.
+     * @return nothing
+     */
+    TargetNS.Init = function () {
+        /* set wrap attribute to physical for browsers that need it */
+        $('.Wrap_physical')
+            .attr('wrap', 'physical');
+        /* set wrap attribute to hard for browsers that need it */
+        $('.Wrap_hard')
+            .attr('wrap', 'hard');
+    };
+
     /**
      * @function
      * @param {jQueryObject} $Form All elements of this form will be disabled
