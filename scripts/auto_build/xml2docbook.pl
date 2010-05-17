@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # xml2docbook.pl - config xml to docbook
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2docbook.pl,v 1.23 2009-12-24 00:51:34 martin Exp $
+# $Id: xml2docbook.pl,v 1.24 2010-05-17 11:02:00 mae Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -33,7 +33,7 @@ use warnings;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -115,6 +115,7 @@ for my $Group (@Groups) {
             #Description
             my %HashLang;
             for my $Index ( 1 ... $#{ $Item{Description} } ) {
+                $Item{Description}[$Index]{Lang} ||= 'en';
                 $HashLang{ $Item{Description}[$Index]{Lang} } = $Item{Description}[$Index]{Content};
             }
             my $Description;
