@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <link rel="stylesheet" href="thirdparty/qunit/qunit.css" type="text/css"/>
+
+    <title>OTRS 3.0 &ndash; UnitTest Results</title>
+</head>
+<body>
+    <h1 id="qunit-header">OTRS 3.0 &ndash; UnitTest Results</h1>
+    <h2 id="qunit-banner"></h2>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+
+
+    <!-- UnitTest code goes here -->
+    <script type="text/javascript" src="thirdparty/qunit/qunit.js"></script>
+    <!--
+        Now always load library first and then the UnitTest file for it.
+        The UnitTest file is responsible for runnint the tests.
+    -->
+    <script type="text/javascript" src="thirdparty/jquery-1.4.2/jquery.js"></script>
+    <!--
+    <script type="text/javascript" src="thirdparty/jquery-1.4.2/jquery-1.4.2-optimized-trim.js"></script>
+    -->
+
+    <script type="text/javascript" src="OTRS.Debug.js"></script>
+    <script type="text/javascript" src="OTRS.Debug.UnitTest.js"></script>
+    <script type="text/javascript">
+        OTRS.Debug.RunUnitTests();
+    </script>
+    <script type="text/javascript" src="OTRS.UI.Accessibility.js"></script>
+    <script type="text/javascript" src="OTRS.UI.Accessibility.UnitTest.js"></script>
+    <script type="text/javascript">
+        OTRS.UI.Accessibility.RunUnitTests();
+    </script>
+    <script type="text/javascript" src="OTRS.Form.js"></script>
+    <script type="text/javascript" src="OTRS.Form.UnitTest.js"></script>
+    <script type="text/javascript">
+        OTRS.Form.RunUnitTests();
+    </script>
+    <script type="text/javascript" src="OTRS.JavaScriptEnhancements.js"></script>
+    <script type="text/javascript" src="OTRS.JavaScriptEnhancements.UnitTest.js"></script>
+    <script type="text/javascript">
+        OTRS.JavaScriptEnhancements.RunUnitTests();
+    </script>
+    <script type="text/javascript" src="OTRS.Config.js"></script>
+    <script type="text/javascript" src="OTRS.Config.UnitTest.js"></script>
+    <script type="text/javascript">
+        OTRS.Config.RunUnitTests();
+    </script>
+
+</body>
+</html>
