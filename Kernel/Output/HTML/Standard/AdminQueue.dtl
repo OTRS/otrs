@@ -2,7 +2,7 @@
 # AdminQueue.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.dtl,v 1.11 2010-05-12 14:35:52 en Exp $
+# $Id: AdminQueue.dtl,v 1.12 2010-05-17 17:00:15 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -86,12 +86,19 @@
             </div>
         </div>
 <!-- dtl:block:OverviewResult -->
-<!-- dtl:block:OverviewUpdate -->
 
         <div class="WidgetGradient Short">
+<!-- dtl:block:HeaderAdd -->
             <div class="Header">
-                <h2>$Text{"$Data{"Header"}"}</h2>
+                <h2>$Text{"Add Queue"}</h2>
             </div>
+<!-- dtl:block:HeaderAdd -->
+<!-- dtl:block:HeaderEdit -->
+            <div class="Header">
+                <h2>$Text{"Edit Queue"}</h2>
+            </div>
+<!-- dtl:block:HeaderEdit -->
+<!-- dtl:block:OverviewUpdate -->
             <div class="Content">
 
                 <form action="$Env{"CGIHandle"}" method="post">
