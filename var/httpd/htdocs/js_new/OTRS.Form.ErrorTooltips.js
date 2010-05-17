@@ -2,7 +2,7 @@
 // OTRS.UI.Tooltips.js - provides provides Tooltip functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.ErrorTooltips.js,v 1.5 2010-05-07 13:33:29 mn Exp $
+// $Id: OTRS.Form.ErrorTooltips.js,v 1.1 2010-05-17 10:26:52 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -12,15 +12,15 @@
 "use strict";
 
 var OTRS = OTRS || {};
-OTRS.Forms = OTRS.Forms || {};
+OTRS.Form = OTRS.Form || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Forms.ErrorTooltips
+ * @exports TargetNS as OTRS.Form.ErrorTooltips
  * @description
  *      This namespace contains the Tooltip initialization functions
  */
-OTRS.Forms.ErrorTooltips = (function (TargetNS) {
+OTRS.Form.ErrorTooltips = (function (TargetNS) {
 
     var TooltipContainerID = 'OTRS_UI_Tooltips_ErrorTooltip',
         TooltipOffsetTop = 20,
@@ -101,4 +101,4 @@ OTRS.Forms.ErrorTooltips = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.Forms.ErrorTooltips || {}));
+}(OTRS.Form.ErrorTooltips || {}));

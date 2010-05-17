@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.45 2010-05-17 10:24:04 mg Exp $
+# $Id: Footer.dtl,v 1.46 2010-05-17 10:26:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,9 +47,9 @@
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Table.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Accessibility.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.RichTextEditor.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Forms.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Forms.ErrorTooltips.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Forms.Validate.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Form.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Form.ErrorTooltips.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Form.Validate.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Dialog.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.ActionRow.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Popup.js"></script>

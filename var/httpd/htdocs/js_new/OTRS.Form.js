@@ -1,8 +1,8 @@
 // --
-// OTRS.Forms.js - provides functions for form handling
+// OTRS.Form.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.js,v 1.6 2010-05-07 13:33:29 mn Exp $
+// $Id: OTRS.Form.js,v 1.1 2010-05-17 10:26:52 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,11 @@ var OTRS = OTRS || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Forms
+ * @exports TargetNS as OTRS.Form
  * @description
  *      This namespace contains all form functions.
  */
-OTRS.Forms = (function (TargetNS) {
+OTRS.Form = (function (TargetNS) {
     /**
      * @function
      * @param {jQueryObject} $Form All elements of this form will be disabled
@@ -111,4 +111,4 @@ OTRS.Forms = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.Forms || {}));
+}(OTRS.Form || {}));

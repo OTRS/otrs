@@ -1,8 +1,8 @@
 // --
-// OTRS.Forms.Validate.js - provides functions for validating form inputs
+// OTRS.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Forms.Validate.js,v 1.6 2010-05-07 13:33:29 mn Exp $
+// $Id: OTRS.Form.Validate.js,v 1.1 2010-05-17 10:26:52 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -12,17 +12,17 @@
 "use strict";
 
 var OTRS = OTRS || {};
-OTRS.Forms = OTRS.Forms || {};
+OTRS.Form = OTRS.Form || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Forms.Validate
+ * @exports TargetNS as OTRS.Form.Validate
  * @description
  *      This namespace contains all validation functions.
  * @requires
  *      OTRS.UI.Accessibility
  */
-OTRS.Forms.Validate = (function (TargetNS) {
+OTRS.Form.Validate = (function (TargetNS) {
     var Options = {
         FormClass:          'Validate',
         ErrorClass:         'Error',
@@ -70,7 +70,7 @@ OTRS.Forms.Validate = (function (TargetNS) {
         InputErrorMessageText = $('#' + $Element.attr('id') + ErrorType).text();
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
-            OTRS.Forms.ErrorTooltips.InitTooltip($Element, InputErrorMessageHTML);
+            OTRS.Form.ErrorTooltips.InitTooltip($Element, InputErrorMessageHTML);
         }
 
         /*
@@ -93,7 +93,7 @@ OTRS.Forms.Validate = (function (TargetNS) {
          */
         $Element.attr('aria-invalid', false);
 
-        OTRS.Forms.ErrorTooltips.RemoveTooltip($Element);
+        OTRS.Form.ErrorTooltips.RemoveTooltip($Element);
     }
 
     // this function prevents the default placing of the error messages
@@ -310,4 +310,4 @@ OTRS.Forms.Validate = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.Forms.Validate || {}));
+}(OTRS.Form.Validate || {}));
