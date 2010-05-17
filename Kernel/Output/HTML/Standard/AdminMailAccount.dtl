@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.20 2010-05-11 16:30:31 en Exp $
+# $Id: AdminMailAccount.dtl,v 1.21 2010-05-17 09:08:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,7 +118,7 @@
 
                         <label for="LoginAdd">$Text{"Username"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc" name="Login" id="LoginAdd" value="example user" maxlength="200"/>
+                            <input type="text" class="W50pc" name="Login" id="LoginAdd" value="" maxlength="200"/>
                         </div>
                         <div class="Clear"></div>
 
@@ -130,7 +130,8 @@
 
                         <label for="HostAdd">$Text{"Host"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc" name="Host" id="HostAdd" value="mail.example.com" maxlength="200"/>
+                            <input type="text" class="W50pc" name="Host" id="HostAdd" value="" maxlength="200"/>
+                            <p class="FieldExplanation">Example: mail.example.com</p>
                         </div>
                         <div class="Clear"></div>
 
