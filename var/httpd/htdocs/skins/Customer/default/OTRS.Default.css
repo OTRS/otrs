@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -160,4 +160,27 @@ form #cke_RichText span.cke_wrapper {
 
 div.Clear {
     height: 0 !important;
+}
+
+/**
+ * @subsection  Placeholder
+ */
+
+.Placeholder {
+    padding: 21px;
+}
+
+.Placeholder h2 {
+    padding: 0 2px;
+    font-size: 24px;
+    line-height: 1em;
+    border-bottom: 1px dashed #BBB;
+    display: inline;
+}
+
+.Placeholder p {
+    max-width: 400px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 18px;
 }
