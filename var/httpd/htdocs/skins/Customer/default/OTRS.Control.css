@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -53,7 +53,7 @@
     padding: 5px 11px;
     color: #111;
     font-size: 11px;
-    background: url(img/tabs_isolator.png) no-repeat top right;
+    background: url(img/tabs_isolator.png) no-repeat right -1px;
     display: block;
     outline: none;
     text-shadow: 0 1px 0 #EAEEEE;
@@ -97,6 +97,7 @@
     margin-right: -1px;
     padding: 6px 10px 4px 11px;
     color: #FFF;
+    background: none;
     text-shadow: 0 -1px 0 #000;
 }
 
