@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.pm,v 1.14 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketHistory.pm,v 1.15 2010-05-18 15:22:40 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -103,17 +103,23 @@ sub Run {
             $Data{Name} =~ s/\%s//g;
         }
 
-        # seperate each searchresult line by using several css
-        if ( $Counter % 2 ) {
-            $Data{css} = 'searchpassive';
-        }
-        else {
-            $Data{css} = 'searchactive';
-        }
         $Self->{LayoutObject}->Block(
             Name => 'Row',
             Data => {%Data},
         );
+
+        if ( $Data{ArticleID} ne "0" ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ShowLinkZoom',
+                Data => {%Data},
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'NoLinkZoom',
+            );
+
+        }
     }
 
     # build page
