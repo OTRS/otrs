@@ -2,60 +2,12 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.30 2010-05-05 13:16:14 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.31 2010-05-18 06:34:50 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-<script type="text/javascript">//<![CDATA[
-function submit_compose() {
-    // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
-    if (typeof RichTextUpdateLinkedField == 'function') {
-        RichTextUpdateLinkedField();
-    }
-
-    if (document.compose.TypeID && document.compose.TypeID.value == "") {
-        alert('$JSText{"Ticket Type is required!"}');
-        document.compose.TypeID.focus();
-        return false;
-    }
-    else if (document.compose.Subject.value == "") {
-        alert('$JSText{"A message should have a subject!"}');
-        document.compose.Subject.focus();
-        return false;
-    }
-    else if (document.compose.Body.value == "") {
-        alert('$JSText{"A message should have a body!"}');
-        if (typeof RichTextUpdateLinkedField == 'function') {
-            RichTextFocus();
-        }
-        else {
-            document.compose.Body.focus();
-        }
-        return false;
-    }
-<!-- dtl:block:TicketFreeTextCheckJs -->
-    else if (document.compose.$Data{"TicketFreeTextField"}.value == "") {
-        alert('$JSText{"A required field is:"} ' + document.compose.$Data{"TicketFreeKeyField"}.value + '!');
-        document.compose.$Data{"TicketFreeTextField"}.focus();
-        return false;
-    }
-<!-- dtl:block:TicketFreeTextCheckJs -->
-<!-- dtl:block:TicketFreeTimeCheckJs -->
-    else if (document.compose.$Data{"TicketFreeTimeCheck"} && document.compose.$Data{"TicketFreeTimeCheck"}.checked == false) {
-        alert('$JSText{"A required field is:"} $QData{"TicketFreeTimeKey"}!');
-        document.compose.$Data{"TicketFreeTimeCheck"}.focus();
-        return false;
-    }
-<!-- dtl:block:TicketFreeTimeCheckJs -->
-    else {
-        return true;
-    }
-}
-//]]></script>
-
 <div id="Body" class="TicketCompose">
     <div class="Content">
         <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
@@ -109,7 +61,7 @@ function submit_compose() {
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                    <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea id="RichText" class="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
 <!--$Text{"$Data{"Body invalid"}"}-->
                     <div class="Clear"></div>
                 </div>
