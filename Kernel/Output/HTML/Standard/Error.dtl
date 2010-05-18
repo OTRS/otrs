@@ -2,54 +2,66 @@
 # Error.dtl - provides HTML Error screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Error.dtl,v 1.20 2010-02-05 13:58:23 mn Exp $
+# $Id: Error.dtl,v 1.21 2010-05-18 07:53:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<center>
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td class="contenthead">
-            <p>
-                <font color="red" size="+1">$Text{"Error"}: $Data{"Message"}</font>
-            </p>
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <table cellspacing="0" cellpadding="2" width="100%">
-                <tr>
-                    <td class="mainkey" width="100">$Text{"Comment"}:</td>
-                    <td class="mainvalue">$Data{"Comment"}</td>
-                </tr>
-                <tr>
-                    <td class="mainkey">$Text{"Bug Report"}:</td>
-                    <td class="mainvalue">
-                        <form action="http://bugs.otrs.org/enter_bug.cgi">
-                            <input type="hidden" name="comment" value="
-                            Message:
+<div class="MainBox ARIARoleMain">
+
+    <div class="W33pc CenterBox SpacingTopLarge SpacingBottomLarge">
+        <div class="WidgetGradient Medium">
+            <div class="Header">
+                <h2>$Text{"Oops! An Error occurred."}</h2>
+            </div>
+            <div class="Content">
+                <h4>
+                    $Text{"Error Message"}: <span class="Error">$Data{"Message"}</span>
+                </h4>
+                <p class="SpacingTop">
+                    $Data{"Comment"}.
+                </p>
+
+                <form action="http://bugs.otrs.org/enter_bug.cgi">
+
+                    <textarea class="Hidden" name="comment" rows="1" cols="1"><![CDATA[
+Message:
 $Data{"Message"}
 
-                            Comment:
+Comment:
 $Data{"Comment"}
 
-                            Traceback:
-$Data{"BackendTraceback"}
-                            "/>
-                            <input type="hidden" name="bug_file_loc" value="$QEnv{"SERVER_NAME"}$QEnv{"REQUEST_URI"}"/>
-                            <button class="button" type="submit" value="$Text{"Click here to report a bug!"}">$Text{"Click here to report a bug!"}</button>
-                        </form>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="mainkey">$Text{"Traceback"}:</td>
-                    <td class="mainvalue">$Data{"BackendTraceback"}</td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-</center>
+Traceback:
+$Data{"BackendTraceback"}"
+                    ]]></textarea>
+                    <input type="hidden" name="bug_file_loc" value="$QEnv{"SERVER_NAME"}$QEnv{"REQUEST_URI"}"/>
+
+                    <p class="SpacingTop">
+                        $Text{"You can"}
+                        <button type="submit" value="$Text{"Send a bugreport"}">$Text{"Send a bugreport"}</button>
+                        $Text{"or"}
+                        <a href="#" onclick="history.back(); return false;">go back</a> to the previous page.
+                    </p>
+                </form>
+
+                <div id="Traceback" class="SpacingTop Notice Hidden">
+                    <h4>$Text{"Error Details"}:</h4>
+
+                </div>
+            </div>
+        </div>
+        <div class="WidgetGradient Short SpacingTop">
+            <div class="Header">
+                <div class="WidgetAction Toggle Collapsed">
+                    <a href="#" title="$Text{"Expand"}"><span></span></a>
+                </div>
+                <h2>$Text{"Error Details"}</h2>
+            </div>
+            <div class="Content Hidden">
+                <code>$Data{"BackendTraceback"}</code>
+            </div>
+        </div>
+    </div>
+</div>
