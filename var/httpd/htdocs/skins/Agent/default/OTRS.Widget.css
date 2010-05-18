@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.17 $
+ * @version     $Revision: 1.18 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -215,6 +215,7 @@ ul.Tablelike li.Header {
 
 .CallForAction {
     padding: 0;
+    background: #F3F3F3 url(img/SmallDarkGradient.png) repeat-x;
     border: 1px solid #999;
     border-bottom: 1px solid #888;
     box-shadow: 0 1px 0 #E6E6E6;
@@ -224,8 +225,6 @@ ul.Tablelike li.Header {
     -webkit-border-radius: 3px;
     border-radius: 3px;
     display: inline-block;
-    font-size: 11px;
-    font-weight: bold;
     cursor: pointer;
 }
 
@@ -246,13 +245,12 @@ ul.Tablelike li.Header {
 
 .CallForAction span {
     height: 12px;
-    padding: 4px 7px 6px;
+    padding: 4px 7px 5px;
     line-height: 13px;
     vertical-align: middle;
     color: #333;
-    background: #F3F3F3;
-    background: -moz-linear-gradient(top, #F6F6F6, #E4E4E4);
-    background: -webkit-gradient(linear, left top, left bottom, from(#F6F6F6), to(#E4E4E4));
+    font-size: 11px;
+    font-weight: bold;
     border: 1px solid #FFF;
     border-bottom: none;
     -moz-border-radius: 3px;
@@ -264,17 +262,26 @@ ul.Tablelike li.Header {
 }
 
 .CallForAction:active {
+    background-color: #DDD;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
 }
 
 .CallForAction:active span {
-    padding: 5px 7px;
-    background: #CCC;
+    padding: 5px 7px 4px;
     border-color: #DDD;
     border-bottom: none;
     text-shadow: 0 1px 0 #DDD;
+}
+
+.CallForAction.Plus span {
+    padding-left: 23px;
+    background: url("img/plus-button.png") no-repeat scroll 2px 2px;
+}
+
+.CallForAction.Plus:active span {
+    background-position: 2px 3px;
 }
 
 .SearchBox {
@@ -305,9 +312,7 @@ ul.Tablelike li.Header {
     padding: 3px 3px 4px;
     color: #333;
     font: bold 11px/14px "Helvetica Neue",Helvetica,Arial,sans-serif;
-    background: #F3F3F3;
-    background: -moz-linear-gradient(top, #F6F6F6, #E4E4E4);
-    background: -webkit-gradient(linear, left top, left bottom, from(#F6F6F6), to(#E4E4E4));
+    background: #F3F3F3 url(img/SmallDarkGradient.png) repeat-x;
     border: 1px solid #888;
     -moz-border-radius: 0 3px 3px 0;
     -webkit-border-top-right-radius: 3px;
@@ -323,9 +328,7 @@ ul.Tablelike li.Header {
 }
 .SearchBox button:active {
     padding: 4px 3px 3px;
-    background: #F3F3F3;
-    background: -moz-linear-gradient(top, #E4E4E4, #F6F6F6);
-    background: -webkit-gradient(linear, left top, left bottom, from(#E4E4E4), to(#F6F6F6));
+    background: #E4E4E4 url(img/SmallDarkGradient.png) repeat-x;
     outline: none;
 }
 
