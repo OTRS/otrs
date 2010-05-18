@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.23 2010-05-14 12:15:22 martin Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.24 2010-05-18 06:36:10 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,10 +22,10 @@
                     $Data{"ProfilesStrg"}
                 </div>
             </fieldset>
-            <div class="">
-                <button class="button" name="SelectTemplate" type="submit" value="$Text{"Select"}">$Text{"Select"}</button>
-                <button class="button" name="EraseTemplate" type="submit" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                <button class="button" name="SearchTemplate" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+            <div class="Row">
+                <button name="SelectTemplate" type="submit" value="$Text{"Select"}">$Text{"Select"}</button>
+                <button name="EraseTemplate" type="submit" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                <button name="SearchTemplate" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
             </div>
         </form>
 
@@ -102,12 +102,12 @@
                 <div>
                     <input title="Specific date" type="radio" id="Date" name="TimeSearchType"  value="TimePoint" $Data{"TimeSearchType::TimePoint"} />
                     <label for="Date">$Text{"Only tickets created"}</label>
-                    $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}.
+                    $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}
                 </div>
                 <div>
                     <input title="Date range" type="radio" id="DateRange" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"} />
                     <label for="DateRange">$Text{"Only tickets created between"}</label>
-                    $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
+                    $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}
                 </div>
             </fieldset>
             <fieldset>
@@ -122,7 +122,7 @@
                 </div>
             </fieldset>
             <div class="ActionRow Bottom">
-                <button class="button" id="Submit" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
+                <button id="Submit" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                 <span>$Text{"Output to"}</span>
                 $Data{"ResultFormStrg"}
             </div>
