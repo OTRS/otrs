@@ -1,8 +1,8 @@
 # --
 # AgentTicketHistory.dtl - provides HTML form for history
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.dtl,v 1.12 2009-12-24 11:18:18 mg Exp $
+# $Id: AgentTicketHistory.dtl,v 1.13 2010-05-18 15:29:01 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,18 +42,22 @@
                     </td>
                 </tr>
 <!-- dtl:block:Row -->
-# should i show  the zoom link?
-                <dtl set $Data{"Link"} = "-">
-                <dtl if ($Data{"ArticleID"} ne "0") { $Data{"Link"} = "<a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';">x</a>"; }>
-                <tr class="$QData{"css"}">
+                <tr>
                     <td>
                         $Quote{"$Data{"HistoryType"}"}
                     </td>
                     <td>
                         <div title="$QData{"Name"}">$QData{"Name","100"}</div>
                     </td>
-                    <td align="center">
-                        $Data{"Link"}
+                    <td>
+<!-- dtl:block:NoLinkZoom -->
+                        -
+<!-- dtl:block:NoLinkZoom -->
+<!-- dtl:block:ShowLinkZoom -->
+                        <a class ="AsBlock" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';">
+                            $Text{"Zoom view"}
+                        </a>
+<!-- dtl:block:ShowLinkZoom -->
                     </td>
                     <td>
                         <div title="$Quote{"$Data{"UserLogin"} ($Data{"UserFirstname"} $Data{"UserLastname"})"}">
