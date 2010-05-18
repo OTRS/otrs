@@ -2,21 +2,21 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.77 2010-05-14 10:38:46 fn Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.78 2010-05-18 06:38:25 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div id="Body" class="TicketZoom">
+<!-- dtl:block:Back -->
     <div class="ActionRow">
         <ul class="Tabs">
-<!-- dtl:block:Back -->
             <li><a href="$Env{"Baselink"}$Env{"LastScreenOverview"}">&larr; $Text{"Back"}</a></li>
-<!-- dtl:block:Back -->
             <div class="Clear"></div>
         </ul>
     </div>
+<!-- dtl:block:Back -->
     <div class="Content">
         <div class="TicketHeader">
             <h2 title="$QData{"Title"}">
@@ -78,12 +78,11 @@
             <ul id="Messages">
 <!-- dtl:block:Article -->
                 <li class="Message $QData{"SenderType"} $QData{"ArticleType"} $QData{"Class"}">
-                    <input type="hidden" name="ArticleState" value="untouched" />
                     <div class="MessageHeader">
                         <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"}">$RQData{"From","60"} &ndash; <span title="$Text{"Loading"}...">$QData{"Subject","120"}</span></a></h3>
                         <span class="Age" title="$TimeLong{"$QData{"Created"}"}">$Data{"Age"}</span>
-                        <div class="Clear"></div>
                     </div>
+                    <input type="hidden" name="ArticleState" value="untouched" />
                     <div class="MessageBody">
                         <div class="Details SeperatorRow">
 <!-- dtl:block:ArticleRow -->
@@ -163,7 +162,9 @@
                         </div>
 <!-- dtl:block:FollowUpPriority -->
                     </fieldset>
-                    <button id="Submit" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button> $Text{"or"} <a id="CloseButton" href="">$Text{"Cancel"}</a>
+                    <div class="ActionRow">
+                        <button type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button> $Text{"or"} <a id="CloseButton" href="">$Text{"Cancel"}</a>
+                    </div>
                 </div>
                 <a id="ReplyButton" href="">$Text{"Reply"}</a>
             </div>
