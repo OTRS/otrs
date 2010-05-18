@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.43 2010-05-17 17:31:53 en Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.44 2010-05-18 06:39:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,7 +67,7 @@
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable VariableWidth">
                     <thead>
                         <tr>
                             <th>$Text{"Name"}</th>
