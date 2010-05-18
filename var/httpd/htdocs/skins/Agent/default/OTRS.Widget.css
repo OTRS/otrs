@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.18 $
+ * @version     $Revision: 1.19 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -245,7 +245,7 @@ ul.Tablelike li.Header {
 
 .CallForAction span {
     height: 12px;
-    padding: 4px 7px 5px;
+    padding: 3px 7px 6px;
     line-height: 13px;
     vertical-align: middle;
     color: #333;
@@ -269,7 +269,7 @@ ul.Tablelike li.Header {
 }
 
 .CallForAction:active span {
-    padding: 5px 7px 4px;
+    padding: 4px 7px 5px;
     border-color: #DDD;
     border-bottom: none;
     text-shadow: 0 1px 0 #DDD;
