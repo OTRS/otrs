@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -15,7 +15,7 @@
  */
 
 .TicketZoom .Content {
-    padding: 5px 10px 0;
+    padding: 8px 10px 0;
 }
 
 .TicketHeader {
@@ -182,9 +182,7 @@
 .MessageHeader {
     padding: 5px 13px 3px;
     color: #6A6A6A;
-    background: #F0F0F0;
-    background: -moz-linear-gradient(top, #F9F9F9, #F0F0F0);
-    background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#F0F0F0));
+    background: #A7AAAA url("img/GradientSmall.png") repeat-x 0 0;
     border-bottom: 1px solid #D6D6D6;
     text-shadow: 0 1px 0 #FFF;
 }
@@ -280,10 +278,6 @@
     height: 300px;
 }
 
-.Js .TicketZoom iframe {
-    height: 0;
-}
-
 #FollowUp  {
     margin: 0 13px 8px;
     color: #6A6A6A;
@@ -317,7 +311,6 @@
 
 #FollowUp.Visible #Messenger {
     height: auto;
-    padding: 8px 8px 5px;
     border-top: 1px solid #EEE;
 }
 
@@ -334,7 +327,7 @@
 
 #Messenger textarea {
     margin: 7px;
-    border: 1px solid #BBB;
+    border: 1px solid #D6D6D6;
     display: block;
 }
 
@@ -343,15 +336,8 @@
 }
 
 #Messenger fieldset {
-    margin: 8px 4px 10px;
-    border-color: #DDD;
-}
-
-#Messenger #Submit {
-    margin: 0 0 8px 8px;
-}
-.RTL #Messenger #Submit {
-    margin: 0 8px 8px 0;
+    margin: 8px 7px 10px;
+    border-color: #D6D6D6;
 }
 
 .Attachment {
@@ -360,6 +346,20 @@
 
 .RTL .Attachment {
     padding: 9px 138px 4px 0;
+}
+
+#Messenger .ActionRow {
+    margin: 0 -1px -1px;
+    padding: 8px 13px;
+    background-position: -30px;
+    border: 1px solid #B8BBBB;
+    -webkit-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    text-shadow: none;
 }
 
 #ReplyButton {
