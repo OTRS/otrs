@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -11,17 +11,15 @@
  */
 
 button {
-    padding: 3px 11px 2px;
+    padding: 3px 11px;
     color: #333;
     font-size: 10px;
     font-weight: bold;
-    background: #EEE;
-    background: -moz-linear-gradient(top, #FFF, #DDD);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#DDD));
+    background: #DDD url(img/button_bg.png) repeat-x;
     border: 1px solid #AAA;
     border-bottom: 1px solid #999;
     box-shadow: 0 1px 0 #E6E6E6;
-    -moz-box-shadow: 0 1px 0 #E6E6E6;
+    -moz-box-shadow: 0 1px 0 #FFF;
     -webkit-box-shadow: 0 1px 0 #E6E6E6;
     border-radius: 11px;
     -moz-border-radius: 11px;
@@ -41,13 +39,10 @@ button:hover {
 }
 
 button:active {
-    background: #DDD;
-    background: -moz-linear-gradient(top, #AAA, #CCC 3px, #DDD);
-    background: -webkit-gradient(linear, left top, left bottom, from(#AAA), to(#DDD), color-stop(3px, #CCC));
-    box-shadow: 0;
-    -moz-box-shadow: 0;
-    -webkit-box-shadow: 0;
+    background: #000 url("img/GradientSmall.png") repeat-x 0 0; 
+    border-color: #888;
     outline: none;
+    text-shadow: 0 1px 0 #D9D9D9;
 }
 
 .SmallButton {
@@ -55,7 +50,7 @@ button:active {
     margin: 0 2px;
     color: #797979;
     font-size: 10px;
-    line-height: 11px;
+    line-height: 12px;
     font-weight: bold;
     background: #F9F9F9;
     background: -moz-linear-gradient(top, #FFF, #EEE);
@@ -119,19 +114,23 @@ input:focus {
     -moz-box-shadow: 0 0 2px #AAA;
 }
 
-.TicketCompose form,
-.Preferences form,
-.Search form {
+.TicketCompose .Content,
+.Preferences .Content,
+.Search .Content {
     margin: 0;
     display: inline-block;
+}
+
+.Row {
+    margin: -5px 4px 13px;
 }
 
 fieldset {
     margin: 8px 0 13px;
     padding-bottom: 5px;
-    background: #F6F9F9;
-    background: -moz-linear-gradient(center top , #FFF, #F6F9F9);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#F6F9F9));
+    background: #F8F9F9;
+    background: -moz-linear-gradient(center top , #FFF, #F8F9F9);
+    background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#F8F9F9));
     border: 1px solid #EAEEEE;
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -156,7 +155,7 @@ fieldset h2 {
     font-size: 12px;
     font-weight: bold;
     border-top: 1px solid #FFF;
-    border-bottom: 1px solid #E6E9E9;
+    border-bottom: 1px solid #E8E9E9;
     border-radius: 5px 5px 0 0;
     -moz-border-radius: 5px 5px 0 0;
     -webkit-border-radius: 5px 5px 0 0;
@@ -166,16 +165,17 @@ fieldset h2 {
 fieldset h2 + div {
     padding-top: 13px;
     border-top: 1px solid #FFF;
+    overflow: hidden;
 }
 
 fieldset p {
-    margin: 1px 0 0 95px;
+    margin: 1px 0 0 140px;
     font-size: 11px;
     color: #AAA;
 }
 
 .RTL fieldset p {
-    margin: 1px 95px 0 0;
+    margin: 1px 140px 0 0;
 }
 
 fieldset label {
@@ -183,9 +183,9 @@ fieldset label {
     margin: -1px 6px 0 0;
     color: #333;
     font-size: 11px;
-    background: #EAEEEE;
-    background: -moz-linear-gradient(center top , #F9F9F9, #EAEEEE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#EAEEEE));
+    background: #ECEEEE;
+    background: -moz-linear-gradient(center top , #F9F9F9, #ECEEEE);
+    background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#ECEEEE));
     border-top: 1px solid #FFF;
     border-bottom: 1px solid #CCC;
     border-right: 1px solid #CCC;
@@ -200,6 +200,7 @@ fieldset label {
 
 fieldset input[type=text],
 fieldset input[type=password] {
+    padding: 2px 4px;
     border: 1px solid #CCC;
     border-radius: 0;
     -moz-border-radius: 0;
@@ -266,7 +267,7 @@ fieldset .RichTextHolder label {
 }
 
 .Box fieldset {
-    height: 120px;
+    height: 125px;
     margin-bottom: 0;
 }
 
@@ -281,7 +282,10 @@ fieldset .RichTextHolder label {
 }
 
 .Box button {
-    margin: 4px 0 0 131px;
-    clear: left;
+    margin: 0 0 0 131px;
     display: block;
+}
+
+.RTL .Box button {
+    margin: 4px 131px 0 0;
 }
