@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.21 2010-05-17 09:08:57 mg Exp $
+# $Id: AdminMailAccount.dtl,v 1.22 2010-05-19 08:55:08 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AddNew" class="CallForAction"><span>$Text{"Add mail account"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AddNew" class="CallForAction Plus"><span>$Text{"Add mail account"}</span></a>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>

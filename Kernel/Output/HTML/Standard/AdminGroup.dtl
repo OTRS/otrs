@@ -2,7 +2,7 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.17 2010-05-17 17:22:35 en Exp $
+# $Id: AdminGroup.dtl,v 1.18 2010-05-19 08:55:07 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,7 +68,7 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
                         <form action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Add"/>
-                            <button class="CallForAction" type="submit" value="$Text{"Add"}">
+                            <button class="CallForAction Plus" type="submit" value="$Text{"Add"}">
                                 <span>$Text{"Add group"}</span>
                             </button>
                         </form>

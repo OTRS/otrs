@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.16 2010-05-17 17:27:34 en Exp $
+# $Id: AdminCustomerUser.dtl,v 1.17 2010-05-19 08:55:08 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,7 +70,7 @@ function updateMessage(x) {
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Add"/>
 
-                            <button class="CallForAction" type="submit"><span>$Text{"Add customer"}</span></button>
+                            <button class="CallForAction Plus" type="submit"><span>$Text{"Add customer"}</span></button>
                             <br/>
                             $Data{"SourceOption"}
                         </form>

@@ -2,7 +2,7 @@
 # AdminState.dtl - provides HTML form for AdminState
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.dtl,v 1.15 2010-05-17 18:24:18 en Exp $
+# $Id: AdminState.dtl,v 1.16 2010-05-19 08:55:08 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add state"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction Plus"><span>$Text{"Add state"}</span></a>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>

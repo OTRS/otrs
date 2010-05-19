@@ -2,7 +2,7 @@
 # AdminSignature.dtl - provides HTML form for AdminSignature
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.dtl,v 1.17 2010-05-17 17:47:54 en Exp $
+# $Id: AdminSignature.dtl,v 1.18 2010-05-19 08:55:08 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add">
+                        <a class="CallForAction Plus" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add">
                             <span>$Text{"Add signature"}</span>
                         </a>
                     </li>

@@ -2,7 +2,7 @@
 # AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.25 2010-05-17 17:38:24 en Exp $
+# $Id: AdminResponse.dtl,v 1.26 2010-05-19 08:55:07 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction"><span>$Text{"Add response"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction Plus"><span>$Text{"Add response"}</span></a>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>

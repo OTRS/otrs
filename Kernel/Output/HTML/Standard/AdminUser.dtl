@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.20 2010-05-17 17:19:56 en Exp $
+# $Id: AdminUser.dtl,v 1.21 2010-05-19 08:55:08 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@
 
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add">
+                        <a class="CallForAction Plus" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add">
                             <span>$Text{"Add user"}</span>
                         </a>
                     </li>
