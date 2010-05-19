@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1212 2010-05-19 14:54:39 mb Exp $
+# $Id: CHANGES,v 1.1213 2010-05-19 20:39:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/05/19) Added Groups and Roles support to Event Based Notifications.
+    You can now also send a notification to agens in a certain group or role.
  - (2010/05/19) Implemented bug#4337 - Added lock state to ticket search.
  - (2010/05/19) Reworked Kernel::System::Ticket API to have more intuitive
     wording (is still compat. to OTRS 1.x and 2.x).

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.24 2010-05-17 18:20:46 en Exp $
+# $Id: AdminNotificationEvent.pm,v 1.25 2010-05-19 20:39:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -89,7 +89,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
         for (
-            qw(Recipients RecipientAgents RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude)
+            qw(Recipients RecipientAgents RecipientGroups RecipientRoles RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude)
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $_ );
@@ -327,6 +327,20 @@ sub _Edit {
         Size       => 4,
         SelectedID => $Param{Data}->{RecipientAgents},
     );
+    $Param{RecipientGroupsStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
+        Size => 6,
+        Name => 'RecipientGroups',
+        Multiple   => 1,
+        SelectedID => $Param{Data}->{RecipientGroups},
+    );
+    $Param{RecipientRolesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data => { $Self->{GroupObject}->RoleList( Valid => 1 ) },
+        Size => 6,
+        Name => 'RecipientRoles',
+        Multiple   => 1,
+        SelectedID => $Param{Data}->{RecipientRoles},
+    );
 
     # Set class name for event string...
     my $EventClass = "Validate_Required";
@@ -334,7 +348,7 @@ sub _Edit {
         $EventClass .= " " . $Param{EventsServerError};
     }
 
-    # Buld the list...
+    # Build the list...
     $Param{EventsStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             TicketStateUpdate         => 'TicketStateUpdate',

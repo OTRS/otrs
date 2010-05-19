@@ -2,7 +2,7 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.20 2010-05-19 08:55:08 fn Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.21 2010-05-19 20:39:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -123,6 +123,18 @@
                         <label for="RecipientAgents">$Text{"Recipient agents"}: </label>
                         <div class="Field">
                             $Data{"RecipientAgentsStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RecipientGroups">$Text{"Recipient groups"}: </label>
+                        <div class="Field">
+                            $Data{"RecipientGroupsStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RecipientRoles">$Text{"Recipient roles"}: </label>
+                        <div class="Field">
+                            $Data{"RecipientRolesStrg"}
                         </div>
                         <div class="Clear"></div>
 

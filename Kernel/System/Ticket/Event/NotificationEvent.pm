@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.13 2010-03-08 18:23:49 cr Exp $
+# $Id: NotificationEvent.pm,v 1.14 2010-05-19 20:39:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -88,6 +88,8 @@ sub Run {
             # ignore not ticket related attributes
             next if $Key eq 'Recipients';
             next if $Key eq 'RecipientAgents';
+            next if $Key eq 'RecipientGroups';
+            next if $Key eq 'RecipientRoles';
             next if $Key eq 'RecipientEmail';
             next if $Key eq 'Events';
             next if $Key eq 'ArticleTypeID';
@@ -324,6 +326,49 @@ sub SendCustomerNotification {
             $Recipient{Type}  = 'Agent';
 
             push @Recipients, \%Recipient;
+        }
+    }
+
+    # get recipients by RecipientGroups
+    if ( $Param{Notification}->{Data}->{RecipientGroups} ) {
+        my %GroupsUsed;
+        RECIPIENT:
+        for my $Group ( @{ $Param{Notification}->{Data}->{RecipientGroups} } ) {
+            my @GroupMemberList = $Self->{GroupObject}->GroupMemberList(
+                Result  => 'ID',
+                Type    => 'ro',
+                GroupID => $Group,
+            );
+            for (@GroupMemberList) {
+                my %UserData = $Self->{UserObject}->GetUserData( UserID => $_, Valid => 1 );
+                if ( $UserData{UserEmail} && $UserData{UserID} != 1 ) {
+                    my %Recipient;
+                    $Recipient{Email} = $UserData{UserEmail};
+                    $Recipient{Type}  = 'Agent';
+                    push @Recipients, \%Recipient;
+                }
+            }
+        }
+    }
+
+    # get recipients by RecipientRoles
+    if ( $Param{Notification}->{Data}->{RecipientRoles} ) {
+        my %RolesUsed;
+        RECIPIENT:
+        for my $Role ( @{ $Param{Notification}->{Data}->{RecipientGroups} } ) {
+            my @RoleMemberList = $Self->{GroupObject}->GroupUserRoleMemberList(
+                Result => 'ID',
+                RoleID => $Role,
+            );
+            for (@RoleMemberList) {
+                my %UserData = $Self->{UserObject}->GetUserData( UserID => $_, Valid => 1 );
+                if ( $UserData{UserEmail} && $UserData{UserID} != 1 ) {
+                    my %Recipient;
+                    $Recipient{Email} = $UserData{UserEmail};
+                    $Recipient{Type}  = 'Agent';
+                    push @Recipients, \%Recipient;
+                }
+            }
         }
     }
 
