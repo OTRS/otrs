@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.47 2010-04-19 18:18:18 martin Exp $
+# $Id: Login.dtl,v 1.48 2010-05-19 13:50:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,116 +20,183 @@ $Include{"Copyright"}
 <head>
     <meta http-equiv="Content-type" content="text/html;charset=$Env{"UserCharset"}" />
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
-    <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Reset.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Default.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewControl.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewMedium.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewLarge.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Footer.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Grid.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Form.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Table.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Widget.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.WidgetMenu.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.TicketDetail.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Tooltip.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Dialog.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.App.Agent.AdminPerformanceLog.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.App.Agent.AdminSysConfig.css" />
+
+    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/thirdparty/ui-theme/jquery-ui.css" />
+
+    <link rel="stylesheet" media="print" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Reset.css" />
+    <link rel="stylesheet" media="print" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Print.css" />
+
+<!--[if IE 7]>
+    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.IE7.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Widget.IE7.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Form.IE7.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Grid.IE7.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewControl.IE7.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.IE7.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewMedium.IE7.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewLarge.IE7.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.TicketDetail.IE7.css" />
+    <![endif]-->
+<!--[if IE 8]>
+    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.IE8.css" />
+    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.IE8.css" />
+    <![endif]-->
+
     <title>$Config{"ProductName"} :: $Text{"$Data{"Title"}"}</title>
 </head>
 <!-- end header -->
 <body class="$QData{"BodyClass"}" onload="document.login.User.focus();">
 
-<script type="text/javascript">//<![CDATA[
-function submit_form() {
-#    if (!document.login.User.value) {
-#        alert('$JSText{"Login is needed!"}');
-#        return false;
-#    }
-#    else if (!document.login.Password.value) {
-#        alert('$JSText{"Password is needed!"}');
-#        return false;
-#    }
-
-    now = new Date();
-    Diff = now.getTimezoneOffset();
-    document.login.TimeOffset.value = Diff;
-
-    return true;
-}
-//]]></script>
-
-    <div class="login-box">
-        <font color="red">$Text{"$Data{"Message"}"}</font>
+    <div id="Header" class="ARIARoleBanner">
+        <div id="Logo"></div>
     </div>
-    <div class="login-box">
-        <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
-            <input type="hidden" name="Action" value="Login" />
-            <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
-            <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
-            <input type="hidden" name="TimeOffset" value=""/>
-            <table border="0" cellspacing="0" cellpadding="3" width="280">
-                <tr>
-                    <td align="center" class="singleboxhead">$Text{"Welcome to %s", "$Config{"ProductName"}"}</td>
-                </tr>
-                <tr>
-                    <td align="center" class="singleboxbody">
-                        <table cellspacing="8" cellpadding="2">
-                            <tr>
-                                <td class="singleboxkey">$Text{"User"}:</td>
-                                <td class="singleboxvalue"><input type="text" name="User" value="$QData{"User"}" size="18"/></td>
-                            </tr>
-                            <tr>
-                                <td class="singleboxkey">$Text{"Password"}:</td>
-                                <td class="singleboxvalue"><input type="password" name="Password" size="18"/></td>
-                            </tr>
-                        </table>
-                        <button class="button" type="submit" value="$Text{"Login"}" onclick="return submit_form();">$Text{"Login"}</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-<!-- dtl:block:Language -->
-    <div class="login-box">
-        <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-            <input type="hidden" name="Action" value=""/>
-            <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
-            <table border="0" cellspacing="0" cellpadding="3" width="280">
-                <tr>
-                    <td align="center" class="singleboxhead">$Text{"Language"}</td>
-                </tr>
-                <tr>
-                    <td align="center" class="singleboxbody">
-                        <table cellspacing="8" cellpadding="2">
-                            <tr>
-                                <td class="singleboxkey">$Text{"Language"}:</td>
-                                <td class="singleboxvalue">$Data{"Language"}</td>
-                            </tr>
-                        </table>
-                        <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-<!-- dtl:block:Language -->
+
+    <div class="MainBox ARIARoleMain">
+        <div class="W33pc SpacingTopLarge SpacingBottomLarge CenterBox">
+            <noscript>
+            <div class="WidgetGradient Short MinHeight">
+                <div class="Header">
+                    <h2 class="Center">$Text{"JavaScript Not Available"}</h2>
+                </div>
+                <div class="Content">
+                    <p class="SpacingTop Center">
+                        $Text{"In order to experience OTRS, you'll need to enable Javascript in your browser."}</p>
+                    </div>
+                </div>
+                </noscript>
+
+                <div class="WidgetGradient Short Hidden" id="OldBrowser">
+                    <div class="Header">
+                        <h2 class="Center">$Text{"Browser Warning"}</h2>
+                    </div>
+                    <div class="Content">
+                        <p class="SpacingTop Center">
+                            $Text{"The browser you are using is too old."}
+                            $Text{"OTRS runs with a huge lists of browsers, please upgrade to one of these."}
+                            $Text{"Please see the documentation or ask your admin for further information."}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="WidgetGradient Medium" id="LoginBox">
+                    <div class="Header">
+                        <h2 class="Center">$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
+                    </div>
+                    <div class="Content">
+                        <p class="Error Center Spacing">
+                            $Text{"$Data{"Message"}"}
+                        </p>
+                        <h3 class="Center Spacing">
+                            $Text{"Enter Login Credentials"}
+                        </h3>
+                        <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
+                            <input type="hidden" name="Action" value="Login" />
+                            <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
+                            <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
+                            <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
+                            <fieldset class="TableLike">
+                                <label for="User">$Text{"Username"}:</label>
+                                <div class="Field">
+                                    <input type="text" id="User" name="User" value="$QData{"User"}" class="W50pc" readonly="readonly"/>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="Password">$Text{"Password"}:</label>
+                                <div class="Field">
+                                    <input type="password" id="Password" name="Password" class="W50pc" readonly="readonly"/>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <div class="Field">
+                                    <input type="checkbox" id="Remember" title="Remember my login on this computer" readonly="readonly" />
+                                    <label for="Remember">Remember my login on this computer</label>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <div class="Field SpacingTop">
+                                    <button type="submit" value="$Text{"Login"}" onclick="return submit_form();" disabled="disabled">$Text{"Login"}</button>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </form>
+<!-- dtl:block:LostPasswordLink -->
+                        <p class="Center SpacingTop">
+                            Have you <a href="#" onclick="$('#LoginBox, #PasswordBox').toggle(); return false;">lost your password?</a>
+                        </p>
+<!-- dtl:block:LostPasswordLink -->
+                    </div>
+                </div>
+
 <!-- dtl:block:LostPassword -->
-    <div class="login-box">
-        <table border="0" cellspacing="0" cellpadding="3" width="280">
-            <tr>
-                <td align="center" class="singleboxhead">$Text{"Lost your password?"}</td>
-            </tr>
-            <tr>
-                <td align="center" class="singleboxbody">
-                    <i class="small">($Text{"Request new password"})</i>
-                    <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-                        <input type="hidden" name="Action" value="LostPassword"/>
-                        <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
-                        <table cellspacing="8" cellpadding="2">
-                            <tr>
-                                <td class="singleboxkey">$Text{"User"}:</td>
-                                <td class="singleboxvalue"><input type="text" name="User" value="" size="18"/></td>
-                            </tr>
-                        </table>
-                        <button class="button" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                    </form>
-                </td>
-            </tr>
-        </table>
-    </div>
+                <div class="WidgetGradient Medium Hidden" id="PasswordBox">
+                    <div class="Header">
+                        <h2 class="Center">$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
+                    </div>
+                    <div class="Content">
+                        <h3 class="Center Spacing">$Text{"Request New Password"}</h3>
+                        <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+                            <input type="hidden" name="Action" value="LostPassword"/>
+                            <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
+
+                            <fieldset class="TableLike">
+                                <label for="PasswordUser">$Text{"Username"}:</label>
+                                <div class="Field">
+                                    <input type="text" id="PasswordUser" name="User" value="" class="W50pc" readonly="readonly"/>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <div class="Field SpacingTop">
+                                    <button type="submit" value="$Text{"Submit"}" disabled="disabled">$Text{"Submit"}</button>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </form>
+                        <p class="Center SpacingTop">
+                            <a href="" onclick="$('#LoginBox, #PasswordBox').toggle(); return false;">$Text{"Back to login"}</a>
+                        </p>
+                    </div>
+                </div>
 <!-- dtl:block:LostPassword -->
+
 # --
 # Message of the day data!
 # --
 $Data{"Motd"}
-<!-- start footer -->
-</body>
-</html>
-<!-- end footer -->
+
+            </div>
+        </div>
+<!-- dtl:js_on_document_complete -->
+    <script type="text/javascript">//<![CDATA[
+        // Browser is too old
+        if (!OTRS.Debug.BrowserCheck()) {
+            $('#LoginBox').hide();
+            $('#OldBrowser').show();
+        }
+        else {
+            OTRS.Form.EnableForm($('#LoginBox form, #PasswordBox form'));
+        }
+        Now = new Date();
+        $('#TimeOffset').val(Now.getTimezoneOffset());
+    //]]></script>
+<!-- dtl:js_on_document_complete -->
+
+$Include{"Footer"}

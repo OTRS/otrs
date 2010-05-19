@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.243 2010-05-19 13:34:47 mg Exp $
+# $Id: Layout.pm,v 1.244 2010-05-19 13:50:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.243 $) [1];
+$VERSION = qw($Revision: 1.244 $) [1];
 
 =head1 NAME
 
@@ -892,6 +892,11 @@ sub Login {
         && $Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::DB'
         )
     {
+        $Self->Block(
+            Name => 'LostPasswordLink',
+            Data => \%Param,
+        );
+
         $Self->Block(
             Name => 'LostPassword',
             Data => \%Param,
@@ -4651,6 +4656,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.243 $ $Date: 2010-05-19 13:34:47 $
+$Revision: 1.244 $ $Date: 2010-05-19 13:50:04 $
 
 =cut
