@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.34 2010-05-12 14:29:09 cg Exp $
+# $Id: AdminSysConfig.dtl,v 1.35 2010-05-19 08:22:32 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,7 +59,7 @@
 
 <!-- dtl:block:Download -->
                     <li>
-                        <a title="$Text{"Download all system config changes"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;DontWriteDefault=1" class="CallForAction">
+                        <a title="$Text{"Download all system config changes"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;DontWriteDefault=1" class="CallForAction Download">
                             <span>$Text{"Export settings"}</span>
                         </a>
                     </li>
@@ -67,7 +67,7 @@
 
 <!-- dtl:block:ActionImport -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Import" class="CallForAction"><span>$Text{"Import settings"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Import" class="CallForAction Upload"><span>$Text{"Import settings"}</span></a>
                     </li>
 <!-- dtl:block:ActionImport -->
 
