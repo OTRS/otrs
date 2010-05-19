@@ -2,13 +2,13 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.10 2010-05-19 08:48:54 mg Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.11 2010-05-19 17:21:16 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-<div id="Body" class="TicketView $Config{"Ticket::Frontend::CustomerTicketOverviewSortable"}">
+<div id="Body" class="TicketView $Config{"Ticket::Frontend::CustomerTicketOverviewSortable"} Sortable">
 <!-- dtl:block:Filled -->
     <div class="ActionRow">
         <ul class="Tabs Filter">
@@ -26,10 +26,10 @@
         <table class="Overview">
             <thead>
                 <tr>
-                    <th class="Status"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=State;Order=$LQData{"Order"};Filter=$LQData{"Filter"}">$Text{"State"}</a></th>
-                    <th class="Ticket"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=Ticket;Order=$LQData{"Order"};Filter=$LQData{"Filter"}">$Config{"Ticket::Hook"}</a></th>
-                    <th class="Title"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=Title;Order=$LQData{"Order"};Filter=$LQData{"Filter"}">$Text{"Title"}</a></th>
-                    <th class="Age"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=Age;Order=$LQData{"Order"};Filter=$LQData{"Filter"}">$Text{"Age"}</a></th>
+                    <th class="State $LQData{"StateSort"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=State;Order=$LQData{"Order"};Filter=$LQData{"Filter"}">$Text{"State"}</a></th>
+                    <th class="Ticket $LQData{"TicketSort"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=Ticket;Order=$LQData{"Order"};Filter=$LQData{"Filter"}">$Config{"Ticket::Hook"}</a></th>
+                    <th class="Title $LQData{"TitleSort"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=Title;Order=$LQData{"Order"};Filter=$LQData{"Filter"}">$Text{"Title"}</a></th>
+                    <th class="Age $LQData{"AgeSort"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=Age;Order=$LQData{"Order"};Filter=$LQData{"Filter"}">$Text{"Age"}</a></th>
                 </tr>
             </thead>
             <tbody>

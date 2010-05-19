@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.59 2010-05-14 17:07:14 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.60 2010-05-19 17:21:17 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -230,13 +230,44 @@ sub Run {
         if ( $Self->{Order} eq 'Down' ) {
             $Order = 'Up';
         }
+        my $Sort       = '';
+        my $StateSort  = '';
+        my $TicketSort = '';
+        my $TitleSort  = '';
+        my $AgeSort    = '';
+
+        # this sets the opposit to the $Order
+        if ( $Order eq 'Down' ) {
+            $Sort = 'SortAscending';
+        }
+        if ( $Order eq 'Up' ) {
+            $Sort = 'SortDescending';
+        }
+
+        # perl is missing 'switch' :-| have to learn to work effectivly without it
+        if ( $Self->{SortBy} eq 'State' ) {
+            $StateSort = $Sort;
+        }
+        if ( $Self->{SortBy} eq 'Ticket' ) {
+            $TicketSort = $Sort;
+        }
+        if ( $Self->{SortBy} eq 'Title' ) {
+            $TitleSort = $Sort;
+        }
+        if ( $Self->{SortBy} eq 'Age' ) {
+            $AgeSort = $Sort;
+        }
         $Self->{LayoutObject}->Block(
             Name => 'Filled',
             Data => {
                 %Param,
                 %PageNav,
-                Order  => $Order,
-                Filter => $Self->{Filter},
+                Order      => $Order,
+                StateSort  => $StateSort,
+                TicketSort => $TicketSort,
+                TitleSort  => $TitleSort,
+                AgeSort    => $AgeSort,
+                Filter     => $Self->{Filter},
             },
         );
 
