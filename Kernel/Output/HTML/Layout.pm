@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.242 2010-05-10 11:15:56 bes Exp $
+# $Id: Layout.pm,v 1.243 2010-05-19 13:34:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.242 $) [1];
+$VERSION = qw($Revision: 1.243 $) [1];
 
 =head1 NAME
 
@@ -884,24 +884,6 @@ sub Login {
     # get message of the day
     if ( $Self->{ConfigObject}->Get('ShowMotd') ) {
         $Param{Motd} = $Self->Output( TemplateFile => 'Motd', Data => \%Param );
-    }
-
-    # get language options
-    if ( $Self->{ConfigObject}->Get('LanguageSelectionLogin') ) {
-
-        # get language options
-        $Param{Language} = $Self->BuildSelection(
-            Data       => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
-            Name       => 'Lang',
-            SelectedID => $Self->{UserLanguage},
-            OnChange   => 'submit()',
-            HTMLQuote  => 0,
-        );
-        $Self->Block(
-            Name => 'Language',
-            Data => \%Param,
-        );
-
     }
 
     # get lost password y
@@ -4669,6 +4651,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.242 $ $Date: 2010-05-10 11:15:56 $
+$Revision: 1.243 $ $Date: 2010-05-19 13:34:47 $
 
 =cut
