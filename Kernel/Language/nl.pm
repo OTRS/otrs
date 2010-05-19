@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.104.2.6 2010-03-04 15:46:10 mb Exp $
+# $Id: nl.pm,v 1.104.2.7 2010-05-19 18:50:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104.2.6 $) [1];
+$VERSION = qw($Revision: 1.104.2.7 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -739,7 +739,7 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Bericht verstuurd naar',
         'A message should have a subject!' => 'Geef een onderwerp op voor dit bericht',
-        'Recipients' => 'Ontvangers',
+        'Recipients' => 'Geadresseerden',
         'Body' => 'Bericht tekst',
         'Send' => 'Verstuur',
 
@@ -851,7 +851,7 @@ sub Data {
         'Name is required!' => 'Naam is verplicht!',
         'Event is required!' => 'Kies een event',
         'A message should have a body!' => 'Geen berichttekst ingevuld!',
-        'Recipient' => 'Afzender',
+        'Recipient' => 'Geadresseerde',
         'Group based' => 'Gebaseerd op groep',
         'Agent based' => 'Gebaseerd op behandelaar',
         'Email based' => 'Gebaseerd op e-mail',
@@ -1276,7 +1276,7 @@ sub Data {
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Met de invoer- en selectievelden is de statistiek aanpasbaar. Welke elementen precies aan te passen zijn verschilt per statistiek.',
 
         # Template: AgentTicketBounce
-        'A message should have a To: recipient!' => 'Geef teminste één ontvanger (aan:) op',
+        'A message should have a To: recipient!' => 'Geef teminste één geadresseerde (aan:) op',
         'You need a email address (e. g. customer@example.com) in To:!' => 'In het Aan-veld is een e-mailadres nodig',
         'Bounce ticket' => 'Bounce Ticket',
         'Ticket locked!' => 'Ticket vergrendeld',
