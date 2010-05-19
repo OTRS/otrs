@@ -2,7 +2,7 @@
 // OTRS.App.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.js,v 1.10 2010-05-17 14:19:08 mg Exp $
+// $Id: OTRS.App.js,v 1.11 2010-05-19 09:28:23 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,19 +21,7 @@ var OTRS = OTRS || {};
  */
 OTRS.App = (function (TargetNS) {
 
-    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.UI', 'OTRS.UI')) {
-        return;
-    }
-    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.UI.Navigation', 'OTRS.UI.Navigation')) {
-        return;
-    }
-    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.UI.Accessibility', 'OTRS.UI.Accessibility')) {
-        return;
-    }
-    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.Form', 'OTRS.Form')) {
-        return;
-    }
-    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.Form.Validate', 'OTRS.Form.Validate')) {
+    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.Exception', 'OTRS.Exception')) {
         return;
     }
 
@@ -57,33 +45,6 @@ OTRS.App = (function (TargetNS) {
         else {
             OTRS.Exception.ShowError('TypeError', 'No function parameter given in OTRS.App.Ready');
         }
-    };
-
-    /**
-     * @function
-     * @return nothing
-     *      This function initializes the application and executes the needed functions
-     */
-    TargetNS.Init = function () {
-        OTRS.UI.Navigation.Init();
-        OTRS.UI.Table.InitCSSPseudoClasses();
-        OTRS.UI.InitWidgetActionToggle();
-        OTRS.UI.InitMessageBoxClose();
-        OTRS.UI.ProcessTagAttributeClasses();
-        OTRS.Form.Init();
-        OTRS.Form.Validate.Init();
-        // late execution of accessibility code
-        OTRS.UI.Accessibility.Init();
-    };
-
-    /**
-     * @function
-     * @return nothing
-     *      This function initializes the needed compatibility functions for IE7
-     */
-    TargetNS.InitIE7 = function () {
-        OTRS.UI.IE7Fixes.InitIE7InputFocus('Focus');
-        OTRS.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
     };
 
     return TargetNS;

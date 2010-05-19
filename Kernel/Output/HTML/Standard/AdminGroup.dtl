@@ -2,7 +2,7 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.18 2010-05-19 08:55:07 fn Exp $
+# $Id: AdminGroup.dtl,v 1.19 2010-05-19 09:28:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,16 +11,16 @@
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-OTRS.App = OTRS.App || {};
-OTRS.App.Agent = OTRS.App.Agent || {};
+OTRS.Agent = OTRS.Agent || {};
+OTRS.Agent.App = OTRS.Agent.App || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.App.Agent.AdminGroup
+ * @exports TargetNS as OTRS.Agent.App.AdminGroup
  * @description
  *      This namespace contains the special module functions for AdminGroup.
  */
-OTRS.App.Agent.AdminGroup = (function (TargetNS) {
+OTRS.Agent.App.AdminGroup = (function (TargetNS) {
     /**
      * @function
      * @return nothing
@@ -44,9 +44,9 @@ OTRS.App.Agent.AdminGroup = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.App.Agent.AdminGroup || {}));
+}(OTRS.Agent.App.AdminGroup || {}));
 
-    OTRS.UI.RegisterEvent('click', $('#Submit'), OTRS.App.Agent.AdminGroup.AdminGroupCheck);
+    OTRS.UI.RegisterEvent('click', $('#Submit'), OTRS.Agent.App.AdminGroup.AdminGroupCheck);
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
