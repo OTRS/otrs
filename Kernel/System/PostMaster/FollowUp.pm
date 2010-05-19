@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.66 2009-09-13 22:53:18 martin Exp $
+# $Id: FollowUp.pm,v 1.67 2010-05-19 07:08:18 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,7 +64,7 @@ sub Run {
 
     # 1) check user, out of office, unlock ticket
     if ( $UserInfo{OutOfOfficeMessage} ) {
-        $Self->{TicketObject}->LockSet(
+        $Self->{TicketObject}->TicketLockSet(
             TicketID => $Param{TicketID},
             Lock     => 'unlock',
             UserID   => => $Param{InmailUserID},
@@ -80,7 +80,7 @@ sub Run {
 
         # set lock (if ticket should be locked on follow up)
         if ( $Lock && $Ticket{StateType} =~ /^close/i ) {
-            $Self->{TicketObject}->LockSet(
+            $Self->{TicketObject}->TicketLockSet(
                 TicketID => $Param{TicketID},
                 Lock     => 'lock',
                 UserID   => => $Param{InmailUserID},
@@ -97,7 +97,7 @@ sub Run {
 
     # 3) Unlock ticket, because current user is set to invalid
     else {
-        $Self->{TicketObject}->LockSet(
+        $Self->{TicketObject}->TicketLockSet(
             TicketID => $Param{TicketID},
             Lock     => 'unlock',
             UserID   => => $Param{InmailUserID},
@@ -122,7 +122,7 @@ sub Run {
     }
 
     if ( $Ticket{StateType} !~ /^new/ || $GetParam{'X-OTRS-FollowUp-State'} ) {
-        $Self->{TicketObject}->StateSet(
+        $Self->{TicketObject}->TicketStateSet(
             State => $GetParam{'X-OTRS-FollowUp-State'} || $State,
             TicketID => $Param{TicketID},
             UserID   => $Param{InmailUserID},
@@ -150,7 +150,7 @@ sub Run {
 
     # set priority
     if ( $GetParam{'X-OTRS-FollowUp-Priority'} ) {
-        $Self->{TicketObject}->PrioritySet(
+        $Self->{TicketObject}->TicketPrioritySet(
             TicketID => $Param{TicketID},
             Priority => $GetParam{'X-OTRS-FollowUp-Priority'},
             UserID   => $Param{InmailUserID},
@@ -162,7 +162,7 @@ sub Run {
 
     # set queue
     if ( $GetParam{'X-OTRS-FollowUp-Queue'} ) {
-        $Self->{TicketObject}->MoveTicket(
+        $Self->{TicketObject}->TicketQueueSet(
             Queue    => $GetParam{'X-OTRS-FollowUp-Queue'},
             TicketID => $Param{TicketID},
             UserID   => $Param{InmailUserID},
@@ -174,7 +174,7 @@ sub Run {
 
     # set lock
     if ( $GetParam{'X-OTRS-FollowUp-Lock'} ) {
-        $Self->{TicketObject}->LockSet(
+        $Self->{TicketObject}->TicketLockSet(
             Lock     => $GetParam{'X-OTRS-FollowUp-Lock'},
             TicketID => $Param{TicketID},
             UserID   => $Param{InmailUserID},
