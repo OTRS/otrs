@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.28 2010-05-19 15:58:18 martin Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.29 2010-05-19 16:08:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -188,12 +188,9 @@ $Data{"Body"}
 # --
 # show FreeKey1-3 and FreeText1-3 (in other way like the block, so you could add link or somethin else)
 # --
-#<dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$QData{"FreeKey1"}:</b></td><td> $QData{"FreeText1"}</td></tr>"; }>
-#<dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$QData{"FreeKey2"}:</b></td><td> $QData{"FreeText2"}</td></tr>"; }>
-#<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>"; }>
-#     $Data{"ArticleFreeString1"}
-#     $Data{"ArticleFreeString2"}
-#     $Data{"ArticleFreeString3"}
+#   <tr><td valign="top"><b>$QData{"FreeKey1"}:</b></td><td> $QData{"FreeText1"}</td></tr>
+#   <tr><td valign="top"><b>$QData{"FreeKey2"}:</b></td><td> $QData{"FreeText2"}</td></tr>
+#   <tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>
 # show article options like signed, crypted, ...
 <!-- dtl:block:ArticleOption-->
     <dtl if ($Data{"Successful"} eq "0") { $Data{"StartFont"} = "<font color="red">"; }>
