@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.93 2010-05-12 18:32:10 dz Exp $
+# $Id: AgentTicketZoom.pm,v 1.94 2010-05-19 06:56:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,7 +97,7 @@ sub Run {
     }
 
     # check permissions
-    my $Access = $Self->{TicketObject}->Permission(
+    my $Access = $Self->{TicketObject}->TicketPermission(
         Type     => 'ro',
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
@@ -1114,7 +1114,7 @@ sub _ArticleItem {
             my $Access = 1;
             my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketCompose');
             if ( $Config->{Permission} ) {
-                my $Ok = $Self->{TicketObject}->Permission(
+                my $Ok = $Self->{TicketObject}->TicketPermission(
                     Type     => $Config->{Permission},
                     TicketID => $Ticket{TicketID},
                     UserID   => $Self->{UserID},
@@ -1125,7 +1125,7 @@ sub _ArticleItem {
                 }
             }
             if ( $Config->{RequiredLock} ) {
-                my $Locked = $Self->{TicketObject}->LockIsTicketLocked(
+                my $Locked = $Self->{TicketObject}->TicketLockGet(
                     TicketID => $Ticket{TicketID}
                 );
                 if ($Locked) {
@@ -1169,7 +1169,7 @@ sub _ArticleItem {
             my $Access = 1;
             my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketForward');
             if ( $Config->{Permission} ) {
-                my $OK = $Self->{TicketObject}->Permission(
+                my $OK = $Self->{TicketObject}->TicketPermission(
                     Type     => $Config->{Permission},
                     TicketID => $Ticket{TicketID},
                     UserID   => $Self->{UserID},
@@ -1180,7 +1180,7 @@ sub _ArticleItem {
                 }
             }
             if ( $Config->{RequiredLock} ) {
-                if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Ticket{TicketID} ) )
+                if ( $Self->{TicketObject}->TicketLockGet( TicketID => $Ticket{TicketID} ) )
                 {
                     my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                         TicketID => $Ticket{TicketID},
@@ -1213,7 +1213,7 @@ sub _ArticleItem {
             my $Access = 1;
             my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketBounce');
             if ( $Config->{Permission} ) {
-                my $OK = $Self->{TicketObject}->Permission(
+                my $OK = $Self->{TicketObject}->TicketPermission(
                     Type     => $Config->{Permission},
                     TicketID => $Ticket{TicketID},
                     UserID   => $Self->{UserID},
@@ -1224,7 +1224,7 @@ sub _ArticleItem {
                 }
             }
             if ( $Config->{RequiredLock} ) {
-                if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Ticket{TicketID} ) )
+                if ( $Self->{TicketObject}->TicketLockGet( TicketID => $Ticket{TicketID} ) )
                 {
                     my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                         TicketID => $Ticket{TicketID},
@@ -1265,7 +1265,7 @@ sub _ArticleItem {
         my $Access = 1;
         my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketPhoneOutbound');
         if ( $Config->{Permission} ) {
-            my $OK = $Self->{TicketObject}->Permission(
+            my $OK = $Self->{TicketObject}->TicketPermission(
                 Type     => $Config->{Permission},
                 TicketID => $Ticket{TicketID},
                 UserID   => $Self->{UserID},
@@ -1276,7 +1276,7 @@ sub _ArticleItem {
             }
         }
         if ( $Config->{RequiredLock} ) {
-            my $Locked = $Self->{TicketObject}->LockIsTicketLocked(
+            my $Locked = $Self->{TicketObject}->TicketLockGet(
                 TicketID => $Ticket{TicketID}
             );
             if ($Locked) {
@@ -1324,7 +1324,7 @@ sub _ArticleItem {
         && ( !defined $AclAction{AgentTicketPrint} || $AclAction{AgentTicketPrint} )
         )
     {
-        my $OK = $Self->{TicketObject}->Permission(
+        my $OK = $Self->{TicketObject}->TicketPermission(
             Type     => 'ro',
             TicketID => $Ticket{TicketID},
             UserID   => $Self->{UserID},
@@ -1350,7 +1350,7 @@ sub _ArticleItem {
         && $Article{ArticleType} =~ /email/i
         )
     {
-        my $OK = $Self->{TicketObject}->Permission(
+        my $OK = $Self->{TicketObject}->TicketPermission(
             Type     => 'ro',
             TicketID => $Ticket{TicketID},
             UserID   => $Self->{UserID},
@@ -1554,7 +1554,7 @@ sub _ArticleItem {
         && ( !defined $AclAction{AgentTicketMove} || $AclAction{AgentTicketMove} )
         )
     {
-        my $Access = $Self->{TicketObject}->Permission(
+        my $Access = $Self->{TicketObject}->TicketPermission(
             Type     => 'move',
             TicketID => $Ticket{TicketID},
             UserID   => $Self->{UserID},

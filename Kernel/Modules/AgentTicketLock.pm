@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketLock.pm - to set or unset a lock for tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLock.pm,v 1.12 2009-11-25 15:23:21 mg Exp $
+# $Id: AgentTicketLock.pm,v 1.13 2010-05-19 07:01:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,7 +46,7 @@ sub Run {
     }
 
     # check permissions
-    my $Access = $Self->{TicketObject}->Permission(
+    my $Access = $Self->{TicketObject}->TicketPermission(
         Type     => 'lock',
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
@@ -75,7 +75,7 @@ sub Run {
         }
 
         # set unlock
-        my $Lock = $Self->{TicketObject}->LockSet(
+        my $Lock = $Self->{TicketObject}->TicketLockSet(
             TicketID => $Self->{TicketID},
             Lock     => 'unlock',
             UserID   => $Self->{UserID},
@@ -94,7 +94,7 @@ sub Run {
     else {
 
         # check if the agent is ablee to lock
-        if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
+        if ( $Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
             my ( $OwnerID, $OwnerLogin ) = $Self->{TicketObject}->OwnerCheck(
                 TicketID => $Self->{TicketID},
             );
@@ -109,7 +109,7 @@ sub Run {
 
         # set lock
         if (
-            !$Self->{TicketObject}->LockSet(
+            !$Self->{TicketObject}->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => $Self->{UserID},
@@ -117,7 +117,7 @@ sub Run {
             ||
 
             # set user id
-            !$Self->{TicketObject}->OwnerSet(
+            !$Self->{TicketObject}->TicketOwnerSet(
                 TicketID  => $Self->{TicketID},
                 UserID    => $Self->{UserID},
                 NewUserID => $Self->{UserID},

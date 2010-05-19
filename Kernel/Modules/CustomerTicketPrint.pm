@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.32 2010-04-07 22:05:58 dz Exp $
+# $Id: CustomerTicketPrint.pm,v 1.33 2010-05-19 06:54:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,7 +62,7 @@ sub Run {
 
     # check permissions
     if (
-        !$Self->{TicketObject}->CustomerPermission(
+        !$Self->{TicketObject}->TicketCustomerPermission(
             Type     => 'ro',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.37 2010-02-26 19:42:09 martin Exp $
+# $Id: AgentTicketBounce.pm,v 1.38 2010-05-19 07:01:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,7 +64,7 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # check permissions
-    my $Access = $Self->{TicketObject}->Permission(
+    my $Access = $Self->{TicketObject}->TicketPermission(
         Type     => $Self->{Config}->{Permission},
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
@@ -77,14 +77,14 @@ sub Run {
 
     # get lock state && write (lock) permissions
     if ( $Self->{Config}->{RequiredLock} ) {
-        if ( !$Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
-            $Self->{TicketObject}->LockSet(
+        if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
+            $Self->{TicketObject}->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
             );
             if (
-                $Self->{TicketObject}->OwnerSet(
+                $Self->{TicketObject}->TicketOwnerSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $Self->{UserID},
@@ -202,7 +202,7 @@ $Param{Signature}";
         $Article{From} = "$Address{RealName} <$Address{Email}>";
 
         # get next states
-        my %NextStates = $Self->{TicketObject}->StateList(
+        my %NextStates = $Self->{TicketObject}->TicketStateList(
             Action   => $Self->{Action},
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID},
@@ -333,7 +333,7 @@ $Param{Signature}";
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
             ID => $Param{BounceStateID},
         );
-        $Self->{TicketObject}->StateSet(
+        $Self->{TicketObject}->TicketStateSet(
             TicketID  => $Self->{TicketID},
             ArticleID => $Self->{ArticleID},
             StateID   => $Param{BounceStateID},
@@ -342,7 +342,7 @@ $Param{Signature}";
 
         # should i set an unlock?
         if ( $StateData{TypeName} =~ /^close/i ) {
-            $Self->{TicketObject}->LockSet(
+            $Self->{TicketObject}->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'unlock',
                 UserID   => $Self->{UserID},

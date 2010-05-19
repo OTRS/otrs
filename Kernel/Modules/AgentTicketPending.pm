@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - set ticket to pending
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPending.pm,v 1.84 2010-04-01 19:21:56 martin Exp $
+# $Id: AgentTicketPending.pm,v 1.85 2010-05-19 07:01:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -70,7 +70,7 @@ sub Run {
     }
 
     # check permissions
-    my $Access = $Self->{TicketObject}->Permission(
+    my $Access = $Self->{TicketObject}->TicketPermission(
         Type     => $Self->{Config}->{Permission},
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
@@ -95,13 +95,13 @@ sub Run {
 
     # get lock state
     if ( $Self->{Config}->{RequiredLock} ) {
-        if ( !$Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
-            $Self->{TicketObject}->LockSet(
+        if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
+            $Self->{TicketObject}->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
             );
-            my $Success = $Self->{TicketObject}->OwnerSet(
+            my $Success = $Self->{TicketObject}->TicketOwnerSet(
                 TicketID  => $Self->{TicketID},
                 UserID    => $Self->{UserID},
                 NewUserID => $Self->{UserID},
@@ -482,12 +482,12 @@ sub Run {
                 String => $GetParam{Body} || '',
             );
             if ( $GetParam{NewOwnerType} eq 'Old' && $GetParam{OldOwnerID} ) {
-                $Self->{TicketObject}->LockSet(
+                $Self->{TicketObject}->TicketLockSet(
                     TicketID => $Self->{TicketID},
                     Lock     => 'lock',
                     UserID   => $Self->{UserID},
                 );
-                my $Success = $Self->{TicketObject}->OwnerSet(
+                my $Success = $Self->{TicketObject}->TicketOwnerSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $GetParam{OldOwnerID},
@@ -500,12 +500,12 @@ sub Run {
                 }
             }
             elsif ( $GetParam{NewOwnerID} ) {
-                $Self->{TicketObject}->LockSet(
+                $Self->{TicketObject}->TicketLockSet(
                     TicketID => $Self->{TicketID},
                     Lock     => 'lock',
                     UserID   => $Self->{UserID},
                 );
-                my $Success = $Self->{TicketObject}->OwnerSet(
+                my $Success = $Self->{TicketObject}->TicketOwnerSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $GetParam{NewOwnerID},
@@ -525,7 +525,7 @@ sub Run {
                 my $BodyText = $Self->{LayoutObject}->RichText2Ascii(
                     String => $GetParam{Body} || '',
                 );
-                my $Success = $Self->{TicketObject}->ResponsibleSet(
+                my $Success = $Self->{TicketObject}->TicketResponsibleSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $GetParam{NewResponsibleID},
@@ -678,7 +678,7 @@ sub Run {
 
         # set priority
         if ( $Self->{Config}->{Priority} && $GetParam{NewPriorityID} ) {
-            $Self->{TicketObject}->PrioritySet(
+            $Self->{TicketObject}->TicketPrioritySet(
                 TicketID   => $Self->{TicketID},
                 PriorityID => $GetParam{NewPriorityID},
                 UserID     => $Self->{UserID},
@@ -687,7 +687,7 @@ sub Run {
 
         # set state
         if ( $Self->{Config}->{State} && $GetParam{NewStateID} ) {
-            $Self->{TicketObject}->StateSet(
+            $Self->{TicketObject}->TicketStateSet(
                 TicketID => $Self->{TicketID},
                 StateID  => $GetParam{NewStateID},
                 UserID   => $Self->{UserID},
@@ -700,7 +700,7 @@ sub Run {
 
             # set unlock on close state
             if ( $StateData{TypeName} =~ /^close/i ) {
-                $Self->{TicketObject}->LockSet(
+                $Self->{TicketObject}->TicketLockSet(
                     TicketID => $Self->{TicketID},
                     Lock     => 'unlock',
                     UserID   => $Self->{UserID},
@@ -941,7 +941,7 @@ sub _Mask {
         }
 
         # get old owner
-        my @OldUserInfo = $Self->{TicketObject}->OwnerList( TicketID => $Self->{TicketID} );
+        my @OldUserInfo = $Self->{TicketObject}->TicketOwnerList( TicketID => $Self->{TicketID} );
         $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%ShownUsers,
             SelectedID => $Param{NewOwnerID},
@@ -1030,7 +1030,7 @@ sub _Mask {
     }
     if ( $Self->{Config}->{State} ) {
         my %State;
-        my %StateList = $Self->{TicketObject}->StateList(
+        my %StateList = $Self->{TicketObject}->TicketStateList(
             Action   => $Self->{Action},
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID},
@@ -1081,7 +1081,7 @@ sub _Mask {
     # get priority
     if ( $Self->{Config}->{Priority} ) {
         my %Priority;
-        my %PriorityList = $Self->{TicketObject}->PriorityList(
+        my %PriorityList = $Self->{TicketObject}->TicketPriorityList(
             UserID   => $Self->{UserID},
             TicketID => $Self->{TicketID},
         );
@@ -1156,7 +1156,8 @@ sub _Mask {
 
         # get involved
         if ( $Self->{Config}->{InvolvedAgent} ) {
-            my @UserIDs = $Self->{TicketObject}->InvolvedAgents( TicketID => $Self->{TicketID} );
+            my @UserIDs
+                = $Self->{TicketObject}->TicketInvolvedAgentsList( TicketID => $Self->{TicketID} );
             my %UserHash;
             my $Counter = 0;
             for my $User ( reverse @UserIDs ) {

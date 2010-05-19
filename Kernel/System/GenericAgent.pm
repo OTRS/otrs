@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.66 2009-12-09 14:29:32 mg Exp $
+# $Id: GenericAgent.pm,v 1.67 2010-05-19 06:53:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -722,7 +722,7 @@ sub _JobRunTicket {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - Move Ticket $Ticket to Queue '$Param{Config}->{New}->{Queue}'\n";
         }
-        $Self->{TicketObject}->MoveTicket(
+        $Self->{TicketObject}->TicketQueueSet(
             QueueID => $Self->{QueueObject}->QueueLookup(
                 Queue => $Param{Config}->{New}->{Queue},
                 Cache => 1,
@@ -736,7 +736,7 @@ sub _JobRunTicket {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - Move Ticket $Ticket to QueueID '$Param{Config}->{New}->{QueueID}'\n";
         }
-        $Self->{TicketObject}->MoveTicket(
+        $Self->{TicketObject}->TicketQueueSet(
             QueueID            => $Param{Config}->{New}->{QueueID},
             UserID             => $Param{UserID},
             TicketID           => $Param{TicketID},
@@ -784,7 +784,7 @@ sub _JobRunTicket {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - changed state of Ticket $Ticket to '$Param{Config}->{New}->{State}'\n";
         }
-        $Self->{TicketObject}->StateSet(
+        $Self->{TicketObject}->TicketStateSet(
             TicketID           => $Param{TicketID},
             UserID             => $Param{UserID},
             SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
@@ -795,7 +795,7 @@ sub _JobRunTicket {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - changed state id of ticket $Ticket to '$Param{Config}->{New}->{StateID}'\n";
         }
-        $Self->{TicketObject}->StateSet(
+        $Self->{TicketObject}->TicketStateSet(
             TicketID           => $Param{TicketID},
             SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
             UserID             => $Param{UserID},
@@ -817,7 +817,7 @@ sub _JobRunTicket {
                     "  - set customer user id of Ticket $Ticket to '$Param{Config}->{New}->{CustomerUserLogin}'\n";
             }
         }
-        $Self->{TicketObject}->SetCustomerData(
+        $Self->{TicketObject}->TicketCustomerSet(
             TicketID => $Param{TicketID},
             No       => $Param{Config}->{New}->{CustomerID} || '',
             User     => $Param{Config}->{New}->{CustomerUserLogin} || '',
@@ -908,7 +908,7 @@ sub _JobRunTicket {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - set priority of Ticket $Ticket to '$Param{Config}->{New}->{Priority}'\n";
         }
-        $Self->{TicketObject}->PrioritySet(
+        $Self->{TicketObject}->TicketPrioritySet(
             TicketID => $Param{TicketID},
             UserID   => $Param{UserID},
             Priority => $Param{Config}->{New}->{Priority},
@@ -919,7 +919,7 @@ sub _JobRunTicket {
             print
                 "  - set priority id of Ticket $Ticket to '$Param{Config}->{New}->{PriorityID}'\n";
         }
-        $Self->{TicketObject}->PrioritySet(
+        $Self->{TicketObject}->TicketPrioritySet(
             TicketID   => $Param{TicketID},
             UserID     => $Param{UserID},
             PriorityID => $Param{Config}->{New}->{PriorityID},
@@ -931,7 +931,7 @@ sub _JobRunTicket {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - set owner of Ticket $Ticket to '$Param{Config}->{New}->{Owner}'\n";
         }
-        $Self->{TicketObject}->OwnerSet(
+        $Self->{TicketObject}->TicketOwnerSet(
             SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
             TicketID           => $Param{TicketID},
             UserID             => $Param{UserID},
@@ -942,7 +942,7 @@ sub _JobRunTicket {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - set owner id of Ticket $Ticket to '$Param{Config}->{New}->{OwnerID}'\n";
         }
-        $Self->{TicketObject}->OwnerSet(
+        $Self->{TicketObject}->TicketOwnerSet(
             TicketID           => $Param{TicketID},
             UserID             => $Param{UserID},
             NewUserID          => $Param{Config}->{New}->{OwnerID},
@@ -955,7 +955,7 @@ sub _JobRunTicket {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - set lock of Ticket $Ticket to '$Param{Config}->{New}->{Lock}'\n";
         }
-        $Self->{TicketObject}->LockSet(
+        $Self->{TicketObject}->TicketLockSet(
             TicketID           => $Param{TicketID},
             UserID             => $Param{UserID},
             Lock               => $Param{Config}->{New}->{Lock},
@@ -966,7 +966,7 @@ sub _JobRunTicket {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - set lock id of Ticket $Ticket to '$Param{Config}->{New}->{LockID}'\n";
         }
-        $Self->{TicketObject}->LockSet(
+        $Self->{TicketObject}->TicketLockSet(
             TicketID           => $Param{TicketID},
             UserID             => $Param{UserID},
             LockID             => $Param{Config}->{New}->{LockID},
@@ -1158,16 +1158,16 @@ sub _JobUpdateRunTime {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2009-12-09 14:29:32 $
+$Revision: 1.67 $ $Date: 2010-05-19 06:53:12 $
 
 =cut

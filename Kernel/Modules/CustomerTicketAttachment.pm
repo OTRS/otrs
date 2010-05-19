@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketAttachment.pm,v 1.26 2010-04-05 11:52:29 martin Exp $
+# $Id: CustomerTicketAttachment.pm,v 1.27 2010-05-19 06:55:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,7 +78,7 @@ sub Run {
     }
 
     # check permission
-    my $Access = $Self->{TicketObject}->CustomerPermission(
+    my $Access = $Self->{TicketObject}->TicketCustomerPermission(
         Type     => 'ro',
         TicketID => $Article{TicketID},
         UserID   => $Self->{UserID}

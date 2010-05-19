@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.45 2010-04-02 15:21:32 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.46 2010-05-19 07:01:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,7 +71,7 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # check permissions
-    my $Access = $Self->{TicketObject}->Permission(
+    my $Access = $Self->{TicketObject}->TicketPermission(
         Type     => $Self->{Config}->{Permission},
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
@@ -84,14 +84,14 @@ sub Run {
 
     # get lock state && write (lock) permissions
     if ( $Self->{Config}->{RequiredLock} ) {
-        if ( !$Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
-            $Self->{TicketObject}->LockSet(
+        if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
+            $Self->{TicketObject}->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => $Self->{UserID},
             );
             if (
-                $Self->{TicketObject}->OwnerSet(
+                $Self->{TicketObject}->TicketOwnerSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $Self->{UserID},
@@ -465,7 +465,7 @@ sub Run {
 
             # check permissions if it's a existing ticket
             if (
-                !$Self->{TicketObject}->Permission(
+                !$Self->{TicketObject}->TicketPermission(
                     Type     => 'ro',
                     TicketID => $Self->{TicketID},
                     UserID   => $Self->{UserID},
@@ -652,7 +652,7 @@ sub Run {
             }
 
             # set state
-            $Self->{TicketObject}->StateSet(
+            $Self->{TicketObject}->TicketStateSet(
                 TicketID  => $Self->{TicketID},
                 ArticleID => $ArticleID,
                 StateID   => $GetParam{NextStateID},
@@ -664,7 +664,7 @@ sub Run {
             if ( $StateData{TypeName} =~ /^close/i ) {
 
                 # set lock
-                $Self->{TicketObject}->LockSet(
+                $Self->{TicketObject}->TicketLockSet(
                     TicketID => $Self->{TicketID},
                     Lock     => 'unlock',
                     UserID   => $Self->{UserID},
@@ -699,7 +699,7 @@ sub Run {
 sub _GetNextStates {
     my ( $Self, %Param ) = @_;
 
-    my %NextStates = $Self->{TicketObject}->StateList(
+    my %NextStates = $Self->{TicketObject}->TicketStateList(
         TicketID => $Self->{TicketID},
         Action   => $Self->{Action},
         UserID   => $Self->{UserID},

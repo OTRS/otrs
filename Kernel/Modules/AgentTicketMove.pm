@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.49 2010-04-01 19:21:56 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.50 2010-05-19 07:01:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,7 +63,7 @@ sub Run {
     }
 
     # check permissions
-    my $Access = $Self->{TicketObject}->Permission(
+    my $Access = $Self->{TicketObject}->TicketPermission(
         Type     => 'move',
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
@@ -75,7 +75,7 @@ sub Run {
     }
 
     # check if ticket is locked
-    if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
+    if ( $Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
         my $AccessOk = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
             OwnerID  => $Self->{UserID},
@@ -382,17 +382,17 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
 
         # get lock state && write (lock) permissions
-        if ( !$Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
+        if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
 
             # set owner
-            $Self->{TicketObject}->OwnerSet(
+            $Self->{TicketObject}->TicketOwnerSet(
                 TicketID  => $Self->{TicketID},
                 UserID    => $Self->{UserID},
                 NewUserID => $Self->{UserID},
             );
 
             # set lock
-            my $Success = $Self->{TicketObject}->LockSet(
+            my $Success = $Self->{TicketObject}->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
@@ -443,7 +443,7 @@ sub Run {
         );
 
         # get old owners
-        my @OldUserInfo = $Self->{TicketObject}->OwnerList( TicketID => $Self->{TicketID} );
+        my @OldUserInfo = $Self->{TicketObject}->TicketOwnerList( TicketID => $Self->{TicketID} );
 
         # attachment delete
         for my $Count ( 1 .. 32 ) {
@@ -505,7 +505,7 @@ sub Run {
     else {
         $BodyAsText = $GetParam{Body} || 0;
     }
-    my $Move = $Self->{TicketObject}->MoveTicket(
+    my $Move = $Self->{TicketObject}->TicketQueueSet(
         QueueID            => $GetParam{DestQueueID},
         UserID             => $Self->{UserID},
         TicketID           => $Self->{TicketID},
@@ -518,7 +518,7 @@ sub Run {
 
     # set priority
     if ( $Self->{Config}->{Priority} && $GetParam{NewPriorityID} ) {
-        $Self->{TicketObject}->PrioritySet(
+        $Self->{TicketObject}->TicketPrioritySet(
             TicketID   => $Self->{TicketID},
             PriorityID => $GetParam{NewPriorityID},
             UserID     => $Self->{UserID},
@@ -527,7 +527,7 @@ sub Run {
 
     # set state
     if ( $Self->{Config}->{State} && $GetParam{NewStateID} ) {
-        $Self->{TicketObject}->StateSet(
+        $Self->{TicketObject}->TicketStateSet(
             TicketID => $Self->{TicketID},
             StateID  => $GetParam{NewStateID},
             UserID   => $Self->{UserID},
@@ -540,7 +540,7 @@ sub Run {
 
         # set unlock on close
         if ( $StateData{TypeName} =~ /^close/i ) {
-            $Self->{TicketObject}->LockSet(
+            $Self->{TicketObject}->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'unlock',
                 UserID   => $Self->{UserID},
@@ -552,14 +552,14 @@ sub Run {
     if ( $GetParam{NewUserID} ) {
 
         # lock
-        $Self->{TicketObject}->LockSet(
+        $Self->{TicketObject}->TicketLockSet(
             TicketID => $Self->{TicketID},
             Lock     => 'lock',
             UserID   => $Self->{UserID},
         );
 
         # set owner
-        $Self->{TicketObject}->OwnerSet(
+        $Self->{TicketObject}->TicketOwnerSet(
             TicketID  => $Self->{TicketID},
             UserID    => $Self->{UserID},
             NewUserID => $GetParam{NewUserID},
@@ -570,7 +570,7 @@ sub Run {
     # force unlock if no new owner is set and ticket was unlocked
     else {
         if ( $Self->{TicketUnlock} ) {
-            $Self->{TicketObject}->LockSet(
+            $Self->{TicketObject}->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'unlock',
                 UserID   => $Self->{UserID},
@@ -703,7 +703,7 @@ sub Run {
     }
 
     # check permission for redirect
-    my $AccessNew = $Self->{TicketObject}->Permission(
+    my $AccessNew = $Self->{TicketObject}->TicketPermission(
         Type     => 'ro',
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
@@ -1013,7 +1013,7 @@ sub _GetPriorities {
     # get priority
     my %Priorities;
     if ( $Param{QueueID} || $Param{TicketID} ) {
-        %Priorities = $Self->{TicketObject}->PriorityList(
+        %Priorities = $Self->{TicketObject}->TicketPriorityList(
             %Param,
             Action => $Self->{Action},
             UserID => $Self->{UserID},
@@ -1027,7 +1027,7 @@ sub _GetNextStates {
 
     my %NextStates;
     if ( $Param{QueueID} || $Param{TicketID} ) {
-        %NextStates = $Self->{TicketObject}->StateList(
+        %NextStates = $Self->{TicketObject}->TicketStateList(
             %Param,
             Type   => 'DefaultNextMove',
             Action => $Self->{Action},

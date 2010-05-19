@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.30 2009-12-11 09:42:09 mh Exp $
+# $Id: AgentTicketCustomer.pm,v 1.31 2010-05-19 07:01:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,7 +61,7 @@ sub Run {
 
     # check permissions
     if (
-        !$Self->{TicketObject}->Permission(
+        !$Self->{TicketObject}->TicketPermission(
             Type     => $Self->{Config}->{Permission},
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -79,7 +79,7 @@ sub Run {
     # check permissions
     if ( $Self->{TicketID} ) {
         if (
-            !$Self->{TicketObject}->Permission(
+            !$Self->{TicketObject}->TicketPermission(
                 Type     => 'customer',
                 TicketID => $Self->{TicketID},
                 UserID   => $Self->{UserID}
@@ -160,7 +160,7 @@ sub Run {
 
         # update customer user data
         if (
-            $Self->{TicketObject}->SetCustomerData(
+            $Self->{TicketObject}->TicketCustomerSet(
                 TicketID => $Self->{TicketID},
                 No       => $Param{CustomerID},
                 User     => $Param{CustomerUserID},

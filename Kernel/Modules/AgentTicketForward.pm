@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.66 2010-04-02 15:19:46 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.67 2010-05-19 07:01:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -106,7 +106,7 @@ sub Form {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # check permissions
-    my $Access = $Self->{TicketObject}->Permission(
+    my $Access = $Self->{TicketObject}->TicketPermission(
         Type     => $Self->{Config}->{Permission},
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
@@ -120,17 +120,17 @@ sub Form {
     # get lock state
     my $Output = '';
     if ( $Self->{Config}->{RequiredLock} ) {
-        if ( !$Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
+        if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
 
             # set owner
-            $Self->{TicketObject}->OwnerSet(
+            $Self->{TicketObject}->TicketOwnerSet(
                 TicketID  => $Self->{TicketID},
                 UserID    => $Self->{UserID},
                 NewUserID => $Self->{UserID},
             );
 
             # set lock
-            my $Lock = $Self->{TicketObject}->LockSet(
+            my $Lock = $Self->{TicketObject}->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
@@ -732,7 +732,7 @@ sub SendEmail {
     }
 
     # set state
-    $Self->{TicketObject}->StateSet(
+    $Self->{TicketObject}->TicketStateSet(
         TicketID  => $Self->{TicketID},
         ArticleID => $ArticleID,
         State     => $NextState,
@@ -741,7 +741,7 @@ sub SendEmail {
 
     # should I set an unlock?
     if ( $StateData{TypeName} =~ /^close/i ) {
-        $Self->{TicketObject}->LockSet(
+        $Self->{TicketObject}->TicketLockSet(
             TicketID => $Self->{TicketID},
             Lock     => 'unlock',
             UserID   => $Self->{UserID},
@@ -775,7 +775,7 @@ sub _GetNextStates {
     my ( $Self, %Param ) = @_;
 
     # get next states
-    my %NextStates = $Self->{TicketObject}->StateList(
+    my %NextStates = $Self->{TicketObject}->TicketStateList(
         Action   => $Self->{Action},
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID},

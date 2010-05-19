@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.44 2010-03-10 13:32:16 en Exp $
+# $Id: AgentTicketMerge.pm,v 1.45 2010-05-19 07:01:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CheckItem;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,7 +60,7 @@ sub Run {
     }
 
     # check permissions
-    my $Access = $Self->{TicketObject}->Permission(
+    my $Access = $Self->{TicketObject}->TicketPermission(
         Type     => $Self->{Config}->{Permission},
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
@@ -76,14 +76,14 @@ sub Run {
 
     # get lock state && write (lock) permissions
     if ( $Self->{Config}->{RequiredLock} ) {
-        if ( !$Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
-            $Self->{TicketObject}->LockSet(
+        if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
+            $Self->{TicketObject}->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
             );
             if (
-                $Self->{TicketObject}->OwnerSet(
+                $Self->{TicketObject}->TicketOwnerSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $Self->{UserID},
@@ -147,7 +147,7 @@ sub Run {
         );
 
         # check permissions
-        my $Access = $Self->{TicketObject}->Permission(
+        my $Access = $Self->{TicketObject}->TicketPermission(
             Type     => $Self->{Config}->{Permission},
             TicketID => $MainTicketID,
             UserID   => $Self->{UserID},

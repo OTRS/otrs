@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.66 2010-05-14 07:55:42 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.67 2010-05-19 06:54:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,7 +68,7 @@ sub Run {
     }
 
     # check permissions
-    my $Access = $Self->{TicketObject}->CustomerPermission(
+    my $Access = $Self->{TicketObject}->TicketCustomerPermission(
         Type     => 'ro',
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
@@ -197,7 +197,7 @@ sub Run {
 
         # set lock if ticket was closed
         if ( $Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1' ) {
-            $Self->{TicketObject}->LockSet(
+            $Self->{TicketObject}->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
@@ -247,7 +247,7 @@ sub Run {
         my $NextState = $NextStateData{Name}
             || $Self->{Config}->{StateDefault}
             || 'open';
-        $Self->{TicketObject}->StateSet(
+        $Self->{TicketObject}->TicketStateSet(
             TicketID  => $Self->{TicketID},
             ArticleID => $ArticleID,
             State     => $NextState,
@@ -256,7 +256,7 @@ sub Run {
 
         # set priority
         if ( $Self->{Config}->{Priority} && $GetParam{PriorityID} ) {
-            $Self->{TicketObject}->PrioritySet(
+            $Self->{TicketObject}->TicketPrioritySet(
                 TicketID   => $Self->{TicketID},
                 PriorityID => $GetParam{PriorityID},
                 UserID     => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
@@ -660,7 +660,7 @@ sub _Mask {
         ID => $Article{StateID},
     );
     if (
-        $Self->{TicketObject}->CustomerPermission(
+        $Self->{TicketObject}->TicketCustomerPermission(
             Type     => 'update',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -691,7 +691,7 @@ sub _Mask {
 
         # build next states string
         if ( $Self->{Config}->{State} ) {
-            my %NextStates = $Self->{TicketObject}->StateList(
+            my %NextStates = $Self->{TicketObject}->TicketStateList(
                 TicketID       => $Self->{TicketID},
                 Action         => $Self->{Action},
                 CustomerUserID => $Self->{UserID},
@@ -716,7 +716,7 @@ sub _Mask {
 
         # get priority
         if ( $Self->{Config}->{Priority} ) {
-            my %Priorities = $Self->{TicketObject}->PriorityList(
+            my %Priorities = $Self->{TicketObject}->TicketPriorityList(
                 CustomerUserID => $Self->{UserID},
                 Action         => $Self->{Action},
             );

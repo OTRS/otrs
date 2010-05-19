@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.48 2010-05-04 01:20:56 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.49 2010-05-19 07:01:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,7 +76,7 @@ sub Run {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
 
         # check permissions
-        my $Access = $Self->{TicketObject}->Permission(
+        my $Access = $Self->{TicketObject}->TicketPermission(
             Type     => 'rw',
             TicketID => $TicketID,
             UserID   => $Self->{UserID}
@@ -91,7 +91,7 @@ sub Run {
         }
 
         # check if it's already locked by somebody else
-        if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $TicketID ) ) {
+        if ( $Self->{TicketObject}->TicketLockGet( TicketID => $TicketID ) ) {
             my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                 TicketID => $TicketID,
                 OwnerID  => $Self->{UserID},
@@ -109,14 +109,14 @@ sub Run {
         $Param{TicketIDHidden} .= "<input type='hidden' name='TicketID' value='$TicketID' />\n";
 
         # set lock
-        $Self->{TicketObject}->LockSet(
+        $Self->{TicketObject}->TicketLockSet(
             TicketID => $TicketID,
             Lock     => 'lock',
             UserID   => $Self->{UserID},
         );
 
         # set user id
-        $Self->{TicketObject}->OwnerSet(
+        $Self->{TicketObject}->TicketOwnerSet(
             TicketID  => $TicketID,
             UserID    => $Self->{UserID},
             NewUserID => $Self->{UserID},
@@ -135,7 +135,7 @@ sub Run {
             my $OwnerID = $Self->{ParamObject}->GetParam( Param => 'OwnerID' ) || '';
             my $Owner   = $Self->{ParamObject}->GetParam( Param => 'Owner' )   || '';
             if ( $Self->{Config}->{Owner} && ( $OwnerID || $Owner ) ) {
-                $Self->{TicketObject}->OwnerSet(
+                $Self->{TicketObject}->TicketOwnerSet(
                     TicketID  => $TicketID,
                     UserID    => $Self->{UserID},
                     NewUser   => $Owner,
@@ -147,7 +147,7 @@ sub Run {
             my $ResponsibleID = $Self->{ParamObject}->GetParam( Param => 'ResponsibleID' ) || '';
             my $Responsible   = $Self->{ParamObject}->GetParam( Param => 'Responsible' )   || '';
             if ( $Self->{Config}->{Responsible} && ( $ResponsibleID || $Responsible ) ) {
-                $Self->{TicketObject}->ResponsibleSet(
+                $Self->{TicketObject}->TicketResponsibleSet(
                     TicketID  => $TicketID,
                     UserID    => $Self->{UserID},
                     NewUser   => $Responsible,
@@ -159,7 +159,7 @@ sub Run {
             my $PriorityID = $Self->{ParamObject}->GetParam( Param => 'PriorityID' ) || '';
             my $Priority   = $Self->{ParamObject}->GetParam( Param => 'Priority' )   || '';
             if ( $Self->{Config}->{Priority} && ( $PriorityID || $Priority ) ) {
-                $Self->{TicketObject}->PrioritySet(
+                $Self->{TicketObject}->TicketPrioritySet(
                     TicketID   => $TicketID,
                     UserID     => $Self->{UserID},
                     Priority   => $Priority,
@@ -171,7 +171,7 @@ sub Run {
             my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' ) || '';
             my $Queue   = $Self->{ParamObject}->GetParam( Param => 'Queue' )   || '';
             if ( $QueueID || $Queue ) {
-                $Self->{TicketObject}->MoveTicket(
+                $Self->{TicketObject}->TicketQueueSet(
                     QueueID  => $QueueID,
                     Queue    => $Queue,
                     TicketID => $TicketID,
@@ -216,7 +216,7 @@ sub Run {
             my $StateID = $Self->{ParamObject}->GetParam( Param => 'StateID' ) || '';
             my $State   = $Self->{ParamObject}->GetParam( Param => 'State' )   || '';
             if ( $Self->{Config}->{State} && ( $StateID || $State ) ) {
-                $Self->{TicketObject}->StateSet(
+                $Self->{TicketObject}->TicketStateSet(
                     TicketID => $TicketID,
                     StateID  => $StateID,
                     State    => $State,
@@ -249,7 +249,7 @@ sub Run {
 
                 # should I set an unlock?
                 if ( $Ticket{StateType} =~ /^close/i ) {
-                    $Self->{TicketObject}->LockSet(
+                    $Self->{TicketObject}->TicketLockSet(
                         TicketID => $TicketID,
                         Lock     => 'unlock',
                         UserID   => $Self->{UserID},
@@ -366,7 +366,7 @@ sub Run {
 
             # Should I unlock tickets at user request?
             if ( $Self->{ParamObject}->GetParam( Param => 'Unlock' ) ) {
-                $Self->{TicketObject}->LockSet(
+                $Self->{TicketObject}->TicketLockSet(
                     TicketID => $TicketID,
                     Lock     => 'unlock',
                     UserID   => $Self->{UserID},

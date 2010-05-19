@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.121 2010-05-19 05:13:06 mp Exp $
+# $Id: AgentTicketEmail.pm,v 1.122 2010-05-19 07:01:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -918,14 +918,14 @@ sub Run {
 
         # set owner (if new user id is given)
         if ($NewUserID) {
-            $Self->{TicketObject}->OwnerSet(
+            $Self->{TicketObject}->TicketOwnerSet(
                 TicketID  => $TicketID,
                 NewUserID => $NewUserID,
                 UserID    => $Self->{UserID},
             );
 
             # set lock
-            $Self->{TicketObject}->LockSet(
+            $Self->{TicketObject}->TicketLockSet(
                 TicketID => $TicketID,
                 Lock     => 'lock',
                 UserID   => $Self->{UserID},
@@ -934,7 +934,7 @@ sub Run {
 
         # else set owner to current agent but do not lock it
         else {
-            $Self->{TicketObject}->OwnerSet(
+            $Self->{TicketObject}->TicketOwnerSet(
                 TicketID           => $TicketID,
                 NewUserID          => $Self->{UserID},
                 SendNoNotification => 1,
@@ -944,7 +944,7 @@ sub Run {
 
         # set responsible (if new user id is given)
         if ($NewResponsibleID) {
-            $Self->{TicketObject}->ResponsibleSet(
+            $Self->{TicketObject}->TicketResponsibleSet(
                 TicketID  => $TicketID,
                 NewUserID => $NewResponsibleID,
                 UserID    => $Self->{UserID},
@@ -965,7 +965,7 @@ sub Run {
         if ( $StateData{TypeName} =~ /^close/i ) {
 
             # set lock
-            $Self->{TicketObject}->LockSet(
+            $Self->{TicketObject}->TicketLockSet(
                 TicketID => $TicketID,
                 Lock     => 'unlock',
                 UserID   => $Self->{UserID},
@@ -1207,7 +1207,7 @@ sub _GetNextStates {
 
     my %NextStates;
     if ( $Param{QueueID} || $Param{TicketID} ) {
-        %NextStates = $Self->{TicketObject}->StateList(
+        %NextStates = $Self->{TicketObject}->TicketStateList(
             %Param,
             Action => $Self->{Action},
             UserID => $Self->{UserID},
@@ -1270,7 +1270,7 @@ sub _GetPriorities {
     # get priority
     my %Priorities;
     if ( $Param{QueueID} || $Param{TicketID} ) {
-        %Priorities = $Self->{TicketObject}->PriorityList(
+        %Priorities = $Self->{TicketObject}->TicketPriorityList(
             %Param,
             Action => $Self->{Action},
             UserID => $Self->{UserID},
