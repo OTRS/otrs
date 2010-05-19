@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.91 2010-04-28 17:19:11 en Exp $
+# $Id: AdminPackageManager.pm,v 1.92 2010-05-19 06:59:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,13 +79,13 @@ sub Run {
                     Message =>
                         'In order to use this interface you need to run mod_perl2 and Apache::Reload. '
                         .
-                        'Please use the cmd tool bin/opm.pl to install packages!'
+                        'Please use the cmd tool bin/otrs.PackageManager.pl to install packages!'
                 );
             }
         }
     }
 
-    # secure mode message (don't allow this action till secure mode is enabled)
+    # secure mode message (don't allow this action untill secure mode is enabled)
     if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
         $Self->{LayoutObject}->SecureMode();
     }
