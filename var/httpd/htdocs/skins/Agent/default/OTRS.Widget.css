@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.20 $
+ * @version     $Revision: 1.21 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -263,7 +263,6 @@ ul.Tablelike li.Header {
 
 .CallForAction:active {
     background-color: #DDD;
-    background-position: 2px 3px;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -277,18 +276,28 @@ ul.Tablelike li.Header {
 }
 
 .CallForAction.Plus span {
-    padding-left: 23px;
-    background: url("img/plus-button.png") no-repeat scroll 2px 2px;
+    background: url("img/plus-button.png") no-repeat scroll;
 }
 
 .CallForAction.Download span {
-    padding-left: 23px;
-    background: url("img/drive-download.png") no-repeat scroll 2px 2px;
+    background: url("img/drive-download.png") no-repeat scroll;
 }
 
 .CallForAction.Upload span {
+    background: url("img/drive-upload.png") no-repeat scroll;
+}
+
+.CallForAction.Plus span,
+.CallForAction.Download span,
+.CallForAction.Upload span {
     padding-left: 23px;
-    background: url("img/drive-upload.png") no-repeat scroll 2px 2px;
+    background-position: 2px 2px;
+}
+
+.CallForAction.Plus:active span,
+.CallForAction.Download:active span,
+.CallForAction.Upload:active span {
+    background-position: 2px 3px;
 }
 
 .SearchBox {
