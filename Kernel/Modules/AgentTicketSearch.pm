@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.85 2010-04-03 12:20:31 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.86 2010-05-19 14:37:18 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,6 +50,7 @@ sub new {
     $Self->{SLAObject}           = Kernel::System::SLA->new(%Param);
     $Self->{TypeObject}          = Kernel::System::Type->new(%Param);
     $Self->{CSVObject}           = Kernel::System::CSV->new(%Param);
+    $Self->{LockObject}          = Kernel::System::Lock->new(%Param);
 
     # if we need to do a fulltext search on an external mirror database
     if ( $Self->{ConfigObject}->Get('Core::MirrorDB::DSN') ) {
@@ -234,7 +235,7 @@ sub Run {
         for (
             qw(StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
             CreatedQueueIDs CreatedUserIDs WatchUserIDs ResponsibleIDs
-            TypeIDs ServiceIDs SLAIDs
+            TypeIDs ServiceIDs SLAIDs LockIDs
             TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
             TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
             TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
@@ -1260,6 +1261,18 @@ sub MaskForm {
         Multiple   => 1,
         Size       => 5,
         SelectedID => $Param{PriorityIDs},
+    );
+    $Param{LocksStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            $Self->{LockObject}->LockList(
+                UserID => $Self->{UserID},
+                Action => $Self->{Action},
+            ),
+        },
+        Name       => 'LockIDs',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{LockIDs},
     );
 
     $Param{ArticleCreateTimePoint} = $Self->{LayoutObject}->BuildSelection(

@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.30 2010-05-05 13:16:14 mg Exp $
+# $Id: AgentTicketSearch.dtl,v 1.31 2010-05-19 14:37:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -209,6 +209,12 @@
                     <tr>
                         <td class="contentbody">$Data{"CreatedQueuesStrg"}</td>
                         <td class="contentbody">$Data{"CreatedUserStrg"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contenthead">$Text{"Lock state"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">$Data{"LocksStrg"}</td>
                     </tr>
 <!-- dtl:block:TicketResponsibleWatcher -->
                     <tr>

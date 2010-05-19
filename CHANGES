@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1210 2010-05-14 17:41:30 mb Exp $
+# $Id: CHANGES,v 1.1211 2010-05-19 14:37:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/05/19) Implemented bug#4337 - Added lock state to ticket search.
  - (2010/05/14) Fixed bug#4199 - Hard limit of 200 services defined in front-end files.
  - (2010/05/12) Renamed core module 'Kernel/System/StdResponse.pm' to 'Kernel/System/StandardResponse.pm'.
  - (2010/05/12) Fixed bug#4940 - SQL Improvement, deleted not needed GROUP BY statement.
