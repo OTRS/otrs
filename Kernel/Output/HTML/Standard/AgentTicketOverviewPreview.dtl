@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.27 2010-05-12 18:32:10 dz Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.28 2010-05-19 15:58:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -303,8 +303,7 @@ $Data{"Body"}
                         <tr align="left">
                             <td>
                                 <ul>
-                                    <dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"};QueueID=$Data{"QueueID"}">$Text{"Phone call"}</a></li>"; }>
-$Data{"AgentPhoneStrg"}
+                                    <li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"};QueueID=$Data{"QueueID"}">$Text{"Phone call"}</a></li>
                                 </ul>
                             </td>
                         </tr>
