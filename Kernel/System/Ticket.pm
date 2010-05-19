@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.460 2010-04-28 09:52:28 martin Exp $
+# $Id: Ticket.pm,v 1.461 2010-05-19 06:51:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.460 $) [1];
+$VERSION = qw($Revision: 1.461 $) [1];
 
 =head1 NAME
 
@@ -1480,28 +1480,28 @@ sub TicketQueueID {
     return $Ticket{QueueID};
 }
 
-=item MoveList()
+=item TicketMoveList()
 
 to get the move queue list for a ticket (depends on workflow, if configured)
 
-    my %Queues = $TicketObject->MoveList(
+    my %Queues = $TicketObject->TicketMoveList(
         Type   => 'create',
         UserID => 123,
     );
 
-    my %Queues = $TicketObject->MoveList(
+    my %Queues = $TicketObject->TicketMoveList(
         QueueID => 123,
         UserID  => 123,
     );
 
-    my %Queues = $TicketObject->MoveList(
+    my %Queues = $TicketObject->TicketMoveList(
         TicketID => 123,
         UserID   => 123,
     );
 
 =cut
 
-sub MoveList {
+sub TicketMoveList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -1541,23 +1541,23 @@ sub MoveList {
     return %Queues;
 }
 
-=item MoveTicket()
+=item TicketQueueSet()
 
-to move a ticket (send notification to agents of selected my queues, it ticket isn't closed)
+to move a ticket (sends notification to agents of selected my queues, if ticket isn't closed)
 
-    my $Success = $TicketObject->MoveTicket(
+    my $Success = $TicketObject->TicketQueueSet(
         QueueID  => 123,
         TicketID => 123,
         UserID   => 123,
     );
 
-    my $Success = $TicketObject->MoveTicket(
+    my $Success = $TicketObject->TicketQueueSet(
         Queue    => 'Some Queue Name',
         TicketID => 123,
         UserID   => 123,
     );
 
-    my $Success = $TicketObject->MoveTicket(
+    my $Success = $TicketObject->TicketQueueSet(
         Queue    => 'Some Queue Name',
         TicketID => 123,
         Comment  => 'some comment', # optional
@@ -1566,8 +1566,8 @@ to move a ticket (send notification to agents of selected my queues, it ticket i
     );
 
     Optional attribute:
-    SendNoNotification, disable or enable agent and customer notification for this
-    action. Otherwise a notification will be send to agent and cusomer.
+    SendNoNotification disables or enables agent and customer notification for this
+    action.
 
     For example:
 
@@ -1578,7 +1578,7 @@ Events:
 
 =cut
 
-sub MoveTicket {
+sub TicketQueueSet {
     my ( $Self, %Param ) = @_;
 
     # queue lookup
@@ -1677,11 +1677,11 @@ sub MoveTicket {
     return 1;
 }
 
-=item MoveQueueList()
+=item TicketMoveQueueList()
 
 returns a list of used queue ids / names
 
-    my @QueueIDList = $TicketObject->MoveQueueList(
+    my @QueueIDList = $TicketObject->TicketMoveQueueList(
         TicketID => 123,
         Type     => 'ID',
     );
@@ -1690,7 +1690,7 @@ Returns:
 
     @QueueIDList = ( 1, 2, 3 );
 
-    my @QueueList = $TicketObject->MoveQueueList(
+    my @QueueList = $TicketObject->TicketMoveQueueList(
         TicketID => 123,
         Type     => 'Name',
     );
@@ -1701,7 +1701,7 @@ Returns:
 
 =cut
 
-sub MoveQueueList {
+sub TicketMoveQueueList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -2705,11 +2705,11 @@ sub TicketSLASet {
     return 1;
 }
 
-=item SetCustomerData()
+=item TicketCustomerSet()
 
 Set customer data of ticket.
 
-    my $Success = $TicketObject->SetCustomerData(
+    my $Success = $TicketObject->TicketCustomerSet(
         No       => 'client123',
         User     => 'client-user-123',
         TicketID => 123,
@@ -2721,7 +2721,7 @@ Events:
 
 =cut
 
-sub SetCustomerData {
+sub TicketCustomerSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -3125,11 +3125,11 @@ sub TicketFreeTimeSet {
     return 1;
 }
 
-=item Permission()
+=item TicketPermission()
 
-returns if the agent has permissions or no
+returns whether or not the agent has permission on a ticket
 
-    my $Access = $TicketObject->Permission(
+    my $Access = $TicketObject->TicketPermission(
         Type     => 'ro',
         TicketID => 123,
         UserID   => 123,
@@ -3137,7 +3137,7 @@ returns if the agent has permissions or no
 
 or without logging, for example for to check if a link/action should be shown
 
-    my $Access = $TicketObject->Permission(
+    my $Access = $TicketObject->TicketPermission(
         Type     => 'ro',
         TicketID => 123,
         LogNo    => 1,
@@ -3146,7 +3146,7 @@ or without logging, for example for to check if a link/action should be shown
 
 =cut
 
-sub Permission {
+sub TicketPermission {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -3232,19 +3232,19 @@ sub Permission {
     return;
 }
 
-=item CustomerPermission()
+=item TicketCustomerPermission()
 
-returns if the agent has permissions or no
+returns whether or not a customer has permission to a ticket
 
-    my $Access = $TicketObject->CustomerPermission(
+    my $Access = $TicketObject->TicketCustomerPermission(
         Type     => 'ro',
         TicketID => 123,
         UserID   => 123,
     );
 
-or without logging, for example for to check if a link/action should be shown
+or without logging, for example for to check if a link/action should be displayed
 
-    my $Access = $TicketObject->CustomerPermission(
+    my $Access = $TicketObject->TicketCustomerPermission(
         Type     => 'ro',
         TicketID => 123,
         LogNo    => 1,
@@ -3253,7 +3253,7 @@ or without logging, for example for to check if a link/action should be shown
 
 =cut
 
-sub CustomerPermission {
+sub TicketCustomerPermission {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -3341,7 +3341,7 @@ sub CustomerPermission {
 
 =item GetSubscribedUserIDsByQueueID()
 
-returns a array of user ids which selected the given queue id as
+returns an array of user ids which selected the given queue id as
 custom queue.
 
     my @UserIDs = $TicketObject->GetSubscribedUserIDsByQueueID(
@@ -5110,12 +5110,12 @@ sub _TicketSearchSqlAndStringCreate {
 
 =end Internal:
 
-=item LockIsTicketLocked()
+=item TicketLockGet()
 
 check if a ticket is locked or not
 
-    if ($TicketObject->LockIsTicketLocked(TicketID => 123)) {
-        print "Ticket not locked!\n";
+    if ($TicketObject->TicketLockGet(TicketID => 123)) {
+        print "Ticket is locked!\n";
     }
     else {
         print "Ticket is not locked!\n";
@@ -5123,7 +5123,7 @@ check if a ticket is locked or not
 
 =cut
 
-sub LockIsTicketLocked {
+sub TicketLockGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -5140,17 +5140,17 @@ sub LockIsTicketLocked {
     return;
 }
 
-=item LockSet()
+=item TicketLockSet()
 
-to set a ticket lock or unlock
+to lock or unlock a ticket
 
-    my $Success = $TicketObject->LockSet(
+    my $Success = $TicketObject->TicketLockSet(
         Lock     => 'lock',
         TicketID => 123,
         UserID   => 123,
     );
 
-    my $Success = $TicketObject->LockSet(
+    my $Success = $TicketObject->TicketLockSet(
         LockID   => 1,
         TicketID => 123,
         UserID   => 123,
@@ -5169,7 +5169,7 @@ Events:
 
 =cut
 
-sub LockSet {
+sub TicketLockSet {
     my ( $Self, %Param ) = @_;
 
     # lookup!
@@ -5360,17 +5360,17 @@ sub TicketArchiveFlagSet {
     return 1;
 }
 
-=item StateSet()
+=item TicketStateSet()
 
 to set a ticket state
 
-    my $Success = $TicketObject->StateSet(
+    my $Success = $TicketObject->TicketStateSet(
         State    => 'open',
         TicketID => 123,
         UserID   => 123,
     );
 
-    my $Success = $TicketObject->StateSet(
+    my $Success = $TicketObject->TicketStateSet(
         StateID  => 3,
         TicketID => 123,
         UserID   => 123,
@@ -5389,7 +5389,7 @@ Events:
 
 =cut
 
-sub StateSet {
+sub TicketStateSet {
     my ( $Self, %Param ) = @_;
 
     my %State;
@@ -5471,21 +5471,21 @@ sub StateSet {
     return 1;
 }
 
-=item StateList()
+=item TicketStateList()
 
 to get the state list for a ticket (depends on workflow, if configured)
 
-    my %States = $TicketObject->StateList(
+    my %States = $TicketObject->TicketStateList(
         TicketID => 123,
         UserID   => 123,
     );
 
-    my %States = $TicketObject->StateList(
+    my %States = $TicketObject->TicketStateList(
         QueueID => 123,
         UserID  => 123,
     );
 
-    my %States = $TicketObject->StateList(
+    my %States = $TicketObject->TicketStateList(
         TicketID => 123,
         Type     => 'open',
         UserID   => 123,
@@ -5501,7 +5501,7 @@ Returns:
 
 =cut
 
-sub StateList {
+sub TicketStateList {
     my ( $Self, %Param ) = @_;
 
     my %States;
@@ -5638,13 +5638,13 @@ sub OwnerCheck {
     return $Param{SearchUserID}, $Param{SearchUser};
 }
 
-=item OwnerSet()
+=item TicketOwnerSet()
 
 to set the ticket owner (notification to the new owner will be sent)
 
     by using user id
 
-    my $Success = $TicketObject->OwnerSet(
+    my $Success = $TicketObject->TicketOwnerSet(
         TicketID  => 123,
         NewUserID => 555,
         UserID    => 123,
@@ -5652,7 +5652,7 @@ to set the ticket owner (notification to the new owner will be sent)
 
     by using user login
 
-    my $Success = $TicketObject->OwnerSet(
+    my $Success = $TicketObject->TicketOwnerSet(
         TicketID => 123,
         NewUser  => 'some-user-login',
         UserID   => 123,
@@ -5675,7 +5675,7 @@ Events:
 
 =cut
 
-sub OwnerSet {
+sub TicketOwnerSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -5760,12 +5760,12 @@ sub OwnerSet {
     return 1;
 }
 
-=item OwnerList()
+=item TicketOwnerList()
 
 returns the owner in the past as array with hash ref of the owner data
 (name, email, ...)
 
-    my @Owner = $TicketObject->OwnerList(
+    my @Owner = $TicketObject->TicketOwnerList(
         TicketID => 123,
     );
 
@@ -5788,7 +5788,7 @@ Returns:
 
 =cut
 
-sub OwnerList {
+sub TicketOwnerList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -5821,11 +5821,11 @@ sub OwnerList {
     return @UserInfo;
 }
 
-=item ResponsibleSet()
+=item TicketResponsibleSet()
 
 to set the ticket responsible (notification to the new responsible will be sent)
 
-    my $Success = $TicketObject->ResponsibleSet(
+    my $Success = $TicketObject->TicketResponsibleSet(
         TicketID  => 123,
         NewUserID => 555,
         UserID    => 213,
@@ -5848,7 +5848,7 @@ Events:
 
 =cut
 
-sub ResponsibleSet {
+sub TicketResponsibleSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -5934,12 +5934,12 @@ sub ResponsibleSet {
     return 1;
 }
 
-=item ResponsibleList()
+=item TicketResponsibleList()
 
 returns the responsible in the past as array with hash ref of the owner data
 (name, email, ...)
 
-    my @Responsible = $TicketObject->ResponsibleList(
+    my @Responsible = $TicketObject->TicketResponsibleList(
         TicketID => 123,
     );
 
@@ -5962,7 +5962,7 @@ Returns:
 
 =cut
 
-sub ResponsibleList {
+sub TicketResponsibleList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -6010,11 +6010,11 @@ sub ResponsibleList {
     return @UserInfo;
 }
 
-=item InvolvedAgents()
+=item TicketInvolvedAgentsList()
 
 returns array with hash ref of involved agents of a ticket
 
-    my @InvolvedAgents = $TicketObject->InvolvedAgents(
+    my @InvolvedAgents = $TicketObject->TicketInvolvedAgentsList(
         TicketID => 123,
     );
 
@@ -6037,7 +6037,7 @@ Returns:
 
 =cut
 
-sub InvolvedAgents {
+sub TicketInvolvedAgentsList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -6079,17 +6079,17 @@ sub InvolvedAgents {
     return @UserInfo;
 }
 
-=item PrioritySet()
+=item TicketPrioritySet()
 
 to set the ticket priority
 
-    my $Success = $TicketObject->PrioritySet(
+    my $Success = $TicketObject->TicketPrioritySet(
         TicketID => 123,
         Priority => 'low',
         UserID   => 213,
     );
 
-    my $Success = $TicketObject->PrioritySet(
+    my $Success = $TicketObject->TicketPrioritySet(
         TicketID   => 123,
         PriorityID => 2,
         UserID     => 213,
@@ -6100,7 +6100,7 @@ Events:
 
 =cut
 
-sub PrioritySet {
+sub TicketPrioritySet {
     my ( $Self, %Param ) = @_;
 
     # lookup!
@@ -6174,16 +6174,16 @@ sub PrioritySet {
     return 1;
 }
 
-=item PriorityList()
+=item TicketPriorityList()
 
 to get the priority list for a ticket (depends on workflow, if configured)
 
-    my %Priorities = $TicketObject->PriorityList(
+    my %Priorities = $TicketObject->TicketPriorityList(
         TicketID => 123,
         UserID   => 123,
     );
 
-    my %Priorities = $TicketObject->PriorityList(
+    my %Priorities = $TicketObject->TicketPriorityList(
         QueueID => 123,
         UserID  => 123,
     );
@@ -6198,7 +6198,7 @@ Returns:
 
 =cut
 
-sub PriorityList {
+sub TicketPriorityList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -7907,20 +7907,107 @@ sub DESTROY {
     return 1;
 }
 
+# COMPAT: to OTRS 1.x and 2.x (can be removed later)
+
+sub CustomerPermission {
+    my $Self = shift;
+    return $Self->TicketCustomerPermission(@_);
+}
+
+sub InvolvedAgents {
+    my $Self = shift;
+    return $Self->TicketInvolvedAgentsList(@_);
+}
+
+sub LockIsTicketLocked {
+    my $Self = shift;
+    return $Self->TicketLockGet(@_);
+}
+
+sub LockSet {
+    my $Self = shift;
+    return $Self->TicketLockSet(@_);
+}
+
+sub MoveList {
+    my $Self = shift;
+    return $Self->TicketMoveList(@_);
+}
+
+sub MoveTicket {
+    my $Self = shift;
+    return $Self->TicketQueueSet(@_);
+}
+
+sub MoveQueueList {
+    my $Self = shift;
+    return $Self->TicketMoveQueueList(@_);
+}
+
+sub OwnerList {
+    my $Self = shift;
+    return $Self->TicketOwnerList(@_);
+}
+
+sub OwnerSet {
+    my $Self = shift;
+    return $Self->TicketOwnerSet(@_);
+}
+
+sub Permission {
+    my $Self = shift;
+    return $Self->TicketPermission(@_);
+}
+
+sub PriorityList {
+    my $Self = shift;
+    return $Self->TicketPriorityList(@_);
+}
+
+sub PrioritySet {
+    my $Self = shift;
+    return $Self->TicketPrioritySet(@_);
+}
+
+sub ResponsibleList {
+    my $Self = shift;
+    return $Self->TicketResponsibleList(@_);
+}
+
+sub ResponsibleSet {
+    my $Self = shift;
+    return $Self->TicketResponsibleSet(@_);
+}
+
+sub SetCustomerData {
+    my $Self = shift;
+    return $Self->TicketCustomerSet(@_);
+}
+
+sub StateList {
+    my $Self = shift;
+    return $Self->TicketStateList(@_);
+}
+
+sub StateSet {
+    my $Self = shift;
+    return $Self->TicketStateSet(@_);
+}
+
 1;
 
 =back
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.460 $ $Date: 2010-04-28 09:52:28 $
+$Revision: 1.461 $ $Date: 2010-05-19 06:51:11 $
 
 =cut
