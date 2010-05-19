@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.36 2010-04-23 21:23:32 fn Exp $
+# $Id: CustomerLogin.dtl,v 1.37 2010-05-19 08:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,7 +103,7 @@ $Include{"CustomerHeader"}
 <!-- stop login -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">
-    OTRS.App.Customer.InitLogin();
+    OTRS.Customer.InitLogin();
 </script>
 <!-- dtl:js_on_document_complete -->
 $Include{"CustomerFooter"}

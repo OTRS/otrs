@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.41 2010-05-05 13:16:13 mg Exp $
+# $Id: AgentDashboard.dtl,v 1.42 2010-05-19 08:46:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    OTRS.App.Agent.Dashboard.Init();
+    OTRS.Agent.App.Dashboard.Init();
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:Content -->
@@ -94,7 +94,7 @@
                             <button id="Dashboard$QData{"Name"}_cancel" class="button" type="submit" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    OTRS.App.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard$QData{"Name"}_submit'), 'Dashboard$QData{"Name"}', $('#Dashboard$QData{"NameForm"}_setting_form'));
+    OTRS.Agent.App.Dashboard.RegisterUpdatePreferences($('#Dashboard$QData{"Name"}_submit'), 'Dashboard$QData{"Name"}', $('#Dashboard$QData{"NameForm"}_setting_form'));
     OTRS.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -164,7 +164,7 @@
                             <button id="Dashboard$QData{"Name"}_cancel" class="button" type="submit" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    OTRS.App.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard$QData{"Name"}_submit'), 'Dashboard$QData{"Name"}',$('#Dashboard$QData{"NameForm"}_setting_form'));
+    OTRS.Agent.App.Dashboard.RegisterUpdatePreferences($('#Dashboard$QData{"Name"}_submit'), 'Dashboard$QData{"Name"}',$('#Dashboard$QData{"NameForm"}_setting_form'));
     OTRS.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
 //]]></script>
 <!--dtl:js_on_document_complete-->

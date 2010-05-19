@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.78 2010-05-18 06:38:25 fn Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.79 2010-05-19 08:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -174,6 +174,6 @@
 </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">
-    OTRS.App.Customer.InitTicketZoom();
+    OTRS.Customer.InitTicketZoom();
 </script>
 <!-- dtl:js_on_document_complete -->

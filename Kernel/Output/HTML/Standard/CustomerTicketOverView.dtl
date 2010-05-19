@@ -2,7 +2,7 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.9 2010-05-18 09:44:14 fn Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.10 2010-05-19 08:48:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,7 @@
 <!-- dtl:block:FilterFooter -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">
-    OTRS.App.Customer.ClickableRow();
+    OTRS.Customer.ClickableRow();
 </script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:Filled -->

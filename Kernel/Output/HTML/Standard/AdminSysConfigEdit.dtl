@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.59 2010-05-10 21:50:13 en Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.60 2010-05-19 08:46:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.App.Agent.AdminSysConfig.Init();
+    OTRS.Agent.App.AdminSysConfig.Init();
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 

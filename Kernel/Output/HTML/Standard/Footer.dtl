@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.47 2010-05-17 14:19:08 mg Exp $
+# $Id: Footer.dtl,v 1.48 2010-05-19 08:46:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,9 +55,9 @@
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Chart.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.App.js"></script>
 
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.App.Agent.Dashboard.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.App.Agent.TicketZoom.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.App.Agent.AdminSysConfig.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Agent.App.Dashboard.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Agent.App.TicketZoom.js"></script>
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Agent.App.AdminSysConfig.js"></script>
 
     <script type="text/javascript">//<![CDATA[
         "use strict";
