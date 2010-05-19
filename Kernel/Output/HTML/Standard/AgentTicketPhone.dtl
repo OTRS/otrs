@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.72 2010-05-10 16:29:46 mn Exp $
+# $Id: AgentTicketPhone.dtl,v 1.73 2010-05-19 04:20:24 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -154,8 +154,11 @@ function clear_field() {
 
                             <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font>
                             $Data{"CustomerUserStrg"}
-                            <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br/><button class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">$Text{"Take this Customer"}</button>"; }>
-                            $Data{"TakeThisCustomer"}
+<!-- dtl:block:TakeCustomerButton -->
+                            <button class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">
+                                $Text{"Take this Customer"}
+                            </button>
+<!-- dtl:block:TakeCustomerButton -->
 <!-- dtl:block:SearchCustomerButton -->
                             <button class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">$Text{"Search Customer"}</button>
                             <button class="button" type="submit" name="ClearFrom" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;">$Text{"Clear From"}</button>
