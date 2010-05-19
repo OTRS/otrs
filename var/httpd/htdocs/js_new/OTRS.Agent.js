@@ -2,7 +2,7 @@
 // OTRS.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Agent.js,v 1.1 2010-05-19 09:28:23 mg Exp $
+// $Id: OTRS.Agent.js,v 1.2 2010-05-19 09:38:23 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -20,11 +20,7 @@ var OTRS = OTRS || {};
  *      This namespace contains the config options and functions.
  */
 OTRS.Agent = (function (TargetNS) {
-
     if (!OTRS.Debug.CheckDependency('OTRS.Agent', 'OTRS.UI', 'OTRS.UI')) {
-        return;
-    }
-    if (!OTRS.Debug.CheckDependency('OTRS.Agent', 'OTRS.UI.Navigation', 'OTRS.UI.Navigation')) {
         return;
     }
     if (!OTRS.Debug.CheckDependency('OTRS.Agent', 'OTRS.Form', 'OTRS.Form')) {
@@ -40,10 +36,99 @@ OTRS.Agent = (function (TargetNS) {
     /**
      * @function
      * @return nothing
+     *      This function initializes the main navigation
+     */
+    function InitNavigation () {
+        /*
+         * private variables for navigation
+         */
+        var NavigationTimer = {},
+            NavigationDuration = 500;
+
+        function CreateSubnavCloseTimeout($Element, TimeoutFunction) {
+            NavigationTimer[$Element.attr('id')] = setTimeout(TimeoutFunction, NavigationDuration);
+        }
+
+        function ClearSubnavCloseTimeout($Element) {
+            if (typeof NavigationTimer[$Element.attr('id')] !== 'undefined') {
+                clearTimeout(NavigationTimer[$Element.attr('id')]);
+            }
+        }
+
+        $('#Navigation > li')
+            .filter(function () {
+                return $('ul', this).length;
+            })
+            .bind('mouseenter', function () {
+                var $Element = $(this);
+                if ($Element.parent().attr('id') !== 'Navigation') {
+                    $Element.addClass('Active').attr('aria-expanded', true)
+                        .siblings().removeClass('Active');
+                }
+
+                // If Timeout is set for this nav element, clear it
+                ClearSubnavCloseTimeout($Element);
+            })
+            .bind('mouseleave', function () {
+                var $Element = $(this);
+                if (!$Element.hasClass('Active')) {
+                    return;
+                }
+
+                // Set Timeout for closing nav
+                CreateSubnavCloseTimeout($Element, function () {
+                    $Element.removeClass('Active').attr('aria-expanded', false);
+
+                });
+            })
+            .bind('click', function (Event) {
+                var $Element = $(this),
+                    $Target = $(Event.target);
+                if ($Element.hasClass('Active')) {
+                    $Element.removeClass('Active').attr('aria-expanded', false);
+                }
+                else {
+                    $Element.addClass('Active').attr('aria-expanded', true)
+                        .siblings().removeClass('Active');
+                    // If Timeout is set for this nav element, clear it
+                    ClearSubnavCloseTimeout($Element);
+                }
+                // If element has subnavigation, prevent the link
+                if ($Target.closest('li').find('div').length) {
+                    Event.preventDefault();
+                    return false;
+                }
+            })
+            /*
+             * Accessibility support code
+             *      Initialize each <li> with subnavigation with aria-controls and
+             *      aria expanded to indicate what will be opened by that element.
+             */
+            .each(function () {
+                var $Li = $(this),
+                    ARIAControlsID = $Li.children('div').children('div.Shadow').children('ul').attr('id');
+
+                if (ARIAControlsID && ARIAControlsID.length) {
+                    $Li.attr('aria-controls', ARIAControlsID).attr('aria-expanded', false);
+                }
+            });
+
+        /*
+         * The navigation elements don't have a class "ARIAHasPopup" which automatically generates the aria-haspopup attribute,
+         * because of some code limitation while generating the nav data.
+         * Therefore, the aria-haspopup attribute for the navigation is generated manually.
+         */
+        $('#Navigation li').filter(function () {
+            return $('ul', this).length;
+        }).attr('aria-haspopup', 'true');
+    };
+    /**
+     * @function
+     * @return nothing
      *      This function initializes the application and executes the needed functions
      */
     TargetNS.Init = function () {
-        OTRS.UI.Navigation.Init();
+        InitNavigation();
         OTRS.UI.Table.InitCSSPseudoClasses();
         OTRS.UI.InitWidgetActionToggle();
         OTRS.UI.InitMessageBoxClose();
