@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.72 2010-05-17 14:27:38 mg Exp $
+# $Id: AgentTicketEmail.dtl,v 1.73 2010-05-19 05:12:08 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -181,8 +181,11 @@ function ReloadSignature() {
 <!-- dtl:block:CustomerSearchAutoCompleteToInvalid -->
                             <font color="red" size="-2">$Text{"$Data{"To invalid"}"}</font>
                             $Data{"CustomerUserStrg"}
-                            <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br/><button class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">$Text{"Take this Customer"}</button>"; }>
-                            $Data{"TakeThisCustomer"}
+<!-- dtl:block:TakeCustomerButton -->
+                            <button class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">
+                                $Text{"Take this Customer"}
+                            </button>
+<!-- dtl:block:TakeCustomerButton -->
 <!-- dtl:block:SearchCustomerButton -->
                             <button class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">$Text{"Search Customer"}</button>
                             <button class="button" type="submit" name="ClearTo" value="$Text{"Clear To"}" onclick="javascript:clear_field(); return false;">$Text{"Clear To"}</button>

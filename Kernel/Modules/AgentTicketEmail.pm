@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.120 2010-04-01 18:10:26 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.121 2010-05-19 05:13:06 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1457,12 +1457,18 @@ sub _MaskEmailNew {
     );
 
     # build from string
+
+    print STDERR "VALORES " . $Param{CustomerUserStrg};
     if ( $Param{ToOptions} && %{ $Param{ToOptions} } ) {
         $Param{CustomerUserStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => $Param{ToOptions},
             Name => 'CustomerUser',
             Max  => 70,
         );
+
+        if ( $Param{CustomerUserStrg} ne "" ) {
+            $Self->{LayoutObject}->Block( Name => 'TakeCustomerButton', );
+        }
     }
 
     # build to string
