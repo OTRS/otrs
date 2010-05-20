@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1216 2010-05-20 12:00:13 mg Exp $
+# $Id: CHANGES,v 1.1217 2010-05-20 12:31:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,10 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
- - (2010/05/20) Fixed bug#5103 - searching for existing company does not return "no results found"
+ - (2010/05/20) Fixed bug#1846 - AdminCustomerUserGroup shows all CustomerUsers,
+    even if you have thousands of them.
+ - (2010/05/20) Fixed bug#5103 - Searching for non-existing company does not
+    return "no results found".
  - (2010/05/20) Implemented bug#1701 - In customer's ticket overview, subject
     should come from the first article.
  - (2010/05/20) Fixed bug#5186 - Prepend fwd: instead of re: to the subject of
