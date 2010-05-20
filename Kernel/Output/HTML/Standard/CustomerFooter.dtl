@@ -2,7 +2,7 @@
 # CustomerFooter.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerFooter.dtl,v 1.19 2010-05-19 08:48:54 mg Exp $
+# $Id: CustomerFooter.dtl,v 1.20 2010-05-20 07:05:32 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,10 +20,11 @@
     <div class="Clear" />
     </div>
 <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-1.4.2/jquery.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Debug.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Exception.js"></script>
 <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.App.js"></script>
 <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Customer.js"></script>
 <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.JavaScriptEnhancements.js"></script>
-<script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Debug.js"></script>
 <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Config.js"></script>
 <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.RichTextEditor.js"></script>
 <script type="text/javascript">
