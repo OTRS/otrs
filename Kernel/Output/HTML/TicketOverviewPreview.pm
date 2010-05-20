@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.27 2010-05-12 18:32:10 dz Exp $
+# $Id: TicketOverviewPreview.pm,v 1.28 2010-05-20 21:11:16 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -369,6 +369,17 @@ sub _Show {
             my @Data = $Object->Check( Article => \%Article, %Param, Config => $Jobs{$Job} );
 
             for my $DataRef (@Data) {
+                if ( $DataRef->{Successful} eq "0" ) {
+                    $DataRef->{Result} = "Error";
+                }
+                else {
+                    $DataRef->{Result} = "Success";
+                }
+
+                #                $Self->{LayoutObject}->Block(
+                #                    Name => 'DISABLE',
+                #                );
+
                 $Self->{LayoutObject}->Block(
                     Name => 'ArticleOption',
                     Data => $DataRef,
