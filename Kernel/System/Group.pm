@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.79 2010-05-20 08:25:29 mb Exp $
+# $Id: Group.pm,v 1.80 2010-05-20 09:36:16 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 =head1 NAME
 
@@ -236,14 +236,14 @@ returns a hash with group data
 
 This returns something like:
 
-    %GroupData = {
-          'Name' => 'admin'
-          'ID' => 2,
-          'ValidID' => '1',
-          'CreateTime' => '2010-04-07 15:41:15',
-          'ChangeTime' => '2010-04-07 15:41:15',
-          'Comment' => 'Group of all admins.',
-    }
+    %GroupData = (
+        'Name'       => 'admin',
+        'ID'         => 2,
+        'ValidID'    => '1',
+        'CreateTime' => '2010-04-07 15:41:15',
+        'ChangeTime' => '2010-04-07 15:41:15',
+        'Comment'    => 'Group of all admins.',
+    );
 
 =cut
 
@@ -329,12 +329,12 @@ returns a hash of all groups
 
 the result looks like
 
-    %Groups = {
+    %Groups = (
         '1' => 'users',
-        '2' => 'admin'
+        '2' => 'admin',
         '3' => 'stats',
         '4' => 'secret',
-    };
+    );
 
 =cut
 
@@ -1437,14 +1437,14 @@ returns a hash with role data
 
 This returns something like:
 
-    %RoleData = {
-          'Name' => 'role_helpdesk_agent'
-          'ID' => 2,
-          'ValidID' => '1',
-          'CreateTime' => '2010-04-07 15:41:15',
-          'ChangeTime' => '2010-04-07 15:41:15',
-          'Comment' => 'Role for helpdesk people.',
-    }
+    %RoleData = (
+        'Name'       => 'role_helpdesk_agent',
+        'ID'         => 2,
+        'ValidID'    => '1',
+        'CreateTime' => '2010-04-07 15:41:15',
+        'ChangeTime' => '2010-04-07 15:41:15',
+        'Comment'    => 'Role for helpdesk people.',
+    );
 
 =cut
 
@@ -1590,12 +1590,12 @@ returns a hash of all roles
 
 the result looks like
 
-    %Roles = {
+    %Roles = (
         '1' => 'role_helpdesk_agent',
         '2' => 'role_systemsmanagement_agent',
         '3' => 'role_otrs_admin',
         '4' => 'role_faq_manager',
-    };
+    );
 
 =cut
 
@@ -1652,6 +1652,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.79 $ $Date: 2010-05-20 08:25:29 $
+$Revision: 1.80 $ $Date: 2010-05-20 09:36:16 $
 
 =cut
