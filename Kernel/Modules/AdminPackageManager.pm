@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.92 2010-05-19 06:59:08 mb Exp $
+# $Id: AdminPackageManager.pm,v 1.93 2010-05-20 17:16:26 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -718,7 +718,7 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
         }
 
-        # check if we have to show uninstall intro pre
+        # check if we have to show reinstall intro pre
         my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
 
         # intro screen
@@ -789,7 +789,7 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
         }
 
-        # check if we have to show uninstall intro pre
+        # check if we have to show reinstall intro pre
         my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
 
         # intro screen
@@ -1483,7 +1483,7 @@ sub _UpgradeHandling {
 
     my $IntroUpgradePre = $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePre' ) || '';
 
-    # check if we have to show uninstall intro pre
+    # check if we have to show upgrade intro pre
     my %Structure = $Self->{PackageObject}->PackageParse( String => $Param{Package}, );
 
     # intro screen
