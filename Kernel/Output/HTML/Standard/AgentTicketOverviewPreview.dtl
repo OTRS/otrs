@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.29 2010-05-19 16:08:44 martin Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.30 2010-05-20 21:04:36 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -193,13 +193,9 @@ $Data{"Body"}
 #   <tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>
 # show article options like signed, crypted, ...
 <!-- dtl:block:ArticleOption-->
-    <dtl if ($Data{"Successful"} eq "0") { $Data{"StartFont"} = "<font color="red">"; }>
-    <dtl if ($Data{"Successful"} eq "0") { $Data{"StopFont"} = "</font>"; }>
-    <dtl if ($Data{"Successful"} eq "1") { $Data{"StartFont"} = "<font color="green">"; }>
-    <dtl if ($Data{"Successful"} eq "1") { $Data{"StopFont"} = "</font>"; }>
     <tr>
         <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
-        <td width="85%"> <div title="$QData{"Value"}">$Data{"StartFont"}$QData{"Value","80"}$Data{"StopFont"}</div></div></td>
+        <td width="85%"> <div title="$QData{"Value"}" class="$QData{"Result"}">$QData{"Value","80"}</div></div></td>
     </tr>
 <!-- dtl:block:ArticleOption -->
 $Data{"BodyNote"}
