@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.94 2010-05-19 06:56:01 mb Exp $
+# $Id: AgentTicketZoom.pm,v 1.95 2010-05-20 18:28:49 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1483,7 +1483,14 @@ sub _ArticleItem {
 
             # run module
             my @Data = $Object->Check( Article => \%Article, %Ticket, Config => $Jobs{$Job} );
+            my $ColorClass;
             for my $DataRef (@Data) {
+                if ( $DataRef->{Successful} eq "0" ) {
+                    $DataRef->{Result} = "Error";
+                }
+                else {
+                    $DataRef->{Result} = "Success";
+                }
                 $Self->{LayoutObject}->Block(
                     Name => 'ArticleOption',
                     Data => $DataRef,
