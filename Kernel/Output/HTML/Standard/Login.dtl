@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.48 2010-05-19 13:50:04 mg Exp $
+# $Id: Login.dtl,v 1.49 2010-05-20 11:13:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,7 +64,7 @@ $Include{"Copyright"}
     <title>$Config{"ProductName"} :: $Text{"$Data{"Title"}"}</title>
 </head>
 <!-- end header -->
-<body class="$QData{"BodyClass"}" onload="document.login.User.focus();">
+<body class="$QData{"BodyClass"}">
 
     <div id="Header" class="ARIARoleBanner">
         <div id="Logo"></div>
@@ -126,11 +126,14 @@ $Include{"Copyright"}
                                 </div>
                                 <div class="Clear"></div>
 
-                                <div class="Field">
-                                    <input type="checkbox" id="Remember" title="Remember my login on this computer" readonly="readonly" />
-                                    <label for="Remember">Remember my login on this computer</label>
-                                </div>
-                                <div class="Clear"></div>
+<!--
+# TODO: Implement
+#                                <div class="Field">
+#                                    <input type="checkbox" id="Remember" name="Remember" title="Remember my login on this computer" readonly="readonly" />
+#                                    <label for="Remember">Remember my login on this computer</label>
+#                                </div>
+#                                <div class="Clear"></div>
+                                -->
 
                                 <div class="Field SpacingTop">
                                     <button type="submit" value="$Text{"Login"}" onclick="return submit_form();" disabled="disabled">$Text{"Login"}</button>
@@ -140,7 +143,7 @@ $Include{"Copyright"}
                         </form>
 <!-- dtl:block:LostPasswordLink -->
                         <p class="Center SpacingTop">
-                            Have you <a href="#" onclick="$('#LoginBox, #PasswordBox').toggle(); return false;">lost your password?</a>
+                            <a href="#" id="LostPassword">$Text{"Have you lost your password?"}</a>
                         </p>
 <!-- dtl:block:LostPasswordLink -->
                     </div>
@@ -171,7 +174,7 @@ $Include{"Copyright"}
                             </fieldset>
                         </form>
                         <p class="Center SpacingTop">
-                            <a href="" onclick="$('#LoginBox, #PasswordBox').toggle(); return false;">$Text{"Back to login"}</a>
+                            <a href="" id="BackToLogin">$Text{"Back to login"}</a>
                         </p>
                     </div>
                 </div>
@@ -186,16 +189,7 @@ $Data{"Motd"}
         </div>
 <!-- dtl:js_on_document_complete -->
     <script type="text/javascript">//<![CDATA[
-        // Browser is too old
-        if (!OTRS.Debug.BrowserCheck()) {
-            $('#LoginBox').hide();
-            $('#OldBrowser').show();
-        }
-        else {
-            OTRS.Form.EnableForm($('#LoginBox form, #PasswordBox form'));
-        }
-        Now = new Date();
-        $('#TimeOffset').val(Now.getTimezoneOffset());
+        OTRS.Agent.App.Login.Init();
     //]]></script>
 <!-- dtl:js_on_document_complete -->
 
