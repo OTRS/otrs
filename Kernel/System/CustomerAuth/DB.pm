@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentication
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.30 2010-03-25 14:42:45 martin Exp $
+# $Id: DB.pm,v 1.31 2010-05-20 12:14:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -152,32 +152,12 @@ sub Auth {
             $Salt =~ s/^(..).*/$1/;
         }
 
-        # and do this check only in such case (unfortunately there is a mod_perl2
-        # bug on RH8 - check if crypt() is working correctly) :-/
-        if ( $Salt =~ /^\$\d\$/ || ( crypt( 'root', 'root@localhost' ) eq 'roK20XGbWEsSM' ) ) {
-            $Self->{EncodeObject}->EncodeOutput( \$Pw );
-            $Self->{EncodeObject}->EncodeOutput( \$Salt );
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+        $Self->{EncodeObject}->EncodeOutput( \$Salt );
 
-            # encode output, needed by crypt() only non utf8 signs
-            $CryptedPw = crypt( $Pw, $Salt );
-            $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message =>
-                    "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
-            );
-            my $TempSalt = quotemeta($Salt);
-            my $TempPw   = quotemeta($Pw);
-            my $CMD      = "perl -e \"print crypt('$TempPw', '$TempSalt');\"";
-            open( IO, " $CMD | " ) || print STDERR "Can't open $CMD: $!";
-            while (<IO>) {
-                $CryptedPw .= $_;
-            }
-            close(IO);
-            chomp $CryptedPw;
-        }
+        # encode output, needed by crypt() only non utf8 signs
+        $CryptedPw = crypt( $Pw, $Salt );
+        $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
     }
 
     # just in case!

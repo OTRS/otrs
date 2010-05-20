@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth/DB.pm - provides the db authentication
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.28 2009-10-05 08:59:13 martin Exp $
+# $Id: DB.pm,v 1.29 2010-05-20 12:14:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Crypt::PasswdMD5 qw(unix_md5_crypt);
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -129,31 +129,10 @@ sub Auth {
             $Salt =~ s/^(..).*/$1/;
         }
 
-        # and do this check only in such case (unfortunately there is a mod_perl2
-        # bug on RH8 - check if crypt() is working correctly) :-/
-        if ( ( $Salt =~ /^\$\d\$/ ) || ( crypt( 'root', 'root@localhost' ) eq 'roK20XGbWEsSM' ) ) {
-
-            # encode output, needed by crypt() only non utf8 signs
-            $Self->{EncodeObject}->EncodeOutput( \$Pw );
-            $Self->{EncodeObject}->EncodeOutput( \$Salt );
-            $CryptedPw = crypt( $Pw, $Salt );
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message =>
-                    "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
-            );
-            my $TempSalt = quotemeta($Salt);
-            my $TempPw   = quotemeta($Pw);
-            my $CMD      = "perl -e \"print crypt('$TempPw', '$TempSalt');\"";
-            open( IO, " $CMD | " ) || print STDERR "Can't open $CMD: $!";
-            while (<IO>) {
-                $CryptedPw .= $_;
-            }
-            close(IO);
-            chomp $CryptedPw;
-        }
+        # encode output, needed by crypt() only non utf8 signs
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+        $Self->{EncodeObject}->EncodeOutput( \$Salt );
+        $CryptedPw = crypt( $Pw, $Salt );
     }
 
     # just in case for debug!
