@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.461 2010-05-19 06:51:11 mb Exp $
+# $Id: Ticket.pm,v 1.462 2010-05-20 07:43:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.461 $) [1];
+$VERSION = qw($Revision: 1.462 $) [1];
 
 =head1 NAME
 
@@ -703,22 +703,34 @@ sub TicketNumberLookup {
 
 rebuild a new ticket subject
 
+    This will generate a subject like "RE: [Ticket# 2004040510440485] Some subject"
+
     my $NewSubject = $TicketObject->TicketSubjectBuild(
         TicketNumber => '2004040510440485',
         Subject      => $OldSubject,
+        Action       => 'Reply',
     );
 
-    a new subject like "RE: [Ticket# 2004040510440485] Some subject" will
-    be generated
+    This will generate a subject like  "[Ticket# 2004040510440485] Some subject"
+    (so without RE: )
 
     my $NewSubject = $TicketObject->TicketSubjectBuild(
         TicketNumber => '2004040510440485',
         Subject      => $OldSubject,
         Type         => 'New',
+        Action       => 'Reply',
     );
 
-    a new subject like "[Ticket# 2004040510440485] Some subject" (without RE: )
-    will be generated
+    This will generate a subject like "FWD: [Ticket# 2004040510440485] Some subject"
+
+    my $NewSubject = $TicketObject->TicketSubjectBuild(
+        TicketNumber => '2004040510440485',
+        Subject      => $OldSubject,
+        Action       => 'Forward', # Possible values are Reply and Forward, Reply is default.
+    );
+
+    This will generate a subject like "[Ticket# 2004040510440485] Re: Some subject"
+    (so without clean-up of subject)
 
     my $NewSubject = $TicketObject->TicketSubjectBuild(
         TicketNumber => '2004040510440485',
@@ -726,9 +738,6 @@ rebuild a new ticket subject
         Type         => 'New',
         NoCleanup    => 1,
     );
-
-    a new subject like "[Ticket# 2004040510440485] Re: Some subject" (without clean up of subject)
-    will be generated
 
 =cut
 
@@ -742,8 +751,8 @@ sub TicketSubjectBuild {
             return;
         }
     }
-
     my $Subject = $Param{Subject} || '';
+    my $Action  = $Param{Action}  || 'Reply';
 
     # cleanup of subject, remove existing ticket numbers and reply indentifier
     if ( !$Param{NoCleanup} ) {
@@ -754,6 +763,7 @@ sub TicketSubjectBuild {
     my $TicketHook          = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider   = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     my $TicketSubjectRe     = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
+    my $TicketSubjectFwd    = $Self->{ConfigObject}->Get('Ticket::SubjectFwd');
     my $TicketSubjectFormat = $Self->{ConfigObject}->Get('Ticket::SubjectFormat') || 'Left';
 
     # return subject for new tickets
@@ -768,16 +778,35 @@ sub TicketSubjectBuild {
     }
 
     # return subject for existing tickets
-    if ($TicketSubjectRe) {
-        $TicketSubjectRe .= ': ';
+    if ( $Action eq 'Forward' ) {
+        if ($TicketSubjectFwd) {
+            $TicketSubjectFwd .= ': ';
+        }
+        if ( lc $TicketSubjectFormat eq 'right' ) {
+            return $TicketSubjectFwd . $Subject
+                . " [$TicketHook$TicketHookDivider$Param{TicketNumber}]";
+        }
+        if ( lc $TicketSubjectFormat eq 'none' ) {
+            return $TicketSubjectFwd . $Subject;
+        }
+        return
+            $TicketSubjectFwd
+            . "[$TicketHook$TicketHookDivider$Param{TicketNumber}] "
+            . $Subject;
     }
-    if ( lc $TicketSubjectFormat eq 'right' ) {
-        return $TicketSubjectRe . $Subject . " [$TicketHook$TicketHookDivider$Param{TicketNumber}]";
+    else {
+        if ($TicketSubjectRe) {
+            $TicketSubjectRe .= ': ';
+        }
+        if ( lc $TicketSubjectFormat eq 'right' ) {
+            return $TicketSubjectRe . $Subject
+                . " [$TicketHook$TicketHookDivider$Param{TicketNumber}]";
+        }
+        if ( lc $TicketSubjectFormat eq 'none' ) {
+            return $TicketSubjectRe . $Subject;
+        }
+        return $TicketSubjectRe . "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
     }
-    if ( lc $TicketSubjectFormat eq 'none' ) {
-        return $TicketSubjectRe . $Subject;
-    }
-    return $TicketSubjectRe . "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
 }
 
 =item TicketSubjectClean()
@@ -8008,6 +8037,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.461 $ $Date: 2010-05-19 06:51:11 $
+$Revision: 1.462 $ $Date: 2010-05-20 07:43:03 $
 
 =cut

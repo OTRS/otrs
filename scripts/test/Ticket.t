@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.57 2010-04-06 04:05:39 martin Exp $
+# $Id: Ticket.t,v 1.58 2010-05-20 07:43:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,9 @@ use Kernel::System::Ticket;
 use Kernel::System::Queue;
 
 # remember to reset it later
-my $OldTicketHook      = $Self->{ConfigObject}->Get('Ticket::Hook');
-my $OldTicketSubjectRe = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
+my $OldTicketHook       = $Self->{ConfigObject}->Get('Ticket::Hook');
+my $OldTicketSubjectRe  = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
+my $OldTicketSubjectFwd = $Self->{ConfigObject}->Get('Ticket::SubjectFwd');
 
 for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
     for my $TicketSubjectConfig ( 'Right', 'Left' ) {
@@ -223,6 +224,59 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
                 "TicketSubjectBuild() $TicketSubjectConfig ($NewSubject)",
             );
         }
+
+        # TicketSubjectClean()
+        # check Ticket::SubjectFwd with "FWD"
+        $Self->{ConfigObject}->Set(
+            Key   => 'Ticket::SubjectFwd',
+            Value => 'FWD',
+        );
+
+        # TicketSubjectBuild()
+        $NewSubject = $TicketObject->TicketSubjectBuild(
+            TicketNumber => '2004040510440485',
+            Subject      => "Re: [$TicketHook: 2004040510440485] Re: RE: WG: Some Subject",
+            Action       => 'Forward',
+        );
+        if ( $TicketSubjectConfig eq 'Left' ) {
+            $Self->Is(
+                $NewSubject,
+                'FWD: [' . $TicketHook . '2004040510440485] Some Subject',
+                "TicketSubjectBuild() $TicketSubjectConfig ($NewSubject)",
+            );
+        }
+        else {
+            $Self->Is(
+                $NewSubject,
+                'FWD: Some Subject [' . $TicketHook . '2004040510440485]',
+                "TicketSubjectBuild() $TicketSubjectConfig ($NewSubject)",
+            );
+        }
+
+        # check Ticket::SubjectFwd with "WG"
+        $Self->{ConfigObject}->Set(
+            Key   => 'Ticket::SubjectFwd',
+            Value => 'WG',
+        );
+        $NewSubject = $TicketObject->TicketSubjectClean(
+            TicketNumber => '2004040510440485',
+            Subject      => 'Antwort: ['
+                . $TicketHook
+                . ': 2004040510440485] WG: Fwd: Some Subject2',
+            Action => 'Forward',
+        );
+        if ( $NewSubject !~ /^(WG:|\[Ticket)/ ) {
+            $Self->True(
+                1,
+                "TicketSubjectClean() (WG: $NewSubject)",
+            );
+        }
+        else {
+            $Self->True(
+                0,
+                "TicketSubjectClean() (Antwort: $NewSubject)",
+            );
+        }
     }
 }
 
@@ -230,6 +284,10 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
 $Self->{ConfigObject}->Set(
     Key   => 'Ticket::SubjectRe',
     Value => $OldTicketSubjectRe,
+);
+$Self->{ConfigObject}->Set(
+    Key   => 'Ticket::SubjectFwd',
+    Value => $OldTicketSubjectFwd,
 );
 $Self->{ConfigObject}->Set(
     Key   => 'Ticket::Hook',

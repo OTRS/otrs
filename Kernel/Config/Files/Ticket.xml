@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.325 2010-05-19 16:45:05 en Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.326 2010-05-20 07:43:03 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -26,11 +26,19 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectRe" Required="1" Valid="1">
-        <Description Translatable="1">The text at the beginning of the subject in an email reply, e.g. RE, AW or AS.</Description>
+        <Description Translatable="1">The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <String Regex="">Re</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::SubjectFwd" Required="1" Valid="1">
+        <Description Translatable="1">The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <String Regex="">Fwd</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectFormat" Required="1" Valid="1">
