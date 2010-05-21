@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.32 2010-04-28 14:42:07 mp Exp $
+# $Id: AdminSMIME.pm,v 1.33 2010-05-21 21:44:35 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -401,7 +401,7 @@ sub Run {
                 );
             }
         }
-        if ( !$Self->{CryptObject} ) {
+        if ( !$Self->{CryptObject} && $Self->{ConfigObject}->Get('SMIME') ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
                 Data     => '$Text{"Cannot create %s!", "CryptObject"}',

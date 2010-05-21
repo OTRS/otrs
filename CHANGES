@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1218 2010-05-21 15:44:36 mb Exp $
+# $Id: CHANGES,v 1.1219 2010-05-21 21:44:35 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/05/21) Fixed bug#4459 - Two related error messages in S/MIME if you
+    call it and it's disabled, and one message is enough.
  - (2010/05/21) Fixed bug#5377 - Show all users in AdminUser as a default.
  - (2010/05/20) Fixed bug#1846 - AdminCustomerUserGroup shows all CustomerUsers,
     even if you have thousands of them.
