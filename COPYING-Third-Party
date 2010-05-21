@@ -1,5 +1,5 @@
 # --
-# $Id: COPYING-Third-Party,v 1.8 2010-01-12 18:11:02 martin Exp $
+# $Id: COPYING-Third-Party,v 1.9 2010-05-21 12:03:50 mg Exp $
 # --
 # A list of all included third party libraries.
 # --
@@ -62,7 +62,7 @@ o Name:    CPAN Authen::SASL
 o Name:    CPAN Crypt::PasswdMD5
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright Luis E. Muñoz <luismunoz@cpan.org>
+  Note:    # Copyright Luis E. Muï¿½oz <luismunoz@cpan.org>
 
 o Name:    CPAN Date::Pcalc
   Web:     n/a
@@ -151,4 +151,14 @@ o Name:    CPAN JSON::PP
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    Copyright 2007-2009 by Makamaka Hannyaharamitu
+
+o Name:    CPAN CSS::Minifier
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    Copyright (C) 2007 by Peter Michaux
+
+o Name:    CPAN JavaScript::Minifier
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    Copyright (C) 2007 by Peter Michaux
 
