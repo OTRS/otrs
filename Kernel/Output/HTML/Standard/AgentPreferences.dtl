@@ -2,7 +2,7 @@
 # AgentPreferences.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.dtl,v 1.4 2010-05-11 09:56:41 mn Exp $
+# $Id: AgentPreferences.dtl,v 1.5 2010-05-21 06:41:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
 
     <div class="LayoutGrid ColumnsWithSpacing">
 
-<!-- dtl:block:Colum -->
+<!-- dtl:block:Column -->
         <div class="Size1of3">
             <div class="WidgetGradient Long">
                 <div class="Header">
@@ -125,7 +125,7 @@
                 </div>
             </div>
         </div>
-<!-- dtl:block:Colum -->
+<!-- dtl:block:Column -->
         <div class="Clear"></div>
     </div>
 </div>
