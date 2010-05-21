@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.244 2010-05-19 13:50:04 mg Exp $
+# $Id: Layout.pm,v 1.245 2010-05-21 17:12:46 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.244 $) [1];
+$VERSION = qw($Revision: 1.245 $) [1];
 
 =head1 NAME
 
@@ -3840,74 +3840,6 @@ sub _Output {
 
         #        # add missing new line (striped from split)
         #        $Line .= "\n";
-        if ( $Line =~ /<dtl/ ) {
-
-            # do template set (<dtl set $Data{"adasd"} = "lala">)
-            # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
-            $Line =~ s{
-                <dtl\W(system-call|set)\W\$(Data|Env|Config)\{\"(.+?)\"\}\W=\W\"(.+?)\">
-            }
-            {
-                my $Data = '';
-                if ($1 eq 'set') {
-                    $Data = $4;
-                }
-                else {
-                    open my $System, " $4 | " or print STDERR "Can't open $4: $!";
-                    $Data = do { local $/; <$System> };
-                    close $System;
-                }
-
-                $GlobalRef->{$2}->{$3} = $Data;
-                # output replace with nothing!
-                '';
-            }egx;
-
-            # do template if dynamic
-            $Line =~ s{
-                <dtl\Wif\W\(\$(Env|Data|Text|Config)\{\"(.*)\"\}\W(eq|ne|=~|!~)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
-            }
-            {
-                my $Type    = $1 || '';
-                my $TypeKey = $2 || '';
-                my $Con     = $3 || '';
-                my $ConVal  = defined $4 ? $4 : '';
-                my $IsType  = $5 || '';
-                my $IsKey   = $6 || '';
-                my $IsValue = $7 || '';
-                # do ne actions
-                if ($Type eq 'Text') {
-                    my $Tmp = $Self->{LanguageObject}->Get($TypeKey) || '';
-                    if (eval '($Tmp '.$Con.' $ConVal)') {
-                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
-                        # output replace with nothing!
-                        '';
-                    }
-                }
-                elsif ($Type eq 'Env' || $Type eq 'Data') {
-                    my $Tmp = $GlobalRef->{$Type}->{$TypeKey};
-                    if ( !defined $Tmp ) {
-                        $Tmp = '';
-                    }
-                    if (eval '($Tmp '.$Con.' $ConVal)') {
-                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
-                        # output replace with nothing!
-                        '';
-                    }
-                    else {
-                        # output replace with nothing!
-                        '';
-                    }
-                }
-                elsif ($Type eq 'Config') {
-                    my $Tmp = $Self->{ConfigObject}->Get($TypeKey);
-                    if ( defined $Tmp && eval '($Tmp '.$Con.' $ConVal)') {
-                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
-                        '';
-                    }
-                }
-            }egx;
-        }
 
         # variable & env & config replacement
         my $Regexp = 1;
@@ -4656,6 +4588,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.244 $ $Date: 2010-05-19 13:50:04 $
+$Revision: 1.245 $ $Date: 2010-05-21 17:12:46 $
 
 =cut
