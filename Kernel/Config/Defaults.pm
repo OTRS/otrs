@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.338 2010-04-30 18:27:07 en Exp $
+# $Id: Defaults.pm,v 1.339 2010-05-21 06:32:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.338 $) [1];
+$VERSION = qw($Revision: 1.339 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -898,7 +898,7 @@ sub LoadDefaults {
 
     $Self->{PreferencesGroups}->{Password} = {
         Module          => 'Kernel::Output::HTML::PreferencesPassword',
-        Colum           => 'Other Options',
+        Column          => 'Other Options',
         Label           => 'Change Password',
         Prio            => 1000,
         Area            => 'Agent',
@@ -913,7 +913,7 @@ sub LoadDefaults {
     };
     $Self->{PreferencesGroups}->{SpellDict} = {
         Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum  => 'Other Options',
+        Column => 'Other Options',
         Label  => 'Spelling Dictionary',
         Desc   => 'Select your default spelling dictionary.',
         Data   => {
@@ -933,7 +933,7 @@ sub LoadDefaults {
     };
     $Self->{PreferencesGroups}->{Comment} = {
         Module  => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum   => 'Other Options',
+        Column  => 'Other Options',
         Label   => 'Comment',
         Desc    => 'Comment',
         Block   => 'Input',
@@ -945,7 +945,7 @@ sub LoadDefaults {
 
 #    $Self->{PreferencesGroups}->{FreeText} = {
 #        Module  => 'Kernel::Output::HTML::PreferencesGeneric',
-#        Colum   => 'Other Options',
+#        Column  => 'Other Options',
 #        Label   => 'Free Text',
 #        Desc    => 'Example for free text.',
 #        Block   => 'Input',
@@ -957,7 +957,7 @@ sub LoadDefaults {
 
     $Self->{PreferencesGroups}->{Language} = {
         Module  => 'Kernel::Output::HTML::PreferencesLanguage',
-        Colum   => 'Frontend',
+        Column  => 'Frontend',
         Label   => 'Language',
         Desc    => 'Select your frontend language.',
         PrefKey => 'UserLanguage',
@@ -966,7 +966,7 @@ sub LoadDefaults {
     };
     $Self->{PreferencesGroups}->{Theme} = {
         Module  => 'Kernel::Output::HTML::PreferencesTheme',
-        Colum   => 'Frontend',
+        Column  => 'Frontend',
         Label   => 'Theme',
         Desc    => 'Select your frontend Theme.',
         PrefKey => 'UserTheme',
@@ -2023,6 +2023,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.338 $ $Date: 2010-04-30 18:27:07 $
+$Revision: 1.339 $ $Date: 2010-05-21 06:32:04 $
 
 =cut
