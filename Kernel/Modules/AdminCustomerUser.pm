@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.71 2010-05-17 17:26:53 en Exp $
+# $Id: AdminCustomerUser.pm,v 1.72 2010-05-21 06:38:14 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -594,11 +594,11 @@ sub _Edit {
     my $PreferencesUsed = $Self->{ConfigObject}->Get( $Param{Source} )->{AdminSetPreferences};
     if ( ( defined $PreferencesUsed && $PreferencesUsed != 0 ) || !defined $PreferencesUsed ) {
         my @Groups = @{ $Self->{ConfigObject}->Get('CustomerPreferencesView') };
-        for my $Colum (@Groups) {
+        for my $Column (@Groups) {
             my %Data;
             my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
             for my $Group ( keys %Preferences ) {
-                if ( $Preferences{$Group}->{Colum} eq $Colum ) {
+                if ( $Preferences{$Group}->{Column} eq $Column ) {
                     if ( $Data{ $Preferences{$Group}->{Prio} } ) {
                         for ( 1 .. 151 ) {
                             $Preferences{$Group}->{Prio}++;

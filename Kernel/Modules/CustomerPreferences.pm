@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferences.pm,v 1.29 2010-04-19 23:05:59 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.30 2010-05-21 06:36:37 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -151,11 +151,11 @@ sub CustomerPreferencesForm {
     );
 
     my @Groups = @{ $Self->{ConfigObject}->Get('CustomerPreferencesView') };
-    for my $Colum (@Groups) {
+    for my $Column (@Groups) {
         my %Data;
         my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
         for my $Group ( keys %Preferences ) {
-            if ( $Preferences{$Group}->{Colum} eq $Colum ) {
+            if ( $Preferences{$Group}->{Column} eq $Column ) {
                 if ( $Data{ $Preferences{$Group}->{Prio} } ) {
                     for ( 1 .. 151 ) {
                         $Preferences{$Group}->{Prio}++;
@@ -170,7 +170,7 @@ sub CustomerPreferencesForm {
         }
         $Self->{LayoutObject}->Block(
             Name => 'Head',
-            Data => { Header => $Colum, },
+            Data => { Header => $Column, },
         );
 
         # sort
