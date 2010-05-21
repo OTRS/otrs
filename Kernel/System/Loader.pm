@@ -2,7 +2,7 @@
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.1 2010-05-21 12:37:31 mg Exp $
+# $Id: Loader.pm,v 1.2 2010-05-21 13:05:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use CSS::Minifier qw();
 use JavaScript::Minifier qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -90,6 +90,24 @@ sub MinifyCSS {
     return $Result;
 }
 
+=item MinifyJavaScript()
+
+returns a minified version of the given JavaScript Code
+
+    my $MinifiedJS = $LoaderObject->MinifyJavaScript(Code => $JavaScript);
+
+=cut
+
+sub MinifyJavaScript {
+    my ( $Self, %Param ) = @_;
+
+    my $Code = $Param{Code} || '';
+
+    my $Result = JavaScript::Minifier::minify( input => $Code );
+
+    return $Result;
+}
+
 1;
 
 =back
@@ -106,6 +124,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2010-05-21 12:37:31 $
+$Revision: 1.2 $ $Date: 2010-05-21 13:05:57 $
 
 =cut
