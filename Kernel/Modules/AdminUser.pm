@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.71 2010-05-17 17:20:17 en Exp $
+# $Id: AdminUser.pm,v 1.72 2010-05-21 06:34:16 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -390,13 +390,13 @@ sub _Edit {
     }
 
     my @Groups = @{ $Self->{ConfigObject}->Get('PreferencesView') };
-    for my $Colum (@Groups) {
+    for my $Column (@Groups) {
         my %Data        = ();
         my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
 
         GROUP:
         for my $Group ( keys %Preferences ) {
-            next GROUP if $Preferences{$Group}->{Colum} ne $Colum;
+            next GROUP if $Preferences{$Group}->{Column} ne $Column;
 
             if ( $Data{ $Preferences{$Group}->{Prio} } ) {
                 for ( 1 .. 151 ) {
