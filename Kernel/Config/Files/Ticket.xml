@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.326 2010-05-20 07:43:03 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.327 2010-05-21 06:30:02 cg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -6219,7 +6219,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Email Settings</Item>
+                <Item Key="Column">Email Settings</Item>
                 <Item Key="Label" Translatable="1">New ticket notification</Item>
                 <Item Key="Desc" Translatable="1">Send me a notification if there is a new ticket in "My Queues".</Item>
                 <Item Key="Key" Translatable="1">Send new ticket notifications</Item>
@@ -6243,7 +6243,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Email Settings</Item>
+                <Item Key="Column">Email Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket follow up notification</Item>
                 <Item Key="Desc" Translatable="1">Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.</Item>
                 <Item Key="Key" Translatable="1">Send ticket follow up notifications</Item>
@@ -6267,7 +6267,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Email Settings</Item>
+                <Item Key="Column">Email Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket lock timeout notification</Item>
                 <Item Key="Desc" Translatable="1">Send me a notification if a ticket is unlocked by the system.</Item>
                 <Item Key="Key" Translatable="1">Send ticket lock timeout notifications</Item>
@@ -6291,7 +6291,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Email Settings</Item>
+                <Item Key="Column">Email Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket move notification</Item>
                 <Item Key="Desc" Translatable="1">Send me a notification if a ticket is moved into one of "My Queues".</Item>
                 <Item Key="Key" Translatable="1">Send ticket move notifications</Item>
@@ -6315,7 +6315,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesTicketWatcher</Item>
-                <Item Key="Colum">Email Settings</Item>
+                <Item Key="Column">Email Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket watch notification</Item>
                 <Item Key="Desc" Translatable="1">Send me the same notifications for my watched tickets that the ticket owners will get.</Item>
                 <Item Key="Key" Translatable="1">Send ticket watch notifications</Item>
@@ -6339,7 +6339,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesCustomQueue</Item>
-                <Item Key="Colum">Other Settings</Item>
+                <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">My Queues</Item>
                 <Item Key="Desc" Translatable="1">Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.</Item>
                 <Item Key="Key" Translatable="1">My Queues</Item>
@@ -6356,7 +6356,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Other Settings</Item>
+                <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">QueueView Refresh Time</Item>
                 <Item Key="Desc" Translatable="1">If enabled, the QueueView will automatically refresh after the specified time.</Item>
                 <Item Key="Key" Translatable="1">Refresh QueueView after</Item>
@@ -6384,7 +6384,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Other Settings</Item>
+                <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Small" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Small"</Item>
                 <Item Key="Data">
@@ -6411,7 +6411,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Other Settings</Item>
+                <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Medium" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Medium"</Item>
                 <Item Key="Data">
@@ -6438,7 +6438,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Other Settings</Item>
+                <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Preview" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Preview"</Item>
                 <Item Key="Data">
@@ -6465,7 +6465,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Other Settings</Item>
+                <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Screen after new ticket</Item>
                 <Item Key="Key" Translatable="1">Show this screen after I created a new ticket</Item>
                 <Item Key="Data">
@@ -7038,7 +7038,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">User Profile</Item>
+                <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Number of displayed tickets</Item>
                 <Item Key="Key" Translatable="1">Max. displayed tickets</Item>
                 <Item Key="Data">
@@ -7063,7 +7063,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">User Profile</Item>
+                <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Ticket overview</Item>
                 <Item Key="Key" Translatable="1">Refresh interval</Item>
                 <Item Key="Data">
