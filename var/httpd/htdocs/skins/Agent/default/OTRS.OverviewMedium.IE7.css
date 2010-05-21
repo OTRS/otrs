@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -11,6 +11,8 @@
  * @section     OverviewMedium
  */
 
+@media screen,projection,tv,handheld {
+
 /**
  * @subsection  Compatibility IE7 for Medium View Overview
  */
@@ -18,3 +20,6 @@
 .OverviewMedium li {
     margin-bottom: -3px;
 }
+
+
+} /* end @media */

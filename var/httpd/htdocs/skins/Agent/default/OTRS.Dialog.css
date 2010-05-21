@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -9,6 +9,8 @@
  * @package     Skin "Default"
  * @section     Dialogs
  */
+
+@media screen,projection,tv,handheld {
 
 /**
  * @subsection  Overlay
@@ -149,3 +151,6 @@
 .Dialog.Search {
     width: 550px;
 }
+
+
+} /* end @media */

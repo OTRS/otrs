@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -9,6 +9,8 @@
  * @package     Skin "Default"
  * @section     CSS for printing
  */
+
+@media print {
 
 /**
  * @subsection  Fonts
@@ -150,3 +152,6 @@ fieldset.TableLike > .Value {
     line-height: 1.3em;
     padding-top: 4px;
 }
+
+
+} /* end @media */

@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.81 2010-05-07 13:33:29 mn Exp $
+# $Id: Header.dtl,v 1.82 2010-05-21 09:09:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,44 +31,43 @@ $Include{"Copyright"}
 <!-- dtl:block:MetaLink -->
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
 
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Reset.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Default.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewControl.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewMedium.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewLarge.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Footer.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Grid.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Form.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Table.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Widget.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.WidgetMenu.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.TicketDetail.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Tooltip.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Dialog.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.App.Agent.AdminPerformanceLog.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.App.Agent.AdminSysConfig.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Reset.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Default.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewControl.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewMedium.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewLarge.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Footer.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Grid.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Form.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Table.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Widget.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.WidgetMenu.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.TicketDetail.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Tooltip.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Dialog.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.App.Agent.AdminPerformanceLog.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.App.Agent.AdminSysConfig.css" />
 
-    <link rel="stylesheet" media="screen,projection,tv,handheld" href="$Config{"Frontend::WebPath"}skins/Agent/default/thirdparty/ui-theme/jquery-ui.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/thirdparty/ui-theme/jquery-ui.css" />
 
-    <link rel="stylesheet" media="print" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Reset.css" />
-    <link rel="stylesheet" media="print" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Print.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Print.css" />
 
 <!--[if IE 7]>
-    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.IE7.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Widget.IE7.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Form.IE7.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Grid.IE7.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewControl.IE7.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.IE7.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewMedium.IE7.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewLarge.IE7.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.TicketDetail.IE7.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.IE7.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Widget.IE7.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Form.IE7.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Grid.IE7.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewControl.IE7.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.IE7.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewMedium.IE7.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewLarge.IE7.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.TicketDetail.IE7.css" />
     <![endif]-->
 <!--[if IE 8]>
-    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.IE8.css" />
-    <link rel="stylesheet" media="screen,projection,tv,handheld" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.IE8.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.Header.IE8.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/OTRS.OverviewSmall.IE8.css" />
     <![endif]-->
 
 <!--[if IE]>

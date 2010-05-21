@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -15,6 +15,9 @@
  * @bugfix      form element positioning
  */
 
+@media screen,projection,tv,handheld {
+
+
 .ActionRow ul.Actions li input#SelectAll {
     margin-top: 1px;
 }
@@ -23,3 +26,6 @@
     padding-top: 0px;
     padding-bottom: 0px;
 }
+
+
+} /* end @media */

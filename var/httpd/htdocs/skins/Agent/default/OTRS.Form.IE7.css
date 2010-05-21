@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -10,6 +10,8 @@
  * @package     Skin "Default"
  * @section     Forms
  */
+
+@media screen,projection,tv,handheld {
 
 /**
  * @subsection  Input focus
@@ -62,3 +64,6 @@ a.TrashCan:first-child,
 button.TrashCan:first-child {
     display: block;
 }
+
+
+} /* end @media */

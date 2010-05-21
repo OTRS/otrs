@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -10,6 +10,8 @@
  * @package     Skin "Default"
  * @section     Grid
  */
+
+@media screen,projection,tv,handheld {
 
 /**
  * @subsection  LayoutFixedSidebar
@@ -88,3 +90,4 @@
 }
 
 
+} /* end @media */

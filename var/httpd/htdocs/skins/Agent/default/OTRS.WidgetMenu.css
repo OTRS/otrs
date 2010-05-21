@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -9,6 +9,8 @@
  * @package     Skin "Default"
  * @section     WidgetMenu
  */
+
+@media screen,projection,tv,handheld {
 
 /**
  * @subsection  Control Row
@@ -518,3 +520,6 @@ div.Pagination span.PaginationLimit {
     font-family: inherit;
     text-align: right;
 }
+
+
+} /* end @media */

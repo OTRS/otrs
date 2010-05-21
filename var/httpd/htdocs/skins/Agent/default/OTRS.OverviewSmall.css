@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -10,6 +10,8 @@
  * @section     OverviewSmall
  */
 
+@media screen,projection,tv,handheld {
+
 /**
  * @subsection  Overview Holder
  */
@@ -18,3 +20,4 @@
 }
 
 
+} /* end @media */

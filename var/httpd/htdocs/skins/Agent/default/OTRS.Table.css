@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -10,6 +10,7 @@
  * @section     Tables
  */
 
+@media screen,projection,tv,handheld {
 
 /**
  * @subsection  Generic table elements
@@ -384,3 +385,6 @@ td.Attachment {
     font-size: inherit;
     z-index:99999;
 }
+
+
+} /* end @media */

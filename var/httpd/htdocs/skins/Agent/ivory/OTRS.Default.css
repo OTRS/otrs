@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @author      Felix Niklas
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
@@ -8,10 +8,13 @@
 
 /**
  * @package     Skin "Ivory"
+ * @section     Skin overrides
  */
 
+@media screen,projection,tv,handheld {
+
 /**
- * @section     Link color
+ * @subsection  Link color
  */
 
 a {
@@ -20,7 +23,7 @@ a {
 
 #Footer ul li a:hover,
 #Footer ul li a:active,
-#Footer div.TopOfPage a:hover, 
+#Footer div.TopOfPage a:hover,
 #Footer div.TopOfPage a:active,
 a:hover,
 a:active,
@@ -29,7 +32,7 @@ a:focus {
 }
 
 /**
- * @section     Header
+ * @subsection  Header
  */
 
 #Header {
@@ -38,7 +41,7 @@ a:focus {
 }
 
 /**
- * @section     ToolBar
+ * @subsection  ToolBar
  */
 
 #ToolBar a span.Gloss,
@@ -67,7 +70,7 @@ a:focus {
 }
 
 /**
- * @section     UserInfo LogoutButton
+ * @subsection  UserInfo LogoutButton
  */
 
 #UserInfo {
@@ -86,7 +89,7 @@ a:focus {
 }
 
 /**
- * @section     Navigation
+ * @subsection  Navigation
  */
 
 #Navigation li,
@@ -121,7 +124,7 @@ a:focus {
 }
 
 /**
- * @section      Navigation Triangle
+ * @subsection   Navigation Triangle
  */
 
 #Navigation li.Active a:hover.Triangle span {
@@ -129,7 +132,7 @@ a:focus {
 }
 
 /**
- * @section      Navigation underline
+ * @subsection   Navigation underline
  */
 #Navigation > li > a > span,
 #Navigation > li > a > span > span {
@@ -146,7 +149,7 @@ a:focus {
 }
 
 /**
- * @section      Navigation Level-1 to Level-3
+ * @subsection   Navigation Level-1 to Level-3
  */
 
 #Navigation li.Active ul a {
@@ -161,7 +164,7 @@ a:focus {
 }
 
 /**
- * @section      Main
+ * @subsection   Main
  */
 
 .OverviewBox {
@@ -186,7 +189,7 @@ a:focus {
 }
 
 /**
- * @section      ControlRow
+ * @subsection   ControlRow
  */
 
 .ControlRow {
@@ -239,7 +242,7 @@ ul.ContextFunctions li.ContextHelp {
 }
 
 /**
- * @section      ActionRow
+ * @subsection   ActionRow
  */
 
 .ActionRow {
@@ -305,7 +308,7 @@ ul.ContextFunctions li.ContextHelp {
 }
 
 /**
- * @section      Table
+ * @subsection   Table
  */
 
 .TableSmall {
@@ -348,7 +351,7 @@ ul.ContextFunctions li.ContextHelp {
 }
 
 /**
- * @section      DataTable
+ * @subsection   DataTable
  */
 
 .DataTable {
@@ -368,7 +371,7 @@ ul.ContextFunctions li.ContextHelp {
 }
 
 /**
- * @section      CSS3 Hover
+ * @subsection   CSS3 Hover
  */
 
 #Navigation > .Active .Shadow > ul > li:hover,
@@ -378,7 +381,7 @@ ul.Tablelike li:hover {
 }
 
 /**
- * @section      Overview Large & Medium
+ * @subsection   Overview Large & Medium
  */
 
 .OverviewMedium li:first-child {
@@ -445,7 +448,7 @@ ul.Tablelike li:hover {
 }
 
 /**
- * @section      Widgets
+ * @subsection   Widgets
  */
 
 input[type=text]:focus,
@@ -455,7 +458,7 @@ textarea:focus {
 }
 
 /**
- * @section      Widgets
+ * @subsection   Widgets
  */
 
 .WidgetGradient {
@@ -472,3 +475,6 @@ textarea:focus {
     background: #EDF8FA;
     border-bottom: 1px dotted #3E97A6;
 }
+
+
+} /* end @media */

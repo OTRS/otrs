@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE8
@@ -10,6 +10,8 @@
  * @package     Skin "Default"
  * @section     OverviewSmall
  */
+
+@media screen,projection,tv,handheld {
 
 /**
  * @subsection  Compatibility IE8 for Small View Overview
@@ -23,3 +25,6 @@
 .OverviewSmall td:first-child {
     padding-top: 0px;
 }
+
+
+} /* end @media */

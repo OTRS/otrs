@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.21 $
+ * @version     $Revision: 1.22 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -9,6 +9,8 @@
  * @package     Skin "Default"
  * @section     Widgets
  */
+
+@media screen,projection,tv,handheld {
 
 /**
  * @subsection  Widget Tablelike list
@@ -434,3 +436,6 @@ ul.Tablelike li.Header {
 .Highlight .ui-state-default:hover {
     color: #000 !important;
 }
+
+
+} /* end @media */
