@@ -1,8 +1,8 @@
 # --
 # Test.dtl - provides HTML test page
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.dtl,v 1.16 2009-11-25 17:13:55 mg Exp $
+# $Id: Test.dtl,v 1.17 2010-05-21 17:14:31 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,27 +10,6 @@
 # --
 
 <h1>$Text{"OTRS Test Page"}</h1>
-<hr/>
-<b>dynamic test</b><br/>
-<p>
-    <dtl set $Data{"Test1"} = "German">
-    a) Set $Data{\"Test1\"} = "$Data{"Test1"}"
-    <br/>
-    Echo ($Text{\"Lock\"}): $Text{"Lock"}
-    <br/>
-    <dtl if ($Text{"Lock"} eq "Lock") { $Data{"Test1"} = "English"; }>
-    b) if ($Text{\"Lock\"} eq "Lock") { $Data{\"Test:\"} = "English"; }<br/>
-    Result: $Data{"Test1"}
-</p>
-<p>
-    <dtl set $Data{"Test2"} = "lala">
-    c) Set $Data{\"Test2\"} = "$Data{"Test2"}"
-    <br/>
-    <dtl if ($Data{"Test2"} ne "hallo!") { $Data{"Test2"} = "hallo!!"; }>
-    d) if ($Data{\"Test2\"} ne "hallo!") { $Data{\"Test2\"} = "hallo!!"; }
-    <br/>
-    Result: $Data{"Test2"}
-</p>
 <hr/>
 # --
 # translation test
@@ -122,35 +101,6 @@
     </tr>
     <tr>
         <td>Box1:</td><td>$Env{"Box1"}</td>
-    </tr>
-</table>
-<hr/>
-# --
-# system calls
-# --
-<b>system calls</b>
-<table>
-    <tr>
-        <td valign="top">
-            <dtl system-call $Data{"uptime"} = "uptime">
-            system call "uptime":
-        </td>
-        <td>
-            <pre>
-$Data{"uptime"}
-            </pre>
-        </td>
-    </tr>
-    <tr>
-        <td valign="top">
-            <dtl system-call $Data{"w"} = "w">
-            system call "w":
-        </td>
-        <td>
-            <pre>
-$Data{"w"}
-            </pre>
-        </td>
     </tr>
 </table>
 <hr/>
