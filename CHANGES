@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.993.2.133 2010-05-07 19:13:18 mb Exp $
+# $Id: CHANGES,v 1.993.2.134 2010-05-24 07:56:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,20 +10,22 @@
 # --
 
 2.4.8 (2010/??/??)
+ - (2010/05/24) Fixed bug#5383 - Fckeditor localization not working for some
+    languages such as Brazilian Portuguese.
  - (2010/05/07) Fixed bug#5336 - Also set execute bit on scripts/tools.
  - (2010/04/21) Fixed bug#5266 - Ticket Zoom shows wrong html content if there
     is no text but two html attachments in there.
  - (2010/04/15) Fixed bug#5242 - Newlines are not displayed in html notification
     mails on Lotus Notes
- - (2010/04/14) Fixed bug#4999 - Cache of customer user is not refreshed after
+ - (2010/04/14) Fixed bug#4999 - Cache for customer user is not refreshed when
     a preference is updated.
  - (2010/04/13) Fixed bug#5152 - responsible_user_id in ticket table is wrong in
     otrs-database.dia.
  - (2010/04/12) Fixed bug#5108 - The RSS date was not displayed correctly.
- - (2010/04/12) Fixed bug#5112 - Redirecting to a valid screen after unsubscribing a ticket
-    that is on a queue in which the agent has no permissions.
- - (2010/04/06) Fixed bug#4986 - There is no activate/deactivate check for Graphsize menu,
-    when page loads in Stats Definition
+ - (2010/04/12) Fixed bug#5112 - Redirecting to a valid screen after unsubscribing
+    from a ticket where the agent does not have permissions on the queue.
+ - (2010/04/06) Fixed bug#4986 - There is no activate/deactivate check for
+    Graphsize menu when the page loads in Stats Definition
  - (2010/04/01) Fixed bug#4786 - AgentTicketCompose ONLY: Defining a next state,
     then adding and attachment, resets the next state upon screen refresh.
  - (2010/03/29) Improved handling of the StateType attribute of
@@ -33,7 +35,8 @@
  - (2010/03/19) Fixed bug#5094 - Bulk pending date/time do not get applied to
     tickets.
  - (2010/03/18) Updated Ukrainian language translation, thanks to Belskii Artem!
- - (2010/03/10) Fixed bug#4416 - Merge: whitespace before ticketnumber not removed.
+ - (2010/03/10) Fixed bug#4416 - Merge: whitespace before ticketnumber is not
+    removed.
  - (2010/03/09) Fixed bug#5085 - Wrong colours codes in Stats::Graph::dclrs
  - (2010/03/08) Fixed bug#5102 - Notification sent to OTRS instead of Customer
  - (2010/03/04) Fixed bug#5044 - Missing translation in ticket history after
@@ -43,8 +46,8 @@
     as customer reply.
  - (2010/02/23) Updated pt_BR translation file, thanks to Fabricio Luiz Machado!
  - (2010/02/22) Fixed bug#5020 - Framework version for stats export is outdated.
- - (2010/02/18) Fixed bug#4969 - Event Based Notification: Body Match field displays
-    Subject Match value.
+ - (2010/02/18) Fixed bug#4969 - Event Based Notification: Body Match field
+    displays Subject Match value.
  - (2010/02/16) Fixed bug#4967 - Can't locate object method "new" via package
     error when using Perl 5.10.1.
  - (2010/02/15) Fixed bug#4977 - mod_perl is not used in fedora with RPM.
