@@ -2,13 +2,13 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.11 2010-05-19 17:21:16 fn Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.12 2010-05-25 17:25:38 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-<div id="Body" class="TicketView $Config{"Ticket::Frontend::CustomerTicketOverviewSortable"} Sortable">
+<div id="Body" class="TicketView $Config{"Ticket::Frontend::CustomerTicketOverviewSortable"}">
 <!-- dtl:block:Filled -->
     <div class="ActionRow">
         <ul class="Tabs Filter">
