@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.31 2009-07-20 01:01:59 martin Exp $
+# $Id: AdminResponse.pm,v 1.31.2.1 2010-05-25 18:16:39 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,10 @@ use warnings;
 use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
+use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.31.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,7 +38,7 @@ sub new {
     $Self->{StdResponseObject}   = Kernel::System::StdResponse->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
-
+    $Self->{HTMLUtilsObject}     = Kernel::System::HTMLUtils->new(%Param);
     return $Self;
 }
 
@@ -231,6 +232,9 @@ sub _Mask {
                 HTMLResultMode => 1,
             );
         }
+    }
+    elsif ( $Param{ContentType} =~ /^text\/html/ ) {
+        $Param{Response} = $Self->{HTMLUtilsObject}->ToAscii( String => $Param{Response} )
     }
 
     return $Self->{LayoutObject}->Output( TemplateFile => 'AdminResponseForm', Data => \%Param );
