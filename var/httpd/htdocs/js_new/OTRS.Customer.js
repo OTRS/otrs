@@ -2,7 +2,7 @@
 // OTRS.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Customer.js,v 1.1 2010-05-19 08:48:54 mg Exp $
+// $Id: OTRS.Customer.js,v 1.2 2010-05-25 17:27:01 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -12,15 +12,14 @@
 "use strict";
 
 var OTRS = OTRS || {};
-OTRS.App = OTRS.App || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.App.Customer
+ * @exports TargetNS as OTRS.Customer
  * @description
  *      This namespace contains all form functions.
  */
-OTRS.App.Customer = (function (TargetNS) {
+OTRS.Customer = (function (TargetNS) {
     /**
      * @function
      * @description
@@ -117,6 +116,10 @@ OTRS.App.Customer = (function (TargetNS) {
      */
     TargetNS.Enhance = function(){
         $('body').addClass('Js');
+    }
+    
+    TargetNS.InitFocus = function(){
+        $('input[type="text"]').first().focus();
     }
 
     /**
@@ -284,4 +287,4 @@ OTRS.App.Customer = (function (TargetNS) {
     }
 
     return TargetNS;
-}(OTRS.App.Customer || {}));
+}(OTRS.Customer || {}));

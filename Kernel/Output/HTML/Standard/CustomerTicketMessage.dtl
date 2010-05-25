@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.31 2010-05-18 06:34:50 fn Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.32 2010-05-25 17:27:00 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,3 +105,8 @@ $Include{"RichTextEditor"}
         </form>
     </div>
 </div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">
+    OTRS.Customer.InitFocus();
+</script>
+<!-- dtl:js_on_document_complete -->
