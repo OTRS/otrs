@@ -1,9 +1,11 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
+
+@media screen,projection,tv,handheld {
 
 /**
  * @package     OTRS Framework - Skin "Default"
@@ -182,3 +184,5 @@
     -webkit-box-shadow: 1px 1px 0 #DDD;
     cursor: default;
 }
+
+} /* end @media */

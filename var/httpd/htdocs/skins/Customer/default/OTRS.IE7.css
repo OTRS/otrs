@@ -1,10 +1,12 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
  */
+
+@media screen,projection,tv,handheld {
 
 /**
  * @package     OTRS Framework - Skin "Default"
@@ -62,4 +64,5 @@ button {
 div.Clear {
     display: inline;
 }
-    
+
+} /* end @media */  

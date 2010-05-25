@@ -1,10 +1,12 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
 
+@media screen,projection,tv,handheld {
+    
 /**
  * @package     OTRS Framework
  * @section     Default
@@ -184,3 +186,5 @@ div.Clear {
     font-size: 13px;
     line-height: 18px;
 }
+
+} /* end @media */

@@ -1,9 +1,11 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.11 $
+ * @version     $Revision: 1.12 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
+
+@media screen,projection,tv,handheld {
 
 /**
  * @package     OTRS Framework - Skin "Default"
@@ -326,8 +328,6 @@
 }
 
 #Messenger textarea {
-    margin: 7px;
-    border: 1px solid #D6D6D6;
     display: block;
 }
 
@@ -405,3 +405,5 @@
 .agent {
     
 }
+
+} /* end @media */

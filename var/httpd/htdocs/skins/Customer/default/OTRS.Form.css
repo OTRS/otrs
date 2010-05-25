@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -20,7 +20,7 @@ button,
     border: 1px solid #AAA;
     border-bottom: 1px solid #999;
     box-shadow: 0 1px 0 #E6E6E6;
-    -moz-box-shadow: 0 1px 0 #FFF;
+    -moz-box-shadow: 0 1px 0 #E6E6E6;
     -webkit-box-shadow: 0 1px 0 #E6E6E6;
     border-radius: 11px;
     -moz-border-radius: 11px;
@@ -116,6 +116,11 @@ input:focus {
     box-shadow: 0 0 2px #AAA;
     -webkit-box-shadow: 0 0 2px #AAA;
     -moz-box-shadow: 0 0 2px #AAA;
+}
+
+#RichText {
+    margin: 7px;
+    border: 1px solid #D6D6D6;
 }
 
 .TicketCompose .Content,

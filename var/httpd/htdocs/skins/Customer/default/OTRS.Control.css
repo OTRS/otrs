@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -9,6 +9,8 @@
  * @package     OTRS Framework - Skin "Default"
  * @section     Customer
  */
+
+@media screen,projection,tv,handheld {
 
 /**
  * @subsection  Navigation
@@ -287,3 +289,4 @@
     vertical-align: bottom;
 }
 
+} /* end @media */
