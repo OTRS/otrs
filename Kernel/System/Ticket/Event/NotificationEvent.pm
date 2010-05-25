@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.14 2010-05-19 20:39:12 mb Exp $
+# $Id: NotificationEvent.pm,v 1.15 2010-05-25 08:00:27 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,13 +10,14 @@
 # --
 
 package Kernel::System::Ticket::Event::NotificationEvent;
+
 use strict;
 use warnings;
 
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -26,11 +27,11 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
+    for my $Needed (
         qw(DBObject ConfigObject TicketObject LogObject TimeObject UserObject CustomerUserObject SendmailObject QueueObject GroupObject MainObject EncodeObject)
         )
     {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
     return $Self;
@@ -184,6 +185,8 @@ sub Run {
     return 1;
 }
 
+# Assemble the list of recipients. Agents and customer users can be recipient.
+# Call _SendCustomerNotification() for each recipient.
 sub SendCustomerNotification {
     my ( $Self, %Param ) = @_;
 
@@ -401,6 +404,7 @@ sub SendCustomerNotification {
     return 1;
 }
 
+# Despite the misleading name, this sub sends notifications to agents and customer users.
 sub _SendCustomerNotification {
     my ( $Self, %Param ) = @_;
 
