@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.11 2010-05-26 12:51:20 mg Exp $
+# $Id: Main.t,v 1.12 2010-05-26 15:13:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -111,12 +111,12 @@ if ( $Charset eq 'utf-8' ) {
     $Self->Is(
         $MD5Sum || '',
         '56a681e0c46b1f156020182cdf62e825',
-        "MD5sum() - String - abc1234567890äöüß-カスタマ",
+        "MD5sum() - String - $String",
     );
 }
 elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
     no utf8;
-    $String = 'bc1234567890������';
+    $String = 'bc1234567890\xd6\xc4\xdc\xe4\xfc\xf6';
     $MD5Sum = $Self->{MainObject}->MD5sum(
         String => \$String,
     );
