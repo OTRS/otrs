@@ -1,0 +1,198 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     TicketDetails
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Headline
+ */
+div.Headline {
+    height: 24px;
+    margin: 7px 5px 10px 7px;
+    position: relative;
+}
+
+div.Headline h1 {
+    font-size: 15px;
+    line-height: 24px;
+    margin: 0;
+}
+
+div.Headline h1 span {
+    padding: 0 3px;
+}
+
+div.Headline .Flag + h1 {
+    margin-left: 30px;
+}
+
+.RTL div.Headline .Flag + h1 {
+    margin-left: 0px;
+    margin-right: 30px;
+}
+
+div.Headline .Flag {
+    position: absolute;
+    top: 4px;
+    left: 0px;
+}
+
+.RTL div.Headline .Flag {
+    left: auto;
+    right: 0px;
+}
+
+/**
+ * @subsection  Article table head
+ */
+
+.ActionRow .TableContextSettings + .TableSmall {
+    margin-right: 17px;
+}
+
+/**
+ * @subsection  Article table body
+ */
+.ArticleTableBody {
+    position: relative;
+    overflow: hidden;
+}
+
+.ArticleTableBody div.Scroller {
+    height: 140px;
+    overflow-y:scroll;
+}
+
+.ArticleMailHeader {
+    margin: 0 8px;
+    padding: 2px 0 7px;
+    font-size: 11px;
+    border-bottom: 1px solid #C6C5C4;
+}
+
+.ArticleMailContent {
+    padding: 11px 12px;
+}
+
+/**
+ * @subsection  Ticket View Buttons (Selected Article or All Articles)
+ */
+.ArticleView li {
+    float: left;
+    width: 26px;
+    height: 24px;
+    margin-left: -1px;
+}
+
+.ArticleView li a {
+    display: block;
+    width: 26px;
+    height: 24px;
+    text-indent: -9999px;
+}
+
+.ArticleView li a span {
+    display: block;
+    width: 26px;
+    height: 24px;
+}
+
+.ArticleView li.OneArticle a span {
+    background: transparent url(../img/articleview.png) no-repeat 0px 0px;
+}
+
+.ArticleView li.AllArticles a span {
+    background: transparent url(../img/articleview.png) no-repeat -24px 0px;
+}
+
+.ArticleView li:first-child {
+    background: transparent url(../img/tab_isolator.png) no-repeat 22px 6px;
+    margin-left: 0px;
+    width: 24px;
+}
+
+.ArticleView li:first-child a,
+.ArticleView li:first-child a span {
+    width: 24px;
+}
+
+.ArticleView li.Active a {
+    background: url(../img/tabs_active_bg.png) no-repeat bottom right;
+}
+
+.ArticleView li.Active {
+    background: url(../img/tabs_active_door.png) no-repeat bottom left;
+}
+
+.ArticleView li.Active.OneArticle a span {
+    background: transparent url(../img/articleview.png) no-repeat -1px -24px;
+}
+
+.ArticleView li.Active.AllArticles a span {
+    background: transparent url(../img/articleview.png) no-repeat -24px -24px;
+}
+
+.ArticleView li:hover a {
+    background: url(../img/overviewcontrol_hover1.png) no-repeat top right;
+}
+
+.ArticleView li:hover {
+    background: url(../img/overviewcontrol_hover2.png) no-repeat top left;
+}
+
+.ArticleView li.OneArticle:hover a span {
+    background: transparent url(../img/articleview.png) no-repeat 0px 0px;
+}
+
+.ArticleView li.AllArticles:hover a span {
+    background: transparent url(../img/articleview.png) no-repeat -24px 0px;
+}
+
+/**
+ * @subsection  Attachment Dialog Content
+ */
+.AttachmentContent {
+    width: 300px;
+    height: 500px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.AttachmentElement {
+    height: 82px;
+}
+
+.AttachmentPreview {
+    height: 80px;
+    width: 60px;
+    border: 1px solid #DDD;
+    float: left;
+    margin-right: 15px;
+    background-color: #E6E6E6;
+    background-position: center;
+    background-repeat: no-repeat;
+    clear: left;
+}
+
+.AttachmentPreview a {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.AttachmentElement h3 {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+} /* end @media */

@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.36 2010-05-25 20:37:56 fn Exp $
+# $Id: CustomerHeader.dtl,v 1.37 2010-05-26 08:52:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,24 +32,24 @@ $Include{"Copyright"}
 
 <!--<link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css" />-->
 
-    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/OTRS.Reset.css" />
-    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/OTRS.Default.css" />
+    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/OTRS.Reset.css" />
+    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/OTRS.Default.css" />
 
-    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/OTRS.Form.css" />
-    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/OTRS.Login.css" />
-    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/OTRS.Control.css" />
-    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/OTRS.Table.css" />
-    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/OTRS.TicketZoom.css" />
-    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/OTRS.Mobile.css" />
+    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/OTRS.Form.css" />
+    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/OTRS.Login.css" />
+    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/OTRS.Control.css" />
+    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/OTRS.Table.css" />
+    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/OTRS.TicketZoom.css" />
+    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/OTRS.Mobile.css" />
 
 <!-- Comment out the next line for a different customer interface skin -->
 <!--
-    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/ivory/OTRS.Default.css" />
+    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/ivory/css/OTRS.Default.css" />
     -->
-    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/OTRS.Print.css" />
+    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/OTRS.Print.css" />
 
 <!--[if IE 7]>
-    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/OTRS.IE7.css" />
+    <link type="text/css" rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/OTRS.IE7.css" />
     <![endif]-->
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>

@@ -1,0 +1,327 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Forms
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Input focus
+ * @note        Does not work in IE6, only partially in IE7 (no focus)
+ */
+
+input[type=text],
+input[type=password],
+textarea {
+    border: 1px solid #888;
+    /* a slight padding to relax the design */
+    padding: 2px;
+    /* rounded corners */
+    border-radius: 3px;
+    /* Firefox */
+    -moz-border-radius: 3px;
+    /* Webkit */
+    -webkit-border-radius: 3px;
+    /* Opera 10.5 has per default a grey background */
+    background-color: #FFF;
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+textarea:focus {
+    border: 1px solid #F92;
+}
+
+/**
+ * @subsection  Input Readonly
+ */
+input[type=text][readonly=readonly],
+input[type=password][readonly=readonly],
+textarea[readonly=readonly] {
+    background-color: #DDD;
+}
+
+/**
+ * @subsection  Buttons
+ */
+button.Primary {
+    font-weight: bold;
+}
+
+button.Add,
+a.Add,
+button.Remove,
+a.Remove {
+    height: 16px;
+    width: 16px;
+    padding: 1px;
+    margin-top: 0;
+    margin-bottom: 1px;
+    border-style: none;
+    text-indent: -9999px;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+button.Add,
+a.Add {
+    background: transparent url(../img/filter_add.png) no-repeat center;
+}
+
+button.Add:hover,
+button.Add:focus,
+a.Add:hover,
+a.Add:focus {
+    background: transparent url(../img/filter_add_hover.png) no-repeat center;
+}
+
+button.Remove,
+a.Remove {
+    background: transparent url(../img/filter_remove.png) no-repeat center;
+}
+
+button.Remove:hover,
+button.Remove:focus,
+a.Remove:hover,
+a.Remove:focus {
+    background: transparent url(../img/filter_remove_hover.png) no-repeat center;
+}
+
+button.TrashCan,
+a.TrashCan {
+    height: 16px;
+    width: 16px;
+    margin-top: 0;
+    margin-bottom: 1px;
+    border-style: none;
+    text-indent: -9999px;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    background: transparent url(../img/trash-can.png) no-repeat center;
+}
+
+/**
+ * @note    Push-lookalike for active state
+ */
+button.Add:active,
+a.Add:active,
+button.Remove:active,
+a.Remove:active,
+button.TrashCan:active,
+a.TrashCan:active {
+    margin-top: 1px;
+    margin-bottom: 0;
+}
+
+/**
+ * @subsection  Form
+ */
+
+form fieldset {
+    display: block;
+    border: none;
+}
+
+.FieldExplanation {
+    color: #888;
+    margin: 5px 0;
+}
+
+form label.Mandatory {
+    color: black !important;
+}
+
+form label.Mandatory span.Marker {
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;
+    top: 0.35em;
+    line-height: 1px;
+}
+
+form label.LabelError {
+    color: #ff505e !important;
+}
+
+form input.Error,
+form textarea.Error {
+    border-color: #ff505e;
+}
+
+/*
+ * This will be displayed by OTRS.UI.Tooltips
+ */
+div.TooltipErrorMessage {
+    display: none;
+}
+
+/**
+ * @subsection  TableLike
+ * @description Provides a table-like, aligned label-value structure
+ */
+fieldset.TableLike {
+}
+
+fieldset.TableLike > label {
+    display: block;
+    float: left;
+    line-height: 1.3em;
+    width: 30%;
+    text-align: right;
+    color: #929292;
+    padding-top: 3px;
+    padding-bottom: 5px;
+}
+
+.RTL fieldset.TableLike > label {
+    float: right;
+    text-align: left;
+}
+
+fieldset.TableLike > label > input,
+fieldset.TableLike > label > select {
+    margin-top: -3px;
+}
+
+fieldset.TableLike > .Field {
+    line-height: 1.3em;
+    margin-left: 30%;
+    margin-right: 0;
+    padding-top: 3px;
+    padding-left: 10px;
+    padding-right: 0;
+    padding-bottom: 5px;
+}
+
+.RTL fieldset.TableLike > .Field {
+    margin-left: 0;
+    margin-right: 30%;
+    padding-left: 0;
+    padding-right: 10px;
+}
+
+/**
+ * note     Also make labels grey which occur inside of a field,
+ *          for example for complex input elements.
+ */
+fieldset.TableLike > .Field label {
+    color: #929292;
+}
+
+fieldset.TableLike > .Field > select,
+fieldset.TableLike > .Field > input {
+    max-width: 100%;
+}
+
+fieldset.TableLike > .RichTextField {
+    padding-bottom: 10px;
+    clear: both;
+    margin-left: 10%;
+    margin-right: 0;
+}
+
+.RTL fieldset.TableLike > .RichTextField {
+    margin-left: 0;
+    margin-right: 10%;
+}
+
+fieldset.TableLike > .Value {
+    margin-left: 30%;
+    padding: 3px 0 5px 8px;
+    line-height: 1.3em;
+}
+
+.RTL fieldset.TableLike > .Value {
+    margin: 0 30% 0 0;
+    padding: 3px 8px 5px 0;
+}
+
+fieldset.TableLike > .Value img {
+    vertical-align: top;
+}
+
+/**
+ * @note        FixedLabel - this additional class for TableLike
+ *              makes the labels have a fixed size
+ */
+fieldset.TableLike.FixedLabel > label {
+    width: 70px;
+}
+
+fieldset.TableLike.FixedLabel > .Field,
+fieldset.TableLike.FixedLabel > .Value {
+    margin-left: 70px;
+    margin-right: 0;
+    padding-left: 17px;
+}
+
+.RTL fieldset.TableLike.FixedLabel > .Field,
+.RTL fieldset.TableLike.FixedLabel > .Value {
+    margin-left: 0;
+    margin-right: 150px;
+    padding-left: 0;
+    padding-right: 17px;
+}
+
+/**
+ * @note        FixedLabelSmall - this additional class for TableLike
+ *              makes the labels have a small fixed size
+ */
+fieldset.TableLike.FixedLabelSmall > label {
+    width: 100px;
+}
+
+fieldset.TableLike.FixedLabelSmall > .Field,
+fieldset.TableLike.FixedLabelSmall > .Value {
+    margin-left: 100px;
+    margin-right: 0;
+}
+
+.RTL fieldset.TableLike.FixedLabelSmall > .Field,
+.RTL fieldset.TableLike.FixedLabelSmall > .Value {
+    margin-left: 0;
+    margin-right: 100px;
+}
+
+/**
+ * @note        LargeLabel - this additional class for TableLike
+ *              increases the label width
+ */
+fieldset.TableLike.LargeLabel > label {
+    width: 50%;
+}
+
+fieldset.TableLike.LargeLabel > .Field,
+fieldset.TableLike.LargeLabel > .Value {
+    margin-left: 50%;
+    margin-right: 0;
+}
+
+.RTL fieldset.TableLike.LargeLabel > .Field,
+.RTL fieldset.TableLike.LargeLabel > .Value {
+    margin-left: 0;
+    margin-right: 50%;
+}
+
+
+/**
+ * @note        Tight - this additional class for TableLike
+ *              decreases the margin between the content elements
+ */
+fieldset.Tight > label,
+fieldset.Tight > .Field,
+fieldset.Tight > .Value {
+    padding-bottom: 3px;
+}
+
+
+} /* end @media */

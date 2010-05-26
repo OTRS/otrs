@@ -1,0 +1,90 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+@media print {
+
+/**
+ * @package     OTRS Framework - Skin "Default"
+ * @section     CSS for printing
+ */
+
+/**
+ * @subsection  Hidden Parts
+ */
+
+#Header,
+.ControlRow,
+.ActionRow,
+.Flag,
+.Print,
+#Footer {
+    display: none !important;
+}
+
+/**
+ * @subsection  Spacing Reset
+ */
+
+.Content,
+.Header,
+.Metadata,
+.MessageHeader,
+.MessageBody,
+.Details {
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.MessageHeader h3 {
+    font-weight: 18px !important;
+}
+
+/**
+ * @subsection Visible Parts
+ */
+
+.MessageBody {
+    display: block !important;
+}
+ 
+ /**
+ * @subsection Misc
+ */
+
+#Messages {
+    margin-top: -40px;
+    padding: 0;
+}
+
+.Message {
+    margin-top: 21px;
+    list-style: none;
+}
+
+.MessageHeader a {
+    color: black;
+}
+
+.MessageHeader h3,
+.MessageBody .Label {
+    display: inline;
+}
+
+.MessageHeader .Age,
+.MessageBody .Label {
+    font-size: 11px;
+}
+.Details {
+    margin: 8px 0;
+}
+
+iframe {
+    width: 100%;
+}
+
+} /* end @media */

@@ -1,0 +1,312 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     OverviewLarge
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Large View Overview
+ */
+
+#TicketOverviewLarge {
+    margin-top: 0px;
+}
+
+.OverviewLarge {
+    margin: 6px;
+}
+
+.OverviewLarge > li {
+    position: relative;
+    border-top: 1px solid #BBB;
+    border-left: 1px solid #BBB;
+    border-right: 1px solid #BBB;
+    border-bottom: none;
+    width: 99.9%;
+}
+
+.OverviewLarge > li:first-child {
+    border-top: none;
+}
+
+.OverviewLarge > li > div.Content {
+    padding-top: 8px;
+    padding-bottom: 5px;
+    min-height: 300px;
+}
+
+.OverviewLarge > li div.Shadow {
+    height: 5px;
+    width: 100%;
+}
+
+.OverviewLarge > li:hover div.Shadow {
+    background: transparent url(../img/table_large_hover_bottom.png) repeat-x;
+}
+
+.OverviewLarge > li:hover > div.Content {
+    background: transparent url(../img/table_large_hover.png) repeat-x;
+}
+
+.OverviewLarge > li:hover table.Infos td label {
+    color: #751;
+}
+
+.OverviewLarge > li.Last {
+    border-bottom: 1px solid #BBB;
+}
+
+.OverviewLarge > li.Even {
+    background-color: #EEE;
+}
+
+.OverviewLarge input.Checkbox {
+    position: absolute;
+    top: 7px;
+    left: 5px;
+}
+
+.RTL .OverviewLarge input.Checkbox {
+    left: auto;
+    right: 5px;
+}
+
+.OverviewLarge div.Flag {
+    position: absolute;
+    left: -3px;
+    top: 37px;
+}
+
+.RTL .OverviewLarge div.Flag {
+    left: auto;
+    right: -3px;
+}
+
+.OverviewLarge div.UnreadArticles {
+    position: absolute;
+    left: 4px;
+    top: 60px;
+}
+
+.RTL .OverviewLarge div.UnreadArticles {
+    left: auto;
+    right: 4px;
+}
+
+.OverviewLarge li:hover span.UnreadArticles {
+    background-position: 0px -40px;
+}
+
+.OverviewLarge h2 {
+    margin-left: 45px;
+    font-size: 14px;
+    font-weight: bold;
+    width: 97%;
+}
+
+.RTL .OverviewLarge h2 {
+    margin-left: 0px;
+    margin-right: 45px;
+}
+
+.OverviewLarge h2 a {
+    color: #000;
+    display: block;
+}
+
+.OverviewLarge table.Infos {
+    margin-top: 10px;
+    margin-left: 45px;
+    table-layout: fixed;
+    width: 30%;
+}
+
+.RTL .OverviewLarge table.Infos {
+    margin-left: 0px;
+    margin-right: 45px;
+}
+
+.OverviewLarge table.Infos tr.Last td {
+    padding: 0 0 0 10px;
+}
+
+.OverviewLarge table.Infos tr.Middle {
+    border-top: 1px dotted #CCC;
+}
+
+.OverviewLarge li:hover table.Infos tr.Middle {
+    border-top: 1px dotted #961;
+}
+
+.OverviewLarge table.Infos tr.Middle td {
+    padding-top: 10px;
+}
+
+.OverviewLarge table.Infos td {
+    width: 50%;
+    padding: 0 0 10px 10px;
+    overflow: hidden;
+    border-left: 1px dotted #CCC;
+    line-height: 16px;
+}
+
+.OverviewLarge li:hover table.Infos td  {
+    border-left: 1px dotted #961;
+}
+
+.OverviewLarge li:hover table.Infos td:first-child  {
+    border-left: none;
+}
+
+.OverviewLarge table.Infos td:first-child {
+    padding: 0 0 10px 0;
+    border-left: none;
+}
+
+.OverviewLarge table.Infos tr.Last td:first-child {
+    padding: 0;
+}
+
+.OverviewLarge table.Infos td label {
+    display: block;
+    margin-bottom: 2px;
+    color: #888;
+    font-weight: bold;
+}
+
+.OverviewLarge ul.Preview {
+    position: absolute;
+    right: 10px;
+    top: 30px;
+    width: 60%;
+}
+
+.RTL .OverviewLarge ul.Preview {
+    right: auto;
+    left: 10px;
+}
+
+.OverviewLarge ul.Preview li {
+    border: none;
+    min-height: 0;
+}
+
+.OverviewLarge ul.Preview h3 {
+    position: relative;
+    height: 17px;
+    margin: 0;
+    font-size: 12px;
+}
+
+.OverviewLarge ul.Preview h3 span.Wrapper {
+    display: block;
+    padding-left: 4px;
+    margin-right: 4px;
+    background: transparent url(../img/preview_accordion_closed_le.png) no-repeat;
+}
+
+.OverviewLarge ul.Preview li.Active h3 span.Wrapper {
+    background: transparent url(../img/preview_accordion_active_le.png) no-repeat;
+}
+
+.OverviewLarge ul.Preview h3 a {
+    display: block;
+    overflow: hidden;
+    background: transparent url(../img/preview_accordion_closed_bg.png) repeat-x;
+    height: 17px;
+    padding-left: 4px;
+    line-height: 16px;
+    color: #000;
+}
+
+.OverviewLarge ul.Preview li.Active h3 a {
+    background: transparent url(../img/preview_accordion_active_bg.png) repeat-x;
+}
+
+.OverviewLarge ul.Preview h3 span.RightEnd {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 4px;
+    height: 17px;
+    background: transparent url(../img/preview_accordion_closed_ri.png) no-repeat;
+}
+
+.OverviewLarge ul.Preview li.Active h3 span.RightEnd {
+    background: transparent url(../img/preview_accordion_active_ri.png) no-repeat;
+}
+
+.OverviewLarge ul.Preview h3 span.DateTime {
+    float: right;
+}
+
+.OverviewLarge ul.Preview li div.HiddenBlock {
+    display: none;
+    background-color: #FFF;
+    border-left: 1px solid #BBB;
+    border-right: 1px solid #BBB;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.OverviewLarge ul.Preview li.Active div.HiddenBlock {
+    display: block;
+}
+
+.OverviewLarge ul.Preview li div.HiddenBlock div.Content {
+    border: none;
+    background-color: #FFF;
+    overflow: scroll;
+    padding: 5px;
+}
+
+.OverviewLarge ul.Preview.ArticleCount5 li div.HiddenBlock div.Content {
+    height: 174px;
+}
+
+.OverviewLarge ul.Preview.ArticleCount4 li div.HiddenBlock div.Content {
+    height: 194px;
+}
+
+.OverviewLarge ul.Preview.ArticleCount3 li div.HiddenBlock div.Content {
+    height: 214px;
+}
+
+.OverviewLarge ul.Preview.ArticleCount2 li div.HiddenBlock div.Content {
+    height: 234px;
+}
+
+.OverviewLarge ul.Preview.ArticleCount1 li div.HiddenBlock div.Content {
+    height: 254px;
+}
+
+.OverviewLarge ul.Preview.ArticleCount5 li div.HiddenBlock div.ActionRow + div.Content {
+    height: 150px;
+}
+
+.OverviewLarge ul.Preview.ArticleCount4 li div.HiddenBlock div.ActionRow + div.Content {
+    height: 170px;
+}
+
+.OverviewLarge ul.Preview.ArticleCount3 li div.HiddenBlock div.ActionRow + div.Content {
+    height: 190px;
+}
+
+.OverviewLarge ul.Preview.ArticleCount2 li div.HiddenBlock div.ActionRow + div.Content {
+    height: 210px;
+}
+
+.OverviewLarge ul.Preview.ArticleCount1 li div.HiddenBlock div.ActionRow + div.Content {
+    height: 230px;
+}
+
+
+} /* end @media */

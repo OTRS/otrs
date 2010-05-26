@@ -1,0 +1,442 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Widgets
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Widget Tablelike list
+ */
+ul.Tablelike {
+    width: 99%;
+    border: 1px solid #CCC;
+}
+
+ul.Tablelike li {
+    line-height: 20px;
+    padding: 0 4px;
+    min-height: 20px;
+    background-color: #FFF;
+}
+
+ul.Tablelike li.Even {
+    background-color: #F5F5F5;
+}
+
+ul.Tablelike li:hover {
+    background: url(../img/table_small_hover_bg.png) repeat-x center;
+}
+
+ul.Tablelike li:hover a {
+    color: #000;
+}
+
+ul.Tablelike li.Header:hover {
+    background-image: none;
+}
+
+ul.Tablelike li.Header:hover a {
+    color: #444;
+}
+
+ul.Tablelike li.Header {
+    background-color: #DDD;
+    color: #444;
+    font-size: 11px;
+    line-height: 20px;
+    text-transform: uppercase;
+}
+
+/**
+ * @subsection  WidgetGradient
+ */
+.WidgetGradient {
+    border-top: 1px solid #999;
+    margin-bottom: 10px;
+}
+
+.WidgetGradient > .Header {
+    margin: 5px;
+}
+
+.WidgetGradient > .Header h2 {
+    padding: 4px 3px;
+    margin: 0;
+}
+
+.WidgetGradient > .Content {
+    padding: 4px 10px 10px;
+}
+
+.WidgetGradient.Short {
+    background: #fff url(../img/widget_bg_100.png) repeat-x;
+}
+
+.WidgetGradient.Short.MinHeight {
+    min-height: 100px;
+}
+
+.WidgetGradient.Medium {
+    background: #fff url(../img/widget_bg_200.png) repeat-x;
+}
+
+.WidgetGradient.Medium.MinHeight {
+    min-height: 200px;
+}
+
+.WidgetGradient.Long {
+    background: #fff url(../img/widget_bg_400.png) repeat-x;
+}
+
+.WidgetGradient.Long.MinHeight {
+    min-height: 400px;
+}
+
+.WidgetGradient fieldset {
+    margin-bottom: 15px;
+}
+
+/**
+ * @subsection  WidgetBox
+ */
+.WidgetBox > .Header h2 {
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.WidgetBox > .Header div.WidgetAction + h2 {
+    margin: 0;
+    padding-left: 30px;
+}
+
+.WidgetBox > .Header h2 + h3 {
+    background-color: #EEE;
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #BBB;
+    font-size: 16px;
+    padding: 5px 5px 5px 10px;
+    color: #333;
+}
+
+.RTL .WidgetBox > .Header h2 + h3 {
+    padding: 5px 10px 5px 5px;
+}
+
+.WidgetBox > .Content {
+    background: url(../img/gradient_lightdark.png) repeat-x;
+    min-height: 200px;
+    border-left: 1px solid #C6C5C4;
+    border-right: 1px solid #C6C5C4;
+    border-bottom: 1px solid #C6C5C4;
+}
+
+.WidgetBox > .Content.WithPadding {
+    padding: 15px;
+}
+
+/**
+ * @subsection  WidgetActions
+ */
+.WidgetAction {
+    float: right;
+}
+
+.RTL .WidgetAction {
+    float: left;
+}
+
+.WidgetAction:hover {
+    background: url(../img/overviewcontrol_hover2.png) no-repeat top left;
+}
+
+.WidgetAction:hover a {
+    background: url(../img/overviewcontrol_hover1.png) no-repeat top right;
+}
+
+.WidgetAction a,
+.WidgetAction a span {
+    display: block;
+    height: 24px;
+    width: 28px;
+}
+
+
+/* Toggle, override float */
+.WidgetAction.Toggle {
+    float: left;
+}
+
+.RTL .WidgetAction.Toggle {
+    float: right;
+}
+
+.WidgetAction.Toggle.Expanded a span {
+    background: url(../img/widget_expanded.png) no-repeat center;
+}
+
+.WidgetAction.Toggle.Collapsed a span {
+    background: url(../img/widget_collapsed.png) no-repeat center;
+}
+
+/* Settings */
+.WidgetAction.Settings a span {
+    background: url(../img/widget_settings.png) no-repeat center center;
+}
+
+/* Close */
+.WidgetAction.Close a span {
+    background: url(../img/widget_close.png) no-repeat center center;
+}
+
+/**
+ * @subsection      Call for action buttons and search form
+ */
+
+.ActionList li {
+    margin-bottom: 16px;
+}
+
+.ActionList p {
+    margin: 0;
+    padding: 2px 2px 5px;
+    font-size: 11px;
+    color: #888;
+}
+
+.ActionList form select {
+    margin: 8px 0 2px;
+    display: block;
+}
+
+.CallForAction {
+    padding: 0;
+    background: #F3F3F3 url(../img/SmallDarkGradient.png) repeat-x;
+    border: 1px solid #999;
+    border-bottom: 1px solid #888;
+    box-shadow: 0 1px 0 #E6E6E6;
+    -moz-box-shadow: 0 1px 0 #E6E6E6;
+    -webkit-box-shadow: 0 1px 0 #E6E6E6;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/**
+ * @css-for     Firefox
+ * @note        bug: button containing an element has an hidden padding
+ */
+
+.CallForAction::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+.CallForAction:hover {
+    color: #000;
+    border-color: #696969;
+}
+
+.CallForAction span {
+    height: 12px;
+    padding: 3px 7px 6px;
+    line-height: 13px;
+    vertical-align: middle;
+    color: #333;
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px solid #FFF;
+    border-bottom: none;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    display: block;
+    text-shadow: 0 1px 0 #FFF;
+    cursor: pointer;
+}
+
+.CallForAction:active {
+    background-color: #DDD;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.CallForAction:active span {
+    padding: 4px 7px 5px;
+    border-color: #DDD;
+    border-bottom: none;
+    text-shadow: 0 1px 0 #DDD;
+}
+
+.CallForAction.Plus span {
+    background: url("../img/plus-button.png") no-repeat scroll;
+}
+
+.CallForAction.Download span {
+    background: url("../img/drive-download.png") no-repeat scroll;
+}
+
+.CallForAction.Upload span {
+    background: url("../img/drive-upload.png") no-repeat scroll;
+}
+
+.CallForAction.Plus span,
+.CallForAction.Download span,
+.CallForAction.Upload span {
+    padding-left: 23px;
+    background-position: 2px 2px;
+}
+
+.CallForAction.Plus:active span,
+.CallForAction.Download:active span,
+.CallForAction.Upload:active span {
+    background-position: 2px 3px;
+}
+
+.SearchBox {
+    position: relative;
+}
+
+.SearchBox input[type='text'] {
+    margin: 0;
+    padding: 4px 5px;
+    font: normal 12px/15px "Helvetica Neue",Helvetica,Arial,sans-serif;
+    border-color: #999;
+    -moz-border-radius: 3px 0 0 3px;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    border-radius: 3px 0 0 3px;
+    border-right: none;
+    vertical-align: bottom;
+}
+
+.SearchBox input:focus {
+    border-color: #666;
+    border-right: none;
+}
+
+.SearchBox button {
+    height: 25px;
+    margin: 0 0 0 -4px;
+    padding: 3px 3px 4px;
+    color: #333;
+    font: bold 11px/14px "Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: #F3F3F3 url(../img/SmallDarkGradient.png) repeat-x;
+    border: 1px solid #888;
+    -moz-border-radius: 0 3px 3px 0;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-radius: 0 3px 3px 0;
+    text-shadow: 0 1px 0 #FFF;
+    vertical-align: baseline;
+}
+
+.SearchBox button:hover {
+    border-color: #696969;
+    cursor: pointer;
+}
+.SearchBox button:active {
+    padding: 4px 3px 3px;
+    background: #E4E4E4 url(../img/SmallDarkGradient.png) repeat-x;
+    outline: none;
+}
+
+/**
+ * @subsection  WidgetPopup
+ */
+.WidgetPopup > .Header {
+    background: url(../img/popup_head_bg.png) repeat-x;
+    padding: 5px 20px;
+    border-bottom: 1px solid #999;
+    margin-bottom: 10px;
+}
+
+.RTL .WidgetPopup > .Header {
+    padding: 5px 20px 5px 5px;
+}
+
+.WidgetPopup > .Header h1 {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 5px 0 0;
+}
+
+.RTL .WidgetPopup > .Header h1 {
+    padding: 5px 0 0 5px;
+}
+
+.WidgetPopup > .Header p {
+    margin-bottom: 10px;
+    padding: 5px 5px 0 0;
+}
+
+.RTL .WidgetPopup > .Header p {
+    padding: 5px 10px 0 5px;
+}
+
+.WidgetPopup .Notice {
+    color: red;
+}
+
+.WidgetPopup > .Content {
+    padding: 5px 20px;
+}
+
+.RTL .WidgetPopup > .Content {
+    padding: 5px 20px 5px 5px;
+}
+
+.WidgetPopup > .Content h2 {
+    font-size: 16px;
+    padding: 5px 5px 0 0;
+}
+
+.RTL .WidgetPopup .Content h2 {
+    padding: 5px 0 0 5px;
+}
+
+.WidgetPopup > .Footer {
+    background: url(../img/popup_footer_bg.png) repeat-x bottom;
+    padding: 5px;
+    border-top: 1px solid #999;
+    text-align: center;
+}
+
+/**
+ * @subsection      Drag and Drop
+ */
+.CanDrag .Header h2 {
+    cursor: move;
+}
+
+.DropPlaceholder {
+    border: 1px dashed #DDD;
+    background: #EEE url(../img/dnd_placeholder_bg.png);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/**
+ * @subsection      Datepicker widget
+ */
+.Highlight .ui-state-default {
+    background: #FFF !important;
+    border: 1px solid #F92 !important;
+}
+
+.Highlight .ui-state-default:hover {
+    color: #000 !important;
+}
+
+
+} /* end @media */

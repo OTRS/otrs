@@ -1,0 +1,29 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  AdminPerformanceLog
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     Progressbar
+ */
+
+.AdminPerformanceLog .ProgressbarColumn {
+    width: 200px;
+}
+
+.AdminPerformanceLog .Progressbar {
+    background-color: #F92;
+}
+
+
+} /* end @media */

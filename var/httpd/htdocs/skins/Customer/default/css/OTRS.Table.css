@@ -1,0 +1,162 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @package     OTRS Framework - Skin "Default"
+ * @section     Customer
+ */
+
+.TicketView .Content {
+    padding: 0;
+}
+
+table.Overview {
+    top: -1px;
+    width: 100%;
+    color: #444;
+    text-shadow: 0 1px 0 #FFF;
+    zoom: 1;
+    clear: both;
+    position: relative;
+}
+.Overview thead {
+    background: #A7AAAA url("../img/GradientSmall.png") repeat-x 0 -31px; 
+    display: none;
+}
+.Sortable thead {
+    display: table-header-group;
+}
+.SearchResults thead {
+    background-position: 0 -54px;
+}
+.Overview thead th {
+    padding: 0 1px 1px;
+    vertical-align: bottom;
+    border-right: 1px solid #999;
+    border-bottom: 1px solid #999;
+}
+.RTL .Overview thead th {
+    border-right: none;
+    border-left: 1px solid #666;
+}
+.Overview thead .Status {
+    padding-left: 0;
+}
+.Overview thead a {
+    padding: 1px 13px 4px 8px;
+    height: 10px;
+    color: #444;
+    font-size: 11px;
+    text-transform: uppercase;
+    display: block;
+    text-shadow: 0 1px 0 #EEE;
+}
+.Overview thead .SortAscending a,
+.Overview thead .SortDescending a {
+    color: #222;
+    font-weight: 600;
+    text-align: left;
+    background: url(../img/sortable_bg.png) no-repeat top right;
+    text-shadow: 0 1px 0 #BBB;
+}
+.Overview thead .SortDescending a {
+    background-position: bottom right;
+}
+
+.Overview tbody {
+    background-color: transparent;
+}
+.Overview tbody tr {
+    border-bottom: 1px solid #FFF;
+}
+.Overview tbody tr:active {
+    background-color: #DDD;
+}
+.Overview tbody tr:first-child {
+    border-top: none;
+}
+.Overview tbody tr.Even {
+    background-color: #F3F3F3;
+}
+.Overview tbody td {
+    padding: 6px 8px 3px;
+    white-space: nowrap;
+}
+.Overview tbody a {
+    color: #444;
+    text-decoration: none;
+    outline: none;
+}
+.Overview table a:hover {
+    color: #000;
+}
+/**
+ * @subsection  TableData Styles
+ */
+.State {
+    padding-left: 8px;
+}
+
+.Title div {
+    height: 14px;
+    color: #777;
+    overflow: hidden;
+    white-space: normal;
+}
+.Title h2 {
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: bold;
+    color: #444;
+    display: inline;
+}
+.Age {
+    padding-right: 8px;
+    text-align: right;
+}
+.Overview thead th.Age {
+    border-right: none;
+    border-left: none;
+    text-align: left;
+}
+.RTL .Overview thead th.Age {
+    text-align: right;
+}
+/**
+ * @subsection  Table Style Hovered
+ */
+.Overview tbody tr:hover td {
+    background: url(../img/tr_hover.png) repeat-x;
+}
+.Overview tbody tr:hover {
+    border-color: #CCC;
+}
+.Overview tbody tr:hover td,
+.Overview tbody tr:hover a {
+    color: #452A03;
+    text-shadow: 0 1px 0 #F4B259;
+}
+.Overview tbody tr:hover .Title div {
+    color: #724807;
+    text-shadow: 0 1px 0 #F4B259;
+}
+/**
+ * @subsection  Table Style Active
+ */
+
+.Overview tbody tr:active td {
+    padding: 7px 8px 2px;
+    background-position: bottom;
+}
+.Overview tbody tr:focus + tr td,
+.Overview tbody tr:active + tr td {
+    background: none
+}
+
+} /* end @media */

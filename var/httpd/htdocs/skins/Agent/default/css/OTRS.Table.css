@@ -1,0 +1,453 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Tables
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Generic table elements
+ */
+tbody tr.UnreadArticles td {
+    font-weight: bold !important;
+}
+
+.DataTable td,
+.TableSmall td {
+    line-height: 15px;
+    vertical-align: middle;
+}
+
+.DataTable tr,
+.TableSmall tr {
+    height: 20px !important;
+}
+
+.DataTable tr:hover,
+.TableSmall tr:hover {
+    color: #000 !important;
+}
+
+/**
+ * @subsection  Standard DataTable
+ */
+.DataTable {
+    border: 1px solid #CCCCCC;
+    width: 100%;
+}
+
+.DataTable.VariableWidth {
+    width: auto;
+}
+
+.DataTable thead {
+    background-color: #DDD;
+    border-bottom:1px solid #CCC;
+}
+
+.DataTable thead th {
+    padding: 0px;
+    vertical-align: bottom;
+    border-right: 1px solid #AAA;
+}
+
+.DataTable thead th.Last {
+    background: none;
+    border-right: none;
+}
+
+.DataTable thead th {
+    background-image: none;
+    color: #444444;
+    font-size: 11px;
+    line-height: 16px;
+    padding: 3px 4px 0;
+    text-transform: uppercase;
+}
+
+.DataTable thead th a {
+    background-image: none;
+    color: #444444;
+    font-size: 11px;
+    height: 12px;
+    line-height: 12px;
+}
+
+.DataTable thead .SortAscending a,
+.DataTable thead .SortDescending a {
+    color: #2A2A2A;
+    padding-right: 15px;
+}
+
+.DataTable thead .SortAscending a {
+    background: url(../img/thead_sortup_bg.png) no-repeat center right;
+}
+
+.DataTable thead .SortDescending a {
+    background: url(../img/thead_sortdown_bg.png) no-repeat center right;
+}
+
+.DataTable tbody tr.Invalid {
+    color: #CCC;
+}
+
+.DataTable tbody td {
+    padding: 0px 4px;
+    border-right: 1px dotted #CCC;
+}
+
+.DataTable tbody td.Last {
+    border-right: none;
+}
+
+.DataTable tr td {
+    background-color: #FFF;
+    line-height: 14px;
+}
+
+.DataTable tr td.Highlight {
+    background-color: #EEE;
+}
+
+.DataTable tr.Even td {
+    background-color: #F5F5F5;
+}
+
+.DataTable tr.Even td.Highlight {
+    background-color: #E5E5E5;
+}
+
+.DataTable tr:hover td {
+    background: url(../img/table_small_hover_bg.png) repeat-x center;
+}
+
+.DataTable tr:hover td a {
+    color: #000;
+}
+
+.DataTable td:first-child input {
+    margin: 0;
+}
+
+/**
+ * @subsection  Overview Small View Table
+ */
+.TableSmall {
+    width: 100%;
+    font-size: 12px;
+    border: none;
+}
+
+th.Checkbox,
+td.Checkbox {
+    width: 30px;
+}
+
+th.Flags {
+    width: 34px;
+}
+
+td.Flags {
+    width: 29px;
+}
+
+th.UnreadArticles,
+td.UnreadArticles {
+    width: 30px;
+}
+
+th.Direction,
+td.Direction {
+    width: 40px;
+}
+
+th.Attachment,
+td.Attachment {
+    width: 40px;
+    padding-left: 5px !important;
+}
+
+.TableSmall thead th {
+    vertical-align: bottom;
+    border-right: 1px solid #AAA;
+}
+
+.TableSmall thead th.Last {
+    border-right: none;
+}
+
+.TableSmall thead a {
+    padding: 4px 5px;
+    color: #444;
+    font-size: 11px;
+    line-height: 18px;
+    height: 15px;
+    text-transform: uppercase;
+    display: block;
+    background-image: none;
+}
+
+.TableSmall thead .SortAscending a,
+.TableSmall thead .SortDescending a {
+    color: #2A2A2A;
+}
+
+.TableSmall thead .SortAscending a {
+    background: url(../img/thead_sortup_bg.png) no-repeat center right;
+    padding-right: 20px;
+}
+
+.RTL .TableSmall thead .SortAscending a {
+    background: url(../img/thead_sortup_bg_rtl.png) no-repeat center left;
+}
+
+.TableSmall thead .SortDescending a {
+    background: url(../img/thead_sortdown_bg.png) no-repeat center right;
+    padding-right: 20px;
+}
+
+.RTL .TableSmall thead .SortDescending a {
+    background: url(../img/thead_sortdown_bg_rtl.png) no-repeat center left;
+}
+
+.TableSmall thead a span {
+    display: block;
+    height: 15px;
+}
+
+.TableSmall thead a span.Direction {
+    background: url(../img/direction_header.png) no-repeat center;
+}
+
+.TableSmall thead .Attachments a span {
+    background: url(../img/attachment_header.png) no-repeat center;
+}
+
+.TableSmall thead a span.Flag {
+    height: 9px;
+    width: 16px;
+    background-color: #999;
+    margin-top: 6px;
+}
+
+.TableSmall thead a.UnreadArticles {
+    padding-left: 1px;
+}
+
+.TableSmall thead a span.UnreadArticles {
+    background-position: 0px -20px;
+}
+
+.TableSmall tbody tr.Active {
+    border: 2px solid #F92;
+}
+
+.TableSmall td {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.TableSmall td.NonTextContent {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.TableSmall td a {
+    color: #000;
+}
+
+.TableSmall td.Last {
+    background: none;
+}
+
+.TableSmall tr.Even td {
+    background-color: #F5F5F5;
+}
+
+.TableSmall tr:hover td {
+    background: url(../img/table_small_hover_bg.png) repeat-x center;
+    -moz-box-shadow: 0 1px 0 #888;
+    -webkit-box-shadow: 0 1px 0 #888;
+    box-shadow: 0 1px 0 #888;
+}
+
+.TableSmall tr:hover td:first-child {
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.TableSmall tr:hover td:last-child {
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+
+.TableSmall tr:hover + tr td {
+    background-image: url(../img/tr_hover_next_shadow.png);
+    background-repeat: repeat-x;
+    background-position: top;
+}
+
+.TableSmall td:first-child {
+    padding-top: 1px;
+}
+
+.TableSmall tbody .Flags {
+    line-height: 11px;
+    padding-top: 2px;
+    padding-left: 5px;
+}
+
+.TableSmall tbody td span.Direction {
+    display: block;
+    width: 24px;
+    height: 15px;
+    text-indent: -9999px;
+}
+
+.TableSmall tbody td span.Direction.Incoming {
+    background: url(../img/direction_incoming.png) no-repeat center;
+}
+
+.TableSmall tbody td span.Direction.Outgoing {
+    background: url(../img/direction_outgoing.png) no-repeat center;
+}
+
+.TableSmall tbody td span.Direction.Internal {
+    background: url(../img/direction_internal.png) no-repeat center;
+}
+
+.TableSmall tbody td a.Attachment {
+    display: block;
+    width: 24px;
+    height: 16px;
+    text-indent: -9999px;
+    background: url(../img/attachment.png) no-repeat center;
+    cursor: pointer;
+}
+
+.TableSmall tbody td a.Attachment:hover {
+    background-image: url(../img/attachment_hover.png);
+}
+
+.TableSmall td h2 {
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+/**
+ * @subsection  Table Context Settings
+ */
+.TableContextSettings {
+    position: absolute;
+    right: 0px;
+    top: 28px;
+}
+
+.TableContextSettings a {
+    display: block;
+    width: 18px;
+    height: 19px;
+    background: url(../img/contextsettings.png) no-repeat 5px 4px;
+    text-indent: -9999px;
+}
+
+/**
+ * @subsection  Fixed Header
+ */
+
+.FixedHeader table {
+    margin-top: 32px;
+    position: relative;
+}
+
+.FixedHeader thead {
+    padding: 8px 15px 0 0;
+    margin: 0;
+    top: 0;
+    display: block;
+    position: absolute;
+}
+
+.RTL .FixedHeader thead {
+    padding: 8px 0 0 15px;
+}
+
+.FixedHeader tbody {
+    display: block;
+}
+
+.FixedHeader .No {
+    width: 2em;
+}
+
+.FixedHeader .Type {
+    width: 15em;
+    word-wrap: no-wrap;
+}
+
+.FixedHeader .From {
+    width: 10em;
+}
+
+.FixedHeader .Subject {
+    width: 50em;
+}
+
+.FixedHeader .Created {
+    width: 10em;
+}
+
+.FixedHeader .Attachments {
+    width: 50px;
+}
+
+/**
+ * @subsection  Handle for resizing tables
+ */
+.Handle {
+    border-top: 1px solid #616161;
+    background-color: #FFF;
+    width: 100%;
+}
+
+.Handle a {
+    display: block;
+    margin: auto;
+    height: 9px;
+    width: 79px;
+    background: transparent url(../img/handle.png) no-repeat;
+    text-indent: -9999px;
+    cursor: ns-resize;
+}
+
+.Handle.ui-resizable-s {
+    cursor:auto;
+    height:auto; !important;
+    left:auto;
+}
+
+.Handle.ui-resizable-handle {
+    display: block;
+    position: static !important;
+    font-size: inherit;
+    z-index:99999;
+}
+
+
+} /* end @media */

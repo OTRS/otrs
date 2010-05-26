@@ -1,0 +1,188 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @package     OTRS Framework - Skin "Default"
+ * @section     Login
+ */
+
+.Login { 
+    padding: 34px 0;
+    background: url(../img/body_bg.png) repeat-x;
+}
+
+/**
+ * @subsection  Slider
+ */
+#Slider {
+    margin-bottom: 34px;
+    width: 642px;
+    overflow: hidden;
+}
+
+#SlideArea {
+    width: 3000px;
+}
+
+#SlideArea > div {
+    width: 500px;
+    padding-left: 142px;
+    float: left;
+    position: relative;
+}
+
+.RTL #SlideArea > div {
+    padding: 0 142px 0 0;
+    float: right;
+}
+
+.InlineNavigation {
+    top: 1px;
+    left: 34px;
+    position: absolute;
+}
+
+.RTL .InlineNavigation {
+    left: auto;
+    right: 34px;
+}
+
+/**
+ * @subsection  Forms
+ */
+
+.Login label {
+    width: auto;
+    padding-left: 2px;
+    float: none;
+    color: #666;
+    font-size: 12px;
+    text-align: left;
+}
+
+.Login form label.Focused {
+    color: #AAA;
+}
+
+.Login input[type='text'],
+.Login input[type='password']  {
+    width: 177px;
+    padding: 3px 5px;
+    background-color: transparent;
+    border: 1px solid #AAA;
+    display: block;
+}
+
+.Login input:focused { 
+    border-color: #F92;
+}
+
+.Login button {
+    margin-top: 13px;
+    min-width: 70px;
+}
+
+/**
+ * @subsection  Floating
+ * @note        added to a form for floating divs containing the input fields
+ * @see         Login
+ */
+
+.Floating > div {
+    margin: 2px 5px 2px 0;
+    position: relative;
+    float: left;
+}
+
+.RTL .Floating > div {
+    margin: 2px 0 2px 5px;
+}
+
+.Floating button {
+    margin-top: 17px;
+}
+
+.Js .Floating button {
+    margin-top: 0;
+    padding: 4px 0;
+}
+
+/**
+ * @subsection  Inline Labels (javascript only)
+ * @note        labels are put inside of the input field 
+ * @see         Login
+ */
+
+.Js .Login label {
+    margin: 1px 5px;
+    color: #666;
+    font-size: 14px;
+    line-height: 14px;
+    position: absolute;
+    z-index: 1;
+}
+
+.Js .Login input[type='text'],
+.Js .Login input[type='password'] {
+    margin: 0;
+    position: relative;
+    z-index: 10;
+}
+
+.Option {
+    padding: 0 2px 3px;
+    line-height: 21px;
+}
+
+/**
+ * @subsection  Custom Field Sizes
+ */
+
+#Title {
+    width: 55px;
+}
+
+#FirstName,
+#LastName {
+    width: 80px;
+}
+
+.NewLine {
+    clear: left;
+}
+
+.Js .Floating .NewLine button {
+    margin-top: 8px;
+}
+
+/**
+ * @subsection  Errors
+ * @note        Error fields for forms
+ */
+
+.ErrorBox {
+    margin: -13px 136px 20px;
+}
+
+.ErrorBox span {
+    padding: 5px 8px 4px;
+    color: #FFF;
+    background: #D41111;
+    background: -moz-linear-gradient(center top , #F00, #D41111);
+    background: -webkit-gradient(linear,top left, top bottom, from(#F00), to(#D41111));
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 1px 1px 0 #DDD;
+    -moz-box-shadow: 1px 1px 0 #DDD;
+    -webkit-box-shadow: 1px 1px 0 #DDD;
+    cursor: default;
+}
+
+} /* end @media */
