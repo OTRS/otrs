@@ -2,7 +2,7 @@
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.3 2010-05-26 12:18:50 mg Exp $
+# $Id: Loader.pm,v 1.4 2010-05-26 15:34:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -90,6 +90,103 @@ sub new {
     return $Self;
 }
 
+=item GetMinifiedFileList()
+
+returns the minified contents of a given list of CSS or JavaScript files.
+Uses caching internally.
+
+    my $MinifiedCSS = $LoaderObject->GetMinifiedFileList(
+        List  => [
+            $Filename,
+            $Filename2,
+        ],
+        Type  => 'CSS',      # CSS | JavaScript
+    );
+
+=cut
+
+sub GetMinifiedFileList {
+    my ( $Self, %Param ) = @_;
+
+    my $List = $Param{List};
+    if ( ref $List ne 'ARRAY' || !@{$List} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need List!",
+        );
+        return;
+    }
+
+    my %ValidTypeParams = (
+        CSS        => 1,
+        JavaScript => 1,
+    );
+
+    if ( !$Param{Type} || !$ValidTypeParams{ $Param{Type} } ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
+        );
+        return;
+    }
+
+    my $CacheKey;
+
+    for my $Location ( @{$List} ) {
+        my $FileMTime = $Self->{MainObject}->FileGetMTime(
+            Location => $Location
+        );
+
+        # For the caching, use both filename and mtime to make sure that
+        #   caches are correctly regenerated on changes.
+        $CacheKey .= "$Location:$FileMTime:";
+    }
+
+    # check if a cached version exists
+    my $CacheContent = $Self->{CacheInternalObject}->Get(
+        Key => $CacheKey
+    );
+
+    if ( ref $CacheContent eq 'SCALAR' ) {
+        return ${$CacheContent};
+    }
+
+    my $Result;
+
+    # no cache available, so loop through all files, get minified version and concatenate
+    for my $Location ( @{$List} ) {
+
+        if ( $Param{Type} eq 'CSS' ) {
+            $Result .= "/* begin $Location */\n";
+
+            $Result .= $Self->GetMinifiedFile(
+                Location => $Location,
+                Type     => $Param{Type},
+            );
+
+            $Result .= "\n/* end $Location */\n";
+        }
+        elsif ( $Param{Type} eq 'JavaScript' ) {
+            $Result .= "// begin $Location\n";
+
+            $Result .= $Self->GetMinifiedFile(
+                Location => $Location,
+                Type     => $Param{Type},
+            );
+
+            $Result .= "\n// end $Location\n";
+        }
+    }
+
+    # and put it in the cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \$Result,
+    );
+
+    return $Result;
+}
+
 =item GetMinifiedFile()
 
 returns the minified contents of a given CSS or JavaScript file.
@@ -131,6 +228,8 @@ sub GetMinifiedFile {
         Location => $Location
     );
 
+    # For the caching, use both filename and mtime to make sure that
+    #   caches are correctly regenerated on changes.
     my $CacheKey = "$Location:$FileMTime";
 
     # check if a cached version exists
@@ -151,7 +250,13 @@ sub GetMinifiedFile {
         return;
     }
 
-    my $Result = $Self->MinifyCSS( Code => $$FileContents );
+    my $Result;
+    if ( $Param{Type} eq 'CSS' ) {
+        $Result = $Self->MinifyCSS( Code => $$FileContents );
+    }
+    elsif ( $Param{Type} eq 'JavaScript' ) {
+        $Result = $Self->MinifyJavaScript( Code => $$FileContents );
+    }
 
     # and put it in the cache
     $Self->{CacheInternalObject}->Set(
@@ -222,6 +327,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2010-05-26 12:18:50 $
+$Revision: 1.4 $ $Date: 2010-05-26 15:34:08 $
 
 =cut
