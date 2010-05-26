@@ -1,8 +1,8 @@
 # --
-#Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
+# Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.1 2010-05-26 21:15:57 mp Exp $
+# $Id: LayoutLoader.pm,v 1.2 2010-05-26 22:03:10 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,19 +15,19 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
-sub CreateClientCacheTimestamp {
+sub LoaderCreateClientCacheTimestamp {
     my ( $Self, $Array ) = @_;
 
     my $StringFile = "";
-    my $Dir        = "../../Kernel/Config/Files";
+    my $Dir        = $Self->{ConfigObject}->Get('Home');
 
-    my @Files = glob("$Dir/*.*");
-    push( @Files, '../../Kernel/Config.pm' );
+    my @Files = glob("$Dir/Kernel/Config/Files/*.pm");
 
-    for my $File (@Files)
-    {
+    push( @Files, "$Dir/Kernel/Config.pm" );
+
+    for my $File (@Files) {
         my $FileMTime = $Self->{MainObject}->FileGetMTime(
             Location => $File,
         );
@@ -40,4 +40,5 @@ sub CreateClientCacheTimestamp {
     );
     return $MD5Sum;
 }
+
 1;
