@@ -1,8 +1,8 @@
 # --
 # Main.t - Main tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.10 2009-09-11 07:11:58 tr Exp $
+# $Id: Main.t,v 1.11 2010-05-26 12:51:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,7 +116,7 @@ if ( $Charset eq 'utf-8' ) {
 }
 elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
     no utf8;
-    $String = 'bc1234567890ÖÄÜäüö';
+    $String = 'bc1234567890ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
     $MD5Sum = $Self->{MainObject}->MD5sum(
         String => \$String,
     );
@@ -294,6 +294,26 @@ $Self->True(
 $Self->True(
     Encode::is_utf8( $Text, 1 ),
     "FileRead() - Check a utf8 file - is the utf8 content wellformed ( $Text )",
+);
+
+my $FileMTime = $Self->{MainObject}->FileGetMTime(
+    Location => $Self->{ConfigObject}->Get('Home')
+        . '/Kernel/Config.pm',
+);
+
+$Self->True(
+    int $FileMTime > 1_000_000,
+    'FileGetMTime()',
+);
+
+my $FileMTimeNonexisting = $Self->{MainObject}->FileGetMTime(
+    Location => $Self->{ConfigObject}->Get('Home')
+        . '/Kernel/some.nonexisting.file',
+);
+
+$Self->False(
+    defined $FileMTimeNonexisting,
+    'FileGetMTime() for nonexisting file',
 );
 
 1;
