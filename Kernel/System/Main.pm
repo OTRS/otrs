@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.43 2010-04-15 06:47:25 mae Exp $
+# $Id: Main.pm,v 1.44 2010-05-26 10:07:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,11 +16,12 @@ use warnings;
 
 use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
+use File::stat;
 
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -318,7 +319,7 @@ sub FileRead {
         if ( !$Param{DisableWarnings} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "File '$Param{Location}' doesn't exists!"
+                Message  => "File '$Param{Location}' doesn't exist!"
             );
         }
         return;
@@ -528,7 +529,7 @@ sub FileDelete {
         if ( !$Param{DisableWarnings} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "File '$Param{Location}' doesn't exists!"
+                Message  => "File '$Param{Location}' doesn't exist!"
             );
         }
         return;
@@ -548,9 +549,73 @@ sub FileDelete {
     return 1;
 }
 
+=item FileGetMTime()
+
+get timestamp of file change time
+
+    my $FileMTime = $MainObject->FileGetMTime(
+        Directory => 'c:\some\location',
+        Filename  => 'me_to/alal.xml',
+        # or Location
+        Location  => 'c:\some\location\me_to\alal.xml'
+    );
+
+=cut
+
+sub FileGetMTime {
+    my ( $Self, %Param ) = @_;
+
+    my $FH;
+    if ( $Param{Filename} && $Param{Directory} ) {
+
+        # filename clean up
+        $Param{Filename} = $Self->FilenameCleanUp(
+            Filename => $Param{Filename},
+            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+        );
+        $Param{Location} = "$Param{Directory}/$Param{Filename}";
+    }
+    elsif ( $Param{Location} ) {
+
+        # filename clean up
+        $Param{Location} =~ s{//}{/}xmsg;
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Filename and Directory or Location!',
+        );
+
+    }
+
+    # check if file exists
+    if ( !-e $Param{Location} ) {
+        if ( !$Param{DisableWarnings} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "File '$Param{Location}' doesn't exist!"
+            );
+        }
+        return;
+    }
+
+    # get file metadata
+    my $Stat = stat( $Param{Location} );
+
+    if ( !$Stat ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Cannot stat file '$Param{Location}': $!"
+        );
+        return;
+    }
+
+    return $Stat->mtime;
+}
+
 =item MD5sum()
 
-get a md5 sum of a file or an string
+get a md5 sum of a file or a string
 
     my $MD5Sum = $MainObject->MD5sum(
         Filename => '/path/to/me_to_alal.xml',
@@ -579,7 +644,7 @@ sub MD5sum {
     if ( $Param{Filename} && !-e $Param{Filename} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "File '$Param{Filename}' doesn't exists!",
+            Message  => "File '$Param{Filename}' doesn't exist!",
         );
         return;
     }
@@ -780,6 +845,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2010-04-15 06:47:25 $
+$Revision: 1.44 $ $Date: 2010-05-26 10:07:16 $
 
 =cut
