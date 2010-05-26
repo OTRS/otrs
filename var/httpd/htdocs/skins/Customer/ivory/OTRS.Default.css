@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @author      Felix Niklas
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
@@ -10,6 +10,7 @@
  * @package     Skin "Ivory"
  */
 
+@media screen,projection,tv,handheld {
 
 /**
  * @subsection     Highlight color
@@ -133,6 +134,7 @@ body {
 #Navigation .Selected {
     margin-top: 0;
     height: 45px;
+    border-bottom: none;
     -webkit-border-top-left-radius: 3px;
     -webkit-border-top-right-radius: 3px;
     -moz-border-radius-topleft: 3px;
@@ -174,7 +176,18 @@ body {
 .Content {
     padding: 0 10px;
     background: none;
+    border: none;
     overflow: hidden;
+}
+
+.TicketZoom .Content {
+    overflow: visible;
+}
+
+.TicketCompose .Content,
+.Preferences .Content,
+.Search .Content {
+    display: block;
 }
 
 #Slider {
@@ -194,8 +207,7 @@ body {
     margin: -13px 90px 20px;
 }
 
-.ActionRow,
-.ActionRow.Bottom {
+.ActionRow {
     background: none;
     border: none;
 }
@@ -205,7 +217,7 @@ body {
     text-shadow: none;
 }
 
-.Filter {
+.Tabs.Filter {
     padding: 0 16px;
 }
 
@@ -224,6 +236,7 @@ body {
 }
 
 .Pagination {
+    padding: 5px 16px;
     color: #B2B2B2;
 }
 
@@ -292,9 +305,11 @@ table.Overview {
  * @subsection  Table Style Hovered
  */
 .Overview tbody tr:hover {
-    background: #E9E9E9;
     color: #BBB;
     border-color: #E9E9E9;
+}
+.Overview tbody tr:hover td {
+    background: #E9E9E9;
 }
 .Overview tbody tr:hover td,
 .Overview tbody tr:hover a {
@@ -312,7 +327,7 @@ table.Overview {
 .Overview tbody tr:focus td,
 .Overview tbody tr:active td {
     background-image: none;
-    padding: 5px 8px 2px;
+    padding: 7px 8px 2px;
 }
 
 /**
@@ -334,6 +349,21 @@ form span.cke_skin_kama {
 /**
  * @subsection  TicketZoom
  */
+
+.TicketHeader {
+    margin-top: 5px;
+}
+
+.Metadata {
+    margin: 0 8px;
+    top: -28px;
+    right: -5px;
+}
+
+.RTL .Metadata {
+    right: auto;
+    left: -5px;
+}
 
 #FollowUp {
     margin: 0 5px 8px;
@@ -416,3 +446,4 @@ form span.cke_skin_kama {
     margin-left: 0;
 }
 
+} /* end @media */
