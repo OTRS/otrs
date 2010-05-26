@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.12 $
+ * @version     $Revision: 1.13 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -177,7 +177,7 @@ fieldset.TableLike > label {
     line-height: 1.3em;
     width: 30%;
     text-align: right;
-    color: #666;
+    color: #929292;
     padding-top: 3px;
     padding-bottom: 5px;
 }
@@ -214,7 +214,7 @@ fieldset.TableLike > .Field {
  *          for example for complex input elements.
  */
 fieldset.TableLike > .Field label {
-    color: #666;
+    color: #929292;
 }
 
 fieldset.TableLike > .Field > select,
@@ -236,19 +236,17 @@ fieldset.TableLike > .RichTextField {
 
 fieldset.TableLike > .Value {
     margin-left: 30%;
-    margin-right: 0;
-    padding-top: 3px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 0;
+    padding: 3px 0 5px 8px;
     line-height: 1.3em;
 }
 
 .RTL fieldset.TableLike > .Value {
-    margin-left: 0;
-    margin-right: 30%;
-    padding-left: 0;
-    padding-right: 10px;
+    margin: 0 30% 0 0;
+    padding: 3px 8px 5px 0;
+}
+
+fieldset.TableLike > .Value img {
+    vertical-align: top;
 }
 
 /**
@@ -256,19 +254,22 @@ fieldset.TableLike > .Value {
  *              makes the labels have a fixed size
  */
 fieldset.TableLike.FixedLabel > label {
-    width: 150px;
+    width: 70px;
 }
 
 fieldset.TableLike.FixedLabel > .Field,
 fieldset.TableLike.FixedLabel > .Value {
-    margin-left: 150px;
+    margin-left: 70px;
     margin-right: 0;
+    padding-left: 17px;
 }
 
 .RTL fieldset.TableLike.FixedLabel > .Field,
 .RTL fieldset.TableLike.FixedLabel > .Value {
     margin-left: 0;
     margin-right: 150px;
+    padding-left: 0;
+    padding-right: 17px;
 }
 
 /**
@@ -314,12 +315,12 @@ fieldset.TableLike.LargeLabel > .Value {
 
 /**
  * @note        Tight - this additional class for TableLike
- *              decreases the margin between the contetn elements
+ *              decreases the margin between the content elements
  */
 fieldset.Tight > label,
 fieldset.Tight > .Field,
 fieldset.Tight > .Value {
-    padding-bottom: 0px;
+    padding-bottom: 3px;
 }
 
 

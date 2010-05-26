@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -140,7 +140,7 @@ tbody tr.UnreadArticles td {
  * @subsection  Overview Small View Table
  */
 .TableSmall {
-    width: 99.8%;
+    width: 100%;
     font-size: 12px;
     border: none;
 }
@@ -226,7 +226,7 @@ td.Attachment {
     background: url(img/direction_header.png) no-repeat center;
 }
 
-.TableSmall thead a span.Attachments {
+.TableSmall thead .Attachments a span {
     background: url(img/attachment_header.png) no-repeat center;
 }
 
@@ -243,15 +243,6 @@ td.Attachment {
 
 .TableSmall thead a span.UnreadArticles {
     background-position: 0px -20px;
-}
-
-.TableSmall tbody tr.Last {
-    border-bottom: 1px solid #CCC;
-}
-
-.TableSmall tbody tr {
-    border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
 }
 
 .TableSmall tbody tr.Active {
@@ -282,7 +273,29 @@ td.Attachment {
 
 .TableSmall tr:hover td {
     background: url(img/table_small_hover_bg.png) repeat-x center;
+    -moz-box-shadow: 0 1px 0 #888;
+    -webkit-box-shadow: 0 1px 0 #888;
+    box-shadow: 0 1px 0 #888;
 }
+
+.TableSmall tr:hover td:first-child {
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.TableSmall tr:hover td:last-child {
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
 
 .TableSmall tr:hover + tr td {
     background-image: url(img/tr_hover_next_shadow.png);
@@ -352,6 +365,56 @@ td.Attachment {
     height: 19px;
     background: url(img/contextsettings.png) no-repeat 5px 4px;
     text-indent: -9999px;
+}
+
+/**
+ * @subsection  Fixed Header
+ */
+
+.FixedHeader table {
+    margin-top: 32px;
+    position: relative;
+}
+
+.FixedHeader thead {
+    padding: 8px 15px 0 0;
+    margin: 0;
+    top: 0;
+    display: block;
+    position: absolute;
+}
+
+.RTL .FixedHeader thead {
+    padding: 8px 0 0 15px;
+}
+
+.FixedHeader tbody {
+    display: block;
+}
+
+.FixedHeader .No {
+    width: 2em;
+}
+
+.FixedHeader .Type {
+    width: 15em;
+    word-wrap: no-wrap;
+}
+
+.FixedHeader .From {
+    width: 10em;
+}
+
+.FixedHeader .Subject {
+    width: 50em;
+}
+
+.FixedHeader .Created {
+    width: 10em;
+}
+
+.FixedHeader .Attachments {
+    width: 50px;
 }
 
 /**

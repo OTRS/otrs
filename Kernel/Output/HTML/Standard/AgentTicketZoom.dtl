@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.92 2010-05-20 18:28:07 mp Exp $
+# $Id: AgentTicketZoom.dtl,v 1.93 2010-05-26 07:37:28 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,37 +15,34 @@
 
 <!-- dtl:block:Header -->
 <div class="MainBox ARIARoleMain">
+    <ul class="Actions">
+<!-- dtl:block:TicketMenu -->
+        <li class="$QData{"Class"}">
+            <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+        </li>
+<!-- dtl:block:TicketMenu -->
+    </ul>
+    <div class="ClearLeft"></div>
     <div class="Headline">
         <div class="Flag" title="$Text{"$Data{"Priority"}"}"><span class="PriorityID-$QData{"PriorityID"}">$Text{"$Data{"Priority"}"}</span></div>
-        <h1>$Text{"Zoom"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title", "40"}</h1>
-        <ul class="ContextFunctions">
+        <h1 title="$Text{"Zoom"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title", "40"}">
+            #$Data{"TicketNumber"} <span>&mdash;</span> $QData{"Title", "60"}
+        </h1>
+#        <ul class="ContextFunctions">
 #           <li class="ContextHelp">
 #               <a href="" title="Context Help"><span>$Text{"Context Help"}</span></a>
 #           </li>
 #           <li class="ContextSettings">
 #               <a href="" title="Context Settings"><span>$Text{"Context Settings"}</span></a>
 #           </li>
-        </ul>
-    </div>
-
-    <div class="ControlRow">
+#        </ul>
         <div class="AdditionalInformation">
             $Text{"Age"}: $Data{"Age"} &ndash; $Text{"Created"}: $TimeShort{"$Data{"Created"}"}
         </div>
     </div>
-    <div class="ActionRow">
-        <ul class="Actions">
-<!-- dtl:block:TicketMenu -->
-            <li class="$QData{"Class"}">
-                <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
-            </li>
-<!-- dtl:block:TicketMenu -->
-        </ul>
-        <div class="ClearLeft"></div>
-    </div>
 
     <div class="LayoutFixedSidebar SidebarLast">
-        <div class="SidebarColumn SpacingTop">
+        <div class="SidebarColumn">
             <div class="WidgetGradient Medium">
                 <div class="Header">
                     <h2>Ticket Information</h2>
@@ -284,7 +281,7 @@ $Data{"ArticleItems"}
 
 
 <!-- dtl:block:Tree -->
-<div class="ArticleTable SpacingTop">
+<div class="ArticleTable FixedHeader">
     <div class="ControlRow">
         <ul class="ArticleView">
 <!-- dtl:block:Expand -->
@@ -297,31 +294,21 @@ $Data{"ArticleItems"}
 <!-- dtl:block:Collapse -->
         </ul>
     </div>
-    <div class="ActionRow">
-        <div class="TableContextSettings">
-            <a href="" title="Context Settings">Context Settings</a>
-        </div>
-        <table class="TableSmall">
-            <thead>
-                <tr>
-                    <th class="UnreadArticles Fixed"><a class="UnreadArticles" href=""><span class="UnreadArticles"></span></a></th>
-                    <th><a href="">$Text{"No."}</a></th>
-                    <th><a href="">$Text{"Type"}</a></th>
-                    <th class="Direction Fixed SortAscending"><a href="" title="Direction"><span class="Direction"><!--Direction--></span></a></th>
-                    <th><a href="">$Text{"From"}</a></th>
-                    <th><a href="">$Text{"Subject"}</a></th>
-                    <th class="SortAscending"><a href="">$Text{"Created"}</a></th>
-                    <th class="Last"><a href=""><span class="Attachments"><!--Attachments--></span></a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td></td></tr>
-            </tbody>
-        </table>
-    </div>
     <div class="ArticleTableBody">
         <div class="Scroller">
             <table class="TableSmall">
+                <thead class="ActionRow">
+                    <tr>
+                        <th class="UnreadArticles Fixed"><a class="UnreadArticles" href=""><span class="UnreadArticles"></span></a></th>
+                        <th class="No"><a href="">$Text{"No."}</a></th>
+                        <th class="Type"><a href="">$Text{"Type"}</a></th>
+                        <th class="Direction Fixed SortAscending"><a href="" title="Direction"><span class="Direction"><!--Direction--></span></a></th>
+                        <th class="From"><a href="">$Text{"From"}</a></th>
+                        <th class="Subject"><a href="">$Text{"Subject"}</a></th>
+                        <th class="Created SortAscending"><a href="">$Text{"Created"}</a></th>
+                        <th class="Attachments Last"><a href=""><span><!--Attachments--></span></a></th>
+                    </tr>
+                </thead>
                 <tbody>
 #<!-- dtl:block:ArticleFilterDialogLink -->
 #                <tr>
@@ -336,19 +323,18 @@ $Data{"ArticleItems"}
 #<!-- dtl:block:ArticleFilterDialogLink -->
 <!-- dtl:block:TreeItem -->
                     <tr class="$QData{"ClassRow"}" onclick="Core.AJAXContentUpdate('ArticleItems','$Env{"Baselink"}Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=$LQData{"Count"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};'); return false;">
-                        <td class="$QData{"Class"} Fixed NonTextContent">
+                        <td class="$QData{"Class"} UnreadArticles Fixed NonTextContent">
 <!-- dtl:block:TreeItemNewArticle -->
                             <span class="$QData{"Class"}" title="$Text{"Unread Article!"}">$Text{"Unread Article!"}</span>
 <!-- dtl:block:TreeItemNewArticle -->
                         </td>
-                        <td>$QData{"Count"}</td>
-                        <td>$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}</td>
-                        <td>dir</td>
-                        <td><div title="$QData{"From"}"><a href="#">$RQData{"From","34"}</a></div></td>
-                        <td><div title="$QData{"Subject"}"><a href="#">$QData{"Subject","36"}</a></div></td>
-                        <td class="Fixed"><a href="#">$TimeShort{"$QData{"Created"}"}</a></td>
-                        <td class="Attachment Fixed NonTextContent">
-
+                        <td class="No">$QData{"Count"}</td>
+                        <td class="Type">$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}</td>
+                        <td class="Direction">dir</td>
+                        <td class="From"><div title="$QData{"From"}"><a href="#">$RQData{"From","34"}</a></div></td>
+                        <td class="Subject"><div title="$QData{"Subject"}"><a href="#">$QData{"Subject","36"}</a></div></td>
+                        <td class="Created Fixed"><a href="#">$TimeShort{"$QData{"Created"}"}</a></td>
+                        <td class="Attachments Attachment Fixed NonTextContent">
 <!-- dtl:block:TreeItemAttachment -->
                             <a class="Attachment" title="Attachment" rel="TicketAttachment$QData{"Count"}"></a>
                             <div id="TicketAttachment$QData{"Count"}" class="AttachmentData Hidden">
@@ -382,12 +368,12 @@ $Data{"ArticleItems"}
 <div>
     <a name="$QData{"ArticleID"}"></a>
     <div class="WidgetBox SpacingTop">
-        <div class="Header">
-            <div class="ControlRow">
+        <div class="Light Header">
+            <div class="LightRow">
                 <div class="WidgetAction Toggle Expanded"><a href="#"><span></span></a></div>
                 <h2>#$QData{"Count"} &ndash; $QData{"Subject","60"}</h2>
             </div>
-            <div class="ActionRow">
+            <div class="LightRow Bottom">
                 <ul class="Actions">
 <!-- dtl:block:ArticleMenu-->
                     <li class="$QData{"Class"}">

@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -17,13 +17,18 @@
  */
 div.Headline {
     height: 24px;
-    margin-bottom: 10px;
+    margin: 7px 5px 10px 7px;
     position: relative;
 }
 
 div.Headline h1 {
+    font-size: 15px;
     line-height: 24px;
     margin: 0;
+}
+
+div.Headline h1 span {
+    padding: 0 3px;
 }
 
 div.Headline .Flag + h1 {
@@ -49,6 +54,7 @@ div.Headline .Flag {
 /**
  * @subsection  Article table head
  */
+
 .ActionRow .TableContextSettings + .TableSmall {
     margin-right: 17px;
 }
@@ -67,12 +73,14 @@ div.Headline .Flag {
 }
 
 .ArticleMailHeader {
-    border-bottom: 1px solid #BBB;
-    padding: 10px;
+    margin: 0 8px;
+    padding: 2px 0 7px;
+    font-size: 11px;
+    border-bottom: 1px solid #C6C5C4;
 }
 
 .ArticleMailContent {
-    padding: 20px;
+    padding: 11px 12px;
 }
 
 /**

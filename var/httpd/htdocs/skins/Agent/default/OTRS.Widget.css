@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.22 $
+ * @version     $Revision: 1.23 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -68,12 +68,12 @@ ul.Tablelike li.Header {
 }
 
 .WidgetGradient > .Header h2 {
-    padding: 5px;
+    padding: 4px 3px;
     margin: 0;
 }
 
 .WidgetGradient > .Content {
-    padding: 5px 10px 10px 10px;
+    padding: 4px 10px 10px;
 }
 
 .WidgetGradient.Short {
@@ -113,7 +113,8 @@ ul.Tablelike li.Header {
 }
 
 .WidgetBox > .Header div.WidgetAction + h2 {
-    margin-left: 30px;
+    margin: 0;
+    padding-left: 30px;
 }
 
 .WidgetBox > .Header h2 + h3 {
@@ -130,11 +131,11 @@ ul.Tablelike li.Header {
 }
 
 .WidgetBox > .Content {
-    background: url(img/widget_bg_200.png) repeat-x;
+    background: url(img/gradient_lightdark.png) repeat-x;
     min-height: 200px;
-    border-left: 1px solid #BBB;
-    border-right: 1px solid #BBB;
-    border-bottom: 1px solid #BBB;
+    border-left: 1px solid #C6C5C4;
+    border-right: 1px solid #C6C5C4;
+    border-bottom: 1px solid #C6C5C4;
 }
 
 .WidgetBox > .Content.WithPadding {
@@ -164,7 +165,7 @@ ul.Tablelike li.Header {
 .WidgetAction a span {
     display: block;
     height: 24px;
-    width: 24px;
+    width: 28px;
 }
 
 

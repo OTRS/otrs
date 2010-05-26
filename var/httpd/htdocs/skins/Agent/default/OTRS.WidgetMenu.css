@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -16,10 +16,15 @@
  * @subsection  Control Row
  */
 .ControlRow {
-    height: 25px;
+    height: 24px;
     background: url(img/controlrow.png) repeat-x;
-    width: 100%;
     position: relative;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 .ControlRow a {
@@ -255,17 +260,17 @@ ul.ContextFunctions li.ContextHelp:hover {
 /**
  * @subsection  Control Row Additional Information
  */
-.ControlRow .AdditionalInformation {
+.AdditionalInformation {
     position: absolute;
-    right: 6px;
-    top: 0px;
+    right: 0;
+    top: 0;
     font-size: 14px;
     line-height: 24px;
 }
 
-.RTL .ControlRow .AdditionalInformation {
+.RTL .AdditionalInformation {
     right: auto;
-    left: 6px;
+    left: 0;
 }
 
 /**
@@ -282,16 +287,16 @@ ul.ContextFunctions li.ContextHelp:hover {
     position: relative;
 }
 
-.ActionRow ul.Actions {
+.Actions {
     padding: 0;
     float: left;
 }
 
-.RTL .ActionRow ul.Actions {
+.RTL .Actions {
     float: right;
 }
 
-.ActionRow ul.Actions li {
+.Actions li {
     float: left;
     height: 24px;
     line-height: 24px;
@@ -299,29 +304,29 @@ ul.ContextFunctions li.ContextHelp:hover {
     padding-left: 3px;
 }
 
-.RTL .ActionRow ul.Actions li {
+.RTL .Actions li {
     float: right;
 }
 
-.ActionRow ul.Actions li:first-child {
+.Actions li:first-child {
     margin-left: 0px;
     padding-left: 0px;
 }
 
-.ActionRow ul.Actions li a {
+.Actions li a {
     font-size: 11px;
 }
 
-.ActionRow ul.Actions li.Last a {
+.Actions li.Last a {
     background: none;
 }
 
-.ActionRow ul.Actions li.NoHover:hover {
+.Actions li.NoHover:hover {
     background: none;
 }
 
-.ActionRow ul.Actions li a,
-.ActionRow ul.Actions li label {
+.Actions li a,
+.Actions li label {
     color: #000000;
     display: block;
     padding-left: 8px;
@@ -329,57 +334,48 @@ ul.ContextFunctions li.ContextHelp:hover {
     background: transparent url(img/tab_isolator.png) no-repeat center right;
 }
 
-.ActionRow ul.Actions li label {
+.Actions li label {
     font-size:11px;
     cursor: pointer;
     font-size: 11px;
     margin-left: 20px;
 }
 
-.ActionRow ul.Actions li input#SelectAllTickets {
+.Actions li input#SelectAllTickets {
     float: left;
     padding: 0;
     margin-top: 5px;
     margin-left: 10px;
 }
 
-.RTL .ActionRow ul.Actions li:first-child a {
+.RTL .Actions li:first-child a {
     background-image: none;
 }
 
-.ActionRow ul.Actions li.Inactive a {
+.Actions li.Inactive a {
     color: #999;
     text-shadow: 1px 1px #FFF;
 }
 
-.ActionRow ul.Actions li.Inactive:hover {
+.Actions li.Inactive:hover {
     background: none;
 }
 
-.ActionRow ul.Actions li:hover a,
-.ActionRow ul.Actions li:hover label {
-    background: url(img/overviewcontrol_hover1.png) no-repeat top right;
-}
-
-.ActionRow ul.Actions li:hover {
-    background: url(img/overviewcontrol_hover2.png) no-repeat top left;
-}
-
-.ActionRow ul.Actions li.Inactive:hover a {
+.Actions li.Inactive:hover a {
     background: url(img/tab_isolator.png) no-repeat center right;
     cursor: default;
 }
 
-.ActionRow ul.Actions li.Inactive.Last:hover a {
+.Actions li.Inactive.Last:hover a {
     background: none;
     cursor: default;
 }
 
-.ActionRow ul.Actions form {
+.Actions form {
     padding: 4px 8px;
 }
 
-.ActionRow ul.Actions li select {
+.Actions li select {
     font-size: 11px;
 }
 
@@ -389,6 +385,48 @@ ul.ContextFunctions li.ContextHelp:hover {
 
 .OverviewActions {
     height: 24px;
+}
+
+/**
+ * @subsection  LightRow
+ */
+
+.Light.Header {
+    border: 1px solid #C6C5C4;
+    border-bottom: 1px solid #636363;
+    -webkit-border-top-left-radius: 2px;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.LightRow {
+    background: #999 url("img/gradient_light.png") repeat-x;
+    border-bottom: 1px solid #7C7C7C;
+}
+
+.LightRow.Bottom {
+    background-position: 0 -26px;
+    border-top: 1px solid #F5F5F5;
+    border-bottom: none;
+}
+
+.Collapsed .LightRow.Bottom {
+    display: none;
+}
+
+.LightRow h2 {
+    margin: 0;
+    padding: 4px 0;
+    font-weight: normal;
+    color: #171717;
+    border-bottom: 1px solid #F5F5F5;
+}
+
+.LightRow .Actions {
+    padding: 2px 0;
 }
 
 /**
