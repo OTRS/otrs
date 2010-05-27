@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.3 2010-05-27 08:21:03 mg Exp $
+# $Id: LayoutLoader.pm,v 1.4 2010-05-27 09:28:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,61 +15,189 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
+
+use Kernel::System::Loader;
 
 sub CreateCSSLoaderCalls {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigTimestamp = $Self->LoaderCreateClientCacheTimestamp();
-
     {
         my $CommonCSSList = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS');
 
+        my @FileList;
+
         for my $Key ( sort keys %{$CommonCSSList} ) {
             for my $CSSFile ( @{ $CommonCSSList->{$Key} } ) {
-                $Self->Block(
-                    Name => 'CommonCSS',
-                    Data => {
-                        Skin     => 'default',
-                        Filename => $CSSFile,
-                    },
+                push(
+                    @FileList,
+                    $Self->{ConfigObject}->Get('Home')
+                        . '/var/httpd/htdocs/skins/Agent/default/css/'
+                        . $CSSFile
                 );
             }
         }
+
+        my $MinifiedFile = $Self->CreateMinifiedFile(
+            List            => \@FileList,
+            Type            => 'CSS',
+            TargetDirectory => $Self->{ConfigObject}->Get('Home')
+                . '/var/httpd/htdocs/skins/Agent/default/css-cache/'
+        );
+
+        $Self->Block(
+            Name => 'CommonCSS',
+            Data => {
+                Skin     => 'default',
+                Filename => $MinifiedFile,
+            },
+        );
     }
 
     {
         my $CommonCSSIE7List = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS::IE7');
 
+        my @FileList;
+
         for my $Key ( sort keys %{$CommonCSSIE7List} ) {
             for my $CSSFile ( @{ $CommonCSSIE7List->{$Key} } ) {
-                $Self->Block(
-                    Name => 'CommonCSS_IE7',
-                    Data => {
-                        Skin     => 'default',
-                        Filename => $CSSFile,
-                    },
+                push(
+                    @FileList,
+                    $Self->{ConfigObject}->Get('Home')
+                        . '/var/httpd/htdocs/skins/Agent/default/css/'
+                        . $CSSFile
                 );
             }
         }
+
+        my $MinifiedFile = $Self->CreateMinifiedFile(
+            List            => \@FileList,
+            Type            => 'CSS',
+            TargetDirectory => $Self->{ConfigObject}->Get('Home')
+                . '/var/httpd/htdocs/skins/Agent/default/css-cache/'
+        );
+
+        $Self->Block(
+            Name => 'CommonCSS_IE7',
+            Data => {
+                Skin     => 'default',
+                Filename => $MinifiedFile,
+            },
+        );
     }
 
     {
         my $CommonCSSIE8List = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS::IE8');
 
+        my @FileList;
+
         for my $Key ( sort keys %{$CommonCSSIE8List} ) {
             for my $CSSFile ( @{ $CommonCSSIE8List->{$Key} } ) {
-                $Self->Block(
-                    Name => 'CommonCSS_IE8',
-                    Data => {
-                        Skin     => 'default',
-                        Filename => $CSSFile,
-                    },
+                push(
+                    @FileList,
+                    $Self->{ConfigObject}->Get('Home')
+                        . '/var/httpd/htdocs/skins/Agent/default/css/'
+                        . $CSSFile
                 );
             }
         }
+
+        my $MinifiedFile = $Self->CreateMinifiedFile(
+            List            => \@FileList,
+            Type            => 'CSS',
+            TargetDirectory => $Self->{ConfigObject}->Get('Home')
+                . '/var/httpd/htdocs/skins/Agent/default/css-cache/'
+        );
+
+        $Self->Block(
+            Name => 'CommonCSS_IE8',
+            Data => {
+                Skin     => 'default',
+                Filename => $MinifiedFile,
+            },
+        );
     }
 
+}
+
+sub CreateMinifiedFile {
+    my ( $Self, %Param ) = @_;
+
+    $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
+
+    my $List = $Param{List};
+    if ( ref $List ne 'ARRAY' || !@{$List} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need List!",
+        );
+        return;
+    }
+
+    my $TargetDirectory = $Param{TargetDirectory};
+    if ( !$TargetDirectory || !-d $TargetDirectory ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need valid TargetDirectory, got '$TargetDirectory'!",
+        );
+        return;
+    }
+
+    my %ValidTypeParams = (
+        CSS        => 1,
+        JavaScript => 1,
+    );
+
+    if ( !$Param{Type} || !$ValidTypeParams{ $Param{Type} } ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
+        );
+        return;
+    }
+
+    my $FileString;
+    for my $Location ( @{$List} ) {
+        my $FileMTime = $Self->{MainObject}->FileGetMTime(
+            Location => $Location
+        );
+
+        # For the caching, use both filename and mtime to make sure that
+        #   caches are correctly regenerated on changes.
+        $FileString .= "$Location:$FileMTime:";
+    }
+
+    # also include the config timestamp in the caching to reload the data on config changes
+    my $ConfigTimestamp = $Self->LoaderCreateClientCacheTimestamp();
+
+    $FileString .= $ConfigTimestamp;
+
+    my $Filename = $Self->{MainObject}->MD5sum(
+        String => \$FileString,
+    );
+
+    if ( $Param{Type} eq 'CSS' ) {
+        $Filename .= '.css';
+    }
+    elsif ( $Param{Type} eq 'JavaScript' ) {
+        $Filename .= '.js';
+
+    }
+
+    if ( !-r "$TargetDirectory/$Filename" ) {
+        my $Content = $Self->{LoaderObject}->GetMinifiedFileList(
+            List => $List,
+            Type => $Param{Type},
+        );
+
+        my $FileLocation = $Self->{MainObject}->FileWrite(
+            Directory => $TargetDirectory,
+            Filename  => $Filename,
+            Content   => \$Content,
+        );
+    }
+
+    return $Filename;
 }
 
 sub LoaderCreateClientCacheTimestamp {
