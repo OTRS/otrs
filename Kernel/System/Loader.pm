@@ -2,7 +2,7 @@
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.4 2010-05-26 15:34:08 mg Exp $
+# $Id: Loader.pm,v 1.5 2010-05-27 09:27:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -132,7 +132,10 @@ sub GetMinifiedFileList {
 
     my $CacheKey;
 
-    for my $Location ( @{$List} ) {
+    LOCATION: for my $Location ( @{$List} ) {
+
+        next LOCATION if ( !-r $Location );
+
         my $FileMTime = $Self->{MainObject}->FileGetMTime(
             Location => $Location
         );
@@ -154,7 +157,9 @@ sub GetMinifiedFileList {
     my $Result;
 
     # no cache available, so loop through all files, get minified version and concatenate
-    for my $Location ( @{$List} ) {
+    LOCATION: for my $Location ( @{$List} ) {
+
+        next LOCATION if ( !-r $Location );
 
         if ( $Param{Type} eq 'CSS' ) {
             $Result .= "/* begin $Location */\n";
@@ -327,6 +332,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2010-05-26 15:34:08 $
+$Revision: 1.5 $ $Date: 2010-05-27 09:27:08 $
 
 =cut
