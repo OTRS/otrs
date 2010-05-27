@@ -2,7 +2,7 @@
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.5 2010-05-27 09:27:08 mg Exp $
+# $Id: Loader.pm,v 1.6 2010-05-27 12:20:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -90,22 +90,25 @@ sub new {
     return $Self;
 }
 
-=item GetMinifiedFileList()
+=item MinifyFiles()
 
-returns the minified contents of a given list of CSS or JavaScript files.
+takes a list of files and returns a filename in the target directory
+which holds the minified and concatenated content of the files.
 Uses caching internally.
 
-    my $MinifiedCSS = $LoaderObject->GetMinifiedFileList(
+    my $TargetFilename = $LoaderObject->MinifyFiles(
         List  => [
             $Filename,
             $Filename2,
         ],
         Type  => 'CSS',      # CSS | JavaScript
+        TargetDirectory => $TargetDirectory,
+        TargetFilenamePrefix => 'CommonCSS',    # optional, prefix for the target filename
     );
 
 =cut
 
-sub GetMinifiedFileList {
+sub MinifyFiles {
     my ( $Self, %Param ) = @_;
 
     my $List = $Param{List};
@@ -116,6 +119,17 @@ sub GetMinifiedFileList {
         );
         return;
     }
+
+    my $TargetDirectory = $Param{TargetDirectory};
+    if ( !$TargetDirectory || !-d $TargetDirectory ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need valid TargetDirectory, got '$TargetDirectory'!",
+        );
+        return;
+    }
+
+    my $TargetFilenamePrefix = $Param{TargetFilenamePrefix} ? "$Param{TargetFilenamePrefix}_" : '';
 
     my %ValidTypeParams = (
         CSS        => 1,
@@ -130,66 +144,73 @@ sub GetMinifiedFileList {
         return;
     }
 
-    my $CacheKey;
-
-    LOCATION: for my $Location ( @{$List} ) {
-
-        next LOCATION if ( !-r $Location );
-
+    my $FileString;
+    for my $Location ( @{$List} ) {
         my $FileMTime = $Self->{MainObject}->FileGetMTime(
             Location => $Location
         );
 
         # For the caching, use both filename and mtime to make sure that
         #   caches are correctly regenerated on changes.
-        $CacheKey .= "$Location:$FileMTime:";
+        $FileString .= "$Location:$FileMTime:";
     }
 
-    # check if a cached version exists
-    my $CacheContent = $Self->{CacheInternalObject}->Get(
-        Key => $CacheKey
+    # also include the config timestamp in the caching to reload the data on config changes
+    my $ConfigTimestamp = $Self->{ConfigObject}->ConfigChecksum();
+
+    $FileString .= $ConfigTimestamp;
+
+    my $Filename = $TargetFilenamePrefix . $Self->{MainObject}->MD5sum(
+        String => \$FileString,
     );
 
-    if ( ref $CacheContent eq 'SCALAR' ) {
-        return ${$CacheContent};
+    if ( $Param{Type} eq 'CSS' ) {
+        $Filename .= '.css';
+    }
+    elsif ( $Param{Type} eq 'JavaScript' ) {
+        $Filename .= '.js';
+
     }
 
-    my $Result;
+    if ( !-r "$TargetDirectory/$Filename" ) {
 
-    # no cache available, so loop through all files, get minified version and concatenate
-    LOCATION: for my $Location ( @{$List} ) {
+        my $Content;
 
-        next LOCATION if ( !-r $Location );
+        # no cache available, so loop through all files, get minified version and concatenate
+        LOCATION: for my $Location ( @{$List} ) {
 
-        if ( $Param{Type} eq 'CSS' ) {
-            $Result .= "/* begin $Location */\n";
+            next LOCATION if ( !-r $Location );
 
-            $Result .= $Self->GetMinifiedFile(
-                Location => $Location,
-                Type     => $Param{Type},
-            );
+            if ( $Param{Type} eq 'CSS' ) {
+                $Content .= "/* begin $Location */\n";
 
-            $Result .= "\n/* end $Location */\n";
+                $Content .= $Self->GetMinifiedFile(
+                    Location => $Location,
+                    Type     => $Param{Type},
+                );
+
+                $Content .= "\n/* end $Location */\n";
+            }
+            elsif ( $Param{Type} eq 'JavaScript' ) {
+                $Content .= "// begin $Location\n";
+
+                $Content .= $Self->GetMinifiedFile(
+                    Location => $Location,
+                    Type     => $Param{Type},
+                );
+
+                $Content .= "\n// end $Location\n";
+            }
         }
-        elsif ( $Param{Type} eq 'JavaScript' ) {
-            $Result .= "// begin $Location\n";
 
-            $Result .= $Self->GetMinifiedFile(
-                Location => $Location,
-                Type     => $Param{Type},
-            );
-
-            $Result .= "\n// end $Location\n";
-        }
+        my $FileLocation = $Self->{MainObject}->FileWrite(
+            Directory => $TargetDirectory,
+            Filename  => $Filename,
+            Content   => \$Content,
+        );
     }
 
-    # and put it in the cache
-    $Self->{CacheInternalObject}->Set(
-        Key   => $CacheKey,
-        Value => \$Result,
-    );
-
-    return $Result;
+    return $Filename;
 }
 
 =item GetMinifiedFile()
@@ -332,6 +353,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2010-05-27 09:27:08 $
+$Revision: 1.6 $ $Date: 2010-05-27 12:20:57 $
 
 =cut

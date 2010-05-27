@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.7 2010-05-27 11:36:35 mg Exp $
+# $Id: LayoutLoader.pm,v 1.8 2010-05-27 12:20:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,14 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Kernel::System::Loader;
 
 sub CreateCSSLoaderCalls {
     my ( $Self, %Param ) = @_;
+
+    $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
 
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
@@ -55,7 +57,7 @@ sub CreateCSSLoaderCalls {
         }
 
         if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->CreateMinifiedFile(
+            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
                 List                 => \@FileList,
                 Type                 => 'CSS',
                 TargetDirectory      => $SkinHome . '/Agent/default/css-cache/',
@@ -102,7 +104,7 @@ sub CreateCSSLoaderCalls {
         }
 
         if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->CreateMinifiedFile(
+            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
                 List                 => \@FileList,
                 Type                 => 'CSS',
                 TargetDirectory      => $SkinHome . '/Agent/default/css-cache/',
@@ -147,7 +149,7 @@ sub CreateCSSLoaderCalls {
         }
 
         if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->CreateMinifiedFile(
+            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
                 List                 => \@FileList,
                 Type                 => 'CSS',
                 TargetDirectory      => $SkinHome . '/Agent/default/css-cache/',
@@ -167,88 +169,6 @@ sub CreateCSSLoaderCalls {
 
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
 
-}
-
-sub CreateMinifiedFile {
-    my ( $Self, %Param ) = @_;
-
-    $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
-
-    my $List = $Param{List};
-    if ( ref $List ne 'ARRAY' || !@{$List} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Need List!",
-        );
-        return;
-    }
-
-    my $TargetDirectory = $Param{TargetDirectory};
-    if ( !$TargetDirectory || !-d $TargetDirectory ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Need valid TargetDirectory, got '$TargetDirectory'!",
-        );
-        return;
-    }
-
-    my $TargetFilenamePrefix = $Param{TargetFilenamePrefix} ? "$Param{TargetFilenamePrefix}_" : '';
-
-    my %ValidTypeParams = (
-        CSS        => 1,
-        JavaScript => 1,
-    );
-
-    if ( !$Param{Type} || !$ValidTypeParams{ $Param{Type} } ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
-        );
-        return;
-    }
-
-    my $FileString;
-    for my $Location ( @{$List} ) {
-        my $FileMTime = $Self->{MainObject}->FileGetMTime(
-            Location => $Location
-        );
-
-        # For the caching, use both filename and mtime to make sure that
-        #   caches are correctly regenerated on changes.
-        $FileString .= "$Location:$FileMTime:";
-    }
-
-    # also include the config timestamp in the caching to reload the data on config changes
-    my $ConfigTimestamp = $Self->{ConfigObject}->ConfigChecksum();
-
-    $FileString .= $ConfigTimestamp;
-
-    my $Filename = $TargetFilenamePrefix . $Self->{MainObject}->MD5sum(
-        String => \$FileString,
-    );
-
-    if ( $Param{Type} eq 'CSS' ) {
-        $Filename .= '.css';
-    }
-    elsif ( $Param{Type} eq 'JavaScript' ) {
-        $Filename .= '.js';
-
-    }
-
-    if ( !-r "$TargetDirectory/$Filename" ) {
-        my $Content = $Self->{LoaderObject}->GetMinifiedFileList(
-            List => $List,
-            Type => $Param{Type},
-        );
-
-        my $FileLocation = $Self->{MainObject}->FileWrite(
-            Directory => $TargetDirectory,
-            Filename  => $Filename,
-            Content   => \$Content,
-        );
-    }
-
-    return $Filename;
 }
 
 1;
