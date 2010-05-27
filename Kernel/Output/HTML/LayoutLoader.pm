@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.8 2010-05-27 12:20:57 mg Exp $
+# $Id: LayoutLoader.pm,v 1.9 2010-05-27 12:51:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,11 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Kernel::System::Loader;
 
-sub CreateCSSLoaderCalls {
+sub CreateAgentLoaderCalls {
     my ( $Self, %Param ) = @_;
 
     $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
