@@ -2,7 +2,7 @@
 # Test.dtl - provides HTML test page
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.dtl,v 1.17 2010-05-21 17:14:31 mp Exp $
+# $Id: Test.dtl,v 1.18 2010-05-27 08:51:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -95,12 +95,6 @@
     </tr>
     <tr>
         <td>SCRIPT_NAME:</td><td> $Env{"SCRIPT_NAME"}</td>
-    </tr>
-    <tr>
-        <td>Box0:</td><td>$Env{"Box0"}</td>
-    </tr>
-    <tr>
-        <td>Box1:</td><td>$Env{"Box1"}</td>
     </tr>
 </table>
 <hr/>
