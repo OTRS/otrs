@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.4 2010-05-27 09:28:22 mg Exp $
+# $Id: LayoutLoader.pm,v 1.5 2010-05-27 09:39:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,14 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::Loader;
 
 sub CreateCSSLoaderCalls {
     my ( $Self, %Param ) = @_;
+
+    my $Home = $Self->{ConfigObject}->Get('Home');
 
     {
         my $CommonCSSList = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS');
@@ -31,9 +33,7 @@ sub CreateCSSLoaderCalls {
             for my $CSSFile ( @{ $CommonCSSList->{$Key} } ) {
                 push(
                     @FileList,
-                    $Self->{ConfigObject}->Get('Home')
-                        . '/var/httpd/htdocs/skins/Agent/default/css/'
-                        . $CSSFile
+                    $Home . '/var/httpd/htdocs/skins/Agent/default/css/' . $CSSFile
                 );
             }
         }
@@ -41,8 +41,9 @@ sub CreateCSSLoaderCalls {
         my $MinifiedFile = $Self->CreateMinifiedFile(
             List            => \@FileList,
             Type            => 'CSS',
-            TargetDirectory => $Self->{ConfigObject}->Get('Home')
-                . '/var/httpd/htdocs/skins/Agent/default/css-cache/'
+            TargetDirectory => $Home
+                . '/var/httpd/htdocs/skins/Agent/default/css-cache/',
+            TargetFilenamePrefix => 'CommonCSS',
         );
 
         $Self->Block(
@@ -63,9 +64,7 @@ sub CreateCSSLoaderCalls {
             for my $CSSFile ( @{ $CommonCSSIE7List->{$Key} } ) {
                 push(
                     @FileList,
-                    $Self->{ConfigObject}->Get('Home')
-                        . '/var/httpd/htdocs/skins/Agent/default/css/'
-                        . $CSSFile
+                    $Home . '/var/httpd/htdocs/skins/Agent/default/css/' . $CSSFile
                 );
             }
         }
@@ -73,8 +72,9 @@ sub CreateCSSLoaderCalls {
         my $MinifiedFile = $Self->CreateMinifiedFile(
             List            => \@FileList,
             Type            => 'CSS',
-            TargetDirectory => $Self->{ConfigObject}->Get('Home')
-                . '/var/httpd/htdocs/skins/Agent/default/css-cache/'
+            TargetDirectory => $Home
+                . '/var/httpd/htdocs/skins/Agent/default/css-cache/',
+            TargetFilenamePrefix => 'CommonCSS_IE7',
         );
 
         $Self->Block(
@@ -95,9 +95,7 @@ sub CreateCSSLoaderCalls {
             for my $CSSFile ( @{ $CommonCSSIE8List->{$Key} } ) {
                 push(
                     @FileList,
-                    $Self->{ConfigObject}->Get('Home')
-                        . '/var/httpd/htdocs/skins/Agent/default/css/'
-                        . $CSSFile
+                    $Home . '/var/httpd/htdocs/skins/Agent/default/css/' . $CSSFile
                 );
             }
         }
@@ -105,8 +103,9 @@ sub CreateCSSLoaderCalls {
         my $MinifiedFile = $Self->CreateMinifiedFile(
             List            => \@FileList,
             Type            => 'CSS',
-            TargetDirectory => $Self->{ConfigObject}->Get('Home')
-                . '/var/httpd/htdocs/skins/Agent/default/css-cache/'
+            TargetDirectory => $Home
+                . '/var/httpd/htdocs/skins/Agent/default/css-cache/',
+            TargetFilenamePrefix => 'CommonCSS_IE8',
         );
 
         $Self->Block(
@@ -143,6 +142,8 @@ sub CreateMinifiedFile {
         return;
     }
 
+    my $TargetFilenamePrefix = $Param{TargetFilenamePrefix} ? "$Param{TargetFilenamePrefix}_" : '';
+
     my %ValidTypeParams = (
         CSS        => 1,
         JavaScript => 1,
@@ -172,7 +173,7 @@ sub CreateMinifiedFile {
 
     $FileString .= $ConfigTimestamp;
 
-    my $Filename = $Self->{MainObject}->MD5sum(
+    my $Filename = $TargetFilenamePrefix . $Self->{MainObject}->MD5sum(
         String => \$FileString,
     );
 
