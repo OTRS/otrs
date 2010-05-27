@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.85 2010-05-27 09:28:22 mg Exp $
+# $Id: Header.dtl,v 1.86 2010-05-27 09:59:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,18 +32,18 @@ $Include{"Copyright"}
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
 
 <!-- dtl:block:CommonCSS -->
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/css-cache/$QData{"Filename"}" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
 <!-- dtl:block:CommonCSS_IE7 -->
 <!--[if IE 7]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/css-cache/$QData{"Filename"}" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE7 -->
 
 <!-- dtl:block:CommonCSS_IE8 -->
 <!--[if IE 8]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/css-cache/$QData{"Filename"}" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE8 -->
 
