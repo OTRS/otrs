@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.339 2010-05-21 06:32:04 cg Exp $
+# $Id: Defaults.pm,v 1.340 2010-05-27 11:36:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,10 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.339 $) [1];
+$VERSION = qw($Revision: 1.340 $) [1];
+
+use File::stat;
+use Digest::MD5;
 
 sub LoadDefaults {
     my $Self = shift;
@@ -1805,6 +1808,38 @@ sub Set {
     return 1;
 }
 
+#
+# ConfigChecksum
+#
+# This function returns an MD5 sum that is generated from all available
+#   config files (Kernel/Config.pm, Kernel/Config/Files/*.pm) and their
+#   modification timestamps. Whenever a file is changed, added or removed,
+#   this checksum will change.
+#
+sub ConfigChecksum {
+    my ( $Self ) = @_;
+
+    my @Files = glob( $Self->{Home} . "/Kernel/Config/Files/*.pm");
+    push( @Files, $Self->{Home} . "/Kernel/Config.pm" );
+
+    # Create a string with filenames and file mtimes of the config files
+    my $ConfigString;
+    for my $File (@Files) {
+
+        # get file metadata
+        my $Stat = stat( $File );
+
+        if ( !$Stat ) {
+            print STDERR "Error: cannot stat file '$File': $!";
+            return;
+        }
+
+        $ConfigString .= $File . $Stat->mtime;
+    }
+
+    return Digest::MD5::md5_hex( $ConfigString );
+}
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -2023,6 +2058,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.339 $ $Date: 2010-05-21 06:32:04 $
+$Revision: 1.340 $ $Date: 2010-05-27 11:36:35 $
 
 =cut

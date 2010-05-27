@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.6 2010-05-27 09:59:22 mg Exp $
+# $Id: LayoutLoader.pm,v 1.7 2010-05-27 11:36:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,14 +15,17 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Kernel::System::Loader;
 
 sub CreateCSSLoaderCalls {
     my ( $Self, %Param ) = @_;
 
-    my $Home     = $Self->{ConfigObject}->Get('Home');
+    #use Time::HiRes;
+    #my $t0 = Time::HiRes::gettimeofday();
+
+    my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
 
     {
@@ -35,7 +38,7 @@ sub CreateCSSLoaderCalls {
                 if ($DoMinify) {
                     push(
                         @FileList,
-                        $Home . '/var/httpd/htdocs/skins/Agent/default/css/' . $CSSFile
+                        $SkinHome . '/Agent/default/css/' . $CSSFile
                     );
                 }
                 else {
@@ -53,10 +56,9 @@ sub CreateCSSLoaderCalls {
 
         if ( $DoMinify && @FileList ) {
             my $MinifiedFile = $Self->CreateMinifiedFile(
-                List            => \@FileList,
-                Type            => 'CSS',
-                TargetDirectory => $Home
-                    . '/var/httpd/htdocs/skins/Agent/default/css-cache/',
+                List                 => \@FileList,
+                Type                 => 'CSS',
+                TargetDirectory      => $SkinHome . '/Agent/default/css-cache/',
                 TargetFilenamePrefix => 'CommonCSS',
             );
 
@@ -83,7 +85,7 @@ sub CreateCSSLoaderCalls {
                 if ($DoMinify) {
                     push(
                         @FileList,
-                        $Home . '/var/httpd/htdocs/skins/Agent/default/css/' . $CSSFile
+                        $SkinHome . '/Agent/default/css/' . $CSSFile
                     );
                 }
                 else {
@@ -101,10 +103,9 @@ sub CreateCSSLoaderCalls {
 
         if ( $DoMinify && @FileList ) {
             my $MinifiedFile = $Self->CreateMinifiedFile(
-                List            => \@FileList,
-                Type            => 'CSS',
-                TargetDirectory => $Home
-                    . '/var/httpd/htdocs/skins/Agent/default/css-cache/',
+                List                 => \@FileList,
+                Type                 => 'CSS',
+                TargetDirectory      => $SkinHome . '/Agent/default/css-cache/',
                 TargetFilenamePrefix => 'CommonCSS_IE7',
             );
 
@@ -129,7 +130,7 @@ sub CreateCSSLoaderCalls {
                 if ($DoMinify) {
                     push(
                         @FileList,
-                        $Home . '/var/httpd/htdocs/skins/Agent/default/css/' . $CSSFile
+                        $SkinHome . '/Agent/default/css/' . $CSSFile
                     );
                 }
                 else {
@@ -147,10 +148,9 @@ sub CreateCSSLoaderCalls {
 
         if ( $DoMinify && @FileList ) {
             my $MinifiedFile = $Self->CreateMinifiedFile(
-                List            => \@FileList,
-                Type            => 'CSS',
-                TargetDirectory => $Home
-                    . '/var/httpd/htdocs/skins/Agent/default/css-cache/',
+                List                 => \@FileList,
+                Type                 => 'CSS',
+                TargetDirectory      => $SkinHome . '/Agent/default/css-cache/',
                 TargetFilenamePrefix => 'CommonCSS_IE8',
             );
 
@@ -164,6 +164,8 @@ sub CreateCSSLoaderCalls {
             );
         }
     }
+
+    #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
 
 }
 
@@ -217,7 +219,7 @@ sub CreateMinifiedFile {
     }
 
     # also include the config timestamp in the caching to reload the data on config changes
-    my $ConfigTimestamp = $Self->LoaderCreateClientCacheTimestamp();
+    my $ConfigTimestamp = $Self->{ConfigObject}->ConfigChecksum();
 
     $FileString .= $ConfigTimestamp;
 
@@ -247,30 +249,6 @@ sub CreateMinifiedFile {
     }
 
     return $Filename;
-}
-
-sub LoaderCreateClientCacheTimestamp {
-    my ($Self) = @_;
-
-    my $Dir = $Self->{ConfigObject}->Get('Home');
-
-    my @Files = glob("$Dir/Kernel/Config/Files/*.pm");
-
-    push( @Files, "$Dir/Kernel/Config.pm" );
-
-    my $StringFile = "";
-    for my $File (@Files) {
-        my $FileMTime = $Self->{MainObject}->FileGetMTime(
-            Location => $File,
-        );
-        $File =~ s/^.*\/(.+?)/$1/g;
-        $StringFile .= $File . $FileMTime;
-    }
-
-    my $MD5Sum = $Self->{MainObject}->MD5sum(
-        String => \$StringFile,
-    );
-    return $MD5Sum;
 }
 
 1;
