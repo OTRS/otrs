@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1222 2010-05-28 09:29:01 mb Exp $
+# $Id: CHANGES,v 1.1223 2010-05-28 21:14:18 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,10 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/05/28) Fixed bug#5262 - Sort by "pending time" includes ticket with no
+    pending state.
+ - (2010/05/28) Added option to use TicketPendingTimeSet() to null out the
+    Pending Time, similar to the implementation for TicketFreeTimeSet().
  - (2010/05/21) Fixed bug#4459 - Two related error messages in S/MIME if you
     call it and it's disabled, and one message is enough.
  - (2010/05/21) Fixed bug#5377 - Show all users in AdminUser as a default.
