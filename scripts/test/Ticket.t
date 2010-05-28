@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.58 2010-05-20 07:43:03 mb Exp $
+# $Id: Ticket.t,v 1.59 2010-05-28 21:09:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -5064,6 +5064,174 @@ for my $State ( values %StateList ) {
         "TicketSearch() - StateType",
     );
 }
+
+my %TicketPending = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->Is(
+    $TicketPending{UntilTime},
+    '0',
+    "TicketPendingTimeSet() - Pending Time - not set",
+);
+
+my $PendingTimeSet = $TicketObject->TicketPendingTimeSet(
+    TicketID => $TicketID,
+    UserID   => 1,
+    Year     => '2003',
+    Month    => '08',
+    Day      => '14',
+    Hour     => '22',
+    Minute   => '05',
+);
+
+$Self->True(
+    $PendingTimeSet,
+    "TicketPendingTimeSet() - Pending Time - set",
+);
+
+%TicketPending = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+my $PendingUntilTime = $Self->{TimeObject}->Date2SystemTime(
+    Year   => '2003',
+    Month  => '08',
+    Day    => '14',
+    Hour   => '22',
+    Minute => '05',
+    Second => '00',
+);
+
+$PendingUntilTime = $Self->{TimeObject}->SystemTime() - $PendingUntilTime;
+
+$Self->Is(
+    $TicketPending{UntilTime},
+    '-' . $PendingUntilTime,
+    "TicketPendingTimeSet() - Pending Time - read back",
+);
+
+$PendingTimeSet = $TicketObject->TicketPendingTimeSet(
+    TicketID => $TicketID,
+    UserID   => 1,
+    Year     => '0',
+    Month    => '0',
+    Day      => '0',
+    Hour     => '0',
+    Minute   => '0',
+);
+
+$Self->True(
+    $PendingTimeSet,
+    "TicketPendingTimeSet() - Pending Time - reset",
+);
+
+%TicketPending = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->Is(
+    $TicketPending{UntilTime},
+    '0',
+    "TicketPendingTimeSet() - Pending Time - not set",
+);
+
+$PendingTimeSet = $TicketObject->TicketPendingTimeSet(
+    TicketID => $TicketID,
+    UserID   => 1,
+    String   => '2003-09-14 22:05:00',
+);
+
+$Self->True(
+    $PendingTimeSet,
+    "TicketPendingTimeSet() - Pending Time - set string",
+);
+
+%TicketPending = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$PendingUntilTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2003-09-14 22:05:00',
+);
+
+$PendingUntilTime = $Self->{TimeObject}->SystemTime() - $PendingUntilTime;
+
+$Self->Is(
+    $TicketPending{UntilTime},
+    '-' . $PendingUntilTime,
+    "TicketPendingTimeSet() - Pending Time - read back",
+);
+
+$PendingTimeSet = $TicketObject->TicketPendingTimeSet(
+    TicketID => $TicketID,
+    UserID   => 1,
+    String   => '0000-00-00 00:00:00',
+);
+
+$Self->True(
+    $PendingTimeSet,
+    "TicketPendingTimeSet() - Pending Time - reset string",
+);
+
+%TicketPending = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->Is(
+    $TicketPending{UntilTime},
+    '0',
+    "TicketPendingTimeSet() - Pending Time - not set",
+);
+
+$PendingTimeSet = $TicketObject->TicketPendingTimeSet(
+    TicketID => $TicketID,
+    UserID   => 1,
+    String   => '2003-09-14 22:05:00',
+);
+
+$Self->True(
+    $PendingTimeSet,
+    "TicketPendingTimeSet() - Pending Time - set string",
+);
+
+my $TicketStateUpdate = $TicketObject->TicketStateSet(
+    TicketID => $TicketID,
+    UserID   => 1,
+    State    => 'pending reminder',
+);
+
+%TicketPending = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->True(
+    $TicketPending{UntilTime},
+    "TicketPendingTimeSet() - Set to pending - time should still be there",
+);
+
+$TicketStateUpdate = $TicketObject->TicketStateSet(
+    TicketID => $TicketID,
+    UserID   => 1,
+    State    => 'new',
+);
+
+%TicketPending = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->Is(
+    $TicketPending{UntilTime},
+    '0',
+    "TicketPendingTimeSet() - Set to new - Pending Time not set",
+);
 
 # the ticket is no longer needed
 $TicketObject->TicketDelete(
