@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.462 2010-05-20 07:43:03 mb Exp $
+# $Id: Ticket.pm,v 1.463 2010-05-28 13:02:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.462 $) [1];
+$VERSION = qw($Revision: 1.463 $) [1];
 
 =head1 NAME
 
@@ -3063,6 +3063,20 @@ Set ticket free text.
         TicketFreeTime1Day    => 24,
         TicketFreeTime1Hour   => 22,
         TicketFreeTime1Minute => 01,
+        TicketID              => 123,
+        UserID                => 23,
+    );
+
+If you want to set a FreeTime value to null, just supply zeros:
+
+    my $Success = $TicketObject->TicketFreeTimeSet(
+        Counter               => 1,
+        Prefix                => 'TicketFreeTime',
+        TicketFreeTime1Year   => 0,
+        TicketFreeTime1Month  => 0,
+        TicketFreeTime1Day    => 0,
+        TicketFreeTime1Hour   => 0,
+        TicketFreeTime1Minute => 0,
         TicketID              => 123,
         UserID                => 23,
     );
@@ -8037,6 +8051,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.462 $ $Date: 2010-05-20 07:43:03 $
+$Revision: 1.463 $ $Date: 2010-05-28 13:02:06 $
 
 =cut
