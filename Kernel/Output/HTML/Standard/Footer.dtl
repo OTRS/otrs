@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.51 2010-05-20 11:13:14 mg Exp $
+# $Id: Footer.dtl,v 1.52 2010-05-28 17:48:15 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,35 +30,9 @@
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-resizable.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-validate-1.7/jquery.validate.js"></script>
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/flot/jquery.flot.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.JavaScriptEnhancements.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Config.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Debug.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Exception.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.JSON.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Data.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.AJAX.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Accordion.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Datepicker.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Resizable.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.DnD.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Table.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Accessibility.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.RichTextEditor.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Form.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Form.ErrorTooltips.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Form.Validate.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Dialog.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.ActionRow.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Popup.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.Chart.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.App.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Agent.js"></script>
-
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Agent.App.Dashboard.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Agent.App.TicketZoom.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Agent.App.AdminSysConfig.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.Agent.App.Login.js"></script>
+<!-- dtl:block:CommonJS -->
+    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/$QData{"JSDirectory"}/$QData{"Filename"}"></script>
+<!-- dtl:block:CommonJS -->
 
     <script type="text/javascript">//<![CDATA[
         "use strict";

@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.50 2010-05-26 08:52:26 mg Exp $
+# $Id: Login.dtl,v 1.51 2010-05-28 17:44:16 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,44 +21,27 @@ $Include{"Copyright"}
     <meta http-equiv="Content-type" content="text/html;charset=$Env{"UserCharset"}" />
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
 
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Reset.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Default.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Header.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.OverviewControl.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.OverviewSmall.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.OverviewMedium.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.OverviewLarge.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Footer.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Grid.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Form.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Table.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Widget.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.WidgetMenu.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.TicketDetail.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Tooltip.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Dialog.css" />
+<!-- dtl:block:CommonCSS -->
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+<!-- dtl:block:CommonCSS -->
+
+<!-- dtl:block:CommonCSS_IE7 -->
+<!--[if IE 7]>
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <![endif]-->
+<!-- dtl:block:CommonCSS_IE7 -->
+
+<!-- dtl:block:CommonCSS_IE8 -->
+<!--[if IE 8]>
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Header.IE8.css" />
+    <![endif]-->
+<!-- dtl:block:CommonCSS_IE8 -->
+
     <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.App.Agent.AdminPerformanceLog.css" />
     <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.App.Agent.AdminSysConfig.css" />
 
     <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/ui-theme/jquery-ui.css" />
-
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Print.css" />
-
-<!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Header.IE7.css" />
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Widget.IE7.css" />
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Form.IE7.css" />
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Grid.IE7.css" />
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.OverviewControl.IE7.css" />
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.OverviewSmall.IE7.css" />
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.OverviewMedium.IE7.css" />
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.OverviewLarge.IE7.css" />
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.TicketDetail.IE7.css" />
-    <![endif]-->
-<!--[if IE 8]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Header.IE8.css" />
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.OverviewSmall.IE8.css" />
-    <![endif]-->
 
     <title>$Config{"ProductName"} :: $Text{"$Data{"Title"}"}</title>
 </head>
@@ -135,7 +118,7 @@ $Include{"Copyright"}
                                 -->
 
                                 <div class="Field SpacingTop">
-                                    <button type="submit" value="$Text{"Login"}" onclick="return submit_form();" disabled="disabled">$Text{"Login"}</button>
+                                    <button type="submit" value="$Text{"Login"}" disabled="disabled">$Text{"Login"}</button>
                                 </div>
                                 <div class="Clear"></div>
                             </fieldset>
