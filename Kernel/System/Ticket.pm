@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.463 2010-05-28 13:02:06 mb Exp $
+# $Id: Ticket.pm,v 1.464 2010-05-28 21:08:15 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.463 $) [1];
+$VERSION = qw($Revision: 1.464 $) [1];
 
 =head1 NAME
 
@@ -3440,7 +3440,7 @@ sub GetSubscribedUserIDsByQueueID {
 
 =item TicketPendingTimeSet()
 
-set ticket pending time
+set ticket pending time:
 
     my $Success = $TicketObject->TicketPendingTimeSet(
         Year     => 2003,
@@ -3452,10 +3452,30 @@ set ticket pending time
         UserID   => 23,
     );
 
-or use a time stamp
+or use a time stamp:
 
     my $Success = $TicketObject->TicketPendingTimeSet(
         String   => '2003-08-14 22:05:00',
+        TicketID => 123,
+        UserID   => 23,
+    );
+
+If you want to set the pending time to null, just supply zeros:
+
+    my $Success = $TicketObject->TicketPendingTimeSet(
+        Year     => 0000,
+        Month    => 00,
+        Day      => 00,
+        Hour     => 00,
+        Minute   => 00,
+        TicketID => 123,
+        UserID   => 23,
+    );
+
+or use a time stamp:
+
+    my $Success = $TicketObject->TicketPendingTimeSet(
+        String   => '0000-00-00 00:00:00',
         TicketID => 123,
         UserID   => 23,
     );
@@ -3479,21 +3499,53 @@ sub TicketPendingTimeSet {
             }
         }
     }
+    else {
+        for (qw(String TicketID UserID)) {
+            if ( !defined $Param{$_} ) {
+                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+                return;
+            }
+        }
+    }
+
+    # check if we need to null the PendingTime
+    my $PendingTimeNull;
+    if ( $Param{String} && $Param{String} eq '0000-00-00 00:00:00' ) {
+        $PendingTimeNull = 1;
+        $Param{Sec}      = 0;
+        $Param{Minute}   = 0;
+        $Param{Hour}     = 0;
+        $Param{Day}      = 0;
+        $Param{Month}    = 0;
+        $Param{Year}     = 0;
+    }
+    elsif (
+        !$Param{String}
+        && $Param{Minute} == 0
+        && $Param{Hour} == 0 && $Param{Day} == 0
+        && $Param{Month} == 0
+        && $Param{Year} == 0
+        )
+    {
+        $PendingTimeNull = 1;
+    }
 
     # get system time from string/params
-    if ( $Param{String} ) {
-        $Time = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{String}, );
-        ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} )
-            = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Time, );
-    }
-    else {
-        $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => "$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:00",
-        );
-    }
+    if ( !$PendingTimeNull ) {
+        if ( $Param{String} ) {
+            $Time = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{String}, );
+            ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} )
+                = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Time, );
+        }
+        else {
+            $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => "$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:00",
+            );
+        }
 
-    # return if no convert is possible
-    return if !$Time;
+        # return if no convert is possible
+        return if !$Time;
+    }
 
     # db update
     return if !$Self->{DBObject}->Do(
@@ -8051,6 +8103,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.463 $ $Date: 2010-05-28 13:02:06 $
+$Revision: 1.464 $ $Date: 2010-05-28 21:08:15 $
 
 =cut
