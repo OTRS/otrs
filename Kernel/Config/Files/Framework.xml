@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.291 2010-05-27 09:59:23 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.292 2010-05-28 17:24:01 cg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Group>Framework</Group>
@@ -5358,6 +5358,86 @@ Your OTRS Notification Master
         <Setting>
             <Array>
                 <Item>OTRS.OverviewSmall.IE8.css</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Loader::Agent::CommonJS###000-Framework" Required="1" Valid="1">
+        <Description Translatable="1">List of JS files to always load for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Array>
+                <Item>OTRS.JavaScriptEnhancements.js</Item>
+                <Item>OTRS.Config.js</Item>
+                <Item>OTRS.Debug.js</Item>
+                <Item>OTRS.Exception.js</Item>
+                <Item>OTRS.JSON.js</Item>
+                <Item>OTRS.Data.js</Item>
+                <Item>OTRS.AJAX.js</Item>
+                <Item>OTRS.UI.js</Item>
+                <Item>OTRS.UI.Accordion.js</Item>
+                <Item>OTRS.UI.Datepicker.js</Item>
+                <Item>OTRS.UI.Resizable.js</Item>
+                <Item>OTRS.UI.DnD.js</Item>
+                <Item>OTRS.UI.Table.js</Item>
+                <Item>OTRS.UI.Accessibility.js</Item>
+                <Item>OTRS.UI.RichTextEditor.js</Item>
+                <Item>OTRS.Form.js</Item>
+                <Item>OTRS.Form.ErrorTooltips.js</Item>
+                <Item>OTRS.Form.Validate.js</Item>
+                <Item>OTRS.UI.Dialog.js</Item>
+                <Item>OTRS.UI.ActionRow.js</Item>
+                <Item>OTRS.UI.Popup.js</Item>
+                <Item>OTRS.UI.Chart.js</Item>
+                <Item>OTRS.App.js</Item>
+                <Item>OTRS.Agent.js</Item>
+                <Item>OTRS.Agent.App.Dashboard.js</Item>
+                <Item>OTRS.Agent.App.TicketZoom.js</Item>
+                <Item>OTRS.Agent.App.AdminSysConfig.js</Item>
+                <Item>OTRS.Agent.App.Login.js</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Loader::Customer::CommonCSS###000-Framework" Required="1" Valid="1">
+        <Description Translatable="1">List of CSS files to always load for the customer interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Array>
+                <Item>OTRS.Reset.css</Item>
+                <Item>OTRS.Default.css</Item>
+                <Item>OTRS.Form.css</Item>
+                <Item>OTRS.Login.css</Item>
+                <Item>OTRS.Control.css</Item>
+                <Item>OTRS.Table.css</Item>
+                <Item>OTRS.TicketZoom.css</Item>
+                <Item>OTRS.Print.css</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Loader::Customer::CommonCSS::IE7###000-Framework" Required="1" Valid="1">
+        <Description Translatable="1">List of IE7-specific CSS files to always load for the customer interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Array>
+                <Item>OTRS.IE7.css</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Loader::Customer::CommonJS###000-Framework" Required="1" Valid="1">
+        <Description Translatable="1">List of JS files to always load for the customer interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Array>
+                <Item>OTRS.Debug.js</Item>
+                <Item>OTRS.Exception.js</Item>
+                <Item>OTRS.App.js</Item>
+                <Item>OTRS.Customer.js</Item>
+                <Item>OTRS.JavaScriptEnhancements.js</Item>
+                <Item>OTRS.Config.js</Item>
+                <Item>OTRS.UI.RichTextEditor.js</Item>
             </Array>
         </Setting>
     </ConfigItem>
