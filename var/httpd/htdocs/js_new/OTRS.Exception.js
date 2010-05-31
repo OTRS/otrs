@@ -2,7 +2,7 @@
 // OTRS.Exception.js - provides the exception object and handling functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Exception.js,v 1.2 2010-05-31 13:04:05 mn Exp $
+// $Id: OTRS.Exception.js,v 1.3 2010-05-31 13:10:53 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -10,25 +10,6 @@
 // --
 
 "use strict";
-
-function ApplicationError(ErrorMessage, ErrorType) {
-    var Type = ErrorType,
-        Message = ErrorMessage,
-        Types = ['Error', 'InternalError', 'TypeError', 'CommunicationError'];
-        DefaultType = 'Error';
-
-    if (!$.inArray(Type, Types)) {
-        Type = DefaultType;
-    }
-
-    this.GetType = function () {
-        return Type;
-    }
-
-    this.GetMessage = function () {
-        return Message;
-    }
-}
 
 var OTRS = OTRS || {};
 
@@ -41,13 +22,39 @@ var OTRS = OTRS || {};
 OTRS.Exception = (function (TargetNS) {
     /**
      * @function
+     *      This is the constructor for the application error object
+     * @param {String} ErrorMessage The error message
+     * @param {String} ErrorType The error type
+     * @return nothing
+     */
+    TargetNS.ApplicationError = function (ErrorMessage, ErrorType) {
+        var Type = ErrorType,
+            Message = ErrorMessage,
+            Types = ['Error', 'InternalError', 'TypeError', 'CommunicationError'];
+            DefaultType = 'Error';
+
+        if (!$.inArray(Type, Types)) {
+            Type = DefaultType;
+        }
+
+        this.GetType = function () {
+            return Type;
+        }
+
+        this.GetMessage = function () {
+            return Message;
+        }
+    };
+
+    /**
+     * @function
      *      This function throws an application error
      * @param {String} ErrorMessage The error message
      * @param {String} ErrorType The error type
      * @return nothing
      */
     TargetNS.Throw = function (ErrorMessage, ErrorType) {
-        throw new ApplicationError(ErrorMessage, ErrorType);
+        throw new TargetNS.ApplicationError(ErrorMessage, ErrorType);
     };
 
     /**
@@ -57,7 +64,7 @@ OTRS.Exception = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.HandleError = function (Error) {
-        if (Error instanceof ApplicationError) {
+        if (Error instanceof TargetNS.ApplicationError) {
             TargetNS.ShowError(Error.GetMessage(), Error.GetType());
         }
         else if (Error instanceof Error) {
