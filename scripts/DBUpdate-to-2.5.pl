@@ -3,7 +3,7 @@
 # DBUpdate-to-2.5.pl - update script to migrate OTRS 2.4.x to 2.5.x
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.5.pl,v 1.2 2010-01-31 23:46:00 martin Exp $
+# $Id: DBUpdate-to-2.5.pl,v 1.3 2010-05-31 07:20:12 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -41,6 +41,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 use Kernel::System::DB;
 use Kernel::System::Main;
+use Kernel::System::State;
 use Kernel::System::SysConfig;
 use Kernel::System::User;
 
@@ -66,12 +67,14 @@ $CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
+$CommonObject{StateObject}     = Kernel::System::State->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
 $CommonObject{UserObject}      = Kernel::System::User->new(%CommonObject);
 
 # start migration process
 MigrateThemes();
 PermissionTableCleanup();
+RemovePendingTime();
 
 print "\nMigration of the system completed!\n";
 
@@ -137,6 +140,45 @@ sub PermissionTableCleanup {
         print "failed!\n";
         return;
     }
+
+    print "done!\n";
+
+    return 1;
+}
+
+=item RemovePendingTime()
+
+Set Pending Time to NULL if the ticket does not have a pending-type state.
+
+    RemovePendingTime();
+
+=cut
+
+sub RemovePendingTime {
+
+    print "NOTICE: Setting pending time to null...\n";
+
+    # read pending state types from config
+    my $PendingReminderStateType =
+        $CommonObject{ConfigObject}->Get('Ticket::PendingReminderStateType:') || 'pending reminder';
+    my $PendingAutoStateType =
+        $CommonObject{ConfigObject}->Get('Ticket::PendingAutoStateType:') || 'pending auto';
+
+    # read states
+    my @PendingStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
+        StateType => [ $PendingReminderStateType, $PendingAutoStateType ],
+        Result => 'ID',
+    );
+
+    return 1 if !@PendingStateIDs;
+
+    # update ticket table via DB driver.
+    my $Success = $CommonObject{DBObject}->Do(
+        SQL => "UPDATE ticket"
+            . " SET until_time = 0"
+            . " WHERE until_time > 0"
+            . " AND ticket_state_id NOT IN (${\(join ', ', sort @PendingStateIDs)})",
+    );
 
     print "done!\n";
 
