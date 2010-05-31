@@ -2,7 +2,7 @@
 # Loader.t - Loader backend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.t,v 1.4 2010-05-27 13:53:42 mg Exp $
+# $Id: Loader.t,v 1.5 2010-05-31 10:51:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,14 +16,14 @@ my $LoaderObject = Kernel::System::Loader->new( %{$Self} );
 {
     my $CSS = $Self->{MainObject}->FileRead(
         Location => $Self->{ConfigObject}->Get('Home')
-            . '/scripts/test/sample/Loader/OTRS.Reset.CSS',
+            . '/scripts/test/sample/Loader/OTRS.Reset.css',
     );
 
     $CSS = ${$CSS};
 
     my $ExpectedCSS = $Self->{MainObject}->FileRead(
         Location => $Self->{ConfigObject}->Get('Home')
-            . '/scripts/test/sample/Loader/OTRS.Reset.min.CSS',
+            . '/scripts/test/sample/Loader/OTRS.Reset.min.css',
     );
 
     $ExpectedCSS = ${$ExpectedCSS};
@@ -41,13 +41,13 @@ my $LoaderObject = Kernel::System::Loader->new( %{$Self} );
 
     my $MinifiedCSSFile = $LoaderObject->GetMinifiedFile(
         Location => $Self->{ConfigObject}->Get('Home')
-            . '/scripts/test/sample/Loader/OTRS.Reset.CSS',
+            . '/scripts/test/sample/Loader/OTRS.Reset.css',
         Type => 'CSS',
     );
 
     my $MinifiedCSSFileCached = $LoaderObject->GetMinifiedFile(
         Location => $Self->{ConfigObject}->Get('Home')
-            . '/scripts/test/sample/Loader/OTRS.Reset.CSS',
+            . '/scripts/test/sample/Loader/OTRS.Reset.css',
         Type => 'CSS',
     );
 
