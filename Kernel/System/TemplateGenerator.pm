@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.44 2010-05-12 18:32:10 dz Exp $
+# $Id: TemplateGenerator.pm,v 1.45 2010-05-31 14:47:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -309,6 +309,7 @@ sub Signature {
         Text     => $Signature{Text},
         TicketID => $Param{TicketID} || '',
         Data     => $Param{Data},
+        QueueID  => $Param{QueueID},
         UserID   => $Param{UserID},
     );
 
@@ -540,7 +541,7 @@ sub AutoResponse {
 
     return if !%AutoResponse;
 
-    # get old article for quoteing
+    # get old article for quoting
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
         TicketID => $Param{TicketID},
     );
@@ -693,7 +694,7 @@ sub NotificationAgent {
     # get ticket
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
 
-    # get old article for quoteing
+    # get old article for quoting
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
 
     for (qw(From To Cc Subject Body)) {
@@ -852,6 +853,11 @@ sub NotificationCustomer {
 
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
 
+    my %Queue;
+    if ( $Param{QueueID} ) {
+        %Queue = $Self->{QueueObject}->QueueGet( ID => $Param{QueueID} );
+    }
+
     my %User;
 
     # get user language
@@ -917,6 +923,11 @@ sub _Replace {
         %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
     }
 
+    my %Queue;
+    if ( $Param{QueueID} ) {
+        %Queue = $Self->{QueueObject}->QueueGet( ID => $Param{QueueID} );
+    }
+
     # replace config options
     my $Tag = $Start . 'OTRS_CONFIG_';
     $Param{Text} =~ s{$Tag(.+?)$End}{$Self->{ConfigObject}->Get($1)}egx;
@@ -931,7 +942,7 @@ sub _Replace {
             UserID => $Param{RecipientID},
         );
 
-        # html quoteing of content
+        # html quoting of content
         if ( $Param{RichText} ) {
             for ( keys %Recipient ) {
                 next if !$Recipient{$_};
@@ -955,7 +966,7 @@ sub _Replace {
             UserID => $Ticket{OwnerID},
         );
 
-        # html quoteing of content
+        # html quoting of content
         if ( $Param{RichText} ) {
             for ( keys %Owner ) {
                 next if !$Owner{$_};
@@ -982,7 +993,7 @@ sub _Replace {
             UserID => $Ticket{ResponsibleID},
         );
 
-        # html quoteing of content
+        # html quoting of content
         if ( $Param{RichText} ) {
             for ( keys %Responsible ) {
                 next if !$Responsible{$_};
@@ -1006,7 +1017,7 @@ sub _Replace {
     my $Tag2 = $Start . 'OTRS_CURRENT_';
     my %CurrentUser = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
 
-    # html quoteing of content
+    # html quoting of content
     if ( $Param{RichText} ) {
         for ( keys %CurrentUser ) {
             next if !$CurrentUser{$_};
@@ -1034,7 +1045,7 @@ sub _Replace {
     # ticket data
     $Tag = $Start . 'OTRS_TICKET_';
 
-    # html quoteing of content
+    # html quoting of content
     if ( $Param{RichText} ) {
         for ( keys %Ticket ) {
             next if !$Ticket{$_};
@@ -1053,7 +1064,12 @@ sub _Replace {
     # COMPAT
     $Param{Text} =~ s/$Start OTRS_TICKET_ID $End/$Ticket{TicketID}/gixms;
     $Param{Text} =~ s/$Start OTRS_TICKET_NUMBER $End/$Ticket{TicketNumber}/gixms;
-    $Param{Text} =~ s/$Start OTRS_QUEUE $End/$Ticket{Queue}/gixms;
+    if ( $Param{TicketID} ) {
+        $Param{Text} =~ s/$Start OTRS_QUEUE $End/$Ticket{Queue}/gixms;
+    }
+    if ( $Param{QueueID} ) {
+        $Param{Text} =~ s/$Start OTRS_TICKET_QUEUE $End/$Queue{Name}/gixms;
+    }
 
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
@@ -1061,7 +1077,7 @@ sub _Replace {
     # get customer params and replace it with <OTRS_CUSTOMER_...
     my %Data = %{ $Param{Data} };
 
-    # html quoteing of content
+    # html quoting of content
     if ( $Param{RichText} ) {
         for ( keys %Data ) {
             next if !$Data{$_};
@@ -1115,7 +1131,7 @@ sub _Replace {
                 }
                 chomp $NewOldBody;
 
-                # html quoteing of content
+                # html quoting of content
                 if ( $Param{RichText} && $NewOldBody ) {
 
                     # remove tailing new lines
@@ -1165,7 +1181,7 @@ sub _Replace {
             }
             chomp $NewOldBody;
 
-            # html quoteing of content
+            # html quoting of content
             if ( $Param{RichText} && $NewOldBody ) {
 
                 # remove tailing new lines
@@ -1242,7 +1258,7 @@ sub _Replace {
             User => $Ticket{CustomerUserID},
         );
 
-        # html quoteing of content
+        # html quoting of content
         if ( $Param{RichText} ) {
             for ( keys %CustomerUser ) {
                 next if !$CustomerUser{$_};
@@ -1285,6 +1301,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2010-05-12 18:32:10 $
+$Revision: 1.45 $ $Date: 2010-05-31 14:47:56 $
 
 =cut
