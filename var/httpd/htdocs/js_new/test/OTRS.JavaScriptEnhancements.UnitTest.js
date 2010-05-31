@@ -2,7 +2,7 @@
 // OTRS.JavaScriptEnhancements.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.JavaScriptEnhancements.UnitTest.js,v 1.2 2010-03-29 09:58:13 mn Exp $
+// $Id: OTRS.JavaScriptEnhancements.UnitTest.js,v 1.1 2010-05-31 09:09:34 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
