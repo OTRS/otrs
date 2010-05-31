@@ -2,7 +2,7 @@
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.7 2010-05-31 11:08:09 mg Exp $
+# $Id: Loader.pm,v 1.8 2010-05-31 16:20:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -101,8 +101,8 @@ Uses caching internally.
             $Filename,
             $Filename2,
         ],
-        Type  => 'CSS',      # CSS | JavaScript
-        TargetDirectory => $TargetDirectory,
+        Type                 => 'CSS',      # CSS | JavaScript
+        TargetDirectory      => $TargetDirectory,
         TargetFilenamePrefix => 'CommonCSS',    # optional, prefix for the target filename
     );
 
@@ -111,11 +111,12 @@ Uses caching internally.
 sub MinifyFiles {
     my ( $Self, %Param ) = @_;
 
+    # check needed params
     my $List = $Param{List};
     if ( ref $List ne 'ARRAY' || !@{$List} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need List!",
+            Message  => 'Need List!',
         );
         return;
     }
@@ -233,11 +234,12 @@ Uses caching internally.
 sub GetMinifiedFile {
     my ( $Self, %Param ) = @_;
 
+    # check needed params
     my $Location = $Param{Location};
     if ( !$Location ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need Location!",
+            Message  => 'Need Location!',
         );
         return;
     }
@@ -302,16 +304,23 @@ sub GetMinifiedFile {
 
 returns a minified version of the given CSS Code
 
-    my $MinifiedCSS = $LoaderObject->MinifyCSS(Code => $CSS);
+    my $MinifiedCSS = $LoaderObject->MinifyCSS( Code => $CSS );
 
 =cut
 
 sub MinifyCSS {
     my ( $Self, %Param ) = @_;
 
-    my $Code = $Param{Code} || '';
+    # check needed params
+    if ( !$Param{Code} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Code Param!',
+        );
+        return;
+    }
 
-    my $Result = CSS::Minifier::minify( input => $Code );
+    my $Result = CSS::Minifier::minify( input => $Param{Code} );
 
     # a few optimizations can be made for the minified CSS that CSS::Minifier doesn't yet do
 
@@ -328,18 +337,23 @@ sub MinifyCSS {
 
 returns a minified version of the given JavaScript Code
 
-    my $MinifiedJS = $LoaderObject->MinifyJavaScript(Code => $JavaScript);
+    my $MinifiedJS = $LoaderObject->MinifyJavaScript( Code => $JavaScript );
 
 =cut
 
 sub MinifyJavaScript {
     my ( $Self, %Param ) = @_;
 
-    my $Code = $Param{Code} || '';
+    # check needed params
+    if ( !$Param{Code} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Code Param!',
+        );
+        return;
+    }
 
-    my $Result = JavaScript::Minifier::minify( input => $Code );
-
-    return $Result;
+    return JavaScript::Minifier::minify( input => $Param{Code} );
 }
 
 1;
@@ -358,6 +372,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2010-05-31 11:08:09 $
+$Revision: 1.8 $ $Date: 2010-05-31 16:20:32 $
 
 =cut
