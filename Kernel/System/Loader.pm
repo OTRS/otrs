@@ -2,7 +2,7 @@
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.6 2010-05-27 12:20:57 mg Exp $
+# $Id: Loader.pm,v 1.7 2010-05-31 11:08:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -181,25 +181,30 @@ sub MinifyFiles {
 
             next LOCATION if ( !-r $Location );
 
+            # cut out the system specific parts for the comments (for easier testing)
+            # for now, only keep filename
+            my $Label = $Location;
+            $Label =~ s{^.*/}{}smx;
+
             if ( $Param{Type} eq 'CSS' ) {
-                $Content .= "/* begin $Location */\n";
+                $Content .= "/* begin $Label */\n";
 
                 $Content .= $Self->GetMinifiedFile(
                     Location => $Location,
                     Type     => $Param{Type},
                 );
 
-                $Content .= "\n/* end $Location */\n";
+                $Content .= "\n/* end $Label */\n";
             }
             elsif ( $Param{Type} eq 'JavaScript' ) {
-                $Content .= "// begin $Location\n";
+                $Content .= "// begin $Label\n";
 
                 $Content .= $Self->GetMinifiedFile(
                     Location => $Location,
                     Type     => $Param{Type},
                 );
 
-                $Content .= "\n// end $Location\n";
+                $Content .= "\n// end $Label\n";
             }
         }
 
@@ -353,6 +358,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2010-05-27 12:20:57 $
+$Revision: 1.7 $ $Date: 2010-05-31 11:08:09 $
 
 =cut
