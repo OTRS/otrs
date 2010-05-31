@@ -2,7 +2,7 @@
 // OTRS.App.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.js,v 1.11 2010-05-19 09:28:23 mg Exp $
+// $Id: OTRS.App.js,v 1.12 2010-05-31 13:04:05 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -43,7 +43,7 @@ OTRS.App = (function (TargetNS) {
             });
         }
         else {
-            OTRS.Exception.ShowError('TypeError', 'No function parameter given in OTRS.App.Ready');
+            OTRS.Exception.ShowError('No function parameter given in OTRS.App.Ready', 'TypeError');
         }
     };
 

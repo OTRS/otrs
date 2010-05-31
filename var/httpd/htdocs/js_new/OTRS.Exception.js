@@ -2,7 +2,7 @@
 // OTRS.Exception.js - provides the exception object and handling functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Exception.js,v 1.1 2010-05-12 14:06:36 mn Exp $
+// $Id: OTRS.Exception.js,v 1.2 2010-05-31 13:04:05 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,10 +11,10 @@
 
 "use strict";
 
-function ApplicationError(ErrorType, ErrorMessage) {
+function ApplicationError(ErrorMessage, ErrorType) {
     var Type = ErrorType,
         Message = ErrorMessage,
-        Types = ['Error', 'InternalError', 'TypeError'];
+        Types = ['Error', 'InternalError', 'TypeError', 'CommunicationError'];
         DefaultType = 'Error';
 
     if (!$.inArray(Type, Types)) {
@@ -41,19 +41,30 @@ var OTRS = OTRS || {};
 OTRS.Exception = (function (TargetNS) {
     /**
      * @function
+     *      This function throws an application error
+     * @param {String} ErrorMessage The error message
+     * @param {String} ErrorType The error type
+     * @return nothing
+     */
+    TargetNS.Throw = function (ErrorMessage, ErrorType) {
+        throw new ApplicationError(ErrorMessage, ErrorType);
+    };
+
+    /**
+     * @function
      *      This function handles the given error object
      * @param {Object} Error The error object
      * @return nothing
      */
     TargetNS.HandleError = function (Error) {
         if (Error instanceof ApplicationError) {
-            TargetNS.ShowError(Error.GetType(), Error.GetMessage());
+            TargetNS.ShowError(Error.GetMessage(), Error.GetType());
         }
         else if (Error instanceof Error) {
-            TargetNS.ShowError('JavaScriptError', Error.message);
+            TargetNS.ShowError(Error.message, 'JavaScriptError');
         }
         else {
-            TargetNS.ShowError('UndefinedError', Error);
+            TargetNS.ShowError(Error, 'UndefinedError');
         }
         alert('An error occured! For details please see your browser log!');
     };
@@ -65,7 +76,7 @@ OTRS.Exception = (function (TargetNS) {
      * @param {string} ErrorMessage The error message
      * @return nothing
      */
-    TargetNS.ShowError = function (ErrorType, ErrorMessage) {
+    TargetNS.ShowError = function (ErrorMessage, ErrorType) {
         OTRS.Debug.Log('[ERROR] ' + ErrorType + ': ' + ErrorMessage);
     };
 

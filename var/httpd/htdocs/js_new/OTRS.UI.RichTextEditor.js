@@ -2,7 +2,7 @@
 // OTRS.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.RichTextEditor.js,v 1.3 2010-05-12 14:06:35 mn Exp $
+// $Id: OTRS.UI.RichTextEditor.js,v 1.4 2010-05-31 13:04:05 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -45,7 +45,7 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
         }
 
         if (EditorID === '') {
-            throw new ApplicationError('TypeError', 'RichTextEditor: Need exactly one EditorArea!');
+            OTRS.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
         }
 
         CKEDITOR.on('instanceCreated', function (Editor) {
@@ -105,7 +105,7 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
         }
 
         if (EditorID === '') {
-            throw new ApplicationError('TypeError', 'RichTextEditor: Need exactly one EditorArea!');
+            OTRS.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
         }
 
         Data = CKEDITOR.instances[EditorID].getData();
@@ -126,7 +126,7 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
         }
 
         if (EditorID === '') {
-            throw new ApplicationError('TypeError', 'RichTextEditor: Need exactly one EditorArea!');
+            OTRS.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
         }
 
         CKEDITOR.instances[EditorID].focus();
