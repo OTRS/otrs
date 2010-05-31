@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.4 2010-04-19 16:26:51 martin Exp $
+# $Id: SysConfig.pm,v 1.5 2010-05-31 13:47:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -1719,7 +1719,7 @@ sub _XML2Perl {
                         if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
                             my @Array;
                             for my $Index ( 1 .. $#{ $Content->{$Key} } ) {
-                                push @Array, $Content->{$Key}->[1]->{Content};
+                                push @Array, $Content->{$Key}->[$Index]->{Content};
                             }
                             $NavBar{$Key} = \@Array;
                         }
@@ -1731,6 +1731,25 @@ sub _XML2Perl {
                     }
                     $Hash{$Key} = \%NavBar;
                 }
+            }
+            elsif ( $Key eq 'Loader' ) {
+                my $Content = $ConfigItem->{FrontendModuleReg}->[1]->{$Key}->[1];
+                my %Loader;
+                for my $Key ( sort keys %{$Content} ) {
+                    if ( $Key eq 'CSS' || $Key eq 'JavaScript' ) {
+                        my @Array;
+                        for my $Index ( 1 .. $#{ $Content->{$Key} } ) {
+                            push @Array, $Content->{$Key}->[$Index]->{Content};
+                        }
+                        $Loader{$Key} = \@Array;
+                    }
+                    else {
+                        if ( $Key ne 'Content' ) {
+                            $Loader{$Key} = $Content->{$Key}->[1]->{Content};
+                        }
+                    }
+                }
+                $Hash{$Key} = \%Loader;
             }
             else {
                 if ( $Key ne 'Content' ) {
@@ -1810,6 +1829,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2010-04-19 16:26:51 $
+$Revision: 1.5 $ $Date: 2010-05-31 13:47:25 $
 
 =cut

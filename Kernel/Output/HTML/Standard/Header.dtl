@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.86 2010-05-27 09:59:23 mg Exp $
+# $Id: Header.dtl,v 1.87 2010-05-31 13:47:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,8 +47,9 @@ $Include{"Copyright"}
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE8 -->
 
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.App.Agent.AdminPerformanceLog.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.App.Agent.AdminSysConfig.css" />
+<!-- dtl:block:ModuleCSS -->
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+<!-- dtl:block:ModuleCSS -->
 
     <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/ui-theme/jquery-ui.css" />
 

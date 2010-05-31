@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.292 2010-05-28 17:24:01 cg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.293 2010-05-31 13:47:25 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Group>Framework</Group>
@@ -4282,6 +4282,9 @@ Your OTRS Notification Master
                     <Prio>550</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
+            <Loader>
+                <CSS>OTRS.App.Agent.AdminPerformanceLog.css</CSS>
+            </Loader>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminLog" Required="0" Valid="1">
@@ -5393,7 +5396,6 @@ Your OTRS Notification Master
                 <Item>OTRS.Agent.js</Item>
                 <Item>OTRS.Agent.App.Dashboard.js</Item>
                 <Item>OTRS.Agent.App.TicketZoom.js</Item>
-                <Item>OTRS.Agent.App.AdminSysConfig.js</Item>
                 <Item>OTRS.Agent.App.Login.js</Item>
             </Array>
         </Setting>

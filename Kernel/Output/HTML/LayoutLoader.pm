@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.10 2010-05-28 17:41:15 cg Exp $
+# $Id: LayoutLoader.pm,v 1.11 2010-05-31 13:47:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Kernel::System::Loader;
 
@@ -190,6 +190,51 @@ sub CreateAgentCSSLoaderCalls {
         }
     }
 
+    # now handle module specific CSS
+    {
+        my $AppCSSList = $Self->{ConfigObject}->Get('Frontend::Module')
+            ->{ $Self->{Action} }->{Loader}->{CSS} || [];
+
+        my @FileList;
+
+        for my $CSSFile ( @{$AppCSSList} ) {
+            if ($DoMinify) {
+                push(
+                    @FileList,
+                    $SkinHome . '/Agent/default/css/' . $CSSFile
+                );
+            }
+            else {
+                $Self->Block(
+                    Name => 'ModuleCSS',
+                    Data => {
+                        Skin         => 'default',
+                        CSSDirectory => 'css',
+                        Filename     => $CSSFile,
+                    },
+                );
+            }
+        }
+
+        if ( $DoMinify && @FileList ) {
+            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
+                List                 => \@FileList,
+                Type                 => 'CSS',
+                TargetDirectory      => $SkinHome . '/Agent/default/css-cache/',
+                TargetFilenamePrefix => 'ModuleCSS',
+            );
+
+            $Self->Block(
+                Name => 'ModuleCSS',
+                Data => {
+                    Skin         => 'default',
+                    CSSDirectory => 'css-cache',
+                    Filename     => $MinifiedFile,
+                },
+            );
+        }
+    }
+
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
 
 }
@@ -232,7 +277,8 @@ sub CreateAgentJSLoaderCalls {
                     $Self->Block(
                         Name => 'CommonJS',
                         Data => {
-                            Filename => $JSFile,
+                            JSDirectory => 'js_new',
+                            Filename    => $JSFile,
                         },
                     );
                 }
@@ -250,7 +296,51 @@ sub CreateAgentJSLoaderCalls {
             $Self->Block(
                 Name => 'CommonJS',
                 Data => {
-                    JSDirectory => 'js-cache',
+                    JSDirectory => 'js_new/js-cache',
+                    Filename    => $MinifiedFile,
+                },
+            );
+        }
+
+    }
+
+    # now handle module specific JS
+    {
+        my $AppJSList = $Self->{ConfigObject}->Get('Frontend::Module')
+            ->{ $Self->{Action} }->{Loader}->{JavaScript} || [];
+
+        my @FileList;
+
+        for my $JSFile ( @{$AppJSList} ) {
+            if ($DoMinify) {
+                push(
+                    @FileList,
+                    $JSHome . '/' . $JSFile
+                );
+            }
+            else {
+                $Self->Block(
+                    Name => 'ModuleJS',
+                    Data => {
+                        JSDirectory => 'js_new',
+                        Filename    => $JSFile,
+                    },
+                );
+            }
+        }
+
+        if ( $DoMinify && @FileList ) {
+            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
+                List                 => \@FileList,
+                Type                 => 'JavaScript',
+                TargetDirectory      => $JSHome . '/js-cache/',
+                TargetFilenamePrefix => 'ModuleJS',
+            );
+
+            $Self->Block(
+                Name => 'ModuleJS',
+                Data => {
+                    JSDirectory => 'js_new/js-cache',
                     Filename    => $MinifiedFile,
                 },
             );
@@ -461,6 +551,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2010-05-28 17:41:15 $
+$Revision: 1.11 $ $Date: 2010-05-31 13:47:24 $
 
 =cut
