@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -59,12 +59,31 @@ ul.Tablelike li.Header {
  * @subsection  WidgetGradient
  */
 .WidgetGradient {
-    border-top: 1px solid #999;
+    border: 1px solid #CCC;
     margin-bottom: 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .WidgetGradient > .Header {
-    margin: 5px;
+    padding: 2px 5px 3px;
+    border: 1px solid #FFF;
+    border-bottom: 1px solid #CCC;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    position: relative;
+}
+
+.WidgetGradient.Collapsed > .Header {
+    border-bottom: none;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .WidgetGradient > .Header h2 {
@@ -73,31 +92,35 @@ ul.Tablelike li.Header {
 }
 
 .WidgetGradient > .Content {
-    padding: 4px 10px 10px;
+    padding: 8px 8px 13px;
+    border: 1px solid #FFF;
+    border-bottom: none;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .WidgetGradient.Collapsed > .Content {
     display: none;
 }
 
-.WidgetGradient.Short {
-    background: #fff url(../img/widget_bg_100.png) repeat-x;
+.WidgetGradient.Short,
+.WidgetGradient.Medium,
+.WidgetGradient.Medium.MinHeight,
+.WidgetGradient.Long,
+.WidgetGradient.Long.MinHeight {
+    background: #eee url(../img/widget_bg_100.png) repeat-x;
 }
 
 .WidgetGradient.Short.MinHeight {
     min-height: 100px;
 }
 
-.WidgetGradient.Medium {
-    background: #fff url(../img/widget_bg_200.png) repeat-x;
-}
-
 .WidgetGradient.Medium.MinHeight {
     min-height: 200px;
-}
-
-.WidgetGradient.Long {
-    background: #fff url(../img/widget_bg_400.png) repeat-x;
 }
 
 .WidgetGradient.Long.MinHeight {
@@ -116,10 +139,22 @@ ul.Tablelike li.Header {
     margin-left: 5px;
 }
 
-.WidgetBox > .Header div.WidgetAction + h2 {
+.RTL .WidgetBox > .Header h2 {
+    margin-left: 0;
+    margin-right: 5px;
+}
+
+.WidgetBox > .Header .WidgetAction + h2 {
     margin: 0;
     padding-left: 30px;
 }
+
+.RTL .WidgetBox > .Header .WidgetAction + h2 {
+    padding-left: 0;
+    padding-right: 30px;
+}
+
+
 
 .WidgetBox > .Header h2 + h3 {
     background-color: #EEE;
@@ -134,10 +169,6 @@ ul.Tablelike li.Header {
     padding: 5px 10px 5px 5px;
 }
 
-.WidgetBox.Collapsed > .Header .LightRow {
-    display: block;
-}
-
 .WidgetBox > .Content {
     background: url(../img/gradient_lightdark.png) repeat-x;
     min-height: 200px;
@@ -146,7 +177,7 @@ ul.Tablelike li.Header {
     border-bottom: 1px solid #C6C5C4;
 }
 
-.WidgetBox.Collapsed > .Content {
+.Collapsed > .Content {
     display: none;
 }
 
@@ -154,59 +185,100 @@ ul.Tablelike li.Header {
     padding: 15px;
 }
 
+
+/**
+ * @subaction   ActionMenue
+ */
+
+.ActionMenue {
+    top: 0;
+    right: 0;
+    padding-left: 2px;
+    background: #FFF;
+    border-left: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-left-radius: 5px;
+    position: absolute;
+    display: none;
+}
+
+.RTL .ActionMenue {
+    right: auto;
+    left: 0;
+    padding: 0 2px 0 0;
+    border-left: none;
+    border-right: 1px solid #DDD;
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-bottomleft: 0;
+    -moz-border-radius-bottomright: 5px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 5px;
+}
+
+.Header:hover .ActionMenue {
+    display: block;
+}
+
 /**
  * @subsection  WidgetActions
  */
+
 .WidgetAction {
+    height: 19px;
+    width: 22px;
+    padding-right: 1px;
     float: right;
 }
 
 .RTL .WidgetAction {
+    padding: 0 0 0 1px;
     float: left;
 }
 
-.WidgetAction:hover {
-    background: url(../img/overviewcontrol_hover2.png) no-repeat top left;
-}
-
-.WidgetAction:hover a {
-    background: url(../img/overviewcontrol_hover1.png) no-repeat top right;
-}
-
-.WidgetAction a,
-.WidgetAction a span {
+.WidgetAction a {
+    height: 18px;
     display: block;
-    height: 24px;
-    width: 28px;
 }
 
-
-/* Toggle, override float */
 .WidgetAction.Toggle {
+    height: 13px;
+    width: 12px;
+    margin: 5px 6px 5px 2px;
+    background: url(../img/toggle_arrow.png) no-repeat top;
     float: left;
+}
+
+.Header:active .WidgetAction.Toggle {
+    background-position: 0 -13px;
+}
+
+.Expanded .WidgetAction.Toggle {
+    background-position: 0 -26px;
 }
 
 .RTL .WidgetAction.Toggle {
+    margin: 5px 2px 5px 6px;
     float: right;
 }
 
-.WidgetGradient.Expanded .WidgetAction.Toggle a span,
-.WidgetBox.Expanded .WidgetAction.Toggle a span {
-    background: url(../img/widget_expanded.png) no-repeat center;
-}
-
-.WidgetGradient.Collapsed .WidgetAction.Toggle a span,
-.WidgetBox.Collapsed .WidgetAction.Toggle a span {
-    background: url(../img/widget_collapsed.png) no-repeat center;
+.WidgetAction.Toggle a {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
 }
 
 /* Settings */
-.WidgetAction.Settings a span {
+.WidgetAction.Settings a {
     background: url(../img/widget_settings.png) no-repeat center center;
 }
 
 /* Close */
-.WidgetAction.Close a span {
+.WidgetAction.Close a {
     background: url(../img/widget_close.png) no-repeat center center;
 }
 
