@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AdminType.pm - to add/update/delete system addresses
+# Kernel/Modules/AdminType.pm - to add/update/delete ticket types
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminType.pm,v 1.15 2010-05-17 17:58:32 en Exp $
+# $Id: AdminType.pm,v 1.16 2010-06-01 09:03:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -209,18 +209,6 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-    );
-    $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => {
-            $Self->{DBObject}->GetTableData(
-                What  => 'id, name',
-                Table => 'queue',
-                Valid => 1,
-                )
-        },
-        Name           => 'QueueID',
-        SelectedID     => $Param{QueueID},
-        OnChangeSubmit => 0,
     );
 
     $Self->{LayoutObject}->Block(

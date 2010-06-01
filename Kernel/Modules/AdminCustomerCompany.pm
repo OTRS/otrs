@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete system addresses
+# Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete customer companies
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.19 2010-05-17 17:29:19 en Exp $
+# $Id: AdminCustomerCompany.pm,v 1.20 2010-06-01 09:03:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -237,18 +237,6 @@ sub _Edit {
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
-    );
-    $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => {
-            $Self->{DBObject}->GetTableData(
-                What  => 'id, name',
-                Table => 'queue',
-                Valid => 1,
-                )
-        },
-        Name           => 'QueueID',
-        SelectedID     => $Param{QueueID},
-        OnChangeSubmit => 0,
     );
 
     $Param{Validation} ||= '';
