@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.1 2010-04-05 10:34:42 mb Exp $
+# $Id: otrs.CheckModules.pl,v 1.2 2010-06-01 13:56:56 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -56,6 +56,10 @@ my @NeededModules = (
         Required => 1,
     },
     {
+        Module   => 'CSS::Minifier',
+        Required => 1,
+    },
+    {
         Module   => 'Crypt::PasswdMD5',
         Required => 1,
     },
@@ -75,6 +79,10 @@ my @NeededModules = (
     },
     {
         Module   => 'IO::Wrap',
+        Required => 1,
+    },
+    {
+        Module   => 'JavaScript::Minifier',
         Required => 1,
     },
     {
