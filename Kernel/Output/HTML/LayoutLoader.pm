@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.11 2010-05-31 13:47:24 mg Exp $
+# $Id: LayoutLoader.pm,v 1.12 2010-06-01 12:43:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Kernel::System::Loader;
 
@@ -33,16 +33,16 @@ All valid functions.
 
 =cut
 
-=item CreateAgentCSSLoaderCalls()
+=item LoaderCreateAgentCSSCalls()
 
 Generate the minified CSS files and the tags referencing them,
 taking a list from the Loader::Agent::CommonCSS config item.
 
-    $LayoutObject->CreateAgentCSSLoaderCalls();
+    $LayoutObject->LoaderCreateAgentCSSCalls();
 
 =cut
 
-sub CreateAgentCSSLoaderCalls {
+sub LoaderCreateAgentCSSCalls {
     my ( $Self, %Param ) = @_;
 
     $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
@@ -239,16 +239,16 @@ sub CreateAgentCSSLoaderCalls {
 
 }
 
-=item CreateAgentJSLoaderCalls()
+=item LoaderCreateAgentJSCalls()
 
 Generate the minified JS files and the tags referencing them,
 taking a list from the Loader::Agent::CommonJS config item.
 
-    $LayoutObject->CreateAgentJSLoaderCalls();
+    $LayoutObject->LoaderCreateAgentJSCalls();
 
 =cut
 
-sub CreateAgentJSLoaderCalls {
+sub LoaderCreateAgentJSCalls {
     my ( $Self, %Param ) = @_;
 
     $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
@@ -352,16 +352,16 @@ sub CreateAgentJSLoaderCalls {
 
 }
 
-=item CreateCustomerCSSLoaderCalls()
+=item LoaderCreateCustomerCSSCalls()
 
 Generate the minified CSS files and the tags referencing them,
 taking a list from the Loader::Customer::CommonCSS config item.
 
-    $LayoutObject->CreateCustomerCSSLoaderCalls();
+    $LayoutObject->LoaderCreateCustomerCSSCalls();
 
 =cut
 
-sub CreateCustomerCSSLoaderCalls {
+sub LoaderCreateCustomerCSSCalls {
     my ( $Self, %Param ) = @_;
 
     $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
@@ -468,16 +468,16 @@ sub CreateCustomerCSSLoaderCalls {
 
 }
 
-=item CreateCustomerJSLoaderCalls()
+=item LoaderCreateCustomerJSCalls()
 
 Generate the minified JS files and the tags referencing them,
 taking a list from the Loader::Customer::CommonJS config item.
 
-    $LayoutObject->CreateCustomerJSLoaderCalls();
+    $LayoutObject->LoaderCreateCustomerJSCalls();
 
 =cut
 
-sub CreateCustomerJSLoaderCalls {
+sub LoaderCreateCustomerJSCalls {
     my ( $Self, %Param ) = @_;
 
     $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
@@ -551,6 +551,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2010-05-31 13:47:24 $
+$Revision: 1.12 $ $Date: 2010-06-01 12:43:34 $
 
 =cut
