@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.27 2010-05-17 10:24:04 mg Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.28 2010-06-01 18:02:15 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,8 @@
 # --
 
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
-<div class="TicketFilter">
-    <a href="#" id="Dashboard$QData{"Name"}Locked" class="$QData{"Locked::Selected"}">$Text{"Locked Tickets"} ($QData{"Locked"})</a>
+<ul class="Tab Actions">
+    <li class="$QData{"Locked::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Locked">$Text{"Locked Tickets"} ($QData{"Locked"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Locked', function(){
@@ -22,8 +22,9 @@
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
+
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
-    | <a href="#" id="Dashboard$QData{"Name"}Watcher" class="$QData{"Watcher::Selected"}">$Text{"Watched"} ($QData{"Watcher"})</a>
+    <li class="$QData{"Watcher::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Watcher">$Text{"Watched"} ($QData{"Watcher"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Watcher', function(){
@@ -35,8 +36,9 @@
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
+
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
-    | <a href="#" id="Dashboard$QData{"Name"}Responsible" class="$QData{"Responsible::Selected"}">$Text{"Responsible"} ($QData{"Responsible"})</a>
+    <li class="$QData{"Responsible::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Responsible">$Text{"Responsible"} ($QData{"Responsible"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Responsible', function(){
@@ -47,9 +49,10 @@
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
+
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
-    | <a href="#" id="Dashboard$QData{"Name"}MyQueues" class="$QData{"MyQueues::Selected"}">$Text{"My Queues"} ($QData{"MyQueues"})</a>
-    | <a href="#" id="Dashboard$QData{"Name"}All" class="$QData{"All::Selected"}">$Text{"All"} ($QData{"All"})</a>
+    <li class="$QData{"MyQueues::Selected"}"><a href="#" id="Dashboard$QData{"Name"}MyQueues">$Text{"My Queues"} ($QData{"MyQueues"})</a></li>
+    <li class="$QData{"All::Selected"} Last"><a href="#" id="Dashboard$QData{"Name"}All">$Text{"All"} ($QData{"All"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}MyQueues', function(){
@@ -66,12 +69,14 @@
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
+</ul>
+
 <!-- dtl:block:ContentLargeTicketGenericFilterNavBar -->
-    <div class="Pagination">
-        $Data{"SiteNavBar"}
-    </div>
+<span class="Pagination">
+    $Data{"SiteNavBar"}
+</span>
 <!-- dtl:block:ContentLargeTicketGenericFilterNavBar -->
-</div>
+
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
 <table class="DataTable">
     <tbody>
