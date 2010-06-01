@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.31 2010-05-04 01:19:05 martin Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.32 2010-06-01 23:04:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -236,12 +236,10 @@ sub Run {
         );
     }
 
-    # get filter ticket counts
-    $Self->{LayoutObject}->SetEnv(
-        Key   => 'Color',
-        Value => 'searchactive',
-    );
+    # set css class
     $Summary->{ $Self->{Filter} . '::Selected' } = 'Selected';
+
+    # get filter ticket counts
     $Self->{LayoutObject}->Block(
         Name => 'ContentLargeTicketGenericFilter',
         Data => {
