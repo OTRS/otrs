@@ -2,7 +2,7 @@
 // OTRS.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Config.js,v 1.11 2010-06-01 08:52:03 mn Exp $
+// $Id: OTRS.Config.js,v 1.12 2010-06-01 13:33:40 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -87,17 +87,16 @@ OTRS.Config = (function (TargetNS) {
      */
     TargetNS.AddConfig = function (Data, Key) {
         function CopyObject(Data) {
-            //return (OTRS.JSON.Parse(OTRS.JSON.Stringify(Data)));
-            if(Data == null || typeof(Data) !== 'object')
+            if (Data == null || typeof(Data) !== 'object') {
                 return Data;
+            }
 
             var TempObject = new Data.constructor();
-            for(var Key in Data) {
+            for (var Key in Data) {
                 if (Data.hasOwnProperty(Key)) {
                     TempObject[Key] = CopyObject(Data[Key]);
                 }
             }
-
             return TempObject;
         }
 
