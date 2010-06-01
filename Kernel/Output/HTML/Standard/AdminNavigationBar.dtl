@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNavigationBar.dtl,v 1.39 2010-04-15 15:09:32 mn Exp $
+# $Id: AdminNavigationBar.dtl,v 1.40 2010-06-01 17:19:29 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,15 +11,13 @@
 <!-- dtl:block:AdminNavBar -->
 <div class="MainBox ARIARoleMain">
     <h1>$Text{"Admin"}</h1>
-
-    <div class="LayoutGrid ColumnsWithSpacing">
+    <div id="Row1" class="LayoutGrid ColumnsWithSpacing">
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
                     <h2>$Text{"Agent Management"}</h2>
                 </div>
                 <div class="Content">
-
                     <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:Agent -->
                         <li class="Size1of2">
@@ -33,7 +31,6 @@
                 </div>
             </div>
         </div>
-
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
@@ -54,7 +51,6 @@
                 </div>
             </div>
         </div>
-
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
@@ -75,9 +71,9 @@
                 </div>
             </div>
         </div>
-
         <div class="Clear"></div>
-
+    </div>
+    <div id="Row2" class="LayoutGrid ColumnsWithSpacing">
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
@@ -98,7 +94,6 @@
                 </div>
             </div>
         </div>
-
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
@@ -119,14 +114,12 @@
                 </div>
             </div>
         </div>
-
         <div class="Size1of3">
             <div class="WidgetGradient Short">
                 <div class="Header">
                     <h2>$Text{"System Administration"}</h2>
                 </div>
                 <div class="Content">
-
                     <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:System -->
                         <li class="Size1of2">
@@ -140,9 +133,7 @@
                 </div>
             </div>
         </div>
-
         <div class="Clear"></div>
     </div>
-
 </div>
 <!-- dtl:block:AdminNavBar -->
