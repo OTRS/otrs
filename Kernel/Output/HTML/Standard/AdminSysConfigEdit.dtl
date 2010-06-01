@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.61 2010-05-24 18:44:59 mb Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.62 2010-06-01 17:59:33 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -384,7 +384,9 @@
                         </p>
                     </fieldset>
 <!-- dtl:block:ConfigElementBlock -->
-                    <button class="Primary" type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                    <fieldset class="Last">
+                        <button class="CallForAction" type="submit" value="$Text{"Update"}"><span>$Text{"Update"}</span></button>
+                    </fieldset>
                 </form>
             </div>
         </div>
