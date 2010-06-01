@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.53 2010-04-05 10:17:42 mb Exp $
+# $Id: INSTALL,v 1.54 2010-06-01 14:25:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,8 +17,8 @@ Software requirements?
     * Database (e. g. MySQL, PostgreSQL)
     * Webserver (mod_perl isn't required but "very nice" to have)
     * LDAPv2 compliant server (OpenLDAP for works fine, however LDAP isn't required)
-    * some CPAN-Modules (DBI, DBD::mysql, Digest::MD5, Crypt::PasswdMD5, MIME::Base64 (if Perl < 5.8),
-      Net::DNS, LWP::UserAgent) for LDAP (Net::LDAP), for stats (GD, GD::Text,
+    * some CPAN-Modules (DBI, DBD::mysql, Digest::MD5, CSS::Minifier, Crypt::PasswdMD5, MIME::Base64 (if Perl < 5.8),
+      JavaScript::Minifier, Net::DNS, LWP::UserAgent) for LDAP (Net::LDAP), for stats (GD, GD::Text,
       GD::Graph, GD::Graph::lines, GD::Text::Align) and for PDF output (PDF::API2,
       Compress::Zlib)
 
