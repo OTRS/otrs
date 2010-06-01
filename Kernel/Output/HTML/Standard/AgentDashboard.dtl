@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.44 2010-06-01 18:00:50 fn Exp $
+# $Id: AgentDashboard.dtl,v 1.45 2010-06-01 18:22:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,7 +47,7 @@
 <!-- dtl:block:ContentSmall -->
         <div class="WidgetGradient CanDrag Short" id="Dashboard$QData{"Name"}-box">
             <div class="Header">
-                <div class="ActionMenue">
+                <div class="ActionMenu">
 <!-- dtl:block:ContentSmallPreferences -->
                     <div class="WidgetAction Settings">
                         <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}"></a>
@@ -118,7 +118,7 @@
 <!-- dtl:block:ContentLarge -->
         <div class="WidgetGradient CanDrag Short" id="Dashboard$QData{"Name"}-box">
             <div class="Header">
-                <div class="ActionMenue">
+                <div class="ActionMenu">
                     <div class="WidgetAction Close">
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"></a>
                     </div>
