@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -21,13 +21,24 @@ form.AdminSysConfig {
 }
 
 form.AdminSysConfig fieldset {
-    border-bottom: 1px solid #888;
-    padding: 10px 0;
+    margin: 0;
+    padding: 13px 3px 21px;
+    border-bottom: 1px solid #BBB;
+    border-top: 1px solid #FFF;
+}
+
+form.AdminSysConfig fieldset:first-child {
+    border-top: none;
+}
+
+form.AdminSysConfig fieldset.Last {
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 form.AdminSysConfig fieldset.Invalid,
 form.AdminSysConfig fieldset.Invalid * {
-    color: gray !important;
+    color: #777 !important;
 }
 
 form.AdminSysConfig fieldset.Invalid button {
@@ -71,9 +82,10 @@ button.Reset:active {
 }
 
 form.AdminSysConfig fieldset .Description {
-    color: #444;
-    float: left;
     width: 25%;
+    margin: 0 4px;
+    color: #404040;
+    float: left;
 }
 
 .RTL form.AdminSysConfig fieldset .Description {
@@ -110,7 +122,7 @@ form.AdminSysConfig fieldset .Setting .Hash {
 }
 
 form.AdminSysConfig fieldset .Setting .String input {
-    width: 100%;
+    width: 200px;
 }
 
 form.AdminSysConfig fieldset .Setting .Select select {
