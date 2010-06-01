@@ -2,7 +2,7 @@
 // OTRS.UI.Chart.js - provides the Chart functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Chart.js,v 1.3 2010-05-11 11:38:37 mn Exp $
+// $Id: OTRS.UI.Chart.js,v 1.4 2010-06-01 17:12:36 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -93,21 +93,25 @@ OTRS.UI.Chart = (function (TargetNS) {
 
     TargetNS.DrawLineChart = function (ChartName, ChartData, TicksXAxis, TicksYAxis) {
         var Options = {
+                colors: ["#ffc515", "#1a89ba", "#2eb200", "#ff4f15"],
                 series: {
                     lines: {
                         show: true,
-                        lineWidth: 6
+                        lineWidth: 2
                     },
                     points: {
-                        show: true
+                        show: true,
+                        radius: 1,
+                        lineWidth: 2,
+                        fill: false
                     }
                 },
                 grid: {
-                    hoverable: true,
                     clickable: false,
-                    backgroundColor: {
-                        colors: ["#FFF", "#CCC"]
-                    }
+                    color: "#999",
+                    borderWidth: 0,
+                    markingsLineWidth: 1,
+                    hoverable: true
                 },
                 legend: {
                     show: false
