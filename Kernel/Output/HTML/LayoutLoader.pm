@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.12 2010-06-01 12:43:34 mg Exp $
+# $Id: LayoutLoader.pm,v 1.13 2010-06-01 13:14:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Kernel::System::Loader;
 
@@ -59,44 +59,16 @@ sub LoaderCreateAgentCSSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonCSSList} ) {
-            for my $CSSFile ( @{ $CommonCSSList->{$Key} } ) {
-                if ($DoMinify) {
-                    push(
-                        @FileList,
-                        $SkinHome . '/Agent/default/css/' . $CSSFile
-                    );
-                }
-                else {
-                    $Self->Block(
-                        Name => 'CommonCSS',
-                        Data => {
-                            Skin         => 'default',
-                            CSSDirectory => 'css',
-                            Filename     => $CSSFile,
-                        },
-                    );
-                }
-            }
+            push( @FileList, @{ $CommonCSSList->{$Key} } );
         }
 
-        if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'CSS',
-                TargetDirectory      => $SkinHome . '/Agent/default/css-cache/',
-                TargetFilenamePrefix => 'CommonCSS',
-            );
-
-            $Self->Block(
-                Name => 'CommonCSS',
-                Data => {
-                    Skin         => 'default',
-                    CSSDirectory => 'css-cache',
-                    Filename     => $MinifiedFile,
-                },
-            );
-        }
-
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'CommonCSS',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Agent',
+        );
     }
 
     {
@@ -105,44 +77,16 @@ sub LoaderCreateAgentCSSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonCSSIE7List} ) {
-            for my $CSSFile ( @{ $CommonCSSIE7List->{$Key} } ) {
-
-                if ($DoMinify) {
-                    push(
-                        @FileList,
-                        $SkinHome . '/Agent/default/css/' . $CSSFile
-                    );
-                }
-                else {
-                    $Self->Block(
-                        Name => 'CommonCSS_IE7',
-                        Data => {
-                            Skin         => 'default',
-                            CSSDirectory => 'css',
-                            Filename     => $CSSFile,
-                        },
-                    );
-                }
-            }
+            push( @FileList, @{ $CommonCSSIE7List->{$Key} } );
         }
 
-        if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'CSS',
-                TargetDirectory      => $SkinHome . '/Agent/default/css-cache/',
-                TargetFilenamePrefix => 'CommonCSS_IE7',
-            );
-
-            $Self->Block(
-                Name => 'CommonCSS_IE7',
-                Data => {
-                    Skin         => 'default',
-                    CSSDirectory => 'css-cache',
-                    Filename     => $MinifiedFile,
-                },
-            );
-        }
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'CommonCSS_IE7',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Agent',
+        );
     }
 
     {
@@ -151,43 +95,16 @@ sub LoaderCreateAgentCSSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonCSSIE8List} ) {
-            for my $CSSFile ( @{ $CommonCSSIE8List->{$Key} } ) {
-                if ($DoMinify) {
-                    push(
-                        @FileList,
-                        $SkinHome . '/Agent/default/css/' . $CSSFile
-                    );
-                }
-                else {
-                    $Self->Block(
-                        Name => 'CommonCSS_IE8',
-                        Data => {
-                            Skin         => 'default',
-                            CSSDirectory => 'css',
-                            Filename     => $CSSFile,
-                        },
-                    );
-                }
-            }
+            push( @FileList, @{ $CommonCSSIE8List->{$Key} } );
         }
 
-        if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'CSS',
-                TargetDirectory      => $SkinHome . '/Agent/default/css-cache/',
-                TargetFilenamePrefix => 'CommonCSS_IE8',
-            );
-
-            $Self->Block(
-                Name => 'CommonCSS_IE8',
-                Data => {
-                    Skin         => 'default',
-                    CSSDirectory => 'css-cache',
-                    Filename     => $MinifiedFile,
-                },
-            );
-        }
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'CommonCSS_IE8',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Agent',
+        );
     }
 
     # now handle module specific CSS
@@ -195,44 +112,15 @@ sub LoaderCreateAgentCSSCalls {
         my $AppCSSList = $Self->{ConfigObject}->Get('Frontend::Module')
             ->{ $Self->{Action} }->{Loader}->{CSS} || [];
 
-        my @FileList;
+        my @FileList = @{$AppCSSList};
 
-        for my $CSSFile ( @{$AppCSSList} ) {
-            if ($DoMinify) {
-                push(
-                    @FileList,
-                    $SkinHome . '/Agent/default/css/' . $CSSFile
-                );
-            }
-            else {
-                $Self->Block(
-                    Name => 'ModuleCSS',
-                    Data => {
-                        Skin         => 'default',
-                        CSSDirectory => 'css',
-                        Filename     => $CSSFile,
-                    },
-                );
-            }
-        }
-
-        if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'CSS',
-                TargetDirectory      => $SkinHome . '/Agent/default/css-cache/',
-                TargetFilenamePrefix => 'ModuleCSS',
-            );
-
-            $Self->Block(
-                Name => 'ModuleCSS',
-                Data => {
-                    Skin         => 'default',
-                    CSSDirectory => 'css-cache',
-                    Filename     => $MinifiedFile,
-                },
-            );
-        }
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'ModuleCSS',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Agent',
+        );
     }
 
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
@@ -378,44 +266,16 @@ sub LoaderCreateCustomerCSSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonCSSList} ) {
-            for my $CSSFile ( @{ $CommonCSSList->{$Key} } ) {
-                if ($DoMinify) {
-                    push(
-                        @FileList,
-                        $SkinHome . '/Customer/default/css/' . $CSSFile
-                    );
-                }
-                else {
-                    $Self->Block(
-                        Name => 'CommonCSS',
-                        Data => {
-                            Skin         => 'default',
-                            CSSDirectory => 'css',
-                            Filename     => $CSSFile,
-                        },
-                    );
-                }
-            }
+            push( @FileList, @{ $CommonCSSList->{$Key} } );
         }
 
-        if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'CSS',
-                TargetDirectory      => $SkinHome . '/Customer/default/css-cache/',
-                TargetFilenamePrefix => 'CommonCSS',
-            );
-
-            $Self->Block(
-                Name => 'CommonCSS',
-                Data => {
-                    Skin         => 'default',
-                    CSSDirectory => 'css-cache',
-                    Filename     => $MinifiedFile,
-                },
-            );
-        }
-
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'CommonCSS',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Customer',
+        );
     }
 
     {
@@ -424,44 +284,16 @@ sub LoaderCreateCustomerCSSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonCSSIE7List} ) {
-            for my $CSSFile ( @{ $CommonCSSIE7List->{$Key} } ) {
-
-                if ($DoMinify) {
-                    push(
-                        @FileList,
-                        $SkinHome . '/Customer/default/css/' . $CSSFile
-                    );
-                }
-                else {
-                    $Self->Block(
-                        Name => 'CommonCSS_IE7',
-                        Data => {
-                            Skin         => 'default',
-                            CSSDirectory => 'css',
-                            Filename     => $CSSFile,
-                        },
-                    );
-                }
-            }
+            push( @FileList, @{ $CommonCSSIE7List->{$Key} } );
         }
 
-        if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'CSS',
-                TargetDirectory      => $SkinHome . '/Customer/default/css-cache/',
-                TargetFilenamePrefix => 'CommonCSS_IE7',
-            );
-
-            $Self->Block(
-                Name => 'CommonCSS_IE7',
-                Data => {
-                    Skin         => 'default',
-                    CSSDirectory => 'css-cache',
-                    Filename     => $MinifiedFile,
-                },
-            );
-        }
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'CommonCSS_IE7',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Customer',
+        );
     }
 
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
@@ -532,7 +364,49 @@ sub LoaderCreateCustomerJSCalls {
     }
 
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
+}
 
+sub _HandleCSSList {
+    my ( $Self, %Param ) = @_;
+
+    my @FileList;
+
+    for my $CSSFile ( @{ $Param{List} } ) {
+        if ( $Param{DoMinify} ) {
+            push(
+                @FileList,
+                "$Param{SkinHome}/$Param{SkinType}/default/css/$CSSFile"
+            );
+        }
+        else {
+            $Self->Block(
+                Name => $Param{BlockName},
+                Data => {
+                    Skin         => 'default',
+                    CSSDirectory => 'css',
+                    Filename     => $CSSFile,
+                },
+            );
+        }
+    }
+
+    if ( $Param{DoMinify} && @FileList ) {
+        my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
+            List                 => \@FileList,
+            Type                 => 'CSS',
+            TargetDirectory      => "$Param{SkinHome}/$Param{SkinType}/default/css-cache/",
+            TargetFilenamePrefix => $Param{BlockName},
+        );
+
+        $Self->Block(
+            Name => $Param{BlockName},
+            Data => {
+                Skin         => 'default',
+                CSSDirectory => 'css-cache',
+                Filename     => $MinifiedFile,
+            },
+        );
+    }
 }
 
 1;
@@ -551,6 +425,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2010-06-01 12:43:34 $
+$Revision: 1.13 $ $Date: 2010-06-01 13:14:45 $
 
 =cut
