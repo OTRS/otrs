@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -41,6 +41,7 @@ tbody tr.UnreadArticles td {
 .DataTable {
     border: 1px solid #CCCCCC;
     width: 100%;
+    clear: both;
 }
 
 .DataTable.VariableWidth {
@@ -245,10 +246,6 @@ td.Attachment {
     background-position: 0px -20px;
 }
 
-.TableSmall tbody tr.Active {
-    border: 2px solid #F92;
-}
-
 .TableSmall td {
     padding-left: 3px;
     padding-right: 3px;
@@ -257,6 +254,38 @@ td.Attachment {
 .TableSmall td.NonTextContent {
     padding-left: 0px;
     padding-right: 0px;
+}
+
+.TableSmall tr td:first-child {
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.TableSmall tr td.Last {
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.TableSmall tbody tr.Active td {
+    font-weight: bold;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+
+.TableSmall tbody tr.Active td.Last {
+    border-right: 1px solid #000;
+}
+
+.TableSmall tbody tr.Active td:first-child {
+    border-left: 1px solid #000;
 }
 
 .TableSmall td a {
@@ -277,25 +306,6 @@ td.Attachment {
     -webkit-box-shadow: 0 1px 0 #888;
     box-shadow: 0 1px 0 #888;
 }
-
-.TableSmall tr:hover td:first-child {
-    -webkit-border-top-left-radius: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    -moz-border-radius-topleft: 3px;
-    -moz-border-radius-bottomleft: 3px;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-}
-
-.TableSmall tr:hover td:last-child {
-    -webkit-border-top-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
-    -moz-border-radius-topright: 3px;
-    -moz-border-radius-bottomright: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-}
-
 
 .TableSmall tr:hover + tr td {
     background-image: url(../img/tr_hover_next_shadow.png);
@@ -372,8 +382,10 @@ td.Attachment {
  */
 
 .FixedHeader table {
-    margin-top: 32px;
+    height: 100%;
     position: relative;
+    border-left: 1px solid #C6C6C6;
+    border-right: 1px solid #C6C6C6;
 }
 
 .FixedHeader thead {
@@ -402,15 +414,15 @@ td.Attachment {
 }
 
 .FixedHeader .From {
-    width: 10em;
+    width: 30em;
 }
 
 .FixedHeader .Subject {
-    width: 50em;
+    width: 30em;
 }
 
 .FixedHeader .Created {
-    width: 10em;
+    width: 13em;
 }
 
 .FixedHeader .Attachments {
