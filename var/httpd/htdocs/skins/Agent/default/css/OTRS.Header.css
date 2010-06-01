@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -201,7 +201,7 @@
 }
 
 #UserInfo a.LogoutButton {
-    top: 9px;
+    top: 4px;
     right: 0;
     width: 20px;
     height: 18px;
