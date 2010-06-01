@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.13 2010-06-01 13:14:45 mg Exp $
+# $Id: LayoutLoader.pm,v 1.14 2010-06-01 13:40:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Kernel::System::Loader;
 
@@ -110,7 +110,7 @@ sub LoaderCreateAgentCSSCalls {
     # now handle module specific CSS
     {
         my $AppCSSList = $Self->{ConfigObject}->Get('Frontend::Module')
-            ->{ $Self->{Action} }->{Loader}->{CSS} || [];
+            ->{ $Self->{Action} || '' }->{Loader}->{CSS} || [];
 
         my @FileList = @{$AppCSSList};
 
@@ -153,86 +153,32 @@ sub LoaderCreateAgentJSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonJSList} ) {
-            for my $JSFile ( @{ $CommonJSList->{$Key} } ) {
-                if ($DoMinify) {
-                    push(
-                        @FileList,
-                        $JSHome . '/' . $JSFile
-                    );
+            push( @FileList, @{ $CommonJSList->{$Key} } );
 
-                }
-                else {
-                    $Self->Block(
-                        Name => 'CommonJS',
-                        Data => {
-                            JSDirectory => 'js_new',
-                            Filename    => $JSFile,
-                        },
-                    );
-                }
-            }
         }
 
-        if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'JavaScript',
-                TargetDirectory      => $JSHome . '/js-cache/',
-                TargetFilenamePrefix => 'CommonJS',
-            );
-
-            $Self->Block(
-                Name => 'CommonJS',
-                Data => {
-                    JSDirectory => 'js_new/js-cache',
-                    Filename    => $MinifiedFile,
-                },
-            );
-        }
+        $Self->_HandleJSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'CommonJS',
+            JSHome    => $JSHome,
+        );
 
     }
 
     # now handle module specific JS
     {
         my $AppJSList = $Self->{ConfigObject}->Get('Frontend::Module')
-            ->{ $Self->{Action} }->{Loader}->{JavaScript} || [];
+            ->{ $Self->{Action} || '' }->{Loader}->{JavaScript} || [];
 
-        my @FileList;
+        my @FileList = @{$AppJSList};
 
-        for my $JSFile ( @{$AppJSList} ) {
-            if ($DoMinify) {
-                push(
-                    @FileList,
-                    $JSHome . '/' . $JSFile
-                );
-            }
-            else {
-                $Self->Block(
-                    Name => 'ModuleJS',
-                    Data => {
-                        JSDirectory => 'js_new',
-                        Filename    => $JSFile,
-                    },
-                );
-            }
-        }
-
-        if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'JavaScript',
-                TargetDirectory      => $JSHome . '/js-cache/',
-                TargetFilenamePrefix => 'ModuleJS',
-            );
-
-            $Self->Block(
-                Name => 'ModuleJS',
-                Data => {
-                    JSDirectory => 'js_new/js-cache',
-                    Filename    => $MinifiedFile,
-                },
-            );
-        }
+        $Self->_HandleJSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'ModuleJS',
+            JSHome    => $JSHome,
+        );
 
     }
 
@@ -296,6 +242,22 @@ sub LoaderCreateCustomerCSSCalls {
         );
     }
 
+    # now handle module specific CSS
+    {
+        my $AppCSSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
+            ->{ $Self->{Action} || '' }->{Loader}->{CSS} || [];
+
+        my @FileList = @{$AppCSSList};
+
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'ModuleCSS',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Customer',
+        );
+    }
+
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
 
 }
@@ -326,40 +288,31 @@ sub LoaderCreateCustomerJSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonJSList} ) {
-            for my $JSFile ( @{ $CommonJSList->{$Key} } ) {
-                if ($DoMinify) {
-                    push(
-                        @FileList,
-                        $JSHome . '/' . $JSFile
-                    );
-                }
-                else {
-                    $Self->Block(
-                        Name => 'CommonJS',
-                        Data => {
-                            Filename => $JSFile,
-                        },
-                    );
-                }
-            }
+            push( @FileList, @{ $CommonJSList->{$Key} } );
         }
 
-        if ( $DoMinify && @FileList ) {
-            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'JavaScript',
-                TargetDirectory      => $JSHome . '/js-cache/',
-                TargetFilenamePrefix => 'CommonJS',
-            );
+        $Self->_HandleJSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'CommonJS',
+            JSHome    => $JSHome,
+        );
 
-            $Self->Block(
-                Name => 'CommonJS',
-                Data => {
-                    JSDirectory => 'js-cache',
-                    Filename    => $MinifiedFile,
-                },
-            );
-        }
+    }
+
+    # now handle module specific JS
+    {
+        my $AppJSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
+            ->{ $Self->{Action} || '' }->{Loader}->{JavaScript} || [];
+
+        my @FileList = @{$AppJSList};
+
+        $Self->_HandleJSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'ModuleJS',
+            JSHome    => $JSHome,
+        );
 
     }
 
@@ -409,6 +362,44 @@ sub _HandleCSSList {
     }
 }
 
+sub _HandleJSList {
+    my ( $Self, %Param ) = @_;
+
+    my @FileList;
+
+    for my $JSFile ( @{ $Param{List} } ) {
+        if ( $Param{DoMinify} ) {
+            push( @FileList, "$Param{JSHome}/$JSFile" );
+        }
+        else {
+            $Self->Block(
+                Name => $Param{BlockName},
+                Data => {
+                    JSDirectory => 'js_new',
+                    Filename    => $JSFile,
+                },
+            );
+        }
+    }
+
+    if ( $Param{DoMinify} && @FileList ) {
+        my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
+            List                 => \@FileList,
+            Type                 => 'JavaScript',
+            TargetDirectory      => "$Param{JSHome}/js-cache/",
+            TargetFilenamePrefix => $Param{BlockName},
+        );
+
+        $Self->Block(
+            Name => $Param{BlockName},
+            Data => {
+                JSDirectory => 'js_new/js-cache',
+                Filename    => $MinifiedFile,
+            },
+        );
+    }
+}
+
 1;
 
 =back
@@ -425,6 +416,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2010-06-01 13:14:45 $
+$Revision: 1.14 $ $Date: 2010-06-01 13:40:33 $
 
 =cut
