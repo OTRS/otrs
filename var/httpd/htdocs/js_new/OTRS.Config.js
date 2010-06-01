@@ -2,7 +2,7 @@
 // OTRS.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Config.js,v 1.9 2010-06-01 08:31:45 mn Exp $
+// $Id: OTRS.Config.js,v 1.10 2010-06-01 08:34:05 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -83,7 +83,7 @@ OTRS.Config = (function (TargetNS) {
      * @return nothing
      *      This function includes the given data into the config hash
      * @param {Object} Data The config data to include as a javascript object
-     * @param {String} Key The key in the config where the data structure is saved to
+     * @param {String} Key The key in the config where the data structure is saved to. If undefined, the Data is added to the root of the hash.
      */
     TargetNS.AddConfig = function (Data, Key) {
         function CopyObject(Data) {
