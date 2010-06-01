@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.42 2010-05-19 08:46:46 mg Exp $
+# $Id: AgentDashboard.dtl,v 1.43 2010-06-01 14:46:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,14 +19,14 @@
     <h1>$Text{"Dashboard"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Medium">
+        <div class="WidgetGradient Medium Collapsed">
             <div class="Header">
-                <div class="WidgetAction Toggle Collapsed">
+                <div class="WidgetAction Toggle">
                     <a href="#" title="$Text{"Expand"}"><span></span></a>
                 </div>
                 <h2>$Text{"Settings"}</h2>
             </div>
-            <div class="Content Hidden">
+            <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="UpdateSettings"/>

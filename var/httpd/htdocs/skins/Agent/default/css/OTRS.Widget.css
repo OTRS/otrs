@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -76,6 +76,10 @@ ul.Tablelike li.Header {
     padding: 4px 10px 10px;
 }
 
+.WidgetGradient.Collapsed > .Content {
+    display: none;
+}
+
 .WidgetGradient.Short {
     background: #fff url(../img/widget_bg_100.png) repeat-x;
 }
@@ -130,12 +134,20 @@ ul.Tablelike li.Header {
     padding: 5px 10px 5px 5px;
 }
 
+.WidgetBox.Collapsed > .Header .LightRow {
+    display: block;
+}
+
 .WidgetBox > .Content {
     background: url(../img/gradient_lightdark.png) repeat-x;
     min-height: 200px;
     border-left: 1px solid #C6C5C4;
     border-right: 1px solid #C6C5C4;
     border-bottom: 1px solid #C6C5C4;
+}
+
+.WidgetBox.Collapsed > .Content {
+    display: none;
 }
 
 .WidgetBox > .Content.WithPadding {
@@ -178,11 +190,13 @@ ul.Tablelike li.Header {
     float: right;
 }
 
-.WidgetAction.Toggle.Expanded a span {
+.WidgetGradient.Expanded .WidgetAction.Toggle a span,
+.WidgetBox.Expanded .WidgetAction.Toggle a span {
     background: url(../img/widget_expanded.png) no-repeat center;
 }
 
-.WidgetAction.Toggle.Collapsed a span {
+.WidgetGradient.Collapsed .WidgetAction.Toggle a span,
+.WidgetBox.Collapsed .WidgetAction.Toggle a span {
     background: url(../img/widget_collapsed.png) no-repeat center;
 }
 

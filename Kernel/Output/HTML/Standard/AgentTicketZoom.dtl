@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.93 2010-05-26 07:37:28 fn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.94 2010-06-01 14:46:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -367,10 +367,10 @@ $Data{"ArticleItems"}
 <!-- dtl:block:ArticleItem -->
 <div>
     <a name="$QData{"ArticleID"}"></a>
-    <div class="WidgetBox SpacingTop">
+    <div class="WidgetBox SpacingTop Expanded">
         <div class="Light Header">
             <div class="LightRow">
-                <div class="WidgetAction Toggle Expanded"><a href="#"><span></span></a></div>
+                <div class="WidgetAction Toggle"><a href="#"><span></span></a></div>
                 <h2>#$QData{"Count"} &ndash; $QData{"Subject","60"}</h2>
             </div>
             <div class="LightRow Bottom">

@@ -2,7 +2,7 @@
 # Error.dtl - provides HTML Error screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Error.dtl,v 1.21 2010-05-18 07:53:48 mg Exp $
+# $Id: Error.dtl,v 1.22 2010-06-01 14:46:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,9 +52,9 @@ $Data{"BackendTraceback"}"
                 </div>
             </div>
         </div>
-        <div class="WidgetGradient Short SpacingTop">
+        <div class="WidgetGradient Short Collapsed SpacingTop">
             <div class="Header">
-                <div class="WidgetAction Toggle Collapsed">
+                <div class="WidgetAction Toggle">
                     <a href="#" title="$Text{"Expand"}"><span></span></a>
                 </div>
                 <h2>$Text{"Error Details"}</h2>

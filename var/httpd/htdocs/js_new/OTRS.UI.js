@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.js,v 1.13 2010-05-07 13:33:29 mn Exp $
+// $Id: OTRS.UI.js,v 1.14 2010-06-01 14:46:19 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -151,24 +151,22 @@ OTRS.UI = (function (TargetNS) {
     TargetNS.InitWidgetActionToggle = function () {
         $(".WidgetAction.Toggle > a")
             .each(function () {
-                var ContentDivID = TargetNS.GetID($(this).parent().parent().parent().children('.Content'));
+                var $WidgetElement = $(this).closest("div.Header").parent('div');
+                    ContentDivID = TargetNS.GetID($WidgetElement.children('.Content'));
                 $(this)
                     .attr('aria-controls', ContentDivID)
-                    .attr('aria-expanded', $(this).parent().hasClass('Expanded'));
+                    .attr('aria-expanded', $WidgetElement.hasClass('Expanded'));
             })
             .unbind('click.WidgetToggle')
             .bind('click.WidgetToggle', function () {
-                var $WidgetElement = $(this).closest("div.Header").parent('div');
-                if ($WidgetElement.find('.Content:visible').length) {
-                    $WidgetElement.find('.Content').hide().end().find('.Header .ActionRow').hide();
-                    $(this).attr('aria-expanded', false)
-                        .parent('.WidgetAction').removeClass('Expanded').addClass('Collapsed');
-                }
-                else {
-                    $WidgetElement.find('.Content').show().end().find('.Header .ActionRow').show();
-                    $(this).attr('aria-expanded', true)
-                        .parent('.WidgetAction').removeClass('Collapsed').addClass('Expanded');
-                }
+                $(this)
+                    .closest("div.Header")
+                    .parent('div')
+                    .toggleClass('Collapsed')
+                    .toggleClass('Expanded')
+                    .end()
+                    .end()
+                    .attr('aria-expanded', $(this).closest("div.Header").parent('div').hasClass('Expanded'));
                 return false;
             });
     };
