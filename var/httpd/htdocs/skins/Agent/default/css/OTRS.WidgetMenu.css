@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -387,6 +387,38 @@ ul.ContextFunctions li.ContextHelp:hover {
     height: 24px;
 }
 
+.Tab.Actions li {
+    height: auto;
+    line-height: 14px;
+}
+
+.Tab.Actions li:first-child a {
+    padding-left: 3px;
+}
+
+.RTL .Tab.Actions li:first-child a {
+    padding: 3px 3px 4px 8px;
+}
+
+.Tab.Actions li a {
+    padding: 3px 8px 4px;
+    color: #999;
+    background: url(../img/tab_isolator_light.png) no-repeat right 6px;
+}
+
+.Tab.Actions li a:hover {
+    color: #888;
+}
+
+.Tab.Actions li.Last a {
+    background: none;
+}
+
+.Tab.Actions li.Selected a {
+    color: #474747;
+    font-weight: bold;
+}
+
 /**
  * @subsection  LightRow
  */
@@ -402,9 +434,21 @@ ul.ContextFunctions li.ContextHelp:hover {
     border-top-right-radius: 2px;
 }
 
+.Collapsed .Light.Header {
+    border-bottom-color: #C6C5C4;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
+
 .LightRow {
     background: #999 url("../img/gradient_light.png") repeat-x;
     border-bottom: 1px solid #7C7C7C;
+    position: relative;
+}
+
+.Collapsed .LightRow {
+    border-bottom: none;
 }
 
 .LightRow.Bottom {
@@ -423,6 +467,15 @@ ul.ContextFunctions li.ContextHelp:hover {
     font-weight: normal;
     color: #171717;
     border-bottom: 1px solid #F5F5F5;
+}
+
+.LightRow .WidgetAction.Toggle {
+    margin-left: 7px;
+}
+
+.RTL .LightRow .WidgetAction.Toggle {
+    margin-left: 6px;
+    margin-right: 7px;
 }
 
 .LightRow .Actions {
