@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.43 2010-06-01 14:46:19 mn Exp $
+# $Id: AgentDashboard.dtl,v 1.44 2010-06-01 18:00:50 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@
         <div class="WidgetGradient Medium Collapsed">
             <div class="Header">
                 <div class="WidgetAction Toggle">
-                    <a href="#" title="$Text{"Expand"}"><span></span></a>
+                    <a href="#" title="$Text{"Expand"}"></a>
                 </div>
                 <h2>$Text{"Settings"}</h2>
             </div>
@@ -47,16 +47,18 @@
 <!-- dtl:block:ContentSmall -->
         <div class="WidgetGradient CanDrag Short" id="Dashboard$QData{"Name"}-box">
             <div class="Header">
+                <div class="ActionMenue">
 <!-- dtl:block:ContentSmallPreferences -->
-                <div class="WidgetAction Settings">
-                    <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}"><span></span></a>
-                </div>
+                    <div class="WidgetAction Settings">
+                        <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}"></a>
+                    </div>
 <!-- dtl:js_on_document_complete -->
-                OTRS.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
+                    OTRS.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentSmallPreferences -->
-                <div class="WidgetAction Close">
-                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><span></span></a>
+                    <div class="WidgetAction Close">
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"></a>
+                    </div>
                 </div>
                 <h2 title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Title"}"}</h2>
             </div>
@@ -116,16 +118,18 @@
 <!-- dtl:block:ContentLarge -->
         <div class="WidgetGradient CanDrag Short" id="Dashboard$QData{"Name"}-box">
             <div class="Header">
+                <div class="ActionMenue">
+                    <div class="WidgetAction Close">
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"></a>
+                    </div>
 <!-- dtl:block:ContentLargePreferences -->
-                <div class="WidgetAction Settings">
-                    <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}"><span></span></a>
-                </div>
+                    <div class="WidgetAction Settings">
+                        <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}"></a>
+                    </div>
 <!-- dtl:js_on_document_complete -->
-                OTRS.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
+                    OTRS.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentLargePreferences -->
-                <div class="WidgetAction Close">
-                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"><span></span></a>
                 </div>
                 <h2 title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Title"}"}</h2>
             </div>
