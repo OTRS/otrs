@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.15 2010-05-25 08:00:27 bes Exp $
+# $Id: NotificationEvent.pm,v 1.16 2010-06-01 11:14:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -172,7 +172,7 @@ sub Run {
         }
 
         # send notification
-        $Self->SendCustomerNotification(
+        $Self->_SendNotificationToRecipients(
             TicketID              => $Param{Data}->{TicketID},
             UserID                => $Param{UserID},
             Notification          => \%Notification,
@@ -186,8 +186,8 @@ sub Run {
 }
 
 # Assemble the list of recipients. Agents and customer users can be recipient.
-# Call _SendCustomerNotification() for each recipient.
-sub SendCustomerNotification {
+# Call _SendNotification() for each recipient.
+sub _SendNotificationToRecipients {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -198,7 +198,7 @@ sub SendCustomerNotification {
         }
     }
 
-    # get old article for quoteing
+    # get old article for quoting
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
         TicketID => $Param{TicketID},
     );
@@ -334,7 +334,6 @@ sub SendCustomerNotification {
 
     # get recipients by RecipientGroups
     if ( $Param{Notification}->{Data}->{RecipientGroups} ) {
-        my %GroupsUsed;
         RECIPIENT:
         for my $Group ( @{ $Param{Notification}->{Data}->{RecipientGroups} } ) {
             my @GroupMemberList = $Self->{GroupObject}->GroupMemberList(
@@ -356,7 +355,6 @@ sub SendCustomerNotification {
 
     # get recipients by RecipientRoles
     if ( $Param{Notification}->{Data}->{RecipientRoles} ) {
-        my %RolesUsed;
         RECIPIENT:
         for my $Role ( @{ $Param{Notification}->{Data}->{RecipientGroups} } ) {
             my @RoleMemberList = $Self->{GroupObject}->GroupUserRoleMemberList(
@@ -391,7 +389,7 @@ sub SendCustomerNotification {
     }
 
     for my $Recipient (@Recipients) {
-        $Self->_SendCustomerNotification(
+        $Self->_SendNotification(
             TicketID              => $Param{TicketID},
             UserID                => $Param{UserID},
             Notification          => $Param{Notification},
@@ -404,8 +402,8 @@ sub SendCustomerNotification {
     return 1;
 }
 
-# Despite the misleading name, this sub sends notifications to agents and customer users.
-sub _SendCustomerNotification {
+# send notification to
+sub _SendNotification {
     my ( $Self, %Param ) = @_;
 
     # get notification data
@@ -414,12 +412,12 @@ sub _SendCustomerNotification {
     # get recipient data
     my %Recipient = %{ $Param{Recipient} };
 
-    # get old article for quoteing
+    # get old article for quoting
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
         TicketID => $Param{TicketID},
     );
 
-    # get notify texts
+    # get notification texts
     for (qw(Subject Body)) {
         next if $Notification{$_};
         $Notification{$_} = "No CustomerNotification $_ for $Param{Type} found!";
