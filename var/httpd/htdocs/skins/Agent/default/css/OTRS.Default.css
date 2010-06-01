@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -87,7 +87,7 @@ a:focus {
  * @subsection  Headings
  */
 h1 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     margin-bottom: 15px;
 }
@@ -283,7 +283,7 @@ dd {
 }
 
 .MainBox > h1 {
-    margin: 5px 0 10px 0;
+    margin: 5px 8px 8px;
     position: relative;
 }
 
@@ -454,10 +454,15 @@ tbody tr:hover span.UnreadArticles {
 }
 
 #ChartTooltip {
+    padding: 2px 8px 3px;
+    background: #000;
+    color: #FFF;
+    font-size: 11px;
+    opacity: 0.8;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
     position: absolute;
-    background-color: #EEE;
-    border: 1px solid #000;
-    padding: 2px;
 }
 
 
