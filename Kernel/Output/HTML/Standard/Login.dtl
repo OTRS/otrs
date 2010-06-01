@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.51 2010-05-28 17:44:16 mp Exp $
+# $Id: Login.dtl,v 1.52 2010-06-01 12:29:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,9 +37,6 @@ $Include{"Copyright"}
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.Header.IE8.css" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE8 -->
-
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.App.Agent.AdminPerformanceLog.css" />
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/OTRS.App.Agent.AdminSysConfig.css" />
 
     <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/ui-theme/jquery-ui.css" />
 

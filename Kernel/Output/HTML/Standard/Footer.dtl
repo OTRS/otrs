@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.53 2010-05-31 13:47:24 mg Exp $
+# $Id: Footer.dtl,v 1.54 2010-06-01 12:29:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,53 +17,44 @@
     </ul>
     <div class="TopOfPage"><a href="#Top">$Text{"Top of page"}</a></div>
 </div>
-<a name="end"></a>
-    <script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}otrs.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/json/json2.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-1.4.2/jquery.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-core.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-widget.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-mouse.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-draggable.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-sortable.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-datepicker.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-ui-1.8/jquery-ui-resizable.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-validate-1.7/jquery.validate.js"></script>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/flot/jquery.flot.js"></script>
+
+<script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}otrs.js"></script>
+
 <!-- dtl:block:CommonJS -->
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}$QData{"JSDirectory"}/$QData{"Filename"}"></script>
+<script type="text/javascript" src="$Config{"Frontend::WebPath"}$QData{"JSDirectory"}/$QData{"Filename"}"></script>
 <!-- dtl:block:CommonJS -->
+
 <!-- dtl:block:ModuleJS -->
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}$QData{"JSDirectory"}/$QData{"Filename"}"></script>
+<script type="text/javascript" src="$Config{"Frontend::WebPath"}$QData{"JSDirectory"}/$QData{"Filename"}"></script>
 <!-- dtl:block:ModuleJS -->
 
-    <script type="text/javascript">//<![CDATA[
-        "use strict";
-        OTRS.App.Ready(function () {
-            OTRS.Config.AddConfig({
-                Baselink: '$Env{"Baselink"}',
-                CGIHandle: '$Env{"CGIHandle"}',
-                Action: '$Env{"Action"}',
-                SessionIDCookie: '$Env{"SessionIDCookie"}',
-                SessionName: '$Config{"SessionName"}',
-                SessionID: '$Env{"SessionID"}',
-                CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
-                Images: '$Config{"Frontend::ImagePath"}',
-                UserLanguage: '$Env{"UserLanguage"}'
-            });
-            OTRS.Agent.Init();
-<!-- dtl:js_on_document_complete_placeholder -->
+<script type="text/javascript">//<![CDATA[
+    "use strict";
+    OTRS.App.Ready(function () {
+        OTRS.Config.AddConfig({
+            Baselink: '$Env{"Baselink"}',
+            CGIHandle: '$Env{"CGIHandle"}',
+            Action: '$Env{"Action"}',
+            SessionIDCookie: '$Env{"SessionIDCookie"}',
+            SessionName: '$Config{"SessionName"}',
+            SessionID: '$Env{"SessionID"}',
+            CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
+            Images: '$Config{"Frontend::ImagePath"}',
+            UserLanguage: '$Env{"UserLanguage"}'
         });
-    //]]></script>
+        OTRS.Agent.Init();
+<!-- dtl:js_on_document_complete_placeholder -->
+    });
+//]]></script>
 
 <!--[if IE 7]>
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.IE7Fixes.js"></script>
-    <script type="text/javascript">//<![CDATA[
-        "use strict";
-        OTRS.App.Ready(function () {
-            OTRS.Agent.InitIE7();
-        });
-    //]]></script>
+<script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/OTRS.UI.IE7Fixes.js"></script>
+<script type="text/javascript">//<![CDATA[
+    "use strict";
+    OTRS.App.Ready(function () {
+        OTRS.Agent.InitIE7();
+    });
+//]]></script>
 <![endif]-->
 
 </body>
