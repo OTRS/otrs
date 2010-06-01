@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.14 2010-06-01 13:40:33 mg Exp $
+# $Id: LayoutLoader.pm,v 1.15 2010-06-01 18:19:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Kernel::System::Loader;
 
@@ -125,6 +125,7 @@ sub LoaderCreateAgentCSSCalls {
 
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
 
+    return 1;
 }
 
 =item LoaderCreateAgentJSCalls()
@@ -184,6 +185,7 @@ sub LoaderCreateAgentJSCalls {
 
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
 
+    return 1;
 }
 
 =item LoaderCreateCustomerCSSCalls()
@@ -260,6 +262,7 @@ sub LoaderCreateCustomerCSSCalls {
 
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
 
+    return 1;
 }
 
 =item LoaderCreateCustomerJSCalls()
@@ -360,6 +363,7 @@ sub _HandleCSSList {
             },
         );
     }
+    return 1;
 }
 
 sub _HandleJSList {
@@ -398,6 +402,7 @@ sub _HandleJSList {
             },
         );
     }
+    return 1;
 }
 
 1;
@@ -416,6 +421,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2010-06-01 13:40:33 $
+$Revision: 1.15 $ $Date: 2010-06-01 18:19:10 $
 
 =cut
