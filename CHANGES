@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1225 2010-05-31 15:41:19 dz Exp $
+# $Id: CHANGES,v 1.1226 2010-06-02 11:01:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/06/02) Fixed bug#5426 - Can't set timezone for customer users.
  - (2010/05/28) Fixed bug#5262 - Sort by "pending time" includes ticket with no
     pending state.
  - (2010/05/28) Added option to use TicketPendingTimeSet() to null out the
