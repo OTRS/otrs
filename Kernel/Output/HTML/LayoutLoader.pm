@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.15 2010-06-01 18:19:10 martin Exp $
+# $Id: LayoutLoader.pm,v 1.16 2010-06-02 09:25:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Kernel::System::Loader;
 
@@ -110,7 +110,7 @@ sub LoaderCreateAgentCSSCalls {
     # now handle module specific CSS
     {
         my $AppCSSList = $Self->{ConfigObject}->Get('Frontend::Module')
-            ->{ $Self->{Action} || '' }->{Loader}->{CSS} || [];
+            ->{ $Self->{Action} || 'Login' }->{Loader}->{CSS} || [];
 
         my @FileList = @{$AppCSSList};
 
@@ -170,7 +170,7 @@ sub LoaderCreateAgentJSCalls {
     # now handle module specific JS
     {
         my $AppJSList = $Self->{ConfigObject}->Get('Frontend::Module')
-            ->{ $Self->{Action} || '' }->{Loader}->{JavaScript} || [];
+            ->{ $Self->{Action} || 'Login' }->{Loader}->{JavaScript} || [];
 
         my @FileList = @{$AppJSList};
 
@@ -247,7 +247,7 @@ sub LoaderCreateCustomerCSSCalls {
     # now handle module specific CSS
     {
         my $AppCSSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
-            ->{ $Self->{Action} || '' }->{Loader}->{CSS} || [];
+            ->{ $Self->{Action} || 'CustomerLogin' }->{Loader}->{CSS} || [];
 
         my @FileList = @{$AppCSSList};
 
@@ -306,7 +306,7 @@ sub LoaderCreateCustomerJSCalls {
     # now handle module specific JS
     {
         my $AppJSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
-            ->{ $Self->{Action} || '' }->{Loader}->{JavaScript} || [];
+            ->{ $Self->{Action} || 'CustomerLogin' }->{Loader}->{JavaScript} || [];
 
         my @FileList = @{$AppJSList};
 
@@ -421,6 +421,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2010-06-01 18:19:10 $
+$Revision: 1.16 $ $Date: 2010-06-02 09:25:58 $
 
 =cut
