@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.18 2010-06-02 14:12:19 mg Exp $
+# $Id: LayoutLoader.pm,v 1.19 2010-06-02 14:25:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 use Kernel::System::Loader;
 
@@ -281,11 +281,28 @@ sub LoaderCreateCustomerCSSCalls {
         );
     }
 
-    # now handle module specific CSS
     {
-        my $LoaderAction = $Self->{Action} || 'Login';
-        $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
+        my $CommonCSSIE7List = $Self->{ConfigObject}->Get('Loader::Customer::CommonCSS::IE8');
 
+        my @FileList;
+
+        for my $Key ( sort keys %{$CommonCSSIE7List} ) {
+            push( @FileList, @{ $CommonCSSIE7List->{$Key} } );
+        }
+
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'CommonCSS_IE7',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Customer',
+        );
+    }
+
+    # now handle module specific CSS
+    my $LoaderAction = $Self->{Action} || 'Login';
+    $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
+    {
         my $AppCSSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
             ->{$LoaderAction}->{Loader}->{CSS} || [];
 
@@ -295,6 +312,36 @@ sub LoaderCreateCustomerCSSCalls {
             List      => \@FileList,
             DoMinify  => $DoMinify,
             BlockName => 'ModuleCSS',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Customer',
+        );
+    }
+
+    {
+        my $AppCSSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
+            ->{$LoaderAction}->{Loader}->{CSS_IE7} || [];
+
+        my @FileList = @{$AppCSSList};
+
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'ModuleCSS_IE7',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Customer',
+        );
+    }
+
+    {
+        my $AppCSSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
+            ->{$LoaderAction}->{Loader}->{CSS_IE8} || [];
+
+        my @FileList = @{$AppCSSList};
+
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'ModuleCSS_IE8',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
         );
@@ -464,6 +511,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2010-06-02 14:12:19 $
+$Revision: 1.19 $ $Date: 2010-06-02 14:25:34 $
 
 =cut

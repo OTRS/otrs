@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.38 2010-05-28 17:51:49 mp Exp $
+# $Id: CustomerHeader.dtl,v 1.39 2010-06-02 14:25:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,6 +39,28 @@ $Include{"Copyright"}
     <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE7 -->
+
+<!-- dtl:block:CommonCSS_IE8 -->
+<!--[if IE 7]>
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <![endif]-->
+<!-- dtl:block:CommonCSS_IE8 -->
+
+<!-- dtl:block:ModuleCSS -->
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+<!-- dtl:block:ModuleCSS -->
+
+<!-- dtl:block:ModuleCSS_IE7 -->
+<!--[if IE 7]>
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <![endif]-->
+<!-- dtl:block:ModuleCSS_IE7 -->
+
+<!-- dtl:block:ModuleCSS_IE8 -->
+<!--[if IE 7]>
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <![endif]-->
+<!-- dtl:block:ModuleCSS_IE8 -->
 
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>
