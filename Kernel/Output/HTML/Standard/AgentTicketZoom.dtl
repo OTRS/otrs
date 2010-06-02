@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.94 2010-06-01 14:46:19 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.95 2010-06-02 07:43:11 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -492,6 +492,7 @@ $Data{"Body"}
             </div>
 <!-- dtl:block:Move -->
         </div>
+        <div class="clear"></div>
     </div>
 </div>
 <!-- dtl:block:ArticleItem -->
