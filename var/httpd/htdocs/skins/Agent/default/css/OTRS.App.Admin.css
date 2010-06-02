@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -50,7 +50,12 @@
     color: #F92;
     border: 1px solid transparent;
     border-bottom: none;
-    -moz-border-radius: 2px 2px 0 0;
+    -webkit-border-top-left-radius: 2px;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
 }
 
 .RTL .Admin .Size1of2 h4 {
@@ -63,7 +68,12 @@
     line-height: 14px;
     border: 1px solid transparent;
     border-top: none;
-    -moz-border-radius: 0 0 2px 2px;
+    -webkit-border-bottom-right-radius: 2px;
+    -webkit-border-bottom-left-radius: 2px;
+    -moz-border-radius-bottomright: 2px;
+    -moz-border-radius-bottomleft: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
 }
 
 .RTL .Admin .Size1of2 p {
@@ -89,7 +99,7 @@
 }
 
 #Row2 .WidgetGradient {
-    min-height: 276px;
+    min-height: 289px;
 }
 
 } /* end @media */
