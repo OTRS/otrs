@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.57 2010-06-02 13:49:41 mg Exp $
+# $Id: Footer.dtl,v 1.58 2010-06-02 14:17:52 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,8 @@
             SessionID: '$Env{"SessionID"}',
             CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
             Images: '$Config{"Frontend::ImagePath"}',
-            UserLanguage: '$Env{"UserLanguage"}'
+            UserLanguage: '$Env{"UserLanguage"}',
+            AnimationEnabled: $Config{"Frontend::AnimationEnabled"}
         });
         OTRS.Agent.Init();
 <!-- dtl:js_on_document_complete_placeholder -->
