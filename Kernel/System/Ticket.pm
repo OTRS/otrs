@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.465 2010-05-31 09:54:26 martin Exp $
+# $Id: Ticket.pm,v 1.466 2010-06-02 16:03:45 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.465 $) [1];
+$VERSION = qw($Revision: 1.466 $) [1];
 
 =head1 NAME
 
@@ -1123,7 +1123,7 @@ sub TicketGet {
     # get lock
     $Ticket{Lock} = $Self->{LockObject}->LockLookup( LockID => $Ticket{LockID} );
 
-    # get service
+    # get type
     $Ticket{Type} = $Self->{TypeObject}->TypeLookup( TypeID => $Ticket{TypeID} );
 
     # get service
@@ -8102,6 +8102,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.465 $ $Date: 2010-05-31 09:54:26 $
+$Revision: 1.466 $ $Date: 2010-06-02 16:03:45 $
 
 =cut
