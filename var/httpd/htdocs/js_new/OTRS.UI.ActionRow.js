@@ -2,7 +2,7 @@
 // OTRS.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.ActionRow.js,v 1.9 2010-05-11 11:38:37 mn Exp $
+// $Id: OTRS.UI.ActionRow.js,v 1.10 2010-06-02 14:38:40 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -149,7 +149,7 @@ OTRS.UI.ActionRow = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function initializes the complete ActionRow funcionality and binds all click events.
+     *      This function initializes the complete ActionRow functionality and binds all click events.
      * @return nothing
      */
     TargetNS.Init = function () {
@@ -173,7 +173,7 @@ OTRS.UI.ActionRow = (function (TargetNS) {
             OTRS.UI.ActionRow.UpdateActionRow($(this), $(TicketElementSelectors[TicketView]), $('div.OverviewActions ul.Actions'));
         });
 
-        OTRS.UI.RegisterEvent('click', $('BulkAction a'), function () {
+        OTRS.UI.RegisterEvent('click', $('#BulkAction a'), function () {
             var $Element = $(this),
                 $SelectedTickets,
                 TicketIDParameter = "TicketID=",
