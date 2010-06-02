@@ -1,0 +1,95 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  Admin
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+.Admin .WidgetGradient > .Content {
+    padding: 2px 0 2px 2px;
+}
+
+.RTL .Admin .WidgetGradient > .Content {
+    padding: 2px 2px 2px 0;
+}
+
+.Admin .Size1of2 {
+    margin-bottom: 3px;
+    position: relative;
+}
+
+.Admin .Size1of2 .AsBlock {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    text-indent: -9999px;
+    position: absolute;
+}
+
+.RTL .Admin .Size1of2 .AsBlock {
+    left: auto;
+    right: 0;
+}
+
+.Admin .Size1of2 h4 {
+    margin: 0 2px 0 0;
+    padding: 5px 5px 4px;
+    color: #F92;
+    border: 1px solid transparent;
+    border-bottom: none;
+    -moz-border-radius: 2px 2px 0 0;
+}
+
+.RTL .Admin .Size1of2 h4 {
+    margin: 0 0 0 2px;
+}
+
+.Admin .Size1of2 p {
+    margin: 0 2px 0 0;
+    padding: 0 5px 5px;
+    line-height: 14px;
+    border: 1px solid transparent;
+    border-top: none;
+    -moz-border-radius: 0 0 2px 2px;
+}
+
+.RTL .Admin .Size1of2 p {
+    margin: 0 0 0 2px;
+}
+
+.Admin .Size1of2:hover h4,
+.Admin .Size1of2:hover p {
+    background: #FDFDFD;
+    border-color: #DDD;
+}
+
+.Admin .Size1of2:hover h4 {
+    color: #F72;
+}
+
+/**
+ * specific min-height for AdminNavigationBar rows
+ */
+
+#Row1 .WidgetGradient {
+    min-height: 196px;
+}
+
+#Row2 .WidgetGradient {
+    min-height: 276px;
+}
+
+} /* end @media */
