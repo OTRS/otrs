@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.16 2010-06-02 09:25:58 mg Exp $
+# $Id: LayoutLoader.pm,v 1.17 2010-06-02 12:49:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 use Kernel::System::Loader;
 
@@ -109,8 +109,11 @@ sub LoaderCreateAgentCSSCalls {
 
     # now handle module specific CSS
     {
+        my $LoaderAction = $Self->{Action} || 'Login';
+        $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
+
         my $AppCSSList = $Self->{ConfigObject}->Get('Frontend::Module')
-            ->{ $Self->{Action} || 'Login' }->{Loader}->{CSS} || [];
+            ->{$LoaderAction}->{Loader}->{CSS} || [];
 
         my @FileList = @{$AppCSSList};
 
@@ -169,8 +172,11 @@ sub LoaderCreateAgentJSCalls {
 
     # now handle module specific JS
     {
+        my $LoaderAction = $Self->{Action} || 'Login';
+        $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
+
         my $AppJSList = $Self->{ConfigObject}->Get('Frontend::Module')
-            ->{ $Self->{Action} || 'Login' }->{Loader}->{JavaScript} || [];
+            ->{$LoaderAction}->{Loader}->{JavaScript} || [];
 
         my @FileList = @{$AppJSList};
 
@@ -246,8 +252,11 @@ sub LoaderCreateCustomerCSSCalls {
 
     # now handle module specific CSS
     {
+        my $LoaderAction = $Self->{Action} || 'Login';
+        $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
+
         my $AppCSSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
-            ->{ $Self->{Action} || 'CustomerLogin' }->{Loader}->{CSS} || [];
+            ->{$LoaderAction}->{Loader}->{CSS} || [];
 
         my @FileList = @{$AppCSSList};
 
@@ -305,8 +314,11 @@ sub LoaderCreateCustomerJSCalls {
 
     # now handle module specific JS
     {
+        my $LoaderAction = $Self->{Action} || 'Login';
+        $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
+
         my $AppJSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
-            ->{ $Self->{Action} || 'CustomerLogin' }->{Loader}->{JavaScript} || [];
+            ->{$LoaderAction}->{Loader}->{JavaScript} || [];
 
         my @FileList = @{$AppJSList};
 
@@ -421,6 +433,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2010-06-02 09:25:58 $
+$Revision: 1.17 $ $Date: 2010-06-02 12:49:46 $
 
 =cut
