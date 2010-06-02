@@ -2,7 +2,7 @@
 # CustomerFooter.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerFooter.dtl,v 1.23 2010-06-01 23:15:13 martin Exp $
+# $Id: CustomerFooter.dtl,v 1.24 2010-06-02 09:31:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,18 +16,20 @@
         <li><a href="">$Text{"About OTRS"}</a></li>
         <li><a href="">$Text{"Help"}</a></li>
     </ul>
-    <div class="Clear" />
-    </div>
-<script type="text/javascript" src="$Config{"Frontend::WebPath"}js_new/thirdparty/jquery-1.4.2/jquery.js"></script>
+    <div class="Clear"></div>
+</div>
+
 <!-- dtl:block:CommonJS -->
     <script type="text/javascript" src="$Config{"Frontend::WebPath"}$QData{"JSDirectory"}/$QData{"Filename"}"></script>
 <!-- dtl:block:CommonJS -->
+
 <script type="text/javascript">
     OTRS.Customer.Enhance();
     OTRS.App.Ready(function() {
         <!-- dtl:js_on_document_complete_placeholder -->
     });
 </script>
+
 </body>
 </html>
 <!-- end footer -->
