@@ -1,0 +1,21 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ * @css-for     IE7
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  Admin
+ */
+
+@media screen,projection,tv,handheld {
+
+.Admin .Size1of2 .AsBlock {
+    background: url(../img/empty_background.png);
+}
+
+} /* end @media */
