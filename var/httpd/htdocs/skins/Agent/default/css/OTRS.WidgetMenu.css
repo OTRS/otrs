@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -562,19 +562,19 @@ form.Pagination a:hover {
     background: url(../img/overviewcontrol_hover2.png) no-repeat;
 }
 
-div.Pagination a {
+span.Pagination a {
     color: #000 !important;
 }
 
-div.Pagination a:hover {
+span.Pagination a:hover {
     color: #F92 !important;
 }
 
-div.Pagination a.Selected {
+span.Pagination a.Selected {
     font-weight: bold;
 }
 
-div.Pagination span.PaginationLimit {
+span.Pagination span.PaginationLimit {
     color: #FF0000;
 }
 
