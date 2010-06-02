@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -19,11 +19,10 @@
  * @subsection  Header
  */
 #Header {
-    height: 70px; /* 94px height - 10px - 12px padding */
+    height: 72px;
     padding: 10px 0 12px;
     background: url(../img/header_bg.png) repeat-x;
     color: #FFF;
-    border-bottom: 1px solid #E6E6E6;
     position: relative;
 }
 
