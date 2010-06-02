@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.93 2010-05-20 17:16:26 ub Exp $
+# $Id: AdminPackageManager.pm,v 1.94 2010-06-02 20:23:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -391,7 +391,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
                 Data     => "$Name $Version"
-                    . ' - $Text{"Package not correctly deployed! You should reinstall the Package again!"}',
+                    . ' - $Text{"Package not correctly deployed! Please reinstall the package."}',
                 Link => '$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name='
                     . $Name
                     . ';Version='
