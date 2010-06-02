@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.js,v 1.15 2010-06-02 14:17:52 mn Exp $
+// $Id: OTRS.UI.js,v 1.16 2010-06-02 15:02:57 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -160,18 +160,27 @@ OTRS.UI = (function (TargetNS) {
             .unbind('click.WidgetToggle')
             .bind('click.WidgetToggle', function () {
                 var $WidgetElement = $(this).closest("div.Header").parent('div'),
-                    Animate = $WidgetElement.hasClass('Animate');
+                    Animate = $WidgetElement.hasClass('Animate'),
+                    $that = $(this);
 
                 if (Animate && OTRS.Config.Get('AnimationEnabled')) {
-                    $WidgetElement.find('.Content').slideToggle("slow");
+                    $WidgetElement.find('.Content').slideToggle("slow", function() {
+                        $WidgetElement
+                            .toggleClass('Collapsed')
+                            .toggleClass('Expanded')
+                            .end()
+                            .end()
+                            .attr('aria-expanded', $that.closest("div.Header").parent('div').hasClass('Expanded'));
+                    });
+                } else {
+                    $WidgetElement
+                        .toggleClass('Collapsed')
+                        .toggleClass('Expanded')
+                        .end()
+                        .end()
+                        .attr('aria-expanded', $(this).closest("div.Header").parent('div').hasClass('Expanded'));
                 }
 
-                $WidgetElement
-                    .toggleClass('Collapsed')
-                    .toggleClass('Expanded')
-                    .end()
-                    .end()
-                    .attr('aria-expanded', $(this).closest("div.Header").parent('div').hasClass('Expanded'));
                 return false;
             });
     };
