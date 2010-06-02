@@ -2,14 +2,14 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNavigationBar.dtl,v 1.40 2010-06-01 17:19:29 fn Exp $
+# $Id: AdminNavigationBar.dtl,v 1.41 2010-06-02 10:11:17 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!-- dtl:block:AdminNavBar -->
-<div class="MainBox ARIARoleMain">
+<div class="MainBox ARIARoleMain Admin">
     <h1>$Text{"Admin"}</h1>
     <div id="Row1" class="LayoutGrid ColumnsWithSpacing">
         <div class="Size1of3">
@@ -21,7 +21,7 @@
                     <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:Agent -->
                         <li class="Size1of2">
-                            <h4><a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"Link"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
 <!-- dtl:block:Agent -->
@@ -41,7 +41,7 @@
                     <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:Customer -->
                         <li class="Size1of2">
-                            <h4><a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"Link"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
 <!-- dtl:block:Customer -->
@@ -61,7 +61,7 @@
                     <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:Email -->
                         <li class="Size1of2">
-                            <h4><a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"Link"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
 <!-- dtl:block:Email -->
@@ -84,7 +84,7 @@
                     <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:Queue -->
                         <li class="Size1of2">
-                            <h4><a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"Link"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
 <!-- dtl:block:Queue -->
@@ -104,7 +104,7 @@
                     <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:Ticket -->
                         <li class="Size1of2">
-                            <h4><a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"Link"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
 <!-- dtl:block:Ticket -->
@@ -123,7 +123,7 @@
                     <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:System -->
                         <li class="Size1of2">
-                            <h4><a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"Link"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
 <!-- dtl:block:System -->
