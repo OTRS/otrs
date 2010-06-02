@@ -2,7 +2,7 @@
 // OTRS.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.AJAX.js,v 1.6 2010-05-07 13:38:48 mn Exp $
+// $Id: OTRS.AJAX.js,v 1.7 2010-06-02 08:40:02 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -181,7 +181,7 @@ OTRS.AJAX = (function (TargetNS) {
             dataType: 'json',
             success: function (Response) {
                 if (!Response) {
-                    alert("ERROR: Invalid JSON from: " + URL);
+                    OTRS.Exception.Throw("Invalid JSON from: " + URL, 'CommunicationError');
                 }
                 else {
                     UpdateFormElements(Response, FieldsToUpdate);
@@ -193,7 +193,7 @@ OTRS.AJAX = (function (TargetNS) {
                 });
             },
             error: function () {
-                alert('ERROR: Something went wrong!');
+                OTRS.Exception.Throw("Error during AJAX communication", 'CommunicationError');
             }
         });
 
@@ -240,13 +240,13 @@ OTRS.AJAX = (function (TargetNS) {
             dataType: 'html',
             success: function (Response) {
                 if (!Response) {
-                    alert("ERROR: No content from: " + URL);
+                    OTRS.Exception.Throw("No content from: " + URL, 'CommunicationError');
                 }
                 else if ($ElementToUpdate && isJQueryObject($ElementToUpdate) && $ElementToUpdate.length) {
                     $ElementToUpdate.html(Response);
                 }
                 else {
-                    alert("ERROR: No such element id: " + $ElementToUpdate.attr('id') + " in page!");
+                    OTRS.Exception.Throw("No such element id: " + $ElementToUpdate.attr('id') + " in page!", 'CommunicationError');
                 }
             },
             complete: function () {
@@ -255,7 +255,7 @@ OTRS.AJAX = (function (TargetNS) {
                 }
             },
             error: function () {
-                alert('ERROR: Something went wrong!');
+                OTRS.Exception.Throw("Error during AJAX communication", 'CommunicationError');
             }
         });
 
@@ -298,18 +298,18 @@ OTRS.AJAX = (function (TargetNS) {
             dataType: 'json',
             success: function (Response) {
                 if (!Response) {
-                    alert("ERROR: No content from: " + URL);
+                    OTRS.Exception.Throw("No content from: " + URL, 'CommunicationError');
                 }
                 // call the callback
                 if ($.isFunction(Callback)) {
                     Callback(Response);
                 }
                 else {
-                    alert("ERROR: Invalid callback method: " + Callback.toString());
+                    OTRS.Exception.Throw("Invalid callback method: " + Callback.toString(), 'CommunicationError');
                 }
             },
             error: function () {
-                alert('ERROR: Something went wrong!');
+                OTRS.Exception.Throw("Error during AJAX communication", 'CommunicationError');
             }
         });
     };
