@@ -2,7 +2,7 @@
 // OTRS.Debug.js - provides debugging functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Debug.js,v 1.8 2010-06-02 08:40:02 mn Exp $
+// $Id: OTRS.Debug.js,v 1.9 2010-06-02 10:43:06 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -74,8 +74,8 @@ OTRS.Debug = (function (TargetNS) {
             return true;
         }
         if (!Silent) {
-            OTRS.Exception.Throw('Namespace ' + TargetNamespace + ' could not be initialized, because ' +
-                RequiredLabel + ' could not be found.', 'InternalError');
+            alert('Namespace ' + TargetNamespace + ' could not be initialized, because ' +
+                RequiredLabel + ' could not be found.');
         }
         return false;
     };
