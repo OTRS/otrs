@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -61,29 +61,29 @@ ul.Tablelike li.Header {
 .WidgetGradient {
     border: 1px solid #CCC;
     margin-bottom: 10px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
 }
 
 .WidgetGradient > .Header {
     padding: 2px 5px 3px;
     border: 1px solid #FFF;
     border-bottom: 1px solid #CCC;
-    -webkit-border-top-left-radius: 5px;
-    -webkit-border-top-right-radius: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-topright: 5px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    -webkit-border-top-left-radius: 2px;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
     position: relative;
 }
 
 .WidgetGradient.Collapsed > .Header {
     border-bottom: none;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
 }
 
 .WidgetGradient > .Header h2 {
@@ -95,12 +95,12 @@ ul.Tablelike li.Header {
     padding: 8px 8px 13px;
     border: 1px solid #FFF;
     border-bottom: none;
-    -webkit-border-bottom-right-radius: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 2px;
+    -webkit-border-bottom-left-radius: 2px;
+    -moz-border-radius-bottomright: 2px;
+    -moz-border-radius-bottomleft: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
 }
 
 .WidgetGradient.Collapsed > .Content {
@@ -193,13 +193,13 @@ ul.Tablelike li.Header {
 .ActionMenu {
     top: 0;
     right: 0;
-    padding-left: 2px;
+    padding-left: 3px;
     background: #FFF;
     border-left: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    border-bottom-left-radius: 5px;
+    -webkit-border-bottom-left-radius: 2px;
+    -moz-border-radius-bottomleft: 2px;
+    border-bottom-left-radius: 2px;
     position: absolute;
     display: none;
 }
@@ -211,11 +211,11 @@ ul.Tablelike li.Header {
     border-left: none;
     border-right: 1px solid #DDD;
     -webkit-border-bottom-left-radius: 0;
-    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 2px;
     -moz-border-radius-bottomleft: 0;
-    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomright: 2px;
     border-bottom-left-radius: 0;
-    border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 2px;
 }
 
 .Header:hover .ActionMenu {
@@ -274,12 +274,17 @@ ul.Tablelike li.Header {
 
 /* Settings */
 .WidgetAction.Settings a {
-    background: url(../img/widget_settings.png) no-repeat center center;
+    background: url(../img/widget_settings.png) no-repeat 2px 2px;
 }
 
 /* Close */
 .WidgetAction.Close a {
-    background: url(../img/widget_close.png) no-repeat center center;
+    background: url(../img/widget_close.png) no-repeat 2px 2px;
+}
+
+.WidgetAction.Settings a:hover,
+.WidgetAction.Close a:hover {
+    background-position: 2px -16px;
 }
 
 /**
