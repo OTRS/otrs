@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.296 2010-06-01 12:29:46 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.297 2010-06-02 08:12:46 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Group>Framework</Group>
@@ -3757,6 +3757,12 @@ Your OTRS Notification Master
                     <AccessKey>d</AccessKey>
                     <Prio>50</Prio>
                 </NavBar>
+                <Loader>
+                    <JavaScript>thirdparty/flot/jquery.flot.js</JavaScript>
+                    <JavaScript>OTRS.UI.Chart.js</JavaScript>
+                    <JavaScript>OTRS.UI.DnD.js</JavaScript>
+                    <JavaScript>OTRS.Agent.App.Dashboard.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -5380,7 +5386,6 @@ Your OTRS Notification Master
                 <Item>thirdparty/jquery-ui-1.8/jquery-ui-datepicker.js</Item>
                 <Item>thirdparty/jquery-ui-1.8/jquery-ui-resizable.js</Item>
                 <Item>thirdparty/jquery-validate-1.7/jquery.validate.js</Item>
-                <Item>thirdparty/flot/jquery.flot.js</Item>
                 <Item>OTRS.JavaScriptEnhancements.js</Item>
                 <Item>OTRS.Config.js</Item>
                 <Item>OTRS.Debug.js</Item>
@@ -5392,7 +5397,6 @@ Your OTRS Notification Master
                 <Item>OTRS.UI.Accordion.js</Item>
                 <Item>OTRS.UI.Datepicker.js</Item>
                 <Item>OTRS.UI.Resizable.js</Item>
-                <Item>OTRS.UI.DnD.js</Item>
                 <Item>OTRS.UI.Table.js</Item>
                 <Item>OTRS.UI.Accessibility.js</Item>
                 <Item>OTRS.UI.RichTextEditor.js</Item>
@@ -5402,10 +5406,8 @@ Your OTRS Notification Master
                 <Item>OTRS.UI.Dialog.js</Item>
                 <Item>OTRS.UI.ActionRow.js</Item>
                 <Item>OTRS.UI.Popup.js</Item>
-                <Item>OTRS.UI.Chart.js</Item>
                 <Item>OTRS.App.js</Item>
                 <Item>OTRS.Agent.js</Item>
-                <Item>OTRS.Agent.App.Dashboard.js</Item>
                 <Item>OTRS.Agent.App.TicketZoom.js</Item>
                 <Item>OTRS.Agent.App.Login.js</Item>
             </Array>
