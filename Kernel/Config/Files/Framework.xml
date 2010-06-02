@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.297 2010-06-02 08:12:46 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.298 2010-06-02 08:58:20 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Group>Framework</Group>
@@ -5408,7 +5408,6 @@ Your OTRS Notification Master
                 <Item>OTRS.UI.Popup.js</Item>
                 <Item>OTRS.App.js</Item>
                 <Item>OTRS.Agent.js</Item>
-                <Item>OTRS.Agent.App.TicketZoom.js</Item>
                 <Item>OTRS.Agent.App.Login.js</Item>
             </Array>
         </Setting>
