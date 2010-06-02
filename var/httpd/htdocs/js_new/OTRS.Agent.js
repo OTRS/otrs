@@ -2,7 +2,7 @@
 // OTRS.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Agent.js,v 1.2 2010-05-19 09:38:23 mg Exp $
+// $Id: OTRS.Agent.js,v 1.3 2010-06-02 09:52:46 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,9 @@ var OTRS = OTRS || {};
  */
 OTRS.Agent = (function (TargetNS) {
     if (!OTRS.Debug.CheckDependency('OTRS.Agent', 'OTRS.UI', 'OTRS.UI')) {
+        return;
+    }
+    if (!OTRS.Debug.CheckDependency('OTRS.Agent', 'OTRS.UI.IE7Fixes', 'OTRS.UI.IE7Fixes')) {
         return;
     }
     if (!OTRS.Debug.CheckDependency('OTRS.Agent', 'OTRS.Form', 'OTRS.Form')) {
@@ -137,14 +140,7 @@ OTRS.Agent = (function (TargetNS) {
         OTRS.Form.Validate.Init();
         // late execution of accessibility code
         OTRS.UI.Accessibility.Init();
-    };
-
-    /**
-     * @function
-     * @return nothing
-     *      This function initializes the needed compatibility functions for IE7
-     */
-    TargetNS.InitIE7 = function () {
+        // init IE7 compat code (will only run on IE7)
         OTRS.UI.IE7Fixes.InitIE7InputFocus('Focus');
         OTRS.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
     };
