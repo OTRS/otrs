@@ -2,7 +2,7 @@
 // OTRS.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.js,v 1.16 2010-06-02 15:02:57 mn Exp $
+// $Id: OTRS.UI.js,v 1.17 2010-06-04 07:23:19 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -159,26 +159,26 @@ OTRS.UI = (function (TargetNS) {
             })
             .unbind('click.WidgetToggle')
             .bind('click.WidgetToggle', function () {
-                var $WidgetElement = $(this).closest("div.Header").parent('div'),
-                    Animate = $WidgetElement.hasClass('Animate'),
-                    $that = $(this);
-
-                if (Animate && OTRS.Config.Get('AnimationEnabled')) {
-                    $WidgetElement.find('.Content').slideToggle("slow", function() {
-                        $WidgetElement
-                            .toggleClass('Collapsed')
-                            .toggleClass('Expanded')
-                            .end()
-                            .end()
-                            .attr('aria-expanded', $that.closest("div.Header").parent('div').hasClass('Expanded'));
-                    });
-                } else {
+                function ToggleWidget() {
                     $WidgetElement
                         .toggleClass('Collapsed')
                         .toggleClass('Expanded')
                         .end()
                         .end()
                         .attr('aria-expanded', $(this).closest("div.Header").parent('div').hasClass('Expanded'));
+                }
+
+                var $WidgetElement = $(this).closest("div.Header").parent('div'),
+                    Animate = $WidgetElement.hasClass('Animate'),
+                    $that = $(this);
+
+                if (Animate && OTRS.Config.Get('AnimationEnabled')) {
+                    $WidgetElement.addClass('AnimationRunning').find('.Content').slideToggle("slow", function() {
+                        ToggleWidget();
+                        $WidgetElement.removeClass('AnimationRunning');
+                    });
+                } else {
+                    ToggleWidget();
                 }
 
                 return false;
