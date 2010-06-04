@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -66,7 +66,8 @@ ul.Tablelike li.Header {
     border-radius: 2px;
 }
 
-.WidgetGradient > .Header {
+.WidgetGradient > .Header,
+.WidgetGradient.Collapsed.AnimationRunning > .Header {
     padding: 2px 5px 3px;
     border: 1px solid #FFF;
     border-bottom: 1px solid #CCC;
@@ -247,11 +248,12 @@ ul.Tablelike li.Header {
     display: block;
 }
 
-.WidgetAction.Toggle {
+.WidgetAction.Toggle,
+.Expanded.AnimationRunning .WidgetAction.Toggle {
     height: 13px;
     width: 12px;
     margin: 5px 6px 5px 2px;
-    background: url(../img/toggle_arrow.png) no-repeat top;
+    background: url(../img/toggle_arrow.png) no-repeat 0 0;
     float: left;
 }
 
@@ -259,7 +261,8 @@ ul.Tablelike li.Header {
     background-position: 0 -13px;
 }
 
-.Expanded .WidgetAction.Toggle {
+.Expanded .WidgetAction.Toggle,
+.Collapsed.AnimationRunning .WidgetAction.Toggle {
     background-position: 0 -26px;
 }
 
