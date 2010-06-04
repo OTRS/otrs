@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.35 2010-05-10 16:29:46 mn Exp $
+# $Id: RichTextEditor.dtl,v 1.36 2010-06-04 11:19:32 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,13 +12,13 @@
 <script src="$Config{"Frontend::RichTextPath"}ckeditor.js" type="text/javascript"></script>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.Config.Set('RichText.Width', '$Config{"Frontend::RichTextWidth"}');
-    OTRS.Config.Set('RichText.Height', '$Config{"Frontend::RichTextHeight"}');
-    OTRS.Config.Set('RichText.BasePath', '$Config{"Frontend::RichTextPath"}');
-    OTRS.Config.Set('RichText.TextDir', '$Env{"TextDirection"}');
-    OTRS.Config.Set('RichText.SpellChecker', '$Env{"BrowserSpellCheckerInline"}');
-    OTRS.Config.Set('RichText.EditingAreaCSS', 'body { $Config{"Frontend::RichText::DefaultCSS"} }');
+    Core.Config.Set('RichText.Width', '$Config{"Frontend::RichTextWidth"}');
+    Core.Config.Set('RichText.Height', '$Config{"Frontend::RichTextHeight"}');
+    Core.Config.Set('RichText.BasePath', '$Config{"Frontend::RichTextPath"}');
+    Core.Config.Set('RichText.TextDir', '$Env{"TextDirection"}');
+    Core.Config.Set('RichText.SpellChecker', '$Env{"BrowserSpellCheckerInline"}');
+    Core.Config.Set('RichText.EditingAreaCSS', 'body { $Config{"Frontend::RichText::DefaultCSS"} }');
 
-    OTRS.UI.RichTextEditor.InitAll();
+    Core.UI.RichTextEditor.InitAll();
 //]]></script>
 <!-- dtl:js_on_document_complete -->

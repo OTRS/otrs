@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.Popup.js - provides functionality to open popup windows
+// Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Popup.js,v 1.4 2010-06-02 08:40:02 mn Exp $
+// $Id: Core.UI.Popup.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,16 +11,16 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.UI = OTRS.UI || {};
+var Core = Core || {};
+Core.UI = Core.UI || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.UI.Popup
+ * @exports TargetNS as Core.UI.Popup
  * @description
  *      Popup windows
  */
-OTRS.UI.Popup = (function (TargetNS) {
+Core.UI.Popup = (function (TargetNS) {
     var OpenPopups = {},
         PopupProfiles,
         PopupDefaultProfile = 'Default';
@@ -113,4 +113,4 @@ OTRS.UI.Popup = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.UI.Popup || {}));
+}(Core.UI.Popup || {}));

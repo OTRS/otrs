@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.Datepicker.js - Datepicker
+// Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Datepicker.js,v 1.5 2010-05-07 13:33:29 mn Exp $
+// $Id: Core.UI.Datepicker.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,16 +11,16 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.UI = OTRS.UI || {};
+var Core = Core || {};
+Core.UI = Core.UI || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Datepicker
+ * @exports TargetNS as Core.Datepicker
  * @description
  *      This namespace contains the datepicker functions
  */
-OTRS.UI.Datepicker = (function (TargetNS) {
+Core.UI.Datepicker = (function (TargetNS) {
     /**
      * @function
      * @description
@@ -54,4 +54,4 @@ OTRS.UI.Datepicker = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.UI.Datepicker || {}));
+}(Core.UI.Datepicker || {}));

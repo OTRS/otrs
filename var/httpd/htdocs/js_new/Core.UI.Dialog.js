@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.Dialog.js - Dialogs
+// Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Dialog.js,v 1.12 2010-05-07 13:38:48 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,16 +11,16 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.UI = OTRS.UI || {};
+var Core = Core || {};
+Core.UI = Core.UI || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.UI.Dialog
+ * @exports TargetNS as Core.UI.Dialog
  * @description
  *      Contains the code for the different dialogs.
  */
-OTRS.UI.Dialog = (function (TargetNS) {
+Core.UI.Dialog = (function (TargetNS) {
     /**
      * @function
      * @private
@@ -53,7 +53,7 @@ OTRS.UI.Dialog = (function (TargetNS) {
      * @param Position number Represents the position of the element to be focused, starting by 0.
      * @return nothing
      * @description Focuses the specified element within the dialog.
-     *              Needs the Object "OTRS.UI.Dialog.$FocusableElements" to be initialized and filled (with function GetFocusableElements()).
+     *              Needs the Object "Core.UI.Dialog.$FocusableElements" to be initialized and filled (with function GetFocusableElements()).
      */
     function FocusElement(Position) {
         if (typeof TargetNS.$FocusableElements !== 'undefined' && TargetNS.$FocusableElements.length > Position) {
@@ -498,7 +498,7 @@ OTRS.UI.Dialog = (function (TargetNS) {
                 Position = $(this).offset();
                 $HTMLObject = $('#UIElementPool .AttachmentDialog').clone().find('.AttachmentContent').unwrap();
                 $HTMLObject.append($('#' + $(this).attr('rel'))[0].innerHTML);
-                OTRS.UI.Dialog.ShowContentDialog($HTMLObject.html(), 'Attachments', Position.top, parseInt(Position.left, 10) + 25);
+                Core.UI.Dialog.ShowContentDialog($HTMLObject.html(), 'Attachments', Position.top, parseInt(Position.left, 10) + 25);
             }
             event.preventDefault();
             event.stopPropagation();
@@ -507,4 +507,4 @@ OTRS.UI.Dialog = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.UI.Dialog || {}));
+}(Core.UI.Dialog || {}));

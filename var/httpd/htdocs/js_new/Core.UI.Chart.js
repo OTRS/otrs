@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.Chart.js - provides the Chart functions
+// Core.UI.Chart.js - provides the Chart functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Chart.js,v 1.6 2010-06-02 10:43:06 mn Exp $
+// $Id: Core.UI.Chart.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,20 +11,20 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.UI = OTRS.UI || {};
+var Core = Core || {};
+Core.UI = Core.UI || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.UI.Chart
+ * @exports TargetNS as Core.UI.Chart
  * @description
  *      Chart drawing
  * @requires
  *      jquery-flot
  */
-OTRS.UI.Chart = (function (TargetNS) {
+Core.UI.Chart = (function (TargetNS) {
 
-    if (!OTRS.Debug.CheckDependency('OTRS.UI.Chart', '$.plot', 'jQuery Flot API')) {
+    if (!Core.Debug.CheckDependency('Core.UI.Chart', '$.plot', 'jQuery Flot API')) {
         return;
     }
 
@@ -124,7 +124,7 @@ OTRS.UI.Chart = (function (TargetNS) {
             $Element = $('#' + ChartName);
 
         if (typeof window.CanvasRenderingContext2D === 'undefined' && typeof window.G_vmlCanvasManager === 'undefined') {
-            OTRS.Exception.Throw("IE support for charts not loaded!", 'InternalError');
+            Core.Exception.Throw("IE support for charts not loaded!", 'InternalError');
         }
 
         if ($Element.length) {
@@ -165,4 +165,4 @@ OTRS.UI.Chart = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.UI.Chart || {}));
+}(Core.UI.Chart || {}));

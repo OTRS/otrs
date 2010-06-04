@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.14 2010-05-17 14:27:38 mg Exp $
+# $Id: AdminNotification.dtl,v 1.15 2010-06-04 11:19:32 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -239,8 +239,8 @@ Your OTRS Notification Master
         </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Table.InitTableFilter($('#FilterLanguage'), $('#Notifications'), 0);
-    OTRS.UI.Table.InitTableFilter($('#FilterNotification'), $('#Notifications'), 1);
+    Core.UI.Table.InitTableFilter($('#FilterLanguage'), $('#Notifications'), 0);
+    Core.UI.Table.InitTableFilter($('#FilterNotification'), $('#Notifications'), 1);
 //]]></script>
 <!-- dtl:js_on_document_complete -->
     </div>

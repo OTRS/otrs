@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.40 2010-06-02 14:38:40 mn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.41 2010-06-04 11:19:32 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,7 +93,7 @@
 <!-- dtl:block:DocumentContent -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.ActionRow.Init();
+    Core.UI.ActionRow.Init();
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- start form -->
@@ -175,16 +175,16 @@
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.ActionRow.AddActions($('#TicketID_$QData{"TicketID"}'), $Data{"Data"});
+    Core.UI.ActionRow.AddActions($('#TicketID_$QData{"TicketID"}'), $Data{"Data"});
 //]]></script>
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <!-- dtl:block:DocumentReadyStart -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.AdjustTableHead($('#OverviewHeader thead'), $('#OverviewBody tbody'));
-    OTRS.UI.StaticTableControl($('#OverviewControl'));
+    Core.UI.AdjustTableHead($('#OverviewHeader thead'), $('#OverviewBody tbody'));
+    Core.UI.StaticTableControl($('#OverviewControl'));
 
     $(window).resize(function() {
-        OTRS.UI.AdjustTableHead($('#OverviewHeader thead'), $('#OverviewBody tbody'));
+        Core.UI.AdjustTableHead($('#OverviewHeader thead'), $('#OverviewBody tbody'));
     });
 //]]></script>
 <!-- dtl:block:DocumentReadyStart -->

@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.29 2010-06-02 13:01:49 mn Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.30 2010-06-04 11:19:32 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +14,9 @@
     <li class="$QData{"Locked::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Locked">$Text{"Locked Tickets"} ($QData{"Locked"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.RegisterLiveEvent('click', $('#Dashboard$QData{"Name"}Locked'), function(){
-        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked', function () {
-            OTRS.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+    Core.UI.RegisterLiveEvent('click', $('#Dashboard$QData{"Name"}Locked'), function(){
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
         });
         return false;
     });
@@ -27,9 +27,9 @@
     <li class="$QData{"Watcher::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Watcher">$Text{"Watched"} ($QData{"Watcher"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.RegisterLiveEvent('click', $('#Dashboard$QData{"Name"}Watcher'), function(){
-        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher', function () {
-            OTRS.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+    Core.UI.RegisterLiveEvent('click', $('#Dashboard$QData{"Name"}Watcher'), function(){
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
         });
         return false;
     });
@@ -41,9 +41,9 @@
     <li class="$QData{"Responsible::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Responsible">$Text{"Responsible"} ($QData{"Responsible"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.RegisterLiveEvent('click', $('#Dashboard$QData{"Name"}Responsible'), function(){
-        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible', function () {
-            OTRS.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+    Core.UI.RegisterLiveEvent('click', $('#Dashboard$QData{"Name"}Responsible'), function(){
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
         });
         return false;
     });
@@ -55,15 +55,15 @@
     <li class="$QData{"All::Selected"} Last"><a href="#" id="Dashboard$QData{"Name"}All">$Text{"All"} ($QData{"All"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.RegisterLiveEvent('click', $('#Dashboard$QData{"Name"}MyQueues'), function(){
-        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues', function () {
-            OTRS.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+    Core.UI.RegisterLiveEvent('click', $('#Dashboard$QData{"Name"}MyQueues'), function(){
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
         });
         return false;
     });
-    OTRS.UI.RegisterLiveEvent('click', $('#Dashboard$QData{"Name"}All'), function(){
-        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All', function () {
-            OTRS.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+    Core.UI.RegisterLiveEvent('click', $('#Dashboard$QData{"Name"}All'), function(){
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
         });
         return false;
     });

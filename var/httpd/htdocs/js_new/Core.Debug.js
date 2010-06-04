@@ -1,8 +1,8 @@
 // --
-// OTRS.Debug.js - provides debugging functions
+// Core.Debug.js - provides debugging functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Debug.js,v 1.9 2010-06-02 10:43:06 mn Exp $
+// $Id: Core.Debug.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,15 +11,15 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Debug
+ * @exports TargetNS as Core.Debug
  * @description
  *      This namespace contains all debug functions
  */
-OTRS.Debug = (function (TargetNS) {
+Core.Debug = (function (TargetNS) {
 
     var DebugConsole, DebugLog;
     if (typeof console === 'object' && typeof console.log === 'function') {
@@ -44,7 +44,7 @@ OTRS.Debug = (function (TargetNS) {
         function () {}; // NOOP function for performance reasons in production systems
 
     /**
-     * @exports TargetNS.CheckDependency as OTRS.Debug.CheckDependency
+     * @exports TargetNS.CheckDependency as Core.Debug.CheckDependency
      * @function
      * @description
      *      Checks if a required function or namespace is present.
@@ -82,7 +82,7 @@ OTRS.Debug = (function (TargetNS) {
     /*jslint evil: false */
 
     /**
-     * @exports TargetNS.BrowserCheck as OTRS.Debug.BrowserCheck
+     * @exports TargetNS.BrowserCheck as Core.Debug.BrowserCheck
      * @function
      * @description
      *      Checks, if the used browser is not on the OTRS browser blacklist.
@@ -90,7 +90,7 @@ OTRS.Debug = (function (TargetNS) {
      */
     TargetNS.BrowserCheck = function () {
         var AppropriateBrowser = true,
-            BrowserBlackList = OTRS.Config.Get('BrowserBlackList');
+            BrowserBlackList = Core.Config.Get('BrowserBlackList');
         if (typeof BrowserBlackList !== 'undefined') {
             $.each(BrowserBlackList, function (Key, Value) {
                 if ($.isFunction(Value)) {
@@ -104,7 +104,7 @@ OTRS.Debug = (function (TargetNS) {
     };
 
     /**
-     * @exports TargetNS.SimulateRTLPage as OTRS.Debug.SimulateRTLPage
+     * @exports TargetNS.SimulateRTLPage as Core.Debug.SimulateRTLPage
      * @function
      * @description
      *      Use this function to test your HTML/CSS/JS code against usage in RTL.
@@ -183,4 +183,4 @@ OTRS.Debug = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.Debug || {}));
+}(Core.Debug || {}));

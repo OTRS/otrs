@@ -1,8 +1,8 @@
 // --
-// OTRS.AJAX.js - provides the funcionality for AJAX calls
+// Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.AJAX.js,v 1.7 2010-06-02 08:40:02 mn Exp $
+// $Id: Core.AJAX.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,15 +11,15 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.AJAX
+ * @exports TargetNS as Core.AJAX
  * @description
  *      This namespace contains the functionality for AJAX calls.
  */
-OTRS.AJAX = (function (TargetNS) {
+Core.AJAX = (function (TargetNS) {
     var AJAXLoaderPrefix = 'AJAXLoader',
         ActiveAJAXCalls = {};
 
@@ -82,9 +82,9 @@ OTRS.AJAX = (function (TargetNS) {
      */
     function GetSessionInformation() {
         var Data = {};
-        if (!OTRS.Config.Get('SessionIDCookie')) {
-            Data[OTRS.Config.Get('SessionName')] = OTRS.Config.Get('SessionID');
-            Data[OTRS.Config.Get('CustomerPanelSessionName')] = OTRS.Config.Get('SessionID');
+        if (!Core.Config.Get('SessionIDCookie')) {
+            Data[Core.Config.Get('SessionName')] = Core.Config.Get('SessionID');
+            Data[Core.Config.Get('CustomerPanelSessionName')] = Core.Config.Get('SessionID');
         }
         return Data;
     }
@@ -98,7 +98,7 @@ OTRS.AJAX = (function (TargetNS) {
     function GetAdditionalDefaultData() {
         var Data = {};
         Data = GetSessionInformation();
-        Data.Action = OTRS.Config.Get('Action');
+        Data.Action = Core.Config.Get('Action');
         return Data;
     }
 
@@ -163,7 +163,7 @@ OTRS.AJAX = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.FormUpdate = function ($EventElement, Subaction, ChangedElement, FieldsToUpdate) {
-        var URL = OTRS.Config.Get('Baselink'),
+        var URL = Core.Config.Get('Baselink'),
             QueryString = TargetNS.SerializeForm($EventElement),
             Data = GetAdditionalDefaultData();
 
@@ -181,7 +181,7 @@ OTRS.AJAX = (function (TargetNS) {
             dataType: 'json',
             success: function (Response) {
                 if (!Response) {
-                    OTRS.Exception.Throw("Invalid JSON from: " + URL, 'CommunicationError');
+                    Core.Exception.Throw("Invalid JSON from: " + URL, 'CommunicationError');
                 }
                 else {
                     UpdateFormElements(Response, FieldsToUpdate);
@@ -193,7 +193,7 @@ OTRS.AJAX = (function (TargetNS) {
                 });
             },
             error: function () {
-                OTRS.Exception.Throw("Error during AJAX communication", 'CommunicationError');
+                Core.Exception.Throw("Error during AJAX communication", 'CommunicationError');
             }
         });
 
@@ -240,13 +240,13 @@ OTRS.AJAX = (function (TargetNS) {
             dataType: 'html',
             success: function (Response) {
                 if (!Response) {
-                    OTRS.Exception.Throw("No content from: " + URL, 'CommunicationError');
+                    Core.Exception.Throw("No content from: " + URL, 'CommunicationError');
                 }
                 else if ($ElementToUpdate && isJQueryObject($ElementToUpdate) && $ElementToUpdate.length) {
                     $ElementToUpdate.html(Response);
                 }
                 else {
-                    OTRS.Exception.Throw("No such element id: " + $ElementToUpdate.attr('id') + " in page!", 'CommunicationError');
+                    Core.Exception.Throw("No such element id: " + $ElementToUpdate.attr('id') + " in page!", 'CommunicationError');
                 }
             },
             complete: function () {
@@ -255,7 +255,7 @@ OTRS.AJAX = (function (TargetNS) {
                 }
             },
             error: function () {
-                OTRS.Exception.Throw("Error during AJAX communication", 'CommunicationError');
+                Core.Exception.Throw("Error during AJAX communication", 'CommunicationError');
             }
         });
 
@@ -298,18 +298,18 @@ OTRS.AJAX = (function (TargetNS) {
             dataType: 'json',
             success: function (Response) {
                 if (!Response) {
-                    OTRS.Exception.Throw("No content from: " + URL, 'CommunicationError');
+                    Core.Exception.Throw("No content from: " + URL, 'CommunicationError');
                 }
                 // call the callback
                 if ($.isFunction(Callback)) {
                     Callback(Response);
                 }
                 else {
-                    OTRS.Exception.Throw("Invalid callback method: " + Callback.toString(), 'CommunicationError');
+                    Core.Exception.Throw("Invalid callback method: " + Callback.toString(), 'CommunicationError');
                 }
             },
             error: function () {
-                OTRS.Exception.Throw("Error during AJAX communication", 'CommunicationError');
+                Core.Exception.Throw("Error during AJAX communication", 'CommunicationError');
             }
         });
     };
@@ -333,4 +333,4 @@ OTRS.AJAX = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.AJAX || {}));
+}(Core.AJAX || {}));

@@ -2,7 +2,7 @@
 # AgentDashboardUserOnline.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardUserOnline.dtl,v 1.19 2010-06-01 23:13:50 martin Exp $
+# $Id: AgentDashboardUserOnline.dtl,v 1.20 2010-06-04 11:19:32 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,15 +15,15 @@
     <li class="$QData{"Customer::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Customer" class="$QData{"Customer::Selected"}">$Text{"Customers"} ($QData{"Customer"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Agent', function(){
-        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Agent', function () {
-            OTRS.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+    Core.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Agent', function(){
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Agent', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
         });
         return false;
     });
-    OTRS.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Customer', function(){
-        OTRS.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Customer', function () {
-            OTRS.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+    Core.UI.RegisterLiveEvent('click', '#Dashboard$QData{"Name"}Customer', function(){
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Customer', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
         });
         return false;
     });

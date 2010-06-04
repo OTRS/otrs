@@ -1,8 +1,8 @@
 // --
-// OTRS.Form.Validate.js - provides functions for validating form inputs
+// Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Form.Validate.js,v 1.3 2010-05-17 14:15:40 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,18 +11,18 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.Form = OTRS.Form || {};
+var Core = Core || {};
+Core.Form = Core.Form || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Form.Validate
+ * @exports TargetNS as Core.Form.Validate
  * @description
  *      This namespace contains all validation functions.
  * @requires
- *      OTRS.UI.Accessibility
+ *      Core.UI.Accessibility
  */
-OTRS.Form.Validate = (function (TargetNS) {
+Core.Form.Validate = (function (TargetNS) {
     var Options = {
         FormClass:          'Validate',
         ErrorClass:         'Error',
@@ -35,7 +35,7 @@ OTRS.Form.Validate = (function (TargetNS) {
     /*
      * check dependencies first
      */
-    if (!OTRS.Debug.CheckDependency('OTRS.Form.Validate', 'OTRS.UI.Accessibility', 'OTRS.UI.Accessibility')) {
+    if (!Core.Debug.CheckDependency('Core.Form.Validate', 'Core.UI.Accessibility', 'Core.UI.Accessibility')) {
         return;
     }
 
@@ -69,13 +69,13 @@ OTRS.Form.Validate = (function (TargetNS) {
         InputErrorMessageText = $('#' + $Element.attr('id') + ErrorType).text();
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
-            OTRS.Form.ErrorTooltips.InitTooltip($Element, InputErrorMessageHTML);
+            Core.Form.ErrorTooltips.InitTooltip($Element, InputErrorMessageHTML);
         }
 
         /*
          * speak the error message for screen reader users
          */
-        OTRS.UI.Accessibility.AudibleAlert(InputErrorMessageText);
+        Core.UI.Accessibility.AudibleAlert(InputErrorMessageText);
     }
 
     function UnHighlightError(Element) {
@@ -92,7 +92,7 @@ OTRS.Form.Validate = (function (TargetNS) {
          */
         $Element.attr('aria-invalid', false);
 
-        OTRS.Form.ErrorTooltips.RemoveTooltip($Element);
+        Core.Form.ErrorTooltips.RemoveTooltip($Element);
     }
 
     // this function prevents the default placing of the error messages
@@ -241,7 +241,7 @@ OTRS.Form.Validate = (function (TargetNS) {
             $ServerErrors.each(function () {
                 HighlightError(this, 'ServerError');
             });
-            OTRS.UI.Dialog.ShowAlert('Fehler!', 'Bei einem oder mehreren Formular-Eingaben sind Fehler aufgetreten!');
+            Core.UI.Dialog.ShowAlert('Fehler!', 'Bei einem oder mehreren Formular-Eingaben sind Fehler aufgetreten!');
         }
     };
 
@@ -309,4 +309,4 @@ OTRS.Form.Validate = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.Form.Validate || {}));
+}(Core.Form.Validate || {}));

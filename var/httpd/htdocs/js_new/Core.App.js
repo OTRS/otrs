@@ -1,8 +1,8 @@
 // --
-// OTRS.App.js - provides the application functions
+// Core.App.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.App.js,v 1.12 2010-05-31 13:04:05 mn Exp $
+// $Id: Core.App.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,17 +11,17 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.App
+ * @exports TargetNS as Core.App
  * @description
  *      This namespace contains the config options and functions.
  */
-OTRS.App = (function (TargetNS) {
+Core.App = (function (TargetNS) {
 
-    if (!OTRS.Debug.CheckDependency('OTRS.App', 'OTRS.Exception', 'OTRS.Exception')) {
+    if (!Core.Debug.CheckDependency('Core.App', 'Core.Exception', 'Core.Exception')) {
         return;
     }
 
@@ -38,14 +38,14 @@ OTRS.App = (function (TargetNS) {
                     Callback();
                 }
                 catch (Error) {
-                    OTRS.Exception.HandleError(Error);
+                    Core.Exception.HandleError(Error);
                 }
             });
         }
         else {
-            OTRS.Exception.ShowError('No function parameter given in OTRS.App.Ready', 'TypeError');
+            Core.Exception.ShowError('No function parameter given in Core.App.Ready', 'TypeError');
         }
     };
 
     return TargetNS;
-}(OTRS.App || {}));
+}(Core.App || {}));

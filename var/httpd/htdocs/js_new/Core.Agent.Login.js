@@ -1,8 +1,8 @@
 // --
-// OTRS.Agent.TicketZoom.js - provides the special module functions for TicketZoom
+// Core.Agent.Login.js - provides the special module functions for the login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Agent.App.Login.js,v 1.1 2010-05-20 11:13:14 mg Exp $
+// $Id: Core.Agent.Login.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,17 +11,16 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.Agent = OTRS.Agent || {};
-OTRS.Agent.App = OTRS.Agent.App || {};
+var Core = Core || {};
+Core.Agent = Core.Agent || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.App.Agent.Login
+ * @exports TargetNS as Core.Agent.Login
  * @description
  *      This namespace contains the special module functions for TicketZoom.
  */
-OTRS.Agent.App.Login = (function (TargetNS) {
+Core.Agent.Login = (function (TargetNS) {
     /**
      * @function
      * @return nothing
@@ -29,14 +28,14 @@ OTRS.Agent.App.Login = (function (TargetNS) {
      */
     TargetNS.Init = function(){
         // Browser is too old
-        if (!OTRS.Debug.BrowserCheck()) {
+        if (!Core.Debug.BrowserCheck()) {
             $('#LoginBox').hide();
             $('#OldBrowser').show();
             return;
         }
 
         // enable login form
-        OTRS.Form.EnableForm($('#LoginBox form, #PasswordBox form'));
+        Core.Form.EnableForm($('#LoginBox form, #PasswordBox form'));
 
         // set focus
         if ($('#User').val() && $('#User').val().length) {
@@ -58,4 +57,4 @@ OTRS.Agent.App.Login = (function (TargetNS) {
     }
 
     return TargetNS;
-}(OTRS.Agent.App.Login || {}));
+}(Core.Agent.Login || {}));

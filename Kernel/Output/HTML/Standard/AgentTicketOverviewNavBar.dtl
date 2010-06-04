@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.24 2010-05-06 14:07:21 mn Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.25 2010-06-04 11:19:32 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@
 </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Dialog.RegisterContentDialog($('#DialogSet'), $('#DialogSettings'), '$JSText{"Settings"}', '20%', 'Center', true, [{Label: '$JSText{"Submit"}', Type: 'Submit', Class: 'Primary'}]);
+    Core.UI.Dialog.RegisterContentDialog($('#DialogSet'), $('#DialogSettings'), '$JSText{"Settings"}', '20%', 'Center', true, [{Label: '$JSText{"Submit"}', Type: 'Submit', Class: 'Primary'}]);
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 

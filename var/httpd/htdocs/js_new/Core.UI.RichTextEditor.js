@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.RichTextEditor.js - provides all UI functions
+// Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.RichTextEditor.js,v 1.4 2010-05-31 13:04:05 mn Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,18 +11,18 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.UI = OTRS.UI || {};
+var Core = Core || {};
+Core.UI = Core.UI || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.UI.RichTextEditor
+ * @exports TargetNS as Core.UI.RichTextEditor
  * @description
  *      Richtext Editor
  * @requires
  *      CKEDITOR
  */
-OTRS.UI.RichTextEditor = (function (TargetNS) {
+Core.UI.RichTextEditor = (function (TargetNS) {
     var $FormID;
 
     function CheckFormID() {
@@ -45,28 +45,28 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
         }
 
         if (EditorID === '') {
-            OTRS.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
+            Core.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
         }
 
         CKEDITOR.on('instanceCreated', function (Editor) {
-            Editor.editor.addCss(OTRS.Config.Get('RichText.EditingAreaCSS'));
+            Editor.editor.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
         });
 
         Editor = CKEDITOR.replace(EditorID,
         {
             customConfig: '', // avoid loading external config files
-            defaultLanguage: OTRS.Config.Get('UserLanguage'),
-            language: OTRS.Config.Get('UserLanguage'),
-            width: OTRS.Config.Get('RichText.Width') || 620,
-            resize_minWidth: OTRS.Config.Get('RichText.Width') || 620,
-            height: OTRS.Config.Get('RichText.Height') || 320,
-            baseHref: OTRS.Config.Get('RichText.BasePath'),
+            defaultLanguage: Core.Config.Get('UserLanguage'),
+            language: Core.Config.Get('UserLanguage'),
+            width: Core.Config.Get('RichText.Width') || 620,
+            resize_minWidth: Core.Config.Get('RichText.Width') || 620,
+            height: Core.Config.Get('RichText.Height') || 320,
+            baseHref: Core.Config.Get('RichText.BasePath'),
             skin: 'default',
             forcePasteAsPlainText: false,
             fontSize_sizes: '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_BR,
-            contentsLangDirection: OTRS.Config.Get('RichText.TextDir') ? OTRS.Config.Get('RichText.TextDir') : 'ltr',
+            contentsLangDirection: Core.Config.Get('RichText.TextDir') ? Core.Config.Get('RichText.TextDir') : 'ltr',
             disableNativeSpellChecker: false,
             toolbar_Full: [
                 ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'Image', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
@@ -79,14 +79,14 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
                 ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
             ],
             toolbar: ToolbarSet,
-            filebrowserUploadUrl: OTRS.Config.Get('Baselink'),
-            extraPlugins: OTRS.Config.Get('RichText.SpellChecker') ? 'aspell' : ''
+            filebrowserUploadUrl: Core.Config.Get('Baselink'),
+            extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell' : ''
         });
         if (CheckFormID().length) {
             CKEDITOR.config.action = 'PictureUpload';
             CKEDITOR.config.formID = CheckFormID().val();
         }
-        CKEDITOR.config.spellerPagesServerScript = OTRS.Config.Get('Baselink');
+        CKEDITOR.config.spellerPagesServerScript = Core.Config.Get('Baselink');
     };
 
     TargetNS.InitAll = function () {
@@ -105,7 +105,7 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
         }
 
         if (EditorID === '') {
-            OTRS.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
+            Core.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
         }
 
         Data = CKEDITOR.instances[EditorID].getData();
@@ -126,7 +126,7 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
         }
 
         if (EditorID === '') {
-            OTRS.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
+            Core.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
         }
 
         CKEDITOR.instances[EditorID].focus();
@@ -134,4 +134,4 @@ OTRS.UI.RichTextEditor = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.UI.RichTextEditor || {}));
+}(Core.UI.RichTextEditor || {}));

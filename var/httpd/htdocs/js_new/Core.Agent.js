@@ -1,8 +1,8 @@
 // --
-// OTRS.Agent.js - provides the application functions
+// Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Agent.js,v 1.3 2010-06-02 09:52:46 mg Exp $
+// $Id: Core.Agent.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,28 +11,28 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Agent
+ * @exports TargetNS as Core.Agent
  * @description
  *      This namespace contains the config options and functions.
  */
-OTRS.Agent = (function (TargetNS) {
-    if (!OTRS.Debug.CheckDependency('OTRS.Agent', 'OTRS.UI', 'OTRS.UI')) {
+Core.Agent = (function (TargetNS) {
+    if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI', 'Core.UI')) {
         return;
     }
-    if (!OTRS.Debug.CheckDependency('OTRS.Agent', 'OTRS.UI.IE7Fixes', 'OTRS.UI.IE7Fixes')) {
+    if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI.IE7Fixes', 'Core.UI.IE7Fixes')) {
         return;
     }
-    if (!OTRS.Debug.CheckDependency('OTRS.Agent', 'OTRS.Form', 'OTRS.Form')) {
+    if (!Core.Debug.CheckDependency('Core.Agent', 'Core.Form', 'Core.Form')) {
         return;
     }
-    if (!OTRS.Debug.CheckDependency('OTRS.Agent', 'OTRS.Form.Validate', 'OTRS.Form.Validate')) {
+    if (!Core.Debug.CheckDependency('Core.Agent', 'Core.Form.Validate', 'Core.Form.Validate')) {
         return;
     }
-    if (!OTRS.Debug.CheckDependency('OTRS.Agent', 'OTRS.UI.Accessibility', 'OTRS.UI.Accessibility')) {
+    if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI.Accessibility', 'Core.UI.Accessibility')) {
         return;
     }
 
@@ -132,18 +132,18 @@ OTRS.Agent = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         InitNavigation();
-        OTRS.UI.Table.InitCSSPseudoClasses();
-        OTRS.UI.InitWidgetActionToggle();
-        OTRS.UI.InitMessageBoxClose();
-        OTRS.UI.ProcessTagAttributeClasses();
-        OTRS.Form.Init();
-        OTRS.Form.Validate.Init();
+        Core.UI.Table.InitCSSPseudoClasses();
+        Core.UI.InitWidgetActionToggle();
+        Core.UI.InitMessageBoxClose();
+        Core.UI.ProcessTagAttributeClasses();
+        Core.Form.Init();
+        Core.Form.Validate.Init();
         // late execution of accessibility code
-        OTRS.UI.Accessibility.Init();
+        Core.UI.Accessibility.Init();
         // init IE7 compat code (will only run on IE7)
-        OTRS.UI.IE7Fixes.InitIE7InputFocus('Focus');
-        OTRS.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
+        Core.UI.IE7Fixes.InitIE7InputFocus('Focus');
+        Core.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
     };
 
     return TargetNS;
-}(OTRS.Agent || {}));
+}(Core.Agent || {}));

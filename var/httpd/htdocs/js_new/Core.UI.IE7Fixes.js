@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.IE7Fixes.js - provides IE7 specific functions
+// Core.UI.IE7Fixes.js - provides IE7 specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.IE7Fixes.js,v 1.3 2010-04-19 16:36:29 mg Exp $
+// $Id: Core.UI.IE7Fixes.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,17 +11,17 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
-OTRS.UI = OTRS.UI || {};
+Core.UI = Core.UI || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.UI.IE7Fixes
+ * @exports TargetNS as Core.UI.IE7Fixes
  * @description
  *      This namespace contains IE7 specific functions for browser bugfixes
  */
-OTRS.UI.IE7Fixes = (function (TargetNS) {
+Core.UI.IE7Fixes = (function (TargetNS) {
     /**
      * @function
      * @description
@@ -68,4 +68,4 @@ OTRS.UI.IE7Fixes = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.UI.IE7Fixes || {}));
+}(Core.UI.IE7Fixes || {}));

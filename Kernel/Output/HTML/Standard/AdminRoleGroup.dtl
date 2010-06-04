@@ -66,8 +66,8 @@
 </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Table.InitTableFilter($('#FilterRoles'), $('#Roles'));
-    OTRS.UI.Table.InitTableFilter($('#FilterGroups'), $('#Groups'));
+    Core.UI.Table.InitTableFilter($('#FilterRoles'), $('#Roles'));
+    Core.UI.Table.InitTableFilter($('#FilterGroups'), $('#Groups'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 
@@ -124,9 +124,9 @@
                                 </th>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=$QData{"Type"}]'), $('#SelectAll$QData{"Type"}'));
-    OTRS.UI.RegisterEvent('click', $('input:checkbox[name=$QData{"Type"}]'), function () {
-        OTRS.Form.SelectAllCheckboxes($(this), $('#SelectAll$QData{"Type"}'));
+    Core.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=$QData{"Type"}]'), $('#SelectAll$QData{"Type"}'));
+    Core.UI.RegisterEvent('click', $('input:checkbox[name=$QData{"Type"}]'), function () {
+        Core.Form.SelectAllCheckboxes($(this), $('#SelectAll$QData{"Type"}'));
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
@@ -195,7 +195,7 @@
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Table.InitTableFilter($('#Filter'), $('#UserGroups'));
+    Core.UI.Table.InitTableFilter($('#Filter'), $('#UserGroups'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:Change -->

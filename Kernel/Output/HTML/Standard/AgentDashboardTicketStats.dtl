@@ -2,7 +2,7 @@
 # AgentDashboardTicketStats.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketStats.dtl,v 1.14 2010-04-27 06:47:38 mn Exp $
+# $Id: AgentDashboardTicketStats.dtl,v 1.15 2010-06-04 11:19:32 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Chart.DrawLineChart('Chart$QData{"Key"}', $Data{"ChartData"}, $Data{"TicketWeekdays"}, $Data{"TicketYAxis"});
+    Core.UI.Chart.DrawLineChart('Chart$QData{"Key"}', $Data{"ChartData"}, $Data{"TicketWeekdays"}, $Data{"TicketYAxis"});
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <div id="Chart$QData{"Key"}" class="Chart"></div>

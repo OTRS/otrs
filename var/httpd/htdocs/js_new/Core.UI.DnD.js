@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.js - provides all UI functions
+// Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.DnD.js,v 1.4 2010-04-19 16:36:29 mg Exp $
+// $Id: Core.UI.DnD.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,20 +11,20 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.UI = OTRS.UI || {};
+var Core = Core || {};
+Core.UI = Core.UI || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.UI.DnD
+ * @exports TargetNS as Core.UI.DnD
  * @description
  *      Drag and Drop
  * @requires
  *      jquery-ui-sortable
  */
-OTRS.UI.DnD = (function (TargetNS) {
+Core.UI.DnD = (function (TargetNS) {
 
-    if (!OTRS.Debug.CheckDependency('OTRS.UI.DnD', '$([]).sortable', 'jQuery UI sortable')) {
+    if (!Core.Debug.CheckDependency('Core.UI.DnD', '$([]).sortable', 'jQuery UI sortable')) {
         return;
     }
 
@@ -62,7 +62,7 @@ OTRS.UI.DnD = (function (TargetNS) {
      * @return nothing
      *
      * @example
-        OTRS.UI.DnD.Sortable(
+        Core.UI.DnD.Sortable(
         $(".SidebarColumn"),
         {
             Handle: '.Header h2',
@@ -91,4 +91,4 @@ OTRS.UI.DnD = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.UI.DnD || {}));
+}(Core.UI.DnD || {}));

@@ -1,8 +1,8 @@
 // --
-// OTRS.Exception.js - provides the exception object and handling functions
+// Core.Exception.js - provides the exception object and handling functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Exception.js,v 1.5 2010-06-04 07:26:14 mn Exp $
+// $Id: Core.Exception.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,15 +11,15 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Exception
+ * @exports TargetNS as Core.Exception
  * @description
  *      This namespace contains the functions for handling application errors.
  */
-OTRS.Exception = (function (TargetNS) {
+Core.Exception = (function (TargetNS) {
     /**
      * @function
      *      This is the constructor for the application error object
@@ -86,8 +86,8 @@ OTRS.Exception = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.ShowError = function (ErrorMessage, ErrorType) {
-        OTRS.Debug.Log('[ERROR] ' + ErrorType + ': ' + ErrorMessage);
+        Core.Debug.Log('[ERROR] ' + ErrorType + ': ' + ErrorMessage);
     };
 
     return TargetNS;
-}(OTRS.Exception || {}));
+}(Core.Exception || {}));

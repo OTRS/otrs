@@ -1,8 +1,8 @@
 // --
-// OTRS.Agent.Dashboard.js - provides the special module functions for TicketZoom
+// Core.Agent.Dashboard.js - provides the special module functions for the dashboard
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Agent.App.Dashboard.js,v 1.2 2010-05-20 11:13:14 mg Exp $
+// $Id: Core.Agent.Dashboard.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,24 +11,23 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.Agent = OTRS.Agent || {};
-OTRS.Agent.App = OTRS.Agent.App || {};
+var Core = Core || {};
+Core.Agent = Core.Agent || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Agent.App.Dashboard
+ * @exports TargetNS as Core.Agent.Dashboard
  * @description
  *      This namespace contains the special module functions for the Dashboard.
  */
-OTRS.Agent.App.Dashboard = (function (TargetNS) {
+Core.Agent.Dashboard = (function (TargetNS) {
     /**
      * @function
      * @return nothing
      *      This function initializes the special module functions
      */
     TargetNS.Init = function () {
-        OTRS.UI.DnD.Sortable(
+        Core.UI.DnD.Sortable(
             $(".SidebarColumn"),
             {
                 Handle: '.Header h2',
@@ -40,7 +39,7 @@ OTRS.Agent.App.Dashboard = (function (TargetNS) {
             }
         );
 
-        OTRS.UI.DnD.Sortable(
+        Core.UI.DnD.Sortable(
             $(".ContentColumn"),
             {
                 Handle: '.Header h2',
@@ -64,10 +63,10 @@ OTRS.Agent.App.Dashboard = (function (TargetNS) {
     TargetNS.RegisterUpdatePreferences = function ($ClickedElement, ElementID, $Form) {
         if (isJQueryObject($ClickedElement) && $ClickedElement.length) {
             $ClickedElement.click(function () {
-                var URL = OTRS.Config.Get('Baselink') + OTRS.AJAX.SerializeForm($Form);
-                OTRS.AJAX.ContentUpdate($('#' + ElementID), URL, function () {
-                    OTRS.UI.ToggleTwoContainer($('#' + ElementID + '-setting'), $('#' + ElementID));
-                    OTRS.UI.Table.InitCSSPseudoClasses();
+                var URL = Core.Config.Get('Baselink') + Core.AJAX.SerializeForm($Form);
+                Core.AJAX.ContentUpdate($('#' + ElementID), URL, function () {
+                    Core.UI.ToggleTwoContainer($('#' + ElementID + '-setting'), $('#' + ElementID));
+                    Core.UI.Table.InitCSSPseudoClasses();
                 });
                 return false;
             });
@@ -75,4 +74,4 @@ OTRS.Agent.App.Dashboard = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.Agent.App.Dashboard || {}));
+}(Core.Agent.Dashboard || {}));

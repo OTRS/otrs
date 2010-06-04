@@ -1,8 +1,8 @@
 // --
-// OTRS.Config.js - provides the JS config
+// Core.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Config.js,v 1.12 2010-06-01 13:33:40 mn Exp $
+// $Id: Core.Config.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,15 +11,15 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Config
+ * @exports TargetNS as Core.Config
  * @description
  *      This namespace contains the config options and functions.
  */
-OTRS.Config = (function (TargetNS) {
+Core.Config = (function (TargetNS) {
     var Config = {},
         ConfigPrefix = 'Config';
 
@@ -169,4 +169,4 @@ OTRS.Config = (function (TargetNS) {
     }, 'BrowserBlackList');
 
     return TargetNS;
-}(OTRS.Config || {}));
+}(Core.Config || {}));

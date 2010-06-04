@@ -1,8 +1,8 @@
 // --
-// OTRS.JSON.js - Resizable
+// Core.JSON.js - Resizable
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.JSON.js,v 1.3 2010-04-19 16:36:29 mg Exp $
+// $Id: Core.JSON.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,17 +11,17 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.JSON
+ * @exports TargetNS as Core.JSON
  * @description
  *      Contains the code for the JSON functions.
  */
-OTRS.JSON = (function (TargetNS) {
+Core.JSON = (function (TargetNS) {
 
-    if (!OTRS.Debug.CheckDependency('OTRS.JSON', 'JSON.parse', 'JSON parser')) {
+    if (!Core.Debug.CheckDependency('Core.JSON', 'JSON.parse', 'JSON parser')) {
         return;
     }
 
@@ -66,4 +66,4 @@ OTRS.JSON = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.JSON || {}));
+}(Core.JSON || {}));

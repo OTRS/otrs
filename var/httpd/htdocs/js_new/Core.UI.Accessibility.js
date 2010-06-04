@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.Accessibility.js - accessibility functions
+// Core.UI.Accessibility.js - accessibility functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Accessibility.js,v 1.4 2010-04-19 16:36:29 mg Exp $
+// $Id: Core.UI.Accessibility.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,16 +11,16 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.UI = OTRS.UI || {};
+var Core = Core || {};
+Core.UI = Core.UI || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.UI.Accessibility
+ * @exports TargetNS as Core.UI.Accessibility
  * @description
  *      This namespace contains all accessibility related functions
  */
-OTRS.UI.Accessibility = (function (TargetNS) {
+Core.UI.Accessibility = (function (TargetNS) {
     /**
      * @function
      * @description
@@ -70,4 +70,4 @@ OTRS.UI.Accessibility = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.UI.Accessibility || {}));
+}(Core.UI.Accessibility || {}));

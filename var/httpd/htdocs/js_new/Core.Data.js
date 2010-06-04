@@ -1,8 +1,8 @@
 // --
-// OTRS.Data.js - provides functions for setting and getting data (objects) to DOM elements
+// Core.Data.js - provides functions for setting and getting data (objects) to DOM elements
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Data.js,v 1.5 2010-05-07 13:38:48 mn Exp $
+// $Id: Core.Data.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,15 +11,15 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Data
+ * @exports TargetNS as Core.Data
  * @description
  *      Provides functions for setting and getting data (objects) to DOM elements
  */
-OTRS.Data = (function (TargetNS) {
+Core.Data = (function (TargetNS) {
 
     /**
      * @function
@@ -57,4 +57,4 @@ OTRS.Data = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.Data || {}));
+}(Core.Data || {}));

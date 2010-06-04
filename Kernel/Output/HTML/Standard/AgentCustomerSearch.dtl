@@ -2,7 +2,7 @@
 # AgentCustomerSearch.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.dtl,v 1.24 2010-04-22 19:11:53 mn Exp $
+# $Id: AgentCustomerSearch.dtl,v 1.25 2010-06-04 11:19:32 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,7 @@ function GetCustomerInfo( CustomerUserID ) {
         Subaction:      'CustomerInfo',
         CustomerUserID: CustomerUserID
     };
-    Core.AJAXFunctionCall( { Url: OTRS.Config.Get('Baselink'), Data: Data, Callback: function(Response) {
+    Core.AJAXFunctionCall( { Url: Core.Config.Get('Baselink'), Data: Data, Callback: function(Response) {
         // set CustomerID
         document.compose.CustomerID.value = Response.CustomerID;
         if ( document.getElementById('ShowCustomerID') ) {
@@ -74,7 +74,7 @@ function GetCustomerTickets( CustomerUserID, CustomerID ) {
         CustomerUserID: CustomerUserID,
         CustomerID:     CustomerID
     };
-    Core.AJAXFunctionCall( { Url: OTRS.Config.Get('Baselink'), Data: Data, Callback: function(Response) {
+    Core.AJAXFunctionCall( { Url: Core.Config.Get('Baselink'), Data: Data, Callback: function(Response) {
         // show customer tickets
         if ( document.getElementById('CustomerTickets') ) {
             document.getElementById('CustomerTickets').innerHTML = Response.CustomerTicketsHTMLString;
@@ -106,7 +106,7 @@ $(document).ready(function() {
     }
 
 <!-- dtl:block:CustomerSearchAutoComplete -->
-    var sURL = OTRS.Config.Get( 'Baselink' );
+    var sURL = Core.Config.Get( 'Baselink' );
     $("#myAutoCompleteInput").autocomplete(sURL, {
         delay:          $QData{"queryDelay"},
         extraParams:    {

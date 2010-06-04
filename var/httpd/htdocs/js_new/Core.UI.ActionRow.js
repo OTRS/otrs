@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.ActionRow.js - provides all functions for the Action row
+// Core.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.ActionRow.js,v 1.10 2010-06-02 14:38:40 mn Exp $
+// $Id: Core.UI.ActionRow.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,24 +11,24 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.UI = OTRS.UI || {};
+var Core = Core || {};
+Core.UI = Core.UI || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.UI.ActionRow
+ * @exports TargetNS as Core.UI.ActionRow
  * @description
  *      Action row functionality
  * @requires
- *      OTRS.JSON
- *      OTRS.Data
+ *      Core.JSON
+ *      Core.Data
  */
-OTRS.UI.ActionRow = (function (TargetNS) {
+Core.UI.ActionRow = (function (TargetNS) {
 
-    if (!OTRS.Debug.CheckDependency('OTRS.UI.ActionRow', 'OTRS.JSON', 'OTRS JSON API')) {
+    if (!Core.Debug.CheckDependency('Core.UI.ActionRow', 'Core.JSON', 'JSON API')) {
         return;
     }
-    if (!OTRS.Debug.CheckDependency('OTRS.UI.ActionRow', 'OTRS.Data', 'OTRS Data API')) {
+    if (!Core.Debug.CheckDependency('Core.UI.ActionRow', 'Core.Data', 'Data API')) {
         return;
     }
 
@@ -56,17 +56,17 @@ OTRS.UI.ActionRow = (function (TargetNS) {
         // The element of the given ID must exist, JSONString must not be empty
         if (isJQueryObject($Element)) {
             if (typeof JSONString === 'String') {
-                Actions = OTRS.JSON.Parse(JSONString);
+                Actions = Core.JSON.Parse(JSONString);
             }
             else {
                 Actions = JSONString;
             }
 
             // save action data to the given element
-            OTRS.Data.Set($Element, 'Actions', Actions);
+            Core.Data.Set($Element, 'Actions', Actions);
         }
         else {
-            OTRS.Debug.Log('Element does not exist or no valid data structure passed.');
+            Core.Debug.Log('Element does not exist or no valid data structure passed.');
         }
     };
 
@@ -107,7 +107,7 @@ OTRS.UI.ActionRow = (function (TargetNS) {
 
             // Find the element which is active (it must not be the clicked element!)
             // and get the data
-            TicketActionData = OTRS.Data.Get($Checkboxes.closest('li, tr'), 'Actions');
+            TicketActionData = Core.Data.Get($Checkboxes.closest('li, tr'), 'Actions');
             if (typeof TicketActionData !== 'undefined') {
                 $.each(TicketActionData, function (Index, Value) {
                     if (Value.HTML) {
@@ -118,7 +118,7 @@ OTRS.UI.ActionRow = (function (TargetNS) {
                         }
                         else if (Value.Target === "PopUp") {
                             ActionRowElement.bind('click.Popup', function () {
-                                OTRS.UI.Popup.OpenPopup(Value.Link, 'Action');
+                                Core.UI.Popup.OpenPopup(Value.Link, 'Action');
                                 return false;
                             });
                         }
@@ -164,16 +164,16 @@ OTRS.UI.ActionRow = (function (TargetNS) {
             TicketView = 'Small';
         }
 
-        OTRS.UI.RegisterEvent('click', $('#SelectAllTickets'), function () {
+        Core.UI.RegisterEvent('click', $('#SelectAllTickets'), function () {
             var Status = $(this).attr('checked');
             $(TicketElementSelectors[TicketView]).attr('checked', Status).triggerHandler('click');
         });
 
-        OTRS.UI.RegisterEvent('click', $(TicketElementSelectors[TicketView]), function () {
-            OTRS.UI.ActionRow.UpdateActionRow($(this), $(TicketElementSelectors[TicketView]), $('div.OverviewActions ul.Actions'));
+        Core.UI.RegisterEvent('click', $(TicketElementSelectors[TicketView]), function () {
+            Core.UI.ActionRow.UpdateActionRow($(this), $(TicketElementSelectors[TicketView]), $('div.OverviewActions ul.Actions'));
         });
 
-        OTRS.UI.RegisterEvent('click', $('#BulkAction a'), function () {
+        Core.UI.RegisterEvent('click', $('#BulkAction a'), function () {
             var $Element = $(this),
                 $SelectedTickets,
                 TicketIDParameter = "TicketID=",
@@ -186,11 +186,11 @@ OTRS.UI.ActionRow = (function (TargetNS) {
                 $SelectedTickets.each(function () {
                     TicketIDs += TicketIDParameter + $(this).val() + ";";
                 });
-                OTRS.UI.Popup.OpenPopup(OTRS.Config.Get('Baselink') + "Action=AgentTicketBulk;" + TicketIDs, 'Action');
+                Core.UI.Popup.OpenPopup(Core.Config.Get('Baselink') + "Action=AgentTicketBulk;" + TicketIDs, 'Action');
             }
             return false;
         });
     };
 
     return TargetNS;
-}(OTRS.UI.ActionRow || {}));
+}(Core.UI.ActionRow || {}));

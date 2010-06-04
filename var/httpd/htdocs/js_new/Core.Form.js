@@ -1,8 +1,8 @@
 // --
-// OTRS.Form.js - provides functions for form handling
+// Core.Form.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Form.js,v 1.2 2010-05-17 14:04:54 mg Exp $
+// $Id: Core.Form.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,15 +11,15 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Form
+ * @exports TargetNS as Core.Form
  * @description
  *      This namespace contains all form functions.
  */
-OTRS.Form = (function (TargetNS) {
+Core.Form = (function (TargetNS) {
     /**
      * @function
      * @description
@@ -128,4 +128,4 @@ OTRS.Form = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.Form || {}));
+}(Core.Form || {}));

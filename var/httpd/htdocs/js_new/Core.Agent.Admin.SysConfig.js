@@ -1,8 +1,8 @@
 // --
-// OTRS.Agent.Dashboard.js - provides the special module functions for TicketZoom
+// Core.Agent.Admin.SysConfig.js - provides the special module functions for the AdminSysConfig
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Agent.App.AdminSysConfig.js,v 1.1 2010-05-19 08:46:45 mg Exp $
+// $Id: Core.Agent.Admin.SysConfig.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,17 +11,17 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.Agent = OTRS.Agent || {};
-OTRS.Agent.App = OTRS.Agent.App || {};
+var Core = Core || {};
+Core.Agent = Core.Agent || {};
+Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Agent.App.AdminSysConfig
+ * @exports TargetNS as Core.Agent.Admin.SysConfig
  * @description
  *      This namespace contains the special module functions for the SysConfig module.
  */
-OTRS.Agent.App.AdminSysConfig = (function (TargetNS) {
+Core.Agent.Admin.SysConfig = (function (TargetNS) {
     /**
      * @function
      * @return nothing
@@ -34,4 +34,4 @@ OTRS.Agent.App.AdminSysConfig = (function (TargetNS) {
     };
 
     return TargetNS;
-}(OTRS.Agent.App.AdminSysConfig || {}));
+}(Core.Agent.Admin.SysConfig || {}));

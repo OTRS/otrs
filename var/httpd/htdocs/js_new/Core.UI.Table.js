@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.Table.js - Table specific functions
+// Core.UI.Table.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Table.js,v 1.1 2010-05-17 10:24:04 mg Exp $
+// $Id: Core.UI.Table.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,16 +11,16 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
-OTRS.UI = OTRS.UI || {};
+var Core = Core || {};
+Core.UI = Core.UI || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.UI.Table
+ * @exports TargetNS as Core.UI.Table
  * @description
  *      This namespace contains table specific functions.
  */
-OTRS.UI.Table = (function (TargetNS) {
+Core.UI.Table = (function (TargetNS) {
     /**
      * @function
      * @description
@@ -100,4 +100,4 @@ OTRS.UI.Table = (function (TargetNS) {
         });
     };
     return TargetNS;
-}(OTRS.UI.Table || {}));
+}(Core.UI.Table || {}));

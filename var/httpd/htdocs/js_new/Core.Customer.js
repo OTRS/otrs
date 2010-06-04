@@ -1,8 +1,8 @@
 // --
-// OTRS.Customer.js - provides functions for the customer login
+// Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Customer.js,v 1.2 2010-05-25 17:27:01 fn Exp $
+// $Id: Core.Customer.js,v 1.1 2010-06-04 11:19:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,15 +11,15 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 /**
  * @namespace
- * @exports TargetNS as OTRS.Customer
+ * @exports TargetNS as Core.Customer
  * @description
  *      This namespace contains all form functions.
  */
-OTRS.Customer = (function (TargetNS) {
+Core.Customer = (function (TargetNS) {
     /**
      * @function
      * @description
@@ -36,9 +36,9 @@ OTRS.Customer = (function (TargetNS) {
             Now = new Date(),
             Diff = Now.getTimezoneOffset(),
             $Label;
-        
+
         $('#TimeOffset').val(Diff);
-        
+
         $Inputs
             .focus(function(){
                 $Label = $(this).prev('label');
@@ -64,7 +64,7 @@ OTRS.Customer = (function (TargetNS) {
      *      This function hides the label of the given field if there is value in the field.
      *      If there is no value in the given field the label is made visible.
      */
-    
+
     function ToggleLabel(PopulatedInput) {
         var $PopulatedInput = $(PopulatedInput),
             $Label = $PopulatedInput.prev('label');
@@ -102,7 +102,7 @@ OTRS.Customer = (function (TargetNS) {
      * @description
      *      This function makes the whole row in the MyTickets and CompanyTickets view clickable.
      */
-    
+
     TargetNS.ClickableRow = function(){
         $("table tr").click(function(){
             window.location.href = $("a", this).attr("href");
@@ -117,7 +117,7 @@ OTRS.Customer = (function (TargetNS) {
     TargetNS.Enhance = function(){
         $('body').addClass('Js');
     }
-    
+
     TargetNS.InitFocus = function(){
         $('input[type="text"]').first().focus();
     }
@@ -137,7 +137,7 @@ OTRS.Customer = (function (TargetNS) {
             $MessageHeaders = $('.MessageHeader', $Messages),
             $FollowUp = $('#FollowUp'),
             $RTE = $('#RichText');
-           
+
         $MessageHeaders.click(function(Event){
             ToggleMessage($(this).parent());
             Event.preventDefault();
@@ -146,7 +146,7 @@ OTRS.Customer = (function (TargetNS) {
             Event.preventDefault();
             $FollowUp.addClass('Visible');
             $('html').css({scrollTop: $('#Body').height()});
-            OTRS.UI.RichTextEditor.Focus($RTE);
+            Core.UI.RichTextEditor.Focus($RTE);
         });
         $('#CloseButton').click(function(Event){
             Event.preventDefault();
@@ -157,18 +157,18 @@ OTRS.Customer = (function (TargetNS) {
         $LastMessageStatus = $('> input[name=ArticleState]', $VisibleMessage).val("true");
         HideQuote($VisibleIframe);
     }
-    
+
     /**
      * @function
      * @description
      *      This function checkes the value of a hidden input field containing the state of the article:
      *      untouched (= not yet loaded), true or false. If the article is allready loaded (-> true), and
      *      user calles this function by clicking on the messagehead, the article gets hidden by removing
-     *      the class 'Visible' and the status changes to false. If the messagehead is clicked while the 
+     *      the class 'Visible' and the status changes to false. If the messagehead is clicked while the
      *      status is false (e.g. the article is hidden), the article gets the class 'Visible' again and
      *      the status gets changed to true.
      */
-    
+
     function ToggleMessage($Message){
         var $Status = $('> input[name=ArticleState]', $Message);
         switch ($Status.val()){
@@ -185,7 +185,7 @@ OTRS.Customer = (function (TargetNS) {
             break;
         }
     }
-    
+
     /**
      * @function
      * @description
@@ -193,31 +193,31 @@ OTRS.Customer = (function (TargetNS) {
      *      url of a containing iframe in the title attribute of the iframe so that it doesn't load
      *      immediately when the site loads. So we set the url in this function.
      */
-    
+
     function LoadMessage($Message, $Status){
         var $SubjectHolder = $('h3 span', $Message),
             Subject = $SubjectHolder.text(),
             LoadingString = $SubjectHolder.attr('title'),
             $Iframe = $('iframe', $Message),
             Source = $Iframe.attr('title');
-        
-        /*  Change Subject to Loading */    
+
+        /*  Change Subject to Loading */
         $SubjectHolder.text(LoadingString);
-        
+
         /*  Load iframe -> get title and put it in src */
         if(Source != 'about:blank') $Iframe.attr('src', Source);
-        
+
         var callback = function(){
             /*  Set StateStorage to true */
             $Status.val('true');
-            
+
             /*  Show MessageContent -> add class Visible */
             $Message.addClass('Visible');
-            
+
             /*  Change Subject back from Loading */
             $SubjectHolder.text(Subject).attr('title', Subject);
         }
-        
+
         CheckIframe($Iframe, callback);
     }
 
@@ -248,10 +248,10 @@ OTRS.Customer = (function (TargetNS) {
      * @function
      * @param {DOMObject} an iframe
      * @description
-     *      finds the quote in an iframe (type=cite), hides it and 
+     *      finds the quote in an iframe (type=cite), hides it and
      *      adds an anchor in front of the hidden quote to toggle the visibility of the quote
      */
-    
+
     function HideQuote(Iframe, callback){
         $(Iframe)
             .contents().find('[type=cite]').hide()
@@ -279,12 +279,12 @@ OTRS.Customer = (function (TargetNS) {
      *      sets the size of the iframe to the size of its inner html
      *      .contents accesses the iframe to get its height
      */
-    
-    function CalculateHeight(Iframe){ 
+
+    function CalculateHeight(Iframe){
         var NewHeight = $(Iframe).contents().find('html').outerHeight();
         if(NewHeight > 2500) NewHeight = 2500;
         $(Iframe).height(NewHeight);
     }
 
     return TargetNS;
-}(OTRS.Customer || {}));
+}(Core.Customer || {}));

@@ -94,8 +94,8 @@
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Table.InitTableFilter($('#FilterQueues'), $('#Queues'));
-    OTRS.UI.Table.InitTableFilter($('#FilterAutoResponses'), $('#AutoResponses'));
+    Core.UI.Table.InitTableFilter($('#FilterQueues'), $('#Queues'));
+    Core.UI.Table.InitTableFilter($('#FilterAutoResponses'), $('#AutoResponses'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 

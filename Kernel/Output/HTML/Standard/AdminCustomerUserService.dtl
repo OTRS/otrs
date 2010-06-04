@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.29 2010-05-17 10:24:04 mg Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.30 2010-06-04 11:19:32 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -196,7 +196,7 @@ function select_items (Type) {
 </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    OTRS.UI.Table.InitTableFilter($('#FilterServices'), $('#Service'));
+    Core.UI.Table.InitTableFilter($('#FilterServices'), $('#Service'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:Overview -->
