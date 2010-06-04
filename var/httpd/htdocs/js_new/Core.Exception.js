@@ -2,7 +2,7 @@
 // Core.Exception.js - provides the exception object and handling functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Exception.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.Exception.js,v 1.2 2010-06-04 12:00:43 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -59,11 +59,22 @@ Core.Exception = (function (TargetNS) {
 
     /**
      * @function
-     *      This function handles the given error object
+     *      This function returns true, if the given ErrorObject is an ApplicationError of the given Type
+     * @param {Object} ErrorObject The error object
+     * @param {String} ErrorType The error type to be checked
+     * @return {Boolean} Returns true, if the ErrorObject is an ApplicationError object and has the type ErrorType
+     */
+    TargetNS.IsErrorOfType = function (ErrorObject, ErrorType) {
+        return  (ErrorObject instanceof TargetNS.ApplicationError && ErrorObject.GetType === ErrorType);
+    }
+
+    /**
+     * @function
+     *      This function handles the given error object (used as last possibility to catch the error)
      * @param {Object} Error The error object
      * @return nothing
      */
-    TargetNS.HandleError = function (ErrorObject) {
+    TargetNS.HandleFinalError = function (ErrorObject) {
         if (ErrorObject instanceof TargetNS.ApplicationError) {
             TargetNS.ShowError(ErrorObject.GetMessage(), ErrorObject.GetType());
         }
