@@ -2,7 +2,7 @@
 // OTRS.Exception.js - provides the exception object and handling functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Exception.js,v 1.4 2010-06-02 13:01:21 mn Exp $
+// $Id: OTRS.Exception.js,v 1.5 2010-06-04 07:26:14 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -69,9 +69,11 @@ OTRS.Exception = (function (TargetNS) {
         }
         else if (ErrorObject instanceof Error) {
             TargetNS.ShowError(ErrorObject.message, 'JavaScriptError');
+            throw ErrorObject;
         }
         else {
             TargetNS.ShowError(ErrorObject, 'UndefinedError');
+            throw ErrorObject;
         }
         alert('An error occured! For details please see your browser log!');
     };
