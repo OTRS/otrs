@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.250 2010-06-02 18:26:08 dz Exp $
+# $Id: Layout.pm,v 1.251 2010-06-07 09:09:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.250 $) [1];
+$VERSION = qw($Revision: 1.251 $) [1];
 
 =head1 NAME
 
@@ -2996,7 +2996,7 @@ sub CustomerHeader {
     }
 
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->CLoaderreateCustomerCSSCalls();
+    $Self->LoaderCreateCustomerCSSCalls();
 
     # create & return output
     $Output .= $Self->Output( TemplateFile => "CustomerHeader$Type", Data => \%Param );
@@ -4611,6 +4611,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.250 $ $Date: 2010-06-02 18:26:08 $
+$Revision: 1.251 $ $Date: 2010-06-07 09:09:15 $
 
 =cut
