@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.308 2010-06-07 09:09:46 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.309 2010-06-07 22:32:26 en Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
-        <Description Translatable="1">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
+        <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -13,7 +13,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ProductName" Required="1" Valid="1">
-        <Description Translatable="1">This setting controls the name of the application as is shown in the web interface as well as the tabs and title bar of your web browser.</Description>
+        <Description Translatable="1">Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -21,7 +21,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemID" Required="1" Valid="1">
-        <Description Translatable="1">The system identifier. Every ticket number contains this ID, and the session ID, of a http session string, starts with this number. This ensures that only tickets which belong to your system will be processed as follow-ups. This could be use full when communicating between two instances of OTRS. So be sure of what you choose when you set this setting.</Description>
+        <Description Translatable="1">Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -29,7 +29,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="FQDN" Required="1" Valid="1">
-        <Description Translatable="1">Please enter the fully qualified domain name of your system here. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
+        <Description Translatable="1">Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -37,7 +37,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="HttpType" Required="1" Valid="1">
-        <Description Translatable="1">Please enter the type of protocol, used by your web server, to serve the application. If you want to use the https protocol, instead of plain http, please specify it here. This has no affect on your web server's settings or behavior. This setting will not change the method of access to the application. If this setting is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
+        <Description Translatable="1">Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -48,7 +48,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ScriptAlias" Required="1" Valid="1">
-        <Description Translatable="1">Please enter the prefix to the scripts folder on your server as configured on your web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
+        <Description Translatable="1">Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -56,7 +56,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="AdminEmail" Required="1" Valid="1">
-        <Description Translatable="1">Please enter the system administrator's e-mail address. This is the e-mail address that will be displayed in error screens of the application.</Description>
+        <Description Translatable="1">Defines the system administrator's e-mail address. It will be displayed in the error screens of the application.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -64,7 +64,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Organization" Required="1" Valid="1">
-        <Description Translatable="1">If configured, all e-mails sent by the application will contain a X-Header with this  organization or company name.</Description>
+        <Description Translatable="1">If configured, all e-mails sent by the application will contain a X-Header with this organization or company name.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -72,7 +72,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultCharset" Required="1" Valid="1">
-        <Description Translatable="1">Please configure the default charset for the web interface to use. The charset "utf-8" is a good choice for environments expecting many charsets. You can specify another charset here (i.e. "iso-8859-1"). Please be sure that you will not be receiving foreign e-mails, or text, otherwise this could lead to problems. This setting should represent that of the charset used to create the database or, in some cases, that of the database management system being used.</Description>
+        <Description Translatable="1">Sets the default charset for the web interface to use (should represent the charset used to create the database or, in some cases, the database management system being used). "utf-8" is a good choice for environments expecting many charsets. You can specify another charset here (i.e. "iso-8859-1"). Please be sure that you will not be receiving foreign e-mails, or text, otherwise this could lead to problems.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -90,7 +90,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultLanguage" Required="1" Valid="1">
-        <Description Translatable="1">The default front-end language. Possible values that can be used are determined by the available language files on your system. Please see the next setting to determine which values can be used.</Description>
+        <Description Translatable="1">Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -98,7 +98,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultUsedLanguages" Required="1" Valid="1">
-        <Description Translatable="1">These are all of the languages that are available to the application. The Key/Content pair links the front-end display name to the appropriate language PM file. The "Key" value should be the base-name of your PM file (i.e. de.pm is the file, then de is the "Key" value). The "Content" value should be the display name for the front-end. If you create your own language (see the developer documentation http://doc.otrs.org/ for more infomation), then you can add it here. Please remember, if you language uses non-ASCII characters, you must use the HTML equivalent for the proper display to occur (i.e. for the German oe = o umlaut, it is necessary to use the &amp;ouml; symbol).</Description>
+        <Description Translatable="1">Defines all the languages that are available to the application. The Key/Content pair links the front-end display name to the appropriate language PM file. The "Key" value should be the base-name of the PM file (i.e. de.pm is the file, then de is the "Key" value). The "Content" value should be the display name for the front-end. Specify any own-defined language here (see the developer documentation http://doc.otrs.org/ for more infomation). Please remember to use the HTML equivalents for non-ASCII characters (i.e. for the German oe = o umlaut, it is necessary to use the &amp;ouml; symbol).</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -139,7 +139,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme" Required="1" Valid="1">
-        <Description Translatable="1">Please enter the default front-end (HTML) theme to be used by your agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the the administrator manual located at http://doc.otrs.org/.</Description>
+        <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the the administrator manual located at http://doc.otrs.org/.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -158,7 +158,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::WebPath" Required="1" Valid="1">
-        <Description Translatable="1">URL base path of icons, CSS and Java Script.</Description>
+        <Description Translatable="1">Defines the URL base path of icons, CSS and Java Script.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -166,7 +166,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::ImagePath" Required="1" Valid="1">
-        <Description Translatable="1">URL image path of icons for navigation.</Description>
+        <Description Translatable="1">Defines the URL image path of icons for navigation.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -174,7 +174,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::CSSPath" Required="1" Valid="1">
-        <Description Translatable="1">URL CSS path.</Description>
+        <Description Translatable="1">Defines the URL CSS path.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -182,7 +182,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::JavaScriptPath" Required="1" Valid="1">
-        <Description Translatable="1">URL JavaScript path.</Description>
+        <Description Translatable="1">Defines the URL java script path.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -190,7 +190,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichText" Required="1" Valid="1">
-        <Description Translatable="1">Use richtext for viewing and editor for article, salutation, signature, standard_response, auto_response, notification.</Description>
+        <Description Translatable="1">Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -201,7 +201,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichTextPath" Required="1" Valid="1">
-        <Description Translatable="1">URL RichTextEditor path.</Description>
+        <Description Translatable="1">Defines the URL rich text editor path.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -209,7 +209,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichTextWidth" Required="1" Valid="1">
-        <Description Translatable="1">Width for RichText editor component. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -217,7 +217,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichTextHeight" Required="1" Valid="1">
-        <Description Translatable="1">Height for RichText editor component. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -225,7 +225,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichText::DefaultCSS" Required="1" Valid="1">
-        <Description Translatable="1">Use richtext editor default CSS.</Description>
+        <Description Translatable="1">Defines the default CSS used in rich text editors.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -244,7 +244,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultPreViewLines" Required="1" Valid="1">
-        <Description Translatable="1">Count of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).</Description>
+        <Description Translatable="1">Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -252,7 +252,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultViewLines" Required="1" Valid="1">
-        <Description Translatable="1">Amount of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).</Description>
+        <Description Translatable="1">Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -260,7 +260,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::AnimationEnabled" Required="1" Valid="1">
-        <Description Translatable="1">If you have problems with the animations used in the GUI (e.g. performance issues), you can turn off all animations here.</Description>
+        <Description Translatable="1">Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -271,7 +271,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeInputFormat" Required="1" Valid="1">
-        <Description Translatable="1">Used date input format in forms (option or input fields).</Description>
+        <Description Translatable="1">Defines the date input format used in forms (option or input fields).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -282,7 +282,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeCalendarLookup" Required="1" Valid="1">
-        <Description Translatable="1">Enable a calender lookup window on date selections.</Description>
+        <Description Translatable="1">Enables a calender look-up window on date selections.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -293,7 +293,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeShowAlwaysLong" Required="1" Valid="1">
-        <Description Translatable="1">Show time in long (days, hours, minutes) or short (days, hours) format.</Description>
+        <Description Translatable="1">Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -304,7 +304,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="AttachmentDownloadType" Required="1" Valid="1">
-        <Description Translatable="1">Show the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).</Description>
+        <Description Translatable="1">Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -315,7 +315,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckMXRecord" Required="1" Valid="1">
-        <Description Translatable="1">Should the application check the MX record of e-mail addresses before sending an e-mail or submitting a telephone or e-mail ticket?</Description>
+        <Description Translatable="1">Makes the application check the MX record of e-mail addresses before sending an e-mail or submitting a telephone or e-mail ticket.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -326,7 +326,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckMXRecord::Nameserver" Required="0" Valid="0">
-        <Description Translatable="1">If it is necessary for the application to use a dedicated DNS server for the "CheckMXRecord" look-ups, please configure this settng here.</Description>
+        <Description Translatable="1">Defines the configuration of a dedicated DNS server, if necessary, for the "CheckMXRecord" look-ups.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -334,7 +334,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckEmailAddresses" Required="1" Valid="1">
-        <Description Translatable="1">Should the application check the syntax of e-mail addresses.</Description>
+        <Description Translatable="1">Makes the application check the syntax of e-mail addresses.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -345,7 +345,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckEmailValidAddress" Required="1" Valid="1">
-        <Description Translatable="1">If "CheckEmailAddresses" is set to "yes", it may be necessary to exclude some addresses from this check. Please enter a regex in this field for e-mail addresses, that aren't syntactically valid, but are necessary for the system (i.e. "root@localhost").</Description>
+        <Description Translatable="1">Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for e-mail addresses, that aren't syntactically valid, but are necessary for the system (i.e. "root@localhost").</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -353,7 +353,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckEmailInvalidAddress" Required="1" Valid="1">
-        <Description Translatable="1">The regex found in this setting can filter all e-mail addresses that should not be used in the application.</Description>
+        <Description Translatable="1">Defines a regular expression that filters all e-mail addresses that should not be used in the application.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -372,7 +372,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LinkObject::Type###Normal" Required="1" Valid="1">
-        <Description Translatable="1">This setting defines the link type 'Normal'. If the source name and the target name contain the same value, the resulting link is a non-directional one. If the values are different, the resulting link is a directional link.</Description>
+        <Description Translatable="1">Defines the link type 'Normal'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
@@ -383,7 +383,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LinkObject::Type###ParentChild" Required="1" Valid="1">
-        <Description Translatable="1">This setting defines the link type 'ParentChild'. If the source name and the target name contain the same value, the resulting link is a non-directional one. If the values are different, the resulting link is a directional link.</Description>
+        <Description Translatable="1">Defines the link type 'ParentChild'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
@@ -394,7 +394,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LinkObject::TypeGroup###0001" Required="0" Valid="1">
-        <Description Translatable="1">This setting defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a 'Normal' link with ticket B, then these tickets could not be additionally linked with link of a 'ParentChild' relationship.</Description>
+        <Description Translatable="1">Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a 'Normal' link with ticket B, then these tickets could not be additionally linked with link of a 'ParentChild' relationship.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
@@ -405,7 +405,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule" Required="1" Valid="1">
-        <Description Translatable="1">Log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.</Description>
+        <Description Translatable="1">Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
         <Setting>
@@ -413,7 +413,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule::SysLog::Facility" Required="1" Valid="1">
-        <Description Translatable="1">If "SysLog" was selected for LogModule, you can specify a special log facility.</Description>
+        <Description Translatable="1">If "SysLog" was selected for LogModule, a special log facility can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
         <Setting>
@@ -421,7 +421,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule::SysLog::LogSock" Required="1" Valid="1">
-        <Description Translatable="1">If "SysLog" was selected for LogModule, you can specify a special log sock (on solaris you may need to use 'stream').</Description>
+        <Description Translatable="1">If "SysLog" was selected for LogModule, a special log sock can be specified (on solaris you may need to use 'stream').</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
         <Setting>
@@ -429,7 +429,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule::SysLog::Charset" Required="1" Valid="1">
-        <Description Translatable="1">If "SysLog" was selected for LogModule, you can specify the charset that should be used for logging.</Description>
+        <Description Translatable="1">If "SysLog" was selected for LogModule, the charset that should be used for logging can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
         <Setting>
@@ -441,7 +441,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule::LogFile" Required="1" Valid="1">
-        <Description Translatable="1">If "file" was selected for LogModule, you have to specify a logfile. The file will be created by the system, if it doesn't exist.</Description>
+        <Description Translatable="1">If "file" was selected for LogModule, a logfile must be specified. If the file doesn't exist, it will be created by the system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
         <Setting>
@@ -449,7 +449,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule::LogFile::Date" Required="1" Valid="1">
-        <Description Translatable="1">Set this config parameter to "Yes", if you want to add a suffix with the actual year and month to the otrs logfile. A logfile for every month will be created.</Description>
+        <Description Translatable="1">Adds a suffix with the actual year and month to the otrs log file. A logfile for every month will be created.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
         <Setting>
@@ -460,7 +460,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule" Required="1" Valid="1">
-        <Description Translatable="1">Module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP/SMTPS" uses a specified (external) mailserver. "DoNotSendEmail" is not sending emails and useful for test systems.</Description>
+        <Description Translatable="1">Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP/SMTPS" uses a specified (external) mailserver. "DoNotSendEmail" doesn't send emails and it is useful for test systems.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -468,7 +468,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::CMD" Required="1" Valid="1">
-        <Description Translatable="1">If "Sendmail" was selected for SendmailModule you have to specify the location of your sendmail binary and the needed options.</Description>
+        <Description Translatable="1">If "Sendmail" was selected for SendmailModule, the location of the sendmail binary and the needed options must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -476,7 +476,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::Host" Required="1" Valid="1">
-        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule you have to specify the mailhost that sends out the mails.</Description>
+        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule, the mailhost that sends out the mails must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -484,7 +484,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::Port" Required="0" Valid="0">
-        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule specify the port where your mailserver is listening for incoming connections.</Description>
+        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule, the port where your mailserver is listening for incoming connections must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -492,7 +492,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::AuthUser" Required="0" Valid="0">
-        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule and you need to authenticate to your mailserver, specify the username.</Description>
+        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule and authentication to the mail server is needed, an username must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -500,7 +500,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::AuthPassword" Required="0" Valid="0">
-        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule and you need to authenticate to your mailserver, specify the password.</Description>
+        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule and authentication to the mail server is needed, a password must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -508,7 +508,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailBcc" Required="0" Valid="1">
-        <Description Translatable="1">Send all outgoing email via bcc to the specified address. Please use this only for backup reasons.</Description>
+        <Description Translatable="1">Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -524,7 +524,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailEncodingForce" Required="0" Valid="0">
-        <Description Translatable="1">To force encoding of outboing emails (7bit|8bit|quoted-printable|base64).</Description>
+        <Description Translatable="1">Forces encoding of outboing emails (7bit|8bit|quoted-printable|base64).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -532,7 +532,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LoginURL" Required="0" Valid="0">
-        <Description Translatable="1">Alternate URL, where the login link refers to.</Description>
+        <Description Translatable="1">Defines an alternate URL, where the login link refers to.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -540,7 +540,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogoutURL" Required="0" Valid="0">
-        <Description Translatable="1">Alternate URL, where the logout link refers to.</Description>
+        <Description Translatable="1">Defines an alternate URL, where the logout link refers to.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -548,7 +548,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreApplicationModule###AgentInfo" Required="0" Valid="0">
-        <Description Translatable="1">This module is useful to load specific user options or to display news.</Description>
+        <Description Translatable="1">Defines a useful module to load specific user options or to display news.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -556,7 +556,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="InfoKey" Required="0" Valid="0">
-        <Description Translatable="1">Key to check with Kernel::Modules::AgentInfo module. If this user preferences key is true the message is accepted by the system.</Description>
+        <Description Translatable="1">Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -564,7 +564,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="InfoFile" Required="0" Valid="0">
-        <Description Translatable="1">File that is displayed, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.</Description>
+        <Description Translatable="1">File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -572,7 +572,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::HeaderMetaModule###1-Refresh" Required="1" Valid="1">
-        <Description Translatable="1">Module to generate html refresh header of html sites.</Description>
+        <Description Translatable="1">Defines the module to generate html refresh headers of html sites.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleMetaHead</SubGroup>
         <Setting>
@@ -582,7 +582,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###1-CharsetCheck" Required="1" Valid="1">
-        <Description Translatable="1">Module to inform agents via the agent interface about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.</Description>
+        <Description Translatable="1">Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
@@ -592,7 +592,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###2-UID-Check" Required="1" Valid="1">
-        <Description Translatable="1">Module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn't work as admin).</Description>
+        <Description Translatable="1">Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn't work as admin).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
@@ -602,7 +602,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###3-ShowAgentOnline" Required="0" Valid="0">
-        <Description Translatable="1">Module to show currently logged in agents in the agent interface.</Description>
+        <Description Translatable="1">Defines the module that shows all the currently logged in agents in the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
@@ -614,7 +614,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###4-ShowCustomerOnline" Required="0" Valid="0">
-        <Description Translatable="1">Module to show currently loged in customers in the agent interface.</Description>
+        <Description Translatable="1">Defines the module that shows all the currently loged in customers in the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
@@ -626,7 +626,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionModule" Required="1" Valid="1">
-        <Description Translatable="1">Module to store the session data. Advantage of "DB" is that you can split the frontend server from the db server. "FS" is faster.</Description>
+        <Description Translatable="1">Defines the module used to store the session data. With "DB" the the frontend server can be splitted from the db server. "FS" is faster.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -634,7 +634,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionName" Required="1" Valid="1">
-        <Description Translatable="1">Name of the session key. E.g. Session, SessionID or OTRS.</Description>
+        <Description Translatable="1">Defines the name of the session key. E.g. Session, SessionID or OTRS.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -642,7 +642,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionCheckRemoteIP" Required="1" Valid="1">
-        <Description Translatable="1">If the application is used for example via a proxy farm or a dialup connection, the remote ip address is mostly different for the requests. Turn of this check, if you are in this situation.</Description>
+        <Description Translatable="1">Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -653,7 +653,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionDeleteIfNotRemoteID" Required="1" Valid="1">
-        <Description Translatable="1">Delete a session, if the session id is used with an invalid remote IP?</Description>
+        <Description Translatable="1">Deletes a session if the session id is used with an invalid remote IP address.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -664,7 +664,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionMaxTime" Required="1" Valid="1">
-        <Description Translatable="1">Maximal valid time for a session id (in seconds).</Description>
+        <Description Translatable="1">Defines the maximal valid time (in seconds) for a session id.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -672,7 +672,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionMaxIdleTime" Required="1" Valid="1">
-        <Description Translatable="1">A session will be killed and the user will be loged out after this time of inactivity (in seconds).</Description>
+        <Description Translatable="1">Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -680,7 +680,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionDeleteIfTimeToOld" Required="1" Valid="1">
-        <Description Translatable="1">Delete requested sessions if they have timed out?</Description>
+        <Description Translatable="1">Deletes requested sessions if they have timed out.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -691,7 +691,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionUseCookie" Required="1" Valid="1">
-        <Description Translatable="1">Should the session management use html cookies? If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.</Description>
+        <Description Translatable="1">Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -702,7 +702,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionUseCookieAfterBrowserClose" Required="1" Valid="1">
-        <Description Translatable="1">Store cookies after the browser has been closed?</Description>
+        <Description Translatable="1">Stores cookies after the browser has been closed.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -724,7 +724,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionDir" Required="1" Valid="1">
-        <Description Translatable="1">If "FS" was selected for SessionModule you have to specify a directory where the session data will be stored.</Description>
+        <Description Translatable="1">If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -732,7 +732,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionTable" Required="1" Valid="1">
-        <Description Translatable="1">If "DB" was selected for SessionModule, you have to specify a table in database where session data will be stored.</Description>
+        <Description Translatable="1">If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -740,7 +740,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionTableID" Required="1" Valid="1">
-        <Description Translatable="1">If "DB" was selected for SessionModule, you have to specify a column for ID in session table.</Description>
+        <Description Translatable="1">If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -748,7 +748,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionTableValue" Required="1" Valid="1">
-        <Description Translatable="1">If "DB" was selected for SessionModule, you have to specify a column for the values in session table.</Description>
+        <Description Translatable="1">If "DB" was selected for SessionModule, a column for the values in session table must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -756,7 +756,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone" Required="0" Valid="0">
-        <Description Translatable="1">Set the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.</Description>
+        <Description Translatable="1">Sets the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -790,7 +790,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZoneUser" Required="0" Valid="1">
-        <Description Translatable="1">Set the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.</Description>
+        <Description Translatable="1">Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -801,7 +801,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZoneUserBrowserAutoOffset" Required="0" Valid="1">
-        <Description Translatable="1">Set the user time zone per user based on java script / browser time zone offset feature at login time.</Description>
+        <Description Translatable="1">Sets the user time zone per user based on java script / browser time zone offset feature at login time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -812,7 +812,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays" Required="1" Valid="1">
-        <Description Translatable="1">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -827,7 +827,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime" Required="1" Valid="1">
-        <Description Translatable="1">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -837,7 +837,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours" Required="1" Valid="1">
-        <Description Translatable="1">Hours and week days to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -925,7 +925,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar1Name" Required="1" Valid="1">
-        <Description Translatable="1">Calendar Name.</Description>
+        <Description Translatable="1">Defines the name of the calendar number 1.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
@@ -933,7 +933,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar1" Required="1" Valid="1">
-        <Description Translatable="1">The time zone of the queue.</Description>
+        <Description Translatable="1">Defines the time zone of the calendar number 1, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
@@ -967,7 +967,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar1" Required="1" Valid="1">
-        <Description Translatable="1">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
@@ -982,7 +982,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar1" Required="1" Valid="1">
-        <Description Translatable="1">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
@@ -992,7 +992,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar1" Required="1" Valid="1">
-        <Description Translatable="1">Hours and week days to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the calendar number 1, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
@@ -1080,7 +1080,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar2Name" Required="1" Valid="1">
-        <Description Translatable="1">Calendar Name.</Description>
+        <Description Translatable="1">Defines the name of the calendar number 2.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
@@ -1088,7 +1088,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar2" Required="1" Valid="1">
-        <Description Translatable="1">The time zone of the queue.</Description>
+        <Description Translatable="1">Defines the time zone of the calendar number 2, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
@@ -1122,7 +1122,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar2" Required="1" Valid="1">
-        <Description Translatable="1">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
@@ -1137,7 +1137,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar2" Required="1" Valid="1">
-        <Description Translatable="1">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
@@ -1147,7 +1147,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar2" Required="1" Valid="1">
-        <Description Translatable="1">Hours and week days to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the calendar number 2, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
@@ -1235,7 +1235,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar3Name" Required="1" Valid="1">
-        <Description Translatable="1">Calendar Name.</Description>
+        <Description Translatable="1">Defines the name of the calendar number 3.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
@@ -1243,7 +1243,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar3" Required="1" Valid="1">
-        <Description Translatable="1">The time zone of the queue.</Description>
+        <Description Translatable="1">Defines the time zone of the calendar number 3, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
@@ -1277,7 +1277,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar3" Required="1" Valid="1">
-        <Description Translatable="1">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the calendar number 3. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
@@ -1292,7 +1292,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar3" Required="1" Valid="1">
-        <Description Translatable="1">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the one time vacation days for the calendar number 3. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
@@ -1302,7 +1302,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar3" Required="1" Valid="1">
-        <Description Translatable="1">Hours and week days to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the calendar number 3, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
@@ -1390,7 +1390,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar4Name" Required="1" Valid="1">
-        <Description Translatable="1">Calendar Name.</Description>
+        <Description Translatable="1">Defines the name of the calendar number 4.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
@@ -1398,7 +1398,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar4" Required="1" Valid="1">
-        <Description Translatable="1">The time zone of the queue.</Description>
+        <Description Translatable="1">Defines the time zone of the calendar number 4, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
@@ -1432,7 +1432,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar4" Required="1" Valid="1">
-        <Description Translatable="1">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the calendar number 4. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
@@ -1447,7 +1447,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar4" Required="1" Valid="1">
-        <Description Translatable="1">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the one time vacation days for the calendar number 4. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
@@ -1457,7 +1457,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar4" Required="1" Valid="1">
-        <Description Translatable="1">Hours and week days to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the calendar number 4, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
@@ -1545,7 +1545,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar5Name" Required="1" Valid="1">
-        <Description Translatable="1">Calendar Name.</Description>
+        <Description Translatable="1">Defines the name of the calendar number 5.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
@@ -1553,7 +1553,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar5" Required="1" Valid="1">
-        <Description Translatable="1">The time zone of the queue.</Description>
+        <Description Translatable="1">Defines the time zone of the calendar number 5, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
@@ -1587,7 +1587,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar5" Required="1" Valid="1">
-        <Description Translatable="1">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the calendar number 5. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
@@ -1602,7 +1602,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar5" Required="1" Valid="1">
-        <Description Translatable="1">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the one time vacation days for the calendar number 5. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
@@ -1612,7 +1612,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar5" Required="1" Valid="1">
-        <Description Translatable="1">Hours and week days to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the calendar number 5, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
@@ -1700,7 +1700,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar6Name" Required="1" Valid="1">
-        <Description Translatable="1">Calendar Name.</Description>
+        <Description Translatable="1">Defines the name of the calendar number 6.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
@@ -1708,7 +1708,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar6" Required="1" Valid="1">
-        <Description Translatable="1">The time zone of the queue.</Description>
+        <Description Translatable="1">Defines the time zone of the calendar number 6, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
@@ -1742,7 +1742,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar6" Required="1" Valid="1">
-        <Description Translatable="1">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the calendar number 6. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
@@ -1757,7 +1757,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar6" Required="1" Valid="1">
-        <Description Translatable="1">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the one time vacation days for the calendar number 6. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
@@ -1767,7 +1767,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar6" Required="1" Valid="1">
-        <Description Translatable="1">Hours and week days to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the calendar number 6, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
@@ -1855,7 +1855,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar7Name" Required="1" Valid="1">
-        <Description Translatable="1">Calendar Name.</Description>
+        <Description Translatable="1">Defines the name of the calendar number 7.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
@@ -1863,7 +1863,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar7" Required="1" Valid="1">
-        <Description Translatable="1">The time zone of the queue.</Description>
+        <Description Translatable="1">Defines the time zone of the calendar number 7, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
@@ -1897,7 +1897,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar7" Required="1" Valid="1">
-        <Description Translatable="1">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the calendar number 7. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
@@ -1912,7 +1912,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar7" Required="1" Valid="1">
-        <Description Translatable="1">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the one time vacation days for the calendar number 7. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
@@ -1922,7 +1922,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar7" Required="1" Valid="1">
-        <Description Translatable="1">Hours and week days to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the calendar number 7, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
@@ -2010,7 +2010,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar8Name" Required="1" Valid="1">
-        <Description Translatable="1">Calendar Name.</Description>
+        <Description Translatable="1">Defines the name of the calendar number 8.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
@@ -2018,7 +2018,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar8" Required="1" Valid="1">
-        <Description Translatable="1">The time zone of the queue.</Description>
+        <Description Translatable="1">Defines the time zone of the calendar number 8, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
@@ -2052,7 +2052,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar8" Required="1" Valid="1">
-        <Description Translatable="1">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the calendar number 8. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
@@ -2067,7 +2067,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar8" Required="1" Valid="1">
-        <Description Translatable="1">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the one time vacation days for the calendar number 8. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
@@ -2077,7 +2077,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar8" Required="1" Valid="1">
-        <Description Translatable="1">Hours and week days to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the calendar number 8, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
@@ -2165,7 +2165,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar9Name" Required="1" Valid="1">
-        <Description Translatable="1">Calendar Name.</Description>
+        <Description Translatable="1">Defines the name of the calendar number 9.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
@@ -2173,7 +2173,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar9" Required="1" Valid="1">
-        <Description Translatable="1">The time zone of the queue.</Description>
+        <Description Translatable="1">Defines the time zone of the calendar number 9, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
@@ -2207,7 +2207,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar9" Required="1" Valid="1">
-        <Description Translatable="1">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the calendar number 9. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
@@ -2222,7 +2222,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar9" Required="1" Valid="1">
-        <Description Translatable="1">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Translatable="1">Adds the one time vacation days for the calendar number 9. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
@@ -2232,7 +2232,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar9" Required="1" Valid="1">
-        <Description Translatable="1">Hours and week days to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the calendar number 9, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
@@ -2320,7 +2320,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="WebMaxFileUpload" Required="1" Valid="1">
-        <Description Translatable="1">Maximal size for file uploads via the browser (in Bytes).</Description>
+        <Description Translatable="1">Defines the maximal size (in bytes) for file uploads via the browser.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -2328,7 +2328,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="WebUploadCacheModule" Required="1" Valid="1">
-        <Description Translatable="1">Select the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.</Description>
+        <Description Translatable="1">Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -2336,7 +2336,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CGILogPrefix" Required="1" Valid="1">
-        <Description Translatable="1">Please enter the text that should appear in the log file to denote a CGI script entry.</Description>
+        <Description Translatable="1">Specifies the text that should appear in the log file to denote a CGI script entry.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -2344,7 +2344,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Output::FilterText###AAAURL" Required="0" Valid="1">
-        <Description Translatable="1">A filter to process the text in the articles in order to highlight URLs.</Description>
+        <Description Translatable="1">Defines the filter that processes the text in the articles, in order to highlight URLs.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
             <Setting>
@@ -2354,7 +2354,7 @@
             </Setting>
     </ConfigItem>
     <ConfigItem Name="LanguageSelectionLogin" Required="1" Valid="1">
-        <Description Translatable="1">Activate select language option on login page?</Description>
+        <Description Translatable="1">Activates the select language option on the login page of the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -2365,7 +2365,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LostPassword" Required="1" Valid="1">
-        <Description Translatable="1">Activate lost password feature for agents?</Description>
+        <Description Translatable="1">Activates lost password feature for agents, in the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -2376,7 +2376,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ShowMotd" Required="1" Valid="1">
-        <Description Translatable="1">Show message of the day on login screen?</Description>
+        <Description Translatable="1">Shows the message of the day on login screen of the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -2387,7 +2387,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DemoSystem" Required="1" Valid="1">
-        <Description Translatable="1">Should the system be run in "Demo" mode? If set to "Yes", agents can change preferences such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.</Description>
+        <Description Translatable="1">Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -2398,7 +2398,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SwitchToUser" Required="1" Valid="1">
-        <Description Translatable="1">Should the administrators be allowed, via the users administration panel, to login as other users?</Description>
+        <Description Translatable="1">Allows the administrators to login as other users, via the users administration panel.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -2409,7 +2409,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="MIME-Viewer###application/excel" Required="0" Valid="0">
-        <Description Translatable="1">Path to converter to view Microsoft Excel files in the web interface.</Description>
+        <Description Translatable="1">Specifies the path to the converter that allows the view of Microsoft Excel files, in the web interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MIME-Viewer</SubGroup>
         <Setting>
@@ -2417,7 +2417,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="MIME-Viewer###application/msword" Required="0" Valid="0">
-        <Description Translatable="1">Path to converter to view Microsoft Word files in the web interface.</Description>
+        <Description Translatable="1">Specifies the path to the converter that allows the view of Microsoft Word files, in the web interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MIME-Viewer</SubGroup>
         <Setting>
@@ -2425,7 +2425,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="MIME-Viewer###application/pdf" Required="0" Valid="0">
-        <Description Translatable="1">Path to programm to view PDF Documents in the web interface.</Description>
+        <Description Translatable="1">Specifies the path to the converter that allows the view of PDF documents, in the web interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MIME-Viewer</SubGroup>
         <Setting>
@@ -2433,7 +2433,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="MIME-Viewer###text/xml" Required="0" Valid="0">
-        <Description Translatable="1">Path to converter to view XML files in the web interface.</Description>
+        <Description Translatable="1">Specifies the path to the converter that allows the view of XML files, in the web interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MIME-Viewer</SubGroup>
         <Setting>
@@ -2441,7 +2441,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SpellChecker" Required="1" Valid="1">
-        <Description Translatable="1">Enable or disable spell checker support.</Description>
+        <Description Translatable="1">Enables spell checker support.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SpellChecker</SubGroup>
         <Setting>
@@ -2452,7 +2452,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SpellCheckerBin" Required="1" Valid="1">
-        <Description Translatable="1">Install ispell or aspell on your system, if you want to use a spellchecker. Please specify the path to the aspell or ispell binary on your operating system.</Description>
+        <Description Translatable="1">Installs ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SpellChecker</SubGroup>
         <Setting>
@@ -2460,7 +2460,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SpellCheckerDictDefault" Required="1" Valid="1">
-        <Description Translatable="1">Default spell checker dictionary.</Description>
+        <Description Translatable="1">Defines the default spell checker dictionary.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SpellChecker</SubGroup>
         <Setting>
@@ -2468,7 +2468,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SpellCheckerIgnore" Required="1" Valid="1">
-        <Description Translatable="1">A list of words, that are ignored by the spell checker by default.</Description>
+        <Description Translatable="1">Defines a default list of words, that are ignored by the spell checker.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SpellChecker</SubGroup>
         <Setting>
@@ -2483,7 +2483,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="WebUserAgent::Timeout" Required="1" Valid="1">
-        <Description Translatable="1">Timeout for http/ftp downloads (in seconds).</Description>
+        <Description Translatable="1">Sets the timeout (in seconds) for http/ftp downloads.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::WebUserAgent</SubGroup>
         <Setting>
@@ -2491,7 +2491,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="WebUserAgent::Proxy" Required="0" Valid="0">
-        <Description Translatable="1">Connections for http/ftp via a proxy.</Description>
+        <Description Translatable="1">Defines the connections for http/ftp, via a proxy.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::WebUserAgent</SubGroup>
         <Setting>
@@ -2499,7 +2499,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::FileUpload" Required="1" Valid="1">
-        <Description Translatable="1">Enable file upload in package manager frontend?</Description>
+        <Description Translatable="1">Enables file upload in the package manager frontend.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
@@ -2510,7 +2510,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::RepositoryRoot" Required="0" Valid="1">
-        <Description Translatable="1">Location to get online repository list for additional packages. The first available result will be used.</Description>
+        <Description Translatable="1">Defines the location to get online repository list for additional packages. The first available result will be used.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
@@ -2521,7 +2521,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::RepositoryList" Required="0" Valid="0">
-        <Description Translatable="1">List of online repositories (for example you also can use other installations as repositoriy by using Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name").</Description>
+        <Description Translatable="1">Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
@@ -2531,7 +2531,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::RepositoryAccessRegExp" Required="0" Valid="0">
-        <Description Translatable="1">IP RegExp for accessing local repository. You need to enable this to have access to your local repository. Package::RepositoryList is required on the remote host.</Description>
+        <Description Translatable="1">Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
@@ -2539,7 +2539,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::Timeout" Required="1" Valid="1">
-        <Description Translatable="1">Timeout for package downloads (in seconds). Overwrites "WebUserAgent::Timeout".</Description>
+        <Description Translatable="1">Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
@@ -2547,7 +2547,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::Proxy" Required="0" Valid="0">
-        <Description Translatable="1">Fetch packages via proxy. Overwrites "WebUserAgent::Proxy".</Description>
+        <Description Translatable="1">Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
@@ -2555,7 +2555,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SOAP::User" Required="0" Valid="0">
-        <Description Translatable="1">The user name to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
+        <Description Translatable="1">Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SOAP</SubGroup>
         <Setting>
@@ -2563,7 +2563,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SOAP::Password" Required="0" Valid="0">
-        <Description Translatable="1">The password to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
+        <Description Translatable="1">Defines the password to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SOAP</SubGroup>
         <Setting>
@@ -2571,7 +2571,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF" Required="1" Valid="1">
-        <Description Translatable="1">Enable PDF output? The CPAN module PDF::API2 is required. If not installed PDF output will be disabled.</Description>
+        <Description Translatable="1">Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2582,7 +2582,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::LogoFile" Required="1" Valid="1">
-        <Description Translatable="1">File for the logo in the page header (gif|jpg|png, 700 x 100 pixel).</Description>
+        <Description Translatable="1">Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2590,7 +2590,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::PageSize" Required="1" Valid="1">
-        <Description Translatable="1">Standard-size of PDF pages.</Description>
+        <Description Translatable="1">Defines the standard size of PDF pages.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2601,7 +2601,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::MaxPages" Required="1" Valid="1">
-        <Description Translatable="1">Maximum number of pages per PDF file.</Description>
+        <Description Translatable="1">Defines the maximum number of pages per PDF file.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2630,7 +2630,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::TTFontFile###Proportional" Required="1" Valid="1">
-        <Description Translatable="1">Path and TTF-File to handle proportional font in PDF documents.</Description>
+        <Description Translatable="1">Defines the path and TTF-File to handle proportional font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2638,7 +2638,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::TTFontFile###ProportionalBold" Required="1" Valid="1">
-        <Description Translatable="1">Path and TTF-File to handle bold proportional font in PDF documents.</Description>
+        <Description Translatable="1">Defines the path and TTF-File to handle bold proportional font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2646,7 +2646,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::TTFontFile###ProportionalItalic" Required="0" Valid="0">
-        <Description Translatable="1">Path and TTF-File to handle italic proportional font in PDF documents.</Description>
+        <Description Translatable="1">Defines the path and TTF-File to handle italic proportional font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2654,7 +2654,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::TTFontFile###ProportionalBoldItalic" Required="1" Valid="1">
-        <Description Translatable="1">Path and TTF-File to handle bold italic proportional font in PDF documents.</Description>
+        <Description Translatable="1">Defines the path and TTF-File to handle bold italic proportional font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2662,7 +2662,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::TTFontFile###Monospaced" Required="1" Valid="1">
-        <Description Translatable="1">Path and TTF-File to handle monospaced font in PDF documents.</Description>
+        <Description Translatable="1">Defines the path and TTF-File to handle monospaced font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2670,7 +2670,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::TTFontFile###MonospacedBold" Required="0" Valid="0">
-        <Description Translatable="1">Path and TTF-File to handle bold monospaced font in PDF documents.</Description>
+        <Description Translatable="1">Defines the path and TTF-File to handle bold monospaced font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2678,7 +2678,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::TTFontFile###MonospacedItalic" Required="0" Valid="0">
-        <Description Translatable="1">Path and TTF-File to handle italic monospaced font in PDF documents.</Description>
+        <Description Translatable="1">Defines the path and TTF-File to handle italic monospaced font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2686,7 +2686,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::TTFontFile###MonospacedBoldItalic" Required="0" Valid="0">
-        <Description Translatable="1">Path and TTF-File to handle bold italic monospaced font in PDF documents.</Description>
+        <Description Translatable="1">Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2694,7 +2694,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP" Required="1" Valid="1">
-        <Description Translatable="1">Enable PGP support? When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.</Description>
+        <Description Translatable="1">Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
@@ -2705,7 +2705,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP::Bin" Required="1" Valid="1">
-        <Description Translatable="1">Path to PGP binary.</Description>
+        <Description Translatable="1">Defines the path to PGP binary.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
@@ -2713,7 +2713,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP::Options" Required="1" Valid="1">
-        <Description Translatable="1">Options for PGP binary.</Description>
+        <Description Translatable="1">Sets the options for PGP binary.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
@@ -2721,7 +2721,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP::Key::Password" Required="1" Valid="1">
-        <Description Translatable="1">Password for private PGP key.</Description>
+        <Description Translatable="1">Sets the password for private PGP key.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
@@ -2732,7 +2732,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SMIME" Required="1" Valid="1">
-        <Description Translatable="1">Enable S/MIME support?</Description>
+        <Description Translatable="1">Enables S/MIME support.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
@@ -2743,7 +2743,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SMIME::Bin" Required="1" Valid="1">
-        <Description Translatable="1">Path to openssl binary. Maybe openssl need a HOME env ($ENV{HOME} = '/var/lib/wwwrun';).</Description>
+        <Description Translatable="1">Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = '/var/lib/wwwrun';).</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
@@ -2751,7 +2751,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SMIME::CertPath" Required="1" Valid="1">
-        <Description Translatable="1">Directory where SSL certificates are stored.</Description>
+        <Description Translatable="1">Specifies the directory where SSL certificates are stored.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
@@ -2759,7 +2759,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SMIME::PrivatePath" Required="1" Valid="1">
-        <Description Translatable="1">Directory where private SSL certificates are stored.</Description>
+        <Description Translatable="1">Specifies the directory where private SSL certificates are stored.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
@@ -2767,7 +2767,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationSenderName" Required="1" Valid="1">
-        <Description Translatable="1">Please enter the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). Notifications are messages such as en::Customer::QueueUpdate or en::Agnet::Move.</Description>
+        <Description Translatable="1">Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). Notifications are messages such as en::Customer::QueueUpdate or en::Agnet::Move.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -2775,7 +2775,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationSenderEmail" Required="1" Valid="1">
-        <Description Translatable="1">Please enter the e-mail address that should be used by the application when sending notifications. The e-mail address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agnet::Move.</Description>
+        <Description Translatable="1">Specifies the e-mail address that should be used by the application when sending notifications. The e-mail address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agnet::Move.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -2783,7 +2783,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationSubjectLostPasswordToken" Required="1" Valid="1">
-        <Description Translatable="1">Subject for notification mail to agents with token about new requested password (after using this link the new password will be sent).</Description>
+        <Description Translatable="1">Defines the subject for notification mails sent to agents, with token about new requested password.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -2791,7 +2791,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationBodyLostPasswordToken" Required="1" Valid="1">
-        <Description Translatable="1">Body for notification mail to agents with token about new requested password (after using this link the new password will be sent).</Description>
+        <Description Translatable="1">Defines the body text for notification mails sent to agents, with token about new requested password (after using this link the new password will be sent).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -2809,7 +2809,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationSubjectLostPassword" Required="1" Valid="1">
-        <Description Translatable="1">Subject for the notification email to agents about new password.</Description>
+        <Description Translatable="1">Defines the subject for notification mails sent to agents, about new password.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -2817,7 +2817,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationBodyLostPassword" Required="1" Valid="1">
-        <Description Translatable="1">Body for notification mail to agents about new password.</Description>
+        <Description Translatable="1">Defines the body text for notification mails sent to agents, about new password (after using this link the new password will be sent).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -2835,7 +2835,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="System::Permission" Required="1" Valid="1">
-        <Description Translatable="1">These are the standard permissions available for agents within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.</Description>
+        <Description Translatable="1">Defines the standard permissions available for agents within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -2846,7 +2846,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="System::Customer::Permission" Required="1" Valid="1">
-        <Description Translatable="1">These are the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.</Description>
+        <Description Translatable="1">Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -2857,7 +2857,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PerformanceLog" Required="0" Valid="1">
-        <Description Translatable="1">Enable PerformanceLog to log the page response time. Take care, this will take system performance (you also need to enable Frontend::Module###AdminPerformanceLog!).</Description>
+        <Description Translatable="1">Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PerformanceLog</SubGroup>
         <Setting>
@@ -2868,7 +2868,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PerformanceLog::File" Required="1" Valid="1">
-        <Description Translatable="1">Logfile of PerformanceLog.</Description>
+        <Description Translatable="1">Specifies the path of the file for the performance log.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PerformanceLog</SubGroup>
         <Setting>
@@ -2876,7 +2876,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PerformanceLog::FileMax" Required="1" Valid="1">
-        <Description Translatable="1">Max. size in MB of log file.</Description>
+        <Description Translatable="1">Defines the maximum size (in MB) of the log file.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PerformanceLog</SubGroup>
         <Setting>
@@ -2884,7 +2884,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesTable" Required="1" Valid="1">
-        <Description Translatable="1">The name of the table, where the customer preferences are stored.</Description>
+        <Description Translatable="1">Defines the name of the table, where the customer preferences are stored.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -2892,7 +2892,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesTableKey" Required="1" Valid="1">
-        <Description Translatable="1">Key for preferences table.</Description>
+        <Description Translatable="1">Defines the column to store the keys for the preferences table.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -2900,7 +2900,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesTableValue" Required="1" Valid="1">
-        <Description Translatable="1">Name of column in preferences table to store the data.</Description>
+        <Description Translatable="1">Defines the name of the column to store the data in the preferences table.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -2908,7 +2908,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesTableUserID" Required="1" Valid="1">
-        <Description Translatable="1">Name of column in preference table, where the UserID is stored.</Description>
+        <Description Translatable="1">Defines the name of the column to store the user identifier in the preferences table.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -2916,7 +2916,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesView" Required="1" Valid="1">
-        <Description Translatable="1">Display order of the different items in the preference view.</Description>
+        <Description Translatable="1">Sets the display order of the different items in the preferences view.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -2928,7 +2928,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Password" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the Password object in the preference view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -2950,7 +2950,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###SpellDict" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the SpellDict object in the preference view. Take care to maintain the dictionaries installed in the system in the data section.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -2993,7 +2993,7 @@ Your OTRS Notification Master
 -->
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Comment" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the Comment object in the preference view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -3011,7 +3011,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###FreeText" Required="0" Valid="0">
-        <Description Translatable="1">Parameters for the Freetext object in the preference view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -3029,7 +3029,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Language" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the Language object in the preference view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -3045,7 +3045,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Theme" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the Time object in the preference view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -3061,7 +3061,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###OutOfOffice" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the Out Of Office object in the preference view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -3078,7 +3078,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###TimeZone" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the Time-Zone object in the preference view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -3094,7 +3094,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSessionName" Required="1" Valid="1">
-        <Description Translatable="1">Name of the key for customer sessions.</Description>
+        <Description Translatable="1">Defines the name of the key for customer sessions.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -3102,7 +3102,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###CSVSeparator" Required="0" Valid="0">
-        <Description Translatable="1">Gives end users the possibility to override the separator character for CSV files defined in the translation files.</Description>
+        <Description Translatable="1">Gives end users the possibility to override the separator character for CSV files, defined in the translation files.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -3129,7 +3129,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelUserID" Required="1" Valid="1">
-        <Description Translatable="1">UserID for customer panel.</Description>
+        <Description Translatable="1">Defines the user identifier for the customer panel.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3137,7 +3137,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerGroupSupport" Required="1" Valid="1">
-        <Description Translatable="1">Activate support for customer groups?</Description>
+        <Description Translatable="1">Activates support for customer groups.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3148,7 +3148,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerGroupAlwaysGroups" Required="1" Valid="1">
-        <Description Translatable="1">If CustomerGroupSupport is enabled and you don't want to manage every user for these groups, then put the groups for every customer user in there.</Description>
+        <Description Translatable="1">Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don't want to manage every user for these groups).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3159,7 +3159,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::HeaderMetaModule###1-Refresh" Required="1" Valid="1">
-        <Description Translatable="1">Module to generate html refresh header of html sites.</Description>
+        <Description Translatable="1">Defines the module to generate html refresh headers of html sites, in the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleMetaHead</SubGroup>
         <Setting>
@@ -3169,7 +3169,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::NotifyModule###1-ShowAgentOnline" Required="0" Valid="0">
-        <Description Translatable="1">Module that shows the currently loged in agents in the customer interface.</Description>
+        <Description Translatable="1">Defines the module that shows the currently loged in agents in the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
         <Setting>
@@ -3181,7 +3181,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::NotifyModule###1-ShowCustomerOnline" Required="0" Valid="0">
-        <Description Translatable="1">Module that shows the currently loged in customers in the customer interface.</Description>
+        <Description Translatable="1">Defines the module that shows the currently loged in customers in the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
         <Setting>
@@ -3192,7 +3192,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelLoginURL" Required="0" Valid="0">
-        <Description Translatable="1">Alternate login URL for the customer panel..</Description>
+        <Description Translatable="1">Defines an alternate login URL for the customer panel..</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3200,7 +3200,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelLogoutURL" Required="0" Valid="0">
-        <Description Translatable="1">Alternate logout URL for the customer panel.</Description>
+        <Description Translatable="1">Defines an alternate logout URL for the customer panel.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3208,7 +3208,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::CustomerUser::Item###1-GoogleMaps" Required="0" Valid="1">
-        <Description Translatable="1">A customer item (icon) which generates an google maps icon at the end of an customer info block.</Description>
+        <Description Translatable="1">Defines a customer item, which generates a google maps icon at the end of a customer info block.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
             <Setting>
@@ -3224,7 +3224,7 @@ Your OTRS Notification Master
             </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::CustomerUser::Item###2-Google" Required="0" Valid="0">
-        <Description Translatable="1">A customer item (icon) which generates an google icon at the end of an customer info block.</Description>
+        <Description Translatable="1">Defines a customer item, which generates a google icon at the end of a customer info block.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
             <Setting>
@@ -3240,7 +3240,7 @@ Your OTRS Notification Master
             </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::CustomerUser::Item###2-LinkedIn" Required="0" Valid="0">
-        <Description Translatable="1">A customer item (icon) which generates an LinkedIn icon at the end of an customer info block.</Description>
+        <Description Translatable="1">Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
             <Setting>
@@ -3256,7 +3256,7 @@ Your OTRS Notification Master
             </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::CustomerUser::Item###3-XING" Required="0" Valid="0">
-        <Description Translatable="1">A customer item (icon) which generates an XING icon at the end of an customer info block.</Description>
+        <Description Translatable="1">Defines a customer item, which generates a XING icon at the end of a customer info block.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
             <Setting>
@@ -3280,7 +3280,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanel::InfoKey" Required="0" Valid="0">
-        <Description Translatable="1">Key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.</Description>
+        <Description Translatable="1">Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3288,7 +3288,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanel::InfoFile" Required="0" Valid="0">
-        <Description Translatable="1">Shown InfoFile, that is located under Kernel/Output/HTML/Standard/CustomerAccept.dtl.</Description>
+        <Description Translatable="1">Defines the path of the shown info file, that is located under Kernel/Output/HTML/Standard/CustomerAccept.dtl.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3296,7 +3296,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelLostPassword" Required="1" Valid="1">
-        <Description Translatable="1">Activate lost password feature for customers?</Description>
+        <Description Translatable="1">Activates lost password feature for customers.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3307,7 +3307,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelCreateAccount" Required="1" Valid="1">
-        <Description Translatable="1">Can Customers create their own account?</Description>
+        <Description Translatable="1">Enables customers to create their own accounts.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3318,7 +3318,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSubjectLostPasswordToken" Required="1" Valid="1">
-        <Description Translatable="1">Subject for notification mail to cutomers with token about new requested password (after using this link the new password will be sent).</Description>
+        <Description Translatable="1">Defines the subject for notification mails sent to customers, with token about new requested password.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3326,7 +3326,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelBodyLostPasswordToken" Required="1" Valid="1">
-        <Description Translatable="1">Body for notification mail to customers with token about new requested password (after using this link the new password will be sent).</Description>
+        <Description Translatable="1">Defines the body text for notification mails sent to customers, with token about new requested password (after using this link the new password will be sent).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3344,7 +3344,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSubjectLostPassword" Required="1" Valid="1">
-        <Description Translatable="1">Subject of notification mail to customers about new password.</Description>
+        <Description Translatable="1">Defines the subject for notification mails sent to customers, about new password.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3352,7 +3352,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelBodyLostPassword" Required="1" Valid="1">
-        <Description Translatable="1">Body of notification mail for customers about new password.</Description>
+        <Description Translatable="1">Defines the body text for notification mails sent to customers, about new password (after using this link the new password will be sent).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3370,7 +3370,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSubjectNewAccount" Required="1" Valid="1">
-        <Description Translatable="1">Subject for notification email to customers about new account.</Description>
+        <Description Translatable="1">Defines the subject for notification mails sent to customers, about new account.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3378,7 +3378,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelBodyNewAccount" Required="1" Valid="1">
-        <Description Translatable="1">Body of notification email to customer about new account.</Description>
+        <Description Translatable="1">Defines the body text for notification mails sent to customers, about new account.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3397,7 +3397,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule" Required="1" Valid="1">
-        <Description Translatable="1">Module to authenticate customers.</Description>
+        <Description Translatable="1">Defines the module to authenticate customers.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3405,7 +3405,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::CryptType" Required="1" Valid="1">
-        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, you have to specify the crypt type of passwords.</Description>
+        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the crypt type of passwords must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3417,7 +3417,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::Table" Required="1" Valid="1">
-        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, you have to specify the name f the table where your customer data are stored.</Description>
+        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3425,7 +3425,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::CustomerKey" Required="1" Valid="1">
-        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, you have to specify the name of the column for the CustomerKey in your customer table.</Description>
+        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3433,7 +3433,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::CustomerPassword" Required="1" Valid="1">
-        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, you have to specify the column name for the CustomerPassword in your customer table.</Description>
+        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3441,7 +3441,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::DSN" Required="0" Valid="0">
-        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, you hav to specify the DSN for the connection to the customer table.</Description>
+        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the DSN for the connection to the customer table must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3449,7 +3449,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::User" Required="0" Valid="0">
-        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, you can specify a username to connect to your customer table.</Description>
+        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, a username to connect to the customer table can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3457,7 +3457,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::Password" Required="0" Valid="0">
-        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, you can specify a password to connect to your customer table.</Description>
+        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, a password to connect to the customer table can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3465,7 +3465,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::Type" Required="0" Valid="0">
-        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, you can specify a database driver (normaly autodetection is used).</Description>
+        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3489,7 +3489,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::Host" Required="0" Valid="0">
-        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, you can specify your LDAP host.</Description>
+        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, the LDAP host can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3497,7 +3497,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::BaseDN" Required="0" Valid="0">
-        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, specify your BaseDN.</Description>
+        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, the BaseDN must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3505,7 +3505,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::UID" Required="0" Valid="0">
-        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, specify the UID.</Description>
+        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, the user identifier must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3513,7 +3513,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::GroupDN" Required="0" Valid="0">
-        <Description Translatable="1">If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to auth because he is in a posixGroup, e.g. user needs to be in a group xyz to use otrs. Specify the group, who may access the system.</Description>
+        <Description Translatable="1">If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use otrs. Specify the group, who may access the system.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3529,7 +3529,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::UserAttr" Required="0" Valid="0">
-        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, you can specify user attributes. For LDAP posixGroups objectclass UID, for non ldap posixGroups objectclass full user DN.</Description>
+        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, user attributes can be specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full user DN.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3564,7 +3564,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::UserSuffix" Required="0" Valid="0">
-        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule an if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your ldap directory exists user@domain.</Description>
+        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3585,7 +3585,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::Die" Required="0" Valid="1">
-        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a server can't connected (e. g. network problems).</Description>
+        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can't be established due to network problems.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3596,7 +3596,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::Radius::Host" Required="0" Valid="0">
-        <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, specify your radius host.</Description>
+        <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, the radius host must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3604,7 +3604,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::Radius::Password" Required="0" Valid="0">
-        <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, specfiy the password to authenticate to your radius host.</Description>
+        <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3612,7 +3612,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::Radius::Die" Required="0" Valid="1">
-        <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a server can't connected (e. g. network problems).</Description>
+        <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can't be established due to network problems.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -3623,7 +3623,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPreferences" Required="1" Valid="1">
-        <Description Translatable="1">Parameters for the customer preference table.</Description>
+        <Description Translatable="1">Defines the parameters for the customer preferences table.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -3641,7 +3641,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesView" Required="1" Valid="1">
-        <Description Translatable="1">Order of the different items in the customer preferences view.</Description>
+        <Description Translatable="1">Sets the order of the different items in the customer preferences view.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -3652,7 +3652,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###Password" Required="0" Valid="1">
-        <Description Translatable="1">All parameters for the password area in the customer preferences.</Description>
+        <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -3673,7 +3673,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###Language" Required="0" Valid="1">
-        <Description Translatable="1">All parameters for the language area in the customer preferences.</Description>
+        <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -3689,7 +3689,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###Theme" Required="0" Valid="1">
-        <Description Translatable="1">All parameters for the theme area in the customer preferences.</Description>
+        <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -3705,7 +3705,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###TimeZone" Required="0" Valid="1">
-        <Description Translatable="1">All parameters for the Time-Zone object in the customer preferences.</Description>
+        <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -3721,7 +3721,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###PGP" Required="0" Valid="1">
-        <Description Translatable="1">All parameters for the PGP area in the customer preferences.</Description>
+        <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -3737,7 +3737,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###SMIME" Required="0" Valid="1">
-        <Description Translatable="1">All parameters for the S/MIME area in the customer preferences.</Description>
+        <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -3935,7 +3935,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminInit" Required="0" Valid="1">
-        <Description Translatable="1">Init of a new setup.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4074,7 +4074,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NavBarModule###6-CustomerCompany" Required="0" Valid="1">
-        <Description Translatable="1">Module registration for the AdminCustomerCompany object in the agent interface (disable Company link if no Company Feature is used).</Description>
+        <Description Translatable="1">Frontend module registration (disable company link if no company feature is used).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
         <Setting>
@@ -4435,7 +4435,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###PictureUpload" Required="1" Valid="1">
-        <Description Translatable="1">Customer frontend module registration for the PictureUpload object in the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4459,7 +4459,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Themes" Required="0" Valid="1">
-        <Description Translatable="1">Specify the available themes on your system. Value 1 means active, 0 means inactive.</Description>
+        <Description Translatable="1">Activates the available themes on the system. Value 1 means active, 0 means inactive.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -4470,7 +4470,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::CommonParam###Action" Required="0" Valid="1">
-        <Description Translatable="1">Default value for the Action parameter. The Frontend-Module which is used as default if no Action parameter given.</Description>
+        <Description Translatable="1">Defines the default value for the action parameter.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -4478,7 +4478,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PublicFrontend::CommonParam###Action" Required="1" Valid="1">
-        <Description Translatable="1">Default value for the Action parameter for the public frontend. The Action parameter is used in the scripts of the system.</Description>
+        <Description Translatable="1">Defines the default value for the action parameter for the public frontend. The action parameter is used in the scripts of the system.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Public</SubGroup>
         <Setting>
@@ -4510,7 +4510,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentStats" Required="0" Valid="1">
-        <Description Translatable="1">FrontendModuleRegistration for Stats to define the registration settings in the program and to set rights and positions of icons in the navigation bar.</Description>
+        <Description Translatable="1">Frontend module registration.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4571,7 +4571,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::StatsHook" Required="1" Valid="1">
-        <Description Translatable="1">To set the stats hook.</Description>
+        <Description Translatable="1">Sets the stats hook.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats</SubGroup>
         <Setting>
@@ -4579,7 +4579,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::StatsStartNumber" Required="1" Valid="1">
-        <Description Translatable="1">Start stats counting from e. g. 10000. Every new stat increments this number.</Description>
+        <Description Translatable="1">Start number for statistics counting. Every new stat increments this number.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats</SubGroup>
         <Setting>
@@ -4587,7 +4587,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::SearchPageShown" Required="1" Valid="1">
-        <Description Translatable="1">Default maximum number of search results shown on the Overview page.</Description>
+        <Description Translatable="1">Defines the default maximum number of search results shown on the overview page.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4595,7 +4595,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::DefaultSelectedDynamicObject" Required="1" Valid="1">
-        <Description Translatable="1">Default selection at the drop down menu for dynamic objects (Form: Common Specification).</Description>
+        <Description Translatable="1">Defines the default selection at the drop down menu for dynamic objects (Form: Common Specification).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4603,7 +4603,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::DefaultSelectedPermissions" Required="1" Valid="1">
-        <Description Translatable="1">Default selection at the drop down menu for permissions (Form: Common Specification).</Description>
+        <Description Translatable="1">Defines the default selection at the drop down menu for permissions (Form: Common Specification).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4613,7 +4613,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::DefaultSelectedFormat" Required="1" Valid="1">
-        <Description Translatable="1">Default selection at the drop down menu for stats format (Form: Common Specification). Please insert the format key (see Stats::Format).</Description>
+        <Description Translatable="1">Defines the default selection at the drop down menu for stats format (Form: Common Specification). Please insert the format key (see Stats::Format).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4624,7 +4624,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::SearchLimit" Required="1" Valid="1">
-        <Description Translatable="1">Search Limit.</Description>
+        <Description Translatable="1">Defines the search limit for the stats.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4632,7 +4632,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Format" Required="1" Valid="1">
-        <Description Translatable="1">Possible output formats.</Description>
+        <Description Translatable="1">Defines all the possible stats output formats.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4650,7 +4650,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::GraphSize" Required="1" Valid="1">
-        <Description Translatable="1">Size of stat graph.</Description>
+        <Description Translatable="1">Sets the size of the statistic graph.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4662,7 +4662,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::t_margin" Required="1" Valid="1">
-        <Description Translatable="1">Top margin of chart.</Description>
+        <Description Translatable="1">Specifies the top margin of the chart.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4670,7 +4670,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::l_margin" Required="1" Valid="1">
-        <Description Translatable="1">Left margin of chart.</Description>
+        <Description Translatable="1">Specifies the left margin of the chart.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4678,7 +4678,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::b_margin" Required="1" Valid="1">
-        <Description Translatable="1">Bottom margin of chart.</Description>
+        <Description Translatable="1">Specifies the bottom margin of the chart.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4686,7 +4686,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::r_margin" Required="1" Valid="1">
-        <Description Translatable="1">Right margin of chart.</Description>
+        <Description Translatable="1">Specifies the right margin of the chart.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4694,7 +4694,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::bgclr" Required="1" Valid="1">
-        <Description Translatable="1">Backgroundcolor of the picture.</Description>
+        <Description Translatable="1">Specifies the background color of the picture.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4722,7 +4722,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::transparent" Required="1" Valid="1">
-        <Description Translatable="1">Is the picture transparent?</Description>
+        <Description Translatable="1">Makes the picture transparent.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4733,7 +4733,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::fgclr" Required="1" Valid="1">
-        <Description Translatable="1">Border color of the chart.</Description>
+        <Description Translatable="1">Specifies the border color of the chart.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4761,7 +4761,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::boxclr" Required="1" Valid="1">
-        <Description Translatable="1">Background color of the chart.</Description>
+        <Description Translatable="1">Specifies the background color of the chart.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4789,7 +4789,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::accentclr" Required="1" Valid="1">
-        <Description Translatable="1">Bordercolor of the legend.</Description>
+        <Description Translatable="1">Specifies the border color of the legend.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4817,7 +4817,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::legendclr" Required="1" Valid="1">
-        <Description Translatable="1">Text color of the legend.</Description>
+        <Description Translatable="1">Specifies the text color of the legend.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4845,7 +4845,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::textclr" Required="1" Valid="1">
-        <Description Translatable="1">Text color of the chart (e. g. caption).</Description>
+        <Description Translatable="1">Specifies the text color of the chart (e. g. caption).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4873,7 +4873,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::dclrs" Required="1" Valid="1">
-        <Description Translatable="1">Colors for the graphs.</Description>
+        <Description Translatable="1">Defines the colors for the graphs.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4900,7 +4900,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::line_width" Required="1" Valid="1">
-        <Description Translatable="1">Boldness of the line drawed by the graph.</Description>
+        <Description Translatable="1">Defines the boldness of the line drawed by the graph.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4908,7 +4908,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::legend_placement" Required="1" Valid="1">
-        <Description Translatable="1">Placement of the legend. This should be a two letter key of the form: 'B[LCR]|R[TCB]'. The first letter indicates the placement (Bottom or Right), and the second letter the alignment (Left, Right, Center, Top, or Bottom).</Description>
+        <Description Translatable="1">Defines the placement of the legend. This should be a two letter key of the form: 'B[LCR]|R[TCB]'. The first letter indicates the placement (Bottom or Right), and the second letter the alignment (Left, Right, Center, Top, or Bottom).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4916,7 +4916,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::legend_spacing" Required="1" Valid="1">
-        <Description Translatable="1">Spacing of the legends.</Description>
+        <Description Translatable="1">Defines the spacing of the legends.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4924,7 +4924,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::legend_marker_width" Required="1" Valid="1">
-        <Description Translatable="1">Width of the legend.</Description>
+        <Description Translatable="1">Defines the width of the legend.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4932,7 +4932,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::legend_marker_height" Required="1" Valid="1">
-        <Description Translatable="1">Height of the legend.</Description>
+        <Description Translatable="1">Defines the height of the legend.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4940,7 +4940,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::TimeType" Required="1" Valid="1">
-        <Description Translatable="1">Selection of the time type which should be shown.</Description>
+        <Description Translatable="1">Sets the time type which should be shown.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4951,7 +4951,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::ExchangeAxis" Required="0" Valid="0">
-        <Description Translatable="1">If you activate this option an agent can exchange the axis of a stat if he generates one.</Description>
+        <Description Translatable="1">Allows agents to exchange the axis of a stat if they generate one.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4962,7 +4962,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::UseAgentElementInStats" Required="0" Valid="0">
-        <Description Translatable="1">If you activate this option you can generate individual-related stats.</Description>
+        <Description Translatable="1">Allows agents to generate individual-related stats.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4973,7 +4973,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::CustomerIDAsMultiSelect" Required="0" Valid="1">
-        <Description Translatable="1">If you activate this option all CustomerIDs will be shown in a multi-select field (Not useful if you have a lot of CustomerIDs).</Description>
+        <Description Translatable="1">Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4984,7 +4984,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::MaxXaxisAttributes" Required="0" Valid="0">
-        <Description Translatable="1">Default maximum number of X-axis attributes for the time scale.</Description>
+        <Description Translatable="1">Defines the default maximum number of X-axis attributes for the time scale.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats</SubGroup>
         <Setting>
@@ -5000,7 +5000,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Core::MirrorDB::User" Required="0" Valid="0">
-        <Description Translatable="1">If you want to use a mirror database for agent ticket fulltext search or to generate stats, you can specify the user to authenticate to this database.</Description>
+        <Description Translatable="1">If you want to use a mirror database for agent ticket fulltext search or to generate stats, the user to authenticate to this database can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MirrorDB</SubGroup>
         <Setting>
@@ -5008,7 +5008,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Core::MirrorDB::Password" Required="0" Valid="0">
-        <Description Translatable="1">If you want to use a mirror database for agent ticket fulltext search or to generate stats, you can specify the password to authenticate to this database.</Description>
+        <Description Translatable="1">If you want to use a mirror database for agent ticket fulltext search or to generate stats, the password to authenticate to this database can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MirrorDB</SubGroup>
         <Setting>
@@ -5016,7 +5016,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LanguageDebug" Required="0" Valid="0">
-        <Description Translatable="1">Should debugging be turned to debug your translation set? If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating an new tranlation file. Otherwise, this option should remain set to "No".</Description>
+        <Description Translatable="1">Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating an new tranlation file. Otherwise, this option should remain set to "No".</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -5027,7 +5027,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0000-ProductNotify" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the dashboard backend. "Group" is used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
+        <Description Translatable="1">Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
@@ -5044,7 +5044,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0400-UserOnline" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
+        <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
@@ -5065,7 +5065,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0410-RSS" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
+        <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
@@ -5083,7 +5083,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0200-Image" Required="0" Valid="0">
-        <Description Translatable="1">Parameters for the dashboard backend. "Group" is used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
+        <Description Translatable="1">Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
@@ -5103,7 +5103,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0210-MOTD" Required="0" Valid="0">
-        <Description Translatable="1">Shows the Message of the Day (MOTD) in the Agent Dashboard. "Group" is used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually.</Description>
+        <Description Translatable="1">Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
@@ -5117,7 +5117,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0300-IFrame" Required="0" Valid="0">
-        <Description Translatable="1">Parameters for the dashboard backend. "Group" is used to restriced access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
+        <Description Translatable="1">Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
@@ -5143,7 +5143,7 @@ Your OTRS Notification Master
     </ConfigItem>
 
     <ConfigItem Name="Frontend::Output::FilterText###OutputFilterTextAutoLink" Required="0" Valid="0">
-        <Description Translatable="1">A filter to process the text in the articles in order to highlight predefined keywords.</Description>
+        <Description Translatable="1">Defines a filter to process the text in the articles, in order to highlight predefined keywords.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
             <Setting>
@@ -5153,7 +5153,7 @@ Your OTRS Notification Master
             </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###CVE" Required="0" Valid="0">
-        <Description Translatable="1">A filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
+        <Description Translatable="1">Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5191,7 +5191,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###Bugtraq" Required="0" Valid="0">
-        <Description Translatable="1">A filter for html  output to add links behind Bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
+        <Description Translatable="1">Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <!-- Example strings: BugTraq ID: 23862 | BugTraq ID: 8945 | Bugtraq ID 140 | BUGTRAQ:20070425 | BID 20799 -->
@@ -5228,7 +5228,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###MSBulletins" Required="0" Valid="0">
-        <Description Translatable="1">A filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
+        <Description Translatable="1">Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <!-- Example strings: MS07-021 | MS04-028 | MS-07-002 -->
@@ -5260,7 +5260,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###Setting1" Required="0" Valid="0">
-        <Description Translatable="1">A filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
+        <Description Translatable="1">Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5290,7 +5290,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###Setting2" Required="0" Valid="0">
-        <Description Translatable="1">A filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
+        <Description Translatable="1">Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5350,7 +5350,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Loader::Agent::CommonCSS###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of CSS files to always load for the agent interface.</Description>
+        <Description Translatable="1">List of CSS files to always be loaded for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5376,7 +5376,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Loader::Agent::CommonCSS::IE7###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of IE7-specific CSS files to always load for the agent interface.</Description>
+        <Description Translatable="1">List of IE7-specific CSS files to always be loaded for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5394,7 +5394,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Loader::Agent::CommonCSS::IE8###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of IE8-specific CSS files to always load for the agent interface.</Description>
+        <Description Translatable="1">List of IE8-specific CSS files to always be loaded for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5404,7 +5404,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Loader::Agent::CommonJS###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of JS files to always load for the agent interface.</Description>
+        <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5446,7 +5446,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Loader::Customer::CommonCSS###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of CSS files to always load for the customer interface.</Description>
+        <Description Translatable="1">List of CSS files to always be loaded for the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5463,7 +5463,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Loader::Customer::CommonCSS::IE7###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of IE7-specific CSS files to always load for the customer interface.</Description>
+        <Description Translatable="1">List of IE7-specific CSS files to always be loaded for the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5473,7 +5473,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Loader::Customer::CommonCSS::IE8###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of IE8-specific CSS files to always load for the customer interface.</Description>
+        <Description Translatable="1">List of IE8-specific CSS files to always be loaded for the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5482,7 +5482,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Loader::Customer::CommonJS###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of JS files to always load for the customer interface.</Description>
+        <Description Translatable="1">List of JS files to always be loaded for the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
