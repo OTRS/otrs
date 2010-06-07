@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.Accessibility.UnitTest.js - UnitTests
+// Core.UI.Accessibility.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.Form.UnitTest.js,v 1.1 2010-05-31 09:09:34 mg Exp $
+// $Id: Core.Form.UnitTest.js,v 1.1 2010-06-07 08:51:10 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -13,10 +13,10 @@
 
 var OTRS = OTRS || {};
 
-OTRS.Form = (function (Namespace) {
+Core.Form = (function (Namespace) {
     Namespace.RunUnitTests = function(){
-        module('OTRS.Form');
-        test('OTRS.Form.Init()', function(){
+        module('Core.Form');
+        test('Core.Form.Init()', function(){
 
             expect(2);
 
@@ -31,7 +31,7 @@ OTRS.Form = (function (Namespace) {
             /*
              * Run the tests
              */
-            OTRS.Form.Init();
+            Core.Form.Init();
 
             equals($('.Wrap_physical')
                 .attr('wrap'), 'physical', 'wrap="physical"');
@@ -46,4 +46,4 @@ OTRS.Form = (function (Namespace) {
     };
 
     return Namespace;
-}(OTRS.Form || {}));
+}(Core.Form || {}));

@@ -1,8 +1,8 @@
 // --
-// OTRS.UI.Accessibility.UnitTest.js - UnitTests
+// Core.UI.Accessibility.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.UI.Accessibility.UnitTest.js,v 1.1 2010-05-31 09:09:34 mg Exp $
+// $Id: Core.UI.Accessibility.UnitTest.js,v 1.1 2010-06-07 08:51:10 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -12,13 +12,13 @@
 "use strict";
 
 var OTRS = OTRS || {};
-OTRS.UI = OTRS.UI || {};
-OTRS.UI.Accessibility = OTRS.UI.Accessibility || {};
+Core.UI = Core.UI || {};
+Core.UI.Accessibility = Core.UI.Accessibility || {};
 
-OTRS.UI.Accessibility = (function (Namespace) {
+Core.UI.Accessibility = (function (Namespace) {
     Namespace.RunUnitTests = function(){
-        module('OTRS.UI.Accessibility');
-        test('OTRS.UI.Accessibility.Init()', function(){
+        module('Core.UI.Accessibility');
+        test('Core.UI.Accessibility.Init()', function(){
 
             expect(8);
 
@@ -39,7 +39,7 @@ OTRS.UI.Accessibility = (function (Namespace) {
             /*
              * Run the tests
              */
-            OTRS.UI.Accessibility.Init();
+            Core.UI.Accessibility.Init();
 
             equals($('.ARIARoleBanner')
                 .attr('role'), 'banner', 'Role banner');
@@ -67,4 +67,4 @@ OTRS.UI.Accessibility = (function (Namespace) {
     };
 
     return Namespace;
-}(OTRS.UI.Accessibility || {}));
+}(Core.UI.Accessibility || {}));

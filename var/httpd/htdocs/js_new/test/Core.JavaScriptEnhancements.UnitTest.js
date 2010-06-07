@@ -1,8 +1,8 @@
 // --
-// OTRS.JavaScriptEnhancements.UnitTest.js - UnitTests
+// Core.JavaScriptEnhancements.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: OTRS.JavaScriptEnhancements.UnitTest.js,v 1.1 2010-05-31 09:09:34 mg Exp $
+// $Id: Core.JavaScriptEnhancements.UnitTest.js,v 1.1 2010-06-07 08:51:10 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -13,10 +13,10 @@
 
 var OTRS = OTRS || {};
 
-OTRS.JavaScriptEnhancements = {};
-OTRS.JavaScriptEnhancements.RunUnitTests = function(){
+Core.JavaScriptEnhancements = {};
+Core.JavaScriptEnhancements.RunUnitTests = function(){
 
-    module('OTRS.JavaScriptEnhancements');
+    module('Core.JavaScriptEnhancements');
 
     test('String.trim()', function(){
         expect(4);
