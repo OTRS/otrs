@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.19 2010-06-02 14:25:34 mg Exp $
+# $Id: LayoutLoader.pm,v 1.20 2010-06-07 10:25:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 use Kernel::System::Loader;
 
@@ -111,10 +111,12 @@ sub LoaderCreateAgentCSSCalls {
     my $LoaderAction = $Self->{Action} || 'Login';
     $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
+    my $FrontendModuleRegistration = $Self->{ConfigObject}->Get('Frontend::Module')->{$LoaderAction}
+        || {};
+
     {
 
-        my $AppCSSList = $Self->{ConfigObject}->Get('Frontend::Module')
-            ->{$LoaderAction}->{Loader}->{CSS} || [];
+        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS} || [];
 
         my @FileList = @{$AppCSSList};
 
@@ -128,8 +130,7 @@ sub LoaderCreateAgentCSSCalls {
     }
 
     {
-        my $AppCSSList = $Self->{ConfigObject}->Get('Frontend::Module')
-            ->{$LoaderAction}->{Loader}->{CSS_IE7} || [];
+        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS_IE7} || [];
 
         my @FileList = @{$AppCSSList};
 
@@ -143,8 +144,7 @@ sub LoaderCreateAgentCSSCalls {
     }
 
     {
-        my $AppCSSList = $Self->{ConfigObject}->Get('Frontend::Module')
-            ->{$LoaderAction}->{Loader}->{CSS_IE8} || [];
+        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS_IE8} || [];
 
         my @FileList = @{$AppCSSList};
 
@@ -302,9 +302,12 @@ sub LoaderCreateCustomerCSSCalls {
     # now handle module specific CSS
     my $LoaderAction = $Self->{Action} || 'Login';
     $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
+
+    my $FrontendModuleRegistration
+        = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction} || {};
+
     {
-        my $AppCSSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
-            ->{$LoaderAction}->{Loader}->{CSS} || [];
+        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS} || [];
 
         my @FileList = @{$AppCSSList};
 
@@ -318,8 +321,7 @@ sub LoaderCreateCustomerCSSCalls {
     }
 
     {
-        my $AppCSSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
-            ->{$LoaderAction}->{Loader}->{CSS_IE7} || [];
+        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS_IE7} || [];
 
         my @FileList = @{$AppCSSList};
 
@@ -333,8 +335,7 @@ sub LoaderCreateCustomerCSSCalls {
     }
 
     {
-        my $AppCSSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
-            ->{$LoaderAction}->{Loader}->{CSS_IE8} || [];
+        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS_IE8} || [];
 
         my @FileList = @{$AppCSSList};
 
@@ -511,6 +512,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2010-06-02 14:25:34 $
+$Revision: 1.20 $ $Date: 2010-06-07 10:25:41 $
 
 =cut
