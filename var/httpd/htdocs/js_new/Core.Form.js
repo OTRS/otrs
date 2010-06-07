@@ -2,7 +2,7 @@
 // Core.Form.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.Form.js,v 1.2 2010-06-07 11:46:43 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -53,6 +53,8 @@ Core.Form = (function (TargetNS) {
         $Form
             .find("input:not([type='hidden']), textarea, select")
             .attr('readonly', 'readonly')
+            // trigger custom "readonly" event for Core.UI.IE7Fixes
+            .trigger('readonly')
             .end()
             .find('button')
             .attr('disabled', 'disabled');
@@ -74,6 +76,8 @@ Core.Form = (function (TargetNS) {
         $Form
             .find("input:not([type=hidden]), textarea, select")
             .removeAttr('readonly')
+            // trigger custom "readonly" event for Core.UI.IE7Fixes
+            .trigger('readonly')
             .end()
             .find('button')
             .removeAttr('disabled');
