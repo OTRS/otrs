@@ -2,7 +2,7 @@
 // Core.UI.IE7Fixes.js - provides IE7 specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.IE7Fixes.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.UI.IE7Fixes.js,v 1.2 2010-06-07 11:36:25 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -64,7 +64,15 @@ Core.UI.IE7Fixes = (function (TargetNS) {
 
         // Add ReadonlyClass for readonly inputs
         $('input[type=text][readonly=true], input[type=password][readonly=true], textarea[readonly=true]')
-            .addClass(ReadonlyClass);
+            .addClass(ReadonlyClass)
+            .bind('readonly', function() {
+                if (!$(this).attr('readonly')) {
+                    $(this).removeClass(ReadonlyClass);
+                }
+                else {
+                    $(this).addClass(ReadonlyClass);
+                }
+            });
     };
 
     return TargetNS;
