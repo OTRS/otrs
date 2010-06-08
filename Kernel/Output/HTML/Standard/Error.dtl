@@ -2,7 +2,7 @@
 # Error.dtl - provides HTML Error screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Error.dtl,v 1.22 2010-06-01 14:46:19 mn Exp $
+# $Id: Error.dtl,v 1.23 2010-06-08 08:50:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,6 +52,7 @@ $Data{"BackendTraceback"}"
                 </div>
             </div>
         </div>
+<!-- dtl:block:ShowBackendTraceback -->
         <div class="WidgetGradient Short Collapsed SpacingTop">
             <div class="Header">
                 <div class="WidgetAction Toggle">
@@ -59,9 +60,10 @@ $Data{"BackendTraceback"}"
                 </div>
                 <h2>$Text{"Error Details"}</h2>
             </div>
-            <div class="Content Hidden">
-                <code>$Data{"BackendTraceback"}</code>
+            <div class="Content">
+                <code>Backend $Data{"BackendTraceback"}</code>
             </div>
         </div>
+<!-- dtl:block:ShowBackendTraceback -->
     </div>
 </div>
