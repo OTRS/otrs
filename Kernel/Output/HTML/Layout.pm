@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.252 2010-06-08 08:50:09 mg Exp $
+# $Id: Layout.pm,v 1.253 2010-06-08 09:09:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.252 $) [1];
+$VERSION = qw($Revision: 1.253 $) [1];
 
 =head1 NAME
 
@@ -1284,7 +1284,7 @@ sub Header {
 
     # set rtl if needed
     if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
-        $Param{BodyClass} = 'RTL';
+        $Param{RTLClass} = 'RTL';
     }
 
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
@@ -1369,7 +1369,7 @@ sub PrintHeader {
 
     # set rtl if needed
     if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
-        $Param{BodyClass} = 'RTL';
+        $Param{RTLClass} = 'RTL';
     }
 
     my $Output = $Self->Output( TemplateFile => 'PrintHeader', Data => \%Param );
@@ -2999,7 +2999,7 @@ sub CustomerHeader {
 
     # set rtl if needed
     if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
-        $Param{BodyClass} = 'RTL';
+        $Param{RTLClass} = 'RTL';
     }
 
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
@@ -4618,6 +4618,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.252 $ $Date: 2010-06-08 08:50:09 $
+$Revision: 1.253 $ $Date: 2010-06-08 09:09:59 $
 
 =cut
