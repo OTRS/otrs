@@ -1,0 +1,40 @@
+# --
+# FooterJS.dtl - provides global HTML footer JavaScript
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: FooterJS.dtl,v 1.1 2010-06-08 11:24:56 mg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}otrs.js"></script>
+
+<!-- dtl:block:CommonJS -->
+<script type="text/javascript" src="$Config{"Frontend::WebPath"}$QData{"JSDirectory"}/$QData{"Filename"}"></script>
+<!-- dtl:block:CommonJS -->
+
+<!-- dtl:block:ModuleJS -->
+<script type="text/javascript" src="$Config{"Frontend::WebPath"}$QData{"JSDirectory"}/$QData{"Filename"}"></script>
+<!-- dtl:block:ModuleJS -->
+
+<script type="text/javascript">//<![CDATA[
+    "use strict";
+    Core.App.Ready(function () {
+        Core.Config.AddConfig({
+            Baselink: '$Env{"Baselink"}',
+            CGIHandle: '$Env{"CGIHandle"}',
+            Action: '$Env{"Action"}',
+            SessionIDCookie: '$Env{"SessionIDCookie"}',
+            SessionName: '$Config{"SessionName"}',
+            SessionID: '$Env{"SessionID"}',
+            CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
+            Images: '$Config{"Frontend::ImagePath"}',
+            UserLanguage: '$Env{"UserLanguage"}',
+            AnimationEnabled: $Config{"Frontend::AnimationEnabled"}
+        });
+        Core.Agent.Init();
+<!-- dtl:js_on_document_complete_placeholder -->
+    });
+//]]></script>
