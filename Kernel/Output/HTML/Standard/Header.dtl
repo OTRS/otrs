@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.93 2010-06-08 11:28:01 mg Exp $
+# $Id: Header.dtl,v 1.94 2010-06-08 11:30:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +21,7 @@ Pragma: no-cache
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 $Include{"Copyright"}
-<head>
 $Include{"HTMLHead"}
-</head>
 <body class="$QData{"BodyClass"}">
     <a name="Top"></a>
     <div id="Header" class="ARIARoleBanner">
