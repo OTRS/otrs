@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.49 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketBulk.pm,v 1.50 2010-06-09 18:24:34 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,7 +69,9 @@ sub Run {
             Comment => 'You need min. one selected Ticket!',
         );
     }
-    my $Output = $Self->{LayoutObject}->Header();
+    my $Output .= $Self->{LayoutObject}->Header(
+        Type => 'Small',
+    );
 
     # process tickets
     for my $TicketID (@TicketIDs) {
@@ -381,7 +383,9 @@ sub Run {
     }
 
     $Output .= $Self->_Mask( %Param, TicketIDs => \@TicketIDs );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $Self->{LayoutObject}->Footer(
+        Type => 'Small',
+    );
     return $Output;
 }
 
