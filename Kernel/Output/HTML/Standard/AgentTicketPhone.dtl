@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.77 2010-06-09 13:10:51 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.78 2010-06-09 14:22:03 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,8 +16,8 @@ $Include{"AgentCustomerSearch"}
 
 function submit_compose() {
     // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
-    if (typeof Core.UI.RichTextEditor.UpdateLinkedFiled == 'function') {
-        Core.UI.RichTextEditor.UpdateLinkedFiled($('#RichText'));
+    if (typeof Core.UI.RichTextEditor.UpdateLinkedField == 'function') {
+        Core.UI.RichTextEditor.UpdateLinkedField($('#RichText'));
     }
 
     if (document.compose.TypeID && document.compose.TypeID.value == "") {
