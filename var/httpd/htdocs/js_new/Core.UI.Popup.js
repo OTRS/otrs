@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.UI.Popup.js,v 1.2 2010-06-09 09:19:34 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -38,12 +38,7 @@ Core.UI.Popup = (function (TargetNS) {
     }
 
     function GetPopupObjectByType(Type) {
-        $.each(OpenPopups, function (Key, Value) {
-            if (Key === Type) {
-                return Value;
-            }
-        });
-        return;
+        return OpenPopups[Type];
     }
 
     /**
@@ -99,14 +94,14 @@ Core.UI.Popup = (function (TargetNS) {
      * @function
      * @description
      *      This function closes a opened popup.
-     * @param {String or Object} Popup The type of a popup or thw window object
+     * @param {String or Object} Popup The type of a popup or the window object
      * @return nothing
      */
     TargetNS.ClosePopup = function (Popup) {
         if (typeof Popup === 'String') {
             Popup = GetPopupObjectByType(Popup);
         }
-        if (Popup && Popup instanceof window) {
+        if (Popup && Popup instanceof Window) {
             Popup.close();
             CheckOpenPopups();
         }
