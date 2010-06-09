@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.19 2010-06-09 12:25:03 mg Exp $
+// $Id: otrs.js,v 1.20 2010-06-09 14:22:32 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ var UI = {};
 
 // init
 Core.Init = function () {
-    Core.ImagePreload( [OTRS.Config.Get('Images') + 'loading.gif'] );
+    Core.ImagePreload( [Core.Config.Get('Images') + 'loading.gif'] );
 }
 
 // preload of loading image (to load it at page load time)
