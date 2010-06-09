@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.2 2010-06-09 09:19:34 mg Exp $
+// $Id: Core.UI.Popup.js,v 1.3 2010-06-09 11:30:32 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ Core.UI.Popup = (function (TargetNS) {
         PopupDefaultProfile = 'Default';
 
     PopupProfiles = {
-        'Default': "dependent=yes,height=500,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=800"
+        'Default': "dependent=yes,height=500,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000"
     };
 
     function CheckOpenPopups() {
