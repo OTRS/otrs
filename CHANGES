@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1226 2010-06-02 11:01:54 mb Exp $
+# $Id: CHANGES,v 1.1227 2010-06-09 10:47:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/06/09) Fixed bug#5447 - Added SMTP TLS support, to send out emails via
+    mail servers (MS Exchange!) that require this.
  - (2010/06/02) Fixed bug#5426 - Can't set timezone for customer users.
  - (2010/05/28) Fixed bug#5262 - Sort by "pending time" includes ticket with no
     pending state.
