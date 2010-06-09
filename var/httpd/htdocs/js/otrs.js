@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.18 2010-04-22 18:56:47 mn Exp $
+// $Id: otrs.js,v 1.19 2010-06-09 12:25:03 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -31,8 +31,8 @@ Core.ImagePreload = function(FieldName) {
 Core.AJAXContentUpdate = function(Element, url, OnLoad, OnLoaded ) {
 
     // add sessionid if no cookies are used
-    if ( !OTRS.Config.Get('SessionIDCookie') ) {
-        url = url + '&' + OTRS.Config.Get('SessionName') + '=' + OTRS.Config.Get('SessionID') + '&' + OTRS.Config.Get('CustomerPanelSessionName') + '=' + OTRS.Config.Get('SessionID');
+    if ( !Core.Config.Get('SessionIDCookie') ) {
+        url = url + '&' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID') + '&' + Core.Config.Get('CustomerPanelSessionName') + '=' + Core.Config.Get('SessionID');
     }
 
     $.ajax({
@@ -118,11 +118,11 @@ Core.AJAXURLGet = function(Subaction, Changed, FieldName, FieldName2) {
             ParamPart = ParamPart + '&' + FieldName[F] + '=' + ParamEncode;
         }
     }
-    var url = OTRS.Config.Get('Baselink') + 'Action=' + OTRS.Config.Get('Action') + '&Subaction=' + Subaction + '&ElementChanged=' + Changed + ParamPart;
+    var url = Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + '&Subaction=' + Subaction + '&ElementChanged=' + Changed + ParamPart;
 
     // add sessionid if no cookies are used
-    if ( !OTRS.Config.Get('SessionIDCookie') ) {
-        url = url + '&' + OTRS.Config.Get('SessionName') + '=' + OTRS.Config.Get('SessionID') + '&' + OTRS.Config.Get('CustomerPanelSessionName') + '=' + OTRS.Config.Get('SessionID');
+    if ( !Core.Config.Get('SessionIDCookie') ) {
+        url = url + '&' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID') + '&' + Core.Config.Get('CustomerPanelSessionName') + '=' + Core.Config.Get('SessionID');
     }
     return url;
 }
@@ -172,7 +172,7 @@ Core.AJAXLoadingImage = function(Type, FieldName) {
     for (F=0;F<FieldName.length;F++) {
         if (document.compose[FieldName[F]] && document.getElementById('AJAXImage' + FieldName[F])) {
             if (Type == 'Load') {
-                document.getElementById('AJAXImage' + FieldName[F]).innerHTML="<img src=\"" + OTRS.Config.Get('Images') + "loading.gif\" border=\"0\">";
+                document.getElementById('AJAXImage' + FieldName[F]).innerHTML="<img src=\"" + Core.Config.Get('Images') + "loading.gif\" border=\"0\">";
             }
             else {
                 document.getElementById('AJAXImage' + FieldName[F]).innerHTML="";
@@ -196,10 +196,10 @@ Core.AJAXFunctionCall = function(Param) {
         Url = Param['Url'];
     }
     else {
-        Url = OTRS.Config.Get('Baselink') + 'Action=' + OTRS.Config.Get('Action');
+        Url = Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action');
         // add sessionid if no cookies are used
-        if ( !OTRS.Config.Get('SessionIDCookie') ) {
-            Url = Url + '&' + OTRS.Config.Get('SessionName') + '=' + OTRS.Config.Get('SessionID') + '&' + OTRS.Config.Get('CustomerPanelSessionName') + '=' + OTRS.Config.Get('SessionID');
+        if ( !Core.Config.Get('SessionIDCookie') ) {
+            Url = Url + '&' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID') + '&' + Core.Config.Get('CustomerPanelSessionName') + '=' + Core.Config.Get('SessionID');
         }
     }
 
