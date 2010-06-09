@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.20 2009-12-31 10:47:25 mn Exp $
+# $Id: AgentCustomerSearch.pm,v 1.21 2010-06-09 09:27:46 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +51,8 @@ sub Run {
     if ( !$Self->{Subaction} ) {
 
         # get needed params
-        my $Search = $Self->{ParamObject}->GetParam( Param => 'q' ) || '';
+        my $Search     = $Self->{ParamObject}->GetParam( Param => 'Term' )       || '';
+        my $MaxResults = $Self->{ParamObject}->GetParam( Param => 'MaxResults' ) || '';
 
         # workaround, all auto completion requests get posted by utf8 anyway
         # convert any to 8bit string if application is not running in utf8
@@ -70,6 +71,8 @@ sub Run {
 
         # build data
         my @Data;
+        my $MaxResultCount = $MaxResults;
+        RESULT:
         for my $CustomerUserID (
             sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} }
             keys %CustomerUserList
@@ -87,18 +90,15 @@ sub Run {
                 CustomerValue      => $CustomerUserList{$CustomerUserID},
                 CustomerValuePlain => $CustomerValuePlain,
             };
+
+            $MaxResultCount--;
+            last RESULT if $MaxResultCount <= 0;
         }
 
-        # build output (not really JSON)
-        for my $Row (@Data) {
-            $Row->{CustomerKey}        =~ s/(\r|\n)//eg;
-            $Row->{CustomerValue}      =~ s/(\r|\n)//eg;
-            $Row->{CustomerValuePlain} =~ s/(\r|\n)//eg;
-            $JSON
-                .= $Row->{CustomerKey} . '|'
-                . $Row->{CustomerValue} . '|'
-                . $Row->{CustomerValuePlain} . "\n";
-        }
+        # build JSON output
+        $JSON = $Self->{LayoutObject}->JSONEncode(
+            Data => \@Data,
+        );
     }
 
     # get customer info

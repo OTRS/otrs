@@ -2,197 +2,22 @@
 # AgentCustomerSearch.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.dtl,v 1.25 2010-06-04 11:19:32 mn Exp $
+# $Id: AgentCustomerSearch.dtl,v 1.26 2010-06-09 09:27:45 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-# include Autocompletion plugin
-<script src="$Config{"Frontend::JavaScriptPath"}thirdparty/jquery/jquery.bgiframe.min.js" type="text/javascript"></script>
-<script src="$Config{"Frontend::JavaScriptPath"}thirdparty/jquery/jquery.autocomplete.min.js" type="text/javascript"></script>
+<!-- dtl:block:CustomerSearchAutoComplete -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-function ReplaceOverviewControlLinks () {
-    var ControlFields = document.getElementsByName("OverviewControl");
-    for (var i = 0; i < ControlFields.length; i++) {
-        var Element = ControlFields[i];
-        Element.href = 'javascript:OverviewControlNew("' + Element.href +  '");';
-    }
-}
-
-function OverviewControlNew( Link ) {
-    Core.AJAXFunctionCall( { Url: Link, Callback: function(Response) {
-        // show customer tickets
-        if ( document.getElementById('CustomerTickets') ) {
-            document.getElementById('CustomerTickets').innerHTML = Response.CustomerTicketsHTMLString;
-            ReplaceOverviewControlLinks();
-        }
-    } } );
-}
-
-function GetCustomerInfo( CustomerUserID ) {
-    var Data = {
-        Action:         'AgentCustomerSearch',
-        Subaction:      'CustomerInfo',
-        CustomerUserID: CustomerUserID
-    };
-    Core.AJAXFunctionCall( { Url: Core.Config.Get('Baselink'), Data: Data, Callback: function(Response) {
-        // set CustomerID
-        document.compose.CustomerID.value = Response.CustomerID;
-        if ( document.getElementById('ShowCustomerID') ) {
-            document.getElementById('ShowCustomerID').innerHTML = Response.CustomerID;
-        }
-
-        // show customer info table
-        if ( document.getElementById('CustomerTable') ) {
-            document.getElementById('CustomerTable').innerHTML = Response.CustomerTableHTMLString;
-        }
-
-        // only execute this part, if in AgentTicketEmail or AgentTicketPhone
-        // PriorityID only exists in this two modules
-        if (window.AJAXUpdate && document.compose.PriorityID) {
-            // reset service
-            if ( document.compose.ServiceID ) {
-                document.compose.ServiceID.selectedIndex = 0;
-            }
-            // update services (trigger ServiceID change event)
-            Core.AJAXUpdate('AJAXUpdate', 'ServiceID', ['Dest', 'SelectedCustomerUser', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'OwnerAll', 'ResponsibleAll', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16'], ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
-        }
-    } } );
-}
-
-function GetCustomerTickets( CustomerUserID, CustomerID ) {
-    // check if customer tickets should be shown
-    if ( isNaN(parseInt('$Config{"Ticket::Frontend::ShowCustomerTickets"}')) ) {
-        return;
-    }
-
-    var Data = {
-        Action:         'AgentCustomerSearch',
-        Subaction:      'CustomerTickets',
-        CustomerUserID: CustomerUserID,
-        CustomerID:     CustomerID
-    };
-    Core.AJAXFunctionCall( { Url: Core.Config.Get('Baselink'), Data: Data, Callback: function(Response) {
-        // show customer tickets
-        if ( document.getElementById('CustomerTickets') ) {
-            document.getElementById('CustomerTickets').innerHTML = Response.CustomerTicketsHTMLString;
-
-            // replace links
-            ReplaceOverviewControlLinks();
-        }
-    } } );
-}
-
-var CustomerInfoBackup = '';
-var CustomerEmailBackup = '';
-var CustomerKeyBackup = '';
-
-$(document).ready(function() {
-    // get customer tickets for AgentTicketCustomer
-    if (document.compose.CustomerUserID && document.compose.CustomerUserID.value) {
-        GetCustomerTickets( document.compose.CustomerUserID.value, document.compose.CustomerID.value );
-    }
-
-    // get customer tickets for AgentTicketPhone and AgentTicketEmail
-    if (document.compose.SelectedCustomerUser && document.compose.SelectedCustomerUser.value) {
-        GetCustomerTickets( document.compose.SelectedCustomerUser.value );
-    }
-
-    // just save the initial state of the customer info
-    if ( document.getElementById('CustomerTable') ) {
-        CustomerInfoBackup = document.getElementById('CustomerTable').innerHTML;
-    }
-
-<!-- dtl:block:CustomerSearchAutoComplete -->
-    var sURL = Core.Config.Get( 'Baselink' );
-    $("#myAutoCompleteInput").autocomplete(sURL, {
-        delay:          $QData{"queryDelay"},
-        extraParams:    {
-                            Action: 'AgentCustomerSearch'
-                        },
-        max:            $QData{"maxResultsDisplayed"},
-        minChars:       $QData{"minQueryLength"},
-        formatItem:     function(Row) {
-                            var CustomerKey = Row[0];
-                            var CustomerValue = Row[1];
-                            var SearchOutput = CustomerValue + " (" + CustomerKey + ")";
-                            // adjust width of result container, only when dynamic width is enabled
-                            if ( parseInt('$Config{"Ticket::Frontend::CustomerSearchAutoComplete::DynamicWidth"}') ) {
-                                var DummyElement = $('<div id="DummyElement" style="visibility:hidden"><span>' + SearchOutput + '</span></div>').appendTo('body');
-                                var ResultWidth = DummyElement.find('span').width();
-                                DummyElement.remove();
-
-                                var ContainerWidth = $('div.ac_results').width();
-                                if ( ResultWidth > ContainerWidth) {
-                                   $("#myAutoCompleteInput").setOptions( { width: ResultWidth } );
-                                }
-                            }
-                            return SearchOutput;
-                        },
-        formatResult:   function(Data) {
-                            var CustomerValuePlain = Data[2];
-                            return CustomerValuePlain;
-                        }
-    });
-    $("#myAutoCompleteInput").result(function(event, data, formatted) {
-        var CustomerKey = data[0];
-        CustomerKeyBackup = data[0];
-        CustomerEmailBackup = data[2];
-
-        // set hidden field SelectedCustomerUser
-        if (document.compose.SelectedCustomerUser) {
-            document.compose.SelectedCustomerUser.value = CustomerKey;
-        }
-
-        // needed for AgentTicketCustomer.pm
-        if (document.compose.CustomerUserID) {
-            document.compose.CustomerUserID.value = CustomerKey;
-
-            // set hidden field 'CustomerUserOption'
-            var input = document.createElement('input');
-            input.setAttribute("type", "hidden");
-            input.setAttribute("name", "CustomerUserOption");
-            input.value = CustomerKey;
-            document.compose.appendChild(input);
-        }
-
-        // get customer tickets
-        GetCustomerTickets(CustomerKey);
-
-        // get customer data for customer info table
-        GetCustomerInfo(CustomerKey);
-    });
-
-    $("#myAutoCompleteInput").blur(function() {
-        var FieldValue = $('#myAutoCompleteInput').val();
-        if (FieldValue != CustomerEmailBackup && FieldValue != CustomerKeyBackup) {
-            if (document.compose.SelectedCustomerUser) {
-                document.compose.SelectedCustomerUser.value = '';
-            }
-            if (document.compose.CustomerUserID) {
-                document.compose.CustomerUserID.value = '';
-            }
-            if (document.compose.CustomerID) {
-                document.compose.CustomerID.value = '';
-            }
-            if (document.compose.CustomerUserOption) {
-                document.compose.CustomerUserOption.value = '';
-            }
-
-            $('#CustomerTickets').empty();
-
-            if ( document.getElementById('ShowCustomerID') ) {
-                document.getElementById('ShowCustomerID').innerHTML = '';
-            }
-
-            // show customer info table
-            if ( document.getElementById('CustomerTable') ) {
-                document.getElementById('CustomerTable').innerHTML = CustomerInfoBackup;
-            }
-        }
-    });
-<!-- dtl:block:CustomerSearchAutoComplete -->
-});
+    Core.Config.Set('Autocomplete.QueryDelay', "$QData{"queryDelay"}");
+    Core.Config.Set('Autocomplete.MaxResultsDisplayed', "$QData{"maxResultsDisplayed"}");
+    Core.Config.Set('Autocomplete.MinQueryLength', "$QData{"minQueryLength"}");
+    Core.Config.Set('Autocomplete.DynamicWidth', "$Config{"Ticket::Frontend::CustomerSearchAutoComplete::DynamicWidth"}");
+    Core.Config.Set('Autocomplete.ShowCustomerTickets', "$Config{"Ticket::Frontend::ShowCustomerTickets"}");
+    Core.Agent.CustomerSearch.Init($("#myAutoCompleteInput"));
 //]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:CustomerSearchAutoComplete -->

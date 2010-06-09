@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.309 2010-06-07 22:32:26 en Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.310 2010-06-09 09:27:45 mn Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -5414,10 +5414,12 @@ Your OTRS Notification Master
                 <Item>thirdparty/jquery-ui-1.8/jquery-ui-core.js</Item>
                 <Item>thirdparty/jquery-ui-1.8/jquery-ui-widget.js</Item>
                 <Item>thirdparty/jquery-ui-1.8/jquery-ui-mouse.js</Item>
+                <Item>thirdparty/jquery-ui-1.8/jquery-ui-position.js</Item>
                 <Item>thirdparty/jquery-ui-1.8/jquery-ui-draggable.js</Item>
                 <Item>thirdparty/jquery-ui-1.8/jquery-ui-sortable.js</Item>
                 <Item>thirdparty/jquery-ui-1.8/jquery-ui-datepicker.js</Item>
                 <Item>thirdparty/jquery-ui-1.8/jquery-ui-resizable.js</Item>
+                <Item>thirdparty/jquery-ui-1.8/jquery-ui-autocomplete.js</Item>
                 <Item>thirdparty/jquery-validate-1.7/jquery.validate.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Config.js</Item>
