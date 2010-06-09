@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.AJAX.js,v 1.2 2010-06-09 10:58:38 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -117,12 +117,11 @@ Core.AJAX = (function (TargetNS) {
             if ($Element.length && Data) {
                 // Select elements
                 if ($Element.is('select')) {
-                    $Element.empty();
                     ElementData = Data[Value];
                     if (ElementData) {
+                        $Element.empty();
                         $.each(ElementData, function (Index, Value) {
-                            // Workaround: Overwrite Value again because of wrong HTML encoding... (needed?)
-                            $Element.append(new Option(Value[1], Value[0], Value[2], Value[3])).html(Value[1]);
+                            $Element.append(new Option(Value[1], Value[0], Value[2], Value[3]));
                         });
                     }
                 }
@@ -140,14 +139,21 @@ Core.AJAX = (function (TargetNS) {
      * @function
      *      Serializes the form data into a query string
      * @param {jQueryObject} $Element The jQuery object of the form  or any element within this form that should be serialized
+     * @param {Object} Data Elements (Keys) which should not be included in the serialized form string (optional)
      * @return {string} The query string
      */
-    TargetNS.SerializeForm = function ($Element) {
+    TargetNS.SerializeForm = function ($Element, Data) {
         var QueryString = "";
+        if (typeof Data === 'undefined') {
+            Data = {};
+        }
         if (isJQueryObject($Element) && $Element.length) {
             $Element = $Element.closest('form');
             $Element.find('input:not(:file), textarea, select').filter(':not([disabled=disabled])').each(function () {
-                QueryString += $(this).attr('name') + '=' + encodeURIComponent($(this).val()) + ";";
+                // only add element to the string, if there is no key in the data hash with the same name
+                if (typeof Data[$(this).attr('name')] === 'undefined') {
+                    QueryString += $(this).attr('name') + '=' + encodeURIComponent($(this).val()) + ";";
+                }
             });
         }
         return QueryString;
@@ -164,12 +170,12 @@ Core.AJAX = (function (TargetNS) {
      */
     TargetNS.FormUpdate = function ($EventElement, Subaction, ChangedElement, FieldsToUpdate) {
         var URL = Core.Config.Get('Baselink'),
-            QueryString = TargetNS.SerializeForm($EventElement),
-            Data = GetAdditionalDefaultData();
+            Data = GetAdditionalDefaultData(),
+            QueryString;
 
         Data.Subaction = Subaction;
         Data.ElementChanged = ChangedElement;
-        QueryString += SerializeData(Data);
+        QueryString = TargetNS.SerializeForm($EventElement, Data) + SerializeData(Data);
 
         $.each(FieldsToUpdate, function (Index, Value) {
             ToggleAJAXLoader(Value);
