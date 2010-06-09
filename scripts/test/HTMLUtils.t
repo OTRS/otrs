@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.17 2010-03-17 19:43:18 dz Exp $
+# $Id: HTMLUtils.t,v 1.18 2010-06-09 08:11:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -603,5 +603,19 @@ for my $Test (@Tests) {
         $Test->{Name},
     );
 }
+
+#my $XML = $Self->{MainObject}->FileRead(
+#    Location => $Self->{ConfigObject}->Get('Home')
+#        . '/scripts/test/sample/HTMLUtils/obstacles_upd2.xml',
+#);
+#$XML = ${$XML};
+#
+#my $Target;
+#
+#my $HTML = $Self->{HTMLUtilsObject}->LinkQuote(
+#    String    => \$XML,
+#);
+#
+#print STDERR ${$HTML};
 
 1;
