@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.75 2010-06-09 08:30:38 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.76 2010-06-09 11:57:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -107,7 +107,7 @@ function clear_field() {
     <input type="hidden" name="OwnerAll" value="$QData{"OwnerAll"}"/>
     <input type="hidden" name="ResponsibleAll" value="$QData{"ResponsibleAll"}"/>
     <input type="hidden" name="PreSelectedCustomerUser" value=""/>
-    <input type="hidden" name="SelectedCustomerUser" value="$QData{"CustomerUser"}"/>
+    <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="$QData{"CustomerUser"}"/>
     <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
     <input type="hidden" name="LinkTicketID" value="$QData{"LinkTicketID"}"/>
 
@@ -122,11 +122,11 @@ function clear_field() {
             <div class="LayoutFixedSidebar SidebarLast">
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-                <div class="SidebarColumn WidgetGradient Short">
+                <div id="CustomerInfo" class="SidebarColumn WidgetGradient Short">
                     <div class="Header">
                         <h2>$Text{"Customer Information"}</h2>
                     </div>
-                    <div class="Content" id="CustomerTable">
+                    <div class="Content">
                         $Data{"CustomerTable"}
                     </div>
                 </div>
@@ -143,19 +143,10 @@ function clear_field() {
                         <div class="Clear"></div>
 <!-- dtl:block:TicketType -->
 
-                        <label for="myAutoCompleteInput">$Text{"From customer"}:</label>
+                        <label for="CustomerAutoComplete">$Text{"From customer"}:</label>
                         <div class="Field">
 
-<!-- dtl:block:CustomerSearchAutoCompleteDivStart-->
-                            <div id="myAutoComplete" class="myAutoComplete">
-<!-- dtl:block:CustomerSearchAutoCompleteDivStart -->
-
-                                <input id="myAutoCompleteInput" type="text" name="From" value="$QData{"From"}"/>
-
-<!-- dtl:block:CustomerSearchAutoCompleteDivEnd -->
-                                <div id="myAutoCompleteContainer"></div>
-                            </div>
-<!-- dtl:block:CustomerSearchAutoCompleteDivEnd -->
+                            <input id="CustomerAutoComplete" type="text" name="From" value="$QData{"From"}" class="W75pc"/>
 
 <!-- dtl:block:CustomerSearchAutoCompleteFromInvalid -->
                             <div class"Clear"></div>
@@ -177,6 +168,7 @@ function clear_field() {
 
                         </div>
                         <div class="Clear"></div>
+
                         <label for="Dest">$Text{"To queue"}:</label>
                         <div class="Field">
                             $Data{"ToStrg"}

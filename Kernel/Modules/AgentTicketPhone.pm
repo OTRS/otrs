@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.137 2010-06-09 08:28:14 mg Exp $
+# $Id: AgentTicketPhone.pm,v 1.138 2010-06-09 11:57:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.137 $) [1];
+$VERSION = qw($Revision: 1.138 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1396,12 +1396,6 @@ sub _MaskPhoneNew {
                 typeAhead           => $AutoCompleteConfig->{TypeAhead}           || 'false',
                 maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
             },
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'CustomerSearchAutoCompleteDivStart',
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'CustomerSearchAutoCompleteDivEnd',
         );
     }
     else {
