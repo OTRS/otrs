@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.330 2010-06-04 11:19:32 mn Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.331 2010-06-09 08:49:30 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -7225,6 +7225,7 @@ $QData{"Signature"}
                     <Name Translatable="1">Phone Ticket</Name>
                     <Image>phone-new.png</Image>
                     <Link>Action=AgentTicketPhone</Link>
+                    <LinkOption>onclick="Core.UI.Popup.OpenPopup('?Action=AgentTicketPhone', 'Action'); return false;"</LinkOption>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
@@ -7260,6 +7261,7 @@ $QData{"Signature"}
                     <Name Translatable="1">Email Ticket</Name>
                     <Image>mail_new.png</Image>
                     <Link>Action=AgentTicketEmail</Link>
+                    <LinkOption>onclick="Core.UI.Popup.OpenPopup('?Action=AgentTicketEmail', 'Action'); return false;"</LinkOption>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
