@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.74 2010-06-08 22:54:43 dz Exp $
+# $Id: AgentTicketPhone.dtl,v 1.75 2010-06-09 08:30:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -240,7 +240,7 @@ function clear_field() {
 
                         <label for="Subject">$Text{"Subject"}:</label>
                         <div class="Field">
-                            <input class="W75pc" type="text" name="Subject" value="$QData{"Subject"}"/>
+                            <input class="W75pc" type="text" name="Subject" id="Subject" value="$QData{"Subject"}"/>
                             <span class="Error Small">$Text{"$Data{"Subject invalid"}"}</span>
                         </div>
                         <div class="Clear"></div>
@@ -307,7 +307,7 @@ $Include{"RichTextEditor"}
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="NextTicketStateID">$Text{"Next ticket state"}:</label>
+                        <label for="NextStateID">$Text{"Next ticket state"}:</label>
                         <div class="Field">
                             $Data{"NextStatesStrg"}
                         </div>
