@@ -1,5 +1,5 @@
 # --
-# $Id: COPYING-Third-Party,v 1.9 2010-05-21 12:03:50 mg Exp $
+# $Id: COPYING-Third-Party,v 1.10 2010-06-09 10:21:38 mb Exp $
 # --
 # A list of all included third party libraries.
 # --
@@ -120,6 +120,11 @@ o Name:    CPAN Net::SMTP::SSL
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright (c) 2004 Casey West.  All rights reserved.
+
+o Name:    CPAN Net::SMTP::TLS
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (C) 2005 Alexander Christian Westholm
 
 o Name:    CPAN Text::CSV
   Web:     n/a

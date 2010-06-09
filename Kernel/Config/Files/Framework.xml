@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.310 2010-06-09 09:27:45 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.311 2010-06-09 10:19:01 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -460,7 +460,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule" Required="1" Valid="1">
-        <Description Translatable="1">Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP/SMTPS" uses a specified (external) mailserver. "DoNotSendEmail" doesn't send emails and it is useful for test systems.</Description>
+        <Description Translatable="1">Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn't send emails and it is useful for test systems.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -468,7 +468,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::CMD" Required="1" Valid="1">
-        <Description Translatable="1">If "Sendmail" was selected for SendmailModule, the location of the sendmail binary and the needed options must be specified.</Description>
+        <Description Translatable="1">If "Sendmail" was selected as SendmailModule, the location of the sendmail binary and the needed options must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -476,7 +476,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::Host" Required="1" Valid="1">
-        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule, the mailhost that sends out the mails must be specified.</Description>
+        <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, the mailhost that sends out the mails must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -484,7 +484,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::Port" Required="0" Valid="0">
-        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule, the port where your mailserver is listening for incoming connections must be specified.</Description>
+        <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -492,7 +492,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::AuthUser" Required="0" Valid="0">
-        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule and authentication to the mail server is needed, an username must be specified.</Description>
+        <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, an username must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -500,7 +500,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::AuthPassword" Required="0" Valid="0">
-        <Description Translatable="1">If "SMTP/SMTPS" was selected for SendmailModule and authentication to the mail server is needed, a password must be specified.</Description>
+        <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -524,7 +524,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailEncodingForce" Required="0" Valid="0">
-        <Description Translatable="1">Forces encoding of outboing emails (7bit|8bit|quoted-printable|base64).</Description>
+        <Description Translatable="1">Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
