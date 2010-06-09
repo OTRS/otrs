@@ -2,7 +2,7 @@
 // Core.UI.Table.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Table.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.UI.Table.js,v 1.2 2010-06-09 14:23:11 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -58,8 +58,23 @@ Core.UI.Table = (function (TargetNS) {
         $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
 
             window.setTimeout(function () {
-                function CheckText(Text, FilterText) {
-                    return Text.toLowerCase().indexOf(FilterText) > -1;
+                function CheckText($Element, FilterText) {
+                    var Result = ($Element.text().toLowerCase().indexOf(FilterText) > -1);
+                    if (!Result) {
+                        if ($Element.is('li, td')) {
+                            if ($Element.attr('title').toLowerCase().indexOf(FilterText) > -1) {
+                                Result = true;
+                            }
+                        }
+                        else {
+                            $Element.find('td').each(function () {
+                                if ($(this).attr('title').toLowerCase().indexOf(FilterText) > -1) {
+                                    Result = true;
+                                }
+                            });
+                        }
+                    }
+                    return Result;
                 }
 
                 var FilterText = ($FilterInput.val() || '').toLowerCase(),
@@ -74,7 +89,7 @@ Core.UI.Table = (function (TargetNS) {
                         .hide()
                         .end()
                         .each(function () {
-                            if (CheckText($(this).text(), FilterText) || CheckText($(this).attr('title'), FilterText)) {
+                            if (CheckText($(this), FilterText)) {
                                 $(this).closest('tr, li').show();
                             }
                         });
