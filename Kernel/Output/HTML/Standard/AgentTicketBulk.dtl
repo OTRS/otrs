@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.32 2010-06-09 18:24:12 en Exp $
+# $Id: AgentTicketBulk.dtl,v 1.33 2010-06-11 12:46:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,134 +64,127 @@ function SpellCheckSubmit() {
         </div>
         <div class="Content">
 
-            <div class="LayoutFixedSidebar SidebarLast">
-                <div class="SidebarColumn WidgetGradient Short">
-                </div>
+            <div class="Header">
+                <h2>$Text{"Options"}</h2>
+            </div>
 
-                <div class="ContentColumn">
-                    <div class="Header">
-                        <h2>$Text{"Options"}</h2>
+            <div class="Content">
+                $Data{"TicketIDHidden"}
+                <fieldset class="TableLike">
+                    <label for="Subject">$Text{"Subject"}:</label>
+                    <div class="Field">
+                        <input type="text" id="Subject" name="Subject" value="$Text{"$Config{"Ticket::Frontend::NoteSubject"}"}" class="W75pc"/>
                     </div>
-
-                    <div class="Content">
-                        $Data{"TicketIDHidden"}
-                        <fieldset class="TableLike">
-                            <label for="Subject">$Text{"Subject"}:</label>
-                            <div class="Field">
-                                <input type="text" id="Subject" name="Subject" value="$Text{"$Config{"Ticket::Frontend::NoteSubject"}"}" class="W75pc"/>
-                            </div>
-                            <div class="Clear"></div>
+                    <div class="Clear"></div>
 
 <!-- dtl:block:SpellCheck -->
-                            <label>$Text{"Options"}:</label>
-                            <div class="Field">
-                                <a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';">
-                                    <img border="0" src="$Config{"Frontend::ImagePath"}spell.png" />
-                                    $Text{"Spell check"}
-                                </a>
-                            </div>
-                            <div class="Clear"></div>
+                    <label>$Text{"Options"}:</label>
+                    <div class="Field">
+                        <a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';">
+                            <img border="0" src="$Config{"Frontend::ImagePath"}spell.png" />
+                            $Text{"Spell check"}
+                        </a>
+                    </div>
+                    <div class="Clear"></div>
 <!-- dtl:block:SpellCheck -->
 
-                            <label for="RichText">$Text{"Text"}:</label>
-                            <div class="Clear"></div>
+                    <label for="RichText">$Text{"Text"}:</label>
+                    <div class="Clear"></div>
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                            <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"NoteText"}</textarea>
-                            <div class="Clear"></div>
+                    <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"NoteText"}</textarea>
+                    <div class="Clear"></div>
 
-                            <label for="ArticleTypeID">$Text{"Note type"}:</label>
-                            <div class="Field">
-                                $Data{"NoteStrg"}
-                            </div>
-                            <div class="Clear"></div>
-
-<!-- dtl:block:State -->
-                            <label for="StateID">$Text{"Next state"}:</label>
-                            <div class="Field">
-                                $Data{"NextStatesStrg"}
-                            </div>
-                            <div class="Clear"></div>
-<!-- dtl:block:StatePending -->
-                            <label>$Text{"Pending date"}:</label>
-                            <div class="Field">
-                                $Data{"DateString"}
-                                <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
-                            </div>
-                            <div class="Clear"></div>
-<!-- dtl:block:StatePending -->
-<!-- dtl:block:State -->
-
-<!-- dtl:block:Owner -->
-                            <label for="OwnerID">$Text{"Owner"}:</label>
-                            <div class="Field">
-                                $Data{"OwnerStrg"}
-                            </div>
-                            <div class="Clear"></div>
-<!-- dtl:block:Owner -->
-
-<!-- dtl:block:Responsible -->
-                            <label for="ResponsibleID">$Text{"Responsible"}:</label>
-                            <div class="Field">
-                                $Data{"ResponsibleStrg"}
-                            </div>
-                            <div class="Clear"></div>
-<!-- dtl:block:Responsible -->
-
-                            <label for="QueueID">$Text{"Queue"}:</label>
-                            <div class="Field">
-                                $Data{"MoveQueuesStrg"}
-                            </div>
-                            <div class="Clear"></div>
-
-<!-- dtl:block:Priority -->
-                            <label for="PriorityID">$Text{"Priority"}:</label>
-                            <div class="Field">
-                                $Data{"PriorityStrg"}
-                            </div>
-                            <div class="Clear"></div>
-<!-- dtl:block:Priority -->
-
-                            <label>$Text{"Merge"}:</label>
-                            <div class="Field">
-                                <input type="radio" name="MergeToSelection" value="MergeTo"/>
-                                $Text{"Merge to"}
-                                <input type="text" class="W50pc" name="MergeTo" value="$QData{"MergeTo"}"/>
-                                <input type="radio" name="MergeToSelection" value="MergeToOldest"/>
-                                $Text{"Merge to oldest"}
-                            </div>
-                            <div class="Clear"></div>
-
-                            <label for="LinkTogether">$Text{"Link together"}:</label>
-                            <div class="Field">
-                                $Data{"LinkTogetherYesNoOption"}
-                            </div>
-                            <div class="Clear"></div>
-
-                            <label for="LinkTogetherParent">$Text{"Link to parent"}:</label>
-                            <div class="Field">
-                                <input type="text" class="W50pc" id="LinkTogetherParent" name="LinkTogetherParent" value="$QData{"LinkTogetherParent"}"/>
-                            </div>
-                            <div class="Clear"></div>
-
-                            <label for="Unlock">$Text{"Unlock Tickets"}:</label>
-                            <div class="Field">
-                                $Data{"UnlockYesNoOption"}
-                            </div>
-                            <div class="Clear"></div>
-
-<!-- dtl:block:TimeUnits -->
-                            <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
-                            <div class="Field">
-                                <input type="text" id="TimeUnits" name="TimeUnits" value="$QData{"TimeUnits"}" class="W20pc"/>
-                            </div>
-                            <div class="Clear"></div>
-<!-- dtl:block:TimeUnits -->
-
-                        </fieldset>
+                    <label for="ArticleTypeID">$Text{"Note type"}:</label>
+                    <div class="Field">
+                        $Data{"NoteStrg"}
                     </div>
-                </div>
+                    <div class="Clear"></div>
+
+<!-- dtl:block:State -->
+                    <label for="StateID">$Text{"Next state"}:</label>
+                    <div class="Field">
+                        $Data{"NextStatesStrg"}
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:StatePending -->
+                    <label>$Text{"Pending date"}:</label>
+                    <div class="Field">
+                        $Data{"DateString"}
+                        <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:StatePending -->
+<!-- dtl:block:State -->
+
+<!-- dtl:block:Owner -->
+                    <label for="OwnerID">$Text{"Owner"}:</label>
+                    <div class="Field">
+                        $Data{"OwnerStrg"}
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:Owner -->
+
+<!-- dtl:block:Responsible -->
+                    <label for="ResponsibleID">$Text{"Responsible"}:</label>
+                    <div class="Field">
+                        $Data{"ResponsibleStrg"}
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:Responsible -->
+
+                    <label for="QueueID">$Text{"Queue"}:</label>
+                    <div class="Field">
+                        $Data{"MoveQueuesStrg"}
+                    </div>
+                    <div class="Clear"></div>
+
+<!-- dtl:block:Priority -->
+                    <label for="PriorityID">$Text{"Priority"}:</label>
+                    <div class="Field">
+                        $Data{"PriorityStrg"}
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:Priority -->
+
+                    <label>$Text{"Merge"}:</label>
+                    <div class="Field">
+                        <input type="radio" name="MergeToSelection" value="MergeTo"/>
+                        $Text{"Merge to"}
+                        <input type="text" class="W50pc" name="MergeTo" value="$QData{"MergeTo"}"/>
+                        <input type="radio" name="MergeToSelection" value="MergeToOldest"/>
+                        $Text{"Merge to oldest"}
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="LinkTogether">$Text{"Link together"}:</label>
+                    <div class="Field">
+                        $Data{"LinkTogetherYesNoOption"}
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="LinkTogetherParent">$Text{"Link to parent"}:</label>
+                    <div class="Field">
+                        <input type="text" class="W50pc" id="LinkTogetherParent" name="LinkTogetherParent" value="$QData{"LinkTogetherParent"}"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="Unlock">$Text{"Unlock Tickets"}:</label>
+                    <div class="Field">
+                        $Data{"UnlockYesNoOption"}
+                    </div>
+                    <div class="Clear"></div>
+
+<!-- dtl:block:TimeUnits -->
+                    <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                    <div class="Field">
+                        <input type="text" id="TimeUnits" name="TimeUnits" value="$QData{"TimeUnits"}" class="W20pc"/>
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:TimeUnits -->
+
+                </fieldset>
             </div>
         </div>
         <div class="Footer">
