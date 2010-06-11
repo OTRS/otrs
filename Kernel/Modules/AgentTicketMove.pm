@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.50 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketMove.pm,v 1.51 2010-06-11 18:47:47 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -81,19 +81,17 @@ sub Run {
             OwnerID  => $Self->{UserID},
         );
         if ( !$AccessOk ) {
-            my $Output = $Self->{LayoutObject}->Header();
+            my $Output = $Self->{LayoutObject}->Header(
+                Type => 'Small',
+            );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Sorry, you need to be the owner to do this action!",
                 Comment => 'Please change the owner first.',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketBack',
-                Data => { %Param, TicketID => $Self->{TicketID}, },
+            $Output .= $Self->{LayoutObject}->Footer(
+                Type => 'Small',
             );
+            return $Output;
         }
     }
 
@@ -379,7 +377,9 @@ sub Run {
         # ticket free time
         my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam );
 
-        my $Output = $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header(
+            Type => 'Small',
+        );
 
         # get lock state && write (lock) permissions
         if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
@@ -417,7 +417,9 @@ sub Run {
                     Message => "Sorry, you need to be the owner to do this action!",
                     Comment => 'Please change the owner first.',
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $Self->{LayoutObject}->Footer(
+                    Type => 'Small',
+                );
                 return $Output;
             }
         }
@@ -491,7 +493,9 @@ sub Run {
             %GetParam,
             %Error,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->Footer(
+            Type => 'Small',
+        );
         return $Output;
     }
 
