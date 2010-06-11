@@ -1,20 +1,17 @@
 # --
 # UnitTest.t - unit tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.t,v 1.2 2009-02-16 12:40:23 tr Exp $
+# $Id: UnitTest.t,v 1.3 2010-06-11 14:25:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-use Kernel::System::UnitTest;
+#use Kernel::System::UnitTest;
 
-$Self->{UnitTestObject} = Kernel::System::UnitTest->new(
-    %{$Self},
-    Output => 'none',
-);
+$Self->{Output} = 'ASCII';
 
 my @TestTrueFalse = (
     {
@@ -46,7 +43,7 @@ my @TestTrueFalse = (
 
 for my $Test (@TestTrueFalse) {
     if ( $Test->{Result} ) {
-        my $True = $Self->{UnitTestObject}->True(
+        my $True = $Self->True(
             $Test->{Value},
             'Test Name',
         );
@@ -54,7 +51,7 @@ for my $Test (@TestTrueFalse) {
             $True,
             "True() - $Test->{Name}",
         );
-        my $False = $Self->{UnitTestObject}->False(
+        my $False = $Self->False(
             $Test->{Value},
             'Test Name',
         );
@@ -64,7 +61,7 @@ for my $Test (@TestTrueFalse) {
         );
     }
     else {
-        my $True = $Self->{UnitTestObject}->True(
+        my $True = $Self->True(
             $Test->{Value},
             'Test Name',
         );
@@ -72,7 +69,7 @@ for my $Test (@TestTrueFalse) {
             !$True,
             "True() - $Test->{Name}",
         );
-        my $False = $Self->{UnitTestObject}->False(
+        my $False = $Self->False(
             $Test->{Value},
             'Test Name',
         );
@@ -161,7 +158,7 @@ my @TestIsIsNot = (
 
 for my $Test (@TestIsIsNot) {
     if ( $Test->{Result} eq 'Is' ) {
-        my $True = $Self->{UnitTestObject}->Is(
+        my $True = $Self->Is(
             $Test->{ValueX},
             $Test->{ValueY},
             'Test Name',
@@ -170,7 +167,7 @@ for my $Test (@TestIsIsNot) {
             $True,
             "Is() - $Test->{Name}",
         );
-        my $False = $Self->{UnitTestObject}->IsNot(
+        my $False = $Self->IsNot(
             $Test->{ValueX},
             $Test->{ValueY},
             'Test Name',
@@ -181,7 +178,7 @@ for my $Test (@TestIsIsNot) {
         );
     }
     else {
-        my $True = $Self->{UnitTestObject}->IsNot(
+        my $True = $Self->IsNot(
             $Test->{ValueX},
             $Test->{ValueY},
             'Test Name',
@@ -190,10 +187,88 @@ for my $Test (@TestIsIsNot) {
             $True,
             "Is() - $Test->{Name}",
         );
-        my $False = $Self->{UnitTestObject}->Is(
+        my $False = $Self->Is(
             $Test->{ValueX},
             $Test->{ValueY},
             'Test Name',
+        );
+        $Self->False(
+            $False,
+            "IsNot() - $Test->{Name}",
+        );
+    }
+}
+
+#IsDeeply and IsNotDeeply  start
+
+my %hash1 = (
+    key1 => '1',
+    key2 => '2',
+    key3 => '3',
+);
+
+my %hash2 = (
+    keya => 'A',
+    keyb => 'B',
+    keyc => 'C',
+);
+
+my @TestIsDeeplyIsNotDeeply = (
+    {
+        Name   => 'IsDeeply(%hash1:%hash1)',
+        ValueX => \%hash1,
+        ValueY => \%hash1,
+        Result => 'IsDeeply',
+    },
+    {
+        Name   => 'IsDeeply(%hash2:%hash2)',
+        ValueX => \%hash2,
+        ValueY => \%hash2,
+        Result => 'IsDeeply',
+    },
+    {
+        Name   => 'IsNotDeeply(%hash1:%hash2)',
+        ValueX => \%hash1,
+        ValueY => \%hash2,
+        Result => 'IsNotDeeply',
+    },
+);
+
+for my $Test (@TestIsDeeplyIsNotDeeply) {
+    if ( $Test->{Result} eq 'IsDeeply' ) {
+        my $True = $Self->IsDeeply(
+            $Test->{ValueX},
+            $Test->{ValueY},
+            'Test Name',
+        );
+        $Self->True(
+            $True,
+            "Is() - $Test->{Name}",
+        );
+        my $False = $Self->IsNotDeeply(
+            $Test->{ValueX},
+            $Test->{ValueY},
+            'False Test Name',
+        );
+        $Self->False(
+            $False,
+            "IsNot() - $Test->{Name}",
+        );
+    }
+    else {
+        my $True = $Self->IsNotDeeply(
+            $Test->{ValueX},
+            $Test->{ValueY},
+            'Test Name',
+        );
+        $Self->True(
+            $True,
+            "Is() - $Test->{Name}",
+        );
+        my $False = $Self->IsDeeply(
+            $Test->{ValueX},
+            $Test->{ValueY},
+            'False Test Name',
         );
         $Self->False(
             $False,
