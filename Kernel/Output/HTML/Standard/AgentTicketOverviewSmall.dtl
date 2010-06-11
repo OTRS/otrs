@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.41 2010-06-04 11:19:32 mn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.42 2010-06-11 11:44:14 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -172,13 +172,15 @@
 #    <button type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();" >$Text{"Bulk Action"}</button>
     </form>
 </div>
-<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:DocumentReadyActionRowAdd -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.UI.ActionRow.AddActions($('#TicketID_$QData{"TicketID"}'), $Data{"Data"});
 //]]></script>
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <!-- dtl:block:DocumentReadyStart -->
+<!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.UI.AdjustTableHead($('#OverviewHeader thead'), $('#OverviewBody tbody'));
     Core.UI.StaticTableControl($('#OverviewControl'));
@@ -187,8 +189,8 @@
         Core.UI.AdjustTableHead($('#OverviewHeader thead'), $('#OverviewBody tbody'));
     });
 //]]></script>
-<!-- dtl:block:DocumentReadyStart -->
 <!-- dtl:js_on_document_complete -->
+<!-- dtl:block:DocumentReadyStart -->
 <!-- dtl:block:DocumentContent -->
 
 <!-- dtl:block:DocumentMenuItem -->
