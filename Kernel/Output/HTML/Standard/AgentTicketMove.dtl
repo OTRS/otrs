@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.40 2010-06-11 18:47:18 en Exp $
+# $Id: AgentTicketMove.dtl,v 1.41 2010-06-11 21:06:54 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -179,7 +179,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 
                     <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                    <span class="Error Small">$Text{"$Data{"Subject invalid"}"}</span>
+                    <span class="Error Small">$Text{"$Data{"Body invalid"}"}</span>
                     <div class="Clear"></div>
 
                     <label>$Text{"Attachment"}:</label>
