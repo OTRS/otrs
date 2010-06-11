@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketNote.pm,v 1.87 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketNote.pm,v 1.88 2010-06-11 21:37:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -121,12 +121,17 @@ sub Run {
                 OwnerID  => $Self->{UserID},
             );
             if ( !$AccessOk ) {
-                my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{Number} );
+                my $Output = $Self->{LayoutObject}->Header(
+                    Value => $Ticket{Number},
+                    Type  => 'Small',
+                );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => 'Sorry, you need to be the owner to do this action!',
                     Comment => 'Please change the owner first.',
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $Self->{LayoutObject}->Footer(
+                    Type => 'Small',
+                );
                 return $Output;
             }
 
@@ -419,8 +424,10 @@ sub Run {
                 Config  => \%ArticleFreeText,
                 Article => \%GetParam,
             );
-            my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+            my $Output = $Self->{LayoutObject}->Header(
+                Value => $Ticket{TicketNumber},
+                Type  => 'Small',
+            );
             $Output .= $Self->_Mask(
                 Attachments => \@Attachments,
                 %Ticket,
@@ -430,7 +437,9 @@ sub Run {
                 %GetParam,
                 %Error,
             );
-            $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer(
+                Type => 'Small',
+            );
             return $Output;
         }
 
@@ -811,8 +820,10 @@ sub Run {
         );
 
         # print form ...
-        my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $Self->{LayoutObject}->Header(
+            Value => $Ticket{TicketNumber},
+            Type  => 'Small',
+        );
         $Output .= $Self->_Mask(
             %GetParam,
             %Ticket,
@@ -820,7 +831,9 @@ sub Run {
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->Footer(
+            Type => 'Small',
+        );
         return $Output;
     }
 }
