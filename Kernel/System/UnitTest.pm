@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.29 2010-05-27 14:00:32 mg Exp $
+# $Id: UnitTest.pm,v 1.30 2010-06-11 14:20:16 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +13,10 @@ package Kernel::System::UnitTest;
 
 use strict;
 use warnings;
+use Storable qw( freeze thaw );
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -431,6 +432,97 @@ sub IsNot {
     }
 }
 
+=item IsDeeply()
+
+A Is HashA (is) eq HashB (should be) test.
+
+    $UnitTestObject->IsDeeply( \%HashA, \%HashB, 'Test Name');
+
+=cut
+
+sub IsDeeply {
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+
+    if ( !$Name ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name! E. g. Is(\$A, \$B, \'Test Name\')!'
+        );
+        $Self->_Print( 0, 'ERROR: Need Name! E. g. Is(\$A, \$B, \'Test Name\')' );
+        return;
+    }
+
+    my $TestString     = freeze($Test);
+    my $ShouldBeString = freeze($ShouldBe);
+
+    if ( !defined $Test && !defined $ShouldBe ) {
+        $Self->_Print( 1, "$Name (is 'undef')" );
+        return 1;
+    }
+    elsif ( !defined $Test && defined $ShouldBe ) {
+        $Self->_Print( 0, "$Name (is 'undef' should be '$ShouldBeString')" );
+        return;
+    }
+    elsif ( defined $Test && !defined $ShouldBe ) {
+        $Self->_Print( 0, "$Name (is '$Test' should be 'undef')" );
+        return;
+    }
+    elsif ( $TestString eq $ShouldBeString ) {
+        $Self->_Print( 1, "$Name (is '$ShouldBeString')" );
+        return 1;
+    }
+    else {
+        $Self->_Print( 0, "$Name (is '$TestString' should be '$ShouldBeString')" );
+        return;
+    }
+}
+
+=item IsNotDeeply()
+
+A Is HashA (is) nq HashB (should not be) test.
+
+    $UnitTestObject->IsNotDeeply(\%HashA, \%HashB, 'Test Name');
+
+=cut
+
+sub IsNotDeeply {
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+
+    if ( !$Name ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name! E. g. IsNot(\$A, \$B, \'Test Name\')!'
+        );
+        $Self->_Print( 0, 'ERROR: Need Name! E. g. IsNot(\$A, \$B, \'Test Name\')' );
+        return;
+    }
+
+    my $TestString     = freeze($Test);
+    my $ShouldBeString = freeze($ShouldBe);
+
+    if ( !defined $Test && !defined $ShouldBe ) {
+        $Self->_Print( 0, "$Name (is 'undef')" );
+        return;
+    }
+    elsif ( !defined $Test && defined $ShouldBe ) {
+        $Self->_Print( 1, "$Name (is 'undef')" );
+        return 1;
+    }
+    elsif ( defined $Test && !defined $ShouldBe ) {
+        $Self->_Print( 1, "$Name (is '$TestString')" );
+        return 1;
+    }
+
+    if ( $TestString ne $ShouldBeString ) {
+        $Self->_Print( 1, "$Name (is '$ShouldBeString')" );
+        return 1;
+    }
+    else {
+        $Self->_Print( 0, "$Name (is '$TestString' should not be '$ShouldBeString')" );
+        return;
+    }
+}
+
 =begin Internal:
 
 =cut
@@ -535,7 +627,7 @@ sub _Print {
             $Self->{Content}
                 .= "<tr><td width='70' bgcolor='red'>not ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
-        else {
+        elsif ( $Self->{Output} eq 'ASCII' ) {
             print " not ok $Self->{TestCount} - $Name\n";
         }
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Result} = 'not ok';
@@ -572,6 +664,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2010-05-27 14:00:32 $
+$Revision: 1.30 $ $Date: 2010-06-11 14:20:16 $
 
 =cut
