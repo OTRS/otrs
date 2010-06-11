@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.33 2010-06-11 11:57:14 mg Exp $
+# $Id: Layout.t,v 1.34 2010-06-11 12:08:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -911,28 +911,23 @@ for my $Test (@Tests) {
     },
     {
         Input => <<'EOF',
-<!-- dtl:block:DocumentReadyActionRowAdd -->
+<!--DocumentReadyActionRowAdd-->
 <script type="text/javascript">  //<![CDATA[
    alert();
 //]]></script>
-<!-- dtl:block:DocumentReadyActionRowAdd -->
-<!-- dtl:block:DocumentReadyStart -->
+<!--/DocumentReadyActionRowAdd-->
+<!--DocumentReadyStart-->
 <script type="text/javascript">//  <![CDATA[
    alert();
 //]]></script>
-<!-- dtl:block:DocumentReadyStart -->
+<!--/DocumentReadyStart-->
 EOF
         Result => <<'EOF',
-<!-- dtl:block:DocumentReadyActionRowAdd -->
 
    alert();
 
-<!-- dtl:block:DocumentReadyActionRowAdd -->
-<!-- dtl:block:DocumentReadyStart -->
-
    alert();
 
-<!-- dtl:block:DocumentReadyStart -->
 EOF
         Name => 'LRST - complet content from .dtl file test',
     },
