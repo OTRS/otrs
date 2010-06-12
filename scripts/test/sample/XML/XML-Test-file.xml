@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<EISPP-Advisory xml:lang="de" version="DAF-1.0" date="2007-01-11" issuer="SECUNIA">
+    <Id_Data>
+        <ref_num>SA23719</ref_num>
+        <title>
+            <FreeText xml:lang="de">Astaro Update für ClamAV</FreeText>
+        </title>
+        <abstract>
+            <FreeText xml:lang="de">Astaro hat ein Update für ClamAV herausgegeben. Dieses behebt einige Sicherheitslücken, die böswillige Personen potenziell ausnutzen können, um einen DoS (Denial of Service) zu verursachen oder ein verwundbares System zu kompromittieren.</FreeText>
+        </abstract>
+    </Id_Data>
+    <Vulnerability_Class>
+        <vulnerabilities>
+            <vulnerability>
+                <vuln_ids>
+                    <vuln_id ref_num="CVE-2006-1614" issuer="CVE"/>
+                    <vuln_id ref_num="CVE-2006-1615" issuer="CVE"/>
+                    <vuln_id ref_num="CVE-2006-1630" issuer="CVE"/>
+
+                </vuln_ids>
+                <confidence_level type="not_rated"/>
+                <requirements type="not_rated">
+                    <explanation>
+                        <FreeText xml:lang="de">Aus dem Internet</FreeText>
+                    </explanation>
+                </requirements>
+                <immediacy rating="not_rated">
+                    <explanation>
+                        <FreeText xml:lang="de">Lösungsstatus: Hersteller-Patch</FreeText>
+                    </explanation>
+                </immediacy>
+                <impact rating="not_rated">
+                    <explanation>
+                        <FreeText xml:lang="de">DoS, Systemzugriff</FreeText>
+                    </explanation>
+                </impact>
+                <current_impact rating="not_rated">
+                    <explanation/>
+                </current_impact>
+                <risk_ratings>
+                    <risk rating="" group="standard" schema="SECUNIA">
+                        <explanation>
+                            <FreeText xml:lang="de">Sehr kritisch</FreeText>
+                        </explanation>
+                    </risk>
+                </risk_ratings>
+            </vulnerability>
+        </vulnerabilities>
+    </Vulnerability_Class>
+    <System_Information>
+        <information type="affected_platform">
+            <FormattedText xml:lang="de">
+                Astaro Security Linux 6.x<br/>
+            </FormattedText>
+        </information>
+        <information type="affected_software">
+            <FormattedText xml:lang="de">
+
+            </FormattedText>
+        </information>
+    </System_Information>
+    <Description>
+        <description type="technical_description">
+            <content>
+                <FormattedText xml:lang="de">
+                    <h1>Beschreibung:</h1><br/>
+                    Astaro hat ein Update für ClamAV herausgegeben. Dieses behebt einige Sicherheitslücken, die böswillige Personen potenziell ausnutzen können, um einen DoS (Denial of Service) zu verursachen oder ein verwundbares System zu kompromittieren.<br/><br/>Weitere Informationen:<br/>SA19534
+                </FormattedText>
+            </content>
+        </description>
+    </Description>
+    <Solution>
+        <sol_intro>
+            <FormattedText xml:lang="de">Installieren Sie das Up2Date Paket 6.202.</FormattedText>
+        </sol_intro>
+    </Solution>
+    <Additional_Resources>
+        <reference ref_type="advisory" ref_subtype="vendor">
+            <ref_title>
+                <FreeText xml:lang="de"/>
+            </ref_title>
+            <uri>http://up2date.astaro.com/2006/05/low_up2date_6202.html</uri>
+        </reference>
+        <reference ref_type="advisory" issuer="SECUNIA" ref_num="19534">
+            <ref_title>
+                <FreeText xml:lang="de">SA19534</FreeText>
+            </ref_title>
+            <uri>http://secunia.com/advisories/19534/</uri>
+        </reference>
+        <reference ref_type="advisory" ref_num="23719" issuer="SECUNIA">
+            <ref_title>
+                <FreeText xml:lang="de">SA23719</FreeText>
+            </ref_title>
+            <uri>http://secunia.com/advisories/23719/</uri>
+        </reference>
+    </Additional_Resources>
+</EISPP-Advisory>
