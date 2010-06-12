@@ -1,8 +1,8 @@
 # --
 # StdAttachment.t - StdAttachment tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.t,v 1.6 2009-02-16 12:40:23 tr Exp $
+# $Id: StdAttachment.t,v 1.7 2010-06-12 02:55:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ for my $File (qw(xls txt doc png pdf)) {
     open( IN,
         "< "
             . $Self->{ConfigObject}->Get('Home')
-            . "/scripts/test/sample/StdAttachment-Test1.$File"
+            . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File"
         )
         || die $!;
     binmode(IN);

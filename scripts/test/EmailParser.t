@@ -1,8 +1,8 @@
 # --
 # EmailParser.t - email parser tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.28 2009-12-07 14:00:27 mn Exp $
+# $Id: EmailParser.t,v 1.29 2010-06-12 02:55:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ my $Home = $Self->{ConfigObject}->Get('Home');
 
 # test #1
 my @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test1.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test1.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -89,7 +89,7 @@ $Self->Is(
 
 # test #3
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test3.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test3.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -121,7 +121,7 @@ if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i ) {
 
 # test #4
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test4.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test4.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -193,7 +193,7 @@ for my $Key ( sort keys %MatchNot ) {
 
 # test #5
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test5.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test5.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -250,7 +250,7 @@ $Self->Is(
 
 # test #6
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test6.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test6.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -308,7 +308,7 @@ if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i ) {
 
 # test #7
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test7.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test7.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -360,7 +360,7 @@ $Self->Is(
 
 # test #8
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test8.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test8.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -393,7 +393,7 @@ $Self->True(
 
 # test #9
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test9.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test9.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -430,7 +430,7 @@ $Self->True(
 
 # test #10
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test10.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test10.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -483,7 +483,7 @@ $Self->True(
 
 # test #11
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test11.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test11.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -514,7 +514,7 @@ $Self->True(
 
 # test #12
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test12.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test12.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -619,7 +619,7 @@ $Self->True(
 
 # test #13
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test13.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test13.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -648,7 +648,7 @@ $Self->Is(
 
 # test #14
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test14.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test14.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -682,7 +682,7 @@ $Self->Is(
 
 # test #15
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test16.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test16.box" );
 while (<IN>) {
     push( @Array, $_ );
 }
@@ -778,7 +778,7 @@ for my $Test (@Tests) {
 
 # test #17
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/PostMaster-Test19.box" );
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test19.box" );
 while (<IN>) {
     push( @Array, $_ );
 }

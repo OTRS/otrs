@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.t,v 1.27 2010-02-09 14:23:37 bes Exp $
+# $Id: XML.t,v 1.28 2010-06-12 02:55:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -690,7 +690,7 @@ for my $Key (@Keys) {
 
 # get the example xml
 my $Path = $Self->{ConfigObject}->Get('Home');
-$Path .= "/scripts/test/sample";
+$Path .= "/scripts/test/sample/XML/";
 my $File = 'XML-Test-file.xml';
 $String = '';
 if ( open( DATA, "< $Path/$File" ) ) {

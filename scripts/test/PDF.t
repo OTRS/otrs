@@ -1,8 +1,8 @@
 # --
 # PDF.t - PDF tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.t,v 1.17 2009-09-14 22:52:18 mh Exp $
+# $Id: PDF.t,v 1.18 2010-06-12 02:55:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2719,7 +2719,7 @@ $Self->True(
 
 my %CharsetTestData1;
 open( IN,
-    "< " . $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF-test1-iso-8859-1.txt"
+    "< " . $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt"
     )
     || die $!;
 while (<IN>) {
@@ -2804,7 +2804,9 @@ $Self->True(
 );
 
 my %CharsetTestData2;
-open( IN, "< " . $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF-test1-utf-8.txt" )
+open( IN,
+    "< " . $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test1-utf-8.txt"
+    )
     || die $!;
 while (<IN>) {
     $CharsetTestData2{Text} .= $_;
@@ -2888,7 +2890,9 @@ $Self->True(
 );
 
 my %CharsetTestData3;
-open( IN, "< " . $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF-test2-utf-8.txt" )
+open( IN,
+    "< " . $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test2-utf-8.txt"
+    )
     || die $!;
 while (<IN>) {
     $CharsetTestData3{Text} .= $_;

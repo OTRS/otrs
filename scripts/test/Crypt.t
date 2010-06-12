@@ -1,8 +1,8 @@
 # --
 # Crypt.t - Crypt tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.14 2009-02-16 12:50:17 tr Exp $
+# $Id: Crypt.t,v 1.15 2010-06-12 02:55:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -86,7 +86,7 @@ for my $Count ( 1 .. 2 ) {
 
     # get keys
     my $KeyString = $Self->{MainObject}->FileRead(
-        Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/",
+        Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/Crypt/",
         Filename  => "PGPPrivateKey-$Count.asc",
     );
     my $Message = $Self->{CryptObject}->KeyAdd(
@@ -248,7 +248,7 @@ for my $Count ( 1 .. 2 ) {
     # file checks
     for my $File (qw(xls txt doc png pdf)) {
         my $Content = $Self->{MainObject}->FileRead(
-            Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/",
+            Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/Crypt/",
             Filename  => "PGP-Test1.$File",
             Mode      => 'binmode',
         );

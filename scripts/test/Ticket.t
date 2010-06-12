@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.59 2010-05-28 21:09:45 mb Exp $
+# $Id: Ticket.t,v 1.60 2010-06-12 02:55:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3307,7 +3307,7 @@ for my $Backend (qw(DB FS)) {
         )
     {
         my $Content = '';
-        open( IN, '<', $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/$File" )
+        open( IN, '<', $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/Ticket/$File" )
             || die $!;
         binmode(IN);
         while (<IN>) {

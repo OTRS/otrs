@@ -1,8 +1,8 @@
 # --
 # LinkObject.t - link object module testscript
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.16 2009-02-16 12:41:12 tr Exp $
+# $Id: LinkObject.t,v 1.17 2010-06-12 02:55:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,8 +67,9 @@ for my $Counter ( 1 .. 100 ) {
 
 # read ticket backend file
 my $TicketBackendContent = $Self->{MainObject}->FileRead(
-    Location => $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/LinkBackendDummy.pm',
-    Result   => 'SCALAR',
+    Location => $Self->{ConfigObject}->Get('Home')
+        . '/scripts/test/sample/LinkObject/LinkBackendDummy.pm',
+    Result => 'SCALAR',
 );
 
 # get location of the backend modules

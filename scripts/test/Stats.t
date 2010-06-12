@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.23 2010-04-05 15:02:29 mb Exp $
+# $Id: Stats.t,v 1.24 2010-06-12 02:55:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -218,7 +218,8 @@ $Self->True(
 # ---
 
 # load example file
-my $Path = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats.TicketOverview.de.xml';
+my $Path
+    = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats/Stats.TicketOverview.de.xml';
 my $StatID        = 0;
 my $ExportContent = {};
 my $Filehandle;

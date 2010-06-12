@@ -2,7 +2,7 @@
 # VirtualFS.t - VirtualFS tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: VirtualFS.t,v 1.2 2010-05-04 01:37:13 martin Exp $
+# $Id: VirtualFS.t,v 1.3 2010-06-12 02:55:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use Kernel::System::VirtualFS;
 my @Tests = (
     {
         Name        => '.txt',
-        Location    => 'scripts/test/sample/VirtualFS-Test1.txt',
+        Location    => 'scripts/test/sample/VirtualFS/VirtualFS-Test1.txt',
         Filename    => 'TEST/File.txt',
         Mode        => 'utf8',
         MD5         => '26ea4a608d77c62ed0e4b0f8952c9df2',
@@ -35,7 +35,7 @@ my @Tests = (
     },
     {
         Name        => '.pdf',
-        Location    => 'scripts/test/sample/VirtualFS-Test2.pdf',
+        Location    => 'scripts/test/sample/VirtualFS/VirtualFS-Test2.pdf',
         Filename    => 'me_t o_alal.pdf',
         Mode        => 'binary',
         MD5         => '5ee767f3b68f24a9213e0bef82dc53e5',
@@ -56,7 +56,7 @@ my @Tests = (
     },
     {
         Name        => '.xls',
-        Location    => 'scripts/test/sample/VirtualFS-Test3.xls',
+        Location    => 'scripts/test/sample/VirtualFS/VirtualFS-Test3.xls',
         Filename    => 'me_t o_alal.xls',
         Mode        => 'binary',
         MD5         => '39fae660239f62bb0e4a29fe14ff5663',

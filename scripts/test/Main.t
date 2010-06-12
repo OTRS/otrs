@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.12 2010-05-26 15:13:26 mg Exp $
+# $Id: Main.t,v 1.13 2010-06-12 02:55:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -139,7 +139,7 @@ my %MD5SumOf = (
 for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')
-            . "/scripts/test/sample/Main-Test1.$Extention",
+            . "/scripts/test/sample/Main/Main-Test1.$Extention",
     );
     $Self->Is(
         $MD5Sum || '',
@@ -152,10 +152,10 @@ for my $Extention (qw(doc pdf png txt xls)) {
 for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')
-            . "/scripts/test/sample/Main-Test1.$Extention",
+            . "/scripts/test/sample/Main/Main-Test1.$Extention",
     );
     my $Content = $Self->{MainObject}->FileRead(
-        Directory => $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/',
+        Directory => $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Main/',
         Filename  => "Main-Test1.$Extention",
     );
     $Self->True(
@@ -193,11 +193,11 @@ for my $Extention (qw(doc pdf png txt xls)) {
 for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')
-            . "/scripts/test/sample/Main-Test1.$Extention",
+            . "/scripts/test/sample/Main/Main-Test1.$Extention",
     );
     my $Content = $Self->{MainObject}->FileRead(
         Location => $Self->{ConfigObject}->Get('Home')
-            . '/scripts/test/sample/'
+            . '/scripts/test/sample/Main/'
             . "Main-Test1.$Extention",
     );
     $Self->True(
@@ -279,7 +279,7 @@ $Self->True(
 
 # check if the file have the correct charset
 my $ContentSCALARRef = $Self->{MainObject}->FileRead(
-    Location => $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF-test2-utf-8.txt',
+    Location => $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test2-utf-8.txt',
     Mode     => 'utf8',
     Result   => 'SCALAR',
 );
