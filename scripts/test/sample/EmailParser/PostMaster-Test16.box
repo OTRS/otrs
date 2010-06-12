@@ -1,0 +1,66 @@
+Return-Path: <am@example.com>
+X-Original-To: me@mail.example.com
+Delivered-To: me@mail.example.com
+Received: from localhost (localhost [127.0.0.1])
+	by mail.example.com (Postfix) with ESMTP id 0EE6980EDA
+	for <me@mail.example.com>; Tue, 24 Mar 2009 23:36:35 +0100 (CET)
+Received: from mail.example.com ([127.0.0.1])
+ by localhost (osser.example.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 32258-09 for <me@mail.example.com>;
+ Tue, 24 Mar 2009 23:36:34 +0100 (CET)
+Received: from [192.168.2.100] (p54B1BFB5.dip.example.com [1.177.191.181])
+	by mail.example.com (Postfix) with ESMTP id 6498D80CA9
+	for <me@example.com>; Tue, 24 Mar 2009 23:36:34 +0100 (CET)
+Message-Id: <9D5DEFF3-9C6E-43AA-9F95-41258CE147A0@example.com>
+From: =?ISO-8859-1?Q?Andr=E9_Moller?= <am@example.com>
+To: Martin Huber <me@example.com>
+Content-Type: multipart/alternative; boundary=Apple-Mail-105--218547620
+Mime-Version: 1.0 (Apple Message framework v930.3)
+Subject: otrs.org
+Date: Tue, 24 Mar 2009 23:36:13 +0100
+X-Mailer: Apple Mail (2.930.3)
+X-Spam-Status: No, score=-100.137 tagged_above=-900 required=5
+ tests=[AWL=0.414, BAYES_00=-2.599, HTML_MESSAGE=0.001, RCVD_IN_PBL=0.001,
+ RCVD_IN_SORBS_DUL=2.046, USER_IN_WHITELIST=-100]
+X-Spam-Score: -100.137
+X-Spam-Level: 
+
+
+--Apple-Mail-105--218547620
+Content-Type: text/plain;
+	charset=ISO-8859-1;
+	format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+Hi Martin,
+
+please have a look on:
+
+http://www.otrs.org/
+
+Send me some feedback!
+
+Mahalo,
+
+=C1
+
+
+
+
+--Apple-Mail-105--218547620
+Content-Type: text/html;
+	charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<html><body style=3D"word-wrap: break-word; -webkit-nbsp-mode: space; =
+-webkit-line-break: after-white-space; ">Hi =
+Martin,<div><br></div><div>please have =
+a look on&nbsp;</div><div><br></div><div><p style=3D"margin: 0.0px 0.0px 1.0px =
+75.0px; text-indent: -75.0px; font: 12.0px Helvetica"><b><a =
+href=3D"http://www.otrs.org/">http://www.otrs.org/</a></b></p><div =
+style=3D"text-indent: -75px;"><b><br></b></div></div><div>Send me =
+some feedback =
+!</div><div><br></div><div>Mahalo,</div><div><br></div><div>=C1</div>=
+<div><br></div><br><br></body></html>=
+
+--Apple-Mail-105--218547620--

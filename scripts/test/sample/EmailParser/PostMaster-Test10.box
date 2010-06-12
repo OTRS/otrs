@@ -1,0 +1,88 @@
+Return-Path: <>
+Received: from mail.otrs.org ([unix socket])   by mail.otrs.org (Cyrus v2.2.12-Invoca-RPM-2.2.12-8.1.RHEL4) with LMTPA; Fri, 06 Jul 2007 12:17:38 +0200
+X-Sieve: CMU Sieve 2.2
+Received: by mail.otrs.org (Postfix)  id DD8A632C83C; Fri, 6 Jul 2007 12:17:38 +0200 (CEST)
+Date: Fri,  6 Jul 2007 12:17:38 +0200 (CEST)
+From: MAILER-DAEMON@mail.otrs.org (Mail Delivery System)
+Subject: Undelivered Mail Returned to Sender
+To: skywalker@otrs.org
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status; boundary="AB35D32CDC7.1183717058/mail.otrs.org"
+Message-ID: <20070706101738.DD8A632C83C@mail.otrs.org>
+
+This is a MIME-encapsulated message.
+
+--AB35D32CDC7.1183717058/mail.otrs.org
+Content-Description: Notification
+Content-Type: text/plain
+
+This is the Postfix program at host mail.otrs.org.
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
+
+For further assistance, please send mail to <postmaster>
+
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+   The Postfix program
+
+<asdfasdfasdfasd@example.com>: host mx00.XXXXund.de[127.0.15.169] said:
+    550 <asdfasdfasdfasd@example.com>: invalid address (in reply to RCPT TO
+    command)
+
+--AB35D32CDC7.1183717058/mail.otrs.org
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; mail.otrs.org
+X-Postfix-Queue-ID: AB35D32CDC7
+X-Postfix-Sender: rfc822; skywalker@otrs.org
+Arrival-Date: Fri,  6 Jul 2007 12:17:33 +0200 (CEST)
+
+Final-Recipient: rfc822; asdfasdfasdfasd@example.com
+Action: failed
+Status: 5.0.0
+Diagnostic-Code: X-Postfix; host mx00.XXXund.de[127.0.227.15.169] said: 550
+    <asdfasdfasdfasd@example.com>: invalid address (in reply to RCPT TO
+    command)
+
+--AB35D32CDC7.1183717058/mail.otrs.org
+Content-Description: Undelivered Message
+Content-Type: message/rfc822
+
+Received: by mail.otrs.org (Postfix, from userid 99)
+id AB35D32CDC7; Fri,  6 Jul 2007 12:17:33 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.1.8 (2007-02-13) on mail.otrs.org
+X-Spam-Level:
+X-Spam-Status: No, score=-4.2 required=5.0 tests=ALL_TRUSTED,AWL,BAYES_00,
+MIME_BASE64_NO_NAME autolearn=ham version=3.1.8
+Received: from otrs.otrs.org (otrs.otrs.org [10.20.30.23])
+by mail.otrs.org (Postfix) with ESMTP id C248A32CD98;
+Fri,  6 Jul 2007 12:17:31 +0200 (CEST)
+Received: by otrs.otrs.org (Postfix, from userid 30)
+id AB9E183B01; Fri,  6 Jul 2007 12:17:31 +0200 (CEST)
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Subject: [Ticket#2007070610001801] test mail
+X-Powered-BY: OTRS - Open Ticket Request System (http://otrs.org/)
+X-Mailer: OTRS Mail Service (2.1.7)
+Date: Fri, 6 Jul 2007 12:17:31 +0200
+Message-ID: <1183717051.586927.929001308.97809.36@otrs.otrs.org>
+To: asdfasdfasdfasd@example.com
+From: Skywalker <skywalker@otrs.org>
+
+YXNkZgoKLS0gCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0KVGhvbWFzIFNjaHdlaWdlciwgU3VwcG9ydApPcGVu
+LVhjaGFuZ2UgR21iSCwgTWFydGluc3RyLiA0MSwgRC01NzQ2MiBPbHBlClBo
+b25lOiArNDkgMjc2MSA4MyA4NSAwCkZheDogICArNDkgMjc2MSA4MyA4NSAz
+MApBRyBOw7xybmJlcmcsIEhSQiAyMjEyMQpHZXNjaMOkZnRzZsO8aHJlcjog
+RnJhbmsgSG9iZXJnLCBNYXJ0aW4gS2F1c3MKLS0KT3Blbi1YY2hhbmdlIElu
+Yy4sIDMwMyBTLiBCcm9hZHdheSBTdGUuIDIyNApUYXJyeXRvd24sIE5ZIDEw
+NTkxClBob25lOiArMSA5MTQgMzMyIDU3MjAKRmF4OiAgICsxIDkxNCAzMzIg
+MTYyMApXZWJzaXRlOiBodHRwOi8vd3d3Lm9wZW4teGNoYW5nZS5jb20K
+
+--AB35D32CDC7.1183717058/mail.otrs.org--
