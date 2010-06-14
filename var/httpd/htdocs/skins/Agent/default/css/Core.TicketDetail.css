@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -67,10 +67,13 @@ div.Headline .Flag {
     overflow: hidden;
 }
 
-.ArticleTableBody div.Scroller {
-    padding-top: 32px;
-    height: 140px;
+.ArticleTableBody .Scroller {
+    max-height: 140px;
     overflow-y: scroll;
+}
+    
+.FixedHeader .Scroller {
+    margin-top: 31px;
 }
 
 .ArticleMailHeader {
