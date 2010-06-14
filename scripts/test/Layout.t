@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.36 2010-06-14 08:42:28 mg Exp $
+# $Id: Layout.t,v 1.37 2010-06-14 09:02:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -922,10 +922,10 @@ for my $Test (@Tests) {
 //]]></script>
 <!--/DocumentReadyStart-->
 EOF
-        Result => <<'EOF',
+        Result => <<"EOF",
 
    alert();
-
+\n
    alert();
 
 EOF
