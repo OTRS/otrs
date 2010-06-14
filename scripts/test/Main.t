@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.13 2010-06-12 02:55:31 cr Exp $
+# $Id: Main.t,v 1.14 2010-06-14 17:17:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -279,9 +279,10 @@ $Self->True(
 
 # check if the file have the correct charset
 my $ContentSCALARRef = $Self->{MainObject}->FileRead(
-    Location => $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test2-utf-8.txt',
-    Mode     => 'utf8',
-    Result   => 'SCALAR',
+    Location => $Self->{ConfigObject}->Get('Home')
+        . '/scripts/test/sample/Main/PDF-test2-utf-8.txt',
+    Mode   => 'utf8',
+    Result => 'SCALAR',
 );
 
 my $Text = ${$ContentSCALARRef};

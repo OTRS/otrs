@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.8 2010-06-12 02:55:31 cr Exp $
+# $Id: SMIME.t,v 1.9 2010-06-14 17:17:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -297,7 +297,7 @@ for my $Count ( 1 .. 2 ) {
    #    for my $File (qw(xls txt doc png pdf)) {
     for my $File (qw(txt)) {
         my $Content = $Self->{MainObject}->FileRead(
-            Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/Crypt/",
+            Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/SMIME/",
             Filename  => "PGP-Test1.$File",
             Mode      => 'binmode',
         );
