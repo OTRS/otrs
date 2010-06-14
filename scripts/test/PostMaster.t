@@ -1,8 +1,8 @@
 # --
 # PostMaster.t - PostMaster tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.21 2009-11-25 23:13:23 mh Exp $
+# $Id: PostMaster.t,v 1.22 2010-06-14 08:16:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -128,7 +128,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 # new ticket check
                 my @Content;
                 my $MailFile = $Self->{ConfigObject}->Get('Home')
-                    . "/scripts/test/sample/PostMaster-Test$File.box";
+                    . "/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
                 open( IN, '<', $MailFile ) || die $!;
                 binmode(IN);
                 while ( my $Line = <IN> ) {
