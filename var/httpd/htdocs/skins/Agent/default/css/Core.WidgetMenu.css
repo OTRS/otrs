@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -19,6 +19,7 @@
     height: 24px;
     background: url(../img/controlrow.png) repeat-x;
     position: relative;
+    border-bottom: 1px solid #858585;
     -webkit-border-top-left-radius: 3px;
     -webkit-border-top-right-radius: 3px;
     -moz-border-radius-topleft: 3px;
@@ -277,13 +278,8 @@ ul.ContextFunctions li.ContextHelp:hover {
  * @subsection  Control Row Action Row
  */
 .ActionRow {
-    background: url(../img/actionrow_wrapper.png) repeat-x;
-    /* The background has a top dark grey line which is only needed, if this stands alone
-     * (without ControlRow above). With this margin/padding fix, it doesn't show this line
-     * in default use. */
-    margin-top: -1px;
-    padding-top: 1px;
-    border-bottom: 1px solid #666;
+    background: #777 url("../img/gradient_light.png") repeat-x;
+    border-top: 1px solid #D6D6D6;
     position: relative;
 }
 
