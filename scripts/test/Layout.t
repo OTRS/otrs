@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.34 2010-06-11 12:08:08 mg Exp $
+# $Id: Layout.t,v 1.35 2010-06-14 08:23:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -872,12 +872,12 @@ for my $Test (@Tests) {
     {
         Input  => '',
         Result => '',
-        Name   => 'LRST - empty test',
+        Name   => '_RemoveScriptTags - empty test',
     },
     {
         Input  => '<script type="text/javascript"></script>',
         Result => '',
-        Name   => 'LRST - just tags test',
+        Name   => '_RemoveScriptTags - just tags test',
     },
     {
         Input => '
@@ -892,7 +892,7 @@ for my $Test (@Tests) {
     // 456
     789
 ',
-        Name => 'LRST - some content test',
+        Name => '_RemoveScriptTags - some content test',
     },
     {
         Input => '
@@ -907,7 +907,7 @@ for my $Test (@Tests) {
     OTRS.UI.Tables.InitTableFilter($(\'#FilterGroups\'), $(\'#Groups\'));
 
         ',
-        Name => 'LRST - complet content from .dtl file test',
+        Name => '_RemoveScriptTags - complete content test',
     },
     {
         Input => <<'EOF',
@@ -929,7 +929,7 @@ EOF
    alert();
 
 EOF
-        Name => 'LRST - complet content from .dtl file test',
+        Name => '_RemoveScriptTags - complete content test with block comments',
     },
 );
 
