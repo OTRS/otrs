@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.30 2010-06-11 14:20:16 cg Exp $
+# $Id: UnitTest.pm,v 1.31 2010-06-14 07:49:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,10 +13,10 @@ package Kernel::System::UnitTest;
 
 use strict;
 use warnings;
-use Storable qw( freeze thaw );
+use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -452,8 +452,9 @@ sub IsDeeply {
         return;
     }
 
-    my $TestString     = freeze($Test);
-    my $ShouldBeString = freeze($ShouldBe);
+    local $Storable::canonical = 1;
+    my $TestString     = Storable::freeze($Test);
+    my $ShouldBeString = Storable::freeze($ShouldBe);
 
     if ( !defined $Test && !defined $ShouldBe ) {
         $Self->_Print( 1, "$Name (is 'undef')" );
@@ -497,8 +498,9 @@ sub IsNotDeeply {
         return;
     }
 
-    my $TestString     = freeze($Test);
-    my $ShouldBeString = freeze($ShouldBe);
+    local $Storable::canonical = 1;
+    my $TestString     = Storable::freeze($Test);
+    my $ShouldBeString = Storable::freeze($ShouldBe);
 
     if ( !defined $Test && !defined $ShouldBe ) {
         $Self->_Print( 0, "$Name (is 'undef')" );
@@ -664,6 +666,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2010-06-11 14:20:16 $
+$Revision: 1.31 $ $Date: 2010-06-14 07:49:57 $
 
 =cut
