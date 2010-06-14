@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -25,21 +25,16 @@ tbody tr.UnreadArticles td {
     vertical-align: middle;
 }
 
-.DataTable tr,
-.TableSmall tr {
-    height: 20px !important;
-}
-
 .DataTable tr:hover,
 .TableSmall tr:hover {
-    color: #000 !important;
+    color: #000;
 }
 
 /**
  * @subsection  Standard DataTable
  */
 .DataTable {
-    border: 1px solid #CCCCCC;
+    border: 1px solid #CCC;
     width: 100%;
     clear: both;
 }
@@ -49,7 +44,7 @@ tbody tr.UnreadArticles td {
 }
 
 .DataTable thead {
-    background-color: #DDD;
+    background: #777 url("../img/gradient_light.png") repeat-x;
     border-bottom:1px solid #CCC;
 }
 
@@ -66,16 +61,16 @@ tbody tr.UnreadArticles td {
 
 .DataTable thead th {
     background-image: none;
-    color: #444444;
+    color: #4B4B4B;
     font-size: 11px;
     line-height: 16px;
-    padding: 3px 4px 0;
+    padding: 3px 10px 0;
     text-transform: uppercase;
 }
 
 .DataTable thead th a {
     background-image: none;
-    color: #444444;
+    color: #444;
     font-size: 11px;
     height: 12px;
     line-height: 12px;
@@ -100,7 +95,7 @@ tbody tr.UnreadArticles td {
 }
 
 .DataTable tbody td {
-    padding: 0px 4px;
+    padding: 0 10px;
     border-right: 1px dotted #CCC;
 }
 
@@ -109,8 +104,8 @@ tbody tr.UnreadArticles td {
 }
 
 .DataTable tr td {
-    background-color: #FFF;
-    line-height: 14px;
+    background-color: #FDFDFD;
+    line-height: 18px;
 }
 
 .DataTable tr td.Highlight {
@@ -145,6 +140,10 @@ tbody tr.UnreadArticles td {
     font-size: 12px;
     border: none;
 }
+    
+.TableSmall thead {
+    border-bottom: none;
+}
 
 th.Checkbox,
 td.Checkbox {
@@ -176,28 +175,47 @@ td.Attachment {
 }
 
 .TableSmall thead th {
+    padding-top: 14px;
+    background: url("../img/thead_isolator.png") no-repeat right bottom;
     vertical-align: bottom;
-    border-right: 1px solid #AAA;
+}
+    
+.RTL .TableSmall thead th {
+    background-position: left bottom;
 }
 
 .TableSmall thead th.Last {
-    border-right: none;
+    padding-right: 16px;
+    background-image: none;
 }
 
 .TableSmall thead a {
-    padding: 4px 5px;
-    color: #444;
+    margin: 0 2px 1px 1px;
+    padding: 0 10px;
+    color: #4A4A4A;
     font-size: 11px;
-    line-height: 18px;
+    line-height: 15px;
     height: 15px;
     text-transform: uppercase;
     display: block;
-    background-image: none;
+}
+    
+.RTL .TableSmall thead a {
+    margin: 0 1px 1px 2px;
+}
+    
+.TableSmall thead .UnreadArticles a {
+    padding: 0 0 0 5px;   
+}
+    
+.RTL .TableSmall thead .UnreadArticles a {
+    padding: 0 5px 0 0;   
 }
 
 .TableSmall thead .SortAscending a,
 .TableSmall thead .SortDescending a {
-    color: #2A2A2A;
+    color: #2B2B2B;
+    font-weight: bold;
 }
 
 .TableSmall thead .SortAscending a {
@@ -219,8 +237,9 @@ td.Attachment {
 }
 
 .TableSmall thead a span {
-    display: block;
     height: 15px;
+    width: 16px;
+    display: block;
 }
 
 .TableSmall thead a span.Direction {
@@ -238,17 +257,14 @@ td.Attachment {
     margin-top: 6px;
 }
 
-.TableSmall thead a.UnreadArticles {
-    padding-left: 1px;
-}
-
-.TableSmall thead a span.UnreadArticles {
-    background-position: 0px -20px;
+.TableSmall thead .UnreadArticles span {
+    background-position: 0 -23px;
 }
 
 .TableSmall td {
-    padding-left: 3px;
-    padding-right: 3px;
+    padding: 0 10px;
+    background-color: #FDFDFD;
+    border-right: 1px dotted #CCC;
 }
 
 .TableSmall td.NonTextContent {
@@ -266,6 +282,7 @@ td.Attachment {
 }
 
 .TableSmall tr td.Last {
+    border-right: none;
     -webkit-border-top-right-radius: 3px;
     -webkit-border-bottom-right-radius: 3px;
     -moz-border-radius-topright: 3px;
@@ -276,6 +293,7 @@ td.Attachment {
 
 .TableSmall tbody tr.Active td {
     font-weight: bold;
+    background-color: #FFF;
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
 }
@@ -289,11 +307,7 @@ td.Attachment {
 }
 
 .TableSmall td a {
-    color: #000;
-}
-
-.TableSmall td.Last {
-    background: none;
+    color: #2F2F2F;
 }
 
 .TableSmall tr.Even td {
@@ -307,10 +321,10 @@ td.Attachment {
     box-shadow: 0 1px 0 #888;
 }
 
-.TableSmall tr:hover + tr td {
-    background-image: url(../img/tr_hover_next_shadow.png);
-    background-repeat: repeat-x;
-    background-position: top;
+.TableSmall td.Last:hover td {
+    -moz-box-shadow: 0;
+    -webkit-box-shadow: 0;
+    box-shadow: 0;
 }
 
 .TableSmall td:first-child {
@@ -357,7 +371,7 @@ td.Attachment {
 
 .TableSmall td h2 {
     font-size: 12px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 /**
@@ -365,7 +379,7 @@ td.Attachment {
  */
 .TableContextSettings {
     position: absolute;
-    right: 0px;
+    right: 0;
     top: 28px;
 }
 
@@ -383,25 +397,30 @@ td.Attachment {
 
 .FixedHeader table {
     height: 100%;
-    position: relative;
-    border-left: 1px solid #C6C6C6;
-    border-right: 1px solid #C6C6C6;
+    table-layout: fixed;
+    border-collapse: separate;
 }
 
 .FixedHeader thead {
-    padding: 8px 15px 0 0;
     margin: 0;
     top: 0;
     display: block;
     position: absolute;
 }
-
-.RTL .FixedHeader thead {
-    padding: 8px 0 0 15px;
+    
+.FixedHeader thead .Placeholder {
+    width: 16px;
+    background: none;
 }
 
 .FixedHeader tbody {
     display: block;
+    border-left: 1px solid #C6C5C4;
+    border-right: 1px solid #C6C5C4;
+}
+    
+.FixedHeader td {
+    line-height: 20px;
 }
 
 .FixedHeader .No {
@@ -420,6 +439,15 @@ td.Attachment {
 .FixedHeader .Subject {
     width: 30em;
 }
+    
+.FixedHeader .From div,
+.FixedHeader .Subject div,
+.FixedHeader .Type div,
+.FixedHeader td.Created a {
+    height: 20px;
+    overflow: hidden;
+    display: block;
+}
 
 .FixedHeader .Created {
     width: 13em;
@@ -433,7 +461,7 @@ td.Attachment {
  * @subsection  Handle for resizing tables
  */
 .Handle {
-    border-top: 1px solid #616161;
+    border-top: 1px solid #C6C5C4;
     background-color: #FFF;
     width: 100%;
 }
