@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.20 2010-03-25 14:42:45 martin Exp $
+# $Id: FS.pm,v 1.21 2010-06-15 18:49:41 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,7 +55,10 @@ sub FormIDRemove {
         return;
     }
 
-    my @List    = glob("$Self->{TempDir}/$Param{FormID}.*");
+    my @List = $Self->{MainObject}->DirectoryRead(
+        Directory => "$Self->{TempDir}/",
+        Filter    => "$Param{FormID}.*",
+    );
     my $Counter = 0;
     my @Data;
     for my $File (@List) {
@@ -143,7 +146,10 @@ sub FormIDGetAllFilesData {
         return;
     }
 
-    my @List    = glob("$Self->{TempDir}/$Param{FormID}.*");
+    my @List = $Self->{MainObject}->DirectoryRead(
+        Directory => "$Self->{TempDir}/",
+        Filter    => "$Param{FormID}.*",
+    );
     my $Counter = 0;
     my @Data;
     for my $File (@List) {
@@ -220,7 +226,10 @@ sub FormIDGetAllFilesMeta {
         return;
     }
 
-    my @List    = glob("$Self->{TempDir}/$Param{FormID}.*");
+    my @List = $Self->{MainObject}->DirectoryRead(
+        Directory => "$Self->{TempDir}/",
+        Filter    => "$Param{FormID}.*",
+    );
     my $Counter = 0;
     my @Data;
     for my $File (@List) {
@@ -285,8 +294,8 @@ sub FormIDGetAllFilesMeta {
 sub FormIDCleanUp {
     my ( $Self, %Param ) = @_;
 
-    my $CurrentTile = time() - 86400;               # 60 * 60 * 24 * 1
-    my @List        = glob("$Self->{TempDir}/*");
+    my $CurrentTile = time() - 86400;    # 60 * 60 * 24 * 1
+    my @List = $Self->{MainObject}->DirectoryRead( Directory => "$Self->{TempDir}/", );
     my %RemoveFormIDs;
     for my $File (@List) {
 
