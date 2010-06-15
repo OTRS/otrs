@@ -2,7 +2,7 @@
 # Warning.dtl - provides HTML warning screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Warning.dtl,v 1.10 2010-06-15 02:56:19 dz Exp $
+# $Id: Warning.dtl,v 1.11 2010-06-15 08:20:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <div class="W33pc CenterBox SpacingTopLarge SpacingBottomLarge">
         <div class="WidgetGradient Medium">
             <div class="Header">
-                <h2>$Text{"Warning"}.</h2>
+                <h2>$Text{"Warning"}</h2>
             </div>
             <div class="Content">
                 <h4>
@@ -26,7 +26,7 @@
                 </p>
 
                 <p class="SpacingTop">
-                    <a href="#" onclick="history.back(); return false;">Go back</a> to the previous page.
+                    <a href="#" onclick="history.back(); return false;">$Text{"Back to the previous page"}</a>
                 </p>
 
             </div>

@@ -2,7 +2,7 @@
 # Error.dtl - provides HTML Error screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Error.dtl,v 1.23 2010-06-08 08:50:12 mg Exp $
+# $Id: Error.dtl,v 1.24 2010-06-15 08:20:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ $Data{"BackendTraceback"}"
                         $Text{"You can"}
                         <button type="submit" value="$Text{"Send a bugreport"}">$Text{"Send a bugreport"}</button>
                         $Text{"or"}
-                        <a href="#" onclick="history.back(); return false;">go back</a> to the previous page.
+                        <a href="#" onclick="history.back(); return false;">$Text{"go back to the previous page"}</a>.
                     </p>
                 </form>
 

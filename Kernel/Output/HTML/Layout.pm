@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.257 2010-06-11 12:08:08 mg Exp $
+# $Id: Layout.pm,v 1.258 2010-06-15 08:20:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.257 $) [1];
+$VERSION = qw($Revision: 1.258 $) [1];
 
 =head1 NAME
 
@@ -1915,11 +1915,11 @@ sub NoPermission {
     my ( $Self, %Param ) = @_;
 
     my $WithHeader = $Param{WithHeader} || 'yes';
-    $Param{Message} = 'No Permission!' if ( !$Param{Message} );
+    $Param{Message} = 'Insufficient Rights.' if ( !$Param{Message} );
 
     # create output
     my $Output;
-    $Output = $Self->Header( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
+    $Output = $Self->Header( Title => 'Insufficient Rights' ) if ( $WithHeader eq 'yes' );
     $Output .= $Self->Output( TemplateFile => 'NoPermission', Data => \%Param );
     $Output .= $Self->Footer() if ( $WithHeader eq 'yes' );
 
@@ -4651,6 +4651,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.257 $ $Date: 2010-06-11 12:08:08 $
+$Revision: 1.258 $ $Date: 2010-06-15 08:20:07 $
 
 =cut
