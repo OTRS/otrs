@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.6 2010-06-02 14:12:19 mg Exp $
+# $Id: SysConfig.pm,v 1.7 2010-06-15 14:28:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -692,6 +692,34 @@ sub ConfigItemGet {
                             { Content => $Content, }
                         );
                     }
+                }
+                elsif ( $Key eq 'Loader' ) {
+                    my %LoaderFiles;
+                    for my $Key2 ( %{ $Hash{$Key} } ) {
+                        my @Files;
+                        if (
+                            $Key2    eq 'CSS'
+                            || $Key2 eq 'CSS_IE7'
+                            || $Key2 eq 'CSS_IE8'
+                            || $Key2 eq 'JavaScript'
+                            )
+                        {
+                            if ( ref $Key2 ne 'ARRAY' ) {
+                                for my $Index ( 0 .. $#{ $Hash{$Key}->{$Key2} } ) {
+                                    my $LoaderFile = $Hash{$Key}->{$Key2}[$Index];
+                                    push(
+                                        @Files,
+                                        { Content => $LoaderFile }
+                                    );
+                                }
+                                $LoaderFiles{$Key2} = \@Files;
+                            }
+                        }
+                    }
+                    push(
+                        @{ $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} },
+                        \%LoaderFiles
+                    );
                 }
                 elsif ( $Key eq 'NavBar' || $Key eq 'NavBarModule' ) {
                     if ( ref $Hash{$Key} eq 'ARRAY' ) {
@@ -1835,6 +1863,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2010-06-02 14:12:19 $
+$Revision: 1.7 $ $Date: 2010-06-15 14:28:29 $
 
 =cut
