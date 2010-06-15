@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.45 2010-06-15 05:00:27 dz Exp $
+# $Id: Main.pm,v 1.46 2010-06-15 15:10:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Encode;
 use Unicode::Normalize;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -834,11 +834,12 @@ Reads a directory and returns an array with results
 
     my @FilesInDirectory = $MainObject->DirectoryRead(
         Directory => '/tmp',
-        Filter => 'FileNam*',
+        Filter    => 'Filenam*',
     );
 
     my @FilesInDirectory = $MainObject->DirectoryRead(
         Directory => $Path,
+        Filter    => '*',
     );
 
     without filter the default is *
@@ -846,7 +847,7 @@ Reads a directory and returns an array with results
 
     my @FilesInDirectory = $MainObject->DirectoryRead(
         Directory => '/tmp',
-        Filter => \@MyFilters,
+        Filter    => \@MyFilters,
     );
 
 =cut
@@ -854,11 +855,12 @@ Reads a directory and returns an array with results
 sub DirectoryRead {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw ( Directory )) {
+    # check needed params
+    for my $Needed (qw(Directory Filter)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log(
-                Message  => "Needed $Needed : $!",
-                Priority => 'info',
+                Message  => "Needed $Needed: $!",
+                Priority => 'error',
             );
             return;
         }
@@ -867,87 +869,61 @@ sub DirectoryRead {
     # if directory doesn't exists stop
     if ( !-d $Param{Directory} ) {
         $Self->{LogObject}->Log(
-            Message  => "Directory doesn't exists: $Param{Directory} : $!",
-            Priority => 'info',
+            Message  => "Directory doesn't exists: $Param{Directory}: $!",
+            Priority => 'error',
         );
         return;
     }
 
-    my @GlobResults;
-    my $Filter;
-
-    # glob search
-    # see if filter is an array
-    if ( ref $Param{Filter} ne "ARRAY" ) {
-        $Filter = $Param{Filter} || '*';    # if no filter glob look for all files
-        if ( $Filter !~ m{\*}xms ) {
-            $Filter = '*' . $Filter . '*'
-        }
-        @GlobResults = glob "$Param{Directory}/$Filter";
-    }
-    else {
-        my @Filter;
-
-        # prepare filter
-        for my $Filter ( @{ $Param{Filter} } ) {
-            if ( $Filter !~ m{(?:\A \*|\* \z)}xms ) {
-                $Filter = '*' . $Filter . '*'
-            }
-            push @Filter, $Filter;
-        }
-
-        # executes glob for every filter
-        for my $Filter (@Filter) {
-            my @Glob;
-            push @Glob, glob "$Param{Directory}/$Filter";
-
-            # look for repeted values
-            for my $GlobName (@Glob) {
-                my $Found;
-                for my $StoredName (@GlobResults) {
-                    if ( $GlobName eq $StoredName ) {
-                        $Found = 1
-                    }
-                }
-                if ( !$Found ) {
-                    push @GlobResults, $GlobName;
-                }
-            }
-        }
-    }
-
-    my @CleanResults;
-
-    # clean up registries (delete path)
-    if ( !scalar @GlobResults ) {
+    # check Filter param
+    if ( ref $Param{Filter} ne '' && ref $Param{Filter} ne 'ARRAY' ) {
+        $Self->{LogObject}->Log(
+            Message  => 'Filter param need to be scalar or array ref!',
+            Priority => 'error',
+        );
         return;
     }
-    else {
 
-        # clean results
-        for my $Data (@GlobResults) {
-            if ( $Data =~ s{\A $Param{Directory}/}{}xms ) {
-                push @CleanResults, $Data;
+    # prepare non array filter
+    if ( ref $Param{Filter} ne 'ARRAY' ) {
+        $Param{Filter} = [ $Param{Filter} ];
+    }
+
+    # executes glob for every filter
+    my @GlobResults;
+    for my $Filter ( @{ $Param{Filter} } ) {
+        my @Glob = glob "$Param{Directory}/$Filter";
+
+        # look for repeted values
+        for my $GlobName (@Glob) {
+            next if !-e $GlobName;
+            my $Found;
+            for my $StoredName (@GlobResults) {
+                if ( $GlobName eq $StoredName ) {
+                    $Found = 1
+                }
+            }
+            if ( !$Found ) {
+                push @GlobResults, $GlobName;
             }
         }
+    }
+
+    # clean results
+    my @CleanResults;
+    for my $Data (@GlobResults) {
+        $Data =~ s{\A $Param{Directory}/}{}xms;
+        push @CleanResults, $Data;
     }
 
     # if clean results
-    my @Results;
-    if ( !@CleanResults ) {
-        $Self->{LogObject}->Log(
-            Message  => "No results on directory search: $Param{Directory}: $!",
-            Priority => 'info',
-        );
-        return;
-    }
-    else {
+    return if !@CleanResults;
 
-        # compose normalize every name in the file list
-        for my $FileName (@CleanResults) {
-            my $Normalized = Unicode::Normalize::normalize( "NFC", $FileName );
-            push @Results, $Normalized;
-        }
+    # compose normalize every name in the file list
+    my @Results;
+    for my $Filename (@CleanResults) {
+        my $Normalized = Unicode::Normalize::normalize( 'NFC', $Filename );
+        push @Results, $Normalized;
     }
 
     return @Results;
@@ -971,6 +947,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2010-06-15 05:00:27 $
+$Revision: 1.46 $ $Date: 2010-06-15 15:10:41 $
 
 =cut
