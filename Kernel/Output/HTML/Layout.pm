@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.261 2010-06-15 15:23:21 mn Exp $
+# $Id: Layout.pm,v 1.262 2010-06-15 15:27:56 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.261 $) [1];
+$VERSION = qw($Revision: 1.262 $) [1];
 
 =head1 NAME
 
@@ -1324,8 +1324,6 @@ sub Footer {
         my $VacationDaysJSON = $Self->JSONEncode(
             Data => $VacationDays
         );
-
-        print STDERR "RTL: " . $Self->{LanguageObject}->{TextDirection} . "\n";
 
         $Self->Block(
             Name => 'DatepickerData',
@@ -4645,6 +4643,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.261 $ $Date: 2010-06-15 15:23:21 $
+$Revision: 1.262 $ $Date: 2010-06-15 15:27:56 $
 
 =cut
