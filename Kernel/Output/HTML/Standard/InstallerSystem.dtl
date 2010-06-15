@@ -2,7 +2,7 @@
 # InstallerSystem.dtl - provides the system data for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerSystem.dtl,v 1.11 2010-06-15 21:32:30 en Exp $
+# $Id: InstallerSystem.dtl,v 1.12 2010-06-15 21:45:51 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,7 +73,7 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="LogModule::LogFile">$Text{"Logfile"}:</label>
+                <label for="LogModule::LogFile">$Text{"LogFile"}:</label>
                 <div class="Field">
                     <input type="text" id="LogModule::LogFile" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" class="W33pc"/>
                     <p class="FieldExplanation">
@@ -89,7 +89,7 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="DefaultCharset">$Text{"Default Charset"}:</label>
+                <label for="DefaultCharset">$Text{"Default charset"}:</label>
                 <div class="Field">
                     <input type="text" id="DefaultCharset" name="DefaultCharset" value="$QData{"DefaultCharset"}" class="W33pc"/>
                     <p class="FieldExplanation">
@@ -98,7 +98,7 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="DefaultLanguage">$Text{"Default Language"}:</label>
+                <label for="DefaultLanguage">$Text{"Default language"}:</label>
                 <div class="Field">
                     $Data{"LanguageString"}
                     <p class="FieldExplanation">

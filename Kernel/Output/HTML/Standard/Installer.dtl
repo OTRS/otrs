@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.34 2010-06-15 21:32:30 en Exp $
+# $Id: Installer.dtl,v 1.35 2010-06-15 21:45:51 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,11 @@
     <noscript>
     <div class="WidgetGradient Short MinHeight">
         <div class="Header">
-            <h2 class="Center">$Text{"JavaScript Not Available"}</h2>
+            <h2 class="Center">$Text{"JavaScript not available"}</h2>
         </div>
         <div class="Content">
             <p class="SpacingTop Center">
-                $Text{"In order to experience OTRS, you'll need to enable Javascript in your browser."}
+                $Text{"In order to experience OTRS, you'll need to enable JavaScript in your browser."}
             </p>
         </div>
     </div>

@@ -2,7 +2,7 @@
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBStart.dtl,v 1.1 2010-06-15 21:32:30 en Exp $
+# $Id: InstallerDBStart.dtl,v 1.2 2010-06-15 21:45:51 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="DBPassword">$Text{"Admin-Password"}:</label>
+                <label for="DBPassword">$Text{"Admin-password"}:</label>
                 <div class="Field">
                     <input type="password" id="DBPassword" name="DBPassword" value="" class="W25pc"/>
                 </div>
@@ -94,7 +94,7 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label>$Text{"Default Charset"}:</label>
+                <label>$Text{"Default charset"}:</label>
                 <div class="Field">
                     $Text{"utf8"}: $Text{"Yes"}
                     <input type="radio" name="DBDefaultCharset" checked="checked" value="utf8"/>
