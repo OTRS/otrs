@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.7 2010-06-15 14:28:29 cg Exp $
+# $Id: SysConfig.pm,v 1.8 2010-06-15 19:54:47 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -887,7 +887,10 @@ sub ConfigItemGet {
         )
     {
         my $Home = $Self->{Home};
-        my @List = glob( $Home . "/$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}" );
+        my @List = $Self->{MainObject}->DirectoryRead(
+            Directory => $Home,
+            Filter    => "$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}",
+        );
         for my $Item (@List) {
             $Item =~ s/\Q$Home\E//g;
             $Item =~ s/^[A-z]://g;
@@ -1424,11 +1427,15 @@ sub _Init {
     # load xml config files
     if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
         my %Data;
-        my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.xml");
+        my $Directory = "$Self->{Home}/Kernel/Config/Files/";
+        my @Files     = $Self->{MainObject}->DirectoryRead(
+            Directory => $Directory,
+            Filter    => "*.xml",
+        );
         for my $File (@Files) {
             my $ConfigFile = '';
             my $In;
-            if ( open( $In, '<', $File ) ) {
+            if ( open( $In, '<', $Directory . $File ) ) {
                 $ConfigFile = do { local $/; <$In> };
                 close $In;
             }
@@ -1470,7 +1477,10 @@ sub _Init {
                 else {
 
                     # remove all cache files
-                    my @List = glob("$Self->{Home}/var/tmp/SysConfig-Cache$FileCachePart-*.pm");
+                    my @List = $Self->{MainObject}->DirectoryRead(
+                        Directory => "$Self->{Home}/var/tmp/",
+                        Filter    => "SysConfig-Cache$FileCachePart-*.pm",
+                    );
                     for my $File (@List) {
                         unlink $File;
                     }
@@ -1863,6 +1873,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2010-06-15 14:28:29 $
+$Revision: 1.8 $ $Date: 2010-06-15 19:54:47 $
 
 =cut
