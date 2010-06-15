@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.71 2010-01-13 17:07:44 martin Exp $
+# $Id: Installer.pm,v 1.72 2010-06-15 21:33:54 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -168,12 +168,22 @@ sub Run {
             return $Output;
         }
 
+        # build the select field for the InstallerDBStart.dtl
+        $Param{SelectDBType} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                MySQL => 'MySQL',
+            },
+            Name       => 'DBType',
+            SelectedID => 'MySQL',
+        );
+
         my $Output = $Self->{LayoutObject}->Header( Title => 'Create Database' );
         $Self->{LayoutObject}->Block(
             Name => 'DatabaseStart',
             Data => {
-                Item => 'Create Database',
-                Step => '2/4',
+                Item         => 'Create Database',
+                Step         => '2/4',
+                SelectDBType => $Param{SelectDBType},
                 }
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -612,6 +622,17 @@ sub Run {
             SelectedID => $Self->{ConfigObject}->Get('LogModule'),
         );
         $Param{DefaultCharset} = $Self->{ConfigObject}->Get('DefaultCharset') || 'utf-8';
+
+        # build the select field for the InstallerDBStart.dtl
+        $Param{SelectCheckMXRecord} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                1 => 'Yes',
+                0 => 'No',
+            },
+            Name       => 'CheckMXRecord',
+            SelectedID => '1',
+        );
+
         my $Output = $Self->{LayoutObject}->Header( Title => 'System Settings' );
         $Self->{LayoutObject}->Block(
             Name => 'System',
@@ -667,6 +688,15 @@ sub Run {
         my $MailAccount  = Kernel::System::MailAccount->new( %{$Self} );
         my %MailBackends = $MailAccount->MailAccountBackendList();
 
+        my $OutboundMailTypeSelection = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                sendmail => 'Sendmail',
+                smtp     => 'SMTP',
+            },
+            Name     => 'OutboundMailType',
+            OnChange => 'SelectOutboundMailType(this)',
+        );
+
         my $InboundMailTypeSelection = $Self->{LayoutObject}->BuildSelection(
             Data => \%MailBackends,
             Name => 'InboundMailType',
@@ -676,9 +706,10 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigureMail',
             Data => {
-                Item            => 'Mail configuration',
-                Step            => '3/4',
-                InboundMailType => $InboundMailTypeSelection,
+                Item             => 'Mail configuration',
+                Step             => '3/4',
+                InboundMailType  => $InboundMailTypeSelection,
+                OutboundMailType => $OutboundMailTypeSelection,
             },
         );
         $Output .= $Self->{LayoutObject}->Output(

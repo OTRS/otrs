@@ -1,0 +1,79 @@
+# --
+# InstallerFinish.dtl - provides the Installer's finish screen
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: InstallerFinish.dtl,v 1.13 2010-06-15 21:32:30 en Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="Center">
+    <img border="0" src="$Config{"Frontend::ImagePath"}installer3.png" alt="" />
+</div>
+
+<div class="W50pc SpacingTop SpacingBottom CenterBox">
+    <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action"    value="Installer"/>
+        <input type="hidden" name="Subaction" value="Finish"/>
+
+        <div class="Header">
+            <h2>$Text{"$Data{"Item"}"} ($Data{"Step"})</h2>
+        </div>
+
+        <div class="Content">
+            <fieldset class="TableLike">
+
+<!-- dtl:block:Restart -->
+                <div>
+                    <p>
+                        $Text{"To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root."}
+                    </p>
+                </div>
+                <div class="Clear"></div>
+
+                <label>$Text{"Restart your webserver"}:</label>
+                <div class="Field Red">
+                    $Data{"Webserver"}
+                </div>
+                <div class="Clear"></div>
+
+                <div>
+                    <p>
+                        $Text{"After doing so your OTRS is up and running."}
+                    </p>
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:Restart -->
+
+                <label>$Text{"Start page"}:</label>
+                <div class="Field">
+                    <a href="http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl">
+                        http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl
+                    </a>
+                </div>
+                <div class="Clear"></div>
+
+                <label>$Text{"User"}:</label>
+                <div class="Field">
+                    root@localhost
+                </div>
+                <div class="Clear"></div>
+
+                <label>$Text{"Password"}:</label>
+                <div class="Field">
+                    root
+                </div>
+                <div class="Clear"></div>
+
+                <label></label>
+                <div class="Field Center">
+                    <p>((enjoy))</p>
+                    <p>$Text{"Your OTRS Team"}</p>
+                </div>
+                <div class="Clear"></div>
+                </fielset>
+            </div>
+        </form>
+    </div>

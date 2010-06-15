@@ -1,0 +1,63 @@
+# --
+# InstallerDBResult.dtl - provides the status of the new DB for the Installer
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: InstallerDBResult.dtl,v 1.1 2010-06-15 21:32:30 en Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="Center">
+    <img border="0" src="$Config{"Frontend::ImagePath"}installer1.png" alt="" />
+</div>
+
+<div class="W50pc SpacingTop SpacingBottom CenterBox">
+    <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="Installer"/>
+
+        <div class="Header">
+            <h2>$Text{"$Data{"Item"}"} ($Data{"Step"})</h2>
+        </div>
+
+        <div class="Content">
+            <fieldset class="TableLike">
+
+<!-- dtl:block:DatabaseResultItem -->
+                <label for="DBUser">$QData{"Item"}:</label>
+                <div class="Field">
+
+<!-- dtl:block:DatabaseResultItemDone -->
+                    <p class="Green"><strong>done.</strong></p>
+<!-- dtl:block:DatabaseResultItemDone -->
+
+<!-- dtl:block:DatabaseResultItemFalse -->
+                    <p class="Red"><strong>$Text{"false"}! :-(</strong></p>
+<!-- dtl:block:DatabaseResultItemFalse -->
+
+<!-- dtl:block:DatabaseResultItemMessage -->
+                    <p class="FieldExplanation">---==> $QData{"Message"}</p>
+<!-- dtl:block:DatabaseResultItemMessage -->
+
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:DatabaseResultItem -->
+
+            </fieldset>
+            <div class="Center">
+
+<!-- dtl:block:DatabaseResultBack -->
+                <input type="hidden" name="Subaction" value="Start"/>
+                <button type="submit" value="$Text{"...Back"}">$Text{"...Back"}</button>
+<!-- dtl:block:DatabaseResultBack -->
+
+<!-- dtl:block:DatabaseResultNext -->
+                <input type="hidden" name="Subaction" value="System"/>
+                <button type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
+<!-- dtl:block:DatabaseResultNext -->
+
+            </div>
+        </div>
+    </form>
+</div>

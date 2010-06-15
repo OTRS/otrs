@@ -1,0 +1,201 @@
+# --
+# InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: InstallerConfigureMail.dtl,v 1.1 2010-06-15 21:32:30 en Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="Center">
+    <img border="0" src="$Config{"Frontend::ImagePath"}installer2.png" alt="" />
+</div>
+
+<div class="W50pc SpacingTop SpacingBottom CenterBox">
+    <form action="$Env{"CGIHandle"}" method="post" id="formmail">
+        <input type="hidden" name="Action" value="Installer"/>
+        <input type="hidden" name="Subaction" value="Finish"/>
+        <input type="hidden" name="Skip" value="0"/>
+
+        <div class="Header">
+            <h2>$Text{"$Data{"Item"}"} ($Data{"Step"})</h2>
+        </div>
+
+        <div class="Content">
+            <fieldset class="TableLike">
+                <div>
+                    <h4>
+                        $Text{"Configure Outbound Mail"}
+                    </h4>
+                </div>
+                <div class="Clear"></div>
+
+                <label for="OutboundMailType">$Text{"Outbound Mail Type"}:</label>
+                <div class="Field">
+                    $Data{"OutboundMailType"}
+                    <p class="FieldExplanation">
+                        $Text{"Select outbound mail type."}
+                    </p>
+                </div>
+                <div class="Clear"></div>
+            </fieldset>
+
+            <fieldset class="TableLike infosmtp Hidden">
+                <label for="SMTPHost">$Text{"SMTP host"}:</label>
+                <div class="Field">
+                    <input type="text" id="SMTPHost" name="SMTPHost" value="$QData{"SMTPHost"}" class="W33pc"/>
+                    <p class="FieldExplanation">
+                        $Text{"SMTP host."}
+                    </p>
+                </div>
+                <div class="Clear"></div>
+
+                <label for="SMTPAuth">$Text{"SMTP Authentication"}:</label>
+                <div class="Field">
+                    <input type="checkbox" id="SMTPAuth" name="SMTPAuth" onchange="CheckSMTPAuth(this);" />
+                    <p class="FieldExplanation">
+                        $Text{"Does your SMTP host need authentication?"}
+                    </p>
+                </div>
+                <div class="Clear"></div>
+            </fieldset>
+
+            <fieldset class="TableLike infosmtpauth Hidden">
+                <label for="SMTPAuthUser">$Text{"SMTP Auth User"}:</label>
+                <div class="Field">
+                    <input type="text" id="SMTPAuthUser" name="SMTPAuthUser" value="$QData{"SMTPAuthUser"}" disabled="disabled" class="W33pc"/>
+                    <p class="FieldExplanation">
+                        $Text{"Username for SMTP Auth."}
+                    </p>
+                </div>
+                <div class="Clear"></div>
+
+                <label for="SMTPAuthPassword">$Text{"SMTP Auth Password"}:</label>
+                <div class="Field">
+                    <input type="password" id="SMTPAuthPassword" name="SMTPAuthPassword" value="$QData{"SMTPAuthPassword"}" disabled="disabled" class="W33pc"/>
+                    <p class="FieldExplanation">
+                        $Text{"Password for SMTP Auth."}
+                    </p>
+                </div>
+                <div class="Clear"></div>
+            </fieldset>
+
+            <fieldset class="TableLike">
+                <div>
+                    <h4>
+                        $Text{"Configure Inbound Mail"}
+                    </h4>
+                </div>
+                <div class="Clear"></div>
+
+                <label for="InboundMailType">$Text{"Inbound Mail Type"}:</label>
+                <div class="Field">
+                    $Data{"InboundMailType"}
+                    <p class="FieldExplanation">
+                        $Text{"Select inbound mail type."}
+                    </p>
+                </div>
+                <div class="Clear"></div>
+
+                <label for="InboundHost">$Text{"Inbound Mail host"}:</label>
+                <div class="Field">
+                    <input type="text" id="InboundHost" name="InboundHost" value="$QData{"InboundHost"}" class="W33pc"/>
+                    <p class="FieldExplanation">
+                        $Text{"Inbound Mail host."}
+                    </p>
+                </div>
+                <div class="Clear"></div>
+
+                <label for="InboundUser">$Text{"Inbound Mail User"}:</label>
+                <div class="Field">
+                    <input type="text" id="InboundUser" name="InboundUser" value="$QData{"InboundUser"}" class="W33pc"/>
+                    <p class="FieldExplanation">
+                        $Text{"User for Inbound Mail."}
+                    </p>
+                </div>
+                <div class="Clear"></div>
+
+                <label for="InboundPassword">$Text{"Inbound Mail Password"}:</label>
+                <div class="Field">
+                    <input type="text" id="InboundPassword" name="InboundPassword" value="$QData{"InboundPassword"}" class="W33pc"/>
+                    <p class="FieldExplanation">
+                        $Text{"Password for Inbound Mail."}
+                    </p>
+                </div>
+                <div class="Clear"></div>
+            </fieldset>
+
+            <fieldset class="TableLike Hidden errormsg">
+                <div>
+                    <h4>
+                        $Text{"Result of mail configuration check"}
+                    </h4>
+                </div>
+                <div class="Clear"></div>
+
+                <div class="Field">
+                    <p class="Red" id="formmailresultmessage"></p>
+                </div>
+                <div class="Clear"></div>
+
+            </fieldset>
+        </div>
+
+        <div class="SpacingTop Center">
+            <button type="button" onclick="SkipMailConfig()" value="$Text{"Skip this step"}">$Text{"Skip this step"}</button>
+            <button type="button" onclick="CheckMailConfig()" value="$Text{"Check Mail Configuration"}">$Text{"Check Mail Configuration"}</button>
+        </div>
+    </form>
+</div>
+
+<script type="Text/javascript">
+    function SelectOutboundMailType(obj) {
+        var value = $(obj).val();
+        if (value == "smtp") {
+            $('.infosmtp').show();
+        }
+        else {
+            $('.infosmtp, .infosmtpauth').hide().find('input[name=SMTPAuth]').removeAttr('checked');
+        }
+    }
+
+    function CheckSMTPAuth(obj) {
+        if ($(obj).is(':checked')) {
+            $('.infosmtpauth').show().find('input').removeAttr('disabled');
+        }
+        else {
+            $('.infosmtpauth input').attr('disabled', 'disabled').val("");
+            $('.infosmtpauth').hide();
+        }
+    }
+
+    function SkipMailConfig() {
+        $('input[name=Skip]').val('1');
+        $('form').submit();
+    }
+
+    function CheckMailConfig() {
+        $('input[name=Skip]').val('0');
+        // Check mail data via AJAX
+        $('input[name=Subaction]').val('CheckRequirements');
+        var Data = $('#formmail').serialize();
+        Data += "&CheckMode=Mail";
+        Core.AJAXFunctionCall( { Data: Data, Callback: CheckMailConfigCallback } );
+        $('input[name=Subaction]').val('Finish');
+    }
+
+    function CheckMailConfigCallback(json) {
+        if (parseInt(json['Successful']) == 1) {
+            alert('$JSText{"Mail check successful."}');
+            $('div.errormsg').hide();
+            $('form').submit();
+        }
+        else {
+            $('#formmailresultmessage').html(json['Message']);
+            $('fieldset.errormsg').show();
+            alert('$JSText{"Error in the mail settings. Please correct and try again."}');
+        }
+    }
+//]]></script>
