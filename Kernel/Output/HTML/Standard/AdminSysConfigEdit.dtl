@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.65 2010-06-08 08:32:02 fn Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.66 2010-06-15 14:31:05 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -207,6 +207,17 @@
                                     <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
                                     <button class="Add" type="submit" name="$QData{"ElementKey"}#NewGroupRoElement" value="$Text{"New group ro"}">$Text{"New group ro"}</button>
+                                </div>
+
+                                <label class="KeyWithComplexValue">$Text{"Loader"}:</label>
+                                <div class="Array">
+<!-- dtl:block:ConfigElementFrontendModuleRegContentLoader -->
+                                    <input type="text" class="Entry" name="$QData{"ElementKey"}#Loader[]" value="$QData{"Content"}"/>
+                                    $Data{"ValidKey"}
+                                    <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteLoaderElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
+                                    <br/>
+<!-- dtl:block:ConfigElementFrontendModuleRegContentLoader -->
+                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#NewLoaderElement" value="$Text{"New Loader File"}">$Text{"New Loader File"}</button>
                                 </div>
 
                                 <label class="SingleKey" for="$QData{"ElementKeyID"}_Title">$Text{"Title"}:</label>

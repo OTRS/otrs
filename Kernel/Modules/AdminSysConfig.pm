@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.96 2010-05-24 18:40:46 mb Exp $
+# $Id: AdminSysConfig.pm,v 1.97 2010-06-15 14:30:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -389,6 +389,53 @@ sub Run {
                         $Content{$Type} = \@Group;
                     }
                 }
+
+                # Loader start
+
+                my @Loader = $Self->{ParamObject}->GetArray(
+                    Param => $ElementKey . '#Loader[]'
+                );
+                my @LoaderFileTypes = (
+                    'CSS',
+                    'CSS_IE7',
+                    'CSS_IE8',
+                    'JavaScript',
+                );
+
+                # New Loader Element
+                my $New = $Self->{ParamObject}->GetParam(
+                    Param => $ElementKey . '#NewLoaderElement'
+                );
+                if ($New) {
+                    push @Loader, '';
+                    $Anker = $ElementKey;
+                }
+                my %LoaderFiles;
+
+                # If @loader have values
+                if ( scalar @Loader > 0 ) {
+
+                    # Find for every file kind
+                    for my $Key (@LoaderFileTypes) {
+                        my @LoaderArray;
+                        for my $Index ( 0 .. $#Loader ) {
+                            my $TypeKey = $Self->{ParamObject}
+                                ->GetParam( Param => $ElementKey . 'LoaderType' . $Index );
+                            if ( $TypeKey and ( $Key eq $TypeKey ) ) {
+                                push @LoaderArray, $Loader[$Index];
+                            }
+                        }
+                        if ( scalar @LoaderArray > 0 ) {
+                            $LoaderFiles{$Key} = \@LoaderArray;
+                        }
+                    }
+                }
+
+                #                    if ( $#LoaderFiles > 0 ) {
+                $Content{Loader} = \%LoaderFiles;
+
+                #                    }
+                # Loader finish
 
                 # NavBar get Params
                 my %NavBarParams;
@@ -1202,6 +1249,41 @@ sub ListConfigItem {
                         Content    => $FrontendModuleReg->{$ArrayElement}->[$Index]->{Content},
                     },
                 );
+            }
+        }
+
+        #Define array with keys for the Loader
+        my @ArrayRef = (
+            'CSS',
+            'CSS_IE7',
+            'CSS_IE8',
+            'JavaScript',
+        );
+
+        for my $Index ( 1 .. $#{ $FrontendModuleReg->{Loader} } ) {
+
+            my $Content = $FrontendModuleReg->{Loader}->[$Index];
+            my $Counter = 0;
+            for my $Key ( sort keys %{$Content} ) {
+                if ( grep $_ eq $Key, @ArrayRef )
+                {
+
+                    for my $Index ( 0 .. $#{ $Content->{$Key} } ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ConfigElementFrontendModuleRegContentLoader',
+                            Data => {
+                                Index      => $Index,
+                                ElementKey => $ItemHash{Name},
+                                Content    => $Content->{$Key}->[$Index]->{Content},
+                                ValidKey   => $Self->{LayoutObject}->BuildSelection(
+                                    Data       => \@ArrayRef,
+                                    Name       => $Data{ElementKey} . 'LoaderType' . $Counter++,
+                                    SelectedID => $Key,
+                                ),
+                            },
+                        );
+                    }
+                }
             }
         }
 
