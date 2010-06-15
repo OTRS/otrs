@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.16 2010-06-15 15:10:41 martin Exp $
+# $Id: Main.t,v 1.17 2010-06-15 15:11:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -325,7 +325,7 @@ my $Path                  = $Self->{ConfigObject}->Get('TempDir');
 my $DirectoryWithFiles    = "$Path/WithFiles";
 my $DirectoryWithoutFiles = "$Path/WithoutFiles";
 
-my @Tests = (
+@Tests = (
     {
         Name      => 'Read directory with files, \'Example_File*\' Filter',
         Filter    => 'Example_File*',
@@ -410,8 +410,8 @@ my @Chars = (
 );
 for my $Char (@Chars) {
     my $Filename = Encode::encode( 'UTF8', 'Example_File_' ) . $Char;
-    my $Content  = "This is the content $Char";
-    my $Filename = $Self->{MainObject}->FileWrite(
+    my $Content = "This is the content $Char";
+    $Filename = $Self->{MainObject}->FileWrite(
         Directory => $DirectoryWithFiles,
         Filename  => $Filename,
         Content   => \$Content,
