@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.14 2010-06-14 17:17:45 cr Exp $
+# $Id: Main.t,v 1.15 2010-06-15 05:00:27 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 use utf8;
+use Encode;
+use Unicode::Normalize;
 
 # FilenameCleanUp - tests
 my @Tests = (
@@ -317,4 +319,289 @@ $Self->False(
     'FileGetMTime() for nonexisting file',
 );
 
+# -------------------------------------
+# testing DirectoryRead function
+
+my $Path = $Self->{ConfigObject}->Get('TempDir');
+
+# creating needed test stuff
+if ( !-d "$Path/WithFiles" ) {
+    mkdir "$Path/WithFiles" or
+        $Self->{LogObject}->Log(
+        Message  => "Main test: $!",
+        Priority => 'error',
+        );
+}
+
+if ( !-d "$Path/WithoutFiles" ) {
+    mkdir "$Path/WithoutFiles" or
+        $Self->{LogObject}->Log(
+        Message  => "Main test: $!",
+        Priority => 'error',
+        );
+}
+
+my $DirectoryWithFiles    = "$Path/WithFiles";
+my $DirectoryWithoutFiles = "$Path/WithoutFiles";
+
+my @FileNames;
+my @FileContent;
+
+for my $Number ( 0 .. 5 ) {
+    push @FileNames,   "Example_File_$Number";
+    push @FileContent, "This is the content $Number";
+
+    if ( $DirectoryWithFiles && !-e "$DirectoryWithFiles/$Number" ) {
+        $Self->{MainObject}->FileWrite(
+            Directory => "$DirectoryWithFiles",
+            Filename  => "Example_File_$Number",
+            Content   => \$FileContent[$Number],
+        );
+    }
+}
+
+{
+
+    my $TestName = 'Read directory with files, \'Example_File*\' Filter';
+
+    #--
+    my @TestResults;
+    @TestResults = $Self->{MainObject}->DirectoryRead(
+        Directory => $DirectoryWithFiles,
+        Filter    => "Example_File*",
+    );
+    $Self->True( scalar @TestResults, $TestName );
+}
+
+{
+
+    my $TestName = 'Read directory with files, \'XX_NOTEXIST_XX\' wrong Filter';
+
+    #--
+    my @TestResults;
+    @TestResults = $Self->{MainObject}->DirectoryRead(
+        Directory => $DirectoryWithFiles,
+        Filter    => "XX_NOTEXIST_XX",
+    );
+    $Self->False( scalar @TestResults, $TestName );
+}
+
+{
+
+    my $TestName = 'Read directory with files, *0 *1 *2 Filters';
+
+    #--
+    my @TestResults;
+    my @Filter = qw( *0 *1 *2 );
+    @TestResults = $Self->{MainObject}->DirectoryRead(
+        Directory => $DirectoryWithFiles,
+        Filter    => \@Filter,
+    );
+
+    my @CorrectResults = qw (Example_File_0 Example_File_1 Example_File_2);
+    @CorrectResults = sort @CorrectResults;
+    @TestResults    = sort @TestResults;
+
+    my $Test           = 1;
+    my $CorrectResults = scalar @CorrectResults;
+    if ( scalar @TestResults ) {
+        if ( scalar @CorrectResults eq scalar @TestResults ) {
+            for my $Index ( 0 .. $CorrectResults ) {
+                if ( $TestResults[$Index] && $TestResults[$Index] ne $CorrectResults[$Index] ) {
+                    $Test = 0;
+                }
+            }
+        }
+        else {
+            $Test = 0;
+        }
+    }
+    else {
+        $Test = 0;
+    }
+
+    $Self->True( $Test, $TestName );
+}
+
+{
+
+    my $TestName = 'Read directory with files, no Filter';
+
+    #--
+    my @TestResults;
+    @TestResults = $Self->{MainObject}->DirectoryRead( Directory => $DirectoryWithFiles, );
+    $Self->True( scalar @TestResults, $TestName );
+}
+
+{
+
+    my $TestName = 'Read directory without files, * Filter';
+
+    #--
+    my @TestResults;
+    @TestResults = $Self->{MainObject}->DirectoryRead(
+        Directory => $DirectoryWithoutFiles,
+        Filter    => '*',
+    );
+    $Self->False( scalar @TestResults, $TestName );
+}
+
+{
+
+    my $TestName = "Read directory without files, no Filter";
+
+    #--
+    my @TestResults;
+    @TestResults = $Self->{MainObject}->DirectoryRead(
+        Directory => $DirectoryWithoutFiles,
+        Filter    => '*',
+    );
+    $Self->False( scalar @TestResults, $TestName );
+}
+
+{
+
+    my $TestName = 'Read directory without files, *0 *1 *2 Filters';
+
+    #--
+    my @TestResults;
+    my @Filter = qw( *0 *1 *2 );
+    @TestResults = $Self->{MainObject}->DirectoryRead(
+        Directory => $DirectoryWithoutFiles,
+        Filter    => \@Filter,
+    );
+
+    my @CorrectResults = qw (Example_File_0 Example_File_1 Example_File_2);
+    @CorrectResults = sort @CorrectResults;
+    @TestResults    = sort @TestResults;
+
+    $Self->False( scalar @TestResults, $TestName );
+}
+
+{
+
+    my $TestName = "Directory doesn't exists!";
+
+    #--
+    my @TestResults;
+    @TestResults = $Self->{MainObject}->DirectoryRead(
+        Directory => "THIS",
+        Filter    => '*',
+    );
+    $Self->False( scalar @TestResults, $TestName );
+}
+
+# testing unicode normalizing results
+# http://www.unicode.org/Public/UNIDATA/NormalizationTest.txt
+
+# Characters to test enconded with utf8
+my @Chars = (
+    Encode::encode( 'UTF8', "\x{FB01}" ),              # LATIN SMALL LIGATURE FI
+    Encode::encode( 'UTF8', "\x{73}\x{323}\x{307}" )
+    ,    # LATIN SMALL LETTER S WITH DOT BELOW AND DOT ABOVE
+    Encode::encode( 'UTF8', "\x{1100}\x{1161}\x{11A8}" ),    # HANGUL SYLLABLE GAG
+    Encode::encode( 'UTF8', "\x{41}\x{308}" ),               # LATIN CAPITAL LETTER A WITH DIAERESIS
+    Encode::encode( 'UTF8', "\x{4E}\x{303}" ),               # LATIN CAPITAL LETTER N WITH TILDE
+);
+
+my @FNamesChars;
+my @FContentChars;
+
+my $Counter = 0;
+for my $Char (@Chars) {
+    push @FNamesChars, ( Encode::encode( 'UTF8', "Example_File_" ) . $Char );
+    push @FContentChars, "This is the content $Char";
+
+    if ( $DirectoryWithFiles && !-e "$DirectoryWithFiles/$FNamesChars[$Counter]" ) {
+        $Self->{MainObject}->FileWrite(
+            Directory => "$DirectoryWithFiles",
+            Filename  => "$FNamesChars[$Counter]",
+            Content   => \$FContentChars[$Counter],
+        );
+    }
+    $Counter++;
+}
+
+{
+    my @TestResults;
+    my @Filters = @Chars;
+
+    my $TestName = "Get normalized filenames looking with not normalized Filter: @Filters";
+
+    #--
+
+    @TestResults = $Self->{MainObject}->DirectoryRead(
+        Directory => $DirectoryWithFiles,
+        Filter    => \@Filters,
+    );
+
+    my @CorrectResults = @FNamesChars;
+
+    @CorrectResults = sort @CorrectResults;
+    @TestResults    = sort @TestResults;
+
+    my $Test = 1;
+    if ( scalar @TestResults ) {
+        if ( scalar @CorrectResults eq scalar @TestResults ) {
+            for my $Index ( 0 .. scalar @CorrectResults ) {
+                if ( $TestResults[$Index] && $TestResults[$Index] ne $CorrectResults[$Index] ) {
+                    $Test = 0;
+                }
+            }
+        }
+        else {
+            $Test = 0;
+        }
+    }
+    else {
+        $Test = 0;
+    }
+    $Self->True( $Test, $TestName );
+}
+{
+    my @TestResults;
+    my @Filters = @Chars;
+
+    my $TestName = "Get normalized filenames and comparing with normalized characters";
+
+    @TestResults = $Self->{MainObject}->DirectoryRead(
+        Directory => $DirectoryWithFiles,
+        Filter    => \@Filters,
+    );
+
+    my @NormalizedChars;
+    for my $ToNormalize (@Chars) {
+        push @NormalizedChars, Unicode::Normalize::normalize( "NFC", $ToNormalize );
+    }
+
+    # filtering results, deleting part of name to compare character
+    my $Counter = 0;
+    for my $Result (@TestResults) {
+        $TestResults[$Counter] =~ s{\A(?:.*\_.*\_)(.*)\z}{$1}xms;
+        $Counter++;
+    }
+
+    my @CorrectResults = @FNamesChars;
+
+    @CorrectResults = sort @NormalizedChars;
+    @TestResults    = sort @TestResults;
+
+    my $Test = 1;
+    if ( scalar @TestResults ) {
+        if ( scalar @CorrectResults eq scalar @TestResults ) {
+            for my $Index ( 0 .. scalar @CorrectResults ) {
+                if ( $TestResults[$Index] && $TestResults[$Index] ne $CorrectResults[$Index] ) {
+                    $Test = 0;
+                }
+            }
+        }
+        else {
+            $Test = 0;
+        }
+    }
+    else {
+        $Test = 0;
+    }
+    $Self->True( $Test, $TestName );
+}
 1;

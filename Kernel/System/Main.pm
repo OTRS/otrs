@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.44 2010-05-26 10:07:16 mg Exp $
+# $Id: Main.pm,v 1.45 2010-06-15 05:00:27 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +19,10 @@ use Data::Dumper;
 use File::stat;
 
 use Kernel::System::Encode;
+use Unicode::Normalize;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -827,6 +828,131 @@ sub _Dump {
     return;
 }
 
+=item DirectoryRead()
+
+Reads a directory and returns an array with results
+
+    my @FilesInDirectory = $MainObject->DirectoryRead(
+        Directory => '/tmp',
+        Filter => 'FileNam*',
+    );
+
+    my @FilesInDirectory = $MainObject->DirectoryRead(
+        Directory => $Path,
+    );
+
+    without filter the default is *
+    even you can place several filters
+
+    my @FilesInDirectory = $MainObject->DirectoryRead(
+        Directory => '/tmp',
+        Filter => \@MyFilters,
+    );
+
+=cut
+
+sub DirectoryRead {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw ( Directory )) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Message  => "Needed $Needed : $!",
+                Priority => 'info',
+            );
+            return;
+        }
+    }
+
+    # if directory doesn't exists stop
+    if ( !-d $Param{Directory} ) {
+        $Self->{LogObject}->Log(
+            Message  => "Directory doesn't exists: $Param{Directory} : $!",
+            Priority => 'info',
+        );
+        return;
+    }
+
+    my @GlobResults;
+    my $Filter;
+
+    # glob search
+    # see if filter is an array
+    if ( ref $Param{Filter} ne "ARRAY" ) {
+        $Filter = $Param{Filter} || '*';    # if no filter glob look for all files
+        if ( $Filter !~ m{\*}xms ) {
+            $Filter = '*' . $Filter . '*'
+        }
+        @GlobResults = glob "$Param{Directory}/$Filter";
+    }
+    else {
+        my @Filter;
+
+        # prepare filter
+        for my $Filter ( @{ $Param{Filter} } ) {
+            if ( $Filter !~ m{(?:\A \*|\* \z)}xms ) {
+                $Filter = '*' . $Filter . '*'
+            }
+            push @Filter, $Filter;
+        }
+
+        # executes glob for every filter
+        for my $Filter (@Filter) {
+            my @Glob;
+            push @Glob, glob "$Param{Directory}/$Filter";
+
+            # look for repeted values
+            for my $GlobName (@Glob) {
+                my $Found;
+                for my $StoredName (@GlobResults) {
+                    if ( $GlobName eq $StoredName ) {
+                        $Found = 1
+                    }
+                }
+                if ( !$Found ) {
+                    push @GlobResults, $GlobName;
+                }
+            }
+        }
+    }
+
+    my @CleanResults;
+
+    # clean up registries (delete path)
+    if ( !scalar @GlobResults ) {
+        return;
+    }
+    else {
+
+        # clean results
+        for my $Data (@GlobResults) {
+            if ( $Data =~ s{\A $Param{Directory}/}{}xms ) {
+                push @CleanResults, $Data;
+            }
+        }
+    }
+
+    # if clean results
+    my @Results;
+    if ( !@CleanResults ) {
+        $Self->{LogObject}->Log(
+            Message  => "No results on directory search: $Param{Directory}: $!",
+            Priority => 'info',
+        );
+        return;
+    }
+    else {
+
+        # compose normalize every name in the file list
+        for my $FileName (@CleanResults) {
+            my $Normalized = Unicode::Normalize::normalize( "NFC", $FileName );
+            push @Results, $Normalized;
+        }
+    }
+
+    return @Results;
+}
+
 1;
 
 =end Internal:
@@ -845,6 +971,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2010-05-26 10:07:16 $
+$Revision: 1.45 $ $Date: 2010-06-15 05:00:27 $
 
 =cut
