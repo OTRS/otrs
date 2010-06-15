@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.18 2010-02-09 00:22:43 martin Exp $
+# $Id: backup.pl,v 1.19 2010-06-15 17:28:52 dz Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -148,7 +148,7 @@ if ( $Opts{r} ) {
         $LeaveBackups{ sprintf( "%04d-%01d-%02d", $DYear, $DMonth, $DDay ) } = 1;
         $LeaveBackups{ sprintf( "%04d-%02d-%02d", $DYear, $DMonth, $DDay ) } = 1;
     }
-    my @Direcroties = glob( $Opts{d} . "/*" );
+    my @Direcroties = $CommonObject{MainObject}->DirectoryRead( Directory => $Opts{d}, );
     for my $Directory (@Direcroties) {
         my $Leave = 0;
         for my $Data ( keys %LeaveBackups ) {
@@ -160,7 +160,7 @@ if ( $Opts{r} ) {
 
             # remove files and directory
             print "deleting old backup in $Directory ... ";
-            my @Files = glob( $Directory . '/*' );
+            my @Files = $CommonObject{MainObject}->DirectoryRead( Directory => $Directory, );
             for my $File (@Files) {
                 if ( -e $File ) {
 
