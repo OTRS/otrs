@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.262 2010-06-15 15:27:56 mn Exp $
+# $Id: Layout.pm,v 1.263 2010-06-15 20:31:18 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.262 $) [1];
+$VERSION = qw($Revision: 1.263 $) [1];
 
 =head1 NAME
 
@@ -361,10 +361,13 @@ sub new {
     # load sub layout files
     my $Dir = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/';
     if ( -e $Dir ) {
-        my @Files = glob("$Dir/Layout*.pm");
+        my @Files = $Self->{MainObject}->DirectoryRead(
+            Directory => $Dir,
+            Filter    => 'Layout*.pm',
+        );
         for my $File (@Files) {
             if ( $File !~ /Layout.pm$/ ) {
-                $File =~ s/^.*\/(.+?).pm$/$1/g;
+                $File =~ s{\A(.+?).pm\z}{$1}xms;
                 if ( !$Self->{MainObject}->Require("Kernel::Output::HTML::$File") ) {
                     $Self->FatalError();
                 }
@@ -4643,6 +4646,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.262 $ $Date: 2010-06-15 15:27:56 $
+$Revision: 1.263 $ $Date: 2010-06-15 20:31:18 $
 
 =cut
