@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.1 2010-06-15 21:32:30 en Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.2 2010-06-15 21:40:11 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -189,7 +189,7 @@
     function CheckMailConfigCallback(json) {
         if (parseInt(json['Successful']) == 1) {
             alert('$JSText{"Mail check successful."}');
-            $('div.errormsg').hide();
+            $('fieldset.errormsg').hide();
             $('form').submit();
         }
         else {
