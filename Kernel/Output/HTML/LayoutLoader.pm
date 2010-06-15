@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.20 2010-06-07 10:25:41 mg Exp $
+# $Id: LayoutLoader.pm,v 1.21 2010-06-15 11:35:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 use Kernel::System::Loader;
 
@@ -53,13 +53,22 @@ sub LoaderCreateAgentCSSCalls {
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
 
-    {
-        my $CommonCSSList = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS');
+    my $ToolbarModuleSettings = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
 
+    {
         my @FileList;
 
+        # get global css
+        my $CommonCSSList = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS');
         for my $Key ( sort keys %{$CommonCSSList} ) {
             push( @FileList, @{ $CommonCSSList->{$Key} } );
+        }
+
+        # get toolbar module css
+        for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
+            if ( $ToolbarModuleSettings->{$Key}->{CSS} ) {
+                push( @FileList, $ToolbarModuleSettings->{$Key}->{CSS} );
+            }
         }
 
         $Self->_HandleCSSList(
@@ -72,12 +81,19 @@ sub LoaderCreateAgentCSSCalls {
     }
 
     {
-        my $CommonCSSIE7List = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS::IE7');
-
         my @FileList;
 
+        # get global css for ie7
+        my $CommonCSSIE7List = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS::IE7');
         for my $Key ( sort keys %{$CommonCSSIE7List} ) {
             push( @FileList, @{ $CommonCSSIE7List->{$Key} } );
+        }
+
+        # get toolbar module css for ie7
+        for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
+            if ( $ToolbarModuleSettings->{$Key}->{CSS_IE7} ) {
+                push( @FileList, $ToolbarModuleSettings->{$Key}->{CSS_IE7} );
+            }
         }
 
         $Self->_HandleCSSList(
@@ -90,12 +106,19 @@ sub LoaderCreateAgentCSSCalls {
     }
 
     {
-        my $CommonCSSIE8List = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS::IE8');
-
         my @FileList;
 
+        # get global css for IE8
+        my $CommonCSSIE8List = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS::IE8');
         for my $Key ( sort keys %{$CommonCSSIE8List} ) {
             push( @FileList, @{ $CommonCSSIE8List->{$Key} } );
+        }
+
+        # get toolbar module css for ie8
+        for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
+            if ( $ToolbarModuleSettings->{$Key}->{CSS_IE8} ) {
+                push( @FileList, $ToolbarModuleSettings->{$Key}->{CSS_IE8} );
+            }
         }
 
         $Self->_HandleCSSList(
@@ -183,13 +206,20 @@ sub LoaderCreateAgentJSCalls {
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
 
     {
-        my $CommonJSList = $Self->{ConfigObject}->Get('Loader::Agent::CommonJS');
-
         my @FileList;
 
+        # get global js
+        my $CommonJSList = $Self->{ConfigObject}->Get('Loader::Agent::CommonJS');
         for my $Key ( sort keys %{$CommonJSList} ) {
             push( @FileList, @{ $CommonJSList->{$Key} } );
+        }
 
+        # get toolbar module js
+        my $ToolbarModuleSettings = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
+        for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
+            if ( $ToolbarModuleSettings->{$Key}->{JavaScript} ) {
+                push( @FileList, $ToolbarModuleSettings->{$Key}->{JavaScript} );
+            }
         }
 
         $Self->_HandleJSList(
@@ -512,6 +542,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2010-06-07 10:25:41 $
+$Revision: 1.21 $ $Date: 2010-06-15 11:35:54 $
 
 =cut
