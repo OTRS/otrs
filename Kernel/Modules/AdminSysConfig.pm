@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.97 2010-06-15 14:30:03 cg Exp $
+# $Id: AdminSysConfig.pm,v 1.98 2010-06-15 16:31:24 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -391,7 +391,6 @@ sub Run {
                 }
 
                 # Loader start
-
                 my @Loader = $Self->{ParamObject}->GetArray(
                     Param => $ElementKey . '#Loader[]'
                 );
@@ -418,25 +417,25 @@ sub Run {
                     # Find for every file kind
                     for my $Key (@LoaderFileTypes) {
                         my @LoaderArray;
+                        push @LoaderArray, '';
                         for my $Index ( 0 .. $#Loader ) {
-                            my $TypeKey = $Self->{ParamObject}
-                                ->GetParam( Param => $ElementKey . 'LoaderType' . $Index );
+                            my $TypeKey = $Self->{ParamObject}->GetParam(
+                                Param => $ElementKey . 'LoaderType' . $Index
+                            );
                             if ( $TypeKey and ( $Key eq $TypeKey ) ) {
                                 push @LoaderArray, $Loader[$Index];
                             }
                         }
-                        if ( scalar @LoaderArray > 0 ) {
-                            $LoaderFiles{$Key} = \@LoaderArray;
+                        if ( $New and ( $Key eq 'JavaScript' ) ) {
+                            push @LoaderArray, '';
+                            $Anker = $ElementKey;
                         }
+                        $LoaderFiles{$Key} = \@LoaderArray;
                     }
                 }
-
-                #                    if ( $#LoaderFiles > 0 ) {
                 $Content{Loader} = \%LoaderFiles;
 
-                #                    }
                 # Loader finish
-
                 # NavBar get Params
                 my %NavBarParams;
                 for (qw(Description Name Image Link Type Prio Block NavBar AccessKey)) {
