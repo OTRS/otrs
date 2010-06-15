@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.36 2010-05-04 01:00:24 martin Exp $
+# $Id: SMIME.pm,v 1.37 2010-06-15 20:00:41 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -500,7 +500,10 @@ sub CertificateList {
     my ( $Self, %Param ) = @_;
 
     my @Hash;
-    my @List = glob("$Self->{CertPath}/*.0");
+    my @List = $Self->{MainObject}->DirectoryRead(
+        Directory => "$Self->{CertPath}",
+        Filter    => '*.0',
+    );
     for my $File (@List) {
         $File =~ s!^.*/!!;
         $File =~ s/(.*)\.0/$1/;
@@ -729,7 +732,10 @@ sub PrivateList {
     my ( $Self, %Param ) = @_;
 
     my @Hash;
-    my @List = glob("$Self->{PrivatePath}/*.0");
+    my @List = $Self->{MainObject}->DirectoryRead(
+        Directory => "$Self->{PrivatePath}",
+        Filter    => '*.0',
+    );
     for my $File (@List) {
         $File =~ s!^.*/!!;
         $File =~ s/(.*)\.0/$1/;
@@ -928,6 +934,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2010-05-04 01:00:24 $
+$Revision: 1.37 $ $Date: 2010-06-15 20:00:41 $
 
 =cut
