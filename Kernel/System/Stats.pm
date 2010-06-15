@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.92 2010-05-03 17:01:49 martin Exp $
+# $Id: Stats.pm,v 1.93 2010-06-15 15:53:19 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 =head1 SYNOPSIS
 
@@ -525,7 +525,10 @@ sub StatsDelete {
     $Self->_DeleteCache( StatID => $Param{StatID} );
 
     # get list of installed stats files
-    my @StatsFileList = glob $Self->{StatsTempDir} . '*.xml.installed';
+    my @StatsFileList = $Self->{MainObject}->DirectoryRead(
+        Directory => $Self->{StatsTempDir},
+        Filter    => '*.xml.installed',
+    );
 
     # delete the .installed file in temp dir
     FILE:
@@ -1918,7 +1921,10 @@ sub StatsInstall {
     $Self->StatsCleanUp();
 
     # get list of stats files
-    my @StatsFileList = glob $Self->{StatsTempDir} . $Param{FilePrefix} . '*.xml';
+    my @StatsFileList = $Self->{MainObject}->DirectoryRead(
+        Directory => $Self->{StatsTempDir},
+        Filter    => $Param{FilePrefix} . '*.xml',
+    );
 
     # import the stats
     my $InstalledPostfix = '.installed';
@@ -1967,7 +1973,10 @@ sub StatsUninstall {
     $Param{FilePrefix} = $Param{FilePrefix} ? $Param{FilePrefix} . '-' : '';
 
     # get list of installed stats files
-    my @StatsFileList = glob $Self->{StatsTempDir} . $Param{FilePrefix} . '*.xml.installed';
+    my @StatsFileList = $Self->{MainObject}->DirectoryRead(
+        Directory => $Self->{StatsTempDir},
+        Filter    => $Param{FilePrefix} . '*.xml.installed',
+    );
 
     # delete the stats
     for my $File ( sort @StatsFileList ) {
@@ -3140,7 +3149,10 @@ sub _DeleteCache {
         $Path .= '/';
     }
 
-    my @Files = glob $Path . 'Stats' . $Param{StatID} . '-*.cache';
+    my @Files = $Self->{MainObject}->DirectoryRead(
+        Directory => $Path,
+        Filter    => 'Stats' . $Param{StatID} . '-*.cache',
+    );
 
     for my $File (@Files) {
         unlink $File;
@@ -3275,6 +3287,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.92 $ $Date: 2010-05-03 17:01:49 $
+$Revision: 1.93 $ $Date: 2010-06-15 15:53:19 $
 
 =cut
