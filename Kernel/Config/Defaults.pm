@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.345 2010-06-07 21:36:53 cg Exp $
+# $Id: Defaults.pm,v 1.346 2010-06-15 20:32:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.345 $) [1];
+$VERSION = qw($Revision: 1.346 $) [1];
 
 use File::stat;
 use Digest::MD5;
@@ -765,6 +765,9 @@ sub LoadDefaults {
     # CGILogPrefix
     $Self->{CGILogPrefix} = 'OTRS-CGI';
 
+    # Animations used in the GUI
+    $Self->{'Frontend::AnimationEnabled'} =  '1';
+
     # --------------------------------------------------- #
     # Agent Web Interface
     # --------------------------------------------------- #
@@ -824,6 +827,122 @@ sub LoadDefaults {
 
     # html template dir
     $Self->{'TemplateDir'} = '<OTRS_CONFIG_Home>/Kernel/Output';
+
+    # --------------------------------------------------- #
+    # CommonCSS                                           #
+    # --------------------------------------------------- #
+
+    # Customer Common CSS
+    $Self->{'Loader::Customer::CommonCSS'}->{'000-Framework'} =  [
+      'Core.Reset.css',
+      'Core.Default.css',
+      'Core.Form.css',
+      'Core.Login.css',
+      'Core.Control.css',
+      'Core.Table.css',
+      'Core.TicketZoom.css',
+      'Core.Print.css'
+    ];
+
+    # Customer Common CSS for IE7
+    $Self->{'Loader::Customer::CommonCSS::IE7'}->{'000-Framework'} =  [
+      'Core.IE7.css'
+    ];
+    # Customer Common CSS for IE8
+    $Self->{'Loader::Customer::CommonCSS::IE8'}->{'000-Framework'} =  [];
+
+    # Agent Common CSS
+    $Self->{'Loader::Agent::CommonCSS'}->{'000-Framework'} =  [
+      'Core.Reset.css',
+      'Core.Default.css',
+      'Core.Header.css',
+      'Core.OverviewControl.css',
+      'Core.OverviewSmall.css',
+      'Core.OverviewMedium.css',
+      'Core.OverviewLarge.css',
+      'Core.Footer.css',
+      'Core.Grid.css',
+      'Core.Form.css',
+      'Core.Table.css',
+      'Core.Widget.css',
+      'Core.WidgetMenu.css',
+      'Core.TicketDetail.css',
+      'Core.Tooltip.css',
+      'Core.Dialog.css',
+      'Core.Print.css'
+    ];
+
+    # Agent Common CSS for IE7
+    $Self->{'Loader::Agent::CommonCSS::IE7'}->{'000-Framework'} =  [
+      'Core.Header.IE7.css',
+      'Core.OverviewControl.IE7.css',
+      'Core.OverviewSmall.IE7.css',
+      'Core.OverviewMedium.IE7.css',
+      'Core.OverviewLarge.IE7.css',
+      'Core.Grid.IE7.css',
+      'Core.Form.IE7.css',
+      'Core.Widget.IE7.css',
+      'Core.TicketDetail.IE7.css'
+    ];
+    # Agent Common CSS for IE8
+    $Self->{'Loader::Agent::CommonCSS::IE8'}->{'000-Framework'} =  [
+      'Core.OverviewSmall.IE8.css'
+    ];
+
+    # --------------------------------------------------- #
+    # CommonJS                                           #
+    # --------------------------------------------------- #
+
+    # Customer Common JS
+    $Self->{'Loader::Customer::CommonJS'}->{'000-Framework'} =  [
+      'thirdparty/jquery-1.4.2/jquery.js',
+      'Core.Debug.js',
+      'Core.Exception.js',
+      'Core.App.js',
+      'Core.Customer.js',
+      'Core.JavaScriptEnhancements.js',
+      'Core.Config.js',
+      'Core.UI.RichTextEditor.js'
+    ];
+
+    # Agent Common JS
+    $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} =  [
+      'thirdparty/json/json2.js',
+      'thirdparty/jquery-1.4.2/jquery.js',
+      'thirdparty/jquery-ui-1.8/jquery-ui-core.js',
+      'thirdparty/jquery-ui-1.8/jquery-ui-widget.js',
+      'thirdparty/jquery-ui-1.8/jquery-ui-mouse.js',
+      'thirdparty/jquery-ui-1.8/jquery-ui-position.js',
+      'thirdparty/jquery-ui-1.8/jquery-ui-draggable.js',
+      'thirdparty/jquery-ui-1.8/jquery-ui-sortable.js',
+      'thirdparty/jquery-ui-1.8/jquery-ui-datepicker.js',
+      'thirdparty/jquery-ui-1.8/jquery-ui-resizable.js',
+      'thirdparty/jquery-ui-1.8/jquery-ui-autocomplete.js',
+      'thirdparty/jquery-validate-1.7/jquery.validate.js',
+      'Core.JavaScriptEnhancements.js',
+      'Core.Config.js',
+      'Core.Debug.js',
+      'Core.Exception.js',
+      'Core.JSON.js',
+      'Core.Data.js',
+      'Core.AJAX.js',
+      'Core.UI.js',
+      'Core.UI.IE7Fixes.js',
+      'Core.UI.Accordion.js',
+      'Core.UI.Datepicker.js',
+      'Core.UI.Resizable.js',
+      'Core.UI.Table.js',
+      'Core.UI.Accessibility.js',
+      'Core.UI.RichTextEditor.js',
+      'Core.Form.js',
+      'Core.Form.ErrorTooltips.js',
+      'Core.Form.Validate.js',
+      'Core.UI.Dialog.js',
+      'Core.UI.ActionRow.js',
+      'Core.UI.Popup.js',
+      'Core.App.js',
+      'Core.Agent.js'
+    ];
 
     # --------------------------------------------------- #
     #                                                     #
@@ -977,6 +1096,17 @@ sub LoadDefaults {
         Activ   => 1,
     };
 
+    # generator customer preferences module
+    $Self->{CustomerPreferences} =  {
+        Module => 'Kernel::System::CustomerUser::Preferences::DB',
+        Params => {
+            Table       => 'customer_preferences',
+            TableKey    => 'preferences_key',
+            TableUserID => 'user_id',
+            TableValue  => 'preferences_value'
+        }
+    };
+
     # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #
@@ -1029,6 +1159,13 @@ Your OTRS Notification Master
     # each customer user for this groups, then put the groups
     # for all customer user in there)
     $Self->{CustomerGroupAlwaysGroups} = [ 'users', 'info' ];
+
+    # handle module specific CSS
+    $Self->{'CustomerFrontend::Module'}->{'Logout'} =  {
+      'Description' => 'Logout of customer panel',
+      'NavBarName' => '',
+      'Title' => ''
+    };
 
     # show online agents
 #    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
@@ -2074,6 +2211,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.345 $ $Date: 2010-06-07 21:36:53 $
+$Revision: 1.346 $ $Date: 2010-06-15 20:32:03 $
 
 =cut
