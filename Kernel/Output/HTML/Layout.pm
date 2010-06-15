@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.259 2010-06-15 12:59:02 mn Exp $
+# $Id: Layout.pm,v 1.260 2010-06-15 13:53:29 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.259 $) [1];
+$VERSION = qw($Revision: 1.260 $) [1];
 
 =head1 NAME
 
@@ -1312,8 +1312,8 @@ sub Header {
 sub Footer {
     my ( $Self, %Param ) = @_;
 
-    my $Type          = $Param{Type}          || '';
-    my $HasDatepicker = $Param{HasDatepicker} || 0;
+    my $Type          = $Param{Type}           || '';
+    my $HasDatepicker = $Self->{HasDatepicker} || 0;
 
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentJSCalls();
@@ -2855,33 +2855,8 @@ sub BuildDateSelection {
         %Param,
     );
 
-    # show calendar lookup
-    #    if ( $Self->{BrowserJavaScriptSupport} ) {
-    #        if ( $Area eq 'Agent' && $Self->{ConfigObject}->Get('TimeCalendarLookup') ) {
-    #
-    #            # loas site preferences
-    #            $Self->Output(
-    #                TemplateFile => 'HeaderSmall',
-    #                Data         => {},
-    #            );
-    #            $Output .= $Self->Output(
-    #                TemplateFile => 'AgentCalendarSmallIcon',
-    #                Data => { Prefix => $Prefix, }
-    #            );
-    #        }
-    #        elsif ( $Area eq 'Customer' && $Self->{ConfigObject}->Get('TimeCalendarLookup') ) {
-    #
-    #            # loas site preferences
-    #            $Self->Output(
-    #                TemplateFile => 'CustomerHeaderSmall',
-    #                Data         => {},
-    #            );
-    #            $Output .= $Self->Output(
-    #                TemplateFile => 'CustomerCalendarSmallIcon',
-    #                Data => { Prefix => $Prefix, }
-    #            );
-    #        }
-    #    }
+    # set global var to true to add a block to the footer later
+    $Self->{HasDatepicker} = 1;
 
     return $Output;
 }
@@ -4666,6 +4641,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.259 $ $Date: 2010-06-15 12:59:02 $
+$Revision: 1.260 $ $Date: 2010-06-15 13:53:29 $
 
 =cut

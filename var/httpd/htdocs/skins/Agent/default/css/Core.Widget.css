@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -527,14 +527,16 @@ ul.Tablelike li.Header {
 /**
  * @subsection      Datepicker widget
  */
+/* Vacation Days */
 .Highlight .ui-state-default {
-    background: #FFF !important;
-    border: 1px solid #F92 !important;
 }
 
-.Highlight .ui-state-default:hover {
-    color: #000 !important;
+/* Today */
+.ui-datepicker-current-day {
 }
 
+/*Weekend*/
+.ui-datepicker-week-end {
+}
 
 } /* end @media */
