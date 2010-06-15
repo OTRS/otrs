@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.258 2010-06-15 08:20:07 mg Exp $
+# $Id: Layout.pm,v 1.259 2010-06-15 12:59:02 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.258 $) [1];
+$VERSION = qw($Revision: 1.259 $) [1];
 
 =head1 NAME
 
@@ -1312,10 +1312,25 @@ sub Header {
 sub Footer {
     my ( $Self, %Param ) = @_;
 
-    my $Type = $Param{Type} || '';
+    my $Type          = $Param{Type}          || '';
+    my $HasDatepicker = $Param{HasDatepicker} || 0;
 
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentJSCalls();
+
+    # get datepicker data, if needed in module
+    if ($HasDatepicker) {
+        my $VacationDays     = $Self->DatepickerGetVacationDays();
+        my $VacationDaysJSON = $Self->JSONEncode(
+            Data => $VacationDays
+        );
+        $Self->Block(
+            Name => 'DatepickerData',
+            Data => {
+                VacationDays => $VacationDaysJSON,
+            },
+        );
+    }
 
     # create & return output
     return $Self->Output( TemplateFile => "Footer$Type", Data => \%Param );
@@ -2841,32 +2856,32 @@ sub BuildDateSelection {
     );
 
     # show calendar lookup
-    if ( $Self->{BrowserJavaScriptSupport} ) {
-        if ( $Area eq 'Agent' && $Self->{ConfigObject}->Get('TimeCalendarLookup') ) {
-
-            # loas site preferences
-            $Self->Output(
-                TemplateFile => 'HeaderSmall',
-                Data         => {},
-            );
-            $Output .= $Self->Output(
-                TemplateFile => 'AgentCalendarSmallIcon',
-                Data => { Prefix => $Prefix, }
-            );
-        }
-        elsif ( $Area eq 'Customer' && $Self->{ConfigObject}->Get('TimeCalendarLookup') ) {
-
-            # loas site preferences
-            $Self->Output(
-                TemplateFile => 'CustomerHeaderSmall',
-                Data         => {},
-            );
-            $Output .= $Self->Output(
-                TemplateFile => 'CustomerCalendarSmallIcon',
-                Data => { Prefix => $Prefix, }
-            );
-        }
-    }
+    #    if ( $Self->{BrowserJavaScriptSupport} ) {
+    #        if ( $Area eq 'Agent' && $Self->{ConfigObject}->Get('TimeCalendarLookup') ) {
+    #
+    #            # loas site preferences
+    #            $Self->Output(
+    #                TemplateFile => 'HeaderSmall',
+    #                Data         => {},
+    #            );
+    #            $Output .= $Self->Output(
+    #                TemplateFile => 'AgentCalendarSmallIcon',
+    #                Data => { Prefix => $Prefix, }
+    #            );
+    #        }
+    #        elsif ( $Area eq 'Customer' && $Self->{ConfigObject}->Get('TimeCalendarLookup') ) {
+    #
+    #            # loas site preferences
+    #            $Self->Output(
+    #                TemplateFile => 'CustomerHeaderSmall',
+    #                Data         => {},
+    #            );
+    #            $Output .= $Self->Output(
+    #                TemplateFile => 'CustomerCalendarSmallIcon',
+    #                Data => { Prefix => $Prefix, }
+    #            );
+    #        }
+    #    }
 
     return $Output;
 }
@@ -4651,6 +4666,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.258 $ $Date: 2010-06-15 08:20:07 $
+$Revision: 1.259 $ $Date: 2010-06-15 12:59:02 $
 
 =cut
