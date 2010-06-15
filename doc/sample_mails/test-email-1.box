@@ -13,7 +13,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-Operating-System: Linux 2.4.10-4GB i686
 X-Uptime: 12:23am  up  5:19,  6 users,  load average: 0.11, 0.13, 0.18
-X-CVS: $Id: test-email-1.box,v 1.1 2001-12-27 14:28:58 martin Exp $
+X-CVS: $Id: test-email-1.box,v 1.1 2010-06-15 12:47:42 mg Exp $
 Content-Length: 139
 Lines: 11
 

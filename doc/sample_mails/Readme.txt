@@ -1,0 +1,1 @@
+These files can be used to test if a newly installed system correctly processes incoming email.

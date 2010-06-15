@@ -16,7 +16,7 @@ Subject: ISO-8859-1 test =?iso-8859-1?Q?=E4=F6=FC=DF?=
 Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
 X-MIME-Autoconverted: from quoted-printable to 8bit by socrate.edenhofer.de id g6EBJoE31538
-X-CVS: $Id: test-email-5-iso-8859-1.box,v 1.1 2002-07-15 00:25:43 martin Exp $
+X-CVS: $Id: test-email-5-iso-8859-1.box,v 1.1 2010-06-15 12:47:42 mg Exp $
 Status: RO
 Content-Length: 87
 Lines: 12

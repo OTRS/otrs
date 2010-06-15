@@ -13,6 +13,6 @@ MIME-Version: 1.0
 Content-Type: text/html; charset="iso-8859-15"; format=flowed
 Message-Id: <Law10-F30dRmhKuTqtA00018823@coolair.example>
 X-Originalarrivaltime: 13 Sep 2003 14:37:26.0630 (UTC) FILETIME=[8D57B860:01C37A04]
-X-CVS: $Id: test-email-9-html-multicharset.box,v 1.1 2004-01-14 01:22:20 martin Exp $
+X-CVS: $Id: test-email-9-html-multicharset.box,v 1.1 2010-06-15 12:47:42 mg Exp $
 
 <html><div style='background-color:'><P>this is a test</P></div><br clear=all><hr> <a href="http://localhost/8HMZENUS/2737??PS=">Compare Cable, DSL or Satellite plans: As low as $2.95. </a> </html>
