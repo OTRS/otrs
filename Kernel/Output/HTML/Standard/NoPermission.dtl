@@ -1,8 +1,8 @@
 # --
 # NoPermission.dtl.dtl - provides HTML NoPermission screen
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NoPermission.dtl,v 1.10 2009-12-08 13:48:54 mg Exp $
+# $Id: NoPermission.dtl,v 1.11 2010-06-15 02:58:43 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,25 +19,28 @@ window.setTimeout("AbGehts()",60000);
 
 //]]></script>
 
-<center>
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td class="contenthead">
-            <p>
-                <font color="red" size="+1">$Text{"No Permission"}!</font>
-            </p>
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <table>
-                <tr>
-                    <td class="mainkey">$Text{"Message"}:</td>
-                    <td class="mainvalue">$Text{"$Data{"Message"}"}</td>
-                </tr>
-            </table>
-            <a href="$Env{"Baselink"}" onclick="history.back(); return false;">$Text{"Back"}</a>
-        </td>
-    </tr>
-</table>
-</center>
+<div class="MainBox ARIARoleMain">
+
+    <div class="W33pc CenterBox SpacingTopLarge SpacingBottomLarge">
+        <div class="WidgetGradient Medium">
+            <div class="Header">
+                <h2>$Text{"No Permission"}.</h2>
+            </div>
+            <div class="Content">
+                <h4>
+                    $Text{"Message"}: <span class="Error">$Data{"Message"}</span>
+                </h4>
+
+                <p class="SpacingTop">
+                    $Data{"Comment"}
+                </p>
+
+                <p class="SpacingTop">
+                    <a href="#" onclick="history.back(); return false;">Go back</a> to the previous page.
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+</div>
