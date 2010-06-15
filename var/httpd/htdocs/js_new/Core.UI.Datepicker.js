@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.3 2010-06-15 13:53:29 mn Exp $
+// $Id: Core.UI.Datepicker.js,v 1.4 2010-06-15 15:23:21 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,7 @@ Core.UI = Core.UI || {};
 Core.UI.Datepicker = (function (TargetNS) {
     var VacationDays,
         VacationDaysOneTime,
+        LocalizationData,
         DatepickerCount = 0;
 
     function CheckDate(DateObject) {
@@ -73,6 +74,10 @@ Core.UI.Datepicker = (function (TargetNS) {
             HasDateSelectBoxes = false,
             I;
 
+        if (typeof LocalizationData === 'undefined') {
+            LocalizationData = Core.Config.Get('Datepicker.Localization');
+        }
+
         // Increment number of initialized datepickers on this site
         DatepickerCount++;
 
@@ -103,7 +108,16 @@ Core.UI.Datepicker = (function (TargetNS) {
             showOn: 'both',
             buttonImage: Core.Config.Get('Datepicker.ButtonImage'),
             buttonImageOnly: true,
-            firstDay: 1
+            prevText: LocalizationData.PrevText,
+            nextText: LocalizationData.NextText,
+            firstDay: 0,
+            showMonthAfterYear: 0,
+            monthNames: LocalizationData.MonthNames,
+            monthNamesShort: LocalizationData.MonthNamesShort,
+            dayNames: LocalizationData.DayNames,
+            dayNamesShort: LocalizationData.DayNamesShort,
+            dayNamesMin: LocalizationData.DayNamesMin,
+            isRTL: LocalizationData.IsRTL
         };
 
         if (HasDateSelectBoxes) {
