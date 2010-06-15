@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.31 2010-06-14 07:49:57 mg Exp $
+# $Id: UnitTest.pm,v 1.32 2010-06-15 18:37:10 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -130,8 +130,12 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %ResultSummary;
-    my $Home      = $Self->{ConfigObject}->Get('Home');
-    my @Files     = glob("$Home/scripts/test/*.t");
+    my $Home  = $Self->{ConfigObject}->Get('Home');
+    my @Files = $Self->{MainObject}->DirectoryRead(
+        Directory => "$Home/scripts/test/",
+        Filter    => '*.t',
+    );
+
     my $StartTime = $Self->{TimeObject}->SystemTime();
     my $Product   = $Param{Product}
         || $Self->{ConfigObject}->Get('Product') . " " . $Self->{ConfigObject}->Get('Version');
@@ -145,7 +149,7 @@ sub Run {
         if (@Names) {
             my $Use = 0;
             for my $Name (@Names) {
-                if ( $Name && $File =~ /\/\Q$Name\E\.t$/ ) {
+                if ( $Name && $File =~ /\Q$Name\E\.t$/ ) {
                     $Use = 1;
                 }
             }
@@ -154,7 +158,7 @@ sub Run {
             }
         }
         $Self->{TestCount} = 0;
-        my $ConfigFile = $Self->{MainObject}->FileRead( Location => $File );
+        my $ConfigFile = $Self->{MainObject}->FileRead( Location => "$Home/scripts/test/$File" );
         if ( !$ConfigFile ) {
             $Self->True( 0, "ERROR: $!: $File" );
             print STDERR "ERROR: $!: $File\n";
@@ -666,6 +670,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2010-06-14 07:49:57 $
+$Revision: 1.32 $ $Date: 2010-06-15 18:37:10 $
 
 =cut
