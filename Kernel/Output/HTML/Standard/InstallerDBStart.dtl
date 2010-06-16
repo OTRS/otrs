@@ -2,13 +2,14 @@
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBStart.dtl,v 1.2 2010-06-15 21:45:51 en Exp $
+# $Id: InstallerDBStart.dtl,v 1.3 2010-06-16 20:37:44 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+<!-- dtl:block:DatabaseStart -->
 <div class="Center">
     <img border="0" src="$Config{"Frontend::ImagePath"}installer1.png" alt="" />
 </div>
@@ -18,133 +19,135 @@
         <input type="hidden" name="Action"    value="Installer"/>
         <input type="hidden" name="Subaction" value="DB"/>
 
-        <div class="Header">
-            <h2>$Text{"$Data{"Item"}"} ($Data{"Step"})</h2>
-        </div>
+        <div class="WidgetGradient Medium">
+            <div class="Header">
+                <h2>$Text{"$Data{"Item"}"} ($Data{"Step"})</h2>
+            </div>
 
-        <div class="Content">
-            <fieldset class="TableLike">
-                <label for="DBUser">$Text{"Admin-User"}:</label>
-                <div class="Field">
-                    <input type="text" id="DBUser" name="DBUser" value="root" class="W25pc"/>
-                    <p class="FieldExplanation">
-                        $Text{"If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation."}
-                    </p>
+            <div class="Content">
+                <fieldset class="TableLike">
+                    <label for="DBUser">$Text{"Admin-User"}:</label>
+                    <div class="Field">
+                        <input type="text" id="DBUser" name="DBUser" value="root" class="W25pc"/>
+                        <p class="FieldExplanation">
+                            $Text{"If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation."}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="DBPassword">$Text{"Admin-password"}:</label>
+                    <div class="Field">
+                        <input type="password" id="DBPassword" name="DBPassword" value="" class="W25pc"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="DBHost">$Text{"Host"}:</label>
+                    <div class="Field">
+                        <input type="text" id="DBHost" name="DBHost" value="$Config{"DatabaseHost"}" class="W25pc"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="DBType">$Text{"Type"}:</label>
+                    <div class="Field">
+                        $Data{"SelectDBType"}
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike Hidden HideMe">
+                    <div>
+                        <h4>
+                            $Text{"Database-User"} ($Text{"New"})
+                        </h4>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="OTRSDBUser">$Text{"User"}:</label>
+                    <div class="Field">
+                        <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W25pc"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="OTRSDBPassword">$Text{"Password"}:</label>
+                    <div class="Field">
+                        <input type="password" id="OTRSDBPassword" name="OTRSDBPassword" value="hot" class="W25pc"/>
+                        <p class="FieldExplanation">
+                            $Text{"default 'hot'"}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="OTRSDBConnectHost">$Text{"DB connect host"}:</label>
+                    <div class="Field">
+                        <input type="text" id="OTRSDBConnectHost" name="OTRSDBConnectHost" value="localhost" class="W25pc"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div>
+                        <h4>
+                            $Text{"Database"}
+                        </h4>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="DBName">$Text{"Name"}:</label>
+                    <div class="Field">
+                        <input type="text" id="DBName" name="DBName" value="$Config{"Database"}" class="W25pc"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Default charset"}:</label>
+                    <div class="Field">
+                        $Text{"utf8"}: $Text{"Yes"}
+                        <input type="radio" name="DBDefaultCharset" checked="checked" value="utf8"/>
+                        - $Text{"No"}
+                        <input type="radio" name="DBDefaultCharset" value=""/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Action"}:</label>
+                    <div class="Field">
+                        $Text{"Create"}
+                        <input type="radio" name="DBAction" checked="checked" value="Create"/>
+                        - $Text{"Delete"}
+                        <input type="radio" name="DBAction" value="Delete"/>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike checkdb">
+                    <div>
+                        <h4>
+                            $Text{"Check database settings"}
+                        </h4>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
+                        <button type="button" onclick="CheckDBData();" value="$Text{"Check database settings"}">$Text{"Check database settings"}</button>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike Hidden ErrorMsg">
+                    <div>
+                        <h4>
+                            $Text{"Result of database check"}
+                        </h4>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
+                        <p id="formdbresultmessage"></p>
+                        <p id="formdbresultcomment" class="FieldExplanation"></p>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <div class="Hidden Center HideMe">
+                    <button type="submit" id="formdbsubmit" disabled="disabled" value="$Text{"Next..."}">$Text{"Next..."}</button>
                 </div>
-                <div class="Clear"></div>
-
-                <label for="DBPassword">$Text{"Admin-password"}:</label>
-                <div class="Field">
-                    <input type="password" id="DBPassword" name="DBPassword" value="" class="W25pc"/>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="DBHost">$Text{"Host"}:</label>
-                <div class="Field">
-                    <input type="text" id="DBHost" name="DBHost" value="$Config{"DatabaseHost"}" class="W25pc"/>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="DBType">$Text{"Type"}:</label>
-                <div class="Field">
-                    $Data{"SelectDBType"}
-                </div>
-                <div class="Clear"></div>
-            </fieldset>
-
-            <fieldset class="TableLike Hidden">
-                <div>
-                    <h4>
-                        $Text{"Database-User"} ($Text{"New"})
-                    </h4>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="OTRSDBUser">$Text{"User"}:</label>
-                <div class="Field">
-                    <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W25pc"/>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="OTRSDBPassword">$Text{"Password"}:</label>
-                <div class="Field">
-                    <input type="password" id="OTRSDBPassword" name="OTRSDBPassword" value="hot" class="W25pc"/>
-                    <p class="FieldExplanation">
-                        $Text{"default 'hot'"}
-                    </p>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="OTRSDBConnectHost">$Text{"DB connect host"}:</label>
-                <div class="Field">
-                    <input type="text" id="OTRSDBConnectHost" name="OTRSDBConnectHost" value="localhost" class="W25pc"/>
-                </div>
-                <div class="Clear"></div>
-
-                <div>
-                    <h4>
-                        $Text{"Database"}
-                    </h4>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="DBName">$Text{"Name"}:</label>
-                <div class="Field">
-                    <input type="text" id="DBName" name="DBName" value="$Config{"Database"}" class="W25pc"/>
-                </div>
-                <div class="Clear"></div>
-
-                <label>$Text{"Default charset"}:</label>
-                <div class="Field">
-                    $Text{"utf8"}: $Text{"Yes"}
-                    <input type="radio" name="DBDefaultCharset" checked="checked" value="utf8"/>
-                    - $Text{"No"}
-                    <input type="radio" name="DBDefaultCharset" value=""/>
-                </div>
-                <div class="Clear"></div>
-
-                <label>$Text{"Action"}:</label>
-                <div class="Field">
-                    $Text{"Create"}
-                    <input type="radio" name="DBAction" checked="checked" value="Create"/>
-                    - $Text{"Delete"}
-                    <input type="radio" name="DBAction" value="Delete"/>
-                </div>
-                <div class="Clear"></div>
-            </fieldset>
-
-            <fieldset class="TableLike checkdb">
-                <div>
-                    <h4>
-                        $Text{"Check database settings"}
-                    </h4>
-                </div>
-                <div class="Clear"></div>
-
-                <div class="Field">
-                    <button type="button" onclick="CheckDBData();" value="$Text{"Check database settings"}">$Text{"Check database settings"}</button>
-                </div>
-                <div class="Clear"></div>
-            </fieldset>
-
-            <fieldset class="TableLike Hidden">
-                <div class="errormsg">
-                    <h4>
-                        $Text{"Result of database check"}
-                    </h4>
-                </div>
-                <div class="Clear errormsg"></div>
-
-                <div class="Field errormsg">
-                    <p id="formdbresultmessage"></p>
-                    <p id="formdbresultcomment" class="FieldExplanation"></p>
-                </div>
-                <div class="Clear errormsg"></div>
-            </fieldset>
-        </div>
-
-        <div class="SpacingTop Hidden Center">
-            <button type="submit" id="formdbsubmit" disabled="disabled" value="$Text{"Next..."}">$Text{"Next..."}</button>
+            </div>
         </div>
     </form>
 </div>
@@ -162,13 +165,14 @@
         if (parseInt(json['Successful']) < 1) {
             $('#formdbresultmessage').html(json['Message']);
             $('#formdbresultcomment').html(json['Comment']);
-            $('div.errormsg').show();
+            $('fieldset.ErrorMsg').show();
         }
         else {
             alert('$JSText{"Database check successful."}');
             $('#formdbsubmit').attr('disabled', false);
-            $('div.errormsg, fieldset.checkdb').hide();
-            $('fieldset.Hidden, div.Hidden').show();
+            $('fielset.ErrorMsg, fieldset.checkdb').hide();
+            $('fieldset.HideMe, div.HideMe').show();
         }
     }
 //]]></script>
+<!-- dtl:block:DatabaseStart -->

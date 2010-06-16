@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.35 2010-06-15 21:45:51 en Exp $
+# $Id: Installer.dtl,v 1.36 2010-06-16 20:37:45 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,28 +72,16 @@
     </div>
 <!-- dtl:block:Intro -->
 
-<!-- dtl:block:License -->
 $Include{"InstallerLicense"}
-<!-- dtl:block:License -->
 
-<!-- dtl:block:DatabaseStart -->
 $Include{"InstallerDBStart"}
-<!-- dtl:block:DatabaseStart -->
 
-<!-- dtl:block:DatabaseResult -->
 $Include{"InstallerDBResult"}
-<!-- dtl:block:DatabaseResult -->
 
-<!-- dtl:block:System-->
 $Include{"InstallerSystem"}
-<!-- dtl:block:System-->
 
-<!-- dtl:block:ConfigureMail-->
 $Include{"InstallerConfigureMail"}
-<!-- dtl:block:ConfigureMail-->
 
-<!-- dtl:block:Finish -->
 $Include{"InstallerFinish"}
-<!-- dtl:block:Finish -->
 
 </div>

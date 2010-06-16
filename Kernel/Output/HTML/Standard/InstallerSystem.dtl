@@ -2,13 +2,14 @@
 # InstallerSystem.dtl - provides the system data for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerSystem.dtl,v 1.12 2010-06-15 21:45:51 en Exp $
+# $Id: InstallerSystem.dtl,v 1.13 2010-06-16 20:37:44 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+<!-- dtl:block:System-->
 <div class="Center">
     <img border="0" src="$Config{"Frontend::ImagePath"}installer2.png" alt="" />
 </div>
@@ -18,108 +19,111 @@
         <input type="hidden" name="Action" value="Installer"/>
         <input type="hidden" name="Subaction" value="ConfigureMail"/>
 
-        <div class="Header">
-            <h2>$Text{"$Data{"Item"}"} ($Data{"Step"})</h2>
-        </div>
+        <div class="WidgetGradient Medium">
+            <div class="Header">
+                <h2>$Text{"$Data{"Item"}"} ($Data{"Step"})</h2>
+            </div>
 
-        <div class="Content">
-            <fieldset class="TableLike">
-                <label for="SystemID">$Text{"SystemID"}:</label>
-                <div class="Field">
-                    $Data{"SystemIDString"}
-                    <p class="FieldExplanation">
-                        $Text{"The identify of the system. Each ticket number and each http session id starts with this number."}
-                    </p>
+            <div class="Content">
+                <fieldset class="TableLike">
+                    <label for="SystemID">$Text{"SystemID"}:</label>
+                    <div class="Field">
+                        $Data{"SystemIDString"}
+                        <p class="FieldExplanation">
+                            $Text{"The identify of the system. Each ticket number and each http session id starts with this number."}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="FQDN">$Text{"System FQDN"}:</label>
+                    <div class="Field">
+                        <input type="text" id="FQDN" name="FQDN" value="$Config{"FQDN"}" class="W33pc"/>
+                        <p class="FieldExplanation">
+                            $Text{"Full qualified domain name of your system."}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="AdminEmail">$Text{"AdminEmail"}:</label>
+                    <div class="Field">
+                        <input type="text" id="AdminEmail" name="AdminEmail" value="$Config{"AdminEmail"}" class="W33pc"/>
+                        <p class="FieldExplanation">
+                            $Text{"Email of the system admin."}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="Organization">$Text{"Organization"}:</label>
+                    <div class="Field">
+                        <input type="text" id="Organization" name="Organization" value="$Config{"Organization"}" class="W33pc"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div>
+                        <h4>
+                            $Text{"Log"}
+                        </h4>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="LogModule">$Text{"LogModule"}:</label>
+                    <div class="Field">
+                        $Data{"LogModuleString"}
+                        <p class="FieldExplanation">
+                            $Text{"Used log backend."}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="LogModule::LogFile">$Text{"LogFile"}:</label>
+                    <div class="Field">
+                        <input type="text" id="LogModule::LogFile" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" class="W33pc"/>
+                        <p class="FieldExplanation">
+                            $Text{"Logfile just needed for File-LogModule!"}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div>
+                        <h4>
+                            $Text{"Webfrontend"}
+                        </h4>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="DefaultCharset">$Text{"Default charset"}:</label>
+                    <div class="Field">
+                        <input type="text" id="DefaultCharset" name="DefaultCharset" value="$QData{"DefaultCharset"}" class="W33pc"/>
+                        <p class="FieldExplanation">
+                            $Text{"Use utf-8 it your database supports it!"}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="DefaultLanguage">$Text{"Default language"}:</label>
+                    <div class="Field">
+                        $Data{"LanguageString"}
+                        <p class="FieldExplanation">
+                            $Text{"Used default language."}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="DBType">$Text{"CheckMXRecord"}:</label>
+                    <div class="Field">
+                        $Data{"SelectCheckMXRecord"}
+                        <p class="FieldExplanation">
+                            $Text{"Checks MX recordes of used email addresses by composing an answer. Don't use CheckMXRecord if your OTRS machine is behinde a dial-up line $!"}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <div class="SpacingTop Right">
+                    <button type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
                 </div>
-                <div class="Clear"></div>
-
-                <label for="FQDN">$Text{"System FQDN"}:</label>
-                <div class="Field">
-                    <input type="text" id="FQDN" name="FQDN" value="$Config{"FQDN"}" class="W33pc"/>
-                    <p class="FieldExplanation">
-                        $Text{"Full qualified domain name of your system."}
-                    </p>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="AdminEmail">$Text{"AdminEmail"}:</label>
-                <div class="Field">
-                    <input type="text" id="AdminEmail" name="AdminEmail" value="$Config{"AdminEmail"}" class="W33pc"/>
-                    <p class="FieldExplanation">
-                        $Text{"Email of the system admin."}
-                    </p>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="Organization">$Text{"Organization"}:</label>
-                <div class="Field">
-                    <input type="text" id="Organization" name="Organization" value="$Config{"Organization"}" class="W33pc"/>
-                </div>
-                <div class="Clear"></div>
-
-                <div>
-                    <h4>
-                        $Text{"Log"}
-                    </h4>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="LogModule">$Text{"LogModule"}:</label>
-                <div class="Field">
-                    $Data{"LogModuleString"}
-                    <p class="FieldExplanation">
-                        $Text{"Used log backend."}
-                    </p>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="LogModule::LogFile">$Text{"LogFile"}:</label>
-                <div class="Field">
-                    <input type="text" id="LogModule::LogFile" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" class="W33pc"/>
-                    <p class="FieldExplanation">
-                        $Text{"Logfile just needed for File-LogModule!"}
-                    </p>
-                </div>
-                <div class="Clear"></div>
-
-                <div>
-                    <h4>
-                        $Text{"Webfrontend"}
-                    </h4>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="DefaultCharset">$Text{"Default charset"}:</label>
-                <div class="Field">
-                    <input type="text" id="DefaultCharset" name="DefaultCharset" value="$QData{"DefaultCharset"}" class="W33pc"/>
-                    <p class="FieldExplanation">
-                        $Text{"Use utf-8 it your database supports it!"}
-                    </p>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="DefaultLanguage">$Text{"Default language"}:</label>
-                <div class="Field">
-                    $Data{"LanguageString"}
-                    <p class="FieldExplanation">
-                        $Text{"Used default language."}
-                    </p>
-                </div>
-                <div class="Clear"></div>
-
-                <label for="DBType">$Text{"CheckMXRecord"}:</label>
-                <div class="Field">
-                    $Data{"SelectCheckMXRecord"}
-                    <p class="FieldExplanation">
-                        $Text{"Checks MX recordes of used email addresses by composing an answer. Don't use CheckMXRecord if your OTRS machine is behinde a dial-up line $!"}
-                    </p>
-                </div>
-                <div class="Clear"></div>
-            </fieldset>
-
-            <div class="SpacingTop Right">
-                <button type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
             </div>
         </div>
     </form>
 </div>
+<!-- dtl:block:System-->
