@@ -1,8 +1,8 @@
 # --
 # Installer.dtl - provides HTML form for Installer
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.22.2.1 2009-10-01 14:14:16 ub Exp $
+# $Id: Installer.dtl,v 1.22.2.2 2010-06-16 13:02:15 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,7 +82,7 @@
                 </tr>
                 <tr>
                     <td class="contentbody" align="center">
-<textarea name="License" rows="22" cols="78">
+<textarea name="License" rows="22" cols="78" readonly="readonly">
 
                     GNU AFFERO GENERAL PUBLIC LICENSE
                        Version 3, 19 November 2007
@@ -1013,7 +1013,7 @@ $Text{"After doing so your OTRS is up and running."}
                                         <td class="contentkey">$Text{"Start page"}:</td>
                                         <td class="contentvalue">
                                             <a href="http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl">
-                                            http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl
+                                                http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl
                                             </a>
                                         </td>
                                     </tr>
