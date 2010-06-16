@@ -2,7 +2,7 @@
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBStart.dtl,v 1.3 2010-06-16 20:37:44 en Exp $
+# $Id: InstallerDBStart.dtl,v 1.4 2010-06-16 21:30:43 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
 </div>
 
 <div class="W50pc SpacingTop SpacingBottom CenterBox">
-    <form action="$Env{"CGIHandle"}" method="post" id="formdb">
+    <form action="$Env{"CGIHandle"}" method="post" id="FormDB">
         <input type="hidden" name="Action"    value="Installer"/>
         <input type="hidden" name="Subaction" value="DB"/>
 
@@ -115,7 +115,7 @@
                     <div class="Clear"></div>
                 </fieldset>
 
-                <fieldset class="TableLike checkdb">
+                <fieldset class="TableLike CheckDB">
                     <div>
                         <h4>
                             $Text{"Check database settings"}
@@ -124,7 +124,7 @@
                     <div class="Clear"></div>
 
                     <div class="Field">
-                        <button type="button" onclick="CheckDBData();" value="$Text{"Check database settings"}">$Text{"Check database settings"}</button>
+                        <button class="button" type="button" onclick="CheckDBData();" value="$Text{"Check database settings"}">$Text{"Check database settings"}</button>
                     </div>
                     <div class="Clear"></div>
                 </fieldset>
@@ -138,14 +138,14 @@
                     <div class="Clear"></div>
 
                     <div class="Field">
-                        <p id="formdbresultmessage"></p>
-                        <p id="formdbresultcomment" class="FieldExplanation"></p>
+                        <p id="FormDBResultMessage"></p>
+                        <p id="FormDBResultComment" class="FieldExplanation"></p>
                     </div>
                     <div class="Clear"></div>
                 </fieldset>
 
                 <div class="Hidden Center HideMe">
-                    <button type="submit" id="formdbsubmit" disabled="disabled" value="$Text{"Next..."}">$Text{"Next..."}</button>
+                    <button class ="button" type="submit" id="formdbsubmit" disabled="disabled" value="$Text{"Next..."}">$Text{"Next..."}</button>
                 </div>
             </div>
         </div>
@@ -155,7 +155,7 @@
 <script type="text/javascript">//<![CDATA[
     function CheckDBData() {
         $('input[name=Subaction]').val('CheckRequirements');
-        var Data = $('#formdb').serialize();
+        var Data = $('#FormDB').serialize();
         Data += "&CheckMode=DB";
         Core.AJAXFunctionCall( { Data: Data, Callback: CheckDBDataCallback } );
         $('input[name=Subaction]').val('DB');
@@ -163,14 +163,14 @@
 
     function CheckDBDataCallback(json) {
         if (parseInt(json['Successful']) < 1) {
-            $('#formdbresultmessage').html(json['Message']);
-            $('#formdbresultcomment').html(json['Comment']);
+            $('#FormDBResultMessage').html(json['Message']);
+            $('#FormDBResultComment').html(json['Comment']);
             $('fieldset.ErrorMsg').show();
         }
         else {
             alert('$JSText{"Database check successful."}');
-            $('#formdbsubmit').attr('disabled', false);
-            $('fielset.ErrorMsg, fieldset.checkdb').hide();
+            $('#FormDBSubmit').attr('disabled', false);
+            $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
             $('fieldset.HideMe, div.HideMe').show();
         }
     }
