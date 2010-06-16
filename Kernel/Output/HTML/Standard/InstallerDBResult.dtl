@@ -2,7 +2,7 @@
 # InstallerDBResult.dtl - provides the status of the new DB for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBResult.dtl,v 1.3 2010-06-16 20:37:45 en Exp $
+# $Id: InstallerDBResult.dtl,v 1.4 2010-06-16 21:04:55 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,12 +51,12 @@
 
 <!-- dtl:block:DatabaseResultBack -->
                     <input type="hidden" name="Subaction" value="Start"/>
-                    <button type="submit" value="$Text{"...Back"}">$Text{"...Back"}</button>
+                    <button class="button" type="submit" value="$Text{"...Back"}">$Text{"...Back"}</button>
 <!-- dtl:block:DatabaseResultBack -->
 
 <!-- dtl:block:DatabaseResultNext -->
                     <input type="hidden" name="Subaction" value="System"/>
-                    <button type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
+                    <button class="button" type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
 <!-- dtl:block:DatabaseResultNext -->
 
                 </div>
