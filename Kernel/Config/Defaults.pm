@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.346 2010-06-15 20:32:03 cg Exp $
+# $Id: Defaults.pm,v 1.347 2010-06-16 17:04:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.346 $) [1];
+$VERSION = qw($Revision: 1.347 $) [1];
 
 use File::stat;
 use Digest::MD5;
@@ -765,9 +765,6 @@ sub LoadDefaults {
     # CGILogPrefix
     $Self->{CGILogPrefix} = 'OTRS-CGI';
 
-    # Animations used in the GUI
-    $Self->{'Frontend::AnimationEnabled'} =  '1';
-
     # --------------------------------------------------- #
     # Agent Web Interface
     # --------------------------------------------------- #
@@ -1096,17 +1093,6 @@ sub LoadDefaults {
         Activ   => 1,
     };
 
-    # generator customer preferences module
-    $Self->{CustomerPreferences} =  {
-        Module => 'Kernel::System::CustomerUser::Preferences::DB',
-        Params => {
-            Table       => 'customer_preferences',
-            TableKey    => 'preferences_key',
-            TableUserID => 'user_id',
-            TableValue  => 'preferences_value'
-        }
-    };
-
     # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #
@@ -1159,13 +1145,6 @@ Your OTRS Notification Master
     # each customer user for this groups, then put the groups
     # for all customer user in there)
     $Self->{CustomerGroupAlwaysGroups} = [ 'users', 'info' ];
-
-    # handle module specific CSS
-    $Self->{'CustomerFrontend::Module'}->{'Logout'} =  {
-      'Description' => 'Logout of customer panel',
-      'NavBarName' => '',
-      'Title' => ''
-    };
 
     # show online agents
 #    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
@@ -2211,6 +2190,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.346 $ $Date: 2010-06-15 20:32:03 $
+$Revision: 1.347 $ $Date: 2010-06-16 17:04:43 $
 
 =cut
