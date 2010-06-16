@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -185,8 +185,8 @@
  * @subsection  UserInfo
  */
 #UserInfo {
-    top: 12px;
-    right: 40px;
+    top: 8px;
+    right: 17px;
     padding: 4px 25px 0 0;
     color: #BBB;
     font-size: 11px;
