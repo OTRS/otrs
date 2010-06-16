@@ -3,7 +3,7 @@
 # otrs.PackageManager.pl - otrs package manager cmd version
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PackageManager.pl,v 1.2 2010-04-30 12:21:43 ep Exp $
+# $Id: otrs.PackageManager.pl,v 1.3 2010-06-16 15:25:13 dz Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -42,7 +42,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -565,14 +565,15 @@ else {
 sub BuildPackageIndex {
     my $In = shift;
 
-    my @List = glob("$In/*");
+    my @List = $CommonObject{MainObject}->DirectoryRead(
+        Directory => $In,
+        Filter    => '*',
+    );
     for my $File (@List) {
-        $File =~ s/\/\//\//g;
+        $File = $In . '/' . $File;
         if ( -d $File && $File !~ /CVS/ ) {
             BuildPackageIndex($File);
             $File =~ s/$Opts{d}//;
-
-            #            print "Directory: $File\n";
         }
         else {
             my $OrigFile = $File;
