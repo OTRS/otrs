@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1228 2010-06-15 05:00:27 dz Exp $
+# $Id: CHANGES,v 1.1229 2010-06-16 13:10:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -303,6 +303,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/06/16) Fixed bug#5478 - Web Installer has 'editable' license text.
  - (2010/05/31) Fixed bug#5385 - Queue name is not used in signature on ticket
     creation.
  - (2010/05/28) Fixed bug#5235 - Link in response not shown as link.

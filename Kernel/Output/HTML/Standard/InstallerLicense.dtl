@@ -2,7 +2,7 @@
 # InstallerLicense.dtl - provides the license for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerLicense.dtl,v 1.4 2010-06-15 21:32:30 en Exp $
+# $Id: InstallerLicense.dtl,v 1.5 2010-06-16 13:07:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@
     </div>
 
     <div class="Content Center">
-        <textarea name="License" rows="22" cols="78">
+        <textarea name="License" rows="22" cols="78" readonly="readonly">
 
                     GNU AFFERO GENERAL PUBLIC LICENSE
                        Version 3, 19 November 2007
