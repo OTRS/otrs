@@ -2,7 +2,7 @@
 # FooterJS.dtl - provides global HTML footer JavaScript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FooterJS.dtl,v 1.3 2010-06-15 15:23:21 mn Exp $
+# $Id: FooterJS.dtl,v 1.4 2010-06-16 16:55:56 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@
             CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
             Images: '$Config{"Frontend::ImagePath"}',
             UserLanguage: '$Env{"UserLanguage"}',
-            AnimationEnabled: $Config{"Frontend::AnimationEnabled"}
+            AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}')
         });
         Core.Agent.Init();
 $Include{"Datepicker"}
