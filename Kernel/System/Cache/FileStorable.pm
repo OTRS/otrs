@@ -2,7 +2,7 @@
 # Kernel/System/Cache/FileStorable.pm - all cache functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FileStorable.pm,v 1.3 2010-06-15 19:11:35 dz Exp $
+# $Id: FileStorable.pm,v 1.4 2010-06-16 15:27:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ umask 002;
 use Storable qw(freeze thaw);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -171,17 +171,23 @@ sub CleanUp {
 
     # get all cache types
     else {
-        @TypeList = $Self->{MainObject}->DirectoryRead( Directory => $Self->{CacheDirectory}, );
+        @TypeList = $Self->{MainObject}->DirectoryRead(
+            Directory => $Self->{CacheDirectory},
+            Filter    => '*',
+        );
     }
     for my $Type (@TypeList) {
 
-        # get all .cache files
-        my @CacheList = $Self->{MainObject}->DirectoryRead( Directory => $Type, );
+        # get all cache files
+        my @CacheList = $Self->{MainObject}->DirectoryRead(
+            Directory => $Type,
+            Filter    => '*',
+        );
         CacheFile:
         for my $CacheFile (@CacheList) {
 
             # only remove files
-            next if ( !-f $CacheFile );
+            next if !-f $CacheFile;
 
             # only expired
             if ( $Param{Expired} ) {
