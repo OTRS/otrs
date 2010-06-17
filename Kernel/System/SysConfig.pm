@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.9 2010-06-17 06:02:03 dz Exp $
+# $Id: SysConfig.pm,v 1.10 2010-06-17 16:14:19 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -892,8 +892,6 @@ sub ConfigItemGet {
             Filter    => "$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}",
         );
 
-        #delete print
-        print STDERR ":::$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}";
         for my $Item (@List) {
             $Item =~ s/\Q$Home\E//g;
             $Item =~ s/^[A-z]://g;
@@ -1876,6 +1874,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2010-06-17 06:02:03 $
+$Revision: 1.10 $ $Date: 2010-06-17 16:14:19 $
 
 =cut
