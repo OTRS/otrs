@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.3 2010-06-15 22:14:59 dz Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.4 2010-06-17 06:03:25 dz Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Opts);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -119,7 +119,7 @@ my @List = $CommonObject{MainObject}->DirectoryRead(
 );
 
 for my $File (@List) {
-    if ( open my $In, '<', $Directory . $File ) {
+    if ( open my $In, '<', $File ) {
         my $Content = '';
         while ( my $Line = <$In> ) {
             if ( $Line !~ /^#/ ) {

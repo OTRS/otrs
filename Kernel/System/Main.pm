@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.46 2010-06-15 15:10:41 martin Exp $
+# $Id: Main.pm,v 1.47 2010-06-17 05:58:31 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Encode;
 use Unicode::Normalize;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -909,19 +909,12 @@ sub DirectoryRead {
         }
     }
 
-    # clean results
-    my @CleanResults;
-    for my $Data (@GlobResults) {
-        $Data =~ s{\A $Param{Directory}/}{}xms;
-        push @CleanResults, $Data;
-    }
-
     # if clean results
-    return if !@CleanResults;
+    return if !@GlobResults;
 
     # compose normalize every name in the file list
     my @Results;
-    for my $Filename (@CleanResults) {
+    for my $Filename (@GlobResults) {
         my $Normalized = Unicode::Normalize::normalize( 'NFC', $Filename );
         push @Results, $Normalized;
     }
@@ -937,16 +930,16 @@ sub DirectoryRead {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2010-06-15 15:10:41 $
+$Revision: 1.47 $ $Date: 2010-06-17 05:58:31 $
 
 =cut

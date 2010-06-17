@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.8 2010-06-15 19:54:47 dz Exp $
+# $Id: SysConfig.pm,v 1.9 2010-06-17 06:02:03 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -891,6 +891,9 @@ sub ConfigItemGet {
             Directory => $Home,
             Filter    => "$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}",
         );
+
+        #delete print
+        print STDERR ":::$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}";
         for my $Item (@List) {
             $Item =~ s/\Q$Home\E//g;
             $Item =~ s/^[A-z]://g;
@@ -1435,7 +1438,7 @@ sub _Init {
         for my $File (@Files) {
             my $ConfigFile = '';
             my $In;
-            if ( open( $In, '<', $Directory . $File ) ) {
+            if ( open( $In, '<', $File ) ) {
                 $ConfigFile = do { local $/; <$In> };
                 close $In;
             }
@@ -1478,7 +1481,7 @@ sub _Init {
 
                     # remove all cache files
                     my @List = $Self->{MainObject}->DirectoryRead(
-                        Directory => "$Self->{Home}/var/tmp/",
+                        Directory => "$Self->{Home}/var/tmp",
                         Filter    => "SysConfig-Cache$FileCachePart-*.pm",
                     );
                     for my $File (@List) {
@@ -1863,16 +1866,16 @@ sub _XML2Perl {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2010-06-15 19:54:47 $
+$Revision: 1.9 $ $Date: 2010-06-17 06:02:03 $
 
 =cut
