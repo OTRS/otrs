@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.22 2010-05-19 08:55:08 fn Exp $
+# $Id: AdminMailAccount.dtl,v 1.23 2010-06-17 13:30:17 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,9 +37,9 @@
 <!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short">
             <div class="Header">
+                <h2>$Text{"Note"}</h2>
             </div>
             <div class="Content">
-                <h2 class="SpacingTop">$Text{"Note"}</h2>
                 <p class="FieldExplanation">
                     $Text{"All incoming emails with one account will be dispatched in the selected queue!"}
                 </p>
