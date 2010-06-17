@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.25 2010-06-15 16:37:51 dz Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.26 2010-06-17 21:11:34 dz Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -150,7 +150,10 @@ sub CleanUpCacheDir {
     my $CacheDirectory = $CommonObject{ConfigObject}->Get('TempDir');
 
     # delete all cache files
-    my @CacheFiles = $CommonObject{MainObject}->DirectoryRead( Directory => $CacheDirectory, );
+    my @CacheFiles = $CommonObject{MainObject}->DirectoryRead(
+        Directory => $CacheDirectory,
+        Filter    => '*',
+    );
 
     for my $CacheFile (@CacheFiles) {
         next if ( !-f $CacheFile );
