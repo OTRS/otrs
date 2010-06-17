@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.pm,v 1.75 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketFreeText.pm,v 1.76 2010-06-17 17:29:37 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,6 +90,7 @@ sub Run {
             FormID => $Self->{FormID},
             %Ticket,
             %Param,
+            Header => 'Change free text of ticket',
         },
     );
 

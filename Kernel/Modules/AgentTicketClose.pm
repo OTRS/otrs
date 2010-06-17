@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.85 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketClose.pm,v 1.86 2010-06-17 17:31:19 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,6 +90,7 @@ sub Run {
             FormID => $Self->{FormID},
             %Ticket,
             %Param,
+            Header => 'Close ticket',
         },
     );
 
