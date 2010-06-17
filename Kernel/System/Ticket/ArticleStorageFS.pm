@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.71 2010-06-15 20:10:39 dz Exp $
+# $Id: ArticleStorageFS.pm,v 1.72 2010-06-17 15:54:26 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -167,7 +167,7 @@ sub ArticleDeleteAttachment {
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
     if ( -e $Path ) {
-        my @List = $Self->{MainObject}->DirectoryRead( Directory => $Path, );
+        my @List = glob( $Path . "/*" );
         for my $File (@List) {
             if ( $File !~ /(\/|\\)plain.txt$/ ) {
                 if ( !unlink "$File" ) {
@@ -409,8 +409,7 @@ sub ArticleAttachmentIndexRaw {
     my $Counter = 0;
 
     # try fs
-    my @List = $Self->{MainObject}
-        ->DirectoryRead( Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}", );
+    my @List = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
     for my $Filename (@List) {
         my $FileSize    = -s $Filename;
         my $FileSizeRaw = $FileSize;
@@ -569,8 +568,7 @@ sub ArticleAttachment {
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my %Data        = %{ $Index{ $Param{FileID} } };
     my $Counter     = 0;
-    my @List        = $Self->{MainObject}
-        ->DirectoryRead( Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}", );
+    my @List        = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
     if (@List) {
         for my $Filename (@List) {
             next if $Filename =~ /\.content_alternative$/;
