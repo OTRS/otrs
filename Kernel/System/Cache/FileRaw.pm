@@ -2,7 +2,7 @@
 # Kernel/System/Cache/FileRaw.pm - all cache functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FileRaw.pm,v 1.2 2010-02-07 13:43:28 martin Exp $
+# $Id: FileRaw.pm,v 1.3 2010-06-17 20:46:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 umask 002;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -168,17 +168,26 @@ sub CleanUp {
 
     # get all only one type cache
     if ( $Param{Type} ) {
-        @TypeList = glob( $Self->{CacheDirectory} . '/' . $Param{Type} );
+        @TypeList = $Self->{MainObject}->DirectoryRead(
+            Directory => "$Self->{CacheDirectory}",
+            Filter    => "$Param{Type}",
+        );
     }
 
     # get all cache types
     else {
-        @TypeList = glob( $Self->{CacheDirectory} . '/*' );
+        @TypeList = $Self->{MainObject}->DirectoryRead(
+            Directory => "$Self->{CacheDirectory}",
+            Filter    => '*',
+        );
     }
     for my $Type (@TypeList) {
 
         # get all .cache files
-        my @CacheList = glob( $Type . '/*' );
+        my @CacheList = $Self->{MainObject}->DirectoryRead(
+            Directory => $Type,
+            Filter    => '*',
+        );
         CacheFile:
         for my $CacheFile (@CacheList) {
 
