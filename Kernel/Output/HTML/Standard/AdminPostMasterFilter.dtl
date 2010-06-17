@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.45 2010-05-19 08:55:08 fn Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.46 2010-06-17 11:46:43 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,12 +39,9 @@
 
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
-
+                <h2>$Text{"Note"}:</h2>
             </div>
             <div class="Content">
-                <h2>
-                    $Text{"Note"}:
-                </h2>
                 <p class="FieldExplanation">
                     $Text{"Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible."}
                 </p>
