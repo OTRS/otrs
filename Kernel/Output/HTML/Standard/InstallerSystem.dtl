@@ -2,7 +2,7 @@
 # InstallerSystem.dtl - provides the system data for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerSystem.dtl,v 1.13 2010-06-16 20:37:44 en Exp $
+# $Id: InstallerSystem.dtl,v 1.14 2010-06-17 03:40:19 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -120,7 +120,7 @@
                 </fieldset>
 
                 <div class="SpacingTop Right">
-                    <button type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
+                    <button class="button" type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
                 </div>
             </div>
         </div>
