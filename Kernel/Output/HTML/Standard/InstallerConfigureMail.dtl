@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.4 2010-06-16 20:37:45 en Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.5 2010-06-17 03:06:42 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
 </div>
 
 <div class="W50pc SpacingTop SpacingBottom CenterBox">
-    <form action="$Env{"CGIHandle"}" method="post" id="formmail">
+    <form action="$Env{"CGIHandle"}" method="post" id="FormMail">
         <input type="hidden" name="Action" value="Installer"/>
         <input type="hidden" name="Subaction" value="Finish"/>
         <input type="hidden" name="Skip" value="0"/>
@@ -129,7 +129,7 @@
                     <div class="Clear"></div>
                 </fieldset>
 
-                <fieldset class="TableLike Hidden errormsg">
+                <fieldset class="TableLike Hidden ErrorMsg">
                     <div>
                         <h4>
                             $Text{"Result of mail configuration check"}
@@ -138,7 +138,7 @@
                     <div class="Clear"></div>
 
                     <div class="Field">
-                        <p class="Error" id="formmailresultmessage"></p>
+                        <p class="Error" id="FormMailResultMessage"></p>
                     </div>
                     <div class="Clear"></div>
 
@@ -146,8 +146,8 @@
             </div>
 
             <div class="SpacingTop Center">
-                <button type="button" onclick="SkipMailConfig()" value="$Text{"Skip this step"}">$Text{"Skip this step"}</button>
-                <button type="button" onclick="CheckMailConfig()" value="$Text{"Check mail configuration"}">$Text{"Check mail configuration"}</button>
+                <button class="button" type="button" onclick="SkipMailConfig()" value="$Text{"Skip this step"}">$Text{"Skip this step"}</button>
+                <button class="button" type="button" onclick="CheckMailConfig()" value="$Text{"Check mail configuration"}">$Text{"Check mail configuration"}</button>
             </div>
         </div>
     </form>
@@ -183,7 +183,7 @@
         $('input[name=Skip]').val('0');
         // Check mail data via AJAX
         $('input[name=Subaction]').val('CheckRequirements');
-        var Data = $('#formmail').serialize();
+        var Data = $('#FormMail').serialize();
         Data += "&CheckMode=Mail";
         Core.AJAXFunctionCall( { Data: Data, Callback: CheckMailConfigCallback } );
         $('input[name=Subaction]').val('Finish');
@@ -196,8 +196,8 @@
             $('form').submit();
         }
         else {
-            $('#formmailresultmessage').html(json['Message']);
-            $('fieldset.errormsg').show();
+            $('#FormMailResultMessage').html(json['Message']);
+            $('fieldset.ErrorMsg').show();
             alert('$JSText{"Error in the mail settings. Please correct and try again."}');
         }
     }
