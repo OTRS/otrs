@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.114 2010-02-26 20:55:32 martin Exp $
+# $Id: Package.pm,v 1.115 2010-06-17 21:39:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 =head1 NAME
 
@@ -1088,7 +1088,7 @@ sub PackageOnlineList {
 download of an online package and put it int to the local repository
 
     $PackageObject->PackageOnlineGet(
-        Source => 'http://host.example.com/',
+        Source => 'L<http://host.example.com/>',
         File   => 'SomePackage-1.0.opm',
     );
 
@@ -1291,7 +1291,7 @@ build a opm package
             Content => 'OTRS AG',
         },
         URL => {
-            Content => 'http://otrs.org/',
+            Content => 'L<http://otrs.org/>',
         },
         License => {
             Content => 'GNU GENERAL PUBLIC LICENSE Version 2, June 1991',
@@ -2424,16 +2424,16 @@ sub _Encode {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.114 $ $Date: 2010-02-26 20:55:32 $
+$Revision: 1.115 $ $Date: 2010-06-17 21:39:40 $
 
 =cut

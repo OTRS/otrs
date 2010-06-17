@@ -1,8 +1,8 @@
 # --
 # Kernel/System/WebUserAgent.pm - a web user agent
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUserAgent.pm,v 1.3 2009-09-03 16:12:13 tr Exp $
+# $Id: WebUserAgent.pm,v 1.4 2010-06-17 21:39:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use LWP::UserAgent;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -98,7 +98,7 @@ sub new {
 return the content of requested URL
 
     my %Response = $WebUserAgentObject->Request(
-        URL => 'http://example.com/somedata.xml',
+        URL => 'L<http://example.com/somedata.xml>',
     );
 
 returns
@@ -154,16 +154,16 @@ sub Request {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2009-09-03 16:12:13 $
+$Revision: 1.4 $ $Date: 2010-06-17 21:39:40 $
 
 =cut
