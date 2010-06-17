@@ -2,7 +2,7 @@
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBStart.dtl,v 1.4 2010-06-16 21:30:43 mp Exp $
+# $Id: InstallerDBStart.dtl,v 1.5 2010-06-17 16:59:30 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,7 +124,7 @@
                     <div class="Clear"></div>
 
                     <div class="Field">
-                        <button class="button" type="button" onclick="CheckDBData();" value="$Text{"Check database settings"}">$Text{"Check database settings"}</button>
+                        <button class="Primary" type="button" onclick="CheckDBData();" value="$Text{"Check database settings"}">$Text{"Check database settings"}</button>
                     </div>
                     <div class="Clear"></div>
                 </fieldset>
@@ -145,7 +145,7 @@
                 </fieldset>
 
                 <div class="Hidden Center HideMe">
-                    <button class ="button" type="submit" id="formdbsubmit" disabled="disabled" value="$Text{"Next..."}">$Text{"Next..."}</button>
+                    <button class="Primary" type="submit" id="FormDBSubmit" disabled="disabled" value="$Text{"Next..."}">$Text{"Next..."}</button>
                 </div>
             </div>
         </div>
