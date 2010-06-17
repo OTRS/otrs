@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.36 2010-06-16 20:37:45 en Exp $
+# $Id: Installer.dtl,v 1.37 2010-06-17 02:35:39 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,7 +66,7 @@
             <form action="$Env{"CGIHandle"}" method="post">
                 <input type="hidden" name="Action" value="Installer"/>
                 <input type="hidden" name="Subaction" value="License"/>
-                <button type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
+                <button class="button" type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button
             </form>
         </div>
     </div>
