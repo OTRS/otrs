@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.252 2010-05-17 13:32:12 bes Exp $
+# $Id: Article.pm,v 1.253 2010-06-17 22:09:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::TemplateGenerator;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.252 $) [1];
+$VERSION = qw($Revision: 1.253 $) [1];
 
 =head1 NAME
 
@@ -3214,16 +3214,16 @@ get article attachment (Content, ContentType, Filename and optional ContentID, C
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.252 $ $Date: 2010-05-17 13:32:12 $
+$Revision: 1.253 $ $Date: 2010-06-17 22:09:31 $
 
 =cut

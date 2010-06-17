@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceInstaller.pm - the installer interface file
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceInstaller.pm,v 1.2 2009-11-25 23:13:23 mh Exp $
+# $Id: InterfaceInstaller.pm,v 1.3 2010-06-17 22:14:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -175,16 +175,16 @@ sub DESTROY {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2009-11-25 23:13:23 $
+$Revision: 1.3 $ $Date: 2010-06-17 22:14:28 $
 
 =cut
