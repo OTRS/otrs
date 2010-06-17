@@ -2,7 +2,7 @@
 # InstallerLicense.dtl - provides the license for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerLicense.dtl,v 1.6 2010-06-16 20:37:45 en Exp $
+# $Id: InstallerLicense.dtl,v 1.7 2010-06-17 16:41:25 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ $Include{"InstallerLicenseText"}
             <div class="SpacingTop Right">
                 <form action="$Env{"CGIHandle"}" method="post">
                     <input type="hidden" name="Subaction" value="Start"/>
-                    <button type="submit" value="$Text{"Accept license"}">$Text{"Accept license"}</button>
+                    <button class="Primary" type="submit" value="$Text{"Accept license"}">$Text{"Accept license"}</button>
                 </form>
                 <form action="$Env{"CGIHandle"}" method="post">
                     <button type="submit" value="$Text{"Don't accept license"}">$Text{"Don't accept license"}</button>
