@@ -2,7 +2,7 @@
 # AgentTicketNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketNote.dtl,v 1.47 2010-06-11 21:36:42 en Exp $
+# $Id: AgentTicketNote.dtl,v 1.48 2010-06-17 17:26:13 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,7 +121,9 @@ function change_selected(sel) {
 
     <div class="WidgetPopup ARIARoleMain">
         <div class="Header">
-            <h1>$Text{"Add note to ticket"}: $Data{"TicketNumber"}</h1>
+
+            <h1>$Text{"$Data{"Header"}"}: $Data{"TicketNumber"}</h1>
+
             <p>
                 <a href="">$Text{"Cancel & close window"}</a>
             </p>
@@ -310,7 +312,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:Priority -->
 
 <!-- dtl:block:TicketFreeText -->
-                    <label>$Data{"TicketFreeKeyField"}:</label>
+                    <label>$Data{"TicketFreeKeyField"} :</label>
                     <div class="Field">
                         $Data{"TicketFreeTextField"}
                     </div>
@@ -318,7 +320,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TicketFreeText -->
 
 <!-- dtl:block:TicketFreeTime -->
-                    <label>$Data{"TicketFreeTimeKey"}:</label>
+                    <label>$Data{"TicketFreeTimeKey"} :</label>
                     <div class="Field">
                         $Data{"TicketFreeTime"}
                     </div>
@@ -326,7 +328,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TicketFreeTime -->
 
 <!-- dtl:block:ArticleFreeText -->
-                    <label>$Data{"ArticleFreeKeyField"}:</label>
+                    <label>$Data{"ArticleFreeKeyField"} :</label>
                     <div class="Field">
                         $Data{"ArticleFreeKeyField"}
                     </div>
