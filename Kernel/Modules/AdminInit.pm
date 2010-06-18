@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminInit.pm - init a new setup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminInit.pm,v 1.15 2010-06-15 20:13:36 dz Exp $
+# $Id: AdminInit.pm,v 1.16 2010-06-18 18:27:39 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,7 +58,7 @@ sub Run {
     if ( $Self->{MainObject}->Require('Kernel::System::Package') ) {
         my $PackageObject = Kernel::System::Package->new( %{$Self} );
         if ($PackageObject) {
-            my $Directory    = $Self->{ConfigObject}->Get('Home') . '/var/packages/';
+            my $Directory    = $Self->{ConfigObject}->Get('Home') . '/var/packages';
             my @PackageFiles = $Self->{MainObject}->DirectoryRead(
                 Directory => $Directory,
                 Filter    => '*.opm',
