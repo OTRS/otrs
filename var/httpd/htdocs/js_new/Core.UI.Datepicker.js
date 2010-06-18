@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.4 2010-06-15 15:23:21 mn Exp $
+// $Id: Core.UI.Datepicker.js,v 1.5 2010-06-18 09:04:33 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -67,9 +67,10 @@ Core.UI.Datepicker = (function (TargetNS) {
      *      This function initializes the datepicker on the defined elements.
      * @param {Object} Element The jQuery object of a text input field which should get  a datepicker.
      *                 Or a hash with the Keys 'Year', 'Month' and 'Day' and as values the jQueryObjects of the select drop downs.
+     * @param {jQueryObject} $Image The jQuery object of the datepicker icon element
      * @return nothing
      */
-    TargetNS.Init = function (Element) {
+    TargetNS.Init = function (Element, $Image) {
         var $DatepickerElement,
             HasDateSelectBoxes = false,
             I;
@@ -105,9 +106,7 @@ Core.UI.Datepicker = (function (TargetNS) {
             beforeShowDay: function (DateObject) {
                 return CheckDate(DateObject);
             },
-            showOn: 'both',
-            buttonImage: Core.Config.Get('Datepicker.ButtonImage'),
-            buttonImageOnly: true,
+            showOn: 'focus',
             prevText: LocalizationData.PrevText,
             nextText: LocalizationData.NextText,
             firstDay: 0,
@@ -130,10 +129,25 @@ Core.UI.Datepicker = (function (TargetNS) {
                 Element['Year'].find('option[value=' + Year + ']').attr('selected', 'selected');
                 Element['Month'].find('option[value=' + Month + ']').attr('selected', 'selected');
                 Element['Day'].find('option[value=' + Day + ']').attr('selected', 'selected');
-            }
+            };
+            Options.beforeShow = function (Input, Instance) {
+                $(Input).val('');
+                return {
+                    defaultDate: new Date(Element.Year.val(), Element.Month.val() - 1, Element.Day.val())
+                }
+            };
+
         }
 
         $DatepickerElement.datepicker(Options);
+
+        // add click event to datepicker icon
+        if (isJQueryObject($Image)) {
+            $Image.click(function () {
+                $DatepickerElement.trigger('focus');
+                return false;
+            });
+        }
 
         // do not show the datepicker container div.
         $('#ui-datepicker-div').hide();

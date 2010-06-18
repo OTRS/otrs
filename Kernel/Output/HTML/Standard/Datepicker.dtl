@@ -2,7 +2,7 @@
 # Datepicker.dtl - provides the data needed for the JS datepicker
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Datepicker.dtl,v 1.1 2010-06-15 15:23:21 mn Exp $
+# $Id: Datepicker.dtl,v 1.2 2010-06-18 09:04:33 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,6 @@
 
 <!-- dtl:block:DatepickerData -->
 Core.Config.Set('Datepicker.VacationDays', $Data{"VacationDays"});
-Core.Config.Set('Datepicker.ButtonImage', '$Config{"Frontend::WebPath"}skins/Agent/default/img/calendar.png');
 Core.Config.Set('Datepicker.Localization', {
 PrevText: '$JSText{"Previous"}',
 NextText: '$JSText{"Next"}',

@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.80 2010-06-15 12:59:02 mn Exp $
+# $Id: AgentTicketPhone.dtl,v 1.81 2010-06-18 09:04:33 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -308,13 +308,14 @@ $Include{"RichTextEditor"}
                         <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
                         <div class="Field">
                             $Data{"PendingDateString"}
+                            <span class="DatepickerIcon" id="PendingDatepicker">&nbsp;</span>
 <!--dtl:js_on_document_complete-->
                             <script type="text/javascript">//<![CDATA[
                                 Core.UI.Datepicker.Init({
                                     Day: $('#Day'),
                                     Month: $('#Month'),
                                     Year: $('#Year')
-                                });
+                                }, $('#PendingDatepicker'));
                             //]]></script>
 <!--dtl:js_on_document_complete-->
                             <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
