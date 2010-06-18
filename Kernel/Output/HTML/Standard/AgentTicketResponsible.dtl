@@ -2,11 +2,11 @@
 # AgentTicketResponsible.dtl - provides HTML form for responsible mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.dtl,v 1.34 2010-06-17 17:28:32 en Exp $
+# $Id: AgentTicketResponsible.dtl,v 1.35 2010-06-18 17:46:20 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-$Include{"AgentTicketNote"}
+$Include{"AgentTicketActionCommon"}
