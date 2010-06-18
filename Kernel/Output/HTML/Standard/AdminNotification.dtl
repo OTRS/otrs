@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.15 2010-06-04 11:19:32 mn Exp $
+# $Id: AdminNotification.dtl,v 1.16 2010-06-18 19:59:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -184,7 +184,7 @@ $Include{"RichTextEditor"}
                     </dd>
                     <dt><code>&lt;OTRS_CUSTOMER_DATA_*&gt;</code></dt>
                     <dd>
-                        $Text{"Options of the current customer user data"} ($Text{"e. g."} <code>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</code>).
+                        $Text{"Options of the current customer data"} ($Text{"e. g."} <code>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</code>).
                     </dd>
                     <dt><code>&lt;OTRS_OWNER_*&gt;</code></dt>
                     <dd>

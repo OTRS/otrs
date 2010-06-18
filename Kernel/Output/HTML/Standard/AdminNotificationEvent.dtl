@@ -2,7 +2,7 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.21 2010-05-19 20:39:12 mb Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.22 2010-06-18 19:59:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -211,7 +211,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="CustomerUserID">$Text{"CustomerUser"}: </label>
+                        <label for="CustomerUserID">$Text{"Customer"}: </label>
                         <div class="Field">
                             <input type="text" name="CustomerUserID" id="CustomerUserID" class="W50pc" value="$QData{"CustomerUserID"}"/>
                         </div>

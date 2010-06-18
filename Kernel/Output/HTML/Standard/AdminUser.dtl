@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.22 2010-06-04 11:19:32 mn Exp $
+# $Id: AdminUser.dtl,v 1.23 2010-06-18 19:59:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- dtl:block:Overview -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1 class="Header">$Text{"User Management"}</h1>
+    <h1 class="Header">$Text{"Agent Management"}</h1>
 
     <div class="SidebarColumn">
 
@@ -31,7 +31,7 @@
 <!-- dtl:block:ActionAdd -->
                     <li>
                         <a class="CallForAction Plus" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add">
-                            <span>$Text{"Add user"}</span>
+                            <span>$Text{"Add agent"}</span>
                         </a>
                     </li>
 <!-- dtl:block:ActionAdd -->
@@ -65,10 +65,10 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    $Text{"User will be needed to handle tickets."}
+                    $Text{"Agents will be needed to handle tickets."}
                 </p>
                 <p>
-                    $Text{"Attention"}: $Text{"Don't forget to add a new user to groups and/or roles!"}
+                    $Text{"Attention"}: $Text{"Don't forget to add a new agent to groups and/or roles!"}
                 </p>
             </div>
         </div>
@@ -93,7 +93,7 @@
                 <table class="DataTable" id="User">
                     <thead>
                         <tr>
-                            <th>$Text{"User"}</th>
+                            <th>$Text{"Username"}</th>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Email"}</th>
                             <th>$Text{"Last login"}</th>
@@ -123,7 +123,7 @@
                             <td>$TimeShort{"$QData{"UserLastLoginTimestamp"}"}</td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
                             <td>
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Switch;UserID=$LQData{"UserID"}">$Text{"Switch to user"}</a>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Switch;UserID=$LQData{"UserID"}">$Text{"Switch to agent"}</a>
                             </td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
                             <td>$Text{"$Data{"Valid"}"}</td>
@@ -143,10 +143,10 @@
             <div class="Header">
 
 <!-- dtl:block:HeaderAdd -->
-                <h2>$Text{"Add User"}</h2>
+                <h2>$Text{"Add Agent"}</h2>
 <!-- dtl:block:HeaderAdd -->
 <!-- dtl:block:HeaderEdit -->
-                <h2>$Text{"Edit User"}</h2>
+                <h2>$Text{"Edit Agent"}</h2>
 <!-- dtl:block:HeaderEdit -->
             </div>
 
@@ -157,13 +157,8 @@
                     <input type="hidden" name="UserID" value="$QData{"UserID"}"/>
                     <input type="hidden" name="Search" value="$QData{"Search"}"/>
                     <fieldset class="TableLike">
-                        <label for="UserLogin">$Text{"User"}:</label>
-                        <div class="Field">
-                            <input type="text" name="UserLogin" id="UserLogin" value="$QData{"UserLogin"}" class="W50pc" maxlength="100"/>
-                        </div>
-                        <div class="Clear"></div>
 
-                        <label for="UserTitle">$Text{"Title{user}"}:</label>
+                        <label for="UserTitle">$Text{"Title"}:</label>
                         <div class="Field">
                             <input type="text" name="UserTitle" id="UserTitle" value="$QData{"UserTitle"}" class="W50pc" maxlength="50"/>
                         </div>
@@ -178,6 +173,12 @@
                         <label for="UserLastname">$Text{"Lastname"}:</label>
                         <div class="Field">
                             <input type="text" name="UserLastname" id="UserLastname" value="$QData{"UserLastname"}" class="W50pc" maxlength="100"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="UserLogin">$Text{"Username"}:</label>
+                        <div class="Field">
+                            <input type="text" name="UserLogin" id="UserLogin" value="$QData{"UserLogin"}" class="W50pc" maxlength="100"/>
                         </div>
                         <div class="Clear"></div>
 

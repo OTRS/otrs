@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.65 2010-06-02 06:36:00 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.66 2010-06-18 19:59:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -177,7 +177,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="CustomerUserLogin">$Text{"Customer user login"}:</label>
+                            <label for="CustomerUserLogin">$Text{"Customer login"}:</label>
                             <div class="Field">
                                 <input type="text" name="CustomerUserLogin" id="CustomerUserLogin" class="W33pc" value="$QData{"CustomerUserLogin"}"/>
                                 <p class="FieldExplanation">
@@ -482,7 +482,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewCustomerUserLogin">$Text{"New customer user"}:</label>
+                            <label for="NewCustomerUserLogin">$Text{"New customer"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewCustomerUserLogin" id="NewCustomerUserLogin" value="$QData{"NewCustomerUserLogin"}" class="W33pc"/>
                             </div>
