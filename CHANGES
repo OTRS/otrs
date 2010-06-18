@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1229 2010-06-16 13:10:38 mb Exp $
+# $Id: CHANGES,v 1.1230 2010-06-18 19:44:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,6 +84,7 @@
     opm.pl                          ->  otrs.PackageManager.pl
 
 2.5.0 beta1 (????/??/??)
+ - (2010/06/18) Updated JSON Pure Perl Module to version 2.21
  - (2010/04/07) Fixed bug#5118 - Printing an article should indicate that
     only 1 article is printed not the whole ticket.
  - (2010/03/24) Reworked Kernel::System::Encode API to have more intuitive

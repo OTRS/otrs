@@ -11,7 +11,7 @@ use Carp ();
 use B ();
 #use Devel::Peek;
 
-$JSON::PP::VERSION = '2.26000';
+$JSON::PP::VERSION = '2.27003';
 
 @JSON::PP::EXPORT = qw(encode_json decode_json from_json to_json);
 
@@ -323,12 +323,15 @@ sub allow_bigint {
 
                 if ( $convert_blessed and $obj->can('TO_JSON') ) {
                     my $result = $obj->TO_JSON();
-                    if ( defined $result and $obj eq $result ) {
-                        encode_error( sprintf(
-                            "%s::TO_JSON method returned same object as was passed instead of a new one",
-                            ref $obj
-                        ) );
+                    if ( defined $result and overload::Overloaded( $obj ) ) {
+                        if ( overload::StrVal( $obj ) eq $result ) {
+                            encode_error( sprintf(
+                                "%s::TO_JSON method returned same object as was passed instead of a new one",
+                                ref $obj
+                            ) );
+                        }
                     }
+
                     return $self->object_to_json( $result );
                 }
 
@@ -659,6 +662,7 @@ BEGIN {
 
     # $opt flag
     # 0x00000001 .... decode_prefix
+    # 0x10000000 .... incr_parse
 
     sub PP_decode_json {
         my ($self, $opt); # $opt is an effective flag during this decode_json.
@@ -667,8 +671,8 @@ BEGIN {
 
         ($at, $ch, $depth) = (0, '', 0);
 
-        if (!defined $text or ref $text) {
-            decode_error("malformed text data.");
+        if ( !defined $text or ref $text ) {
+            decode_error("malformed JSON string, neither array, object, number, string or atom");
         }
 
         my $idx = $self->{PROPS};
@@ -707,24 +711,34 @@ BEGIN {
                     : (!$octets[2]                ) ? 'UTF-32LE'
                     : 'unknown';
 
+        white(); # remove head white space
+
+        my $valid_start = defined $ch; # Is there a first character for JSON structure?
+
         my $result = value();
 
-        if (!$idx->[ P_ALLOW_NONREF ] and !ref $result) {
+        return undef if ( !$result && ( $opt & 0x10000000 ) ); # for incr_parse
+
+        decode_error("malformed JSON string, neither array, object, number, string or atom") unless $valid_start;
+
+        if ( !$idx->[ P_ALLOW_NONREF ] and !ref $result ) {
                 decode_error(
                 'JSON text must be an object or array (but found number, string, true, false or null,'
                        . ' use allow_nonref to allow this)', 1);
         }
 
-        if ($len >= $at) {
-            my $consumed = $at - 1;
-            white();
-            if ($ch) {
-                decode_error("garbage after JSON object") unless ($opt & 0x00000001);
-                return ($result, $consumed);
-            }
+        Carp::croak('something wrong.') if $len < $at; # we won't arrive here.
+
+        my $consumed = defined $ch ? $at - 1 : $at; # consumed JSON text length
+
+        white(); # remove tail white space
+
+        if ( $ch ) {
+            return ( $result, $consumed ) if ($opt & 0x00000001); # all right if decode_prefix
+            decode_error("garbage after JSON object");
         }
 
-        $result;
+        ( $opt & 0x00000001 ) ? ( $result, $consumed ) : $result;
     }
 
 
@@ -813,6 +827,7 @@ BEGIN {
                     }
                     else{
                         unless ($loose) {
+                            $at -= 2;
                             decode_error('illegal backslash escape sequence in string');
                         }
                         $s .= $ch;
@@ -891,7 +906,7 @@ BEGIN {
             else{
                 if ($relaxed and $ch eq '#') { # correctly?
                     pos($text) = $at;
-                    $text =~ /\G([^\n]*(?:\r\n|\r|\n))/g;
+                    $text =~ /\G([^\n]*(?:\r\n|\r|\n|$))/g;
                     $at = pos($text);
                     next_chr;
                     next;
@@ -1210,6 +1225,7 @@ BEGIN {
                     : $c == 0x0d ? '\r'
                     : $c == 0x0c ? '\f'
                     : $c <  0x20 ? sprintf('\x{%x}', $c)
+                    : $c == 0x5c ? '\\\\'
                     : $c <  0x80 ? chr($c)
                     : sprintf('\x{%x}', $c)
                     ;
@@ -1227,9 +1243,6 @@ BEGIN {
             $no_rep ? "$error" : "$error, at character offset $at (before \"$mess\")"
         );
 
-#        Carp::croak (
-#            $no_rep ? "$error" : "$error, at character offset $at [\"$mess\"]"
-#        );
     }
 
 
@@ -1341,6 +1354,8 @@ use constant INCR_M_WS   => 0; # initial whitespace skipping
 use constant INCR_M_STR  => 1; # inside string
 use constant INCR_M_BS   => 2; # inside backslash
 use constant INCR_M_JSON => 3; # outside anything, count nesting
+use constant INCR_M_C0   => 4;
+use constant INCR_M_C1   => 5;
 
 $JSON::PP::IncrParser::VERSION = '1.01';
 
@@ -1450,6 +1465,12 @@ sub _incr_parse {
             elsif ( $s eq ']' or $s eq '}' ) {
                 last if ( --$self->{incr_nest} <= 0 );
             }
+            elsif ( $s eq '#' ) {
+                while ( $len > $p ) {
+                    last if substr( $text, $p++, 1 ) eq "\n";
+                }
+            }
+
         }
 
     }
@@ -1465,7 +1486,7 @@ sub _incr_parse {
     $self->{incr_p} = $restore;
     $self->{incr_c} = $p;
 
-    my ( $obj, $tail ) = $coder->decode_prefix( substr( $self->{incr_text}, 0, $p ) );
+    my ( $obj, $tail ) = $coder->PP_decode_json( substr( $self->{incr_text}, 0, $p ), 0x10000001 );
 
     $self->{incr_text} = substr( $self->{incr_text}, $p );
     $self->{incr_p} = 0;
@@ -1555,9 +1576,12 @@ See to L<JSON::XS/A FEW NOTES ON UNICODE AND PERL> and L<UNICODE HANDLING ON PER
 
 =item * round-trip integrity
 
-When you serialise a perl data structure using only datatypes supported by JSON,
-the deserialised data structure is identical on the Perl level.
-(e.g. the string "2.0" doesn't suddenly become "2" just because it looks like a number).
+When you serialise a perl data structure using only data types supported
+by JSON and Perl, the deserialised data structure is identical on the Perl
+level. (e.g. the string "2.0" doesn't suddenly become "2" just because
+it looks like a number). There I<are> minor exceptions to this, read the
+MAPPING section below to learn about those.
+
 
 =item * strict checking of JSON correctness
 
@@ -1687,7 +1711,7 @@ C<space_after> flags in one call to generate the most readable
     
     $enabled = $json->get_indent
 
-The default indent space lenght is three.
+The default indent space length is three.
 You can use C<indent_length> to change the length.
 
 =head2 space_before
@@ -1819,16 +1843,35 @@ See L<JSON::XS/SSECURITY CONSIDERATIONS> for more info on why this is useful.
     ($perl_scalar, $characters) = $json->decode_prefix($json_text)
 
 
-
 =head1 INCREMENTAL PARSING
 
-In JSON::XS 2.2, incremental parsing feature of JSON
-texts was experimentally implemented.
-Please check to L<JSON::XS/INCREMENTAL PARSING>.
+Most of this section are copied and modified from L<JSON::XS/INCREMENTAL PARSING>.
 
-=over 4
+In some cases, there is the need for incremental parsing of JSON texts.
+This module does allow you to parse a JSON stream incrementally.
+It does so by accumulating text until it has a full JSON object, which
+it then can decode. This process is similar to using C<decode_prefix>
+to see if a full JSON object is available, but is much more efficient
+(and can be implemented with a minimum of method calls).
 
-=item [void, scalar or list context] = $json->incr_parse ([$string])
+This module will only attempt to parse the JSON text once it is sure it
+has enough text to get a decisive result, using a very simple but
+truly incremental parser. This means that it sometimes won't stop as
+early as the full parser, for example, it doesn't detect parenthese
+mismatches. The only thing it guarantees is that it starts decoding as
+soon as a syntactically valid JSON text has been seen. This means you need
+to set resource limits (e.g. C<max_size>) to ensure the parser will stop
+parsing in the presence if syntax errors.
+
+The following methods implement this incremental parser.
+
+=head2 incr_parse
+
+    $json->incr_parse( [$string] ) # void context
+    
+    $obj_or_undef = $json->incr_parse( [$string] ) # scalar context
+    
+    @obj_or_empty = $json->incr_parse( [$string] ) # list context
 
 This is the central parsing function. It can both append new text and
 extract objects from the stream accumulated so far (both of these
@@ -1856,7 +1899,13 @@ an error occurs, an exception will be raised as in the scalar context
 case. Note that in this case, any previously-parsed JSON texts will be
 lost.
 
-=item $lvalue_string = $json->incr_text
+Example: Parse some JSON arrays/objects in a given string and return them.
+
+    my @objs = JSON->new->incr_parse ("[5][7][1,2]");
+
+=head2 incr_text
+
+    $lvalue_string = $json->incr_text
 
 This method returns the currently stored JSON fragment as an lvalue, that
 is, you can manipulate it. This I<only> works when a preceding call to
@@ -1870,6 +1919,8 @@ This function is useful in two cases: a) finding the trailing text after a
 JSON object or b) parsing multiple JSON objects separated by non-JSON text
 (such as commas).
 
+    $json->incr_text =~ s/\s*,\s*//;
+
 In Perl 5.005, C<lvalue> attribute is not available.
 You must write codes like the below:
 
@@ -1877,15 +1928,27 @@ You must write codes like the below:
     $string =~ s/\s*,\s*//;
     $json->incr_text( $string );
 
-=item $json->incr_skip
+=head2 incr_skip
+
+    $json->incr_skip
 
 This will reset the state of the incremental parser and will remove the
 parsed text from the input buffer. This is useful after C<incr_parse>
 died, in which case the input buffer and incremental parser state is left
 unchanged, to skip the text parsed so far and to reset the parse state.
 
-=back
+=head2 incr_reset
 
+    $json->incr_reset
+
+This completely resets the incremental parser, that is, after this call,
+it will be as if the parser had never parsed anything.
+
+This is useful if you want ot repeatedly parse JSON objects and want to
+ignore any trailing data, which means you have to reset the parser after
+each successful decode.
+
+See to L<JSON::XS/INCREMENTAL PARSING> for examples.
 
 
 =head1 JSON::PP OWN METHODS
@@ -2125,7 +2188,7 @@ Makamaka Hannyaharamitu, E<lt>makamaka[at]cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2009 by Makamaka Hannyaharamitu
+Copyright 2007-2010 by Makamaka Hannyaharamitu
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
