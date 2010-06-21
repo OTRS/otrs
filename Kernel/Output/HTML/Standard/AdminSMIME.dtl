@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.15 2010-05-19 08:55:08 fn Exp $
+# $Id: AdminSMIME.dtl,v 1.16 2010-06-21 23:26:32 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,6 +118,8 @@
 
                         <div class="Field">
                             <button class="Primary" type="submit">$Text{"Add"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
@@ -147,6 +149,8 @@
 
                         <div class="Field">
                             <button class="Primary" type="submit">$Text{"Add"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                     </fieldset>
                 </form>
