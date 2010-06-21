@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.1 2010-06-18 17:46:20 mp Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.2 2010-06-21 07:00:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,19 +124,19 @@ function change_selected(sel) {
             <h1>
 
 <!-- dtl:block:HeaderAgentTicketFreeText -->
-                $Text{"Change free text of ticket"}
+                $Text{"Change Free Text of Ticket"}
 <!-- dtl:block:HeaderAgentTicketFreeText -->
 
 <!-- dtl:block:HeaderAgentTicketOwner -->
-                $Text{"Change owner of ticket"}
+                $Text{"Change Owner of Ticket"}
 <!-- dtl:block:HeaderAgentTicketOwner -->
 
 <!-- dtl:block:HeaderAgentTicketClose -->
-                $Text{"Close ticket"}
+                $Text{"Close Ticket"}
 <!-- dtl:block:HeaderAgentTicketClose -->
 
 <!-- dtl:block:HeaderAgentTicketNote -->
-                $Text{"Add note to ticket"}
+                $Text{"Add Note to Ticket"}
 <!-- dtl:block:HeaderAgentTicketNote -->
 
 <!-- dtl:block:HeaderAgentTicketPending -->
@@ -144,11 +144,11 @@ function change_selected(sel) {
 <!-- dtl:block:HeaderAgentTicketPending -->
 
 <!-- dtl:block:HeaderAgentTicketPriority -->
-                $Text{"Change priority of ticket"}
+                $Text{"Change Priority of Ticket"}
 <!-- dtl:block:HeaderAgentTicketPriority -->
 
 <!-- dtl:block:HeaderAgentTicketResponsible -->
-                $Text{"Change responsible of ticket"}
+                $Text{"Change Responsible of Ticket"}
 <!-- dtl:block:HeaderAgentTicketResponsible -->
 
                 : $Data{"TicketNumber"}
