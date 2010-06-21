@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.11 2010-06-21 11:53:40 mg Exp $
+# $Id: SysConfig.pm,v 1.12 2010-06-21 21:02:54 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,10 @@ use warnings;
 
 use Kernel::System::XML;
 use Kernel::Config;
+use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -45,6 +46,7 @@ create an object
     use Kernel::System::Time;
     use Kernel::System::DB;
     use Kernel::System::SysConfig;
+    use Kernel::Language;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject  = Kernel::System::Encode->new(
@@ -77,6 +79,11 @@ create an object
         DBObject     => $DBObject,
         MainObject   => $MainObject,
         TimeObject   => $TimeObject,
+    );
+    my $LanguageObject = Kernel::Language->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
     );
 
 =cut
@@ -119,6 +126,14 @@ sub new {
 
     # read all config files
     $Self->{ConfigCounter} = $Self->_Init();
+
+    # create language object if it was not provided
+    if ( $Self->{LanguageObject} ) {
+        $Self->{LanguageObject} = $Param{LanguageObject};
+    }
+    else {
+        $Self->{LanguageObject} = Kernel::Language->new(%Param);
+    }
 
     return $Self;
 }
@@ -1194,7 +1209,16 @@ sub ConfigItemSearch {
                     for my $Index ( 1 .. $#{ $ItemHash{Description} } ) {
                         if ( !$Used{ $Group . '::' . $SubGroup } ) {
                             my $Description = $ItemHash{Description}[$Index]{Content};
-                            if ( $Description =~ /\Q$Param{Search}\E/i ) {
+
+                        # compare with the English description and also with the translated sentence
+                            if (
+                                ( $Description =~ /\Q$Param{Search}\E/i )
+                                || (
+                                    $Self->{LanguageObject}->Get($Description)
+                                    =~ /\Q$Param{Search}\E/i
+                                )
+                                )
+                            {
                                 push(
                                     @List,
                                     {
@@ -1881,6 +1905,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2010-06-21 11:53:40 $
+$Revision: 1.12 $ $Date: 2010-06-21 21:02:54 $
 
 =cut
