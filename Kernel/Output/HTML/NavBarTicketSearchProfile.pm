@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NavBarTicketSearchProfile.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarTicketSearchProfile.pm,v 1.3 2009-04-06 21:19:17 martin Exp $
+# $Id: NavBarTicketSearchProfile.pm,v 1.3.2.1 2010-06-21 09:26:55 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.3.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,7 +56,7 @@ sub Run {
         },
         Name       => 'Profile',
         SelectedID => '',
-        OnChange   => 'document.Search.submit()',
+        OnChange   => 'document.SearchProfile.submit()',
         Max        => $Param{Config}->{MaxWidth},
     );
 
