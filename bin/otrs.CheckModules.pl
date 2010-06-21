@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.3 2010-06-18 19:44:43 cr Exp $
+# $Id: otrs.CheckModules.pl,v 1.4 2010-06-21 06:43:29 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -245,18 +245,18 @@ my @NeededModules = (
         Module   => 'JSON',
         Version  => '2.0',
         Required => 1,
-        Comment  => 'Required for AJAX/Java Script handling',
+        Comment  => 'Required for AJAX/JavaScript handling',
         Depends  => [
             {
                 Module   => 'JSON::PP',
                 Version  => '2.0',
                 Required => 1,
-                Comment  => 'Required for AJAX/Java Script handling',
+                Comment  => 'Required for AJAX/JavaScript handling',
             },
             {
                 Module   => 'JSON::XS',
                 Required => 0,
-                Comment  => 'Required for AJAX/Java Script handling',
+                Comment  => 'Optional, install it for faster AJAX/JavaScript handling',
             },
         ],
     },
