@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.34 2010-06-11 17:20:04 en Exp $
+# $Id: AgentTicketBulk.dtl,v 1.35 2010-06-21 14:20:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -150,11 +150,15 @@ $Include{"RichTextEditor"}
 
                     <label>$Text{"Merge"}:</label>
                     <div class="Field">
-                        <input type="radio" name="MergeToSelection" value="MergeTo"/>
-                        $Text{"Merge to"}
-                        <input type="text" class="W50pc" name="MergeTo" value="$QData{"MergeTo"}"/>
-                        <input type="radio" name="MergeToSelection" value="MergeToOldest"/>
-                        $Text{"Merge to oldest"}
+                        <div>
+                            <input type="radio" name="MergeToSelection" id="MergeTo" value="MergeTo"/>
+                            <label for="MergeTo">$Text{"Merge to"}:</label>
+                            <input type="text" class="W50pc" name="MergeTo" value="$QData{"MergeTo"}"/>
+                        </div>
+                        <div>
+                            <input type="radio" name="MergeToSelection" id="MergeToOldest" value="MergeToOldest"/>
+                            <label for="MergeToOldest">$Text{"Merge to oldest"}</label>
+                        </div>
                     </div>
                     <div class="Clear"></div>
 
