@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.312 2010-06-18 20:01:09 dz Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.313 2010-06-21 07:00:00 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -4032,7 +4032,7 @@ Your OTRS Notification Master
                 </NavBar>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Customer</Name>
+                    <Name Translatable="1">Customers</Name>
                     <Block>Customer</Block>
                     <Description Translatable="1">Create and manage customers.</Description>
                     <Prio>300</Prio>
@@ -4091,11 +4091,11 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Customer &lt;-&gt; Groups</Title>
+                <Title>Customers &lt;-&gt; Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Customer &lt;-&gt; Groups</Name>
+                    <Name Translatable="1">Customers &lt;-&gt; Groups</Name>
                     <Description Translatable="1">Link customers to groups.</Description>
                     <Block>Customer</Block>
                     <Prio>400</Prio>
@@ -4111,11 +4111,11 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Customer &lt;-&gt; Services</Title>
+                <Title>Customers &lt;-&gt; Services</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Customer &lt;-&gt; Services</Name>
+                    <Name Translatable="1">Customers &lt;-&gt; Services</Name>
                     <Description Translatable="1">Link customers to services.</Description>
                     <Block>Customer</Block>
                     <Prio>500</Prio>
