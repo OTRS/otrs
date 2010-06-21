@@ -76,6 +76,24 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Manage Role-Group Relations"}</h1>
     <div class="SidebarColumn">
+
+<!-- dtl:block:ActionList -->
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
+
         <div class="WidgetGradient Short">
             <div class="Header">
                 <h2><label for="Filter">$Text{"Filter"}</label></h2>
@@ -148,6 +166,8 @@
                     </table>
                     <div class="Field SpacingTop">
                         <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        $Text{"or"}
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                     </div>
                     <div class="Clear"></div>
                 </form>
