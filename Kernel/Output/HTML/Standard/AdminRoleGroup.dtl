@@ -134,8 +134,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
 <!-- dtl:block:ChangeRow -->
+                            <tr>
                                 <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
 <!-- dtl:block:ChangeRowItem -->
                                 <td class="$QData{"Mark"}">
