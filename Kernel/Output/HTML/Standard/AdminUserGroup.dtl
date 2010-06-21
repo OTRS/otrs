@@ -147,7 +147,11 @@
                     <div class="Clear"></div>
                 </form>
             </div>
+<!-- dtl:block:Change -->
+
         </div>
+
+<!-- dtl:block:ChangeReference -->
         <div class="WidgetGradient Short SpacingTop MinHeight">
             <div class="Header">
                 <h2>$Text{"Reference"}</h2>
@@ -194,15 +198,15 @@
             </div>
         </div>
 
+<!-- dtl:block:ChangeReference -->
+
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.UI.Table.InitTableFilter($('#Filter'), $('#UserGroups'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 
-<!-- dtl:block:Change -->
     </div>
-</div>
-<div class="Clear"></div>
+    <div class="Clear"></div>
 </div>
 <!-- dtl:block:Overview -->
