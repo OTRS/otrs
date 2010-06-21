@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.98 2010-06-15 16:31:24 cg Exp $
+# $Id: AdminSysConfig.pm,v 1.99 2010-06-21 11:53:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -409,6 +409,7 @@ sub Run {
                     push @Loader, '';
                     $Anker = $ElementKey;
                 }
+
                 my %LoaderFiles;
 
                 # If @loader have values
@@ -417,25 +418,30 @@ sub Run {
                     # Find for every file kind
                     for my $Key (@LoaderFileTypes) {
                         my @LoaderArray;
-                        push @LoaderArray, '';
                         for my $Index ( 0 .. $#Loader ) {
-                            my $TypeKey = $Self->{ParamObject}->GetParam(
-                                Param => $ElementKey . 'LoaderType' . $Index
+                            my $Delete = $Self->{ParamObject}->GetParam(
+                                Param => $ItemHash{Name}
+                                    . '#DeleteLoaderElement'
+                                    . ( $Index + 1 )
                             );
-                            if ( $TypeKey and ( $Key eq $TypeKey ) ) {
-                                push @LoaderArray, $Loader[$Index];
+                            if ( !$Delete ) {
+                                my $TypeKey = $Self->{ParamObject}->GetParam(
+                                    Param => $ElementKey . 'LoaderType' . ( $Index + 1 )
+                                ) || 'JavaScript';
+                                if ( $TypeKey and ( $Key eq $TypeKey ) ) {
+                                    push @LoaderArray, $Loader[$Index];
+                                }
                             }
                         }
-                        if ( $New and ( $Key eq 'JavaScript' ) ) {
-                            push @LoaderArray, '';
-                            $Anker = $ElementKey;
+                        if (@LoaderArray) {
+                            $LoaderFiles{$Key} = \@LoaderArray;
                         }
-                        $LoaderFiles{$Key} = \@LoaderArray;
                     }
+                    $Content{Loader} = \%LoaderFiles;
                 }
-                $Content{Loader} = \%LoaderFiles;
 
                 # Loader finish
+
                 # NavBar get Params
                 my %NavBarParams;
                 for (qw(Description Name Image Link Type Prio Block NavBar AccessKey)) {
@@ -1264,25 +1270,26 @@ sub ListConfigItem {
             my $Content = $FrontendModuleReg->{Loader}->[$Index];
             my $Counter = 0;
             for my $Key ( sort keys %{$Content} ) {
-                if ( grep $_ eq $Key, @ArrayRef )
-                {
+                if ( grep $_ eq $Key, @ArrayRef ) {
 
-                    for my $Index ( 0 .. $#{ $Content->{$Key} } ) {
+                    for my $Index2 ( 1 .. $#{ $Content->{$Key} } ) {
                         $Self->{LayoutObject}->Block(
                             Name => 'ConfigElementFrontendModuleRegContentLoader',
                             Data => {
-                                Index      => $Index,
+                                Index      => $Index2,
                                 ElementKey => $ItemHash{Name},
-                                Content    => $Content->{$Key}->[$Index]->{Content},
+                                Content    => $Content->{$Key}->[$Index2]->{Content},
                                 ValidKey   => $Self->{LayoutObject}->BuildSelection(
                                     Data       => \@ArrayRef,
-                                    Name       => $Data{ElementKey} . 'LoaderType' . $Counter++,
+                                    Name       => $Data{ElementKey} . 'LoaderType' . $Index2,
                                     SelectedID => $Key,
                                 ),
                             },
                         );
                     }
                 }
+
+                #$Counter++;
             }
         }
 

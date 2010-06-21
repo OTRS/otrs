@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.10 2010-06-17 16:14:19 dz Exp $
+# $Id: SysConfig.pm,v 1.11 2010-06-21 11:53:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -306,19 +306,23 @@ sub CreateConfig {
         }
     }
 
-    # read all config files and only save the change config options
+    # read all config files and only save the changed config options
     for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
         if ( $ConfigItem->{Name} && !$UsedKeys{ $ConfigItem->{Name} } ) {
-            my %Config = $Self->ConfigItemGet( Name => $ConfigItem->{Name} );
+            my %Config = $Self->ConfigItemGet(
+                Name => $ConfigItem->{Name}
+            );
             my %ConfigDefault = $Self->ConfigItemGet(
                 Name    => $ConfigItem->{Name},
                 Default => 1,
             );
             $UsedKeys{ $ConfigItem->{Name} } = 1;
+
             my $Name = $Config{Name};
             $Name =~ s/\\/\\\\/g;
             $Name =~ s/'/\'/g;
             $Name =~ s/###/'}->{'/g;
+
             if ( $Config{Valid} ) {
                 my $C = $Self->_XML2Perl( Data => \%Config );
                 my $D = $Self->_XML2Perl( Data => \%ConfigDefault );
@@ -434,7 +438,9 @@ sub ConfigItemUpdate {
         Name    => $Param{Key},
         Default => 1,
     );
-    my %Config = $Self->ConfigItemGet( Name => $Param{Key} );
+    my %Config = $Self->ConfigItemGet(
+        Name => $Param{Key}
+    );
     $Param{Key} =~ s/\\/\\\\/g;
     $Param{Key} =~ s/'/\'/g;
     $Param{Key} =~ s/###/'}->{'/g;
@@ -696,7 +702,6 @@ sub ConfigItemGet {
                 elsif ( $Key eq 'Loader' ) {
                     my %LoaderFiles;
                     for my $Key2 ( %{ $Hash{$Key} } ) {
-                        my @Files;
                         if (
                             $Key2    eq 'CSS'
                             || $Key2 eq 'CSS_IE7'
@@ -705,11 +710,12 @@ sub ConfigItemGet {
                             )
                         {
                             if ( ref $Key2 ne 'ARRAY' ) {
+                                my @Files = (undef);
                                 for my $Index ( 0 .. $#{ $Hash{$Key}->{$Key2} } ) {
                                     my $LoaderFile = $Hash{$Key}->{$Key2}[$Index];
                                     push(
                                         @Files,
-                                        { Content => $LoaderFile }
+                                        { Content => $LoaderFile },
                                     );
                                 }
                                 $LoaderFiles{$Key2} = \@Files;
@@ -718,7 +724,7 @@ sub ConfigItemGet {
                     }
                     push(
                         @{ $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} },
-                        \%LoaderFiles
+                        \%LoaderFiles,
                     );
                 }
                 elsif ( $Key eq 'NavBar' || $Key eq 'NavBarModule' ) {
@@ -937,6 +943,7 @@ sub ConfigItemReset {
     my $A = $Self->_XML2Perl( Data => \%ConfigItemDefault );
     my ($B);
     eval "\$B = $A";
+
     $Self->ConfigItemUpdate( Key => $Param{Name}, Value => $B, Valid => $ConfigItemDefault{Valid} );
     return 1;
 }
@@ -1794,7 +1801,7 @@ sub _XML2Perl {
                         }
                     }
                 }
-                $Hash{$Key} = \%Loader;
+                $Hash{$Key} = \%Loader if (%Loader);
             }
             else {
                 if ( $Key ne 'Content' ) {
@@ -1874,6 +1881,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2010-06-17 16:14:19 $
+$Revision: 1.11 $ $Date: 2010-06-21 11:53:40 $
 
 =cut
