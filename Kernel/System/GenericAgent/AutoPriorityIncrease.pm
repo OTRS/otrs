@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent/AutoPriorityIncrease.pm - generic agent auto priority increase
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoPriorityIncrease.pm,v 1.9 2009-02-16 11:48:19 tr Exp $
+# $Id: AutoPriorityIncrease.pm,v 1.9.2.1 2010-06-22 13:02:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::System::GenericAgent::AutoPriorityIncrease;
 use strict;
 use warnings;
 
+use Kernel::System::Priority;
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.9.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,6 +30,8 @@ sub new {
     for (qw(DBObject ConfigObject LogObject TicketObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    $Self->{PriorityObject} = Kernel::System::Priority->new( %{$Self} );
 
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
