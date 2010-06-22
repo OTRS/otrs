@@ -8,7 +8,7 @@ use IO::File;
 use IO::Socket;
 use IO::Select;
 
-our $VERSION = "1.1911";
+our $VERSION = "1.1916";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -146,7 +146,7 @@ sub _connect {
 sub _port        { return $_[0]->{use_ssl} ? 993 : 143 } 
 sub _sock        { return $_[0]->{sock} }
 sub _count       { return $_[0]->{count} }
-sub _last        { return $_[0]->{last} }
+sub _last        { $_[0]->select unless exists $_[0]->{last}; return $_[0]->{last} }
 sub _timeout     { return 90 }
 sub _retry       { return 1 }
 sub _retry_delay { return 5 }
@@ -328,6 +328,22 @@ sub current_box {
     return ( $self->{working_box} ? $self->{working_box} : 'INBOX' );
 }
 
+sub close { ## no critic -- we already have tons of methods with built in names
+
+    my $self = shift;
+    $self->{working_box} = undef;
+    return $self->_process_cmd(
+        cmd => [ "CLOSE" ],
+    );
+}
+
+sub noop {
+    my $self = shift;
+    return $self->_process_cmd(
+        cmd => [ "NOOP" ],
+    );
+}
+
 sub top {
     my ( $self, $number ) = @_;
 
@@ -397,15 +413,23 @@ sub list {
 }
 
 sub search {
-    my ($self, $search) = @_;
-    $search ||= "ALL";
+    my ($self, $search, $sort, $charset) = @_;
+    $search   ||= "ALL";
+    $charset  ||= 'UTF-8';
+    my $cmd   = 'SEARCH';
+
+    # add rfc5256 sort, requires charset :(
+    if ($sort) {
+        $sort = uc $sort;
+        $cmd = "SORT ($sort) \"$charset\"";
+    }
 
     my @seq;
 
     return $self->_process_cmd(
-        cmd => [ SEARCH => $search ],
+        cmd => [ $cmd => $search ],
         final => sub { wantarray ? @seq : int @seq },
-        process => sub { if ( my ($msgs) = $_[0] =~ /^\*\s+SEARCH\s+(.*)/i ) {
+        process => sub { if ( my ($msgs) = $_[0] =~ /^\*\s+(?:SEARCH|SORT)\s+(.*)/i ) {
             push @seq, $1 while $msgs =~ m/\b(\d+)\b/g;
         } },
     );
@@ -508,7 +532,7 @@ sub put {
     @flags = $self->_process_flags(@flags);
 
     return $self->_process_cmd(
-        cmd   => [ APPEND => "$mailbox_name (@flags) {$size}" ],
+        cmd   => [ APPEND => _escape($mailbox_name) ." (@flags) {$size}" ],
         final => sub { $self->_clear_cache },
         process => sub {
             if ($size) {
@@ -659,9 +683,8 @@ sub _process_list {
         chomp( my $res = $self->_sock->getline );
 
         $res =~ s/\r//;
-        _escape($res);
 
-        push @list, $res;
+        push @list, _escape($res);
 
         $self->_debug( caller, __LINE__, '_process_list', $res ) if $self->{debug};
 
