@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.98 2010-06-14 20:43:21 fn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.99 2010-06-22 15:21:05 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -295,15 +295,15 @@ $Data{"ArticleItems"}
 <!-- dtl:block:Collapse -->
         </ul>
     </div>
-    <div class="ArticleTableBody">
+    <div class="ArticleTableBody ActionRow">
         <div class="Scroller">
-            <table class="TableSmall">
-                <thead class="ActionRow">
+            <table id="FixedTable" class="TableSmall">
+                <thead>
                     <tr>
-                        <th class="UnreadArticles Fixed"><a class="UnreadArticles" href=""><span class="UnreadArticles"></span></a></th>
+                        <th class="UnreadArticles"><a class="UnreadArticles" href=""><span class="UnreadArticles"></span></a></th>
                         <th class="No"><a href="">$Text{"No."}</a></th>
                         <th class="Type"><a href="">$Text{"Type"}</a></th>
-                        <th class="Direction Fixed SortAscending"><a href="" title="Direction"><span class="Direction"><!--Direction--></span></a></th>
+                        <th class="Direction SortAscending"><a href="" title="Direction"><span class="Direction"><!--Direction--></span></a></th>
                         <th class="From"><a href="">$Text{"From"}</a></th>
                         <th class="Subject"><a href="">$Text{"Subject"}</a></th>
                         <th class="Created SortAscending"><a href="">$Text{"Created"}</a></th>
@@ -334,7 +334,7 @@ $Data{"ArticleItems"}
                         <td class="Direction">dir</td>
                         <td class="From"><div title="$QData{"From"}"><a href="#">$RQData{"From","34"}</a></div></td>
                         <td class="Subject"><div title="$QData{"Subject"}"><a href="#">$QData{"Subject","36"}</a></div></td>
-                        <td class="Created Fixed"><a href="#">$TimeShort{"$QData{"Created"}"}</a></td>
+                        <td class="Created"><a href="#">$TimeShort{"$QData{"Created"}"}</a></td>
                         <td class="Attachments Attachment Fixed NonTextContent">
 <!-- dtl:block:TreeItemAttachment -->
                             <a class="Attachment" title="Attachment" rel="TicketAttachment$QData{"Count"}"></a>
