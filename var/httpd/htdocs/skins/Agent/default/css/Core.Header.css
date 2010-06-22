@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -196,7 +196,7 @@
 
 .RTL #UserInfo {
     right: auto;
-    left: 4px;
+    left: 17px;
     padding: 4px 0 0 25px;
 }
 
