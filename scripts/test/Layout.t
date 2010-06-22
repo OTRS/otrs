@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.37 2010-06-14 09:02:06 mg Exp $
+# $Id: Layout.t,v 1.38 2010-06-22 22:00:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,7 @@
 
 use strict;
 use warnings;
+use vars (qw($Self));
 
 use Kernel::System::AuthSession;
 use Kernel::System::Web::Request;

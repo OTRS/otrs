@@ -2,12 +2,16 @@
 # User.t - User tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.t,v 1.6 2010-03-24 22:47:10 mp Exp $
+# $Id: User.t,v 1.7 2010-06-22 22:00:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+use strict;
+use warnings;
+use vars (qw($Self));
 
 use Kernel::System::User;
 

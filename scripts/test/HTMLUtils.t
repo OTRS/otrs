@@ -2,13 +2,16 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.18 2010-06-09 08:11:15 mg Exp $
+# $Id: HTMLUtils.t,v 1.19 2010-06-22 22:00:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+use strict;
+use warnings;
+use vars (qw($Self));
 use Kernel::System::HTMLUtils;
 
 $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );

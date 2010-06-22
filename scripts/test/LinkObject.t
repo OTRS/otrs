@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.17 2010-06-12 02:55:31 cr Exp $
+# $Id: LinkObject.t,v 1.18 2010-06-22 22:00:51 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,7 @@
 
 use strict;
 use warnings;
+use vars (qw($Self));
 use utf8;
 
 use vars qw($Self);

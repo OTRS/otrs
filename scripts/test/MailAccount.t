@@ -1,14 +1,17 @@
 # --
 # MailAccount.t - MailAccount tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: MailAccount.t,v 1.3 2009-02-16 12:41:12 tr Exp $
+# $Id: MailAccount.t,v 1.4 2010-06-22 22:00:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+use strict;
+use warnings;
+use vars (qw($Self));
 use Kernel::System::MailAccount;
 
 $Self->{MailAccountObject} = Kernel::System::MailAccount->new( %{$Self} );

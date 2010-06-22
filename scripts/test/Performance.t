@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.14 2010-03-22 22:38:43 martin Exp $
+# $Id: Performance.t,v 1.15 2010-06-22 22:00:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,7 @@
 
 use strict;
 use warnings;
+use vars (qw($Self));
 
 # declare externally defined variables to avoid errors under 'use strict'
 use vars qw( $Self %Param );

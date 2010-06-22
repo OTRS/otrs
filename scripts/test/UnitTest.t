@@ -2,12 +2,16 @@
 # UnitTest.t - unit tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.t,v 1.5 2010-06-16 16:20:35 martin Exp $
+# $Id: UnitTest.t,v 1.6 2010-06-22 22:00:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+use strict;
+use warnings;
+use vars (qw($Self));
 
 use Kernel::System::UnitTest;
 
