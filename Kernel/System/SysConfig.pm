@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.12 2010-06-21 21:02:54 en Exp $
+# $Id: SysConfig.pm,v 1.13 2010-06-22 06:58:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -72,18 +72,19 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $SysConfigObject = Kernel::System::SysConfig->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        TimeObject   => $TimeObject,
-    );
     my $LanguageObject = Kernel::Language->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
+    );
+    my $SysConfigObject = Kernel::System::SysConfig->new(
+        ConfigObject   => $ConfigObject,
+        EncodeObject   => $EncodeObject,
+        LogObject      => $LogObject,
+        DBObject       => $DBObject,
+        MainObject     => $MainObject,
+        TimeObject     => $TimeObject,
+        LanguageObject => $LanugageObject
     );
 
 =cut
@@ -128,12 +129,7 @@ sub new {
     $Self->{ConfigCounter} = $Self->_Init();
 
     # create language object if it was not provided
-    if ( $Self->{LanguageObject} ) {
-        $Self->{LanguageObject} = $Param{LanguageObject};
-    }
-    else {
-        $Self->{LanguageObject} = Kernel::Language->new(%Param);
-    }
+    $Self->{LanguageObject} = $Param{LanguageObject} || Kernel::Language->new(%Param);
 
     return $Self;
 }
@@ -1905,6 +1901,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2010-06-21 21:02:54 $
+$Revision: 1.13 $ $Date: 2010-06-22 06:58:33 $
 
 =cut
