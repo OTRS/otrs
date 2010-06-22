@@ -47,7 +47,7 @@ use MIME::Tools qw(whine);
 @ISA = qw(MIME::Decoder);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.427";
+$VERSION = "5.428";
 
 
 #------------------------------
