@@ -2,7 +2,7 @@
 // Core.UI.Table.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Table.js,v 1.2 2010-06-09 14:23:11 mn Exp $
+// $Id: Core.UI.Table.js,v 1.3 2010-06-22 15:47:02 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ Core.UI.Table = (function (TargetNS) {
         if (typeof $Context === 'undefined' || (isJQueryObject($Context) && $Context.length)) {
             $('tr.Even, tr.Last, th.Last, td.Last, li.Even, li.Last', $Context)
                 .removeClass('Even Last');
-            $('tr:nth-child(even), li:not(.Header):nth-child(odd)', $Context)
+            $('tr:nth-child(even), li:not(.Header):nth-child(even)', $Context)
                 .addClass('Even');
             $('tr:last-child, th:last-child, td:last-child, li:last-child', $Context)
                 .addClass('Last');
