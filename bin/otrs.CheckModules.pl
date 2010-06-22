@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.4 2010-06-21 06:43:29 mg Exp $
+# $Id: otrs.CheckModules.pl,v 1.5 2010-06-22 10:27:39 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,15 +31,26 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 my @NeededModules = (
     {
         Module   => 'CGI',
-        Version  => 3.33,
+        Version  => '3.49',
         Required => 1,
     },
     {
-        Module   => 'Date::Pcalc',
+        Module   => 'Crypt::PasswdMD5',
+        Version  => '1.3',
+        Required => 1,
+    },
+    {
+        Module   => 'CSS::Minifier',
+        Version  => '0.01',
         Required => 1,
     },
     {
         Module   => 'Date::Format',
+        Required => 1,
+    },
+    {
+        Module   => 'Date::Pcalc',
+        Version  => '1.2',
         Required => 1,
     },
     {
@@ -56,118 +67,10 @@ my @NeededModules = (
         Required => 1,
     },
     {
-        Module   => 'CSS::Minifier',
-        Required => 1,
-    },
-    {
-        Module   => 'Crypt::PasswdMD5',
-        Required => 1,
-    },
-    {
-        Module   => 'LWP::UserAgent',
-        Required => 1,
-    },
-    {
         Module   => 'Encode::HanExtra',
-        Version  => 0.23,
+        Version  => '0.23',
         Required => 0,
         Comment  => 'Required to handle mails with several Chinese character sets.',
-    },
-    {
-        Module   => 'IO::Scalar',
-        Required => 1,
-    },
-    {
-        Module   => 'IO::Wrap',
-        Required => 1,
-    },
-    {
-        Module   => 'JavaScript::Minifier',
-        Required => 1,
-    },
-    {
-        Module   => 'MIME::Base64',
-        Required => 1,
-    },
-    {
-        Module   => 'Mail::Internet',
-        Required => 1,
-    },
-    {
-        Module   => 'MIME::Tools',
-        Required => 1,
-        Version  => '5.427',
-    },
-    {
-        Module       => 'Net::DNS',
-        Required     => 1,
-        NotSupported => [
-            {
-                Version => 0.60,
-                Comment =>
-                    'This version is broken and not useable, please upgrade to a higher version!',
-            },
-        ],
-    },
-    {
-        Module   => 'Net::POP3',
-        Comment  => 'for POP3 connections',
-        Required => 1,
-
-        # Moved to Mail::POP3Client because of SSL problems
-        #        Depends  => [
-        #            {
-        #                Module   => 'Net::POP3::SSLWrapper',
-        #                Required => 0,
-        #                Comment  => 'Required for SSL connections.',
-        #            },
-        #        ],
-    },
-    {
-        Module   => 'Mail::POP3Client',
-        Comment  => 'for POP3 SSL connections',
-        Required => 0,
-        Depends  => [
-            {
-                Module   => 'IO::Socket::SSL',
-                Required => 0,
-                Comment  => 'for POP3 SSL connections',
-            },
-        ],
-    },
-    {
-        Module   => 'Net::IMAP::Simple',
-        Comment  => 'for IMAP connections',
-        Required => 0,
-        Depends  => [
-            {
-                Module   => 'Net::IMAP::Simple::SSL',
-                Required => 0,
-                Comment  => 'Required for SSL connections.',
-            },
-        ],
-    },
-    {
-        Module   => 'Net::SMTP',
-        Required => 0,
-        Comment  => 'Required for SMTP connections.',
-        Depends  => [
-            {
-                Module   => 'Authen::SASL',
-                Required => 0,
-                Comment  => 'Required for SMTP backend.',
-            },
-            {
-                Module   => 'Net::SMTP::SSL',
-                Required => 0,
-                Comment  => 'Required for SSL/SMTPS connections.',
-            },
-        ],
-    },
-    {
-        Module   => 'Net::LDAP',
-        Required => 0,
-        Comment  => 'Required for directory authentication.',
     },
     {
         Module   => 'GD',
@@ -197,8 +100,136 @@ my @NeededModules = (
         ],
     },
     {
+        Module   => 'IO::Scalar',
+        Version  => '2.110',
+        Required => 1,
+    },
+    {
+        Module   => 'IO::Wrap',
+        Version  => '2.110',
+        Required => 1,
+    },
+    {
+        Module   => 'JavaScript::Minifier',
+        Version  => '1.05',
+        Required => 1,
+    },
+    {
+        Module   => 'JSON',
+        Version  => '2.21',
+        Required => 1,
+        Comment  => 'Required for AJAX/JavaScript handling',
+        Depends  => [
+            {
+                Module   => 'JSON::PP',
+                Version  => '2.27003',
+                Required => 1,
+                Comment  => 'Required for AJAX/JavaScript handling',
+            },
+            {
+                Module   => 'JSON::XS',
+                Required => 0,
+                Comment  => 'Optional, install it for faster AJAX/JavaScript handling',
+            },
+        ],
+    },
+    {
+        Module   => 'LWP::UserAgent',
+        Required => 1,
+    },
+    {
+        Module   => 'Mail::Internet',
+        Version  => '2.06',
+        Required => 1,
+    },
+    {
+        Module   => 'Mail::POP3Client',
+        Version  => '2.18',
+        Comment  => 'for POP3 SSL connections',
+        Required => 0,
+        Depends  => [
+            {
+                Module   => 'IO::Socket::SSL',
+                Required => 0,
+                Comment  => 'for POP3 SSL connections',
+            },
+        ],
+    },
+    {
+        Module   => 'MIME::Base64',
+        Required => 1,
+    },
+    {
+        Module   => 'MIME::Tools',
+        Version  => '5.428',
+        Required => 1,
+    },
+    {
+        Module       => 'Net::DNS',
+        Required     => 1,
+        NotSupported => [
+            {
+                Version => '0.60',
+                Comment =>
+                    'This version is broken and not useable, please upgrade to a higher version!',
+            },
+        ],
+    },
+    {
+        Module   => 'Net::POP3',
+        Comment  => 'for POP3 connections',
+        Required => 1,
+
+        # Moved to Mail::POP3Client because of SSL problems
+        #        Depends  => [
+        #            {
+        #                Module   => 'Net::POP3::SSLWrapper',
+        #                Required => 0,
+        #                Comment  => 'Required for SSL connections.',
+        #            },
+        #        ],
+    },
+    {
+        Module   => 'Net::IMAP::Simple',
+        Comment  => 'for IMAP connections',
+        Version  => '1.1916',
+        Required => 0,
+        Depends  => [
+            {
+                Module   => 'Net::IMAP::Simple::SSL',
+                Version  => '1.3',
+                Required => 0,
+                Comment  => 'Required for SSL connections.',
+            },
+        ],
+    },
+    {
+        Module   => 'Net::SMTP',
+        Required => 0,
+        Comment  => 'Required for SMTP connections.',
+        Depends  => [
+            {
+                Module   => 'Authen::SASL',
+                Version  => '2.15',
+                Required => 0,
+                Comment  => 'Required for SMTP backend.',
+            },
+            {
+                Module   => 'Net::SMTP::SSL',
+                Version  => '1.01',
+                Required => 0,
+                Comment  => 'Required for SSL/SMTPS connections.',
+            },
+        ],
+    },
+    {
+        Module   => 'Net::LDAP',
+        Required => 0,
+        Comment  => 'Required for directory authentication.',
+    },
+    {
         Module       => 'PDF::API2',
-        Version      => 0.57,
+        Version      => '0.57',
         Required     => 0,
         Comment      => 'Required for PDF output.',
         NotSupported => [
@@ -232,33 +263,42 @@ my @NeededModules = (
         ],
     },
     {
-        Module   => 'SOAP::Lite',
-        Required => 0,
-        Comment  => 'Required for the SOAP interface.',
+        Module       => 'SOAP::Lite',
+        Required     => 0,
+        Comment      => 'Required for the SOAP interface.',
+        NotSupported => [
+            {
+                Version => '0.711',
+                Comment =>
+                    'This version is broken and not useable, please upgrade to a higher version!',
+            },
+        ],
+    },
+    {
+        Module   => 'Text::CSV',
+        Version  => '1.18',
+        Required => 1,
+        Comment  => 'Required for CSV handling',
+        Depends  => [
+            {
+                Module   => 'Text::CSV_PP',
+                Version  => '1.26',
+                Required => 1,
+                Comment  => 'Required for CSV handling',
+            },
+            {
+                Module   => 'Text::CSV_XS',
+                Version  => '0.73',
+                Required => 0,
+                Comment  => 'Optional, install it for faster CSV handling',
+            },
+        ],
     },
     {
         Module   => 'XML::Parser',
+        Version  => '2.36',
         Required => 0,
         Comment  => 'Required for faster xml handling.'
-    },
-    {
-        Module   => 'JSON',
-        Version  => '2.0',
-        Required => 1,
-        Comment  => 'Required for AJAX/JavaScript handling',
-        Depends  => [
-            {
-                Module   => 'JSON::PP',
-                Version  => '2.0',
-                Required => 1,
-                Comment  => 'Required for AJAX/JavaScript handling',
-            },
-            {
-                Module   => 'JSON::XS',
-                Required => 0,
-                Comment  => 'Optional, install it for faster AJAX/JavaScript handling',
-            },
-        ],
     },
 );
 
