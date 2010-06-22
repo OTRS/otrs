@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -16,8 +16,16 @@
  * @subsection  Widget Tablelike list
  */
 ul.Tablelike {
-    width: 99%;
     border: 1px solid #CCC;
+}
+    
+.Size1of3:first-child ul.Tablelike {
+    margin-right: 8px;
+}
+    
+.RTL .Size1of3:first-child ul.Tablelike {
+    margin-left: 8px;
+    margin-right: 0;
 }
 
 ul.Tablelike li {
@@ -27,6 +35,7 @@ ul.Tablelike li {
     background-color: #FFF;
 }
 
+ul.Tablelike li:nth-child(even),
 ul.Tablelike li.Even {
     background-color: #F5F5F5;
 }
@@ -44,15 +53,21 @@ ul.Tablelike li.Header:hover {
 }
 
 ul.Tablelike li.Header:hover a {
-    color: #444;
+    color: #4B4B4B;
 }
 
-ul.Tablelike li.Header {
-    background-color: #DDD;
-    color: #444;
+ul.Tablelike li.Header {;
+    color: #4B4B4B;
     font-size: 11px;
     line-height: 20px;
     text-transform: uppercase;
+    background: #EEE url("../img/SmallDarkGradient.png") repeat-x;
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #BBB;
+}
+    
+ul.Tablelike li.Header + li {
+    border-top: 1px solid #EEE;
 }
 
 /**
