@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.99 2010-06-21 11:53:40 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.100 2010-06-22 09:32:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -420,9 +420,7 @@ sub Run {
                         my @LoaderArray;
                         for my $Index ( 0 .. $#Loader ) {
                             my $Delete = $Self->{ParamObject}->GetParam(
-                                Param => $ItemHash{Name}
-                                    . '#DeleteLoaderElement'
-                                    . ( $Index + 1 )
+                                Param => $ItemHash{Name} . '#DeleteLoaderElement' . ( $Index + 1 ),
                             );
                             if ( !$Delete ) {
                                 my $TypeKey = $Self->{ParamObject}->GetParam(
@@ -1258,38 +1256,38 @@ sub ListConfigItem {
         }
 
         #Define array with keys for the Loader
-        my @ArrayRef = (
-            'CSS',
-            'CSS_IE7',
-            'CSS_IE8',
-            'JavaScript',
+        my %LoaderTypes = (
+            'CSS'        => 1,,
+            'CSS_IE7'    => 1,
+            'CSS_IE8'    => 1,
+            'JavaScript' => 1,
         );
 
+        my $Counter = 1;
         for my $Index ( 1 .. $#{ $FrontendModuleReg->{Loader} } ) {
 
             my $Content = $FrontendModuleReg->{Loader}->[$Index];
-            my $Counter = 0;
             for my $Key ( sort keys %{$Content} ) {
-                if ( grep $_ eq $Key, @ArrayRef ) {
 
+                if ( $LoaderTypes{$Key} ) {
                     for my $Index2 ( 1 .. $#{ $Content->{$Key} } ) {
                         $Self->{LayoutObject}->Block(
                             Name => 'ConfigElementFrontendModuleRegContentLoader',
                             Data => {
-                                Index      => $Index2,
+                                Index      => $Counter,
                                 ElementKey => $ItemHash{Name},
                                 Content    => $Content->{$Key}->[$Index2]->{Content},
                                 ValidKey   => $Self->{LayoutObject}->BuildSelection(
-                                    Data       => \@ArrayRef,
-                                    Name       => $Data{ElementKey} . 'LoaderType' . $Index2,
+                                    Data       => [ sort keys %LoaderTypes ],
+                                    Name       => $Data{ElementKey} . 'LoaderType' . $Counter,
                                     SelectedID => $Key,
                                 ),
                             },
                         );
+                        $Counter++;
                     }
                 }
 
-                #$Counter++;
             }
         }
 
