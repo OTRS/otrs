@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -16,7 +16,12 @@
  * @subsection  Overview Holder
  */
 #OverviewBody {
-    margin: 0px 8px 0 8px;
+    margin: 58px 16px 8px 8px;
+}
+    
+.RTL #OverviewBody {
+    margin-right: 8px;
+    margin-left: 16px;
 }
 
 
