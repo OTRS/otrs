@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -16,16 +16,19 @@
  * @subsection  Control Row
  */
 .ControlRow {
-    height: 24px;
+    height: 25px;
+    margin: 0 -1px;
     background: url(../img/controlrow.png) repeat-x;
     position: relative;
-    border-bottom: 1px solid #858585;
+    border-left: 1px solid #D4D4D4;
+    border-right: 1px solid #D4D4D4;
     -webkit-border-top-left-radius: 3px;
     -webkit-border-top-right-radius: 3px;
     -moz-border-radius-topleft: 3px;
     -moz-border-radius-topright: 3px;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
+    overflow: hidden;
 }
 
 .ControlRow a {
@@ -43,53 +46,88 @@
     float: right;
 }
 
+.ControlRow .Tabs li,
+.ControlRow .Tabs li:hover a,
+.ControlRow .Tabs li.Active a,
+.ControlRow .Tabs li:active a {
+    background: url(../img/controlrow_sprite.png) no-repeat;
+}
+
 .ControlRow .Tabs li {
     margin-left: -3px;
+    padding-left: 2px;
+    background-position: 0 25px;
     float: left;
     position: relative;
 }
 
 .RTL .ControlRow .Tabs li {
+    margin-left: 0;
+    margin-right: -3px;
     float: right;
 }
 
-.ControlRow .Tabs a {
-    display: block;
-    background: url(../img/tab_isolator.png) no-repeat center right;
-    padding: 7px 12px 6px 11px;
-    color: #111;
-    font-size: 11px;
+.ControlRow .Tabs li:first-child {
+    -webkit-border-top-left-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    border-top-left-radius: 2px;
 }
-
-.RTL .ControlRow .Tabs li:first-child a {
-    background-image: none;
-}
-
-.ControlRow .Tabs li.Active {
-    padding-left: 2px;
-    background: url(../img/tabs_active_door.png) no-repeat top left;
-}
-
-.ControlRow .Tabs li.Active a {
-    color: #FFF;
-    background: url(../img/tabs_active_bg.png) no-repeat bottom right;
-}
-
-.ControlRow .Tabs li:hover a {
-    background: url(../img/overviewcontrol_hover1.png) no-repeat top right;
-    color: #000;
+    
+.RTL .ControlRow .Tabs li:first-child {
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-right-radius: 2px;
 }
 
 .ControlRow .Tabs li:hover {
-    background: url(../img/overviewcontrol_hover2.png) no-repeat top left;
+    background-position: 0 0;
+}
+
+.ControlRow .Tabs li.Active,
+.ControlRow .Tabs li.Active:hover,
+.ControlRow .Tabs li.Active:active {
+    padding-left: 2px;
+    background-position: 0 -50px;
+}
+
+.ControlRow .Tabs a {
+    padding: 7px 12px 7px 11px;
+    color: #111;
+    font-size: 11px;
+    background: url(../img/controlrow_isolator.png) no-repeat center right;
+    display: block;
+}
+    
+.RTL .ControlRow .Tabs a {
+    padding: 7px 11x 7px 12px;
+    background-position: left center;
+}
+
+.ControlRow .Tabs li:hover a {
+    background-position: right 0;
+    color: #000;
+}
+    
+.RTL .ControlRow .Tabs li:hover a {
+    background-position: left 0;
+}
+
+.ControlRow .Tabs li.Active a,
+.ControlRow .Tabs li.Active:hover a,
+.ControlRow .Tabs li.Active:active a {
+    color: #FFF;
+    background-position: right -50px;
+    -webkit-border-top-left-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    border-top-left-radius: 2px;
 }
 
 .ControlRow .Tabs li:active {
-    background: url(../img/tabs_active_bg.png) no-repeat top right;
+    background-position: 0 -25px;
 }
 
 .ControlRow .Tabs li:active a {
-    background: none;
+    background-position: right -25px;
 }
 
 .ControlRow .Tabs a span {
@@ -279,7 +317,8 @@ ul.ContextFunctions li.ContextHelp:hover {
  */
 .ActionRow {
     background: #777 url("../img/gradient_light.png") repeat-x;
-    border-top: 1px solid #D6D6D6;
+    border-top: 1px solid #CFCFCF;
+    border-bottom: 1px solid #636363;
     position: relative;
 }
 
@@ -294,8 +333,9 @@ ul.ContextFunctions li.ContextHelp:hover {
 
 .Actions li {
     float: left;
-    height: 24px;
-    line-height: 24px;
+    height: 15px;
+    line-height: 13px;
+    padding: 5px 3px 5px;
     margin-left: -3px;
     padding-left: 3px;
 }
@@ -313,6 +353,7 @@ ul.ContextFunctions li.ContextHelp:hover {
     font-size: 11px;
 }
 
+.Actions li:last-child a,
 .Actions li.Last a {
     background: none;
 }
@@ -331,7 +372,7 @@ ul.ContextFunctions li.ContextHelp:hover {
 }
 
 .Actions li label {
-    font-size:11px;
+    font-size: 11px;
     cursor: pointer;
     font-size: 11px;
     margin-left: 20px;
@@ -340,8 +381,8 @@ ul.ContextFunctions li.ContextHelp:hover {
 .Actions li input#SelectAllTickets {
     float: left;
     padding: 0;
-    margin-top: 5px;
-    margin-left: 10px;
+    margin-top: 0;
+    margin-left: 9px;
 }
 
 .RTL .Actions li:first-child a {
@@ -375,17 +416,13 @@ ul.ContextFunctions li.ContextHelp:hover {
     font-size: 11px;
 }
 
-.ActionRow table tbody {
-    display: none;
-}
-
 .OverviewActions {
     height: 24px;
 }
 
 .Tab.Actions li {
     height: auto;
-    line-height: 14px;
+    padding: 0;
 }
 
 .Tab.Actions li:first-child a {
@@ -399,7 +436,7 @@ ul.ContextFunctions li.ContextHelp:hover {
 .Tab.Actions li a {
     padding: 3px 8px 4px;
     color: #999;
-    background: url(../img/tab_isolator_light.png) no-repeat right 6px;
+    background: url(../img/tab_isolator_light.png) no-repeat right 5px;
 }
 
 .Tab.Actions li a:hover {
@@ -463,6 +500,10 @@ ul.ContextFunctions li.ContextHelp:hover {
     font-weight: normal;
     color: #171717;
     border-bottom: 1px solid #F5F5F5;
+}
+    
+.Collapsed .LightRow h2 {
+    border: none;
 }
 
 .LightRow .WidgetAction.Toggle {
