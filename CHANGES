@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1231 2010-06-18 19:52:30 cr Exp $
+# $Id: CHANGES,v 1.1232 2010-06-22 09:57:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,12 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/06/22) Updated CPAN module Authen::SASL to version 2.15.
+ - (2010/06/22) Updated CPAN module MIME::Tools to version 5.428.
+ - (2010/06/22) Updated CPAN module Net::IMAP::Simple to version 1.1916.
+ - (2010/06/22) Updated CPAN module Net::POP3::SSLWrapper to version 0.04.
+ - (2010/06/22) Updated CPAN module XML::Parser to version 0.712.
+ - (2010/06/22) Updated CPAN module Text::CSV to version 1.18.
  - (2010/06/14) New DirectoryRead Function to read filenames with Unicode::Normalize
  - (2010/06/09) Fixed bug#5447 - Added SMTP TLS support, to send out emails via
     mail servers (MS Exchange!) that require this.
