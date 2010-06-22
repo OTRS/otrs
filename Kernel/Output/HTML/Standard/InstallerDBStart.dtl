@@ -2,7 +2,7 @@
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBStart.dtl,v 1.5 2010-06-17 16:59:30 mp Exp $
+# $Id: InstallerDBStart.dtl,v 1.6 2010-06-22 22:52:31 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,7 +124,7 @@
                     <div class="Clear"></div>
 
                     <div class="Field">
-                        <button class="Primary" type="button" onclick="CheckDBData();" value="$Text{"Check database settings"}">$Text{"Check database settings"}</button>
+                        <button class="Primary" type="button" onclick="Core.Installer.CheckDBData();" value="$Text{"Check database settings"}">$Text{"Check database settings"}</button>
                     </div>
                     <div class="Clear"></div>
                 </fieldset>
@@ -151,28 +151,4 @@
         </div>
     </form>
 </div>
-
-<script type="text/javascript">//<![CDATA[
-    function CheckDBData() {
-        $('input[name=Subaction]').val('CheckRequirements');
-        var Data = $('#FormDB').serialize();
-        Data += "&CheckMode=DB";
-        Core.AJAXFunctionCall( { Data: Data, Callback: CheckDBDataCallback } );
-        $('input[name=Subaction]').val('DB');
-    }
-
-    function CheckDBDataCallback(json) {
-        if (parseInt(json['Successful']) < 1) {
-            $('#FormDBResultMessage').html(json['Message']);
-            $('#FormDBResultComment').html(json['Comment']);
-            $('fieldset.ErrorMsg').show();
-        }
-        else {
-            alert('$JSText{"Database check successful."}');
-            $('#FormDBSubmit').attr('disabled', false);
-            $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
-            $('fieldset.HideMe, div.HideMe').show();
-        }
-    }
-//]]></script>
 <!-- dtl:block:DatabaseStart -->

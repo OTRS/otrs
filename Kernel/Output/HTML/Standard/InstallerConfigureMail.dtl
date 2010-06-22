@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.7 2010-06-17 17:49:11 mp Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.8 2010-06-22 22:53:01 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@
 
                     <label for="SMTPAuth">$Text{"SMTP authentication"}:</label>
                     <div class="Field">
-                        <input type="checkbox" id="SMTPAuth" name="SMTPAuth" onchange="CheckSMTPAuth(this);" />
+                        <input type="checkbox" id="SMTPAuth" name="SMTPAuth" onchange="Core.Installer.CheckSMTPAuth(this);" />
                         <p class="FieldExplanation">
                             $Text{"Does your SMTP host need authentication?"}
                         </p>
@@ -146,60 +146,10 @@
             </div>
 
             <div class="SpacingTop Right">
-                <button class="Primary" type="button" onclick="CheckMailConfig()" value="$Text{"Check mail configuration"}">$Text{"Check mail configuration"}</button>
-                <button type="button" onclick="SkipMailConfig()" value="$Text{"Skip this step"}">$Text{"Skip this step"}</button>
+                <button class="Primary" type="button" onclick="Core.Installer.CheckMailConfig()" value="$Text{"Check mail configuration"}">$Text{"Check mail configuration"}</button>
+                <button type="button" onclick="Core.Installer.SkipMailConfig()" value="$Text{"Skip this step"}">$Text{"Skip this step"}</button>
             </div>
         </div>
     </form>
 </div>
-
-<script type="Text/javascript">
-    function SelectOutboundMailType(obj) {
-        var value = $(obj).val();
-        if (value == "smtp") {
-            $('.infosmtp').show();
-        }
-        else {
-            $('.infosmtp, .infosmtpauth').hide().find('input[name=SMTPAuth]').removeAttr('checked');
-        }
-    }
-
-    function CheckSMTPAuth(obj) {
-        if ($(obj).is(':checked')) {
-            $('.infosmtpauth').show().find('input').removeAttr('disabled');
-        }
-        else {
-            $('.infosmtpauth input').attr('disabled', 'disabled').val("");
-            $('.infosmtpauth').hide();
-        }
-    }
-
-    function SkipMailConfig() {
-        $('input[name=Skip]').val('1');
-        $('form').submit();
-    }
-
-    function CheckMailConfig() {
-        $('input[name=Skip]').val('0');
-        // Check mail data via AJAX
-        $('input[name=Subaction]').val('CheckRequirements');
-        var Data = $('#FormMail').serialize();
-        Data += "&CheckMode=Mail";
-        Core.AJAXFunctionCall( { Data: Data, Callback: CheckMailConfigCallback } );
-        $('input[name=Subaction]').val('Finish');
-    }
-
-    function CheckMailConfigCallback(json) {
-        if (parseInt(json['Successful']) == 1) {
-            alert('$JSText{"Mail check successful."}');
-            $('fieldset.errormsg').hide();
-            $('form').submit();
-        }
-        else {
-            $('#FormMailResultMessage').html(json['Message']);
-            $('fieldset.ErrorMsg').show();
-            alert('$JSText{"Error in the mail settings. Please correct and try again."}');
-        }
-    }
-//]]></script>
 <!-- dtl:block:ConfigureMail-->
