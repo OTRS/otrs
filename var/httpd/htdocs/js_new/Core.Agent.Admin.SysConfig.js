@@ -2,7 +2,7 @@
 // Core.Agent.Admin.SysConfig.js - provides the special module functions for the AdminSysConfig
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Admin.SysConfig.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.Agent.Admin.SysConfig.js,v 1.2 2010-06-22 11:24:49 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ Core.Agent.Admin.SysConfig = (function (TargetNS) {
      *      This function initializes the special module functions
      */
     TargetNS.Init = function () {
-        $('.AdminSysConfig h3 input:checkbox').click(function () {
+        $('#AdminSysConfig h3 input:checkbox').click(function () {
             $(this).parent('h3').parent('fieldset').toggleClass('Invalid');
         });
     };
