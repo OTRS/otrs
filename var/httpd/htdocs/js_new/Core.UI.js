@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.UI.js,v 1.2 2010-06-22 15:47:19 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -36,81 +36,63 @@ Core.UI = (function (TargetNS) {
      * @param {jQueryObject} $TBody the tbody
      * @return nothing
      */
-    TargetNS.AdjustTableHead = function ($THead, $TBody) {
-        function CalculateColumnDimensions($TableHeadElement, $TableBodyElement) {
-            var TableHeadWidth,
-                TableHeadPadding,
-                TableBodyWidth,
-                TableBodyPadding;
-
-            TableHeadWidth = $TableHeadElement.width();
-            TableHeadPadding = parseInt($TableHeadElement.css('padding-left'), 10) + parseInt($TableHeadElement.css('padding-right'), 10);
-
-            TableBodyWidth = $TableBodyElement.width();
-            TableBodyPadding = parseInt($TableBodyElement.css('padding-left'), 10) + parseInt($TableBodyElement.css('padding-right'), 10);
-
-            return {
-                HeadWidth:      TableHeadWidth,
-                HeadPadding:    TableHeadPadding,
-                BodyWidth:      TableBodyWidth,
-                BodyPadding:    TableBodyPadding
+    TargetNS.initTableHead = function ($THead, $TBody) {
+        var TBodyWidth = $TBody.outerWidth();
+        // set the thead-width to the tbody-width (is not the same because of the scrollbar in the tbody)
+        $THead.width(TBodyWidth + 'px');
+        // initial adjustion of the tablehead elements
+        TargetNS.AdjustTableHead($THead, $TBody);
+    };
+    
+    /**
+     * @function
+     * @description
+     *      This function is used for the adjustment of the table head of OverviewSmall
+     * @param {jQueryObject} $Elements object containing elements (here: table elements)
+     * @return Array containing outer-widths (width+padding+border) of the given $Elements
+     */
+    function GetWidths($Elements, Position) {
+        var Storage = new Array(),
+            Size = $Elements.length;
+        if(Position){
+            return $Elements.eq(Position).outerWidth();
+        }
+        else {
+            for(var I = 0;I < Size;I++) {
+                Storage[I] = $Elements.eq(I).outerWidth();
             };
+            return Storage;
         }
-
-        var $TableHead = $THead.find('tr th'),
-            $TableHeadElement,
-            $TableBody = $TBody.find('tr:first td'),
-            $TableBodyElement,
-            $OverviewHeaderSmall = $THead.closest('.OverviewHeaderSmall'),
-            $ActionRow = $THead.closest('.ActionRow'),
-            TableOriginalWidth,
-            Dimensions = {},
-            ColumnNewWidth,
-            Adjustment = {},
+    };
+    
+    TargetNS.AdjustTableHead = function ($THead, $TBody) {
+        var $THeadElements = $THead.find('tr th'),
+            THeadElementWidth,
+            $TBodyElements = $TBody.find('tr:first td'),
+            TBodyWidths = GetWidths($TBodyElements),
+            TableSize = $THeadElements.size(),
+            Adjusted = true,
+            Adjustments = new Array(),
             I;
-
-        // Restore original width of table parents (after resizing of window)
-        if ($TBody.closest('div.Scroller').length) {
-            $TBody.closest('div.Scroller').width('auto').parents('div:first').width('auto');
-        }
-
-        // Calculate the width of the table frame
-        TableOriginalWidth = $TBody.closest('table').width();
-        // Set table head to same width
-        $THead.parents('table').width(TableOriginalWidth + 'px');
-
+        
         // First round: adjust obvious differences
-        for (I = 0; I < $TableBody.size(); I++) {
-            $TableHeadElement = $TableHead.eq(I);
-            $TableBodyElement = $TableBody.eq(I);
-
-            // Skip column, if column has class "Fixed"
-            if (!($TableHeadElement.hasClass('Fixed') || $TableBodyElement.hasClass('Fixed'))) {
-                // Calculate the column dimensions
-                Dimensions = CalculateColumnDimensions($TableHeadElement, $TableBodyElement);
-
-                // The width of the new Head column
-                ColumnNewWidth = Dimensions.BodyWidth + Dimensions.BodyPadding - Dimensions.HeadPadding;
-                $TableHeadElement.width(ColumnNewWidth + 'px');
-
-                // If now the head column is bigger than the body column, there's more text in the header than in the body
-                // and we have to adjust the body columns
-                // so calculate again!
-                Dimensions = CalculateColumnDimensions($TableHeadElement, $TableBodyElement);
-
-                // If header column is larger, save new body column width in array for later adjustment
-                if ((Dimensions.HeadWidth + Dimensions.HeadPadding) > (Dimensions.BodyWidth + Dimensions.BodyPadding)) {
-                    ColumnNewWidth = Dimensions.HeadWidth + Dimensions.HeadPadding - Dimensions.BodyPadding;
-                    Adjustment[I] = ColumnNewWidth;
-                }
+        for (I = 0; I < TableSize; I++) {
+            $THeadElements.eq(I).width(TBodyWidths[I] + 'px');
+            THeadElementWidth = GetWidths($THeadElements, I);
+            if(THeadElementWidth > TBodyWidths[I]){
+                Adjustments[I] = THeadElementWidth;
+                Adjusted = false;
             }
         }
 
         // Second round: Adjust the body columns as calculated before
-        for (I = 0; I < $TableBody.size(); I++) {
-            if (Adjustment[I]) {
-                $TableBody.eq(I).width(Adjustment[I] + 'px');
-            }
+        if(!Adjusted){
+            for (I = 0; I < TableSize; I++) {
+                if (Adjustments[I]) {
+                    $TBodyElements.eq(I).width(Adjustments[I] + 'px');
+                }
+            };
+            TargetNS.AdjustTableHead($THead, $TBody);
         }
     };
 
