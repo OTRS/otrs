@@ -8,7 +8,7 @@ use strict;
 use vars qw($VERSION @ISA);
 use Digest::HMAC_MD5 qw(hmac_md5_hex);
 
-$VERSION = "1.03";
+$VERSION = "2.14";
 @ISA	 = qw(Authen::SASL::Perl);
 
 my %secflags = (

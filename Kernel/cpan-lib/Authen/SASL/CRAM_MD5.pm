@@ -7,7 +7,7 @@ package Authen::SASL::CRAM_MD5;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = "0.99";
+$VERSION = "2.14";
 
 sub new {
   shift;

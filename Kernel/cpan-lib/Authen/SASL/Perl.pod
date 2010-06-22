@@ -108,6 +108,23 @@ and should not be used without sufficient security protection.
 
 =back
 
+As for server support, only I<PLAIN>, I<LOGIN> and I<DIGEST-MD5> are supported
+at the time of this writing.
+
+C<server_new> OPTIONS is a hashref that is only relevant for I<DIGEST-MD5> for
+now and it supports the following options:
+
+=over 4
+
+=item - no_integrity
+
+=item - no_confidentiality
+
+=back
+
+which configures how the security layers are negotiated with the client (or
+rather imposed to the client).
+
 
 =head1 SEE ALSO
 

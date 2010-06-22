@@ -122,7 +122,7 @@ Sets the given callbacks to the given values
 
 Creates and returns a new connection object for a client-side connection.
 
-=item server_new ( SERVICE, HOST )
+=item server_new ( SERVICE, HOST, OPTIONS )
 
 Creates and returns a new connection object for a server-side connection.
 
@@ -159,6 +159,11 @@ This method is called when a response from the server requires it. CHALLENGE
 is the value from the server. Returns the next value to pass to the server or an
 empty list on error.
 
+=item need_step ( )
+
+Returns true if the selected mechanism requires another step before completion
+(error or success).
+
 =item answer ( NAME )
 
 The method will return the value returned from the last call to the callback NAME
@@ -182,6 +187,11 @@ Returns the host argument that was passed to *_new-methods.
 =item mechanism ( )
 
 Returns the name of the chosen mechanism.
+
+=item is_success ( )
+
+Once need_step() returns false, then you can check if the authentication
+succeeded by calling this method which returns a boolean value.
 
 =back
 

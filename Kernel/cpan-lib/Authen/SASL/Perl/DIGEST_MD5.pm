@@ -1,5 +1,6 @@
-# Copyright (c) 2003-2005 Graham Barr, Djamel Boudjerda, Paul Connolly, Julian Onions and Nexor.
-# All rights reserved. This program is free software; you can redistribute 
+# Copyright (c) 2003-2009 Graham Barr, Djamel Boudjerda, Paul Connolly, Julian
+# Onions, Nexor and Yann Kerherve.
+# All rights reserved. This program is free software; you can redistribute
 # it and/or modify it under the same terms as Perl itself.
 
 # See http://www.ietf.org/rfc/rfc2831.txt for details
@@ -7,11 +8,13 @@
 package Authen::SASL::Perl::DIGEST_MD5;
 
 use strict;
-use vars qw($VERSION @ISA $CNONCE);
+use vars qw($VERSION @ISA $CNONCE $NONCE);
 use Digest::MD5 qw(md5_hex md5);
 use Digest::HMAC_MD5 qw(hmac_md5);
 
-$VERSION = "1.07";
+# TODO: complete qop support in server, should be configurable
+
+$VERSION = "2.14";
 @ISA = qw(Authen::SASL::Perl);
 
 my %secflags = (
@@ -20,10 +23,22 @@ my %secflags = (
 );
 
 # some have to be quoted - some don't - sigh!
-my %qdval; @qdval{qw(username authzid realm nonce cnonce digest-uri)} = ();
+my (%cqdval, %sqdval);
+@cqdval{qw(
+  username authzid realm nonce cnonce digest-uri
+)} = ();
 
-my %multi; @multi{qw(realm auth-param)} = ();
-my @required = qw(algorithm nonce);
+## ...and server behaves different than client - double sigh!
+@sqdval{keys %cqdval, qw(qop cipher)} = ();
+#  username authzid realm nonce cnonce digest-uri qop cipher
+#)} = ();
+
+my %multi;
+@{$multi{server}}{qw(realm auth-param)} = ();
+@{$multi{client}}{qw()} = ();
+
+my @server_required = qw(algorithm nonce);
+my @client_required = qw(username nonce cnonce nc qop response);
 
 # available ciphers
 my @ourciphers = (
@@ -103,6 +118,16 @@ my @ourciphers = (
   },
 );
 
+## The system we are on, might not be able to crypt the stream
+our $NO_CRYPT_AVAILABLE = 1;
+for (@ourciphers) {
+    eval "require $_->{pkg}";
+    unless ($@) {
+        $NO_CRYPT_AVAILABLE = 0;
+        last;
+    }
+}
+
 sub _order { 3 }
 sub _secflags {
   shift;
@@ -120,23 +145,92 @@ sub _init {
   $self->property('maxssf',      int 2**31 - 1);    # XXX - arbitrary "high" value
   $self->property('maxbuf',      0xFFFFFF);         # maximum supported by GSSAPI mech
   $self->property('externalssf', 0);
+
   $self;
+}
+
+sub _init_server {
+  my $server  = shift;
+  my $options = shift || {};
+  if (!ref $options or ref $options ne 'HASH') {
+    warn "options for DIGEST_MD5 should be a hashref";
+    $options = {};
+  }
+
+  ## new server, means new nonce_counts
+  $server->{nonce_counts} = {};
+
+  ## determine supported qop
+  my   @qop = ('auth');
+  push @qop, 'auth-int'  unless $options->{no_integrity};
+  push @qop, 'auth-conf' unless $options->{no_integrity}
+                             or $options->{no_confidentiality}
+                             or $NO_CRYPT_AVAILABLE;
+
+  $server->{supported_qop} = { map { $_ => 1 } @qop };
+}
+
+sub init_sec_layer {
+  my $self           = shift;
+  $self->{cipher}    = undef;
+  $self->{khc}       = undef;
+  $self->{khs}       = undef;
+  $self->{sndseqnum} = 0;
+  $self->{rcvseqnum} = 0;
+
+  # reset properties for new session
+  $self->property(maxout => undef);
+  $self->property(ssf    => undef);
 }
 
 # no initial value passed to the server
 sub client_start {
   my $self = shift;
 
+  $self->{need_step} = 1;
+  $self->{error}     = undef;
   $self->{state}     = 0;
-  $self->{cipher}    = undef;
-  $self->{khc}       = undef;
-  $self->{khs}       = undef;
-  $self->{sndseqnum} = 0;
-  $self->{rcvseqnum} = 0;
-  # reset properties for new session
-  $self->property(maxout => undef);
-  $self->property(ssf    => undef);
+  $self->init_sec_layer;
   '';
+}
+
+sub server_start {
+  my $self       = shift;
+  my $challenge  = shift;
+  my $cb         = shift || sub {};
+
+  $self->{need_step} = 1;
+  $self->{error}     = undef;
+  $self->{nonce}     = md5_hex($NONCE || join (":", $$, time, rand));
+
+  $self->init_sec_layer;
+
+  my $qop = [ sort keys %{$self->{supported_qop}} ];
+
+  ## get the realm using callbacks but default to the host specified
+  ## during the instanciation of the SASL object
+  my $realm = $self->_call('realm');
+  $realm  ||= $self->host;
+
+  my %response = (
+    nonce         => $self->{nonce},
+    charset       => 'utf-8',
+    algorithm     => 'md5-sess',
+    realm         => $realm,
+    maxbuf        => $self->property('maxbuf'),
+
+## IN DRAFT ONLY:
+# If this directive is present multiple times the client MUST treat
+# it as if it received a single qop directive containing a comma
+# separated value from all instances. I.e.,
+# 'qop="auth",qop="auth-int"' is the same as 'qop="auth,auth-int"
+
+    'qop'         => $qop,
+    'cipher'      => [ map { $_->{name} } @ourciphers ],
+  );
+  my $final_response = _response(\%response);
+  $cb->($final_response);
+  return;
 }
 
 sub client_step {   # $self, $server_sasl_credentials
@@ -144,25 +238,8 @@ sub client_step {   # $self, $server_sasl_credentials
   $self->{server_params} = \my %sparams;
 
   # Parse response parameters
-  while($challenge =~ s/^(?:\s*,)*\s*(\w+)=("([^\\"]+|\\.)*"|[^,]+)\s*(?:,\s*)*//) {
-    my ($k, $v) = ($1,$2);
-    if ($v =~ /^"(.*)"$/s) {
-      ($v = $1) =~ s/\\(.)/$1/g;
-    }
-    if (exists $multi{$k}) {
-      my $aref = $sparams{$k} ||= [];
-      push @$aref, $v;
-    }
-    elsif (defined $sparams{$k}) {
-      return $self->set_error("Bad challenge: '$challenge'");
-    }
-    else {
-      $sparams{$k} = $v;
-    }
-  }
-
-  return $self->set_error("Bad challenge: '$challenge'")
-    if length $challenge;
+  $self->_parse_challenge(\$challenge, server => $self->{server_params})
+    or return $self->set_error("Bad challenge: '$challenge'");
 
   if ($self->{state} == 1) {
     # check server's `rspauth' response
@@ -172,11 +249,12 @@ sub client_step {   # $self, $server_sasl_credentials
       unless ($self->{rspauth} eq $sparams{rspauth});
 
     # all is well
+    $self->set_success;
     return '';
   }
 
   # check required fields in server challenge
-  if (my @missing = grep { !exists $sparams{$_} } @required) {
+  if (my @missing = grep { !exists $sparams{$_} } @server_required) {
     return $self->set_error("Server did not provide required field(s): @missing")
   }
 
@@ -185,13 +263,12 @@ sub client_step {   # $self, $server_sasl_credentials
     cnonce       => md5_hex($CNONCE || join (":", $$, time, rand)),
     'digest-uri' => $self->service . '/' . $self->host,
     # calc how often the server nonce has been seen; server expects "00000001"
-    nc           => sprintf("%08d",     ++$self->{nonce}{$sparams{'nonce'}}),
+    nc           => sprintf("%08d",     ++$self->{nonce_counts}{$sparams{'nonce'}}),
     charset      => $sparams{'charset'},
   );
 
-  # calculate qop
   return $self->set_error("Server qop too weak (qop = $sparams{'qop'})")
-    unless ($self->_layer(\%sparams,\%response));
+    unless ($self->_client_layer(\%sparams,\%response));
 
   # let caller-provided fields override defaults: authorization ID, service name, realm
 
@@ -224,15 +301,39 @@ sub client_step {   # $self, $server_sasl_credentials
   return $self->set_error("Password is required")
     unless defined $password;
 
-  $self->property('maxout',$sparams{server_maxbuf} || 65536);
+  $self->property('maxout', $sparams{maxbuf} || 65536);
 
   # Generate the response value
   $self->{state} = 1;
 
+  my ($response, $rspauth)
+    = $self->_compute_digests_and_set_keys($password, \%response);
+
+  $response{response} = $response;
+  $self->{rspauth}    = $rspauth;
+
+  # finally, return our response token
+  return _response(\%response, "is_client");
+}
+
+sub _compute_digests_and_set_keys {
+  my $self     = shift;
+  my $password = shift;
+  my $params   = shift;
+
+  if (defined $params->{realm} and ref $params->{realm} eq 'ARRAY') {
+    $params->{realm} = $params->{realm}[0];
+  }
+
+  my $realm = $params->{realm};
   $realm = "" unless defined $realm;
-  my $A1 = join (":", 
-    md5(join (":", $user, $realm, $password)),
-    @response{defined($authzid) ? qw(nonce cnonce authzid) : qw(nonce cnonce)}
+
+  my $A1 = join (":",
+    md5(join (":", $params->{username}, $realm, $password)),
+    @$params{defined($params->{authzid})
+      ? qw(nonce cnonce authzid)
+      : qw(nonce cnonce)
+    }
   );
 
   # pre-compute MD5(A1) and HEX(MD5(A1)); these are used multiple times below
@@ -264,34 +365,182 @@ sub client_step {   # $self, $server_sasl_credentials
     $self->{ivs} = $cipher->{iv}->($self->{kcs});
   }
 
-  my $A2 = "AUTHENTICATE:" . $response{'digest-uri'};
-  $A2 .= ":00000000000000000000000000000000" if ($response{qop} ne 'auth');
+  my $A2 = "AUTHENTICATE:" . $params->{'digest-uri'};
+  $A2 .= ":00000000000000000000000000000000" if ($params->{qop} ne 'auth');
 
-  $response{'response'} = md5_hex(
-    join (":", $hdA1, @response{qw(nonce nc cnonce qop)}, md5_hex($A2))
+  my $response = md5_hex(
+    join (":", $hdA1, @$params{qw(nonce nc cnonce qop)}, md5_hex($A2))
   );
 
   # calculate server `rspauth' response, so we can check in step 2
   # the only difference here is in the A2 string which from which
   # `AUTHENTICATE' is omitted in the calculation of `rspauth'
-  $A2 = ":" . $response{'digest-uri'};
-  $A2 .= ":00000000000000000000000000000000" if ($response{qop} ne 'auth');
+  $A2 = ":" . $params->{'digest-uri'};
+  $A2 .= ":00000000000000000000000000000000" if ($params->{qop} ne 'auth');
 
-  $self->{rspauth} = md5_hex(
-    join (":", $hdA1, @response{qw(nonce nc cnonce qop)}, md5_hex($A2))
+  my $rspauth = md5_hex(
+    join (":", $hdA1, @$params{qw(nonce nc cnonce qop)}, md5_hex($A2))
   );
 
-  # finally, return our response token
-  join (",", map { _qdval($_, $response{$_}) } sort keys %response);
+  return ($response, $rspauth);
+}
+
+sub server_step {
+  my $self      = shift;
+  my $challenge = shift;
+  my $cb        = shift || sub {};
+
+  $self->{client_params} = \my %cparams;
+  unless ( $self->_parse_challenge(\$challenge, client => $self->{client_params}) ) {
+   $self->set_error("Bad challenge: '$challenge'");
+   return $cb->();
+  }
+
+  # check required fields in server challenge
+  if (my @missing = grep { !exists $cparams{$_} } @client_required) {
+    $self->set_error("Client did not provide required field(s): @missing");
+    return $cb->();
+  }
+
+  my $count = hex ($cparams{'nc'} || 0);
+  unless ($count == ++$self->{nonce_counts}{$cparams{nonce}}) {
+    $self->set_error("nonce-count doesn't match: $count");
+    return $cb->();
+  }
+
+  my $qop = $cparams{'qop'} || "auth";
+  unless ($self->is_qop_supported($qop)) {
+    $self->set_error("Client qop not supported (qop = '$qop')");
+    return $cb->();
+  }
+
+  my $username = $cparams{'username'};
+  unless ($username) {
+    $self->set_error("Client didn't provide a username");
+    return $cb->();
+  }
+
+  # "The authzid MUST NOT be an empty string."
+  if (exists $cparams{authzid} && $cparams{authzid} eq '') {
+      $self->set_error("authzid cannot be empty");
+      return $cb->();
+  }
+  my $authzid = $cparams{authzid};
+
+  # digest-uri: "Servers SHOULD check that the supplied value is correct.
+  # This will detect accidental connection to the incorrect server, as well as
+  # some redirection attacks"
+  my $digest_uri = $cparams{'digest-uri'};
+  my ($cservice, $chost, $cservname) = split '/', $digest_uri, 3;
+  if ($cservice ne $self->service or $chost ne $self->host) {
+      # XXX deal with serv_name
+      $self->set_error("Incorrect digest-uri");
+      return $cb->(); 
+  }
+
+  unless (defined $self->callback('getsecret')) {
+    $self->set_error("a getsecret callback MUST be defined");
+    $cb->();
+    return;
+  }
+
+  my $realm = $self->{client_params}->{'realm'};
+  my $response_check = sub {
+    my $password = shift;
+    return $self->set_error("Cannot get the passord for $username") 
+        unless defined $password;
+ 
+    ## configure the security layer
+    $self->_server_layer($qop)
+        or return $self->set_error("Cannot negociate the security layer");
+ 
+    my ($expected, $rspauth)
+        = $self->_compute_digests_and_set_keys($password, $self->{client_params});
+ 
+    return $self->set_error("Incorrect response $self->{client_params}->{response} <> $expected")
+        unless $expected eq $self->{client_params}->{response};
+ 
+    my %response = (
+        rspauth => $rspauth,
+    );
+ 
+    # I'm not entirely sure of what I am doing
+    $self->{answer}{$_} = $self->{client_params}->{$_} for qw/username authzid realm serv/;
+ 
+    $self->set_success;
+    return _response(\%response);
+  };
+
+  $self->callback('getsecret')->(
+    $self,
+    { user => $username, realm => $realm, authzid => $authzid },
+    sub { $cb->( $response_check->( shift ) ) },
+  );
+}
+
+sub is_qop_supported {
+    my $self = shift;
+    my $qop  = shift;
+    return $self->{supported_qop}{$qop};
+}
+
+sub _response {
+  my $response  = shift;
+  my $is_client = shift;
+
+  my @out;
+  for my $k (sort keys %$response) {
+    my $is_array = ref $response->{$k} && ref $response->{$k} eq 'ARRAY';
+    my @values = $is_array ? @{$response->{$k}} : ($response->{$k});
+    # Per spec, one way of doing it: multiple k=v
+    #push @out, [$k, $_] for @values;
+    # other way: comma separated list
+    push @out, [$k, join (',', @values)];
+  }
+  return join (",", map { _qdval($_->[0], $_->[1], $is_client) } @out);
+}
+
+sub _parse_challenge {
+  my $self          = shift;
+  my $challenge_ref = shift;
+  my $type          = shift;
+  my $params        = shift;
+
+  while($$challenge_ref =~
+           s/^(?:\s*,)*\s*            # remaining or crap
+             ([\w-]+)                 # key, eg: qop
+             =
+             ("([^\\"]+|\\.)*"|[^,]+) # value, eg: auth-conf or "NoNcE"
+             \s*(?:,\s*)*             # remaining
+           //x) {
+
+    my ($k, $v) = ($1,$2);
+    if ($v =~ /^"(.*)"$/s) {
+      ($v = $1) =~ s/\\(.)/$1/g;
+    }
+    if (exists $multi{$type}{$k}) {
+      my $aref = $params->{$k} ||= [];
+      push @$aref, $v;
+    }
+    elsif (defined $params->{$k}) {
+      return $self->set_error("Bad challenge: '$$challenge_ref'");
+    }
+    else {
+      $params->{$k} = $v;
+    }
+  }
+  return length $$challenge_ref ? 0 : 1;
 }
 
 sub _qdval {
-  my ($k, $v) = @_;
+  my ($k, $v, $is_client) = @_;
+
+  my $qdval = $is_client ? \%cqdval : \%sqdval;
 
   if (!defined $v) {
     return;
   }
-  elsif (exists $qdval{$k}) {
+  elsif (exists $qdval->{$k}) {
     $v =~ s/([\\"])/\\$1/g;
     return qq{$k="$v"};
   }
@@ -299,17 +548,47 @@ sub _qdval {
   return "$k=$v";
 }
 
-sub _layer {
+sub _server_layer {
+  my ($self, $auth) = @_;
+
+  # XXX dupe
+  # construct our qop mask
+  my $maxssf = $self->property('maxssf') - $self->property('externalssf');
+  $maxssf = 0 if ($maxssf < 0);
+  my $minssf = $self->property('minssf') - $self->property('externalssf');
+  $minssf = 0 if ($minssf < 0);
+
+  return undef if ($maxssf < $minssf); # sanity check
+
+  my $ciphers = [ map { $_->{name} } @ourciphers ];
+  if ((     $auth eq 'auth-conf')
+        and $self->_select_cipher($minssf, $maxssf, $ciphers )) {
+    $self->property('ssf', $self->{cipher}->{ssf});
+    return 1;
+  }
+  if ($auth eq 'auth-int') {
+    $self->property('ssf', 1);
+    return 1;
+  }
+  if ($auth eq 'auth') {
+    $self->property('ssf', 0);
+    return 1;
+  }
+
+  return undef;
+}
+
+sub _client_layer {
   my ($self, $sparams, $response) = @_;
 
   # construct server qop mask
   # qop in server challenge is optional: if not there "auth" is assumed
   my $smask = 0;
   map {
-    m/^auth$/ and $smask |= 1;
-    m/^auth-int$/ and $smask |= 2;
+    m/^auth$/      and $smask |= 1;
+    m/^auth-int$/  and $smask |= 2;
     m/^auth-conf$/ and $smask |= 4;
-  } split(/,/, $sparams->{qop}||'auth');
+  } split(/,/, $sparams->{qop}||'auth'); # XXX I think we might have a bug here bc. of LWS
 
   # construct our qop mask
   my $cmask = 0;
@@ -331,7 +610,10 @@ sub _layer {
   # find common bits
   $cmask &= $smask;
 
-  if (($cmask & 4) and $self->_select_cipher($minssf,$maxssf,$sparams)) {
+  # parse server cipher options
+  my @sciphers = split(/,/, $sparams->{'cipher-opts'}||$sparams->{cipher}||'');
+
+  if (($cmask & 4) and $self->_select_cipher($minssf,$maxssf,\@sciphers)) {
     $response->{qop} = 'auth-conf';
     $response->{cipher} = $self->{cipher}->{name};
     $self->property('ssf', $self->{cipher}->{ssf});
@@ -351,17 +633,13 @@ sub _layer {
   return undef;
 }
 
-sub _select_cipher
-{
-  my ($self, $minssf, $maxssf, $sparams) = @_;
-
-  # parse server cipher options
-  my @sciphers = split(/,/, $sparams->{'cipher-opts'}||$sparams->{cipher}||'');
+sub _select_cipher {
+  my ($self, $minssf, $maxssf, $ciphers) = @_;
 
   # compose a subset of candidate ciphers based on ssf and peer list
   my @a = map {
     my $c = $_;
-    (grep { $c->{name} eq $_ } @sciphers and
+    (grep { $c->{name} eq $_ } @$ciphers and
       $c->{ssf} >= $minssf and $c->{ssf} <= $maxssf) ? $_ : ()
   } @ourciphers;
 
@@ -485,15 +763,14 @@ Authen::SASL::Perl::DIGEST_MD5 - Digest MD5 Authentication class
 
 =head1 DESCRIPTION
 
-This method implements the client part of the DIGEST-MD5 SASL algorithm,
-as described in RFC 2831.
-
-This module only implements the I<auth> operation which offers authentication
-but neither integrity protection not encryption.
+This method implements the client and server parts of the DIGEST-MD5 SASL
+algorithm, as described in RFC 2831.
 
 =head2 CALLBACK
 
 The callbacks used are:
+
+=head3 client
 
 =over 4
 
@@ -507,7 +784,7 @@ The username to be used in the response
 
 =item pass
 
-The password to be used in the response
+The password to be used to compute the response.
 
 =item serv
 
@@ -520,6 +797,20 @@ If not given the server-provided value is used.
 
 The callback will be passed the list of realms that the server provided
 in the initial response.
+
+=back
+
+=head3 server
+
+=over4
+
+=item realm
+
+The default realm to provide to the client
+
+=item getsecret(username, realm, authzid)
+
+returns the password associated with C<username> and C<realm>
 
 =back
 
@@ -570,15 +861,16 @@ L<Authen::SASL::Perl>
 
 =head1 AUTHORS
 
-Graham Barr, Djamel Boudjerda (NEXOR), Paul Connolly, Julian Onions (NEXOR)
+Graham Barr, Djamel Boudjerda (NEXOR), Paul Connolly, Julian Onions (NEXOR),
+Yann Kerherve.
 
 Please report any bugs, or post any suggestions, to the perl-ldap mailing list
 <perl-ldap@perl.org>
 
 =head1 COPYRIGHT 
 
-Copyright (c) 2003-2005 Graham Barr, Djamel Boudjerda, Paul Connolly,
-Julian Onions, Nexor and Peter Marschall.
+Copyright (c) 2003-2009 Graham Barr, Djamel Boudjerda, Paul Connolly,
+Julian Onions, Nexor, Peter Marschall and Yann Kerherve.
 All rights reserved. This program is free software; you can redistribute 
 it and/or modify it under the same terms as Perl itself.
 

@@ -7,7 +7,7 @@ package Authen::SASL::EXTERNAL;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = "0.99";
+$VERSION = "2.14";
 
 sub new {
   shift;

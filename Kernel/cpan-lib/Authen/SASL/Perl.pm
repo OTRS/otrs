@@ -8,7 +8,7 @@ use strict;
 use vars qw($VERSION);
 use Carp;
 
-$VERSION = "1.07";
+$VERSION = "2.14";
 
 my %secflags = (
 	noplaintext  => 1,
@@ -17,16 +17,41 @@ my %secflags = (
 );
 my %have;
 
+sub server_new {
+  my ($pkg, $parent, $service, $host, $options) = @_;
+
+  my $self = {
+    callback  => { %{$parent->callback} },
+    service   => $service  || '',
+    host      => $host     || '',
+    debug     => $parent->{debug} || 0,
+    need_step => 1,
+  };
+
+  my $mechanism = $parent->mechanism
+    or croak "No server mechanism specified";
+  $mechanism =~ s/^\s*\b(.*)\b\s*$/$1/g;
+  $mechanism =~ s/-/_/g;
+  $mechanism =  uc $mechanism;
+  my $mpkg   = __PACKAGE__ . "::$mechanism";
+  eval "require $mpkg;"
+    or croak "Cannot use $mpkg for " . $parent->mechanism;
+  my $server = $mpkg->_init($self);
+  $server->_init_server($options);
+  return $server;
+}
+
 sub client_new {
   my ($pkg, $parent, $service, $host, $secflags) = @_;
 
   my @sec = grep { $secflags{$_} } split /\W+/, lc($secflags || '');
 
   my $self = {
-    callback => { %{$parent->callback} },
-    service  => $service  || '',
-    host     => $host     || '',
-    debug    => $parent->{debug} || 0,
+    callback  => { %{$parent->callback} },
+    service   => $service  || '',
+    host      => $host     || '',
+    debug     => $parent->{debug} || 0,
+    need_step => 1,
   };
 
   my @mpkg = sort {
@@ -43,11 +68,33 @@ sub client_new {
   $mpkg[0]->_init($self);
 }
 
+sub _init_server {}
+
 sub _order   { 0 }
 sub code     { defined(shift->{error}) || 0 }
 sub error    { shift->{error}    }
 sub service  { shift->{service}  }
 sub host     { shift->{host}     }
+
+sub need_step {
+    my $self = shift;
+    return 0 if $self->{error};
+    return $self->{need_step};
+}
+
+## I think I need to rename that to end()?
+## It doesn't mean that SASL is successful, but that
+## that the negotiation is over, no more step necessary
+## at least for the client
+sub set_success {
+    my $self = shift;
+    $self->{need_step} = 0;
+}
+
+sub is_success {
+    my $self = shift;
+    return !$self->code && !$self->need_step;
+}
 
 sub set_error {
   my $self = shift;
@@ -80,6 +127,8 @@ sub callback {
 sub mechanism    { undef }
 sub client_step  { undef }
 sub client_start { undef }
+sub server_step  { undef }
+sub server_start { undef }
 
 # Private methods used by Authen::SASL::Perl that
 # may be overridden in mechanism sub-calsses
