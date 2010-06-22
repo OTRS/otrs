@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.5 2010-06-22 10:27:39 mh Exp $
+# $Id: otrs.CheckModules.pl,v 1.6 2010-06-22 12:45:34 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,17 +31,15 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 my @NeededModules = (
     {
         Module   => 'CGI',
-        Version  => '3.49',
+        Version  => '3.33',
         Required => 1,
     },
     {
         Module   => 'Crypt::PasswdMD5',
-        Version  => '1.3',
         Required => 1,
     },
     {
         Module   => 'CSS::Minifier',
-        Version  => '0.01',
         Required => 1,
     },
     {
@@ -50,7 +48,6 @@ my @NeededModules = (
     },
     {
         Module   => 'Date::Pcalc',
-        Version  => '1.2',
         Required => 1,
     },
     {
@@ -101,17 +98,14 @@ my @NeededModules = (
     },
     {
         Module   => 'IO::Scalar',
-        Version  => '2.110',
         Required => 1,
     },
     {
         Module   => 'IO::Wrap',
-        Version  => '2.110',
         Required => 1,
     },
     {
         Module   => 'JavaScript::Minifier',
-        Version  => '1.05',
         Required => 1,
     },
     {
@@ -139,12 +133,10 @@ my @NeededModules = (
     },
     {
         Module   => 'Mail::Internet',
-        Version  => '2.06',
         Required => 1,
     },
     {
         Module   => 'Mail::POP3Client',
-        Version  => '2.18',
         Comment  => 'for POP3 SSL connections',
         Required => 0,
         Depends  => [
@@ -161,7 +153,7 @@ my @NeededModules = (
     },
     {
         Module   => 'MIME::Tools',
-        Version  => '5.428',
+        Version  => '5.427',
         Required => 1,
     },
     {
@@ -192,12 +184,10 @@ my @NeededModules = (
     {
         Module   => 'Net::IMAP::Simple',
         Comment  => 'for IMAP connections',
-        Version  => '1.1916',
         Required => 0,
         Depends  => [
             {
                 Module   => 'Net::IMAP::Simple::SSL',
-                Version  => '1.3',
                 Required => 0,
                 Comment  => 'Required for SSL connections.',
             },
@@ -210,13 +200,11 @@ my @NeededModules = (
         Depends  => [
             {
                 Module   => 'Authen::SASL',
-                Version  => '2.15',
                 Required => 0,
                 Comment  => 'Required for SMTP backend.',
             },
             {
                 Module   => 'Net::SMTP::SSL',
-                Version  => '1.01',
                 Required => 0,
                 Comment  => 'Required for SSL/SMTPS connections.',
             },
@@ -276,19 +264,16 @@ my @NeededModules = (
     },
     {
         Module   => 'Text::CSV',
-        Version  => '1.18',
         Required => 1,
         Comment  => 'Required for CSV handling',
         Depends  => [
             {
                 Module   => 'Text::CSV_PP',
-                Version  => '1.26',
                 Required => 1,
                 Comment  => 'Required for CSV handling',
             },
             {
                 Module   => 'Text::CSV_XS',
-                Version  => '0.73',
                 Required => 0,
                 Comment  => 'Optional, install it for faster CSV handling',
             },
@@ -296,7 +281,6 @@ my @NeededModules = (
     },
     {
         Module   => 'XML::Parser',
-        Version  => '2.36',
         Required => 0,
         Comment  => 'Required for faster xml handling.'
     },
