@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.25';
+$VERSION = '1.26';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -307,7 +307,7 @@ sub _combine {
             $must_be_quoted++;
         }
         if($column =~ /$re_sp/){
-            $must_be_quoted++ if $quote_space;
+            $must_be_quoted++;
         }
 
         if( $binary and $quote_null ){

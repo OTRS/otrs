@@ -6,7 +6,7 @@ use Carp ();
 use vars qw( $VERSION $DEBUG );
 
 BEGIN {
-    $VERSION = '1.17';
+    $VERSION = '1.18';
     $DEBUG   = 0;
 }
 
