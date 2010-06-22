@@ -2,7 +2,7 @@
 # AdminType.dtl - provides HTML form for AdminType
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminType.dtl,v 1.14 2010-05-19 08:55:07 fn Exp $
+# $Id: AdminType.dtl,v 1.15 2010-06-22 17:16:45 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,32 +14,30 @@
     <h1>$Text{"Type Management"}</h1>
 
     <div class="SidebarColumn">
+
+<!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short MinHeight">
-
-<!-- dtl:block:ActionList -->
-            <div class="WidgetGradient Short MinHeight">
-                <div class="Header">
-                    <h2>$Text{"Actions"}</h2>
-                </div>
-                <div class="Content">
-                    <ul class="ActionList">
-<!-- dtl:block:ActionOverview -->
-                        <li>
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
-                        </li>
-<!-- dtl:block:ActionOverview -->
-
-<!-- dtl:block:ActionAdd -->
-                        <li>
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction Plus"><span>$Text{"Add ticket type"}</span></a>
-                        </li>
-<!-- dtl:block:ActionAdd -->
-
-                    </ul>
-                </div>
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
             </div>
-<!-- dtl:block:ActionList -->
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction Plus"><span>$Text{"Add ticket type"}</span></a>
+                    </li>
+<!-- dtl:block:ActionAdd -->
+
+                </ul>
+            </div>
         </div>
+<!-- dtl:block:ActionList -->
     </div>
 
     <div class="ContentColumn">
