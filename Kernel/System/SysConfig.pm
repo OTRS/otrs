@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.13 2010-06-22 06:58:33 mg Exp $
+# $Id: SysConfig.pm,v 1.14 2010-06-22 09:05:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,12 +14,14 @@ package Kernel::System::SysConfig;
 use strict;
 use warnings;
 
+use Storable;
+
 use Kernel::System::XML;
 use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -347,7 +349,7 @@ sub CreateConfig {
                 elsif (
                     ( defined $A1 && !defined $A2 )
                     || ( !defined $A1 && defined $A2 )
-                    || $Self->DataDiff( Data1 => $A1, Data2 => $A2 )
+                    || $Self->DataDiff( Data1 => \$A1, Data2 => \$A2 )
                     || ( $Config{Valid} && !$ConfigDefault{Valid} )
                     )
                 {
@@ -393,6 +395,7 @@ sub CreateConfig {
     print $Out "}\n";
     print $Out "1;\n";
     close($Out);
+
     return 1;
 }
 
@@ -892,7 +895,7 @@ sub ConfigItemGet {
         elsif (
             ( defined $A1 && !defined $A2 )
             || ( !defined $A1 && defined $A2 )
-            || $Self->DataDiff( Data1 => $A1, Data2 => $A2 )
+            || $Self->DataDiff( Data1 => \$A1, Data2 => \$A2 )
             )
         {
             $ConfigItem->{Diff} = 1;
@@ -1316,113 +1319,46 @@ sub _ConfigItemTranslatableStrings {
     return;
 }
 
+=item DataDiff()
+
+compares two data structures with each other. Returns 1 if
+they are different, undef otherwise.
+
+Data parameters need to be passed by reference and can be SCALAR,
+ARRAY or HASH.
+
+    my $DataIsDifferent = $SysConfigObject->DataDiff(
+        Data1 => \$Data1,
+        Data2 => \$Data2,
+    );
+
+=cut
+
 sub DataDiff {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Data1 Data2)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Key (qw(Data1 Data2)) {
+        if ( !ref $Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
-    # ''
-    if ( ref $Param{Data1} eq '' && ref $Param{Data2} eq '' ) {
+    local $Storable::canonical = 1;
+    my $StringData1 = Storable::freeze( $Param{Data1} );
+    my $StringData2 = Storable::freeze( $Param{Data2} );
+    return if ( $StringData1 eq $StringData2 );
 
-        # do noting, it's ok
-        return if !defined $Param{Data1} && !defined $Param{Data2};
-
-        # return diff, because its different
-        return 1 if !defined $Param{Data1} || !defined $Param{Data2};
-
-        # return diff, because its different
-        return 1 if $Param{Data1} ne $Param{Data2};
-
-        # return, because its not different
-        return;
-    }
-
-    # SCALAR
-    if ( ref $Param{Data1} eq 'SCALAR' && ref $Param{Data2} eq 'SCALAR' ) {
-
-        # do noting, it's ok
-        return if !defined ${ $Param{Data1} } && !defined ${ $Param{Data2} };
-
-        # return diff, because its different
-        return 1 if !defined ${ $Param{Data1} } || !defined ${ $Param{Data2} };
-
-        # return diff, because its different
-        return 1 if ${ $Param{Data1} } ne ${ $Param{Data2} };
-
-        # return, because its not different
-        return;
-    }
-
-    # ARRAY
-    if ( ref $Param{Data1} eq 'ARRAY' && ref $Param{Data2} eq 'ARRAY' ) {
-        my @A = @{ $Param{Data1} };
-        my @B = @{ $Param{Data2} };
-
-        # check if the count is different
-        return 1 if $#A ne $#B;
-
-        # compare array
-        for my $Count ( 0 .. $#A ) {
-
-            # do noting, it's ok
-            next if !defined $A[$Count] && !defined $B[$Count];
-
-            # return diff, because its different
-            return 1 if !defined $A[$Count] || !defined $B[$Count];
-
-            if ( $A[$Count] ne $B[$Count] ) {
-                if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
-                    return 1 if $Self->DataDiff( Data1 => $A[$Count], Data2 => $B[$Count] );
-                    next;
-                }
-                return 1;
-            }
-        }
-        return;
-    }
-
-    # HASH
-    if ( ref $Param{Data1} eq 'HASH' && ref $Param{Data2} eq 'HASH' ) {
-        my %A = %{ $Param{Data1} };
-        my %B = %{ $Param{Data2} };
-
-        # compare %A with %B and remove it if checked
-        for my $Key ( keys %A ) {
-
-            # do noting, it's ok
-            next if !defined $A{$Key} && !defined $B{$Key};
-
-            # return diff, because its different
-            return 1 if !defined $A{$Key} || !defined $B{$Key};
-
-            if ( $A{$Key} eq $B{$Key} ) {
-                delete $A{$Key};
-                delete $B{$Key};
-                next;
-            }
-
-            # return if values are different
-            if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
-                return 1 if $Self->DataDiff( Data1 => $A{$Key}, Data2 => $B{$Key} );
-                delete $A{$Key};
-                delete $B{$Key};
-                next;
-            }
-            return 1;
-        }
-
-        # check rest
-        return 1 if %B;
-        return;
-    }
     return 1;
 }
+
+=item DESTROY()
+
+this destructor will recreate the configuration file after
+changes were detected during module execution.
+
+=cut
 
 sub DESTROY {
     my ( $Self, %Param ) = @_;
@@ -1901,6 +1837,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2010-06-22 06:58:33 $
+$Revision: 1.14 $ $Date: 2010-06-22 09:05:08 $
 
 =cut

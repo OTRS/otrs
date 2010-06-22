@@ -1,8 +1,8 @@
 # --
 # SysConfig.t - SysConfig tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.t,v 1.7 2009-12-24 00:51:34 martin Exp $
+# $Id: SysConfig.t,v 1.8 2010-06-22 09:05:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -176,6 +176,33 @@ $Diff = $Self->{SystemConfigObject}->DataDiff(
 $Self->True(
     $Diff,
     'DataDiff() ARRAY',
+);
+
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \undef,
+    Data2 => \undef,
+);
+$Self->False(
+    $Diff,
+    'DataDiff() undef/undef',
+);
+
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \undef,
+    Data2 => \'String',
+);
+$Self->True(
+    $Diff,
+    'DataDiff() undef/Scalar',
+);
+
+$Diff = $Self->{SystemConfigObject}->DataDiff(
+    Data1 => \'String',
+    Data2 => \undef,
+);
+$Self->True(
+    $Diff,
+    'DataDiff() Scalar/undef',
 );
 
 1;
