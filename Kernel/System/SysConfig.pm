@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.15 2010-06-22 09:32:48 mg Exp $
+# $Id: SysConfig.pm,v 1.16 2010-06-22 11:53:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -136,6 +136,14 @@ sub new {
     return $Self;
 }
 
+=item WriteDefault()
+
+writes the default configuration file perl cache
+(Kernel/Config/Files/ZZZAAuto.pm). It is the perl representation
+of the default XML configuration data (Kernel/Config/Files/*xml).
+
+=cut
+
 sub WriteDefault {
     my ( $Self, %Param ) = @_;
 
@@ -201,13 +209,18 @@ sub WriteDefault {
 
 =item Download()
 
-download config changes
+download config changes. This will return the content of
+Kernel/Config/Files/ZZZAuto.pm, the file which contains all
+configuration changes that the users made via AdminSysConfig.
 
-    $SysConfigObject->Download();
+    my $ConfigurationData = $SysConfigObject->Download();
 
-or if you want to check if it exists (returns true or false)
+If you want to check if it exists (returns true or false),
+call it like this:
 
-    $SysConfigObject->Download( Type => 'Check' );
+    my $ConfigurationExists = $SysConfigObject->Download(
+        Type => 'Check'
+    );
 
 =cut
 
@@ -259,7 +272,12 @@ sub Download {
 
 =item Upload()
 
-upload of config changes
+upload of config changes. Pass the contents of
+the file Kernel/Config/Files/ZZZAuto.pm here, as
+read by L<Download()>.
+
+Warning: this will replace the existing user
+configuration changes.
 
     $SysConfigObject->Upload(
         Content => $Content,
@@ -295,7 +313,10 @@ sub Upload {
 
 =item CreateConfig()
 
-submit config settings to application
+submit config settings to application. This function will write
+the internal state of the current SysConfig object to disk, saving
+all changes that were made by the users to Kernel/Config/Files/ZZZAuto.pm.
+Only values which differ from the default configuration are stored in this file.
 
     $SysConfigObject->CreateConfig();
 
@@ -350,7 +371,7 @@ sub CreateConfig {
                 elsif (
                     ( defined $A1 && !defined $A2 )
                     || ( !defined $A1 && defined $A2 )
-                    || $Self->DataDiff( Data1 => \$A1, Data2 => \$A2 )
+                    || $Self->_DataDiff( Data1 => \$A1, Data2 => \$A2 )
                     || ( $Config{Valid} && !$ConfigDefault{Valid} )
                     )
                 {
@@ -402,7 +423,7 @@ sub CreateConfig {
 
 =item ConfigItemUpdate()
 
-submit config settings and save it
+submit config settings and save it.
 
     $SysConfigObject->ConfigItemUpdate(
         Valid => 1,
@@ -516,13 +537,15 @@ sub ConfigItemUpdate {
 
 =item ConfigItemGet()
 
-get the current config setting
+get a current configuration setting, including changes
+that the users made:
 
     my %Config = $SysConfigObject->ConfigItemGet(
         Name => 'Ticket::NumberGenerator',
     );
 
-get the default config setting
+To get the default value of a configuration setting, pass
+the Default flag:
 
     my %Config = $SysConfigObject->ConfigItemGet(
         Name    => 'Ticket::NumberGenerator',
@@ -896,7 +919,7 @@ sub ConfigItemGet {
         elsif (
             ( defined $A1 && !defined $A2 )
             || ( !defined $A1 && defined $A2 )
-            || $Self->DataDiff( Data1 => \$A1, Data2 => \$A2 )
+            || $Self->_DataDiff( Data1 => \$A1, Data2 => \$A2 )
             )
         {
             $ConfigItem->{Diff} = 1;
@@ -941,6 +964,16 @@ sub ConfigItemGet {
     return %{$ConfigItem};
 }
 
+=item ConfigItemReset()
+
+reset a configuration setting to its default value.
+
+    $SysConfigObject->ConfigItemReset(
+        Name => 'Ticket::NumberGenerator',
+    );
+
+=cut
+
 sub ConfigItemReset {
     my ( $Self, %Param ) = @_;
 
@@ -965,7 +998,7 @@ sub ConfigItemReset {
 
 =item ConfigGroupList()
 
-get a list of config groups
+get the list of all available config groups.
 
     my %ConfigGroupList = $SysConfigObject->ConfigGroupList();
 
@@ -974,13 +1007,6 @@ get a list of config groups
 sub ConfigGroupList {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     my %List;
     my %Count;
     for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
@@ -998,7 +1024,7 @@ sub ConfigGroupList {
 
 =item ConfigSubGroupList()
 
-get a list of config sub groups
+get the list of all config sub groups of a given group.
 
     my %ConfigGroupList = $SysConfigObject->ConfigSubGroupList(
         Name => 'Framework'
@@ -1045,7 +1071,7 @@ sub ConfigSubGroupList {
 
 =item ConfigSubGroupConfigItemList()
 
-get a list of config items of a sub group
+get the list of config items of a config sub group
 
     my @ConfigItemList = $SysConfigObject->ConfigSubGroupConfigItemList(
         Group    => 'Framework',
@@ -1110,7 +1136,8 @@ sub ConfigSubGroupConfigItemList {
 
 =item ConfigItemSearch()
 
-search sub groups of config items
+search for sub groups of config items. It will return all subgroups
+with settings which contain the search term.
 
     my @List = $SysConfigObject->ConfigItemSearch(
         Search => 'some topic'
@@ -1238,6 +1265,13 @@ sub ConfigItemSearch {
     return @List;
 }
 
+=item ConfigItemTranslatableStrings()
+
+returns a unique list of all translatable strings in the
+XML configuration.
+
+=cut
+
 sub ConfigItemTranslatableStrings {
     my ( $Self, %Param ) = @_;
 
@@ -1279,97 +1313,6 @@ sub ConfigItemTranslatableStrings {
         push @Strings, $Key;
     }
     return @Strings;
-}
-
-sub _ConfigItemTranslatableStrings {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Data)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # ARRAY
-    if ( ref $Param{Data} eq 'ARRAY' ) {
-        for my $Key ( @{ $Param{Data} } ) {
-            next if !$Key;
-            $Self->_ConfigItemTranslatableStrings( Data => $Key );
-        }
-        return;
-    }
-
-    # HASH
-    if ( ref $Param{Data} eq 'HASH' ) {
-        for my $Key ( keys %{ $Param{Data} } ) {
-            if (
-                ref $Param{Data}->{$Key} eq ''
-                && $Param{Data}->{Translatable}
-                && $Param{Data}->{Content}
-                )
-            {
-                return if !$Param{Data}->{Content};
-                return if $Param{Data}->{Content} =~ /^\d+$/;
-                $Self->{ConfigItemTranslatableStrings}->{ $Param{Data}->{Content} } = 1;
-            }
-            $Self->_ConfigItemTranslatableStrings( Data => $Param{Data}->{$Key} );
-        }
-    }
-    return;
-}
-
-=item DataDiff()
-
-compares two data structures with each other. Returns 1 if
-they are different, undef otherwise.
-
-Data parameters need to be passed by reference and can be SCALAR,
-ARRAY or HASH.
-
-    my $DataIsDifferent = $SysConfigObject->DataDiff(
-        Data1 => \$Data1,
-        Data2 => \$Data2,
-    );
-
-=cut
-
-sub DataDiff {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Key (qw(Data1 Data2)) {
-        if ( !ref $Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
-            return;
-        }
-    }
-
-    local $Storable::canonical = 1;
-    my $StringData1 = Storable::freeze( $Param{Data1} );
-    my $StringData2 = Storable::freeze( $Param{Data2} );
-    return if ( $StringData1 eq $StringData2 );
-
-    return 1;
-}
-
-=item DESTROY()
-
-this destructor will recreate the configuration file after
-changes were detected during module execution.
-
-=cut
-
-sub DESTROY {
-    my ( $Self, %Param ) = @_;
-
-    if ( $Self->{Update} ) {
-
-        # write default file
-        $Self->WriteDefault();
-    }
-    return 1;
 }
 
 =begin Internal:
@@ -1523,6 +1466,97 @@ sub _Init {
         }
     }
     return $Counter;
+}
+
+=item _DataDiff()
+
+compares two data structures with each other. Returns 1 if
+they are different, undef otherwise.
+
+Data parameters need to be passed by reference and can be SCALAR,
+ARRAY or HASH.
+
+    my $DataIsDifferent = $SysConfigObject->_DataDiff(
+        Data1 => \$Data1,
+        Data2 => \$Data2,
+    );
+
+=cut
+
+sub _DataDiff {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Key (qw(Data1 Data2)) {
+        if ( !ref $Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
+
+    local $Storable::canonical = 1;
+    my $StringData1 = Storable::freeze( $Param{Data1} );
+    my $StringData2 = Storable::freeze( $Param{Data2} );
+    return if ( $StringData1 eq $StringData2 );
+
+    return 1;
+}
+
+=item DESTROY()
+
+this destructor will recreate the configuration file after
+changes were detected during module execution.
+
+=cut
+
+sub DESTROY {
+    my ( $Self, %Param ) = @_;
+
+    if ( $Self->{Update} ) {
+
+        # write default file
+        $Self->WriteDefault();
+    }
+    return 1;
+}
+
+sub _ConfigItemTranslatableStrings {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Data)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # ARRAY
+    if ( ref $Param{Data} eq 'ARRAY' ) {
+        for my $Key ( @{ $Param{Data} } ) {
+            next if !$Key;
+            $Self->_ConfigItemTranslatableStrings( Data => $Key );
+        }
+        return;
+    }
+
+    # HASH
+    if ( ref $Param{Data} eq 'HASH' ) {
+        for my $Key ( keys %{ $Param{Data} } ) {
+            if (
+                ref $Param{Data}->{$Key} eq ''
+                && $Param{Data}->{Translatable}
+                && $Param{Data}->{Content}
+                )
+            {
+                return if !$Param{Data}->{Content};
+                return if $Param{Data}->{Content} =~ /^\d+$/;
+                $Self->{ConfigItemTranslatableStrings}->{ $Param{Data}->{Content} } = 1;
+            }
+            $Self->_ConfigItemTranslatableStrings( Data => $Param{Data}->{$Key} );
+        }
+    }
+    return;
 }
 
 sub _ModGet {
@@ -1838,6 +1872,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2010-06-22 09:32:48 $
+$Revision: 1.16 $ $Date: 2010-06-22 11:53:48 $
 
 =cut
