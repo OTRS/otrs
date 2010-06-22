@@ -1,0 +1,25 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ * @css-for     IE7
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Tables
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Compatibility IE7 for Tables
+ */
+ 
+.FixedHeader table,
+.DataTable {
+    border-collapse: collapse;
+}
+
+} /* end @media */
