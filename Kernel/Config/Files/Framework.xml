@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.313 2010-06-21 07:00:00 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.314 2010-06-22 14:32:06 dz Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -3954,13 +3954,13 @@ Your OTRS Notification Master
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Create and manage users.</Description>
-                <Title>Users</Title>
+                <Description>Create and manage agents.</Description>
+                <Title>Agents</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Users</Name>
-                    <Description Translatable="1">Create and manage users.</Description>
+                    <Name Translatable="1">Agents</Name>
+                    <Description Translatable="1">Create and manage agents.</Description>
                     <Block>Agent</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
@@ -3995,13 +3995,13 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Users &lt;-&gt; Groups</Title>
+                <Title>Agents &lt;-&gt; Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Users &lt;-&gt; Groups</Name>
+                    <Name Translatable="1">Agents &lt;-&gt; Groups</Name>
                     <Block>Agent</Block>
-                    <Description Translatable="1">Link users to groups.</Description>
+                    <Description Translatable="1">Link agents to groups.</Description>
                     <Prio>200</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -4016,11 +4016,11 @@ Your OTRS Notification Master
                 <GroupRo></GroupRo>
                 <Group>admin</Group>
                 <Group>users</Group>
-                <Description>Edit Customer Users</Description>
-                <Title>Customer Users</Title>
+                <Description>Edit Customers</Description>
+                <Title>Customers</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Edit Customer Users</Description>
+                    <Description Translatable="1">Edit Customers</Description>
                     <Name Translatable="1">Customers</Name>
                     <Image>folder_yellow.png</Image>
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
@@ -4151,12 +4151,12 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Roles &lt;-&gt; Users</Title>
+                <Title>Roles &lt;-&gt; Agents</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Roles &lt;-&gt; Users</Name>
-                    <Description Translatable="1">Link users to roles.</Description>
+                    <Name Translatable="1">Roles &lt;-&gt; Agents</Name>
+                    <Description Translatable="1">Link agents to roles.</Description>
                     <Block>Agent</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
