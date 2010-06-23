@@ -2,7 +2,7 @@
 // Core.Installer.js - provides the special module functions for Installer
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Installer.js,v 1.1 2010-06-22 22:54:06 cg Exp $
+// $Id: Core.Installer.js,v 1.2 2010-06-23 15:48:16 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,10 @@ var Core = Core || {};
  *      This namespace contains the special module functions for Installer.
  */
 Core.Installer = (function (TargetNS) {
+
+    Core.Config.Set('Installer.CheckDBDataLabel', 'Database check successful.');
+    Core.Config.Set('Installer.CheckMailLabelOne', 'Mail check successful.');
+    Core.Config.Set('Installer.CheckMailLabelTwo', 'Error in the mail settings. Please correct and try again.');
 /*
 InstallerDBStart
 */
@@ -30,8 +34,8 @@ InstallerDBStart
      */
     TargetNS.CheckDBData = function () {
         $('input[name=Subaction]').val('CheckRequirements');
-        var Data = Core.JSON.Parse(  FormToJSON( $('#FormDB') )  );
-        Data.CheckMode = 'DB';
+        var Data = Core.AJAX.SerializeForm( $('#FormDB') );
+        Data += 'CheckMode=DB;';
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, CheckDBDataCallback );
         $('input[name=Subaction]').val('DB');
     };
@@ -49,7 +53,7 @@ InstallerDBStart
             $('fieldset.ErrorMsg').show();
         }
         else {
-            alert('$JSText{"Database check successful."}');
+            alert(Core.Config.Get('Installer.CheckDBDataLabel'));
             $('#FormDBSubmit').attr('disabled', false);
             $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
             $('fieldset.HideMe, div.HideMe').show();
@@ -99,49 +103,23 @@ InstallerConfiguredMail
         $('input[name=Skip]').val('0');
         // Check mail data via AJAX
         $('input[name=Subaction]').val('CheckRequirements');
-//        var Data = $('#FormMail').serialize();
-//        Data += "&CheckMode=Mail";
-//        Core.AJAXFunctionCall( { Data: Data, Callback: CheckMailConfigCallback } );
-        var Data = Core.JSON.Parse(  FormToJSON( $('#FormMail') )  );
-        Data.CheckMode = 'Mail';
+        var Data = Core.AJAX.SerializeForm( $('#FormMail') );
+        Data += 'CheckMode=Mail;';
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, CheckMailConfigCallback );
         $('input[name=Subaction]').val('Finish');
     };
 
     function CheckMailConfigCallback(json) {
         if (parseInt(json['Successful']) == 1) {
-            alert('$JSText{"Mail check successful."}');
+            alert(Core.Config.Get('Installer.CheckMailLabelOne'));
             $('fieldset.errormsg').hide();
             $('form').submit();
         }
         else {
             $('#FormMailResultMessage').html(json['Message']);
             $('fieldset.ErrorMsg').show();
-            alert('$JSText{"Error in the mail settings. Please correct and try again."}');
+            alert(Core.Config.Get('Installer.CheckMailLabelTwo'));
         }
     };
-
-
-/*
-Extra
-*/
-    function FormToJSON($Element, Data) {
-        var QueryString = "{";
-        if (typeof Data === 'undefined') {
-            Data = {};
-        }
-        if (isJQueryObject($Element) && $Element.length) {
-            $Element = $Element.closest('form');
-            $Element.find('input:not(:file), textarea, select').filter(':not([disabled=disabled])').each(function () {
-                // only add element to the string, if there is no key in the data hash with the same name
-                if (typeof Data[$(this).attr('name')] === 'undefined') {
-                    QueryString += '"' + $(this).attr('name') + '":"' + encodeURIComponent($(this).val()) + '",';
-                }
-            });
-        }
-        QueryString += "}";
-        return QueryString;
-    };
-
     return TargetNS;
 }(Core.Installer || {}));
