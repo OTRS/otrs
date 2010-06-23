@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.8 2010-06-22 22:53:01 cg Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.9 2010-06-23 20:47:54 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@
 
                     <label for="SMTPAuth">$Text{"SMTP authentication"}:</label>
                     <div class="Field">
-                        <input type="checkbox" id="SMTPAuth" name="SMTPAuth" onchange="Core.Installer.CheckSMTPAuth(this);" />
+                        <input type="checkbox" id="SMTPAuth" name="SMTPAuth"/>
                         <p class="FieldExplanation">
                             $Text{"Does your SMTP host need authentication?"}
                         </p>
@@ -146,10 +146,21 @@
             </div>
 
             <div class="SpacingTop Right">
-                <button class="Primary" type="button" onclick="Core.Installer.CheckMailConfig()" value="$Text{"Check mail configuration"}">$Text{"Check mail configuration"}</button>
-                <button type="button" onclick="Core.Installer.SkipMailConfig()" value="$Text{"Skip this step"}">$Text{"Skip this step"}</button>
+                <button class="Primary" type="button" id="ButtonCheckMail"  value="$Text{"Check mail configuration"}">$Text{"Check mail configuration"}</button>
+                <button type="button" id="ButtonSkipMail" value="$Text{"Skip this step"}">$Text{"Skip this step"}</button>
             </div>
         </div>
     </form>
 </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click',$('#ButtonCheckMail'),Core.Installer.CheckMailConfig);
+    Core.UI.RegisterEvent('click',$('#ButtonSkipMail'),Core.Installer.SkipMailConfig);
+    Core.UI.RegisterEvent('change',$('#SMTPAuth'),Core.Installer.CheckSMTPAuth($(this)));
+    Core.UI.RegisterEvent('change',$('#OutboundMailType'),Core.Installer.SelectOutboundMailType($(this)));
+
+    Core.Config.Set('Installer.CheckMailLabelOne', 'Mail check successful.');
+    Core.Config.Set('Installer.CheckMailLabelTwo', 'Error in the mail settings. Please correct and try again.');
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:ConfigureMail-->
