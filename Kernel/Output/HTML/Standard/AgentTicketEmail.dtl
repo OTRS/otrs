@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.83 2010-06-23 11:15:59 mn Exp $
+# $Id: AgentTicketEmail.dtl,v 1.84 2010-06-23 13:48:22 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,6 +75,13 @@ function CustomerSubmit() {
                         <div class="Field">
                             $Data{"TypeStrg"}
                             <div id="TypeIDError" class="TooltipErrorMessage"><p>$Text{"Ticket Type is required!"}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('change', $('#TypeID'), function (Event) {
+        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'TypeID', ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16', 'To', 'Cc', 'Bcc']);
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:TicketType -->
@@ -126,6 +133,13 @@ function CustomerSubmit() {
                         <div class="Field">
                             $Data{"ServiceStrg"}
                             <span class="Error Small">$Text{"$Data{"Service invalid"}"}</span>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('change', $('#ServiceID'), function (Event) {
+        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'ServiceID', ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16', 'To', 'Cc', 'Bcc']);
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:TicketService -->
@@ -135,6 +149,13 @@ function CustomerSubmit() {
                         <div class="Field">
                             $Data{"SLAStrg"}
                             <span class="Error Small">$Text{"$Data{"SLA invalid"}"}</span>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('change', $('#SLAID'), function (Event) {
+        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'SLAID', ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16', 'To', 'Cc', 'Bcc']);
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:TicketSLA -->
