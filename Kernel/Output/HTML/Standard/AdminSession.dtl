@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.31 2010-05-10 21:29:25 en Exp $
+# $Id: AdminSession.dtl,v 1.32 2010-06-23 17:31:38 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,75 +11,125 @@
 
 <!-- start -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Session Management"}</h1>
+    <h1 class="Header">$Text{"Session Management"}</h1>
 
     <div class="SidebarColumn">
+
+<!-- dtl:block:ActionList -->
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
-                <fieldset class="TableLike LargeLabel">
-                    <label>$Text{"All sessions"}:</label>
-                    <div class="Value">$Data{"Counter"}</div>
-                    <div class="Clear"></div>
-
-                    <label>$Text{"Agent sessions"}:</label>
-                    <div class="Value">$Data{"UserSession"}</div>
-                    <div class="Clear"></div>
-
-                    <label>$Text{"Customer sessions"}:</label>
-                    <div class="Value">$Data{"CustomerSession"}</div>
-                    <div class="Clear"></div>
-
-                    <label>$Text{"Unique agents"}:</label>
-                    <div class="Value">$Data{"UserSessionUniq"}</div>
-                    <div class="Clear"></div>
-
-                    <label>$Text{"Unique customers"}:</label>
-                    <div class="Value">$Data{"CustomerSessionUniq"}</div>
-                    <div class="Clear"></div>
-                </fieldset>
-
                 <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+
+<!-- dtl:block:ActionSummary -->
+                    <fieldset class="TableLike LargeLabel">
+                        <label>$Text{"All sessions"}:</label>
+                        <div class="Value">$Data{"Counter"}</div>
+                        <div class="Clear"></div>
+
+                        <label>$Text{"Agent sessions"}:</label>
+                        <div class="Value">$Data{"UserSession"}</div>
+                        <div class="Clear"></div>
+
+                        <label>$Text{"Customer sessions"}:</label>
+                        <div class="Value">$Data{"CustomerSession"}</div>
+                        <div class="Clear"></div>
+
+                        <label>$Text{"Unique agents"}:</label>
+                        <div class="Value">$Data{"UserSessionUniq"}</div>
+                        <div class="Clear"></div>
+
+                        <label>$Text{"Unique customers"}:</label>
+                        <div class="Value">$Data{"CustomerSessionUniq"}</div>
+                        <div class="Clear"></div>
+                    </fieldset>
+
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=KillAll;WantSessionID=$Env{"SessionID"}" class="CallForAction"><span>$Text{"Kill all sessions"}</span></a>
                     </li>
+<!-- dtl:block:ActionSummary -->
+
+<!-- dtl:block:ActionKillSession -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Kill;WantSessionID=$Data{"SessionID"}" class="CallForAction"><span>Kill this session</span></a>
+                    </li>
+<!-- dtl:block:ActionKillSession -->
+
                 </ul>
             </div>
         </div>
+<!-- dtl:block:ActionList -->
+
     </div>
 
     <div class="ContentColumn">
         <div class="WidgetGradient Short MinHeight">
+
+<!-- dtl:block:Overview -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
-
                 <table class="DataTable">
                     <thead>
                         <tr>
                             <th>$Text{"Session"}</th>
-                            <th>$Text{"Content"}</th>
+                            <th>$Text{"Type"}</th>
+                            <th>$Text{"User"}</th>
                             <th>$Text{"Kill"}</th>
                         </tr>
                     </thead>
                     <tbody>
 <!-- dtl:block:Session -->
                         <tr>
-                            <td>$QData{"SessionID"}</td>
-                            <td class="Small">$Data{"Output"}</td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=AdminSession;Subaction=Kill;WantSessionID=$Data{"SessionID"}">Kill this session</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=AdminSession;Subaction=Detail;WantSessionID=$Data{"SessionID"}">$QData{"SessionID"}</a>
+                            </td>
+                            <td>$Data{"UserType"}</td>
+                            <td>$Data{"UserFirstname"} $Data{"UserLastname"}</td>
+                            <td>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=AdminSession;Subaction=Kill;WantSessionID=$Data{"SessionID"}">$Text{"Kill this session"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:Session -->
                     </tbody>
                 </table>
             </div>
+<!-- dtl:block:Overview -->
+
+<!-- dtl:block:DetailView -->
+            <div class="Header">
+                <h2>$Text{"Detail View for SessionID"} : $Data{"SessionID"} - $Data{"UserFirstname"} $Data{"UserLastname"}</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Key"}</th>
+                            <th>$Text{"Value"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- dtl:block:DetailViewRow -->
+                        <tr>
+                            <td>$Data{"Key"}</td>
+                            <td>$Data{"Value"}</td>
+                        </tr>
+<!-- dtl:block:DetailViewRow -->
+                    </tbody>
+                </table>
+            </div>
+<!-- dtl:block:DetailView -->
         </div>
     </div>
+
     <div class="Clear"></div>
 </div>
 <!-- end -->
