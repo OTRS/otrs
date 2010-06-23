@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.126 2010-06-23 10:25:23 mn Exp $
+# $Id: AgentTicketEmail.pm,v 1.127 2010-06-23 11:15:59 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.126 $) [1];
+$VERSION = qw($Revision: 1.127 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1568,76 +1568,8 @@ sub _MaskEmailNew {
             Data       => \%NewTo,
             Name       => 'Dest',
             SelectedID => $Param{FromSelected},
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
-            Ajax => {
-                Update => [
-                    'Signature',
-                    'NewUserID',
-                    'NewResponsibleID',
-                    'NextStateID',
-                    'PriorityID',
-                    'ServiceID',
-                    'SLAID',
-                    'SignKeyID',
-                    'CryptKeyID',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                    'To',
-                    'Cc',
-                    'Bcc',
-                ],
-                Depend => [
-                    'Dest',
-                    'SelectedCustomerUser',
-                    'NextStateID',
-                    'PriorityID',
-                    'TypeID',
-                    'ServiceID',
-                    'SLAID',
-                    'SignKeyID',
-                    'CryptKeyID',
-                    'OwnerAll',
-                    'ResponsibleAll',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                    'To',
-                    'Cc',
-                    'Bcc',
-                ],
-                Subaction => 'AJAXUpdate',
-            },
         );
     }
-    $Param{FromStrg} =~ s/(onchange=")/$1ReloadSignature();/;
 
     # customer info string
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose') ) {
@@ -1948,18 +1880,6 @@ sub _MaskEmailNew {
             Name => 'OwnerSelection',
             Data => \%Param,
         );
-        if ( $Self->{LayoutObject}->{BrowserJavaScriptSupport} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'OwnerSelectionAllJS',
-                Data => {},
-            );
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'OwnerSelectionAllSubmit',
-                Data => {},
-            );
-        }
     }
 
     # show responsible selection
@@ -1978,18 +1898,6 @@ sub _MaskEmailNew {
             Name => 'ResponsibleSelection',
             Data => \%Param,
         );
-        if ( $Self->{LayoutObject}->{BrowserJavaScriptSupport} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ResponsibleSelectionAllJS',
-                Data => {},
-            );
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'ResponsibleSelectionAllSubmit',
-                Data => {},
-            );
-        }
     }
 
     # ticket free text
