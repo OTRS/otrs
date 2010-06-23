@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/AutoPriorityIncrease.pm - generic agent auto priority increase
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoPriorityIncrease.pm,v 1.9.2.1 2010-06-22 13:02:11 mh Exp $
+# $Id: AutoPriorityIncrease.pm,v 1.9.2.2 2010-06-23 23:40:37 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Priority;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9.2.1 $) [1];
+$VERSION = qw($Revision: 1.9.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -121,7 +121,7 @@ sub Run {
     );
 
     $Self->{TicketObject}->HistoryAdd(
-        Name => "AutoPriorityIncrease (Priority=$Priority/PriorityID="
+        Name => "%%AutoPriorityIncrease (Priority=$Priority/PriorityID="
             . ( $Ticket{PriorityID} + 1 ) . ")",
         HistoryType  => 'Misc',
         TicketID     => $Param{TicketID},

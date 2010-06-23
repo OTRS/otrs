@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/Test.pm - test event module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.9 2009-02-16 11:46:10 tr Exp $
+# $Id: Test.pm,v 1.9.2.1 2010-06-23 23:40:37 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.9.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +51,7 @@ sub Run {
                 TicketID     => $Param{TicketID},
                 CreateUserID => $Param{UserID},
                 HistoryType  => 'Misc',
-                Name         => 'Some Info about Changes!',
+                Name         => '%%Some Info about Changes!',
             );
         }
     }
@@ -64,7 +64,7 @@ sub Run {
                 TicketID     => $Param{TicketID},
                 CreateUserID => $Param{UserID},
                 HistoryType  => 'Misc',
-                Name         => 'Some Info about Changes!',
+                Name         => '%%Some Info about Changes!',
             );
         }
     }
