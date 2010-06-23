@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.18 2010-06-22 22:00:52 dz Exp $
+# $Id: Main.t,v 1.19 2010-06-23 17:33:22 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,6 +73,12 @@ my @Tests = (
         Name         => 'FilenameCleanUp() - md5',
         FilenameOrig => 'some file.xml',
         FilenameNew  => '6b9e62f9a8c56a0c06c66cc716e30c45',
+        Type         => 'md5',
+    },
+    {
+        Name         => 'FilenameCleanUp() - md5',
+        FilenameOrig => 'me_to/a+lal Grüße 0öäüßカスタマ.xml',
+        FilenameNew  => 'c235a9eabe8494b5f90ffd1330af3407',
         Type         => 'md5',
     },
 );
