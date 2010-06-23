@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceInstaller.pm - the installer interface file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceInstaller.pm,v 1.3 2010-06-17 22:14:28 cr Exp $
+# $Id: InterfaceInstaller.pm,v 1.4 2010-06-23 12:11:54 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -123,7 +123,7 @@ sub Run {
         print $Self->{LayoutObject}->Header();
         print $Self->{LayoutObject}->Error(
             Message => 'SecureMode active!',
-            Comment => 'If you want to run the Installler, disable SecureMode in Config.pm!',
+            Comment => 'If you want to run the Installer, disable SecureMode in Config.pm!',
         );
         print $Self->{LayoutObject}->Footer();
     }
@@ -185,6 +185,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2010-06-17 22:14:28 $
+$Revision: 1.4 $ $Date: 2010-06-23 12:11:54 $
 
 =cut
