@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.95.2.7 2009-12-09 12:01:00 mb Exp $
+# $Id: es.pm,v 1.95.2.8 2010-06-23 23:24:54 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95.2.7 $) [1];
+$VERSION = qw($Revision: 1.95.2.8 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -654,6 +654,11 @@ sub Data {
         'History::TicketLinkDelete' => 'Eliminado enlace al ticket "%s".',
         'History::Subscribe' => 'Añadida subscripción para el usuario "%s".',
         'History::Unsubscribe' => 'Eliminada subscripción para el usuario "%s".',
+        'Reset of unlock time.' => 'Reinicio de tiempo de desbloqueo.',
+        'ResponseTemplate' => 'Plantilla de respuesta (%s)',
+        'AutoPriorityIncrease' => 'Auto Incremento de Prioridad (%s)',
+        'Some Info about Changes!' => 'Información sobre cambios!',
+        'Sent no auto response or agent notification because ticket is' => ' Auto Respuesta o Notificaion no enviada por que el ticket es %s',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',
