@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.2 2010-06-22 15:47:19 fn Exp $
+// $Id: Core.UI.js,v 1.3 2010-06-23 11:05:34 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -36,33 +36,11 @@ Core.UI = (function (TargetNS) {
      * @param {jQueryObject} $TBody the tbody
      * @return nothing
      */
-    TargetNS.initTableHead = function ($THead, $TBody) {
-        var TBodyWidth = $TBody.outerWidth();
-        // set the thead-width to the tbody-width (is not the same because of the scrollbar in the tbody)
-        $THead.width(TBodyWidth + 'px');
+    TargetNS.InitTableHead = function ($THead, $TBody) {
+        // set the thead-width to the tbody-width (it's not the same because of the scrollbar in the tbody)
+        $THead.width($TBody.outerWidth() + 'px');
         // initial adjustion of the tablehead elements
         TargetNS.AdjustTableHead($THead, $TBody);
-    };
-    
-    /**
-     * @function
-     * @description
-     *      This function is used for the adjustment of the table head of OverviewSmall
-     * @param {jQueryObject} $Elements object containing elements (here: table elements)
-     * @return Array containing outer-widths (width+padding+border) of the given $Elements
-     */
-    function GetWidths($Elements, Position) {
-        var Storage = new Array(),
-            Size = $Elements.length;
-        if(Position){
-            return $Elements.eq(Position).outerWidth();
-        }
-        else {
-            for(var I = 0;I < Size;I++) {
-                Storage[I] = $Elements.eq(I).outerWidth();
-            };
-            return Storage;
-        }
     };
     
     TargetNS.AdjustTableHead = function ($THead, $TBody) {
@@ -72,8 +50,22 @@ Core.UI = (function (TargetNS) {
             TBodyWidths = GetWidths($TBodyElements),
             TableSize = $THeadElements.size(),
             Adjusted = true,
-            Adjustments = new Array(),
+            Adjustments = [],
             I;
+        
+        function GetWidths($Elements, Position) {
+            var Storage = [],
+                Size = $Elements.length;
+            if(Position){
+                return $Elements.eq(Position).outerWidth();
+            }
+            else {
+                for(var I = 0;I < Size;I++) {
+                    Storage[I] = $Elements.eq(I).outerWidth();
+                };
+                return Storage;
+            }
+        };
         
         // First round: adjust obvious differences
         for (I = 0; I < TableSize; I++) {
