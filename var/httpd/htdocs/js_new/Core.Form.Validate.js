@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.2 2010-06-23 10:25:23 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -69,7 +69,11 @@ Core.Form.Validate = (function (TargetNS) {
         InputErrorMessageText = $('#' + $Element.attr('id') + ErrorType).text();
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
-            Core.Form.ErrorTooltips.InitTooltip($Element, InputErrorMessageHTML);
+            if ($('cke_' + Element.id).length) {
+                Core.Form.ErrorTooltips.InitTooltip($('cke_' + Element.id), InputErrorMessageHTML);
+            } else {
+                Core.Form.ErrorTooltips.InitTooltip($Element, InputErrorMessageHTML);
+            }
         }
 
         /*
@@ -92,7 +96,11 @@ Core.Form.Validate = (function (TargetNS) {
          */
         $Element.attr('aria-invalid', false);
 
-        Core.Form.ErrorTooltips.RemoveTooltip($Element);
+        if ($('cke_' + Element.id).length) {
+            Core.Form.ErrorTooltips.RemoveTooltip($('cke_' + Element.id));
+        } else {
+            Core.Form.ErrorTooltips.RemoveTooltip($Element);
+        }
     }
 
     // this function prevents the default placing of the error messages
@@ -116,6 +124,66 @@ Core.Form.Validate = (function (TargetNS) {
     $.validator.addMethod("Validate_Required", $.validator.methods.required, "");
     $.validator.addMethod("Validate_Number", $.validator.methods.digits, "");
     $.validator.addMethod("Validate_Email", $.validator.methods.email, "");
+    $.validator.addMethod("Validate_RequiredDropdown", function (Value, Element) {
+        return ($(Element).find('option:selected').text() !== '-');
+    }, "")
+
+    $.validator.addMethod("Validate_RequiredRichtext", function (Value, Element) {
+        if (Core.UI.RichTextEditor.IsEnabled($(Element))) {
+            Core.UI.RichTextEditor.UpdateLinkedField($(Element));
+        }
+        return ($(Element).val().length > 0);
+    }, "")
+
+    $.validator.addMethod("Validate_DateYear", function (Value, Element) {
+        return (parseInt(Value, 10) > 999 && parseInt(Value, 10) < 10000);
+    }, "");
+
+    $.validator.addMethod("Validate_DateMonth", function (Value, Element) {
+        return (parseInt(Value, 10) > 0 && parseInt(Value, 10) < 13);
+    }, "");
+
+    $.validator.addMethod("Validate_DateDay", function (Value, Element) {
+        var Classes = $(Element).attr('class'),
+            DateObject,
+            RegExYear,
+            RegExMonth,
+            YearElement = '',
+            MonthElement = '',
+            DateYearClassPrefix = 'Validate_DateYear_',
+            DateMonthClassPrefix = 'Validate_DateMonth_';
+        RegExYear = new RegExp(DateYearClassPrefix);
+        RegExMonth = new RegExp(DateMonthClassPrefix);
+        $.each(Classes.split(' '), function (Index, Value) {
+            if (RegExYear.test(Value)) {
+                YearElement = Value.replace(DateYearClassPrefix, '');
+            }
+            if (RegExMonth.test(Value)) {
+                MonthElement = Value.replace(DateMonthClassPrefix, '');
+            }
+        });
+        if (YearElement.length && MonthElement.length && $('#' + YearElement).length && $('#' + MonthElement).length) {
+           DateObject = new Date($('#' + YearElement).val(), $('#' + MonthElement).val() - 1, Value);
+           if (DateObject.getFullYear() === parseInt($('#' + YearElement).val(), 10) &&
+               DateObject.getMonth() + 1 === parseInt($('#' + MonthElement).val(), 10) &&
+               DateObject.getDate() === parseInt(Value, 10)) {
+               return true;
+           }
+        }
+        return false;
+    }, "");
+
+    $.validator.addMethod("Validate_DateHour", function (Value, Element) {
+        return (parseInt(Value, 10) >= 0 && parseInt(Value, 10) < 24);
+    }, "");
+
+    $.validator.addMethod("Validate_DateMinute", function (Value, Element) {
+        return (parseInt(Value, 10) >= 0 && parseInt(Value, 10) < 60);
+    }, "");
+
+    $.validator.addMethod("Validate_TimeUnits", function (Value, Element) {
+        return (Value === "" || /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/.test(Value));
+    }, "");
 
     $.validator.addClassRules("Validate_Required", {
         Validate_Required: true
@@ -127,6 +195,38 @@ Core.Form.Validate = (function (TargetNS) {
 
     $.validator.addClassRules("Validate_Email", {
         Validate_Email: true
+    });
+
+    $.validator.addClassRules("Validate_RequiredDropdown", {
+        Validate_RequiredDropdown: true
+    });
+
+    $.validator.addClassRules("Validate_RequiredRichtext", {
+        Validate_RequiredRichtext: true
+    });
+
+    $.validator.addClassRules("Validate_DateYear", {
+        Validate_DateYear: true
+    });
+
+    $.validator.addClassRules("Validate_DateMonth", {
+        Validate_DateMonth: true
+    });
+
+    $.validator.addClassRules("Validate_DateDay", {
+        Validate_DateDay: true
+    });
+
+    $.validator.addClassRules("Validate_DateHour", {
+        Validate_DateHour: true
+    });
+
+    $.validator.addClassRules("Validate_DateMinute", {
+        Validate_DateMinute: true
+    });
+
+    $.validator.addClassRules("Validate_TimeUnits", {
+        Validate_TimeUnits: true
     });
 
     /*

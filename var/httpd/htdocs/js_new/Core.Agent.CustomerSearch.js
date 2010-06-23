@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.2 2010-06-09 10:58:37 mn Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.3 2010-06-23 10:25:23 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -53,10 +53,19 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
     /**
      * @function
+     * @param {jQueryObject} $Element The jQuery object of the input field with autocomplete
+     * @param {Boolean} ActiveAutoComplete Set to false, if autocomplete should only be started by click on a button next to the input field
      * @return nothing
      *      This function initializes the special module functions
      */
-    TargetNS.Init = function($Element) {
+    TargetNS.Init = function($Element, ActiveAutoComplete) {
+        if (typeof ActiveAutoComplete === 'undefined') {
+            ActiveAutoComplete = true;
+        }
+        else {
+            ActiveAutoComplete = !!ActiveAutoComplete;
+        }
+
         // just save the initial state of the customer info
         if ($('#CustomerInfo').length) {
             BackupData.CustomerInfo = $('#CustomerInfo .Content').html();
@@ -64,7 +73,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         if (isJQueryObject($Element)) {
             $Element.autocomplete({
-                minLength: Core.Config.Get('Autocomplete.MinQueryLength'),
+                minLength: ActiveAutoComplete ? Core.Config.Get('Autocomplete.MinQueryLength') : 500,
                 delay: Core.Config.Get('Autocomplete.QueryDelay'),
                 source: function(Request, Response){
                     var URL = Core.Config.Get('Baselink'), Data = {
@@ -110,7 +119,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     return false;
                 }
             });
-            $Element.blur(function() {
+            $Element.blur(function(){
                 var FieldValue = $(this).val();
                 if (FieldValue != BackupData.CustomerEmail && FieldValue != BackupData.CustomerKey) {
                     $('#SelectedCustomerUser').val('');
@@ -123,6 +132,14 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     $('#CustomerInfo .Content').html(BackupData.CustomerInfo);
                 }
             });
+            if (!ActiveAutoComplete) {
+                $Element.after('<button id="' + $Element.attr('id') + 'Search" type="button">' + Core.Config.Get('Autocomplete.SearchButtonText') + '</button>');
+                $('#' + $Element.attr('id') + 'Search').click(function () {
+                    $Element.autocomplete("option", "minLength", 0);
+                    $Element.autocomplete("search");
+                    $Element.autocomplete("option", "minLength", 500);
+                });
+            }
         }
     }
 

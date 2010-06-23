@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.78 2010-05-12 18:32:10 dz Exp $
+# $Id: LayoutTicket.pm,v 1.79 2010-06-23 10:25:22 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub TicketStandardResponseString {
     my ( $Self, %Param ) = @_;
@@ -448,8 +448,16 @@ sub AgentFreeText {
                 SelectedID          => $Ticket{"TicketFreeText$_"},
                 LanguageTranslation => 0,
                 HTMLQuote           => 1,
+                Class => ( $Config{"Required"}->{$_} ? 'Validate_RequiredDropdown' : '' ),
                 %SelectData,
             );
+            if ( $Config{"Required"}->{$_} ) {
+                $Data{"TicketFreeTextField$_"}
+                    .= '<div id="TicketFreeText'
+                    . $_
+                    . 'Error" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
+            }
+
         }
         else {
             if ( defined $Ticket{"TicketFreeText$_"} ) {
@@ -464,13 +472,37 @@ sub AgentFreeText {
                 $Data{"TicketFreeTextField$_"}
                     = '<input type="text" name="TicketFreeText'
                     . $_
+                    . '" id="TicketFreeText'
+                    . $_
+                    . '" class="'
+                    . ( $Config{"Required"}->{$_} ? 'Validate_Required' : '' )
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Ticket{"TicketFreeText$_"} )
                     . '" size="30"/>';
+
+                if ( $Config{"Required"}->{$_} ) {
+                    $Data{"TicketFreeTextField$_"}
+                        .= '<div id="TicketFreeText'
+                        . $_
+                        . 'Error" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
+                }
             }
             else {
                 $Data{"TicketFreeTextField$_"}
-                    = '<input type="text" name="TicketFreeText' . $_ . '" value="" size="30"/>';
+                    = '<input type="text" class="'
+                    . ( $Config{"Required"}->{$_} ? 'Validate_Required' : '' )
+                    . '" name="TicketFreeText'
+                    . $_
+                    . '" id="TicketFreeText'
+                    . $_
+                    . '" value="" size="30"/>';
+
+                if ( $Config{"Required"}->{$_} ) {
+                    $Data{"TicketFreeTextField$_"}
+                        .= '<div id="TicketFreeText'
+                        . $_
+                        . 'Error" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
+                }
             }
         }
         $Data{"TicketFreeTextField$_"}

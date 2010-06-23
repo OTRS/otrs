@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.125 2010-06-09 11:57:33 mg Exp $
+# $Id: AgentTicketEmail.pm,v 1.126 2010-06-23 10:25:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.125 $) [1];
+$VERSION = qw($Revision: 1.126 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,6 +109,10 @@ sub Run {
             = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
         if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
             $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+        }
+
+        if ( $Self->{Config}->{TicketFreeTime}->{$_} == 2 ) {
+            $GetParam{ 'TicketFreeTime' . $_ . 'Required' } = 1;
         }
     }
 
@@ -196,6 +200,11 @@ sub Run {
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
+
+                # If Key has value 2, this means that the freetextfield is required
+                if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                    $TicketFreeText{Required}->{$Count} = 1;
+                }
             }
             my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
                 Config => \%TicketFreeText,
@@ -313,9 +322,14 @@ sub Run {
                 To       => '',
                 Subject  => $Subject,
                 Body     => $Body,
-                CustomerID   => '',
-                CustomerUser => '',
-                CustomerData => {},
+                CustomerID        => '',
+                CustomerUser      => '',
+                CustomerData      => {},
+                TimeUnitsRequired => (
+                    $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+                    ? 'Validate_Required'
+                    : ''
+                ),
                 %TicketFreeTextHTML,
                 %TicketFreeTimeHTML,
                 %ArticleFreeTextHTML,
@@ -730,11 +744,16 @@ sub Run {
                     CustomerUserID => $CustomerUser || '',
                     QueueID        => $NewQueueID   || 1,
                 ),
-                Services     => $Services,
-                SLAs         => $SLAs,
-                CustomerID   => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
-                CustomerUser => $CustomerUser,
-                CustomerData => \%CustomerData,
+                Services          => $Services,
+                SLAs              => $SLAs,
+                CustomerID        => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
+                CustomerUser      => $CustomerUser,
+                CustomerData      => \%CustomerData,
+                TimeUnitsRequired => (
+                    $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+                    ? 'Validate_Required'
+                    : ''
+                ),
                 FromList     => $Self->_GetTos(),
                 FromSelected => $Dest,
                 ToOptions    => $Param{ToOptions},
@@ -1419,22 +1438,16 @@ sub _MaskEmailNew {
     # build customer search autocomplete field
     my $AutoCompleteConfig
         = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
-    if ( $AutoCompleteConfig->{Active} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'CustomerSearchAutoComplete',
-            Data => {
-                minQueryLength      => $AutoCompleteConfig->{MinQueryLength}      || 2,
-                queryDelay          => $AutoCompleteConfig->{QueryDelay}          || 0.1,
-                typeAhead           => $AutoCompleteConfig->{TypeAhead}           || 'false',
-                maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
-            },
-        );
-    }
-    else {
-        $Self->{LayoutObject}->Block(
-            Name => 'SearchCustomerButton',
-        );
-    }
+    $Self->{LayoutObject}->Block(
+        Name => 'CustomerSearchAutoComplete',
+        Data => {
+            ActiveAutoComplete  => $AutoCompleteConfig->{Active},
+            minQueryLength      => $AutoCompleteConfig->{MinQueryLength} || 2,
+            queryDelay          => $AutoCompleteConfig->{QueryDelay} || 0.1,
+            typeAhead           => $AutoCompleteConfig->{TypeAhead} || 'false',
+            maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
+        },
+    );
 
     # build string
     $Param{Users}->{''} = '-';
@@ -1658,6 +1671,7 @@ sub _MaskEmailNew {
         $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{Types},
             Name         => 'TypeID',
+            Class        => 'Validate_RequiredDropdown',
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
@@ -1917,6 +1931,7 @@ sub _MaskEmailNew {
         YearPeriodPast   => 0,
         YearPeriodFuture => 5,
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Validate         => 1,
     );
 
     # from update
@@ -2030,10 +2045,6 @@ sub _MaskEmailNew {
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
         $Self->{LayoutObject}->Block(
-            Name => 'TimeUnitsJs',
-            Data => \%Param,
-        );
-        $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,
         );
@@ -2073,31 +2084,6 @@ sub _MaskEmailNew {
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
-        );
-    }
-
-    # java script check for required free text fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
-        next if $Self->{Config}->{TicketFreeText}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTextCheckJs',
-            Data => {
-                TicketFreeTextField => "TicketFreeText$Key",
-                TicketFreeKeyField  => "TicketFreeKey$Key",
-            },
-        );
-    }
-
-    # java script check for required free time fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
-        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTimeCheckJs',
-            Data => {
-                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
-                TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
-            },
         );
     }
 

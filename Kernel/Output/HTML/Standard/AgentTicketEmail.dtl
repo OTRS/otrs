@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.81 2010-06-15 12:59:02 mn Exp $
+# $Id: AgentTicketEmail.dtl,v 1.82 2010-06-23 10:25:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,74 +12,6 @@
 $Include{"AgentCustomerSearch"}
 
 <script type="text/javascript">//<![CDATA[
-function submit_compose() {
-    // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
-    if (typeof RichTextUpdateLinkedField == 'function') {
-        RichTextUpdateLinkedField();
-    }
-
-    if (document.compose.TypeID && document.compose.TypeID.value == "") {
-        alert('$JSText{"Ticket Type is required!"}');
-        document.compose.TypeID.focus();
-        return false;
-    }
-    else if (document.compose.Subject.value == "") {
-        alert('$JSText{"A message should have a subject!"}');
-        document.compose.Subject.focus();
-        return false;
-    }
-    else if (document.compose.Body.value == "") {
-        alert('$JSText{"A message should have a body!"}');
-        if (typeof RichTextUpdateLinkedField == 'function') {
-            RichTextFocus();
-        }
-        else {
-            document.compose.Body.focus();
-        }
-        return false;
-    }
-    else if (isNaN(document.compose.Day.value) || isNaN(document.compose.Month.value) || isNaN(document.compose.Year.value) || isNaN(document.compose.Hour.value) || isNaN(document.compose.Minute.value)) {
-        alert('$JSText{"Invalid date!"}');
-        return false;
-    }
-    else if (document.compose.Day.value < 1 || document.compose.Day.value > 31 || document.compose.Month.value < 1 || document.compose.Month.value > 12 || document.compose.Year.value < 999 || document.compose.Year.value > 10000 || document.compose.Hour.value < 0 || document.compose.Hour.value > 23 ||document.compose.Minute.value < 0 || document.compose.Minute.value > 59  ) {
-        alert('$JSText{"Invalid date!"}');
-        return false;
-    }
-<!-- dtl:block:TicketFreeTextCheckJs -->
-    else if (document.compose.$Data{"TicketFreeTextField"}.value == "") {
-        alert('$JSText{"A required field is:"} ' + document.compose.$Data{"TicketFreeKeyField"}.value + '!');
-        document.compose.$Data{"TicketFreeTextField"}.focus();
-        return false;
-    }
-<!-- dtl:block:TicketFreeTextCheckJs -->
-<!-- dtl:block:TicketFreeTimeCheckJs -->
-    if (document.compose.$Data{"TicketFreeTimeCheck"} && document.compose.$Data{"TicketFreeTimeCheck"}.checked == false) {
-        alert('$JSText{"A required field is:"} $QData{"TicketFreeTimeKey"}!');
-        document.compose.$Data{"TicketFreeTimeCheck"}.focus();
-        return false;
-    }
-<!-- dtl:block:TicketFreeTimeCheckJs -->
-<!-- dtl:block:TimeUnitsJs -->
-    else if (document.compose.TimeUnits.value != "") {
-        var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;
-        if (reg.test(document.compose.TimeUnits.value) == false) {
-            alert('$JSText{"Invalid time!"}');
-            document.compose.TimeUnits.focus();
-            return false;
-        }
-    }
-    else if (document.compose.TimeUnits.value == "" && $Config{"Ticket::Frontend::NeedAccountedTime"}) {
-        alert('$JSText{"You need to account time!"}');
-        document.compose.TimeUnits.focus();
-        return false;
-    }
-<!-- dtl:block:TimeUnitsJs -->
-    else {
-        return true;
-    }
-}
-
 function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
@@ -100,11 +32,6 @@ function CustomerSubmit() {
     document.customer.submit()
 }
 
-function clear_field() {
-    document.compose.To.value = "";
-    document.compose.To.focus();
-}
-
 function ReloadSignature() {
     var f = document.getElementById('Signature');
     f.src = '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Signature&Dest=' + document.compose.Dest.value;
@@ -113,7 +40,7 @@ function ReloadSignature() {
 
 //]]></script>
 
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="StoreNew"/>
     <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
@@ -154,6 +81,7 @@ function ReloadSignature() {
                         <label for="TypeID">$Text{"Type"}:</label>
                         <div class="Field">
                             $Data{"TypeStrg"}
+                            <div id="TypeIDError" class="TooltipErrorMessage"><p>$Text{"Ticket Type is required!"}</p></div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:TicketType -->
@@ -170,19 +98,11 @@ function ReloadSignature() {
 
                         <label for="CustomerAutoComplete">$Text{"To"}:</label>
                         <div class="Field">
-                            <input id="CustomerAutoComplete" type="text" name="To" value="$QData{"To"}" class="W75pc" />
+                            <input id="CustomerAutoComplete" autocomplete="off" type="text" name="To" value="$QData{"To"}" class="W75pc" />
 <!-- dtl:block:CustomerSearchAutoCompleteToInvalid -->
                             <div class="Clear"></div>
 <!-- dtl:block:CustomerSearchAutoCompleteToInvalid -->
                             <span class="Error Small">$Text{"$Data{"To invalid"}"}</span>
-                            $Data{"CustomerUserStrg"}
-<!-- dtl:block:TakeCustomerButton -->
-                            <button type="submit" name="ExpandCustomerName2" value="$Text{"Take this customer"}">$Text{"Take this customer"}</button>
-<!-- dtl:block:TakeCustomerButton -->
-<!-- dtl:block:SearchCustomerButton -->
-                            <button type="submit" name="ExpandCustomerName1" value="$Text{"Search customer"}">$Text{"Search customer"}</button>
-                            <button type="submit" name="ClearTo" value="$Text{"Clear to"}" onclick="javascript:clear_field(); return false;">$Text{"Clear to"}</button>
-<!-- dtl:block:SearchCustomerButton -->
                         </div>
                         <div class="Clear"></div>
 
@@ -261,7 +181,8 @@ function ReloadSignature() {
 
                         <label for="Subject">$Text{"Subject"}:</label>
                         <div class="Field">
-                            <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W75pc"/>
+                            <input type="text" class="Validate_Required" name="Subject" id="Subject" value="$QData{"Subject"}" class="W75pc"/>
+                            <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
                             <span class="Error Small">$Text{"$Data{"Subject invalid"}"}</span>
                         </div>
                         <div class="Clear"></div>
@@ -294,9 +215,9 @@ function ReloadSignature() {
                         <div class="Clear"></div>
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
-# set white background for buttons
 <!-- dtl:block:RichText -->
-                        <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">$QData{"Body"}</textarea>
+                        <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">$QData{"Body"}</textarea>
+                        <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                         <div class="Clear"></div>
 
                         <label for="Signature">$Text{"Signature"}:</label>
@@ -346,6 +267,21 @@ $Include{"RichTextEditor"}
                         <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
                         <div class="Field">
                             $Data{"PendingDateString"}
+                            <span class="DatepickerIcon" id="PendingDatepicker">&nbsp;</span>
+                            <div id="DayError" class="TooltipErrorMessage"><p>$Text{"Invalid date!"}</p></div>
+                            <div id="MonthError" class="TooltipErrorMessage"><p>$Text{"Invalid date!"}</p></div>
+                            <div id="YearError" class="TooltipErrorMessage"><p>$Text{"Invalid date!"}</p></div>
+                            <div id="HourError" class="TooltipErrorMessage"><p>$Text{"Invalid date!"}</p></div>
+                            <div id="MinuteError" class="TooltipErrorMessage"><p>$Text{"Invalid date!"}</p></div>
+<!--dtl:js_on_document_complete-->
+                            <script type="text/javascript">//<![CDATA[
+                                Core.UI.Datepicker.Init({
+                                    Day: $('#Day'),
+                                    Month: $('#Month'),
+                                    Year: $('#Year')
+                                }, $('#PendingDatepicker'));
+                            //]]></script>
+<!--dtl:js_on_document_complete-->
                             <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
                         </div>
                         <div class="Clear"></div>
@@ -357,7 +293,7 @@ $Include{"RichTextEditor"}
                         <div class="Clear"></div>
 
 <!-- dtl:block:TicketFreeText -->
-                        <label>$Data{"TicketFreeKeyField"}:</label>
+                        <label for="TicketFreeText$Data{"Count"}">$Data{"TicketFreeKeyField"}:</label>
                         <div class="Field">
                             $Data{"TicketFreeTextField"}
                         </div>
@@ -365,15 +301,26 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TicketFreeText -->
 
 <!-- dtl:block:TicketFreeTime -->
-                        <label>$Data{"TicketFreeTimeKey"}:</label>
+                        <label for="TicketFreeTime$Data{"Count"}">$Data{"TicketFreeTimeKey"}:</label>
                         <div class="Field">
                             $Data{"TicketFreeTime"}
+                            <span class="DatepickerIcon" id="TicketFreeTime$Data{"Count"}Datepicker">&nbsp;</span>
+                            <div id="TicketFreeTime$Data{"Count"}UsedError" class="TooltipErrorMessage"><p>$Text{"Required!"}</p></div>
+<!--dtl:js_on_document_complete-->
+                            <script type="text/javascript">//<![CDATA[
+                                Core.UI.Datepicker.Init({
+                                    Day: $('#TicketFreeTime$Data{"Count"}Day'),
+                                    Month: $('#TicketFreeTime$Data{"Count"}Month'),
+                                    Year: $('#TicketFreeTime$Data{"Count"}Year')
+                                }, $('#TicketFreeTime$Data{"Count"}Datepicker'));
+                            //]]></script>
+<!--dtl:js_on_document_complete-->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:TicketFreeTime -->
 
 <!-- dtl:block:ArticleFreeText -->
-                        <label>$Data{"ArticleFreeKeyField"}:</label>
+                        <label for="ArticleFreeText$Data{"Count"}">$Data{"ArticleFreeKeyField"}:</label>
                         <div class="Field">
                             $Data{"ArticleFreeTextField"}
                         </div>
@@ -383,7 +330,8 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                         <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
                         <div class="Field">
-                            <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" size="3"/>
+                            <input type="text" class="Validate_TimeUnits $Data{"TimeUnitsRequired"}" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" size="3"/>
+                            <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
@@ -393,7 +341,7 @@ $Include{"RichTextEditor"}
             </div>
         </div>
         <div class="Footer">
-            <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">$Text{"Send mail!"}</button>
+            <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Send mail!"}" >$Text{"Send mail!"}</button>
         </div>
     </div>
 </form>

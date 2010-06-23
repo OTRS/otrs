@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.266 2010-06-17 15:47:59 martin Exp $
+# $Id: Layout.pm,v 1.267 2010-06-23 10:25:22 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.266 $) [1];
+$VERSION = qw($Revision: 1.267 $) [1];
 
 =head1 NAME
 
@@ -2669,7 +2669,10 @@ sub BuildDateSelection {
     my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
     my $Area           = $Param{Area} || 'Agent';
     my $Optional       = $Param{ $Prefix . 'Optional' } || 0;
+    my $Required       = $Param{ $Prefix . 'Required' } || 0;
     my $Used           = $Param{ $Prefix . 'Used' } || 0;
+    my $Validate       = $Param{Validate}
+        || 0;    # Defines, if the date selection should be validated on client side with JS
     my ( $s, $m, $h, $D, $M, $Y ) = $Self->{UserTimeObject}->SystemTime2Date(
         SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime,
     );
@@ -2720,10 +2723,13 @@ sub BuildDateSelection {
             Data                => \%Year,
             SelectedID          => int( $Param{ $Prefix . 'Year' } || $Y ),
             LanguageTranslation => 0,
+            Class               => $Validate ? 'Validate_DateYear' : '',
         );
     }
     else {
-        $Param{Year} = "<input id=\"" . $Prefix . "Year\" " . "type=\"text\" name=\""
+        $Param{Year} = "<input id=\"" . $Prefix . "Year\" " . "type=\"text\" "
+            . $Validate ? "class=\"Validate_DateYear\" " : ""
+            . "name=\""
             . $Prefix
             . "Year\" size=\"4\" maxlength=\"4\" "
             . "value=\""
@@ -2742,11 +2748,14 @@ sub BuildDateSelection {
             Data                => \%Month,
             SelectedID          => int( $Param{ $Prefix . 'Month' } || $M ),
             LanguageTranslation => 0,
+            Class               => $Validate ? 'Validate_DateMonth' : '',
         );
     }
     else {
         $Param{Month}
-            = "<input type=\"text\" name=\""
+            = "<input type=\"text\" "
+            . $Validate ? "class=\"Validate_DateMonth\" " : ""
+            . "name=\""
             . $Prefix
             . "Month\" id=\""
             . $Prefix
@@ -2767,10 +2776,29 @@ sub BuildDateSelection {
             Data                => \%Day,
             SelectedID          => int( $Param{ $Prefix . 'Day' } || $D ),
             LanguageTranslation => 0,
+            Class               => $Validate
+            ? (
+                'Validate_DateDay Validate_DateYear_'
+                    . $Prefix
+                    . 'Year Validate_DateMonth_'
+                    . $Prefix
+                    . 'Month'
+                )
+            : '',
         );
     }
     else {
-        $Param{Day} = "<input type=\"text\" name=\""
+        $Param{Day} = "<input type=\"text\" "
+            . $Validate
+            ? (
+            "class=\"Validate_DateDay Validate_DateYear_"
+                . $Prefix
+                . "Year Validate_DateMonth_"
+                . $Prefix
+                . "Month\" "
+            )
+            : ""
+            . "name=\""
             . $Prefix
             . "Day\" id=\"" . $Prefix . "Day\" size=\"2\" maxlength=\"2\" "
             . "value=\""
@@ -2792,10 +2820,13 @@ sub BuildDateSelection {
                 ? int( $Param{ $Prefix . 'Hour' } )
                 : int($h),
                 LanguageTranslation => 0,
+                Class => $Validate ? 'Validate_DateHour' : '',
             );
         }
         else {
-            $Param{Hour} = "<input type=\"text\" name=\""
+            $Param{Hour} = "<input type=\"text\" "
+                . $Validate ? "class=\"Validate_DateHour\" " : ""
+                . "name=\""
                 . $Prefix
                 . "Hour\" id=\"" . $Prefix . "Hour\" size=\"2\" maxlength=\"2\" "
                 . "value=\""
@@ -2820,10 +2851,13 @@ sub BuildDateSelection {
                 ? int( $Param{ $Prefix . 'Minute' } )
                 : int($m),
                 LanguageTranslation => 0,
+                Class => $Validate ? 'Validate_DateMinute' : '',
             );
         }
         else {
-            $Param{Minute} = "<input type=\"text\" name=\""
+            $Param{Minute} = "<input type=\"text\" "
+                . $Validate ? "class=\"Validate_DateMinute\" " : ""
+                . "name=\""
                 . $Prefix
                 . "Minute\" id=\"" . $Prefix . "Minute\" size=\"2\" maxlength=\"2\" "
                 . "value=\""
@@ -2841,14 +2875,19 @@ sub BuildDateSelection {
 
     # optional checkbox
     if ($Optional) {
-        my $Checked = '';
+        my $Checked  = '';
+        my $Validate = '';
         if ($Used) {
             $Checked = ' checked="checked"';
+        }
+        if ($Required) {
+            $Validate = ' class="Validate_Required"';
         }
         $Output .= "<input type=\"checkbox\" name=\""
             . $Prefix
             . "Used\" id=\"" . $Prefix . "Used\" value=\"1\""
             . $Checked
+            . $Validate
             . "/>&nbsp;";
     }
 
@@ -4646,6 +4685,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.266 $ $Date: 2010-06-17 15:47:59 $
+$Revision: 1.267 $ $Date: 2010-06-23 10:25:22 $
 
 =cut
