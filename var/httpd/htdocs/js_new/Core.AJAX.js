@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.2 2010-06-09 10:58:38 mn Exp $
+// $Id: Core.AJAX.js,v 1.3 2010-06-23 12:47:17 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -291,12 +291,16 @@ Core.AJAX = (function (TargetNS) {
      * @function
      *      Calls an URL via Ajax and executes a given function after the request returned from the server
      * @param {String} URL The URL which is called via Ajax
-     * @param {Object} Data The data hash
+     * @param {Object} Data The data hash or data query string
      * @param {Function} Callback The callback function which is called after the request returned from the server
      * @return nothing
      */
     TargetNS.FunctionCall = function (URL, Data, Callback) {
-        Data = $.extend(Data, GetSessionInformation());
+        if (typeof Data === 'string') {
+            Data += SerializeData(GetSessionInformation());
+        } else {
+            Data = $.extend(Data, GetSessionInformation());
+        }
         $.ajax({
             type: 'POST',
             url: URL,
