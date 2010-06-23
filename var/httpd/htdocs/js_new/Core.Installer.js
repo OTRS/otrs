@@ -2,7 +2,7 @@
 // Core.Installer.js - provides the special module functions for Installer
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Installer.js,v 1.2 2010-06-23 15:48:16 cg Exp $
+// $Id: Core.Installer.js,v 1.3 2010-06-23 20:46:46 mp Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -20,17 +20,13 @@ var Core = Core || {};
  *      This namespace contains the special module functions for Installer.
  */
 Core.Installer = (function (TargetNS) {
-
-    Core.Config.Set('Installer.CheckDBDataLabel', 'Database check successful.');
-    Core.Config.Set('Installer.CheckMailLabelOne', 'Mail check successful.');
-    Core.Config.Set('Installer.CheckMailLabelTwo', 'Error in the mail settings. Please correct and try again.');
 /*
 InstallerDBStart
 */
     /**
      * @function
      * @return nothing
-     *      This function initializes the special module functions
+     *      This function check the values for the database configuration
      */
     TargetNS.CheckDBData = function () {
         $('input[name=Subaction]').val('CheckRequirements');
@@ -44,7 +40,7 @@ InstallerDBStart
     /**
      * @function
      * @return nothing
-     *      This function initializes the special module functions
+     *      This function display the results for the check on the database
      */
     function CheckDBDataCallback(json) {
         if (parseInt(json['Successful']) < 1) {
@@ -62,13 +58,9 @@ InstallerDBStart
 
 
 /*
-InstallerConfiguredMail
+InstallerConfigureMail
 */
-    /**
-     * @function
-     * @return nothing
-     *      This function initializes the special module functions
-     */
+    
     TargetNS.SelectOutboundMailType = function (obj) {
         var value = $(obj).val();
         if (value == "smtp") {
@@ -82,7 +74,7 @@ InstallerConfiguredMail
     /**
      * @function
      * @return nothing
-     *      This function initializes the special module functions
+     *      This function check for the SMTP configuration
      */
     TargetNS.CheckSMTPAuth = function (obj) {
         if ($(obj).is(':checked')) {
@@ -93,12 +85,22 @@ InstallerConfiguredMail
             $('.infosmtpauth').hide();
         }
     };
-
+    
+    /**
+     * @function
+     * @return nothing
+     *      This function skip check the mail configuration
+     */
     TargetNS.SkipMailConfig = function () {
         $('input[name=Skip]').val('1');
         $('form').submit();
     };
-
+    
+    /**
+     * @function
+     * @return nothing
+     *      This function check the mail configuration
+     */
     TargetNS.CheckMailConfig = function () {
         $('input[name=Skip]').val('0');
         // Check mail data via AJAX
