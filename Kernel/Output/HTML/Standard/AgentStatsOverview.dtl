@@ -2,7 +2,7 @@
 # AgentStatsOverview.dtl - provides HTML form for lists stats
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsOverview.dtl,v 1.12 2010-05-05 13:16:13 mg Exp $
+# $Id: AgentStatsOverview.dtl,v 1.13 2010-06-24 13:59:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@
     </tr>
     <tr>
         <td class="menu">
-            $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b> - $Text{"Page"}: $Data{"SiteNavBar"}
+            $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$QData{"TotalHits"}</b> - $Text{"Page"}: $Data{"SiteNavBar"}
         </td>
     </tr>
     <tr>
@@ -27,16 +27,16 @@
                 <tr><td></td></tr>
                 <tr class="contenthead">
                     <td>$Text{"$Config{"Stats::StatsHook"}"}
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=ID;Direction=ASC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"/></a>&nbsp;/
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=ID;Direction=DESC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=ID;Direction=ASC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"/></a>&nbsp;/
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=ID;Direction=DESC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
                     </td>
                     <td>$Text{"Title"}
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Title;Direction=ASC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}" /></a>&nbsp;/
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Title;Direction=DESC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Title;Direction=ASC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}" /></a>&nbsp;/
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Title;Direction=DESC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
                     </td>
                     <td>$Text{"Object"}
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Object;Direction=ASC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}" /></a>&nbsp;/
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Object;Direction=DESC;StartHit=$Data{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Object;Direction=ASC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}" /></a>&nbsp;/
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Object;Direction=DESC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
                     </td>
                     <td>$Text{"Description"}</td>
                 </tr>
