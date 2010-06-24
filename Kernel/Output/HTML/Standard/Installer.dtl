@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.38 2010-06-17 16:38:03 mp Exp $
+# $Id: Installer.dtl,v 1.39 2010-06-24 20:37:28 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,5 +83,13 @@ $Include{"InstallerSystem"}
 $Include{"InstallerConfigureMail"}
 
 $Include{"InstallerFinish"}
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('Installer.CheckDBDataLabel' , '$JSText{"Database check successful."}');
+    Core.Config.Set('Installer.CheckMailLabelOne', '$JSText{"Mail check successful."}');
+    Core.Config.Set('Installer.CheckMailLabelTwo', '$JSText{"Error in the mail settings. Please correct and try again."}');
+//]]></script>
+<!--dtl:js_on_document_complete-->
 
 </div>
