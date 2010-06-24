@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.95.2.8 2010-06-23 23:24:54 dz Exp $
+# $Id: es.pm,v 1.95.2.9 2010-06-24 17:14:23 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95.2.8 $) [1];
+$VERSION = qw($Revision: 1.95.2.9 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -35,6 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
+    $Self->{Separator}           = ';';
 
     $Self->{Translation} = {
         # Template: AAABase
@@ -211,7 +212,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Desconexión satisfactoria. Gracias por utilizar OTRS!',
         'Invalid SessionID!' => 'Sesión no válida',
         'Feature not active!' => 'Característica no activa',
-        'Notification (Event)' => 'Notificaciones (Event)',
+        'Notifications (Event)' => 'Notificaciones (Event)',
         'Login is needed!' => 'Se requiere login',
         'Password is needed!' => 'Se requiere la contraseña!',
         'License' => 'Licencia',
@@ -221,7 +222,6 @@ sub Data {
         'reject' => 'rechazar',
         'reverse' => 'revertir',
         'Facility' => 'Instalación',
-        'Timeover' => 'Vencimiento',
         'Pending till' => 'Pendiente hasta',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'No trabaje con el Identificador 1 (cuenta de sistema)! Cree nuevos usuarios! ',
         'Dispatching by email To: field.' => 'Despachar por correo del campo Para:',
@@ -581,7 +581,7 @@ sub Data {
         'New ticket notification' => 'Notificación de nuevos tickets',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Notifíqueme si hay un nuevo ticket en "Mis Colas".',
         'Follow up notification' => 'Notificación de seguimiento',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Notifíqueme si un cliente solicita un seguimiento y yo soy el dueño del ticket.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Notifíqueme si un cliente solicita un seguimiento y yo soy el dueño del ticket.',
         'Ticket lock timeout notification' => 'Notificación de bloqueo de tickets por tiempo',
         'Send me a notification if a ticket is unlocked by the system.' => 'Notifíqueme si un ticket es desbloqueado por el sistema',
         'Move notification' => 'Notificación de movimientos',
@@ -614,9 +614,9 @@ sub Data {
         'All tickets which are escalated!' => 'Todos los tickets que estan escalados!',
         'All tickets where the reminder date has reached!' => 'Todos los tickes que han alcanzado la fecha de recordatorio!',
         'Responses' => 'Respuestas',
-        'Responses <-> Queue' => 'Respuestas <-> Colas',
+        'Responses <-> Queues' => 'Respuestas <-> Colas',
         'Auto Responses' => 'Respuestas Automáticas',
-        'Auto Responses <-> Queue' => 'Respuestas Automáticas <-> Colas',
+        'Auto Responses <-> Queues' => 'Respuestas Automáticas <-> Colas',
         'Attachments <-> Responses' => 'Anexos <-> Respuestas',
         'History::Move' => 'Ticket movido a la cola "%s" (%s) de la cola "%s" (%s).',
         'History::TypeUpdate' => 'Tipo actualizado a %s (ID=%s).',
@@ -654,11 +654,6 @@ sub Data {
         'History::TicketLinkDelete' => 'Eliminado enlace al ticket "%s".',
         'History::Subscribe' => 'Añadida subscripción para el usuario "%s".',
         'History::Unsubscribe' => 'Eliminada subscripción para el usuario "%s".',
-        'Reset of unlock time.' => 'Reinicio de tiempo de desbloqueo.',
-        'ResponseTemplate' => 'Plantilla de respuesta (%s)',
-        'AutoPriorityIncrease' => 'Auto Incremento de Prioridad (%s)',
-        'Some Info about Changes!' => 'Información sobre cambios!',
-        'Sent no auto response or agent notification because ticket is' => ' Auto Respuesta o Notificaion no enviada por que el ticket es %s',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',
@@ -695,10 +690,24 @@ sub Data {
         'Add Customer Company' => 'Añadir Compañía de Cliente',
         'Add a new Customer Company.' => 'Añadir una nueva Compañía de Cliente',
         'List' => 'Listar',
-        'This values are required.' => 'Estos valores son obligatorios',
-        'This values are read-only.' => 'Estos valores son de sólo-lectura',
+        'These values are required.' => 'Estos valores son obligatorios',
+        'These values are read-only.' => 'Estos valores son de sólo-lectura',
 
         # Template: AdminCustomerUserForm
+        'Title{CustomerUser}' => '',
+        'Firstname{CustomerUser}' => 'Nombre',
+        'Lastname{CustomerUser}' => 'Apellido',
+        'Username{CustomerUser}' => 'Nombre de Usuario',
+        'Email{CustomerUser}' => 'Correo',
+        'CustomerID{CustomerUser}' => 'Nº cliente',
+        'Phone{CustomerUser}' => 'Teléfono',
+        'Fax{CustomerUser}' => 'Fax',
+        'Mobile{CustomerUser}' => 'Móvil',
+        'Street{CustomerUser}' => 'Calle',
+        'Zip{CustomerUser}' => 'Código postal',
+        'City{CustomerUser}' => 'Ciudad',
+        'Country{CustomerUser}' => 'País',
+        'Comment{CustomerUser}' => 'Comentario',
         'The message being composed has been closed.  Exiting.' => 'El mensaje que se estaba redactando ha sido cerrado. Saliendo.!',
         'This window must be called from compose window' => 'Esta ventana debe ser llamada desde la ventana de redacción',
         'Customer User Management' => 'Gestión de clientes',
@@ -1112,6 +1121,7 @@ sub Data {
         'Add User' => 'Añadir Usuario',
         'Add a new Agent.' => 'Añadir un nuevo Agente',
         'Login as' => 'Conectarse como',
+        'Title{user}' => '',
         'Firstname' => 'Nombre',
         'Lastname' => 'Apellido',
         'Start' => 'Iniciar',
