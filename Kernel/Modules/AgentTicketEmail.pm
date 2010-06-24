@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.129 2010-06-23 13:48:23 mn Exp $
+# $Id: AgentTicketEmail.pm,v 1.130 2010-06-24 09:00:36 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.129 $) [1];
+$VERSION = qw($Revision: 1.130 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1519,15 +1519,7 @@ sub _MaskEmailNew {
     # prepare errors!
     if ( $Param{Errors} ) {
         for ( keys %{ $Param{Errors} } ) {
-            $Param{$_} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
-        }
-
-        # handle 'To invalid' error if AutoComplete is enabled
-        if ( $AutoCompleteConfig->{Active} && $Param{'To invalid'} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'CustomerSearchAutoCompleteToInvalid',
-                Data => {%Param},
-            );
+            $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
         }
     }
 
@@ -1600,14 +1592,6 @@ sub _MaskEmailNew {
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
         Validate         => 1,
     );
-
-    # from update
-    if ( !$Self->{LayoutObject}->{BrowserJavaScriptSupport} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'FromUpdateSubmit',
-            Data => \%Param,
-        );
-    }
 
     # show owner selection
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewOwnerSelection') ) {

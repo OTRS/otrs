@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.84 2010-06-23 13:48:22 mn Exp $
+# $Id: AgentTicketEmail.dtl,v 1.85 2010-06-24 09:00:36 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,9 +90,6 @@ function CustomerSubmit() {
                         <div class="Field">
                             $Data{"FromStrg"}
                             <span class="Error Small">$Text{"$Data{"Destination invalid"}"}</span>
-<!-- dtl:block:FromUpdateSubmit -->
-                            <button type="submit" value="$Text{"Refresh"}" name="ExpandCustomerName2">$Text{"Refresh"}</button>
-<!-- dtl:block:FromUpdateSubmit -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#Dest'), function (Event) {
@@ -107,9 +104,6 @@ function CustomerSubmit() {
                         <label for="CustomerAutoComplete">$Text{"To"}:</label>
                         <div class="Field">
                             <input id="CustomerAutoComplete" type="text" name="To" value="$QData{"To"}" class="W75pc AutocompleteOff" />
-<!-- dtl:block:CustomerSearchAutoCompleteToInvalid -->
-                            <div class="Clear"></div>
-<!-- dtl:block:CustomerSearchAutoCompleteToInvalid -->
                             <span class="Error Small">$Text{"$Data{"To invalid"}"}</span>
                         </div>
                         <div class="Clear"></div>
