@@ -2,7 +2,7 @@
 // Core.JSON.js - Resizable
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.JSON.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.JSON.js,v 1.2 2010-06-24 07:08:40 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -64,6 +64,63 @@ Core.JSON = (function (TargetNS) {
 
         return JSONString;
     };
+
+
+    /**
+     * @function
+     * @description
+     *      This function compare 2 JSONObjects
+     * @param {ObjectA} JSONObject The object which should be compared
+     * @param {ObjectB} JSONObject The object which should be compared
+     * @return {Boolean} True or False Value
+     */
+    TargetNS.CompareObject = function (JSONObjectOne, JSONObjectTwo) {
+            var Counter;
+            var Result  = true;
+            
+            if (JSONObjectOne == null || typeof(JSONObjectOne) !== 'object' ||
+                JSONObjectTwo == null || typeof(JSONObjectTwo) !== 'object') {
+                return false;
+            }
+            
+            if ( JSONObjectOne.constructor !== JSONObjectTwo.constructor) {
+                return false;
+            }
+            
+            for (var Key in JSONObjectOne) {
+                if ( (typeof(JSONObjectOne[Key]) == 'object' ) &&
+                     (typeof(JSONObjectTwo[Key]) == 'object' )  )  {
+                    if ( !Core.JSON.CompareObject(JSONObjectOne[Key], JSONObjectTwo[Key]) ){
+                        Result  = false;
+                        break;
+                    }
+                } else
+                    {
+                        if ( JSONObjectOne[Key] !== JSONObjectTwo[Key] ){
+                            Result  = false;
+                            break;
+                        }
+                    }
+            }
+
+            for (var Key in JSONObjectTwo) {
+                if ( (typeof(JSONObjectTwo[Key]) == 'object' ) &&
+                     (typeof(JSONObjectOne[Key]) == 'object' )  )  {
+                    if ( !Core.JSON.CompareObject(JSONObjectTwo[Key], JSONObjectOne[Key]) ){
+                        Result  = false;
+                        break;
+                    }
+                } else
+                    {
+                        if ( JSONObjectTwo[Key] !== JSONObjectOne[Key] ){
+                            Result  = false;
+                            break;
+                        }
+                    }
+            }
+            
+            return Result;
+        };
 
     return TargetNS;
 }(Core.JSON || {}));
