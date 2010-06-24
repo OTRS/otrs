@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.9 2010-06-23 20:47:54 mp Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.10 2010-06-24 20:47:29 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -156,11 +156,10 @@
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('click',$('#ButtonCheckMail'),Core.Installer.CheckMailConfig);
     Core.UI.RegisterEvent('click',$('#ButtonSkipMail'),Core.Installer.SkipMailConfig);
-    Core.UI.RegisterEvent('change',$('#SMTPAuth'),Core.Installer.CheckSMTPAuth($(this)));
-    Core.UI.RegisterEvent('change',$('#OutboundMailType'),Core.Installer.SelectOutboundMailType($(this)));
-
-    Core.Config.Set('Installer.CheckMailLabelOne', 'Mail check successful.');
-    Core.Config.Set('Installer.CheckMailLabelTwo', 'Error in the mail settings. Please correct and try again.');
+    Core.UI.RegisterEvent('change',$('#SMTPAuth'),
+            function(){Core.Installer.CheckSMTPAuth($(this));});
+    Core.UI.RegisterEvent('change',$('#OutboundMailType'),
+            function(){Core.Installer.SelectOutboundMailType($(this));});
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:ConfigureMail-->
