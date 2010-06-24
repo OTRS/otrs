@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.20 2010-06-09 14:22:32 mn Exp $
+// $Id: otrs.js,v 1.21 2010-06-24 11:30:39 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 
 // create global name space
-var Core = {};
+var Core = Core || {};
 var UI = {};
 
 // init
