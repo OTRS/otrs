@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.416.2.11 2010-06-23 23:40:37 dz Exp $
+# $Id: Ticket.pm,v 1.416.2.12 2010-06-24 17:14:23 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.416.2.11 $) [1];
+$VERSION = qw($Revision: 1.416.2.12 $) [1];
 
 =head1 NAME
 
@@ -1360,7 +1360,7 @@ sub TicketUnlockTimeoutUpdate {
         TicketID     => $Param{TicketID},
         CreateUserID => $Param{UserID},
         HistoryType  => 'Misc',
-        Name         => '%%Reset of unlock time.',
+        Name         => 'Reset of unlock time.',
     );
 
     # ticket event
@@ -7381,6 +7381,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.416.2.11 $ $Date: 2010-06-23 23:40:37 $
+$Revision: 1.416.2.12 $ $Date: 2010-06-24 17:14:23 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.pm,v 1.14.2.1 2010-06-23 23:40:37 dz Exp $
+# $Id: AgentTicketHistory.pm,v 1.14.2.2 2010-06-24 17:14:23 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14.2.1 $) [1];
+$VERSION = qw($Revision: 1.14.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -95,27 +95,9 @@ sub Run {
             if ( !$Data{Name} ) {
                 $Data{Name} = '" ';
             }
-
-            my $OtherData = '';
-            if ( $Data{HistoryType} ne 'Misc' ) {
-                $Data{Name} = $Self->{LayoutObject}->{LanguageObject}->Get(
-                    'History::' . $Data{HistoryType} .
-                        '", ' . $Data{Name}
-                );
-            }
-            else {
-                $Data{Name} =~ s{\A\"}{}xms;
-                if ( $Data{Name} =~ m{\A(.*) \((.*?)\)\z}xms ) {
-                    $Data{Name} = $1;
-                    $OtherData = '", "' . $2;
-                    $Data{Name} =~ s{(.+)\s\z}{$1}xms;
-                }
-                else {
-                }
-                $Data{Name} = $Self->{LayoutObject}->{LanguageObject}->Get(
-                    $Data{Name} . $OtherData
-                );
-            }
+            $Data{Name} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                'History::' . $Data{HistoryType} . '", ' . $Data{Name}
+            );
 
             # remove not needed place holder
             $Data{Name} =~ s/\%s//g;
