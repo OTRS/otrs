@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketWatcher.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketWatcher.pm,v 1.3 2010-05-04 01:24:06 martin Exp $
+# $Id: ToolBarTicketWatcher.pm,v 1.4 2010-06-24 12:15:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,27 +75,53 @@ sub Run {
         Permission       => 'ro',
     );
     $CountNew = $Count - $CountNew;
-    my $Text = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets');
-    my $URL  = $Self->{LayoutObject}->{Baselink};
-    my $CountNotify;
-    if ($CountNew) {
-        $CountNotify = "*$CountNew/$Count";
-        $URL .= 'Action=AgentTicketWatchView;Filter=New';
-    }
-    else {
-        $CountNotify = $Count;
-        $URL .= 'Action=AgentTicketWatchView';
-    }
+
+    my $CountReached = $Self->{TicketObject}->TicketSearch(
+        Result                        => 'COUNT',
+        StateType                     => ['pending reminder'],
+        WatchUserIDs                  => [ $Self->{UserID} ],
+        TicketPendingTimeOlderMinutes => 1,
+        UserID                        => 1,
+        Permission                    => 'ro',
+    );
+
+    my $Text        = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Total');
+    my $TextNew     = $Self->{LayoutObject}->{LanguageObject}->Get('Watched New');
+    my $TextReached = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Reminder Reached');
+
+    my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
-    $Return{'0999978'} = {
+    $Return{'0999977'} = {
         Block       => 'ToolBarItem',
-        Description => $Text,
-        Count       => $CountNotify,
+        Description => $TextNew,
+        Count       => $CountNew,
         Class       => 'Alerts',
 
         #        Name        => $Text,
         #        Image       => 'watcher.png',
-        Link      => $URL,
+        Link      => $URL . 'Action=AgentTicketWatchView;Filter=New',
+        AccessKey => '',
+    };
+    $Return{'0999978'} = {
+        Block       => 'ToolBarItem',
+        Description => $TextReached,
+        Count       => $CountReached,
+        Class       => 'Alerts',
+
+        #        Name        => $Text,
+        #        Image       => 'watcher.png',
+        Link      => $URL . 'Action=AgentTicketWatchView;Filter=ReminderReached',
+        AccessKey => '',
+    };
+    $Return{'0999979'} = {
+        Block       => 'ToolBarItem',
+        Description => $Text,
+        Count       => $Count,
+        Class       => 'Alerts',
+
+        #        Name        => $Text,
+        #        Image       => 'watcher.png',
+        Link      => $URL . 'Action=AgentTicketWatchView',
         AccessKey => '',
     };
     return %Return;

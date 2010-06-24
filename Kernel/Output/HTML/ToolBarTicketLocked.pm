@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketLocked.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketLocked.pm,v 1.2 2010-05-04 01:24:06 martin Exp $
+# $Id: ToolBarTicketLocked.pm,v 1.3 2010-06-24 12:15:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,28 +54,53 @@ sub Run {
         Permission       => 'ro',
     );
     $CountNew = $Count - $CountNew;
+    my $CountReached = $Self->{TicketObject}->TicketSearch(
+        Result                        => 'COUNT',
+        Locks                         => ['lock'],
+        StateType                     => ['pending reminder'],
+        TicketPendingTimeOlderMinutes => 1,
+        OwnerIDs                      => [ $Self->{UserID} ],
+        UserID                        => 1,
+        Permission                    => 'ro',
+    );
 
-    my $Text = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets');
-    my $URL  = $Self->{LayoutObject}->{Baselink};
-    my $CountNotify;
-    if ($CountNew) {
-        $CountNotify = "*$CountNew/$Count";
-        $URL .= 'Action=AgentTicketLockedView;Filter=New';
-    }
-    else {
-        $CountNotify = $Count;
-        $URL .= 'Action=AgentTicketLockedView';
-    }
+    my $Text    = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets Total');
+    my $TextNew = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets New');
+    my $TextReached
+        = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets Reminder Reached');
+    my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
+    $Return{'0999997'} = {
+        Block       => 'ToolBarItem',
+        Count       => $CountNew,
+        Description => $TextNew,
+        Class       => 'Stacks',
+
+        #        Name        => $Text,
+        #        Image       => 'personal.png',
+        Link      => $URL . 'Action=AgentTicketLockedView;Filter=New',
+        AccessKey => 'k',
+    };
+    $Return{'0999998'} = {
+        Block       => 'ToolBarItem',
+        Count       => $CountReached,
+        Description => $TextReached,
+        Class       => 'Stacks',
+
+        #        Name        => $Text,
+        #        Image       => 'personal.png',
+        Link      => $URL . 'Action=AgentTicketLockedView;Filter=ReminderReached',
+        AccessKey => 'k',
+    };
     $Return{'0999999'} = {
         Block       => 'ToolBarItem',
-        Count       => $CountNotify,
+        Count       => $Count,
         Description => $Text,
         Class       => 'Stacks',
 
         #        Name        => $Text,
         #        Image       => 'personal.png',
-        Link      => $URL,
+        Link      => $URL . 'Action=AgentTicketLockedView',
         AccessKey => 'k',
     };
     return %Return;
