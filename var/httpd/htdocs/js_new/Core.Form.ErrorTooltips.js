@@ -2,7 +2,7 @@
 // Core.UI.Tooltips.js - provides provides Tooltip functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.ErrorTooltips.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.Form.ErrorTooltips.js,v 1.2 2010-06-24 10:50:13 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -99,6 +99,26 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         $Element.unbind('focus.Tooltip');
         $Element.unbind('blur.Tooltip');
     };
+
+    TargetNS.InitRTETooltip = function ($Element, Message) {
+        var ElementID = $Element.attr('id');
+        CKEDITOR.instances[ElementID].on('focus', ShowRTETooltip, null, {ElementID: ElementID, Message: Message});
+        CKEDITOR.instances[ElementID].on('blur', RemoveRTETooltip, null, ElementID);
+    }
+
+    TargetNS.RemoveRTETooltip = function ($Element) {
+        var ElementID = $Element.attr('id');
+        CKEDITOR.instances[ElementID].removeListener('focus', ShowRTETooltip);
+        CKEDITOR.instances[ElementID].removeListener('blur', RemoveRTETooltip);
+    }
+
+    function ShowRTETooltip(Event) {
+        ShowTooltip($('#cke_contents_' + Event.listenerData.ElementID), Event.listenerData.Message);
+    }
+
+    function RemoveRTETooltip(Event){
+        HideTooltip($('#cke_contents_' + Event.listenerData));
+    }
 
     return TargetNS;
 }(Core.Form.ErrorTooltips || {}));

@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.2 2010-06-23 10:25:23 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.3 2010-06-24 10:50:13 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -69,8 +69,9 @@ Core.Form.Validate = (function (TargetNS) {
         InputErrorMessageText = $('#' + $Element.attr('id') + ErrorType).text();
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
-            if ($('cke_' + Element.id).length) {
-                Core.Form.ErrorTooltips.InitTooltip($('cke_' + Element.id), InputErrorMessageHTML);
+            // if error field is a RTE, it is a little bit more difficult
+            if ($('#cke_' + Element.id).length) {
+                Core.Form.ErrorTooltips.InitRTETooltip($Element, InputErrorMessageHTML);
             } else {
                 Core.Form.ErrorTooltips.InitTooltip($Element, InputErrorMessageHTML);
             }
@@ -96,8 +97,9 @@ Core.Form.Validate = (function (TargetNS) {
          */
         $Element.attr('aria-invalid', false);
 
-        if ($('cke_' + Element.id).length) {
-            Core.Form.ErrorTooltips.RemoveTooltip($('cke_' + Element.id));
+        // if error field is a RTE, it is a little bit more difficult
+        if ($('#cke_' + Element.id).length) {
+            Core.Form.ErrorTooltips.RemoveRTETooltip($Element);
         } else {
             Core.Form.ErrorTooltips.RemoveTooltip($Element);
         }

@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.2 2010-06-23 10:25:23 mn Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.3 2010-06-24 10:50:13 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -87,6 +87,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             CKEDITOR.config.formID = CheckFormID().val();
         }
         CKEDITOR.config.spellerPagesServerScript = Core.Config.Get('Baselink');
+        CKEDITOR.instances[EditorID].on('blur', function() {
+            TargetNS.UpdateLinkedField($EditorArea);
+        });
     };
 
     TargetNS.InitAll = function () {
