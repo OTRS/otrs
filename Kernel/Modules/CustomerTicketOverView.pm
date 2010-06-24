@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.60 2010-05-19 17:21:17 fn Exp $
+# $Id: CustomerTicketOverView.pm,v 1.61 2010-06-24 19:09:51 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,10 +43,10 @@ sub new {
         );
 
     # get params
-    $Self->{Filter}   = $Self->{ParamObject}->GetParam( Param => 'Filter' )   || 'Open';
-    $Self->{SortBy}   = $Self->{ParamObject}->GetParam( Param => 'SortBy' )   || 'Age';
-    $Self->{Order}    = $Self->{ParamObject}->GetParam( Param => 'Order' )    || 'Down';
-    $Self->{StartHit} = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+    $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || 'Open';
+    $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' ) || 'Age';
+    $Self->{Order}  = $Self->{ParamObject}->GetParam( Param => 'Order' )  || 'Down';
+    $Self->{StartHit} = int $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
     $Self->{PageShown} = $Self->{UserShowTickets} || 1;
 
     return $Self;
