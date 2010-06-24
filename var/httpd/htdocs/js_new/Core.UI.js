@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.5 2010-06-24 11:21:53 fn Exp $
+// $Id: Core.UI.js,v 1.6 2010-06-24 13:45:27 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -55,13 +55,14 @@ Core.UI = (function (TargetNS) {
         
         function GetWidths($Elements, Position) {
             var Storage = [],
-                Size = $Elements.length;
+                Size = $Elements.length,
+                J;
             if (typeof Position !== "undefined") {
                 return $Elements.eq(Position).outerWidth();
             }
             else {
-                for (I = 0;I < Size;I++) {
-                    Storage[I] = $Elements.eq(I).outerWidth();
+                for (J = 0;J < Size;J++) {
+                    Storage[J] = $Elements.eq(J).outerWidth();
                 }
                 return Storage;
             }
