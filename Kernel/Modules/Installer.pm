@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.75 2010-06-23 20:49:07 mp Exp $
+# $Id: Installer.pm,v 1.76 2010-06-24 20:32:49 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -266,15 +266,11 @@ sub Run {
 
             # create db
             my $DBCreate = '';
-            if ( $DB{DBDefaultCharset} eq 'utf8' ) {
-                $DBCreate = " CREATE DATABASE $DB{Database} charset utf8";
-            }
-            else {
-                $DBCreate = " CREATE DATABASE $DB{Database}";
-            }
+            $DBCreate = " CREATE DATABASE $DB{Database} charset utf8";
+
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "Creating database '$DB{Database}' $DB{DBDefaultCharset}", },
+                Data => { Item => "Creating database '$DB{Database}'", },
             );
             if ( !$DBH->do($DBCreate) ) {
                 $Self->{LayoutObject}->Block(
@@ -497,9 +493,8 @@ sub Run {
             }
 
             # set default charset to utf8 it configured
-            if ( $DB{DBDefaultCharset} eq 'utf8' ) {
-                $Self->ReConfigure( DefaultCharset => 'utf-8', );
-            }
+            $Self->ReConfigure( DefaultCharset => 'utf-8', );
+
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItemMessage',
                 Data => { Message => 'Database setup successful!', },
@@ -875,20 +870,19 @@ sub ConnectToDB {
     my ( $Self, %Param ) = @_;
 
     my %DB;
-    $DB{User}             = $Self->{ParamObject}->GetParam( Param => 'DBUser' )            || '';
-    $DB{Password}         = $Self->{ParamObject}->GetParam( Param => 'DBPassword' )        || '';
-    $DB{DatabaseHost}     = $Self->{ParamObject}->GetParam( Param => 'DBHost' )            || '';
-    $DB{Type}             = $Self->{ParamObject}->GetParam( Param => 'DBType' )            || '';
-    $DB{Database}         = $Self->{ParamObject}->GetParam( Param => 'DBName' )            || '';
-    $DB{DBAction}         = $Self->{ParamObject}->GetParam( Param => 'DBAction' )          || '';
-    $DB{DBDefaultCharset} = $Self->{ParamObject}->GetParam( Param => 'DBDefaultCharset' )  || '';
-    $DB{DatabaseUser}     = $Self->{ParamObject}->GetParam( Param => 'OTRSDBUser' )        || '';
-    $DB{DatabasePw}       = $Self->{ParamObject}->GetParam( Param => 'OTRSDBPassword' )    || '';
-    $DB{NewHost}          = $Self->{ParamObject}->GetParam( Param => 'OTRSDBConnectHost' ) || '';
+    $DB{User}         = $Self->{ParamObject}->GetParam( Param => 'DBUser' )            || '';
+    $DB{Password}     = $Self->{ParamObject}->GetParam( Param => 'DBPassword' )        || '';
+    $DB{DatabaseHost} = $Self->{ParamObject}->GetParam( Param => 'DBHost' )            || '';
+    $DB{Type}         = $Self->{ParamObject}->GetParam( Param => 'DBType' )            || '';
+    $DB{Database}     = $Self->{ParamObject}->GetParam( Param => 'DBName' )            || '';
+    $DB{DBAction}     = $Self->{ParamObject}->GetParam( Param => 'DBAction' )          || '';
+    $DB{DatabaseUser} = $Self->{ParamObject}->GetParam( Param => 'OTRSDBUser' )        || '';
+    $DB{DatabasePw}   = $Self->{ParamObject}->GetParam( Param => 'OTRSDBPassword' )    || '';
+    $DB{NewHost}      = $Self->{ParamObject}->GetParam( Param => 'OTRSDBConnectHost' ) || '';
 
     # check params
     for my $Key ( keys %DB ) {
-        if ( !$DB{$Key} && $Key !~ /^(Password|DBDefaultCharset)$/ ) {
+        if ( !$DB{$Key} && $Key !~ /^(Password)$/ ) {
             return (
                 Successful => 0,
                 Message    => "You need '$Key'!!",
