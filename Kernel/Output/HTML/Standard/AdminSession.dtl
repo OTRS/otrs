@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.32 2010-06-23 17:31:38 dz Exp $
+# $Id: AdminSession.dtl,v 1.33 2010-06-24 09:24:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,29 +29,29 @@
 <!-- dtl:block:ActionOverview -->
 
 <!-- dtl:block:ActionSummary -->
-                    <fieldset class="TableLike LargeLabel">
-                        <label>$Text{"All sessions"}:</label>
-                        <div class="Value">$Data{"Counter"}</div>
-                        <div class="Clear"></div>
-
-                        <label>$Text{"Agent sessions"}:</label>
-                        <div class="Value">$Data{"UserSession"}</div>
-                        <div class="Clear"></div>
-
-                        <label>$Text{"Customer sessions"}:</label>
-                        <div class="Value">$Data{"CustomerSession"}</div>
-                        <div class="Clear"></div>
-
-                        <label>$Text{"Unique agents"}:</label>
-                        <div class="Value">$Data{"UserSessionUniq"}</div>
-                        <div class="Clear"></div>
-
-                        <label>$Text{"Unique customers"}:</label>
-                        <div class="Value">$Data{"CustomerSessionUniq"}</div>
-                        <div class="Clear"></div>
-                    </fieldset>
 
                     <li>
+                        <fieldset class="TableLike LargeLabel">
+                            <label>$Text{"All sessions"}:</label>
+                            <div class="Value">$Data{"Counter"}</div>
+                            <div class="Clear"></div>
+
+                            <label>$Text{"Agent sessions"}:</label>
+                            <div class="Value">$Data{"UserSession"}</div>
+                            <div class="Clear"></div>
+
+                            <label>$Text{"Customer sessions"}:</label>
+                            <div class="Value">$Data{"CustomerSession"}</div>
+                            <div class="Clear"></div>
+
+                            <label>$Text{"Unique agents"}:</label>
+                            <div class="Value">$Data{"UserSessionUniq"}</div>
+                            <div class="Clear"></div>
+
+                            <label>$Text{"Unique customers"}:</label>
+                            <div class="Value">$Data{"CustomerSessionUniq"}</div>
+                            <div class="Clear"></div>
+                        </fieldset>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=KillAll;WantSessionID=$Env{"SessionID"}" class="CallForAction"><span>$Text{"Kill all sessions"}</span></a>
                     </li>
 <!-- dtl:block:ActionSummary -->
