@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.3 2010-06-23 11:05:34 fn Exp $
+// $Id: Core.UI.js,v 1.4 2010-06-24 09:24:06 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -47,7 +47,7 @@ Core.UI = (function (TargetNS) {
         var $THeadElements = $THead.find('tr th'),
             THeadElementWidth,
             $TBodyElements = $TBody.find('tr:first td'),
-            TBodyWidths = GetWidths($TBodyElements),
+            TBodyWidths,
             TableSize = $THeadElements.size(),
             Adjusted = true,
             Adjustments = [],
@@ -56,34 +56,36 @@ Core.UI = (function (TargetNS) {
         function GetWidths($Elements, Position) {
             var Storage = [],
                 Size = $Elements.length;
-            if(Position){
+            if (Position) {
                 return $Elements.eq(Position).outerWidth();
             }
             else {
-                for(var I = 0;I < Size;I++) {
+                for (I = 0;I < Size;I++) {
                     Storage[I] = $Elements.eq(I).outerWidth();
-                };
+                }
                 return Storage;
             }
-        };
+        }
+        
+        TBodyWidths = GetWidths($TBodyElements);
         
         // First round: adjust obvious differences
         for (I = 0; I < TableSize; I++) {
             $THeadElements.eq(I).width(TBodyWidths[I] + 'px');
             THeadElementWidth = GetWidths($THeadElements, I);
-            if(THeadElementWidth > TBodyWidths[I]){
+            if (THeadElementWidth > TBodyWidths[I]) {
                 Adjustments[I] = THeadElementWidth;
                 Adjusted = false;
             }
         }
 
         // Second round: Adjust the body columns as calculated before
-        if(!Adjusted){
+        if (!Adjusted) {
             for (I = 0; I < TableSize; I++) {
                 if (Adjustments[I]) {
                     $TBodyElements.eq(I).width(Adjustments[I] + 'px');
                 }
-            };
+            }
             TargetNS.AdjustTableHead($THead, $TBody);
         }
     };
@@ -125,7 +127,7 @@ Core.UI = (function (TargetNS) {
     TargetNS.InitWidgetActionToggle = function () {
         $(".WidgetAction.Toggle > a")
             .each(function () {
-                var $WidgetElement = $(this).closest("div.Header").parent('div');
+                var $WidgetElement = $(this).closest("div.Header").parent('div'),
                     ContentDivID = TargetNS.GetID($WidgetElement.children('.Content'));
                 $(this)
                     .attr('aria-controls', ContentDivID)
@@ -147,7 +149,7 @@ Core.UI = (function (TargetNS) {
                     $that = $(this);
 
                 if (Animate && Core.Config.Get('AnimationEnabled')) {
-                    $WidgetElement.addClass('AnimationRunning').find('.Content').slideToggle("slow", function() {
+                    $WidgetElement.addClass('AnimationRunning').find('.Content').slideToggle("slow", function () {
                         ToggleWidget();
                         $WidgetElement.removeClass('AnimationRunning');
                     });
