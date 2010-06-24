@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.4 2010-06-24 09:24:06 fn Exp $
+// $Id: Core.UI.js,v 1.5 2010-06-24 11:21:53 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@ Core.UI = (function (TargetNS) {
         function GetWidths($Elements, Position) {
             var Storage = [],
                 Size = $Elements.length;
-            if (Position) {
+            if (typeof Position !== "undefined") {
                 return $Elements.eq(Position).outerWidth();
             }
             else {
@@ -135,6 +135,10 @@ Core.UI = (function (TargetNS) {
             })
             .unbind('click.WidgetToggle')
             .bind('click.WidgetToggle', function () {
+                var $WidgetElement = $(this).closest("div.Header").parent('div'),
+                    Animate = $WidgetElement.hasClass('Animate'),
+                    $that = $(this);
+                
                 function ToggleWidget() {
                     $WidgetElement
                         .toggleClass('Collapsed')
@@ -143,10 +147,6 @@ Core.UI = (function (TargetNS) {
                         .end()
                         .attr('aria-expanded', $(this).closest("div.Header").parent('div').hasClass('Expanded'));
                 }
-
-                var $WidgetElement = $(this).closest("div.Header").parent('div'),
-                    Animate = $WidgetElement.hasClass('Animate'),
-                    $that = $(this);
 
                 if (Animate && Core.Config.Get('AnimationEnabled')) {
                     $WidgetElement.addClass('AnimationRunning').find('.Content').slideToggle("slow", function () {
