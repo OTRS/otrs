@@ -2,7 +2,7 @@
 // Core.Data.js - provides functions for setting and getting data (objects) to DOM elements
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Data.js,v 1.2 2010-06-25 05:25:44 cg Exp $
+// $Id: Core.Data.js,v 1.3 2010-06-25 16:09:59 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -65,9 +65,11 @@ Core.Data = (function (TargetNS) {
      * @return {Boolean} True or False Value
      */
     TargetNS.CompareObject = function (ObjectOne, ObjectTwo) {
-        var Key,
-            Result = true;
+        var Key;
 
+        if (!ObjectOne || !ObjectTwo) {
+            return false;
+        }
         if (typeof(ObjectOne) !== 'object' || typeof(ObjectTwo) !== 'object') {
             return false;
         }
@@ -80,12 +82,12 @@ Core.Data = (function (TargetNS) {
             if ((typeof(ObjectOne[Key]) === 'object') &&
                 (typeof(ObjectTwo[Key]) === 'object')) {
                 if (!Core.Data.CompareObject(ObjectOne[Key], ObjectTwo[Key])) {
-                    Result = false;
+                    return false;
                 }
-            } 
+            }
             else {
                 if (ObjectOne[Key] !== ObjectTwo[Key]) {
-                    Result = false;
+                    return false;
                 }
             }
         }
@@ -94,17 +96,17 @@ Core.Data = (function (TargetNS) {
             if ((typeof(ObjectTwo[Key]) === 'object') &&
                 (typeof(ObjectOne[Key]) === 'object')) {
                 if (!Core.Data.CompareObject(ObjectTwo[Key], ObjectOne[Key])) {
-                    Result = false;
+                    return false;
                 }
             } 
             else {
                 if (ObjectTwo[Key] !== ObjectOne[Key]) {
-                    Result = false;
+                    return false;
                 }
             }
         }
 
-        return Result;
+        return true;
     };
     
     /**
@@ -117,7 +119,7 @@ Core.Data = (function (TargetNS) {
     TargetNS.CopyObject = function (Data) {
         var Key = '',
             TempObject;
-        if (Data === null || typeof(Data) !== 'object') {
+        if (!Data || typeof(Data) !== 'object') {
             return Data;
         }
 
