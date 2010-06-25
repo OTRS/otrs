@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.9 2010-06-25 13:49:25 mn Exp $
+// $Id: Core.UI.Datepicker.js,v 1.10 2010-06-25 16:11:16 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -93,15 +93,15 @@ Core.UI.Datepicker = (function (TargetNS) {
 
         // Check, if datepicker is used with three input element or with three select boxes
         if (typeof Element === 'object' &&
-            typeof Element['Day'] !== 'undefined' &&
-            typeof Element['Month'] !== 'undefined' &&
-            typeof Element['Year'] !== 'undefined' &&
-            isJQueryObject(Element['Day'], Element['Month'], Element['Year'])) {
+            typeof Element.Day !== 'undefined' &&
+            typeof Element.Month !== 'undefined' &&
+            typeof Element.Year !== 'undefined' &&
+            isJQueryObject(Element.Day, Element.Month, Element.Year)) {
 
             $DatepickerElement = $('<input>').attr('type', 'hidden').attr('id', 'Datepicker' + DatepickerCount);
-            Element['Year'].after($DatepickerElement);
+            Element.Year.after($DatepickerElement);
 
-            if (Element['Day'].is('select') && Element['Month'].is('select') && Element['Year'].is('select')) {
+            if (Element.Day.is('select') && Element.Month.is('select') && Element.Year.is('select')) {
                 HasDateSelectBoxes = true;
             }
         }
@@ -134,14 +134,14 @@ Core.UI.Datepicker = (function (TargetNS) {
 
             // Update the three select boxes
             if (HasDateSelectBoxes) {
-                Element['Year'].find('option[value=' + Year + ']').attr('selected', 'selected');
-                Element['Month'].find('option[value=' + Month + ']').attr('selected', 'selected');
-                Element['Day'].find('option[value=' + Day + ']').attr('selected', 'selected');
+                Element.Year.find('option[value=' + Year + ']').attr('selected', 'selected');
+                Element.Month.find('option[value=' + Month + ']').attr('selected', 'selected');
+                Element.Day.find('option[value=' + Day + ']').attr('selected', 'selected');
             }
             else {
-                Element['Year'].val(Year);
-                Element['Month'].val(LeadingZero(Month));
-                Element['Day'].val(LeadingZero(Day));
+                Element.Year.val(Year);
+                Element.Month.val(LeadingZero(Month));
+                Element.Day.val(LeadingZero(Day));
             }
         };
         Options.beforeShow = function (Input, Instance) {
