@@ -2,7 +2,7 @@
 // Core.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Config.js,v 1.2 2010-06-25 05:25:44 cg Exp $
+// $Id: Core.Config.js,v 1.3 2010-06-25 16:21:44 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,9 @@ Core.Config = (function (TargetNS) {
     var Config = {},
         ConfigPrefix = 'Config';
 
+    if (!Core.Debug.CheckDependency('Core.Config', 'Core.Data', 'Core.Data')) {
+        return;
+    }
     /**
      * @function
      *      Sets a single option value
