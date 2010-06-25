@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.4 2010-06-25 05:26:29 cg Exp $
+// $Id: Core.Form.Validate.js,v 1.5 2010-06-25 09:22:28 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -29,6 +29,7 @@ Core.Form.Validate = (function (TargetNS) {
         ErrorLabelClass:    'LabelError',
         ServerErrorClass:   'ServerError',
         ServerLabelClass:   'ServerLabelError',
+        IgnoreClass:        'ValidationIgnore',
         SubmitFunction:     {}
     };
 
@@ -331,7 +332,8 @@ Core.Form.Validate = (function (TargetNS) {
             highlight: HighlightError,
             unhighlight: UnHighlightError,
             errorPlacement: OnErrorElement,
-            submitHandler: OnSubmit
+            submitHandler: OnSubmit,
+            ignore: '.' + Options.IgnoreClass
         });
 
         /*
@@ -409,6 +411,28 @@ Core.Form.Validate = (function (TargetNS) {
             $.validator.addClassRules(Name, MethodHash);
         }
     };
+
+    TargetNS.DisableValidation = function ($Form) {
+        // If no form is given, disable validation in all form elements on the complete site
+        if (!isJQueryObject($Form)) {
+            $Form = $('body');
+        }
+
+        $Form
+            .find("input:not([type='hidden']), textarea, select")
+            .addClass(Options.IgnoreClass);
+    }
+
+    TargetNS.EnableValidation = function ($Form) {
+        // If no form is given, disable validation in all form elements on the complete site
+        if (!isJQueryObject($Form)) {
+            $Form = $('body');
+        }
+
+        $Form
+            .find("input:not([type='hidden']), textarea, select")
+            .removeClass(Options.IgnoreClass);
+    }
 
     return TargetNS;
 }(Core.Form.Validate || {}));
