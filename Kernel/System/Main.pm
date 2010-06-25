@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.47 2010-06-17 05:58:31 dz Exp $
+# $Id: Main.pm,v 1.48 2010-06-25 15:32:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Encode;
 use Unicode::Normalize;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -830,7 +830,7 @@ sub _Dump {
 
 =item DirectoryRead()
 
-Reads a directory and returns an array with results
+reads a directory and returns an array with results.
 
     my @FilesInDirectory = $MainObject->DirectoryRead(
         Directory => '/tmp',
@@ -915,7 +915,15 @@ sub DirectoryRead {
     # compose normalize every name in the file list
     my @Results;
     for my $Filename (@GlobResults) {
-        my $Normalized = Unicode::Normalize::normalize( 'NFC', $Filename );
+        $Filename = $Self->{EncodeObject}->Convert2CharsetInternal(
+            Text => $Filename,
+            From => 'utf-8',
+        );
+        my $Normalized
+            = Encode::is_utf8( $Filename, 1 )
+            ? Unicode::Normalize::normalize( 'NFC', $Filename )
+            : $Filename;
+
         push @Results, $Normalized;
     }
 
@@ -940,6 +948,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2010-06-17 05:58:31 $
+$Revision: 1.48 $ $Date: 2010-06-25 15:32:19 $
 
 =cut
