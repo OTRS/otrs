@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.8 2010-06-25 13:30:56 mn Exp $
+// $Id: Core.UI.Datepicker.js,v 1.9 2010-06-25 13:49:25 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -158,6 +158,14 @@ Core.UI.Datepicker = (function (TargetNS) {
             $DatepickerElement.trigger('focus');
             return false;
         });
+
+        // Add validation error messages for all dateselection elements
+        Element.Year
+            .after('<div id="' + Element.Day.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + Core.Config.Get('Datepicker.ErrorMessage') + '</p></div>')
+            .after('<div id="' + Element.Month.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + Core.Config.Get('Datepicker.ErrorMessage') + '</p></div>')
+            .after('<div id="' + Element.Year.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + Core.Config.Get('Datepicker.ErrorMessage') + '</p></div>')
+            .after('<div id="' + Element.Hour.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + Core.Config.Get('Datepicker.ErrorMessage') + '</p></div>')
+            .after('<div id="' + Element.Minute.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + Core.Config.Get('Datepicker.ErrorMessage') + '</p></div>');
 
         // do not show the datepicker container div.
         $('#ui-datepicker-div').hide();
