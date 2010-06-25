@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.317 2010-06-25 05:29:07 cg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.318 2010-06-25 16:19:42 cg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -5412,9 +5412,9 @@ Your OTRS Notification Master
                 <Item>thirdparty/jquery-ui-1.8/jquery-ui-autocomplete.js</Item>
                 <Item>thirdparty/jquery-validate-1.7/jquery.validate.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
+                <Item>Core.Debug.js</Item>
                 <Item>Core.Data.js</Item>
                 <Item>Core.Config.js</Item>
-                <Item>Core.Debug.js</Item>
                 <Item>Core.Exception.js</Item>
                 <Item>Core.JSON.js</Item>
                 <Item>Core.AJAX.js</Item>
