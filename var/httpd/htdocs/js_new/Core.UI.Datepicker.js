@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.7 2010-06-25 05:26:29 cg Exp $
+// $Id: Core.UI.Datepicker.js,v 1.8 2010-06-25 13:30:56 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -67,10 +67,9 @@ Core.UI.Datepicker = (function (TargetNS) {
      *      This function initializes the datepicker on the defined elements.
      * @param {Object} Element The jQuery object of a text input field which should get  a datepicker.
      *                 Or a hash with the Keys 'Year', 'Month' and 'Day' and as values the jQueryObjects of the select drop downs.
-     * @param {jQueryObject} $Image The jQuery object of the datepicker icon element
      * @return nothing
      */
-    TargetNS.Init = function (Element, $Image) {
+    TargetNS.Init = function (Element) {
         function LeadingZero(Number) {
             if (Number.toString().length === 1) {
                 return '0' + Number;
@@ -154,13 +153,11 @@ Core.UI.Datepicker = (function (TargetNS) {
 
         $DatepickerElement.datepicker(Options);
 
-        // add click event to datepicker icon
-        if (isJQueryObject($Image)) {
-            $Image.click(function () {
-                $DatepickerElement.trigger('focus');
-                return false;
-            });
-        }
+        // add datepicker icon and click event
+        Element.Year.after('<a href="#" class="DatepickerIcon"></a>').next('a.DatepickerIcon').click(function () {
+            $DatepickerElement.trigger('focus');
+            return false;
+        });
 
         // do not show the datepicker container div.
         $('#ui-datepicker-div').hide();
