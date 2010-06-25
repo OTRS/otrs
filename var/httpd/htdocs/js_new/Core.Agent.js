@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.Agent.js,v 1.2 2010-06-25 05:25:44 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -41,7 +41,7 @@ Core.Agent = (function (TargetNS) {
      * @return nothing
      *      This function initializes the main navigation
      */
-    function InitNavigation () {
+    function InitNavigation() {
         /*
          * private variables for navigation
          */
@@ -124,7 +124,7 @@ Core.Agent = (function (TargetNS) {
         $('#Navigation li').filter(function () {
             return $('ul', this).length;
         }).attr('aria-haspopup', 'true');
-    };
+    }
     /**
      * @function
      * @return nothing

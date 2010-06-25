@@ -2,7 +2,7 @@
 // Core.Exception.js - provides the exception object and handling functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Exception.js,v 1.2 2010-06-04 12:00:43 mn Exp $
+// $Id: Core.Exception.js,v 1.3 2010-06-25 05:25:44 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ Core.Exception = (function (TargetNS) {
     TargetNS.ApplicationError = function (ErrorMessage, ErrorType) {
         var Type = ErrorType,
             Message = ErrorMessage,
-            Types = ['Error', 'InternalError', 'TypeError', 'CommunicationError'];
+            Types = ['Error', 'InternalError', 'TypeError', 'CommunicationError'],
             DefaultType = 'Error';
 
         if (!$.inArray(Type, Types)) {
@@ -39,11 +39,11 @@ Core.Exception = (function (TargetNS) {
 
         this.GetType = function () {
             return Type;
-        }
+        };
 
         this.GetMessage = function () {
             return Message;
-        }
+        };
     };
 
     /**
@@ -66,7 +66,7 @@ Core.Exception = (function (TargetNS) {
      */
     TargetNS.IsErrorOfType = function (ErrorObject, ErrorType) {
         return  (ErrorObject instanceof TargetNS.ApplicationError && ErrorObject.GetType === ErrorType);
-    }
+    };
 
     /**
      * @function

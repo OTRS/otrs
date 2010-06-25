@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.3 2010-06-09 11:30:32 mg Exp $
+// $Id: Core.UI.Popup.js,v 1.4 2010-06-25 05:26:29 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -101,7 +101,7 @@ Core.UI.Popup = (function (TargetNS) {
         if (typeof Popup === 'String') {
             Popup = GetPopupObjectByType(Popup);
         }
-        if (Popup && Popup instanceof Window) {
+        if (Popup && Popup instanceof window) {
             Popup.close();
             CheckOpenPopups();
         }

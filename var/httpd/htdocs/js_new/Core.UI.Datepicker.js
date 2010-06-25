@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.6 2010-06-21 09:30:04 mn Exp $
+// $Id: Core.UI.Datepicker.js,v 1.7 2010-06-25 05:26:29 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -75,11 +75,14 @@ Core.UI.Datepicker = (function (TargetNS) {
             if (Number.toString().length === 1) {
                 return '0' + Number;
             }
-            else return Number;
+            else {
+                return Number;
+            }
         }
 
         var $DatepickerElement,
             HasDateSelectBoxes = false,
+            Options,
             I;
 
         if (typeof LocalizationData === 'undefined') {
@@ -146,7 +149,7 @@ Core.UI.Datepicker = (function (TargetNS) {
             $(Input).val('');
             return {
                 defaultDate: new Date(Element.Year.val(), Element.Month.val() - 1, Element.Day.val())
-            }
+            };
         };
 
         $DatepickerElement.datepicker(Options);

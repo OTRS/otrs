@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.3 2010-06-24 10:50:13 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.4 2010-06-25 05:26:29 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -128,14 +128,14 @@ Core.Form.Validate = (function (TargetNS) {
     $.validator.addMethod("Validate_Email", $.validator.methods.email, "");
     $.validator.addMethod("Validate_RequiredDropdown", function (Value, Element) {
         return ($(Element).find('option:selected').text() !== '-');
-    }, "")
+    }, "");
 
     $.validator.addMethod("Validate_RequiredRichtext", function (Value, Element) {
         if (Core.UI.RichTextEditor.IsEnabled($(Element))) {
             Core.UI.RichTextEditor.UpdateLinkedField($(Element));
         }
         return ($(Element).val().length > 0);
-    }, "")
+    }, "");
 
     $.validator.addMethod("Validate_DateYear", function (Value, Element) {
         return (parseInt(Value, 10) > 999 && parseInt(Value, 10) < 10000);
@@ -165,12 +165,12 @@ Core.Form.Validate = (function (TargetNS) {
             }
         });
         if (YearElement.length && MonthElement.length && $('#' + YearElement).length && $('#' + MonthElement).length) {
-           DateObject = new Date($('#' + YearElement).val(), $('#' + MonthElement).val() - 1, Value);
-           if (DateObject.getFullYear() === parseInt($('#' + YearElement).val(), 10) &&
-               DateObject.getMonth() + 1 === parseInt($('#' + MonthElement).val(), 10) &&
-               DateObject.getDate() === parseInt(Value, 10)) {
-               return true;
-           }
+            DateObject = new Date($('#' + YearElement).val(), $('#' + MonthElement).val() - 1, Value);
+            if (DateObject.getFullYear() === parseInt($('#' + YearElement).val(), 10) &&
+                DateObject.getMonth() + 1 === parseInt($('#' + MonthElement).val(), 10) &&
+                DateObject.getDate() === parseInt(Value, 10)) {
+                return true;
+            }
         }
         return false;
     }, "");

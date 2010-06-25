@@ -2,7 +2,7 @@
 // Core.Data.js - provides functions for setting and getting data (objects) to DOM elements
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Data.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.Data.js,v 1.2 2010-06-25 05:25:44 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,5 +56,79 @@ Core.Data = (function (TargetNS) {
         }
     };
 
+    /**
+     * @function
+     * @description
+     *      This function compare 2 JSONObjects
+     * @param {ObjectA} ObjectOne JSONObject The object which should be compared
+     * @param {ObjectB} ObjectTwo JSONObject The object which should be compared
+     * @return {Boolean} True or False Value
+     */
+    TargetNS.CompareObject = function (ObjectOne, ObjectTwo) {
+        var Key,
+            Result = true;
+
+        if (typeof(ObjectOne) !== 'object' || typeof(ObjectTwo) !== 'object') {
+            return false;
+        }
+
+        if (ObjectOne.constructor !== ObjectTwo.constructor) {
+            return false;
+        }
+
+        for (Key in ObjectOne) {
+            if ((typeof(ObjectOne[Key]) === 'object') &&
+                (typeof(ObjectTwo[Key]) === 'object')) {
+                if (!Core.Data.CompareObject(ObjectOne[Key], ObjectTwo[Key])) {
+                    Result = false;
+                }
+            } 
+            else {
+                if (ObjectOne[Key] !== ObjectTwo[Key]) {
+                    Result = false;
+                }
+            }
+        }
+
+        for (Key in ObjectTwo) {
+            if ((typeof(ObjectTwo[Key]) === 'object') &&
+                (typeof(ObjectOne[Key]) === 'object')) {
+                if (!Core.Data.CompareObject(ObjectTwo[Key], ObjectOne[Key])) {
+                    Result = false;
+                }
+            } 
+            else {
+                if (ObjectTwo[Key] !== ObjectOne[Key]) {
+                    Result = false;
+                }
+            }
+        }
+
+        return Result;
+    };
+    
+    /**
+     * @function
+     * @description
+     *      This function create a copy of an Object
+     * @param {Object}  Data The object which should be compied
+     * @return {Object} The new object
+     */
+    TargetNS.CopyObject = function (Data) {
+        var Key = '',
+            TempObject;
+        if (Data === null || typeof(Data) !== 'object') {
+            return Data;
+        }
+
+        TempObject = new Data.constructor();
+        for (Key in Data) {
+            if (Data.hasOwnProperty(Key)) {
+                TempObject[Key] = Core.Data.CopyObject(Data[Key]);
+            }
+        }
+        return TempObject;
+    };
+    
     return TargetNS;
 }(Core.Data || {}));

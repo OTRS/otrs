@@ -2,7 +2,7 @@
 // Core.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Config.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.Config.js,v 1.2 2010-06-25 05:25:44 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -86,20 +86,6 @@ Core.Config = (function (TargetNS) {
      * @param {String} Key The key in the config where the data structure is saved to. If undefined, the Data is added to the root of the hash.
      */
     TargetNS.AddConfig = function (Data, Key) {
-        function CopyObject(Data) {
-            if (Data == null || typeof(Data) !== 'object') {
-                return Data;
-            }
-
-            var TempObject = new Data.constructor();
-            for (var Key in Data) {
-                if (Data.hasOwnProperty(Key)) {
-                    TempObject[Key] = CopyObject(Data[Key]);
-                }
-            }
-            return TempObject;
-        }
-
         var ConfigOptions,
             Keys,
             KeyToken,
@@ -112,7 +98,7 @@ Core.Config = (function (TargetNS) {
          * "change" the other references.
          * We have to *really* copy the object, to be sure to have no reference to the given parameter object.
          */
-        ConfigOptions = CopyObject(Data);
+        ConfigOptions = Core.Data.CopyObject(Data);
 
         if (typeof Key === 'undefined') {
             $.each(Data, function (Key, Value) {
@@ -125,13 +111,15 @@ Core.Config = (function (TargetNS) {
                 if (Keys.length === Count + 1) {
                     ConfigLevel[ConfigPrefix + Keys[KeyToken]] = ConfigOptions;
                 }
-                else if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
-                    ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
-                }
                 else {
-                    ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                    if (typeof ConfigLevel[ConfigPrefix + Keys[KeyToken]] === 'undefined') {
+                        ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                    }
+                    else {
+                        ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                    }
+                    Count++;
                 }
-                Count++;
             }
         }
     };
