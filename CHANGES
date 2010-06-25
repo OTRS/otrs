@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1236 2010-06-24 19:09:51 dz Exp $
+# $Id: CHANGES,v 1.1237 2010-06-25 09:11:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -311,6 +311,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/06/25) Updated Danish translation, thanks to Jesper Rønnov,
+    Faaborg-Midtfyn Kommune!
  - (2010/06/24) Fixed bug#5445 - Reflected XSS vulnerability.
  - (2010/06/16) Fixed bug#5488 - AutoPriorityIncrease runs into failures.
  - (2010/06/16) Fixed bug#5478 - Web Installer has 'editable' license text.
