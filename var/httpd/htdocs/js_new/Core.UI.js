@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.6 2010-06-24 13:45:27 fn Exp $
+// $Id: Core.UI.js,v 1.7 2010-06-25 12:23:46 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ Core.UI = (function (TargetNS) {
         // initial adjustion of the tablehead elements
         TargetNS.AdjustTableHead($THead, $TBody);
     };
-    
+
     TargetNS.AdjustTableHead = function ($THead, $TBody) {
         var $THeadElements = $THead.find('tr th'),
             THeadElementWidth,
@@ -52,7 +52,7 @@ Core.UI = (function (TargetNS) {
             Adjusted = true,
             Adjustments = [],
             I;
-        
+
         function GetWidths($Elements, Position) {
             var Storage = [],
                 Size = $Elements.length,
@@ -67,9 +67,9 @@ Core.UI = (function (TargetNS) {
                 return Storage;
             }
         }
-        
+
         TBodyWidths = GetWidths($TBodyElements);
-        
+
         // First round: adjust obvious differences
         for (I = 0; I < TableSize; I++) {
             $THeadElements.eq(I).width(TBodyWidths[I] + 'px');
@@ -139,7 +139,7 @@ Core.UI = (function (TargetNS) {
                 var $WidgetElement = $(this).closest("div.Header").parent('div'),
                     Animate = $WidgetElement.hasClass('Animate'),
                     $that = $(this);
-                
+
                 function ToggleWidget() {
                     $WidgetElement
                         .toggleClass('Collapsed')
@@ -256,6 +256,12 @@ Core.UI = (function (TargetNS) {
             });
         }
     };
+
+    TargetNS.ScrollTo = function ($Element) {
+        if (isJQueryObject($Element) && $Element.length) {
+            window.scrollTo(0, $Element.offset().top);
+        }
+    }
 
     return TargetNS;
 }(Core.UI || {}));

@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.5 2010-06-25 09:22:28 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.6 2010-06-25 12:23:46 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -348,6 +348,13 @@ Core.Form.Validate = (function (TargetNS) {
             Core.UI.Dialog.ShowAlert('Fehler!', 'Bei einem oder mehreren Formular-Eingaben sind Fehler aufgetreten!');
         }
     };
+
+    TargetNS.ValidateElement = function ($Element) {
+        if (isJQueryObject($Element)) {
+            return $Element.closest('form').validate().element($Element);
+        }
+        return false;
+    }
 
     /**
      * @function
