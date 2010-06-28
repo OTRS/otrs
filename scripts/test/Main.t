@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.19 2010-06-23 17:33:22 dz Exp $
+# $Id: Main.t,v 1.20 2010-06-28 10:24:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -328,119 +328,143 @@ my $Path                  = $Self->{ConfigObject}->Get('TempDir');
 my $DirectoryWithFiles    = "$Path/WithFiles";
 my $DirectoryWithoutFiles = "$Path/WithoutFiles";
 
-@Tests = (
-    {
-        Name      => 'Read directory with files, \'Example_File*\' Filter',
-        Filter    => 'Example_File*',
-        Directory => $DirectoryWithFiles,
-        Result    => 1,
-    },
-    {
-        Name      => 'Read directory with files, \'XX_NOTEXIST_XX\' Filter',
-        Filter    => 'XX_NOTEXIST_XX',
-        Directory => $DirectoryWithFiles,
-        Result    => 0,
-    },
-    {
-        Name      => 'Read directory with files, *0 *1 *2 Filters',
-        Filter    => [ '*0', '*1', '*2' ],
-        Directory => $DirectoryWithFiles,
-        Result    => 1,
-    },
-    {
-        Name      => 'Read directory with files, no Filter',
-        Filter    => '*',
-        Directory => $DirectoryWithFiles,
-        Result    => 1,
-    },
-    {
-        Name      => 'Read directory without files, * Filter',
-        Filter    => '*',
-        Directory => $DirectoryWithoutFiles,
-        Result    => 0,
-    },
-    {
-        Name      => 'Read directory without files, no Filter',
-        Filter    => '*',
-        Directory => $DirectoryWithoutFiles,
-        Result    => 0,
-    },
-    {
-        Name      => 'Directory doesn\'t exists!',
-        Directory => 'THIS',
-        Filter    => '*',
-        Result    => 0,
-    },
-);
-
 # create needed test directories
 for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
     if ( !mkdir $Directory ) {
         $Self->True(
             0,
-            "DirectoryRead() - unable to create '$Directory': $!",
+            "DirectoryRead() - create '$Directory': $!",
         );
     }
 }
 
 # create test files
-my @FileNames;
-for my $Number ( 0 .. 5 ) {
-    push @FileNames, "Example_File_$Number";
-    my $Content = "This is the content $Number";
+for my $Suffix ( 0 .. 5 ) {
     my $Success = $Self->{MainObject}->FileWrite(
         Directory => $DirectoryWithFiles,
-        Filename  => "Example_File_$Number",
-        Content   => \$Content,
+        Filename  => "Example_File_$Suffix",
+        Content   => \'',
     );
     $Self->True(
         $Success,
-        "DirectoryRead() - unable to create '$DirectoryWithFiles/Example_File_$Number'!",
+        "DirectoryRead() - create '$DirectoryWithFiles/Example_File_$Suffix'!",
     );
 }
 
-# test unicode normalizing
-# http://www.unicode.org/Public/UNIDATA/NormalizationTest.txt
-
-# Characters to test enconded with utf8
-my @Chars = (
-    Encode::encode( 'UTF8', "\x{FB01}" ),              # LATIN SMALL LIGATURE FI
-    Encode::encode( 'UTF8', "\x{73}\x{323}\x{307}" )
-    ,    # LATIN SMALL LETTER S WITH DOT BELOW AND DOT ABOVE
-    Encode::encode( 'UTF8', "\x{1100}\x{1161}\x{11A8}" ),    # HANGUL SYLLABLE GAG
-    Encode::encode( 'UTF8', "\x{41}\x{308}" ),               # LATIN CAPITAL LETTER A WITH DIAERESIS
-    Encode::encode( 'UTF8', "\x{4E}\x{303}" ),               # LATIN CAPITAL LETTER N WITH TILDE
+@Tests = (
+    {
+        Name      => 'Read directory with files, \'Example_File*\' Filter',
+        Filter    => 'Example_File*',
+        Directory => $DirectoryWithFiles,
+        Results   => [
+            "$DirectoryWithFiles/Example_File_0",
+            "$DirectoryWithFiles/Example_File_1",
+            "$DirectoryWithFiles/Example_File_2",
+            "$DirectoryWithFiles/Example_File_3",
+            "$DirectoryWithFiles/Example_File_4",
+            "$DirectoryWithFiles/Example_File_5",
+        ],
+    },
+    {
+        Name      => 'Read directory with files, \'XX_NOTEXIST_XX\' Filter',
+        Filter    => 'XX_NOTEXIST_XX',
+        Directory => $DirectoryWithFiles,
+        Results   => [],
+    },
+    {
+        Name      => 'Read directory with files, *0 *1 *2 Filters',
+        Filter    => [ '*0', '*1', '*2' ],
+        Directory => $DirectoryWithFiles,
+        Results   => [
+            "$DirectoryWithFiles/Example_File_0",
+            "$DirectoryWithFiles/Example_File_1",
+            "$DirectoryWithFiles/Example_File_2",
+        ],
+    },
+    {
+        Name      => 'Read directory with files, *0 *1 *2 Filters',
+        Filter    => [ '*0', '*2', '*1', '*1', '*0', '*2' ],
+        Directory => $DirectoryWithFiles,
+        Results   => [
+            "$DirectoryWithFiles/Example_File_0",
+            "$DirectoryWithFiles/Example_File_2",
+            "$DirectoryWithFiles/Example_File_1",
+        ],
+    },
+    {
+        Name      => 'Read directory with files, no Filter',
+        Filter    => '*',
+        Directory => $DirectoryWithFiles,
+        Results   => [
+            "$DirectoryWithFiles/Example_File_0",
+            "$DirectoryWithFiles/Example_File_1",
+            "$DirectoryWithFiles/Example_File_2",
+            "$DirectoryWithFiles/Example_File_3",
+            "$DirectoryWithFiles/Example_File_4",
+            "$DirectoryWithFiles/Example_File_5",
+        ],
+    },
+    {
+        Name      => 'Read directory with files, no Filter (multiple)',
+        Filter    => [ '*', '*', '*' ],
+        Directory => $DirectoryWithFiles,
+        Results   => [
+            "$DirectoryWithFiles/Example_File_0",
+            "$DirectoryWithFiles/Example_File_1",
+            "$DirectoryWithFiles/Example_File_2",
+            "$DirectoryWithFiles/Example_File_3",
+            "$DirectoryWithFiles/Example_File_4",
+            "$DirectoryWithFiles/Example_File_5",
+        ],
+    },
+    {
+        Name      => 'Read directory without files, * Filter',
+        Filter    => '*',
+        Directory => $DirectoryWithoutFiles,
+        Results   => [],
+    },
+    {
+        Name      => 'Read directory without files, no Filter',
+        Filter    => '*',
+        Directory => $DirectoryWithoutFiles,
+        Results   => [],
+    },
+    {
+        Name      => 'Directory doesn\'t exists!',
+        Directory => 'THIS',
+        Filter    => '*',
+        Results   => [],
+    },
 );
-for my $Char (@Chars) {
-    my $Filename = Encode::encode( 'UTF8', 'Example_File_' ) . $Char;
-    my $Content = "This is the content $Char";
-    $Filename = $Self->{MainObject}->FileWrite(
-        Directory => $DirectoryWithFiles,
-        Filename  => $Filename,
-        Content   => \$Content,
-    );
-    push @FileNames, $Filename;
-
-    push @Tests,
-        {
-        Name      => "Read directory with files, '$Filename' Filter",
-        Filter    => $Filename,
-        Directory => $DirectoryWithFiles,
-        Result    => 1,
-        };
-}
 
 for my $Test (@Tests) {
+
+    my @UnicodeResults;
+    for my $Result ( @{ $Test->{Results} } ) {
+        push @UnicodeResults, $Self->{EncodeObject}->Convert2CharsetInternal(
+            Text => $Result,
+            From => 'utf-8',
+        );
+    }
+
     my @Results = $Self->{MainObject}->DirectoryRead(
         Directory => $Test->{Directory},
         Filter    => $Test->{Filter},
     );
-    if ( $Test->{Result} ) {
-        $Self->True( scalar @Results, $Test->{Name} );
-    }
-    else {
-        $Self->False( scalar @Results, $Test->{Name} );
-    }
+
+    #use Data::Dumper;
+    #print STDERR "Dump: " . Dumper(\@Results) . "\n";
+    #print STDERR "Dump: " . Dumper(\@UnicodeResults) . "\n";
+
+    #my $Debug = $Results[0];
+    #use Devel::Peek;
+    #Devel::Peek::Dump($Debug);
+    #$Debug = $Test->{Results}->[0];
+    #Devel::Peek::Dump($Debug);
+    #$Debug = $UnicodeResults[0];
+    #Devel::Peek::Dump($Debug);
+
+    $Self->IsDeeply( \@Results, \@UnicodeResults, $Test->{Name} );
 }
 
 # delete needed test directories
