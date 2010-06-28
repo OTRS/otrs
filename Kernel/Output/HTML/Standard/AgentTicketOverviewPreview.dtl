@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.32 2010-06-04 11:19:32 mn Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.33 2010-06-28 13:27:47 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,134 +54,138 @@
             </div>
 <!-- dtl:block:MetaIcon -->
 <!-- dtl:block:Meta -->
-            <h2>
-                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"}">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title","60"}</a>
-            </h2>
-#           <div>
+            <div class="Infos">
+                <h2>
+                    <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"}" title="$QData{"Title","60"}">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title","60"}</a>
+                </h2>
+#               <div>
 <!-- dtl:block:MenuItem -->
-            <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} class="menuitem" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+                <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} class="menuitem" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
 <!-- dtl:block:MenuItem -->
-#           </div>
-            <table class="Infos">
-                <tbody>
-                    <tr>
-                        <td>
-                            <label>$Text{"Age"}</label>$Data{"Age"}
-                        </td>
-                        <td>
-                            <label>$Text{"Queue"}</label><div title="$QData{"Queue"}">$QData{"Queue","26"}</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>$Text{"Created"}</label>$TimeLong{"$Data{"Created"}"}
-                        </td>
-                        <td>
-                            <label>$Text{"State"}</label><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","26"}</div>
-                        </td>
-                    </tr>
+#               </div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label>$Text{"Age"}</label>$Data{"Age"}
+                            </td>
+                            <td>
+                                <label>$Text{"Queue"}</label><div title="$QData{"Queue"}">$QData{"Queue","26"}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>$Text{"Created"}</label>$TimeLong{"$Data{"Created"}"}
+                            </td>
+                            <td>
+                                <label>$Text{"State"}</label><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","26"}</div>
+                            </td>
+                        </tr>
 <!-- dtl:block:Service -->
-                    <tr>
-                        <td>
-                            <label>$Text{"Service"}</label><div title="$QData{"Service"}">$QData{"Service","26"}</div>
-                        </td>
-                        <td>
+                        <tr>
+                            <td>
+                                <label>$Text{"Service"}</label><div title="$QData{"Service"}">$QData{"Service","26"}</div>
+                            </td>
+                            <td>
 <!-- dtl:block:SLA -->
-                            <label>$Text{"SLA"}</label><div title="$QData{"SLA"}">$QData{"SLA","26"}</div>
+                                <label>$Text{"SLA"}</label><div title="$QData{"SLA"}">$QData{"SLA","26"}</div>
 <!-- dtl:block:SLA -->
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
 <!-- dtl:block:Service -->
-                    <tr>
-                        <td>
-                            <label>$Text{"Owner"}</label><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
-                        </td>
-                        <td>
-                            <label>$Text{"Lock"}</label><div title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","26"}</div>
-                        </td>
-                    </tr>
-                    <tr class="Middle">
-                        <td>
-                            <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","26"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
-                        </td>
-                        <td>
-                            <label>$Text{"First Response Time"}</label>
+                        <tr>
+                            <td>
+                                <label>$Text{"Owner"}</label><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
+                            </td>
+                            <td>
+                                <label>$Text{"Lock"}</label><div title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","26"}</div>
+                            </td>
+                        </tr>
+                        <tr class="Middle">
+                            <td>
+                                <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","26"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+                            </td>
+                            <td>
+                                <label>$Text{"First Response Time"}</label>
 <!-- dtl:block:FirstResponseTime -->
 <!-- dtl:block:FirstResponseTimeFontStart -->
-                            <font color="red">
+                                <font color="red">
 <!-- dtl:block:FirstResponseTimeFontStart -->
-                            <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
+                                <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
 <!-- dtl:block:FirstResponseTimeFontStop -->
-                            </font>
+                                </font>
 <!-- dtl:block:FirstResponseTimeFontStop -->
 <!-- dtl:block:FirstResponseTime -->
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
 <!-- dtl:block:Type -->
-                            <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type","18"}</div>
+                                <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type","18"}</div>
 <!-- dtl:block:Type -->
-                        </td>
-                        <td>
-                            <label>$Text{"Update Time"}</label>
+                            </td>
+                            <td>
+                                <label>$Text{"Update Time"}</label>
 <!-- dtl:block:UpdateTime -->
 <!-- dtl:block:UpdateTimeFontStart -->
-                            <font color="red">
+                                <font color="red">
 <!-- dtl:block:UpdateTimeFontStart -->
-                            <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
+                                <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
 <!-- dtl:block:UpdateTimeFontStop -->
-                            </font>
+                                </font>
 <!-- dtl:block:UpdateTimeFontStop -->
 <!-- dtl:block:UpdateTime -->
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
 
-                        </td>
-                        <td>
-                            <label>$Text{"Solution Time"}</label>
+                            </td>
+                            <td>
+                                <label>$Text{"Solution Time"}</label>
 <!-- dtl:block:SolutionTime -->
 <!-- dtl:block:SolutionTimeFontStart -->
-                            <font color="red">
+                                <font color="red">
 <!-- dtl:block:SolutionTimeFontStart -->
-                            <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
+                                <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
 <!-- dtl:block:SolutionTimeFontStop -->
-                            </font>
+                                </font>
 <!-- dtl:block:SolutionTimeFontStop -->
 <!-- dtl:block:SolutionTime -->
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <ul class="Preview $QData{"Class"}">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="Preview">
+                <ul class="$QData{"Class"}">
 <!-- dtl:block:ArticlePreview -->
-                <li class="$QData{"Class"}">
-                    <h3>
-                        <span class="Wrapper"><a href="" title="$QData{"From"} &ndash; $QData{"Subject"} &ndash; $TimeShort{"$QData{"Created"}"}">$RQData{"From","50"} &ndash; $QData{"Subject","70"}<span class="DateTime">$TimeShort{"$QData{"Created"}"}</span></a></span><span class="RightEnd"></span>
-                    </h3>
-                    <div class="HiddenBlock">
+                    <li class="$QData{"Class"}">
+                        <h3>
+                            <a href="" title="$QData{"From"} &ndash; $QData{"Subject"} &ndash; $TimeShort{"$QData{"Created"}"}">$RQData{"From","50"} &ndash; <span class="Subject">$QData{"Subject","70"}</span><span class="DateTime">$TimeShort{"$QData{"Created"}"}</span></a>
+                        </h3>
+                        <div class="HiddenBlock">
 <!-- dtl:block:ArticlePreviewActionRow -->
-                        <div class="ActionRow">
-                            <ul class="Actions">
+                            <div class="ActionRow">
+                                <ul class="Actions">
 <!-- dtl:block:ArticlePreviewActionRowItem -->
-                                <li><a href="$Data{"Link"}">$Text{"$Data{"Name"}"}</a></li>
+                                    <li><a href="$Data{"Link"}">$Text{"$Data{"Name"}"}</a></li>
 <!-- dtl:block:ArticlePreviewActionRowItem -->
-                            </ul>
-                            <div class="ClearLeft"></div>
-                        </div>
+                                </ul>
+                                <div class="ClearLeft"></div>
+                            </div>
 <!-- dtl:block:ArticlePreviewActionRow -->
-                        <div class="Content">
+                            <div class="Content">
 $Data{"BodyNote"}
 $Data{"Body"}
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
 <!-- dtl:block:ArticlePreview -->
-            </ul>
+                </ul>
+            </div>
+            <div class="Shadow"></div>
         </div>
-        <div class="Shadow"></div>
     </li>
 
 <!-- dtl:block:DISABLE -->
@@ -364,7 +368,7 @@ $Data{"Body"}
 <!-- dtl:block:DocumentReadyStart -->
     <script type="text/javascript">//<![CDATA[
         Core.UI.StaticTableControl($('#OverviewControl'));
-        Core.UI.Accordion.Init($('ul.Preview'), 'li h3 a', 'div.HiddenBlock');
+        Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
     //]]></script>
 <!-- dtl:block:DocumentReadyStart -->
 <!-- dtl:js_on_document_complete -->
