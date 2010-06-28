@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.33 2010-06-17 06:01:32 dz Exp $
+# $Id: UnitTest.pm,v 1.34 2010-06-28 10:21:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -465,19 +465,19 @@ sub IsDeeply {
         return 1;
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        $Self->_Print( 0, "$Name (is 'undef' should be '$ShouldBeString')" );
+        $Self->_Print( 0, "$Name (is 'undef' should be defined)" );
         return;
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        $Self->_Print( 0, "$Name (is '$Test' should be 'undef')" );
+        $Self->_Print( 0, "$Name (is defined should be 'undef')" );
         return;
     }
     elsif ( $TestString eq $ShouldBeString ) {
-        $Self->_Print( 1, "$Name (is '$ShouldBeString')" );
+        $Self->_Print( 1, "$Name matches expected value" );
         return 1;
     }
     else {
-        $Self->_Print( 0, "$Name (is '$TestString' should be '$ShouldBeString')" );
+        $Self->_Print( 0, "$Name (differs from expected value)" );
         return;
     }
 }
@@ -515,16 +515,16 @@ sub IsNotDeeply {
         return 1;
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        $Self->_Print( 1, "$Name (is '$TestString')" );
+        $Self->_Print( 1, "$Name (differs from expected value)" );
         return 1;
     }
 
     if ( $TestString ne $ShouldBeString ) {
-        $Self->_Print( 1, "$Name (is '$ShouldBeString')" );
+        $Self->_Print( 1, "$Name (differs from expected value)" );
         return 1;
     }
     else {
-        $Self->_Print( 0, "$Name (is '$TestString' should not be '$ShouldBeString')" );
+        $Self->_Print( 0, "$Name (matches the expected value)" );
         return;
     }
 }
@@ -670,6 +670,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2010-06-17 06:01:32 $
+$Revision: 1.34 $ $Date: 2010-06-28 10:21:27 $
 
 =cut
