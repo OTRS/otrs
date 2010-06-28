@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.49 2010-06-28 08:17:00 mg Exp $
+# $Id: Main.pm,v 1.50 2010-06-28 10:21:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Encode;
 use Unicode::Normalize;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -842,13 +842,15 @@ reads a directory and returns an array with results.
         Filter    => '*',
     );
 
-    without filter the default is *
-    even you can place several filters
+You can pass several additional filters at once:
 
     my @FilesInDirectory = $MainObject->DirectoryRead(
         Directory => '/tmp',
         Filter    => \@MyFilters,
     );
+
+The result strings are absolute paths, and they are converted to the
+internally used charset utf-8, if it is configured.
 
 =cut
 
@@ -891,20 +893,17 @@ sub DirectoryRead {
 
     # executes glob for every filter
     my @GlobResults;
+    my %Seen;
+
     for my $Filter ( @{ $Param{Filter} } ) {
         my @Glob = glob "$Param{Directory}/$Filter";
 
-        # look for repeted values
+        # look for repeated values
         for my $GlobName (@Glob) {
             next if !-e $GlobName;
-            my $Found;
-            for my $StoredName (@GlobResults) {
-                if ( $GlobName eq $StoredName ) {
-                    $Found = 1
-                }
-            }
-            if ( !$Found ) {
+            if ( !$Seen{$GlobName} ) {
                 push @GlobResults, $GlobName;
+                $Seen{$GlobName} = 1;
             }
         }
     }
@@ -953,6 +952,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2010-06-28 08:17:00 $
+$Revision: 1.50 $ $Date: 2010-06-28 10:21:58 $
 
 =cut
