@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.7 2010-06-28 08:12:06 mh Exp $
+# $Id: otrs.CheckModules.pl,v 1.8 2010-06-28 14:01:20 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -152,16 +152,9 @@ my @NeededModules = (
         Required => 1,
     },
     {
-        Module       => 'MIME::Tools',
-        Version      => '5.427',
-        Required     => 1,
-        NotSupported => [
-            {
-                Version => '5.428',
-                Comment =>
-                    'This version is broken and not useable! Please use version 5.427.',
-            },
-        ],
+        Module   => 'MIME::Tools',
+        Version  => '5.427',
+        Required => 1,
     },
     {
         Module       => 'Net::DNS',
