@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.72 2010-06-17 15:54:26 dz Exp $
+# $Id: ArticleStorageFS.pm,v 1.73 2010-06-28 08:25:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -167,7 +167,11 @@ sub ArticleDeleteAttachment {
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
     if ( -e $Path ) {
-        my @List = glob( $Path . "/*" );
+        my @List = $Self->{MainObject}->DirectoryRead(
+            Directory => $Path,
+            Filter    => "*",
+        );
+
         for my $File (@List) {
             if ( $File !~ /(\/|\\)plain.txt$/ ) {
                 if ( !unlink "$File" ) {
@@ -409,7 +413,11 @@ sub ArticleAttachmentIndexRaw {
     my $Counter = 0;
 
     # try fs
-    my @List = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
+    my @List = $Self->{MainObject}->DirectoryRead(
+        Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
+        Filter    => "*",
+    );
+
     for my $Filename (@List) {
         my $FileSize    = -s $Filename;
         my $FileSizeRaw = $FileSize;
@@ -419,12 +427,6 @@ sub ArticleAttachmentIndexRaw {
         next if $Filename =~ /\.content_id$/;
         next if $Filename =~ /\.content_type$/;
         next if $Filename =~ /\/plain.txt$/;
-
-        # convert the file name in utf-8 if utf-8 is used
-        $Filename = $Self->{EncodeObject}->Convert2CharsetInternal(
-            Text => $Filename,
-            From => 'utf-8',
-        );
 
         # human readable file size
         if ($FileSize) {
@@ -568,7 +570,12 @@ sub ArticleAttachment {
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my %Data        = %{ $Index{ $Param{FileID} } };
     my $Counter     = 0;
-    my @List        = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
+
+    my @List = $Self->{MainObject}->DirectoryRead(
+        Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
+        Filter    => "*",
+    );
+
     if (@List) {
         for my $Filename (@List) {
             next if $Filename =~ /\.content_alternative$/;
@@ -580,11 +587,6 @@ sub ArticleAttachment {
             $Counter++;
             if ( $Counter == $Param{FileID} ) {
 
-                # convert the file name in utf-8 if utf-8 is used
-                $Filename = $Self->{EncodeObject}->Convert2CharsetInternal(
-                    Text => $Filename,
-                    From => 'utf-8',
-                );
                 if ( -e "$Filename.content_type" ) {
 
                     # read content type
