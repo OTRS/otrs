@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.68 2010-06-21 22:16:31 dz Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.69 2010-06-28 12:10:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -191,7 +191,7 @@
                                 <div class="Array">
 
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
-                                    <input type="text" class="Entry" name="$QData{"ElementKey"}#Group[]" value="$QData{"Content"}"/>
+                                    <input type="text" class="Entry" name="$QData{"ElementKey"}#Group[]" value="$QData{"Content"}" title="$Text{"Group"}"/>
                                     <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteGroupElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
                                     <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
@@ -201,7 +201,7 @@
                                 <label class="KeyWithComplexValue">$Text{"Group ro"}:</label>
                                 <div class="Array">
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
-                                    <input type="text" class="Entry" name="$QData{"ElementKey"}#GroupRo[]" value="$QData{"Content"}"/>
+                                    <input type="text" class="Entry" name="$QData{"ElementKey"}#GroupRo[]" value="$QData{"Content"}" title="$Text{"Readonly group"}"/>
                                     <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteGroupRoElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
                                     <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
@@ -211,8 +211,9 @@
                                 <label class="KeyWithComplexValue">$Text{"Loader"}:</label>
                                 <div class="Array">
 <!-- dtl:block:ConfigElementFrontendModuleRegContentLoader -->
-                                    <input type="text" class="Entry" name="$QData{"ElementKey"}#Loader[]" value="$QData{"Content"}"/>
-                                    $Data{"ValidKey"}
+                                    <input type="text" class="Entry" name="$QData{"ElementKey"}#Loader[]" value="$QData{"Content"}" title="$Text{"File to load for this frontend module"}"/>
+                                    <label for="$QData{"ElementKeyID"}LoaderType$Data{"Index"}">$Text{"Type:"}</label>
+                                    $Data{"LoaderType"}
                                     <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteLoaderElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
                                     <br/>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentLoader -->
