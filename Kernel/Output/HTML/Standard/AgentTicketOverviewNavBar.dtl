@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.25 2010-06-04 11:19:32 mn Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.26 2010-06-28 13:29:14 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,78 +41,79 @@
     <h1>$Text{"$Data{"TitleName"}"}: $Text{"$Data{"TitleValue"}"}</h1>
 
     <div class="OverviewControl" id="OverviewControl">
-
-        <div class="ControlRow">
+        <div>
+            <div class="ControlRow">
 <!-- dtl:block:OverviewNavBarFilter -->
-            <ul class="Tabs">
+                <ul class="Tabs">
 <!-- dtl:block:OverviewNavBarFilterItem -->
 <!-- dtl:block:OverviewNavBarFilterItemSelected -->
-                <li class="Active $QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"FilterLink"}Filter=$LQData{"Filter"}">$Text{"$Data{"Name"}"}<span>$QData{"Count"}</span></a>
-                </li>
+                    <li class="Active $QData{"CSS"}">
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"FilterLink"}Filter=$LQData{"Filter"}">$Text{"$Data{"Name"}"}<span>$QData{"Count"}</span></a>
+                    </li>
 <!-- dtl:block:OverviewNavBarFilterItemSelected -->
 <!-- dtl:block:OverviewNavBarFilterItemSelectedNot -->
-                <li class="$QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"FilterLink"}Filter=$LQData{"Filter"}">$Text{"$Data{"Name"}"}<span>$QData{"Count"}</span></a>
-                </li>
+                    <li class="$QData{"CSS"}">
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"FilterLink"}Filter=$LQData{"Filter"}">$Text{"$Data{"Name"}"}<span>$QData{"Count"}</span></a>
+                    </li>
 <!-- dtl:block:OverviewNavBarFilterItemSelectedNot -->
 <!-- dtl:block:OverviewNavBarFilterItemSplit -->
-                -
+                    -
 <!-- dtl:block:OverviewNavBarFilterItemSplit -->
 <!-- dtl:block:OverviewNavBarFilterItem -->
-            </ul>
+                </ul>
 <!-- dtl:block:OverviewNavBarFilter -->
-            <ul class="ContextFunctions">
-                <li class="ContextHelp">
-                    <a href="" title="Context Help"><span>Context Help</span></a>
-                </li>
-                <li class="ContextSettings">
-                    <a href="" id="DialogSet" title="Context Settings"><span>Context Settings</span></a>
-                </li>
+                <ul class="ContextFunctions">
+                    <li class="ContextHelp">
+                        <a href="" title="Context Help"><span>Context Help</span></a>
+                    </li>
+                    <li class="ContextSettings">
+                        <a href="" id="DialogSet" title="Context Settings"><span>Context Settings</span></a>
+                    </li>
 #<!-- view settings start -->
 #                            <a href="" id="DialogSet" onclick="return false;" title="$Text{"Overview Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-inactive.png" /></a>
 #                            <img src="$Config{"Frontend::ImagePath"}h-line-small.png" />
 #<!-- view settings end -->
-            </ul>
-        </div>
-        <div class="ActionRow">
-            <div class="OverviewActions">
-                $Data{"ActionRow"}
+                </ul>
+            </div>
+            <div class="ActionRow">
+                <div class="OverviewActions">
+                    $Data{"ActionRow"}
 #            <ul class="Actions">
 #                <li><a href="">Multiple Action</a></li>
 #            </ul>
-                <ul class="OverviewZoom">
+                    <ul class="OverviewZoom">
 <!-- dtl:block:OverviewNavBarViewMode -->
 <!-- dtl:block:OverviewNavBarViewModeSelected -->
-                    <li class="Active">
-                        <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}"><span>$Text{"$Data{"NameShort"}"}</span></a>
-                    </li>
+                        <li class="Active">
+                            <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}">$Text{"$Data{"Name"}"}</a>
+                        </li>
 <!-- dtl:block:OverviewNavBarViewModeSelected -->
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
-                    <li class="">
-                        <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}"><span>$Text{"$Data{"NameShort"}"}</span></a>
-                    </li>
+                        <li class="">
+                            <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}">$Text{"$Data{"Name"}"}</a>
+                        </li>
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
 <!-- dtl:block:OverviewNavBarViewMode -->
-                </ul>
+                    </ul>
 #            <form class="Pagination" action="">
 #                <a href="" class="ArrowLeft" title="Previous Page"><span>Previous</span></a>
 #                <span><input type="text" id="Page"/>/ 9</span>
 #                <a href="" class="ArrowRight" title="Next Page"><span>Next</span></a>
 #            </form>
 <!-- dtl:block:OverviewNavBarPageBack -->
-                <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkBack"}">$Text{"Change search options"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkBack"}">$Text{"Change search options"}</a>
 <!-- dtl:block:OverviewNavBarPageBack -->
-                <div class="Pagination">
+                    <div class="Pagination">
 <!-- dtl:block:OverviewNavBarPageNavBar -->
-                    $Data{"Result"} $Text{"of"} $Data{"TotalHits"} -
-                    $Text{"Page"}: $Data{"SiteNavBar"}
+                        $Data{"Result"} $Text{"of"} $Data{"TotalHits"} -
+                        $Text{"Page"}: $Data{"SiteNavBar"}
 <!-- dtl:block:OverviewNavBarPageNavBar -->
+                    </div>
+                    <div class="ClearLeft"></div>
                 </div>
-                <div class="ClearLeft"></div>
-            </div>
 # sort order bar if needed
-            $Data{"SortOrderBar"}
+                $Data{"SortOrderBar"}
+            </div>
         </div>
     </div>
 </div>
