@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.140 2010-06-15 13:53:29 mn Exp $
+# $Id: AgentTicketPhone.pm,v 1.141 2010-06-28 23:07:39 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.140 $) [1];
+$VERSION = qw($Revision: 1.141 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -665,7 +665,10 @@ sub Run {
                 );
             }
         }
+        my $ErrorFrom;
+        my $ErrorSubject;
 
+        #        my $ErrorDestination;
         # check email address
         for my $Email ( Mail::Address->parse( $GetParam{From} ) ) {
             if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
@@ -674,12 +677,16 @@ sub Run {
         }
         if ( !$GetParam{From} && $ExpandCustomerName != 1 && $ExpandCustomerName == 0 ) {
             $Error{'From invalid'} = 'invalid';
+            $ErrorFrom = "ServerError";
         }
         if ( !$GetParam{Subject} && $ExpandCustomerName == 0 ) {
             $Error{'Subject invalid'} = 'invalid';
+            $ErrorSubject = "ServerError";
         }
         if ( !$NewQueueID && $ExpandCustomerName == 0 ) {
             $Error{'Destination invalid'} = 'invalid';
+
+            #            $ErrorDestination = "ServerError";
         }
         if (
             $Self->{ConfigObject}->Get('Ticket::Service')
@@ -745,6 +752,8 @@ sub Run {
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
                 FromOptions  => $Param{FromOptions},
+                FromError    => $ErrorFrom,
+                SubjectError => $ErrorSubject,
                 To           => $Self->_GetTos( QueueID => $NewQueueID ),
                 ToSelected   => $Dest,
                 Errors       => \%Error,
@@ -1395,6 +1404,7 @@ sub _MaskPhoneNew {
                 queryDelay          => $AutoCompleteConfig->{QueryDelay}          || 0.1,
                 typeAhead           => $AutoCompleteConfig->{TypeAhead}           || 'false',
                 maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
+                ActiveAutoComplete  => $AutoCompleteConfig->{Active},
             },
         );
     }
@@ -1589,6 +1599,7 @@ sub _MaskPhoneNew {
     # prepare errors!
     if ( $Param{Errors} ) {
         for ( keys %{ $Param{Errors} } ) {
+            print STDERR "Error:" . $_ . "\n";
             $Param{$_} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
         }
 
@@ -1610,6 +1621,7 @@ sub _MaskPhoneNew {
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 0,
+            Class        => "Validate_Required",
             OnChange =>
                 "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
             Ajax => {

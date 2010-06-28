@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.81 2010-06-18 09:04:33 mn Exp $
+# $Id: AgentTicketPhone.dtl,v 1.82 2010-06-28 23:06:57 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,21 +25,21 @@ function submit_compose() {
         document.compose.TypeID.focus();
         return false;
     }
-    else if (document.compose.Subject.value == "") {
-        alert('$JSText{"A message should have a subject!"}');
-        document.compose.Subject.focus();
-        return false;
-    }
-    else if (document.compose.Body.value == "") {
-        alert('$JSText{"A message should have a body!"}');
-        if (typeof Core.UI.RichTextEditor.Focus == 'function') {
-            Core.UI.RichTextEditor.Focus($('#RichText'));
-        }
-        else {
-            document.compose.Body.focus();
-        }
-        return false;
-    }
+#    else if (document.compose.Subject.value == "") {
+#        alert('$JSText{"A message should have a subject!"}');
+#        document.compose.Subject.focus();
+#        return false;
+#    }
+#    else if (document.compose.Body.value == "") {
+#        alert('$JSText{"A message should have a body!"}');
+#        if (typeof Core.UI.RichTextEditor.Focus == 'function') {
+#            Core.UI.RichTextEditor.Focus($('#RichText'));
+#        }
+#        else {
+#            document.compose.Body.focus();
+#        }
+#        return false;
+#    }
     else if (isNaN(document.compose.Day.value) || isNaN(document.compose.Month.value) || isNaN(document.compose.Year.value) || isNaN(document.compose.Hour.value) || isNaN(document.compose.Minute.value)) {
         alert('$JSText{"Invalid date!"}');
         return false;
@@ -99,7 +99,7 @@ function clear_field() {
 }
 //]]></script>
 
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="StoreNew"/>
     <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
@@ -139,6 +139,12 @@ function clear_field() {
                         <label for="TypeID">$Text{"Type"}:</label>
                         <div class="Field">
                             $Data{"TypeStrg"}
+                            <div id="TypeIDError" class="TooltipErrorMessage">
+                                <p>$Text{"A message should have a Type!"}</p>
+                            </div>
+                            <div id="TypeIDServerError" class="TooltipErrorMessage">
+                                <p><strong>$Text{"The Type is required."}</strong></p>
+                            </div
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:TicketType -->
@@ -146,7 +152,13 @@ function clear_field() {
                         <label for="CustomerAutoComplete">$Text{"From customer"}:</label>
                         <div class="Field">
 
-                            <input id="CustomerAutoComplete" type="text" name="From" value="$QData{"From"}" class="W75pc"/>
+                            <input id="CustomerAutoComplete" type="text" name="From" value="$QData{"From"}" class="W75pc Validate_Required $QData{"FromError"}"/>
+                            <div id="CustomerAutoCompleteError" class="TooltipErrorMessage">
+                                <p>$Text{"A message should have a Customer!"}</p>
+                            </div>
+                            <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage">
+                                <p><strong>$Text{"The Customer is required."}</strong></p>
+                            </div>
 
 <!-- dtl:block:CustomerSearchAutoCompleteFromInvalid -->
                             <div class"Clear"></div>
@@ -232,7 +244,13 @@ function clear_field() {
 
                         <label for="Subject">$Text{"Subject"}:</label>
                         <div class="Field">
-                            <input class="W75pc" type="text" name="Subject" id="Subject" value="$QData{"Subject"}"/>
+                            <input class="W75pc Validate_Required $QData{"SubjectError"}" type="text" name="Subject" id="Subject" value="$QData{"Subject"}"/>
+                            <div id="SubjectError" class="TooltipErrorMessage">
+                                <p>$Text{"A message should have a Subject!"}</p>
+                            </div>
+                            <div id="SubjectServerError" class="TooltipErrorMessage">
+                                <p><strong>$Text{"The Subject is required."}</strong></p>
+                            </div>
                             <span class="Error Small">$Text{"$Data{"Subject invalid"}"}</span>
                         </div>
                         <div class="Clear"></div>
@@ -264,7 +282,13 @@ function clear_field() {
 $Include{"RichTextEditor"}
 # set white background for buttons
 <!-- dtl:block:RichText -->
-                        <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                        <textarea id="RichText" class="RichText Validate_Required Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                        <div id="RichTextError" class="TooltipErrorMessage">
+                            <p>$Text{"A message should have a body!"}</p>
+                        </div>
+                        <div id="RichTextServerError" class="TooltipErrorMessage">
+                            <p><strong>$Text{"The Text is required."}</strong></p>
+                        </div>
                         <span class="Error Small">$Text{"$Data{"Body invalid"}"}</span>
                         <div class="Clear"></div>
 
@@ -309,15 +333,6 @@ $Include{"RichTextEditor"}
                         <div class="Field">
                             $Data{"PendingDateString"}
                             <span class="DatepickerIcon" id="PendingDatepicker">&nbsp;</span>
-<!--dtl:js_on_document_complete-->
-                            <script type="text/javascript">//<![CDATA[
-                                Core.UI.Datepicker.Init({
-                                    Day: $('#Day'),
-                                    Month: $('#Month'),
-                                    Year: $('#Year')
-                                }, $('#PendingDatepicker'));
-                            //]]></script>
-<!--dtl:js_on_document_complete-->
                             <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
                         </div>
                         <div class="Clear"></div>
@@ -365,7 +380,8 @@ $Include{"RichTextEditor"}
         </div>
         <div id="CustomerTickets"></div>
         <div class="Footer">
-            <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Create"}" onclick="return submit_compose();">$Text{"Create"}</button>
+#            <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Create"}" onclick="//return submit_compose();">$Text{"Create"}</button>
+            <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
         </div>
     </div>
 </form>
