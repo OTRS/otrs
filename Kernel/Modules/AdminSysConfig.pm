@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.100 2010-06-22 09:32:48 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.101 2010-06-28 13:41:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1271,15 +1271,18 @@ sub ListConfigItem {
 
                 if ( $LoaderTypes{$Key} ) {
                     for my $Index2 ( 1 .. $#{ $Content->{$Key} } ) {
+
                         $Self->{LayoutObject}->Block(
                             Name => 'ConfigElementFrontendModuleRegContentLoader',
                             Data => {
-                                Index      => $Counter,
-                                ElementKey => $ItemHash{Name},
-                                Content    => $Content->{$Key}->[$Index2]->{Content},
-                                ValidKey   => $Self->{LayoutObject}->BuildSelection(
+                                Index        => $Counter,
+                                ElementKey   => $ItemHash{Name},
+                                ElementKeyID => $Data{ElementKeyID},
+                                Content      => $Content->{$Key}->[$Index2]->{Content},
+                                LoaderType   => $Self->{LayoutObject}->BuildSelection(
                                     Data       => [ sort keys %LoaderTypes ],
                                     Name       => $Data{ElementKey} . 'LoaderType' . $Counter,
+                                    ID         => $Data{ElementKeyID} . 'LoaderType' . $Counter,
                                     SelectedID => $Key,
                                 ),
                             },
