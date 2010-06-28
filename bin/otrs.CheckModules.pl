@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.6 2010-06-22 12:45:34 mh Exp $
+# $Id: otrs.CheckModules.pl,v 1.7 2010-06-28 08:12:06 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -112,18 +112,18 @@ my @NeededModules = (
         Module   => 'JSON',
         Version  => '2.21',
         Required => 1,
-        Comment  => 'Required for AJAX/JavaScript handling',
+        Comment  => 'Required for AJAX/JavaScript handling.',
         Depends  => [
             {
                 Module   => 'JSON::PP',
                 Version  => '2.27003',
                 Required => 1,
-                Comment  => 'Required for AJAX/JavaScript handling',
+                Comment  => 'Required for AJAX/JavaScript handling.',
             },
             {
                 Module   => 'JSON::XS',
                 Required => 0,
-                Comment  => 'Optional, install it for faster AJAX/JavaScript handling',
+                Comment  => 'Optional, install it for faster AJAX/JavaScript handling.',
             },
         ],
     },
@@ -137,13 +137,13 @@ my @NeededModules = (
     },
     {
         Module   => 'Mail::POP3Client',
-        Comment  => 'for POP3 SSL connections',
+        Comment  => 'Required for POP3 SSL connections.',
         Required => 0,
         Depends  => [
             {
                 Module   => 'IO::Socket::SSL',
                 Required => 0,
-                Comment  => 'for POP3 SSL connections',
+                Comment  => 'Required for POP3 SSL connections.',
             },
         ],
     },
@@ -152,9 +152,16 @@ my @NeededModules = (
         Required => 1,
     },
     {
-        Module   => 'MIME::Tools',
-        Version  => '5.427',
-        Required => 1,
+        Module       => 'MIME::Tools',
+        Version      => '5.427',
+        Required     => 1,
+        NotSupported => [
+            {
+                Version => '5.428',
+                Comment =>
+                    'This version is broken and not useable! Please use version 5.427.',
+            },
+        ],
     },
     {
         Module       => 'Net::DNS',
@@ -163,13 +170,13 @@ my @NeededModules = (
             {
                 Version => '0.60',
                 Comment =>
-                    'This version is broken and not useable, please upgrade to a higher version!',
+                    'This version is broken and not useable! Please upgrade to a higher version.',
             },
         ],
     },
     {
         Module   => 'Net::POP3',
-        Comment  => 'for POP3 connections',
+        Comment  => 'Required for POP3 connections.',
         Required => 1,
 
         # Moved to Mail::POP3Client because of SSL problems
@@ -183,7 +190,7 @@ my @NeededModules = (
     },
     {
         Module   => 'Net::IMAP::Simple',
-        Comment  => 'for IMAP connections',
+        Comment  => 'Required for IMAP connections.',
         Required => 0,
         Depends  => [
             {
@@ -224,22 +231,22 @@ my @NeededModules = (
             {
                 Version => '0.71.001',
                 Comment =>
-                    'This version is broken and not useable, please upgrade to a higher version!',
+                    'This version is broken and not useable! Please upgrade to a higher version.',
             },
             {
                 Version => '0.72.001',
                 Comment =>
-                    'This version is broken and not useable, please upgrade to a higher version!',
+                    'This version is broken and not useable! Please upgrade to a higher version.',
             },
             {
                 Version => '0.72.002',
                 Comment =>
-                    'This version is broken and not useable, please upgrade to a higher version!',
+                    'This version is broken and not useable! Please upgrade to a higher version.',
             },
             {
                 Version => '0.72.003',
                 Comment =>
-                    'This version is broken and not useable, please upgrade to a higher version!',
+                    'This version is broken and not useable! Please upgrade to a higher version.',
             },
         ],
         Depends => [
@@ -258,24 +265,24 @@ my @NeededModules = (
             {
                 Version => '0.711',
                 Comment =>
-                    'This version is broken and not useable, please upgrade to a higher version!',
+                    'This version is broken and not useable! Please upgrade to a higher version.',
             },
         ],
     },
     {
         Module   => 'Text::CSV',
         Required => 1,
-        Comment  => 'Required for CSV handling',
+        Comment  => 'Required for CSV handling.',
         Depends  => [
             {
                 Module   => 'Text::CSV_PP',
                 Required => 1,
-                Comment  => 'Required for CSV handling',
+                Comment  => 'Required for CSV handling.',
             },
             {
                 Module   => 'Text::CSV_XS',
                 Required => 0,
-                Comment  => 'Optional, install it for faster CSV handling',
+                Comment  => 'Optional, install it for faster CSV handling.',
             },
         ],
     },
