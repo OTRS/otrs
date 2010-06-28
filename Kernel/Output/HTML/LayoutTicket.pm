@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.50.2.6 2010-02-01 00:57:38 martin Exp $
+# $Id: LayoutTicket.pm,v 1.50.2.7 2010-06-28 21:38:27 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50.2.6 $) [1];
+$VERSION = qw($Revision: 1.50.2.7 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -766,12 +766,22 @@ sub ArticleQuote {
 
             # search inline documents in body and add it to upload cache
             $Body =~ s{
-                "cid:(.*?)"
+                (=|"|')cid:(.*?)("|'|>|\/>|\s)
             }
             {
+                my $Start= $1;
+                my $ContentID = $2;
+                my $End = $3;
+
+                # improve html quality
+                if ( $Start ne '"' && $Start ne '\'' ) {
+                    $Start .= '"';
+                }
+                if ( $End ne '"' && $End ne '\'' ) {
+                    $End = '"' . $End;
+                }
 
                 # find attachment to include
-                my $ContentID = $1;
                 ATMCOUNT:
                 for my $AttachmentID ( keys %Attachments ) {
 
@@ -811,7 +821,7 @@ sub ArticleQuote {
                 }
 
                 # return link
-                '"' . $ContentID . '"';
+                $Start . $ContentID . $End;
             }egxi;
 
             # attach also other attachments (add all if no "cid:" was in html reply)
