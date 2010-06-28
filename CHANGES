@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1238 2010-06-28 07:54:12 mh Exp $
+# $Id: CHANGES,v 1.1239 2010-06-28 14:01:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,7 @@
  - (2010/06/22) Improved otrs.CheckModules.pl script.
  - (2010/06/22) Updated CPAN module Authen::SASL to version 2.15.
  - (2010/06/22) Updated CPAN module Net::IMAP::Simple to version 1.1916.
+ - (2010/06/22) Updated CPAN module MIME::Tools to version 5.428.
  - (2010/06/22) Updated CPAN module Net::POP3::SSLWrapper to version 0.04.
  - (2010/06/22) Updated CPAN module XML::Parser to version 0.712.
  - (2010/06/22) Updated CPAN module Text::CSV to version 1.18.

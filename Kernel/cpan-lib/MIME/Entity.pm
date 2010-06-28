@@ -246,7 +246,7 @@ use IO::Lines;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.427";
+$VERSION = "5.428";
 
 ### Boundary counter:
 my $BCount = 0;
@@ -646,7 +646,16 @@ sub build {
     ### Add other MIME fields:
     $head->replace('Content-transfer-encoding', $encoding) if $encoding;
     $head->replace('Content-description', $desc)           if $desc;
-    $head->replace('Content-id', $id)                      if defined($id);
+
+    # Content-Id value should be surrounded by < >, but versions before 5.428
+    # did not do this.  So, we check, and add if the caller has not done so
+    # already.
+    if( defined $id ) {
+	if( $id !~ /^<.*>$/ ) {
+		$id = "<$id>";
+	}
+	$head->replace('Content-id', $id);
+    }
     $head->replace('MIME-Version', '1.0')                  if $top;
 
     ### Add the X-Mailer field, if top level (use default value if not given):
@@ -686,7 +695,7 @@ external data in bodyhandles is I<not> copied to new files!
 Changing the data in one entity's data file, or purging that entity,
 I<will> affect its duplicate.  Entities with in-core data probably need
 not worry.
-'
+
 =cut
 
 sub dup {

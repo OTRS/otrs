@@ -80,7 +80,7 @@ use MIME::Tools qw(:config :msgs);
 #------------------------------
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.427";
+$VERSION = "5.428";
 
 
 #------------------------------
@@ -234,7 +234,7 @@ sub parse_params {
     # Extract subsequent parameters.
     # No, we can't just "split" on semicolons: they're legal in quoted strings!
     while (1) {                     # keep chopping away until done...
-	$raw =~ m/\G$SPCZ\;$SPCZ/og or last;             # skip leading separator
+	$raw =~ m/\G$SPCZ(\;$SPCZ)+/og or last;             # skip leading separator
 	$raw =~ m/\G($PARAMNAME)\s*=\s*/og or last;      # give up if not a param
 	$param = lc($1);
 	$raw =~ m/\G(\"([^\"]*)\")|\G($ENCTOKEN)|\G($BADTOKEN)|\G($TOKEN)/g or last;   # give up if no value"
@@ -268,13 +268,19 @@ sub parse_params {
 	    }
 	    $rfc2231params{$name}{$num} .= $val;
 	} else {
-	    # Make a fake "part zero" for non-RFC2231 params
-	    $rfc2231params{$param}{"0"} = $val;
+	    # Assign non-rfc2231 value directly.  If we
+	    # did get a mix of rfc2231 and non-rfc2231 values,
+            # the non-rfc2231 will be blown away in the
+	    # "extract reconstructed parameters" loop.
+	    $params{$param} = $val;
 	}
     }
 
     # Extract reconstructed parameters
     foreach $param (keys %rfc2231params) {
+	# If we got any rfc-2231 parameters, then
+        # blow away any potential non-rfc-2231 parameter.
+	$params{$param} = '';
 	foreach $part (sort { $a <=> $b } keys %{$rfc2231params{$param}}) {
 	    $params{$param} .= $rfc2231params{$param}{$part};
 	}
