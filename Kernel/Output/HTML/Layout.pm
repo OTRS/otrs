@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.269 2010-06-28 10:18:18 mn Exp $
+# $Id: Layout.pm,v 1.270 2010-06-28 11:43:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.269 $) [1];
+$VERSION = qw($Revision: 1.270 $) [1];
 
 =head1 NAME
 
@@ -875,6 +875,9 @@ sub Redirect {
 
 sub Login {
     my ( $Self, %Param ) = @_;
+
+    # set Action parameter for the loader
+    $Self->{Action} = 'Login';
 
     # add cookies if exists
     my $Output = '';
@@ -2932,6 +2935,9 @@ sub CustomerLogin {
     my $Output = '';
     $Param{TitleArea} = ' :: ' . $Self->{LanguageObject}->Get('Login');
 
+    # set Action parameter for the loader
+    $Self->{Action} = 'CustomerLogin';
+
     # add cookies if exists
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
         for ( keys %{ $Self->{SetCookies} } ) {
@@ -4706,6 +4712,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.269 $ $Date: 2010-06-28 10:18:18 $
+$Revision: 1.270 $ $Date: 2010-06-28 11:43:26 $
 
 =cut
