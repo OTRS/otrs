@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -478,10 +478,16 @@ tbody tr:hover span.UnreadArticles {
  * @subsection  Datepicker
  */
 .DatepickerIcon {
-    display: inline-block;
+    margin: 0 0 0 4px;
     height: 16px;
     width: 16px;
     background: transparent url(../img/calendar.png) no-repeat;
+    display: inline-block;
+    vertical-align: top;
+}
+    
+.RTL .DatepickerIcon {
+    margin: 0 4px 0 0;
 }
 
 /**
