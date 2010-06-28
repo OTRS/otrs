@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.42 2010-06-17 20:40:03 dz Exp $
+# $Id: FS.pm,v 1.43 2010-06-28 08:17:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -271,7 +271,11 @@ sub GetAllSessionIDs {
     my ( $Self, %Param ) = @_;
 
     # read data
-    my @List = glob("$Self->{SessionSpool}/$Self->{SystemID}*");
+    my @List = $Self->{MainObject}->DirectoryRead(
+        Directory => $Self->{SessionSpool},
+        Filter    => "$Self->{SystemID}*",
+    );
+
     my @SessionIDs;
     for my $SessionID (@List) {
         $SessionID =~ s!^.*/!!;
