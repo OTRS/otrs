@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.91 2010-06-28 10:10:23 mn Exp $
+# $Id: AgentTicketEmail.dtl,v 1.92 2010-06-28 13:46:31 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -214,22 +214,40 @@ function CustomerSubmit() {
                         <div class="Field">
 
 <!-- dtl:block:SpellCheck -->
-                            <a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';">
-                                <img border="0" src="$Config{"Frontend::ImagePath"}spell.png" alt="" />
-                                $Text{"Spell check"}
-                            </a>
+                            <a href="" id="SpellCheck">[ $Text{"Spell check"} ]</a>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#SpellCheck'), function (Event) {
+        var SpellCheckIFrame = '<iframe class="TextOption" src="$Env{"CGIHandle"}?Action=AgentSpelling;Body=' + $('#Richtext').val() + '"></iframe>';
+        Core.UI.Dialog.ShowContentDialog(SpellCheckIFrame, 'SpellCheck', '10px', 'Center', true);
+        return false;
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:SpellCheck -->
 <!-- dtl:block:AddressBook -->
-                            <a href="" onclick="BookCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Address Book"}'; return true;" onmouseout="window.status='';">
-                                <img border="0" src="$Config{"Frontend::ImagePath"}contents.png" alt="" />
-                                $Text{"Address book"}
-                            </a>
+                            <a href="" id="AdressBook">[ $Text{"Address book"} ]</a>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#AdressBook'), function (Event) {
+        var AdressBookIFrame = '<iframe class="TextOption" src="$Env{"CGIHandle"}?Action=AgentBook;To=' + $('#CustomerAutoComplete').val() + ';Cc=' + $('#Cc').val() + ';Bcc=' + $('#Bcc').val() + '"></iframe>';
+        Core.UI.Dialog.ShowContentDialog(AdressBookIFrame, 'AdressBook', '10px', 'Center', true);
+        return false;
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:AddressBook -->
 <!-- dtl:block:OptionCustomer -->
-                            <a href="" onclick="CustomerSubmit(); return false;" onmouseover="window.status='$JSText{"Customer"}'; return true;" onmouseout="window.status='';">
-                                <img border="0" src="$Config{"Frontend::ImagePath"}group-small.png" alt="" />
-                                $Text{"Customer"}
-                            </a>
+                            <a href="" id="OptionCustomer">[ $Text{"Customer"} ]</a>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#OptionCustomer'), function (Event) {
+        var CustomerIFrame = '<iframe class="TextOption" src="$Env{"CGIHandle"}?Action=AdminCustomerUser;Nav=None;Subject=;What="></iframe>';
+        Core.UI.Dialog.ShowContentDialog(CustomerIFrame, 'Customer', '10px', 'Center', true);
+        return false;
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:OptionCustomer -->
                         </div>
                         <div class="Clear"></div>
@@ -370,3 +388,11 @@ $Include{"RichTextEditor"}
     <input type="hidden" name="Subject" value=""/>
     <input type="hidden" name="What" value=""/>
 </form>
+
+<div id="UIElementPool">
+    <div class="Dialog">
+        <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
+        <div class="Content"></div>
+        <div class="Footer"><span class="LeftCorner"></span><span></span></div>
+    </div>
+</div>

@@ -2,7 +2,7 @@
 # AgentBook.dtl - provides HTML form for AgentBook
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentBook.dtl,v 1.16 2010-06-27 09:33:57 bes Exp $
+# $Id: AgentBook.dtl,v 1.17 2010-06-28 13:46:31 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,55 +59,57 @@ function AddBccAddress(x) {
 
 //]]></script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td class="mainhead">
-            $Env{"Box0"}$Text{"Address Book"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="book">
-                <input type="hidden" name="Action" value="AgentBook"/>
-                <table border="0" cellspacing="0" cellpadding="1">
+
+<div class="WidgetPopup">
+    <div class="Content">
+        <h1>$Text{"Address Book"}</h1>
+        <form id="AdressBook" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="Action" value="AgentBook" />
+            <fieldset class="TableLike">
+                <label>$Text{"To"}:</label>
+                <div class="Field">
+                    <input type="text" name="To" id="To" value="$QData{"To"}" class="W75pc" />
+                </div>
+                <div class="Clear"></div>
+                <label>$Text{"Cc"}:</label>
+                <div class="Field">
+                    <input type="text" name="Cc" id="Cc" value="$QData{"Cc"}" class="W75pc" />
+                </div>
+                <div class="Clear"></div>
+                <label>$Text{"Bcc"}:</label>
+                <div class="Field">
+                    <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc" />
+                </div>
+                <div class="Clear"></div>
+                <button type="button" value="$Text{"Apply"}">$Text{"Apply"}</button>
+                <button type="button" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
+            </fieldset>
+            <fieldset class="TableLike SpacingTop">
+                <input type="text" name="Search" id="Search" value="" class="W75pc" />
+                <input class="button" type="submit" value="$Text{"Search"}"/>
+            </fieldset>
+<!-- dtl:block:SearchResult -->
+            <table class="DataTable SpacingTop">
+                <thead>
                     <tr>
-                        <td>$Text{"To"}:</td><td> <input type="text" name="To" value="$QData{"To"}" size="80"/></td>
+                        <th>$Text{"Name"}</th>
+                        <th>$Text{"An"}</th>
+                        <th>$Text{"Cc"}</th>
+                        <th>$Text{"Bcc"}</th>
                     </tr>
-                    <tr>
-                        <td>$Text{"Cc"}:</td><td> <input type="text" name="Cc" value="$QData{"Cc"}" size="80"/></td>
-                    </tr>
-                    <tr>
-                        <td>$Text{"Bcc"}:</td><td> <input type="text" name="Bcc" value="$QData{"Bcc"}" size="80"/></td>
-                    </tr>
-                </table>
-                <br/>
-                <button class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">$Text{"Done"}</button>
-                <i>($Text{"Return to the compose screen"})</i>
-                <button class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
-                <i>($Text{"Discard all changes and return to the compose screen"})</i>
-                <hr/>
-                <table border="0" cellspacing="0" cellpadding="1">
-                    <tr>
-                        <td>
-                            <input type="text" name="Search" value=""/>
-                            <button class="button" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
-                            <button class="button" type="reset" value="$Text{"Reset"}">$Text{"Reset"}</button>
-                        </td>
-                    </tr>
-                </table>
-                <table width="100%" border="0" cellspacing="2" cellpadding="2">
+                </thead>
+                <tbody>
 <!-- dtl:block:Row -->
                     <tr>
                         <td>$QData{"Name"}</td>
-                        <td><a href="" onclick="AddToAddress('$QData{"Email"}'); return false;">$Text{"To"}</a></td>
-                        <td><a href="" onclick="AddCcAddress('$QData{"Email"}'); return false;">$Text{"Cc"}</a></td>
-                        <td><a href="" onclick="AddBccAddress('$QData{"Email"}'); return false;">$Text{"Bcc"}</a></td>
+                        <td><a href="">$Text{"To"}</a></td>
+                        <td><a href="">$Text{"Cc"}</a></td>
+                        <td><a href="">$Text{"Bcc"}</a></td>
                     </tr>
 <!-- dtl:block:Row -->
-                </table>
-            </form>
-            <hr/>
-        </td>
-    </tr>
-</table>
-<!-- end Spelling form -->
+                </tbody>
+            </table>
+<!-- dtl:block:SearchResult -->
+        </form>
+    </div>
+</div>
