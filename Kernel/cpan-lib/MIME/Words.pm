@@ -93,7 +93,7 @@ use MIME::QuotedPrint;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.428";
+$VERSION = "5.427";
 
 ### Nonprintables (controls + x7F + 8bit):
 my $NONPRINT = "\\x00-\\x1F\\x7F-\\xFF";
@@ -138,7 +138,7 @@ sub _encode_B {
 
 #------------------------------
 
-=item decode_mimewords ENCODED
+=item decode_mimewords ENCODED, [OPTS...]
 
 I<Function.>
 Go through the string looking for RFC 2047-style "Q"
@@ -168,10 +168,19 @@ $@ will be false if no error was detected.
 
 Any arguments past the ENCODED string are taken to define a hash of options:
 
+=over 4
+
+=item Field
+
+Name of the mail field this string came from.  I<Currently ignored.>
+
+=back
+
 =cut
 
 sub decode_mimewords {
     my $encstr = shift;
+    my %params = @_;
     my @tokens;
     $@ = '';           ### error-return
 
@@ -276,13 +285,17 @@ a.k.a. "Latin-1".
 
 The encoding to use, C<"q"> or C<"b">.  The default is C<"q">.
 
+=item Field
+
+Name of the mail field this string will be used in.  I<Currently ignored.>
+
 =back
 
 B<Warning:> this is a quick-and-dirty solution, intended for character
 sets which overlap ASCII.  B<It does not comply with the RFC 2047
 rules regarding the use of encoded words in message headers>.
 You may want to roll your own variant,
-using C<encode_mimeword()>, for your application.
+using C<encoded_mimeword()>, for your application.
 I<Thanks to Jan Kasprzak for reminding me about this problem.>
 
 =cut
@@ -315,14 +328,6 @@ __END__
 =head1 SEE ALSO
 
 L<MIME::Base64>, L<MIME::QuotedPrint>, L<MIME::Tools>
-
-For other implementations of this or similar functionality (particularly, ones
-with proper UTF8 support), see:
-
-L<Encode::MIME::Header>, L<MIME::EncWords>, L<MIME::AltWords>
-
-At some future point, one of these implementations will likely replace
-MIME::Words and MIME::Words will become deprecated.
 
 =head1 NOTES
 
