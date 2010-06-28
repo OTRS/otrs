@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -19,7 +19,7 @@ ul.Tablelike {
     border: 1px solid #CCC;
 }
     
-.Size1of3:first-child ul.Tablelike {
+ul.Tablelike:first-child {
     margin-right: 8px;
 }
     
@@ -33,6 +33,9 @@ ul.Tablelike li {
     padding: 0 4px;
     min-height: 20px;
     background-color: #FFF;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 ul.Tablelike li:nth-child(even),
@@ -48,14 +51,6 @@ ul.Tablelike li:hover a {
     color: #000;
 }
 
-ul.Tablelike li.Header:hover {
-    background-image: none;
-}
-
-ul.Tablelike li.Header:hover a {
-    color: #4B4B4B;
-}
-
 ul.Tablelike li.Header {;
     color: #4B4B4B;
     font-size: 11px;
@@ -64,6 +59,17 @@ ul.Tablelike li.Header {;
     background: #EEE url("../img/SmallDarkGradient.png") repeat-x;
     border-top: 1px solid #FFF;
     border-bottom: 1px solid #BBB;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+
+ul.Tablelike li.Header:hover {
+    background-image: none;
+}
+
+ul.Tablelike li.Header:hover a {
+    color: #4B4B4B;
 }
     
 ul.Tablelike li.Header + li {
@@ -516,6 +522,19 @@ ul.Tablelike li.Header + li {
 
 .RTL .WidgetPopup .Content h2 {
     padding: 5px 0 0 5px;
+}
+    
+#OwnerSelectionGetAll {
+    width: 16px;
+    height: 16px;
+    margin-left: 3px;
+    text-indent: -9999px;
+    background: url(../img/reload.png);
+    display: inline-block;
+}
+    
+.RTL #OwnerSelectionGetAll {
+    margin: 0 3px 0 0;
 }
 
 .WidgetPopup > .Footer {
