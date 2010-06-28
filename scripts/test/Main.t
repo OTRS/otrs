@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.20 2010-06-28 10:24:06 mg Exp $
+# $Id: Main.t,v 1.21 2010-06-28 13:04:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -339,7 +339,7 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
 }
 
 # create test files
-for my $Suffix ( 0 .. 5 ) {
+for my $Suffix ( 0 .. 5, 'öäüßカスタマ' ) {
     my $Success = $Self->{MainObject}->FileWrite(
         Directory => $DirectoryWithFiles,
         Filename  => "Example_File_$Suffix",
@@ -363,6 +363,7 @@ for my $Suffix ( 0 .. 5 ) {
             "$DirectoryWithFiles/Example_File_3",
             "$DirectoryWithFiles/Example_File_4",
             "$DirectoryWithFiles/Example_File_5",
+            "$DirectoryWithFiles/Example_File_öäüßカスタマ",
         ],
     },
     {
@@ -402,6 +403,7 @@ for my $Suffix ( 0 .. 5 ) {
             "$DirectoryWithFiles/Example_File_3",
             "$DirectoryWithFiles/Example_File_4",
             "$DirectoryWithFiles/Example_File_5",
+            "$DirectoryWithFiles/Example_File_öäüßカスタマ",
         ],
     },
     {
@@ -415,6 +417,7 @@ for my $Suffix ( 0 .. 5 ) {
             "$DirectoryWithFiles/Example_File_3",
             "$DirectoryWithFiles/Example_File_4",
             "$DirectoryWithFiles/Example_File_5",
+            "$DirectoryWithFiles/Example_File_öäüßカスタマ",
         ],
     },
     {
@@ -456,24 +459,13 @@ for my $Test (@Tests) {
     #print STDERR "Dump: " . Dumper(\@Results) . "\n";
     #print STDERR "Dump: " . Dumper(\@UnicodeResults) . "\n";
 
-    #my $Debug = $Results[0];
-    #use Devel::Peek;
-    #Devel::Peek::Dump($Debug);
-    #$Debug = $Test->{Results}->[0];
-    #Devel::Peek::Dump($Debug);
-    #$Debug = $UnicodeResults[0];
-    #Devel::Peek::Dump($Debug);
-
     $Self->IsDeeply( \@Results, \@UnicodeResults, $Test->{Name} );
 }
 
 # delete needed test directories
 for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
     if ( !File::Path::rmtree( [$Directory] ) ) {
-        $Self->True(
-            0,
-            "DirectoryRead() - unable to delete '$Directory': $!",
-        );
+        $Self->True( 0, "DirectoryRead() - delete '$Directory'" );
     }
 }
 
