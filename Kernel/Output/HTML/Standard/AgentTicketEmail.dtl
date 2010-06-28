@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.90 2010-06-25 13:49:25 mn Exp $
+# $Id: AgentTicketEmail.dtl,v 1.91 2010-06-28 10:10:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -247,7 +247,7 @@ $Include{"RichTextEditor"}
                         <div class="Clear"></div>
 
                         <input type="hidden" name="Signature" value="$QData{"Signature"}"/>
-                        <iframe height="140" width="620" frameborder="0" id="Signature" src="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Signature;QueueID=$QData{"QueueID"}"></iframe>
+                        <iframe height="140" width="620" frameborder="0" id="Signature" class="Signature" src="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Signature;QueueID=$QData{"QueueID"}"></iframe>
                         <div class="Clear"></div>
 
                         <label>$Text{"Attachment"}:</label>
@@ -298,17 +298,6 @@ $Include{"RichTextEditor"}
                         <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
                         <div class="Field">
                             $Data{"PendingDateString"}
-<!--dtl:js_on_document_complete-->
-                            <script type="text/javascript">//<![CDATA[
-                                Core.UI.Datepicker.Init({
-                                    Day: $('#Day'),
-                                    Month: $('#Month'),
-                                    Year: $('#Year'),
-                                    Hour: $('#Hour'),
-                                    Minute: $('#Minute')
-                                }, $('#PendingDatepicker'));
-                            //]]></script>
-<!--dtl:js_on_document_complete-->
                             <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
                         </div>
                         <div class="Clear"></div>
@@ -332,17 +321,6 @@ $Include{"RichTextEditor"}
                         <div class="Field">
                             $Data{"TicketFreeTime"}
                             <div id="TicketFreeTime$Data{"Count"}UsedError" class="TooltipErrorMessage"><p>$Text{"Required!"}</p></div>
-<!--dtl:js_on_document_complete-->
-                            <script type="text/javascript">//<![CDATA[
-                                Core.UI.Datepicker.Init({
-                                    Day: $('#TicketFreeTime$Data{"Count"}Day'),
-                                    Month: $('#TicketFreeTime$Data{"Count"}Month'),
-                                    Year: $('#TicketFreeTime$Data{"Count"}Year'),
-                                    Hour: $('#TicketFreeTime$Data{"Count"}Hour'),
-                                    Minute: $('#TicketFreeTime$Data{"Count"}Minute')
-                                }, $('#TicketFreeTime$Data{"Count"}Datepicker'));
-                            //]]></script>
-<!--dtl:js_on_document_complete-->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:TicketFreeTime -->

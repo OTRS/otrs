@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.10 2010-06-25 16:11:16 cg Exp $
+// $Id: Core.UI.Datepicker.js,v 1.11 2010-06-28 10:10:23 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,7 @@ Core.UI.Datepicker = (function (TargetNS) {
      * @function
      * @description
      *      This function initializes the datepicker on the defined elements.
-     * @param {Object} Element The jQuery object of a text input field which should get  a datepicker.
+     * @param {Object} Element The jQuery object of a text input field which should get a datepicker.
      *                 Or a hash with the Keys 'Year', 'Month' and 'Day' and as values the jQueryObjects of the select drop downs.
      * @return nothing
      */

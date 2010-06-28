@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.267 2010-06-23 10:25:22 mn Exp $
+# $Id: Layout.pm,v 1.268 2010-06-28 10:10:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.267 $) [1];
+$VERSION = qw($Revision: 1.268 $) [1];
 
 =head1 NAME
 
@@ -2676,6 +2676,7 @@ sub BuildDateSelection {
     my ( $s, $m, $h, $D, $M, $Y ) = $Self->{UserTimeObject}->SystemTime2Date(
         SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime,
     );
+    my $DatepickerHTML = '';
 
     # time zone translation
     if (
@@ -2871,6 +2872,19 @@ sub BuildDateSelection {
                 ) . "\"/>";
         }
     }
+
+    # Datepicker
+    $DatepickerHTML = '<!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
+        Core.UI.Datepicker.Init({
+            Day: $(\'#' . $Prefix . 'Day\'),
+            Month: $(\'#' . $Prefix . 'Month\'),
+            Year: $(\'#' . $Prefix . 'Year\'),
+            Hour: $(\'#' . $Prefix . 'Hour\'),
+            Minute: $(\'#' . $Prefix . 'Minute\')
+        });
+    //]]></script>
+    <!--dtl:js_on_document_complete-->';
+
     my $Output;
 
     # optional checkbox
@@ -2898,6 +2912,9 @@ sub BuildDateSelection {
         Mode   => 'NotNumeric',
         %Param,
     );
+
+    # add Datepicker HTML to output
+    $Output .= $DatepickerHTML;
 
     # set global var to true to add a block to the footer later
     $Self->{HasDatepicker} = 1;
@@ -4685,6 +4702,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.267 $ $Date: 2010-06-23 10:25:22 $
+$Revision: 1.268 $ $Date: 2010-06-28 10:10:23 $
 
 =cut

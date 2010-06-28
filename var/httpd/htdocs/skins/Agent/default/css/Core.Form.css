@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -325,6 +325,10 @@ fieldset.Tight > label,
 fieldset.Tight > .Field,
 fieldset.Tight > .Value {
     padding-bottom: 3px;
+}
+
+iframe.Signature {
+    border: 1px solid #888;
 }
 
 

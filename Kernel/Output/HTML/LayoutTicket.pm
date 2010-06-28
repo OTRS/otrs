@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.79 2010-06-23 10:25:22 mn Exp $
+# $Id: LayoutTicket.pm,v 1.80 2010-06-28 10:10:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub TicketStandardResponseString {
     my ( $Self, %Param ) = @_;
@@ -232,6 +232,7 @@ sub AgentQueueListOption {
     my $MaxLevel   = defined( $Param{MaxLevel} )   ? $Param{MaxLevel}      : 10;
     my $SelectedID = defined( $Param{SelectedID} ) ? $Param{SelectedID}    : '';
     my $Selected   = defined( $Param{Selected} )   ? $Param{Selected}      : '';
+    my $Class      = defined( $Param{Class} )      ? $Param{Class}         : '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
     my $Multiple = $Param{Multiple} ? 'multiple = "multiple"' : '';
     my $OnChangeSubmit = defined( $Param{OnChangeSubmit} ) ? $Param{OnChangeSubmit} : '';
@@ -281,6 +282,8 @@ sub AgentQueueListOption {
         . $Param{Name}
         . '" id="'
         . $Param{Name}
+        . '" class="'
+        . $Class
         . "\" $Size $Multiple $OnChangeSubmit>\n";
     my %UsedData;
     my %Data;
