@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -474,7 +474,7 @@ ul.Tablelike li.Header + li {
  * @subsection  WidgetPopup
  */
 .WidgetPopup > .Header {
-    background: url(../img/popup_head_bg.png) repeat-x;
+    background: #E3E3E3 url(../img/gradient_light.png) repeat-x;
     padding: 5px 20px;
     border-bottom: 1px solid #999;
     margin-bottom: 10px;
@@ -538,7 +538,7 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetPopup > .Footer {
-    background: url(../img/popup_footer_bg.png) repeat-x bottom;
+    background: #DBDBDB url(../img/gradient_light.png) repeat-x;
     padding: 5px;
     border-top: 1px solid #999;
     text-align: center;
