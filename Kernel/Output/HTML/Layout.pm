@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.268 2010-06-28 10:10:23 mn Exp $
+# $Id: Layout.pm,v 1.269 2010-06-28 10:18:18 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.268 $) [1];
+$VERSION = qw($Revision: 1.269 $) [1];
 
 =head1 NAME
 
@@ -2671,6 +2671,7 @@ sub BuildDateSelection {
     my $Optional       = $Param{ $Prefix . 'Optional' } || 0;
     my $Required       = $Param{ $Prefix . 'Required' } || 0;
     my $Used           = $Param{ $Prefix . 'Used' } || 0;
+    my $Class          = $Param{ $Prefix . 'Class' } || '';
     my $Validate       = $Param{Validate}
         || 0;    # Defines, if the date selection should be validated on client side with JS
     my ( $s, $m, $h, $D, $M, $Y ) = $Self->{UserTimeObject}->SystemTime2Date(
@@ -2729,7 +2730,7 @@ sub BuildDateSelection {
     }
     else {
         $Param{Year} = "<input id=\"" . $Prefix . "Year\" " . "type=\"text\" "
-            . $Validate ? "class=\"Validate_DateYear\" " : ""
+            . $Validate ? "class=\"Validate_DateYear $Class\" " : "class=\"$Class\" "
             . "name=\""
             . $Prefix
             . "Year\" size=\"4\" maxlength=\"4\" "
@@ -2755,7 +2756,7 @@ sub BuildDateSelection {
     else {
         $Param{Month}
             = "<input type=\"text\" "
-            . $Validate ? "class=\"Validate_DateMonth\" " : ""
+            . $Validate ? "class=\"Validate_DateMonth $Class\" " : "class=\"$Class\" "
             . "name=\""
             . $Prefix
             . "Month\" id=\""
@@ -2783,9 +2784,10 @@ sub BuildDateSelection {
                     . $Prefix
                     . 'Year Validate_DateMonth_'
                     . $Prefix
-                    . 'Month'
+                    . 'Month '
+                    . $Class
                 )
-            : '',
+            : $Class,
         );
     }
     else {
@@ -2796,9 +2798,11 @@ sub BuildDateSelection {
                 . $Prefix
                 . "Year Validate_DateMonth_"
                 . $Prefix
-                . "Month\" "
+                . "Month "
+                . $Class
+                . "\" "
             )
-            : ""
+            : "class=\"" . $Class . "\""
             . "name=\""
             . $Prefix
             . "Day\" id=\"" . $Prefix . "Day\" size=\"2\" maxlength=\"2\" "
@@ -2821,12 +2825,12 @@ sub BuildDateSelection {
                 ? int( $Param{ $Prefix . 'Hour' } )
                 : int($h),
                 LanguageTranslation => 0,
-                Class => $Validate ? 'Validate_DateHour' : '',
+                Class => $Validate ? ( 'Validate_DateHour ' . $Class ) : $Class,
             );
         }
         else {
             $Param{Hour} = "<input type=\"text\" "
-                . $Validate ? "class=\"Validate_DateHour\" " : ""
+                . $Validate ? "class=\"Validate_DateHour $Class\" " : "class=\"$Class\" "
                 . "name=\""
                 . $Prefix
                 . "Hour\" id=\"" . $Prefix . "Hour\" size=\"2\" maxlength=\"2\" "
@@ -2852,12 +2856,12 @@ sub BuildDateSelection {
                 ? int( $Param{ $Prefix . 'Minute' } )
                 : int($m),
                 LanguageTranslation => 0,
-                Class => $Validate ? 'Validate_DateMinute' : '',
+                Class => $Validate ? ( 'Validate_DateMinute ' . $Class ) : $Class,
             );
         }
         else {
             $Param{Minute} = "<input type=\"text\" "
-                . $Validate ? "class=\"Validate_DateMinute\" " : ""
+                . $Validate ? "class=\"Validate_DateMinute $Class\" " : "class=\"$Class\" "
                 . "name=\""
                 . $Prefix
                 . "Minute\" id=\"" . $Prefix . "Minute\" size=\"2\" maxlength=\"2\" "
@@ -4702,6 +4706,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.268 $ $Date: 2010-06-28 10:10:23 $
+$Revision: 1.269 $ $Date: 2010-06-28 10:18:18 $
 
 =cut
