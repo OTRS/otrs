@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -16,14 +16,14 @@
  * @subsection  General stuff
  */
  
-.DataTable tr:hover,
-.TableSmall tr:hover {
+.DataTable tbody tr:hover,
+.TableSmall tbody tr:hover {
     position: relative;
     cursor: pointer;
 }
 
-.DataTable td:first-child,
-.TableSmall td:first-child {
+.DataTable tbody td:first-child,
+.TableSmall tbody td:first-child {
     -webkit-border-top-left-radius: 3px;
     -webkit-border-bottom-left-radius: 3px;
     -moz-border-radius-topleft: 3px;
@@ -32,8 +32,8 @@
     border-bottom-left-radius: 3px;
 }
 
-.DataTable td.Last,
-.TableSmall td.Last {
+.DataTable tbody td.Last,
+.TableSmall tbody td.Last {
     border-right: none;
     -webkit-border-top-right-radius: 3px;
     -webkit-border-bottom-right-radius: 3px;
@@ -43,8 +43,8 @@
     border-bottom-right-radius: 3px;
 }
     
-.DataTable tr:hover td,
-.TableSmall tr:hover td {
+.DataTable tbody tr:hover td,
+.TableSmall tbody tr:hover td {
     background: url(../img/table_small_hover_bg.png) repeat-x center;
     background: -moz-linear-gradient(center top, #FFE7BD, #FBBA49 20%, #F6AD3E 51%, #F3960D 51%, #E98207 95%, #E07006);
     background: -webkit-gradient(linear, left top, left bottom, from(#FFE7BD), to(#E07006), color-stop(20%, #FBBA49), color-stop(51%, #F6AD3E), color-stop(51%, #F3960D), color-stop(95%, #E98207));
@@ -53,15 +53,15 @@
     box-shadow: 0 1px 0 rgba(0,0,0,0.3);
 }
     
-.DataTable tr.Last:hover td,
-.TableSmall tr.Last:hover td {
+.DataTable tbody tr.Last:hover td,
+.TableSmall tbody tr.Last:hover td {
     -moz-box-shadow: 0 0 0;
     -webkit-box-shadow: 0 0 0;
     box-shadow: 0 0 0;
 }
     
-.DataTable tr:active td,
-.TableSmall tr:active td {
+.DataTable tbody tr:active td,
+.TableSmall tbody tr:active td {
     background: url(../img/table_small_hover_bg.png) repeat-x center;
     background: -moz-linear-gradient(center top, #FFE4B5, #FAA91C 20%, #EB8C0B 95%, #E37B09);
     background: -webkit-gradient(linear, left top, left bottom, from(#FFE4B5), to(#E37B09), color-stop(20%, #FBB93D), color-stop(51%, #F6AB2D), color-stop(51%, #F49F13), color-stop(95%, #EB8C0B));
