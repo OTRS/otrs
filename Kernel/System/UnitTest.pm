@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.34 2010-06-28 10:21:27 mg Exp $
+# $Id: UnitTest.pm,v 1.35 2010-06-29 18:56:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -290,11 +290,27 @@ sub Run {
 
 =item True()
 
+Send a scalar value to this function along with the test's name,
+as it is shown in the examples below.
+
 A true test.
 
     $UnitTestObject->True(1, 'Test Name');
 
     $UnitTestObject->True($A eq $B, 'Test Name');
+
+    $UnitTestObject->True(ParamA, 'Test Name');
+
+Where $ParamA must be a scalar value. Internally, the function receives
+this value and it is evalued to see if it's true, returning 1
+in this case or 0, otherwise.
+
+e. g.
+
+    my $TrueResult = $UnitTestObject->True(
+        $TestValue,
+        'Test Name',
+    );
 
 =cut
 
@@ -322,11 +338,27 @@ sub True {
 
 =item False()
 
+Send a scalar value to this function along with the test's name,
+as it is shown in the examples below.
+
 A false test.
 
     $UnitTestObject->False(0, 'Test Name');
 
     $UnitTestObject->False($A ne $B, 'Test Name');
+
+    $UnitTestObject->False(ParamA, 'Test Name');
+
+Where $ParamA must be a scalar value. Internally, the function receives
+this value and it is evalued to see if it's false, returning 1
+in this case or 0, otherwise.
+
+e. g.
+
+    my $FalseResult = $UnitTestObject->False(
+        $TestValue,
+        'Test Name',
+    );
 
 =cut
 
@@ -354,9 +386,23 @@ sub False {
 
 =item Is()
 
-A Is $A (is) eq $B (should be) test.
+To this function you must send a pair of scalar values to compare them,
+and the name that the test will take, this is done as shown in the examples
+below.
 
     $UnitTestObject->Is($A, $B, 'Test Name');
+
+Where $A and $B must be scalar values. Internally, the function receives
+these values and, they are compared to see if they are equal,
+returning 1 if the test was satisfactory or 0, otherwise.
+
+e. g.
+
+    my $IsResult = $UnitTestObject->Is(
+        $ValueFromFunction,
+        1,
+        'Test Name',
+    );
 
 =cut
 
@@ -396,9 +442,23 @@ sub Is {
 
 =item IsNot()
 
-A Is $A (is) nq $B (should not be) test.
+To this function you must send a pair of scalar values to compare them,
+and the name that the test will take, this is done as shown in the examples
+below.
 
     $UnitTestObject->IsNot($A, $B, 'Test Name');
+
+Where $A and $B must be scalar values. Internally, the function receives
+these values and, they are compared to see if they are not equal,
+returning 1 if the test was satisfactory or 0, otherwise.
+
+e. g.
+
+    my $IsNotResult = $UnitTestObject->IsNot(
+        $ValueFromFunction,
+        0,
+        'Test Name',
+    );
 
 =cut
 
@@ -438,9 +498,35 @@ sub IsNot {
 
 =item IsDeeply()
 
-A Is HashA (is) eq HashB (should be) test.
+To this function you must send the references to the comparing structures,
+and the name that the test will take, this is done as shown in the examples
+below.
 
-    $UnitTestObject->IsDeeply( \%HashA, \%HashB, 'Test Name');
+$UnitTestObject-> IsDeeply(ParamA, ParamB, 'Test Name');
+
+Where ParamA and ParamB must be references to a structure (array, hash, list, etc.)
+Internally, the function receives these references and, through the Core Perl
+Storable module freeze function (), converts each structure to its string equivalent.
+After obtaining both strings, they are compared to see if they are equal, returning 1
+if the test was satisfactory or 0, otherwise.
+
+e. g.
+my %hash1 = (
+    key1 => '1',
+    key2 => '2',
+    key3 =>
+    { 
+        test   => 2,
+        test2 => [
+           1, 2, 3,      
+        ],
+    },
+);
+my $IsDeeplyResult = $UnitTestObject->IsDeeply(
+    \%hash1,
+    \%hash1,
+    'Dummy Test Name',
+);
 
 =cut
 
@@ -484,9 +570,32 @@ sub IsDeeply {
 
 =item IsNotDeeply()
 
-A Is HashA (is) nq HashB (should not be) test.
+To this function you must send the references to the comparing structures,
+and the name that the test will take, this is done as shown in the examples
+below.
 
-    $UnitTestObject->IsNotDeeply(\%HashA, \%HashB, 'Test Name');
+$UnitTestObject-> IsNotDeeply(ParamA, ParamB, 'Test Name');
+
+The parameters passed to this function and the inner logic are the same as
+in the IsDeeply function, but this time, it returns 1 if the structures are
+different and 0, otherwise.
+
+e. g.
+my @List1 =( 1, 2, 3, );
+my @List2 = (
+    1,   
+    2,
+    4,
+    [ 1, 2, 3 ],
+    {
+        test => 'test',
+    },
+);
+my $IsNotDeeplyResult = $UnitTestObject->IsNotDeeply(
+    \@List1,
+    \@List2,
+    'Dummy Test Name',
+);
 
 =cut
 
@@ -670,6 +779,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2010-06-28 10:21:27 $
+$Revision: 1.35 $ $Date: 2010-06-29 18:56:15 $
 
 =cut
