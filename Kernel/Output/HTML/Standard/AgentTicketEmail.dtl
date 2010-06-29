@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.92 2010-06-28 13:46:31 mn Exp $
+# $Id: AgentTicketEmail.dtl,v 1.93 2010-06-29 05:21:44 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,14 +85,11 @@ function CustomerSubmit() {
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:TicketType -->
-
                         <label for="Dest">$Text{"From queue"}:</label>
                         <div class="Field">
                             $Data{"FromStrg"}
-                            <div id="DestServerError" class="TooltipErrorMessage">
-                                <p>$Text{"$Data{"Destination invalid"}"}</p>
-                            </div>
-                            <span class="Error Small">$Text{"$Data{"Destination invalid"}"}</span>
+                            <div id="DestError" class="TooltipErrorMessage" ><p>$Text{"Queue is required."}</p></div>
+                            <div id="DestServerError" class="TooltipErrorMessage"><p>$Text{"Queue is required"}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#Dest'), function (Event) {
@@ -106,22 +103,25 @@ function CustomerSubmit() {
 
                         <label for="CustomerAutoComplete">$Text{"To"}:</label>
                         <div class="Field">
-                            <input id="CustomerAutoComplete" type="text" name="To" value="$QData{"To"}" class="W75pc AutocompleteOff" />
-                            <span class="Error Small">$Text{"$Data{"To invalid"}"}</span>
+                            <input id="CustomerAutoComplete" type="text" name="To" value="$QData{"To"}" class="W75pc AutocompleteOff Validate_Required Validate_Email $Data{"ToInvalid"}" />
+                            <div id="CustomerAutoCompleteError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
+                            <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="Cc">$Text{"Cc"}:</label>
                         <div class="Field">
-                            <input type="text" name="Cc" id="Cc" value="$QData{"Cc"}"  class="W75pc" />
-                            <span class="Error Small">$Text{"$Data{"Cc invalid"}"}</span>
+                            <input type="text" name="Cc" id="Cc" value="$QData{"Cc"}"  class="W75pc Validate_Email $Data{"CcInvalid"}" " />
+                            <div id="CcError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
+                            <div id="CcServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address"}</p></div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="Bcc">$Text{"Bcc"}:</label>
                         <div class="Field">
-                            <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc"/>
-                            <span class="Error Small">$Text{"$Data{"Bcc invalid"}"}</span>
+                            <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc Validate_Email $Data{"BccInvalid"}""/>
+                            <div id="BccError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
+                            <div id="BccServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid mail address or don't use a local email address"}</p></div>
                         </div>
                         <div class="Clear"></div>
 
@@ -129,7 +129,8 @@ function CustomerSubmit() {
                         <label for="ServiceID">$Text{"Service"}:</label>
                         <div class="Field">
                             $Data{"ServiceStrg"}
-                            <span class="Error Small">$Text{"$Data{"Service invalid"}"}</span>
+                            <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>$Text{"Service invalid"}</p></div>
+<!-- <span class="Error Small">$Text{"$Data{"Service invalid"}"}</span> -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#ServiceID'), function (Event) {
@@ -145,7 +146,7 @@ function CustomerSubmit() {
                         <label for="SLAID">$Text{"SLA"}:</label>
                         <div class="Field">
                             $Data{"SLAStrg"}
-                            <span class="Error Small">$Text{"$Data{"SLA invalid"}"}</span>
+<!-- <span class="Error Small">$Text{"$Data{"SLA invalid"}"}</span> -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#SLAID'), function (Event) {
@@ -204,9 +205,9 @@ function CustomerSubmit() {
 
                         <label for="Subject">$Text{"Subject"}:</label>
                         <div class="Field">
-                            <input type="text" class="Validate_Required" name="Subject" id="Subject" value="$QData{"Subject"}" class="W75pc"/>
+                            <input type="text" class="Validate_Required $Data{"SubjectInvalid"} W75pc " name="Subject" id="Subject" value="$QData{"Subject"}"/>
                             <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
-                            <span class="Error Small">$Text{"$Data{"Subject invalid"}"}</span>
+                            <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
                         </div>
                         <div class="Clear"></div>
 
@@ -316,7 +317,7 @@ $Include{"RichTextEditor"}
                         <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
                         <div class="Field">
                             $Data{"PendingDateString"}
-                            <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
+                            <div id="ServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
                         </div>
                         <div class="Clear"></div>
 

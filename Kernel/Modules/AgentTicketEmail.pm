@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.131 2010-06-25 09:22:28 mn Exp $
+# $Id: AgentTicketEmail.pm,v 1.132 2010-06-29 05:23:54 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
+$VERSION = qw($Revision: 1.132 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -611,40 +611,44 @@ sub Run {
             next if !$GetParam{$Line};
             for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
+                    $Error{ "$Line" . "Invalid" } = ' ServerError';
                 }
                 my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                     Address => $Email->address()
                 );
                 if ($IsLocal) {
-                    $Error{"$Line invalid"}
-                        .= "Can't send email ticket to "
-                        . $Email->address()
-                        . "! It's a local address! Create a phone Ticket!";
+                    $Error{ "$Line" . "Invalid" } = ' ServerError';
                 }
             }
         }
         if ( !$GetParam{To} && $ExpandCustomerName != 1 && $ExpandCustomerName == 0 ) {
-            $Error{'To invalid'} = 'invalid';
+            $Error{'ToInvalid'} = ' ServerError';
         }
         if ( !$GetParam{Subject} && $ExpandCustomerName == 0 ) {
-            $Error{'Subject invalid'} = 'invalid';
+            $Error{'SubjectInvalid'} = ' ServerError';
         }
         if ( !$NewQueueID && $ExpandCustomerName == 0 ) {
-            $Error{'Destination invalid'} = 'invalid';
+
+            $Error{'DestinationInvalid'} = ' ServerError';
+        }
+        else {
+            $Error{'DestinationInvalid'} = ' ';
         }
 
         # check if date is valid
         if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                $Error{'Date invalid'} = 'invalid';
+                $Error{'DateInvalid'} = ' ServerError';
             }
             if (
                 $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
                 < $Self->{TimeObject}->SystemTime()
                 )
             {
-                $Error{'Date invalid'} = 'invalid';
+                $Error{'DateInvalid'} = ' ServerError';
+            }
+            else {
+                $Error{'DateInvalid'} = '';
             }
         }
         if (
@@ -653,7 +657,10 @@ sub Run {
             && !$GetParam{ServiceID}
             )
         {
-            $Error{'Service invalid'} = 'invalid';
+            $Error{'ServiceInvalid'} = 'ServerError';
+        }
+        else {
+            $Error{'ServiceInvalid'} = '';
         }
 
         # run compose modules
@@ -1491,14 +1498,17 @@ sub _MaskEmailNew {
             Data           => \%NewTo,
             Multiple       => 0,
             Size           => 0,
+            Class          => 'Validate_Required' . $Param{Errors}->{DestinationInvalid},
             Name           => 'Dest',
             SelectedID     => $Param{FromSelected},
             OnChangeSubmit => 0,
+
         );
     }
     else {
         $Param{FromStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%NewTo,
+            Class      => 'Validate_Required' . $Param{Errors}->{DestinationInvalid},
             Name       => 'Dest',
             SelectedID => $Param{FromSelected},
         );
@@ -1545,6 +1555,7 @@ sub _MaskEmailNew {
         $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{Services},
             Name         => 'ServiceID',
+            Class        => $Param{Errors}->{ServiceInvalid},
             SelectedID   => $Param{ServiceID},
             PossibleNone => 1,
             TreeView     => $TreeView,
@@ -1559,6 +1570,7 @@ sub _MaskEmailNew {
         $Param{SLAStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{SLAs},
             Name         => 'SLAID',
+            Class        => '',
             SelectedID   => $Param{SLAID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
@@ -1591,6 +1603,7 @@ sub _MaskEmailNew {
         YearPeriodFuture => 5,
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
         Validate         => 1,
+        Class            => $Param{Errors}->{DateInvalid},
     );
 
     # show owner selection
