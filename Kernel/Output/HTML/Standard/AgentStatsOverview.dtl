@@ -2,62 +2,57 @@
 # AgentStatsOverview.dtl - provides HTML form for lists stats
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsOverview.dtl,v 1.13 2010-06-24 13:59:03 mh Exp $
+# $Id: AgentStatsOverview.dtl,v 1.14 2010-06-29 08:10:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td class="mainhead">
-            $Env{"Box0"}$Text{"Overview"}: $Text{"Stats"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="menu">
-            $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$QData{"TotalHits"}</b> - $Text{"Page"}: $Data{"SiteNavBar"}
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <table border="0" width="100%" cellpadding="4" cellspacing="0">
-                <tr><td></td></tr>
-                <tr class="contenthead">
-                    <td>$Text{"$Config{"Stats::StatsHook"}"}
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=ID;Direction=ASC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}"/></a>&nbsp;/
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=ID;Direction=DESC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
-                    </td>
-                    <td>$Text{"Title"}
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Title;Direction=ASC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}" /></a>&nbsp;/
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Title;Direction=DESC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
-                    </td>
-                    <td>$Text{"Object"}
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Object;Direction=ASC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}down-small.png" alt="$Text{"down"}" /></a>&nbsp;/
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;OrderBy=Object;Direction=DESC;StartHit=$LQData{"StartHit"}"><img border="0" src="$Config{"Frontend::ImagePath"}up-small.png" alt="$Text{"up"}" /></a>
-                    </td>
-                    <td>$Text{"Description"}</td>
-                </tr>
+<div class="MainBox">
+
+    <h1>$Text{"Overview"}: $Text{"Stats"}</h1>
+
+    <table class="DataTable">
+        <thead>
+            <tr>
+                <th class="$QData{"CSSSortID"}">
+
+                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;Direction=$QData{"LinkSortID"};;OrderBy=ID;StartHit=$LQData{"StartHit"}">
+                        $Text{"$Config{"Stats::StatsHook"}"}
+                    </a>
+                </th>
+                <th class="$QData{"CSSSortTitle"}">
+                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;Direction=$QData{"LinkSortTitle"};OrderBy=Title;StartHit=$LQData{"StartHit"}">
+                        $Text{"Title"}
+                    </a>
+                </th>
+                <th class="$QData{"CSSSortObject"}">
+                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview;Direction=$QData{"LinkSortObject"};OrderBy=Object;StartHit=$LQData{"StartHit"}">
+                        $Text{"Object"}
+                    </a>
+                </th>
+                <th>$Text{"Description"}</th>
+            </tr>
+        </thead>
+        <tbody>
 <!-- dtl:block:Result -->
-                <tr class="$QData{"css"}">
-                    <td class="$QData{"TextCss"}">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;StatID=$Data{"StatID"}">
-                            $Data{"StatNumber"}
-                        </a>
-                    </td>
-                    <td class="contentvalue">$QData{"Title"}</td>
-                    <td class="contentvalue">$Text{"$Data{"ObjectName"}"}</td>
-                    <td class="contentvalue">$QData{"Description","50"}</td>
-                </tr>
+            <tr>
+                <td>
+                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;StatID=$Data{"StatID"}" class="AsBlock">
+                        $Data{"StatNumber"}
+                    </a>
+                </td>
+                <td>$QData{"Title"}</td>
+                <td>$Text{"$Data{"ObjectName"}"}</td>
+                <td title="$QData{"Description"}">$QData{"Description","50"}</td>
+            </tr>
 <!-- dtl:block:Result -->
-                <tr class="contentfooter">
-                    <td colspan="4">&nbsp;</td>
-                </tr>
-            </table>
-            <br/>
-        </td>
-    </tr>
-</table>
-<!-- end form -->
+        </tbody>
+    </table>
+
+    <p class="SpacingTopSmall">
+        $Text{"Results"}: <strong>$QData{"Result"}</strong> - $Text{"Total hits"}: <strong>$QData{"TotalHits"}</strong> - $Text{"Page"}: $Data{"SiteNavBar"}
+    </p>
+
+</div>

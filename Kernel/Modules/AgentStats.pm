@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.88 2010-06-24 19:09:51 dz Exp $
+# $Id: AgentStats.pm,v 1.89 2010-06-29 08:10:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -94,6 +94,22 @@ sub Run {
             Direction => $Param{Direction},
         );
 
+        my %Order2CSSSort = (
+            ASC  => 'SortAscending',
+            DESC => 'SortDescending',
+        );
+
+        my %InverseSorting = (
+            ASC  => 'DESC',
+            DESC => 'ASC',
+        );
+
+        $Param{ 'CSSSort' . $Param{OrderBy} } = $Order2CSSSort{ $Param{Direction} };
+        foreach my $Type (qw(ID Title Object)) {
+            $Param{"LinkSort$Type"}
+                = ( $Param{OrderBy} eq $Type ) ? $InverseSorting{ $Param{Direction} } : 'ASC';
+        }
+
         # build the info
         my %Frontend = $Self->{LayoutObject}->PageNavBar(
             Limit     => $Param{SearchLimit},
@@ -106,8 +122,7 @@ sub Run {
         );
 
         # list result
-        my $Index   = -1;
-        my $Counter = 0;
+        my $Index = -1;
         for ( my $Z = 0; ( $Z < $Param{SearchPageShown} && $Index < $#{$Result} ); $Z++ ) {
             $Index = $Param{StartHit} + $Z - 1;
             my $StatID = $Result->[$Index];
@@ -115,7 +130,6 @@ sub Run {
                 StatID             => $StatID,
                 NoObjectAttributes => 1,
             );
-            $Stat->{css} = ++$Counter % 2 ? 'searchactive' : 'searchpassive';
 
             $Self->{LayoutObject}->Block(
                 Name => 'Result',
