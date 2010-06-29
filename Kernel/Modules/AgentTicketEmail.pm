@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.132 2010-06-29 05:23:54 mp Exp $
+# $Id: AgentTicketEmail.pm,v 1.133 2010-06-29 17:45:38 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.132 $) [1];
+$VERSION = qw($Revision: 1.133 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -628,11 +628,7 @@ sub Run {
             $Error{'SubjectInvalid'} = ' ServerError';
         }
         if ( !$NewQueueID && $ExpandCustomerName == 0 ) {
-
             $Error{'DestinationInvalid'} = ' ServerError';
-        }
-        else {
-            $Error{'DestinationInvalid'} = ' ';
         }
 
         # check if date is valid
@@ -647,9 +643,6 @@ sub Run {
             {
                 $Error{'DateInvalid'} = ' ServerError';
             }
-            else {
-                $Error{'DateInvalid'} = '';
-            }
         }
         if (
             $Self->{ConfigObject}->Get('Ticket::Service')
@@ -657,10 +650,7 @@ sub Run {
             && !$GetParam{ServiceID}
             )
         {
-            $Error{'ServiceInvalid'} = 'ServerError';
-        }
-        else {
-            $Error{'ServiceInvalid'} = '';
+            $Error{'ServiceInvalid'} = ' ServerError';
         }
 
         # run compose modules
@@ -1493,12 +1483,16 @@ sub _MaskEmailNew {
             $NewTo{"$_||$Param{FromList}->{$_}"} = $Param{FromList}->{$_};
         }
     }
+
+    my $Class = 'Validate_Required';
+    $Class .= $Param{Errors}->{DestinationInvalid} || ' ';
+
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
         $Param{FromStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Data           => \%NewTo,
             Multiple       => 0,
             Size           => 0,
-            Class          => 'Validate_Required' . $Param{Errors}->{DestinationInvalid},
+            Class          => $Class,
             Name           => 'Dest',
             SelectedID     => $Param{FromSelected},
             OnChangeSubmit => 0,
@@ -1508,7 +1502,7 @@ sub _MaskEmailNew {
     else {
         $Param{FromStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%NewTo,
-            Class      => 'Validate_Required' . $Param{Errors}->{DestinationInvalid},
+            Class      => $Class,
             Name       => 'Dest',
             SelectedID => $Param{FromSelected},
         );
@@ -1550,12 +1544,14 @@ sub _MaskEmailNew {
         );
     }
 
+    $Class = $Param{Errors}->{ServiceInvalid} || ' ';
+
     # build service string
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
         $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{Services},
             Name         => 'ServiceID',
-            Class        => $Param{Errors}->{ServiceInvalid},
+            Class        => $Class,
             SelectedID   => $Param{ServiceID},
             PossibleNone => 1,
             TreeView     => $TreeView,
@@ -1570,7 +1566,6 @@ sub _MaskEmailNew {
         $Param{SLAStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{SLAs},
             Name         => 'SLAID',
-            Class        => '',
             SelectedID   => $Param{SLAID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
@@ -1594,6 +1589,8 @@ sub _MaskEmailNew {
         SelectedValue => $Param{Priority},
         Translation   => 1,
     );
+
+    $Class = $Param{Errors}->{DateInvalid} || ' ';
 
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
