@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -15,11 +15,10 @@
 /**
  * @subsection  General stuff
  */
- 
+
 .DataTable tbody tr:hover,
 .TableSmall tbody tr:hover {
     position: relative;
-    cursor: pointer;
 }
 
 .DataTable tbody td:first-child,
@@ -42,7 +41,7 @@
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
-    
+
 .DataTable tbody tr:hover td,
 .TableSmall tbody tr:hover td {
     background: url(../img/table_small_hover_bg.png) repeat-x center;
@@ -52,14 +51,14 @@
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.3);
     box-shadow: 0 1px 0 rgba(0,0,0,0.3);
 }
-    
+
 .DataTable tbody tr.Last:hover td,
 .TableSmall tbody tr.Last:hover td {
     -moz-box-shadow: 0 0 0;
     -webkit-box-shadow: 0 0 0;
     box-shadow: 0 0 0;
 }
-    
+
 .DataTable tbody tr:active td,
 .TableSmall tbody tr:active td {
     background: url(../img/table_small_hover_bg.png) repeat-x center;
@@ -129,6 +128,7 @@ tbody tr.UnreadArticles td {
     font-size: 11px;
     height: 12px;
     line-height: 12px;
+    display: block;
 }
 
 .DataTable thead .SortAscending a,
@@ -162,7 +162,7 @@ tbody tr.UnreadArticles td {
     background-color: #FDFDFD;
     line-height: 18px;
 }
-    
+
 .DataTable tr:first td {
     border-top: 1px solid #EEE;
 }
@@ -197,7 +197,7 @@ tbody tr.UnreadArticles td {
     border: none;
     background: #FFF;
 }
-    
+
 .TableSmall thead {
     border-bottom: none;
 }
@@ -236,7 +236,7 @@ td.Attachment {
     background: url("../img/thead_isolator.png") no-repeat right bottom;
     vertical-align: bottom;
 }
-    
+
 .RTL .TableSmall thead th {
     background-position: left bottom;
 }
@@ -251,17 +251,17 @@ td.Attachment {
     text-transform: uppercase;
     display: block;
 }
-    
+
 .RTL .TableSmall thead a {
     margin: 0 1px 1px 2px;
 }
-    
+
 .TableSmall thead .UnreadArticles a {
-    padding: 0 0 0 5px;   
+    padding: 0 0 0 5px;
 }
-    
+
 .RTL .TableSmall thead .UnreadArticles a {
-    padding: 0 5px 0 0;   
+    padding: 0 5px 0 0;
 }
 
 .TableSmall thead .SortAscending a,
@@ -429,11 +429,11 @@ td.Attachment {
     display: block;
     position: absolute;
 }
-    
+
 .FixedHeader td {
     line-height: 20px;
 }
-    
+
 .FixedHeader .From div,
 .FixedHeader .Subject div,
 .FixedHeader .Type div,
@@ -442,11 +442,11 @@ td.Attachment {
     overflow: hidden;
     display: block;
 }
-    
+
 .FixedHeader .No {
     width: 42px;
 }
-    
+
 .FixedHeader .Attachments {
     width: 20px;
 }
