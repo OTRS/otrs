@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.2 2010-06-29 09:47:28 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -217,7 +217,11 @@ Core.UI.Dialog = (function (TargetNS) {
             if (Params.Text) {
                 $Content.append('<p>' + Params.Text + '</p>');
             }
-            $Content.append('<div class="Center Spacing"><button type="button" class="Close">Ok</button></div>');
+            Params.Buttons = [{
+                Label: 'OK',
+                Type: 'Close'
+            }];
+            $Content.append('<div class="Center Spacing"><button type="button" id="DialogButton1" class="Close">Ok</button></div>');
         }
         // Define different other types here...
         else if (Params.Type === 'Search') {
@@ -313,12 +317,18 @@ Core.UI.Dialog = (function (TargetNS) {
                                 DefaultSubmitFunction();
                             }
                         }
+                        else {
+                            DefaultSubmitFunction();
+                        }
                     }
                     else if (Value.Type === 'Close') {
                         if ($.isFunction(Value.Function)) {
                             if (Value.Function()) {
                                 DefaultCloseFunction();
                             }
+                        }
+                        else {
+                            DefaultCloseFunction();
                         }
                     }
                     else {
