@@ -2,7 +2,7 @@
 # AdminLog.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminLog.dtl,v 1.21 2010-06-29 04:28:14 dz Exp $
+# $Id: AdminLog.dtl,v 1.22 2010-06-29 10:06:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +13,13 @@
 
     <div class="SidebarColumn">
         <div class="WidgetGradient Short MinHeight">
-            <div class="Header"></div>
+            <div class="Header">
+                <h2>$Text{"Note"}</h2>
+            </div>
             <div class="Content">
-<!-- intentionally empty -->
+                <p class="FieldExplanation">
+                    $Text{"Here you will find log information about your system."}
+                </p>
             </div>
         </div>
     </div>
