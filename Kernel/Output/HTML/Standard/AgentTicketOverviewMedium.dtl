@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.28 2010-06-04 11:19:32 mn Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.29 2010-06-29 22:47:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,7 +54,7 @@
 <!-- dtl:block:MetaIcon -->
 <!-- dtl:block:Meta -->
             <h2>
-                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"}">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title","60"}</a>
+                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title","60"}</a>
             </h2>
 #        <div>
 <!-- dtl:block:MenuItem -->
@@ -68,7 +68,7 @@
                             <label>$Text{"From"}</label><div title="$QData{"From"}">$RQData{"From","80"}</div>
                         </td>
                         <td>
-                            <label>$Text{"Age"}</label>$Data{"Age"}
+                            <label>$Text{"Age"}</label>$QData{"Age"}
                         </td>
                         <td>
                             <label>$Text{"Queue"}</label><div title="$QData{"Queue"}">$QData{"Queue","26"}</div>

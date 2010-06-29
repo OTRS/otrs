@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.42 2010-06-11 11:44:14 mn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.43 2010-06-29 22:47:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,17 +37,17 @@
 #                        <th class="UnreadArticles Fixed"><a class="UnreadArticles" href=""><span class="UnreadArticles"></span></a></th>
 <!-- dtl:block:OverviewNavBarPageTicketNumber -->
                 <th class="TicketNumber $QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=TicketNumber;OrderBy=$QData{"OrderBy"}">$Config{"Ticket::Hook"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$LQData{"LinkSort"};SortBy=TicketNumber;OrderBy=$LQData{"OrderBy"}">$Config{"Ticket::Hook"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageTicketNumber -->
 <!-- dtl:block:OverviewNavBarPageAge -->
                 <th class="Age $QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Age;OrderBy=$QData{"OrderBy"}">$Text{"Age"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$LQData{"LinkSort"};SortBy=Age;OrderBy=$LQData{"OrderBy"}">$Text{"Age"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageAge -->
 <!-- dtl:block:OverviewNavBarPageEscalationTime -->
                 <th class="EscalationTime $QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=EscalationTime;OrderBy=$QData{"OrderBy"}">$Text{"Escalation in"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$LQData{"LinkSort"};SortBy=EscalationTime;OrderBy=$LQData{"OrderBy"}">$Text{"Escalation in"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageEscalationTime -->
 <!-- dtl:block:OverviewNavBarPageLastCustomerSubject -->
@@ -58,27 +58,27 @@
 <!-- dtl:block:OverviewNavBarPageTitle -->
 <!-- dtl:block:OverviewNavBarPageState -->
                 <th class="State $QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=State;OrderBy=$QData{"OrderBy"}">$Text{"State"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$LQData{"LinkSort"};SortBy=State;OrderBy=$LQData{"OrderBy"}">$Text{"State"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageState -->
 <!-- dtl:block:OverviewNavBarPageLock -->
                 <th class="Lock $QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Lock;OrderBy=$QData{"OrderBy"}">$Text{"Locked"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$LQData{"LinkSort"};SortBy=Lock;OrderBy=$LQData{"OrderBy"}">$Text{"Locked"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageLock -->
 <!-- dtl:block:OverviewNavBarPageQueue -->
                 <th class="Queue $QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Queue;OrderBy=$QData{"OrderBy"}">$Text{"Queue"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$LQData{"LinkSort"};SortBy=Queue;OrderBy=$LQData{"OrderBy"}">$Text{"Queue"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageQueue -->
 <!-- dtl:block:OverviewNavBarPageOwner -->
                 <th class="Owner $QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Owner;OrderBy=$QData{"OrderBy"}">$Text{"Owner"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$LQData{"LinkSort"};SortBy=Owner;OrderBy=$LQData{"OrderBy"}">$Text{"Owner"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageOwner -->
 <!-- dtl:block:OverviewNavBarPageCustomerID -->
                 <th class="CustomerID Last $QData{"CSS"}">
-                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=CustomerID;OrderBy=$QData{"OrderBy"}">$Text{"CustomerID"}</a>
+                    <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$LQData{"LinkSort"};SortBy=CustomerID;OrderBy=$LQData{"OrderBy"}">$Text{"CustomerID"}</a>
                 </th>
 <!-- dtl:block:OverviewNavBarPageCustomerID -->
             </tr>
@@ -122,7 +122,7 @@
                     </td>
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
                     <td>
-                        <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"}" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
+                        <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$LQData{"Title"}">$Data{"TicketNumber"}</a>
                     </td>
                     <td>
                         $QData{"Age"}$Data{"StopFont"}

@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.47 2010-05-10 16:29:46 mn Exp $
+# $Id: AgentTicketForward.dtl,v 1.48 2010-06-29 22:47:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,7 +93,7 @@ function BookCheckSubmit() {
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
         <td class="mainhead2">
-            $Env{"Box0"}$Text{"Forward"}: $Data{"TicketNumber"}$Env{"Box1"}
+            $Env{"Box0"}$Text{"Forward"}: $QData{"TicketNumber"}$Env{"Box1"}
         </td>
     </tr>
     <tr>
@@ -129,42 +129,42 @@ function BookCheckSubmit() {
                                     <td class="contentkey" width="20%">$Text{"From"}:</td>
                                     <td class="contentvalue" width="80%">
                                         $QData{"From"} <input type="hidden" name="From" value="$QData{"From"}"/>
-                                        <font color="red" size="-2">$Data{"From invalid"}</font>
+                                        <font color="red" size="-2">$QData{"From invalid"}</font>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"To"}:</td>
                                     <td class="contentvalue">
                                         <input type="text" name="To" value="$QData{"To"}" size="80"/>
-                                        <font color="red" size="-2">$Data{"To invalid"}</font>
+                                        <font color="red" size="-2">$QData{"To invalid"}</font>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Cc"}:</td>
                                     <td class="contentvalue">
                                         <input type="text" name="Cc" value="$QData{"Cc"}" size="80"/>
-                                        <font color="red" size="-2">$Data{"Cc invalid"}</font>
+                                        <font color="red" size="-2">$QData{"Cc invalid"}</font>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Bcc"}:</td>
                                     <td class="contentvalue">
                                         <input type="text" name="Bcc" value="$QData{"Bcc"}" size="80"/>
-                                        <font color="red" size="-2">$Data{"Bcc invalid"}</font>
+                                        <font color="red" size="-2">$QData{"Bcc invalid"}</font>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="contentkey">$Text{"Subject"}:</td>
                                     <td class="contentvalue">
                                         <input type="text" name="Subject" value="$QData{"Subject"}" size="80"/>
-                                        <font color="red" size="-2">$Data{"Subject invalid"}</font>
+                                        <font color="red" size="-2">$QData{"Subject invalid"}</font>
                                     </td>
                                 </tr>
 <!-- dtl:block:Option -->
                                 <tr>
                                     <td class="contentkey">$Text{"$Data{"Key"}"}:</td>
                                     <td class="contentvalue">
-                                        $Data{"Value"} <font color="red" size="-2">$Data{"Invalid"}</font>
+                                        $Data{"Value"} <font color="red" size="-2">$QData{"Invalid"}</font>
                                     </td>
                                 </tr>
 <!-- dtl:block:Option -->
