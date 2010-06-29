@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.2 2010-06-21 07:00:53 mg Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.3 2010-06-29 19:31:51 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -151,7 +151,7 @@ function change_selected(sel) {
                 $Text{"Change Responsible of Ticket"}
 <!-- dtl:block:HeaderAgentTicketResponsible -->
 
-                : $Data{"TicketNumber"}
+                : $QData{"TicketNumber"}
             </h1>
 
             <p>
@@ -160,7 +160,7 @@ function change_selected(sel) {
 
 <!-- dtl:block:PropertiesLock -->
             <img border="0" src="$Config{"Frontend::ImagePath"}warning.png" alt="$Text{"Info"}" />: <font color="red">$Text{"Ticket locked!"}</font>
-            (<a href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Ticket unlock!"}'; return true;" onmouseout="window.status='';">$Text{"Ticket unlock!"}</a>)
+            (<a href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$LQData{"TicketID"}" onmouseover="window.status='$JSText{"Ticket unlock!"}'; return true;" onmouseout="window.status='';">$Text{"Ticket unlock!"}</a>)
 <!-- dtl:block:PropertiesLock -->
 
         </div>

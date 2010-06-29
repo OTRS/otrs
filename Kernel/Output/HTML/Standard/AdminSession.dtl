@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.33 2010-06-24 09:24:58 mg Exp $
+# $Id: AdminSession.dtl,v 1.34 2010-06-29 19:31:51 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,23 +33,23 @@
                     <li>
                         <fieldset class="TableLike LargeLabel">
                             <label>$Text{"All sessions"}:</label>
-                            <div class="Value">$Data{"Counter"}</div>
+                            <div class="Value">$QData{"Counter"}</div>
                             <div class="Clear"></div>
 
                             <label>$Text{"Agent sessions"}:</label>
-                            <div class="Value">$Data{"UserSession"}</div>
+                            <div class="Value">$QData{"UserSession"}</div>
                             <div class="Clear"></div>
 
                             <label>$Text{"Customer sessions"}:</label>
-                            <div class="Value">$Data{"CustomerSession"}</div>
+                            <div class="Value">$QData{"CustomerSession"}</div>
                             <div class="Clear"></div>
 
                             <label>$Text{"Unique agents"}:</label>
-                            <div class="Value">$Data{"UserSessionUniq"}</div>
+                            <div class="Value">$QData{"UserSessionUniq"}</div>
                             <div class="Clear"></div>
 
                             <label>$Text{"Unique customers"}:</label>
-                            <div class="Value">$Data{"CustomerSessionUniq"}</div>
+                            <div class="Value">$QData{"CustomerSessionUniq"}</div>
                             <div class="Clear"></div>
                         </fieldset>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=KillAll;WantSessionID=$Env{"SessionID"}" class="CallForAction"><span>$Text{"Kill all sessions"}</span></a>
@@ -90,12 +90,12 @@
 <!-- dtl:block:Session -->
                         <tr>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=AdminSession;Subaction=Detail;WantSessionID=$Data{"SessionID"}">$QData{"SessionID"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=AdminSession;Subaction=Detail;WantSessionID=$LQData{"SessionID"}">$QData{"SessionID"}</a>
                             </td>
-                            <td>$Data{"UserType"}</td>
-                            <td>$Data{"UserFirstname"} $Data{"UserLastname"}</td>
+                            <td>$QData{"UserType"}</td>
+                            <td>$QData{"UserFirstname"} $Data{"UserLastname"}</td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=AdminSession;Subaction=Kill;WantSessionID=$Data{"SessionID"}">$Text{"Kill this session"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=AdminSession;Subaction=Kill;WantSessionID=$LQData{"SessionID"}">$Text{"Kill this session"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:Session -->
@@ -106,7 +106,7 @@
 
 <!-- dtl:block:DetailView -->
             <div class="Header">
-                <h2>$Text{"Detail View for SessionID"} : $Data{"SessionID"} - $Data{"UserFirstname"} $Data{"UserLastname"}</h2>
+                <h2>$Text{"Detail View for SessionID"} : $QData{"SessionID"} - $QData{"UserFirstname"} $QData{"UserLastname"}</h2>
             </div>
             <div class="Content">
                 <table class="DataTable">
@@ -119,8 +119,8 @@
                     <tbody>
 <!-- dtl:block:DetailViewRow -->
                         <tr>
-                            <td>$Data{"Key"}</td>
-                            <td>$Data{"Value"}</td>
+                            <td>$QData{"Key"}</td>
+                            <td>$QData{"Value"}</td>
                         </tr>
 <!-- dtl:block:DetailViewRow -->
                     </tbody>

@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.31 2010-05-19 08:55:07 fn Exp $
+# $Id: AdminSLA.dtl,v 1.32 2010-06-29 19:31:51 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,7 +73,7 @@
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewListRow -->
                         <tr>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SLAEdit;SLAID=$QData{"SLAID"}">$QData{"Name"}</a></td>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SLAEdit;SLAID=$LQData{"SLAID"}">$QData{"Name"}</a></td>
                             <td>$Text{"$Data{"Service"}"}</td>
                             <td title="$QData{"Comment"}">$QData{"Comment","26"}</td>
                             <td>$Text{"$Data{"Valid"}"}</td>

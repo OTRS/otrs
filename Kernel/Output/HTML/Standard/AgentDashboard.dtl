@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.47 2010-06-04 11:19:32 mn Exp $
+# $Id: AgentDashboard.dtl,v 1.48 2010-06-29 19:31:51 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,7 +87,7 @@
 <!-- dtl:block:ContentSmallPreferencesItemTextArea -->
                             <label>$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field">
-                                <textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea>
+                                <textarea rows="$QData{"Rows"}" cols="$QData{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea>
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:ContentSmallPreferencesItemTextArea -->

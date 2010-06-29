@@ -2,7 +2,7 @@
 # AdminService.dtl - provides HTML form for AdminService
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.28 2010-05-19 08:55:08 fn Exp $
+# $Id: AdminService.dtl,v 1.29 2010-06-29 19:31:51 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,7 @@
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewListRow -->
                         <tr>
-                            <td>$Data{"LevelSpace"}<a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ServiceEdit;ServiceID=$QData{"ServiceID"}">$QData{"Name"}</a></td>
+                            <td>$QData{"LevelSpace"}<a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ServiceEdit;ServiceID=$LQData{"ServiceID"}">$QData{"Name"}</a></td>
                             <td title="$QData{"Comment"}">$QData{"Comment","20"}</td>
                             <td>$Text{"$Data{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>

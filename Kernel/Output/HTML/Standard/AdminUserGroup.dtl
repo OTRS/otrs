@@ -96,7 +96,7 @@
 
             <div class="Header">
                 <h2>
-                    $Text{"Change %s Relations for %s", "$Data{"VisibleNeType"}", "$QData{"VisibleType"}"}
+                    $Text{"Change %s Relations for %s", "$QData{"VisibleNeType"}", "$QData{"VisibleType"}"}
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
                     ($QData{"ID"})
                 </h2>
