@@ -2,14 +2,14 @@
 # AgentStatsOverview.dtl - provides HTML form for lists stats
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsOverview.dtl,v 1.14 2010-06-29 08:10:38 mg Exp $
+# $Id: AgentStatsOverview.dtl,v 1.15 2010-06-29 12:03:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="MainBox">
+<div class="MainBox AriaRoleMain">
 
     <h1>$Text{"Overview"}: $Text{"Stats"}</h1>
 
