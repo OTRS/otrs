@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.93 2010-06-29 05:21:44 mp Exp $
+# $Id: AgentTicketEmail.dtl,v 1.94 2010-06-29 09:49:31 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,7 +103,7 @@ function CustomerSubmit() {
 
                         <label for="CustomerAutoComplete">$Text{"To"}:</label>
                         <div class="Field">
-                            <input id="CustomerAutoComplete" type="text" name="To" value="$QData{"To"}" class="W75pc AutocompleteOff Validate_Required Validate_Email $Data{"ToInvalid"}" />
+                            <input id="CustomerAutoComplete" type="text" name="To" value="$QData{"To"}" class="W75pc AutocompleteOff Validate_Required $Data{"ToInvalid"}" />
                             <div id="CustomerAutoCompleteError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
                             <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                         </div>
@@ -111,7 +111,7 @@ function CustomerSubmit() {
 
                         <label for="Cc">$Text{"Cc"}:</label>
                         <div class="Field">
-                            <input type="text" name="Cc" id="Cc" value="$QData{"Cc"}"  class="W75pc Validate_Email $Data{"CcInvalid"}" " />
+                            <input type="text" name="Cc" id="Cc" value="$QData{"Cc"}"  class="W75pc $Data{"CcInvalid"}" " />
                             <div id="CcError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
                             <div id="CcServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address"}</p></div>
                         </div>
@@ -119,7 +119,7 @@ function CustomerSubmit() {
 
                         <label for="Bcc">$Text{"Bcc"}:</label>
                         <div class="Field">
-                            <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc Validate_Email $Data{"BccInvalid"}""/>
+                            <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc $Data{"BccInvalid"}""/>
                             <div id="BccError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
                             <div id="BccServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid mail address or don't use a local email address"}</p></div>
                         </div>
