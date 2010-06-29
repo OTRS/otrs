@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.89 2010-06-29 08:10:38 mg Exp $
+# $Id: AgentStats.pm,v 1.90 2010-06-29 14:30:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1328,6 +1328,7 @@ sub Run {
         my %Permission = (
             Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
             Name => 'Permission',
+            Class       => 'Validate_Required',
             Multiple    => 1,
             Size        => 5,
             Translation => 0,
@@ -1345,6 +1346,7 @@ sub Run {
         $Stat->{SelectFormat} = $Self->{LayoutObject}->BuildSelection(
             Data       => $Self->{ConfigObject}->Get('Stats::Format'),
             Name       => 'Format',
+            Class      => 'Validate_Required',
             Multiple   => 1,
             Size       => 5,
             SelectedID => $Stat->{Format}
