@@ -2,7 +2,7 @@
 # AdminPriority.dtl - provides HTML form for AdminTicketPriority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.dtl,v 1.22 2010-05-19 08:55:07 fn Exp $
+# $Id: AdminPriority.dtl,v 1.23 2010-06-29 04:28:14 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,7 +70,7 @@
 <!-- dtl:block:OverviewListRow -->
                         <tr>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=PriorityEdit;PriorityID=$QData{"PriorityID"}">
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=PriorityEdit;PriorityID=$LQData{"PriorityID"}">
                                     $QData{"Name"}
                                 </a>
                             </td>

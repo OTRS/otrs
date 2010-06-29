@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.17 2010-06-22 00:04:34 dz Exp $
+# $Id: AdminNotification.dtl,v 1.18 2010-06-29 04:28:14 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,7 +103,7 @@ $Include{"RichTextEditor"}
                         <tr>
                             <td>$Data{"Language"}</td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;Name=$QData{"Name"}">
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;Name=$LQData{"Name"}">
                                     $QData{"Type"}
                                 </a>
                             </td>

@@ -71,7 +71,7 @@
                         <li>$Text{"No data found."}</li>
 <!-- dtl:block:NoQueuesFoundMsg -->
 <!-- dtl:block:Item -->
-                        <li><a href="$Env{"Baselink"}Action=AdminQueueAutoResponse;Subaction=Change;ID=$Data{"QueueID"}" class="AsBlock">$QData{"Queue"}</a></li>
+                        <li><a href="$Env{"Baselink"}Action=AdminQueueAutoResponse;Subaction=Change;ID=$LQData{"QueueID"}" class="AsBlock">$QData{"Queue"}</a></li>
 <!-- dtl:block:Item -->
                     </ul>
                 </div>
@@ -84,7 +84,7 @@
                         <li>$Text{"No data found."}</li>
 <!-- dtl:block:NoAutoResponsesFoundMsg -->
 <!-- dtl:block:ItemList -->
-                        <li><a href="$Env{"Baselink"}Action=AdminAutoResponse;Subaction=Change;ID=$QData{"ID"}" class="AsBlock">$QData{"Name"} ($QData{"Type"})</a></li>
+                        <li><a href="$Env{"Baselink"}Action=AdminAutoResponse;Subaction=Change;ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"} ($QData{"Type"})</a></li>
 <!-- dtl:block:ItemList -->
                     </ul>
                 </div>

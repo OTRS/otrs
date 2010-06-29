@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.65 2010-06-02 20:25:47 mb Exp $
+# $Id: AdminPackageManager.dtl,v 1.66 2010-06-29 04:28:14 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -256,7 +256,7 @@
                                 </td>
                                 <td>
 <!-- dtl:block:ShowRemotePackageDocumentation -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$QData{"Name"};Version=$QData{"Version"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}">
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}">
                                         <img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" />
                                     </a>
 <!-- dtl:block:ShowRemotePackageDocumentation -->
@@ -314,7 +314,7 @@
                                 </td>
                                 <td>
 <!-- dtl:block:ShowLocalPackageDocumentation -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}">
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"};File=$LQData{"File"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}">
                                         <img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" />
                                     </a>
 <!-- dtl:block:ShowLocalPackageDocumentation -->
@@ -333,7 +333,7 @@
                                     <br/>
 <!-- dtl:block:ShowLocalPackageUninstall -->
 <!-- dtl:block:ShowLocalPackageReinstall -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$QData{"Name"};Version=$QData{"Version"}" title="$Text{"Package not correctly deployed! You should reinstall the package again!"}">$Text{"Reinstall"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$LQData{"Name"};Version=$LQData{"Version"}" title="$Text{"Package not correctly deployed! You should reinstall the package again!"}">$Text{"Reinstall"}</a>
                                     <br/>
 <!-- dtl:block:ShowLocalPackageReinstall -->
                                 </td>
@@ -477,7 +477,7 @@
 <!-- dtl:block:PackageItemFilelistFileNote -->
                                 </td>
                                 <td>
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Name=$QData{"Name"};Version=$QData{"Version"};File=$QData{"File"};Location=$LQData{"Location"}" title="$Text{"Download file from package!"}">
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Name=$LQData{"Name"};Version=$LQData{"Version"};File=$LQData{"File"};Location=$LQData{"Location"}" title="$Text{"Download file from package!"}">
                                         <img alt="$Text{"Download file from package!"}" border="0" src="$Config{"Frontend::ImagePath"}disk-s.png" />
                                     </a>
                                     $QData{"Size"}

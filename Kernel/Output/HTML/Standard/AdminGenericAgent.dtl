@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.66 2010-06-18 19:59:15 dz Exp $
+# $Id: AdminGenericAgent.dtl,v 1.67 2010-06-29 04:28:14 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -282,7 +282,7 @@
                             <label>$Text{"TicketFreeFields"}</label>
                             <div class="Clear"></div>
 <!-- dtl:block:TicketFreeFieldElement -->
-                            <label for="$Data{"ValueID"}">$Data{"TicketFreeKey"}</label>
+                            <label for="$QData{"ValueID"}">$Data{"TicketFreeKey"}</label>
                             <div class="Field">
                                 $Data{"TicketFreeText"}
                             </div>
@@ -715,7 +715,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <a class="AsBlock" href="$Env{"Baselink"};Action=AgentTicketZoom;TicketID=$QData{"TicketID"}">
+                                    <a class="AsBlock" href="$Env{"Baselink"};Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}">
                                         $QData{"TicketNumber"}
                                     </a>
                                 </td>
@@ -725,7 +725,7 @@
                                 <td>$QData{"Queue","30"}</td>
                                 <td>$QData{"Owner","30"}($QData{"UserFirstname"} $QData{"UserLastname"})</td>
                                 <td>
-                                    <a class="AsBlock" href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$QData{"TicketID"}">
+                                    <a class="AsBlock" href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$LQData{"TicketID"}">
                                         $Quote{"$Data{"CustomerID"}","15"}
                                     </a>
                                 </td>

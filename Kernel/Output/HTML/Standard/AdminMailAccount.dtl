@@ -1,8 +1,8 @@
-# --
+l# --
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.23 2010-06-17 13:30:17 fn Exp $
+# $Id: AdminMailAccount.dtl,v 1.24 2010-06-29 04:28:14 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,7 +92,7 @@
                                 <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$QData{"ID"}" title="$Text{"Delete account"}">$Text{"Delete account"}</a>
                             </td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Run;ID=$QData{"ID"}">$Text{"Fetch mail"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Run;ID=$LQData{"ID"}">$Text{"Fetch mail"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
