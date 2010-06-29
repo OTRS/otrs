@@ -2,67 +2,47 @@
 # AgentStatsDelete.dtl - provides HTML form for delete a Stats
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsDelete.dtl,v 1.11 2010-02-05 13:58:23 mn Exp $
+# $Id: AgentStatsDelete.dtl,v 1.12 2010-06-29 12:17:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td class="mainhead">
-            $Env{"Box0"}$Text{"Delete"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="menu">
-            <a href="$Env{"Baselink"}$Env{"LastStatsView"}" class="menuitem">$Text{"Back"}</a>
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <br/>
-            <form action="$Env{"CGIHandle"}" method="get" enctype="multipart/form-data">
-                <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
-                    <tr>
-                        <td class="contenthead">$Text{"Delete"}</td>
-                    </tr>
-                    <tr>
-                        <td class="contentbody">
-                            <table border="0" cellspacing="0" cellpadding="3">
-                                <tr>
-                                    <td class="contentkey">$Text{"$Config{"Stats::StatsHook"}"}:</td>
-                                    <td class="contentvalue">$QData{"StatNumber"}</td>
-                                </tr>
-                                <tr>
-                                    <td class="contentkey">$Text{"Title"}:</td>
-                                    <td class="contentvalue">$QData{"Title"}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="contentkey">$Text{"Do you really want to delete this stat?"}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="contentfooter">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="Delete"/>
-                            <input type="hidden" name="Status" value="Action"/>
-                            <input type="hidden" name="StatID" value="$QData{"StatID"}"/>
-                            <button class="button" type="submit" name="Yes" value="$Text{"Yes"}">$Text{"Yes"}</button>&nbsp;
-                            <button class="button" type="submit" name="No" value="$Text{"No"}">$Text{"No"}</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-            <br/>
-        </td>
-    </tr>
-</table>
-<!-- end form -->
+<div class="MainBox AriaRoleMain">
+    <div class="W33pc SpacingTopLarge SpacingBottomLarge CenterBox">
+        <div class="WidgetGradient Short">
+            <div class="Header">
+                <h2>$Text{"Delete"}</h2>
+            </div>
+            <div class="Content">
+
+                <form action="$Env{"CGIHandle"}" method="get" enctype="multipart/form-data">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="Delete"/>
+                    <input type="hidden" name="Status" value="Action"/>
+                    <input type="hidden" name="StatID" value="$QData{"StatID"}"/>
+
+                    <fieldset class="TableLike">
+                        <label>$Text{"$Config{"Stats::StatsHook"}"}:</label>
+                        <div class="Value">$QData{"StatNumber"}</div>
+                        <div class="Clear"></div>
+
+                        <label>$Text{"Title"}:</label>
+                        <div class="Value">$QData{"Title"}</div>
+                        <div class="Clear"></div>
+                    </fieldset>
+
+                    <p class="Center">
+                        $Text{"Do you really want to delete this stat?"}
+                    </p>
+                    <p class="Center SpacingTopSmall">
+                        <button type="submit" name="Yes" value="$Text{"Yes"}">$Text{"Yes"}</button>
+                        <button type="submit" name="No" value="$Text{"No"}">$Text{"No"}</button>
+                        <a href="$Env{"Baselink"}$Env{"LastStatsView"}" class="menuitem">$Text{"Back"}</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
