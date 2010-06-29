@@ -2,7 +2,7 @@
 # AgentStatsDelete.dtl - provides HTML form for delete a Stats
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsDelete.dtl,v 1.12 2010-06-29 12:17:12 mg Exp $
+# $Id: AgentStatsDelete.dtl,v 1.13 2010-06-29 12:36:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@
                     <p class="Center SpacingTopSmall">
                         <button type="submit" name="Yes" value="$Text{"Yes"}">$Text{"Yes"}</button>
                         <button type="submit" name="No" value="$Text{"No"}">$Text{"No"}</button>
-                        <a href="$Env{"Baselink"}$Env{"LastStatsView"}" class="menuitem">$Text{"Back"}</a>
+                        <a href="$Env{"Baselink"}$Env{"LastStatsView"}">$Text{"Back"}</a>
                     </p>
                 </form>
             </div>
