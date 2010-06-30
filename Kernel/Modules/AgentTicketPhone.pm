@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.141 2010-06-28 23:07:39 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.142 2010-06-30 11:04:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.141 $) [1];
+$VERSION = qw($Revision: 1.142 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -94,6 +94,10 @@ sub Run {
             = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
         if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
             $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+        }
+
+        if ( $Self->{Config}->{TicketFreeTime}->{$_} == 2 ) {
+            $GetParam{ 'TicketFreeTime' . $_ . 'Required' } = 1;
         }
     }
 
@@ -275,6 +279,11 @@ sub Run {
                 UserID         => $Self->{UserID},
                 CustomerUserID => $CustomerData{CustomerUserLogin} || '',
             );
+
+            # If Key has value 2, this means that the freetextfield is required
+            if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                $TicketFreeText{Required}->{$Count} = 1;
+            }
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
@@ -1847,6 +1856,7 @@ sub _MaskPhoneNew {
         YearPeriodPast   => 0,
         YearPeriodFuture => 5,
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Validate         => 1,
     );
 
     # to update
@@ -1961,9 +1971,10 @@ sub _MaskPhoneNew {
 
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'TimeUnitsJs',
-            Data => \%Param,
+        $Param{TimeUnitsRequired} = (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            ? 'Validate_Required'
+            : ''
         );
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
