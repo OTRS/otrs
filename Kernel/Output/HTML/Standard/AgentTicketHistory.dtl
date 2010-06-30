@@ -2,7 +2,7 @@
 # AgentTicketHistory.dtl - provides HTML form for history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.dtl,v 1.14 2010-06-29 22:47:15 dz Exp $
+# $Id: AgentTicketHistory.dtl,v 1.15 2010-06-30 17:28:56 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,7 +54,7 @@
                         -
 <!-- dtl:block:NoLinkZoom -->
 <!-- dtl:block:ShowLinkZoom -->
-                        <a class ="AsBlock" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';">
+                        <a class ="AsBlock" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';">
                             $Text{"Zoom view"}
                         </a>
 <!-- dtl:block:ShowLinkZoom -->

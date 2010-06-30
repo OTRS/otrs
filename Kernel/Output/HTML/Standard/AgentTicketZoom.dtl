@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.101 2010-06-30 10:01:24 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.102 2010-06-30 17:28:56 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -286,12 +286,12 @@ $Data{"ArticleItems"}
     <div class="ControlRow">
         <ul class="ArticleView">
 <!-- dtl:block:Expand -->
-            <li class="OneArticle Active"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a></li>
-            <li class="AllArticles"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a></li>
+            <li class="OneArticle Active"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a></li>
+            <li class="AllArticles"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a></li>
 <!-- dtl:block:Expand -->
 <!-- dtl:block:Collapse -->
-            <li class="OneArticle"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a></li>
-            <li class="AllArticles Active"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a></li>
+            <li class="OneArticle"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a></li>
+            <li class="AllArticles Active"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a></li>
 <!-- dtl:block:Collapse -->
         </ul>
     </div>
@@ -343,7 +343,7 @@ $Data{"ArticleItems"}
                                 <div class="AttachmentElement">
                                     <div class="AttachmentPreview" style="background-image: url(../skins/Agent/default/img/attachment_dummy1.jpg);"><a href=""></a></div>
                                     <h3>
-                                        <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$QData{"ArticleID"};FileID=$QData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
+                                        <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$LQData{"ArticleID"};FileID=$LQData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
                                     </h3>
                                     <p>PDF, $QData{"Filesize"}</p>
                                 </div>

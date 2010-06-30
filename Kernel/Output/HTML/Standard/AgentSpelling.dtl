@@ -2,7 +2,7 @@
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.dtl,v 1.31 2010-06-30 13:32:53 mn Exp $
+# $Id: AgentSpelling.dtl,v 1.32 2010-06-30 17:28:56 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
 <div class="WidgetPopup">
     <div class="Content">
         <h1>$Text{"Spell Checker"}</h1>
-        <h2>$Data{"SpellCounter"} $Text{"spelling error(s)"}</h2>
+        <h2>$QData{"SpellCounter"} $Text{"spelling error(s)"}</h2>
         <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="spelling">
             <input type="hidden" name="Action" value="AgentSpelling"/>
             <input type="hidden" name="Field" id="Field" value="$QData{"Field"}"/>

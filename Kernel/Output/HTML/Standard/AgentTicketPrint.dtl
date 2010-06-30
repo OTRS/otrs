@@ -2,7 +2,7 @@
 # AgentTicketPrint.dtl - provides HTML print view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.dtl,v 1.26 2010-05-05 13:16:14 mg Exp $
+# $Id: AgentTicketPrint.dtl,v 1.27 2010-06-30 17:28:56 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@
                             </tr>
                             <tr>
                                 <td class="contentkey">$Text{"CustomerID"}:</td>
-                                <td class="contentvalue">$Data{"CustomerID"}</td>
+                                <td class="contentvalue">$QData{"CustomerID"}</td>
                             </tr>
                             <tr>
                                 <td class="contentkey">$Text{"Owner"}:</td>
@@ -82,11 +82,11 @@
                             </tr>
                             <tr>
                                 <td class="contentkey">$Text{"Accounted time"}:</td>
-                                <td class="contentvalue">$Data{"TicketTimeUnits"}</td>
+                                <td class="contentvalue">$QData{"TicketTimeUnits"}</td>
                             </tr>
                             <tr>
                                 <td class="contentkey">$Text{"Pending till"}:</td>
-                                <td class="contentvalue">$Data{"PendingUntil"}</td>
+                                <td class="contentvalue">$QData{"PendingUntil"}</td>
                             </tr>
 <!-- dtl:block:FirstResponseTime -->
                             <tr>
@@ -219,7 +219,7 @@
 <!-- dtl:block:Row -->
                                         <tr>
                                             <td class="contentkey">$Text{"Created"}:</td>
-                                            <td class="contentvalue"> $TimeLong{"$Data{"Created"}"} $Text{"by"} $Data{"SenderType"}</td>
+                                            <td class="contentvalue"> $TimeLong{"$Data{"Created"}"} $Text{"by"} $QData{"SenderType"}</td>
                                         </tr>
 # show the Article::FreeKey1-3 and Article::FreeText1-3
 <!-- dtl:block:ArticleFreeText -->
