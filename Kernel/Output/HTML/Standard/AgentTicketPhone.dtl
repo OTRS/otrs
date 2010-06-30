@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.83 2010-06-30 11:03:09 cg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.84 2010-06-30 22:04:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,35 +10,13 @@
 # --
 
 $Include{"AgentCustomerSearch"}
-
-<!-- start form -->
-<script type="text/javascript">//<![CDATA[
-
-
-function SpellCheckSubmit() {
-    document.spelling.Body.value = document.compose.Body.value;
-    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.spelling.submit()
-}
-
-function CustomerSubmit() {
-    window.open('', 'customer', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.customer.submit()
-}
-
-function clear_field() {
-    document.compose.From.value = "";
-    document.compose.From.focus();
-}
-//]]></script>
-
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="NewPhoneTicket" class="Validate">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="StoreNew"/>
     <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
     <input type="hidden" name="ExpandCustomerName" value="0"/>
-    <input type="hidden" name="OwnerAll" value="$QData{"OwnerAll"}"/>
-    <input type="hidden" name="ResponsibleAll" value="$QData{"ResponsibleAll"}"/>
+    <input type="hidden" name="OwnerAll" id="OwnerAll" value="$QData{"OwnerAll"}"/>
+    <input type="hidden" name="ResponsibleAll" id="ResponsibleAll" value="$QData{"ResponsibleAll"}"/>
     <input type="hidden" name="PreSelectedCustomerUser" value=""/>
     <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="$QData{"CustomerUser"}"/>
     <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
@@ -53,7 +31,6 @@ function clear_field() {
         </div>
         <div class="Content">
             <div class="LayoutFixedSidebar SidebarLast">
-# show customer info table
 <!-- dtl:block:CustomerTable -->
                 <div id="CustomerInfo" class="SidebarColumn WidgetGradient Short">
                     <div class="Header">
@@ -85,44 +62,28 @@ function clear_field() {
                         <label for="CustomerAutoComplete">$Text{"From customer"}:</label>
                         <div class="Field">
 
-                            <input id="CustomerAutoComplete" type="text" name="From" value="$QData{"From"}" class="W75pc Validate_Required $QData{"FromError"}"/>
+                            <input id="CustomerAutoComplete" type="text" name="From" value="$QData{"From"}" class="W75pc AutocompleteOff Validate_Required $QData{"FromError"}"/>
                             <div id="CustomerAutoCompleteError" class="TooltipErrorMessage">
                                 <p>$Text{"A message should have a Customer!"}</p>
                             </div>
                             <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage">
                                 <p><strong>$Text{"The Customer is required."}</strong></p>
                             </div>
-
-<!-- dtl:block:CustomerSearchAutoCompleteFromInvalid -->
-                            <div class"Clear"></div>
-<!-- dtl:block:CustomerSearchAutoCompleteFromInvalid -->
-
-                            <span class="Error Small">$Text{"$Data{"From invalid"}"}</span>
-                            $Data{"CustomerUserStrg"}
-
-<!-- dtl:block:TakeCustomerButton -->
-                            <button type="submit" name="ExpandCustomerName2" value="$Text{"Take this customer"}">
-                                $Text{"Take this customer"}
-                            </button>
-<!-- dtl:block:TakeCustomerButton -->
-
-<!-- dtl:block:SearchCustomerButton -->
-                            <button type="submit" name="ExpandCustomerName1" value="$Text{"Search customer"}">$Text{"Search customer"}</button>
-                            <button type="submit" name="ClearFrom" value="$Text{"Clear from"}" onclick="javascript:clear_field(); return false;">$Text{"Clear from"}</button>
-<!-- dtl:block:SearchCustomerButton -->
-
                         </div>
                         <div class="Clear"></div>
 
                         <label for="Dest">$Text{"To queue"}:</label>
                         <div class="Field">
                             $Data{"ToStrg"}
-                            <span class="Error Small">$Text{"$Data{"Destination invalid"}"}</span>
-
-<!-- dtl:block:ToUpdateSubmit -->
-                            <button type="submit" value="$Text{"Refresh"}" name="ExpandCustomerName2">$Text{"Refresh"}</button>
-<!-- dtl:block:ToUpdateSubmit -->
-
+                            <div id="DestError" class="TooltipErrorMessage" ><p>$Text{"Queue is required."}</p></div>
+                            <div id="DestServerError" class="TooltipErrorMessage"><p>$Text{"Queue is required"}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('change', $('#Dest'), function (Event) {
+        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'Dest', ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16', 'To', 'Cc', 'Bcc']);
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                         </div>
                         <div class="Clear"></div>
 
@@ -130,7 +91,14 @@ function clear_field() {
                         <label for="ServiceID">$Text{"Service"}:</label>
                         <div class="Field">
                             $Data{"ServiceStrg"}
-                            <span class="Error Small"> $Text{"$Data{"Service invalid"}"} </span>
+                            <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>$Text{"Service invalid"}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('change', $('#ServiceID'), function (Event) {
+        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'ServiceID', ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16', 'To', 'Cc', 'Bcc']);
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:TicketService -->
@@ -139,22 +107,31 @@ function clear_field() {
                         <label for="SLAID">$Text{"SLA"}:</label>
                         <div class="Field">
                             $Data{"SLAStrg"}
-                            <span class="Error Small">$Text{"$Data{"SLA invalid"}"}</span>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('change', $('#SLAID'), function (Event) {
+        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'SLAID', ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16', 'To', 'Cc', 'Bcc']);
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                         </div>
+                        <div class="Clear"></div>
 <!-- dtl:block:TicketSLA -->
 
 <!-- dtl:block:OwnerSelection -->
                         <label for="NewUserID">$Text{"Owner"}:</label>
                         <div class="Field">
                             $Data{"OptionStrg"}
-<!-- dtl:block:OwnerSelectionAllJS -->
-                            <a href="" onclick="document.compose.OwnerAll.value='1'; Core.AJAXUpdate('AJAXUpdate', 'OwnerAll', ['OwnerAll', 'Dest'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All agents"}'; return true;">
-                                $Text{"Get all"}
-                            </a>
-<!-- dtl:block:OwnerSelectionAllJS -->
-<!-- dtl:block:OwnerSelectionAllSubmit -->
-                            <button type="submit" value="$Text{"Get all"}" name="OwnerAllRefresh">$Text{"Get all"}</button>
-<!-- dtl:block:OwnerSelectionAllSubmit -->
+                            <a href="" id="OwnerSelectionGetAll">$Text{"Get all"}</a>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#OwnerSelectionGetAll'), function (Event) {
+        $('#OwnerAll').val('1'); // Needed? Why?
+        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'OwnerAll', ['NewUserID']);
+        return false;
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:OwnerSelection -->
@@ -163,14 +140,16 @@ function clear_field() {
                         <label for="NewResponsibleID">$Text{"Responsible"}:</label>
                         <div class="Field">
                             $Data{"ResponsibleOptionStrg"}
-<!-- dtl:block:ResponsibleSelectionAllJS -->
-                            <a href="" onclick="document.compose.ResponsibleAll.value='1'; Core.AJAXUpdate('AJAXUpdate', 'ResponsibleAll', ['ResponsibleAll', 'Dest'], ['NewResponsibleID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All agents"}'; return true;">
-                                $Text{"Get all"}
-                            </a>
-<!-- dtl:block:ResponsibleSelectionAllJS -->
-<!-- dtl:block:ResponsibleSelectionAllSubmit -->
-                            <button type="submit" value="$Text{"Get all"}" name="ResponsibleAllRefresh">$Text{"Get all"}</button>
-<!-- dtl:block:ResponsibleSelectionAllSubmit -->
+                            <a href="" id="ResponsibleSelectionGetAll">$Text{"Get all"}</a>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#ResponsibleSelectionGetAll'), function (Event) {
+        $('#ResponsibleAll').val('1'); // Needed? Why?
+        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'ResponsibleAll', ['NewResponsibleID']);
+        return false;
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:ResponsibleSelection -->
@@ -192,17 +171,11 @@ function clear_field() {
                         <div class="Field">
 
 <!-- dtl:block:SpellCheck -->
-                            <a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';">
-                                <img border="0" src="$Config{"Frontend::ImagePath"}spell.png" alt="" />
-                                $Text{"Spell check"}
-                            </a>
+                            <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
 <!-- dtl:block:SpellCheck -->
 
 <!-- dtl:block:OptionCustomer -->
-                            <a href="" onclick="CustomerSubmit(); return false;" onmouseover="window.status='$JSText{"Customer"}'; return true;" onmouseout="window.status='';">
-                                <img border="0" src="$Config{"Frontend::ImagePath"}group-small.png" alt="" />
-                                $Text{"Customer"}
-                            </a>
+                            <a href="#" id="OptionCustomer">[ $Text{"Customer"} ]</a>
 <!-- dtl:block:OptionCustomer -->
 
                         </div>
@@ -213,7 +186,6 @@ function clear_field() {
 
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
-# set white background for buttons
 <!-- dtl:block:RichText -->
                         <textarea id="RichText" class="RichText Validate_Required Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                         <div id="RichTextError" class="TooltipErrorMessage">
@@ -222,31 +194,37 @@ $Include{"RichTextEditor"}
                         <div id="RichTextServerError" class="TooltipErrorMessage">
                             <p><strong>$Text{"The Text is required."}</strong></p>
                         </div>
-                        <span class="Error Small">$Text{"$Data{"Body invalid"}"}</span>
                         <div class="Clear"></div>
-
                         <label>$Text{"Attachment"}:</label>
                         <div class="Field">
-                            <table>
+                            <ul>
 <!-- dtl:block:Attachment -->
-                                <tr>
-                                    <td>$QData{"Filename"}</td>
-                                    <td>$QData{"Filesize"}</td>
-                                    <td align="right">
-                                        <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                    </td>
-                                </tr>
+                                <li>
+                                    $QData{"Filename"} ($QData{"Filesize"})
+                                    <button type="submit" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#AttachmentDelete$QData{"FileID"}'), function () {
+        Core.Form.Validate.DisableValidation($('#AttachmentDelete$QData{"FileID"}').closest('form'));
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+                                </li>
 <!-- dtl:block:Attachment -->
-                                <tr>
-                                    <td colspan="2">
-                                        <input name="file_upload" type="file" size="40" class="fixed"/>
-                                    </td>
-                                    <td align="right">
-                                        <button type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
-                                        <a name="attachment"></a>
-                                    </td>
-                                </tr>
-                            </table>
+                                <li>
+                                    <input id="FileUpload" name="FileUpload" type="file" size="40" />
+                                    <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
+                                </li>
+                            </ul>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('change', $('#FileUpload'), function () {
+        var $Form = $('#FileUpload').closest('form');
+        Core.Form.Validate.DisableValidation($Form);
+        $Form.find('#AttachmentUpload').val('1').end().submit();
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                         </div>
                         <div class="Clear"></div>
 
@@ -265,7 +243,8 @@ $Include{"RichTextEditor"}
                         <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
                         <div class="Field">
                             $Data{"PendingDateString"}
-                            <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
+                            <div id="DayError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
+                            <div id="HourError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
                         </div>
                         <div class="Clear"></div>
 
@@ -320,6 +299,12 @@ $Include{"RichTextEditor"}
     </div>
 </form>
 
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.TicketAction.Init();
+//]]></script>
+<!--dtl:js_on_document_complete-->
+
 # some invisible forms
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
     <input type="hidden" name="Action" value="AgentSpelling"/>
@@ -332,3 +317,11 @@ $Include{"RichTextEditor"}
     <input type="hidden" name="Subject" value=""/>
     <input type="hidden" name="What" value=""/>
 </form>
+
+<div id="UIElementPool">
+    <div class="Dialog">
+        <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
+        <div class="Content"></div>
+        <div class="Footer"><span class="LeftCorner"></span><span></span></div>
+    </div>
+</div>
