@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.2 2010-06-29 09:47:28 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.3 2010-06-30 08:56:38 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -441,7 +441,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @function
      * @description
      *      Closes all dialogs specified.
-     * @param Object The javascript or jQuery object that defines the dialog or any child element of it, which should be closed
+     * @param Object The jQuery object that defines the dialog or any child element of it, which should be closed
      * @return nothing
      */
     TargetNS.CloseDialog = function (Object) {

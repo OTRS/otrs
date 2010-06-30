@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.96 2010-06-29 19:31:51 dz Exp $
+# $Id: AgentTicketEmail.dtl,v 1.97 2010-06-30 08:56:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,29 +10,6 @@
 # --
 
 $Include{"AgentCustomerSearch"}
-
-<script type="text/javascript">//<![CDATA[
-function SpellCheckSubmit() {
-    document.spelling.Body.value = document.compose.Body.value;
-    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.spelling.submit()
-}
-
-function BookCheckSubmit() {
-    document.book.To.value = document.compose.To.value;
-    document.book.Cc.value = document.compose.Cc.value;
-    document.book.Bcc.value = document.compose.Bcc.value;
-    window.open('', 'book', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.book.submit()
-    document.book.was_spell_checked=true;
-}
-
-function CustomerSubmit() {
-    window.open('', 'customer', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.customer.submit()
-}
-//]]></script>
-
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="NewEmailTicket" class="Validate">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="StoreNew"/>
@@ -214,40 +191,13 @@ function CustomerSubmit() {
                         <div class="Field">
 
 <!-- dtl:block:SpellCheck -->
-                            <a href="" id="SpellCheck">[ $Text{"Spell check"} ]</a>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#SpellCheck'), function (Event) {
-        var SpellCheckIFrame = '<iframe class="TextOption" src="$Env{"CGIHandle"}?Action=AgentSpelling;Body=' + $('#Richtext').val() + '"></iframe>';
-        Core.UI.Dialog.ShowContentDialog(SpellCheckIFrame, 'SpellCheck', '10px', 'Center', true);
-        return false;
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
+                            <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
 <!-- dtl:block:SpellCheck -->
 <!-- dtl:block:AddressBook -->
-                            <a href="" id="AdressBook">[ $Text{"Address book"} ]</a>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#AdressBook'), function (Event) {
-        var AdressBookIFrame = '<iframe class="TextOption" src="$Env{"CGIHandle"}?Action=AgentBook;To=' + $('#CustomerAutoComplete').val() + ';Cc=' + $('#Cc').val() + ';Bcc=' + $('#Bcc').val() + '"></iframe>';
-        Core.UI.Dialog.ShowContentDialog(AdressBookIFrame, 'AdressBook', '10px', 'Center', true);
-        return false;
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
+                            <a href="#" id="OptionAdressBook">[ $Text{"Address book"} ]</a>
 <!-- dtl:block:AddressBook -->
 <!-- dtl:block:OptionCustomer -->
-                            <a href="" id="OptionCustomer">[ $Text{"Customer"} ]</a>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#OptionCustomer'), function (Event) {
-        var CustomerIFrame = '<iframe class="TextOption" src="$Env{"CGIHandle"}?Action=AdminCustomerUser;Nav=None;Subject=;What="></iframe>';
-        Core.UI.Dialog.ShowContentDialog(CustomerIFrame, 'Customer', '10px', 'Center', true);
-        return false;
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
+                            <a href="#" id="OptionCustomer">[ $Text{"Customer"} ]</a>
 <!-- dtl:block:OptionCustomer -->
                         </div>
                         <div class="Clear"></div>
@@ -370,6 +320,12 @@ $Include{"RichTextEditor"}
         </div>
     </div>
 </form>
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.TicketAction.Init();
+//]]></script>
+<!--dtl:js_on_document_complete-->
 
 # some invisible forms
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">

@@ -2,7 +2,7 @@
 # AgentBook.dtl - provides HTML form for AgentBook
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentBook.dtl,v 1.17 2010-06-28 13:46:31 mn Exp $
+# $Id: AgentBook.dtl,v 1.18 2010-06-30 08:56:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,56 +10,6 @@
 # --
 
 <!-- start addressbook form -->
-<script type="text/javascript">//<![CDATA[
-
-function updateMessage() {
-    if (parent.opener.closed) {
-        alert('$JSText{"The message being composed has been closed.  Exiting."}');
-        this.close();
-        return;
-    }
-
-    if (!parent.opener.document.compose) {
-        alert('$JSText{"This window must be called from compose window"}');
-        this.close();
-        return;
-    }
-
-    parent.opener.document.compose.To.value = document.book.To.value
-    parent.opener.document.compose.Cc.value = document.book.Cc.value
-    parent.opener.document.compose.Bcc.value = document.book.Bcc.value
-
-    this.close();
-}
-
-//]]></script>
-
-<script type="text/javascript">//<![CDATA[
-
-function AddToAddress(x) {
-    if (document.book.To.value) {
-        document.book.To.value = document.book.To.value + ', ';
-    }
-    document.book.To.value = document.book.To.value + x;
-}
-
-function AddCcAddress(x) {
-    if (document.book.Cc.value) {
-        document.book.Cc.value = document.book.Cc.value + ', ';
-    }
-    document.book.Cc.value = document.book.Cc.value + x;
-}
-
-function AddBccAddress(x) {
-    if (document.book.Bcc.value) {
-        document.book.Bcc.value = document.book.Bcc.value + ', ';
-    }
-    document.book.Bcc.value = document.book.Bcc.value + x;
-}
-
-//]]></script>
-
-
 <div class="WidgetPopup">
     <div class="Content">
         <h1>$Text{"Address Book"}</h1>
@@ -81,15 +31,15 @@ function AddBccAddress(x) {
                     <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc" />
                 </div>
                 <div class="Clear"></div>
-                <button type="button" value="$Text{"Apply"}">$Text{"Apply"}</button>
-                <button type="button" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
+                <button type="button" id="Apply" value="$Text{"Apply"}">$Text{"Apply"}</button>
+                <button type="button" id="Cancel" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
             </fieldset>
             <fieldset class="TableLike SpacingTop">
                 <input type="text" name="Search" id="Search" value="" class="W75pc" />
                 <input class="button" type="submit" value="$Text{"Search"}"/>
             </fieldset>
 <!-- dtl:block:SearchResult -->
-            <table class="DataTable SpacingTop">
+            <table id="SearchResult" class="DataTable SpacingTop">
                 <thead>
                     <tr>
                         <th>$Text{"Name"}</th>
@@ -100,12 +50,17 @@ function AddBccAddress(x) {
                 </thead>
                 <tbody>
 <!-- dtl:block:Row -->
-                    <tr>
+                    <tr id="Row$QData{"Count"}">
                         <td>$QData{"Name"}</td>
-                        <td><a href="">$Text{"To"}</a></td>
-                        <td><a href="">$Text{"Cc"}</a></td>
-                        <td><a href="">$Text{"Bcc"}</a></td>
+                        <td><a href="" rel="To">$Text{"To"}</a></td>
+                        <td><a href="" rel="Cc">$Text{"Cc"}</a></td>
+                        <td><a href="" rel="Bcc">$Text{"Bcc"}</a></td>
                     </tr>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Data.Set($('#Row$QData{"Count"}'), 'Email', '$QData{"Email"}');
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:Row -->
                 </tbody>
             </table>
@@ -113,3 +68,8 @@ function AddBccAddress(x) {
         </form>
     </div>
 </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.TicketAction.InitAdressBook();
+//]]></script>
+<!--dtl:js_on_document_complete-->
