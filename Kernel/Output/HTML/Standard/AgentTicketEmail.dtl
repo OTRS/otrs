@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.97 2010-06-30 08:56:38 mn Exp $
+# $Id: AgentTicketEmail.dtl,v 1.98 2010-06-30 13:32:53 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -107,7 +107,6 @@ $Include{"AgentCustomerSearch"}
                         <div class="Field">
                             $Data{"ServiceStrg"}
                             <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>$Text{"Service invalid"}</p></div>
-<!-- <span class="Error Small">$Text{"$Data{"Service invalid"}"}</span> -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#ServiceID'), function (Event) {

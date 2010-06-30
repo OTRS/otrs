@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -485,7 +485,7 @@ tbody tr:hover span.UnreadArticles {
     display: inline-block;
     vertical-align: top;
 }
-    
+
 .RTL .DatepickerIcon {
     margin: 0 4px 0 0;
 }
@@ -498,5 +498,8 @@ iframe.TextOption {
     height: 400px;
 }
 
+iframe.TextOption.SpellCheck {
+    width: 800px;
+}
 
 } /* end @media */

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentSpelling.pm - spelling module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.pm,v 1.26 2009-12-31 10:47:25 mn Exp $
+# $Id: AgentSpelling.pm,v 1.27 2010-06-30 13:32:53 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -191,9 +191,8 @@ sub _Mask {
                     $ReplaceWords{''} = 'No suggestions';
                 }
                 $Param{SpellCheckString} = $Self->{LayoutObject}->BuildSelection(
-                    Data     => \%ReplaceWords,
-                    Name     => "SpellCheckOption::$Param{SpellCounter}",
-                    OnChange => "change_selected($Param{SpellCounter})"
+                    Data => \%ReplaceWords,
+                    Name => "SpellCheckOption::$Param{SpellCounter}",
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'Row',

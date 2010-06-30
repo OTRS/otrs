@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.1 2010-06-30 08:56:38 mn Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.2 2010-06-30 13:32:53 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -22,18 +22,18 @@ Core.Agent = Core.Agent || {};
  */
 Core.Agent.TicketAction = (function (TargetNS) {
     function OpenSpellChecker() {
-        var SpellCheckIFrame = '<iframe class="TextOption" src="' + Core.Config.Get('CGIHandle') + '?Action=AgentSpelling;Body=' + $('#Richtext').val() + '"></iframe>';
-        Core.UI.Dialog.ShowContentDialog(SpellCheckIFrame, 'SpellCheck', '10px', 'Center', true);
+        var SpellCheckIFrame = '<iframe class="TextOption SpellCheck" src="' + Core.Config.Get('CGIHandle') + '?Action=AgentSpelling;Field=RichText;Body=' + $('#RichText').val() + '"></iframe>';
+        Core.UI.Dialog.ShowContentDialog(SpellCheckIFrame, '', '10px', 'Center', true);
     }
 
     function OpenAdressBook() {
         var AdressBookIFrame = '<iframe class="TextOption" src="' + Core.Config.Get('CGIHandle') + '?Action=AgentBook;To=' + $('#CustomerAutoComplete').val() + ';Cc=' + $('#Cc').val() + ';Bcc=' + $('#Bcc').val() + '"></iframe>';
-        Core.UI.Dialog.ShowContentDialog(AdressBookIFrame, 'AdressBook', '10px', 'Center', true);
+        Core.UI.Dialog.ShowContentDialog(AdressBookIFrame, '', '10px', 'Center', true);
     }
 
     function OpenCustomerDialog() {
         var CustomerIFrame = '<iframe class="TextOption" src="' + Core.Config.Get('CGIHandle') + '?Action=AdminCustomerUser;Nav=None;Subject=;What="></iframe>';
-        Core.UI.Dialog.ShowContentDialog(CustomerIFrame, 'Customer', '10px', 'Center', true);
+        Core.UI.Dialog.ShowContentDialog(CustomerIFrame, '', '10px', 'Center', true);
     }
 
     function AddMailAdress($Link) {
@@ -89,6 +89,35 @@ Core.Agent.TicketAction = (function (TargetNS) {
             $To.val($('#To').val());
             $Cc.val($('#Cc').val());
             $Bcc.val($('#Bcc').val());
+
+            // Because we are in an iframe, we need to call the parent frames javascript function
+            // with a jQuery object which is in the parent frames context
+            parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
+        });
+
+        // Register Cancel button event
+        Core.UI.RegisterEvent('click', $('#Cancel'), function (Event) {
+            // Because we are in an iframe, we need to call the parent frames javascript function
+            // with a jQuery object which is in the parent frames context
+            parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
+        });
+    }
+
+    TargetNS.InitSpellCheck = function () {
+        // Register onchange event for dropdown and input field to change the radiobutton
+        Core.UI.RegisterEvent('change', $('#SpellCheck select, #SpellCheck input:text'), function (Event) {
+            var $Row = $(this).closest('tr'),
+                RowCount = parseInt($Row.attr('id').replace(/Row/, ''), 10);
+            $Row.find('input:radio[id=ChangeWord' + RowCount + ']').attr('checked', 'checked');
+        });
+
+        // Register Apply button event
+        Core.UI.RegisterEvent('click', $('#Apply'), function (Event) {
+            // Update ticket action popup fields
+            var FieldName = $('#Field').val(),
+                $Body = $('#' + FieldName, parent.document);
+
+            $Body.val($('#Body').val());
 
             // Because we are in an iframe, we need to call the parent frames javascript function
             // with a jQuery object which is in the parent frames context
