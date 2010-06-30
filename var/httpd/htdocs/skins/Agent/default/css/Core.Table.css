@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -16,9 +16,18 @@
  * @subsection  General stuff
  */
 
+/*
+ * FF3.6 has a problem with setting the position:relative only on :hover state.
+ * As a workaround it is set always and a special z-index on hover.
+ */
+.DataTable tbody tr,
+.TableSmall tbody tr {
+    position: relative;
+}
+
 .DataTable tbody tr:hover,
 .TableSmall tbody tr:hover {
-    position: relative;
+    z-index: 10;
 }
 
 .DataTable tbody td:first-child,
