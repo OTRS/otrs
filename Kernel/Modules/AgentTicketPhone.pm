@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.142 2010-06-30 11:04:04 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.143 2010-06-30 22:06:00 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.142 $) [1];
+$VERSION = qw($Revision: 1.143 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -475,14 +475,14 @@ sub Run {
         # check pending date
         if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                $Error{'Date invalid'} = 'invalid';
+                $Error{'DateInvalid'} = ' ServerError';
             }
             if (
                 $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
                 < $Self->{TimeObject}->SystemTime()
                 )
             {
-                $Error{'Date invalid'} = 'invalid';
+                $Error{'DateInvalid'} = ' ServerError';
             }
         }
 
@@ -1405,23 +1405,16 @@ sub _MaskPhoneNew {
     # build customer search autocomplete field
     my $AutoCompleteConfig
         = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
-    if ( $AutoCompleteConfig->{Active} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'CustomerSearchAutoComplete',
-            Data => {
-                minQueryLength      => $AutoCompleteConfig->{MinQueryLength}      || 2,
-                queryDelay          => $AutoCompleteConfig->{QueryDelay}          || 0.1,
-                typeAhead           => $AutoCompleteConfig->{TypeAhead}           || 'false',
-                maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
-                ActiveAutoComplete  => $AutoCompleteConfig->{Active},
-            },
-        );
-    }
-    else {
-        $Self->{LayoutObject}->Block(
-            Name => 'SearchCustomerButton',
-        );
-    }
+    $Self->{LayoutObject}->Block(
+        Name => 'CustomerSearchAutoComplete',
+        Data => {
+            ActiveAutoComplete  => $AutoCompleteConfig->{Active},
+            minQueryLength      => $AutoCompleteConfig->{MinQueryLength} || 2,
+            queryDelay          => $AutoCompleteConfig->{QueryDelay} || 0.1,
+            typeAhead           => $AutoCompleteConfig->{TypeAhead} || 'false',
+            maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
+        },
+    );
 
     # build string
     $Param{OptionStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -1439,21 +1432,6 @@ sub _MaskPhoneNew {
         Translation   => 1,
         SelectedValue => $Param{NextState} || $Self->{Config}->{StateDefault},
     );
-
-    # build from string
-    if ( $Param{FromOptions} && %{ $Param{FromOptions} } ) {
-        $Param{CustomerUserStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data        => $Param{FromOptions},
-            Name        => 'CustomerUser',
-            Translation => 0,
-            Max         => 70,
-        );
-
-        if ( $Param{CustomerUserStrg} ne "" ) {
-            $Self->{LayoutObject}->Block( Name => 'TakeCustomerButton', );
-        }
-
-    }
 
     # build so string
     my %NewTo;
@@ -1608,16 +1586,7 @@ sub _MaskPhoneNew {
     # prepare errors!
     if ( $Param{Errors} ) {
         for ( keys %{ $Param{Errors} } ) {
-            print STDERR "Error:" . $_ . "\n";
             $Param{$_} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
-        }
-
-        # handle 'From invalid' error if AutoComplete is enabled
-        if ( $AutoCompleteConfig->{Active} && $Param{'From invalid'} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'CustomerSearchAutoCompleteFromInvalid',
-                Data => {%Param},
-            );
         }
     }
 
@@ -1857,66 +1826,34 @@ sub _MaskPhoneNew {
         YearPeriodFuture => 5,
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
         Validate         => 1,
+        Class            => $Param{Errors}->{DateInvalid},
     );
 
-    # to update
-    if ( !$Self->{LayoutObject}->{BrowserJavaScriptSupport} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ToUpdateSubmit',
-            Data => \%Param,
-        );
-    }
-
+    # show owner selection
     # show owner selection
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewOwnerSelection') ) {
         $Self->{LayoutObject}->Block(
             Name => 'OwnerSelection',
             Data => \%Param,
         );
-        if ( $Self->{LayoutObject}->{BrowserJavaScriptSupport} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'OwnerSelectionAllJS',
-                Data => {},
-            );
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'OwnerSelectionAllSubmit',
-                Data => {},
-            );
-        }
     }
 
     # show responsible selection
     if (
         $Self->{ConfigObject}->Get('Ticket::Responsible')
-        &&
-        $Self->{ConfigObject}->Get('Ticket::Frontend::NewResponsibleSelection')
+        && $Self->{ConfigObject}->Get('Ticket::Frontend::NewResponsibleSelection')
         )
     {
+        $Param{ResponsibleUsers}->{''} = '-';
         $Param{ResponsibleOptionStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => $Param{ResponsibleUsers},
-            SelectedID   => $Param{ResponsibleUserSelected},
-            Name         => 'NewResponsibleID',
-            Translation  => 0,
-            PossibleNone => 1,
+            Data       => $Param{ResponsibleUsers},
+            SelectedID => $Param{ResponsibleUsersSelected},
+            Name       => 'NewResponsibleID',
         );
         $Self->{LayoutObject}->Block(
             Name => 'ResponsibleSelection',
             Data => \%Param,
         );
-        if ( $Self->{LayoutObject}->{BrowserJavaScriptSupport} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ResponsibleSelectionAllJS',
-                Data => {},
-            );
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'ResponsibleSelectionAllSubmit',
-                Data => {},
-            );
-        }
     }
 
     # ticket free text
