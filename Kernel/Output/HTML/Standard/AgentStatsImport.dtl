@@ -2,7 +2,7 @@
 # AgentStatsImport.dtl - provides HTML form for import a stat
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsImport.dtl,v 1.9 2010-06-29 13:08:20 mg Exp $
+# $Id: AgentStatsImport.dtl,v 1.10 2010-06-30 13:38:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <div class="W33pc SpacingTopLarge SpacingBottomLarge CenterBox">
         <div class="WidgetGradient Short">
             <div class="Header">
-                <h2>$Text{"Import"}</h2>
+                <h2>$Text{"Import Stat"}</h2>
             </div>
             <div class="Content">
 

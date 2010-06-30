@@ -2,7 +2,7 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.20 2010-06-30 12:29:23 mg Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.21 2010-06-30 13:38:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,7 +92,7 @@ function FormatGraphSizeRelation() {
                             $Text{"Description"}:
                         </label>
                         <div class="Value">
-                            <textarea name="Description" id="Description" rows="4" class="W50pc Validate_Required">$QData{"Description"}</textarea>
+                            <textarea name="Description" id="Description" rows="4" cols="60" class="W50pc Validate_Required">$QData{"Description"}</textarea>
                             <div id="DescriptionError" class="TooltipErrorMessage">
                                 <p>$Text{"This value is required"}.</p>
                             </div>
