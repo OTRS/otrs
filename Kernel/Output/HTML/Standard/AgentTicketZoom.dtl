@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.100 2010-06-23 07:51:21 fn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.101 2010-06-30 10:01:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -387,7 +387,7 @@ $Data{"ArticleItems"}
         </div>
         <div class="Content">
             <div class="ArticleMailHeader">
-                <fieldset class="TableLike FixedLabel Tight">
+                <fieldset class="TableLike FixedLabelSmall Tight">
 <!-- dtl:block:RowRecipient -->
                     <label>$Text{"$Data{"Key"}"}:</label>
                     <p class="Value" title="$QData{"Value"}">$RQData{"Value","200"}</p>
