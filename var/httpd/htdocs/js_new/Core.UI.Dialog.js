@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.3 2010-06-30 08:56:38 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.4 2010-06-30 09:29:25 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -445,7 +445,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.CloseDialog = function (Object) {
-        $(Object).closest('.Dialog').remove();
+        $(Object).closest('.Dialog:visible').remove();
         $('#Overlay').remove();
         $('body').css({
             'overflow': 'auto',
