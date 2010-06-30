@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.133 2010-06-29 17:45:38 mp Exp $
+# $Id: AgentTicketEmail.pm,v 1.134 2010-06-30 17:01:57 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.133 $) [1];
+$VERSION = qw($Revision: 1.134 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -446,15 +446,6 @@ sub Run {
                 UserID   => $Self->{UserID},
             );
 
-            # check required FreeTextField (if configured)
-            if (
-                $Self->{Config}->{TicketFreeText}->{$Count} == 2
-                && $GetParam{"TicketFreeText$Count"} eq ''
-                && $ExpandCustomerName == 0
-                )
-            {
-                $Error{"TicketFreeTextField$Count invalid"} = 'invalid';
-            }
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
@@ -1484,25 +1475,21 @@ sub _MaskEmailNew {
         }
     }
 
-    my $Class = 'Validate_Required';
-    $Class .= $Param{Errors}->{DestinationInvalid} || ' ';
-
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
         $Param{FromStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Data           => \%NewTo,
             Multiple       => 0,
             Size           => 0,
-            Class          => $Class,
+            Class          => 'Validate_Required' . ( $Param{Errors}->{DestinationInvalid} || ' ' ),
             Name           => 'Dest',
             SelectedID     => $Param{FromSelected},
             OnChangeSubmit => 0,
-
         );
     }
     else {
         $Param{FromStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%NewTo,
-            Class      => $Class,
+            Class      => 'Validate_Required' . $Param{Errors}->{DestinationInvalid} || ' ',
             Name       => 'Dest',
             SelectedID => $Param{FromSelected},
         );
@@ -1544,14 +1531,12 @@ sub _MaskEmailNew {
         );
     }
 
-    $Class = $Param{Errors}->{ServiceInvalid} || ' ';
-
     # build service string
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
         $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{Services},
             Name         => 'ServiceID',
-            Class        => $Class,
+            Class        => $Param{Errors}->{ServiceInvalid} || ' ',
             SelectedID   => $Param{ServiceID},
             PossibleNone => 1,
             TreeView     => $TreeView,
@@ -1590,8 +1575,6 @@ sub _MaskEmailNew {
         Translation   => 1,
     );
 
-    $Class = $Param{Errors}->{DateInvalid} || ' ';
-
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
@@ -1600,7 +1583,7 @@ sub _MaskEmailNew {
         YearPeriodFuture => 5,
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
         Validate         => 1,
-        Class            => $Param{Errors}->{DateInvalid},
+        Class            => $Param{Errors}->{DateInvalid} || ' ',
     );
 
     # show owner selection
