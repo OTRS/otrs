@@ -2,7 +2,7 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.18 2010-06-29 14:30:12 mg Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.19 2010-06-30 11:54:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,6 +40,10 @@ function FormatGraphSizeRelation() {
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Edit"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}</h1>
 
+    <div class="Center">
+        <img border="0" src="$Config{"Frontend::ImagePath"}installer.png" alt="$Text{"Step %s of %s", "1", "4"}" />
+    </div>
+
     <div class="SidebarColumn">
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">
@@ -56,7 +60,6 @@ function FormatGraphSizeRelation() {
     </div>
     <div class="ContentColumn">
 
-        <img border="0" src="$Config{"Frontend::ImagePath"}installer.png" alt="$Text{"Step %s of %s", "1", "4"}" />
 
         <div class="WidgetGradient Short MinHeight">
             <div class="Header">

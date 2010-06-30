@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.90 2010-06-29 14:30:12 mg Exp $
+# $Id: AgentStats.pm,v 1.91 2010-06-30 11:54:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1401,7 +1401,6 @@ sub Run {
             $Stat->{UseAsXvalue}[0]{Fixed}    = 1;
         }
 
-        my $Flag = 0;
         for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
             my %BlockData;
             $BlockData{Fixed}   = 'checked="checked"';
@@ -1439,12 +1438,6 @@ sub Run {
 
             # show the attribute block
             $Self->{LayoutObject}->Block( Name => 'Attribute', );
-
-            # show line if needed
-            if ($Flag) {
-                $Self->{LayoutObject}->Block( Name => 'hr', );
-            }
-            $Flag = 1;
 
             if ( $ObjectAttribute->{Block} eq 'Time' ) {
                 my $TimeType = $Self->{ConfigObject}->Get('Stats::TimeType') || 'Normal';
