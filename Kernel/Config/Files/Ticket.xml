@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.335 2010-06-30 22:07:21 cg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.336 2010-07-01 09:45:04 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -4819,6 +4819,17 @@
             <String Regex="">%%Responsible</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###RequiredLock" Required="0" Valid="1">
+        <Description Translatable="1">Automatically lock and set owner to current Agent after selecting for an Bulk Action.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###Owner" Required="0" Valid="1">
         <Description Translatable="1">Sets the ticket owner in the ticket bulk screen of the agent interface.</Description>
         <Group>Ticket</Group>
@@ -5488,6 +5499,86 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarTicketResponsible</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::ToolBarModule###400-Ticket::AgentTicketPhone" Required="0" Valid="1">
+        <Description Translatable="1">Toolbar Item for a shortcut.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Name">Phone Ticket</Item>
+                <Item Key="Priority">1009998</Item>
+                <Item Key="Link">Action=AgentTicketPhone</Item>
+                <Item Key="Action">AgentTicketPhone</Item>
+                <Item Key="AccessKey">l</Item>
+                <Item Key="CssClass">Stacks</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::ToolBarModule###410-Ticket::AgentTicketEmail" Required="0" Valid="1">
+        <Description Translatable="1">Toolbar Item for a shortcut.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Name">Email Ticket</Item>
+                <Item Key="Priority">1009999</Item>
+                <Item Key="Link">Action=AgentTicketEmail</Item>
+                <Item Key="Action">AgentTicketEmail</Item>
+                <Item Key="AccessKey">l</Item>
+                <Item Key="CssClass">Stacks</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::ToolBarModule###410-Ticket::AgentTicketQueue" Required="0" Valid="1">
+        <Description Translatable="1">Toolbar Item for a shortcut.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Name">Queue View</Item>
+                <Item Key="Priority">1012000</Item>
+                <Item Key="Link">Action=AgentTicketQueue</Item>
+                <Item Key="Action">AgentTicketQueue</Item>
+                <Item Key="AccessKey">q</Item>
+                <Item Key="CssClass">Stacks</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::ToolBarModule###410-Ticket::AgentTicketStatus" Required="0" Valid="1">
+        <Description Translatable="1">Toolbar Item for a shortcut.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Name">Status View</Item>
+                <Item Key="Priority">1012001</Item>
+                <Item Key="Link">Action=AgentTicketStatusView</Item>
+                <Item Key="Action">AgentTicketStatusView</Item>
+                <Item Key="AccessKey">o</Item>
+                <Item Key="CssClass">Stacks</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::ToolBarModule###410-Ticket::AgentTicketEscalation" Required="0" Valid="1">
+        <Description Translatable="1">Toolbar Item for a shortcut.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Name">Escalation View</Item>
+                <Item Key="Priority">1012002</Item>
+                <Item Key="Link">Action=AgentTicketEscalationView</Item>
+                <Item Key="Action">AgentTicketEscalationView</Item>
+                <Item Key="AccessKey">w</Item>
+                <Item Key="CssClass">Stacks</Item>
             </Hash>
         </Setting>
     </ConfigItem>
