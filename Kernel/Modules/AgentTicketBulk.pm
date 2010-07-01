@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.50 2010-06-09 18:24:34 en Exp $
+# $Id: AgentTicketBulk.pm,v 1.51 2010-07-01 09:57:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,6 +74,7 @@ sub Run {
     );
 
     # process tickets
+    my @TicketIDSelected;
     for my $TicketID (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
 
@@ -93,39 +94,49 @@ sub Run {
         }
 
         # check if it's already locked by somebody else
-        if ( $Self->{TicketObject}->TicketLockGet( TicketID => $TicketID ) ) {
-            my $AccessOk = $Self->{TicketObject}->OwnerCheck(
-                TicketID => $TicketID,
-                OwnerID  => $Self->{UserID},
+        if ( !$Self->{Config}->{RequiredLock} ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Info => 'Ticket %s get\'s used!", "' . $Ticket{TicketNumber} . '"',
             );
-            if ( !$AccessOk ) {
-                $Output .= $Self->{LayoutObject}->Notify(
-                    Info => 'Ticket %s is locked for an other agent!", "$Quote{"'
-                        . $Ticket{TicketNumber}
-                        . '"}',
-                );
-                next;
-            }
         }
 
-        $Param{TicketIDHidden} .= "<input type='hidden' name='TicketID' value='$TicketID' />\n";
+        # check if it's already locked by somebody else
+        else {
+            if ( $Self->{TicketObject}->TicketLockGet( TicketID => $TicketID ) ) {
+                my $AccessOk = $Self->{TicketObject}->OwnerCheck(
+                    TicketID => $TicketID,
+                    OwnerID  => $Self->{UserID},
+                );
+                if ( !$AccessOk ) {
+                    $Output .= $Self->{LayoutObject}->Notify(
+                        Info => 'Ticket %s is locked for an other agent!", "$Quote{"'
+                            . $Ticket{TicketNumber}
+                            . '"}',
+                    );
+                    next;
+                }
+            }
 
-        # set lock
-        $Self->{TicketObject}->TicketLockSet(
-            TicketID => $TicketID,
-            Lock     => 'lock',
-            UserID   => $Self->{UserID},
-        );
+            # set lock
+            $Self->{TicketObject}->TicketLockSet(
+                TicketID => $TicketID,
+                Lock     => 'lock',
+                UserID   => $Self->{UserID},
+            );
 
-        # set user id
-        $Self->{TicketObject}->TicketOwnerSet(
-            TicketID  => $TicketID,
-            UserID    => $Self->{UserID},
-            NewUserID => $Self->{UserID},
-        );
-        $Output .= $Self->{LayoutObject}->Notify(
-            Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked!"}',
-        );
+            # set user id
+            $Self->{TicketObject}->TicketOwnerSet(
+                TicketID  => $TicketID,
+                UserID    => $Self->{UserID},
+                NewUserID => $Self->{UserID},
+            );
+            $Output .= $Self->{LayoutObject}->Notify(
+                Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked!"}',
+            );
+        }
+
+        # remember selected ticket ids
+        push @TicketIDSelected, $TicketID;
 
         # do some actions on tickets
         if ( $Self->{Subaction} eq 'Do' ) {
@@ -382,7 +393,7 @@ sub Run {
         return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
     }
 
-    $Output .= $Self->_Mask( %Param, TicketIDs => \@TicketIDs );
+    $Output .= $Self->_Mask( %Param, TicketIDs => \@TicketIDSelected );
     $Output .= $Self->{LayoutObject}->Footer(
         Type => 'Small',
     );
@@ -396,6 +407,18 @@ sub _Mask {
         Name => 'BulkAction',
         Data => \%Param,
     );
+
+    # remember ticket ids
+    if ( $Param{TicketIDs} ) {
+        for my $TicketID ( @{ $Param{TicketIDs} } ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'UsedTicketID',
+                Data => {
+                    TicketID => $TicketID,
+                },
+            );
+        }
+    }
 
     # build ArticleTypeID string
     my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };

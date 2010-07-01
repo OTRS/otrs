@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1239 2010-06-28 14:01:57 mh Exp $
+# $Id: CHANGES,v 1.1240 2010-07-01 09:57:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,10 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/07/01) Added option to ticket bulk action to define if tickets for bulk
+    action need to get locked for current agent or not.
+     o Config Name: Ticket::Frontend::AgentTicketBulk###RequiredLock
+    Thanks to Jeroen van Meeuwen!
  - (2010/06/22) Improved otrs.CheckModules.pl script.
  - (2010/06/22) Updated CPAN module Authen::SASL to version 2.15.
  - (2010/06/22) Updated CPAN module Net::IMAP::Simple to version 1.1916.
