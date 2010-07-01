@@ -2,7 +2,7 @@
 # Datepicker.dtl - provides the data needed for the JS datepicker
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Datepicker.dtl,v 1.3 2010-06-25 13:49:25 mn Exp $
+# $Id: Datepicker.dtl,v 1.4 2010-07-01 08:19:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,6 +22,7 @@ DayNamesShort: ['$JSText{"Sun"}', '$JSText{"Mon"}', '$JSText{"Tue"}', '$JSText{"
 DayNamesMin: ['$JSText{"Su"}', '$JSText{"Mo"}', '$JSText{"Tu"}', '$JSText{"We"}', '$JSText{"Th"}', '$JSText{"Fr"}', '$JSText{"Sa"}'],
 IsRTL: $Data{"IsRTLLanguage"},
 FirstDay: 0,
-ShowMonthAfterYear: 0
+ShowMonthAfterYear: 0,
+IconText: '$JSText{"Open date selection"}'
 });
 <!-- dtl:block:DatepickerData -->

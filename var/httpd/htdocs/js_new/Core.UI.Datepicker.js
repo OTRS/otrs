@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.11 2010-06-28 10:10:23 mn Exp $
+// $Id: Core.UI.Datepicker.js,v 1.12 2010-07-01 08:19:23 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -82,7 +82,8 @@ Core.UI.Datepicker = (function (TargetNS) {
         var $DatepickerElement,
             HasDateSelectBoxes = false,
             Options,
-            I;
+            I,
+            ErrorMessage;
 
         if (typeof LocalizationData === 'undefined') {
             LocalizationData = Core.Config.Get('Datepicker.Localization');
@@ -154,18 +155,20 @@ Core.UI.Datepicker = (function (TargetNS) {
         $DatepickerElement.datepicker(Options);
 
         // add datepicker icon and click event
-        Element.Year.after('<a href="#" class="DatepickerIcon"></a>').next('a.DatepickerIcon').click(function () {
+        Element.Year.after('<a href="#" class="DatepickerIcon" title="' + LocalizationData.IconText + '"></a>').next('a.DatepickerIcon').click(function () {
             $DatepickerElement.trigger('focus');
             return false;
         });
 
+        ErrorMessage = Core.Config.Get('Datepicker.ErrorMessage');
+
         // Add validation error messages for all dateselection elements
         Element.Year
-            .after('<div id="' + Element.Day.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + Core.Config.Get('Datepicker.ErrorMessage') + '</p></div>')
-            .after('<div id="' + Element.Month.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + Core.Config.Get('Datepicker.ErrorMessage') + '</p></div>')
-            .after('<div id="' + Element.Year.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + Core.Config.Get('Datepicker.ErrorMessage') + '</p></div>')
-            .after('<div id="' + Element.Hour.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + Core.Config.Get('Datepicker.ErrorMessage') + '</p></div>')
-            .after('<div id="' + Element.Minute.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + Core.Config.Get('Datepicker.ErrorMessage') + '</p></div>');
+            .after('<div id="' + Element.Day.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>')
+            .after('<div id="' + Element.Month.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>')
+            .after('<div id="' + Element.Year.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>')
+            .after('<div id="' + Element.Hour.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>')
+            .after('<div id="' + Element.Minute.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>');
 
         // do not show the datepicker container div.
         $('#ui-datepicker-div').hide();
