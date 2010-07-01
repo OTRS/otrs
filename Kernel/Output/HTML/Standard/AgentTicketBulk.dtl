@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.36 2010-07-01 09:57:38 martin Exp $
+# $Id: AgentTicketBulk.dtl,v 1.37 2010-07-01 22:47:43 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,7 +51,7 @@ function SpellCheckSubmit() {
 //]]></script>
 
 
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="Do"/>
 
@@ -75,7 +75,9 @@ function SpellCheckSubmit() {
                 <fieldset class="TableLike">
                     <label for="Subject">$Text{"Subject"}:</label>
                     <div class="Field">
-                        <input type="text" id="Subject" name="Subject" value="$Text{"$Config{"Ticket::Frontend::NoteSubject"}"}" class="W75pc"/>
+                        <input type="text" class="Validate_Required $Data{"SubjectInvalid"} W75pc" id="Subject" name="Subject" value="$QData{"Subject"}" />
+                        <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
+                        <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
                     </div>
                     <div class="Clear"></div>
 
@@ -95,7 +97,9 @@ function SpellCheckSubmit() {
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                    <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"NoteText"}</textarea>
+                    <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext $Data{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                     <div class="Clear"></div>
 
                     <label for="ArticleTypeID">$Text{"Note type"}:</label>
@@ -114,7 +118,8 @@ $Include{"RichTextEditor"}
                     <label>$Text{"Pending date"}:</label>
                     <div class="Field">
                         $Data{"DateString"}
-                        <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
+                        <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
+                        <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:StatePending -->
@@ -153,12 +158,13 @@ $Include{"RichTextEditor"}
                     <label>$Text{"Merge"}:</label>
                     <div class="Field">
                         <div>
-                            <input type="radio" name="MergeToSelection" id="MergeTo" value="MergeTo"/>
+                            <input type="radio" name="MergeToSelection" id="MergeTo" value="MergeTo" $Data{"MergeToChecked"}/>
                             <label for="MergeTo">$Text{"Merge to"}:</label>
-                            <input type="text" class="W50pc" name="MergeTo" value="$QData{"MergeTo"}"/>
+                            <input type="text" class="$Data{"MergeToInvalid"} W50pc" id="MergeTo" name="MergeTo" value="$QData{"MergeTo"}"/>
+                            <div id="MergeToServerError" class="TooltipErrorMessage"><p>$Text{"Invalid ticket identifier!"}</p></div>
                         </div>
                         <div>
-                            <input type="radio" name="MergeToSelection" id="MergeToOldest" value="MergeToOldest"/>
+                            <input type="radio" name="MergeToSelection" id="MergeToOldest" value="MergeToOldest" $Data{"MergeToOldestChecked"}/>
                             <label for="MergeToOldest">$Text{"Merge to oldest"}</label>
                         </div>
                     </div>
@@ -172,7 +178,8 @@ $Include{"RichTextEditor"}
 
                     <label for="LinkTogetherParent">$Text{"Link to parent"}:</label>
                     <div class="Field">
-                        <input type="text" class="W50pc" id="LinkTogetherParent" name="LinkTogetherParent" value="$QData{"LinkTogetherParent"}"/>
+                        <input type="text" class="$Data{"LinkTogetherParentInvalid"} W50pc" id="LinkTogetherParent" name="LinkTogetherParent" value="$QData{"LinkTogetherParent"}"/>
+                        <div id="LinkTogetherParentServerError" class="TooltipErrorMessage"><p>$Text{"Invalid ticket identifier!"}</p></div>
                     </div>
                     <div class="Clear"></div>
 
@@ -185,7 +192,8 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
                     <div class="Field">
-                        <input type="text" id="TimeUnits" name="TimeUnits" value="$QData{"TimeUnits"}" class="W20pc"/>
+                        <input type="text" class="Validate_TimeUnits W20pc" id="TimeUnits" name="TimeUnits" value="$QData{"TimeUnits"}"/>
+                        <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
