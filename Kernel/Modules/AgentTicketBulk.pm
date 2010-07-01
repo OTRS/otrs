@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.51 2010-07-01 09:57:38 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.52 2010-07-01 15:31:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -88,7 +88,7 @@ sub Run {
 
             # error screen, don't show ticket
             $Output .= $Self->{LayoutObject}->Notify(
-                Info => 'No access to %s!", "$Quote{"' . $Ticket{TicketNumber} . '"}',
+                Data => $Ticket{TicketNumber} . ': $Text{"No access to ticket!"}',
             );
             next;
         }
@@ -96,7 +96,7 @@ sub Run {
         # check if it's already locked by somebody else
         if ( !$Self->{Config}->{RequiredLock} ) {
             $Output .= $Self->{LayoutObject}->Notify(
-                Info => 'Ticket %s get\'s used!", "' . $Ticket{TicketNumber} . '"',
+                Data => $Ticket{TicketNumber} . ': $Text{"Ticket %s is used!"}',
             );
         }
 
@@ -109,9 +109,8 @@ sub Run {
                 );
                 if ( !$AccessOk ) {
                     $Output .= $Self->{LayoutObject}->Notify(
-                        Info => 'Ticket %s is locked for an other agent!", "$Quote{"'
-                            . $Ticket{TicketNumber}
-                            . '"}',
+                        Data => $Ticket{TicketNumber}
+                            . ': $Text{"Ticket is locked for an other agent!"}',
                     );
                     next;
                 }
