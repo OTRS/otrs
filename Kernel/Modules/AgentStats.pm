@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.93 2010-06-30 13:37:41 mg Exp $
+# $Id: AgentStats.pm,v 1.94 2010-07-01 13:34:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1351,7 +1351,7 @@ sub Run {
             Size       => 5,
             SelectedID => $Stat->{Format}
                 || $Self->{ConfigObject}->Get('Stats::DefaultSelectedFormat'),
-            OnChange => "FormatGraphSizeRelation()",
+            OnChange => "Core.Agent.Stats.FormatGraphSizeRelation()",
         );
 
         # create multiselectboxes 'graphsize'
@@ -1428,7 +1428,8 @@ sub Run {
                     Translation    => $ObjectAttribute->{Translation},
                     Sort           => $ObjectAttribute->{Sort} || undef,
                     SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
-                    OnChange       => "SelectRadiobutton('$ObjectAttribute->{Element}', 'Select')",
+                    OnChange =>
+                        "Core.Agent.Stats.SelectRadiobutton('$ObjectAttribute->{Element}', 'Select')",
 
                 );
             }
@@ -1517,7 +1518,8 @@ sub Run {
                     Translation    => $ObjectAttribute->{Translation},
                     Sort           => $ObjectAttribute->{Sort} || undef,
                     SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
-                    OnChange       => "SelectCheckbox('Select" . $ObjectAttribute->{Element} . "')",
+                    OnChange       => "Core.Agent.Stats.SelectCheckbox('Select"
+                        . $ObjectAttribute->{Element} . "')",
                 );
             }
 
@@ -1635,7 +1637,8 @@ sub Run {
                     Translation    => $ObjectAttribute->{Translation},
                     Sort           => $ObjectAttribute->{Sort} || undef,
                     SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
-                    OnChange       => "SelectCheckbox('Select" . $ObjectAttribute->{Element} . "')",
+                    OnChange       => "Core.Agent.Stats.SelectCheckbox('Select"
+                        . $ObjectAttribute->{Element} . "')",
                 );
             }
 
@@ -2320,7 +2323,7 @@ sub _Timeoutput {
         %TimeScale,
         Name       => $Element . 'TimeRelativeUnit',
         SelectedID => $Param{TimeRelativeUnit},
-        OnChange   => "SelectRadiobutton('Relativ', '$Element" . "TimeSelect')",
+        OnChange   => "Core.Agent.Stats.SelectRadiobutton('Relativ', '$Element" . "TimeSelect')",
     );
 
     # to show only the selected Attributes in the view mask

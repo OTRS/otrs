@@ -2,26 +2,12 @@
 # AgentStatsEditXaxis.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditXaxis.dtl,v 1.23 2010-06-30 13:38:07 mg Exp $
+# $Id: AgentStatsEditXaxis.dtl,v 1.24 2010-07-01 13:34:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-<script type="text/javascript">//<![CDATA[
-// set the radio button with the given value as being checked
-function SelectRadiobutton(Value, Object) {
-    var Object = document.compose.elements[Object];
-    var radioLength = Object.length;
-    for(var i = 0; i < radioLength; i++) {
-        Object[i].checked = false;
-        if (Object[i].value == Value.toString()) {
-            Object[i].checked = true;
-        }
-    }
-}
-//]]></script>
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Edit"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}</h1>

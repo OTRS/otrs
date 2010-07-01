@@ -2,20 +2,12 @@
 # AgentStatsEditRestrictions.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditRestrictions.dtl,v 1.20 2010-06-30 13:37:41 mg Exp $
+# $Id: AgentStatsEditRestrictions.dtl,v 1.21 2010-07-01 13:34:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-<script type="text/javascript">//<![CDATA[
-// set the checkbox with the given value as being checked
-function SelectCheckbox(Checkbox) {
-    var Object = document.compose.elements[Checkbox];
-    Object.checked = true;
-}
-//]]></script>
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Edit"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}</h1>

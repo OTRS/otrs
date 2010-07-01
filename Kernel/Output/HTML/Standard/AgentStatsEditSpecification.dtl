@@ -2,40 +2,12 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.21 2010-06-30 13:38:07 mg Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.22 2010-07-01 13:34:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-<script type="text/javascript">//<![CDATA[
-// activate the graph size menu if a GD element is selected
-function FormatGraphSizeRelation() {
-    var Object = document.compose.Format;
-    var Length = Object.length;
-    var Flag = false;
-    var Reg = /^GD::/;
-
-    // find out if a GD element is used
-    for(var i = 0; i < Length; i++) {
-        if (Object[i].selected == true) {
-            if (Reg.test(Object[i].value) == true) {
-                Flag = true;
-            }
-        }
-    }
-
-    // activate or deactivate the Graphsize menu
-    if ( Flag == true ) {
-        document.compose.GraphSize.disabled = false;
-    }
-    else {
-        document.compose.GraphSize.disabled = true;
-    }
-}
-//]]></script>
-
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Edit"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}</h1>
