@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.72 2010-05-21 06:38:14 cg Exp $
+# $Id: AdminCustomerUser.pm,v 1.73 2010-07-01 10:06:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,8 +48,13 @@ sub Run {
     my $Source = $Self->{ParamObject}->GetParam( Param => 'Source' ) || 'CustomerUser';
     my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
 
-    $NavBar = $Self->{LayoutObject}->Header();
-    $NavBar .= $Self->{LayoutObject}->NavigationBar();
+    if ( $Nav eq 'None' ) {
+        $NavBar = $Self->{LayoutObject}->Header( Type => 'Small' );
+    }
+    else {
+        $NavBar = $Self->{LayoutObject}->Header();
+        $NavBar .= $Self->{LayoutObject}->NavigationBar();
+    }
 
     # search user list
     if ( $Self->{Subaction} eq 'Search' ) {
@@ -62,7 +67,13 @@ sub Run {
             TemplateFile => 'AdminCustomerUser',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+
+        if ( $Nav eq 'None' ) {
+            $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Footer();
+        }
         return $Output;
     }
 
@@ -110,7 +121,13 @@ sub Run {
             ID     => $User,
             %UserData,
             );
-        $Output .= $Self->{LayoutObject}->Footer();
+
+        if ( $Nav eq 'None' ) {
+            $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Footer();
+        }
         return $Output;
     }
 
@@ -178,7 +195,13 @@ sub Run {
                     TemplateFile => 'AdminCustomerUser',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+
+                if ( $Nav eq 'None' ) {
+                    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+                }
+                else {
+                    $Output .= $Self->{LayoutObject}->Footer();
+                }
                 return $Output;
             }
         }
@@ -195,7 +218,13 @@ sub Run {
             Search => $Search,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+
+        if ( $Nav eq 'None' ) {
+            $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Footer();
+        }
         return $Output;
     }
 
@@ -215,7 +244,13 @@ sub Run {
             Search => $Search,
             %GetParam,
             );
-        $Output .= $Self->{LayoutObject}->Footer();
+
+        if ( $Nav eq 'None' ) {
+            $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Footer();
+        }
         return $Output;
     }
 
@@ -319,7 +354,13 @@ sub Run {
                     TemplateFile => 'AdminCustomerUser',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+
+                if ( $Nav eq 'None' ) {
+                    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+                }
+                else {
+                    $Output .= $Self->{LayoutObject}->Footer();
+                }
                 return $Output;
             }
         }
@@ -336,7 +377,13 @@ sub Run {
             Search => $Search,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+
+        if ( $Nav eq 'None' ) {
+            $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Footer();
+        }
         return $Output;
     }
 
@@ -353,7 +400,13 @@ sub Run {
             TemplateFile => 'AdminCustomerUser',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+
+        if ( $Nav eq 'None' ) {
+            $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Footer();
+        }
         return $Output;
     }
 }
@@ -375,7 +428,10 @@ sub _Overview {
     );
 
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionSearch',
+        Data => \%Param,
+    );
     $Self->{LayoutObject}->Block(
         Name => 'ActionAdd',
         Data => \%Param,
@@ -450,6 +506,10 @@ sub _Overview {
             Data => {},
         );
     }
+
+    if ( $Param{Nav} eq 'None' ) {
+        $Self->{LayoutObject}->Block( Name => 'BorrowedViewJS' );
+    }
 }
 
 sub _Edit {
@@ -470,7 +530,10 @@ sub _Edit {
     );
 
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+        Data => \%Param,
+    );
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
@@ -675,6 +738,11 @@ sub _Edit {
         }
 
     }
+
+    if ( $Param{Nav} eq 'None' ) {
+        $Self->{LayoutObject}->Block( Name => 'BorrowedViewJS' );
+    }
+
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminCustomerUser',
         Data         => \%Param

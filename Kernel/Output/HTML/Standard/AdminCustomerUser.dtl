@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.19 2010-06-29 04:28:14 dz Exp $
+# $Id: AdminCustomerUser.dtl,v 1.20 2010-07-01 10:06:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,32 +10,6 @@
 # --
 
 <!-- dtl:block:Overview -->
-<script type="text/javascript">//<![CDATA[
-
-function updateMessage(x) {
-    if (parent.opener.closed) {
-        alert('$JSText{"The message being composed has been closed.  Exiting."}');
-        this.close();
-        return;
-    }
-
-    if (!parent.opener.document.compose) {
-        alert('$JSText{"This window must be called from compose window."}');
-        this.close();
-        return;
-    }
-
-# get the selected user back
-    parent.opener.document.compose.ExpandCustomerName.value=2;
-    parent.opener.document.compose.PreSelectedCustomerUser.value=x;
-# submit compose view to get user data
-    parent.opener.document.compose.submit()
-# close this window
-    this.close();
-}
-
-//]]></script>
-
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Customer Management"}</h1>
     <div class="SidebarColumn">
@@ -48,7 +22,7 @@ function updateMessage(x) {
                 <ul class="ActionList">
 <!-- dtl:block:ActionOverview -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Nav=$LQData{"Nav"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionSearch -->
@@ -56,6 +30,7 @@ function updateMessage(x) {
                         <form class="SearchBox" action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Search"/>
+                            <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
                             <input type="text" name="Search" value="$QData{"Search"}" id="Search" title="$Text{"Search"}"/>
                             <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                         </form>
@@ -69,6 +44,7 @@ function updateMessage(x) {
                         <form action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Add"/>
+                            <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
                             <button class="CallForAction Plus" type="submit"><span>$Text{"Add customer"}</span></button>
                             <br/>
@@ -107,7 +83,7 @@ function updateMessage(x) {
 <!-- dtl:block:NoSearchTerms -->
 <!-- dtl:block:OverviewResult -->
             <div class="Content WithPadding">
-                <table class="DataTable">
+                <table class="DataTable" id="CustomerTable">
                     <thead>
                         <tr>
                             <th>$Text{"Username"}</th>
@@ -133,7 +109,7 @@ function updateMessage(x) {
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"UserLogin"};Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
 <!-- dtl:block:OverviewResultRowLink -->
 <!-- dtl:block:OverviewResultRowLinkNone -->
-                            <td><a class="AsBlock" href="#" onclick="updateMessage('$QData{"UserLogin"}');">$QData{"UserLogin"}</a></td>
+                            <td><a class="AsBlock" href="#">$QData{"UserLogin"}</a></td>
 <!-- dtl:block:OverviewResultRowLinkNone -->
                             <td>$QData{"UserFirstname"} $QData{"UserLastname"}</td>
                             <td>$QData{"UserEmail"}</td>
@@ -252,3 +228,10 @@ function updateMessage(x) {
     <div class="Clear"></div>
 </div>
 <!-- dtl:block:Overview -->
+<!-- dtl:block:BorrowedViewJS -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.TicketAction.InitCustomer();
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:BorrowedViewJS -->

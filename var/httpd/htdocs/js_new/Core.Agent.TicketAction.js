@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.2 2010-06-30 13:32:53 mn Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.3 2010-07-01 10:06:19 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
     }
 
     function OpenCustomerDialog() {
-        var CustomerIFrame = '<iframe class="TextOption" src="' + Core.Config.Get('CGIHandle') + '?Action=AdminCustomerUser;Nav=None;Subject=;What="></iframe>';
+        var CustomerIFrame = '<iframe class="TextOption Customer" src="' + Core.Config.Get('CGIHandle') + '?Action=AdminCustomerUser;Nav=None;Subject=;What="></iframe>';
         Core.UI.Dialog.ShowContentDialog(CustomerIFrame, '', '10px', 'Center', true);
     }
 
@@ -44,6 +44,20 @@ Core.Agent.TicketAction = (function (TargetNS) {
         }
         NewValue = NewValue + Core.Data.Get($Link.closest('tr'), 'Email');
         $Element.val(NewValue);
+    }
+
+    function UpdateCustomer(Customer) {
+        var $UpdateForm = $('form[name=compose]', parent.document);
+        $UpdateForm
+            .find('#ExpandCustomerName').val('2')
+            .end()
+            .find('#PreSelectedCustomerUser').val(Customer)
+            .end()
+            .submit();
+
+        // Because we are in an iframe, we need to call the parent frames javascript function
+        // with a jQuery object which is in the parent frames context
+        parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
     }
 
     /**
@@ -129,6 +143,13 @@ Core.Agent.TicketAction = (function (TargetNS) {
             // Because we are in an iframe, we need to call the parent frames javascript function
             // with a jQuery object which is in the parent frames context
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
+        });
+    }
+
+    TargetNS.InitCustomer = function () {
+        Core.UI.RegisterEvent('click', $('#CustomerTable a'), function (Event) {
+            var Customer = $(this).text();
+            UpdateCustomer(Customer);
         });
     }
 

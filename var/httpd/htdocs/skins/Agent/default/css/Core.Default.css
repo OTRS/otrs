@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -499,6 +499,10 @@ iframe.TextOption {
 }
 
 iframe.TextOption.SpellCheck {
+    width: 800px;
+}
+
+iframe.TextOption.Customer {
     width: 800px;
 }
 
