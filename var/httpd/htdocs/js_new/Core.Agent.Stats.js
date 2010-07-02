@@ -2,7 +2,7 @@
 // Core.Agent.Stats.js - provides the special module functions for AgentStats
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Stats.js,v 1.1 2010-07-01 13:34:19 mg Exp $
+// $Id: Core.Agent.Stats.js,v 1.2 2010-07-02 08:37:20 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -29,14 +29,14 @@ Core.Agent.Stats = (function (TargetNS) {
      *      Activates the graph size menu if a GD element is selected.
      */
     TargetNS.FormatGraphSizeRelation = function () {
-        $Format = $('#Format');
-        var Flag = false;
-        var Reg = /^GD::/;
+        var $Format = $('#Format'),
+            Flag = false,
+            Reg = /^GD::/;
 
         // find out if a GD element is used
-        $.each($Format.children('option'), function(){
-            if ($(this).attr('selected') == true) {
-                if (Reg.test($(this).val()) == true) {
+        $.each($Format.children('option'), function () {
+            if ($(this).attr('selected') === true) {
+                if (Reg.test($(this).val()) === true) {
                     Flag = true;
                 }
             }
@@ -44,7 +44,7 @@ Core.Agent.Stats = (function (TargetNS) {
 
         // activate or deactivate the Graphsize menu
         $('#GraphSize').attr('disabled', Flag ? false : true);
-    }
+    };
 
     /**
      * @function
@@ -54,7 +54,7 @@ Core.Agent.Stats = (function (TargetNS) {
      */
     TargetNS.SelectCheckbox = function (Name) {
         $('input:checkbox[name=' + Name + ']').attr('checked', true);
-    }
+    };
 
     /**
      * @function

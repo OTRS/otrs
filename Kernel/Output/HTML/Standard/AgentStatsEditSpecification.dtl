@@ -2,12 +2,19 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.22 2010-07-01 13:34:19 mg Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.23 2010-07-02 08:37:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+//Check if the GraphSize List must be enabled when page loads
+Core.Agent.Stats.FormatGraphSizeRelation();
+//]]></script>
+<!-- dtl:js_on_document_complete -->
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Edit"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}</h1>
@@ -180,8 +187,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">//<![CDATA[
-//Check if the GraphSize List must be enabled when page loads
-FormatGraphSizeRelation();
-//]]></script>
