@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -513,15 +513,6 @@ ul.Tablelike li.Header + li {
 
 .RTL .WidgetPopup > .Content {
     padding: 5px 20px 5px 5px;
-}
-
-.WidgetPopup > .Content h2 {
-    font-size: 16px;
-    padding: 5px 5px 0 0;
-}
-
-.RTL .WidgetPopup .Content h2 {
-    padding: 5px 0 0 5px;
 }
     
 #OwnerSelectionGetAll {
