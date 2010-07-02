@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.86 2010-07-02 11:31:34 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.87 2010-07-02 13:25:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,7 +43,15 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:CustomerTable -->
 
                 <div class="ContentColumn">
+
                     <fieldset class="TableLike">
+
+# example template for customizations, see hidden form at the end of the file
+#                    <label>$Text{"Templates"}:</label>
+#                    <div class="Field">
+#                        <button type="button" onclick="$('#Template1').submit()" value="$Text{"Example Template"}">$Text{"Example Template"}</button>
+#                    </div>
+#                    <div class="Clear"></div>
 
 <!-- dtl:block:TicketType -->
                         <label for="TypeID">$Text{"Type"}:</label>
@@ -262,6 +270,22 @@ $Include{"RichTextEditor"}
                         <div class="Clear"></div>
 <!-- dtl:block:TicketFreeText -->
 
+# example of how to use fixed ticket freetext blocks for customizations
+#<!-- dtl:block:TicketFreeText1 -->
+#                        <label>$Data{"TicketFreeKeyField1"}:</label>
+#                        <div class="Field">
+#                            $Data{"TicketFreeTextField2"}
+#                        </div>
+#                        <div class="Clear"></div>
+#<!-- dtl:block:TicketFreeText1 -->
+#<!-- dtl:block:TicketFreeText2 -->
+#                        <label>$Data{"TicketFreeKeyField1"}:</label>
+#                        <div class="Field">
+#                            $Data{"TicketFreeTextField2"}
+#                        </div>
+#                        <div class="Clear"></div>
+#<!-- dtl:block:TicketFreeText2 -->
+
 <!-- dtl:block:TicketFreeTime -->
                         <label>$Data{"TicketFreeTimeKey"}:</label>
                         <div class="Field">
@@ -270,6 +294,22 @@ $Include{"RichTextEditor"}
                         <div class="Clear"></div>
 <!-- dtl:block:TicketFreeTime -->
 
+# example of how to use fixed ticket freetime blocks for customizations
+#<!-- dtl:block:TicketFreeTime1 -->
+#                        <label>$Data{"TicketFreeTimeKey1"}:</label>
+#                        <div class="Field">
+#                            $Data{"TicketFreeTime1"}
+#                        </div>
+#                        <div class="Clear"></div>
+#<!-- dtl:block:TicketFreeTime1 -->
+#<!-- dtl:block:TicketFreeTime2 -->
+#                        <label>$Data{"TicketFreeTimeKey2"}:</label>
+#                        <div class="Field">
+#                            $Data{"TicketFreeTime2"}
+#                        </div>
+#                        <div class="Clear"></div>
+#<!-- dtl:block:TicketFreeTime2 -->
+
 <!-- dtl:block:ArticleFreeText -->
                         <label>$Data{"ArticleFreeKeyField"}:</label>
                         <div class="Field">
@@ -277,6 +317,22 @@ $Include{"RichTextEditor"}
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
+
+# example of how to use fixed article freetext blocks for customizations
+#<!-- dtl:block:ArticleFreeText1 -->
+#                        <label>$Data{"ArticleFreeKeyField1"}:</label>
+#                        <div class="Field">
+#                            $Data{"ArticleFreeKeyField1"}
+#                        </div>
+#                        <div class="Clear"></div>
+#<!-- dtl:block:ArticleFreeText1 -->
+#<!-- dtl:block:ArticleFreeText2 -->
+#                        <label>$Data{"ArticleFreeKeyField2"}:</label>
+#                        <div class="Field">
+#                            $Data{"ArticleFreeKeyField2"}
+#                        </div>
+#                        <div class="Clear"></div>
+#<!-- dtl:block:ArticleFreeText2 -->
 
 <!-- dtl:block:TimeUnits -->
                         <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
@@ -317,6 +373,19 @@ $Include{"RichTextEditor"}
     <input type="hidden" name="Subject" value=""/>
     <input type="hidden" name="What" value=""/>
 </form>
+
+# example template form for customizations
+#<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" id="Template1">
+#    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+#    <input type="hidden" name="Subaction" value="StoreNew"/>
+#    <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+#    <input type="hidden" name="ExpandCustomerName" value="2"/>
+#    <input type="hidden" name="Subject" value="Example Subject"/>
+#    <input type="hidden" name="Body" value="Name:
+#Product:
+#Comment:"/>
+#</form>
+
 
 <div id="UIElementPool">
     <div class="Dialog">
