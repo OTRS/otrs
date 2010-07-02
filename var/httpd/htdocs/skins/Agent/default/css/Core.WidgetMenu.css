@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -46,14 +46,14 @@
     float: right;
 }
 
-.ControlRow .Tabs li,
-.ControlRow .Tabs li:hover a,
-.ControlRow .Tabs li.Active a,
-.ControlRow .Tabs li:active a {
+.ControlRow li,
+.ControlRow li:hover > a,
+.ControlRow li.Active > a,
+.ControlRow li:active > a {
     background: url(../img/controlrow_sprite.png) no-repeat;
 }
 
-.ControlRow .Tabs li {
+.ControlRow li {
     margin-left: -3px;
     padding-left: 2px;
     background-position: 0 25px;
@@ -61,36 +61,36 @@
     position: relative;
 }
 
-.RTL .ControlRow .Tabs li {
+.RTL .ControlRow li {
     margin-left: 0;
     margin-right: -3px;
     float: right;
 }
 
-.ControlRow .Tabs li:first-child {
+.ControlRow li:first-child {
     -webkit-border-top-left-radius: 2px;
     -moz-border-radius-topleft: 2px;
     border-top-left-radius: 2px;
 }
     
-.RTL .ControlRow .Tabs li:first-child {
+.RTL .ControlRow li:first-child {
     -webkit-border-top-right-radius: 2px;
     -moz-border-radius-topright: 2px;
     border-top-right-radius: 2px;
 }
 
-.ControlRow .Tabs li:hover {
+.ControlRow li:hover {
     background-position: 0 0;
 }
 
-.ControlRow .Tabs li.Active,
-.ControlRow .Tabs li.Active:hover,
-.ControlRow .Tabs li.Active:active {
+.ControlRow li.Active,
+.ControlRow li.Active:hover,
+.ControlRow li.Active:active {
     padding-left: 2px;
     background-position: 0 -50px;
 }
 
-.ControlRow .Tabs a {
+.ControlRow li > a {
     padding: 7px 12px 7px 11px;
     color: #111;
     font-size: 11px;
@@ -98,23 +98,33 @@
     display: block;
 }
     
-.RTL .ControlRow .Tabs a {
+.RTL .ControlRow li > a {
     padding: 7px 11x 7px 12px;
     background-position: left center;
 }
 
-.ControlRow .Tabs li:hover a {
+.ControlRow li.Last > a,
+.ControlRow li:last-child > a {
+    background-position: 50px 50px; /* hide it, but dont set it to none */
+}
+    
+.ControlRow li.Last:hover > a,
+.ControlRow li:last-child:hover > a {
+    background-position: right 0;
+}
+
+.ControlRow li:hover > a {
     background-position: right 0;
     color: #000;
 }
     
-.RTL .ControlRow .Tabs li:hover a {
+.RTL .ControlRow li:hover > a {
     background-position: left 0;
 }
 
-.ControlRow .Tabs li.Active a,
-.ControlRow .Tabs li.Active:hover a,
-.ControlRow .Tabs li.Active:active a {
+.ControlRow li.Active > a,
+.ControlRow li.Active:hover > a,
+.ControlRow li.Active:active > a {
     color: #FFF;
     background-position: right -50px;
     -webkit-border-top-left-radius: 2px;
@@ -122,15 +132,15 @@
     border-top-left-radius: 2px;
 }
 
-.ControlRow .Tabs li:active {
+.ControlRow li:active {
     background-position: 0 -25px;
 }
 
-.ControlRow .Tabs li:active a {
+.ControlRow li:active > a {
     background-position: right -25px;
 }
 
-.ControlRow .Tabs a span {
+.ControlRow li > a > span {
     padding-left: 4px;
 }
 
@@ -153,8 +163,6 @@ h1 ul.ContextFunctions {
 }
 
 ul.ContextFunctions li {
-    float: left;
-    margin-left: -3px;
     padding-left: 3px;
 }
 
@@ -166,18 +174,10 @@ ul.ContextFunctions li span {
     float: right;
 }
 
-ul.ContextFunctions li.ContextHelp {
-    background: url(../img/tab_isolator.png) no-repeat center right;
-}
-
-.RTL ul.ContextFunctions li.ContextHelp {
-    background-position: center left;
-}
-
 ul.ContextFunctions li.ContextHelp a,
 ul.ContextFunctions li.ContextSettings a {
     display: block;
-    width: 21px;
+    width: 22px;
     height: 24px;
     padding: 0;
 }
@@ -185,7 +185,7 @@ ul.ContextFunctions li.ContextSettings a {
 ul.ContextFunctions li.ContextHelp a span,
 ul.ContextFunctions li.ContextSettings a span {
     display: block;
-    width: 21px;
+    width: 19px;
     height: 24px;
 }
 ul.ContextFunctions li.ContextHelp a span {
@@ -199,22 +199,12 @@ ul.ContextFunctions li.ContextSettings a span {
 .RTL ul.ContextFunctions li.ContextSettings a span {
     background-image: url(../img/arrow_outlined_left.png);
 }
-
-ul.ContextFunctions li.ContextSettings a:hover {
-    background: url(../img/overviewcontrol_hover1.png) no-repeat top right;
+    
+ul.ContextFunctions li.Last:hover > a,
+ul.ContextFunctions li:last-child:hover > a {
+    background-position: 50px 50px;
 }
-
-ul.ContextFunctions li.ContextSettings:hover {
-    background: url(../img/overviewcontrol_hover2.png) no-repeat top left;
-}
-
-ul.ContextFunctions li.ContextHelp a:hover {
-    background: url(../img/overviewcontrol_hover1.png) no-repeat top right;
-}
-
-ul.ContextFunctions li.ContextHelp:hover {
-    background: url(../img/overviewcontrol_hover2.png) no-repeat top left;
-}
+    
 
 /**
  * @subsection  Control Row DataSet Navigation (Previous / Next)
@@ -267,14 +257,6 @@ ul.ContextFunctions li.ContextHelp:hover {
     width: 24px;
 }
 
-.DataSetNavigation li:hover a {
-    background: url(../img/overviewcontrol_hover1.png) no-repeat top right;
-}
-
-.DataSetNavigation li:hover {
-    background: url(../img/overviewcontrol_hover2.png) no-repeat top left;
-}
-
 /**
  * @subsection  Control Row Headline
  */
@@ -316,9 +298,9 @@ ul.ContextFunctions li.ContextHelp:hover {
  * @subsection  Control Row Action Row
  */
 .ActionRow {
-    background: #777 url("../img/gradient_light.png") repeat-x;
-    border-top: 1px solid #CFCFCF;
-    border-bottom: 1px solid #636363;
+    background: #8C8C8C url("../img/gradient_light.png") repeat-x;
+    border-top: 1px solid #D6D6D6;
+    border-bottom: 1px solid #666;
     position: relative;
 }
 
@@ -332,15 +314,18 @@ ul.ContextFunctions li.ContextHelp:hover {
 }
 
 .Actions li {
-    float: left;
-    height: 15px;
-    line-height: 13px;
-    padding: 5px 3px 5px;
+    padding: 0 1px 0 3px;
     margin-left: -3px;
-    padding-left: 3px;
+    line-height: 13px;
+    font-size: 11px;
+    background: url("../img/tab_isolator.png") no-repeat right center;
+    float: left;
 }
 
 .RTL .Actions li {
+    margin-right: 0;
+    margin-left: -3px;
+    padding: 0 3px 0 1px;
     float: right;
 }
 
@@ -348,41 +333,55 @@ ul.ContextFunctions li.ContextHelp:hover {
     margin-left: 0px;
     padding-left: 0px;
 }
-
-.Actions li a {
-    font-size: 11px;
+    
+.RTL .Actions li:first-child {
+    margin-right: 0px;
+    padding-right: 0px;
 }
 
-.Actions li:last-child a,
-.Actions li.Last a {
-    background: none;
-}
-
-.Actions li.NoHover:hover {
+.Actions li:last-child,
+.Actions li.Last {
     background: none;
 }
 
 .Actions li a,
-.Actions li label {
-    color: #000000;
+.Actions li span {
+    padding: 7px 5px 8px;
+    color: #000;
     display: block;
-    padding-left: 8px;
-    padding-right: 8px;
-    background: transparent url(../img/tab_isolator.png) no-repeat center right;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
 }
-
-.Actions li label {
-    font-size: 11px;
-    cursor: pointer;
-    font-size: 11px;
-    margin-left: 20px;
+    
+.Actions li a:hover,
+.Actions li span:hover {
+    background: url("../img/action_hover.png") repeat-x 0 center;
+    background: -moz-linear-gradient(top, #FFE7BD, #FDC053 5px, #F6AD3E 50%, #F3980D 50%, #E77E06 95%, #DF6D05);
+    border-left: 1px solid #F6AE2C;
+    border-right: 1px solid #E2AD51;
+    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.46);
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.46);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.46);
+}       
+        
+.Actions li.NoHover:hover a {
+    background: none;
 }
 
 .Actions li input#SelectAllTickets {
-    float: left;
-    padding: 0;
-    margin-top: 0;
-    margin-left: 9px;
+    margin: 0 1px 0 4px;
+}
+    
+.RTL .Actions li input#SelectAllTickets {
+    margin: 0 4px 0 1px;
+}
+    
+.Actions li input#SelectAllTickets + label {
+    text-indent: -9999px;
+    display: inline-block;
 }
 
 .RTL .Actions li:first-child a {
@@ -392,20 +391,15 @@ ul.ContextFunctions li.ContextHelp:hover {
 .Actions li.Inactive a {
     color: #999;
     text-shadow: 1px 1px #FFF;
-}
-
-.Actions li.Inactive:hover {
-    background: none;
+    cursor: default;
 }
 
 .Actions li.Inactive:hover a {
-    background: url(../img/tab_isolator.png) no-repeat center right;
-    cursor: default;
-}
-
-.Actions li.Inactive.Last:hover a {
     background: none;
-    cursor: default;
+    border-color: transparent;
+    -moz-box-shadow: 0 0 0;
+    -webkit-box-shadow: 0 0 0;
+    box-shadow: 0 0 0;
 }
 
 .Actions form {
@@ -414,10 +408,6 @@ ul.ContextFunctions li.ContextHelp:hover {
 
 .Actions li select {
     font-size: 11px;
-}
-
-.OverviewActions {
-    height: 24px;
 }
 
 .Tab.Actions li {
@@ -455,39 +445,35 @@ ul.ContextFunctions li.ContextHelp:hover {
 /**
  * @subsection  LightRow
  */
-
-.Light.Header {
+ 
+.LightRow {
+    background: #999 url("../img/gradient_light.png") repeat-x;
     border: 1px solid #C6C5C4;
-    border-bottom: 1px solid #636363;
+    border-bottom: 1px solid #7C7C7C;
+}
+
+.LightRow.Header {
     -webkit-border-top-left-radius: 2px;
     -webkit-border-top-right-radius: 2px;
     -moz-border-radius-topleft: 2px;
     -moz-border-radius-topright: 2px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
+    position: relative;
 }
 
-.Collapsed .Light.Header {
+.Collapsed .LightRow.Header {
     border-bottom-color: #C6C5C4;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
 }
 
-.LightRow {
-    background: #999 url("../img/gradient_light.png") repeat-x;
-    border-bottom: 1px solid #7C7C7C;
-    position: relative;
-}
-
-.Collapsed .LightRow {
-    border-bottom: none;
-}
-
 .LightRow.Bottom {
     background-position: 0 -26px;
     border-top: 1px solid #F5F5F5;
     border-bottom: none;
+    border-bottom: 1px solid #636363;
 }
 
 .Collapsed .LightRow.Bottom {
@@ -503,7 +489,7 @@ ul.ContextFunctions li.ContextHelp:hover {
 }
     
 .Collapsed .LightRow h2 {
-    border: none;
+    border-bottom-color: #E6E6E6;
 }
 
 .LightRow .WidgetAction.Toggle {
@@ -513,10 +499,6 @@ ul.ContextFunctions li.ContextHelp:hover {
 .RTL .LightRow .WidgetAction.Toggle {
     margin-left: 6px;
     margin-right: 7px;
-}
-
-.LightRow .Actions {
-    padding: 2px 0;
 }
 
 /**
@@ -568,9 +550,7 @@ ul.ContextFunctions li.ContextHelp:hover {
 }
 
 div.Pagination {
-    height: 24px;
-    line-height: 24px;
-    padding-right: 10px;
+    padding: 8px 10px;
 }
 
 .RTL .Pagination {
@@ -593,10 +573,6 @@ form.Pagination a {
     height: 24px;
     width: 24px;
     display: block;
-}
-
-form.Pagination a:hover {
-    background: url(../img/overviewcontrol_hover2.png) no-repeat;
 }
 
 span.Pagination a {
