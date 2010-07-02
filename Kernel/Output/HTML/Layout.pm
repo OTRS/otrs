@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.270 2010-06-28 11:43:26 mg Exp $
+# $Id: Layout.pm,v 1.271 2010-07-02 09:34:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.270 $) [1];
+$VERSION = qw($Revision: 1.271 $) [1];
 
 =head1 NAME
 
@@ -2569,67 +2569,6 @@ sub NavigationBar {
     return $Output;
 }
 
-sub WindowTabStart {
-    my ( $Self, %Param ) = @_;
-
-    if ( !$Param{Tab} || ( $Param{Tab} && ref $Param{Tab} ne 'ARRAY' ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Need Tab as ARRAY ref in WindowTabStart()!',
-        );
-        $Self->FatalError();
-    }
-
-    $Self->Block(
-        Name => 'WindowTabStart',
-        Data => \%Param,
-    );
-
-    my @Tabs = @{ $Param{Tab} };
-    my $Size = int( 100 / ( $#Tabs + 1 ) );
-    for my $Hash (@Tabs) {
-        $Hash->{Size} = $Size;
-        if ( $Hash->{Ready} ) {
-            $Hash->{Image} = 'ready.png';
-        }
-        else {
-            $Hash->{Image} = 'notready.png';
-        }
-        $Self->Block(
-            Name => 'Tab',
-            Data => { %{$Hash}, },
-        );
-    }
-    return $Self->Output( TemplateFile => 'AgentWindowTab', Data => \%Param );
-}
-
-sub WindowTabStop {
-    my ( $Self, %Param ) = @_;
-
-    $Self->Block(
-        Name => 'WindowTabStop',
-        Data => \%Param,
-    );
-
-    if ( $Param{Layer0Footer} ) {
-        for my $Hash ( @{ $Param{Layer0Footer} } ) {
-            $Self->Block(
-                Name => 'Layer0Footer',
-                Data => { %{$Hash}, },
-            );
-        }
-    }
-    if ( $Param{Layer1Footer} ) {
-        for my $Hash ( @{ $Param{Layer1Footer} } ) {
-            $Self->Block(
-                Name => 'Layer1Footer',
-                Data => { %{$Hash}, },
-            );
-        }
-    }
-    return $Self->Output( TemplateFile => 'AgentWindowTab', Data => \%Param );
-}
-
 sub TransfromDateSelection {
     my ( $Self, %Param ) = @_;
 
@@ -4712,6 +4651,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.270 $ $Date: 2010-06-28 11:43:26 $
+$Revision: 1.271 $ $Date: 2010-07-02 09:34:35 $
 
 =cut
