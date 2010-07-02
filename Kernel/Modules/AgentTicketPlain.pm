@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPlain.pm - to get a plain view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPlain.pm,v 1.15 2010-07-02 05:01:38 dz Exp $
+# $Id: AgentTicketPlain.pm,v 1.16 2010-07-02 06:57:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,14 +91,14 @@ sub Run {
 
     # do some highlightings
     $Plain
-        =~ s/^((From|To|Cc|Bcc|Subject|Reply-To|Organization|X-Company):.*)/$1/gmi;
-    $Plain =~ s/^(Date:.*)/<FONT COLOR=777777>$1<\/font>/m;
+        =~ s/^((From|To|Cc|Bcc|Subject|Reply-To|Organization|X-Company):.*)/<span class="Error">$1<\/span>/gmi;
+    $Plain =~ s/^(Date:.*)/<span class="Error">$1<\/span>/m;
     $Plain
         =~ s/^((X-Mailer|User-Agent|X-OS):.*(Mozilla|Win?|Outlook|Microsoft|Internet Mail Service).*)/<span class="Error">$1<\/span>/gmi;
     $Plain
         =~ s/(^|^<blink>)((X-Mailer|User-Agent|X-OS|X-Operating-System):.*)/<span class="Error">$1$2<\/span>/gmi;
-    $Plain =~ s/^((Resent-.*):.*)/<span class="Notice">$1<\/span>/gmi;
-    $Plain =~ s/^(From .*)/<span class="Notice">$1<\/span>/gm;
+    $Plain =~ s/^((Resent-.*):.*)/<span class="Error">$1<\/span>/gmi;
+    $Plain =~ s/^(From .*)/<span class="Error">$1<\/span>/gm;
     $Plain =~ s/^(X-OTRS.*)/<span class="Error">$1<\/span>/gmi;
 
     my $Output = $Self->{LayoutObject}->Header(
