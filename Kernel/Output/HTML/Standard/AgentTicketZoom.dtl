@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.104 2010-07-02 06:37:51 fn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.105 2010-07-02 09:20:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -237,45 +237,44 @@
 <!-- dtl:block:CustomerTable -->
                 </div>
             </div>
+<!-- dtl:block:LinkTableSimple -->
             <div class="WidgetGradient Medium DontPrint">
                 <div class="Header">
                     <h2>$Text{"Linked Objects"}</h2>
                 </div>
                 <div class="Content">
 # object links
-<!-- dtl:block:LinkTableSimple -->
                     $Data{"LinkTableStrg"}
-<!-- dtl:block:LinkTableSimple -->
-
                 </div>
             </div>
+<!-- dtl:block:LinkTableSimple -->
         </div>
         <div class="ContentColumn">
-
 
             <div id="ArticleTree">
 $Data{"ArticleTree"}
             </div>
 
-
             <div id="ArticleItems">
 $Data{"ArticleItems"}
             </div>
+
+<!-- dtl:block:LinkTableComplex -->
+            <div class="WidgetGradient Medium DontPrint SpacingTop">
+                <div class="Header">
+                    <h2>$Text{"Linked Objects"}</h2>
+                </div>
+                <div class="Content">
+# object links
+                    $Data{"LinkTableStrg"}
+                </div>
+            </div>
+<!-- dtl:block:LinkTableComplex -->
 
         </div>
         <div class="Clear"></div>
     </div>
 
-<!-- dtl:block:LinkTableComplex -->
-    <hr size="2"/>
-    <table width="98%" align="center" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-            <td>
-                $Data{"LinkTableStrg"}
-            </td>
-        </tr>
-    </table>
-<!-- dtl:block:LinkTableComplex -->
 </div>
 <!-- dtl:block:Header -->
 
