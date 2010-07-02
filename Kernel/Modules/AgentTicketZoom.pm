@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.97 2010-05-24 09:21:55 mb Exp $
+# $Id: AgentTicketZoom.pm,v 1.98 2010-07-02 05:01:38 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1358,13 +1358,16 @@ sub _ArticleItem {
             LogNo    => 1,
         );
         if ($OK) {
+            my $Link
+                = 'Action=AgentTicketPlain;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}';
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleMenu',
                 Data => {
                     %Ticket, %Article, %AclAction,
                     Name => 'Plain Format',
-                    Link =>
-                        'Action=AgentTicketPlain;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
+                    Link => $Link,
+                    OnClick =>
+                        "onclick=\"Core.UI.Popup.OpenPopup('\?$Link', 'Action'); return false;\"",
                 },
             );
         }

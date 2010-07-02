@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.102 2010-06-30 17:28:56 dz Exp $
+# $Id: AgentTicketZoom.dtl,v 1.103 2010-07-02 05:01:39 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -378,7 +378,7 @@ $Data{"ArticleItems"}
                 <ul class="Actions">
 <!-- dtl:block:ArticleMenu-->
                     <li class="$QData{"Class"}">
-                        <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+                        <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}" $Data{"OnClick"}>$Text{"$Data{"Name"}"}</a>
                     </li>
 <!-- dtl:block:ArticleMenu-->
                 </ul>

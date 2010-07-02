@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPlain.pm - to get a plain view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPlain.pm,v 1.14 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketPlain.pm,v 1.15 2010-07-02 05:01:38 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,7 +56,7 @@ sub Run {
 
     # error screen, don't show ticket
     if ( !$Access ) {
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        return $Self->{LayoutObject}->NoPermission();
     }
 
     my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID} );
@@ -91,20 +91,19 @@ sub Run {
 
     # do some highlightings
     $Plain
-        =~ s/^((From|To|Cc|Bcc|Subject|Reply-To|Organization|X-Company):.*)/<font color=\"red\">$1<\/font>/gmi;
+        =~ s/^((From|To|Cc|Bcc|Subject|Reply-To|Organization|X-Company):.*)/$1/gmi;
     $Plain =~ s/^(Date:.*)/<FONT COLOR=777777>$1<\/font>/m;
     $Plain
-        =~ s/^((X-Mailer|User-Agent|X-OS):.*(Mozilla|Win?|Outlook|Microsoft|Internet Mail Service).*)/<blink>$1<\/blink>/gmi;
+        =~ s/^((X-Mailer|User-Agent|X-OS):.*(Mozilla|Win?|Outlook|Microsoft|Internet Mail Service).*)/<span class="Error">$1<\/span>/gmi;
     $Plain
-        =~ s/(^|^<blink>)((X-Mailer|User-Agent|X-OS|X-Operating-System):.*)/<font color=\"blue\">$1$2<\/font>/gmi;
-    $Plain =~ s/^((Resent-.*):.*)/<font color=\"green\">$1<\/font>/gmi;
-    $Plain =~ s/^(From .*)/<font color=\"gray\">$1<\/font>/gm;
-    $Plain =~ s/^(X-OTRS.*)/<font color=\"#99BBDD\">$1<\/font>/gmi;
+        =~ s/(^|^<blink>)((X-Mailer|User-Agent|X-OS|X-Operating-System):.*)/<span class="Error">$1$2<\/span>/gmi;
+    $Plain =~ s/^((Resent-.*):.*)/<span class="Notice">$1<\/span>/gmi;
+    $Plain =~ s/^(From .*)/<span class="Notice">$1<\/span>/gm;
+    $Plain =~ s/^(X-OTRS.*)/<span class="Error">$1<\/span>/gmi;
 
     my $Output = $Self->{LayoutObject}->Header(
-        Value => "$Article{TicketNumber} / $Self->{TicketID} / $Self->{ArticleID}"
+        Type => 'Small',
     );
-    $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketPlain',
         Data         => {
@@ -112,7 +111,7 @@ sub Run {
             %Article,
             }
     );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small', );
     return $Output;
 }
 

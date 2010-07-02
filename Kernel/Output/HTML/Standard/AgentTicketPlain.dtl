@@ -2,32 +2,40 @@
 # AgentTicketPlain.dtl - provides HTML plain article
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPlain.dtl,v 1.11 2010-06-30 17:28:56 dz Exp $
+# $Id: AgentTicketPlain.dtl,v 1.12 2010-07-02 05:01:39 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- start plain article -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td class="mainhead">
-            $Env{"Box0"}$Text{"Plain"} $Config{"Ticket::Hook"}: $QData{"TicketNumber"} / TicketID: $QData{"TicketID"} / ArticleID: $QData{"ArticleID"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="menu">
-            <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';">$Text{"Back"}</a>
-            - <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}" onmouseover="window.status='$JSText{"Download"}'; return true;" onmouseout="window.status='';">$Text{"Download"}</a>
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <div class="message">
-$Data{"Text"}
+<!-- Overview -->
+<div class="WidgetPopup ARIARoleMain">
+
+    <div class="Header">
+        <h1>$Text{"Email Text Plain View"}</h1>
+        <p>
+            <a href="">$Text{"Cancel & close window"}</a>
+        </p>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetGradient Short MinHeight">
+            <div class="Header">
+                <h2>
+                    $Text{"Plain"} $Config{"Ticket::Hook"}: $QData{"TicketNumber"} / TicketID: $QData{"TicketID"} / ArticleID: $QData{"ArticleID"}
+                    - <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;ArticleID=$LQData{"ArticleID"};TicketID=$LQData{"TicketID"}">$Text{"Download this email"}</a>
+                </h2>
             </div>
-        </td>
-    </tr>
-</table>
-<!-- end plain article -->
+
+            <div class="Content">
+                <p>
+                    $Data{"Text"}
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Overview -->
