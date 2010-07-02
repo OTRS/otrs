@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.103 2010-07-02 05:01:39 dz Exp $
+# $Id: AgentTicketZoom.dtl,v 1.104 2010-07-02 06:37:51 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -369,21 +369,19 @@ $Data{"ArticleItems"}
 <div>
     <a name="$QData{"ArticleID"}"></a>
     <div class="WidgetBox SpacingTop Expanded">
-        <div class="Light Header">
-            <div class="LightRow">
-                <div class="WidgetAction Toggle"><a href="#"><span></span></a></div>
-                <h2>#$QData{"Count"} &ndash; $QData{"Subject","60"}</h2>
-            </div>
-            <div class="LightRow Bottom">
-                <ul class="Actions">
+        <div class="LightRow Header">
+            <div class="WidgetAction Toggle"><a href="#"><span></span></a></div>
+            <h2>#$QData{"Count"} &ndash; $QData{"Subject","60"}</h2>
+        </div>
+        <div class="LightRow Bottom">
+            <ul class="Actions">
 <!-- dtl:block:ArticleMenu-->
-                    <li class="$QData{"Class"}">
-                        <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}" $Data{"OnClick"}>$Text{"$Data{"Name"}"}</a>
-                    </li>
+                <li class="$QData{"Class"}">
+                    <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}" $Data{"OnClick"}>$Text{"$Data{"Name"}"}</a>
+                </li>
 <!-- dtl:block:ArticleMenu-->
-                </ul>
-                <div class="ClearLeft"></div>
-            </div>
+            </ul>
+            <div class="ClearLeft"></div>
         </div>
         <div class="Content">
             <div class="ArticleMailHeader">
