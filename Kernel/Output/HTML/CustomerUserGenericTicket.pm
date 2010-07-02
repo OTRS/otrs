@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.13 2010-01-13 22:33:15 martin Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.14 2010-07-02 12:28:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -126,11 +126,11 @@ sub Run {
     for my $Key ( sort keys %TicketSearch ) {
         if ( ref $TicketSearch{$Key} eq 'ARRAY' ) {
             for my $Value ( @{ $TicketSearch{$Key} } ) {
-                $URL .= '&' . $Key . '=' . $Self->{LayoutObject}->LinkEncode($Value);
+                $URL .= ';' . $Key . '=' . $Self->{LayoutObject}->LinkEncode($Value);
             }
         }
         else {
-            $URL .= '&' . $Key . '=' . $Self->{LayoutObject}->LinkEncode( $TicketSearch{$Key} );
+            $URL .= ';' . $Key . '=' . $Self->{LayoutObject}->LinkEncode( $TicketSearch{$Key} );
         }
     }
 
