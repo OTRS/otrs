@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.31 2010-05-12 17:42:27 mp Exp $
+# $Id: AdminNotification.pm,v 1.32 2010-07-02 12:09:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Notification;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,7 +86,7 @@ sub Run {
             UserID      => $Self->{UserID},
         );
         if ( !$Update ) {
-            return $Self->{LayoutObject}->Error();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
         return $Self->{LayoutObject}->Redirect( OP => "Action=AdminNotification" );
     }

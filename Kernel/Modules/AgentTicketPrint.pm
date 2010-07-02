@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.72 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketPrint.pm,v 1.73 2010-07-02 12:09:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,7 +57,7 @@ sub Run {
 
     # check needed stuff
     if ( !$Self->{TicketID} || !$QueueID ) {
-        return $Self->{LayoutObject}->Error( Message => 'Need TicketID!' );
+        return $Self->{LayoutObject}->ErrorScreen( Message => 'Need TicketID!' );
     }
 
     # check permissions

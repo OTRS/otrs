@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.33 2010-05-19 06:54:42 mb Exp $
+# $Id: CustomerTicketPrint.pm,v 1.34 2010-07-02 12:09:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,11 +53,11 @@ sub Run {
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
-        return $Self->{LayoutObject}->Error( Message => 'Need TicketID!' );
+        return $Self->{LayoutObject}->ErrorScreen( Message => 'Need TicketID!' );
     }
     $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
     if ( !$QueueID ) {
-        return $Self->{LayoutObject}->Error( Message => 'Need TicketID!' );
+        return $Self->{LayoutObject}->ErrorScreen( Message => 'Need TicketID!' );
     }
 
     # check permissions
