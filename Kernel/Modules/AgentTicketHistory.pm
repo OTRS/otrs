@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.pm,v 1.16 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketHistory.pm,v 1.17 2010-07-02 18:09:42 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -123,8 +123,10 @@ sub Run {
     }
 
     # build page
-    my $Output = $Self->{LayoutObject}->Header( Value => $Tn );
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $Output = $Self->{LayoutObject}->Header(
+        Value => $Tn,
+        Type  => 'Small',
+    );
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketHistory',
         Data         => {
@@ -132,7 +134,7 @@ sub Run {
             TicketID     => $Self->{TicketID},
         },
     );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small', );
 
     return $Output;
 }
