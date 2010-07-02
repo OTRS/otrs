@@ -2,7 +2,7 @@
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBStart.dtl,v 1.9 2010-07-02 11:31:34 mg Exp $
+# $Id: InstallerDBStart.dtl,v 1.10 2010-07-02 11:59:21 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,12 +55,9 @@
                 </fieldset>
 
                 <fieldset class="TableLike Hidden HideMe">
-                    <div>
-                        <h4>
-                            $Text{"Database-User"} ($Text{"New"})
-                        </h4>
-                    </div>
-                    <div class="Clear"></div>
+                    <h4>
+                        $Text{"Database-User"} ($Text{"New"})
+                    </h4>
 
                     <label for="OTRSDBUser">$Text{"User"}:</label>
                     <div class="Field">
@@ -83,12 +80,9 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <div>
-                        <h4>
-                            $Text{"Database"}
-                        </h4>
-                    </div>
-                    <div class="Clear"></div>
+                    <h4>
+                        $Text{"Database"}
+                    </h4>
 
                     <label for="DBName">$Text{"Name"}:</label>
                     <div class="Field">
@@ -107,29 +101,17 @@
                 </fieldset>
 
                 <fieldset class="TableLike CheckDB">
-                    <div>
-                        <h4>
-                            $Text{"Check database settings"}
-                        </h4>
-                    </div>
-                    <div class="Clear"></div>
-
-                    <div class="Field">
+                    <div id="InstallerContinueWithJS" class="Field">
                         <button class="Primary" type="button" id="ButtonCheckDB" value="$Text{"Check database settings"}">$Text{"Check database settings"}</button>
                     </div>
                     <div class="Clear"></div>
                 </fieldset>
 
                 <fieldset class="TableLike Hidden ErrorMsg">
-                    <div>
-                        <h4>
-                            $Text{"Result of database check"}
-                        </h4>
-                    </div>
-                    <div class="Clear"></div>
+                    <h4>$Text{"Result of database check"}</h4>
 
                     <div class="Field">
-                        <p id="FormDBResultMessage"></p>
+                        <p id="FormDBResultMessage" class="Error"></p>
                         <p id="FormDBResultComment" class="FieldExplanation"></p>
                     </div>
                     <div class="Clear"></div>
@@ -148,5 +130,4 @@
     Core.UI.RegisterEvent('click',$('#ButtonCheckDB'),Core.Installer.CheckDBData);
 //]]></script>
 <!--dtl:js_on_document_complete-->
-
 <!-- dtl:block:DatabaseStart -->

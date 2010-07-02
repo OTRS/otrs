@@ -2,7 +2,7 @@
 # InstallerFinish.dtl - provides the Installer's finish screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerFinish.dtl,v 1.15 2010-07-02 11:31:34 mg Exp $
+# $Id: InstallerFinish.dtl,v 1.16 2010-07-02 11:59:21 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,11 +28,9 @@
                 <fieldset class="TableLike">
 
 <!-- dtl:block:Restart -->
-                    <div>
-                        <p>
-                            $Text{"To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root."}
-                        </p>
-                    </div>
+                    <p>
+                        $Text{"To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root."}
+                    </p>
                     <div class="Clear"></div>
 
                     <label>$Text{"Restart your webserver"}:</label>
@@ -41,11 +39,9 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <div>
-                        <p>
-                            $Text{"After doing so your OTRS is up and running."}
-                        </p>
-                    </div>
+                    <p>
+                        $Text{"After doing so your OTRS is up and running."}
+                    </p>
                     <div class="Clear"></div>
 <!-- dtl:block:Restart -->
 

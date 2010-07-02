@@ -1,0 +1,32 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Installer
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Installer
+ */
+
+@media screen,projection,tv,handheld {
+
+#InstallerContinueWithJS {
+    display: none;
+}
+
+div.License {
+   font-family: monospace;
+   white-space: pre;
+   border: 1px solid #000;
+   background-color: #FFF;
+   width: 600px;
+   height: 500px;
+   overflow-x: scroll;
+   text-align: left;
+   padding: 5px;
+   margin: auto;
+}
+
+} /* end @media */

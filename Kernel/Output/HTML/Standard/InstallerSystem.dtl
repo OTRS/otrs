@@ -2,7 +2,7 @@
 # InstallerSystem.dtl - provides the system data for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerSystem.dtl,v 1.16 2010-07-02 11:31:34 mg Exp $
+# $Id: InstallerSystem.dtl,v 1.17 2010-07-02 11:59:21 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,11 +59,9 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <div>
-                        <h4>
-                            $Text{"Log"}
-                        </h4>
-                    </div>
+                    <h4>
+                        $Text{"Log"}
+                    </h4>
                     <div class="Clear"></div>
 
                     <label for="LogModule">$Text{"LogModule"}:</label>
@@ -84,20 +82,9 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <div>
-                        <h4>
-                            $Text{"Webfrontend"}
-                        </h4>
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="DefaultCharset">$Text{"Default charset"}:</label>
-                    <div class="Field">
-                        <input type="text" id="DefaultCharset" name="DefaultCharset" value="$QData{"DefaultCharset"}" class="W33pc"/>
-                        <p class="FieldExplanation">
-                            $Text{"Use utf-8 it your database supports it!"}
-                        </p>
-                    </div>
+                    <h4>
+                        $Text{"Webfrontend"}
+                    </h4>
                     <div class="Clear"></div>
 
                     <label for="DefaultLanguage">$Text{"Default language"}:</label>
@@ -113,7 +100,7 @@
                     <div class="Field">
                         $Data{"SelectCheckMXRecord"}
                         <p class="FieldExplanation">
-                            $Text{"Checks MX recordes of used email addresses by composing an answer. Don't use CheckMXRecord if your OTRS machine is behinde a dial-up line $!"}
+                            $Text{"Checks MX recordes of used email addresses by composing an answer. Don't use CheckMXRecord if your OTRS machine is behind a dial-up line!"}
                         </p>
                     </div>
                     <div class="Clear"></div>

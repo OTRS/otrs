@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.11 2010-07-02 11:31:34 mg Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.12 2010-07-02 11:59:21 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,11 +27,9 @@
 
             <div class="Content">
                 <fieldset class="TableLike">
-                    <div>
-                        <h4>
-                            $Text{"Configure Outbound Mail"}
-                        </h4>
-                    </div>
+                    <h4>
+                        $Text{"Configure Outbound Mail"}
+                    </h4>
                     <div class="Clear"></div>
 
                     <label for="OutboundMailType">$Text{"Outbound mail type"}:</label>
@@ -44,7 +42,7 @@
                     <div class="Clear"></div>
                 </fieldset>
 
-                <fieldset class="TableLike infosmtp Hidden">
+                <fieldset class="TableLike" id="InfoSMTP">
                     <label for="SMTPHost">$Text{"SMTP host"}:</label>
                     <div class="Field">
                         <input type="text" id="SMTPHost" name="SMTPHost" value="$QData{"SMTPHost"}" class="W33pc"/>
@@ -64,7 +62,7 @@
                     <div class="Clear"></div>
                 </fieldset>
 
-                <fieldset class="TableLike infosmtpauth Hidden">
+                <fieldset class="TableLike Hidden" id="InfoSMTPAuth">
                     <label for="SMTPAuthUser">$Text{"SMTP auth user"}:</label>
                     <div class="Field">
                         <input type="text" id="SMTPAuthUser" name="SMTPAuthUser" value="$QData{"SMTPAuthUser"}" disabled="disabled" class="W33pc"/>
@@ -85,11 +83,9 @@
                 </fieldset>
 
                 <fieldset class="TableLike">
-                    <div>
-                        <h4>
-                            $Text{"Configure Inbound Mail"}
-                        </h4>
-                    </div>
+                    <h4>
+                        $Text{"Configure Inbound Mail"}
+                    </h4>
                     <div class="Clear"></div>
 
                     <label for="InboundMailType">$Text{"Inbound mail type"}:</label>
@@ -130,11 +126,9 @@
                 </fieldset>
 
                 <fieldset class="TableLike Hidden ErrorMsg">
-                    <div>
-                        <h4>
-                            $Text{"Result of mail configuration check"}
-                        </h4>
-                    </div>
+                    <h4>
+                        $Text{"Result of mail configuration check"}
+                    </h4>
                     <div class="Clear"></div>
 
                     <div class="Field">
@@ -145,7 +139,7 @@
                 </fieldset>
             </div>
 
-            <div class="SpacingTop Right">
+            <div id="InstallerContinueWithJS" class="SpacingTop Right">
                 <button class="Primary" type="button" id="ButtonCheckMail"  value="$Text{"Check mail configuration"}">$Text{"Check mail configuration"}</button>
                 <button type="button" id="ButtonSkipMail" value="$Text{"Skip this step"}">$Text{"Skip this step"}</button>
             </div>
@@ -154,12 +148,14 @@
 </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click',$('#ButtonCheckMail'),Core.Installer.CheckMailConfig);
-    Core.UI.RegisterEvent('click',$('#ButtonSkipMail'),Core.Installer.SkipMailConfig);
-    Core.UI.RegisterEvent('change',$('#SMTPAuth'),
-            function(){Core.Installer.CheckSMTPAuth($(this));});
-    Core.UI.RegisterEvent('change',$('#OutboundMailType'),
-            function(){Core.Installer.SelectOutboundMailType($(this));});
+    Core.UI.RegisterEvent('click', $('#ButtonCheckMail'), Core.Installer.CheckMailConfig);
+    Core.UI.RegisterEvent('click', $('#ButtonSkipMail'), Core.Installer.SkipMailConfig);
+    Core.UI.RegisterEvent('change', $('#SMTPAuth'), function () {
+        Core.Installer.CheckSMTPAuth($(this));
+    });
+    Core.UI.RegisterEvent('change',$('#OutboundMailType'), function () {
+        Core.Installer.SelectOutboundMailType($(this));
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:ConfigureMail-->

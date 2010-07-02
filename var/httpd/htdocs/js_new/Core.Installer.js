@@ -2,7 +2,7 @@
 // Core.Installer.js - provides the special module functions for Installer
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Installer.js,v 1.3 2010-06-23 20:46:46 mp Exp $
+// $Id: Core.Installer.js,v 1.4 2010-07-02 11:59:22 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -60,17 +60,17 @@ InstallerDBStart
 /*
 InstallerConfigureMail
 */
-    
+
     TargetNS.SelectOutboundMailType = function (obj) {
         var value = $(obj).val();
         if (value == "smtp") {
-            $('.infosmtp').show();
+            $('#InfoSMTP').show();
         }
         else {
-            $('.infosmtp, .infosmtpauth').hide().find('input[name=SMTPAuth]').removeAttr('checked');
+            $('#InfoSMTP, #InfoSMTPAuth').hide().find('input[name=SMTPAuth]').removeAttr('checked');
         }
     };
-    
+
     /**
      * @function
      * @return nothing
@@ -78,14 +78,14 @@ InstallerConfigureMail
      */
     TargetNS.CheckSMTPAuth = function (obj) {
         if ($(obj).is(':checked')) {
-            $('.infosmtpauth').show().find('input').removeAttr('disabled');
+            $('#InfoSMTPAuth').show().find('input').removeAttr('disabled');
         }
         else {
-            $('.infosmtpauth input').attr('disabled', 'disabled').val("");
-            $('.infosmtpauth').hide();
+            $('#InfoSMTPAuth input').attr('disabled', 'disabled').val("");
+            $('#InfoSMTPAuth').hide();
         }
     };
-    
+
     /**
      * @function
      * @return nothing
@@ -95,7 +95,7 @@ InstallerConfigureMail
         $('input[name=Skip]').val('1');
         $('form').submit();
     };
-    
+
     /**
      * @function
      * @return nothing

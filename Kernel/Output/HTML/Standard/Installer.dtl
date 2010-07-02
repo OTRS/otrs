@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.40 2010-07-02 11:31:33 mg Exp $
+# $Id: Installer.dtl,v 1.41 2010-07-02 11:59:21 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,24 +10,24 @@
 # --
 
 <div class="MainBox ARIARoleMain">
-    <noscript>
-    <div class="WidgetSimple">
-        <div class="Header">
-            <h2 class="Center">$Text{"JavaScript not available"}</h2>
-        </div>
-        <div class="Content">
-            <p class="SpacingTop Center">
-                $Text{"In order to experience OTRS, you'll need to enable JavaScript in your browser."}
-            </p>
-        </div>
-    </div>
-    </noscript>
-
-    <h1>$Text{"Web-Installer"}</h1>
-
 <!-- dtl:block:Message -->
     $Data{"Body"}
 <!-- dtl:block:Message -->
+
+    <div class="W33pc SpacingTop SpacingBottom CenterBox">
+        <noscript>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2 class="Center">$Text{"JavaScript not available"}</h2>
+            </div>
+            <div class="Content">
+                <p class="SpacingTop Center">
+                    $Text{"In order to experience OTRS, you'll need to enable JavaScript in your browser."}
+                </p>
+            </div>
+        </div>
+        </noscript>
+    </div>
 
 <!-- dtl:block:Intro -->
     <div class="Center">
@@ -62,11 +62,11 @@
             </div>
             <div class="Clear"></div>
         </div>
-        <div class="SpacingBottom Right">
+        <div id="InstallerContinueWithJS" class="SpacingBottom Right">
             <form action="$Env{"CGIHandle"}" method="post">
                 <input type="hidden" name="Action" value="Installer"/>
                 <input type="hidden" name="Subaction" value="License"/>
-                <button class="Primary" type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button
+                <button class="Primary" type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
             </form>
         </div>
     </div>
@@ -89,6 +89,7 @@ $Include{"InstallerFinish"}
     Core.Config.Set('Installer.CheckDBDataLabel' , '$JSText{"Database check successful."}');
     Core.Config.Set('Installer.CheckMailLabelOne', '$JSText{"Mail check successful."}');
     Core.Config.Set('Installer.CheckMailLabelTwo', '$JSText{"Error in the mail settings. Please correct and try again."}');
+    $('#InstallerContinueWithJS').show();
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
