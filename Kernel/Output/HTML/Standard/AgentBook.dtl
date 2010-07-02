@@ -2,7 +2,7 @@
 # AgentBook.dtl - provides HTML form for AgentBook
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentBook.dtl,v 1.18 2010-06-30 08:56:38 mn Exp $
+# $Id: AgentBook.dtl,v 1.19 2010-07-02 10:12:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,26 +14,6 @@
     <div class="Content">
         <h1>$Text{"Address Book"}</h1>
         <form id="AdressBook" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="Action" value="AgentBook" />
-            <fieldset class="TableLike">
-                <label>$Text{"To"}:</label>
-                <div class="Field">
-                    <input type="text" name="To" id="To" value="$QData{"To"}" class="W75pc" />
-                </div>
-                <div class="Clear"></div>
-                <label>$Text{"Cc"}:</label>
-                <div class="Field">
-                    <input type="text" name="Cc" id="Cc" value="$QData{"Cc"}" class="W75pc" />
-                </div>
-                <div class="Clear"></div>
-                <label>$Text{"Bcc"}:</label>
-                <div class="Field">
-                    <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc" />
-                </div>
-                <div class="Clear"></div>
-                <button type="button" id="Apply" value="$Text{"Apply"}">$Text{"Apply"}</button>
-                <button type="button" id="Cancel" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
-            </fieldset>
             <fieldset class="TableLike SpacingTop">
                 <input type="text" name="Search" id="Search" value="" class="W75pc" />
                 <input class="button" type="submit" value="$Text{"Search"}"/>
@@ -52,9 +32,9 @@
 <!-- dtl:block:Row -->
                     <tr id="Row$QData{"Count"}">
                         <td>$QData{"Name"}</td>
-                        <td><a href="" rel="To">$Text{"To"}</a></td>
-                        <td><a href="" rel="Cc">$Text{"Cc"}</a></td>
-                        <td><a href="" rel="Bcc">$Text{"Bcc"}</a></td>
+                        <td><a href="" rel="To" title="$Text{"Add mail adress %s to the To field", "$QData{"Email"}"}">$Text{"To"}</a></td>
+                        <td><a href="" rel="Cc" title="$Text{"Add mail adress %s to the Cc field", "$QData{"Email"}"}">$Text{"Cc"}</a></td>
+                        <td><a href="" rel="Bcc" title="$Text{"Add mail adress %s to the Bcc field", "$QData{"Email"}"}">$Text{"Bcc"}</a></td>
                     </tr>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
@@ -65,6 +45,26 @@
                 </tbody>
             </table>
 <!-- dtl:block:SearchResult -->
+            <input type="hidden" name="Action" value="AgentBook" />
+            <fieldset class="TableLike SpacingTop">
+                <label for="To">$Text{"To"}:</label>
+                <div class="Field">
+                    <input type="text" name="To" id="To" value="$QData{"To"}" class="W75pc" />
+                </div>
+                <div class="Clear"></div>
+                <label for="Cc">$Text{"Cc"}:</label>
+                <div class="Field">
+                    <input type="text" name="Cc" id="Cc" value="$QData{"Cc"}" class="W75pc" />
+                </div>
+                <div class="Clear"></div>
+                <label for="Bcc">$Text{"Bcc"}:</label>
+                <div class="Field">
+                    <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc" />
+                </div>
+                <div class="Clear"></div>
+                <button type="button" id="Apply" value="$Text{"Apply"}">$Text{"Apply"}</button>
+                <button type="button" id="Cancel" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
+            </fieldset>
         </form>
     </div>
 </div>
