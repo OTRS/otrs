@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -124,6 +124,20 @@ a.TrashCan:active,
 button.Reset:active {
     margin-top: 1px;
     margin-bottom: 0;
+}
+
+
+.GetAllAJAX {
+    width: 16px;
+    height: 16px;
+    margin-left: 3px;
+    text-indent: -9999px;
+    background: url(../img/reload.png);
+    display: inline-block;
+}
+
+.RTL .GetAllAJAX {
+    margin: 0 3px 0 0;
 }
 
 /**
