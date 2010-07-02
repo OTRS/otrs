@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.49 2010-07-02 11:31:34 mg Exp $
+# $Id: AgentDashboard.dtl,v 1.50 2010-07-02 12:28:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,7 +45,7 @@
         </div>
 
 <!-- dtl:block:ContentSmall -->
-        <div class="WidgetGradient CanDrag" id="Dashboard$QData{"Name"}-box">
+        <div class="WidgetSimple CanDrag" id="Dashboard$QData{"Name"}-box">
             <div class="Header">
                 <div class="ActionMenu">
 <!-- dtl:block:ContentSmallPreferences -->
@@ -116,7 +116,7 @@
 
     <div class="ContentColumn">
 <!-- dtl:block:ContentLarge -->
-        <div class="WidgetGradient CanDrag" id="Dashboard$QData{"Name"}-box">
+        <div class="WidgetSimple CanDrag" id="Dashboard$QData{"Name"}-box">
             <div class="Header">
                 <div class="ActionMenu">
                     <div class="WidgetAction Close">

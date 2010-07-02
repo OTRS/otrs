@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -30,7 +30,7 @@
  *          Form Label                          Grey
  * #888     AdminScreens Explanation Hover,
  *          Form FieldExplanation,
- *          WidgetGradient Headline font,
+ *          WidgetSimple Headline font,
  *          WidgetBox Headline font,
  *          Content Widget Rule BG,
  *          Overview Preview Info Tbl Label     Grey

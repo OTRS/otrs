@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -17,11 +17,11 @@
  * @subsubsection     General
  */
 
-.Admin .WidgetGradient > .Content {
+.Admin .WidgetSimple > .Content {
     padding: 2px 0 2px 2px;
 }
 
-.RTL .Admin .WidgetGradient > .Content {
+.RTL .Admin .WidgetSimple > .Content {
     padding: 2px 2px 2px 0;
 }
 
@@ -94,11 +94,11 @@
  * specific min-height for AdminNavigationBar rows
  */
 
-#Row1 .WidgetGradient {
+#Row1 .WidgetSimple {
     min-height: 196px;
 }
 
-#Row2 .WidgetGradient {
+#Row2 .WidgetSimple {
     min-height: 289px;
 }
 
