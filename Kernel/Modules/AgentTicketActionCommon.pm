@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.2 2010-06-18 18:15:49 en Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.3 2010-07-02 04:33:52 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -310,13 +310,21 @@ sub Run {
 
             # check subject
             if ( !$GetParam{Subject} ) {
-                $Error{'Subject invalid'} = '* invalid';
+                $Error{'SubjectInvalid'} = 'ServerError';
             }
 
             # check body
             if ( !$GetParam{Body} ) {
-                $Error{'Body invalid'} = '* invalid';
+                $Error{'BodyInvalid'} = 'ServerError';
             }
+        }
+
+        #check owner
+        if ( $GetParam{NewOwnerType} eq 'New' && !$GetParam{NewOwnerID} ) {
+            $Error{'NewOwnerInvalid'} = 'ServerError';
+        }
+        elsif ( $GetParam{NewOwnerType} eq 'Old' && !$GetParam{OldOwnerID} ) {
+            $Error{'OldOwnerInvalid'} = 'ServerError';
         }
 
         # check required FreeTextField (if configured)
@@ -326,14 +334,9 @@ sub Run {
             $Error{"TicketFreeTextField$Count invalid"} = '* invalid';
         }
 
-        # check if service is selected
-        if (
-            $Self->{ConfigObject}->Get('Ticket::Service')
-            && $GetParam{SLAID}
-            && !$GetParam{ServiceID}
-            )
-        {
-            $Error{'Service invalid'} = '* invalid';
+        #check if Title
+        if ( !$GetParam{Title} ) {
+            $Error{'TitleInvalid'} = 'ServerError';
         }
 
         # attachment delete
@@ -349,9 +352,10 @@ sub Run {
 
         # attachment upload
         if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+            %Error = ();
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
+                Param  => 'FileUpload',
                 Source => 'string',
             );
             $Self->{UploadCacheObject}->FormIDAddFile(
@@ -425,7 +429,12 @@ sub Run {
             my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->_Mask(
-                Attachments => \@Attachments,
+                Attachments       => \@Attachments,
+                TimeUnitsRequired => (
+                    $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+                    ? 'Validate_Required'
+                    : ''
+                ),
                 %Ticket,
                 %TicketFreeTextHTML,
                 %TicketFreeTimeHTML,
@@ -591,7 +600,7 @@ sub Run {
 
             # get submit attachment
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
+                Param  => 'FileUpload',
                 Source => 'String',
             );
             if (%UploadStuff) {
@@ -817,6 +826,11 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
+            TimeUnitsRequired => (
+                $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+                ? 'Validate_Required'
+                : ''
+            ),
             %GetParam,
             %Ticket,
             %TicketFreeTextHTML,
@@ -855,12 +869,11 @@ sub _Mask {
         $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => \%Type,
             Name         => 'TypeID',
+            Class        => 'Validate_RequiredDropdown',
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 0,
-            OnChange =>
-                "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
             Name => 'Type',
@@ -883,13 +896,12 @@ sub _Mask {
             Data         => \%Service,
             Name         => 'ServiceID',
             SelectedID   => $Param{ServiceID},
+            Class        => $Param{ServiceInvalid} || ' ',
             PossibleNone => 1,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
             Translation  => 0,
             Max          => 200,
-            OnChange =>
-                "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
             Name => 'Service',
@@ -911,8 +923,6 @@ sub _Mask {
             Sort         => 'AlphanumericValue',
             Translation  => 0,
             Max          => 200,
-            OnChange =>
-                "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
             Name => 'SLA',
@@ -949,6 +959,7 @@ sub _Mask {
             Data       => \%ShownUsers,
             SelectedID => $Param{NewOwnerID},
             Name       => 'NewOwnerID',
+            Class      => $Param{NewOwnerInvalid} || ' ',
             Size       => 10,
             OnClick    => "change_selected(0)",
         );
@@ -978,6 +989,7 @@ sub _Mask {
             Data       => \%UserHash,
             SelectedID => $OldOwnerSelectedID,
             Name       => 'OldOwnerID',
+            Class      => $Param{OldOwnerInvalid} || ' ',
             OnClick    => "change_selected(2)",
         );
         if ( $Param{NewOwnerType} && $Param{NewOwnerType} eq 'Old' ) {
