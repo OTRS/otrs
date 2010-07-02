@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.42 2010-06-29 22:47:15 dz Exp $
+# $Id: AgentTicketMove.dtl,v 1.43 2010-07-02 13:34:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -233,6 +233,22 @@ $Include{"RichTextEditor"}
                     <div class="Clear"></div>
 <!-- dtl:block:TicketFreeText -->
 
+# example of how to use fixed ticket freetext blocks for customizations
+#<!-- dtl:block:TicketFreeText1 -->
+#                        <label>$Data{"TicketFreeKeyField1"}:</label>
+#                        <div class="Field">
+#                            $Data{"TicketFreeTextField1"}
+#                        </div>
+#                        <div class="Clear"></div>
+#<!-- dtl:block:TicketFreeText1 -->
+#<!-- dtl:block:TicketFreeText2 -->
+#                        <label>$Data{"TicketFreeKeyField2"}:</label>
+#                        <div class="Field">
+#                            $Data{"TicketFreeTextField2"}
+#                        </div>
+#                        <div class="Clear"></div>
+#<!-- dtl:block:TicketFreeText2 -->
+
 <!-- dtl:block:TicketFreeTime -->
                     <label>$Data{"TicketFreeTimeKey"}:</label>
                     <div class="Field">
@@ -240,6 +256,22 @@ $Include{"RichTextEditor"}
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TicketFreeTime -->
+
+# example of how to use fixed ticket freetime blocks for customizations
+#<!-- dtl:block:TicketFreeTime1 -->
+#                        <label>$Data{"TicketFreeTimeKey1"}:</label>
+#                        <div class="Field">
+#                            $Data{"TicketFreeTime1"}
+#                        </div>
+#                        <div class="Clear"></div>
+#<!-- dtl:block:TicketFreeTime1 -->
+#<!-- dtl:block:TicketFreeTime2 -->
+#                        <label>$Data{"TicketFreeTimeKey2"}:</label>
+#                        <div class="Field">
+#                            $Data{"TicketFreeTime2"}
+#                        </div>
+#                        <div class="Clear"></div>
+#<!-- dtl:block:TicketFreeTime2 -->
 
 <!-- dtl:block:TimeUnits -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
