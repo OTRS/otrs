@@ -2,7 +2,7 @@
 # NoPermission.dtl.dtl - provides HTML NoPermission screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NoPermission.dtl,v 1.12 2010-06-15 08:20:07 mg Exp $
+# $Id: NoPermission.dtl,v 1.13 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,7 @@
 <div class="MainBox ARIARoleMain">
 
     <div class="W33pc CenterBox SpacingTopLarge SpacingBottomLarge">
-        <div class="WidgetGradient Medium">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Insufficient Rights"}</h2>
             </div>

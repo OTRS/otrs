@@ -2,7 +2,7 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.14 2010-05-19 08:55:07 fn Exp $
+# $Id: AdminPGP.dtl,v 1.15 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
     <div class="SidebarColumn">
 
 <!-- dtl:block:ActionList-->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header"><h2>$Text{"Actions"}</h2></div>
             <div class="Content">
                 <ul class="ActionList">
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header"><h2>$Text{"Note"}</h2></div>
             <div class="Content">
                 <p class="FieldExplanation">
@@ -64,7 +64,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
 
 <!-- dtl:block:OverviewResult -->
             <div class="Header">

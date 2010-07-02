@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -77,18 +77,19 @@ ul.Tablelike li.Header + li {
 }
 
 /**
- * @subsection  WidgetGradient
+ * @subsection  WidgetSimple
  */
-.WidgetGradient {
+.WidgetSimple {
     border: 1px solid #CCC;
     margin-bottom: 10px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
+    background: #eee url(../img/widget_bg_100.png) repeat-x;
 }
 
-.WidgetGradient > .Header,
-.WidgetGradient.Collapsed.AnimationRunning > .Header {
+.WidgetSimple > .Header,
+.WidgetSimple.Collapsed.AnimationRunning > .Header {
     padding: 2px 5px 3px;
     border: 1px solid #FFF;
     border-bottom: 1px solid #CCC;
@@ -101,23 +102,23 @@ ul.Tablelike li.Header + li {
     position: relative;
 }
 
-.WidgetGradient.Collapsed > .Header {
+.WidgetSimple.Collapsed > .Header {
     border-bottom: none;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
 }
 
-.WidgetGradient > .Header h2 {
+.WidgetSimple > .Header h2 {
     padding: 4px 3px;
     margin: 0;
 }
 
-.WidgetGradient.Loading > .Header h2 {
+.WidgetSimple.Loading > .Header h2 {
     background: url("../img/loader.gif") no-repeat right center;
 }
 
-.WidgetGradient > .Content {
+.WidgetSimple > .Content {
     padding: 8px 8px 13px;
     border: 1px solid #FFF;
     border-bottom: none;
@@ -129,31 +130,11 @@ ul.Tablelike li.Header + li {
     border-bottom-left-radius: 2px;
 }
 
-.WidgetGradient.Collapsed > .Content {
+.WidgetSimple.Collapsed > .Content {
     display: none;
 }
 
-.WidgetGradient.Short,
-.WidgetGradient.Medium,
-.WidgetGradient.Medium.MinHeight,
-.WidgetGradient.Long,
-.WidgetGradient.Long.MinHeight {
-    background: #eee url(../img/widget_bg_100.png) repeat-x;
-}
-
-.WidgetGradient.Short.MinHeight {
-    min-height: 100px;
-}
-
-.WidgetGradient.Medium.MinHeight {
-    min-height: 200px;
-}
-
-.WidgetGradient.Long.MinHeight {
-    min-height: 400px;
-}
-
-.WidgetGradient fieldset {
+.WidgetSimple fieldset {
     margin-bottom: 15px;
 }
 

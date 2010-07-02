@@ -2,14 +2,14 @@
 # Motd.dtl - provides HTML message of the day
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Motd.dtl,v 1.9 2010-05-19 13:50:04 mg Exp $
+# $Id: Motd.dtl,v 1.10 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="WidgetGradient Short MinHeight" id="MessageOfTheDayBox">
+<div class="WidgetSimple" id="MessageOfTheDayBox">
     <div class="Header">
         <h2 class="Center">$Text{"Message of the Day"}</h2>
     </div>

@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.53 2010-06-04 11:19:32 mn Exp $
+# $Id: Login.dtl,v 1.54 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,7 +52,7 @@ $Include{"Copyright"}
     <div class="MainBox ARIARoleMain">
         <div class="W33pc SpacingTopLarge SpacingBottomLarge CenterBox">
             <noscript>
-            <div class="WidgetGradient Short MinHeight">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2 class="Center">$Text{"JavaScript Not Available"}</h2>
                 </div>
@@ -63,7 +63,7 @@ $Include{"Copyright"}
                 </div>
                 </noscript>
 
-                <div class="WidgetGradient Short Hidden" id="OldBrowser">
+                <div class="WidgetSimple Hidden" id="OldBrowser">
                     <div class="Header">
                         <h2 class="Center">$Text{"Browser Warning"}</h2>
                     </div>
@@ -76,7 +76,7 @@ $Include{"Copyright"}
                     </div>
                 </div>
 
-                <div class="WidgetGradient Medium" id="LoginBox">
+                <div class="WidgetSimple" id="LoginBox">
                     <div class="Header">
                         <h2 class="Center">$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
                     </div>
@@ -129,7 +129,7 @@ $Include{"Copyright"}
                 </div>
 
 <!-- dtl:block:LostPassword -->
-                <div class="WidgetGradient Medium Hidden" id="PasswordBox">
+                <div class="WidgetSimple Hidden" id="PasswordBox">
                     <div class="Header">
                         <h2 class="Center">$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
                     </div>

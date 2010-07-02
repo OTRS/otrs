@@ -14,7 +14,7 @@
     <h1>$Text{"Manage Role-Group Relations"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterRoles">$Text{"Filter for Roles"}</label></h2>
             </div>
@@ -22,7 +22,7 @@
                 <input type="text" id="FilterRoles" class="W50pc" name="FilterUser" value="" title="$Text{"Filter for Roles"}"/>
             </div>
         </div>
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
             </div>
@@ -32,7 +32,7 @@
         </div>
     </div>
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Overview"}</h2>
             </div>
@@ -78,7 +78,7 @@
     <div class="SidebarColumn">
 
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -94,7 +94,7 @@
         </div>
 <!-- dtl:block:ActionList -->
 
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="Filter">$Text{"Filter"}</label></h2>
             </div>
@@ -102,7 +102,7 @@
                 <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
             </div>
         </div>
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>
                     $Text{"Note"}:
@@ -118,7 +118,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>
                     $Text{"Change %s Relations for %s", "$Data{"NeType"}", "$QData{"Type"}"}
@@ -173,7 +173,7 @@
                 </form>
             </div>
         </div>
-        <div class="WidgetGradient Short SpacingTop">
+        <div class="WidgetSimple SpacingTop">
             <div class="Header">
                 <h2>$Text{"Reference"}</h2>
             </div>

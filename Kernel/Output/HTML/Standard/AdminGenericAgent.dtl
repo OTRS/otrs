@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.68 2010-06-30 17:47:55 dz Exp $
+# $Id: AdminGenericAgent.dtl,v 1.69 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
     <h1>$Text{"Generic Agent"}</h1>
     <div class="SidebarColumn">
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinMeight">
+        <div class="WidgetSimple MinMeight">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -38,7 +38,7 @@
     <div class="ContentColumn">
 
 <!-- dtl:block:Overview -->
-        <div class="WidgetGradient Short MinMeight">
+        <div class="WidgetSimple MinMeight">
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
@@ -91,7 +91,7 @@
 
 <!-- dtl:block:Edit -->
         <form action="$Env{"CGIHandle"}" method="post" name="compose" class="Validate">
-            <div class="WidgetGradient Medium MinMeight">
+            <div class="WidgetSimple MinMeight">
                 <div class="Header">
                     <h2>$Text{"Job Settings"}</h2>
                 </div>
@@ -147,7 +147,7 @@
                     </div>
                 </div>
 
-                <div class="WidgetGradient Long SpacingTop MinMeight">
+                <div class="WidgetSimple SpacingTop MinMeight">
                     <div class="Header">
                         <h2>$Text{"Ticket Filter"}</h2>
                     </div>
@@ -433,7 +433,7 @@
                     </div>
                 </div>
 <!-- new options -->
-                <div class="WidgetGradient Long SpacingTop MinMeight">
+                <div class="WidgetSimple SpacingTop MinMeight">
                     <div class="Header">
                         <h2>$Text{"Ticket Action"}</h2>
                     </div>
@@ -520,7 +520,7 @@
                         </fieldset>
                     </div>
                 </div>
-                <div class="WidgetGradient Medium SpacingTop MinMeight">
+                <div class="WidgetSimple SpacingTop MinMeight">
                     <div class="Header">
                         <h2>$Text{"Ticket add note"}</h2>
                     </div>
@@ -559,7 +559,7 @@
                         </fieldset>
                     </div>
                 </div>
-                <div class="WidgetGradient Short SpacingTop MinMeight">
+                <div class="WidgetSimple SpacingTop MinMeight">
                     <div class="Header">
                         <h2>$Text{"Ticket Comands"}</h2>
                     </div>
@@ -592,7 +592,7 @@
                     </div>
                 </div>
 
-                <div class="WidgetGradient Medium SpacingTop MinMeight">
+                <div class="WidgetSimple SpacingTop MinMeight">
                     <div class="Header">
                         <h2>$Text{"Execute Custom Module"}</h2>
                     </div>
@@ -665,7 +665,7 @@
 <!-- dtl:block:Edit -->
 
 <!-- dtl:block:Result -->
-            <div class="WidgetGradient Short MinMeight">
+            <div class="WidgetSimple MinMeight">
                 <div class="Header">
                     <h2>$Text{"Results"}</h2>
                 </div>
@@ -694,7 +694,7 @@
                 </div>
             </div>
 <!-- dtl:block:ResultBlock -->
-            <div class="WidgetGradient Short SpacingTop MinMeight">
+            <div class="WidgetSimple SpacingTop MinMeight">
                 <div class="Header">
                     <h2>$Text{"Affected Tickets"}</h2>
                 </div>

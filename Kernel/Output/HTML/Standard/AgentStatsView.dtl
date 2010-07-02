@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.23 2010-06-29 19:31:50 dz Exp $
+# $Id: AgentStatsView.dtl,v 1.24 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <h1>$Text{"View"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
             </div>
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="ContentColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Stat Details"}</h2>
             </div>

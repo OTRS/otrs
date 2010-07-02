@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.66 2010-06-29 04:28:14 dz Exp $
+# $Id: AdminPackageManager.dtl,v 1.67 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,14 +13,14 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Package Manager"}</h1>
 
-    <div class="SidebarColumn Short">
+    <div class="SidebarColumn">
 
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
-                <ul class="ActionList MinHeight">
+                <ul class="ActionList">
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="ContentColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>
                     $Text{"Uninstall package"}
@@ -75,14 +75,14 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Package Manager"}</h1>
 
-    <div class="SidebarColumn Short">
+    <div class="SidebarColumn">
 
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
-                <ul class="ActionList MinHeight">
+                <ul class="ActionList">
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
@@ -91,7 +91,7 @@
         </div>
     </div>
     <div class="ContentColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>
                     $Text{"Reinstall package"}
@@ -138,12 +138,12 @@
     <h1>$Text{"Package Manager"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h3>
                 </div>
                 <div class="Content">
-                    <ul class="ActionList MinHeight">
+                    <ul class="ActionList">
                         <li>
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                         </li>
@@ -153,7 +153,7 @@
         </div>
         <div class="ContentColumn">
 
-            <div class="WidgetGradient Short MinHeight">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$QData{"Title"}</h2>
                 </div>
@@ -189,7 +189,7 @@
         <h1>$Text{"Package Manager"}</h1>
 
         <div class="SidebarColumn">
-            <div class="WidgetGradient Short MinHeight">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"Actions"}</h2>
                 </div>
@@ -224,7 +224,7 @@
         </div>
 
         <div class="ContentColumn">
-            <div class="WidgetGradient Medium MinHeight">
+            <div class="WidgetSimple">
 
                 <div class="Header">
                     <h2>$Text{"Online Repository"}</h2>
@@ -281,7 +281,7 @@
 
             <br/>
 
-            <div class="WidgetGradient Medium MinHeight">
+            <div class="WidgetSimple">
 
                 <div class="Header">
                     <h2>$Text{"Local Repository"}</h2>
@@ -353,13 +353,13 @@
         <h1>$Text{"Package Manager"}</h1>
 
         <div class="SidebarColumn">
-            <div class="WidgetGradient Short MinHeight">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"Actions"}</h2>
                 </div>
                 <div class="Content">
 
-                    <ul class="ActionList MinHeight">
+                    <ul class="ActionList">
 
                         <li>
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
@@ -399,7 +399,7 @@
 
 
         <div class="ContentColumn">
-            <div class="WidgetGradient Short MinHeight">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"Metadata"}</h2>
                 </div>
@@ -418,7 +418,7 @@
                     </fieldset>
                 </div>
             </div>
-            <div class="WidgetGradient Short MinHeight">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"Change Log"}</h2>
                 </div>
@@ -443,7 +443,7 @@
                     </table>
                 </div>
             </div>
-            <div class="WidgetGradient Short MinHeight">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"List of Files"}</h2>
                 </div>
@@ -489,7 +489,7 @@
                 </div>
             </div>
 <!-- dtl:block:PackageItemDatabase -->
-            <div class="WidgetGradient Short MinHeight SpacingTop">
+            <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <h2>$QData{"TagName"} ($QData{"Type"})</h2>
                 </div>
@@ -531,7 +531,7 @@
 
 
 <!-- dtl:block:PackageItemCode -->
-            <div class="WidgetGradient Short MinHeight SpacingTop">
+            <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <h2>$Text{"$Data{"Tag"}"} ($QData{"Type"})</h2>
                 </div>
@@ -541,7 +541,7 @@
             </div>
 <!-- dtl:block:PackageItemCode -->
 <!-- dtl:block:PackageItemIntro -->
-            <div class="WidgetGradient Short MinHeight SpacingTop">
+            <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <h2>$Text{"$Data{"Tag"}"} ($QData{"Type"}/$QData{"Lang"})</h2>
                 </div>
@@ -560,12 +560,12 @@
 
         <div class="SidebarColumn">
 
-            <div class="WidgetGradient Short MinHeight">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"Actions"}</h2>
                 </div>
                 <div class="Content">
-                    <ul class="ActionList MinHeight">
+                    <ul class="ActionList">
                         <li>
                             <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"}" class="CallForAction">
                                 <span>$Text{"Go to overview"}</span>
@@ -576,7 +576,7 @@
             </div>
         </div>
         <div class="ContentColumn">
-            <div class="WidgetGradient Short MinHeight">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>
                         $QData{"Name"}: $Text{"File differences for file %s", "$QData{"Location"}"}

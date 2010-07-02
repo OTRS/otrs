@@ -2,7 +2,7 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.20 2010-06-04 11:19:32 mn Exp $
+# $Id: AdminGroup.dtl,v 1.21 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,7 +57,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
     <div class="SidebarColumn">
 
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -86,7 +86,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
 <!-- dtl:block:ActionList -->
 
 
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
             </div>
@@ -105,7 +105,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
 <!-- dtl:block:OverviewResult -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>

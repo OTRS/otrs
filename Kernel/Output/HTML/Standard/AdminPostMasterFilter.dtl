@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.46 2010-06-17 11:46:43 fn Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.47 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
 
     <div class="SidebarColumn">
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -37,7 +37,7 @@
 <!-- dtl:block:ActionList -->
 
 
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Note"}:</h2>
             </div>
@@ -57,7 +57,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Medium MinHeight">
+        <div class="WidgetSimple">
 
 <!-- dtl:block:OverviewResult -->
             <div class="Header">
@@ -203,7 +203,7 @@
                 </form>
             </div>
 
-            <div class="WidgetGradient Short SpacingTop">
+            <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <h2>$Text{"Example"}</h2>
                 </div>

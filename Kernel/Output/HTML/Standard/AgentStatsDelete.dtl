@@ -2,7 +2,7 @@
 # AgentStatsDelete.dtl - provides HTML form for delete a Stats
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsDelete.dtl,v 1.14 2010-06-30 13:38:07 mg Exp $
+# $Id: AgentStatsDelete.dtl,v 1.15 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <div class="MainBox AriaRoleMain">
     <div class="W33pc SpacingTopLarge SpacingBottomLarge CenterBox">
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Delete stat"}</h2>
             </div>

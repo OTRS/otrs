@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.36 2010-05-24 18:44:59 mb Exp $
+# $Id: AdminSysConfig.dtl,v 1.37 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
     <div class="SidebarColumn">
 
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Long MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -81,7 +81,7 @@
     <div class="ContentColumn">
 
 <!-- dtl:block:Import -->
-        <div class="WidgetGradient Long MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Import Settings"}</h2>
             </div>
@@ -108,7 +108,7 @@
 <!-- dtl:block:Import -->
 
 <!-- dtl:block:ContentOverview -->
-        <div class="WidgetGradient Long MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Result"}</h2>
             </div>

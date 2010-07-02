@@ -2,7 +2,7 @@
 # AdminSecureMode.dtl - provides HTML for secure mode message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSecureMode.dtl,v 1.5 2010-07-01 10:02:24 mg Exp $
+# $Id: AdminSecureMode.dtl,v 1.6 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <div class="MainBox AriaRoleMain">
     <div class="W33pc SpacingTopLarge SpacingBottomLarge CenterBox">
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Secure mode needs to be enabled!"}</h2>
             </div>

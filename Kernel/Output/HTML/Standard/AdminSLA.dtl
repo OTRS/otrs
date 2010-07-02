@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.32 2010-06-29 19:31:51 dz Exp $
+# $Id: AdminSLA.dtl,v 1.33 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
     <div class="SidebarColumn">
 
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Medium MinHeight">
+        <div class="WidgetSimple">
 <!-- dtl:block:OverviewList -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>

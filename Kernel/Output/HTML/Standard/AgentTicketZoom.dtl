@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.105 2010-07-02 09:20:47 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.106 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,7 +43,7 @@
 
     <div class="LayoutFixedSidebar SidebarLast">
         <div class="SidebarColumn">
-            <div class="WidgetGradient Medium">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>Ticket Information</h2>
                 </div>
@@ -226,7 +226,7 @@
                     </fieldset>
                 </div>
             </div>
-            <div class="WidgetGradient Medium">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"Customer Information"}</h2>
                 </div>
@@ -238,7 +238,7 @@
                 </div>
             </div>
 <!-- dtl:block:LinkTableSimple -->
-            <div class="WidgetGradient Medium DontPrint">
+            <div class="WidgetSimple DontPrint">
                 <div class="Header">
                     <h2>$Text{"Linked Objects"}</h2>
                 </div>
@@ -260,7 +260,7 @@ $Data{"ArticleItems"}
             </div>
 
 <!-- dtl:block:LinkTableComplex -->
-            <div class="WidgetGradient Medium DontPrint SpacingTop">
+            <div class="WidgetSimple DontPrint SpacingTop">
                 <div class="Header">
                     <h2>$Text{"Linked Objects"}</h2>
                 </div>

@@ -16,7 +16,7 @@
     <div class="SidebarColumn">
 
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -33,7 +33,7 @@
 <!-- dtl:block:ActionList -->
 
 <!-- dtl:block:UserFilter -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterUsers">$Text{"Filter for Agents"}</label></h2>
             </div>
@@ -43,7 +43,7 @@
         </div>
 <!-- dtl:block:UserFilter -->
 <!-- dtl:block:GroupFilter -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterGroups">$Text{"Filter for Groups"}</label></h2>
             </div>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
 
 <!-- dtl:block:OverviewResult -->
             <div class="Header">
@@ -152,7 +152,7 @@
         </div>
 
 <!-- dtl:block:ChangeReference -->
-        <div class="WidgetGradient Short SpacingTop MinHeight">
+        <div class="WidgetSimple SpacingTop">
             <div class="Header">
                 <h2>$Text{"Reference"}</h2>
             </div>

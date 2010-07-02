@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.18 2010-06-29 04:28:14 dz Exp $
+# $Id: AdminNotification.dtl,v 1.19 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ $Include{"RichTextEditor"}
 <!-- start form -->
     <div class="SidebarColumn">
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -34,7 +34,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:ActionList -->
 
 <!-- dtl:block:LanguageFilter -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterLanguage">$Text{"Filter for Language"}</label></h2>
             </div>
@@ -52,7 +52,7 @@ $Include{"RichTextEditor"}
         </div>
 <!-- dtl:block:LanguageFilter -->
 <!-- dtl:block:NotificationFilter -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterNotification">$Text{"Filter for Notification"}</label></h2>
             </div>
@@ -70,7 +70,7 @@ $Include{"RichTextEditor"}
         </div>
 <!-- dtl:block:NotificationFilter -->
 
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
             </div>
@@ -82,7 +82,7 @@ $Include{"RichTextEditor"}
         </div>
     </div>
     <div class="ContentColumn">
-        <div class="WidgetGradient Medium MinHeight">
+        <div class="WidgetSimple">
 <!-- dtl:block:OverviewResult -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>
@@ -156,7 +156,7 @@ $Include{"RichTextEditor"}
         </div>
 <!-- end form -->
 <!-- start note -->
-        <div class="WidgetGradient Short SpacingTop MinHeight">
+        <div class="WidgetSimple SpacingTop">
             <div class="Header">
                 <h2>$Text{"Reference"}</h2>
             </div>

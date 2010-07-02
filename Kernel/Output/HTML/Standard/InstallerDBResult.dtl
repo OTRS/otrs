@@ -2,7 +2,7 @@
 # InstallerDBResult.dtl - provides the status of the new DB for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBResult.dtl,v 1.5 2010-06-17 16:59:48 mp Exp $
+# $Id: InstallerDBResult.dtl,v 1.6 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@
     <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="Installer"/>
 
-        <div class="WidgetGradient Medium">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"$Data{"Item"}"} ($Data{"Step"})</h2>
             </div>

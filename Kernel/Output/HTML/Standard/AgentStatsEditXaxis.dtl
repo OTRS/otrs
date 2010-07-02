@@ -2,7 +2,7 @@
 # AgentStatsEditXaxis.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditXaxis.dtl,v 1.24 2010-07-01 13:34:19 mg Exp $
+# $Id: AgentStatsEditXaxis.dtl,v 1.25 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
     </div>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -28,7 +28,7 @@
                 </ul>
             </div>
         </div>
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
             </div>
@@ -45,7 +45,7 @@
     <div class="ContentColumn">
 
 
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Select the element that will be used at the X-axis"} (2/4)</h2>
             </div>

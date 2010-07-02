@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.30 2010-06-04 11:19:32 mn Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.31 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@
 
     <div class="SidebarColumn">
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -59,7 +59,7 @@
         </div>
 <!-- dtl:block:ActionList -->
 <!-- dtl:block:Filter -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterServices">$Text{"Filter for Services"}</label></h2>
             </div>
@@ -78,7 +78,7 @@
 <!-- dtl:block:Filter -->
     </div>
     <div class="ContentColumn">
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
 <!-- dtl:block:Result -->
             <div class="Header">
                 <h2>$Text{"Search Result:"}</h2>

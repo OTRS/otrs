@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.25 2010-06-30 15:47:14 dz Exp $
+# $Id: AdminMailAccount.dtl,v 1.26 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
     <div class="SidebarColumn">
 
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -35,7 +35,7 @@
             </div>
         </div>
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
             </div>
@@ -51,7 +51,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Medium MinHeight">
+        <div class="WidgetSimple">
 <!-- dtl:block:OverviewResult -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>

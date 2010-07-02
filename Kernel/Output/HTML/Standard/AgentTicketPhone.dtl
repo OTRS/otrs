@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.85 2010-07-02 09:47:56 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.86 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ $Include{"AgentCustomerSearch"}
         <div class="Content">
             <div class="LayoutFixedSidebar SidebarLast">
 <!-- dtl:block:CustomerTable -->
-                <div id="CustomerInfo" class="SidebarColumn WidgetGradient Short">
+                <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
                     <div class="Header">
                         <h2>$Text{"Customer Information"}</h2>
                     </div>

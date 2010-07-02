@@ -2,7 +2,7 @@
 # AdminResponseAttachment.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.dtl,v 1.15 2010-06-04 11:19:32 mn Exp $
+# $Id: AdminResponseAttachment.dtl,v 1.16 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
 
     <div class="SidebarColumn">
 
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
 <!-- dtl:block:ActionList -->
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
@@ -35,7 +35,7 @@
     <div class="ContentColumn">
 
 <!-- dtl:block:OverviewResult-->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Overview"}</h2>
             </div>
@@ -79,7 +79,7 @@
 <!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:Change -->
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>
                     $Text{"Change %s Relations for %s", "$QData{"VisibleNeType"}", "$QData{"VisibleType"}"}

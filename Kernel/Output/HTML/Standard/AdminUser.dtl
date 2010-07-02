@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.23 2010-06-18 19:59:15 dz Exp $
+# $Id: AdminUser.dtl,v 1.24 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
     <div class="SidebarColumn">
 
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -41,7 +41,7 @@
 <!-- dtl:block:ActionList -->
 
 <!-- dtl:block:UserFilter -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterUser">$Text{"Filter for Agents"}</label></h2>
             </div>
@@ -59,7 +59,7 @@
         </div>
 <!-- dtl:block:UserFilter -->
 
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
             </div>
@@ -76,7 +76,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
 <!-- dtl:block:OverviewHeader -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>

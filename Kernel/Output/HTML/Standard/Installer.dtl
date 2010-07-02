@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.39 2010-06-24 20:37:28 mp Exp $
+# $Id: Installer.dtl,v 1.40 2010-07-02 11:31:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <div class="MainBox ARIARoleMain">
     <noscript>
-    <div class="WidgetGradient Short MinHeight">
+    <div class="WidgetSimple">
         <div class="Header">
             <h2 class="Center">$Text{"JavaScript not available"}</h2>
         </div>
@@ -34,7 +34,7 @@
         <img border="0" src="$Config{"Frontend::ImagePath"}installer-start.png" alt="" />
     </div>
     <div class="W33pc SpacingTop SpacingBottom CenterBox">
-        <div class="WidgetGradient Medium SpacingTop" id="WebInstallerBox">
+        <div class="WidgetSimple SpacingTop" id="WebInstallerBox">
             <div class="Header">
                 <h2 class="Center">$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
             </div>

@@ -16,7 +16,7 @@
     <div class="SidebarColumn">
 
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -33,7 +33,7 @@
 <!-- dtl:block:ActionList -->
 
 <!-- dtl:block:FilterQueues -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterQueues">$Text{"Filter for Queues"}</label></h2>
             </div>
@@ -43,7 +43,7 @@
         </div>
 <!-- dtl:block:FilterQueues -->
 <!-- dtl:block:FilterAutoResponses -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterAutoResponses">$Text{"Filter for Auto Responses"}</label></h2>
             </div>
@@ -56,7 +56,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
 
 <!-- dtl:block:OverviewResult -->
             <div class="Header">

@@ -14,7 +14,7 @@
     <h1>$Text{"Manage Role-Agent Relations"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterUsers">$Text{"Filter for Agents"}</label></h2>
             </div>
@@ -22,7 +22,7 @@
                 <input type="text" id="FilterUsers" class="W50pc" name="FilterUsers" value=""  title="$Text{"Filter for Agents"}"/>
             </div>
         </div>
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterRoles">$Text{"Filter for Roles"}</label></h2>
             </div>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Overview"}</h2>
             </div>
@@ -77,7 +77,7 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Manage Role-Agent Relations"}</h1>
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -89,7 +89,7 @@
                 </ul>
             </div>
         </div>
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>
                     <label for="Filter">$Text{"Filter"}</label>
@@ -102,7 +102,7 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>
                     $Text{"Change %s Relations for %s", "$Data{"VisibleNeType"}", "$QData{"VisibleType"}"}

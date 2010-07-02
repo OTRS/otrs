@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.101 2010-07-02 09:47:56 mg Exp $
+# $Id: AgentTicketEmail.dtl,v 1.102 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ $Include{"AgentCustomerSearch"}
             <div class="LayoutFixedSidebar SidebarLast">
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-                <div id="CustomerInfo" class="SidebarColumn WidgetGradient Short">
+                <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
                     <div class="Header">
                         <h2>$Text{"Customer Information"}</h2>
                     </div>

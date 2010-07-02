@@ -2,7 +2,7 @@
 # AdminSignature.dtl - provides HTML form for AdminSignature
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.dtl,v 1.18 2010-05-19 08:55:08 fn Exp $
+# $Id: AdminSignature.dtl,v 1.19 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ $Include{"RichTextEditor"}
 
     <div class="SidebarColumn">
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -43,7 +43,7 @@ $Include{"RichTextEditor"}
     </div>
     <div class="ContentColumn">
 <!-- dtl:block:OverviewResult -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
@@ -83,7 +83,7 @@ $Include{"RichTextEditor"}
         </div>
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
 <!-- dtl:block:HeaderAdd -->
                 <h2>$Text{"Add Signature"}</h2>
@@ -133,7 +133,7 @@ $Include{"RichTextEditor"}
                 </form>
             </div>
         </div>
-        <div class="WidgetGradient Short SpacingTop MinHeight">
+        <div class="WidgetSimple SpacingTop">
             <div class="Header">
                 <h2>$Text{"Note"}</h2>
             </div>

@@ -2,7 +2,7 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.22 2010-06-18 19:59:15 dz Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.23 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
 
     <div class="SidebarColumn">
 <!-- dtl:block:ActionList -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -39,7 +39,7 @@
 
     <div class="ContentColumn">
 <!-- dtl:block:OverviewResult -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
@@ -82,7 +82,7 @@
 <!-- dtl:block:OverviewResult -->
 
 <!-- dtl:block:OverviewUpdate -->
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
 <!-- dtl:block:HeaderAdd -->
                 <h2>$Text{"Add Notification"}</h2>
@@ -313,7 +313,7 @@
         </div>
 
 
-        <div class="WidgetGradient Short SpacingTop MinHeight">
+        <div class="WidgetSimple SpacingTop">
             <div class="Header">
                 <h2>$Text{"Reference"}</h2>
             </div>

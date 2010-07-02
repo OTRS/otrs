@@ -2,7 +2,7 @@
 # AdminQueue.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.dtl,v 1.15 2010-05-18 14:11:45 fn Exp $
+# $Id: AdminQueue.dtl,v 1.16 2010-07-02 11:31:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <h1>$Text{"Manage Queues"}</h1>
 
     <div class="SidebarColumn">
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
 
 <!-- dtl:block:ActionList -->
             <div class="Header">
@@ -45,7 +45,7 @@
     <div class="ContentColumn">
 
 <!-- dtl:block:OverviewResult -->
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
@@ -88,7 +88,7 @@
 <!-- dtl:block:OverviewResult -->
 
 <!-- dtl:block:OverviewUpdate -->
-        <div class="WidgetGradient Short">
+        <div class="WidgetSimple">
             <div class="Header">
 <!-- dtl:block:HeaderAdd -->
                 <h2>$Text{"Add Queue"}</h2>

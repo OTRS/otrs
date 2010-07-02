@@ -2,7 +2,7 @@
 # AgentTicketPlain.dtl - provides HTML plain article
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPlain.dtl,v 1.13 2010-07-02 06:57:48 mg Exp $
+# $Id: AgentTicketPlain.dtl,v 1.14 2010-07-02 11:31:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@
 
     <div class="Content">
 
-        <div class="WidgetGradient Short MinHeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>
                     $Text{"Plain"} $Config{"Ticket::Hook"}: $QData{"TicketNumber"} / TicketID: $QData{"TicketID"} / ArticleID: $QData{"ArticleID"}
