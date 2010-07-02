@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.51 2010-06-11 18:47:47 en Exp $
+# $Id: AgentTicketMove.pm,v 1.52 2010-07-02 22:33:16 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -100,135 +100,143 @@ sub Run {
 
     # get params
     my %GetParam;
-    for (
-        qw(Subject Body TimeUnits
-        NewUserID OldUserID NewStateID NewPriorityID
-        UserSelection OwnerAll NoSubmit DestQueueID DestQueue
-        )
-        )
-    {
-        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-    }
-
-    # get ticket free text params
-    for my $Count ( 1 .. 16 ) {
-        my $Key  = 'TicketFreeKey' . $Count;
-        my $Text = 'TicketFreeText' . $Count;
-        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
-        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
-        if ( !defined $GetParam{"TicketFreeKey$_"} && $Ticket{"TicketFreeKey$_"} ) {
-            $GetParam{"TicketFreeKey$_"} = $Ticket{"TicketFreeKey$_"};
-        }
-        if ( !defined $GetParam{"TicketFreeText$_"} && $Ticket{"TicketFreeText$_"} ) {
-            $GetParam{"TicketFreeText$_"} = $Ticket{"TicketFreeText$_"};
-        }
-    }
-
-    # get ticket free time params
-    FREETIMENUMBER:
-    for my $FreeTimeNumber ( 1 .. 6 ) {
-
-        # create freetime prefix
-        my $FreeTimePrefix = 'TicketFreeTime' . $FreeTimeNumber;
-
-        # get form params
-        for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ $FreeTimePrefix . $Type }
-                = $Self->{ParamObject}->GetParam( Param => $FreeTimePrefix . $Type );
-        }
-
-        # set additional params
-        $GetParam{ $FreeTimePrefix . 'Optional' } = 1;
-        $GetParam{ $FreeTimePrefix . 'Used' } = $GetParam{ $FreeTimePrefix . 'Used' } || 0;
-        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $FreeTimeNumber ) ) {
-            $GetParam{ $FreeTimePrefix . 'Optional' } = 0;
-            $GetParam{ $FreeTimePrefix . 'Used' }     = 1;
-        }
-
-        # check the timedata
-        my $TimeDataComplete = 1;
-        TYPE:
-        for my $Type (qw(Used Year Month Day Hour Minute)) {
-            next TYPE if defined $GetParam{ $FreeTimePrefix . $Type };
-
-            $TimeDataComplete = 0;
-            last TYPE;
-        }
-
-        next FREETIMENUMBER if $TimeDataComplete;
-
-        if ( !$Ticket{$FreeTimePrefix} ) {
-
-            for my $Type (qw(Used Year Month Day Hour Minute)) {
-                delete $GetParam{ $FreeTimePrefix . $Type };
-            }
-
-            next FREETIMENUMBER;
-        }
-
-        # get freetime data from ticket
-        my $TicketFreeTimeString
-            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Ticket{$FreeTimePrefix} );
-        my ( $Second, $Minute, $Hour, $Day, $Month, $Year )
-            = $Self->{TimeObject}->SystemTime2Date( SystemTime => $TicketFreeTimeString );
-
-        $GetParam{ $FreeTimePrefix . 'UsedFromTicket' } = 1;
-        $GetParam{ $FreeTimePrefix . 'Used' }           = 1;
-        $GetParam{ $FreeTimePrefix . 'Minute' }         = $Minute;
-        $GetParam{ $FreeTimePrefix . 'Hour' }           = $Hour;
-        $GetParam{ $FreeTimePrefix . 'Day' }            = $Day;
-        $GetParam{ $FreeTimePrefix . 'Month' }          = $Month;
-        $GetParam{ $FreeTimePrefix . 'Year' }           = $Year;
-    }
-
-    # transform pending time, time stamp based on user time zone
-    if (
-        defined $GetParam{Year}
-        && defined $GetParam{Month}
-        && defined $GetParam{Day}
-        && defined $GetParam{Hour}
-        && defined $GetParam{Minute}
-        )
-    {
-        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
-            %GetParam,
-        );
-    }
-
-    # transform free time, time stamp based on user time zone
-    for my $Count ( 1 .. 6 ) {
-        my $Prefix = 'TicketFreeTime' . $Count;
-        next if $GetParam{ $Prefix . 'UsedFromTicket' };
-        next if !defined $GetParam{ $Prefix . 'Year' };
-        next if !defined $GetParam{ $Prefix . 'Month' };
-        next if !defined $GetParam{ $Prefix . 'Day' };
-        next if !defined $GetParam{ $Prefix . 'Hour' };
-        next if !defined $GetParam{ $Prefix . 'Minute' };
-        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
-            %GetParam,
-            Prefix => $Prefix
-        );
-    }
-
-    # error handling
     my %Error;
-    if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
-        $Error{AttachmentUpload} = 1;
-    }
 
-    # check subject if body exists
-    if ( $GetParam{Body} && !$GetParam{Subject} ) {
-        $Error{'Subject invalid'} = 'invalid';
-    }
-
-    # check required FreeTextField (if configured)
-    for ( 1 .. 16 ) {
-        if (
-            $Self->{Config}->{'TicketFreeText'}->{$_} == 2
-            && $GetParam{"TicketFreeText$_"} eq ''
+    if ( $Self->{Subaction} eq 'MoveTicket' ) {
+        for (
+            qw(Subject Body TimeUnits
+            NewUserID OldUserID NewStateID NewPriorityID
+            UserSelection OwnerAll NoSubmit DestQueueID DestQueue
+            )
             )
         {
-            $Error{"TicketFreeTextField$_ invalid"} = '* invalid';
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        }
+
+        # get ticket free text params
+        for my $Count ( 1 .. 16 ) {
+            my $Key  = 'TicketFreeKey' . $Count;
+            my $Text = 'TicketFreeText' . $Count;
+            $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+            $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+            if ( !defined $GetParam{"TicketFreeKey$_"} && $Ticket{"TicketFreeKey$_"} ) {
+                $GetParam{"TicketFreeKey$_"} = $Ticket{"TicketFreeKey$_"};
+            }
+            if ( !defined $GetParam{"TicketFreeText$_"} && $Ticket{"TicketFreeText$_"} ) {
+                $GetParam{"TicketFreeText$_"} = $Ticket{"TicketFreeText$_"};
+            }
+        }
+
+        # get ticket free time params
+        FREETIMENUMBER:
+        for my $FreeTimeNumber ( 1 .. 6 ) {
+
+            # create freetime prefix
+            my $FreeTimePrefix = 'TicketFreeTime' . $FreeTimeNumber;
+
+            # get form params
+            for my $Type (qw(Used Year Month Day Hour Minute)) {
+                $GetParam{ $FreeTimePrefix . $Type }
+                    = $Self->{ParamObject}->GetParam( Param => $FreeTimePrefix . $Type );
+            }
+
+            # set additional params
+            $GetParam{ $FreeTimePrefix . 'Optional' } = 1;
+            $GetParam{ $FreeTimePrefix . 'Used' } = $GetParam{ $FreeTimePrefix . 'Used' } || 0;
+            if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $FreeTimeNumber ) ) {
+                $GetParam{ $FreeTimePrefix . 'Optional' } = 0;
+                $GetParam{ $FreeTimePrefix . 'Used' }     = 1;
+            }
+
+            # check the timedata
+            my $TimeDataComplete = 1;
+            TYPE:
+            for my $Type (qw(Used Year Month Day Hour Minute)) {
+                next TYPE if defined $GetParam{ $FreeTimePrefix . $Type };
+
+                $TimeDataComplete = 0;
+                last TYPE;
+            }
+
+            next FREETIMENUMBER if $TimeDataComplete;
+
+            if ( !$Ticket{$FreeTimePrefix} ) {
+                for my $Type (qw(Used Year Month Day Hour Minute)) {
+                    delete $GetParam{ $FreeTimePrefix . $Type };
+                }
+                next FREETIMENUMBER;
+            }
+
+            # get freetime data from ticket
+            my $TicketFreeTimeString
+                = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Ticket{$FreeTimePrefix} );
+            my ( $Second, $Minute, $Hour, $Day, $Month, $Year )
+                = $Self->{TimeObject}->SystemTime2Date( SystemTime => $TicketFreeTimeString );
+
+            $GetParam{ $FreeTimePrefix . 'UsedFromTicket' } = 1;
+            $GetParam{ $FreeTimePrefix . 'Used' }           = 1;
+            $GetParam{ $FreeTimePrefix . 'Minute' }         = $Minute;
+            $GetParam{ $FreeTimePrefix . 'Hour' }           = $Hour;
+            $GetParam{ $FreeTimePrefix . 'Day' }            = $Day;
+            $GetParam{ $FreeTimePrefix . 'Month' }          = $Month;
+            $GetParam{ $FreeTimePrefix . 'Year' }           = $Year;
+        }
+
+        # transform pending time, time stamp based on user time zone
+        if (
+            defined $GetParam{Year}
+            && defined $GetParam{Month}
+            && defined $GetParam{Day}
+            && defined $GetParam{Hour}
+            && defined $GetParam{Minute}
+            )
+        {
+            %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+                %GetParam,
+            );
+        }
+
+        # transform free time, time stamp based on user time zone
+        for my $Count ( 1 .. 6 ) {
+            my $Prefix = 'TicketFreeTime' . $Count;
+            next if $GetParam{ $Prefix . 'UsedFromTicket' };
+            next if !defined $GetParam{ $Prefix . 'Year' };
+            next if !defined $GetParam{ $Prefix . 'Month' };
+            next if !defined $GetParam{ $Prefix . 'Day' };
+            next if !defined $GetParam{ $Prefix . 'Hour' };
+            next if !defined $GetParam{ $Prefix . 'Minute' };
+            %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+                %GetParam,
+                Prefix => $Prefix
+            );
+        }
+
+        # error handling
+
+        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+            $Error{AttachmentUpload} = 1;
+        }
+
+        # check needed stuff
+        if ( !$GetParam{'DestQueueID'} ) {
+            $Error{'DestinationInvalid'} = 'ServerError';
+        }
+        if ( !$GetParam{'Subject'} ) {
+            $Error{'SubjectInvalid'} = 'ServerError';
+        }
+        if ( !$GetParam{'Body'} ) {
+            $Error{'RichTextInvalid'} = 'ServerError';
+        }
+
+        # check required FreeTextField (if configured)
+        for ( 1 .. 16 ) {
+            if (
+                $Self->{Config}->{'TicketFreeText'}->{$_} == 2
+                && $GetParam{"TicketFreeText$_"} eq ''
+                )
+            {
+                $Error{"TicketFreeTextField$_ invalid"} = '* invalid';
+            }
         }
     }
 
@@ -806,6 +814,7 @@ sub AgentMove {
         Data => { %MoveQueues, '' => '-' },
         Multiple       => 0,
         Size           => 0,
+        Class          => 'Validate_Required' . ' ' . $Param{Errors}->{DestinationInvalid},
         Name           => 'DestQueueID',
         SelectedID     => $Param{DestQueueID},
         OnChangeSubmit => 0,
@@ -863,10 +872,6 @@ sub AgentMove {
 
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'TimeUnitsJs',
-            Data => \%Param,
-        );
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,
