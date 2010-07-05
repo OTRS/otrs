@@ -2,165 +2,112 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.52 2010-07-05 06:00:34 cg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.53 2010-07-05 22:59:52 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Compose answer for ticket"}: $QData{"TicketNumber"}</h1>
-    <div class="SidebarColumn">
-        <div class="WidgetGradient Short MinHeight">
-            <div class="Header">
-                <h2>$Text{"Actions"}</h2>
-            </div>
-            <div class="Content">
-                <ul class="ActionList">
-# Put here extra links and warnings
-
-<!-- dtl:block:PropertiesRecipientTo -->
-                    <li>
-                        <img border="0" src="$Config{"Frontend::ImagePath"}warning.png" alt="$Text{"Info"}" />: $Text{"To: (%s) replaced with database email!", "$Data{"To"}"}
-                    </li>
-<!-- dtl:block:PropertiesRecipientTo -->
-
-<!-- dtl:block:PropertiesRecipientCc -->
-                    <li>
-                        <img border="0" src="$Config{"Frontend::ImagePath"}warning.png" alt="$Text{"Info"}" />: $Text{"Cc: (%s) added database email!", "$Data{"Cc"}"}
-                    </li>
-<!-- dtl:block:PropertiesRecipientCc -->
-
-<!-- dtl:block:PropertiesLock -->
-                    <li>
-                        <img border="0" src="$Config{"Frontend::ImagePath"}warning.png" alt="$Text{"Info"}" />: <font color="red">$Text{"Ticket locked!"}</font> (<a href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$LQData{"TicketID"}" onmouseover="window.status='$JSText{"Ticket unlock!"}'; return true;" onmouseout="window.status=''; ">$Text{"Ticket unlock!"}</a>)
-                        <\li>
-<!-- dtl:block:PropertiesLock -->
-
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="ComposeTicket" class="Validate">
+    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+    <input type="hidden" name="Subaction" value="SendEmail"/>
+    <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+    <input type="hidden" name="Email" value="$QData{"Email"}"/>
+    <input type="hidden" name="InReplyTo" value="$QData{"InReplyTo"}"/>
+    <input type="hidden" name="References" value="$QData{"References"}"/>
+    <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+    <input type="hidden" name="ResponseID" value="$QData{"ResponseID"}"/>
+    <input type="hidden" name="ReplyArticleID" value="$QData{"ReplyArticleID"}"/>
+    <div class="WidgetPopup ARIARoleMain">
+        <div class="Header">
+            <h1>$Text{"Compose answer for ticket"}: $QData{"TicketNumber"}</h1>
 <!-- dtl:block:TicketBack -->
-                        <li>
-                            <a href="$Env{"Baselink"}$Env{"LastScreenView"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
-                        </li>
+            <p>
+                <a href="$Env{"Baselink"}$Env{"LastScreenView"}">$Text{"Back"}</a>
+            </p>
 <!-- dtl:block:TicketBack -->
-
-# Finish extra links and warnings
-                    </ul>
-
-                </div>
-            </div>
-            <div class="WidgetGradient Short MinHeight">
-                <div class="Header">
-                    <h2>$Text{"Note"}</h2>
-                </div>
-                <div class="Content">
-                    <p>
-                        $Text{"Customer will be needed to have a customer history and to login via customer panel."}
-                    </p>
-                </div>
-            </div>
         </div>
 
-        <div class="ContentColumn">
-            <div class="WidgetGradient Medium MinHeight">
-                <div class="Header">
-                    <h2>$Text{"Options"}</h2>
+        <div class="Content">
+            <fieldset class="TableLike">
+
+                <label>$Text{"From"}:</label>
+                <div class="Field">
+                    $QData{"From"}
+                    <input type="hidden" name="From" value="$QData{"From"}"/>
+                    <font color="red" size="-2">$QData{"FromInvalid"}</font>
                 </div>
-                <div class="Options:">
-                    <p>$Text{"Ticket"}: $QData{"TicketNumber"}</p>
+                <div class="Clear"></div>
+
+                <label for="CustomerAutoComplete">$Text{"To"}:</label>
+                <div class="Field">
+                    <input id="To" type="text" name="To" value="$QData{"To"}" class="W75pc Validate_Required $QData{"ToInvalid"}" />
+                    <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
+                    <div id="ToError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                 </div>
+                <div class="Clear"></div>
 
-                <div class="Content WithPadding">
+                <label for="Cc">$Text{"Cc"}:</label>
+                <div class="Field">
+                    <input type="text" name="Cc" id="Cc" value="$QData{"Cc"}"  class="W75pc $QData{"CcInvalid"}" " />
+                    <div id="CcError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
+                    <div id="CcServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address"}</p></div>
+                </div>
+                <div class="Clear"></div>
 
-<!-- dtl:block:Content -->
-                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="ComposeTicket" class="Validate">
-                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                        <input type="hidden" name="Subaction" value="SendEmail"/>
-                        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-                        <input type="hidden" name="Email" value="$QData{"Email"}"/>
-                        <input type="hidden" name="InReplyTo" value="$QData{"InReplyTo"}"/>
-                        <input type="hidden" name="References" value="$QData{"References"}"/>
-                        <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
-                        <input type="hidden" name="ResponseID" value="$QData{"ResponseID"}"/>
-                        <input type="hidden" name="ReplyArticleID" value="$QData{"ReplyArticleID"}"/>
-                        <fieldset class="TableLike">
+                <label for="Bcc">$Text{"Bcc"}:</label>
+                <div class="Field">
+                    <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc $Data{"BccInvalid"}""/>
+                    <div id="BccError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
+                    <div id="BccServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid mail address or don't use a local email address"}</p></div>
+                </div>
+                <div class="Clear"></div>
 
-                            <label>$Text{"From"}:</label>
-                            <div class="Field">
-                                $QData{"From"}
-                                <input type="hidden" name="From" value="$QData{"From"}"/>
-                                <font color="red" size="-2">$QData{"From invalid"}</font>
-                            </div>
-                            <div class="Clear"></div>
-
-                            <label for="CustomerAutoComplete">$Text{"To"}:</label>
-                            <div class="Field">
-                                <input id="To" type="text" name="To" value="$QData{"To"}" class="W75pc Validate_Required $QData{"ToInvalid"}" />
-                                <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
-                                <div id="ToError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
-                            </div>
-                            <div class="Clear"></div>
-
-                            <label for="Cc">$Text{"Cc"}:</label>
-                            <div class="Field">
-                                <input type="text" name="Cc" id="Cc" value="$QData{"Cc"}"  class="W75pc $QData{"CcInvalid"}" " />
-                                <div id="CcError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
-                                <div id="CcServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address"}</p></div>
-                            </div>
-                            <div class="Clear"></div>
-
-                            <label for="Bcc">$Text{"Bcc"}:</label>
-                            <div class="Field">
-                                <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc $Data{"BccInvalid"}""/>
-                                <div id="BccError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
-                                <div id="BccServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid mail address or don't use a local email address"}</p></div>
-                            </div>
-                            <div class="Clear"></div>
-
-                            <label for="Subject">$Text{"Subject"}:</label>
-                            <div class="Field">
-                                <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="Validate_Required $Data{"SubjectInvalid"} W75pc"/>
-                                <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
-                                <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
-                            </div>
-                            <div class="Clear"></div>
+                <label for="Subject">$Text{"Subject"}:</label>
+                <div class="Field">
+                    <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="Validate_Required $Data{"SubjectInvalid"} W75pc"/>
+                    <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
+                    <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
+                </div>
+                <div class="Clear"></div>
 
 <!-- dtl:block:Option -->
-                            <label>$Text{"$Data{"Key"}"}:</label>
-                            <div class="Field">
-                                $Data{"Value"}
-                                <span class="Error Small">$QData{"Invalid"}</span>
-                            </div>
-                            <div class="Clear"></div>
+                <label>$Text{"$Data{"Key"}"}:</label>
+                <div class="Field">
+                    $Data{"Value"}
+                    <span class="Error Small">$QData{"Invalid"}</span>
+                </div>
+                <div class="Clear"></div>
 <!-- dtl:block:Option -->
-                            <label>$Text{"Options"}:</label>
-                            <div class="Field">
+                <label>$Text{"Options"}:</label>
+                <div class="Field">
 
 <!-- dtl:block:SpellCheck -->
-                                <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
+                    <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
 <!-- dtl:block:SpellCheck -->
 <!-- dtl:block:AddressBook -->
-                                <a href="#" id="OptionAdressBook">[ $Text{"Address book"} ]</a>
+                    <a href="#" id="OptionAdressBook">[ $Text{"Address book"} ]</a>
 <!-- dtl:block:AddressBook -->
-                            </div>
-                            <div class="Clear"></div>
+                </div>
+                <div class="Clear"></div>
 
-                            <label for="RichText">$Text{"Text"}:</label>
-                            <div class="Clear"></div>
+                <label for="RichText">$Text{"Text"}:</label>
+                <div class="Clear"></div>
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                            <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext">$Data{"ResponseFormat"}</textarea>
-                            <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
-                            <div class="Clear"></div>
+                <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext">$Data{"ResponseFormat"}</textarea>
+                <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
+                <div class="Clear"></div>
 
-                            <label>$Text{"Attachment"}:</label>
-                            <div class="Field">
-                                <ul>
+                <label>$Text{"Attachment"}:</label>
+                <div class="Field">
+                    <ul>
 <!-- dtl:block:Attachment -->
-                                    <li>
-                                        $QData{"Filename"} ($QData{"Filesize"})
-                                        <button type="submit" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                        <li>
+                            $QData{"Filename"} ($QData{"Filesize"})
+                            <button type="submit" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('click', $('#AttachmentDelete$QData{"FileID"}'), function () {
@@ -168,13 +115,13 @@ $Include{"RichTextEditor"}
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                                    </li>
+                        </li>
 <!-- dtl:block:Attachment -->
-                                    <li>
-                                        <input id="FileUpload" name="FileUpload" type="file" size="40" />
-                                        <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
-                                    </li>
-                                </ul>
+                        <li>
+                            <input id="FileUpload" name="FileUpload" type="file" size="40" />
+                            <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
+                        </li>
+                    </ul>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#FileUpload'), function () {
@@ -184,29 +131,29 @@ $Include{"RichTextEditor"}
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                            </div>
-                            <div class="Clear"></div>
+                </div>
+                <div class="Clear"></div>
 
-                            <label for="NextStateID">$Text{"Next ticket state"}:</label>
-                            <div class="Field">
-                                $Data{"NextStatesStrg"}
-                            </div>
-                            <div class="Clear"></div>
+                <label for="NextStateID">$Text{"Next ticket state"}:</label>
+                <div class="Field">
+                    $Data{"NextStatesStrg"}
+                </div>
+                <div class="Clear"></div>
 
-                            <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
-                            <div class="Field">
-                                $Data{"PendingDateString"}
-                                <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
-                                <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
-                            </div>
-                            <div class="Clear"></div>
+                <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
+                <div class="Field">
+                    $Data{"PendingDateString"}
+                    <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
+                    <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
+                </div>
+                <div class="Clear"></div>
 
 <!-- dtl:block:TicketFreeText -->
-                            <label for="TicketFreeText$Data{"Count"}">$Data{"TicketFreeKeyField"}:</label>
-                            <div class="Field">
-                                $Data{"TicketFreeTextField"}
-                            </div>
-                            <div class="Clear"></div>
+                <label for="TicketFreeText$Data{"Count"}">$Data{"TicketFreeKeyField"}:</label>
+                <div class="Field">
+                    $Data{"TicketFreeTextField"}
+                </div>
+                <div class="Clear"></div>
 <!-- dtl:block:TicketFreeText -->
 #<!-- dtl:block:TicketFreeText1 -->
 #               <tr>
@@ -221,12 +168,12 @@ $Include{"RichTextEditor"}
 #               </tr>
 #<!-- dtl:block:TicketFreeText2 -->
 <!-- dtl:block:TicketFreeTime -->
-                            <label for="TicketFreeTime$Data{"Count"}">$Data{"TicketFreeTimeKey"}:</label>
-                            <div class="Field">
-                                $Data{"TicketFreeTime"}
-                                <div id="TicketFreeTime$Data{"Count"}UsedError" class="TooltipErrorMessage"><p>$Text{"Required!"}</p></div>
-                            </div>
-                            <div class="Clear"></div>
+                <label for="TicketFreeTime$Data{"Count"}">$Data{"TicketFreeTimeKey"}:</label>
+                <div class="Field">
+                    $Data{"TicketFreeTime"}
+                    <div id="TicketFreeTime$Data{"Count"}UsedError" class="TooltipErrorMessage"><p>$Text{"Required!"}</p></div>
+                </div>
+                <div class="Clear"></div>
 <!-- dtl:block:TicketFreeTime -->
 #<!-- dtl:block:TicketFreeTime1 -->
 #               <tr>
@@ -241,11 +188,11 @@ $Include{"RichTextEditor"}
 #               </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
 <!-- dtl:block:ArticleFreeText -->
-                            <label for="ArticleFreeText$Data{"Count"}">$Data{"ArticleFreeKeyField"}:</label>
-                            <div class="Field">
-                                $Data{"ArticleFreeTextField"}
-                            </div>
-                            <div class="Clear"></div>
+                <label for="ArticleFreeText$Data{"Count"}">$Data{"ArticleFreeKeyField"}:</label>
+                <div class="Field">
+                    $Data{"ArticleFreeTextField"}
+                </div>
+                <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
 #<!-- dtl:block:ArticleFreeText1 -->
 #                <tr>
@@ -260,25 +207,22 @@ $Include{"RichTextEditor"}
 #                </tr>
 #<!-- dtl:block:ArticleFreeText2 -->
 <!-- dtl:block:TimeUnits -->
-                            <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
-                            <div class="Field">
-                                <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" size="3" class="Validate_TimeUnits $QData{"TimeUnitsRequired"}"/>
-                                <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
-                            </div>
-                            <div class="Clear"></div>
+                <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                <div class="Field">
+                    <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" size="3" class="Validate_TimeUnits $QData{"TimeUnitsRequired"}"/>
+                    <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
+                </div>
+                <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
-                        </fieldset>
+            </fieldset>
 
-                        <div class="Footer">
-                            <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}" >$Text{"Submit"}</button>
-                        </div>
-                    </div>
-                </form>
-<!-- dtl:block:Content -->
+            <div class="Footer">
+                <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}" >$Text{"Submit"}</button>
             </div>
         </div>
         <div class="Clear"></div>
     </div>
+</form>
 
 #Layers
 <!--dtl:js_on_document_complete-->
@@ -287,22 +231,22 @@ $Include{"RichTextEditor"}
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
-    <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-        <input type="hidden" name="Action" value="AgentSpelling"/>
-        <input type="hidden" name="Body" value=""/>
-        <input type="hidden" name="spell_lang" value=""/>
-    </form>
-    <form action="$Env{"CGIHandle"}" method="post" name="book" target="book">
-        <input type="hidden" name="Action" value="AgentBook"/>
-        <input type="hidden" name="To" value=""/>
-        <input type="hidden" name="Cc" value=""/>
-        <input type="hidden" name="Bcc" value=""/>
-    </form>
+<form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+    <input type="hidden" name="Action" value="AgentSpelling"/>
+    <input type="hidden" name="Body" value=""/>
+    <input type="hidden" name="spell_lang" value=""/>
+</form>
+<form action="$Env{"CGIHandle"}" method="post" name="book" target="book">
+    <input type="hidden" name="Action" value="AgentBook"/>
+    <input type="hidden" name="To" value=""/>
+    <input type="hidden" name="Cc" value=""/>
+    <input type="hidden" name="Bcc" value=""/>
+</form>
 
-    <div id="UIElementPool">
-        <div class="Dialog">
-            <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
-            <div class="Content"></div>
-            <div class="Footer"><span class="LeftCorner"></span><span></span></div>
-        </div>
+<div id="UIElementPool">
+    <div class="Dialog">
+        <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
+        <div class="Content"></div>
+        <div class="Footer"><span class="LeftCorner"></span><span></span></div>
     </div>
+</div>

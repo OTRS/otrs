@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.97 2010-07-05 05:59:57 cg Exp $
+# $Id: AgentTicketCompose.pm,v 1.98 2010-07-05 22:59:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -106,10 +106,15 @@ sub Run {
 
             # show lock state
             if ($Owner) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'PropertiesLock',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                my $Output = $Self->{LayoutObject}->Header(
+                    Value => $Ticket{Number},
                 );
+                $Output .= $Self->{LayoutObject}->Warning(
+                    Message => "Ticket locked!",
+                    Comment => "Please unlock the ticket first.",
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
             }
         }
         else {
@@ -118,7 +123,10 @@ sub Run {
                 OwnerID  => $Self->{UserID},
             );
             if ( !$AccessOk ) {
-                my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{Number} );
+                my $Output = $Self->{LayoutObject}->Header(
+                    Value => $Ticket{Number},
+                    Type  => 'Small',
+                );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Sorry, you need to be the owner to do this action!",
                     Comment => 'Please change the owner first.',
@@ -259,9 +267,10 @@ sub Run {
 
         # attachment upload
         if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+            %Error = ();
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
+                Param  => 'FileUpload',
                 Source => 'string',
             );
             $Self->{UploadCacheObject}->FormIDAddFile(
@@ -276,11 +285,18 @@ sub Run {
         );
 
         # check some values
-        for my $Line (qw(From To Cc Bcc)) {
+        for my $Line (qw(To Cc Bcc)) {
             next if !$GetParam{$Line};
             for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
+                    $Error{ $Line . "Invalid" } .= " ServerError"
+                }
+            }
+        }
+        if ( $GetParam{From} ) {
+            for my $Email ( Mail::Address->parse( $GetParam{From} ) ) {
+                if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                    $Error{"FromInvalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }
         }
@@ -387,7 +403,10 @@ sub Run {
                 Config  => \%ArticleFreeText,
                 Article => \%GetParam,
             );
-            my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
+            my $Output = $Self->{LayoutObject}->Header(
+                Value => $Ticket{TicketNumber},
+                Type  => 'Small',
+            );
             $GetParam{StandardResponse} = $GetParam{Body};
             $Output .= $Self->_Mask(
                 TicketID       => $Self->{TicketID},
@@ -419,7 +438,7 @@ sub Run {
 
         # get submit attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
+            Param  => 'FileUpload',
             Source => 'String',
         );
         if (%UploadStuff) {
@@ -609,7 +628,10 @@ sub Run {
         );
     }
     else {
-        my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
+        my $Output = $Self->{LayoutObject}->Header(
+            Value => $Ticket{TicketNumber},
+            Type  => 'Small',
+        );
 
         # add std. attachments to email
         if ( $GetParam{ResponseID} ) {
@@ -787,18 +809,16 @@ sub Run {
 
                 # replace To with customers database address
                 if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeReplaceSenderAddress') ) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'PropertiesRecipientTo',
-                        Data => { To => $Data{To} },
+                    $Output .= $Self->{LayoutObject}->Notify(
+                        Data => "To: ($Data{To}) replaced with database email!",
                     );
                     $Data{To} = $Customer{UserEmail};
                 }
 
                 # add customers database address to Cc
                 else {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'PropertiesRecipientCc',
-                        Data => { Cc => $Customer{UserEmail}, },
+                    $Output .= $Self->{LayoutObject}->Notify(
+                        Data => "Cc: ($Data{To}) added database email!",
                     );
                     if ( $Data{Cc} ) {
                         $Data{Cc} .= ', ' . $Customer{UserEmail};
@@ -911,15 +931,14 @@ $QData{"Signature"}
             for my $Email ( Mail::Address->parse( $Data{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
 
-             #                    $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
-                    $Error{"$Line invalid"} .= " ServerError"
+                    $Error{ $Line . "Invalid" } .= " ServerError"
                 }
             }
         }
         if ( $Data{From} ) {
             for my $Email ( Mail::Address->parse( $Data{From} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{"From invalid"} .= $Self->{CheckItemObject}->CheckError();
+                    $Error{"FromInvalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }
         }
@@ -941,6 +960,11 @@ $QData{"Signature"}
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
+
+            # If Key has value 2, this means that the freetextfield is required
+            if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                $TicketFreeText{Required}->{$Count} = 1;
+            }
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Ticket => \%Ticket,
@@ -1080,14 +1104,6 @@ sub _Mask {
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
         Validate         => 1,
         Class            => $Param{Errors}->{DateInvalid} || ' ',
-    );
-
-    $Self->{LayoutObject}->Block(
-        Name => 'Content',
-        Data => {
-            FormID => $Self->{FormID},
-            %Param,
-        },
     );
 
     # run compose modules
