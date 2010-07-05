@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.94 2010-07-01 13:34:19 mg Exp $
+# $Id: AgentStats.pm,v 1.95 2010-07-05 13:46:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,7 +79,7 @@ sub Run {
         $Param{SearchLimit}     = $Self->{ConfigObject}->Get('Stats::SearchLimit')     || 100;
         $Param{OrderBy}   = $Self->{ParamObject}->GetParam( Param => 'OrderBy' )   || 'ID';
         $Param{Direction} = $Self->{ParamObject}->GetParam( Param => 'Direction' ) || 'ASC';
-        $Param{StartHit} = int $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+        $Param{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
 
         # store last screen
         $Self->{SessionObject}->UpdateSessionID(
