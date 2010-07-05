@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.47 2010-07-05 20:43:37 en Exp $
+# $Id: AgentTicketMerge.pm,v 1.48 2010-07-05 23:10:17 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CheckItem;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -153,13 +153,16 @@ sub Run {
         }
 
         if (%Error) {
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+            my $Output = $Self->{LayoutObject}->Header(
+                Type => 'Small',
+            );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketMerge',
                 Data => { %Param, %GetParam, %Ticket, %Error },
             );
-            $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer(
+                Type => 'Small',
+            );
             return $Output;
         }
 
