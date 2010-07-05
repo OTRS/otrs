@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.135 2010-07-05 09:38:11 mg Exp $
+# $Id: AgentTicketEmail.pm,v 1.136 2010-07-05 18:44:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.135 $) [1];
+$VERSION = qw($Revision: 1.136 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -443,6 +443,11 @@ sub Run {
                 UserID   => $Self->{UserID},
             );
 
+            # If Key has value 2, this means that the freetextfield is required
+            if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                $TicketFreeText{Required}->{$Count} = 1;
+            }
+
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
@@ -475,6 +480,9 @@ sub Run {
             Article => \%GetParam,
         );
 
+        # If is an action about attachments
+        my $IsUpload = 0;
+
         # attachment delete
         for my $Count ( 1 .. 32 ) {
             my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
@@ -484,10 +492,13 @@ sub Run {
                 FormID => $Self->{FormID},
                 FileID => $Count,
             );
+            $IsUpload = 1;
         }
 
         # attachment upload
         if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+            $IsUpload                = 1;
+            %Error                   = ();
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                 Param  => 'FileUpload',
@@ -599,37 +610,51 @@ sub Run {
             next if !$GetParam{$Line};
             for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{ "$Line" . "Invalid" } = ' ServerError';
+                    if ( $IsUpload == 0 ) {
+                        $Error{ "$Line" . "Invalid" } = ' ServerError';
+                    }
                 }
                 my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                     Address => $Email->address()
                 );
                 if ($IsLocal) {
-                    $Error{ "$Line" . "Invalid" } = ' ServerError';
+                    if ( $IsUpload == 0 ) {
+                        $Error{ "$Line" . "Invalid" } = ' ServerError';
+                    }
                 }
             }
         }
         if ( !$GetParam{To} && $ExpandCustomerName != 1 && $ExpandCustomerName == 0 ) {
-            $Error{'ToInvalid'} = ' ServerError';
+            if ( $IsUpload == 0 ) {
+                $Error{'ToInvalid'} = ' ServerError';
+            }
         }
         if ( !$GetParam{Subject} && $ExpandCustomerName == 0 ) {
-            $Error{'SubjectInvalid'} = ' ServerError';
+            if ( $IsUpload == 0 ) {
+                $Error{'SubjectInvalid'} = ' ServerError';
+            }
         }
         if ( !$NewQueueID && $ExpandCustomerName == 0 ) {
-            $Error{'DestinationInvalid'} = ' ServerError';
+            if ( $IsUpload == 0 ) {
+                $Error{'DestinationInvalid'} = ' ServerError';
+            }
         }
 
         # check if date is valid
         if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                $Error{'DateInvalid'} = ' ServerError';
+                if ( $IsUpload == 0 ) {
+                    $Error{'DateInvalid'} = ' ServerError';
+                }
             }
             if (
                 $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
                 < $Self->{TimeObject}->SystemTime()
                 )
             {
-                $Error{'DateInvalid'} = ' ServerError';
+                if ( $IsUpload == 0 ) {
+                    $Error{'DateInvalid'} = ' ServerError';
+                }
             }
         }
         if (
@@ -638,7 +663,9 @@ sub Run {
             && !$GetParam{ServiceID}
             )
         {
-            $Error{'ServiceInvalid'} = ' ServerError';
+            if ( $IsUpload == 0 ) {
+                $Error{'ServiceInvalid'} = ' ServerError';
+            }
         }
 
         # run compose modules

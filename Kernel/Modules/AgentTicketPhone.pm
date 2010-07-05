@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.144 2010-07-05 09:38:11 mg Exp $
+# $Id: AgentTicketPhone.pm,v 1.145 2010-07-05 18:44:37 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.144 $) [1];
+$VERSION = qw($Revision: 1.145 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -469,19 +469,8 @@ sub Run {
                 =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
 
-        # check pending date
-        if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
-            if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                $Error{'DateInvalid'} = ' ServerError';
-            }
-            if (
-                $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
-                < $Self->{TimeObject}->SystemTime()
-                )
-            {
-                $Error{'DateInvalid'} = ' ServerError';
-            }
-        }
+        # If is an action about attachments
+        my $IsUpload = 0;
 
         # attachment delete
         for my $Count ( 1 .. 16 ) {
@@ -492,13 +481,16 @@ sub Run {
                 FormID => $Self->{FormID},
                 FileID => $Count,
             );
+            $IsUpload = 1;
         }
 
         # attachment upload
         if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+            $IsUpload                = 1;
+            %Error                   = ();
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
+                Param  => 'FileUpload',
                 Source => 'string',
             );
             $Self->{UploadCacheObject}->FormIDAddFile(
@@ -511,6 +503,24 @@ sub Run {
         my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
+
+        # check pending date
+        if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
+            if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
+                if ( $IsUpload == 0 ) {
+                    $Error{'DateInvalid'} = ' ServerError';
+                }
+            }
+            if (
+                $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
+                < $Self->{TimeObject}->SystemTime()
+                )
+            {
+                if ( $IsUpload == 0 ) {
+                    $Error{'DateInvalid'} = ' ServerError';
+                }
+            }
+        }
 
         # get free text config options
         my %TicketFreeText;
@@ -534,11 +544,17 @@ sub Run {
                 CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
             );
 
+            # If Key has value 2, this means that the freetextfield is required
+            if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                $TicketFreeText{Required}->{$Count} = 1;
+            }
+
             # check required FreeTextField (if configured)
             if (
                 $Self->{Config}->{TicketFreeText}->{$Count} == 2
                 && $GetParam{$Text} eq ''
                 && $ExpandCustomerName == 0
+                && $IsUpload == 0
                 )
             {
                 $Error{"TicketFreeTextField$Count invalid"} = 'invalid';
@@ -671,8 +687,6 @@ sub Run {
                 );
             }
         }
-        my $ErrorFrom;
-        my $ErrorSubject;
 
         #        my $ErrorDestination;
         # check email address
@@ -682,17 +696,19 @@ sub Run {
             }
         }
         if ( !$GetParam{From} && $ExpandCustomerName != 1 && $ExpandCustomerName == 0 ) {
-            $Error{'From invalid'} = 'invalid';
-            $ErrorFrom = "ServerError";
+            if ( $IsUpload == 0 ) {
+                $Error{'FromInvalid'} = ' ServerError';
+            }
         }
         if ( !$GetParam{Subject} && $ExpandCustomerName == 0 ) {
-            $Error{'Subject invalid'} = 'invalid';
-            $ErrorSubject = "ServerError";
+            if ( $IsUpload == 0 ) {
+                $Error{'SubjectInvalid'} = ' ServerError';
+            }
         }
         if ( !$NewQueueID && $ExpandCustomerName == 0 ) {
-            $Error{'Destination invalid'} = 'invalid';
-
-            #            $ErrorDestination = "ServerError";
+            if ( $IsUpload == 0 ) {
+                $Error{'DestinationInvalid'} = ' ServerError';
+            }
         }
         if (
             $Self->{ConfigObject}->Get('Ticket::Service')
@@ -700,7 +716,9 @@ sub Run {
             && !$GetParam{ServiceID}
             )
         {
-            $Error{'Service invalid'} = 'invalid';
+            if ( $IsUpload == 0 ) {
+                $Error{'ServiceInvalid'} = ' ServerError';
+            }
         }
 
         if (%Error) {
@@ -757,8 +775,6 @@ sub Run {
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
                 FromOptions  => $Param{FromOptions},
-                FromError    => $ErrorFrom,
-                SubjectError => $ErrorSubject,
                 To           => $Self->_GetTos( QueueID => $NewQueueID ),
                 ToSelected   => $Dest,
                 Errors       => \%Error,
@@ -840,7 +856,7 @@ sub Run {
 
         # get submit attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
+            Param  => 'FileUpload',
             Source => 'String',
         );
         if (%UploadStuff) {
@@ -1594,62 +1610,6 @@ sub _MaskPhoneNew {
             Sort         => 'AlphanumericValue',
             Translation  => 0,
             Class        => "Validate_Required",
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
-            Ajax => {
-                Update => [
-                    'NewUserID',
-                    'NewResponsibleID',
-                    'NextStateID',
-                    'PriorityID',
-                    'ServiceID',
-                    'SLAID',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Depend => [
-                    'Dest',
-                    'SelectedCustomerUser',
-                    'NextStateID',
-                    'PriorityID',
-                    'TypeID',
-                    'ServiceID',
-                    'SLAID',
-                    'OwnerAll',
-                    'ResponsibleAll',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Subaction => 'AJAXUpdate',
-            },
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketType',
@@ -1662,68 +1622,13 @@ sub _MaskPhoneNew {
         $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{Services},
             Name         => 'ServiceID',
+            Class        => $Param{Errors}->{ServiceInvalid} || ' ',
             SelectedID   => $Param{ServiceID},
             PossibleNone => 1,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
             Translation  => 0,
             Max          => 200,
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
-            Ajax => {
-                Update => [
-                    'NewUserID',
-                    'NewResponsibleID',
-                    'NextStateID',
-                    'PriorityID',
-                    'ServiceID',
-                    'SLAID',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Depend => [
-                    'Dest',
-                    'SelectedCustomerUser',
-                    'NextStateID',
-                    'PriorityID',
-                    'TypeID',
-                    'ServiceID',
-                    'SLAID',
-                    'OwnerAll',
-                    'ResponsibleAll',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Subaction => 'AJAXUpdate',
-            },
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketService',
@@ -1737,62 +1642,6 @@ sub _MaskPhoneNew {
             Sort         => 'AlphanumericValue',
             Translation  => 0,
             Max          => 200,
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
-            Ajax => {
-                Update => [
-                    'NewUserID',
-                    'NewResponsibleID',
-                    'NextStateID',
-                    'PriorityID',
-                    'ServiceID',
-                    'SLAID',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Depend => [
-                    'Dest',
-                    'SelectedCustomerUser',
-                    'NextStateID',
-                    'PriorityID',
-                    'TypeID',
-                    'ServiceID',
-                    'SLAID',
-                    'OwnerAll',
-                    'ResponsibleAll',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Subaction => 'AJAXUpdate',
-            },
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketSLA',
