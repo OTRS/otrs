@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.143 2010-06-30 22:06:00 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.144 2010-07-05 09:38:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.143 $) [1];
+$VERSION = qw($Revision: 1.144 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -140,9 +140,8 @@ sub Run {
     if ( !$Self->{Subaction} || $Self->{Subaction} eq 'Created' ) {
 
         # header
-        my $Output = $Self->{LayoutObject}->Header(
-            Type => 'Small',
-        );
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
 
         # if there is no ticket id!
         if ( $Self->{TicketID} && $Self->{Subaction} eq 'Created' ) {
@@ -415,9 +414,7 @@ sub Run {
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
         );
-        $Output .= $Self->{LayoutObject}->Footer(
-            Type => 'Small',
-        );
+        $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 
@@ -727,9 +724,8 @@ sub Run {
             );
 
             # header
-            my $Output = $Self->{LayoutObject}->Header(
-                Type => 'Small',
-            );
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
 
             # html output
             $Output .= $Self->_MaskPhoneNew(
@@ -773,9 +769,7 @@ sub Run {
                 %ArticleFreeTextHTML,
             );
 
-            $Output .= $Self->{LayoutObject}->Footer(
-                Type => 'Small',
-            );
+            $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
 

@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.88 2010-07-02 13:30:06 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.89 2010-07-05 09:38:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,29 +22,25 @@ $Include{"AgentCustomerSearch"}
     <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
     <input type="hidden" name="LinkTicketID" value="$QData{"LinkTicketID"}"/>
 
-    <div class="WidgetPopup ARIARoleMain">
-        <div class="Header">
-            <h1>$Text{"Create New Phone Ticket"}</h1>
-            <p>
-                <a href="">$Text{"Cancel & close window"}</a>
-            </p>
-        </div>
-        <div class="Content">
-            <div class="LayoutFixedSidebar SidebarLast">
+    <div class="MainBox ARIARoleMain">
+
+        <h1>$Text{"Create New Phone Ticket"}</h1>
+
+        <div class="LayoutFixedSidebar SidebarLast">
 <!-- dtl:block:CustomerTable -->
-                <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
-                    <div class="Header">
-                        <h2>$Text{"Customer Information"}</h2>
-                    </div>
-                    <div class="Content">
-                        $Data{"CustomerTable"}
-                    </div>
+            <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
+                <div class="Header">
+                    <h2>$Text{"Customer Information"}</h2>
                 </div>
+                <div class="Content">
+                    $Data{"CustomerTable"}
+                </div>
+            </div>
 <!-- dtl:block:CustomerTable -->
 
-                <div class="ContentColumn">
+            <div class="ContentColumn">
 
-                    <fieldset class="TableLike">
+                <fieldset class="TableLike">
 
 # example template for customizations, see hidden form at the end of the file
 #                    <label>$Text{"Templates"}:</label>
@@ -54,37 +50,37 @@ $Include{"AgentCustomerSearch"}
 #                    <div class="Clear"></div>
 
 <!-- dtl:block:TicketType -->
-                        <label for="TypeID">$Text{"Type"}:</label>
-                        <div class="Field">
-                            $Data{"TypeStrg"}
-                            <div id="TypeIDError" class="TooltipErrorMessage">
-                                <p>$Text{"A message should have a Type!"}</p>
-                            </div>
-                            <div id="TypeIDServerError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The Type is required."}</strong></p>
-                            </div
+                    <label for="TypeID">$Text{"Type"}:</label>
+                    <div class="Field">
+                        $Data{"TypeStrg"}
+                        <div id="TypeIDError" class="TooltipErrorMessage">
+                            <p>$Text{"A message should have a Type!"}</p>
                         </div>
-                        <div class="Clear"></div>
+                        <div id="TypeIDServerError" class="TooltipErrorMessage">
+                            <p><strong>$Text{"The Type is required."}</strong></p>
+                        </div
+                    </div>
+                    <div class="Clear"></div>
 <!-- dtl:block:TicketType -->
 
-                        <label for="CustomerAutoComplete">$Text{"From customer"}:</label>
-                        <div class="Field">
+                    <label for="CustomerAutoComplete">$Text{"From customer"}:</label>
+                    <div class="Field">
 
-                            <input id="CustomerAutoComplete" type="text" name="From" value="$QData{"From"}" class="W75pc AutocompleteOff Validate_Required $QData{"FromError"}"/>
-                            <div id="CustomerAutoCompleteError" class="TooltipErrorMessage">
-                                <p>$Text{"A message should have a Customer!"}</p>
-                            </div>
-                            <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The Customer is required."}</strong></p>
-                            </div>
+                        <input id="CustomerAutoComplete" type="text" name="From" value="$QData{"From"}" class="W75pc AutocompleteOff Validate_Required $QData{"FromError"}"/>
+                        <div id="CustomerAutoCompleteError" class="TooltipErrorMessage">
+                            <p>$Text{"A message should have a Customer!"}</p>
                         </div>
-                        <div class="Clear"></div>
+                        <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage">
+                            <p><strong>$Text{"The Customer is required."}</strong></p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
 
-                        <label for="Dest">$Text{"To queue"}:</label>
-                        <div class="Field">
-                            $Data{"ToStrg"}
-                            <div id="DestError" class="TooltipErrorMessage" ><p>$Text{"Queue is required."}</p></div>
-                            <div id="DestServerError" class="TooltipErrorMessage"><p>$Text{"Queue is required"}</p></div>
+                    <label for="Dest">$Text{"To queue"}:</label>
+                    <div class="Field">
+                        $Data{"ToStrg"}
+                        <div id="DestError" class="TooltipErrorMessage" ><p>$Text{"Queue is required."}</p></div>
+                        <div id="DestServerError" class="TooltipErrorMessage"><p>$Text{"Queue is required"}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#Dest'), function (Event) {
@@ -92,14 +88,14 @@ $Include{"AgentCustomerSearch"}
     })
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                        </div>
-                        <div class="Clear"></div>
+                    </div>
+                    <div class="Clear"></div>
 
 <!-- dtl:block:TicketService -->
-                        <label for="ServiceID">$Text{"Service"}:</label>
-                        <div class="Field">
-                            $Data{"ServiceStrg"}
-                            <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>$Text{"Service invalid"}</p></div>
+                    <label for="ServiceID">$Text{"Service"}:</label>
+                    <div class="Field">
+                        $Data{"ServiceStrg"}
+                        <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>$Text{"Service invalid"}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#ServiceID'), function (Event) {
@@ -107,14 +103,14 @@ $Include{"AgentCustomerSearch"}
     })
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                        </div>
-                        <div class="Clear"></div>
+                    </div>
+                    <div class="Clear"></div>
 <!-- dtl:block:TicketService -->
 
 <!-- dtl:block:TicketSLA -->
-                        <label for="SLAID">$Text{"SLA"}:</label>
-                        <div class="Field">
-                            $Data{"SLAStrg"}
+                    <label for="SLAID">$Text{"SLA"}:</label>
+                    <div class="Field">
+                        $Data{"SLAStrg"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#SLAID'), function (Event) {
@@ -122,15 +118,15 @@ $Include{"AgentCustomerSearch"}
     })
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                        </div>
-                        <div class="Clear"></div>
+                    </div>
+                    <div class="Clear"></div>
 <!-- dtl:block:TicketSLA -->
 
 <!-- dtl:block:OwnerSelection -->
-                        <label for="NewUserID">$Text{"Owner"}:</label>
-                        <div class="Field">
-                            $Data{"OptionStrg"}
-                            <a href="" id="OwnerSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
+                    <label for="NewUserID">$Text{"Owner"}:</label>
+                    <div class="Field">
+                        $Data{"OptionStrg"}
+                        <a href="" id="OwnerSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('click', $('#OwnerSelectionGetAll'), function (Event) {
@@ -140,15 +136,15 @@ $Include{"AgentCustomerSearch"}
     })
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                        </div>
-                        <div class="Clear"></div>
+                    </div>
+                    <div class="Clear"></div>
 <!-- dtl:block:OwnerSelection -->
 
 <!-- dtl:block:ResponsibleSelection -->
-                        <label for="NewResponsibleID">$Text{"Responsible"}:</label>
-                        <div class="Field">
-                            $Data{"ResponsibleOptionStrg"}
-                            <a href="" id="ResponsibleSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
+                    <label for="NewResponsibleID">$Text{"Responsible"}:</label>
+                    <div class="Field">
+                        $Data{"ResponsibleOptionStrg"}
+                        <a href="" id="ResponsibleSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('click', $('#ResponsibleSelectionGetAll'), function (Event) {
@@ -158,58 +154,58 @@ $Include{"AgentCustomerSearch"}
     })
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                        </div>
-                        <div class="Clear"></div>
+                    </div>
+                    <div class="Clear"></div>
 <!-- dtl:block:ResponsibleSelection -->
 
-                        <label for="Subject">$Text{"Subject"}:</label>
-                        <div class="Field">
-                            <input class="W75pc Validate_Required $QData{"SubjectError"}" type="text" name="Subject" id="Subject" value="$QData{"Subject"}"/>
-                            <div id="SubjectError" class="TooltipErrorMessage">
-                                <p>$Text{"A message should have a Subject!"}</p>
-                            </div>
-                            <div id="SubjectServerError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"The Subject is required."}</strong></p>
-                            </div>
-                            <span class="Error Small">$Text{"$Data{"Subject invalid"}"}</span>
+                    <label for="Subject">$Text{"Subject"}:</label>
+                    <div class="Field">
+                        <input class="W75pc Validate_Required $QData{"SubjectError"}" type="text" name="Subject" id="Subject" value="$QData{"Subject"}"/>
+                        <div id="SubjectError" class="TooltipErrorMessage">
+                            <p>$Text{"A message should have a Subject!"}</p>
                         </div>
-                        <div class="Clear"></div>
+                        <div id="SubjectServerError" class="TooltipErrorMessage">
+                            <p><strong>$Text{"The Subject is required."}</strong></p>
+                        </div>
+                        <span class="Error Small">$Text{"$Data{"Subject invalid"}"}</span>
+                    </div>
+                    <div class="Clear"></div>
 
-                        <label>$Text{"Options"}:</label>
-                        <div class="Field">
+                    <label>$Text{"Options"}:</label>
+                    <div class="Field">
 
 <!-- dtl:block:SpellCheck -->
-                            <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
+                        <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
 <!-- dtl:block:SpellCheck -->
 
 <!-- dtl:block:OptionCustomer -->
-                            <a href="#" id="OptionCustomer">[ $Text{"Customer"} ]</a>
+                        <a href="#" id="OptionCustomer">[ $Text{"Customer"} ]</a>
 <!-- dtl:block:OptionCustomer -->
 
-                        </div>
-                        <div class="Clear"></div>
+                    </div>
+                    <div class="Clear"></div>
 
-                        <label for="RichText">$Text{"Text"}:</label>
-                        <div class="Clear"></div>
+                    <label for="RichText">$Text{"Text"}:</label>
+                    <div class="Clear"></div>
 
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                        <textarea id="RichText" class="RichText Validate_Required Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                        <div id="RichTextError" class="TooltipErrorMessage">
-                            <p>$Text{"A message should have a body!"}</p>
-                        </div>
-                        <div id="RichTextServerError" class="TooltipErrorMessage">
-                            <p><strong>$Text{"The Text is required."}</strong></p>
-                        </div>
-                        <div class="Clear"></div>
-                        <label>$Text{"Attachment"}:</label>
-                        <div class="Field">
-                            <ul>
+                    <textarea id="RichText" class="RichText Validate_Required Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <div id="RichTextError" class="TooltipErrorMessage">
+                        <p>$Text{"A message should have a body!"}</p>
+                    </div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage">
+                        <p><strong>$Text{"The Text is required."}</strong></p>
+                    </div>
+                    <div class="Clear"></div>
+                    <label>$Text{"Attachment"}:</label>
+                    <div class="Field">
+                        <ul>
 <!-- dtl:block:Attachment -->
-                                <li>
-                                    $QData{"Filename"} ($QData{"Filesize"})
-                                    <button type="submit" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                            <li>
+                                $QData{"Filename"} ($QData{"Filesize"})
+                                <button type="submit" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('click', $('#AttachmentDelete$QData{"FileID"}'), function () {
@@ -217,13 +213,13 @@ $Include{"RichTextEditor"}
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                                </li>
+                            </li>
 <!-- dtl:block:Attachment -->
-                                <li>
-                                    <input id="FileUpload" name="FileUpload" type="file" size="40" />
-                                    <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
-                                </li>
-                            </ul>
+                            <li>
+                                <input id="FileUpload" name="FileUpload" type="file" size="40" />
+                                <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
+                            </li>
+                        </ul>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#FileUpload'), function () {
@@ -233,41 +229,41 @@ $Include{"RichTextEditor"}
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                        </div>
-                        <div class="Clear"></div>
+                    </div>
+                    <div class="Clear"></div>
 
-                        <label for="CustomerID">$Text{"CustomerID"}:</label>
-                        <div class="Field">
-                            <input type="text" name="CustomerID" id="CustomerID" value="$QData{"CustomerID"}" class="W50pc"/>
-                        </div>
-                        <div class="Clear"></div>
+                    <label for="CustomerID">$Text{"CustomerID"}:</label>
+                    <div class="Field">
+                        <input type="text" name="CustomerID" id="CustomerID" value="$QData{"CustomerID"}" class="W50pc"/>
+                    </div>
+                    <div class="Clear"></div>
 
-                        <label for="NextStateID">$Text{"Next ticket state"}:</label>
-                        <div class="Field">
-                            $Data{"NextStatesStrg"}
-                        </div>
-                        <div class="Clear"></div>
+                    <label for="NextStateID">$Text{"Next ticket state"}:</label>
+                    <div class="Field">
+                        $Data{"NextStatesStrg"}
+                    </div>
+                    <div class="Clear"></div>
 
-                        <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
-                        <div class="Field">
-                            $Data{"PendingDateString"}
-                            <div id="DayError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
-                            <div id="HourError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
-                        </div>
-                        <div class="Clear"></div>
+                    <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
+                    <div class="Field">
+                        $Data{"PendingDateString"}
+                        <div id="DayError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
+                        <div id="HourError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
+                    </div>
+                    <div class="Clear"></div>
 
-                        <label for="PriorityID">$Text{"Priority"}:</label>
-                        <div class="Field">
-                            $Data{"PriorityStrg"}
-                        </div>
-                        <div class="Clear"></div>
+                    <label for="PriorityID">$Text{"Priority"}:</label>
+                    <div class="Field">
+                        $Data{"PriorityStrg"}
+                    </div>
+                    <div class="Clear"></div>
 
 <!-- dtl:block:TicketFreeText -->
-                        <label>$Data{"TicketFreeKeyField"}:</label>
-                        <div class="Field">
-                            $Data{"TicketFreeTextField"}
-                        </div>
-                        <div class="Clear"></div>
+                    <label>$Data{"TicketFreeKeyField"}:</label>
+                    <div class="Field">
+                        $Data{"TicketFreeTextField"}
+                    </div>
+                    <div class="Clear"></div>
 <!-- dtl:block:TicketFreeText -->
 
 # example of how to use fixed ticket freetext blocks for customizations
@@ -287,11 +283,11 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeText2 -->
 
 <!-- dtl:block:TicketFreeTime -->
-                        <label>$Data{"TicketFreeTimeKey"}:</label>
-                        <div class="Field">
-                            $Data{"TicketFreeTime"}
-                        </div>
-                        <div class="Clear"></div>
+                    <label>$Data{"TicketFreeTimeKey"}:</label>
+                    <div class="Field">
+                        $Data{"TicketFreeTime"}
+                    </div>
+                    <div class="Clear"></div>
 <!-- dtl:block:TicketFreeTime -->
 
 # example of how to use fixed ticket freetime blocks for customizations
@@ -311,11 +307,11 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeTime2 -->
 
 <!-- dtl:block:ArticleFreeText -->
-                        <label>$Data{"ArticleFreeKeyField"}:</label>
-                        <div class="Field">
-                            $Data{"ArticleFreeKeyField"}
-                        </div>
-                        <div class="Clear"></div>
+                    <label>$Data{"ArticleFreeKeyField"}:</label>
+                    <div class="Field">
+                        $Data{"ArticleFreeKeyField"}
+                    </div>
+                    <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
 
 # example of how to use fixed article freetext blocks for customizations
@@ -335,23 +331,22 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:ArticleFreeText2 -->
 
 <!-- dtl:block:TimeUnits -->
-                        <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
-                        <div class="Field">
-                            <input type="text" id="TimeUnits" name="TimeUnits" value="$QData{"TimeUnits"}" size="3" class="$QData{"TimeUnitsRequired"}"/>
-                            <div id="TimeUnitsError" class="TooltipErrorMessage">
-                                <p>$Text{"Invalid time!"}</p>
-                            </div>
+                    <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                    <div class="Field">
+                        <input type="text" id="TimeUnits" name="TimeUnits" value="$QData{"TimeUnits"}" size="3" class="$QData{"TimeUnitsRequired"}"/>
+                        <div id="TimeUnitsError" class="TooltipErrorMessage">
+                            <p>$Text{"Invalid time!"}</p>
                         </div>
-                        <div class="Clear"></div>
+                    </div>
+                    <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
-                    </fieldset>
-                </div>
+                    <div class="Field SpacingTop">
+                        <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
+                    </div>
+                </fieldset>
             </div>
         </div>
         <div id="CustomerTickets"></div>
-        <div class="Footer">
-            <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
-        </div>
     </div>
 </form>
 

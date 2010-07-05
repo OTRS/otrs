@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.134 2010-06-30 17:01:57 mp Exp $
+# $Id: AgentTicketEmail.pm,v 1.135 2010-07-05 09:38:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.134 $) [1];
+$VERSION = qw($Revision: 1.135 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -155,9 +155,8 @@ sub Run {
     if ( !$Self->{Subaction} || $Self->{Subaction} eq 'Created' ) {
 
         # header
-        $Output .= $Self->{LayoutObject}->Header(
-            Type => 'Small',
-        );
+        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
 
         # if there is no ticket id!
         if ( !$Self->{TicketID} || ( $Self->{TicketID} && $Self->{Subaction} eq 'Created' ) ) {
@@ -336,9 +335,7 @@ sub Run {
             );
         }
 
-        $Output .= $Self->{LayoutObject}->Footer(
-            Type => 'Small',
-        );
+        $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 
@@ -699,9 +696,8 @@ sub Run {
             }
 
             # header
-            $Output .= $Self->{LayoutObject}->Header(
-                Type => 'Small',
-            );
+            $Output .= $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
 
             # html output
             $Output .= $Self->_MaskEmailNew(
@@ -756,9 +752,7 @@ sub Run {
                 %ArticleFreeTextHTML,
             );
 
-            $Output .= $Self->{LayoutObject}->Footer(
-                Type => 'Small',
-            );
+            $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
 
