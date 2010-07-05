@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.39 2010-07-05 08:34:36 mn Exp $
+# $Id: AgentTicketBulk.dtl,v 1.40 2010-07-05 16:12:24 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,25 +10,6 @@
 # --
 
 <!-- dtl:block:BulkAction -->
-<script type="text/javascript">//<![CDATA[
-function submit_compose() {
-    // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
-    if (typeof RichTextUpdateLinkedField == 'function') {
-        RichTextUpdateLinkedField();
-    }
-    return true;
-}
-//]]></script>
-
-<script type="text/javascript">//<![CDATA[
-function SpellCheckSubmit() {
-    document.spelling.Body.value = document.compose.Body.value;
-    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.spelling.submit()
-}
-//]]></script>
-
-
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="Do"/>
@@ -62,10 +43,7 @@ function SpellCheckSubmit() {
                     <label>$Text{"Options"}:</label>
                     <div class="Field">
 <!-- dtl:block:SpellCheck -->
-                        <a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';">
-                            <img border="0" src="$Config{"Frontend::ImagePath"}spell.png" />
-                            $Text{"Spell check"}
-                        </a>
+                        <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
 <!-- dtl:block:SpellCheck -->
                     </div>
                     <div class="Clear"></div>
