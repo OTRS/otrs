@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.27 2010-06-29 22:47:15 dz Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.28 2010-07-05 15:01:50 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,12 +85,16 @@
 <!-- dtl:block:OverviewNavBarViewMode -->
 <!-- dtl:block:OverviewNavBarViewModeSelected -->
                         <li class="Active">
-                            <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}">$Text{"$Data{"Name"}"}</a>
+                            <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}">
+                                <span>$Text{"$Data{"Name"}"}</span>
+                            </a>
                         </li>
 <!-- dtl:block:OverviewNavBarViewModeSelected -->
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
                         <li class="">
-                            <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}">$Text{"$Data{"Name"}"}</a>
+                            <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}">
+                                <span>$Text{"$Data{"Name"}"}</span>
+                            </a>
                         </li>
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
 <!-- dtl:block:OverviewNavBarViewMode -->
