@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.80 2010-06-28 10:10:23 mn Exp $
+# $Id: LayoutTicket.pm,v 1.81 2010-07-05 08:35:00 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub TicketStandardResponseString {
     my ( $Self, %Param ) = @_;
@@ -371,6 +371,7 @@ sub AgentFreeText {
     my %SelectData;
     my %Ticket;
     my %Config;
+    my $Class = '';
     if ( $Param{NullOption} ) {
 
         #        $NullOption{''} = '-';
@@ -382,6 +383,9 @@ sub AgentFreeText {
     }
     if ( $Param{Config} ) {
         %Config = %{ $Param{Config} };
+    }
+    if ( $Param{Class} ) {
+        $Class = $Param{Class};
     }
     my %Data;
     for ( 1 .. 16 ) {
@@ -451,7 +455,8 @@ sub AgentFreeText {
                 SelectedID          => $Ticket{"TicketFreeText$_"},
                 LanguageTranslation => 0,
                 HTMLQuote           => 1,
-                Class => ( $Config{"Required"}->{$_} ? 'Validate_RequiredDropdown' : '' ),
+                Class               => $Class . ' '
+                    . ( $Config{"Required"}->{$_} ? 'Validate_RequiredDropdown' : '' ),
                 %SelectData,
             );
             if ( $Config{"Required"}->{$_} ) {
@@ -477,7 +482,7 @@ sub AgentFreeText {
                     . $_
                     . '" id="TicketFreeText'
                     . $_
-                    . '" class="'
+                    . '" class="' . $Class . ' '
                     . ( $Config{"Required"}->{$_} ? 'Validate_Required' : '' )
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Ticket{"TicketFreeText$_"} )
@@ -492,7 +497,7 @@ sub AgentFreeText {
             }
             else {
                 $Data{"TicketFreeTextField$_"}
-                    = '<input type="text" class="'
+                    = '<input type="text" class="' . $Class . ' '
                     . ( $Config{"Required"}->{$_} ? 'Validate_Required' : '' )
                     . '" name="TicketFreeText'
                     . $_
@@ -523,6 +528,7 @@ sub AgentFreeDate {
     my %SelectData;
     my %Ticket;
     my %Config;
+    my $Class = '';
     if ( $Param{NullOption} ) {
         $SelectData{Size}     = 3;
         $SelectData{Multiple} = 1;
@@ -533,6 +539,9 @@ sub AgentFreeDate {
     if ( $Param{Config} ) {
         %Config = %{ $Param{Config} };
     }
+    if ( $Param{Class} ) {
+        $Class = $Param{Class};
+    }
     my %Data;
     for my $Count ( 1 .. 6 ) {
         my %TimePeriod;
@@ -542,8 +551,9 @@ sub AgentFreeDate {
         $Data{ 'TicketFreeTime' . $Count } = $Self->BuildDateSelection(
             %Param,
             %Ticket,
-            Prefix   => 'TicketFreeTime' . $Count,
-            Format   => 'DateInputFormatLong',
+            Prefix                              => 'TicketFreeTime' . $Count,
+            Format                              => 'DateInputFormatLong',
+            'TicketFreeTime' . $Count . 'Class' => $Class,
             DiffTime => $Self->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Count ) || 0,
             %TimePeriod,
         );
