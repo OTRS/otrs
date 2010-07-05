@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.53 2010-07-01 22:46:54 en Exp $
+# $Id: AgentTicketBulk.pm,v 1.54 2010-07-05 14:32:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +47,6 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
-    my %Error;
 
     # check if bulk feature is enabled
     if ( !$Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
@@ -74,6 +73,85 @@ sub Run {
     my $Output .= $Self->{LayoutObject}->Header(
         Type => 'Small',
     );
+
+    # declare the variables for all the parameters
+    my %Error;
+    my %Time;
+    my %GetParam;
+
+    # get all parameters and check for errors
+    if ( $Self->{Subaction} eq 'Do' ) {
+
+        # get all parameters
+        for my $Key (
+            qw(OwnerID Owner ResponsibleID Responsible PriorityID Priority QueueID Queue Subject
+            Body ArticleTypeID ArticleType StateID State MergeToSelection MergeTo LinkTogether
+            LinkTogetherParent Unlock MergeToChecked MergeToOldestChecked)
+            )
+        {
+            $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || '';
+        }
+
+        # get time stamp based on user time zone
+        %Time = $Self->{LayoutObject}->TransfromDateSelection(
+            Year   => $Self->{ParamObject}->GetParam( Param => 'Year' ),
+            Month  => $Self->{ParamObject}->GetParam( Param => 'Month' ),
+            Day    => $Self->{ParamObject}->GetParam( Param => 'Day' ),
+            Hour   => $Self->{ParamObject}->GetParam( Param => 'Hour' ),
+            Minute => $Self->{ParamObject}->GetParam( Param => 'Minute' ),
+        );
+
+        if ( $GetParam{'MergeToSelection'} eq 'MergeTo' ) {
+            $GetParam{'MergeToChecked'} = 'checked';
+        }
+        elsif ( $GetParam{'MergeToSelection'} eq 'MergeToOldest' ) {
+            $GetParam{'MergeToOldestChecked'} = 'checked';
+        }
+
+        # check some stuff
+        if ( !$GetParam{'Subject'} ) {
+            $Error{'SubjectInvalid'} = 'ServerError';
+        }
+        if ( !$GetParam{'Body'} ) {
+            $Error{'RichTextInvalid'} = 'ServerError';
+        }
+        if ( !$Self->{TimeObject}->Date2SystemTime( %Time, Second => 0 ) ) {
+            $Error{'DateInvalid'} = 'ServerError';
+        }
+        if (
+            $Self->{TimeObject}->Date2SystemTime( %Time, Second => 0 )
+            < $Self->{TimeObject}->SystemTime()
+            )
+        {
+            $Error{'DateInvalid'} = 'ServerError';
+        }
+        if ( $GetParam{'MergeToSelection'} eq 'MergeTo' && $GetParam{'MergeTo'} ) {
+            $Self->{CheckItemObject}->StringClean(
+                StringRef => \$GetParam{'MergeTo'},
+                TrimLeft  => 1,
+                TrimRight => 1,
+            );
+            my $TicketID = $Self->{TicketObject}->TicketCheckNumber(
+                Tn => $GetParam{'MergeTo'},
+            );
+            if ( !$TicketID ) {
+                $Error{'MergeToInvalid'} = 'ServerError';
+            }
+        }
+        if ( $GetParam{'LinkTogetherParent'} ) {
+            $Self->{CheckItemObject}->StringClean(
+                StringRef => \$GetParam{'LinkTogetherParent'},
+                TrimLeft  => 1,
+                TrimRight => 1,
+            );
+            my $TicketID = $Self->{TicketObject}->TicketCheckNumber(
+                Tn => $GetParam{'LinkTogetherParent'},
+            );
+            if ( !$TicketID ) {
+                $Error{'LinkTogetherParentInvalid'} = 'ServerError';
+            }
+        }
+    }
 
     # process tickets
     my @TicketIDSelected;
@@ -138,170 +216,54 @@ sub Run {
         push @TicketIDSelected, $TicketID;
 
         # do some actions on tickets
-        if ( $Self->{Subaction} eq 'Do' ) {
+        if ( ( $Self->{Subaction} eq 'Do' ) && ( !%Error ) ) {
 
             # challenge token check for write action
             $Self->{LayoutObject}->ChallengeTokenCheck();
 
-            # get all parameters
-            my $OwnerID       = $Self->{ParamObject}->GetParam( Param => 'OwnerID' )       || '';
-            my $Owner         = $Self->{ParamObject}->GetParam( Param => 'Owner' )         || '';
-            my $ResponsibleID = $Self->{ParamObject}->GetParam( Param => 'ResponsibleID' ) || '';
-            my $Responsible   = $Self->{ParamObject}->GetParam( Param => 'Responsible' )   || '';
-            my $PriorityID    = $Self->{ParamObject}->GetParam( Param => 'PriorityID' )    || '';
-            my $Priority      = $Self->{ParamObject}->GetParam( Param => 'Priority' )      || '';
-            my $QueueID       = $Self->{ParamObject}->GetParam( Param => 'QueueID' )       || '';
-            my $Queue         = $Self->{ParamObject}->GetParam( Param => 'Queue' )         || '';
-            my $Subject       = $Self->{ParamObject}->GetParam( Param => 'Subject' )       || '';
-            my $Body          = $Self->{ParamObject}->GetParam( Param => 'Body' )          || '';
-            my $ArticleTypeID = $Self->{ParamObject}->GetParam( Param => 'ArticleTypeID' ) || '';
-            my $ArticleType   = $Self->{ParamObject}->GetParam( Param => 'ArticleType' )   || '';
-            my $StateID       = $Self->{ParamObject}->GetParam( Param => 'StateID' )       || '';
-            my $State         = $Self->{ParamObject}->GetParam( Param => 'State' )         || '';
-            my $MergeToSelection = $Self->{ParamObject}->GetParam( Param => 'MergeToSelection' )
-                || '';
-            my $MergeTo      = $Self->{ParamObject}->GetParam( Param => 'MergeTo' )      || '';
-            my $LinkTogether = $Self->{ParamObject}->GetParam( Param => 'LinkTogether' ) || '';
-            my $LinkTogetherParent = $Self->{ParamObject}->GetParam( Param => 'LinkTogetherParent' )
-                || '';
-            my $Unlock = $Self->{ParamObject}->GetParam( Param => 'Unlock' ) || '';
-
-            # get time stamp based on user time zone
-            my %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                Year   => $Self->{ParamObject}->GetParam( Param => 'Year' ),
-                Month  => $Self->{ParamObject}->GetParam( Param => 'Month' ),
-                Day    => $Self->{ParamObject}->GetParam( Param => 'Day' ),
-                Hour   => $Self->{ParamObject}->GetParam( Param => 'Hour' ),
-                Minute => $Self->{ParamObject}->GetParam( Param => 'Minute' ),
-            );
-
-            # check some stuff
-            if ( !$Subject ) {
-                $Error{'SubjectInvalid'} = 'ServerError';
-            }
-            if ( !$Body ) {
-                $Error{'RichTextInvalid'} = 'ServerError';
-            }
-            if ( !$Self->{TimeObject}->Date2SystemTime( %Time, Second => 0 ) ) {
-                $Error{'DateInvalid'} = 'ServerError';
-            }
-            if (
-                $Self->{TimeObject}->Date2SystemTime( %Time, Second => 0 )
-                < $Self->{TimeObject}->SystemTime()
-                )
-            {
-                $Error{'DateInvalid'} = 'ServerError';
-            }
-            if ( $MergeToSelection eq 'MergeTo' && $MergeTo ) {
-                $Self->{CheckItemObject}->StringClean(
-                    StringRef => \$MergeTo,
-                    TrimLeft  => 1,
-                    TrimRight => 1,
-                );
-                my $TicketID = $Self->{TicketObject}->TicketCheckNumber(
-                    Tn => $MergeTo,
-                );
-                if ( !$TicketID ) {
-                    $Error{'MergeToInvalid'} = 'ServerError';
-                }
-            }
-            if ($LinkTogetherParent) {
-                $Self->{CheckItemObject}->StringClean(
-                    StringRef => \$LinkTogetherParent,
-                    TrimLeft  => 1,
-                    TrimRight => 1,
-                );
-                my $TicketID = $Self->{TicketObject}->TicketCheckNumber(
-                    Tn => $LinkTogetherParent,
-                );
-                if ( !$TicketID ) {
-                    $Error{'LinkTogetherParentInvalid'} = 'ServerError';
-                }
-            }
-
-            my $MergeToChecked      = '';
-            my $MergeToOldestCheked = '';
-
-            if ( $MergeToSelection eq 'MergeTo' ) {
-                $MergeToChecked = 'checked';
-            }
-            elsif ( $MergeToSelection eq 'MergeToOldest' ) {
-                $MergeToOldestCheked = 'checked';
-            }
-
-            if (%Error) {
-
-                # html output
-                $Output .= $Self->_Mask(
-                    OwnerID             => $OwnerID,
-                    Owner               => $Owner,
-                    ResponsibleID       => $ResponsibleID,
-                    Responsible         => $Responsible,
-                    PriorityID          => $PriorityID,
-                    Priority            => $Priority,
-                    QueueID             => $QueueID,
-                    Queue               => $Queue,
-                    Subject             => $Subject,
-                    Body                => $Body,
-                    ArticleTypeID       => $ArticleTypeID,
-                    ArticleType         => $ArticleType,
-                    StateID             => $StateID,
-                    State               => $State,
-                    MergeToSelection    => $MergeToSelection,
-                    MergeTo             => $MergeTo,
-                    MergeToChecked      => $MergeToChecked,
-                    MergeToOldestCheked => $MergeToOldestCheked,
-                    LinkTogether        => $LinkTogether,
-                    LinkTogetherParent  => $LinkTogetherParent,
-                    Unlock              => $Unlock,
-                    Errors              => \%Error,
-                    TicketIDs           => \@TicketIDs,
-                    %Param,
-                    %Time,
-                );
-                $Self->{LogObject}->Log( Priority => 'error', Message => "$ENV{Action}" );
-
-                $Output .= $Self->{LayoutObject}->Footer(
-                    Type => 'Small',
-                );
-                return $Output;
-            }
-
             # set owner
-            if ( $Self->{Config}->{Owner} && ( $OwnerID || $Owner ) ) {
+            if ( $Self->{Config}->{Owner} && ( $GetParam{'OwnerID'} || $GetParam{'Owner'} ) ) {
                 $Self->{TicketObject}->TicketOwnerSet(
                     TicketID  => $TicketID,
                     UserID    => $Self->{UserID},
-                    NewUser   => $Owner,
-                    NewUserID => $OwnerID,
+                    NewUser   => $GetParam{'Owner'},
+                    NewUserID => $GetParam{'OwnerID'},
                 );
             }
 
             # set responsible
-            if ( $Self->{Config}->{Responsible} && ( $ResponsibleID || $Responsible ) ) {
+            if (
+                $Self->{Config}->{Responsible}
+                && ( $GetParam{'ResponsibleID'} || $GetParam{'Responsible'} )
+                )
+            {
                 $Self->{TicketObject}->TicketResponsibleSet(
                     TicketID  => $TicketID,
                     UserID    => $Self->{UserID},
-                    NewUser   => $Responsible,
-                    NewUserID => $ResponsibleID,
+                    NewUser   => $GetParam{'Responsible'},
+                    NewUserID => $GetParam{'ResponsibleID'},
                 );
             }
 
             # set priority
-            if ( $Self->{Config}->{Priority} && ( $PriorityID || $Priority ) ) {
+            if (
+                $Self->{Config}->{Priority}
+                && ( $GetParam{'PriorityID'} || $GetParam{'Priority'} )
+                )
+            {
                 $Self->{TicketObject}->TicketPrioritySet(
                     TicketID   => $TicketID,
                     UserID     => $Self->{UserID},
-                    Priority   => $Priority,
-                    PriorityID => $PriorityID,
+                    Priority   => $GetParam{'Priority'},
+                    PriorityID => $GetParam{'PriorityID'},
                 );
             }
 
             # set queue
-            if ( $QueueID || $Queue ) {
+            if ( $GetParam{'QueueID'} || $GetParam{'Queue'} ) {
                 $Self->{TicketObject}->TicketQueueSet(
-                    QueueID  => $QueueID,
-                    Queue    => $Queue,
+                    QueueID  => $GetParam{'QueueID'},
+                    Queue    => $GetParam{'Queue'},
                     TicketID => $TicketID,
                     UserID   => $Self->{UserID},
                 );
@@ -309,24 +271,29 @@ sub Run {
 
             # add note
             my $ArticleID;
-            if ( $Subject && $Body && ( $ArticleTypeID || $ArticleType ) ) {
+            if (
+                $GetParam{'Subject'}
+                && $GetParam{'Body'}
+                && ( $GetParam{'ArticleTypeID'} || $GetParam{'ArticleType'} )
+                )
+            {
                 my $MimeType = 'text/plain';
                 if ( $Self->{LayoutObject}->{BrowserRichText} ) {
                     $MimeType = 'text/html';
 
                     # verify html document
-                    $Body = $Self->{LayoutObject}->RichTextDocumentComplete(
-                        String => $Body,
+                    $GetParam{'Body'} = $Self->{LayoutObject}->RichTextDocumentComplete(
+                        String => $GetParam{'Body'},
                     );
                 }
                 $ArticleID = $Self->{TicketObject}->ArticleCreate(
                     TicketID      => $TicketID,
-                    ArticleTypeID => $ArticleTypeID,
-                    ArticleType   => $ArticleType,
+                    ArticleTypeID => $GetParam{'ArticleTypeID'},
+                    ArticleType   => $GetParam{'ArticleType'},
                     SenderType    => 'agent',
                     From     => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                    Subject  => $Subject,
-                    Body     => $Body,
+                    Subject  => $GetParam{'Subject'},
+                    Body     => $GetParam{'Body'},
                     MimeType => $MimeType,
                     Charset  => $Self->{LayoutObject}->{UserCharset},
                     UserID   => $Self->{UserID},
@@ -336,11 +303,11 @@ sub Run {
             }
 
             # set state
-            if ( $Self->{Config}->{State} && ( $StateID || $State ) ) {
+            if ( $Self->{Config}->{State} && ( $GetParam{'StateID'} || $GetParam{'State'} ) ) {
                 $Self->{TicketObject}->TicketStateSet(
                     TicketID => $TicketID,
-                    StateID  => $StateID,
-                    State    => $State,
+                    StateID  => $GetParam{'StateID'},
+                    State    => $GetParam{'State'},
                     UserID   => $Self->{UserID},
                 );
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
@@ -381,9 +348,9 @@ sub Run {
             }
 
             # merge to
-            if ( $MergeToSelection eq 'MergeTo' && $MergeTo ) {
+            if ( $GetParam{'MergeToSelection'} eq 'MergeTo' && $GetParam{'MergeTo'} ) {
                 my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
-                    TicketNumber => $MergeTo,
+                    TicketNumber => $GetParam{'MergeTo'},
                 );
                 if ( $MainTicketID ne $TicketID ) {
                     $Self->{TicketObject}->TicketMerge(
@@ -395,7 +362,7 @@ sub Run {
             }
 
             # merge to oldest
-            if ( $MergeToSelection eq 'MergeToOldest' ) {
+            if ( $GetParam{'MergeToSelection'} eq 'MergeToOldest' ) {
 
                 # find oldest
                 my $TicketIDOldest;
@@ -425,12 +392,12 @@ sub Run {
             # link with
 
             # link togehter
-            if ($LinkTogether) {
+            if ( $GetParam{'LinkTogether'} ) {
 
                 # link parent
-                if ($LinkTogetherParent) {
+                if ( $GetParam{'LinkTogetherParent'} ) {
                     my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
-                        TicketNumber => $LinkTogetherParent,
+                        TicketNumber => $GetParam{'LinkTogetherParent'},
                     );
                     if ( $MainTicketID ne $TicketID ) {
                         $Self->{LinkObject}->LinkAdd(
@@ -464,23 +431,23 @@ sub Run {
             }
 
             # Should I unlock tickets at user request?
-            if ( $Self->{ParamObject}->GetParam( Param => 'Unlock' ) ) {
+            if ( $GetParam{'Unlock'} ) {
                 $Self->{TicketObject}->TicketLockSet(
                     TicketID => $TicketID,
                     Lock     => 'unlock',
                     UserID   => $Self->{UserID},
                 );
             }
-        }
-    }
 
-    # redirect
-    if ( $Self->{Subaction} eq 'Do' ) {
-        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+            # redirect
+            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+        }
     }
 
     $Output .= $Self->_Mask(
         %Param,
+        %GetParam,
+        %Time,
         TicketIDs => \@TicketIDSelected,
         Errors    => \%Error,
     );
@@ -492,6 +459,13 @@ sub Run {
 
 sub _Mask {
     my ( $Self, %Param ) = @_;
+
+    # prepare errors!
+    if ( $Param{Errors} ) {
+        for ( keys %{ $Param{Errors} } ) {
+            $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
+        }
+    }
 
     $Self->{LayoutObject}->Block(
         Name => 'BulkAction',
@@ -519,9 +493,9 @@ sub _Mask {
         }
     }
     $Param{NoteStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data     => \%NoteTypes,
-        Name     => 'ArticleTypeID',
-        Selected => $Param{ArticleTypeID} || $Self->{Config}->{ArticleTypeDefault},
+        Data       => \%NoteTypes,
+        Name       => 'ArticleTypeID',
+        SelectedID => $Param{ArticleTypeID} || $Self->{Config}->{ArticleTypeDefault},
     );
 
     # build next states string
@@ -689,10 +663,6 @@ sub _Mask {
 
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'TimeUnitsJs',
-            Data => \%Param,
-        );
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,
