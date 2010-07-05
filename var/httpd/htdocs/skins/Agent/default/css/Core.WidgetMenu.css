@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -305,6 +305,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Actions {
+    margin-top: -1px;
     padding: 0;
     float: left;
 }
@@ -346,6 +347,7 @@ ul.ContextFunctions li:last-child:hover > a {
 
 .Actions li a,
 .Actions li span {
+    height: 13px;
     padding: 7px 5px 8px;
     color: #000;
     display: block;
@@ -357,7 +359,8 @@ ul.ContextFunctions li:last-child:hover > a {
 }
     
 .Actions li a:hover,
-.Actions li span:hover {
+.Actions li span:hover,
+.OverviewZoom a:hover {
     background: url("../img/action_hover.png") repeat-x 0 center;
     background: -moz-linear-gradient(top, #FFE7BD, #FDC053 5px, #F6AD3E 50%, #F3980D 50%, #E77E06 95%, #DF6D05);
     border-left: 1px solid #F6AE2C;
@@ -372,11 +375,11 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Actions li input#SelectAllTickets {
-    margin: 0 1px 0 4px;
+    margin: 0 1px 0 3px;
 }
     
 .RTL .Actions li input#SelectAllTickets {
-    margin: 0 4px 0 1px;
+    margin: 0 3px 0 1px;
 }
     
 .Actions li input#SelectAllTickets + label {
