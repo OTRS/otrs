@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.89 2010-07-05 09:38:11 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.90 2010-07-05 18:46:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,17 +48,18 @@ $Include{"AgentCustomerSearch"}
 #                        <button type="button" onclick="$('#Template1').submit()" value="$Text{"Example Template"}">$Text{"Example Template"}</button>
 #                    </div>
 #                    <div class="Clear"></div>
-
 <!-- dtl:block:TicketType -->
                     <label for="TypeID">$Text{"Type"}:</label>
                     <div class="Field">
                         $Data{"TypeStrg"}
-                        <div id="TypeIDError" class="TooltipErrorMessage">
-                            <p>$Text{"A message should have a Type!"}</p>
-                        </div>
-                        <div id="TypeIDServerError" class="TooltipErrorMessage">
-                            <p><strong>$Text{"The Type is required."}</strong></p>
-                        </div
+                        <div id="TypeIDError" class="TooltipErrorMessage"><p>$Text{"Ticket Type is required!"}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('change', $('#TypeID'), function (Event) {
+        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'TypeID', ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16', 'To', 'Cc', 'Bcc']);
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TicketType -->
@@ -66,7 +67,7 @@ $Include{"AgentCustomerSearch"}
                     <label for="CustomerAutoComplete">$Text{"From customer"}:</label>
                     <div class="Field">
 
-                        <input id="CustomerAutoComplete" type="text" name="From" value="$QData{"From"}" class="W75pc AutocompleteOff Validate_Required $QData{"FromError"}"/>
+                        <input id="CustomerAutoComplete" type="text" name="From" value="$QData{"From"}" class="W75pc AutocompleteOff Validate_Required $QData{"FromInvalid"}"/>
                         <div id="CustomerAutoCompleteError" class="TooltipErrorMessage">
                             <p>$Text{"A message should have a Customer!"}</p>
                         </div>
@@ -160,7 +161,7 @@ $Include{"AgentCustomerSearch"}
 
                     <label for="Subject">$Text{"Subject"}:</label>
                     <div class="Field">
-                        <input class="W75pc Validate_Required $QData{"SubjectError"}" type="text" name="Subject" id="Subject" value="$QData{"Subject"}"/>
+                        <input class="W75pc Validate_Required $QData{"SubjectInvalid"}" type="text" name="Subject" id="Subject" value="$QData{"Subject"}"/>
                         <div id="SubjectError" class="TooltipErrorMessage">
                             <p>$Text{"A message should have a Subject!"}</p>
                         </div>
@@ -191,7 +192,7 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                    <textarea id="RichText" class="RichText Validate_Required Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea id="RichText" class="RichText Validate_RequiredRichtext Wrap_$Env{"BrowserWrap"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage">
                         <p>$Text{"A message should have a body!"}</p>
                     </div>
@@ -283,9 +284,10 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeText2 -->
 
 <!-- dtl:block:TicketFreeTime -->
-                    <label>$Data{"TicketFreeTimeKey"}:</label>
+                    <label for="TicketFreeTime$Data{"Count"}">$Data{"TicketFreeTimeKey"}:</label>
                     <div class="Field">
                         $Data{"TicketFreeTime"}
+                        <div id="TicketFreeTime$Data{"Count"}UsedError" class="TooltipErrorMessage"><p>$Text{"Required!"}</p></div>
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TicketFreeTime -->
@@ -333,7 +335,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
                     <div class="Field">
-                        <input type="text" id="TimeUnits" name="TimeUnits" value="$QData{"TimeUnits"}" size="3" class="$QData{"TimeUnitsRequired"}"/>
+                        <input type="text" class="Validate_TimeUnits $QData{"TimeUnitsRequired"}" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" size="3"/>
                         <div id="TimeUnitsError" class="TooltipErrorMessage">
                             <p>$Text{"Invalid time!"}</p>
                         </div>
