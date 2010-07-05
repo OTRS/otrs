@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.19 2010-07-05 20:28:45 dz Exp $
+# $Id: LayoutLinkObject.pm,v 1.20 2010-07-05 21:29:13 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -169,7 +169,6 @@ sub LinkObjectTableCreateComplex {
         # define the headline column
         my $Column = {
             Content => 'Linked as',
-            Width   => 90,
         };
 
         # add new column to the headline
@@ -198,8 +197,7 @@ sub LinkObjectTableCreateComplex {
 
             # define the headline column
             my $Column = {
-                Content => ' ',
-                Width   => 27,
+                Content => 'Select',
             };
 
             # add new column to the headline
@@ -227,7 +225,6 @@ sub LinkObjectTableCreateComplex {
             # define the headline column
             my $Column = {
                 Content => ' ',
-                Width   => 27,
             };
 
             # add new column to the headline

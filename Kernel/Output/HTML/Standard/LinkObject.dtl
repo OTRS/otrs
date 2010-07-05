@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.19 2010-07-05 20:28:45 dz Exp $
+# $Id: LinkObject.dtl,v 1.20 2010-07-05 21:29:13 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,9 +37,6 @@ $TimeLong{"$Data{"Content"}"}
 <input type="text" name="$QData{"Key"}" value="$QData{"Value"}" />
 <!-- dtl:block:InputText -->
 
-
-
-
 <!-- dtl:block:TableSimpleNone -->
 $Text{"none"}
 <!-- dtl:block:TableSimpleNone -->
@@ -68,13 +65,6 @@ $Text{"none"}
 
 </table>
 <!-- dtl:block:TableSimple -->
-
-
-
-
-
-
-
 
 <!-- dtl:block:TableComplex -->
 <table class="DataTable">
