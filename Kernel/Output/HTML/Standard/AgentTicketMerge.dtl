@@ -2,7 +2,7 @@
 # AgentTicketMerge.dtl - provides HTML form for ticket merge mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.dtl,v 1.31 2010-07-02 23:01:07 en Exp $
+# $Id: AgentTicketMerge.dtl,v 1.32 2010-07-05 20:43:10 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@
             <div class="Content">
                 <fieldset class="TableLike">
 
-                    <label for="Title">$Text{"Merge to"} $Config{"Ticket::Hook"}:</label>
+                    <label for="MainTicketNumber">$Text{"Merge to"} $Config{"Ticket::Hook"}:</label>
                     <div class="Field">
                         <input type="text" id="MainTicketNumber" name="MainTicketNumber" value="$QData{"MainTicketNumber"}" class="Validate_Required $Data{"MainTicketNumberInvalid"} W33pc" />
                         <div id="MainTicketNumberError" class="TooltipErrorMessage"><p>$Text{"You need to use a ticket number!"}</p></div>
@@ -44,26 +44,28 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="Title">$Text{"Inform sender"}:</label>
+                    <label for="InformSender">$Text{"Inform sender"}:</label>
                     <div class="Field">
                         <input type="checkbox" id="InformSender" name="InformSender" value="1"/>
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="Title">$Text{"From"}:</label>
+                    <label for="From">$Text{"From"}:</label>
                     <div class="Field">
                         $QData{"From"}
                         <input type="hidden" id="From" name="From" value="$QData{"From"}"/>
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="Title">$Text{"To"}:</label>
+                    <label for="To">$Text{"To"}:</label>
                     <div class="Field">
-                        <input type="text" id="To" name="To" value="$QData{"To"}" class="W75pc"/>
+                        <input type="text" id="To" name="To" value="$QData{"To"}" class="Validate_Required $Data{"ToInvalid"} W75pc"/>
+                        <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
+                        <div id="ToServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="Title">$Text{"Subject"}:</label>
+                    <label for="Subject">$Text{"Subject"}:</label>
                     <div class="Field">
                         <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="Validate_Required $Data{"SubjectInvalid"} W75pc"/>
                         <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
@@ -78,7 +80,7 @@
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 
-                    <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"} Validate_Required $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"} Validate_Required $Data{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                     <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                     <div class="Clear"></div>
@@ -91,3 +93,11 @@ $Include{"RichTextEditor"}
         </div>
     </div>
 </form>
+
+<div id="UIElementPool">
+    <div class="Dialog">
+        <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
+        <div class="Content"></div>
+        <div class="Footer"><span class="LeftCorner"></span><span></span></div>
+    </div>
+</div>

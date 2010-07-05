@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.46 2010-07-02 23:01:25 en Exp $
+# $Id: AgentTicketMerge.pm,v 1.47 2010-07-05 20:43:37 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CheckItem;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,6 +50,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Output;
+    my %Error;
+    my %GetParam;
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
@@ -109,7 +111,9 @@ sub Run {
                     Message => "Sorry, you need to be the owner to do this action!",
                     Comment => 'Please change the owner first.',
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $Self->{LayoutObject}->Footer(
+                    Type => 'Small',
+                );
                 return $Output;
             }
         }
@@ -118,21 +122,49 @@ sub Run {
     # merge action
     if ( $Self->{Subaction} eq 'Merge' ) {
 
-        # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
-
-        my $MainTicketNumber = $Self->{ParamObject}->GetParam( Param => 'MainTicketNumber' );
+        # get all parameters and check for errors
+        for (qw( From To Subject Body InformSender MainTicketNumber )) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        }
 
         # removing blank spaces from the ticket number
         $Self->{CheckItemObject}->StringClean(
-            StringRef => \$MainTicketNumber,
+            StringRef => \$GetParam{'MainTicketNumber'},
             TrimLeft  => 1,
             TrimRight => 1,
         );
 
+        # check some stuff
         my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
-            TicketNumber => $MainTicketNumber,
+            TicketNumber => $GetParam{'MainTicketNumber'},
         );
+
+        if ( !$MainTicketID ) {
+            $Error{'MainTicketNumberInvalid'} = 'ServerError';
+        }
+        if ( !$GetParam{'To'} ) {
+            $Error{'ToInvalid'} = 'ServerError';
+        }
+        if ( !$GetParam{'Subject'} ) {
+            $Error{'SubjectInvalid'} = 'ServerError';
+        }
+        if ( !$GetParam{'Body'} ) {
+            $Error{'RichTextInvalid'} = 'ServerError';
+        }
+
+        if (%Error) {
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentTicketMerge',
+                Data => { %Param, %GetParam, %Ticket, %Error },
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # check permissions
         my $Access = $Self->{TicketObject}->TicketPermission(
@@ -156,22 +188,19 @@ sub Run {
             )
             )
         {
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+            my $Output .= $Self->{LayoutObject}->Header(
+                Type => 'Small',
+            );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketMerge',
                 Data => { %Param, %Ticket },
             );
-            $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer(
+                Type => 'Small',
+            );
             return $Output;
         }
         else {
-
-            # get params
-            my %GetParam;
-            for (qw(From To Subject Body InformSender)) {
-                $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
-            }
 
             # send customer info?
             if ( $GetParam{InformSender} ) {
@@ -208,7 +237,8 @@ sub Run {
                 }
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
                 $GetParam{Body} =~ s/(&lt;|<)OTRS_TICKET(&gt;|>)/$Ticket{TicketNumber}/g;
-                $GetParam{Body} =~ s/(&lt;|<)OTRS_MERGE_TO_TICKET(&gt;|>)/$MainTicketNumber/g;
+                $GetParam{Body}
+                    =~ s/(&lt;|<)OTRS_MERGE_TO_TICKET(&gt;|>)/$GetParam{'MainTicketNumber'}/g;
                 my $ArticleID = $Self->{TicketObject}->ArticleSend(
                     ArticleType    => 'email-external',
                     SenderType     => 'agent',
