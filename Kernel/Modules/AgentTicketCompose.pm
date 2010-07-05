@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.96 2010-06-02 18:26:12 dz Exp $
+# $Id: AgentTicketCompose.pm,v 1.97 2010-07-05 05:59:57 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -173,6 +173,10 @@ sub Run {
         if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
             $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
         }
+
+        if ( $Self->{Config}->{TicketFreeTime}->{$_} == 2 ) {
+            $GetParam{ 'TicketFreeTime' . $_ . 'Required' } = 1;
+        }
     }
 
     # get article free text params
@@ -220,14 +224,14 @@ sub Run {
         my %Error;
         if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                $Error{'Date invalid'} = 'invalid';
+                $Error{'DateInvalid'} = 'ServerError';
             }
             if (
                 $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
                 < $Self->{TimeObject}->SystemTime()
                 )
             {
-                $Error{'Date invalid'} = 'invalid';
+                $Error{'DateInvalid'} = 'ServerError';
             }
         }
 
@@ -344,6 +348,11 @@ sub Run {
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
+
+                # If Key has value 2, this means that the freetextfield is required
+                if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                    $TicketFreeText{Required}->{$Count} = 1;
+                }
             }
             my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
                 Config => \%TicketFreeText,
@@ -897,11 +906,20 @@ $QData{"Signature"}
 
         # check some values
         my %Error;
-        for my $Line (qw(From To Cc Bcc)) {
+        for my $Line (qw(To Cc Bcc)) {
             next if !$Data{$Line};
             for my $Email ( Mail::Address->parse( $Data{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
+
+             #                    $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
+                    $Error{"$Line invalid"} .= " ServerError"
+                }
+            }
+        }
+        if ( $Data{From} ) {
+            for my $Email ( Mail::Address->parse( $Data{From} ) ) {
+                if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                    $Error{"From invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }
         }
@@ -1060,15 +1078,10 @@ sub _Mask {
         YearPeriodPast   => 0,
         YearPeriodFuture => 5,
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Validate         => 1,
+        Class            => $Param{Errors}->{DateInvalid} || ' ',
     );
 
-    # js for time accounting
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'TimeUnitsJs',
-            Data => \%Param,
-        );
-    }
     $Self->{LayoutObject}->Block(
         Name => 'Content',
         Data => {
@@ -1197,31 +1210,6 @@ sub _Mask {
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
-        );
-    }
-
-    # java script check for required free text fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
-        next if $Self->{Config}->{TicketFreeText}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTextCheckJs',
-            Data => {
-                TicketFreeTextField => "TicketFreeText$Key",
-                TicketFreeKeyField  => "TicketFreeKey$Key",
-            },
-        );
-    }
-
-    # java script check for required free time fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
-        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTimeCheckJs',
-            Data => {
-                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
-                TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
-            },
         );
     }
 
