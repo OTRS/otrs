@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,10 +52,15 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # quote Title attribute, it will be used as name="" parameter of the iframe
+    my $Title = $Self->{Config}->{Title} || '';
+    $Title =~ s/\s/_/smx;
+
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardIFrame',
         Data         => {
             %{ $Self->{Config} },
+            Title => $Title,
         },
     );
 
