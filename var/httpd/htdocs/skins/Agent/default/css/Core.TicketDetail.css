@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -69,10 +69,10 @@ div.Headline .Flag {
 }
 
 #ArticleTableBody .Scroller {
-    max-height: 140px;
+    height: 140px;
     overflow-y: scroll;
 }
-    
+
 .FixedHeader .Scroller {
     margin-top: 30px;
 }
