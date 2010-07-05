@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentLinkObject.pm - to link objects
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.48 2009-11-25 15:23:21 mg Exp $
+# $Id: AgentLinkObject.pm,v 1.49 2010-07-05 20:28:45 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -102,12 +102,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'LinkDelete' ) {
 
         # output header and navbar
-        my $Output = $Self->{LayoutObject}->Header();
-
-        # output navbar
-        if ( $Form{Mode} eq 'Normal' ) {
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-        }
+        my $Output = $Self->{LayoutObject}->Header( Type => 'Small', );
 
         if ( $Self->{ParamObject}->GetParam( Param => 'SubmitDelete' ) ) {
 
@@ -209,7 +204,7 @@ sub Run {
             TemplateFile => 'AgentLinkObject',
         );
 
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->Footer( Type => 'Small', );
 
         return $Output;
     }
@@ -223,12 +218,7 @@ sub Run {
         my $TypeIdentifier = $Self->{ParamObject}->GetParam( Param => 'TypeIdentifier' );
 
         # output header
-        my $Output = $Self->{LayoutObject}->Header();
-
-        # output navbar
-        if ( $Form{Mode} eq 'Normal' ) {
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-        }
+        my $Output = $Self->{LayoutObject}->Header( Type => 'Small', );
 
         # add new links
         if ( $Self->{ParamObject}->GetParam( Param => 'SubmitLink' ) ) {
@@ -626,7 +616,7 @@ sub Run {
             TemplateFile => 'AgentLinkObject',
         );
 
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->Footer( Type => 'Small', );
 
         return $Output;
     }

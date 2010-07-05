@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.18 2010-04-05 13:08:41 martin Exp $
+# $Id: LayoutLinkObject.pm,v 1.19 2010-07-05 20:28:45 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -270,15 +270,6 @@ sub LinkObjectTableCreateComplex {
         next BLOCK if ref $Block->{ItemList} ne 'ARRAY';
         next BLOCK if !@{ $Block->{ItemList} };
 
-        # output the block
-        $LayoutObject->Block(
-            Name => 'TableComplexBlock',
-            Data => {
-                BlockDescription => $BlockDescription,
-                Blockname => $Block->{Blockname} || '',
-            },
-        );
-
         # output table headline
         for my $HeadlineColumn ( @{ $Block->{Headline} } ) {
 
@@ -290,18 +281,11 @@ sub LinkObjectTableCreateComplex {
         }
 
         # output item list
-        my $CssClass = '';
         for my $Row ( @{ $Block->{ItemList} } ) {
-
-            # set the css class
-            $CssClass = $CssClass eq 'searchpassive' ? 'searchactive' : 'searchpassive';
 
             # output a table row block
             $LayoutObject->Block(
                 Name => 'TableComplexBlockRow',
-                Data => {
-                    CssClass => $CssClass,
-                },
             );
 
             for my $Column ( @{$Row} ) {
@@ -318,8 +302,7 @@ sub LinkObjectTableCreateComplex {
                     Name => 'TableComplexBlockRowColumn',
                     Data => {
                         %{$Column},
-                        Content  => $Content,
-                        CssClass => $CssClass,
+                        Content => $Content,
                     },
                 );
             }
@@ -329,30 +312,10 @@ sub LinkObjectTableCreateComplex {
 
             # output the footer block
             $LayoutObject->Block(
-                Name => 'TableComplexBlockFooterAdd',
+                Name => 'TableComplexTypeSubmit',
                 Data => {
                     Colspan => scalar @{ $Block->{Headline} },
                     LinkTypeStrg => $Param{LinkTypeStrg} || '',
-                },
-            );
-        }
-        elsif ( $Param{ViewMode} eq 'ComplexDelete' ) {
-
-            # output the footer block
-            $LayoutObject->Block(
-                Name => 'TableComplexBlockFooterDelete',
-                Data => {
-                    Colspan => scalar @{ $Block->{Headline} },
-                },
-            );
-        }
-        else {
-
-            # output the footer block
-            $LayoutObject->Block(
-                Name => 'TableComplexBlockFooterNormal',
-                Data => {
-                    Colspan => scalar @{ $Block->{Headline} },
                 },
             );
         }
