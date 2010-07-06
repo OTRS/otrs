@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.2 2010-06-25 05:25:44 cg Exp $
+// $Id: Core.Agent.js,v 1.3 2010-07-06 13:30:01 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -143,6 +143,15 @@ Core.Agent = (function (TargetNS) {
         // init IE7 compat code (will only run on IE7)
         Core.UI.IE7Fixes.InitIE7InputFocus('Focus');
         Core.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
+
+        // do the popup stuff
+        Core.UI.RegisterEvent('beforeunload.Popup', $(window), function () {
+            return Core.UI.Popup.CheckPopupsOnUnload();
+        });
+        Core.UI.RegisterEvent('unload.Popup', $(window), function () {
+            Core.UI.Popup.ClosePopupsOnUnload();
+        });
+        Core.UI.Popup.RegisterPopupEvent();
     };
 
     return TargetNS;

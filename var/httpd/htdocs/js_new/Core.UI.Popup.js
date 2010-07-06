@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.4 2010-06-25 05:26:29 cg Exp $
+// $Id: Core.UI.Popup.js,v 1.5 2010-07-06 13:30:01 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,6 +40,44 @@ Core.UI.Popup = (function (TargetNS) {
     function GetPopupObjectByType(Type) {
         return OpenPopups[Type];
     }
+
+    TargetNS.RegisterPopupEvent = function () {
+        $(window).bind('Popup', function (Event, Type, Param) {
+            if (Type && typeof Type !== 'undefined') {
+                if (Type === 'Reload') {
+                    window.location.reload();
+                }
+                else if (Type === 'URL') {
+                    if (Param && typeof Param.URL !== 'undefined') {
+                        window.location.href = Param.URL;
+                    }
+                }
+            }
+        });
+    };
+
+    TargetNS.FirePopupEvent = function (Type, Param) {
+      $(window).unbind('beforeunload.Popup').unbind('unload.Popup');
+      $(window).trigger('Popup', [Type, Param]);
+    };
+
+    TargetNS.CheckPopupsOnUnload = function () {
+        var Size = 0;
+        CheckOpenPopups();
+        $.each(OpenPopups, function (Key, Value) {
+            Size++;
+        });
+        if (Size) {
+            return Core.Config.Get('PopupLeaveParentWindowMsg');
+        }
+    };
+
+    TargetNS.ClosePopupsOnUnload = function () {
+        CheckOpenPopups();
+        $.each(OpenPopups, function (Key, Value) {
+            TargetNS.ClosePopup(Value);
+        });
+    };
 
     /**
      * @function
@@ -101,7 +139,7 @@ Core.UI.Popup = (function (TargetNS) {
         if (typeof Popup === 'String') {
             Popup = GetPopupObjectByType(Popup);
         }
-        if (Popup && Popup instanceof window) {
+        if (typeof Popup !== 'undefined') {
             Popup.close();
             CheckOpenPopups();
         }
