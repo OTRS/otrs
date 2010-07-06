@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.54 2010-07-05 14:32:58 en Exp $
+# $Id: AgentTicketBulk.pm,v 1.55 2010-07-06 16:49:25 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,7 +86,7 @@ sub Run {
         for my $Key (
             qw(OwnerID Owner ResponsibleID Responsible PriorityID Priority QueueID Queue Subject
             Body ArticleTypeID ArticleType StateID State MergeToSelection MergeTo LinkTogether
-            LinkTogetherParent Unlock MergeToChecked MergeToOldestChecked)
+            LinkTogetherParent Unlock MergeToChecked MergeToOldestChecked TimeUnits)
             )
         {
             $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || '';
@@ -337,12 +337,11 @@ sub Run {
             }
 
             # time units
-            my $TimeUnits = $Self->{ParamObject}->GetParam( Param => 'TimeUnits' );
-            if ($TimeUnits) {
+            if ( $GetParam{'TimeUnits'} ) {
                 $Self->{TicketObject}->TicketAccountTime(
                     TicketID  => $TicketID,
                     ArticleID => $ArticleID,
-                    TimeUnit  => $TimeUnits,
+                    TimeUnit  => $GetParam{'TimeUnits'},
                     UserID    => $Self->{UserID},
                 );
             }
