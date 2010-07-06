@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.20 2010-07-05 21:29:13 dz Exp $
+# $Id: LinkObject.dtl,v 1.21 2010-07-06 11:59:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ $TimeLong{"$Data{"Content"}"}
 <!-- dtl:block:Checkbox -->
 
 <!-- dtl:block:InputText -->
-<input type="text" name="$QData{"Key"}" value="$QData{"Value"}" />
+<input type="text" name="$QData{"Key"}" class="W50pc" value="$QData{"Value"}" />
 <!-- dtl:block:InputText -->
 
 <!-- dtl:block:TableSimpleNone -->
@@ -44,8 +44,10 @@ $Text{"none"}
 <!-- dtl:block:TableSimple -->
 <table class="DataTable">
     <thead>
-        <th>$Text{"LinkType"}</th>
-        <th>$Text{"Ticket#"}</th>
+        <tr>
+            <th>$Text{"LinkType"}</th>
+            <th>$Text{"Ticket#"}</th>
+        </tr>
     </thead>
 
     <tbody>
@@ -70,9 +72,11 @@ $Text{"none"}
 <table class="DataTable">
 
     <thead>
+        <tr>
 <!-- dtl:block:TableComplexBlockColumn -->
-        <th> $Text{"$Data{"Content"}"} </th>
+            <th> $Text{"$Data{"Content"}"} </th>
 <!-- dtl:block:TableComplexBlockColumn -->
+        </tr>
     </thead>
 
     <tbody>
@@ -99,4 +103,3 @@ $Data{"LinkTypeStrg"}
 <!-- dtl:block:TableComplexTypeSubmit -->
 
 <!-- dtl:block:TableComplex -->
-    

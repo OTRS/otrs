@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.35 2010-07-05 21:29:13 dz Exp $
+# $Id: AgentLinkObject.dtl,v 1.36 2010-07-06 11:59:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@
 
 <!-- dtl:block:LinkMenuDelete -->
             $Text{"or"}
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=LinkDelete;Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}">$Text{"Delete links"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=LinkDelete;Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}">$Text{"delete links"}</a>
 <!-- dtl:block:LinkMenuDelete -->
 
         </p>
@@ -40,7 +40,7 @@
                     <h2>$Text{"Select Target Object"}</h2>
                 </div>
                 <div class="Content">
-                    <fieldset class=TableLike>
+                    <fieldset class="TableLike">
                         <label for="TargetIdentifier">
                             $Text{"Link Object"} $QData{"SourceObjectNormal"} $Text{"with"}:
                         </label>
@@ -57,7 +57,7 @@
                     <h2>$Text{"Search"} $QData{"TargetRealname"}</h2>
                 </div>
                 <div class="Content">
-                    <fieldset class=TableLike>
+                    <fieldset class="TableLike">
 <!-- dtl:block:LinkSearchRow -->
                         <label>
                             $Text{"$Data{"Name"}"}:
@@ -101,7 +101,7 @@
         <p>
             <a href="">$Text{"Close window"}</a>
             $Text{"or"}
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}" class="menuitem">$Text{"Go Back"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}" class="menuitem">$Text{"go back"}</a>
         </p>
     </div>
 
@@ -125,6 +125,10 @@
 <!-- dtl:block:DeleteTableComplex -->
                     $Data{"LinkTableStrg"}
 <!-- dtl:block:DeleteTableComplex -->
+
+                    <div class="SpacingTop">
+                        <button class="Primary" type="submit" name="SubmitDelete" value="$Text{"Delete links"}">$Text{"Delete links"}</button>
+                    </div>
 
                 </form>
             </div>
