@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.5 2010-07-02 13:30:06 mg Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.6 2010-07-06 03:02:38 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,32 +17,8 @@ function submit_compose() {
     if (typeof RichTextUpdateLinkedField == 'function') {
         RichTextUpdateLinkedField();
     }
-
 <!-- dtl:block:NoteJs -->
-<!-- dtl:block:TicketFreeTextCheckJs -->
-    if (document.compose.$Data{"TicketFreeTextField"}.value == "") {
-        alert('$JSText{"A required field is:"} ' + document.compose.$Data{"TicketFreeKeyField"}.value + '!');
-        document.compose.$Data{"TicketFreeTextField"}.focus();
-        return false;
-    }
-<!-- dtl:block:TicketFreeTextCheckJs -->
-<!-- dtl:block:TicketFreeTimeCheckJs -->
-    if (document.compose.$Data{"TicketFreeTimeCheck"} && document.compose.$Data{"TicketFreeTimeCheck"}.checked == false) {
-        alert('$JSText{"A required field is:"} $QData{"TicketFreeTimeKey"}!');
-        document.compose.$Data{"TicketFreeTimeCheck"}.focus();
-        return false;
-    }
-<!-- dtl:block:TicketFreeTimeCheckJs -->
-
     return true;
-}
-//]]></script>
-
-<script type="text/javascript">//<![CDATA[
-function SpellCheckSubmit() {
-    document.spelling.Body.value = document.compose.Body.value;
-    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.spelling.submit()
 }
 //]]></script>
 
@@ -124,7 +100,7 @@ function change_selected(sel) {
 <!-- dtl:block:Title -->
                     <label for="Title">$Text{"Title"}:</label>
                     <div class="Field">
-                        <input type="text" id="Title" name="Title" value="$QData{"Title"}" class="W75pc Validate_Required $Data{"TitleInvalid"}" />
+                        <input type="text" id="Title" name="Title" value="$QData{"Title"}" class="W75pc Validate_Required $QData{"TitleInvalid"}" />
                         <div id="TitleError" class="TooltipErrorMessage" ><p>$Text{"Title is required."}</p></div>
                         <div id="TitleServerError" class="TooltipErrorMessage"><p>$Text{"Title is required."}</p></div>
                     </div>
@@ -146,9 +122,9 @@ function change_selected(sel) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#ServiceID'), function (Event) {
-        var $Form = $('#Expand').closest('form')
+        var $Form = $('#Expand').val('3').closest('form');
         Core.Form.Validate.DisableValidation($Form);
-        $Form.find('#Expand').val('3').end().submit();
+        $Form.submit();
         return false;
     });
 //]]></script>
@@ -163,10 +139,10 @@ function change_selected(sel) {
                         $Data{"SLAStrg"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('change', $('#SLAID'), function (Event) {
-        var $Form = $('#Expand').closest('form')
+    Core.UI.RegisterEvent('change', $('#ServiceID'), function (Event) {
+        var $Form = $('#Expand').val('3').closest('form');
         Core.Form.Validate.DisableValidation($Form);
-        $Form.find('#Expand').val('3').end().submit();
+        $Form.submit();
         return false;
     });
 //]]></script>
@@ -230,10 +206,7 @@ function change_selected(sel) {
                     <div class="Field">
 
 <!-- dtl:block:SpellCheck -->
-                        <a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';">
-                            <img border="0" src="$Config{"Frontend::ImagePath"}spell.png" />
-                            $Text{"Spell check"}
-                        </a>
+                        <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
 <!-- dtl:block:SpellCheck -->
 
                     </div>
@@ -257,7 +230,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:Attachment -->
                             <li>
                                 $QData{"Filename"} ($QData{"Filesize"})
-                                <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                                <button type="submit" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('click', $('#AttachmentDelete$QData{"FileID"}'), function () {
@@ -320,13 +293,12 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:Priority -->
 
 <!-- dtl:block:TicketFreeText -->
-                    <label>$Data{"TicketFreeKeyField"} :</label>
+                    <label for="TicketFreeText$QData{"Count"}">$Data{"TicketFreeKeyField"} :</label>
                     <div class="Field">
                         $Data{"TicketFreeTextField"}
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TicketFreeText -->
-
 # example of how to use fixed ticket freetext blocks for customizations
 #<!-- dtl:block:TicketFreeText1 -->
 #                        <label>$Data{"TicketFreeKeyField1"}:</label>
@@ -344,13 +316,12 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeText2 -->
 
 <!-- dtl:block:TicketFreeTime -->
-                    <label>$Data{"TicketFreeTimeKey"} :</label>
+                    <label for="TicketFreeTime$QData{"Count"}">$Data{"TicketFreeTimeKey"} :</label>
                     <div class="Field">
                         $Data{"TicketFreeTime"}
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TicketFreeTime -->
-
 # example of how to use fixed ticket freetime blocks for customizations
 #<!-- dtl:block:TicketFreeTime1 -->
 #                        <label>$Data{"TicketFreeTimeKey1"}:</label>
@@ -368,13 +339,12 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeTime2 -->
 
 <!-- dtl:block:ArticleFreeText -->
-                    <label>$Data{"ArticleFreeKeyField"} :</label>
+                    <label for="ArticleFreeText$QData{"Count"}">$Data{"ArticleFreeKeyField"} :</label>
                     <div class="Field">
                         $Data{"ArticleFreeKeyField"}
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
-
 # example of how to use fixed article freetext blocks for customizations
 #<!-- dtl:block:ArticleFreeText1 -->
 #                        <label>$Data{"ArticleFreeKeyField1"}:</label>

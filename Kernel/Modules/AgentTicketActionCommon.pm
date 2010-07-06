@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.3 2010-07-02 04:33:52 mp Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.4 2010-07-06 03:02:13 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -320,18 +320,20 @@ sub Run {
         }
 
         #check owner
-        if ( $GetParam{NewOwnerType} eq 'New' && !$GetParam{NewOwnerID} ) {
-            $Error{'NewOwnerInvalid'} = 'ServerError';
-        }
-        elsif ( $GetParam{NewOwnerType} eq 'Old' && !$GetParam{OldOwnerID} ) {
-            $Error{'OldOwnerInvalid'} = 'ServerError';
+        if ( $Self->{Config}->{Owner} ) {
+            if ( $GetParam{NewOwnerType} eq 'New' && !$GetParam{NewOwnerID} ) {
+                $Error{'NewOwnerInvalid'} = 'ServerError';
+            }
+            elsif ( $GetParam{NewOwnerType} eq 'Old' && !$GetParam{OldOwnerID} ) {
+                $Error{'OldOwnerInvalid'} = 'ServerError';
+            }
         }
 
         # check required FreeTextField (if configured)
         for my $Count ( 1 .. 16 ) {
             next if $Self->{Config}->{TicketFreeText}->{$Count} ne 2;
             next if $GetParam{"TicketFreeText$Count"} ne '';
-            $Error{"TicketFreeTextField$Count invalid"} = '* invalid';
+            $Error{"TicketFreeTextField$Count invalid"} = 'ServerError';
         }
 
         #check if Title
@@ -343,6 +345,7 @@ sub Run {
         for my $Count ( 1 .. 32 ) {
             my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
             next if !$Delete;
+            %Error = ();
             $Error{AttachmentDelete} = 1;
             $Self->{UploadCacheObject}->FormIDRemoveFile(
                 FormID => $Self->{FormID},
@@ -1298,31 +1301,6 @@ sub _Mask {
         $Self->{LayoutObject}->Block(
             Name => 'ArticleFreeText' . $Count,
             Data => { %Param, Count => $Count },
-        );
-    }
-
-    # java script check for required free text fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
-        next if $Self->{Config}->{TicketFreeText}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTextCheckJs',
-            Data => {
-                TicketFreeTextField => "TicketFreeText$Key",
-                TicketFreeKeyField  => "TicketFreeKey$Key",
-            },
-        );
-    }
-
-    # java script check for required free time fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
-        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTimeCheckJs',
-            Data => {
-                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
-                TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
-            },
         );
     }
 

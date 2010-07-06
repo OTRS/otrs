@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.38 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketBounce.pm,v 1.39 2010-07-06 03:03:21 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,10 +93,7 @@ sub Run {
             {
 
                 # show lock state
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketLocked',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
-                );
+                $Param{TicketLocked} = 1;
             }
         }
         else {
@@ -114,24 +111,36 @@ sub Run {
                 return $Output;
             }
             else {
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketBack',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
-                );
+                $Param{TicketBack} = 1;
             }
         }
     }
     else {
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketBack',
-            Data => { %Param, %Ticket, },
-        );
+        $Param{TicketBack} = 1;
     }
 
     # ------------------------------------------------------------ #
     # show screen
     # ------------------------------------------------------------ #
     if ( !$Self->{Subaction} ) {
+
+        my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+
+        if ( $Param{TicketBack} ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Info => 'Back Overview ',
+                Link => '$Env{"Baselink"}$Env{"LastScreenView"}',
+            );
+        }
+
+        if ( $Param{TicketLocked} ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Info => 'Unlock Ticket : ' . $Ticket{TicketNumber},
+                Link => '$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID='
+                    . $Self->{TicketID},
+            );
+        }
 
         # check if plain article exists
         if ( !$Self->{TicketObject}->ArticlePlain( ArticleID => $Self->{ArticleID} ) ) {
@@ -227,7 +236,9 @@ $Param{Signature}";
         }
 
         # print form ...
-        my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
+        $Output .= $Self->{LayoutObject}->Notify(
+            Data => ' $Text{"Bounce ticket : "}' . $Ticket{TicketNumber},
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketBounce',
             Data         => {
@@ -254,20 +265,49 @@ $Param{Signature}";
             $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
 
+        my %Error;
+
         # check forward email address
+        if ( !$Param{BounceTo} ) {
+            $Error{'BounceToInvalid'} = 'ServerError';
+        }
         for my $Email ( Mail::Address->parse( $Param{BounceTo} ) ) {
             my $Address = $Email->address();
             if ( $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address ) ) {
-
-                # error page
-                return $Self->{LayoutObject}->ErrorScreen(
-                    Message => "Can't forward ticket to $Address! It's a local address!"
-                        . " You need to move it!",
-                    Comment => 'Please contact the admin.',
-                );
+                $Error{'BounceToInvalid'} = 'ServerError';
             }
         }
 
+        if ( !$Param{To} ) {
+            $Error{'ToInvalid'} = 'ServerError';
+        }
+
+        if ( !$Param{Subject} ) {
+            $Error{'SubjectInvalid'} = 'ServerError';
+        }
+        if ( !$Param{Subject} ) {
+            $Error{'BodyInvalid'} = 'ServerError';
+        }
+
+        #check for error
+        if (%Error) {
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentTicketBounce',
+                Data         => {
+                    %Param,
+
+                    #%Article,
+                    %Error,
+                    TicketID  => $Self->{TicketID},
+                    ArticleID => $Self->{ArticleID},
+
+                },
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
         my $Bounce = $Self->{TicketObject}->ArticleBounce(
             TicketID    => $Self->{TicketID},
             ArticleID   => $Self->{ArticleID},
