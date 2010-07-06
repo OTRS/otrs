@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.90 2010-07-05 18:46:17 cg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.91 2010-07-06 13:28:26 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -357,19 +357,6 @@ $Include{"RichTextEditor"}
     Core.Agent.TicketAction.Init();
 //]]></script>
 <!--dtl:js_on_document_complete-->
-
-# some invisible forms
-<form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-    <input type="hidden" name="Action" value="AgentSpelling"/>
-    <input type="hidden" name="Body" value=""/>
-    <input type="hidden" name="spell_lang" value=""/>
-</form>
-<form action="$Env{"CGIHandle"}" method="post" name="customer" target="customer">
-    <input type="hidden" name="Action" value="AdminCustomerUser"/>
-    <input type="hidden" name="Nav" value="None"/>
-    <input type="hidden" name="Subject" value=""/>
-    <input type="hidden" name="What" value=""/>
-</form>
 
 # example template form for customizations
 #<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" id="Template1">
