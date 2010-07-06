@@ -2,7 +2,7 @@
 # AgentInfo.dtl - provides info file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentInfo.dtl,v 1.8 2010-07-06 21:10:32 dz Exp $
+# $Id: AgentInfo.dtl,v 1.9 2010-07-06 21:37:42 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,9 +23,6 @@
                 </h4>
                 <p>
                     <a href="$Env{"Baselink"}Action=$Env{"Action"};Accept=1">Yes, accepted.</a>
-                </p>
-                <p class="SpacingTop">
-                    <a href="#" onclick="history.back(); return false;">$Text{"Back to the previous page"}</a>
                 </p>
             </div>
         </div>
