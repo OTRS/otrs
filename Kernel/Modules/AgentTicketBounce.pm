@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.39 2010-07-06 03:03:21 mp Exp $
+# $Id: AgentTicketBounce.pm,v 1.40 2010-07-06 21:43:08 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,7 +93,10 @@ sub Run {
             {
 
                 # show lock state
-                $Param{TicketLocked} = 1;
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketLocked',
+                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                );
             }
         }
         else {
@@ -111,36 +114,24 @@ sub Run {
                 return $Output;
             }
             else {
-                $Param{TicketBack} = 1;
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketBack',
+                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                );
             }
         }
     }
     else {
-        $Param{TicketBack} = 1;
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketBack',
+            Data => { %Param, TicketID => $Self->{TicketID}, },
+        );
     }
 
     # ------------------------------------------------------------ #
     # show screen
     # ------------------------------------------------------------ #
     if ( !$Self->{Subaction} ) {
-
-        my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-
-        if ( $Param{TicketBack} ) {
-            $Output .= $Self->{LayoutObject}->Notify(
-                Info => 'Back Overview ',
-                Link => '$Env{"Baselink"}$Env{"LastScreenView"}',
-            );
-        }
-
-        if ( $Param{TicketLocked} ) {
-            $Output .= $Self->{LayoutObject}->Notify(
-                Info => 'Unlock Ticket : ' . $Ticket{TicketNumber},
-                Link => '$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID='
-                    . $Self->{TicketID},
-            );
-        }
 
         # check if plain article exists
         if ( !$Self->{TicketObject}->ArticlePlain( ArticleID => $Self->{ArticleID} ) ) {
@@ -236,16 +227,16 @@ $Param{Signature}";
         }
 
         # print form ...
-        $Output .= $Self->{LayoutObject}->Notify(
-            Data => ' $Text{"Bounce ticket : "}' . $Ticket{TicketNumber},
-        );
+        my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketBounce',
             Data         => {
                 %Param,
                 %Article,
-                TicketID  => $Self->{TicketID},
-                ArticleID => $Self->{ArticleID},
+                TicketID     => $Self->{TicketID},
+                ArticleID    => $Self->{ArticleID},
+                TicketNumber => $Ticket{TicketNumber},
             },
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -285,20 +276,45 @@ $Param{Signature}";
         if ( !$Param{Subject} ) {
             $Error{'SubjectInvalid'} = 'ServerError';
         }
-        if ( !$Param{Subject} ) {
+        if ( !$Param{Body} ) {
             $Error{'BodyInvalid'} = 'ServerError';
         }
 
         #check for error
         if (%Error) {
+
+            # get next states
+            my %NextStates = $Self->{TicketObject}->TicketStateList(
+                Action   => $Self->{Action},
+                TicketID => $Self->{TicketID},
+                UserID   => $Self->{UserID},
+            );
+
+            # build next states string
+            if ( !$Self->{Config}->{StateDefault} ) {
+                $NextStates{''} = '-';
+            }
+            $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data     => \%NextStates,
+                Name     => 'BounceStateID',
+                Selected => $Param{BounceStateID},
+            );
+
+            # add rich text editor
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'RichText',
+                );
+            }
+
+            $Param{InformationFormat} = $Param{Body};
+
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketBounce',
                 Data         => {
                     %Param,
-
-                    #%Article,
                     %Error,
                     TicketID  => $Self->{TicketID},
                     ArticleID => $Self->{ArticleID},
@@ -308,6 +324,7 @@ $Param{Signature}";
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
+
         my $Bounce = $Self->{TicketObject}->ArticleBounce(
             TicketID    => $Self->{TicketID},
             ArticleID   => $Self->{ArticleID},
