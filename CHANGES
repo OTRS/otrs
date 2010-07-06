@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1241 2010-07-01 15:49:58 mb Exp $
+# $Id: CHANGES,v 1.1242 2010-07-06 13:28:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/07/06) Removed AgentLookup (was not used in OTRS framework itself
+     and is not state of the art of dealing with dynamic data any more).
  - (2010/07/01) Streamlined messages in AgentTicketBulk.
  - (2010/07/01) Added option to ticket bulk action to define if tickets for bulk
     action need to get locked for current agent or not.
