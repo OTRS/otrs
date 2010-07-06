@@ -1,8 +1,8 @@
 # --
 # AgentInfo.dtl - provides info file
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentInfo.dtl,v 1.7 2009-11-25 15:34:55 mg Exp $
+# $Id: AgentInfo.dtl,v 1.8 2010-07-06 21:10:32 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,21 +10,26 @@
 # --
 
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-        <td class="mainhead">
-            $Env{"Box0"}$Text{"Info"}$Env{"Box1"}
-        </td>
-    </tr>
-    <tr>
-        <td class="mainbody">
-            <p>
-                To accept some news, a license or some changes.
-            </p>
-            <p>
-                <a href="$Env{"Baselink"}Action=$Env{"Action"};Accept=1">Yes, accepted.</a>
-            </p>
-        </td>
-    </tr>
-</table>
+<div class="MainBox ARIARoleMain">
+
+    <div class="W33pc CenterBox SpacingTopLarge SpacingBottomLarge">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Info"}</h2>
+            </div>
+            <div class="Content">
+                <h4>
+                    $Text{"To accept some news, a license or some changes."}
+                </h4>
+                <p>
+                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Accept=1">Yes, accepted.</a>
+                </p>
+                <p class="SpacingTop">
+                    <a href="#" onclick="history.back(); return false;">$Text{"Back to the previous page"}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
 <!-- end form -->
