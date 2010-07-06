@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.98 2010-07-05 22:59:25 cg Exp $
+# $Id: AgentTicketCompose.pm,v 1.99 2010-07-06 18:52:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -228,20 +228,7 @@ sub Run {
 
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{StateID}, );
 
-        # check pending date
         my %Error;
-        if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
-            if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                $Error{'DateInvalid'} = 'ServerError';
-            }
-            if (
-                $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
-                < $Self->{TimeObject}->SystemTime()
-                )
-            {
-                $Error{'DateInvalid'} = 'ServerError';
-            }
-        }
 
         # check required FreeTextField (if configured)
         for ( 1 .. 16 ) {
@@ -254,6 +241,9 @@ sub Run {
             }
         }
 
+        # If is an action about attachments
+        my $IsUpload = 0;
+
         # attachment delete
         for my $Count ( 1 .. 32 ) {
             my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
@@ -263,11 +253,13 @@ sub Run {
                 FormID => $Self->{FormID},
                 FileID => $Count,
             );
+            $IsUpload = 1;
         }
 
         # attachment upload
         if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
-            %Error = ();
+            $IsUpload                = 1;
+            %Error                   = ();
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                 Param  => 'FileUpload',
@@ -284,19 +276,41 @@ sub Run {
             FormID => $Self->{FormID},
         );
 
+        # check pending date
+        if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
+            if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
+                if ( $IsUpload == 0 ) {
+                    $Error{'DateInvalid'} = 'ServerError';
+                }
+            }
+            if (
+                $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
+                < $Self->{TimeObject}->SystemTime()
+                )
+            {
+                if ( $IsUpload == 0 ) {
+                    $Error{'DateInvalid'} = 'ServerError';
+                }
+            }
+        }
+
         # check some values
         for my $Line (qw(To Cc Bcc)) {
             next if !$GetParam{$Line};
             for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{ $Line . "Invalid" } .= " ServerError"
+                    if ( $IsUpload == 0 ) {
+                        $Error{ $Line . "Invalid" } = " ServerError";
+                    }
                 }
             }
         }
         if ( $GetParam{From} ) {
             for my $Email ( Mail::Address->parse( $GetParam{From} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{"FromInvalid"} .= $Self->{CheckItemObject}->CheckError();
+                    if ( $IsUpload == 0 ) {
+                        $Error{"FromInvalid"} .= $Self->{CheckItemObject}->CheckError();
+                    }
                 }
             }
         }
@@ -368,6 +382,16 @@ sub Run {
                 # If Key has value 2, this means that the freetextfield is required
                 if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
                     $TicketFreeText{Required}->{$Count} = 1;
+                }
+
+                # check required FreeTextField (if configured)
+                if (
+                    $Self->{Config}->{TicketFreeText}->{$Count} == 2
+                    && $GetParam{$Text} eq ''
+                    && $IsUpload == 0
+                    )
+                {
+                    $Error{"TicketFreeTextField$Count invalid"} = 'invalid';
                 }
             }
             my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
@@ -930,8 +954,7 @@ $QData{"Signature"}
             next if !$Data{$Line};
             for my $Email ( Mail::Address->parse( $Data{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-
-                    $Error{ $Line . "Invalid" } .= " ServerError"
+                    $Error{ $Line . "Invalid" } = " ServerError"
                 }
             }
         }
@@ -1106,6 +1129,14 @@ sub _Mask {
         Class            => $Param{Errors}->{DateInvalid} || ' ',
     );
 
+    $Self->{LayoutObject}->Block(
+        Name => 'Content',
+        Data => {
+            FormID => $Self->{FormID},
+            %Param,
+        },
+    );
+
     # run compose modules
     if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
@@ -1190,6 +1221,11 @@ sub _Mask {
 
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+        $Param{TimeUnitsRequired} = (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            ? 'Validate_Required'
+            : ''
+        );
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,
