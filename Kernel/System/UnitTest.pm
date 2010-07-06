@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.36 2010-06-30 08:44:40 mg Exp $
+# $Id: UnitTest.pm,v 1.37 2010-07-06 13:36:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -219,15 +219,17 @@ sub Run {
             $ResultSummary{Vendor} = 'RedHat unknown';
         }
     }
-    elsif ( -e '/etc/issue' ) {
+    elsif ( -e '/etc/lsb-release' ) {
         my $ConfigFile = $Self->{MainObject}->FileRead(
-            Location => '/etc/issue',
+            Location => '/etc/lsb-release',
             Result   => 'ARRAY',
         );
         if ( $ConfigFile && $ConfigFile->[0] ) {
-            $ConfigFile->[0] =~ s/\\.*//;
-            $ConfigFile->[0] =~ s/\n//g;
+            $ConfigFile->[0] =~ s/DISTRIB_ID=//;
             $ResultSummary{Vendor} = $ConfigFile->[0];
+            $ConfigFile->[1] =~ s/DISTRIB_RELEASE=//;
+            chomp( $ResultSummary{Vendor} );
+            $ResultSummary{Vendor} .= ' ' . $ConfigFile->[1];
         }
         else {
             $ResultSummary{Vendor} = 'ubuntu unknown';
@@ -708,6 +710,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2010-06-30 08:44:40 $
+$Revision: 1.37 $ $Date: 2010-07-06 13:36:36 $
 
 =cut
