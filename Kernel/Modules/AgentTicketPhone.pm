@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.145 2010-07-05 18:44:37 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.146 2010-07-06 18:51:00 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.145 $) [1];
+$VERSION = qw($Revision: 1.146 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -695,30 +695,29 @@ sub Run {
                 $Error{'From invalid'} .= $Self->{CheckItemObject}->CheckError();
             }
         }
-        if ( !$GetParam{From} && $ExpandCustomerName != 1 && $ExpandCustomerName == 0 ) {
-            if ( $IsUpload == 0 ) {
-                $Error{'FromInvalid'} = ' ServerError';
-            }
+        if (
+            !$IsUpload
+            && !$GetParam{From}
+            && $ExpandCustomerName != 1
+            && $ExpandCustomerName == 0
+            )
+        {
+            $Error{'FromInvalid'} = ' ServerError';
         }
-        if ( !$GetParam{Subject} && $ExpandCustomerName == 0 ) {
-            if ( $IsUpload == 0 ) {
-                $Error{'SubjectInvalid'} = ' ServerError';
-            }
+        if ( !$IsUpload && !$GetParam{Subject} && $ExpandCustomerName == 0 ) {
+            $Error{'SubjectInvalid'} = ' ServerError';
         }
-        if ( !$NewQueueID && $ExpandCustomerName == 0 ) {
-            if ( $IsUpload == 0 ) {
-                $Error{'DestinationInvalid'} = ' ServerError';
-            }
+        if ( !$IsUpload && !$NewQueueID && $ExpandCustomerName == 0 ) {
+            $Error{'DestinationInvalid'} = ' ServerError';
         }
         if (
+            !$IsUpload &&
             $Self->{ConfigObject}->Get('Ticket::Service')
             && $GetParam{SLAID}
             && !$GetParam{ServiceID}
             )
         {
-            if ( $IsUpload == 0 ) {
-                $Error{'ServiceInvalid'} = ' ServerError';
-            }
+            $Error{'ServiceInvalid'} = ' ServerError';
         }
 
         if (%Error) {

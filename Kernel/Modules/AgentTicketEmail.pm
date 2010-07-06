@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.136 2010-07-05 18:44:07 cg Exp $
+# $Id: AgentTicketEmail.pm,v 1.137 2010-07-06 18:51:28 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -617,27 +617,20 @@ sub Run {
                 my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                     Address => $Email->address()
                 );
-                if ($IsLocal) {
-                    if ( $IsUpload == 0 ) {
-                        $Error{ "$Line" . "Invalid" } = ' ServerError';
-                    }
+                if ( !$IsUpload && $IsLocal ) {
+                    $Error{ "$Line" . "Invalid" } = ' ServerError';
                 }
             }
         }
-        if ( !$GetParam{To} && $ExpandCustomerName != 1 && $ExpandCustomerName == 0 ) {
-            if ( $IsUpload == 0 ) {
-                $Error{'ToInvalid'} = ' ServerError';
-            }
+        if ( !$IsUpload && !$GetParam{To} && $ExpandCustomerName != 1 && $ExpandCustomerName == 0 )
+        {
+            $Error{'ToInvalid'} = ' ServerError';
         }
-        if ( !$GetParam{Subject} && $ExpandCustomerName == 0 ) {
-            if ( $IsUpload == 0 ) {
-                $Error{'SubjectInvalid'} = ' ServerError';
-            }
+        if ( !$IsUpload && !$GetParam{Subject} && $ExpandCustomerName == 0 ) {
+            $Error{'SubjectInvalid'} = ' ServerError';
         }
-        if ( !$NewQueueID && $ExpandCustomerName == 0 ) {
-            if ( $IsUpload == 0 ) {
-                $Error{'DestinationInvalid'} = ' ServerError';
-            }
+        if ( !$IsUpload && !$NewQueueID && $ExpandCustomerName == 0 ) {
+            $Error{'DestinationInvalid'} = ' ServerError';
         }
 
         # check if date is valid
