@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -132,27 +132,27 @@
     background-position: -48px -22px;
 }
     
-#ToolBar .Watched a {
+#ToolBar .Watcher a {
     background-position: -72px 0;
 }
     
-#ToolBar .Watched a .Gloss {
+#ToolBar .Watcher a .Gloss {
     background-position: -72px -22px;
 }
 
-#ToolBar .Watched.New a {
+#ToolBar .Watcher.New a {
     background-position: -96px 0;
 }
     
-#ToolBar .Watched.New a .Gloss {
+#ToolBar .Watcher.New a .Gloss {
     background-position: -96px -22px;
 }
     
-#ToolBar .Watched.Reached a {
+#ToolBar .Watcher.Reached a {
     background-position: -120px 0;
 }
     
-#ToolBar .Watched.Reached a .Gloss {
+#ToolBar .Watcher.Reached a .Gloss {
     background-position: -120px -22px;
 }
     
