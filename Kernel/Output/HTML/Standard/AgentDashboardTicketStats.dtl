@@ -1,8 +1,8 @@
 # --
 # AgentDashboardTicketStats.dtl - provides HTML for global dashboard
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketStats.dtl,v 1.5 2009-06-29 12:32:29 ub Exp $
+# $Id: AgentDashboardTicketStats.dtl,v 1.5.2.1 2010-07-07 15:33:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,7 +76,7 @@
         yAxis: YAxis,
         dataTipFunction: YAHOO.OTRS.Dashboard.getDataTipText,
         //only needed for flash player express install
-        expressInstall: "assets/expressinstall.swf"
+        expressInstall: "$Config{"Frontend::YUIPath"}/assets/expressinstall.swf"
     });
 
 </script>
