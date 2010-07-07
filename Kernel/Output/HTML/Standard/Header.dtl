@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.95 2010-07-07 09:13:14 martin Exp $
+# $Id: Header.dtl,v 1.96 2010-07-07 10:15:40 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,11 +31,6 @@ $Include{"HTMLHead"}
 <!-- dtl:block:ToolBarItem -->
             <li class="$QData{"Class"}"><a href="$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$QData{"Count"} $Text{"$Data{"Description"}"}"><span class="Counter">$QData{"Count"}</span> $Text{"Description"}<span class="Gloss"></span></a></li>
 <!-- dtl:block:ToolBarItem -->
-#            <li class="Alerts"><span></span><a href="" title="Alerts"><span>9</span> Alerts</a></li>
-#            <li class="Stacks"><span></span><a href="" title="Stacks"><span>21</span> Stacks</a></li>
-#            <li class="Dates"><span></span><a href="" title="Date">Date</a></li>
-#            <li class="Mails"><span></span><a href="" title="Mails"><span>10</span> Mails</a></li>
-#            <li class="Global"><span></span><a href="" title="Global">Global</a></li>
 <!-- dtl:block:ToolBarSearchProfile -->
             <li class="Extended SearchProfile">
                 <form action="$Env{"CGIHandle"}" method="post" name="SearchProfile">
