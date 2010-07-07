@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.82 2010-07-07 10:19:11 mn Exp $
+# $Id: LayoutTicket.pm,v 1.83 2010-07-07 22:59:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub TicketStandardResponseString {
     my ( $Self, %Param ) = @_;
@@ -456,7 +456,8 @@ sub AgentFreeText {
                 LanguageTranslation => 0,
                 HTMLQuote           => 1,
                 Class               => $Class . ' '
-                    . ( $Config{"Required"}->{$_} ? 'Validate_RequiredDropdown' : '' ),
+                    . ( $Config{"Required"}->{$_} ? 'Validate_RequiredDropdown' : '' )
+                    . ( $Config{"Error"}->{$_} ? 'ServerError' : '' ),
                 %SelectData,
             );
             if ( $Config{"Required"}->{$_} ) {
@@ -464,6 +465,12 @@ sub AgentFreeText {
                     .= '<div id="TicketFreeText'
                     . $_
                     . 'Error" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
+            }
+            if ( $Config{"Error"}->{$_} ) {
+                $Data{"TicketFreeTextField$_"}
+                    .= '<div id="TicketFreeText'
+                    . $_
+                    . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
             }
 
         }
@@ -484,6 +491,7 @@ sub AgentFreeText {
                     . $_
                     . '" class="W33pc' . $Class . ' '
                     . ( $Config{"Required"}->{$_} ? 'Validate_Required' : '' )
+                    . ( $Config{"Error"}->{$_}    ? ' ServerError'      : '' )
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Ticket{"TicketFreeText$_"} )
                     . '" />';
@@ -494,11 +502,19 @@ sub AgentFreeText {
                         . $_
                         . 'Error" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
                 }
+
+                if ( $Config{"Error"}->{$_} ) {
+                    $Data{"TicketFreeTextField$_"}
+                        .= '<div id="TicketFreeText'
+                        . $_
+                        . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
+                }
             }
             else {
                 $Data{"TicketFreeTextField$_"}
                     = '<input type="text" class="W33pc' . $Class . ' '
                     . ( $Config{"Required"}->{$_} ? 'Validate_Required' : '' )
+                    . ( $Config{"Error"}->{$_}    ? ' ServerError'      : '' )
                     . '" name="TicketFreeText'
                     . $_
                     . '" id="TicketFreeText'
@@ -510,6 +526,13 @@ sub AgentFreeText {
                         .= '<div id="TicketFreeText'
                         . $_
                         . 'Error" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
+                }
+
+                if ( $Config{"Error"}->{$_} ) {
+                    $Data{"TicketFreeTextField$_"}
+                        .= '<div id="TicketFreeText'
+                        . $_
+                        . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
                 }
             }
         }
