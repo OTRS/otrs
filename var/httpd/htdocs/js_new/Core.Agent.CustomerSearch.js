@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.3 2010-06-23 10:25:23 mn Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.4 2010-07-07 11:27:15 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -51,6 +51,27 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         });
     }
 
+    function GetCustomerTickets(CustomerUserID, CustomerID) {
+        // check if customer tickets should be shown
+        if (isNaN(parseInt(Core.Config.Get('Autocomplete.ShowCustomerTickets')))) {
+            return;
+        }
+
+        var Data = {
+            Action: 'AgentCustomerSearch',
+            Subaction: 'CustomerTickets',
+            CustomerUserID: CustomerUserID,
+            CustomerID: CustomerID
+        };
+        Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function(Response) {
+            // show customer tickets
+            if ($('#CustomerTickets').length) {
+                $('#CustomerTickets').html(Response.CustomerTicketsHTMLString);
+                ReplaceOverviewControlLinks();
+            }
+        });
+    }
+
     /**
      * @function
      * @param {jQueryObject} $Element The jQuery object of the input field with autocomplete
@@ -59,6 +80,17 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      *      This function initializes the special module functions
      */
     TargetNS.Init = function($Element, ActiveAutoComplete) {
+        // get customer tickets for AgentTicketCustomer
+        if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
+            GetCustomerTickets($('#CustomerUserID').val(), $('#CustomerID').val());
+        }
+
+        // get customer tickets for AgentTicketPhone and AgentTicketEmail
+        if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketPhone') {
+            GetCustomerTickets($('#SelectedCustomerUser').val());
+        }
+
+
         if (typeof ActiveAutoComplete === 'undefined') {
             ActiveAutoComplete = true;
         }
@@ -112,6 +144,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                             $('<input type="hidden" name="CustomerUserOption" id="CustomerUserOption">').val(CustomerKey).appendTo($Element.closest('form'));
                         }
                     }
+
+                    // get customer tickets
+                    GetCustomerTickets(CustomerKey);
 
                     // get customer data for customer info table
                     GetCustomerInfo(CustomerKey);
