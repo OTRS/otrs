@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.55 2010-07-07 05:08:24 cg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.56 2010-07-07 22:56:24 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@
                     <div class="Field">
                         $QData{"From"}
                         <input type="hidden" name="From" value="$QData{"From"}"/>
-                        <font color="red" size="-2">$QData{"FromInvalid"}</font>
+                        <span class="Error">$QData{"FromInvalid"}</span>
                     </div>
                     <div class="Clear"></div>
 
@@ -99,7 +99,7 @@
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                    <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext">$Data{"ResponseFormat"}</textarea>
+                    <textarea id="RichText" name="Body" title="Message body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext">$Data{"ResponseFormat"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                     <div class="Clear"></div>
 
@@ -211,7 +211,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
                     <div class="Field">
-                        <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" size="3" class="Validate_TimeUnits $QData{"TimeUnitsRequired"}"/>
+                        <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W25pc Validate_TimeUnits $QData{"TimeUnitsRequired"}"/>
                         <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
                     </div>
                     <div class="Clear"></div>

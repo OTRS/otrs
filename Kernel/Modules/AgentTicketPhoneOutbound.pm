@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.47 2010-07-07 05:05:54 cg Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.48 2010-07-07 22:56:55 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -247,6 +247,12 @@ sub Run {
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
+
+            # If Key has value 2, this means that the freetextfield is required
+            if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                $TicketFreeText{Required}->{$Count} = 1;
+            }
+
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Ticket => \%Ticket,
@@ -399,9 +405,10 @@ sub Run {
         }
 
         # check subject
-        if ( !$GetParam{Subject} && !$Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) )
-        {
-            $Error{'Subject invalid'} = 'invalid';
+        for my $Key (qw(Body Subject TimeUnits)) {
+            if ( !$IsUpload && $GetParam{$Key} eq '' ) {
+                $Error{ $Key . 'Invalid' } = 'ServerError';
+            }
         }
 
         # get all attachments meta data
@@ -431,19 +438,37 @@ sub Run {
 
             # get free text config options
             my %TicketFreeText;
-            for ( 1 .. 16 ) {
-                $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+            for my $Count ( 1 .. 16 ) {
+                my $Key  = 'TicketFreeKey' . $Count;
+                my $Text = 'TicketFreeText' . $Count;
+                $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
-                    Type     => "TicketFreeKey$_",
+                    Type     => $Key,
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
-                $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                $TicketFreeText{$Text} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
-                    Type     => "TicketFreeText$_",
+                    Type     => $Text,
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
+
+                # If Key has value 2, this means that the freetextfield is required
+                if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                    $TicketFreeText{Required}->{$Count} = 1;
+                }
+
+                # check required FreeTextField (if configured)
+                if (
+                    $Self->{Config}->{TicketFreeText}->{$Count} == 2
+                    && $GetParam{$Text} eq ''
+                    && $IsUpload == 0
+                    )
+                {
+                    $TicketFreeText{Error}->{$Count} = 1;
+                }
+
             }
 
             my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
