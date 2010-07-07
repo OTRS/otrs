@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.4 2010-07-06 03:02:13 mp Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.5 2010-07-07 13:08:41 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,12 +124,17 @@ sub Run {
                 OwnerID  => $Self->{UserID},
             );
             if ( !$AccessOk ) {
-                my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{Number} );
+                my $Output = $Self->{LayoutObject}->Header(
+                    Type  => 'Small',
+                    Value => $Ticket{Number},
+                );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => 'Sorry, you need to be the owner to do this action!',
                     Comment => 'Please change the owner first.',
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $Self->{LayoutObject}->Footer(
+                    Type => 'Small',
+                );
                 return $Output;
             }
 
@@ -429,8 +434,10 @@ sub Run {
                 Config  => \%ArticleFreeText,
                 Article => \%GetParam,
             );
-            my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+            my $Output = $Self->{LayoutObject}->Header(
+                Type  => 'Small',
+                Value => $Ticket{TicketNumber},
+            );
             $Output .= $Self->_Mask(
                 Attachments       => \@Attachments,
                 TimeUnitsRequired => (
@@ -445,7 +452,9 @@ sub Run {
                 %GetParam,
                 %Error,
             );
-            $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer(
+                Type => 'Small',
+            );
             return $Output;
         }
 
@@ -826,8 +835,10 @@ sub Run {
         );
 
         # print form ...
-        my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $Self->{LayoutObject}->Header(
+            Type  => 'Small',
+            Value => $Ticket{TicketNumber},
+        );
         $Output .= $Self->_Mask(
             TimeUnitsRequired => (
                 $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
@@ -840,7 +851,9 @@ sub Run {
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->Footer(
+            Type => 'Small',
+        );
         return $Output;
     }
 }
