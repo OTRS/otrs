@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.21 2010-07-07 03:36:33 en Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.22 2010-07-07 17:50:55 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,9 +69,8 @@ $Include{"AgentCustomerSearch"}
 </form>
 <!-- dtl:block:Customer -->
 
-<div class="MainBox ARIARoleMain">
-
 <!-- dtl:block:CustomerHistory -->
+<div class="MainBox ARIARoleMain">
     <div class="Header">
         <h1>$Text{"Customer history"}</h1>
     </div>
@@ -79,15 +78,12 @@ $Include{"AgentCustomerSearch"}
         <div class="Header">
             <h2>$Text{"All customer tickets."}</h2>
         </div>
-
 <!-- dtl:block:CustomerHistory -->
 
+<!-- dtl:block:CustomerTickets -->
         <div class="Content" id="CustomerTickets">
-
-<!-- dtl:block:CustomerTickets -->
 $Data{"CustomerTickets"}
-<!-- dtl:block:CustomerTickets -->
-
         </div>
     </div>
 </div>
+<!-- dtl:block:CustomerTickets -->
