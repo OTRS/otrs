@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.31 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketCustomer.pm,v 1.32 2010-07-07 03:36:57 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -228,39 +228,14 @@ sub Form {
                 );
         }
         $TicketCustomerID = $TicketData{CustomerID};
-        $Param{Table} = $Self->{LayoutObject}->AgentCustomerViewTable( Data => \%CustomerUserData );
+        $Param{Table} = $Self->{LayoutObject}->AgentCustomerViewTable(
+            Data => \%CustomerUserData,
+            Max  => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
+        );
         $Self->{LayoutObject}->Block(
             Name => 'Customer',
             Data => { %TicketData, %Param, },
         );
-
-        # build customer search autocomplete field
-        if ( $AutoCompleteConfig->{Active} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'CustomerSearchAutoCompleteDivStart',
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'CustomerSearchAutoCompleteDivEnd',
-            );
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'SearchCustomerButton',
-            );
-        }
-
-        # build from string
-        if ( $Param{CustomerUserOptions} && %{ $Param{CustomerUserOptions} } ) {
-            $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->BuildSelection(
-                Data => $Param{CustomerUserOptions},
-                Name => 'CustomerUserOption',
-                Max  => 70,
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'CustomerTakeOver',
-                Data => { %Param, },
-            );
-        }
     }
 
     $Output
