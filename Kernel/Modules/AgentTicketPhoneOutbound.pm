@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.46 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.47 2010-07-07 05:05:54 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,6 +59,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $OutputAux = '';
+
     # check needed stuff
     if ( !$Self->{TicketID} ) {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -82,6 +84,11 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
+    # show lock state
+    $OutputAux .= $Self->{LayoutObject}->Notify(
+        Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked!"}',
+    );
+
     # get lock state && write (lock) permissions
     if ( $Self->{Config}->{RequiredLock} ) {
         if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
@@ -100,9 +107,8 @@ sub Run {
             {
 
                 # show lock state
-                $Self->{LayoutObject}->Block(
-                    Name => 'PropertiesLock',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                $OutputAux = $Self->{LayoutObject}->Notify(
+                    Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked!"}',
                 );
             }
         }
@@ -362,6 +368,9 @@ sub Run {
             }
         }
 
+        # If is an action about attachments
+        my $IsUpload = 0;
+
         # attachment delete
         for my $Count ( 1 .. 32 ) {
             my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
@@ -371,13 +380,16 @@ sub Run {
                 FormID => $Self->{FormID},
                 FileID => $Count,
             );
+            $IsUpload = 1;
         }
 
         # attachment upload
         if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+            $IsUpload                = 1;
+            %Error                   = ();
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
+                Param  => 'FileUpload',
                 Source => 'string',
             );
             $Self->{UploadCacheObject}->FormIDAddFile(
@@ -401,14 +413,18 @@ sub Run {
         my %StateData = $Self->{StateObject}->StateGet( ID => $GetParam{NextStateID} );
         if ( $StateData{TypeName} =~ /^pending/i ) {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                $Error{'Date invalid'} = 'invalid';
+                if ( $IsUpload == 0 ) {
+                    $Error{'DateInvalid'} = ' ServerError';
+                }
             }
             if (
                 $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
                 < $Self->{TimeObject}->SystemTime()
                 )
             {
-                $Error{'Date invalid'} = 'invalid';
+                if ( $IsUpload == 0 ) {
+                    $Error{'DateInvalid'} = ' ServerError';
+                }
             }
         }
         if (%Error) {
@@ -429,6 +445,7 @@ sub Run {
                     UserID   => $Self->{UserID},
                 );
             }
+
             my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
                 Config => \%TicketFreeText,
                 Ticket => \%GetParam,
@@ -496,6 +513,7 @@ sub Run {
             # header
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $OutputAux;
             $Output .= $Self->_MaskPhone(
                 TicketID     => $Self->{TicketID},
                 TicketNumber => $Tn,
@@ -520,7 +538,7 @@ sub Run {
 
             # get submit attachment
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
+                Param  => 'FileUpload',
                 Source => 'String',
             );
             if (%UploadStuff) {
@@ -858,6 +876,8 @@ sub _MaskPhone {
         YearPeriodPast   => 0,
         YearPeriodFuture => 5,
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Validate         => 1,
+        Class            => $Param{Errors}->{DateInvalid},
     );
 
     # do html quoting
@@ -923,9 +943,10 @@ sub _MaskPhone {
 
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'TimeUnitsJs',
-            Data => \%Param,
+        $Param{TimeUnitsRequired} = (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            ? 'Validate_Required'
+            : ''
         );
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
@@ -947,31 +968,6 @@ sub _MaskPhone {
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
-        );
-    }
-
-    # java script check for required free text fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
-        next if $Self->{Config}->{TicketFreeText}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTextCheckJs',
-            Data => {
-                TicketFreeTextField => "TicketFreeText$Key",
-                TicketFreeKeyField  => "TicketFreeKey$Key",
-            },
-        );
-    }
-
-    # java script check for required free time fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
-        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTimeCheckJs',
-            Data => {
-                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
-                TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
-            },
         );
     }
 
