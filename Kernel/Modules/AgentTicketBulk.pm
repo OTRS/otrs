@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.55 2010-07-06 16:49:25 en Exp $
+# $Id: AgentTicketBulk.pm,v 1.56 2010-07-07 17:22:33 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -101,10 +101,10 @@ sub Run {
             Minute => $Self->{ParamObject}->GetParam( Param => 'Minute' ),
         );
 
-        if ( $GetParam{'MergeToSelection'} eq 'MergeTo' ) {
+        if ( $GetParam{'MergeToSelection'} eq 'OptionMergeTo' ) {
             $GetParam{'MergeToChecked'} = 'checked';
         }
-        elsif ( $GetParam{'MergeToSelection'} eq 'MergeToOldest' ) {
+        elsif ( $GetParam{'MergeToSelection'} eq 'OptionMergeToOldest' ) {
             $GetParam{'MergeToOldestChecked'} = 'checked';
         }
 
@@ -125,7 +125,7 @@ sub Run {
         {
             $Error{'DateInvalid'} = 'ServerError';
         }
-        if ( $GetParam{'MergeToSelection'} eq 'MergeTo' && $GetParam{'MergeTo'} ) {
+        if ( $GetParam{'MergeToSelection'} eq 'OptionMergeTo' && $GetParam{'MergeTo'} ) {
             $Self->{CheckItemObject}->StringClean(
                 StringRef => \$GetParam{'MergeTo'},
                 TrimLeft  => 1,
@@ -347,7 +347,7 @@ sub Run {
             }
 
             # merge to
-            if ( $GetParam{'MergeToSelection'} eq 'MergeTo' && $GetParam{'MergeTo'} ) {
+            if ( $GetParam{'MergeToSelection'} eq 'OptionMergeTo' && $GetParam{'MergeTo'} ) {
                 my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
                     TicketNumber => $GetParam{'MergeTo'},
                 );
@@ -361,7 +361,7 @@ sub Run {
             }
 
             # merge to oldest
-            if ( $GetParam{'MergeToSelection'} eq 'MergeToOldest' ) {
+            if ( $GetParam{'MergeToSelection'} eq 'OptionMergeToOldest' ) {
 
                 # find oldest
                 my $TicketIDOldest;
