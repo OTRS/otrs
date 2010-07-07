@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.44 2010-07-02 22:32:56 en Exp $
+# $Id: AgentTicketMove.dtl,v 1.45 2010-07-07 03:39:14 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,15 +25,6 @@ function change_selected(sel) {
 }
 
 function submit_compose() {
-    // if RichText is enabled, update the hidden textarea now for the body content check to work correctly
-    if (typeof RichTextUpdateLinkedField == 'function') {
-        RichTextUpdateLinkedField();
-    }
-    else if (document.compose.TimeUnits && document.compose.TimeUnits.value > 0 && document.compose.Subject.value == "") {
-        alert('$JSText{"If you want to account time, please provide Subject and Text!"}');
-        document.compose.Subject.focus();
-        return false;
-    }
 <!-- dtl:block:TicketFreeTextCheckJs -->
     if (document.compose.$Data{"TicketFreeTextField"}.value == "") {
         alert('$JSText{"A required field is:"} ' + document.compose.$Data{"TicketFreeKeyField"}.value + '!');
@@ -50,11 +41,6 @@ function submit_compose() {
 <!-- dtl:block:TicketFreeTimeCheckJs -->
 }
 
-function SpellCheckSubmit() {
-    document.spelling.Body.value = document.compose.Body.value;
-    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.spelling.submit()
-}
 //]]></script>
 
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate">
@@ -124,10 +110,7 @@ function SpellCheckSubmit() {
                     <div class="Field">
 
 <!-- dtl:block:SpellCheck -->
-                        <a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';">
-                            <img border="0" src="$Config{"Frontend::ImagePath"}spell.png" />
-                            $Text{"Spell check"}
-                        </a>
+                        <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
 <!-- dtl:block:SpellCheck -->
 
                     </div>
