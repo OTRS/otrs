@@ -2,7 +2,7 @@
 // Core.JavaScriptEnhancements.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.JavaScriptEnhancements.js,v 1.1 2010-06-04 11:19:31 mn Exp $
+// $Id: Core.JavaScriptEnhancements.js,v 1.2 2010-07-07 08:17:39 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,7 @@
      * @return
      *      {boolean} Returns true if all parameter objects are jQuery objects
      */
-    isJQueryObject = function () {
+    window.isJQueryObject = function () {
         var I;
         if (typeof jQuery === 'undefined') {
             return false;

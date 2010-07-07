@@ -2,7 +2,7 @@
 // Core.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Config.js,v 1.3 2010-06-25 16:21:44 cg Exp $
+// $Id: Core.Config.js,v 1.4 2010-07-07 08:17:39 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -151,7 +151,7 @@ Core.Config = (function (TargetNS) {
                 BrowserDetected = false;
             if ($.browser.mozilla) {
                 BrowserVersion = $.browser.version.split('.');
-                if (parseInt(BrowserVersion[0], 10) < 1 || parseInt(BrowserVersion[1], 10) < 8 || parseInt(BrowserVersion[2], 10) < 1) {
+                if (parseInt(BrowserVersion[0], 10) < 1 && parseInt(BrowserVersion[1], 10) < 8 && parseInt(BrowserVersion[2], 10) < 1) {
                     BrowserDetected = true;
                 }
             }
