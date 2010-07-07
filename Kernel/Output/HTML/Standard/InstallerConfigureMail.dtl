@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.12 2010-07-02 11:59:21 mn Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.13 2010-07-07 10:07:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -139,7 +139,7 @@
                 </fieldset>
             </div>
 
-            <div id="InstallerContinueWithJS" class="SpacingTop Right">
+            <div id="InstallerContinueWithJS" class="Spacing Right">
                 <button class="Primary" type="button" id="ButtonCheckMail"  value="$Text{"Check mail configuration"}">$Text{"Check mail configuration"}</button>
                 <button type="button" id="ButtonSkipMail" value="$Text{"Skip this step"}">$Text{"Skip this step"}</button>
             </div>

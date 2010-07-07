@@ -2,7 +2,7 @@
 # InstallerSystem.dtl - provides the system data for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerSystem.dtl,v 1.17 2010-07-02 11:59:21 mn Exp $
+# $Id: InstallerSystem.dtl,v 1.18 2010-07-07 10:07:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -96,7 +96,7 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="DBType">$Text{"CheckMXRecord"}:</label>
+                    <label for="CheckMXRecord">$Text{"CheckMXRecord"}:</label>
                     <div class="Field">
                         $Data{"SelectCheckMXRecord"}
                         <p class="FieldExplanation">

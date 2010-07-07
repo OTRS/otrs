@@ -2,7 +2,7 @@
 # InstallerFinish.dtl - provides the Installer's finish screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerFinish.dtl,v 1.16 2010-07-02 11:59:21 mn Exp $
+# $Id: InstallerFinish.dtl,v 1.17 2010-07-07 10:07:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@
                     <p>
                         $Text{"To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root."}
                     </p>
-                    <div class="Clear"></div>
+                    <div class="Clear SpacingTop"></div>
 
                     <label>$Text{"Restart your webserver"}:</label>
                     <div class="Field Error">
@@ -39,12 +39,11 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <p>
+                    <p class="SpacingTop">
                         $Text{"After doing so your OTRS is up and running."}
                     </p>
-                    <div class="Clear"></div>
+                    <div class="Clear SpacingTop"></div>
 <!-- dtl:block:Restart -->
-
                     <label>$Text{"Start page"}:</label>
                     <div class="Field">
                         <a href="http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl">
@@ -65,15 +64,14 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label></label>
                     <div class="Field Center">
                         <p>((enjoy))</p>
                         <p>$Text{"Your OTRS Team"}</p>
                     </div>
                     <div class="Clear"></div>
-                    </fielset>
-                </div>
+                </fieldset>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 <!-- dtl:block:Finish -->

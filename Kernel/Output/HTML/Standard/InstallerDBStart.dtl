@@ -2,7 +2,7 @@
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBStart.dtl,v 1.10 2010-07-02 11:59:21 mn Exp $
+# $Id: InstallerDBStart.dtl,v 1.11 2010-07-07 10:07:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,6 +50,10 @@
                     <label for="DBType">$Text{"Type"}:</label>
                     <div class="Field">
                         $Data{"SelectDBType"}
+                        <p class="FieldExplanation">
+                            $Text{"Currently only MySQL is supported in the web installer."}
+                            $Text{"If you want to install OTRS on other database systems, please refer to the file README.database."}
+                        </p>
                     </div>
                     <div class="Clear"></div>
                 </fieldset>
@@ -62,6 +66,9 @@
                     <label for="OTRSDBUser">$Text{"User"}:</label>
                     <div class="Field">
                         <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W25pc"/>
+                        <p class="FieldExplanation">
+                            $Text{"A new database user with limited rights will be created for this OTRS system."}
+                        </p>
                     </div>
                     <div class="Clear"></div>
 
@@ -92,10 +99,14 @@
 
                     <label>$Text{"Action"}:</label>
                     <div class="Field">
-                        $Text{"Create"}
-                        <input type="radio" name="DBAction" checked="checked" value="Create"/>
-                        - $Text{"Delete"}
-                        <input type="radio" name="DBAction" value="Delete"/>
+                        <div>
+                            <label for="DBActionCreate">$Text{"Create"}</label>
+                            <input type="radio" id="DBActionCreate" name="DBAction" checked="checked" value="Create"/>
+                        </div>
+                        <div>
+                            <label for="DBActionDelete">$Text{"Delete"}</label>
+                            <input type="radio" id="DBActionDelete" name="DBAction" value="Delete"/>
+                        </div>
                     </div>
                     <div class="Clear"></div>
                 </fieldset>

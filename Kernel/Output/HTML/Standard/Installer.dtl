@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.41 2010-07-02 11:59:21 mn Exp $
+# $Id: Installer.dtl,v 1.42 2010-07-07 10:07:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,7 @@
                     <p>Germany</p>
                     <p>Phone: +49 (0) 9421 56818 0</p>
                     <p>Fax: +49 (0) 9421 56818 18</p>
-                    <p>Web: <a href="http://otrs.com/">http://otrs.com/</a></p>
+                    <p>Web: <a href="http://otrs.com/" target="_blank">http://otrs.com/</a></p>
                     <p>Info: <a href="mailto:enjoy@otrs.com">enjoy@otrs.com</a></p>
                 </div>
                 <div class="Size1of2">
@@ -56,7 +56,7 @@
                     <p>USA</p>
                     <p>Phone: +1 (408) 725 7501</p>
                     <p>Fax:  +1 (408) 725 8885</p>
-                    <p>Web: <a href="http://otrs.com/">http://otrs.com/</a></p>
+                    <p>Web: <a href="http://otrs.com/" target="_blank">http://otrs.com/</a></p>
                     <p>Info: <a href="mailto:enjoy@otrs.com">enjoy@otrs.com</a></p>
                 </div>
             </div>
