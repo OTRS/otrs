@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/HeaderMetaTicketSearch.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HeaderMetaTicketSearch.pm,v 1.6 2009-10-30 10:18:38 mg Exp $
+# $Id: HeaderMetaTicketSearch.pm,v 1.7 2010-07-07 10:04:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,7 +37,7 @@ sub Run {
 
     my $Session = '';
     if ( !$Self->{LayoutObject}->{SessionIDCookie} ) {
-        $Session = '&' . $Self->{LayoutObject}->{SessionName} . '='
+        $Session = ';' . $Self->{LayoutObject}->{SessionName} . '='
             . $Self->{LayoutObject}->{SessionID};
     }
     my $Title = $Self->{ConfigObject}->Get('ProductName');
