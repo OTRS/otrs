@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.146 2010-07-06 18:51:00 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.147 2010-07-07 05:11:21 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.146 $) [1];
+$VERSION = qw($Revision: 1.147 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1787,31 +1787,6 @@ sub _MaskPhoneNew {
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
-        );
-    }
-
-    # java script check for required free text fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
-        next if $Self->{Config}->{TicketFreeText}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTextCheckJs',
-            Data => {
-                TicketFreeTextField => "TicketFreeText$Key",
-                TicketFreeKeyField  => "TicketFreeKey$Key",
-            },
-        );
-    }
-
-    # java script check for required free time fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
-        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTimeCheckJs',
-            Data => {
-                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
-                TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
-            },
         );
     }
 
