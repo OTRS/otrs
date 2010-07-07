@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -82,86 +82,142 @@
     margin-top: 1px;
 }
 
-#ToolBar a span.Gloss,
+#ToolBar a .Gloss,
 #ToolBar a {
     background: url(../img/toolbar_sprite.png) no-repeat;
 }
 
-#ToolBar a span.Gloss {
+#ToolBar a .Gloss {
     left: 0;
-    top: 22px;
+    top: 20px;
     height: 14px;
     width: 24px;
     position: absolute;
 }
 
-.RTL #ToolBar a span.Gloss {
+.RTL #ToolBar a .Gloss {
     left: auto;
     right: 0;
 }
 
 #ToolBar a {
-    height: 22px;
+    height: 20px;
     width: 24px;
     text-indent: -9999px;
     position: relative;
     display: block;
 }
 
-#ToolBar .Alerts a {
+#ToolBar .Locked a {
     background-position: 0 0;
 }
 
-#ToolBar .Stacks a {
-    background-position: -24px 0;
-}
-
-#ToolBar .Dates a {
-    background-position: -48px 0;
-}
-
-#ToolBar .Mails a {
-    background-position: -72px 0;
-}
-
-#ToolBar .Global a {
-    background-position: -96px 0;
-}
-
-#ToolBar .SearchProfile a {
-    background-position: 0 0;
-}
-
-#ToolBar .SearchFulltext a {
-    background-position: 0 0;
-}
-
-#ToolBar .Alerts span.Gloss {
+#ToolBar .Locked a .Gloss {
     background-position: 0 -22px;
 }
 
-#ToolBar .Stacks span.Gloss {
+#ToolBar .Locked.New a {
+    background-position: -24px 0;
+}
+    
+#ToolBar .Locked.New a .Gloss {
     background-position: -24px -22px;
 }
-
-#ToolBar .Dates span.Gloss {
+    
+#ToolBar .Locked.Reached a {
+    background-position: -48px 0;
+}
+    
+#ToolBar .Locked.Reached a .Gloss {
     background-position: -48px -22px;
 }
-
-#ToolBar .Mails span.Gloss {
+    
+#ToolBar .Watched a {
+    background-position: -72px 0;
+}
+    
+#ToolBar .Watched a .Gloss {
     background-position: -72px -22px;
 }
 
-#ToolBar .Global span.Gloss {
+#ToolBar .Watched.New a {
+    background-position: -96px 0;
+}
+    
+#ToolBar .Watched.New a .Gloss {
     background-position: -96px -22px;
 }
-
-#ToolBar .SearchProfile span.Gloss {
-    background-position: 0 -22px;
+    
+#ToolBar .Watched.Reached a {
+    background-position: -120px 0;
 }
-
-#ToolBar .SearchFulltext span.Gloss {
-    background-position: 0 -22px;
+    
+#ToolBar .Watched.Reached a .Gloss {
+    background-position: -120px -22px;
+}
+    
+#ToolBar .Responsible a {
+    background-position: -144px 0;
+}
+    
+#ToolBar .Responsible a .Gloss {
+    background-position: -144px -22px;
+}
+    
+#ToolBar .Responsible.New a {
+    background-position: -168px 0;
+}
+    
+#ToolBar .Responsible.New a .Gloss {
+    background-position: -168px -22px;
+}
+    
+#ToolBar .Responsible.Reached a {
+    background-position: -192px 0;
+}
+    
+#ToolBar .Responsible.Reached a .Gloss {
+    background-position: -192px -22px;
+}
+    
+#ToolBar .EmailTicket a {
+    background-position: -216px 0;
+}
+    
+#ToolBar .EmailTicket a .Gloss {
+    background-position: -216px -22px;
+}
+    
+#ToolBar .PhoneTicket a {
+    background-position: -240px 0;
+}
+    
+#ToolBar .PhoneTicket a .Gloss {
+    background-position: -240px -22px;
+}
+    
+#ToolBar .QueueView a {
+    background-position: -264px 0;
+}
+    
+#ToolBar .QueueView a .Gloss {
+    background-position: -264px -22px;
+}
+    
+#ToolBar .StatusView a {
+    background-position: -288px 0;
+}
+    
+#ToolBar .StatusView a .Gloss {
+    background-position: -288px -22px;
+}
+    
+#ToolBar .EscalationView a {
+    background-position: -312px 0;
+}
+    
+#ToolBar .EscalationView a .Gloss {
+    background-position: -312px -22px;
 }
 
 #ToolBar a span.Counter {
