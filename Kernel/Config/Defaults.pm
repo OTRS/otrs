@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.351 2010-07-06 05:51:53 ep Exp $
+# $Id: Defaults.pm,v 1.352 2010-07-07 08:24:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.351 $) [1];
+$VERSION = qw($Revision: 1.352 $) [1];
 
 use File::stat;
 use Digest::MD5;
@@ -917,11 +917,11 @@ sub LoadDefaults {
       'thirdparty/jquery-ui-1.8/jquery-ui-autocomplete.js',
       'thirdparty/jquery-validate-1.7/jquery.validate.js',
       'Core.JavaScriptEnhancements.js',
-      'Core.Config.js',
       'Core.Debug.js',
+      'Core.Data.js',
+      'Core.Config.js',
       'Core.Exception.js',
       'Core.JSON.js',
-      'Core.Data.js',
       'Core.AJAX.js',
       'Core.UI.js',
       'Core.UI.IE7Fixes.js',
@@ -2201,6 +2201,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.351 $ $Date: 2010-07-06 05:51:53 $
+$Revision: 1.352 $ $Date: 2010-07-07 08:24:15 $
 
 =cut
