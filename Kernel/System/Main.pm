@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.51 2010-07-07 13:29:51 mg Exp $
+# $Id: Main.pm,v 1.52 2010-07-07 13:34:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Encode;
 use Unicode::Normalize;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 NAME
 
@@ -931,13 +931,9 @@ sub DirectoryRead {
         push @Results, $Filename;
     }
 
-    # if there is more than one filter, sort the results again
-    if ( @{ $Param{Filter} } > 1 ) {
-        return sort @Results;
-    }
-    else {
-        return @Results;
-    }
+    # always sort the result
+    return sort @Results;
+
 }
 
 1;
@@ -958,6 +954,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2010-07-07 13:29:51 $
+$Revision: 1.52 $ $Date: 2010-07-07 13:34:05 $
 
 =cut
