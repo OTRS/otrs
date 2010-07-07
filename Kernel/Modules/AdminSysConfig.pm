@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.101 2010-06-28 13:41:37 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.102 2010-07-07 12:07:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -396,6 +396,7 @@ sub Run {
                 );
                 my @LoaderFileTypes = (
                     'CSS',
+                    'CSS_IE6',
                     'CSS_IE7',
                     'CSS_IE8',
                     'JavaScript',
@@ -1257,7 +1258,8 @@ sub ListConfigItem {
 
         #Define array with keys for the Loader
         my %LoaderTypes = (
-            'CSS'        => 1,,
+            'CSS'        => 1,
+            'CSS_IE6'    => 1,
             'CSS_IE7'    => 1,
             'CSS_IE8'    => 1,
             'JavaScript' => 1,

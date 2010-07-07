@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.352 2010-07-07 08:24:15 mg Exp $
+# $Id: Defaults.pm,v 1.353 2010-07-07 12:07:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.352 $) [1];
+$VERSION = qw($Revision: 1.353 $) [1];
 
 use File::stat;
 use Digest::MD5;
@@ -841,6 +841,9 @@ sub LoadDefaults {
       'Core.Print.css'
     ];
 
+    # Customer Common CSS for IE6
+    $Self->{'Loader::Customer::CommonCSS::IE6'}->{'000-Framework'} =  [
+    ];
     # Customer Common CSS for IE7
     $Self->{'Loader::Customer::CommonCSS::IE7'}->{'000-Framework'} =  [
       'Core.IE7.css'
@@ -2201,6 +2204,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.352 $ $Date: 2010-07-07 08:24:15 $
+$Revision: 1.353 $ $Date: 2010-07-07 12:07:38 $
 
 =cut

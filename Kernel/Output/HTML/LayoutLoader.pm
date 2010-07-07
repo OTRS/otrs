@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.21 2010-06-15 11:35:54 mg Exp $
+# $Id: LayoutLoader.pm,v 1.22 2010-07-07 12:07:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 use Kernel::System::Loader;
 
@@ -294,6 +294,24 @@ sub LoaderCreateCustomerCSSCalls {
     }
 
     {
+        my $CommonCSSIE6List = $Self->{ConfigObject}->Get('Loader::Customer::CommonCSS::IE6');
+
+        my @FileList;
+
+        for my $Key ( sort keys %{$CommonCSSIE6List} ) {
+            push( @FileList, @{ $CommonCSSIE6List->{$Key} } );
+        }
+
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'CommonCSS_IE6',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Customer',
+        );
+    }
+
+    {
         my $CommonCSSIE7List = $Self->{ConfigObject}->Get('Loader::Customer::CommonCSS::IE7');
 
         my @FileList;
@@ -345,6 +363,20 @@ sub LoaderCreateCustomerCSSCalls {
             List      => \@FileList,
             DoMinify  => $DoMinify,
             BlockName => 'ModuleCSS',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Customer',
+        );
+    }
+
+    {
+        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS_IE6} || [];
+
+        my @FileList = @{$AppCSSList};
+
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'ModuleCSS_IE6',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
         );
@@ -532,16 +564,16 @@ sub _HandleJSList {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2010-06-15 11:35:54 $
+$Revision: 1.22 $ $Date: 2010-07-07 12:07:38 $
 
 =cut

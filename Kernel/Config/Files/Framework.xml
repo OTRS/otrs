@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.329 2010-07-07 11:36:21 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.330 2010-07-07 12:07:39 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -5416,6 +5416,15 @@ Your OTRS Notification Master
                 <Item>Core.Table.css</Item>
                 <Item>Core.TicketZoom.css</Item>
                 <Item>Core.Print.css</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Loader::Customer::CommonCSS::IE6###000-Framework" Required="1" Valid="1">
+        <Description Translatable="1">List of IE6-specific CSS files to always be loaded for the customer interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Array>
             </Array>
         </Setting>
     </ConfigItem>
