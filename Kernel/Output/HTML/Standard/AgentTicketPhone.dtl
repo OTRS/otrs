@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.91 2010-07-06 13:28:26 mn Exp $
+# $Id: AgentTicketPhone.dtl,v 1.92 2010-07-07 10:19:11 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -335,7 +335,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
                     <div class="Field">
-                        <input type="text" class="Validate_TimeUnits $QData{"TimeUnitsRequired"}" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" size="3"/>
+                        <input type="text" class="W25pc Validate_TimeUnits $QData{"TimeUnitsRequired"}" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" />
                         <div id="TimeUnitsError" class="TooltipErrorMessage">
                             <p>$Text{"Invalid time!"}</p>
                         </div>

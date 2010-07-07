@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.272 2010-07-07 09:13:14 martin Exp $
+# $Id: Layout.pm,v 1.273 2010-07-07 10:19:11 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.272 $) [1];
+$VERSION = qw($Revision: 1.273 $) [1];
 
 =head1 NAME
 
@@ -2677,6 +2677,7 @@ sub BuildDateSelection {
             SelectedID          => int( $Param{ $Prefix . 'Year' } || $Y ),
             LanguageTranslation => 0,
             Class               => $Validate ? 'Validate_DateYear' : '',
+            Title               => $Self->{LanguageObject}->Get('Please choose a year'),
         );
     }
     else {
@@ -2685,7 +2686,9 @@ sub BuildDateSelection {
             . "name=\""
             . $Prefix
             . "Year\" size=\"4\" maxlength=\"4\" "
-            . "value=\""
+            . "title=\""
+            . $Self->{LanguageObject}->Get('Please choose a year')
+            . "\" value=\""
             . sprintf( "%02d", ( $Param{ $Prefix . 'Year' } || $Y ) ) . "\"/>";
     }
 
@@ -2702,6 +2705,7 @@ sub BuildDateSelection {
             SelectedID          => int( $Param{ $Prefix . 'Month' } || $M ),
             LanguageTranslation => 0,
             Class               => $Validate ? 'Validate_DateMonth' : '',
+            Title               => $Self->{LanguageObject}->Get('Please choose a month'),
         );
     }
     else {
@@ -2713,7 +2717,9 @@ sub BuildDateSelection {
             . "Month\" id=\""
             . $Prefix
             . "Month\" size=\"2\" maxlength=\"2\" "
-            . "value=\""
+            . "title=\""
+            . $Self->{LanguageObject}->Get('Please choose a month')
+            . "\" value=\""
             . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\"/>";
     }
 
@@ -2739,6 +2745,7 @@ sub BuildDateSelection {
                     . $Class
                 )
             : $Class,
+            Title => $Self->{LanguageObject}->Get('Please choose a day'),
         );
     }
     else {
@@ -2757,7 +2764,9 @@ sub BuildDateSelection {
             . "name=\""
             . $Prefix
             . "Day\" id=\"" . $Prefix . "Day\" size=\"2\" maxlength=\"2\" "
-            . "value=\""
+            . "title=\""
+            . $Self->{LanguageObject}->Get('Please choose a day')
+            . "\" value=\""
             . sprintf( "%02d", ( $Param{ $Prefix . 'Day' } || $D ) ) . "\"/>";
     }
     if ( $Format eq 'DateInputFormatLong' ) {
@@ -2776,7 +2785,8 @@ sub BuildDateSelection {
                 ? int( $Param{ $Prefix . 'Hour' } )
                 : int($h),
                 LanguageTranslation => 0,
-                Class => $Validate ? ( 'Validate_DateHour ' . $Class ) : $Class,
+                Class               => $Validate ? ( 'Validate_DateHour ' . $Class ) : $Class,
+                Title               => $Self->{LanguageObject}->Get('Please choose an hour'),
             );
         }
         else {
@@ -2785,7 +2795,9 @@ sub BuildDateSelection {
                 . "name=\""
                 . $Prefix
                 . "Hour\" id=\"" . $Prefix . "Hour\" size=\"2\" maxlength=\"2\" "
-                . "value=\""
+                . "title=\""
+                . $Self->{LanguageObject}->Get('Please choose an hour')
+                . "\" value=\""
                 . sprintf(
                 "%02d",
                 ( defined( $Param{ $Prefix . 'Hour' } ) ? int( $Param{ $Prefix . 'Hour' } ) : $h )
@@ -2807,7 +2819,8 @@ sub BuildDateSelection {
                 ? int( $Param{ $Prefix . 'Minute' } )
                 : int($m),
                 LanguageTranslation => 0,
-                Class => $Validate ? ( 'Validate_DateMinute ' . $Class ) : $Class,
+                Class               => $Validate ? ( 'Validate_DateMinute ' . $Class ) : $Class,
+                Title               => $Self->{LanguageObject}->Get('Please choose a minute'),
             );
         }
         else {
@@ -2816,7 +2829,9 @@ sub BuildDateSelection {
                 . "name=\""
                 . $Prefix
                 . "Minute\" id=\"" . $Prefix . "Minute\" size=\"2\" maxlength=\"2\" "
-                . "value=\""
+                . "title=\""
+                . $Self->{LanguageObject}->Get('Please choose a minute')
+                . "\" value=\""
                 . sprintf(
                 "%02d",
                 (
@@ -2857,7 +2872,9 @@ sub BuildDateSelection {
             . "Used\" id=\"" . $Prefix . "Used\" value=\"1\""
             . $Checked
             . $Validate
-            . "/>&nbsp;";
+            . " title=\""
+            . $Self->{LanguageObject}->Get('Check to activate this date')
+            . "\" />&nbsp;";
     }
 
     # date format
@@ -4660,6 +4677,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.272 $ $Date: 2010-07-07 09:13:14 $
+$Revision: 1.273 $ $Date: 2010-07-07 10:19:11 $
 
 =cut

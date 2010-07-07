@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.81 2010-07-05 08:35:00 mn Exp $
+# $Id: LayoutTicket.pm,v 1.82 2010-07-07 10:19:11 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub TicketStandardResponseString {
     my ( $Self, %Param ) = @_;
@@ -439,11 +439,11 @@ sub AgentFreeText {
                     . $_
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Ticket{"TicketFreeKey$_"} )
-                    . '" size="18"/>';
+                    . '" class="W25pc" />';
             }
             else {
                 $Data{"TicketFreeKeyField$_"}
-                    = '<input type="text" name="TicketFreeKey' . $_ . '" value="" size="18"/>';
+                    = '<input type="text" name="TicketFreeKey' . $_ . '" value="" class="W25pc" />';
             }
         }
 
@@ -482,11 +482,11 @@ sub AgentFreeText {
                     . $_
                     . '" id="TicketFreeText'
                     . $_
-                    . '" class="' . $Class . ' '
+                    . '" class="W33pc' . $Class . ' '
                     . ( $Config{"Required"}->{$_} ? 'Validate_Required' : '' )
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Ticket{"TicketFreeText$_"} )
-                    . '" size="30"/>';
+                    . '" />';
 
                 if ( $Config{"Required"}->{$_} ) {
                     $Data{"TicketFreeTextField$_"}
@@ -497,13 +497,13 @@ sub AgentFreeText {
             }
             else {
                 $Data{"TicketFreeTextField$_"}
-                    = '<input type="text" class="' . $Class . ' '
+                    = '<input type="text" class="W33pc' . $Class . ' '
                     . ( $Config{"Required"}->{$_} ? 'Validate_Required' : '' )
                     . '" name="TicketFreeText'
                     . $_
                     . '" id="TicketFreeText'
                     . $_
-                    . '" value="" size="30"/>';
+                    . '" value="" />';
 
                 if ( $Config{"Required"}->{$_} ) {
                     $Data{"TicketFreeTextField$_"}
@@ -513,10 +513,6 @@ sub AgentFreeText {
                 }
             }
         }
-        $Data{"TicketFreeTextField$_"}
-            .= '<font color="red" size="-2">$Text{"$Data{"TicketFreeTextField'
-            . $_
-            . ' invalid"}"}</font>';
     }
     return %Data;
 }
@@ -630,11 +626,12 @@ sub TicketArticleFreeText {
                     . $_
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Article{"ArticleFreeKey$_"} )
-                    . '" size="18" />';
+                    . '" class="W25pc" />';
             }
             else {
                 $Data{"ArticleFreeKeyField$_"}
-                    = '<input type="text" name="ArticleFreeKey' . $_ . '" value="" size="18" />';
+                    = '<input type="text" name="ArticleFreeKey' . $_
+                    . '" value="" class="W25pc" />';
             }
         }
 
@@ -664,11 +661,12 @@ sub TicketArticleFreeText {
                     . $_
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Article{"ArticleFreeText$_"} )
-                    . '" size="30" />';
+                    . '" class="W33pc" />';
             }
             else {
                 $Data{"ArticleFreeTextField$_"}
-                    = '<input type="text" name="ArticleFreeText' . $_ . '" value="" size="30" />';
+                    = '<input type="text" name="ArticleFreeText' . $_
+                    . '" value="" class="W33pc" />';
             }
         }
     }
