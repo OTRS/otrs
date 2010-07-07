@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketWatcher.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketWatcher.pm,v 1.4 2010-06-24 12:15:26 martin Exp $
+# $Id: ToolBarTicketWatcher.pm,v 1.5 2010-07-07 08:24:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,6 +37,14 @@ sub Run {
 
     # check if feature is aktive
     return if !$Self->{ConfigObject}->Get('Ticket::Watcher');
+
+    # check needed stuff
+    for (qw(Config)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
 
     # check access
     my @Groups;
@@ -95,34 +103,25 @@ sub Run {
         Block       => 'ToolBarItem',
         Description => $TextNew,
         Count       => $CountNew,
-        Class       => 'Alerts',
-
-        #        Name        => $Text,
-        #        Image       => 'watcher.png',
-        Link      => $URL . 'Action=AgentTicketWatchView;Filter=New',
-        AccessKey => '',
+        Class       => $Class,
+        Link        => $URL . 'Action=AgentTicketWatchView;Filter=New',
+        AccessKey   => '',
     };
     $Return{'0999978'} = {
         Block       => 'ToolBarItem',
         Description => $TextReached,
         Count       => $CountReached,
-        Class       => 'Alerts',
-
-        #        Name        => $Text,
-        #        Image       => 'watcher.png',
-        Link      => $URL . 'Action=AgentTicketWatchView;Filter=ReminderReached',
-        AccessKey => '',
+        Class       => $Class,
+        Link        => $URL . 'Action=AgentTicketWatchView;Filter=ReminderReached',
+        AccessKey   => '',
     };
     $Return{'0999979'} = {
         Block       => 'ToolBarItem',
         Description => $Text,
         Count       => $Count,
-        Class       => 'Alerts',
-
-        #        Name        => $Text,
-        #        Image       => 'watcher.png',
-        Link      => $URL . 'Action=AgentTicketWatchView',
-        AccessKey => '',
+        Class       => $Class,
+        Link        => $URL . 'Action=AgentTicketWatchView',
+        AccessKey   => '',
     };
     return %Return;
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.340 2010-07-07 05:20:32 cg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.341 2010-07-07 08:24:25 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -5479,6 +5479,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarTicketLocked</Item>
+                <Item Key="CssClass">Stacks</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5489,6 +5490,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarTicketWatcher</Item>
+                <Item Key="CssClass">Stacks</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5499,6 +5501,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarTicketResponsible</Item>
+                <Item Key="CssClass">Stacks</Item>
             </Hash>
         </Setting>
     </ConfigItem>

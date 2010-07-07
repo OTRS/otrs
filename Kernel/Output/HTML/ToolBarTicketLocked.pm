@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketLocked.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketLocked.pm,v 1.3 2010-06-24 12:15:26 martin Exp $
+# $Id: ToolBarTicketLocked.pm,v 1.4 2010-07-07 08:24:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,6 +33,14 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Config)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
 
     # get user lock data
     my $Count = $Self->{TicketObject}->TicketSearch(
@@ -64,6 +72,7 @@ sub Run {
         Permission                    => 'ro',
     );
 
+    my $Class   = $Param{Config}->{CssClass};
     my $Text    = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets Total');
     my $TextNew = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets New');
     my $TextReached
@@ -74,34 +83,25 @@ sub Run {
         Block       => 'ToolBarItem',
         Count       => $CountNew,
         Description => $TextNew,
-        Class       => 'Stacks',
-
-        #        Name        => $Text,
-        #        Image       => 'personal.png',
-        Link      => $URL . 'Action=AgentTicketLockedView;Filter=New',
-        AccessKey => 'k',
+        Class       => $Class,
+        Link        => $URL . 'Action=AgentTicketLockedView;Filter=New',
+        AccessKey   => 'k',
     };
     $Return{'0999998'} = {
         Block       => 'ToolBarItem',
         Count       => $CountReached,
         Description => $TextReached,
-        Class       => 'Stacks',
-
-        #        Name        => $Text,
-        #        Image       => 'personal.png',
-        Link      => $URL . 'Action=AgentTicketLockedView;Filter=ReminderReached',
-        AccessKey => 'k',
+        Class       => $Class,
+        Link        => $URL . 'Action=AgentTicketLockedView;Filter=ReminderReached',
+        AccessKey   => 'k',
     };
     $Return{'0999999'} = {
         Block       => 'ToolBarItem',
         Count       => $Count,
         Description => $Text,
-        Class       => 'Stacks',
-
-        #        Name        => $Text,
-        #        Image       => 'personal.png',
-        Link      => $URL . 'Action=AgentTicketLockedView',
-        AccessKey => 'k',
+        Class       => $Class,
+        Link        => $URL . 'Action=AgentTicketLockedView',
+        AccessKey   => 'k',
     };
     return %Return;
 }
