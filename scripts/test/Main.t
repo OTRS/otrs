@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.21 2010-06-28 13:04:29 mg Exp $
+# $Id: Main.t,v 1.22 2010-07-07 13:14:52 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -449,6 +449,7 @@ for my $Test (@Tests) {
             From => 'utf-8',
         );
     }
+    @UnicodeResults = sort @UnicodeResults;
 
     my @Results = $Self->{MainObject}->DirectoryRead(
         Directory => $Test->{Directory},
