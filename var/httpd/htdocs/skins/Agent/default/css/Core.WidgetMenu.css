@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -416,6 +416,7 @@ ul.ContextFunctions li:last-child:hover > a {
 .Tab.Actions li {
     height: auto;
     padding: 0;
+    background: url(../img/tab_isolator_light.png) no-repeat right 5px;
 }
 
 .Tab.Actions li:first-child a {
@@ -429,14 +430,19 @@ ul.ContextFunctions li:last-child:hover > a {
 .Tab.Actions li a {
     padding: 3px 8px 4px;
     color: #999;
-    background: url(../img/tab_isolator_light.png) no-repeat right 5px;
 }
 
 .Tab.Actions li a:hover {
-    color: #888;
+    color: #777;
+    background: none;
+    border-color: transparent;
+    -moz-box-shadow: 0 0 0;
+    -webkit-box-shadow: 0 0 0;
+    box-shadow: 0 0 0;
 }
 
-.Tab.Actions li.Last a {
+.Tab.Actions li.Last,
+.Tab.Actions li:last-child {
     background: none;
 }
 
