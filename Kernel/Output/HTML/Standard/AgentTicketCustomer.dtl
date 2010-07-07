@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.22 2010-07-07 17:50:55 en Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.23 2010-07-07 22:47:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ $Include{"AgentCustomerSearch"}
                 <div class="Content">
                     <p>$Text{"Set customer user and customer id of a ticket"}:</p>
                     <fieldset class="TableLike">
-                        <label for="myAutoCompleteInput">$Text{"Customer user"}:</label>
+                        <label for="CustomerAutoComplete">$Text{"Customer user"}:</label>
                         <div class="Field">
                             <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" class="W75pc AutocompleteOff Validate_Required $QData{"CustomerUserIDInvalid"}"/>
                             <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>$Text{"The customer is required!"}</p></div>
