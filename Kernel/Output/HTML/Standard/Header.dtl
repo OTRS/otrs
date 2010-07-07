@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.94 2010-06-08 11:30:57 mg Exp $
+# $Id: Header.dtl,v 1.95 2010-07-07 09:13:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,6 +26,7 @@ $Include{"HTMLHead"}
     <a name="Top"></a>
     <div id="Header" class="ARIARoleBanner">
         <div id="Logo"></div>
+<!-- dtl:block:ToolBar -->
         <ul id="ToolBar">
 <!-- dtl:block:ToolBarItem -->
             <li class="$QData{"Class"}"><a href="$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$QData{"Count"} $Text{"$Data{"Description"}"}"><span class="Counter">$QData{"Count"}</span> $Text{"Description"}<span class="Gloss"></span></a></li>
@@ -68,6 +69,7 @@ $Include{"HTMLHead"}
             </li>
 <!-- dtl:block:ToolBarSearchFulltext -->
         </ul>
+<!-- dtl:block:ToolBar -->
 
         <div id="UserInfo">
 <!-- Debug -->
