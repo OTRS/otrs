@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -113,7 +113,7 @@
 }
 
 #ToolBar .Locked a .Gloss {
-    background-position: 0 -22px;
+    background-position: 0 -20px;
 }
 
 #ToolBar .Locked.New a {
@@ -121,7 +121,7 @@
 }
     
 #ToolBar .Locked.New a .Gloss {
-    background-position: -24px -22px;
+    background-position: -24px -20px;
 }
     
 #ToolBar .Locked.Reached a {
@@ -129,7 +129,7 @@
 }
     
 #ToolBar .Locked.Reached a .Gloss {
-    background-position: -48px -22px;
+    background-position: -48px -20px;
 }
     
 #ToolBar .Watcher a {
@@ -137,7 +137,7 @@
 }
     
 #ToolBar .Watcher a .Gloss {
-    background-position: -72px -22px;
+    background-position: -72px -20px;
 }
 
 #ToolBar .Watcher.New a {
@@ -145,7 +145,7 @@
 }
     
 #ToolBar .Watcher.New a .Gloss {
-    background-position: -96px -22px;
+    background-position: -96px -20px;
 }
     
 #ToolBar .Watcher.Reached a {
@@ -153,7 +153,7 @@
 }
     
 #ToolBar .Watcher.Reached a .Gloss {
-    background-position: -120px -22px;
+    background-position: -120px -20px;
 }
     
 #ToolBar .Responsible a {
@@ -161,7 +161,7 @@
 }
     
 #ToolBar .Responsible a .Gloss {
-    background-position: -144px -22px;
+    background-position: -144px -20px;
 }
     
 #ToolBar .Responsible.New a {
@@ -169,7 +169,7 @@
 }
     
 #ToolBar .Responsible.New a .Gloss {
-    background-position: -168px -22px;
+    background-position: -168px -20px;
 }
     
 #ToolBar .Responsible.Reached a {
@@ -177,7 +177,7 @@
 }
     
 #ToolBar .Responsible.Reached a .Gloss {
-    background-position: -192px -22px;
+    background-position: -192px -20px;
 }
     
 #ToolBar .EmailTicket a {
@@ -185,7 +185,7 @@
 }
     
 #ToolBar .EmailTicket a .Gloss {
-    background-position: -216px -22px;
+    background-position: -216px -20px;
 }
     
 #ToolBar .PhoneTicket a {
@@ -193,7 +193,7 @@
 }
     
 #ToolBar .PhoneTicket a .Gloss {
-    background-position: -240px -22px;
+    background-position: -240px -20px;
 }
     
 #ToolBar .QueueView a {
@@ -201,7 +201,7 @@
 }
     
 #ToolBar .QueueView a .Gloss {
-    background-position: -264px -22px;
+    background-position: -264px -20px;
 }
     
 #ToolBar .StatusView a {
@@ -209,7 +209,7 @@
 }
     
 #ToolBar .StatusView a .Gloss {
-    background-position: -288px -22px;
+    background-position: -288px -20px;
 }
     
 #ToolBar .EscalationView a {
@@ -217,7 +217,7 @@
 }
     
 #ToolBar .EscalationView a .Gloss {
-    background-position: -312px -22px;
+    background-position: -312px -20px;
 }
 
 #ToolBar a span.Counter {
