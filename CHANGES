@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1242 2010-07-06 13:28:23 mg Exp $
+# $Id: CHANGES,v 1.1243 2010-07-07 15:39:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -318,6 +318,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/07/07) Fixed bug#5541 - Dashboard Chart generates error in webserver log.
  - (2010/07/01) Fixed bug#5512 - Bulk Action No Access is displayed incorrectly.
  - (2010/06/25) Updated Danish translation, thanks to Jesper Rønnov,
     Faaborg-Midtfyn Kommune!
