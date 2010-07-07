@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.343 2010-07-07 10:41:35 fn Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.344 2010-07-07 11:02:36 fn Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -5480,8 +5480,8 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarTicketLocked</Item>
                 <Item Key="CssClass">Locked</Item>
-                <Item Key="CssClassNew">New</Item>
-                <Item Key="CssClassReached">Reached</Item>
+                <Item Key="CssClassNew">Locked New</Item>
+                <Item Key="CssClassReached">Locked Reached</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5493,8 +5493,8 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarTicketWatcher</Item>
                 <Item Key="CssClass">Watcher</Item>
-                <Item Key="CssClassNew">New</Item>
-                <Item Key="CssClassReached">Reached</Item>
+                <Item Key="CssClassNew">Watcher New</Item>
+                <Item Key="CssClassReached">Watcher Reached</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5506,8 +5506,8 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarTicketResponsible</Item>
                 <Item Key="CssClass">Responsible</Item>
-                <Item Key="CssClassNew">New</Item>
-                <Item Key="CssClassReached">Reached</Item>
+                <Item Key="CssClassNew">Responsible New</Item>
+                <Item Key="CssClassReached">Responsible Reached</Item>
             </Hash>
         </Setting>
     </ConfigItem>
