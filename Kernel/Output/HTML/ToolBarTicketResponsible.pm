@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketResponsible.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketResponsible.pm,v 1.4 2010-07-07 08:24:25 martin Exp $
+# $Id: ToolBarTicketResponsible.pm,v 1.5 2010-07-07 08:33:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,6 +74,10 @@ sub Run {
         Permission                    => 'ro',
     );
 
+    my $Class        = $Param{Config}->{CssClass};
+    my $ClassNew     = $Param{Config}->{CssClassNew};
+    my $ClassReached = $Param{Config}->{CssClassReached};
+
     my $Text        = $Self->{LayoutObject}->{LanguageObject}->Get('Responsibles Total');
     my $TextNew     = $Self->{LayoutObject}->{LanguageObject}->Get('Responsibles New');
     my $TextReached = $Self->{LayoutObject}->{LanguageObject}->Get('Responsibles Reminder Reached');
@@ -83,7 +87,7 @@ sub Run {
         Block       => 'ToolBarItem',
         Description => $TextNew,
         Count       => $CountNew,
-        Class       => $Class,
+        Class       => $ClassNew,
         Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=New',
         AccessKey   => 'r',
     };
@@ -91,7 +95,7 @@ sub Run {
         Block       => 'ToolBarItem',
         Description => $TextReached,
         Count       => $CountReached,
-        Class       => $Class,
+        Class       => $ClassReached,
         Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=ReminderReached',
         AccessKey   => 'r',
     };

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketWatcher.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketWatcher.pm,v 1.5 2010-07-07 08:24:25 martin Exp $
+# $Id: ToolBarTicketWatcher.pm,v 1.6 2010-07-07 08:33:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,6 +93,10 @@ sub Run {
         Permission                    => 'ro',
     );
 
+    my $Class        = $Param{Config}->{CssClass};
+    my $ClassNew     = $Param{Config}->{CssClassNew};
+    my $ClassReached = $Param{Config}->{CssClassReached};
+
     my $Text        = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Total');
     my $TextNew     = $Self->{LayoutObject}->{LanguageObject}->Get('Watched New');
     my $TextReached = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Reminder Reached');
@@ -103,7 +107,7 @@ sub Run {
         Block       => 'ToolBarItem',
         Description => $TextNew,
         Count       => $CountNew,
-        Class       => $Class,
+        Class       => $ClassNew,
         Link        => $URL . 'Action=AgentTicketWatchView;Filter=New',
         AccessKey   => '',
     };
@@ -111,7 +115,7 @@ sub Run {
         Block       => 'ToolBarItem',
         Description => $TextReached,
         Count       => $CountReached,
-        Class       => $Class,
+        Class       => $ClassReached,
         Link        => $URL . 'Action=AgentTicketWatchView;Filter=ReminderReached',
         AccessKey   => '',
     };
