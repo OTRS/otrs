@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.33 2010-07-07 22:47:28 en Exp $
+# $Id: AgentTicketCustomer.pm,v 1.34 2010-07-08 10:30:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -211,8 +211,9 @@ sub Form {
         = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
 
     # print header
-    $Output .= $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    $Output .= $Self->{LayoutObject}->Header(
+        Type => 'Small',
+    );
     my $TicketCustomerID = $Self->{CustomerID};
 
     # print change form if ticket id is given
@@ -220,17 +221,16 @@ sub Form {
     if ( $Self->{TicketID} ) {
 
         # set some customer search autocomplete properties
-        if ( $AutoCompleteConfig->{Active} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'CustomerSearchAutoComplete',
-                Data => {
-                    minQueryLength      => $AutoCompleteConfig->{MinQueryLength}      || 2,
-                    queryDelay          => $AutoCompleteConfig->{QueryDelay}          || 0.1,
-                    typeAhead           => $AutoCompleteConfig->{TypeAhead}           || 'false',
-                    maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
-                },
-            );
-        }
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerSearchAutoComplete',
+            Data => {
+                minQueryLength      => $AutoCompleteConfig->{MinQueryLength}      || 2,
+                queryDelay          => $AutoCompleteConfig->{QueryDelay}          || 0.1,
+                typeAhead           => $AutoCompleteConfig->{TypeAhead}           || 'false',
+                maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
+                ActiveAutoComplete  => $AutoCompleteConfig->{Active},
+            },
+        );
 
         # get ticket data
         my %TicketData = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
@@ -254,7 +254,9 @@ sub Form {
 
     $Output
         .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketCustomer', Data => \%Param );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $Self->{LayoutObject}->Footer(
+        Type => 'Small',
+    );
     return $Output;
 }
 

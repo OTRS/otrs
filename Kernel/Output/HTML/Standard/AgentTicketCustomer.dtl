@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.23 2010-07-07 22:47:09 en Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.24 2010-07-08 10:30:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ $Include{"AgentCustomerSearch"}
     <input type="hidden" name="Subaction" value="Update"/>
     <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
 
-    <div class="MainBox WidgetPopup ARIARoleMain">
+    <div class="WidgetPopup ARIARoleMain">
         <div class="Header">
             <h1>$Text{"Change customer of ticket"}: $QData{"TicketNumber"}</h1>
             <p>
@@ -25,65 +25,51 @@ $Include{"AgentCustomerSearch"}
             </p>
         </div>
 
-        <div class="LayoutFixedSidebar SidebarLast">
-            <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
-                <div class="Header">
-                    <h2>$Text{"Customer Data"}: $QData{"CustomerID"}</h2>
+        <div class="Content">
+            <div class="LayoutFixedSidebar SidebarLast">
+                <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
+                    <div class="Header">
+                        <h2>$Text{"Customer Data"}: $QData{"CustomerID"}</h2>
+                    </div>
+                    <div class="Content">
+                        $Data{"Table"}
+                    </div>
                 </div>
-                <div class="Content">
-                    $Data{"Table"}
+
+                <div class="ContentColumn">
+                    <div class="Header">
+                        <h2>$Text{"Options"}</h2>
+                    </div>
+                    <div class="Content">
+                        <p>$Text{"Set customer user and customer id of a ticket"}:</p>
+                        <fieldset class="TableLike">
+                            <label for="CustomerAutoComplete">$Text{"Customer user"}:</label>
+                            <div class="Field">
+                                <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" class="W75pc AutocompleteOff Validate_Required $QData{"CustomerUserIDInvalid"}"/>
+                                <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>$Text{"The customer is required!"}</p></div>
+                                <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>$Text{"The customer is required!"}</p></div>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label for="CustomerID">$Text{"CustomerID"}:</label>
+                            <div class="Field">
+                                <input type="text" id="CustomerID" name="CustomerID" value="$QData{"CustomerID"}" class="W50pc Validate_Required $QData{"CustomerIDInvalid"}"/>
+                                <div id="CustomerIDError" class="TooltipErrorMessage"><p>$Text{"The customer id is required!"}</p></div>
+                                <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>$Text{"The customer id is required!"}</p></div>
+                            </div>
+                            <div class="Clear"></div>
+                            <div class="Field SpacingTop">
+                                <button class="Primary" id="submit" accesskey="g" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
+                <div class="Clear"></div>
             </div>
 
-            <div class="ContentColumn">
-                <div class="Header">
-                    <h2>$Text{"Options"}</h2>
-                </div>
-                <div class="Content">
-                    <p>$Text{"Set customer user and customer id of a ticket"}:</p>
-                    <fieldset class="TableLike">
-                        <label for="CustomerAutoComplete">$Text{"Customer user"}:</label>
-                        <div class="Field">
-                            <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" class="W75pc AutocompleteOff Validate_Required $QData{"CustomerUserIDInvalid"}"/>
-                            <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>$Text{"The customer is required!"}</p></div>
-                            <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>$Text{"The customer is required!"}</p></div>
-                        </div>
-                        <div class="Clear"></div>
-
-                        <label for="CustomerID">$Text{"CustomerID"}:</label>
-                        <div class="Field">
-                            <input type="text" id="CustomerID" name="CustomerID" value="$QData{"CustomerID"}" class="W50pc Validate_Required $QData{"CustomerIDInvalid"}"/>
-                            <div id="CustomerIDError" class="TooltipErrorMessage"><p>$Text{"The customer id is required!"}</p></div>
-                            <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>$Text{"The customer id is required!"}</p></div>
-                        </div>
-                        <div class="Clear"></div>
-                        <div class="Field SpacingTop">
-                            <button class="Primary" id="submit" accesskey="g" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
-            <div class="Clear"></div>
+            <div id="CustomerTickets"></div>
         </div>
+        <div class="Footer">&nbsp;</div>
     </div>
 </form>
 <!-- dtl:block:Customer -->
-
-<!-- dtl:block:CustomerHistory -->
-<div class="MainBox ARIARoleMain">
-    <div class="Header">
-        <h1>$Text{"Customer history"}</h1>
-    </div>
-    <div class="Content">
-        <div class="Header">
-            <h2>$Text{"All customer tickets."}</h2>
-        </div>
-<!-- dtl:block:CustomerHistory -->
-
-<!-- dtl:block:CustomerTickets -->
-        <div class="Content" id="CustomerTickets">
-$Data{"CustomerTickets"}
-        </div>
-    </div>
-</div>
-<!-- dtl:block:CustomerTickets -->
