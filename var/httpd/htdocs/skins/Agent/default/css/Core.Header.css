@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -298,7 +298,7 @@
  */
 #Navigation > li,
 #Navigation > li > a {
-    background: url(../img/navigation_sprite.png) repeat-x;
+    background: url(../img/navigation_sprite.png) repeat-x 0 0;
 }
 
 #Navigation > li {
@@ -314,10 +314,10 @@
 }
 
 #Navigation > li > a {
-    height: 26px;
-    padding: 5px 15px 3px 2px;
+    height: 31px;
+    padding: 4px 26px 3px 4px;
     font-size: 13px;
-    font-weight: bold;
+    font-weight: 600;
     line-height: 12px;
     color: #DDD;
     background-position: top right;
@@ -326,133 +326,46 @@
 }
 
 .RTL #Navigation > li > a {
-    padding: 5px 5px 3px 12px;
+    padding: 4px 4px 3px 26px;
+}
+
+#Navigation > li:hover {
+    background-position: left -38px;
+    background-color: #F92;
+    cursor: pointer;
 }
 
 #Navigation > li:hover > a {
     color: #FFF;
-    background-position: right -34px;
+    background-position: right -38px;
+    background-color: #F92;
 }
 
-.RTL #Navigation > li:hover > a {
-    background-position: right -34px;
+#Navigation > li:active {
+    background-position: left -114px;
+}
+
+#Navigation > li:active > a {
+    background-position: right -114px;
 }
 
 #Navigation > .Selected {
-    background-position: left -68px;
+    background-position: left -76px;
+    background-color: #F92;
     z-index: 110;
-}
-
-.RTL #Navigation > .Selected:hover {
-    background-position: left -68px;
 }
 
 #Navigation > .Selected > a {
     color: #FFF;
-    background-position: right -68px;
+    background-position: right -76px;
+    background-color: #F92;
 }
 
-.RTL #Navigation > .Selected:hover > a {
-    background-position: right -68px;
-}
-
-#Navigation > li:hover {
-    background-position: left -34px;
-    cursor: pointer;
-}
-
-.RTL #Navigation > li:hover {
-    background-position: left -34px;
-}
-
-#Navigation > .Active {
-    background-position: left -103px;
-    z-index: 110;
-}
-
-.RTL #Navigation > .Active:hover {
-    background-position: left -103px;
-}
-
-#Navigation > .Active > a {
-    color: #F92;
-    background-position: right -103px;
-}
-
-.RTL #Navigation > .Active:hover > a {
-    background-position: right -103px;
-}
-
-/**
- * @subsection      Navigation underline
- */
-#Navigation > li > a > span {
-    display: block;
-    position: absolute;
-    top: 34px;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: url(../img/navigation_underline_bg.png) no-repeat right -5px;
-}
-
-#Navigation > li > a > span > span {
-    display: block;
-    position: absolute;
-    width: 2px;
-    height: 5px;
-    background: url(../img/navigation_underline_bg.png) no-repeat left -5px;
-}
-
-#Navigation > li:hover > a > span {
-    background-position: right 0;
-}
-
-.RTL #Navigation > li:hover > a > span {
-    background-position: left 0;
-}
-
-#Navigation > li:hover > a > span > span {
-    background-position: left 0;
-}
-
-.RTL #Navigation > li:hover > a > span > span {
-    background-position: right 0;
-}
-
-/* No underline on active and selected element */
-#Navigation .Active a:hover > span {
-    background-position: right -5px;
-}
-
-#Navigation .Active a:hover > span > span {
-    background-position: left -5px;
-}
-
-#Navigation .Selected a:hover > span > span {
-    background-position: left -5px;
-}
-
-.RTL #Navigation .Active a:hover > span {
-    background-position: right -5px;
-}
-
-.RTL #Navigation .Active a:hover > span > span {
-    background-position: left -5px;
-}
-
-.RTL #Navigation .Selected a:hover > span {
-    background-position: right -5px;
-}
-
-.RTL #Navigation .Selected a:hover > span > span {
-    background-position: left -5px;
-}
 /**
  * @subsection      Search icon
  */
 #Navigation .Search {
-    width: 28px;
+    width: 16px;
 }
 
 #Navigation a span.SearchIcon {
@@ -462,6 +375,8 @@
     height: 16px;
     text-indent: -9999px;
     background: url(../img/search_bg.png) no-repeat left top;
+    display: block;
+    position: absolute;
 }
 
 /**
@@ -474,9 +389,10 @@
 
 #Navigation > .Active > div {
     position: absolute;
-    top: 28px;
+    top: 27px;
     left: -5px;
     display: block;
+    z-index: 99;
 }
 
 .RTL #Navigation > .Active > div {
