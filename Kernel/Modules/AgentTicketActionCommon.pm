@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.5 2010-07-07 13:08:41 mn Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.6 2010-07-08 05:16:55 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -294,20 +294,20 @@ sub Run {
                 # check needed stuff
                 for (qw(Year Month Day Hour Minute)) {
                     if ( !defined $GetParam{$_} ) {
-                        $Error{'Date invalid'} = '* invalid';
+                        $Error{'DateInvalid'} = 'ServerError';
                     }
                 }
 
                 # check date
                 if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                    $Error{'Date invalid'} = '* invalid';
+                    $Error{'DateInvalid'} = 'ServerError';
                 }
                 if (
                     $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
                     < $Self->{TimeObject}->SystemTime()
                     )
                 {
-                    $Error{'Date invalid'} = '* invalid';
+                    $Error{'DateInvalid'} = 'ServerError';
                 }
             }
         }
@@ -338,11 +338,11 @@ sub Run {
         for my $Count ( 1 .. 16 ) {
             next if $Self->{Config}->{TicketFreeText}->{$Count} ne 2;
             next if $GetParam{"TicketFreeText$Count"} ne '';
-            $Error{"TicketFreeTextField$Count invalid"} = 'ServerError';
+            $Error{ "TicketFreeText" . "$Count" . "Invalid" } = 'ServerError';
         }
 
         #check if Title
-        if ( !$GetParam{Title} ) {
+        if ( $Self->{Config}->{Title} && !$GetParam{Title} ) {
             $Error{'TitleInvalid'} = 'ServerError';
         }
 
@@ -389,8 +389,9 @@ sub Run {
             # ticket free text
             my %TicketFreeText;
             for my $Count ( 1 .. 16 ) {
-                my $Key  = 'TicketFreeKey' . $Count;
-                my $Text = 'TicketFreeText' . $Count;
+                my $Key      = 'TicketFreeKey' . $Count;
+                my $Text     = 'TicketFreeText' . $Count;
+                my $keyError = 'TicketFreeText' . $Count . 'Invalid';
                 $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type     => $Key,
@@ -402,6 +403,7 @@ sub Run {
                     Type     => $Text,
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
+                    Class    => $Error{$keyError} || '',
                 );
             }
             my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
@@ -1099,6 +1101,7 @@ sub _Mask {
                     DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
                         || 0,
                     %Param,
+                    Class => $Param{DateInvalid} || ' ',
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'StatePending',
@@ -1138,10 +1141,6 @@ sub _Mask {
         );
     }
     if ( $Self->{Config}->{Note} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'NoteJs',
-            Data => {%Param},
-        );
         $Self->{LayoutObject}->Block(
             Name => 'Note',
             Data => {%Param},
@@ -1256,10 +1255,6 @@ sub _Mask {
 
         # show time accounting box
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TimeUnitsJs',
-                Data => \%Param,
-            );
             $Self->{LayoutObject}->Block(
                 Name => 'TimeUnits',
                 Data => \%Param,

@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.8 2010-07-08 04:51:35 mp Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.9 2010-07-08 05:14:11 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -267,6 +267,8 @@ $Include{"RichTextEditor"}
                     <label>$Text{"Pending date"}:</label>
                     <div class="Field">
                         $Data{"DateString"}
+                        <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
+                        <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
                         <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
                     </div>
                     <div class="Clear"></div>
