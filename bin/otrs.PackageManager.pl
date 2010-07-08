@@ -3,7 +3,7 @@
 # otrs.PackageManager.pl - otrs package manager cmd version
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PackageManager.pl,v 1.4 2010-06-17 06:03:53 dz Exp $
+# $Id: otrs.PackageManager.pl,v 1.5 2010-07-08 09:05:08 bes Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -42,10 +42,10 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 # common objects
-my %CommonObject = ();
+my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
@@ -58,12 +58,12 @@ $CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
 $CommonObject{PackageObject} = Kernel::System::Package->new(%CommonObject);
 
 # get options
-my %Opts = ();
+my %Opts;
 getopt( 'hapofdv', \%Opts );
 
 # set defaults
 if ( !$Opts{o} ) {
-    $Opts{o} = File::Spec->tmpdir;
+    $Opts{o} = File::Spec->tmpdir();
 }
 if ( !$Opts{f} ) {
     $Opts{f} = 0;
@@ -263,7 +263,7 @@ if ( $Opts{a} eq 'exportfile' ) {
 # build
 if ( $Opts{a} eq 'build' ) {
     my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
-    if ( $Opts{v} =~ m/\d{1,4}\.\d{1,4}\.\d{1,4}/ ) {
+    if ( $Opts{v} && $Opts{v} =~ m/\d{1,4}\.\d{1,4}\.\d{1,4}/ ) {
         $Structure{Version}->{Content} = $Opts{v}
     }
     elsif ( $Opts{v} ) {
