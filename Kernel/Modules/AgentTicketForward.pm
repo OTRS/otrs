@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.68 2010-05-20 09:17:36 mb Exp $
+# $Id: AgentTicketForward.pm,v 1.69 2010-07-08 05:17:55 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -365,12 +365,17 @@ sub Form {
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
     $Output .= $Self->_Mask(
-        TicketNumber => $Ticket{TicketNumber},
-        TicketID     => $Self->{TicketID},
-        QueueID      => $Ticket{QueueID},
-        NextStates   => $Self->_GetNextStates(),
-        Errors       => \%Error,
-        Attachments  => \@Attachments,
+        TicketNumber      => $Ticket{TicketNumber},
+        TicketID          => $Self->{TicketID},
+        QueueID           => $Ticket{QueueID},
+        NextStates        => $Self->_GetNextStates(),
+        TimeUnitsRequired => (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            ? 'Validate_Required'
+            : ''
+        ),
+        Errors      => \%Error,
+        Attachments => \@Attachments,
         %Data,
         %GetParam,
         InReplyTo  => $Data{MessageID},
@@ -398,46 +403,7 @@ sub SendEmail {
     # check pending date
     if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
         if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-            $Error{'Date invalid'} = 'invalid';
-        }
-    }
-
-    # attachment delete
-    for my $Count ( 1 .. 32 ) {
-        my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
-        next if !$Delete;
-        $Error{AttachmentDelete} = 1;
-        $Self->{UploadCacheObject}->FormIDRemoveFile(
-            FormID => $GetParam{FormID},
-            FileID => $Count,
-        );
-    }
-
-    # attachment upload
-    if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
-        $Error{AttachmentUpload} = 1;
-        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
-            Source => 'string',
-        );
-        $Self->{UploadCacheObject}->FormIDAddFile(
-            FormID => $GetParam{FormID},
-            %UploadStuff,
-        );
-    }
-
-    # get all attachments meta data
-    my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
-        FormID => $GetParam{FormID},
-    );
-
-    # check some values
-    for my $Line (qw(From To Cc Bcc)) {
-        next if !$GetParam{$Line};
-        for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
-            if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
-            }
+            $Error{'DateInvalid'} = 'ServerError';
         }
     }
 
@@ -461,6 +427,12 @@ sub SendEmail {
     # get free text config options
     my %TicketFreeText;
     for ( 1 .. 16 ) {
+
+        # check required FreeTextField (if configured)
+        if ( $Self->{Config}{'TicketFreeText'}{$_} == 2 && $TicketFree{"TicketFreeText$_"} eq '' ) {
+            $Error{"TicketFreeTextField$_ invalid"} = 'ServerError';
+        }
+
         $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
             Type     => "TicketFreeKey$_",
@@ -474,10 +446,6 @@ sub SendEmail {
             UserID   => $Self->{UserID},
         );
 
-        # check required FreeTextField (if configured)
-        if ( $Self->{Config}{'TicketFreeText'}{$_} == 2 && $TicketFree{"TicketFreeText$_"} eq '' ) {
-            $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
-        }
     }
     my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
         Config => \%TicketFreeText,
@@ -532,16 +500,13 @@ sub SendEmail {
         next if !$GetParam{$Line};
         for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
             if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
+                $Error{ "$Line" . "Invalid" } .= $Self->{CheckItemObject}->CheckError();
             }
             my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                 Address => $Email->address()
             );
             if ($IsLocal) {
-                $Error{"$Line invalid"}
-                    .= "Can't forward ticket to "
-                    . $Email->address()
-                    . "! It's a local address! Move this Tickets!";
+                $Error{ "$Line" . "Invalid" } = 'ServerError';
             }
         }
     }
@@ -580,6 +545,35 @@ sub SendEmail {
         }
     }
 
+    # attachment delete
+    for my $Count ( 1 .. 32 ) {
+        my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+        next if !$Delete;
+        $Error{AttachmentDelete} = 1;
+        $Self->{UploadCacheObject}->FormIDRemoveFile(
+            FormID => $GetParam{FormID},
+            FileID => $Count,
+        );
+    }
+
+    # attachment upload
+    if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+        $Error{AttachmentUpload} = 1;
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param  => 'FileUpload',
+            Source => 'string',
+        );
+        $Self->{UploadCacheObject}->FormIDAddFile(
+            FormID => $GetParam{FormID},
+            %UploadStuff,
+        );
+    }
+
+    # get all attachments meta data
+    my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
+        FormID => $GetParam{FormID},
+    );
+
     # check if there is an error
     if (%Error) {
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
@@ -611,7 +605,7 @@ sub SendEmail {
 
     # get submit attachment
     my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-        Param  => 'file_upload',
+        Param  => 'FileUpload',
         Source => 'String',
     );
     if (%UploadStuff) {
@@ -824,7 +818,7 @@ sub _Mask {
     # prepare errors!
     if ( $Param{Errors} ) {
         for ( keys %{ $Param{Errors} } ) {
-            $Param{$_} = "* " . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
+            $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
         }
     }
 
@@ -872,10 +866,6 @@ sub _Mask {
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
         $Self->{LayoutObject}->Block(
-            Name => 'TimeUnitsJs',
-            Data => \%Param,
-        );
-        $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,
         );
@@ -903,31 +893,6 @@ sub _Mask {
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
-        );
-    }
-
-    # java script check for required free text fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
-        next if $Self->{Config}->{TicketFreeText}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTextCheckJs',
-            Data => {
-                TicketFreeTextField => "TicketFreeText$Key",
-                TicketFreeKeyField  => "TicketFreeKey$Key",
-            },
-        );
-    }
-
-    # java script check for required free time fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
-        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTimeCheckJs',
-            Data => {
-                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
-                TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
-            },
         );
     }
 
