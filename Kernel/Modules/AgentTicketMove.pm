@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.53 2010-07-07 03:39:00 en Exp $
+# $Id: AgentTicketMove.pm,v 1.54 2010-07-08 22:43:49 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,9 +28,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject TicketObject LayoutObject LogObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{StateObject}       = Kernel::System::State->new(%Param);
@@ -56,9 +56,9 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID)) {
-        if ( !$Self->{$_} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "Need $_!", );
+    for my $Needed (qw(TicketID)) {
+        if ( !$Self->{$Needed} ) {
+            return $Self->{LayoutObject}->ErrorScreen( Message => "Need $Needed!", );
         }
     }
 
@@ -100,14 +100,14 @@ sub Run {
 
     # get params
     my %GetParam;
-    for (
+    for my $Parameter (
         qw(Subject Body TimeUnits
         NewUserID OldUserID NewStateID NewPriorityID
         UserSelection OwnerAll NoSubmit DestQueueID DestQueue
         )
         )
     {
-        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
     }
 
     # get ticket free text params
@@ -116,11 +116,11 @@ sub Run {
         my $Text = 'TicketFreeText' . $Count;
         $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key )  || '';
         $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text ) || '';
-        if ( !defined $GetParam{"TicketFreeKey$_"} && $Ticket{"TicketFreeKey$_"} ) {
-            $GetParam{"TicketFreeKey$_"} = $Ticket{"TicketFreeKey$_"} || '';
+        if ( !defined $GetParam{$Key} && $Ticket{$Key} ) {
+            $GetParam{$Key} = $Ticket{$Key} || '';
         }
-        if ( !defined $GetParam{"TicketFreeText$_"} && $Ticket{"TicketFreeText$_"} ) {
-            $GetParam{"TicketFreeText$_"} = $Ticket{"TicketFreeText$_"} || '';
+        if ( !defined $GetParam{$Text} && $Ticket{$Text} ) {
+            $GetParam{$Text} = $Ticket{$Text} || '';
         }
     }
 
@@ -213,31 +213,16 @@ sub Run {
     # error handling
     my %Error;
 
-    if ( $Self->{Subaction} eq 'MoveTicket' ) {
-
-        # check required FreeTextField (if configured)
-        for ( 1 .. 16 ) {
-            if (
-                $Self->{Config}->{'TicketFreeText'}->{$_} == 2
-                && $GetParam{"TicketFreeText$_"} eq ''
-                )
-            {
-                $Error{"TicketFreeTextField$_ invalid"} = '* invalid';
-            }
-        }
-
-    }
-
-    if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
-        $Error{AttachmentUpload} = 1;
-    }
-
     # DestQueueID lookup
     if ( !$GetParam{DestQueueID} && $GetParam{DestQueue} ) {
         $GetParam{DestQueueID} = $Self->{QueueObject}->QueueLookup( Queue => $GetParam{DestQueue} );
     }
     if ( !$GetParam{DestQueueID} ) {
         $Error{DestQueue} = 1;
+    }
+
+    if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+        $Error{AttachmentUpload} = 1;
     }
 
     # do not submit
@@ -273,10 +258,12 @@ sub Run {
 
         # get free text config options
         my @TicketFreeTextConfig;
-        for ( 1 .. 16 ) {
+        for my $Count ( 1 .. 16 ) {
+            my $Key       = 'TicketFreeKey' . $Count;
+            my $Text      = 'TicketFreeText' . $Count;
             my $ConfigKey = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "TicketFreeKey$_",
+                Type     => $Key,
                 Action   => $Self->{Action},
                 QueueID  => $GetParam{DestQueueID} || 0,
                 UserID   => $Self->{UserID},
@@ -285,9 +272,9 @@ sub Run {
                 push(
                     @TicketFreeTextConfig,
                     {
-                        Name        => "TicketFreeKey$_",
+                        Name        => $Key,
                         Data        => $ConfigKey,
-                        SelectedID  => $GetParam{"TicketFreeKey$_"},
+                        SelectedID  => $GetParam{$Key},
                         Translation => 0,
                         Max         => 100,
                     }
@@ -295,7 +282,7 @@ sub Run {
             }
             my $ConfigValue = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "TicketFreeText$_",
+                Type     => $Text,
                 Action   => $Self->{Action},
                 QueueID  => $GetParam{DestQueueID} || 0,
                 UserID   => $Self->{UserID},
@@ -304,9 +291,9 @@ sub Run {
                 push(
                     @TicketFreeTextConfig,
                     {
-                        Name        => "TicketFreeText$_",
+                        Name        => $Text,
                         Data        => $ConfigValue,
-                        SelectedID  => $GetParam{"TicketFreeText$_"},
+                        SelectedID  => $GetParam{$Text},
                         Translation => 0,
                         Max         => 100,
                     }
@@ -350,24 +337,49 @@ sub Run {
         );
     }
 
+    if ( $Self->{Subaction} eq 'MoveTicket' ) {
+        for my $Keys (qw( DestQueueID Subject Body TimeUnits )) {
+            if ( $GetParam{$Keys} eq '' ) {
+                $Error{ $Keys . 'Invalid' } = 'ServerError';
+            }
+        }
+    }
+
     # move queue
     if (%Error) {
 
         # ticket free text
         my %TicketFreeText;
-        for ( 1 .. 16 ) {
-            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+        for my $Count ( 1 .. 16 ) {
+            my $Key  = 'TicketFreeKey' . $Count;
+            my $Text = 'TicketFreeText' . $Count;
+            $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "TicketFreeKey$_",
+                Type     => $Key,
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
-            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+            $TicketFreeText{$Text} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "TicketFreeText$_",
+                Type     => $Text,
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
+            if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                $TicketFreeText{Required}->{$Count} = 1;
+            }
+
+            if ( $Self->{Subaction} eq 'MoveTicket' ) {
+
+                # If Key has value 2, this means that the freetextfield is required
+                if (
+                    ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 )
+                    && ( $GetParam{$Text} eq '' )
+                    )
+                {
+                    $TicketFreeText{Error}->{$Count} = 1;
+                }
+            }
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
@@ -656,13 +668,15 @@ sub Run {
     }
 
     # set ticket free text
-    for ( 1 .. 16 ) {
-        if ( defined $GetParam{"TicketFreeKey$_"} ) {
+    for my $Count ( 1 .. 16 ) {
+        my $Key  = 'TicketFreeKey' . $Count;
+        my $Text = 'TicketFreeText' . $Count;
+        if ( defined $GetParam{$Key} ) {
             $Self->{TicketObject}->TicketFreeTextSet(
                 TicketID => $Self->{TicketID},
-                Key      => $GetParam{"TicketFreeKey$_"},
-                Value    => $GetParam{"TicketFreeText$_"},
-                Counter  => $_,
+                Key      => $GetParam{$Key},
+                Value    => $GetParam{$Text},
+                Counter  => $Count,
                 UserID   => $Self->{UserID},
             );
         }
@@ -806,7 +820,7 @@ sub AgentMove {
         Data => { %MoveQueues, '' => '-' },
         Multiple       => 0,
         Size           => 0,
-        Class          => 'Validate_Required' . ' ' . $Param{Errors}->{DestinationInvalid},
+        Class          => 'Validate_Required' . ' ' . $Param{Errors}->{DestQueueIDInvalid},
         Name           => 'DestQueueID',
         SelectedID     => $Param{DestQueueID},
         OnChangeSubmit => 0,
@@ -864,6 +878,11 @@ sub AgentMove {
 
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+        $Param{TimeUnitsRequired} = (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            ? 'Validate_Required'
+            : ''
+        );
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,
@@ -973,15 +992,15 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for ( keys %AllGroupsMembers ) {
+        for my $Key ( keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
-                if ( $UID eq $_ ) {
+                if ( $UID eq $Key ) {
                     $Hit = 1;
                 }
             }
             if ( !$Hit ) {
-                delete $AllGroupsMembers{$_};
+                delete $AllGroupsMembers{$Key};
             }
         }
     }
@@ -999,9 +1018,9 @@ sub _GetUsers {
             Type    => 'owner',
             Result  => 'HASH',
         );
-        for ( keys %MemberList ) {
-            if ( $AllGroupsMembers{$_} ) {
-                $ShownUsers{$_} = $AllGroupsMembers{$_};
+        for my $Key ( keys %MemberList ) {
+            if ( $AllGroupsMembers{$Key} ) {
+                $ShownUsers{$Key} = $AllGroupsMembers{$Key};
             }
         }
     }

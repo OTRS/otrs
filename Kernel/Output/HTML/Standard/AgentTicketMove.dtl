@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.45 2010-07-07 03:39:14 en Exp $
+# $Id: AgentTicketMove.dtl,v 1.46 2010-07-08 22:43:25 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,16 +116,16 @@ function submit_compose() {
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="RichText">$Text{"Text"}:</label>
+                    <label for="Body">$Text{"Text"}:</label>
                     <div class="Clear"></div>
 
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 
-                    <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext $Data{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                    <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
-                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
+                    <textarea id="Body" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <div id="BodyError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
+                    <div id="BodyServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                     <div class="Clear"></div>
 
                     <label>$Text{"Attachment"}:</label>
@@ -222,8 +222,10 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
                     <div class="Field">
-                        <input type="text" class="Validate_TimeUnits W20pc" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}"/>
+                        <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W25pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                         <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
+                        <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
+
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
@@ -235,13 +237,6 @@ $Include{"RichTextEditor"}
             <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
         </div>
     </div>
-</form>
-
-# invisible form
-<form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-    <input type="hidden" name="Action" value="AgentSpelling"/>
-    <input type="hidden" name="Body" value=""/>
-    <input type="hidden" name="spell_lang" value=""/>
 </form>
 
 <div id="UIElementPool">
