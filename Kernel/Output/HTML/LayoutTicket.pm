@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.83 2010-07-07 22:59:29 cg Exp $
+# $Id: LayoutTicket.pm,v 1.84 2010-07-08 16:18:05 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub TicketStandardResponseString {
     my ( $Self, %Param ) = @_;
@@ -447,6 +447,30 @@ sub AgentFreeText {
             }
         }
 
+        # Add Validate and Error classes
+        my $ClassParam = "$Class ";
+        my $DataParam  = "";
+        if ( $Config{"Required"}->{$_} ) {
+            $ClassParam .= 'Validate_Required';
+            if ( ref $Config{"TicketFreeText$_"} eq 'HASH' ) {
+                $ClassParam .= 'Dropdown';
+            }
+            $ClassParam .= ' ';
+
+            $DataParam
+                .= '<div id="TicketFreeText'
+                . $_
+                . 'Error" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
+        }
+
+        if ( $Config{"Error"}->{$_} ) {
+            $ClassParam .= 'ServerError ';
+            $DataParam
+                .= '<div id="TicketFreeText'
+                . $_
+                . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
+        }
+
         # value
         if ( ref $Config{"TicketFreeText$_"} eq 'HASH' ) {
             $Data{"TicketFreeTextField$_"} = $Self->BuildSelection(
@@ -455,23 +479,11 @@ sub AgentFreeText {
                 SelectedID          => $Ticket{"TicketFreeText$_"},
                 LanguageTranslation => 0,
                 HTMLQuote           => 1,
-                Class               => $Class . ' '
-                    . ( $Config{"Required"}->{$_} ? 'Validate_RequiredDropdown' : '' )
-                    . ( $Config{"Error"}->{$_} ? 'ServerError' : '' ),
+                Class               => $ClassParam,
                 %SelectData,
             );
-            if ( $Config{"Required"}->{$_} ) {
-                $Data{"TicketFreeTextField$_"}
-                    .= '<div id="TicketFreeText'
-                    . $_
-                    . 'Error" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
-            }
-            if ( $Config{"Error"}->{$_} ) {
-                $Data{"TicketFreeTextField$_"}
-                    .= '<div id="TicketFreeText'
-                    . $_
-                    . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
-            }
+
+            $Data{"TicketFreeTextField$_"} .= $DataParam;
 
         }
         else {
@@ -489,51 +501,25 @@ sub AgentFreeText {
                     . $_
                     . '" id="TicketFreeText'
                     . $_
-                    . '" class="W33pc' . $Class . ' '
-                    . ( $Config{"Required"}->{$_} ? 'Validate_Required' : '' )
-                    . ( $Config{"Error"}->{$_}    ? ' ServerError'      : '' )
+                    . '" class="W33pc ' . $ClassParam
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Ticket{"TicketFreeText$_"} )
                     . '" />';
 
-                if ( $Config{"Required"}->{$_} ) {
-                    $Data{"TicketFreeTextField$_"}
-                        .= '<div id="TicketFreeText'
-                        . $_
-                        . 'Error" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
-                }
+                $Data{"TicketFreeTextField$_"} .= $DataParam;
 
-                if ( $Config{"Error"}->{$_} ) {
-                    $Data{"TicketFreeTextField$_"}
-                        .= '<div id="TicketFreeText'
-                        . $_
-                        . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
-                }
             }
             else {
                 $Data{"TicketFreeTextField$_"}
-                    = '<input type="text" class="W33pc' . $Class . ' '
-                    . ( $Config{"Required"}->{$_} ? 'Validate_Required' : '' )
-                    . ( $Config{"Error"}->{$_}    ? ' ServerError'      : '' )
+                    = '<input type="text" class="W33pc ' . $ClassParam
                     . '" name="TicketFreeText'
                     . $_
                     . '" id="TicketFreeText'
                     . $_
                     . '" value="" />';
 
-                if ( $Config{"Required"}->{$_} ) {
-                    $Data{"TicketFreeTextField$_"}
-                        .= '<div id="TicketFreeText'
-                        . $_
-                        . 'Error" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
-                }
+                $Data{"TicketFreeTextField$_"} .= $DataParam;
 
-                if ( $Config{"Error"}->{$_} ) {
-                    $Data{"TicketFreeTextField$_"}
-                        .= '<div id="TicketFreeText'
-                        . $_
-                        . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
-                }
             }
         }
     }
