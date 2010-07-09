@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.68 2010-07-09 16:17:10 ub Exp $
+# $Id: DB.t,v 1.69 2010-07-09 16:38:04 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1151,6 +1151,27 @@ for my $Character (@SpecialCharacters) {
         1,
         "#5.$Counter $SQL (underscore)",
     );
+
+    # do the same again for oracle but without the ESCAPE and expect this to fail
+    if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
+        $SQL    = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'";
+        $Result = $Self->{DBObject}->Prepare(
+            SQL   => $SQL,
+            Limit => 1,
+        );
+        $Self->True(
+            $Result,
+            "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (underscore)",
+        );
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $Count = $Row[0];
+        }
+        $Self->IsNot(
+            $Count,
+            1,
+            "#5.$Counter $SQL (underscore)",
+        );
+    }
 }
 
 my @UTF8Tests = (
