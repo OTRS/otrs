@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.10 2010-07-08 10:30:59 mg Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.11 2010-07-09 05:29:27 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,19 +10,6 @@
 # --
 
 <!-- dtl:block:Properties -->
-<!-- dtl:block:OwnerJs -->
-<script type="text/javascript">//<![CDATA[
-function change_selected(sel) {
-    start_elements = (sel + 4);
-    if (document.compose.elements[0].name == "$Config{"SessionName"}") {
-        start_elements = start_elements + 1;
-    }
-    if (!document.compose.elements[start_elements].checked) {
-        document.compose.elements[start_elements].checked = true;
-    }
-}
-//]]></script>
-<!-- dtl:block:OwnerJs -->
 
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="Compose" class="Validate">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
@@ -140,7 +127,7 @@ function change_selected(sel) {
 <!-- dtl:block:Owner -->
                 <label for="NewOwnerID">$Text{"New Owner"}:</label>
                 <div class="Field">
-                    <input type="radio" name="NewOwnerType" value="New" $QData{"NewOwnerType::New"}/>
+                    <input type="radio" name="NewOwnerType" value="New" title ="Select new owner" $QData{"NewOwnerType::New"}/>
                     $Data{"OwnerStrg"}
                     <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>$Text{"Please set a new owner!"}</p></div>
                 </div>
@@ -148,7 +135,7 @@ function change_selected(sel) {
 
                 <label for="OldOwnerID">$Text{"Previous Owner"}:</label>
                 <div class="Field">
-                    <input type="radio" name="NewOwnerType" value="Old" $QData{"NewOwnerType::Old"}/>
+                    <input type="radio" name="NewOwnerType" value="Old" title="Select old owner" $QData{"NewOwnerType::Old"}/>
                     $Data{"OldOwnerStrg"}
                     <div id="OldOwnerIDServerError" class="TooltipErrorMessage"><p>$Text{"Please set a new owner!"}</p></div>
                 </div>
@@ -273,7 +260,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:State -->
 
 <!-- dtl:block:Priority -->
-                <label>$Text{"Priority"}:</label>
+                <label for="NewPriorityID">$Text{"Priority"}:</label>
                 <div class="Field">
                     $Data{"PriorityStrg"}
                 </div>
