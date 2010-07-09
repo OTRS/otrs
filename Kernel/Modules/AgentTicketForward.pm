@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.70 2010-07-09 05:55:13 mp Exp $
+# $Id: AgentTicketForward.pm,v 1.71 2010-07-09 20:42:33 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -150,12 +150,16 @@ sub Form {
                 OwnerID  => $Self->{UserID},
             );
             if ( !$AccessOk ) {
-                my $Output = $Self->{LayoutObject}->Header();
+                my $Output = $Self->{LayoutObject}->Header(
+                    Type => 'Small',
+                );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => 'Sorry, you need to be the owner to do this action!',
                     Comment => 'Please change the owner first.',
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $Self->{LayoutObject}->Footer(
+                    Type => 'Small',
+                );
                 return $Output;
             }
             else {
@@ -368,7 +372,10 @@ sub Form {
 
     # build view ...
     # start with page ...
-    $Output .= $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
+    $Output .= $Self->{LayoutObject}->Header(
+        Value => $Ticket{TicketNumber},
+        Type  => 'Small',
+    );
     $Output .= $Self->_Mask(
         TicketNumber      => $Ticket{TicketNumber},
         TicketID          => $Self->{TicketID},
@@ -388,7 +395,9 @@ sub Form {
         %TicketFreeTextHTML,
         %TicketFreeTimeHTML,
     );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $Self->{LayoutObject}->Footer(
+        Type => 'Small',
+    );
 
     return $Output;
 }
@@ -587,7 +596,10 @@ sub SendEmail {
     # check if there is an error
     if (%Error) {
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
-        my $Output = $Self->{LayoutObject}->Header( Value => $Tn );
+        my $Output = $Self->{LayoutObject}->Header(
+            Value => $Tn,
+            Type  => 'Small',
+        );
         $Output .= $Self->_Mask(
             TicketNumber => $Tn,
             TicketID     => $Self->{TicketID},
@@ -599,7 +611,9 @@ sub SendEmail {
             %TicketFreeTimeHTML,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->Footer(
+            Type => 'Small',
+        );
         return $Output;
     }
 

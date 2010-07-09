@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.48 2010-07-05 23:10:17 en Exp $
+# $Id: AgentTicketMerge.pm,v 1.49 2010-07-09 20:38:51 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CheckItem;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -106,7 +106,10 @@ sub Run {
                 OwnerID  => $Self->{UserID},
             );
             if ( !$AccessOk ) {
-                my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{Number} );
+                my $Output = $Self->{LayoutObject}->Header(
+                    Value => $Ticket{Number},
+                    Type  => 'Small',
+                );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Sorry, you need to be the owner to do this action!",
                     Comment => 'Please change the owner first.',
@@ -279,7 +282,6 @@ sub Run {
 
         # merge box
         my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
-        $Output .= $Self->{LayoutObject}->NavigationBar();
 
         # prepare salutation
         my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
@@ -340,7 +342,9 @@ sub Run {
             TemplateFile => 'AgentTicketMerge',
             Data => { %Param, %Ticket, %Article, }
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->Footer(
+            Type => 'Small',
+        );
         return $Output;
     }
 }
