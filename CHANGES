@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1244 2010-07-09 17:25:15 ub Exp $
+# $Id: CHANGES,v 1.1245 2010-07-09 18:23:37 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,9 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/07/09) Fixed bug#5494 - Handle attachments with java script.
  - (2010/07/09) Fixed bug#5544 - Wrong handling of underscore in LIKE
-    search with oracle
+    search with oracle.
  - (2010/07/06) Removed AgentLookup (was not used in OTRS framework itself
      and is not state of the art of dealing with dynamic data any more).
  - (2010/07/01) Streamlined messages in AgentTicketBulk.

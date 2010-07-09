@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.47 2010-07-09 17:42:46 en Exp $
+# $Id: AgentTicketMove.dtl,v 1.48 2010-07-09 18:18:46 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -138,28 +138,34 @@ $Include{"RichTextEditor"}
 
                     <label>$Text{"Attachment"}:</label>
                     <div class="Field">
-                        <table>
-
+                        <ul>
 <!-- dtl:block:Attachment -->
-                            <tr>
-                                <td>$QData{"Filename"}</td>
-                                <td>$QData{"Filesize"}</td>
-                                <td align="right">
-                                    <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                </td>
-                            </tr>
+                            <li>
+                                $QData{"Filename"} ($QData{"Filesize"})
+                                <button type="submit" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#AttachmentDelete$QData{"FileID"}'), function () {
+        Core.Form.Validate.DisableValidation($('#AttachmentDelete$QData{"FileID"}').closest('form'));
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+                            </li>
 <!-- dtl:block:Attachment -->
-
-                            <tr>
-                                <td colspan="2">
-                                    <input name="file_upload" type="file" size="40" class="fixed"/>
-                                </td>
-                                <td align="right">
-                                    <button type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
-                                    <a name="attachment"></a>
-                                </td>
-                            </tr>
-                        </table>
+                            <li>
+                                <input id="FileUpload" name="FileUpload" type="file" size="40" />
+                                <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
+                            </li>
+                        </ul>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('change', $('#FileUpload'), function () {
+        var $Form = $('#FileUpload').closest('form');
+        Core.Form.Validate.DisableValidation($Form);
+        $Form.find('#AttachmentUpload').val('1').end().submit();
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                     </div>
                     <div class="Clear"></div>
 
