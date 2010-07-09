@@ -2,16 +2,13 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.69 2010-07-09 16:38:04 ub Exp $
+# $Id: DB.t,v 1.70 2010-07-09 17:34:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-use strict;
-use warnings;
-use vars (qw($Self));
 use strict;
 use warnings;
 
