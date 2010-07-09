@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.353 2010-07-07 12:07:38 mg Exp $
+# $Id: Defaults.pm,v 1.354 2010-07-09 07:56:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.353 $) [1];
+$VERSION = qw($Revision: 1.354 $) [1];
 
 use File::stat;
 use Digest::MD5;
@@ -1966,6 +1966,7 @@ sub ConfigChecksum {
     my ( $Self ) = @_;
 
     my @Files = glob( $Self->{Home} . "/Kernel/Config/Files/*.pm");
+    push( @Files, $Self->{Home} . "/Kernel/Config/Defaults.pm" );
     push( @Files, $Self->{Home} . "/Kernel/Config.pm" );
 
     # Create a string with filenames and file mtimes of the config files
@@ -2204,6 +2205,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.353 $ $Date: 2010-07-07 12:07:38 $
+$Revision: 1.354 $ $Date: 2010-07-09 07:56:11 $
 
 =cut
