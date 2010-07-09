@@ -2,7 +2,7 @@
 # Kernel/System/DB/db2.pm - db2 database backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: db2.pm,v 1.56 2010-02-21 15:25:15 martin Exp $
+# $Id: db2.pm,v 1.57 2010-07-09 17:22:57 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,6 +39,7 @@ sub LoadPreferences {
     $Self->{'DB::CaseInsensitive'}      = 0;
     $Self->{'DB::QuoteUnderscore'}      = '\\';
     $Self->{'DB::LcaseLikeInLargeText'} = 1;
+    $Self->{'DB::LikeEscapeString'}     = '';
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {

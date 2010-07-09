@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.54 2010-02-21 15:25:15 martin Exp $
+# $Id: mssql.pm,v 1.55 2010-07-09 17:22:57 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,13 +31,14 @@ sub LoadPreferences {
     my ( $Self, %Param ) = @_;
 
     # db settings
-    $Self->{'DB::Limit'}           = 0;
-    $Self->{'DB::DirectBlob'}      = 0;
-    $Self->{'DB::QuoteSingle'}     = '\'';
-    $Self->{'DB::QuoteBack'}       = 0;
-    $Self->{'DB::QuoteSemicolon'}  = '';
-    $Self->{'DB::QuoteUnderscore'} = '\\';
-    $Self->{'DB::CaseInsensitive'} = 1;
+    $Self->{'DB::Limit'}            = 0;
+    $Self->{'DB::DirectBlob'}       = 0;
+    $Self->{'DB::QuoteSingle'}      = '\'';
+    $Self->{'DB::QuoteBack'}        = 0;
+    $Self->{'DB::QuoteSemicolon'}   = '';
+    $Self->{'DB::QuoteUnderscore'}  = '\\';
+    $Self->{'DB::CaseInsensitive'}  = 1;
+    $Self->{'DB::LikeEscapeString'} = '';
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {
