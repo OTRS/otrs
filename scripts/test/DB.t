@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.64 2010-07-09 15:21:10 ub Exp $
+# $Id: DB.t,v 1.65 2010-07-09 15:53:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1110,10 +1110,21 @@ for my $Character (@SpecialCharacters) {
     # select like value
     my $name_b = $Self->{DBObject}->Quote( $Value, 'Like' );
     my $Result = $Self->{DBObject}->Prepare(
-        SQL => "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'",
+        SQL   => "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'",
+        Limit => 1,
     );
-    $Self->Is(
+    $Self->True(
         $Result,
+        "#5.$Counter Prepare() SELECT COUNT LIKE $Value (space)",
+    );
+
+    my $Count;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Count = $Row[0];
+    }
+
+    $Self->Is(
+        $Count,
         1,
         "#5.$Counter Prepare() SELECT COUNT LIKE $Value (space)",
     );
@@ -1126,8 +1137,17 @@ for my $Character (@SpecialCharacters) {
     $Result = $Self->{DBObject}->Prepare(
         SQL => "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'",
     );
-    $Self->Is(
+    $Self->True(
         $Result,
+        "#5.$Counter Prepare() SELECT COUNT LIKE $Value (underscore)",
+    );
+
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Count = $Row[0];
+    }
+
+    $Self->Is(
+        $Count,
         1,
         "#5.$Counter Prepare() SELECT COUNT LIKE $Value (underscore)",
     );
