@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.6 2010-07-08 05:16:55 mp Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.7 2010-07-09 05:31:18 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -334,13 +334,6 @@ sub Run {
             }
         }
 
-        # check required FreeTextField (if configured)
-        for my $Count ( 1 .. 16 ) {
-            next if $Self->{Config}->{TicketFreeText}->{$Count} ne 2;
-            next if $GetParam{"TicketFreeText$Count"} ne '';
-            $Error{ "TicketFreeText" . "$Count" . "Invalid" } = 'ServerError';
-        }
-
         #check if Title
         if ( $Self->{Config}->{Title} && !$GetParam{Title} ) {
             $Error{'TitleInvalid'} = 'ServerError';
@@ -405,7 +398,22 @@ sub Run {
                     UserID   => $Self->{UserID},
                     Class    => $Error{$keyError} || '',
                 );
+
+                # If Key has value 2, this means that the freetextfield is required
+                if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                    $TicketFreeText{Required}->{$Count} = 1;
+                }
+
+                # check required FreeTextField (if configured)
+                if (
+                    $Self->{Config}->{TicketFreeText}->{$Count} == 2
+                    && $GetParam{$Text} eq ''
+                    )
+                {
+                    $TicketFreeText{Error}->{$Count} = 1;
+                }
             }
+
             my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
                 Config => \%TicketFreeText,
                 Ticket => \%GetParam,
@@ -793,7 +801,13 @@ sub Run {
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
+
+            # If Key has value 2, this means that the freetextfield is required
+            if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                $TicketFreeText{Required}->{$Count} = 1;
+            }
         }
+
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Ticket => \%Ticket,
             Config => \%TicketFreeText,
@@ -979,7 +993,7 @@ sub _Mask {
             Name       => 'NewOwnerID',
             Class      => $Param{NewOwnerInvalid} || ' ',
             Size       => 10,
-            OnClick    => "change_selected(0)",
+
         );
         my %UserHash;
         if (@OldUserInfo) {
@@ -1008,7 +1022,7 @@ sub _Mask {
             SelectedID => $OldOwnerSelectedID,
             Name       => 'OldOwnerID',
             Class      => $Param{OldOwnerInvalid} || ' ',
-            OnClick    => "change_selected(2)",
+
         );
         if ( $Param{NewOwnerType} && $Param{NewOwnerType} eq 'Old' ) {
             $Param{'NewOwnerType::Old'} = 'checked="checked"';
@@ -1016,10 +1030,7 @@ sub _Mask {
         else {
             $Param{'NewOwnerType::New'} = 'checked="checked"';
         }
-        $Self->{LayoutObject}->Block(
-            Name => 'OwnerJs',
-            Data => \%Param,
-        );
+
         $Self->{LayoutObject}->Block(
             Name => 'Owner',
             Data => \%Param,
