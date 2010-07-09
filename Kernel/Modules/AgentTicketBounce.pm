@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.40 2010-07-06 21:43:08 mp Exp $
+# $Id: AgentTicketBounce.pm,v 1.41 2010-07-09 20:52:05 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -105,12 +105,17 @@ sub Run {
                 OwnerID  => $Self->{UserID},
             );
             if ( !$AccessOk ) {
-                my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{Number} );
+                my $Output = $Self->{LayoutObject}->Header(
+                    Value => $Ticket{Number},
+                    Type  => 'Small',
+                );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Sorry, you need to be the owner to do this action!",
                     Comment => 'Please change the owner first.',
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $Self->{LayoutObject}->Footer(
+                    Type => 'Small',
+                );
                 return $Output;
             }
             else {
@@ -227,8 +232,10 @@ $Param{Signature}";
         }
 
         # print form ...
-        my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $Self->{LayoutObject}->Header(
+            Value => $Ticket{TicketNumber},
+            Type  => 'Small',
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketBounce',
             Data         => {
@@ -239,7 +246,9 @@ $Param{Signature}";
                 TicketNumber => $Ticket{TicketNumber},
             },
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->Footer(
+            Type => 'Small',
+        );
         return $Output;
     }
 
@@ -309,8 +318,9 @@ $Param{Signature}";
 
             $Param{InformationFormat} = $Param{Body};
 
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+            my $Output = $Self->{LayoutObject}->Header(
+                Type => 'Small',
+            );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketBounce',
                 Data         => {
@@ -321,7 +331,9 @@ $Param{Signature}";
 
                 },
             );
-            $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer(
+                Type => 'Small',
+            );
             return $Output;
         }
 

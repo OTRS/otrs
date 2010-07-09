@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.100 2010-07-07 22:55:14 cg Exp $
+# $Id: AgentTicketCompose.pm,v 1.101 2010-07-09 20:53:42 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -108,12 +108,15 @@ sub Run {
             if ($Owner) {
                 my $Output = $Self->{LayoutObject}->Header(
                     Value => $Ticket{Number},
+                    Type  => 'Small',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Ticket locked!",
                     Comment => "Please unlock the ticket first.",
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $Self->{LayoutObject}->Footer(
+                    Type => 'Small',
+                );
                 return $Output;
             }
         }
@@ -131,7 +134,9 @@ sub Run {
                     Message => "Sorry, you need to be the owner to do this action!",
                     Comment => 'Please change the owner first.',
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $Self->{LayoutObject}->Footer(
+                    Type => 'Small',
+                );
                 return $Output;
             }
             else {
@@ -445,7 +450,9 @@ sub Run {
                 %ArticleFreeTextHTML,
                 %GetParam,
             );
-            $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer(
+                Type => 'Small',
+            );
             return $Output;
         }
 
@@ -1074,7 +1081,9 @@ $QData{"Signature"}
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->Footer(
+            Type => 'Small',
+        );
         return $Output;
     }
 }

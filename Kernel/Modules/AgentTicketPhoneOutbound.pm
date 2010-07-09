@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.49 2010-07-08 18:25:04 cg Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.50 2010-07-09 20:50:41 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -118,12 +118,17 @@ sub Run {
                 OwnerID  => $Self->{UserID},
             );
             if ( !$AccessOk ) {
-                my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{Number} );
+                my $Output = $Self->{LayoutObject}->Header(
+                    Value => $Ticket{Number},
+                    Type  => 'Small',
+                );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => 'Sorry, you need to be the owner to do this action!',
                     Comment => 'Please change the owner first.',
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $Self->{LayoutObject}->Footer(
+                    Type => 'Small',
+                );
                 return $Output;
             }
             else {
@@ -334,8 +339,9 @@ sub Run {
         }
 
         # print form ...
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $Self->{LayoutObject}->Header(
+            Type => 'Small',
+        );
         $Output .= $Self->_MaskPhone(
             TicketID     => $Self->{TicketID},
             QueueID      => $Self->{QueueID},
@@ -348,7 +354,9 @@ sub Run {
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->Footer(
+            Type => 'Small',
+        );
         return $Output;
     }
 
@@ -536,8 +544,9 @@ sub Run {
             }
 
             # header
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+            my $Output = $Self->{LayoutObject}->Header(
+                Type => 'Small',
+            );
             $Output .= $OutputAux;
             $Output .= $Self->_MaskPhone(
                 TicketID     => $Self->{TicketID},
@@ -551,7 +560,9 @@ sub Run {
                 %ArticleFreeTextHTML,
                 Errors => \%Error,
             );
-            $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer(
+                Type => 'Small',
+            );
             return $Output;
         }
         else {
