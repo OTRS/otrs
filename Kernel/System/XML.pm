@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.102 2010-07-08 09:09:59 ub Exp $
+# $Id: XML.pm,v 1.103 2010-07-09 17:17:34 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 =head1 NAME
 
@@ -408,6 +408,9 @@ sub XMLHashSearch {
 
     if ( $Param{What} && ref $Param{What} eq 'ARRAY' ) {
 
+        # get like escape string needed for dome databases (e.g. oracle)
+        my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
+
         # the array elements are 'and' combined
         for my $And ( @{ $Param{What} } ) {
 
@@ -423,8 +426,8 @@ sub XMLHashSearch {
                     for my $Element ( @{$Value} ) {
                         $Element = $Self->{DBObject}->Quote( $Element, 'Like' );
                         push @OrConditions,
-                            " (xml_content_key LIKE '$Key' "
-                            . "AND xml_content_value LIKE '$Element')";
+                            " (xml_content_key LIKE '$Key' $LikeEscapeString "
+                            . "AND xml_content_value LIKE '$Element' $LikeEscapeString)";
                     }
                 }
                 else {
@@ -433,8 +436,8 @@ sub XMLHashSearch {
                     # we use a 'LIKE'-condition
                     $Value = $Self->{DBObject}->Quote( $Value, 'Like' );
                     push @OrConditions,
-                        " (xml_content_key LIKE '$Key' "
-                        . "AND xml_content_value LIKE '$Value' )";
+                        " (xml_content_key LIKE '$Key' $LikeEscapeString "
+                        . "AND xml_content_value LIKE '$Value' $LikeEscapeString )";
                 }
             }
 
@@ -1492,6 +1495,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.102 $ $Date: 2010-07-08 09:09:59 $
+$Revision: 1.103 $ $Date: 2010-07-09 17:17:34 $
 
 =cut
