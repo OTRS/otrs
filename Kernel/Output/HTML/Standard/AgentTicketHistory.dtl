@@ -2,7 +2,7 @@
 # AgentTicketHistory.dtl - provides HTML form for history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.dtl,v 1.18 2010-07-09 10:18:34 mn Exp $
+# $Id: AgentTicketHistory.dtl,v 1.19 2010-07-09 11:58:20 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,15 +53,7 @@
                                 -
 <!-- dtl:block:NoLinkZoom -->
 <!-- dtl:block:ShowLinkZoom -->
-                                <a id="Zoom$QData{"TicketID"}" class="AsBlock" href="#">$Text{"Zoom view"}</a>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#Zoom$QData{"TicketID"}'), function () {
-        window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}'});
-        window.close();
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
+                                <a class="LinkZoomView AsBlock" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}">$Text{"Zoom view"}</a>
 <!-- dtl:block:ShowLinkZoom -->
                             </td>
                             <td>
@@ -77,6 +69,13 @@
                 </table>
             </div>
         </div>
-
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('a.LinkZoomView'), function () {
+        window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: $(this).attr('href')});
+        window.close();
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
     </div>
 </div>
