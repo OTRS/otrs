@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.66 2010-07-09 16:01:37 ub Exp $
+# $Id: DB.t,v 1.67 2010-07-09 16:12:34 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1106,44 +1106,50 @@ for my $Character (@SpecialCharacters) {
 
     # select like value (with space)
     my $name_b = $Self->{DBObject}->Quote( 'otrs test', 'Like' );
+    my $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'";
+
     my $Result = $Self->{DBObject}->Prepare(
-        SQL   => "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'",
+        SQL   => $SQL,
         Limit => 1,
     );
     $Self->True(
         $Result,
         "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (space)",
     );
-
     my $Count;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Count = $Row[0];
     }
-
     $Self->Is(
         $Count,
         1,
-        "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (space)",
+        "#5.$Counter $SQL (space)",
     );
 
-    # select like value with underscore
+    # select like value (with underscore)
     $name_b = $Self->{DBObject}->Quote( 'otrs_test', 'Like' );
+    $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'";
+
+    # proof of concept that oracle needs special treatment
+    # with undescores in LIKE argument, it always needs the ESCAPE parameter!
+    if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
+        $SQL .= " ESCAPE '\'";
+    }
     $Result = $Self->{DBObject}->Prepare(
-        SQL => "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'",
+        SQL   => $SQL,
+        Limit => 1,
     );
     $Self->True(
         $Result,
         "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (underscore)",
     );
-
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Count = $Row[0];
     }
-
     $Self->Is(
         $Count,
         1,
-        "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (underscore)",
+        "#5.$Counter $SQL (underscore)",
     );
 }
 
