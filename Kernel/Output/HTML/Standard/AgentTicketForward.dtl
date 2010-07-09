@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.49 2010-07-08 05:17:23 mp Exp $
+# $Id: AgentTicketForward.dtl,v 1.50 2010-07-09 05:55:31 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,7 +104,7 @@
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Wrap_$Env{"BrowserWrap"} Validate_Required $QData{"BodyInvalid"}">$QData{"Body"}</textarea>
+                <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichText $QData{"BodyInvalid"}">$QData{"Body"}</textarea>
                 <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                 <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                 <div class="Clear"></div>
@@ -151,6 +151,8 @@ $Include{"RichTextEditor"}
                 <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
                 <div class="Field">
                     $Data{"PendingDateString"}
+                    <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
+                    <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
                 </div>
                 <div class="Clear"></div>
 

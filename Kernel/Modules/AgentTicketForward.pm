@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.69 2010-07-08 05:17:55 mp Exp $
+# $Id: AgentTicketForward.pm,v 1.70 2010-07-09 05:55:13 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -321,6 +321,11 @@ sub Form {
             Action   => $Self->{Action},
             UserID   => $Self->{UserID},
         );
+
+        # If Key has value 2, this means that the freetextfield is required
+        if ( $Self->{Config}->{TicketFreeText}->{$_} == 2 ) {
+            $TicketFreeText{Required}->{$_} = 1;
+        }
     }
     my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
         Ticket => \%Ticket,
@@ -407,6 +412,16 @@ sub SendEmail {
         }
     }
 
+    # check subject
+    if ( !$GetParam{Subject} ) {
+        $Error{'BodyInvalid'} = 'ServerError';
+    }
+
+    # check subject
+    if ( !$GetParam{Subject} ) {
+        $Error{'SubjectInvalid'} = 'ServerError';
+    }
+
     # prepare subject
     my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
     $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
@@ -427,11 +442,6 @@ sub SendEmail {
     # get free text config options
     my %TicketFreeText;
     for ( 1 .. 16 ) {
-
-        # check required FreeTextField (if configured)
-        if ( $Self->{Config}{'TicketFreeText'}{$_} == 2 && $TicketFree{"TicketFreeText$_"} eq '' ) {
-            $Error{"TicketFreeTextField$_ invalid"} = 'ServerError';
-        }
 
         $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
