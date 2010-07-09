@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.65 2010-07-09 15:53:12 ub Exp $
+# $Id: DB.t,v 1.66 2010-07-09 16:01:37 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1104,18 +1104,15 @@ for my $Character (@SpecialCharacters) {
 # special test for like with _ (underscore)
 {
 
-    # value with space
-    my $Value = 'otrs test';
-
-    # select like value
-    my $name_b = $Self->{DBObject}->Quote( $Value, 'Like' );
+    # select like value (with space)
+    my $name_b = $Self->{DBObject}->Quote( 'otrs test', 'Like' );
     my $Result = $Self->{DBObject}->Prepare(
         SQL   => "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'",
         Limit => 1,
     );
     $Self->True(
         $Result,
-        "#5.$Counter Prepare() SELECT COUNT LIKE $Value (space)",
+        "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (space)",
     );
 
     my $Count;
@@ -1126,20 +1123,17 @@ for my $Character (@SpecialCharacters) {
     $Self->Is(
         $Count,
         1,
-        "#5.$Counter Prepare() SELECT COUNT LIKE $Value (space)",
+        "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (space)",
     );
 
-    # value with underscore
-    $Value = 'otrs_test';
-
-    # select like value
-    $name_b = $Self->{DBObject}->Quote( $Value, 'Like' );
+    # select like value with underscore
+    $name_b = $Self->{DBObject}->Quote( 'otrs_test', 'Like' );
     $Result = $Self->{DBObject}->Prepare(
         SQL => "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'",
     );
     $Self->True(
         $Result,
-        "#5.$Counter Prepare() SELECT COUNT LIKE $Value (underscore)",
+        "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (underscore)",
     );
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -1149,7 +1143,7 @@ for my $Character (@SpecialCharacters) {
     $Self->Is(
         $Count,
         1,
-        "#5.$Counter Prepare() SELECT COUNT LIKE $Value (underscore)",
+        "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (underscore)",
     );
 }
 
