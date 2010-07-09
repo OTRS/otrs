@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.3 2010-07-06 13:30:01 mn Exp $
+// $Id: Core.Agent.js,v 1.4 2010-07-09 08:43:22 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -152,6 +152,11 @@ Core.Agent = (function (TargetNS) {
             Core.UI.Popup.ClosePopupsOnUnload();
         });
         Core.UI.Popup.RegisterPopupEvent();
+
+        // if this window is a popup itself, register another function
+        if (window.opener !== null) {
+            Core.UI.Popup.InitRegisterPopupAtParentWindow();
+        }
     };
 
     return TargetNS;

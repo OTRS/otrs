@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.5 2010-07-06 13:30:01 mn Exp $
+// $Id: Core.UI.Popup.js,v 1.6 2010-07-09 08:43:22 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,8 @@ Core.UI = Core.UI || {};
 Core.UI.Popup = (function (TargetNS) {
     var OpenPopups = {},
         PopupProfiles,
-        PopupDefaultProfile = 'Default';
+        PopupDefaultProfile = 'Default',
+        RegisterPopupTimeOut = 1000;
 
     PopupProfiles = {
         'Default': "dependent=yes,height=500,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000"
@@ -79,6 +80,34 @@ Core.UI.Popup = (function (TargetNS) {
         });
     };
 
+    TargetNS.RegisterPopupAtParentWindow = function (WindowObject) {
+        var Type = WindowObject.WindowType;
+        if (typeof OpenPopups[Type] === 'undefined') {
+            OpenPopups[Type] = WindowObject;
+        }
+        else {
+            if (OpenPopups[Type] !== WindowObject) {
+                OpenPopups[Type] = WindowObject;
+            }
+        }
+    }
+
+    TargetNS.InitRegisterPopupAtParentWindow = function () {
+        window.setTimeout(function () {
+            if (window.opener &&
+                window.opener.Core &&
+                window.opener.Core.UI &&
+                window.opener.Core.UI.Popup
+            ) {
+                try {
+                    window.opener.Core.UI.Popup.RegisterPopupAtParentWindow(window);
+                }
+                catch (Error) {};
+            }
+            Core.UI.Popup.InitRegisterPopupAtParentWindow();
+        }, RegisterPopupTimeOut);
+    }
+
     /**
      * @function
      * @description
@@ -125,6 +154,7 @@ Core.UI.Popup = (function (TargetNS) {
             }
             PopupProfile = PopupProfiles[Profile] ? Profile : PopupDefaultProfile;
             OpenPopups[Type] = window.open(URL, Type, PopupProfiles[PopupProfile]);
+            OpenPopups[Type].WindowType = Type;
         }
     };
 
@@ -136,7 +166,7 @@ Core.UI.Popup = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.ClosePopup = function (Popup) {
-        if (typeof Popup === 'String') {
+        if (typeof Popup === 'string') {
             Popup = GetPopupObjectByType(Popup);
         }
         if (typeof Popup !== 'undefined') {
