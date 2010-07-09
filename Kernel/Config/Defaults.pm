@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.356 2010-07-09 08:16:36 mg Exp $
+# $Id: Defaults.pm,v 1.357 2010-07-09 10:37:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.356 $) [1];
+$VERSION = qw($Revision: 1.357 $) [1];
 
 use File::stat;
 use Digest::MD5;
@@ -1958,7 +1958,7 @@ sub Set {
 # ConfigChecksum
 #
 # This function returns an MD5 sum that is generated from all available
-#   config files (Kernel/Config.pm, Kernel/Config/Defaults.pm, Kernel/Config/Files/*.pm except ZZZAAuto.pm) and their
+#   config files (Kernel/Config.pm, Kernel/Config/Defaults.pm, Kernel/Config/Files/*.(pm|xml) except ZZZAAuto.pm) and their
 #   modification timestamps. Whenever a file is changed, added or removed,
 #   this checksum will change.
 #
@@ -1971,8 +1971,9 @@ sub ConfigChecksum {
     # will be in the checksum. Otherwise the SysConfig cannot use its cache files.
     @Files = grep { $_!~ m/ZZZAAuto\.pm$/smx } @Files;
 
-    push( @Files, $Self->{Home} . "/Kernel/Config/Defaults.pm" );
-    push( @Files, $Self->{Home} . "/Kernel/Config.pm" );
+    push @Files, glob( $Self->{Home} . "/Kernel/Config/Files/*.xml");
+    push @Files, $Self->{Home} . "/Kernel/Config/Defaults.pm" ;
+    push @Files, $Self->{Home} . "/Kernel/Config.pm";
 
     # Create a string with filenames and file mtimes of the config files
     my $ConfigString;
@@ -2210,6 +2211,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.356 $ $Date: 2010-07-09 08:16:36 $
+$Revision: 1.357 $ $Date: 2010-07-09 10:37:53 $
 
 =cut
