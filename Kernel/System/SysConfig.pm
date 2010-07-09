@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.17 2010-07-07 12:07:39 mg Exp $
+# $Id: SysConfig.pm,v 1.18 2010-07-09 08:18:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -1341,6 +1341,10 @@ sub _Init {
             Directory => $Directory,
             Filter    => "*.xml",
         );
+
+        # get the md5 representing the current configuration state
+        my $ConfigChecksum = $Self->{ConfigObject}->ConfigChecksum();
+
         for my $File (@Files) {
             my $ConfigFile = '';
             my $In;
@@ -1361,7 +1365,7 @@ sub _Init {
             if ($ConfigFile) {
                 my $CacheFileUsed = 0;
                 my $Digest        = $Self->{MainObject}->MD5sum(
-                    String => $ConfigFile,
+                    String => $ConfigFile . $ConfigChecksum,
                 );
                 my $FileCache = "$Self->{Home}/var/tmp/SysConfig-Cache$FileCachePart-$Digest.pm";
                 if ( -e $FileCache ) {
@@ -1874,6 +1878,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2010-07-07 12:07:39 $
+$Revision: 1.18 $ $Date: 2010-07-09 08:18:41 $
 
 =cut
