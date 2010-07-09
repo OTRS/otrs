@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.7 2010-07-09 05:31:18 mp Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.8 2010-07-09 10:18:34 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -752,16 +752,33 @@ sub Run {
                 );
             }
 
-            # redirect to last screen overview on closed tickets
+            # redirect parent window to last screen overview on closed tickets
             if ( $StateData{TypeName} =~ /^close/i ) {
-                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+                my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'LoadParentURLAndClose',
+                    Data => {
+                        URL => $Self->{LastScreenOverview},
+                    },
+                );
+                $Output .= $Self->{LayoutObject}
+                    ->Output( TemplateFile => 'AgentTicketActionBulkClose' );
+                $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+                return $Output;
             }
         }
 
-        # redirect
-        return $Self->{LayoutObject}->Redirect(
-            OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID"
+        # load new URL in parent window and close popup
+        my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
+        $Self->{LayoutObject}->Block(
+            Name => 'LoadParentURLAndClose',
+            Data => {
+                URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
+            },
         );
+        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketActionBulkClose' );
+        $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+        return $Output;
     }
     else {
 

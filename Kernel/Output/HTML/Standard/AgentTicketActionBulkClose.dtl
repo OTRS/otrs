@@ -1,0 +1,19 @@
+# --
+# AgentTicketActionBulkClose.dtl - provides HTML for closing a popup after a finished request
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentTicketActionBulkClose.dtl,v 1.1 2010-07-09 10:18:34 mn Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:LoadParentURLAndClose -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: '$Env{"Baselink"}$Data{"URL"}' });
+    window.close();
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:LoadParentURLAndClose -->
