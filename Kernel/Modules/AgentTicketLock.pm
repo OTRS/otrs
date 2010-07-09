@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLock.pm,v 1.13 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketLock.pm,v 1.14 2010-07-09 20:22:55 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,12 +65,17 @@ sub Run {
             TicketID => $Self->{TicketID},
         );
         if ( $OwnerID != $Self->{UserID} ) {
-            my $Output = $Self->{LayoutObject}->Header( Title => 'Error' );
+            my $Output = $Self->{LayoutObject}->Header(
+                Title => 'Error',
+                Type  => 'Small',
+            );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Sorry, the current owner is $OwnerLogin!",
                 Comment => 'Please change the owner first.',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer(
+                Type => 'Small',
+            );
             return $Output;
         }
 
@@ -98,12 +103,17 @@ sub Run {
             my ( $OwnerID, $OwnerLogin ) = $Self->{TicketObject}->OwnerCheck(
                 TicketID => $Self->{TicketID},
             );
-            my $Output = $Self->{LayoutObject}->Header( Title => 'Error' );
+            my $Output = $Self->{LayoutObject}->Header(
+                Title => 'Error',
+                Type  => 'Small',
+            );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Ticket (ID=$Self->{TicketID}) is locked for $OwnerLogin!",
                 Comment => "Change the owner!",
             );
-            $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer(
+                Type => 'Small',
+            );
             return $Output;
         }
 
