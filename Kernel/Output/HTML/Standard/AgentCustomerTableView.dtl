@@ -2,7 +2,7 @@
 # AgentCustomerTableView.dtl - provides HTML customer table view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerTableView.dtl,v 1.18 2010-07-08 18:20:10 cg Exp $
+# $Id: AgentCustomerTableView.dtl,v 1.19 2010-07-09 09:44:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,11 +12,13 @@
 <fieldset class="TableLike FixedLabelSmall Tight">
 <!-- dtl:block:CustomerImage -->
 <!-- dtl:block:CustomerImageRealname -->
-    $QData{"UserFirstname","200"} $QData{"UserLastname","200"}
-    <br/>
+    <p>
+        $QData{"UserFirstname","200"} $QData{"UserLastname","200"}
+    </p>
 <!-- dtl:block:CustomerImageRealname -->
-    <img border="0" src="$Data{"URL"}" />
-    <br/>
+    <div>
+        <img src="$Data{"URL"}" />
+    </div>
 <!-- dtl:block:CustomerImage -->
 <!-- dtl:block:CustomerRow -->
     <label>$Text{"$Data{"Key"}"}:</label>
@@ -24,25 +26,25 @@
         $Data{"LinkStart"}$Data{"ValueShort"}$Data{"LinkStop"}
 <!-- dtl:block:CustomerRowItem -->
 #        $Data{"Item"}
-        <a href="$Data{"URL"}" target="$QData{"Target"}"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Alt"}"}" /></a>
+        <a href="$Data{"URL"}" target="$QData{"Target"}">
+            <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Alt"}"}" />
+        </a>
 <!-- dtl:block:CustomerRowItem -->
     </p>
     <div class="Clear"></div>
 <!-- dtl:block:CustomerRow -->
 
-    <table width="70%" border="0" cellspacing="3" cellpadding="1">
 <!-- dtl:block:CustomerItem-->
-        <tr>
 <!-- dtl:block:CustomerItemRow-->
-            <td width="10%">
-                <a href="$Data{"URL"}" target="$QData{"Target"}" title="$Text{"$Data{"Text"}"}"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Text"}"}" title="$Text{"$Data{"Text"}"}" /></a>
-            </td>
-            <td>
-                <span style="whitespace: no-wrap"><a href="$Data{"URL"}" target="$QData{"Target"}">$Text{"$Data{"Text"}"}$QData{"Extention"}</a></span>
-            </td>
+    <label>
+        <a href="$Data{"URL"}" target="$QData{"Target"}" title="$Text{"$Data{"Text"}"}"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Text"}"}" title="$Text{"$Data{"Text"}"}" /></a>
+    </label>
+    <div class="Value">
+        <a class="NoWrap" href="$Data{"URL"}" target="$QData{"Target"}">$Text{"$Data{"Text"}"}$QData{"Extention"}</a>
+    </div>
+    <div class="Clear"></div>
 <!-- dtl:block:CustomerItemRow-->
-        </tr>
 <!-- dtl:block:CustomerItem-->
-    </table>
+
 </fieldset>
 <!-- dtl:block:Customer -->
