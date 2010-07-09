@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.67 2010-07-09 16:12:34 ub Exp $
+# $Id: DB.t,v 1.68 2010-07-09 16:17:10 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1133,7 +1133,7 @@ for my $Character (@SpecialCharacters) {
     # proof of concept that oracle needs special treatment
     # with undescores in LIKE argument, it always needs the ESCAPE parameter!
     if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
-        $SQL .= " ESCAPE '\'";
+        $SQL .= q{ ESCAPE '\'};
     }
     $Result = $Self->{DBObject}->Prepare(
         SQL   => $SQL,
