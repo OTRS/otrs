@@ -2,7 +2,7 @@
 # AgentTicketHistory.dtl - provides HTML form for history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.dtl,v 1.16 2010-07-02 18:09:42 dz Exp $
+# $Id: AgentTicketHistory.dtl,v 1.17 2010-07-09 09:17:16 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
             $Text{"History of"} $Config{"Ticket::Hook"}: $QData{"TicketNumber"}
         </h1>
         <p>
-            <a href="">$Text{"Close window"}</a>
+            <a href="#" class="ClosePopup">$Text{"Close window"}</a>
         </p>
     </div>
 
@@ -53,9 +53,15 @@
                                 -
 <!-- dtl:block:NoLinkZoom -->
 <!-- dtl:block:ShowLinkZoom -->
-                                <a class ="AsBlock" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}">
-                                    $Text{"Zoom view"}
-                                </a>
+                                <a id="Zoom$QData{"TicketID"}" class="AsBlock" href="#">$Text{"Zoom view"}</a>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#Zoom$QData{"TicketID"}'), function () {
+        window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}'});
+        window.close();
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:ShowLinkZoom -->
                             </td>
                             <td>
