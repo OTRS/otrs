@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.25 2010-04-19 18:03:01 mn Exp $
+# $Id: TicketOverviewSmall.pm,v 1.26 2010-07-09 11:22:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -155,8 +155,8 @@ sub SortOrderBar {
 
         my $CSS = '';
         my $OrderBy;
-        if ( $Param{SortBy} eq $Key ) {
-            if ( $Param{OrderBy} eq 'Up' ) {
+        if ( $Param{SortBy} && ( $Param{SortBy} eq $Key ) ) {
+            if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
                 $OrderBy = 'Down';
                 $CSS .= ' SortDescending';
             }
