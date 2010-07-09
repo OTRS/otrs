@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.94 2010-06-17 21:39:40 cr Exp $
+# $Id: Stats.pm,v 1.95 2010-07-09 15:21:10 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1867,7 +1867,7 @@ sub StringAndTimestamp2Filename {
 insert the stat number get the stat id
 
     my $StatID = $StatsObject->StatNumber2StatID(
-        StatNumber => 11212
+        StatNumber => 11212,
     );
 
 =cut
@@ -3287,6 +3287,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.94 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.95 $ $Date: 2010-07-09 15:21:10 $
 
 =cut

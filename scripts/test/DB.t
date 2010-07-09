@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.63 2010-07-09 14:51:38 ub Exp $
+# $Id: DB.t,v 1.64 2010-07-09 15:21:10 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1110,7 +1110,7 @@ for my $Character (@SpecialCharacters) {
     # select like value
     my $name_b = $Self->{DBObject}->Quote( $Value, 'Like' );
     my $Result = $Self->{DBObject}->Prepare(
-        SQL => "SELECT count(name_b) FROM test_d WHERE name_b LIKE '$name_b'",
+        SQL => "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'",
     );
     $Self->Is(
         $Result,
@@ -1124,7 +1124,7 @@ for my $Character (@SpecialCharacters) {
     # select like value
     $name_b = $Self->{DBObject}->Quote( $Value, 'Like' );
     $Result = $Self->{DBObject}->Prepare(
-        SQL => "SELECT count(name_b) FROM test_d WHERE name_b LIKE '$name_b'",
+        SQL => "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'",
     );
     $Self->Is(
         $Result,
