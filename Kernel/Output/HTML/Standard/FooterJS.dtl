@@ -2,7 +2,7 @@
 # FooterJS.dtl - provides global HTML footer JavaScript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FooterJS.dtl,v 1.7 2010-07-09 04:49:13 cg Exp $
+# $Id: FooterJS.dtl,v 1.8 2010-07-09 05:06:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,6 +43,8 @@ $Include{"Datepicker"}
 <!-- dtl:block:InNewWindow -->
     $('#nav-Tickets-PhoneTicket a').attr('target', '_blank');
     $('#nav-Tickets-EmailTicket a').attr('target', '_blank');
+    $('.PhoneTicket a').attr('target', '_blank');
+    $('.EmailTicket a').attr('target', '_blank');
 <!-- dtl:block:InNewWindow -->
 
 <!-- dtl:js_on_document_complete_placeholder -->
