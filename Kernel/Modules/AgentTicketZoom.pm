@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.99 2010-07-06 17:20:43 en Exp $
+# $Id: AgentTicketZoom.pm,v 1.100 2010-07-12 11:31:01 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -537,6 +537,9 @@ sub MaskAgentZoom {
                 Config => $Menus{$Menu},
             );
             next if !$Item;
+            if ( $Menus{$Menu}->{Target} eq "PopUp" ) {
+                $Item->{Class} = "AsPopup";
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'TicketMenu',
                 Data => $Item,
@@ -1144,7 +1147,8 @@ sub _ArticleItem {
                     Name => 'ArticleMenu',
                     Data => {
                         %Ticket, %Article, %AclAction,
-                        Name => 'Reply',
+                        Name  => 'Reply',
+                        Class => 'AsPopup',
                         Link =>
                             'Action=AgentTicketCompose;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
                     },
@@ -1153,7 +1157,8 @@ sub _ArticleItem {
                     Name => 'ArticleMenu',
                     Data => {
                         %Ticket, %Article, %AclAction,
-                        Name => 'Reply All',
+                        Name  => 'Reply All',
+                        Class => 'AsPopup',
                         Link =>
                             'Action=AgentTicketCompose;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};RepplyAll=1'
                     },
@@ -1197,7 +1202,8 @@ sub _ArticleItem {
                     Name => 'ArticleMenu',
                     Data => {
                         %Ticket, %Article, %AclAction,
-                        Name => 'Forward',
+                        Name  => 'Forward',
+                        Class => 'AsPopup',
                         Link =>
                             'Action=AgentTicketForward;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
                     },
@@ -1241,7 +1247,8 @@ sub _ArticleItem {
                     Name => 'ArticleMenu',
                     Data => {
                         %Ticket, %Article, %AclAction,
-                        Name => 'Bounce',
+                        Name  => 'Bounce',
+                        Class => 'AsPopup',
                         Link =>
                             'Action=AgentTicketBounce;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
                     },
@@ -1295,8 +1302,9 @@ sub _ArticleItem {
                 Name => 'ArticleMenu',
                 Data => {
                     %Ticket, %Article, %AclAction,
-                    Name => 'Phone Call Outbound',
-                    Link => 'Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"}'
+                    Name  => 'Phone Call Outbound',
+                    Class => 'AsPopup',
+                    Link  => 'Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"}'
                 },
             );
         }
@@ -1336,7 +1344,8 @@ sub _ArticleItem {
                 Name => 'ArticleMenu',
                 Data => {
                     %Ticket, %Article, %AclAction,
-                    Name => 'Print',
+                    Name  => 'Print',
+                    Class => 'AsPopup',
                     Link =>
                         'Action=AgentTicketPrint;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
                 },
@@ -1364,10 +1373,9 @@ sub _ArticleItem {
                 Name => 'ArticleMenu',
                 Data => {
                     %Ticket, %Article, %AclAction,
-                    Name => 'Plain Format',
-                    Link => $Link,
-                    OnClick =>
-                        "onclick=\"Core.UI.Popup.OpenPopup('\?$Link', 'Action'); return false;\"",
+                    Name  => 'Plain Format',
+                    Class => 'AsPopup',
+                    Link  => $Link,
                 },
             );
         }

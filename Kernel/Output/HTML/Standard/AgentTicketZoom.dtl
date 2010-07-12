@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.107 2010-07-09 11:50:13 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.108 2010-07-12 11:31:02 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@
     <ul class="Actions">
 <!-- dtl:block:TicketMenu -->
         <li class="$QData{"Class"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" class="$Data{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
         </li>
 <!-- dtl:block:TicketMenu -->
     </ul>
@@ -376,7 +376,7 @@ $Data{"ArticleItems"}
             <ul class="Actions">
 <!-- dtl:block:ArticleMenu-->
                 <li class="$QData{"Class"}">
-                    <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}" $Data{"OnClick"}>$Text{"$Data{"Name"}"}</a>
+                    <a href="$Env{"Baselink"}$Data{"Link"}" class="$Data{"Class"}" $Data{"LinkParam"} id="Article$QData{"ID"}" title="$Text{"$Data{"Description"}"}" $Data{"OnClick"}>$Text{"$Data{"Name"}"}</a>
                 </li>
 <!-- dtl:block:ArticleMenu-->
             </ul>
@@ -498,5 +498,9 @@ $Data{"Body"}
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.Agent.TicketZoom.Init();
+    Core.UI.RegisterEvent('click', $('ul.Actions a.AsPopup'), function (Event) {
+        Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+        return false;
+    });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
