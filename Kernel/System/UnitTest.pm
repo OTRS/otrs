@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.37 2010-07-06 13:36:36 mb Exp $
+# $Id: UnitTest.pm,v 1.38 2010-07-12 06:12:24 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -516,7 +516,9 @@ sub IsDeeply {
         return 1;
     }
     else {
-        $Self->_Print( 0, "$Name (differs from expected value)" );
+        my $ShouldBeDump = $Self->{MainObject}->Dump($ShouldBe);
+        my $TestDump     = $Self->{MainObject}->Dump($Test);
+        $Self->_Print( 0, "$Name (is '$TestDump' should be '$ShouldBeDump')" );
         return;
     }
 }
@@ -560,11 +562,15 @@ sub IsNotDeeply {
     }
 
     if ( $TestString ne $ShouldBeString ) {
-        $Self->_Print( 1, "$Name (differs from expected value)" );
+        $Self->_Print( 1, "$Name (The structures are not equals.)" );
         return 1;
     }
     else {
-        $Self->_Print( 0, "$Name (matches the expected value)" );
+
+        #        $Self->_Print( 0, "$Name (matches the expected value)" );
+        my $TestDump = $Self->{MainObject}->Dump($Test);
+        $Self->_Print( 0, "$Name (The structures are equals. '$TestDump')" );
+
         return;
     }
 }
@@ -710,6 +716,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2010-07-06 13:36:36 $
+$Revision: 1.38 $ $Date: 2010-07-12 06:12:24 $
 
 =cut
