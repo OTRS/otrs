@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.32 2010-07-06 21:41:58 mp Exp $
+# $Id: AgentTicketBounce.dtl,v 1.33 2010-07-12 13:11:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,23 +21,23 @@
     <div class="WidgetPopup ARIARoleMain">
 
         <div class="Header">
-            <h1>$Text{"Ticket Bounce Action"}</h1>
-            <p>
-                $Text{"Bounce Ticket: $QData{"TicketNumber"}"}
-            </p>
+            <h1>$Text{"Bounce Ticket: $QData{"TicketNumber"}"}</h1>
+
 <!-- dtl:block:TicketBack -->
             <a href="$Env{"Baselink"}$Env{"LastScreenView"}">
                 $Text{"Cancel & close window"}
             </a>
 <!-- dtl:block:TicketBack -->
 <!-- dtl:block:TicketLocked -->
+            $Text{"The ticket was locked"}.
             <a href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$LQData{"TicketID"}">
-                $Text{"Unlock ticket"}
+                $Text{"Undo & close window"}
             </a>
 <!-- dtl:block:TicketLocked -->
+
         </div>
 
-        <div class="ContentColumn">
+        <div class="Content">
 
             <div class="Header">
                 <h2>$Text{"Options"}</h2>
@@ -97,10 +97,10 @@ $Include{"RichTextEditor"}
                 <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                 <div class="Clear"></div>
 
-                <div class="Field SpacingTop">
-                    <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Send mail!"}">$Text{"Send mail!"}</button>
-                </div>
             </fieldset>
+        </div>
+        <div class="Footer">
+            <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Send mail!"}">$Text{"Send mail!"}</button>
         </div>
     </div>
 </form>
