@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.51 2010-07-12 20:57:52 cg Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.52 2010-07-12 22:58:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -744,9 +744,29 @@ sub Run {
             # redirect to last screen (e. g. zoom view) and to queue view if
             # the ticket is closed (move to the next task).
             if ( $StateData{TypeName} =~ /^close/i ) {
-                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+                my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'LoadParentURLAndClose',
+                    Data => {
+                        URL => $Self->{LastScreenOverview},
+                    },
+                );
+                $Output .= $Self->{LayoutObject}
+                    ->Output( TemplateFile => 'AgentTicketActionBulkClose' );
+                $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+                return $Output;
             }
-            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
+            my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
+            $Self->{LayoutObject}->Block(
+                Name => 'LoadParentURLAndClose',
+                Data => {
+                    URL => $Self->{LastScreenView},
+                },
+            );
+            $Output .= $Self->{LayoutObject}
+                ->Output( TemplateFile => 'AgentTicketActionBulkClose' );
+            $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+            return $Output;
         }
     }
     return $Self->{LayoutObject}->ErrorScreen(
