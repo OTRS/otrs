@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.57 2010-07-12 04:54:24 cg Exp $
+# $Id: AgentTicketBulk.pm,v 1.58 2010-07-12 20:55:53 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -173,6 +173,8 @@ sub Run {
             next;
         }
 
+        $Param{IsUnlock} = 0;
+
         # check if it's already locked by somebody else
         if ( !$Self->{Config}->{RequiredLock} ) {
             $Output .= $Self->{LayoutObject}->Notify(
@@ -192,6 +194,9 @@ sub Run {
                     );
                     next;
                 }
+            }
+            else {
+                $Param{IsUnlock} = 1;
             }
 
             # set lock
@@ -703,6 +708,13 @@ sub _Mask {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,
+        );
+    }
+
+    # reload parent window
+    if ( $Param{IsUnlock} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ParentReload',
         );
     }
 
