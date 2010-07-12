@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PostMasterMailbox.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PostMasterMailbox.pl,v 1.1 2009-11-03 16:11:50 mn Exp $
+# $Id: otrs.PostMasterMailbox.pl,v 1.2 2010-07-12 15:03:02 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,7 +49,7 @@ my %Opts = ();
 getopt( 'upshdftb', \%Opts );
 if ( $Opts{h} ) {
     print "PostMasterMailbox.pl <Revision $VERSION> - Fetch mail accounts for OTRS\n";
-    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     print "usage: PostMasterMailbox.pl -t <TYPE> (POP3|POP3S|IMAP|IMAPS) -s <SERVER> -u <USER> ";
     print "-p <PASSWORD> [-d 1-2] [-b <BACKGROUND_INTERVAL_IN_MIN>] [-f force]\n";
     exit 1;
@@ -72,7 +72,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-PMAccount',
+    LogPrefix => 'OTRS-PostMasterMailbox.pl',
     %CommonObject,
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);

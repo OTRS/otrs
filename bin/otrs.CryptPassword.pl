@@ -3,7 +3,7 @@
 # bin/otrs.CryptPassword.pl - to crypt database password for Kernel/Config.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CryptPassword.pl,v 1.3 2010-02-09 00:22:43 martin Exp $
+# $Id: otrs.CryptPassword.pl,v 1.4 2010-07-12 15:03:02 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -44,7 +44,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix    => 'OTRS-CheckDB',
+    LogPrefix    => 'OTRS-otrs.CryptPassword.pl',
     ConfigObject => $CommonObject{ConfigObject},
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);

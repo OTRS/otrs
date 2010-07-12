@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PostMaster.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PostMaster.pl,v 1.2 2009-11-04 12:27:57 mn Exp $
+# $Id: otrs.PostMaster.pl,v 1.3 2010-07-12 15:03:02 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -36,7 +36,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -52,7 +52,7 @@ my %Opts = ();
 getopt( 'hqtd', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
-    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     print
         "usage: otrs.PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
     exit 1;
@@ -72,7 +72,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-PM',
+    LogPrefix => 'OTRS-otrs.PostMaster.pl',
     %CommonObject,
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);

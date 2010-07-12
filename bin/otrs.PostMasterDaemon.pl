@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PostMasterDaemon.pl,v 1.1 2009-11-03 16:11:15 mn Exp $
+# $Id: otrs.PostMasterDaemon.pl,v 1.2 2010-07-12 15:03:02 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -143,7 +143,7 @@ sub PipeEmail {
     $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
     $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
     $CommonObject{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'OTRS-PMD',
+        LogPrefix => 'OTRS-otrs.PostMasterDaemon.pl',
         %CommonObject,
     );
     $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);

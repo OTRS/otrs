@@ -3,7 +3,7 @@
 # otrs.PackageManager.pl - otrs package manager cmd version
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PackageManager.pl,v 1.5 2010-07-08 09:05:08 bes Exp $
+# $Id: otrs.PackageManager.pl,v 1.6 2010-07-12 15:03:02 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -42,14 +42,14 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 # common objects
 my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-opm',
+    LogPrefix => 'OTRS-otrs.PackageManager.pl',
     %CommonObject,
 );
 $CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
