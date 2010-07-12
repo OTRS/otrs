@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -43,7 +43,7 @@ button:hover,
 
 button:active,
 .Button:active {
-    background: #000 url("../img/GradientSmall.png") repeat-x 0 0; 
+    background: #000 url("../img/GradientSmall.png") repeat-x 0 0;
     border-color: #888;
     outline: none;
     text-shadow: 0 1px 0 #D9D9D9;
@@ -93,7 +93,16 @@ label {
     text-align: left;
 }
 
-input[type=text], 
+/**
+ * @note        Give the user a hint about linked label elements (they are clickable and
+ *                  give focus to the linked element.
+ */
+
+form label[for] {
+    cursor: pointer;
+}
+
+input[type=text],
 input[type=password] {
     margin: 0;
     width: 250px;
