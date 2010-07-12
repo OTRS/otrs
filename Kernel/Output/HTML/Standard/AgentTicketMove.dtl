@@ -2,46 +2,12 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.49 2010-07-12 12:31:17 mg Exp $
+# $Id: AgentTicketMove.dtl,v 1.50 2010-07-12 17:30:42 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-<script type="text/javascript">//<![CDATA[
-
-function change_selected(sel) {
-    start_elements = (sel + 7);
-    if (document.compose.elements[0].name == '$Config{"SessionName"}') {
-        start_elements = start_elements + 1;
-    }
-    else if (document.compose.elements[0].name == "ChallengeToken") {
-        start_elements = start_elements + 1;
-    }
-    if (!document.compose.elements[start_elements].checked) {
-        document.compose.elements[start_elements].checked = true;
-    }
-}
-
-function submit_compose() {
-<!-- dtl:block:TicketFreeTextCheckJs -->
-    if (document.compose.$Data{"TicketFreeTextField"}.value == "") {
-        alert('$JSText{"A required field is:"} ' + document.compose.$Data{"TicketFreeKeyField"}.value + '!');
-        document.compose.$Data{"TicketFreeTextField"}.focus();
-        return false;
-    }
-<!-- dtl:block:TicketFreeTextCheckJs -->
-<!-- dtl:block:TicketFreeTimeCheckJs -->
-    if (document.compose.$Data{"TicketFreeTimeCheck"} && document.compose.$Data{"TicketFreeTimeCheck"}.checked == false) {
-        alert('$JSText{"A required field is:"} $QData{"TicketFreeTimeKey"}!');
-        document.compose.$Data{"TicketFreeTimeCheck"}.focus();
-        return false;
-    }
-<!-- dtl:block:TicketFreeTimeCheckJs -->
-}
-
-//]]></script>
 
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate" id="MoveTicketToQueue">
     <input type="hidden" name="Action"       value="$Env{"Action"}"/>
@@ -86,7 +52,7 @@ function submit_compose() {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#DestQueueID'), function (Event) {
-        var $Form = $('#NoSubmit').val('3').closest('form');
+        $('#NoSubmit').val('1');
         Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'DestQueueID', ['NewUserID', 'NextStateID', 'NewPriorityID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
     })
 //]]></script>
@@ -100,9 +66,16 @@ function submit_compose() {
                     <div class="Field">
                         <input type="radio" name="UserSelection" value="New" $QData{"UserSelection::New"}/>
                         $Data{"OwnerStrg"}
-                        <a href="" onclick="change_selected(0); document.compose.OwnerAll.value='3'; Core.AJAXUpdate('AJAXUpdate', 'OwnerAll', ['TicketID', 'DestQueueID', 'NewStateID', 'OwnerAll'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">
-                            $Text{"All"}
-                        </a>
+                        <a href="" id="OwnerSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#OwnerSelectionGetAll'), function (Event) {
+        $('#OwnerAll').val('1');
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'OwnerAll', ['NewUserID']);
+        return false;
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                     </div>
                     <div class="Clear"></div>
 

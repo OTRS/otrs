@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.57 2010-07-12 12:31:17 mg Exp $
+# $Id: AgentTicketMove.pm,v 1.58 2010-07-12 17:31:00 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -212,6 +212,7 @@ sub Run {
 
     # error handling
     my %Error;
+    my $IsUpload = 0;
 
     # DestQueueID lookup
     if ( !$GetParam{DestQueueID} && $GetParam{DestQueue} ) {
@@ -219,10 +220,6 @@ sub Run {
     }
     if ( !$GetParam{DestQueueID} ) {
         $Error{DestQueue} = 1;
-    }
-
-    if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
-        $Error{AttachmentUpload} = 1;
     }
 
     # do not submit
@@ -337,9 +334,36 @@ sub Run {
         );
     }
 
-    if ( $Self->{Subaction} eq 'MoveTicket' ) {
+    # attachment delete
+    for my $Count ( 1 .. 32 ) {
+        my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+        next if !$Delete;
+        $Error{AttachmentDelete} = 1;
+        $Self->{UploadCacheObject}->FormIDRemoveFile(
+            FormID => $Self->{FormID},
+            FileID => $Count,
+        );
+        $IsUpload = 1;
+    }
+
+    # attachment upload
+    if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+        $IsUpload                = 1;
+        %Error                   = ();
+        $Error{AttachmentUpload} = 1;
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param  => 'FileUpload',
+            Source => 'string',
+        );
+        $Self->{UploadCacheObject}->FormIDAddFile(
+            FormID => $Self->{FormID},
+            %UploadStuff,
+        );
+    }
+
+    if ( ( $Self->{Subaction} eq 'MoveTicket' ) && ( !$IsUpload ) ) {
         for my $Keys (qw( DestQueueID Subject Body TimeUnits )) {
-            if ( $GetParam{$Keys} eq '' ) {
+            if ( ( !$IsUpload ) && ( $GetParam{$Keys} eq '' ) ) {
                 $Error{ $Keys . 'Invalid' } = 'ServerError';
             }
         }
@@ -369,7 +393,7 @@ sub Run {
                 $TicketFreeText{Required}->{$Count} = 1;
             }
 
-            if ( $Self->{Subaction} eq 'MoveTicket' ) {
+            if ( ( $Self->{Subaction} eq 'MoveTicket' ) && ( !$IsUpload ) ) {
 
                 # If Key has value 2, this means that the freetextfield is required
                 if (
@@ -464,36 +488,6 @@ sub Run {
 
         # get old owners
         my @OldUserInfo = $Self->{TicketObject}->TicketOwnerList( TicketID => $Self->{TicketID} );
-
-        # If is an action about attachments
-        my $IsUpload = 0;
-
-        # attachment delete
-        for my $Count ( 1 .. 32 ) {
-            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
-            next if !$Delete;
-            $Error{AttachmentDelete} = 1;
-            $Self->{UploadCacheObject}->FormIDRemoveFile(
-                FormID => $Self->{FormID},
-                FileID => $Count,
-            );
-            $IsUpload = 1;
-        }
-
-        # attachment upload
-        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
-            $IsUpload                = 1;
-            %Error                   = ();
-            $Error{AttachmentUpload} = 1;
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'FileUpload',
-                Source => 'string',
-            );
-            $Self->{UploadCacheObject}->FormIDAddFile(
-                FormID => $Self->{FormID},
-                %UploadStuff,
-            );
-        }
 
         # get all attachments meta data
         my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
@@ -808,7 +802,6 @@ sub AgentMove {
         SelectedID   => $Param{NewUserID},
         Translation  => 0,
         PossibleNone => 1,
-        OnClick      => "change_selected(0)",
     );
 
     # set state
@@ -899,33 +892,6 @@ sub AgentMove {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTime' . $Count,
                 Data => { %Param, Count => $Count },
-            );
-        }
-    }
-
-    # JavaScript check for required free text fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
-        if ( $Self->{Config}->{TicketFreeText}->{$Key} == 2 ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTextCheckJs',
-                Data => {
-                    TicketFreeTextField => "TicketFreeText$Key",
-                    TicketFreeKeyField  => "TicketFreeKey$Key",
-                },
-            );
-        }
-    }
-
-    # JavaScript check for required free time fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
-        if ( $Self->{Config}->{TicketFreeTime}->{$Key} == 2 ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTimeCheckJs',
-                Data => {
-                    TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
-                    TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
-                },
             );
         }
     }
