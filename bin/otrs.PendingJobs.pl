@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PendingJobs.pl - check pending tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PendingJobs.pl,v 1.2 2009-11-04 12:27:57 mn Exp $
+# $Id: otrs.PendingJobs.pl,v 1.3 2010-07-12 05:17:57 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -49,7 +49,7 @@ my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-PendingJobs',
+    LogPrefix => 'OTRS-otrs.PendingJobs.pl',
     %CommonObject,
 );
 $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
@@ -62,7 +62,7 @@ $CommonObject{StateObject}  = Kernel::System::State->new(%CommonObject);
 # check args
 my $Command = shift || '--help';
 print "otrs.PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 
 # do ticket auto jobs
 my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(

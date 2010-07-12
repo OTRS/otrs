@@ -3,7 +3,7 @@
 # bin/otrs.SetPassword.pl - Changes or Sets password for a user
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.SetPassword.pl,v 1.1 2010-04-05 10:12:20 mb Exp $
+# $Id: otrs.SetPassword.pl,v 1.2 2010-07-12 05:17:57 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::User;
 use Kernel::System::Main;
 use Kernel::System::Time;
 
-my $VERSION = qw($Revision: 1.1 $) [1];
+my $VERSION = qw($Revision: 1.2 $) [1];
 
 my %Opts = ();
 getopt( 'h', \%Opts );
@@ -56,7 +56,7 @@ $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     %CommonObject,
-    LogPrefix => 'otrs.SetPassword',
+    LogPrefix => 'OTRS-otrs.SetPassword.pl',
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);

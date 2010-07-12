@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.xml2sql.pl - a xml 2 sql processor
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.xml2sql.pl,v 1.1 2009-11-03 16:16:37 mn Exp $
+# $Id: otrs.xml2sql.pl,v 1.2 2010-07-12 05:17:57 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -41,13 +41,13 @@ use Kernel::System::Main;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 my %Opts = ();
 getopt( 'hton', \%Opts );
 if ( $Opts{'h'} ) {
     print "xml2sql.pl <Revision $VERSION> - xml2sql\n";
-    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     print "usage: xml2sql.pl -t <DATABASE_TYPE> (or 'all') ";
     print "[-o <OUTPUTDIR> -n <NAME> -s <SPLIT_FILES>]\n";
     exit 1;
@@ -105,7 +105,7 @@ for my $DatabaseType (@DatabaseType) {
     );
     $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
     $CommonObject{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'OTRS-xml2sql',
+        LogPrefix => 'OTRS-otrs.xml2sql.pl',
         %CommonObject,
     );
     $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);

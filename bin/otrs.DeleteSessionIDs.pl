@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.DeleteSessionIDs.pl,v 1.2 2009-11-04 12:27:57 mn Exp $
+# $Id: otrs.DeleteSessionIDs.pl,v 1.3 2010-07-12 05:17:31 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -46,7 +46,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-DeleteSessionIDs',
+    LogPrefix => 'OTRS-otrs.DeleteSessionIDs',
     %CommonObject,
 );
 $CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
@@ -57,7 +57,7 @@ $CommonObject{SessionObject} = Kernel::System::AuthSession->new( %CommonObject, 
 # check args
 my $Command = shift || '--help';
 print "otrs.DeleteSessionIDs.pl <Revision $VERSION> - delete all existing or expired session ids\n";
-print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 
 # show/delete all session ids
 if ( ( $Command eq '--all' ) || ( $Command eq '--showall' ) ) {

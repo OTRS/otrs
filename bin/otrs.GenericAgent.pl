@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenericAgent.pl,v 1.2 2009-11-04 12:27:57 mn Exp $
+# $Id: otrs.GenericAgent.pl,v 1.3 2010-07-12 05:17:31 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -50,7 +50,7 @@ my %Opts = ();
 getopt( 'fcdlb', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
-    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] ";
     print "[-l <limit>] [-f force]\n";
     print "usage: otrs.GenericAgent.pl [-c db] [-d 1] [-l <limit>] ";
@@ -78,7 +78,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-GenericAgent',
+    LogPrefix => 'OTRS-otrs.GenericAgent.pl',
     %CommonObject,
 );
 $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);

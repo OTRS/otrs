@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddQueue.pl - Add Queue from CLI
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddQueue.pl,v 1.1 2010-04-05 10:12:20 mb Exp $
+# $Id: otrs.AddQueue.pl,v 1.2 2010-07-12 05:17:31 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,7 +49,7 @@ getopts( 'hg:n:s:c:r:u:l:C:', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.AddQueue.pl <Revision $VERSION> - add new queue\n";
     print "Copyright (C) 2002 Atif Ghaffar <aghaffar\@developer.ch>\n";
-    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     print
         "usage: otrs.AddQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -c <COMMENT> -r <FirstResponseTime> -u <UpdateTime> -l <SolutionTime> -C <CalendarID>]\n";
     exit 1;
@@ -68,7 +68,10 @@ if ( !$Opts{g} ) {
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject} = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.AddQueue', );
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    LogPrefix => 'OTRS-otrs.AddQueue.pl',
+    %CommonObject,
+);
 $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);

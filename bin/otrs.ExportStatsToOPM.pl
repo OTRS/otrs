@@ -3,7 +3,7 @@
 # bin/otrs.ExportStatsToOPM.pl - export all stats of a system and create a package for the package manager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ExportStatsToOPM.pl,v 1.1 2010-04-05 15:11:50 mb Exp $
+# $Id: otrs.ExportStatsToOPM.pl,v 1.2 2010-07-12 05:17:31 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -50,7 +50,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -58,7 +58,7 @@ $CommonObject{UserID}       = 1;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-ExportStatsToOPM.pl',
+    LogPrefix => 'OTRS-otrs.ExportStatsToOPM.pl',
     %CommonObject,
 );
 $CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
