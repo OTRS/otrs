@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.6 2010-07-09 10:18:34 mn Exp $
+// $Id: Core.Agent.js,v 1.7 2010-07-12 12:35:57 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -157,6 +157,11 @@ Core.Agent = (function (TargetNS) {
         if (window.opener !== null) {
             Core.UI.Popup.InitRegisterPopupAtParentWindow();
             Core.UI.RegisterEvent('click', $('.CancelClosePopup'), function () {
+                window.close();
+            });
+            Core.UI.RegisterEvent('click', $('.UndoClosePopup'), function () {
+                var RedirectURL = $(this).attr('href');
+                window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: RedirectURL });
                 window.close();
             });
         }

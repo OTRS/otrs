@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.50 2010-07-09 05:55:31 mp Exp $
+# $Id: AgentTicketForward.dtl,v 1.51 2010-07-12 12:35:57 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,16 +27,16 @@
                 $Text{"Foward Ticket: $QData{"TicketNumber"}"}
             </p>
 <!-- dtl:block:TicketBack -->
-            <a href="$Env{"Baselink"}$Env{"LastScreenView"}">$Text{"Cancel & close window"}</a>
+            <a class="CancelClosePopup" href="$Env{"Baselink"}$Env{"LastScreenView"}">$Text{"Cancel & close window"}</a>
 <!-- dtl:block:TicketBack -->
 <!-- dtl:block:PropertiesLock -->
-            <a href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$LQData{"TicketID"}">
+            <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$LQData{"TicketID"}">
                 $Text{"Unlock ticket"}
             </a>
 <!-- dtl:block:PropertiesLock -->
         </div>
 
-        <div class="ContentColumn">
+        <div class="Content">
 
             <div class="Header">
                 <h2>$Text{"Options"}</h2>
