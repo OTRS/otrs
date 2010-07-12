@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.18 2010-07-09 08:18:41 mg Exp $
+# $Id: SysConfig.pm,v 1.19 2010-07-12 08:45:34 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -118,13 +118,13 @@ sub new {
     # create xml object
     $Self->{XMLObject} = Kernel::System::XML->new(%Param);
 
-    # create config object
+    # create config default object
     $Self->{ConfigDefaultObject} = Kernel::Config->new( %Param, Level => 'Default' );
 
     # create config object
     $Self->{ConfigObject} = Kernel::Config->new( %Param, Level => 'First' );
 
-    # create config object
+    # create config clear object
     $Self->{ConfigClearObject} = Kernel::Config->new( %Param, Level => 'Clear' );
 
     # read all config files
@@ -139,8 +139,8 @@ sub new {
 =item WriteDefault()
 
 writes the default configuration file perl cache
-(Kernel/Config/Files/ZZZAAuto.pm). It is the perl representation
-of the default XML configuration data (Kernel/Config/Files/*xml).
+(Kernel/Config/Files/ZZZAAuto.pm). It is the Perl representation
+of the default XML configuration data (Kernel/Config/Files/*.xml).
 
 =cut
 
@@ -1878,6 +1878,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2010-07-09 08:18:41 $
+$Revision: 1.19 $ $Date: 2010-07-12 08:45:34 $
 
 =cut
