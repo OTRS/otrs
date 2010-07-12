@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.53 2010-07-09 17:22:57 ub Exp $
+# $Id: postgresql.pm,v 1.54 2010-07-12 11:28:06 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,6 +75,12 @@ sub Quote {
             ${$Text} =~ s/;/$Self->{'DB::QuoteSemicolon'};/g;
         }
         if ( $Type && $Type eq 'Like' ) {
+
+            # if $Text contains only backslashes, add a % at the end.
+            # newer versions of postgres do not allow an escape character (backslash)
+            # at the end of a pattern: "LIKE pattern must not end with escape character"
+            ${$Text} =~ s{ \A ( \\+ ) \z }{$1%}xms;
+
             if ( $Self->{'DB::QuoteUnderscore'} ) {
                 ${$Text} =~ s/_/$Self->{'DB::QuoteUnderscore'}_/g;
             }
