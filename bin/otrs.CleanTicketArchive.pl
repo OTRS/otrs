@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.CleanTicketArchive.pl - Clean the ticket archive flag
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CleanTicketArchive.pl,v 1.1 2009-12-09 14:12:03 mh Exp $
+# $Id: otrs.CleanTicketArchive.pl,v 1.2 2010-07-12 14:29:18 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -46,7 +46,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-CleanTicketArchive',
+    LogPrefix => 'OTRS-otrs.CleanTicketArchive.pl',
     %CommonObject,
 );
 $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
@@ -56,7 +56,7 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
 # print header
 print STDOUT "otrs.CleanTicketArchive.pl <Revision $VERSION> - clean ticket archive flag\n";
-print STDOUT "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+print STDOUT "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 
 # check if archive system is activated
 if ( !$CommonObject{ConfigObject}->Get('Ticket::ArchiveSystem') ) {

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CheckDB.pl - to check the db access
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckDB.pl,v 1.1 2009-11-03 14:29:08 mn Exp $
+# $Id: otrs.CheckDB.pl,v 1.2 2010-07-12 14:29:18 mp Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -33,7 +33,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -46,7 +46,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix    => 'OTRS-CheckDB',
+    LogPrefix    => 'OTRS-otrs.CheckDB.pl',
     ConfigObject => $CommonObject{ConfigObject},
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
