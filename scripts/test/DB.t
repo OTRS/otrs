@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.70 2010-07-09 17:34:14 ub Exp $
+# $Id: DB.t,v 1.71 2010-07-12 09:12:42 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1128,7 +1128,8 @@ for my $Character (@SpecialCharacters) {
     $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'";
 
     # proof of concept that oracle needs special treatment
-    # with undescores in LIKE argument, it always needs the ESCAPE parameter!
+    # with undescores in LIKE argument, it always needs the ESCAPE parameter
+    # if you want to search for a literal _ (underscore)
     if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
         $SQL .= q{ ESCAPE '\'};
     }
