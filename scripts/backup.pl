@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.21 2010-06-17 06:01:00 dz Exp $
+# $Id: backup.pl,v 1.22 2010-07-12 09:27:43 bes Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -43,14 +43,14 @@ use Kernel::System::DB;
 use Date::Pcalc qw(Today Today_and_Now Add_Delta_Days);
 
 # get options
-my %Opts        = ();
+my %Opts;
 my $Compress    = '';
 my $CompressCMD = '';
 my $FullBackup  = 0;
 my $DB          = '';
 my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
-if ( $Opts{'h'} ) {
+if ( exists $Opts{h} ) {
     print "backup.pl <Revision $VERSION> - backup script\n";
     print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     print
@@ -69,7 +69,7 @@ elsif ( !-d $Opts{d} ) {
 }
 
 # check compress mode
-if ( $Opts{c} && $Opts{c} =~ /bzip2/i ) {
+if ( $Opts{c} && $Opts{c} =~ m/bzip2/i ) {
     $Compress    = 'j';
     $CompressCMD = 'bzip2';
 }
@@ -79,7 +79,7 @@ else {
 }
 
 # check backup type
-if ( $Opts{t} && $Opts{t} =~ /no/i ) {
+if ( $Opts{t} && $Opts{t} =~ m/no/i ) {
     $FullBackup = 0;
 }
 else {
@@ -87,7 +87,7 @@ else {
 }
 
 # create common objects
-my %CommonObject = ();
+my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
@@ -105,16 +105,16 @@ my $DatabaseDSN  = $CommonObject{ConfigObject}->Get('DatabaseDSN');
 my $ArticleDir   = $CommonObject{ConfigObject}->Get('ArticleDir');
 
 # decrypt pw (if needed)
-if ( $DatabasePw =~ /^\{(.*)\}$/ ) {
+if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
     $DatabasePw = $CommonObject{DBObject}->_Decrypt($1);
 }
 
 # check db backup support
-if ( $DatabaseDSN =~ /:mysql/i ) {
+if ( $DatabaseDSN =~ m/:mysql/i ) {
     $DB     = 'MySQL';
     $DBDump = 'mysqldump';
 }
-elsif ( $DatabaseDSN =~ /:pg/i ) {
+elsif ( $DatabaseDSN =~ m/:pg/i ) {
     $DB     = 'PostgreSQL';
     $DBDump = 'pg_dump';
 }
@@ -139,7 +139,7 @@ for my $CMD ( 'cp', 'tar', $DBDump, $CompressCMD ) {
 
 # remove old backups
 if ( $Opts{r} ) {
-    my %LeaveBackups = ();
+    my %LeaveBackups;
     my ( $Year, $Month, $Day ) = Today_and_Now();
     for ( 0 .. $Opts{r} ) {
         my ( $DYear, $DMonth, $DDay ) = Add_Delta_Days( $Year, $Month, $Day, -$_ );
@@ -155,7 +155,7 @@ if ( $Opts{r} ) {
     for my $Directory (@Directories) {
         my $Leave = 0;
         for my $Data ( keys %LeaveBackups ) {
-            if ( $Directory =~ /$Data/ ) {
+            if ( $Directory =~ m/$Data/ ) {
                 $Leave = 1;
             }
         }
@@ -190,7 +190,7 @@ chdir($Home);
 my ( $s, $m, $h, $D, $M, $Y ) = $CommonObject{TimeObject}->SystemTime2Date(
     SystemTime => $CommonObject{TimeObject}->SystemTime(),
 );
-my $Directory = "$Opts{'d'}/$Y-$M-$D" . "_" . "$h-$m";
+my $Directory = "$Opts{d}/$Y-$M-$D" . "_" . "$h-$m";
 if ( !mkdir($Directory) ) {
     print STDERR "ERROR: Can't create directory: $Directory: $!\n";
     exit 1;
@@ -233,7 +233,7 @@ else {
 }
 
 # backup datadir
-if ( $ArticleDir !~ /\Q$Home\E/ ) {
+if ( $ArticleDir !~ m/\Q$Home\E/ ) {
     print "Backup $Directory/DataDir.tar.gz ... ";
     if ( !system("tar -czf $Directory/DataDir.tar.gz .") ) {
         print "done\n";
@@ -244,7 +244,7 @@ if ( $ArticleDir !~ /\Q$Home\E/ ) {
 }
 
 # backup database
-if ( $DB =~ /mysql/i ) {
+if ( $DB =~ m/mysql/i ) {
     print "Dump $DB rdbms ... ";
     if ($DatabasePw) {
         $DatabasePw = "-p$DatabasePw";
