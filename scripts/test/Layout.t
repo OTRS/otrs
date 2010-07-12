@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.38 2010-06-22 22:00:52 dz Exp $
+# $Id: Layout.t,v 1.39 2010-07-12 17:34:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -940,6 +940,99 @@ for my $Test (@Tests) {
     );
     $Self->Is(
         $LRST,
+        $Test->{Result},
+        $Test->{Name},
+    );
+}
+
+# block tests
+@Tests = (
+    {
+        Input => '<!-- dtl:block:ConfigElementBlock -->
+<b>test</b>
+<!-- dtl:block:ConfigElementBlock -->',
+        Result => '
+<!--ConfigElementBlock-->
+<b>test</b>
+<!--/ConfigElementBlock-->',
+        Block => [
+            {
+                Name => 'ConfigElementBlock',
+                Data => {},
+            },
+        ],
+        Name => 'Output() - test 1',
+    },
+    {
+        Input => '<!-- dtl:block:ConfigElementBlock -->
+<b>$QData{"Name"}</b>
+<!-- dtl:block:ConfigElementBlock -->',
+        Result => '
+<!--ConfigElementBlock-->
+<b>test123</b>
+<!--/ConfigElementBlock-->
+<!--ConfigElementBlock-->
+<b>test1234</b>
+<!--/ConfigElementBlock-->',
+        Block => [
+            {
+                Name => 'ConfigElementBlock',
+                Data => { Name => 'test123' },
+            },
+            {
+                Name => 'ConfigElementBlock',
+                Data => { Name => 'test1234' },
+            },
+        ],
+        Name => 'Output() - test 2',
+    },
+    {
+        Input => '<!-- dtl:block:ConfigElementBlock1 -->
+<b>$QData{"Name"}</b>
+<!-- dtl:block:ConfigElementBlock1 -->
+<!-- dtl:block:ConfigElementBlock2 -->
+<b>$QData{"Name"}</b>
+<!-- dtl:block:ConfigElementBlock2 -->',
+        Result => '
+<!--ConfigElementBlock1-->
+<b>test123</b>
+<!--/ConfigElementBlock1-->
+
+<!--ConfigElementBlock1-->
+<b>test1235</b>
+<!--/ConfigElementBlock1-->
+
+<!--ConfigElementBlock2-->
+<b>test1234</b>
+<!--/ConfigElementBlock2-->',
+        Block => [
+            {
+                Name => 'ConfigElementBlock1',
+                Data => { Name => 'test123' },
+            },
+            {
+                Name => 'ConfigElementBlock2',
+                Data => { Name => 'test1234' },
+            },
+            {
+                Name => 'ConfigElementBlock1',
+                Data => { Name => 'test1235' },
+            },
+        ],
+        Name => 'Output() - test 3',
+    },
+);
+
+for my $Test (@Tests) {
+    for my $Block ( @{ $Test->{Block} } ) {
+        $Self->{LayoutObject}->Block( %{$Block} );
+    }
+    my $Output = $Self->{LayoutObject}->Output(
+        Template => $Test->{Input},
+        Data     => {},
+    );
+    $Self->Is(
+        $Output,
         $Test->{Result},
         $Test->{Name},
     );
