@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.48 2010-07-12 04:48:05 cg Exp $
+# $Id: AgentTicketBulk.dtl,v 1.49 2010-07-12 20:54:50 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -170,9 +170,13 @@ $Include{"RichTextEditor"}
         <div class="Footer"><span class="LeftCorner"></span><span></span></div>
     </div>
 </div>
+
+<!-- dtl:block:ParentReload -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
 window.opener.Core.UI.Popup.FirePopupEvent('Reload');
 //]]></script>
 <!--dtl:js_on_document_complete-->
+<!-- dtl:block:ParentReload -->
+
 <!-- dtl:block:BulkAction -->
