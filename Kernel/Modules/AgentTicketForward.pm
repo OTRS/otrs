@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.71 2010-07-09 20:42:33 en Exp $
+# $Id: AgentTicketForward.pm,v 1.72 2010-07-12 00:23:08 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -519,7 +519,7 @@ sub SendEmail {
         next if !$GetParam{$Line};
         for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
             if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                $Error{ "$Line" . "Invalid" } .= $Self->{CheckItemObject}->CheckError();
+                $Error{ "$Line" . "Invalid" } = 'ServerError';
             }
             my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                 Address => $Email->address()
@@ -568,6 +568,7 @@ sub SendEmail {
     for my $Count ( 1 .. 32 ) {
         my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
         next if !$Delete;
+        %Error = ();
         $Error{AttachmentDelete} = 1;
         $Self->{UploadCacheObject}->FormIDRemoveFile(
             FormID => $GetParam{FormID},
@@ -577,6 +578,7 @@ sub SendEmail {
 
     # attachment upload
     if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+        %Error = ();
         $Error{AttachmentUpload} = 1;
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'FileUpload',
@@ -595,6 +597,7 @@ sub SendEmail {
 
     # check if there is an error
     if (%Error) {
+
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
         my $Output = $Self->{LayoutObject}->Header(
             Value => $Tn,
