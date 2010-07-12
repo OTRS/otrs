@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.54 2010-07-12 13:11:28 mg Exp $
+# $Id: AgentTicketForward.dtl,v 1.55 2010-07-12 22:51:28 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,9 @@
             <h1>$Text{"Foward Ticket: $QData{"TicketNumber"}"}</h1>
 
 <!-- dtl:block:TicketBack -->
-            <a class="CancelClosePopup" href="$Env{"Baselink"}$Env{"LastScreenView"}">$Text{"Cancel & close window"}</a>
+            <p>
+                <a class="CancelClosePopup" href="">$Text{"Cancel & close window"}</a>
+            </p>
 <!-- dtl:block:TicketBack -->
 
 <!-- dtl:block:PropertiesLock -->

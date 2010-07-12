@@ -2,7 +2,7 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.37 2010-07-07 23:00:59 cg Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.38 2010-07-12 22:54:28 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@
             <h1>$Text{"Phone call"}: $QData{"TicketNumber"}</h1>
 <!-- dtl:block:TicketBack -->
             <p>
-                <a href="$Env{"Baselink"}$Env{"LastScreenView"}">$Text{"Back"}</a>
+                <a class="CancelClosePopup" href="">$Text{"Cancel & close window"}</a>
             </p>
 <!-- dtl:block:TicketBack -->
         </div>

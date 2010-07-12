@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.58 2010-07-12 04:57:29 cg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.59 2010-07-12 22:55:28 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,11 +23,9 @@
     <div class="WidgetPopup ARIARoleMain">
         <div class="Header">
             <h1>$Text{"Compose answer for ticket"}: $QData{"TicketNumber"}</h1>
-<!-- dtl:block:TicketBack -->
             <p>
-                <a href="$Env{"Baselink"}$Env{"LastScreenView"}">$Text{"Back"}</a>
+                <a class="CancelClosePopup" href="">$Text{"Cancel & close window"}</a>
             </p>
-<!-- dtl:block:TicketBack -->
         </div>
 
         <div class="Content">
