@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.8 2010-07-09 10:18:34 mn Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.9 2010-07-12 00:21:43 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -382,9 +382,8 @@ sub Run {
             # ticket free text
             my %TicketFreeText;
             for my $Count ( 1 .. 16 ) {
-                my $Key      = 'TicketFreeKey' . $Count;
-                my $Text     = 'TicketFreeText' . $Count;
-                my $keyError = 'TicketFreeText' . $Count . 'Invalid';
+                my $Key  = 'TicketFreeKey' . $Count;
+                my $Text = 'TicketFreeText' . $Count;
                 $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type     => $Key,
@@ -396,7 +395,6 @@ sub Run {
                     Type     => $Text,
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
-                    Class    => $Error{$keyError} || '',
                 );
 
                 # If Key has value 2, this means that the freetextfield is required
