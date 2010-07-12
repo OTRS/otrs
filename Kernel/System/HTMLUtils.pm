@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.18 2010-06-17 21:39:40 cr Exp $
+# $Id: HTMLUtils.pm,v 1.19 2010-07-12 20:43:02 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -761,7 +761,7 @@ sub LinkQuote {
     my $Counter = 0;
     my %LinkHash;
     ${$String} =~ s{
-        (<a\s.+?>.+?</a>|<.+?>)
+        (<a\s.+?>.+?</a>)
     }
     {
         my $Content = $1;
@@ -841,9 +841,11 @@ sub LinkQuote {
         $Start . "<a href=\"$HrefLink\"$Target title=\"$HrefLink\">$DisplayLink<\/a>" . $End;
     }egxism;
 
+    my ( $Key, $Value );
+
     # add already existing "<a href" again
-    for my $Key ( keys %LinkHash ) {
-        ${$String} =~ s/$Key/$LinkHash{$Key}/g;
+    while ( ( $Key, $Value ) = each(%LinkHash) ) {
+        ${$String} =~ s{$Key}{$Value};
     }
 
     # check ref && return result like called
@@ -1100,6 +1102,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.19 $ $Date: 2010-07-12 20:43:02 $
 
 =cut
