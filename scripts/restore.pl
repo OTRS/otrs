@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/restore.pl - the restore script
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: restore.pl,v 1.11 2009-10-26 16:08:15 mb Exp $
+# $Id: restore.pl,v 1.12 2010-07-12 11:37:37 bes Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,18 +31,18 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Getopt::Std;
 
 # get options
-my %Opts   = ();
+my %Opts;
 my $DB     = '';
 my $DBDump = '';
 getopt( 'hbd', \%Opts );
-if ( $Opts{h} ) {
+if ( exists $Opts{h} ) {
     print "restore.pl <Revision $VERSION> - restore script\n";
-    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     print "usage: restore.pl -b /data_backup/<TIME>/ -d /opt/otrs/\n";
     exit 1;
 }
@@ -64,7 +64,7 @@ elsif ( !-d $Opts{d} ) {
 }
 
 # restore config
-print "Restore $Opts{'b'}/Config.tar.gz ...\n";
+print "Restore $Opts{b}/Config.tar.gz ...\n";
 chdir( $Opts{d} );
 if ( -e "$Opts{b}/Config.tar.gz" ) {
     system("tar -xzf $Opts{b}/Config.tar.gz");
@@ -78,7 +78,7 @@ require Kernel::System::Main;
 require Kernel::System::DB;
 
 # create common objects
-my %CommonObject = ();
+my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
@@ -96,11 +96,11 @@ my $DatabaseDSN  = $CommonObject{ConfigObject}->Get('DatabaseDSN');
 my $ArticleDir   = $CommonObject{ConfigObject}->Get('ArticleDir');
 
 # check db backup support
-if ( $DatabaseDSN =~ /:mysql/i ) {
+if ( $DatabaseDSN =~ m/:mysql/i ) {
     $DB     = 'MySQL';
     $DBDump = 'mysql';
 }
-elsif ( $DatabaseDSN =~ /:pg/i ) {
+elsif ( $DatabaseDSN =~ m/:pg/i ) {
     $DB     = 'PostgreSQL';
     $DBDump = 'psql';
 }
@@ -125,7 +125,7 @@ for my $CMD ( 'cp', 'tar', $DBDump ) {
 
 # check database env
 if ( $CommonObject{DBObject} ) {
-    if ( $DB =~ /mysql/i ) {
+    if ( $DB =~ m/mysql/i ) {
         $CommonObject{DBObject}->Prepare( SQL => "SHOW TABLES" );
         my $Check = 0;
         while ( my @RowTmp = $CommonObject{DBObject}->FetchrowArray() ) {
@@ -158,33 +158,33 @@ if ( $CommonObject{DBObject} ) {
 my $Home = $CommonObject{ConfigObject}->Get('Home');
 chdir($Home);
 
-# backup application
+# extract application
 if ( -e "$Opts{b}/Application.tar.gz" ) {
     print "Restore $Opts{b}/Application.tar.gz ...\n";
     system("tar -xzf $Opts{b}/Application.tar.gz");
 }
 
-# backup vardir
+# extract vardir
 if ( -e "$Opts{b}/VarDir.tar.gz" ) {
     print "Restore $Opts{b}/VarDir.tar.gz ...\n";
     system("tar -xzf $Opts{b}/VarDir.tar.gz");
 }
 
-# backup datadir
+# extract datadir
 if ( -e "$Opts{b}/DataDir.tar.gz" ) {
     print "Restore $Opts{b}/DataDir.tar.gz ...\n";
     system("tar -xzf $Opts{b}/DataDir.tar.gz");
 }
 
-# backup database
-if ( $DB =~ /mysql/i ) {
+# import database
+if ( $DB =~ m/mysql/i ) {
     print "create $DB\n";
     if ($DatabasePw) {
         $DatabasePw = "-p$DatabasePw";
     }
     if ( -e "$Opts{b}/DatabaseBackup.sql.gz" ) {
         print "decompresses SQL-file ...\n";
-        system("gunzip $Opts{'b'}/DatabaseBackup.sql.gz");
+        system("gunzip $Opts{b}/DatabaseBackup.sql.gz");
         print "cat SQL-file into $DB database\n";
         system(
             "mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database < $Opts{b}/DatabaseBackup.sql"
