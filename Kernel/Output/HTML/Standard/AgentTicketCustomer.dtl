@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.24 2010-07-08 10:30:59 mg Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.25 2010-07-12 20:12:53 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ $Include{"AgentCustomerSearch"}
         <div class="Header">
             <h1>$Text{"Change customer of ticket"}: $QData{"TicketNumber"}</h1>
             <p>
-                <a href="">$Text{"Cancel & close window"}</a>
+                <a class="CancelClosePopup" href="">$Text{"Cancel & close window"}</a>
             </p>
         </div>
 

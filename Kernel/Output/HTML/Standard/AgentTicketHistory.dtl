@@ -2,7 +2,7 @@
 # AgentTicketHistory.dtl - provides HTML form for history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.dtl,v 1.19 2010-07-09 11:58:20 mn Exp $
+# $Id: AgentTicketHistory.dtl,v 1.20 2010-07-12 20:12:53 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
             $Text{"History of"} $Config{"Ticket::Hook"}: $QData{"TicketNumber"}
         </h1>
         <p>
-            <a href="#" class="CancelClosePopup">$Text{"Close window"}</a>
+            <a href="#" class="CancelClosePopup">$Text{"Cancel & close window"}</a>
         </p>
     </div>
 

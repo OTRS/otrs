@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.13 2010-07-12 11:59:14 mg Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.14 2010-07-12 20:12:53 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,13 +55,13 @@
 
 <!-- dtl:block:TicketBack -->
             <p>
-                <a href="">$Text{"Cancel & close window"}</a>
+                <a class="CancelClosePopup" href="">$Text{"Cancel & close window"}</a>
             </p>
 <!-- dtl:block:TicketBack -->
 <!-- dtl:block:PropertiesLock -->
             <p>
                 $Text{"The ticket was locked"}.
-                <a href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$Data{"TicketID"}">
+                <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$Data{"TicketID"}">
                     $Text{"Undo & close window"}
                 </a>
             </p>

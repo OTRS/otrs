@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.36 2010-07-06 11:59:03 mg Exp $
+# $Id: AgentLinkObject.dtl,v 1.37 2010-07-12 20:12:53 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@
             $Text{"Link Object: %s", "$Data{"SourceObjectNormal"}"}
         </h1>
         <p>
-            <a href="">$Text{"Close window"}</a>
+            <a class="CancelClosePopup" href="">$Text{"Cancel & close window"}</a>
 
 <!-- dtl:block:LinkMenuDelete -->
             $Text{"or"}
