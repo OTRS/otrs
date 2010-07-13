@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.39 2010-07-12 17:34:20 martin Exp $
+# $Id: Layout.t,v 1.40 2010-07-13 11:05:36 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -947,6 +947,8 @@ for my $Test (@Tests) {
 
 # block tests
 @Tests = (
+
+    # test 1
     {
         Input => '<!-- dtl:block:ConfigElementBlock -->
 <b>test</b>
@@ -963,6 +965,8 @@ for my $Test (@Tests) {
         ],
         Name => 'Output() - test 1',
     },
+
+    # test 2
     {
         Input => '<!-- dtl:block:ConfigElementBlock -->
 <b>$QData{"Name"}</b>
@@ -986,6 +990,8 @@ for my $Test (@Tests) {
         ],
         Name => 'Output() - test 2',
     },
+
+    # test 3
     {
         Input => '<!-- dtl:block:ConfigElementBlock1 -->
 <b>$QData{"Name"}</b>
@@ -1021,6 +1027,163 @@ for my $Test (@Tests) {
         ],
         Name => 'Output() - test 3',
     },
+
+    # test 4
+    {
+        Input => '<!-- dtl:block:ConfigElementBlock1 -->
+<b>$QData{"Name1"}</b>
+<!-- dtl:block:ConfigElementBlock2 -->
+<b>$QData{"Name2"}</b>
+<!-- dtl:block:ConfigElementBlock2 -->
+<!-- dtl:block:ConfigElementBlock1 -->',
+
+        Result => '
+<!--ConfigElementBlock1-->
+<b>test123</b>
+
+<!--ConfigElementBlock2-->
+<b>test1234</b>
+<!--/ConfigElementBlock2-->
+<!--/ConfigElementBlock1-->',
+        Block => [
+            {
+                Name => 'ConfigElementBlock1',
+                Data => { Name1 => 'test123' },
+            },
+            {
+                Name => 'ConfigElementBlock2',
+                Data => { Name2 => 'test1234' },
+            },
+        ],
+        Name => 'Output() - test 4',
+    },
+
+    # test 5
+    {
+        Input => '<!-- dtl:block:ConfigElementBlock1 -->
+<b>$QData{"Name1"}</b>
+<!-- dtl:block:ConfigElementBlock1A -->
+<b>$QData{"Name1A"}</b>
+<!-- dtl:block:ConfigElementBlock1A -->
+<!-- dtl:block:ConfigElementBlock1 -->
+<!-- dtl:block:ConfigElementBlock2 -->
+<b>$QData{"Name2"}</b>
+<!-- dtl:block:ConfigElementBlock2 -->',
+
+        Result => '
+<!--ConfigElementBlock1-->
+<b>AAA</b>
+
+<!--ConfigElementBlock1A-->
+<b>BBB1</b>
+<!--/ConfigElementBlock1A-->
+<!--ConfigElementBlock1A-->
+<b>BBB2</b>
+<!--/ConfigElementBlock1A-->
+<!--/ConfigElementBlock1-->
+<!--ConfigElementBlock1-->
+<b>XXX</b>
+
+<!--ConfigElementBlock1A-->
+<b>YYY</b>
+<!--/ConfigElementBlock1A-->
+<!--/ConfigElementBlock1-->
+
+<!--ConfigElementBlock2-->
+<b>CCC</b>
+<!--/ConfigElementBlock2-->',
+        Block => [
+            {
+                Name => 'ConfigElementBlock1',
+                Data => { Name1 => 'AAA' },
+            },
+            {
+                Name => 'ConfigElementBlock1A',
+                Data => { Name1A => 'BBB1' },
+            },
+            {
+                Name => 'ConfigElementBlock1A',
+                Data => { Name1A => 'BBB2' },
+            },
+            {
+                Name => 'ConfigElementBlock1',
+                Data => { Name1 => 'XXX' },
+            },
+            {
+                Name => 'ConfigElementBlock1A',
+                Data => { Name1A => 'YYY' },
+            },
+            {
+                Name => 'ConfigElementBlock2',
+                Data => { Name2 => 'CCC' },
+            },
+        ],
+        Name => 'Output() - test 5',
+    },
+
+    # test 6
+    {
+        Input => '<!-- dtl:block:ConfigElementBlock2 -->
+<b>$QData{"Name2"}</b>
+<!-- dtl:block:ConfigElementBlock2 -->
+<!-- dtl:block:ConfigElementBlock1 -->
+<b>$QData{"Name1"}</b>
+<!-- dtl:block:ConfigElementBlock1A -->
+<b>$QData{"Name1A"}</b>
+<!-- dtl:block:ConfigElementBlock1A -->
+<!-- dtl:block:ConfigElementBlock1 -->',
+
+        Result => '
+<!--ConfigElementBlock2-->
+<b>CCC</b>
+<!--/ConfigElementBlock2-->
+
+<!--ConfigElementBlock1-->
+<b>AAA</b>
+
+<!--ConfigElementBlock1A-->
+<b>BBB1</b>
+<!--/ConfigElementBlock1A-->
+<!--ConfigElementBlock1A-->
+<b>BBB2</b>
+<!--/ConfigElementBlock1A-->
+<!--/ConfigElementBlock1-->
+<!--ConfigElementBlock1-->
+<b>XXX</b>
+
+<!--ConfigElementBlock1A-->
+<b>YYY</b>
+<!--/ConfigElementBlock1A-->
+<!--/ConfigElementBlock1-->',
+        Block => [
+            {
+                Name => 'ConfigElementBlock1',
+                Data => { Name1 => 'AAA' },
+            },
+            {
+                Name => 'ConfigElementBlock1A',
+                Data => { Name1A => 'BBB1' },
+            },
+            {
+                Name => 'ConfigElementBlock1A',
+                Data => { Name1A => 'BBB2' },
+            },
+            {
+                Name => 'ConfigElementBlock1',
+                Data => { Name1 => 'XXX' },
+            },
+            {
+                Name => 'ConfigElementBlock1A',
+                Data => { Name1A => 'YYY' },
+            },
+            {
+                Name => 'ConfigElementBlock2',
+                Data => { Name2 => 'CCC' },
+            },
+        ],
+        Name => 'Output() - test 6',
+    },
+
 );
 
 for my $Test (@Tests) {
