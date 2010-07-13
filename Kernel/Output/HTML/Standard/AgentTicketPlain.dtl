@@ -2,7 +2,7 @@
 # AgentTicketPlain.dtl - provides HTML plain article
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPlain.dtl,v 1.15 2010-07-13 16:45:45 cg Exp $
+# $Id: AgentTicketPlain.dtl,v 1.16 2010-07-13 19:24:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <div class="Header">
         <h1>$Text{"Email Text Plain View"}</h1>
         <p>
-            <a href="#">$Text{"Close window"}</a>
+            <a class="CancelClosePopup" href="#">$Text{"Close window"}</a>
         </p>
     </div>
 
