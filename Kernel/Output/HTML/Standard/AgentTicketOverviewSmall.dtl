@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.44 2010-06-30 15:45:23 dz Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.45 2010-07-13 16:45:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,11 +12,11 @@
 <ul class="Actions">
 <!-- dtl:block:DocumentActionRowBulk -->
     <li id="BulkAction" class="Bulk Inactive $QData{"CSS"}">
-        <a href="">$Text{"$Data{"Name"}"}</a>
+        <a href="#">$Text{"$Data{"Name"}"}</a>
     </li>
 <!-- dtl:block:DocumentActionRowBulk -->
 <!-- dtl:block:DocumentActionRowItem -->
-    <li class="$QData{"CSS"}"><a href="">$Text{"$Data{"Name"}"}</a></li>
+    <li class="$QData{"CSS"}"><a href="#">$Text{"$Data{"Name"}"}</a></li>
 <!-- dtl:block:DocumentActionRowItem -->
 </ul>
 <!-- dtl:block:DocumentActionRow -->
@@ -34,7 +34,7 @@
 <!-- dtl:block:OverviewNavBarPageFlag -->
                 <th class="Fixed"><span class=""></span></th>
 <!-- dtl:block:OverviewNavBarPageFlag -->
-#                        <th class="UnreadArticles Fixed"><a class="UnreadArticles" href=""><span class="UnreadArticles"></span></a></th>
+#                        <th class="UnreadArticles Fixed"><a class="UnreadArticles" href="#"><span class="UnreadArticles"></span></a></th>
 <!-- dtl:block:OverviewNavBarPageTicketNumber -->
                 <th class="TicketNumber $QData{"CSS"}">
                     <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=TicketNumber;OrderBy=$LQData{"OrderBy"}">$Config{"Ticket::Hook"}</a>
@@ -195,6 +195,6 @@
 
 <!-- dtl:block:DocumentMenuItem -->
 <li id="$QData{"ID"}">
-    <a href="" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+    <a href="#" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
 </li>
 <!-- dtl:block:DocumentMenuItem -->

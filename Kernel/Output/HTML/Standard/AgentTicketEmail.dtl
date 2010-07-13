@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.109 2010-07-07 23:00:20 cg Exp $
+# $Id: AgentTicketEmail.dtl,v 1.110 2010-07-13 16:45:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -138,7 +138,7 @@ $Include{"AgentCustomerSearch"}
                     <label for="NewUserID">$Text{"Owner"}:</label>
                     <div class="Field">
                         $Data{"OptionStrg"}
-                        <a href="" id="OwnerSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
+                        <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('click', $('#OwnerSelectionGetAll'), function (Event) {
@@ -156,7 +156,7 @@ $Include{"AgentCustomerSearch"}
                     <label for="NewResponsibleID">$Text{"Responsible"}:</label>
                     <div class="Field">
                         $Data{"ResponsibleOptionStrg"}
-                        <a href="" id="ResponsibleSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
+                        <a href="#" id="ResponsibleSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('click', $('#ResponsibleSelectionGetAll'), function (Event) {

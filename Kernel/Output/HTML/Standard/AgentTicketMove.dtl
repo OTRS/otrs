@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.51 2010-07-13 04:29:33 mp Exp $
+# $Id: AgentTicketMove.dtl,v 1.52 2010-07-13 16:45:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@
 
 <!-- dtl:block:TicketBack -->
             <p>
-                <a class="CancelClosePopup" href="">$Text{"Cancel & close window"}</a>
+                <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
             </p>
 <!-- dtl:block:TicketBack -->
 <!-- dtl:block:PropertiesLock -->
@@ -66,7 +66,7 @@
                     <div class="Field">
                         <input type="radio" name="UserSelection" value="New" $QData{"UserSelection::New"}/>
                         $Data{"OwnerStrg"}
-                        <a href="" id="OwnerSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
+                        <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('click', $('#OwnerSelectionGetAll'), function (Event) {
