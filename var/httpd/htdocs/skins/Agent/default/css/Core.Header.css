@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -331,14 +331,14 @@
 
 #Navigation > li:hover {
     background-position: left -38px;
-    background-color: #F92;
+    background-color: #F2B13E;
     cursor: pointer;
 }
 
 #Navigation > li:hover > a {
     color: #FFF;
     background-position: right -38px;
-    background-color: #F92;
+    background-color: #F2B13E;
 }
 
 #Navigation > li:active {
