@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.275 2010-07-09 09:09:11 mg Exp $
+# $Id: Layout.pm,v 1.276 2010-07-13 08:48:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.275 $) [1];
+$VERSION = qw($Revision: 1.276 $) [1];
 
 =head1 NAME
 
@@ -1340,11 +1340,13 @@ sub Footer {
             Data => $VacationDays
         );
 
+        my $TextDirection = $Self->{LanguageObject}->{TextDirection} || '';
+
         $Self->Block(
             Name => 'DatepickerData',
             Data => {
                 VacationDays => $VacationDaysJSON,
-                IsRTLLanguage => ( $Self->{LanguageObject}->{TextDirection} eq 'rtl' ) ? 1 : 0,
+                IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
             },
         );
     }
@@ -4684,6 +4686,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.275 $ $Date: 2010-07-09 09:09:11 $
+$Revision: 1.276 $ $Date: 2010-07-13 08:48:34 $
 
 =cut
