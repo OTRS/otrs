@@ -1,8 +1,8 @@
 # --
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.12.2.2 2009-12-07 16:49:36 martin Exp $
+# $Id: HTMLUtils.pm,v 1.12.2.3 2010-07-13 18:57:51 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12.2.2 $) [1];
+$VERSION = qw($Revision: 1.12.2.3 $) [1];
 
 =head1 NAME
 
@@ -761,7 +761,7 @@ sub LinkQuote {
     my $Counter = 0;
     my %LinkHash;
     ${$String} =~ s{
-        (<a\s.+?>.+?</a>|<.+?>)
+        (<a\s.+?>.+?</a>)
     }
     {
         my $Content = $1;
@@ -816,9 +816,11 @@ sub LinkQuote {
         $Start . "<a href=\"$Link\"$Target title=\"$Link\">$Link<\/a>" . $End;
     }egxism;
 
+    my ( $Key, $Value );
+
     # add already existing "<a href" again
-    for my $Key ( keys %LinkHash ) {
-        ${$String} =~ s/$Key/$LinkHash{$Key}/g;
+    while ( ( $Key, $Value ) = each(%LinkHash) ) {
+        ${$String} =~ s{$Key}{$Value};
     }
 
     # check ref && return result like called
@@ -834,14 +836,14 @@ sub LinkQuote {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12.2.2 $ $Date: 2009-12-07 16:49:36 $
+$Revision: 1.12.2.3 $ $Date: 2010-07-13 18:57:51 $
 
 =cut
